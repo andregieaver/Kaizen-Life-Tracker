@@ -168,6 +168,46 @@ const OnboardingForm = ({ onAthleteCreated }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
+                  <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                    Password
+                  </Label>
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className={`input-focus ${errors.password ? 'border-red-300' : ''}`}
+                    placeholder="Minimum 6 characters"
+                    data-testid="password-input"
+                  />
+                  {errors.password && (
+                    <p className="text-sm text-red-600" data-testid="password-error">{errors.password}</p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">
+                    Confirm Password
+                  </Label>
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    className={`input-focus ${errors.confirmPassword ? 'border-red-300' : ''}`}
+                    placeholder="Re-enter password"
+                    data-testid="confirm-password-input"
+                  />
+                  {errors.confirmPassword && (
+                    <p className="text-sm text-red-600" data-testid="confirm-password-error">{errors.confirmPassword}</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
                   <Label htmlFor="age" className="text-sm font-medium text-gray-700">
                     Age
                   </Label>
