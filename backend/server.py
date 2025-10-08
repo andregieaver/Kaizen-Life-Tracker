@@ -825,8 +825,12 @@ async def root():
 @api_router.post("/athlete", response_model=AthleteProfile)
 async def create_athlete_profile(profile: AthleteProfile):
     profile_dict = prepare_for_mongo(profile.model_dump())
-    # Create unique index on email if not exists
-    await db.athlete_profiles.create_index("email", unique=True)
+    
+    # Check if email already exists
+    existing = await db.athlete_profiles.find_one({"email": profile.email.lower().strip()})
+    if existing:
+        raise HTTPException(status_code=400, detail="An account with this email already exists")
+    
     await db.athlete_profiles.insert_one(profile_dict)
     return profile
 
