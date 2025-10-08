@@ -825,8 +825,26 @@ async def root():
 @api_router.post("/athlete", response_model=AthleteProfile)
 async def create_athlete_profile(profile: AthleteProfile):
     profile_dict = prepare_for_mongo(profile.model_dump())
+    # Create unique index on email if not exists
+    await db.athlete_profiles.create_index("email", unique=True)
     await db.athlete_profiles.insert_one(profile_dict)
     return profile
+
+@api_router.post("/auth/login")
+async def login_athlete(login_data: LoginRequest):
+    """Login athlete by email"""
+    athlete = await db.athlete_profiles.find_one(
+        {"email": login_data.email.lower().strip()}, 
+        {"_id": 0}
+    )
+    if not athlete:
+        raise HTTPException(status_code=404, detail="No account found with this email")
+    
+    return {
+        "athlete_id": athlete["id"],
+        "name": athlete["name"],
+        "email": athlete["email"]
+    }
 
 @api_router.get("/athlete/{athlete_id}", response_model=AthleteProfile)
 async def get_athlete_profile(athlete_id: str):
