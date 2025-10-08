@@ -77,6 +77,10 @@ function App() {
             path="/auth/strava/callback" 
             element={<StravaCallback />} 
           />
+          <Route 
+            path="/auth/oura/callback" 
+            element={<OuraCallback />} 
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
