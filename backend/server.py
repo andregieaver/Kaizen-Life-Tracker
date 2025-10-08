@@ -1224,6 +1224,29 @@ async def get_conversation(athlete_id: str, session_id: str):
     ).sort("timestamp", 1).to_list(length=None)
     return [parse_from_mongo(m) for m in messages]
 
+# Memory Management routes
+@api_router.get("/memory/{athlete_id}")
+async def get_athlete_memories(athlete_id: str):
+    """Get all memories for an athlete, organized by category"""
+    memories = await ai_coach.get_memories(athlete_id)
+    return memories
+
+@api_router.post("/memory/{athlete_id}")
+async def create_memory(athlete_id: str, memory: AthleteMemory):
+    """Manually create a memory"""
+    memory.athlete_id = athlete_id
+    memory_dict = prepare_for_mongo(memory.model_dump())
+    await db.athlete_memories.insert_one(memory_dict)
+    return {"message": "Memory created successfully", "memory_id": memory.id}
+
+@api_router.delete("/memory/{memory_id}")
+async def delete_memory(memory_id: str):
+    """Delete a specific memory"""
+    result = await db.athlete_memories.delete_one({"id": memory_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Memory not found")
+    return {"message": "Memory deleted successfully"}
+
 # Strava OAuth routes
 @api_router.get("/auth/strava/{athlete_id}")
 async def strava_auth_initiate(athlete_id: str):
