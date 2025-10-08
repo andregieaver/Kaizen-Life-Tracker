@@ -254,8 +254,8 @@ const Dashboard = ({ athleteId }) => {
           <CoachChat athleteId={athleteId} />
         )}
 
-        {activeTab === 'log-data' && (
-          <DataLogTabs athleteId={athleteId} onDataLogged={handleDataLogged} />
+        {activeTab === 'recommendations' && (
+          <Recommendations athleteId={athleteId} />
         )}
 
         {activeTab === 'history' && (
