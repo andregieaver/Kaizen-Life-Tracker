@@ -105,6 +105,20 @@ const Login = ({ onAthleteLogin }) => {
                 />
               </div>
 
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  className="input-focus"
+                  disabled={isLoading}
+                  data-testid="login-password-input"
+                />
+              </div>
+
               {error && (
                 <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
                   {error}
