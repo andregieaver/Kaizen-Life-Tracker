@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import Dashboard from './components/Dashboard';
 import OnboardingForm from './components/OnboardingForm';
+import StravaCallback from './components/StravaCallback';
 import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
