@@ -70,13 +70,15 @@ const Account = ({ athleteId }) => {
       
       // Load integrations data from backend
       try {
-        const [integrationsRes, stravaStatusRes] = await Promise.all([
+        const [integrationsRes, stravaStatusRes, ouraStatusRes] = await Promise.all([
           axios.get(`${API}/integrations/${athleteId}`),
-          axios.get(`${API}/integrations/strava/${athleteId}/status`)
+          axios.get(`${API}/integrations/strava/${athleteId}/status`),
+          axios.get(`${API}/integrations/oura/${athleteId}/status`)
         ]);
         
         const integrationsList = integrationsRes.data.integrations || [];
         const stravaStatus = stravaStatusRes.data;
+        const ouraStatus = ouraStatusRes.data;
         
         // Find OpenAI integration
         const openaiIntegration = integrationsList.find(i => i.integration_type === 'openai');
@@ -89,9 +91,9 @@ const Account = ({ athleteId }) => {
             last_sync: stravaStatus.last_sync
           },
           oura: { 
-            connected: false, 
-            user_id: '', 
-            last_sync: null 
+            connected: ouraStatus.connected,
+            user_id: ouraStatus.connected ? 'Connected' : '',
+            last_sync: ouraStatus.last_sync
           }
         });
       } catch (error) {
