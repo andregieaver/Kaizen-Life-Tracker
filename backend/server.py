@@ -845,13 +845,17 @@ async def create_athlete_profile(profile: AthleteProfile):
 
 @api_router.post("/auth/login")
 async def login_athlete(login_data: LoginRequest):
-    """Login athlete by email"""
+    """Login athlete by email and password"""
     athlete = await db.athlete_profiles.find_one(
         {"email": login_data.email.lower().strip()}, 
         {"_id": 0}
     )
     if not athlete:
-        raise HTTPException(status_code=404, detail="No account found with this email")
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    
+    # Verify password
+    if not pwd_context.verify(login_data.password, athlete["password"]):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
     
     return {
         "athlete_id": athlete["id"],
