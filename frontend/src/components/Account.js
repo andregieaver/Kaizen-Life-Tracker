@@ -307,6 +307,50 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const handleEditSchedule = (schedule) => {
+    setEditingSchedule(schedule);
+    setScheduleForm({
+      name: schedule.name,
+      prompt: schedule.prompt,
+      frequency: schedule.frequency,
+      time: schedule.time,
+      days: schedule.days || []
+    });
+    setShowScheduleForm(true);
+  };
+
+  const handleDeleteSchedule = async (scheduleId) => {
+    if (!window.confirm('Are you sure you want to delete this schedule?')) {
+      return;
+    }
+
+    try {
+      await axios.delete(`${API}/schedules/${scheduleId}`);
+      
+      // Remove from local schedules list
+      setSchedules(prev => prev.filter(s => s.id !== scheduleId));
+      
+      setSaveStatus({ type: 'success', message: 'Schedule deleted successfully!' });
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
+      
+    } catch (error) {
+      console.error('Error deleting schedule:', error);
+      setSaveStatus({ type: 'error', message: 'Failed to delete schedule' });
+    }
+  };
+
+  const handleCancelScheduleForm = () => {
+    setShowScheduleForm(false);
+    setEditingSchedule(null);
+    setScheduleForm({
+      name: '',
+      prompt: '',
+      frequency: 'daily',
+      time: '08:00',
+      days: []
+    });
+  };
+
   if (isLoading) {
     return (
       <div className="max-w-4xl mx-auto p-6">
