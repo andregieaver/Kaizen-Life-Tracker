@@ -270,6 +270,104 @@ class AICoachService:
         if not self.api_key:
             raise ValueError("EMERGENT_LLM_KEY not found in environment variables")
     
+    async def get_memories(self, athlete_id: str) -> Dict[str, List[Dict]]:
+        """Get athlete memories organized by category"""
+        memories = await db.athlete_memories.find(
+            {"athlete_id": athlete_id},
+            {"_id": 0}
+        ).sort("importance", -1).to_list(length=None)
+        
+        # Organize by category
+        organized = {
+            "goals": [],
+            "prs": [],
+            "injuries": [],
+            "preferences": [],
+            "progress": [],
+            "equipment": []
+        }
+        
+        for memory in memories:
+            category = memory.get("category", "preferences")
+            if category in organized:
+                organized[category].append(memory)
+        
+        return organized
+    
+    async def extract_memories(self, athlete_id: str, conversation: str, response: str, session_id: str):
+        """Extract key facts from conversation to store as memories"""
+        extraction_prompt = f"""
+Analyze this conversation between an athlete and their running coach. Extract any key facts that should be remembered for future coaching sessions.
+
+CONVERSATION:
+Athlete: {conversation}
+Coach: {response}
+
+Extract facts in these categories:
+- goals: Training goals, race targets, time objectives
+- prs: Personal records, best times
+- injuries: Current or past injuries, pain points, concerns
+- preferences: Training preferences, schedules, surfaces, equipment likes/dislikes  
+- progress: Training milestones, improvements noted
+- equipment: Shoes, gear, devices
+
+For each fact, provide:
+1. category (one of the above)
+2. content (the actual fact, concise)
+3. importance (1-10, how important is this to remember?)
+
+Return as JSON array. If no important facts to remember, return empty array.
+Example: [{{"category": "goals", "content": "Training for Boston Marathon in April 2026", "importance": 9}}]
+
+Return only the JSON array, nothing else.
+"""
+        
+        try:
+            # Use user's OpenAI key if available, otherwise Emergent
+            user_openai_key = await self.get_user_openai_key(athlete_id)
+            
+            if user_openai_key:
+                import openai
+                client = openai.AsyncOpenAI(api_key=user_openai_key)
+                response_obj = await client.chat.completions.create(
+                    model="gpt-4o-mini",  # Faster model for extraction
+                    messages=[{"role": "user", "content": extraction_prompt}],
+                    max_tokens=500,
+                    temperature=0.3
+                )
+                result = response_obj.choices[0].message.content
+            else:
+                from emergentintegrations.llm.chat import LlmChat, UserMessage
+                chat = LlmChat(
+                    api_key=self.api_key,
+                    session_id=f"extract_{athlete_id}"
+                ).with_model("anthropic", "claude-3-7-sonnet-20250219")
+                user_message = UserMessage(text=extraction_prompt)
+                result = await chat.send_message(user_message)
+            
+            # Parse JSON response
+            import re
+            json_match = re.search(r'\[.*\]', result, re.DOTALL)
+            if json_match:
+                memories_data = json.loads(json_match.group())
+                
+                # Store each memory
+                for mem_data in memories_data:
+                    if mem_data.get("content") and mem_data.get("category"):
+                        memory = AthleteMemory(
+                            athlete_id=athlete_id,
+                            category=mem_data["category"],
+                            content=mem_data["content"],
+                            importance=mem_data.get("importance", 5),
+                            source_session=session_id
+                        )
+                        memory_dict = prepare_for_mongo(memory.model_dump())
+                        await db.athlete_memories.insert_one(memory_dict)
+                        
+        except Exception as e:
+            logging.error(f"Memory extraction error: {e}")
+            # Silent fail - don't break the chat if memory extraction fails
+    
     async def get_athlete_context(self, athlete_id: str) -> Dict[str, Any]:
         """Get comprehensive athlete data for AI context"""
         # Get athlete profile
@@ -296,11 +394,15 @@ class AICoachService:
             sort=[("date", -1)]
         )
         
+        # Get memories
+        memories = await self.get_memories(athlete_id)
+        
         return {
             "athlete": athlete,
             "recent_workouts": workouts,
             "recent_sleep": sleep_data,
-            "current_readiness": readiness
+            "current_readiness": readiness,
+            "memories": memories
         }
     
     async def calculate_readiness_score(self, athlete_id: str) -> ReadinessScore:
