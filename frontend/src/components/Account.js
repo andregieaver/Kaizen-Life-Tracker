@@ -19,7 +19,12 @@ import {
   CheckCircle,
   XCircle,
   ExternalLink,
-  Trash2
+  Trash2,
+  Calendar,
+  Clock,
+  Plus,
+  Edit3,
+  Repeat
 } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
