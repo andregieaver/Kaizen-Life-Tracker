@@ -147,6 +147,7 @@ class ChatMessage(BaseModel):
     
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     athlete_id: str
+    session_id: str
     message: str
     response: str
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -154,6 +155,7 @@ class ChatMessage(BaseModel):
 class CoachChat(BaseModel):
     athlete_id: str
     message: str
+    session_id: str = Field(default_factory=lambda: f"session_{int(datetime.now(timezone.utc).timestamp() * 1000)}")
 
 class StravaActivity(BaseModel):
     model_config = ConfigDict(extra="ignore")
