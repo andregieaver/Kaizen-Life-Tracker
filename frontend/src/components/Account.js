@@ -178,10 +178,14 @@ const Account = ({ athleteId }) => {
     }
   };
 
-  const handleOuraConnect = () => {
-    // TODO: Implement Oura OAuth flow
-    const ouraAuthUrl = `https://cloud.ouraring.com/oauth/authorize?client_id=YOUR_CLIENT_ID&response_type=code&redirect_uri=${encodeURIComponent(window.location.origin)}/auth/oura&scope=daily`;
-    window.location.href = ouraAuthUrl;
+  const handleOuraConnect = async () => {
+    try {
+      const response = await axios.get(`${API}/auth/oura/${athleteId}`);
+      window.location.href = response.data.authorization_url;
+    } catch (error) {
+      console.error('Error initiating Oura connection:', error);
+      setSaveStatus({ type: 'error', message: 'Failed to initiate Oura connection' });
+    }
   };
 
   const handleDisconnectIntegration = async (integration) => {
