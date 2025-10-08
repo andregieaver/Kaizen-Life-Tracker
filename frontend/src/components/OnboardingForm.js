@@ -255,10 +255,22 @@ const OnboardingForm = ({ onAthleteCreated }) => {
           </CardContent>
         </Card>
 
-        <div className="text-center mt-6">
+        <div className="text-center mt-6 space-y-3">
           <p className="text-sm text-gray-500">
             Your AI coach will analyze your data to provide personalized training insights
           </p>
+          <div className="pt-2 border-t border-gray-200">
+            <p className="text-sm text-gray-600">
+              Already have an account?{' '}
+              <Link 
+                to="/login" 
+                className="text-emerald-600 hover:text-emerald-700 font-medium hover:underline"
+                data-testid="login-link"
+              >
+                Log in here
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
