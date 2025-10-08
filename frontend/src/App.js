@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import Dashboard from './components/Dashboard';
 import OnboardingForm from './components/OnboardingForm';
+import Login from './components/Login';
 import StravaCallback from './components/StravaCallback';
 import OuraCallback from './components/OuraCallback';
 import './App.css';
