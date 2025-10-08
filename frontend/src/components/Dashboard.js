@@ -241,7 +241,7 @@ const Dashboard = ({ athleteId }) => {
                       className="bg-blue-600 hover:bg-blue-700"
                       data-testid="view-recommendations-btn"
                     >
-                      View Recommendations
+                      View Reports
                     </Button>
                   </div>
                 )}
