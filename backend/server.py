@@ -260,6 +260,19 @@ class AICoachService:
             recommendations=recommendations
         )
     
+    async def get_user_openai_key(self, athlete_id: str) -> Optional[str]:
+        """Get user's personal OpenAI API key if available"""
+        try:
+            integration = await db.integrations.find_one({
+                "athlete_id": athlete_id, 
+                "integration_type": "openai",
+                "is_active": True
+            })
+            return integration["credentials"]["api_key"] if integration else None
+        except Exception as e:
+            logging.error(f"Error retrieving user OpenAI key: {e}")
+            return None
+    
     async def chat_with_coach(self, athlete_id: str, message: str) -> str:
         """Chat with AI coach using athlete's personal data"""
         context = await self.get_athlete_context(athlete_id)
