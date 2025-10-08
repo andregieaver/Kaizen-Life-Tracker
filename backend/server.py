@@ -1189,6 +1189,151 @@ async def get_oura_integration_status(athlete_id: str):
         "settings": integration.get("settings", {})
     }
 
+# Schedule Management Routes
+@api_router.post("/schedules", response_model=Schedule)
+async def create_schedule(schedule: Schedule):
+    """Create a new automated analysis schedule"""
+    schedule_dict = prepare_for_mongo(schedule.model_dump())
+    await db.schedules.insert_one(schedule_dict)
+    return schedule
+
+@api_router.get("/schedules/{athlete_id}", response_model=List[Schedule])
+async def get_athlete_schedules(athlete_id: str):
+    """Get all schedules for an athlete"""
+    schedules = await db.schedules.find(
+        {"athlete_id": athlete_id, "active": True}, 
+        {"_id": 0}
+    ).to_list(length=None)
+    return [parse_from_mongo(s) for s in schedules]
+
+@api_router.put("/schedules/{schedule_id}", response_model=Schedule)
+async def update_schedule(schedule_id: str, updates: dict):
+    """Update an existing schedule"""
+    await db.schedules.update_one(
+        {"id": schedule_id},
+        {"$set": updates}
+    )
+    updated_schedule = await db.schedules.find_one({"id": schedule_id}, {"_id": 0})
+    if not updated_schedule:
+        raise HTTPException(status_code=404, detail="Schedule not found")
+    return parse_from_mongo(updated_schedule)
+
+@api_router.delete("/schedules/{schedule_id}")
+async def delete_schedule(schedule_id: str):
+    """Delete a schedule"""
+    result = await db.schedules.update_one(
+        {"id": schedule_id},
+        {"$set": {"active": False}}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Schedule not found")
+    return {"message": "Schedule deleted successfully"}
+
+# Recommendations Routes  
+@api_router.get("/recommendations/{athlete_id}", response_model=List[Recommendation])
+async def get_athlete_recommendations(athlete_id: str, limit: int = 20):
+    """Get AI-generated recommendations for an athlete"""
+    recommendations = await db.recommendations.find(
+        {"athlete_id": athlete_id}, 
+        {"_id": 0}
+    ).sort("generated_at", -1).limit(limit).to_list(length=None)
+    return [parse_from_mongo(r) for r in recommendations]
+
+@api_router.post("/recommendations/{athlete_id}/generate")
+async def generate_recommendation(athlete_id: str, prompt: str, schedule_id: str = None):
+    """Generate a new AI recommendation based on a prompt"""
+    try:
+        # Get AI coach response
+        response = await ai_coach.chat_with_coach(athlete_id, prompt)
+        
+        # Parse response to create recommendation
+        recommendation = Recommendation(
+            athlete_id=athlete_id,
+            schedule_id=schedule_id,
+            title=f"AI Analysis - {datetime.now().strftime('%B %d, %Y')}",
+            type="automated_analysis",
+            priority="medium",
+            summary=response[:200] + "..." if len(response) > 200 else response,
+            content=response,
+            tags=["automated", "ai_analysis"],
+            scheduled_prompt=prompt[:50] + "..." if len(prompt) > 50 else prompt
+        )
+        
+        # Store recommendation
+        recommendation_dict = prepare_for_mongo(recommendation.model_dump())
+        await db.recommendations.insert_one(recommendation_dict)
+        
+        return recommendation
+        
+    except Exception as e:
+        logging.error(f"Error generating recommendation: {e}")
+        raise HTTPException(status_code=500, detail="Failed to generate recommendation")
+
+@api_router.post("/recommendations/{recommendation_id}/read")
+async def mark_recommendation_read(recommendation_id: str):
+    """Mark a recommendation as read"""
+    await db.recommendations.update_one(
+        {"id": recommendation_id},
+        {"$set": {"read": True}}
+    )
+    return {"message": "Recommendation marked as read"}
+
+# Schedule Execution Service (would be called by cron job)
+@api_router.post("/schedules/execute")
+async def execute_scheduled_analyses():
+    """Execute scheduled AI analyses - typically called by cron job"""
+    executed_count = 0
+    
+    try:
+        # Get all active schedules
+        schedules = await db.schedules.find({"active": True}).to_list(length=None)
+        
+        for schedule in schedules:
+            # Simple daily execution logic (would be enhanced with proper scheduling)
+            now = datetime.now(timezone.utc)
+            last_executed = schedule.get('last_executed')
+            
+            # If never executed or last executed more than 23 hours ago
+            if not last_executed or (now - datetime.fromisoformat(last_executed.replace('Z', '+00:00'))) > timedelta(hours=23):
+                
+                # Generate recommendation
+                try:
+                    response = await ai_coach.chat_with_coach(schedule['athlete_id'], schedule['prompt'])
+                    
+                    # Create recommendation
+                    recommendation = Recommendation(
+                        athlete_id=schedule['athlete_id'],
+                        schedule_id=schedule['id'],
+                        title=f"{schedule['name']} - {now.strftime('%B %d, %Y')}",
+                        type="scheduled_analysis",
+                        priority="medium",
+                        summary=response[:200] + "..." if len(response) > 200 else response,
+                        content=response,
+                        tags=["scheduled", "automated"],
+                        scheduled_prompt=schedule['name']
+                    )
+                    
+                    # Store recommendation and update schedule
+                    recommendation_dict = prepare_for_mongo(recommendation.model_dump())
+                    await db.recommendations.insert_one(recommendation_dict)
+                    
+                    await db.schedules.update_one(
+                        {"id": schedule['id']},
+                        {"$set": {"last_executed": now}}
+                    )
+                    
+                    executed_count += 1
+                    
+                except Exception as e:
+                    logging.error(f"Error executing schedule {schedule['id']}: {e}")
+                    continue
+        
+        return {"message": f"Executed {executed_count} scheduled analyses"}
+        
+    except Exception as e:
+        logging.error(f"Error in scheduled execution: {e}")
+        raise HTTPException(status_code=500, detail="Failed to execute scheduled analyses")
+
 # Include the router in the main app
 app.include_router(api_router)
 
