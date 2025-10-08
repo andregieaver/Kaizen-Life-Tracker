@@ -1027,7 +1027,7 @@ const Account = ({ athleteId }) => {
       <div className="mt-8 pt-6 border-t border-gray-200">
         <Card className="border-0 shadow-lg bg-gray-50">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
                 <h3 className="text-lg font-medium text-gray-900 mb-1">
                   Logout
@@ -1039,7 +1039,7 @@ const Account = ({ athleteId }) => {
               <Button 
                 onClick={handleLogout}
                 variant="outline"
-                className="border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 btn-transition"
+                className="border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 btn-transition w-full md:w-auto"
                 data-testid="logout-btn"
               >
                 <LogOut className="w-4 h-4 mr-2" />
