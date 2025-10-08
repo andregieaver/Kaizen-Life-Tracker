@@ -830,12 +830,15 @@ async def root():
 # Athlete Profile routes
 @api_router.post("/athlete", response_model=AthleteProfile)
 async def create_athlete_profile(profile: AthleteProfile):
-    profile_dict = prepare_for_mongo(profile.model_dump())
-    
     # Check if email already exists
     existing = await db.athlete_profiles.find_one({"email": profile.email.lower().strip()})
     if existing:
         raise HTTPException(status_code=400, detail="An account with this email already exists")
+    
+    # Hash the password before storing
+    hashed_password = pwd_context.hash(profile.password)
+    profile_dict = prepare_for_mongo(profile.model_dump())
+    profile_dict["password"] = hashed_password
     
     await db.athlete_profiles.insert_one(profile_dict)
     return profile
