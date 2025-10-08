@@ -762,7 +762,7 @@ const Account = ({ athleteId }) => {
             {/* Header */}
             <Card className="border-0 shadow-lg">
               <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
                     <CardTitle className="flex items-center">
                       <Calendar className="w-5 h-5 mr-2 text-blue-600" />
@@ -774,7 +774,7 @@ const Account = ({ athleteId }) => {
                   </div>
                   <Button 
                     onClick={() => setShowScheduleForm(true)}
-                    className="bg-blue-600 hover:bg-blue-700 btn-transition"
+                    className="bg-blue-600 hover:bg-blue-700 btn-transition w-full md:w-auto"
                     data-testid="add-schedule-btn"
                   >
                     <Plus className="w-4 h-4 mr-2" />
