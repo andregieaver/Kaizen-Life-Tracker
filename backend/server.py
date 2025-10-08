@@ -507,11 +507,23 @@ Return only the JSON array, nothing else.
         context = await self.get_athlete_context(athlete_id)
         
         # Create system message with athlete context
+        memories = context.get('memories', {})
+        memory_summary = ""
+        
+        if any(memories.values()):
+            memory_summary = "\nKEY MEMORIES (what you know about this athlete):\n"
+            for category, items in memories.items():
+                if items:
+                    memory_summary += f"\n{category.upper()}:\n"
+                    for mem in items[:5]:  # Top 5 per category
+                        memory_summary += f"- {mem['content']}\n"
+        
         system_prompt = f"""
 You are an expert endurance running coach with deep knowledge of training physiology, periodization, and athlete development. You have access to this athlete's complete training and recovery data.
 
 ATHLETE PROFILE:
 {json.dumps(context.get('athlete', {}), indent=2)}
+{memory_summary}
 
 RECENT WORKOUTS (last 14 days):
 {json.dumps(context.get('recent_workouts', []), indent=2)}
