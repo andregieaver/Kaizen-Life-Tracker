@@ -62,18 +62,18 @@ const Dashboard = ({ athleteId }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm">
+      {/* Desktop Header */}
+      <header className="hidden md:block bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <h1 className="font-display text-2xl font-bold text-gray-900 mr-8">
                 RunWisely
               </h1>
-              <nav className="flex space-x-2 md:space-x-8 overflow-x-auto">
+              <nav className="flex space-x-8">
                 <button
                   onClick={() => setActiveTab('overview')}
-                  className={`text-xs md:text-sm font-medium transition-colors whitespace-nowrap ${
+                  className={`text-sm font-medium transition-colors ${
                     activeTab === 'overview'
                       ? 'text-blue-600 border-b-2 border-blue-600'
                       : 'text-gray-500 hover:text-gray-700'
@@ -84,7 +84,7 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => setActiveTab('coach')}
-                  className={`text-xs md:text-sm font-medium transition-colors whitespace-nowrap ${
+                  className={`text-sm font-medium transition-colors ${
                     activeTab === 'coach'
                       ? 'text-blue-600 border-b-2 border-blue-600'
                       : 'text-gray-500 hover:text-gray-700'
@@ -95,7 +95,7 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => setActiveTab('log-data')}
-                  className={`text-xs md:text-sm font-medium transition-colors whitespace-nowrap ${
+                  className={`text-sm font-medium transition-colors ${
                     activeTab === 'log-data'
                       ? 'text-blue-600 border-b-2 border-blue-600'
                       : 'text-gray-500 hover:text-gray-700'
@@ -106,7 +106,7 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => setActiveTab('history')}
-                  className={`text-xs md:text-sm font-medium transition-colors whitespace-nowrap ${
+                  className={`text-sm font-medium transition-colors ${
                     activeTab === 'history'
                       ? 'text-blue-600 border-b-2 border-blue-600'
                       : 'text-gray-500 hover:text-gray-700'
@@ -117,7 +117,7 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => setActiveTab('account')}
-                  className={`text-xs md:text-sm font-medium transition-colors whitespace-nowrap ${
+                  className={`text-sm font-medium transition-colors ${
                     activeTab === 'account'
                       ? 'text-blue-600 border-b-2 border-blue-600'
                       : 'text-gray-500 hover:text-gray-700'
@@ -138,8 +138,22 @@ const Dashboard = ({ athleteId }) => {
         </div>
       </header>
 
+      {/* Mobile Header */}
+      <header className="md:hidden bg-white border-b border-gray-200 shadow-sm">
+        <div className="px-4 py-3">
+          <div className="flex justify-between items-center">
+            <h1 className="font-display text-xl font-bold text-gray-900">
+              RunWisely
+            </h1>
+            <Badge variant="secondary" className="font-medium text-xs">
+              {athlete?.name}
+            </Badge>
+          </div>
+        </div>
+      </header>
+
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-20 md:pb-8">
         {activeTab === 'overview' && (
           <div className="space-y-8">
             {/* Readiness Section */}
