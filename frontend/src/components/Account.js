@@ -647,6 +647,255 @@ const Account = ({ athleteId }) => {
             </Card>
           </div>
         </TabsContent>
+
+        {/* Schedules Tab */}
+        <TabsContent value="schedules">
+          <div className="space-y-6">
+            {/* Header */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="flex items-center">
+                      <Calendar className="w-5 h-5 mr-2 text-blue-600" />
+                      Automated AI Analysis
+                    </CardTitle>
+                    <CardDescription>
+                      Schedule automated prompts for your AI coach to analyze your training and recovery data
+                    </CardDescription>
+                  </div>
+                  <Button 
+                    onClick={() => setShowScheduleForm(true)}
+                    className="bg-blue-600 hover:bg-blue-700 btn-transition"
+                    data-testid="add-schedule-btn"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Schedule
+                  </Button>
+                </div>
+              </CardHeader>
+            </Card>
+
+            {/* Schedule Form */}
+            {showScheduleForm && (
+              <Card className="border-0 shadow-lg">
+                <CardHeader>
+                  <CardTitle className="text-lg">Create New Schedule</CardTitle>
+                  <CardDescription>
+                    Set up automated AI analysis of your training and recovery data
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="schedule-name" className="text-sm font-medium">Schedule Name</Label>
+                        <Input
+                          id="schedule-name"
+                          value={scheduleForm.name}
+                          onChange={(e) => setScheduleForm(prev => ({ ...prev, name: e.target.value }))}
+                          placeholder="Morning Recovery Review"
+                          className="input-focus"
+                          data-testid="schedule-name-input"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="schedule-frequency" className="text-sm font-medium">Frequency</Label>
+                        <select
+                          id="schedule-frequency"
+                          value={scheduleForm.frequency}
+                          onChange={(e) => setScheduleForm(prev => ({ ...prev, frequency: e.target.value }))}
+                          className="w-full p-2 border border-gray-300 rounded-md input-focus"
+                          data-testid="schedule-frequency-select"
+                        >
+                          <option value="daily">Daily</option>
+                          <option value="weekly">Weekly</option>
+                          <option value="after_workout">After Each Workout</option>
+                          <option value="custom">Custom Days</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="schedule-prompt" className="text-sm font-medium">AI Analysis Prompt</Label>
+                      <textarea
+                        id="schedule-prompt"
+                        value={scheduleForm.prompt}
+                        onChange={(e) => setScheduleForm(prev => ({ ...prev, prompt: e.target.value }))}
+                        className="w-full min-h-24 p-3 border border-gray-300 rounded-md input-focus resize-none"
+                        placeholder="Review yesterday's workout data along with last night's Oura sleep and HRV data. Analyze how the training intensity affected my recovery metrics and provide recommendations for today's training."
+                        data-testid="schedule-prompt-textarea"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="schedule-time" className="text-sm font-medium">Time</Label>
+                        <Input
+                          id="schedule-time"
+                          type="time"
+                          value={scheduleForm.time}
+                          onChange={(e) => setScheduleForm(prev => ({ ...prev, time: e.target.value }))}
+                          className="input-focus"
+                          data-testid="schedule-time-input"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium">Status</Label>
+                        <div className="flex items-center pt-2">
+                          <input
+                            type="checkbox"
+                            id="schedule-active"
+                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                          />
+                          <Label htmlFor="schedule-active" className="ml-2 text-sm text-gray-700">
+                            Active
+                          </Label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end space-x-3 pt-4">
+                      <Button 
+                        type="button"
+                        variant="outline"
+                        onClick={() => setShowScheduleForm(false)}
+                        data-testid="cancel-schedule-btn"
+                      >
+                        Cancel
+                      </Button>
+                      <Button 
+                        type="button"
+                        className="bg-blue-600 hover:bg-blue-700"
+                        data-testid="save-schedule-btn"
+                      >
+                        Save Schedule
+                      </Button>
+                    </div>
+                  </form>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Existing Schedules */}
+            <div className="space-y-4">
+              {schedules.length === 0 && !showScheduleForm ? (
+                <Card className="border-0 shadow-lg">
+                  <CardContent className="text-center py-12">
+                    <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                    <p className="text-gray-500 mb-4">No automated schedules yet</p>
+                    <Button 
+                      onClick={() => setShowScheduleForm(true)}
+                      className="bg-blue-600 hover:bg-blue-700"
+                      data-testid="create-first-schedule-btn"
+                    >
+                      Create Your First Schedule
+                    </Button>
+                  </CardContent>
+                </Card>
+              ) : (
+                schedules.map((schedule, index) => (
+                  <Card key={index} className="border-0 shadow-lg">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center">
+                          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                            {schedule.frequency === 'daily' ? (
+                              <Calendar className="w-5 h-5 text-blue-600" />
+                            ) : schedule.frequency === 'weekly' ? (
+                              <Repeat className="w-5 h-5 text-blue-600" />
+                            ) : (
+                              <Clock className="w-5 h-5 text-blue-600" />
+                            )}
+                          </div>
+                          <div>
+                            <h3 className="font-medium text-gray-900">{schedule.name}</h3>
+                            <p className="text-sm text-gray-500 capitalize">
+                              {schedule.frequency} at {schedule.time}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex space-x-2">
+                          <Button variant="outline" size="sm" className="btn-transition">
+                            <Edit3 className="w-4 h-4" />
+                          </Button>
+                          <Button variant="outline" size="sm" className="text-red-600 hover:bg-red-50">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                      <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">
+                        {schedule.prompt}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))
+              )}
+            </div>
+
+            {/* Preset Templates */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-lg">Quick Templates</CardTitle>
+                <CardDescription>
+                  Popular analysis prompts to get you started
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {[
+                    {
+                      name: "Daily Recovery Review",
+                      prompt: "Analyze yesterday's workout alongside last night's Oura sleep data. How did training intensity affect my HRV, sleep quality, and readiness? Recommend today's training approach.",
+                      frequency: "daily",
+                      time: "08:00"
+                    },
+                    {
+                      name: "Weekly Training Analysis",
+                      prompt: "Review this week's training load, sleep patterns, and recovery metrics. Identify trends and provide recommendations for next week's training plan.",
+                      frequency: "weekly", 
+                      time: "18:00"
+                    },
+                    {
+                      name: "Post-Workout Recovery",
+                      prompt: "I just completed a workout. Based on the session data, my current readiness, and recent recovery trends, when should I schedule my next hard session?",
+                      frequency: "after_workout",
+                      time: "immediately"
+                    },
+                    {
+                      name: "Race Prep Check",
+                      prompt: "Analyze my recent training progression, sleep quality, and readiness trends. Am I on track for my upcoming race? Any adjustments needed?",
+                      frequency: "weekly",
+                      time: "19:00"
+                    }
+                  ].map((template, index) => (
+                    <div 
+                      key={index}
+                      className="p-4 border border-gray-200 rounded-lg hover:border-blue-300 transition-colors cursor-pointer"
+                      onClick={() => {
+                        setScheduleForm({
+                          name: template.name,
+                          prompt: template.prompt,
+                          frequency: template.frequency,
+                          time: template.time,
+                          days: []
+                        });
+                        setShowScheduleForm(true);
+                      }}
+                    >
+                      <h4 className="font-medium text-gray-900 mb-2">{template.name}</h4>
+                      <p className="text-sm text-gray-600 mb-3">{template.prompt}</p>
+                      <div className="flex items-center text-xs text-gray-500">
+                        <Clock className="w-3 h-3 mr-1" />
+                        {template.frequency} at {template.time}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
       </Tabs>
     </div>
   );
