@@ -376,10 +376,10 @@ const CoachChat = ({ athleteId }) => {
                             {message.type === 'user' ? (
                               <p className="text-sm whitespace-pre-wrap">{part.content}</p>
                             ) : (
-                              <ReactMarkdown
-                                remarkPlugins={[remarkGfm]}
-                                className="text-sm markdown-content"
-                                components={{
+                              <div className="text-sm markdown-content">
+                                <ReactMarkdown
+                                  remarkPlugins={[remarkGfm]}
+                                  components={{
                                   p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
                                   ul: ({node, ...props}) => <ul className="list-disc list-inside mb-2 space-y-1" {...props} />,
                                   ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-2 space-y-1" {...props} />,
