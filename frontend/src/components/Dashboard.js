@@ -297,16 +297,16 @@ const Dashboard = ({ athleteId }) => {
           </button>
           
           <button
-            onClick={() => setActiveTab('log-data')}
+            onClick={() => setActiveTab('recommendations')}
             className={`flex flex-col items-center justify-center transition-colors ${
-              activeTab === 'log-data'
+              activeTab === 'recommendations'
                 ? 'text-blue-600 bg-blue-50'
                 : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
             }`}
-            data-testid="mobile-log-data-tab"
+            data-testid="mobile-recommendations-tab"
           >
             <PlusCircle className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Log</span>
+            <span className="text-xs font-medium">Recommendations</span>
           </button>
           
           <button
