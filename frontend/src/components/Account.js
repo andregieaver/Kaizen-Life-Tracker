@@ -268,28 +268,32 @@ const Account = ({ athleteId }) => {
     }
     
     try {
-      const scheduleData = {
-        ...scheduleForm,
-        athlete_id: athleteId,
-        active: true
-      };
-      
-      const response = await axios.post(`${API}/schedules`, scheduleData);
-      
-      // Add to local schedules list
-      setSchedules(prev => [...prev, response.data]);
+      if (editingSchedule) {
+        // Update existing schedule
+        const response = await axios.put(`${API}/schedules/${editingSchedule.id}`, scheduleForm);
+        
+        // Update local schedules list
+        setSchedules(prev => prev.map(s => s.id === editingSchedule.id ? response.data : s));
+        
+        setSaveStatus({ type: 'success', message: 'Schedule updated successfully!' });
+      } else {
+        // Create new schedule
+        const scheduleData = {
+          ...scheduleForm,
+          athlete_id: athleteId,
+          active: true
+        };
+        
+        const response = await axios.post(`${API}/schedules`, scheduleData);
+        
+        // Add to local schedules list
+        setSchedules(prev => [...prev, response.data]);
+        
+        setSaveStatus({ type: 'success', message: 'Schedule created successfully!' });
+      }
       
       // Reset form and close
-      setScheduleForm({
-        name: '',
-        prompt: '',
-        frequency: 'daily',
-        time: '08:00',
-        days: []
-      });
-      setShowScheduleForm(false);
-      
-      setSaveStatus({ type: 'success', message: 'Schedule created successfully!' });
+      handleCancelScheduleForm();
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
       
     } catch (error) {
