@@ -190,8 +190,22 @@ test_plan:
   test_all: false
   test_priority: "high_first"
 
+  - task: "Login and Authentication System"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Login.js, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "NEW FEATURE: Implemented login page and authentication system. Added email field to AthleteProfile model, created POST /api/auth/login endpoint, built Login.js component with email-based login, added login link on homepage, and created login route in App.js. Users can now login with their email to access existing profiles."
+
 agent_communication:
   - agent: "main"
     message: "Fixed schedule edit/delete button onClick handlers. Backend endpoints were already implemented. Need to test full CRUD flow: 1) Create new schedule, 2) Edit existing schedule, 3) Delete schedule, 4) Verify form state management (create vs edit mode)."
   - agent: "testing"
     message: "✅ BACKEND SCHEDULE CRUD TESTING COMPLETE - All 7 backend API tests passed with 100% success rate. Created comprehensive test suite (/app/backend_test.py) covering full CRUD lifecycle. All endpoints working perfectly: CREATE (POST), READ (GET), UPDATE (PUT), DELETE (soft delete). Ready for main agent to summarize and finish - backend functionality is fully operational."
+  - agent: "main"
+    message: "NEW FEATURE ADDED: User requested login page and link from homepage. Implemented complete authentication system with email-based login. Changes: 1) Added 'email' field to AthleteProfile model and OnboardingForm, 2) Created Login.js component with email input and error handling, 3) Added POST /api/auth/login backend endpoint, 4) Added /login route in App.js, 5) Added 'Log in here' link on homepage. Ready for testing."
