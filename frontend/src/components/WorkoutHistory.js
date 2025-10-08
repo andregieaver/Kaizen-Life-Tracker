@@ -77,16 +77,16 @@ const WorkoutHistory = ({ athleteId }) => {
       {/* Header with view switcher */}
       <Card className="border-0 shadow-lg">
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <CardTitle className="text-xl font-display">Training History</CardTitle>
               <CardDescription>Review your past workouts and recovery data</CardDescription>
             </div>
-            <div className="flex space-x-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Button
                 variant={activeView === 'workouts' ? 'default' : 'outline'}
                 onClick={() => setActiveView('workouts')}
-                className="btn-transition"
+                className="btn-transition w-full sm:w-auto"
                 data-testid="workouts-view-btn"
               >
                 Workouts ({workouts.length})
@@ -94,7 +94,7 @@ const WorkoutHistory = ({ athleteId }) => {
               <Button
                 variant={activeView === 'sleep' ? 'default' : 'outline'}
                 onClick={() => setActiveView('sleep')}
-                className="btn-transition"
+                className="btn-transition w-full sm:w-auto"
                 data-testid="sleep-view-btn"
               >
                 Sleep ({sleepData.length})
