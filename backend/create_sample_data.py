@@ -21,6 +21,7 @@ async def create_sample_data():
     athlete_data = {
         "id": athlete_id,
         "name": "Sarah Johnson",
+        "email": "sarah.johnson@example.com",
         "age": 29,
         "weekly_mileage": 45.0,
         "recent_race_time": "Half Marathon: 1:28:30",
