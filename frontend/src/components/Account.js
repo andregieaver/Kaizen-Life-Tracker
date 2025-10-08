@@ -56,6 +56,7 @@ const Account = ({ athleteId }) => {
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
   const [schedules, setSchedules] = useState([]);
   const [showScheduleForm, setShowScheduleForm] = useState(false);
+  const [editingSchedule, setEditingSchedule] = useState(null);
   const [scheduleForm, setScheduleForm] = useState({
     name: '',
     prompt: '',
