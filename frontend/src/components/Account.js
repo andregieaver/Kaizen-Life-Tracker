@@ -919,10 +919,22 @@ const Account = ({ athleteId }) => {
                           </div>
                         </div>
                         <div className="flex space-x-2">
-                          <Button variant="outline" size="sm" className="btn-transition">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="btn-transition"
+                            onClick={() => handleEditSchedule(schedule)}
+                            data-testid={`edit-schedule-btn-${index}`}
+                          >
                             <Edit3 className="w-4 h-4" />
                           </Button>
-                          <Button variant="outline" size="sm" className="text-red-600 hover:bg-red-50">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="text-red-600 hover:bg-red-50"
+                            onClick={() => handleDeleteSchedule(schedule.id)}
+                            data-testid={`delete-schedule-btn-${index}`}
+                          >
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
