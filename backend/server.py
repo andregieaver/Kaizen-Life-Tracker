@@ -62,6 +62,28 @@ class AthleteProfile(BaseModel):
     running_goals: str
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+class AthleteUpdate(BaseModel):
+    name: Optional[str] = None
+    age: Optional[int] = None
+    weekly_mileage: Optional[float] = None
+    recent_race_time: Optional[str] = None
+    running_goals: Optional[str] = None
+
+class Integration(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    integration_type: str  # 'openai', 'strava', 'oura'
+    credentials: Dict[str, Any]  # Encrypted storage for tokens/keys
+    settings: Optional[Dict[str, Any]] = None
+    last_sync: Optional[datetime] = None
+    is_active: bool = True
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class APIKeyRequest(BaseModel):
+    api_key: str
+
 class Workout(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
@@ -309,6 +331,71 @@ async def get_athlete_profile(athlete_id: str):
     if not athlete:
         raise HTTPException(status_code=404, detail="Athlete not found")
     return parse_from_mongo(athlete)
+
+@api_router.put("/athlete/{athlete_id}", response_model=AthleteProfile)
+async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
+    """Update athlete profile with partial data"""
+    # Get current athlete
+    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    if not athlete:
+        raise HTTPException(status_code=404, detail="Athlete not found")
+    
+    # Update only provided fields
+    update_data = {k: v for k, v in updates.model_dump().items() if v is not None}
+    
+    if update_data:
+        await db.athlete_profiles.update_one(
+            {"id": athlete_id},
+            {"$set": update_data}
+        )
+    
+    # Return updated athlete
+    updated_athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    return parse_from_mongo(updated_athlete)
+
+# Integration routes
+@api_router.post("/integrations/openai")
+async def save_openai_key(athlete_id: str, key_request: APIKeyRequest):
+    """Save OpenAI API key for athlete"""
+    # TODO: Encrypt the API key before storing
+    integration = Integration(
+        athlete_id=athlete_id,
+        integration_type="openai",
+        credentials={"api_key": key_request.api_key},  # Should be encrypted in production
+        settings={"model": "gpt-4", "max_tokens": 2000}
+    )
+    
+    # Upsert integration
+    await db.integrations.update_one(
+        {"athlete_id": athlete_id, "integration_type": "openai"},
+        {"$set": prepare_for_mongo(integration.model_dump())},
+        upsert=True
+    )
+    
+    return {"message": "OpenAI API key saved successfully"}
+
+@api_router.get("/integrations/{athlete_id}")
+async def get_athlete_integrations(athlete_id: str):
+    """Get all integrations for an athlete"""
+    integrations = await db.integrations.find(
+        {"athlete_id": athlete_id, "is_active": True},
+        {"_id": 0, "credentials": 0}  # Don't return sensitive credentials
+    ).to_list(length=None)
+    
+    return {"integrations": [parse_from_mongo(i) for i in integrations]}
+
+@api_router.delete("/integrations/{athlete_id}/{integration_type}")
+async def disconnect_integration(athlete_id: str, integration_type: str):
+    """Disconnect/deactivate an integration"""
+    result = await db.integrations.update_one(
+        {"athlete_id": athlete_id, "integration_type": integration_type},
+        {"$set": {"is_active": False}}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Integration not found")
+    
+    return {"message": f"{integration_type.capitalize()} integration disconnected"}
 
 # Workout routes
 @api_router.post("/workout", response_model=Workout)
