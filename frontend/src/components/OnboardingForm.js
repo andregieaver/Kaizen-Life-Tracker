@@ -167,7 +167,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="password" className="text-sm font-medium text-gray-700">
                     Password
@@ -207,7 +207,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="age" className="text-sm font-medium text-gray-700">
                     Age
