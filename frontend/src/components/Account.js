@@ -329,10 +329,10 @@ const Account = ({ athleteId }) => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSavePersonalInfo} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Full Name</Label>
+              <form onSubmit={handleSavePersonalInfo} className="space-y-4 md:space-y-6">
+                <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-4">
+                  <div className="col-span-2 md:col-span-1 space-y-2">
+                    <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
                     <Input
                       id="name"
                       name="name"
@@ -343,7 +343,7 @@ const Account = ({ athleteId }) => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="age">Age</Label>
+                    <Label htmlFor="age" className="text-sm font-medium">Age</Label>
                     <Input
                       id="age"
                       name="age"
@@ -356,9 +356,9 @@ const Account = ({ athleteId }) => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="weekly_mileage">Weekly Mileage</Label>
+                    <Label htmlFor="weekly_mileage" className="text-sm font-medium">Weekly Miles</Label>
                     <Input
                       id="weekly_mileage"
                       name="weekly_mileage"
@@ -371,14 +371,14 @@ const Account = ({ athleteId }) => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="recent_race_time">Recent Race Time</Label>
+                    <Label htmlFor="recent_race_time" className="text-sm font-medium">Recent Race</Label>
                     <Input
                       id="recent_race_time"
                       name="recent_race_time"
                       value={personalForm.recent_race_time}
                       onChange={handlePersonalFormChange}
                       className="input-focus"
-                      placeholder="e.g., 5K: 22:30, Marathon: 3:45:00"
+                      placeholder="5K: 22:30"
                       data-testid="race-time-input"
                     />
                   </div>
