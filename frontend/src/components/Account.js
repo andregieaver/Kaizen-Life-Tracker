@@ -284,14 +284,21 @@ const Account = ({ athleteId }) => {
 
       {/* Account Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-2 mb-8">
-          <TabsTrigger value="personal" className="flex items-center" data-testid="personal-tab">
-            <User className="w-4 h-4 mr-2" />
-            Personal Information
+        <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsTrigger value="personal" className="flex items-center text-xs md:text-sm" data-testid="personal-tab">
+            <User className="w-4 h-4 mr-1 md:mr-2" />
+            <span className="hidden sm:inline">Personal</span>
+            <span className="sm:hidden">Info</span>
           </TabsTrigger>
-          <TabsTrigger value="integrations" className="flex items-center" data-testid="integrations-tab">
-            <Zap className="w-4 h-4 mr-2" />
-            Integrations
+          <TabsTrigger value="integrations" className="flex items-center text-xs md:text-sm" data-testid="integrations-tab">
+            <Zap className="w-4 h-4 mr-1 md:mr-2" />
+            <span className="hidden sm:inline">Integrations</span>
+            <span className="sm:hidden">Apps</span>
+          </TabsTrigger>
+          <TabsTrigger value="schedules" className="flex items-center text-xs md:text-sm" data-testid="schedules-tab">
+            <Calendar className="w-4 h-4 mr-1 md:mr-2" />
+            <span className="hidden sm:inline">Schedules</span>
+            <span className="sm:hidden">Auto</span>
           </TabsTrigger>
         </TabsList>
 
