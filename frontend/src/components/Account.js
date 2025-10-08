@@ -862,7 +862,7 @@ const Account = ({ athleteId }) => {
                       <Button 
                         type="button"
                         variant="outline"
-                        onClick={() => setShowScheduleForm(false)}
+                        onClick={handleCancelScheduleForm}
                         data-testid="cancel-schedule-btn"
                       >
                         Cancel
