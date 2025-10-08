@@ -186,44 +186,60 @@ const CoachChat = ({ athleteId }) => {
               </div>
             </div>
           ) : (
-            messages.map((message, index) => (
-              <div
-                key={index}
-                className={`flex items-start space-x-3 message-enter ${
-                  message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''
-                }`}
-              >
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  message.type === 'user'
-                    ? 'bg-blue-100'
-                    : message.isError
-                    ? 'bg-red-100'
-                    : 'bg-green-100'
-                }`}>
-                  {message.type === 'user' ? (
-                    <User className="w-4 h-4 text-blue-600" />
-                  ) : (
-                    <Bot className={`w-4 h-4 ${message.isError ? 'text-red-600' : 'text-green-600'}`} />
-                  )}
-                </div>
-                <div className={`flex-1 max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl ${
-                  message.type === 'user' ? 'text-right' : 'text-left'
-                }`}>
-                  <div className={`inline-block p-3 rounded-lg ${
+            messages.map((message, index) => {
+              const contentParts = parseMessageContent(message.content);
+              
+              return (
+                <div
+                  key={index}
+                  className={`flex items-start space-x-3 message-enter ${
+                    message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''
+                  }`}
+                >
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                     message.type === 'user'
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-blue-100'
                       : message.isError
-                      ? 'bg-red-50 text-red-700 border border-red-200'
-                      : 'bg-gray-100 text-gray-900'
+                      ? 'bg-red-100'
+                      : 'bg-green-100'
                   }`}>
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    {message.type === 'user' ? (
+                      <User className="w-4 h-4 text-blue-600" />
+                    ) : (
+                      <Bot className={`w-4 h-4 ${message.isError ? 'text-red-600' : 'text-green-600'}`} />
+                    )}
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">
-                    {new Date(message.timestamp).toLocaleTimeString()}
-                  </p>
+                  <div className={`flex-1 ${
+                    message.type === 'user' ? 'text-right' : 'text-left'
+                  }`}>
+                    {contentParts.map((part, partIndex) => (
+                      <div key={partIndex}>
+                        {part.type === 'text' && part.content && (
+                          <div className={`inline-block p-3 rounded-lg mb-2 ${
+                            message.type === 'user'
+                              ? 'bg-blue-600 text-white'
+                              : message.isError
+                              ? 'bg-red-50 text-red-700 border border-red-200'
+                              : 'bg-gray-100 text-gray-900'
+                          }`}>
+                            <p className="text-sm whitespace-pre-wrap">{part.content}</p>
+                          </div>
+                        )}
+                        {part.type === 'chart' && (
+                          <div className={message.type === 'user' ? 'text-left' : ''}>
+                            <ChartRenderer chartData={part.data} />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                    <p className="text-xs text-gray-500 mt-1">
+                      {new Date(message.timestamp).toLocaleTimeString()}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
+          )
           )}
           
           {isLoading && (
