@@ -14,6 +14,8 @@ const OnboardingForm = ({ onAthleteCreated }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    password: '',
+    confirmPassword: '',
     age: '',
     weekly_mileage: '',
     recent_race_time: '',
