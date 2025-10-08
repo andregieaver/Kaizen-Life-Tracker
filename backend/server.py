@@ -1052,6 +1052,113 @@ async def get_strava_integration_status(athlete_id: str):
         "settings": integration.get("settings", {})
     }
 
+# Oura OAuth routes
+@api_router.get("/auth/oura/{athlete_id}")
+async def oura_auth_initiate(athlete_id: str):
+    """Initiate Oura OAuth authorization flow"""
+    state = f"{athlete_id}_{secrets.token_urlsafe(16)}"
+    
+    auth_params = {
+        "response_type": "code",
+        "client_id": os.environ.get('OURA_CLIENT_ID'),
+        "redirect_uri": os.environ.get('OURA_REDIRECT_URI'),
+        "scope": "email personal daily heartrate workout session tag spo2",
+        "state": state
+    }
+    
+    auth_url = f"https://cloud.ouraring.com/oauth/authorize?{urlencode(auth_params)}"
+    return {"authorization_url": auth_url, "state": state}
+
+@api_router.get("/auth/oura/callback")
+async def oura_auth_callback(
+    code: str = Query(None),
+    state: str = Query(None),
+    error: str = Query(None)
+):
+    """Handle Oura OAuth callback"""
+    if error:
+        raise HTTPException(status_code=400, detail=f"Oura authorization failed: {error}")
+    
+    if not code or not state:
+        raise HTTPException(status_code=400, detail="Missing authorization code or state")
+    
+    try:
+        # Extract athlete_id from state
+        athlete_id = state.split('_')[0]
+        
+        # Exchange code for tokens
+        tokens = await oura_token_manager.exchange_code_for_tokens(code)
+        
+        # Store Oura integration
+        integration = Integration(
+            athlete_id=athlete_id,
+            integration_type="oura",
+            credentials={
+                "access_token": tokens["access_token"],
+                "refresh_token": tokens["refresh_token"],
+                "expires_at": tokens["expires_at"],
+                "token_type": tokens.get("token_type", "Bearer")
+            },
+            settings={
+                "auto_sync": True,
+                "sync_sleep": True,
+                "sync_readiness": True,
+                "sync_heart_rate": True
+            }
+        )
+        
+        await db.integrations.update_one(
+            {"athlete_id": athlete_id, "integration_type": "oura"},
+            {"$set": prepare_for_mongo(integration.model_dump())},
+            upsert=True
+        )
+        
+        # Import recent sleep and readiness data
+        imported_sleep = await oura_data_manager.import_sleep_data_to_db(athlete_id)
+        
+        return {
+            "message": "Oura connected successfully", 
+            "athlete_id": athlete_id,
+            "imported_sleep_records": imported_sleep
+        }
+        
+    except Exception as e:
+        logging.error(f"Oura callback error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to complete Oura authorization")
+
+@api_router.post("/integrations/oura/{athlete_id}/sync")
+async def sync_oura_data(athlete_id: str):
+    """Manually sync data from Oura Ring"""
+    try:
+        imported_sleep = await oura_data_manager.import_sleep_data_to_db(athlete_id)
+        return {
+            "message": "Oura sync completed", 
+            "imported_sleep_records": imported_sleep
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Oura sync error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to sync Oura data")
+
+@api_router.get("/integrations/oura/{athlete_id}/status")
+async def get_oura_integration_status(athlete_id: str):
+    """Get Oura integration status"""
+    integration = await db.integrations.find_one({
+        "athlete_id": athlete_id, 
+        "integration_type": "oura",
+        "is_active": True
+    })
+    
+    if not integration:
+        return {"connected": False, "last_sync": None}
+    
+    return {
+        "connected": True,
+        "last_sync": integration.get("last_sync"),
+        "settings": integration.get("settings", {})
+    }
+
 # Include the router in the main app
 app.include_router(api_router)
 
