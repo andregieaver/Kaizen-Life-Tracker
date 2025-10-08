@@ -578,10 +578,208 @@ class StravaActivityManager:
         }
         return type_mapping.get(strava_type, "easy")
 
+# Oura Service Classes
+class OuraTokenManager:
+    def __init__(self):
+        self.client_id = os.environ.get('OURA_CLIENT_ID')
+        self.client_secret = os.environ.get('OURA_CLIENT_SECRET')
+        
+    async def exchange_code_for_tokens(self, auth_code: str) -> Dict[str, Any]:
+        """Exchange authorization code for access and refresh tokens"""
+        token_data = {
+            "grant_type": "authorization_code",
+            "code": auth_code,
+            "redirect_uri": os.environ.get('OURA_REDIRECT_URI'),
+            "client_id": self.client_id,
+            "client_secret": self.client_secret
+        }
+        
+        response = requests.post(
+            "https://api.ouraring.com/oauth/token",
+            data=token_data,
+            headers={"Content-Type": "application/x-www-form-urlencoded"}
+        )
+        
+        if response.status_code != 200:
+            raise HTTPException(status_code=400, detail="Oura token exchange failed")
+        
+        return response.json()
+    
+    async def refresh_access_token(self, refresh_token: str) -> Dict[str, Any]:
+        """Refresh expired access token"""
+        refresh_data = {
+            "grant_type": "refresh_token",
+            "refresh_token": refresh_token,
+            "client_id": self.client_id,
+            "client_secret": self.client_secret
+        }
+        
+        response = requests.post(
+            "https://api.ouraring.com/oauth/token",
+            data=refresh_data,
+            headers={"Content-Type": "application/x-www-form-urlencoded"}
+        )
+        
+        if response.status_code != 200:
+            raise HTTPException(status_code=400, detail="Oura token refresh failed")
+        
+        return response.json()
+    
+    async def get_valid_token(self, athlete_id: str) -> str:
+        """Get valid access token, refreshing if necessary"""
+        integration = await db.integrations.find_one({
+            "athlete_id": athlete_id, 
+            "integration_type": "oura",
+            "is_active": True
+        })
+        
+        if not integration:
+            raise HTTPException(status_code=404, detail="Oura integration not found")
+        
+        # Check if token is expired (with 5-minute buffer)
+        expires_at = integration["credentials"].get("expires_at")
+        if expires_at and expires_at < datetime.now(timezone.utc).timestamp() + 300:
+            # Token is expired or will expire soon, refresh it
+            refresh_token = integration["credentials"]["refresh_token"]
+            new_tokens = await self.refresh_access_token(refresh_token)
+            
+            # Update stored tokens
+            await db.integrations.update_one(
+                {"_id": integration["_id"]},
+                {"$set": {
+                    "credentials.access_token": new_tokens["access_token"],
+                    "credentials.refresh_token": new_tokens["refresh_token"],
+                    "credentials.expires_at": new_tokens["expires_at"],
+                    "last_sync": datetime.now(timezone.utc)
+                }}
+            )
+            
+            return new_tokens["access_token"]
+        
+        return integration["credentials"]["access_token"]
+
+class OuraDataManager:
+    def __init__(self, token_manager: OuraTokenManager):
+        self.token_manager = token_manager
+    
+    async def fetch_sleep_data(self, athlete_id: str, start_date: str, end_date: str = None) -> List[Dict[str, Any]]:
+        """Fetch sleep data from Oura API"""
+        access_token = await self.token_manager.get_valid_token(athlete_id)
+        
+        try:
+            # Initialize Oura client with access token
+            client = OuraClient(personal_access_token=access_token)
+            
+            # Fetch sleep data
+            sleep_data = client.sleep_summary(start=start_date, end=end_date)
+            
+            return sleep_data.get('sleep', [])
+            
+        except Exception as e:
+            logging.error(f"Failed to fetch Oura sleep data: {str(e)}")
+            raise HTTPException(status_code=500, detail="Failed to fetch Oura sleep data")
+    
+    async def fetch_readiness_data(self, athlete_id: str, start_date: str, end_date: str = None) -> List[Dict[str, Any]]:
+        """Fetch readiness data from Oura API"""
+        access_token = await self.token_manager.get_valid_token(athlete_id)
+        
+        try:
+            # Initialize Oura client with access token
+            client = OuraClient(personal_access_token=access_token)
+            
+            # Fetch readiness data
+            readiness_data = client.readiness_summary(start=start_date, end=end_date)
+            
+            return readiness_data.get('readiness', [])
+            
+        except Exception as e:
+            logging.error(f"Failed to fetch Oura readiness data: {str(e)}")
+            raise HTTPException(status_code=500, detail="Failed to fetch Oura readiness data")
+    
+    async def import_sleep_data_to_db(self, athlete_id: str, days_back: int = 30) -> int:
+        """Import Oura sleep data and convert to RunWisely sleep format"""
+        end_date = datetime.now(timezone.utc).date()
+        start_date = end_date - timedelta(days=days_back)
+        
+        oura_sleep_data = await self.fetch_sleep_data(
+            athlete_id, 
+            start_date.isoformat(), 
+            end_date.isoformat()
+        )
+        
+        imported_count = 0
+        
+        for sleep_record in oura_sleep_data:
+            oura_date = sleep_record.get('summary_date')
+            
+            # Check if already imported
+            existing = await db.sleep_data.find_one({
+                "athlete_id": athlete_id,
+                "date": oura_date
+            })
+            
+            if existing:
+                continue  # Skip already imported data
+            
+            # Convert Oura sleep data to RunWisely format
+            sleep_data = {
+                "id": str(uuid.uuid4()),
+                "athlete_id": athlete_id,
+                "date": oura_date,
+                "total_sleep_hours": (sleep_record.get('total_sleep_duration', 0) / 3600) if sleep_record.get('total_sleep_duration') else None,
+                "sleep_efficiency": sleep_record.get('efficiency'),
+                "hrv_score": sleep_record.get('rmssd'),  # RMSSD is the HRV metric Oura uses
+                "resting_hr": sleep_record.get('hr_lowest'),
+                "sleep_quality": self._convert_oura_score_to_quality(sleep_record.get('score', 0)),
+                "created_at": datetime.now(timezone.utc)
+            }
+            
+            # Store original Oura data as well for reference
+            oura_sleep_data_record = OuraSleepData(
+                athlete_id=athlete_id,
+                oura_date=oura_date,
+                bedtime_start=sleep_record.get('bedtime_start'),
+                bedtime_end=sleep_record.get('bedtime_end'),
+                total_sleep_duration=sleep_record.get('total_sleep_duration'),
+                sleep_efficiency=sleep_record.get('efficiency'),
+                sleep_score=sleep_record.get('score'),
+                deep_sleep_duration=sleep_record.get('deep_sleep_duration'),
+                rem_sleep_duration=sleep_record.get('rem_sleep_duration'),
+                light_sleep_duration=sleep_record.get('light_sleep_duration'),
+                awake_time=sleep_record.get('awake_time'),
+                hr_lowest=sleep_record.get('hr_lowest'),
+                hr_average=sleep_record.get('hr_average'),
+                hrv_average=sleep_record.get('rmssd'),
+                temperature_delta=sleep_record.get('temperature_delta')
+            )
+            
+            # Insert both records
+            await db.sleep_data.insert_one(prepare_for_mongo(sleep_data))
+            await db.oura_sleep_data.insert_one(prepare_for_mongo(oura_sleep_data_record.model_dump()))
+            
+            imported_count += 1
+        
+        return imported_count
+    
+    def _convert_oura_score_to_quality(self, oura_score: int) -> int:
+        """Convert Oura's 0-100 score to RunWisely's 1-10 quality scale"""
+        if oura_score >= 85:
+            return 9
+        elif oura_score >= 70:
+            return 7
+        elif oura_score >= 55:
+            return 5
+        elif oura_score >= 40:
+            return 3
+        else:
+            return 1
+
 # Initialize services
 ai_coach = AICoachService()
 strava_token_manager = StravaTokenManager()
 strava_activity_manager = StravaActivityManager(strava_token_manager)
+oura_token_manager = OuraTokenManager()
+oura_data_manager = OuraDataManager(oura_token_manager)
 
 # API Routes
 @api_router.get("/")
