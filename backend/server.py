@@ -709,6 +709,110 @@ async def get_chat_history(athlete_id: str, limit: int = 20):
     ).sort("timestamp", -1).limit(limit).to_list(length=None)
     return [parse_from_mongo(m) for m in messages]
 
+# Strava OAuth routes
+@api_router.get("/auth/strava/{athlete_id}")
+async def strava_auth_initiate(athlete_id: str):
+    """Initiate Strava OAuth authorization flow"""
+    state = f"{athlete_id}_{secrets.token_urlsafe(16)}"
+    
+    auth_params = {
+        "client_id": os.environ.get('STRAVA_CLIENT_ID'),
+        "response_type": "code",
+        "redirect_uri": os.environ.get('STRAVA_REDIRECT_URI'),
+        "approval_prompt": "force",
+        "scope": "read,activity:read_all,profile:read_all",
+        "state": state
+    }
+    
+    auth_url = f"https://www.strava.com/oauth/authorize?{urlencode(auth_params)}"
+    return {"authorization_url": auth_url, "state": state}
+
+@api_router.get("/auth/strava/callback")
+async def strava_auth_callback(
+    code: str = Query(None),
+    state: str = Query(None),
+    error: str = Query(None)
+):
+    """Handle Strava OAuth callback"""
+    if error:
+        raise HTTPException(status_code=400, detail=f"Strava authorization failed: {error}")
+    
+    if not code or not state:
+        raise HTTPException(status_code=400, detail="Missing authorization code or state")
+    
+    try:
+        # Extract athlete_id from state
+        athlete_id = state.split('_')[0]
+        
+        # Exchange code for tokens
+        tokens = await strava_token_manager.exchange_code_for_tokens(code)
+        
+        # Store Strava integration
+        integration = Integration(
+            athlete_id=athlete_id,
+            integration_type="strava",
+            credentials={
+                "access_token": tokens["access_token"],
+                "refresh_token": tokens["refresh_token"],
+                "expires_at": tokens["expires_at"],
+                "athlete_id": tokens["athlete"]["id"]
+            },
+            settings={
+                "auto_sync": True,
+                "sync_private_activities": False
+            }
+        )
+        
+        await db.integrations.update_one(
+            {"athlete_id": athlete_id, "integration_type": "strava"},
+            {"$set": prepare_for_mongo(integration.model_dump())},
+            upsert=True
+        )
+        
+        # Import recent activities
+        imported_count = await strava_activity_manager.import_activities_to_workouts(athlete_id)
+        
+        return {
+            "message": "Strava connected successfully", 
+            "athlete_id": athlete_id,
+            "imported_activities": imported_count
+        }
+        
+    except Exception as e:
+        logging.error(f"Strava callback error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to complete Strava authorization")
+
+@api_router.post("/integrations/strava/{athlete_id}/sync")
+async def sync_strava_activities(athlete_id: str):
+    """Manually sync activities from Strava"""
+    try:
+        imported_count = await strava_activity_manager.import_activities_to_workouts(athlete_id)
+        return {"message": "Sync completed", "imported_activities": imported_count}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Strava sync error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to sync Strava activities")
+
+@api_router.get("/integrations/strava/{athlete_id}/status")
+async def get_strava_integration_status(athlete_id: str):
+    """Get Strava integration status"""
+    integration = await db.integrations.find_one({
+        "athlete_id": athlete_id, 
+        "integration_type": "strava",
+        "is_active": True
+    })
+    
+    if not integration:
+        return {"connected": False, "last_sync": None}
+    
+    return {
+        "connected": True,
+        "last_sync": integration.get("last_sync"),
+        "strava_athlete_id": integration["credentials"].get("athlete_id"),
+        "settings": integration.get("settings", {})
+    }
+
 # Include the router in the main app
 app.include_router(api_router)
 
