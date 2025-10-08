@@ -127,7 +127,7 @@ const CoachChat = ({ athleteId }) => {
               <CardDescription className="text-gray-600 flex items-center">
                 Ask me anything about your training, recovery, or running goals
                 <Badge variant="outline" className="ml-2 text-xs">
-                  Powered by your OpenAI key
+                  {hasOpenAIKey ? 'Powered by your OpenAI key' : 'Powered by Emergent AI'}
                 </Badge>
               </CardDescription>
             </div>
