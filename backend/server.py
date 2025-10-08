@@ -73,6 +73,7 @@ class AthleteProfile(BaseModel):
 
 class AthleteUpdate(BaseModel):
     name: Optional[str] = None
+    email: Optional[str] = None
     age: Optional[int] = None
     weekly_mileage: Optional[float] = None
     recent_race_time: Optional[str] = None
