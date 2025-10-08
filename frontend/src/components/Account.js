@@ -119,21 +119,32 @@ const Account = ({ athleteId }) => {
 
   const handleSaveApiKey = async (e) => {
     e.preventDefault();
+    
+    if (!apiKeyForm.openai_api_key.trim()) {
+      setSaveStatus({ type: 'error', message: 'Please enter an API key' });
+      return;
+    }
+    
     try {
-      // TODO: Implement API key save endpoint
-      // await axios.post(`${API}/integrations/openai`, { api_key: apiKeyForm.openai_api_key });
+      await axios.post(`${API}/integrations/openai/${athleteId}`, { 
+        api_key: apiKeyForm.openai_api_key 
+      });
       
+      // Update UI to show masked key
       setIntegrations(prev => ({
         ...prev,
         openai_api_key: '••••••••••••' + apiKeyForm.openai_api_key.slice(-8)
       }));
       
       setApiKeyForm({ openai_api_key: '' });
-      setSaveStatus({ type: 'success', message: 'OpenAI API key updated successfully!' });
+      setSaveStatus({ type: 'success', message: 'OpenAI API key saved successfully!' });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
     } catch (error) {
       console.error('Error saving API key:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to save API key' });
+      setSaveStatus({ 
+        type: 'error', 
+        message: error.response?.data?.detail || 'Failed to save API key' 
+      });
     }
   };
 
