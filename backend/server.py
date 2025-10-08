@@ -142,6 +142,29 @@ class CoachChat(BaseModel):
     athlete_id: str
     message: str
 
+class StravaActivity(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: int
+    athlete_id: str
+    strava_activity_id: int
+    name: str
+    activity_type: str
+    distance_meters: Optional[float] = None
+    moving_time_seconds: Optional[int] = None
+    elapsed_time_seconds: Optional[int] = None
+    total_elevation_gain: Optional[float] = None
+    start_date: datetime
+    average_speed: Optional[float] = None
+    max_speed: Optional[float] = None
+    average_heartrate: Optional[int] = None
+    max_heartrate: Optional[int] = None
+    calories: Optional[int] = None
+    description: Optional[str] = None
+    trainer: Optional[bool] = False
+    commute: Optional[bool] = False
+    imported_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 # AI Coach Service
 class AICoachService:
     def __init__(self):
