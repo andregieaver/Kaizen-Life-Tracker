@@ -1022,6 +1022,33 @@ const Account = ({ athleteId }) => {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Logout Section */}
+      <div className="mt-8 pt-6 border-t border-gray-200">
+        <Card className="border-0 shadow-lg bg-gray-50">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 mb-1">
+                  Logout
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Sign out of your account and return to the login page
+                </p>
+              </div>
+              <Button 
+                onClick={handleLogout}
+                variant="outline"
+                className="border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 btn-transition"
+                data-testid="logout-btn"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
