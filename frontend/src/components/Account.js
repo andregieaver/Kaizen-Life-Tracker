@@ -567,27 +567,42 @@ const Account = ({ athleteId }) => {
               <CardContent>
                 {integrations.oura.connected ? (
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg">
-                      <div className="flex items-center">
-                        <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
-                        <div>
-                          <p className="font-medium text-green-900">
-                            Connected (User ID: {integrations.oura.user_id})
-                          </p>
-                          <p className="text-sm text-green-600">
-                            Last sync: {integrations.oura.last_sync || 'Never'}
-                          </p>
+                    <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center">
+                          <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
+                          <div>
+                            <p className="font-medium text-green-900">
+                              Oura Ring Connected
+                            </p>
+                            <p className="text-sm text-green-600">
+                              Last sync: {integrations.oura.last_sync ? 
+                                new Date(integrations.oura.last_sync).toLocaleString() : 
+                                'Never'
+                              }
+                            </p>
+                          </div>
                         </div>
                       </div>
-                      <Button 
-                        variant="outline" 
-                        onClick={() => handleDisconnectIntegration('oura')}
-                        className="border-red-300 text-red-600 hover:bg-red-50"
-                        data-testid="disconnect-oura-btn"
-                      >
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Disconnect
-                      </Button>
+                      <div className="flex space-x-3">
+                        <Button 
+                          onClick={handleOuraSync}
+                          className="bg-purple-600 hover:bg-purple-700 btn-transition"
+                          data-testid="sync-oura-btn"
+                        >
+                          <Heart className="w-4 h-4 mr-2" />
+                          Sync Sleep & Recovery
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          onClick={() => handleDisconnectIntegration('oura')}
+                          className="border-red-300 text-red-600 hover:bg-red-50"
+                          data-testid="disconnect-oura-btn"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Disconnect
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 ) : (
