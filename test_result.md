@@ -101,3 +101,92 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Complete the CRUD operations for the Schedules feature in the running coach application. Schedule creation works, but edit and delete functionality are not working."
+
+backend:
+  - task: "Schedule CRUD API Endpoints"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "All CRUD endpoints already exist in backend - POST /api/schedules (create), GET /api/schedules/{athlete_id} (read), PUT /api/schedules/{schedule_id} (update), DELETE /api/schedules/{schedule_id} (soft delete). Ready for testing."
+
+frontend:
+  - task: "Schedule Edit Functionality"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Account.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "User reported edit functionality not working"
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed: Added onClick handler to Edit button (line ~922) to call handleEditSchedule(schedule). The handler function was already implemented, just missing button connection."
+  
+  - task: "Schedule Delete Functionality"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Account.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "User reported delete functionality not working"
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed: Added onClick handler to Delete button (line ~925) to call handleDeleteSchedule(schedule.id). The handler function was already implemented with confirmation dialog, just missing button connection."
+  
+  - task: "Schedule Form Header Dynamic Text"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Account.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Form header already shows dynamic text based on editingSchedule state - 'Edit Schedule' when editing, 'Create New Schedule' when creating (line 782). Already implemented."
+
+  - task: "Schedule Form Cancel Button"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Account.js"
+    stuck_count: 0
+    priority: "low"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed: Updated cancel button to use handleCancelScheduleForm instead of directly calling setShowScheduleForm(false). This ensures proper cleanup of form state and editingSchedule."
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 0
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Schedule Edit Functionality"
+    - "Schedule Delete Functionality"
+    - "Schedule CRUD API Endpoints"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "Fixed schedule edit/delete button onClick handlers. Backend endpoints were already implemented. Need to test full CRUD flow: 1) Create new schedule, 2) Edit existing schedule, 3) Delete schedule, 4) Verify form state management (create vs edit mode)."
