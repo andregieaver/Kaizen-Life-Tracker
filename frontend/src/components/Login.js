@@ -12,6 +12,7 @@ const API = `${BACKEND_URL}/api`;
 
 const Login = ({ onAthleteLogin }) => {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -25,10 +26,18 @@ const Login = ({ onAthleteLogin }) => {
       return;
     }
 
+    if (!password) {
+      setError('Please enter your password');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      const response = await axios.post(`${API}/auth/login`, { email: email.trim() });
+      const response = await axios.post(`${API}/auth/login`, { 
+        email: email.trim(),
+        password: password
+      });
       
       if (response.data.athlete_id) {
         // Store athlete ID and notify parent
@@ -38,8 +47,8 @@ const Login = ({ onAthleteLogin }) => {
       }
     } catch (error) {
       console.error('Login error:', error);
-      if (error.response?.status === 404) {
-        setError('No account found with this email. Please sign up first.');
+      if (error.response?.status === 401) {
+        setError('Invalid email or password. Please try again.');
       } else {
         setError(error.response?.data?.detail || 'Login failed. Please try again.');
       }
