@@ -186,8 +186,7 @@ const Account = ({ athleteId }) => {
 
   const handleDisconnectIntegration = async (integration) => {
     try {
-      // TODO: Implement disconnect endpoint
-      // await axios.delete(`${API}/integrations/${integration}`);
+      await axios.delete(`${API}/integrations/${athleteId}/${integration}`);
       
       setIntegrations(prev => ({
         ...prev,
@@ -199,6 +198,24 @@ const Account = ({ athleteId }) => {
     } catch (error) {
       console.error(`Error disconnecting ${integration}:`, error);
       setSaveStatus({ type: 'error', message: `Failed to disconnect ${integration}` });
+    }
+  };
+
+  const handleStravaSync = async () => {
+    try {
+      setSaveStatus({ type: 'info', message: 'Syncing activities from Strava...' });
+      const response = await axios.post(`${API}/integrations/strava/${athleteId}/sync`);
+      setSaveStatus({ 
+        type: 'success', 
+        message: `Sync completed! Imported ${response.data.imported_activities} activities.` 
+      });
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
+      
+      // Reload integrations to update last sync time
+      loadAccountData();
+    } catch (error) {
+      console.error('Error syncing Strava activities:', error);
+      setSaveStatus({ type: 'error', message: 'Failed to sync Strava activities' });
     }
   };
 
