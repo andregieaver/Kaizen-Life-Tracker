@@ -69,7 +69,7 @@ const Dashboard = ({ athleteId }) => {
               <h1 className="font-display text-2xl font-bold text-gray-900 mr-8">
                 RunWisely
               </h1>
-              <nav className="hidden md:flex space-x-8">
+              <nav className="flex space-x-4 md:space-x-8">
                 <button
                   onClick={() => setActiveTab('overview')}
                   className={`text-sm font-medium transition-colors ${
