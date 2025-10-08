@@ -54,6 +54,15 @@ const Account = ({ athleteId }) => {
   
   const [activeTab, setActiveTab] = useState('personal');
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
+  const [schedules, setSchedules] = useState([]);
+  const [showScheduleForm, setShowScheduleForm] = useState(false);
+  const [scheduleForm, setScheduleForm] = useState({
+    name: '',
+    prompt: '',
+    frequency: 'daily',
+    time: '08:00',
+    days: []
+  });
 
   useEffect(() => {
     loadAccountData();
