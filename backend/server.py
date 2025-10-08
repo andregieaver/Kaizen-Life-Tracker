@@ -157,6 +157,20 @@ class CoachChat(BaseModel):
     message: str
     session_id: str = Field(default_factory=lambda: f"session_{int(datetime.now(timezone.utc).timestamp() * 1000)}")
 
+class AthleteMemory(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    category: str  # goals, prs, injuries, preferences, progress, equipment
+    content: str
+    importance: int = 5  # 1-10, higher = more important
+    source_session: Optional[str] = None
+    embedding: Optional[List[float]] = None  # For future vector search
+    metadata: Optional[Dict[str, Any]] = None  # Flexible metadata
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 class StravaActivity(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
