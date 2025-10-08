@@ -167,6 +167,36 @@ class StravaActivity(BaseModel):
     commute: Optional[bool] = False
     imported_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+class Schedule(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    name: str
+    prompt: str
+    frequency: str  # daily, weekly, after_workout, custom
+    time: str  # HH:MM format
+    days: Optional[List[str]] = []  # For custom frequency
+    active: bool = True
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    last_executed: Optional[datetime] = None
+
+class Recommendation(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    schedule_id: Optional[str] = None
+    title: str
+    type: str  # recovery_analysis, training_analysis, sleep_analysis, etc.
+    priority: str  # high, medium, low
+    summary: str
+    content: str
+    tags: Optional[List[str]] = []
+    scheduled_prompt: Optional[str] = None
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    read: bool = False
+
 class OuraSleepData(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
