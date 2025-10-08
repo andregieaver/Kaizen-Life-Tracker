@@ -112,33 +112,15 @@ const CoachChat = ({ athleteId }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      {/* Header */}
-      <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-50 to-indigo-50">
-        <CardHeader>
-          <div className="flex items-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-              <Bot className="w-6 h-6 text-blue-600" />
-            </div>
-            <div>
-              <CardTitle className="text-xl font-display text-gray-900">
-                Your AI Running Coach
-              </CardTitle>
-              <CardDescription className="text-gray-600 flex items-center">
-                Ask me anything about your training, recovery, or running goals
-                <Badge variant="outline" className="ml-2 text-xs">
-                  {hasOpenAIKey ? 'Powered by your OpenAI key' : 'Powered by Emergent AI'}
-                </Badge>
-              </CardDescription>
-            </div>
-          </div>
-        </CardHeader>
-      </Card>
+    <div className="flex flex-col h-full">
+      {/* Simple Title Header - Only on Desktop */}
+      <div className="hidden md:block max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <h2 className="text-2xl font-display font-bold text-gray-900">Your AI Running Coach</h2>
+      </div>
 
-      {/* Chat Messages */}
-      <Card className="border-0 shadow-lg">
-        <CardContent className="p-0">
-          <div className="h-96 overflow-y-auto p-6 space-y-4" data-testid="chat-messages">
+      {/* Chat Messages - Maximized Area */}
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 pb-24 md:pb-6" data-testid="chat-messages">
+        <div className="max-w-7xl mx-auto space-y-4 py-4">
             {messages.length === 0 ? (
               <div className="text-center py-8">
                 <MessageCircle className="w-12 h-12 text-gray-300 mx-auto mb-4" />
