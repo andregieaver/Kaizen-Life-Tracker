@@ -87,8 +87,9 @@ const OnboardingForm = ({ onAthleteCreated }) => {
     setIsLoading(true);
     
     try {
+      const { confirmPassword, ...athleteDataWithoutConfirm } = formData;
       const athleteData = {
-        ...formData,
+        ...athleteDataWithoutConfirm,
         age: parseInt(formData.age),
         weekly_mileage: parseFloat(formData.weekly_mileage)
       };
