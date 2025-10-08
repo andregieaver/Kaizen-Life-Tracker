@@ -225,6 +225,24 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const handleOuraSync = async () => {
+    try {
+      setSaveStatus({ type: 'info', message: 'Syncing sleep and recovery data from Oura...' });
+      const response = await axios.post(`${API}/integrations/oura/${athleteId}/sync`);
+      setSaveStatus({ 
+        type: 'success', 
+        message: `Sync completed! Imported ${response.data.imported_sleep_records} sleep records.` 
+      });
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
+      
+      // Reload integrations to update last sync time
+      loadAccountData();
+    } catch (error) {
+      console.error('Error syncing Oura data:', error);
+      setSaveStatus({ type: 'error', message: 'Failed to sync Oura data' });
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="max-w-4xl mx-auto p-6">
