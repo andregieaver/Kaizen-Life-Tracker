@@ -121,90 +121,89 @@ const CoachChat = ({ athleteId }) => {
       {/* Chat Messages - Maximized Area */}
       <div className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 pb-24 md:pb-6" data-testid="chat-messages">
         <div className="max-w-7xl mx-auto space-y-4 py-4">
-            {messages.length === 0 ? (
-              <div className="text-center py-8">
-                <MessageCircle className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500 mb-6">Start a conversation with your AI coach!</p>
-                <div className="space-y-2">
-                  <p className="text-sm text-gray-600 mb-3">Try asking:</p>
-                  {suggestedQuestions.map((question, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleSuggestedQuestion(question)}
-                      className="block w-full text-left p-3 text-sm bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
-                      data-testid={`suggested-question-${index}`}
-                    >
-                      "{question}"
-                    </button>
-                  ))}
-                </div>
+          {messages.length === 0 ? (
+            <div className="text-center py-8">
+              <MessageCircle className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+              <p className="text-gray-500 mb-6">Start a conversation with your AI coach!</p>
+              <div className="space-y-2 max-w-2xl mx-auto">
+                <p className="text-sm text-gray-600 mb-3">Try asking:</p>
+                {suggestedQuestions.map((question, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleSuggestedQuestion(question)}
+                    className="block w-full text-left p-3 text-sm bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
+                    data-testid={`suggested-question-${index}`}
+                  >
+                    "{question}"
+                  </button>
+                ))}
               </div>
-            ) : (
-              messages.map((message, index) => (
-                <div
-                  key={index}
-                  className={`flex items-start space-x-3 message-enter ${
-                    message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''
-                  }`}
-                >
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+            </div>
+          ) : (
+            messages.map((message, index) => (
+              <div
+                key={index}
+                className={`flex items-start space-x-3 message-enter ${
+                  message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''
+                }`}
+              >
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  message.type === 'user'
+                    ? 'bg-blue-100'
+                    : message.isError
+                    ? 'bg-red-100'
+                    : 'bg-green-100'
+                }`}>
+                  {message.type === 'user' ? (
+                    <User className="w-4 h-4 text-blue-600" />
+                  ) : (
+                    <Bot className={`w-4 h-4 ${message.isError ? 'text-red-600' : 'text-green-600'}`} />
+                  )}
+                </div>
+                <div className={`flex-1 max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl ${
+                  message.type === 'user' ? 'text-right' : 'text-left'
+                }`}>
+                  <div className={`inline-block p-3 rounded-lg ${
                     message.type === 'user'
-                      ? 'bg-blue-100'
+                      ? 'bg-blue-600 text-white'
                       : message.isError
-                      ? 'bg-red-100'
-                      : 'bg-green-100'
+                      ? 'bg-red-50 text-red-700 border border-red-200'
+                      : 'bg-gray-100 text-gray-900'
                   }`}>
-                    {message.type === 'user' ? (
-                      <User className="w-4 h-4 text-blue-600" />
-                    ) : (
-                      <Bot className={`w-4 h-4 ${message.isError ? 'text-red-600' : 'text-green-600'}`} />
-                    )}
+                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                   </div>
-                  <div className={`flex-1 max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl ${
-                    message.type === 'user' ? 'text-right' : 'text-left'
-                  }`}>
-                    <div className={`inline-block p-3 rounded-lg ${
-                      message.type === 'user'
-                        ? 'bg-blue-600 text-white'
-                        : message.isError
-                        ? 'bg-red-50 text-red-700 border border-red-200'
-                        : 'bg-gray-100 text-gray-900'
-                    }`}>
-                      <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                    </div>
-                    <p className="text-xs text-gray-500 mt-1">
-                      {new Date(message.timestamp).toLocaleTimeString()}
-                    </p>
-                  </div>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {new Date(message.timestamp).toLocaleTimeString()}
+                  </p>
                 </div>
-              ))
-            )}
-            
-            {isLoading && (
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <Bot className="w-4 h-4 text-green-600" />
-                </div>
-                <div className="flex-1">
-                  <div className="inline-block p-3 bg-gray-100 rounded-lg">
-                    <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-                    </div>
+              </div>
+            ))
+          )}
+          
+          {isLoading && (
+            <div className="flex items-start space-x-3">
+              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                <Bot className="w-4 h-4 text-green-600" />
+              </div>
+              <div className="flex-1">
+                <div className="inline-block p-3 bg-gray-100 rounded-lg">
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
                   </div>
                 </div>
               </div>
-            )}
-            
-            <div ref={messagesEndRef} />
-          </div>
-        </CardContent>
-      </Card>
+            </div>
+          )}
+          
+          <div ref={messagesEndRef} />
+        </div>
+      </div>
 
-      {/* Message Input */}
-      <Card className="border-0 shadow-lg">
-        <CardContent className="p-4">
+      {/* Message Input - Fixed at Bottom on Mobile, aligned with nav bar */}
+      <div className="fixed md:relative bottom-16 md:bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:border-t-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <form onSubmit={sendMessage} className="flex space-x-3">
             <Input
               ref={inputRef}
@@ -224,8 +223,8 @@ const CoachChat = ({ athleteId }) => {
               <Send className="w-4 h-4" />
             </Button>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };
