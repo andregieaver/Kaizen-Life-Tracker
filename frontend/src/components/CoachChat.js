@@ -398,9 +398,10 @@ const CoachChat = ({ athleteId }) => {
                                   blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-gray-300 pl-3 italic my-2" {...props} />,
                                   a: ({node, ...props}) => <a className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer" {...props} />,
                                 }}
-                              >
-                                {part.content}
-                              </ReactMarkdown>
+                                >
+                                  {part.content}
+                                </ReactMarkdown>
+                              </div>
                             )}
                           </div>
                         )}
