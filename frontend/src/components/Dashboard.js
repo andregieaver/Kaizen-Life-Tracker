@@ -102,7 +102,7 @@ const Dashboard = ({ athleteId }) => {
                   }`}
                   data-testid="recommendations-tab"
                 >
-                  Recommendations
+                  Reports
                 </button>
                 <button
                   onClick={() => setActiveTab('history')}
