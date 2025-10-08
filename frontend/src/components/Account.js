@@ -778,9 +778,14 @@ const Account = ({ athleteId }) => {
             {showScheduleForm && (
               <Card className="border-0 shadow-lg">
                 <CardHeader>
-                  <CardTitle className="text-lg">Create New Schedule</CardTitle>
+                  <CardTitle className="text-lg">
+                    {editingSchedule ? 'Edit Schedule' : 'Create New Schedule'}
+                  </CardTitle>
                   <CardDescription>
-                    Set up automated AI analysis of your training and recovery data
+                    {editingSchedule 
+                      ? 'Update your automated AI analysis schedule'
+                      : 'Set up automated AI analysis of your training and recovery data'
+                    }
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
