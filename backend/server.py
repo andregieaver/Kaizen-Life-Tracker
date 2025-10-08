@@ -167,6 +167,45 @@ class StravaActivity(BaseModel):
     commute: Optional[bool] = False
     imported_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+class OuraSleepData(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    oura_date: str
+    bedtime_start: Optional[str] = None
+    bedtime_end: Optional[str] = None
+    total_sleep_duration: Optional[int] = None  # seconds
+    sleep_efficiency: Optional[float] = None  # percentage
+    sleep_score: Optional[int] = None
+    deep_sleep_duration: Optional[int] = None
+    rem_sleep_duration: Optional[int] = None
+    light_sleep_duration: Optional[int] = None
+    awake_time: Optional[int] = None
+    hr_lowest: Optional[int] = None
+    hr_average: Optional[int] = None
+    hrv_average: Optional[int] = None  # RMSSD in ms
+    temperature_delta: Optional[float] = None
+    imported_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class OuraReadinessData(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    oura_date: str
+    readiness_score: Optional[int] = None
+    temperature_trend_deviation: Optional[float] = None
+    activity_balance: Optional[int] = None
+    body_temperature: Optional[float] = None
+    hrv_balance: Optional[int] = None
+    previous_day_activity: Optional[int] = None
+    previous_night_score: Optional[int] = None
+    recovery_index: Optional[float] = None
+    resting_hr: Optional[int] = None
+    sleep_balance: Optional[int] = None
+    imported_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 # AI Coach Service
 class AICoachService:
     def __init__(self):
