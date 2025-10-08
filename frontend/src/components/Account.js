@@ -438,8 +438,8 @@ const Account = ({ athleteId }) => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSavePersonalInfo} className="space-y-4 md:space-y-6">
-                <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-4">
-                  <div className="col-span-2 md:col-span-1 space-y-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                  <div className="space-y-2">
                     <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
                     <Input
                       id="name"
@@ -464,7 +464,7 @@ const Account = ({ athleteId }) => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="weekly_mileage" className="text-sm font-medium">Weekly Miles</Label>
                     <Input
