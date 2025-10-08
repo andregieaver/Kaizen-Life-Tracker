@@ -41,6 +41,12 @@ const OnboardingForm = ({ onAthleteCreated }) => {
       newErrors.name = 'Name is required';
     }
     
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    
     if (!formData.age || formData.age < 16 || formData.age > 80) {
       newErrors.age = 'Please enter a valid age (16-80)';
     }
