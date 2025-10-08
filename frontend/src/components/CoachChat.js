@@ -78,7 +78,8 @@ const CoachChat = ({ athleteId }) => {
     try {
       const response = await axios.post(`${API}/coach/chat`, {
         athlete_id: athleteId,
-        message: userMessage.content
+        message: userMessage.content,
+        session_id: sessionId
       });
 
       const coachMessage = {
