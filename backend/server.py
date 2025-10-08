@@ -16,6 +16,8 @@ import requests
 from urllib.parse import urlencode
 from stravalib import Client
 import asyncio
+from oura import OuraClient
+from datetime import timedelta
 # from emergentintegrations.llm.chat import LlmChat, UserMessage
 
 ROOT_DIR = Path(__file__).parent
