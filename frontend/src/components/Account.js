@@ -68,21 +68,36 @@ const Account = ({ athleteId }) => {
         running_goals: athleteRes.data.running_goals
       });
       
-      // TODO: Load integrations data from backend
-      // For now, using mock data
-      setIntegrations({
-        openai_api_key: '••••••••••••sk-proj-example',
-        strava: { 
-          connected: false, 
-          athlete_name: '', 
-          last_sync: null 
-        },
-        oura: { 
-          connected: false, 
-          user_id: '', 
-          last_sync: null 
-        }
-      });
+      // Load integrations data from backend
+      try {
+        const integrationsRes = await axios.get(`${API}/integrations/${athleteId}`);
+        const integrationsList = integrationsRes.data.integrations || [];
+        
+        // Find OpenAI integration
+        const openaiIntegration = integrationsList.find(i => i.integration_type === 'openai');
+        
+        setIntegrations({
+          openai_api_key: openaiIntegration ? '••••••••••••••••' : '',
+          strava: { 
+            connected: false, 
+            athlete_name: '', 
+            last_sync: null 
+          },
+          oura: { 
+            connected: false, 
+            user_id: '', 
+            last_sync: null 
+          }
+        });
+      } catch (error) {
+        console.error('Error loading integrations:', error);
+        // Set default values if loading fails
+        setIntegrations({
+          openai_api_key: '',
+          strava: { connected: false, athlete_name: '', last_sync: null },
+          oura: { connected: false, user_id: '', last_sync: null }
+        });
+      }
       
     } catch (error) {
       console.error('Error loading account data:', error);
