@@ -66,6 +66,7 @@ const Account = ({ athleteId }) => {
 
   useEffect(() => {
     loadAccountData();
+    loadSchedules();
   }, [athleteId]);
 
   const loadAccountData = async () => {
