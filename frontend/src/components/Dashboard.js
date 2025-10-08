@@ -153,7 +153,7 @@ const Dashboard = ({ athleteId }) => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-20 md:pb-8">
+      <main className={activeTab === 'coach' ? 'flex-1 flex flex-col' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-20 md:pb-8'}>
         {activeTab === 'overview' && (
           <div className="space-y-8">
             {/* Readiness Section */}
