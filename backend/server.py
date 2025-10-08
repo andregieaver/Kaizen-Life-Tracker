@@ -1167,6 +1167,16 @@ async def chat_with_ai_coach(chat_request: CoachChat):
         chat_dict = prepare_for_mongo(chat_message.model_dump())
         await db.chat_messages.insert_one(chat_dict)
         
+        # Extract and store memories asynchronously (don't wait for it)
+        asyncio.create_task(
+            ai_coach.extract_memories(
+                chat_request.athlete_id,
+                chat_request.message,
+                response,
+                chat_request.session_id
+            )
+        )
+        
         return {"response": response}
     except Exception as e:
         logging.error(f"Chat error: {e}")
