@@ -69,10 +69,10 @@ const Dashboard = ({ athleteId }) => {
               <h1 className="font-display text-2xl font-bold text-gray-900 mr-8">
                 RunWisely
               </h1>
-              <nav className="flex space-x-4 md:space-x-8">
+              <nav className="flex space-x-2 md:space-x-8 overflow-x-auto">
                 <button
                   onClick={() => setActiveTab('overview')}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-xs md:text-sm font-medium transition-colors whitespace-nowrap ${
                     activeTab === 'overview'
                       ? 'text-blue-600 border-b-2 border-blue-600'
                       : 'text-gray-500 hover:text-gray-700'
@@ -83,7 +83,7 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => setActiveTab('coach')}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-xs md:text-sm font-medium transition-colors whitespace-nowrap ${
                     activeTab === 'coach'
                       ? 'text-blue-600 border-b-2 border-blue-600'
                       : 'text-gray-500 hover:text-gray-700'
@@ -94,7 +94,7 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => setActiveTab('log-data')}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-xs md:text-sm font-medium transition-colors whitespace-nowrap ${
                     activeTab === 'log-data'
                       ? 'text-blue-600 border-b-2 border-blue-600'
                       : 'text-gray-500 hover:text-gray-700'
@@ -105,7 +105,7 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => setActiveTab('history')}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-xs md:text-sm font-medium transition-colors whitespace-nowrap ${
                     activeTab === 'history'
                       ? 'text-blue-600 border-b-2 border-blue-600'
                       : 'text-gray-500 hover:text-gray-700'
@@ -116,7 +116,7 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => setActiveTab('account')}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-xs md:text-sm font-medium transition-colors whitespace-nowrap ${
                     activeTab === 'account'
                       ? 'text-blue-600 border-b-2 border-blue-600'
                       : 'text-gray-500 hover:text-gray-700'
