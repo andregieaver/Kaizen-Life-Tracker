@@ -14,6 +14,7 @@ const CoachChat = ({ athleteId }) => {
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
+  const [hasOpenAIKey, setHasOpenAIKey] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
