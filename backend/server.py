@@ -374,8 +374,173 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
             logging.error(f"AI Coach error: {e}")
             return "I'm having trouble accessing my coaching insights right now. Please try again in a moment."
 
-# Initialize AI Coach
+# Strava Service Classes
+class StravaTokenManager:
+    def __init__(self):
+        self.client_id = os.environ.get('STRAVA_CLIENT_ID')
+        self.client_secret = os.environ.get('STRAVA_CLIENT_SECRET')
+        
+    async def exchange_code_for_tokens(self, auth_code: str) -> Dict[str, Any]:
+        """Exchange authorization code for access and refresh tokens"""
+        token_data = {
+            "client_id": self.client_id,
+            "client_secret": self.client_secret,
+            "code": auth_code,
+            "grant_type": "authorization_code"
+        }
+        
+        response = requests.post(
+            "https://www.strava.com/api/v3/oauth/token",
+            data=token_data
+        )
+        
+        if response.status_code != 200:
+            raise HTTPException(status_code=400, detail="Token exchange failed")
+        
+        return response.json()
+    
+    async def refresh_access_token(self, refresh_token: str) -> Dict[str, Any]:
+        """Refresh expired access token"""
+        refresh_data = {
+            "client_id": self.client_id,
+            "client_secret": self.client_secret,
+            "refresh_token": refresh_token,
+            "grant_type": "refresh_token"
+        }
+        
+        response = requests.post(
+            "https://www.strava.com/api/v3/oauth/token",
+            data=refresh_data
+        )
+        
+        if response.status_code != 200:
+            raise HTTPException(status_code=400, detail="Token refresh failed")
+        
+        return response.json()
+    
+    async def get_valid_token(self, athlete_id: str) -> str:
+        """Get valid access token, refreshing if necessary"""
+        integration = await db.integrations.find_one({
+            "athlete_id": athlete_id, 
+            "integration_type": "strava",
+            "is_active": True
+        })
+        
+        if not integration:
+            raise HTTPException(status_code=404, detail="Strava integration not found")
+        
+        # Check if token is expired (with 5-minute buffer)
+        expires_at = integration["credentials"].get("expires_at")
+        if expires_at and expires_at < datetime.now(timezone.utc).timestamp() + 300:
+            # Token is expired or will expire soon, refresh it
+            refresh_token = integration["credentials"]["refresh_token"]
+            new_tokens = await self.refresh_access_token(refresh_token)
+            
+            # Update stored tokens
+            await db.integrations.update_one(
+                {"_id": integration["_id"]},
+                {"$set": {
+                    "credentials.access_token": new_tokens["access_token"],
+                    "credentials.refresh_token": new_tokens["refresh_token"],
+                    "credentials.expires_at": new_tokens["expires_at"],
+                    "last_sync": datetime.now(timezone.utc)
+                }}
+            )
+            
+            return new_tokens["access_token"]
+        
+        return integration["credentials"]["access_token"]
+
+class StravaActivityManager:
+    def __init__(self, token_manager: StravaTokenManager):
+        self.token_manager = token_manager
+    
+    async def fetch_recent_activities(self, athlete_id: str, limit: int = 30) -> List[Dict[str, Any]]:
+        """Fetch recent activities from Strava"""
+        access_token = await self.token_manager.get_valid_token(athlete_id)
+        client = Client(access_token=access_token)
+        
+        activities = []
+        try:
+            activity_iter = client.get_activities(limit=limit)
+            
+            for activity in activity_iter:
+                activities.append({
+                    "strava_id": activity.id,
+                    "name": activity.name,
+                    "type": str(activity.type) if activity.type else "Unknown",
+                    "distance": float(activity.distance) if activity.distance else None,
+                    "moving_time": activity.moving_time.total_seconds() if activity.moving_time else None,
+                    "elapsed_time": activity.elapsed_time.total_seconds() if activity.elapsed_time else None,
+                    "total_elevation_gain": float(activity.total_elevation_gain) if activity.total_elevation_gain else None,
+                    "start_date": activity.start_date_local,
+                    "average_speed": float(activity.average_speed) if activity.average_speed else None,
+                    "max_speed": float(activity.max_speed) if activity.max_speed else None,
+                    "average_heartrate": activity.average_heartrate,
+                    "max_heartrate": activity.max_heartrate,
+                    "calories": activity.calories,
+                    "description": activity.description,
+                    "trainer": activity.trainer,
+                    "commute": activity.commute
+                })
+            
+            return activities
+        except Exception as e:
+            logging.error(f"Failed to fetch Strava activities: {str(e)}")
+            raise HTTPException(status_code=500, detail="Failed to fetch Strava activities")
+    
+    async def import_activities_to_workouts(self, athlete_id: str) -> int:
+        """Import Strava activities as workouts"""
+        strava_activities = await self.fetch_recent_activities(athlete_id)
+        imported_count = 0
+        
+        for activity in strava_activities:
+            # Check if activity already exists
+            existing = await db.workouts.find_one({
+                "athlete_id": athlete_id,
+                "strava_activity_id": activity["strava_id"]
+            })
+            
+            if existing:
+                continue  # Skip already imported activities
+            
+            # Convert Strava activity to workout format
+            workout_data = {
+                "id": str(uuid.uuid4()),
+                "athlete_id": athlete_id,
+                "strava_activity_id": activity["strava_id"],
+                "date": activity["start_date"].date().isoformat() if activity["start_date"] else datetime.now().date().isoformat(),
+                "workout_type": self._map_strava_type_to_workout_type(activity["type"]),
+                "distance_miles": round(activity["distance"] / 1609.34, 2) if activity["distance"] else 0,
+                "duration_minutes": round(activity["moving_time"] / 60) if activity["moving_time"] else 0,
+                "avg_hr": activity["average_heartrate"],
+                "max_hr": activity["max_heartrate"],
+                "perceived_effort": 5,  # Default value, could be enhanced
+                "notes": f"Imported from Strava: {activity['name']}",
+                "created_at": datetime.now(timezone.utc)
+            }
+            
+            await db.workouts.insert_one(prepare_for_mongo(workout_data))
+            imported_count += 1
+        
+        return imported_count
+    
+    def _map_strava_type_to_workout_type(self, strava_type: str) -> str:
+        """Map Strava activity type to workout type"""
+        type_mapping = {
+            "Run": "easy",
+            "Ride": "easy", 
+            "Workout": "intervals",
+            "Race": "intervals",
+            "Long Run": "long_run",
+            "TrailRun": "easy"
+        }
+        return type_mapping.get(strava_type, "easy")
+
+# Initialize services
 ai_coach = AICoachService()
+strava_token_manager = StravaTokenManager()
+strava_activity_manager = StravaActivityManager(strava_token_manager)
 
 # API Routes
 @api_router.get("/")
