@@ -94,15 +94,15 @@ const Dashboard = ({ athleteId }) => {
                   AI Coach
                 </button>
                 <button
-                  onClick={() => setActiveTab('log-data')}
+                  onClick={() => setActiveTab('recommendations')}
                   className={`text-sm font-medium transition-colors ${
-                    activeTab === 'log-data'
+                    activeTab === 'recommendations'
                       ? 'text-blue-600 border-b-2 border-blue-600'
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
-                  data-testid="log-data-tab"
+                  data-testid="recommendations-tab"
                 >
-                  Log Data
+                  Recommendations
                 </button>
                 <button
                   onClick={() => setActiveTab('history')}
