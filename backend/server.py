@@ -18,7 +18,11 @@ from stravalib import Client
 import asyncio
 from oura import OuraClient
 from datetime import timedelta
+from passlib.context import CryptContext
 # from emergentintegrations.llm.chat import LlmChat, UserMessage
+
+# Password hashing
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
