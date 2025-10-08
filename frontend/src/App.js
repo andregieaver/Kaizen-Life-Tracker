@@ -70,6 +70,16 @@ function App() {
             } 
           />
           <Route 
+            path="/login" 
+            element={
+              athleteId ? (
+                <Navigate to="/dashboard" replace />
+              ) : (
+                <Login onAthleteLogin={handleAthleteLogin} />
+              )
+            } 
+          />
+          <Route 
             path="/dashboard" 
             element={
               athleteId ? (
