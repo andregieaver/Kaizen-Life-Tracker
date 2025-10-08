@@ -239,7 +239,6 @@ const CoachChat = ({ athleteId }) => {
                 </div>
               );
             })
-          )
           )}
           
           {isLoading && (
