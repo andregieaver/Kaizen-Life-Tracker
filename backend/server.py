@@ -101,6 +101,7 @@ class APIKeyRequest(BaseModel):
 
 class LoginRequest(BaseModel):
     email: str
+    password: str
 
 class Workout(BaseModel):
     model_config = ConfigDict(extra="ignore")
