@@ -104,12 +104,57 @@ const CoachChat = ({ athleteId }) => {
     "How am I doing with my training this week?",
     "Should I run today based on my readiness?",
     "What should my next workout be?",
-    "How's my recovery looking?"
+    "Show me my weekly mileage trend"
   ];
 
   const handleSuggestedQuestion = (question) => {
     setNewMessage(question);
     inputRef.current?.focus();
+  };
+
+  // Parse message content to extract charts
+  const parseMessageContent = (content) => {
+    const parts = [];
+    const chartRegex = /```chart\s*([\s\S]*?)```/g;
+    let lastIndex = 0;
+    let match;
+
+    while ((match = chartRegex.exec(content)) !== null) {
+      // Add text before chart
+      if (match.index > lastIndex) {
+        parts.push({
+          type: 'text',
+          content: content.substring(lastIndex, match.index).trim()
+        });
+      }
+
+      // Try to parse chart JSON
+      try {
+        const chartData = JSON.parse(match[1].trim());
+        parts.push({
+          type: 'chart',
+          data: chartData
+        });
+      } catch (e) {
+        console.error('Failed to parse chart JSON:', e);
+        parts.push({
+          type: 'text',
+          content: match[0] // Show raw content if parse fails
+        });
+      }
+
+      lastIndex = match.index + match[0].length;
+    }
+
+    // Add remaining text
+    if (lastIndex < content.length) {
+      parts.push({
+        type: 'text',
+        content: content.substring(lastIndex).trim()
+      });
+    }
+
+    return parts.length > 0 ? parts : [{ type: 'text', content }];
   };
 
   return (
