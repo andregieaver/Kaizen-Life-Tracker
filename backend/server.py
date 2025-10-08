@@ -277,12 +277,8 @@ class AICoachService:
         """Chat with AI coach using athlete's personal data"""
         context = await self.get_athlete_context(athlete_id)
         
-        try:
-            # Import here to avoid startup issues
-            from emergentintegrations.llm.chat import LlmChat, UserMessage
-            
-            # Create system message with athlete context
-            system_prompt = f"""
+        # Create system message with athlete context
+        system_prompt = f"""
 You are an expert endurance running coach with deep knowledge of training physiology, periodization, and athlete development. You have access to this athlete's complete training and recovery data.
 
 ATHLETE PROFILE:
@@ -307,18 +303,44 @@ COACHING PRINCIPLES:
 
 Respond as a knowledgeable coach who truly knows this athlete's training history, sleep patterns, and current state. Reference specific data points when relevant.
 """
+        
+        try:
+            # Check if user has their own OpenAI API key
+            user_openai_key = await self.get_user_openai_key(athlete_id)
             
-            # Use Claude for main coaching conversations
-            chat = LlmChat(
-                api_key=self.api_key,
-                session_id=f"coach_{athlete_id}",
-                system_message=system_prompt
-            ).with_model("anthropic", "claude-3-7-sonnet-20250219")
+            if user_openai_key:
+                # Use user's personal OpenAI API key
+                import openai
+                
+                client = openai.AsyncOpenAI(api_key=user_openai_key)
+                
+                response = await client.chat.completions.create(
+                    model="gpt-4o",  # Latest GPT-4 model
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": message}
+                    ],
+                    max_tokens=2000,
+                    temperature=0.7
+                )
+                
+                return response.choices[0].message.content
             
-            user_message = UserMessage(text=message)
-            response = await chat.send_message(user_message)
-            
-            return response
+            else:
+                # Fall back to Emergent integration
+                from emergentintegrations.llm.chat import LlmChat, UserMessage
+                
+                chat = LlmChat(
+                    api_key=self.api_key,
+                    session_id=f"coach_{athlete_id}",
+                    system_message=system_prompt
+                ).with_model("anthropic", "claude-3-7-sonnet-20250219")
+                
+                user_message = UserMessage(text=message)
+                response = await chat.send_message(user_message)
+                
+                return response
+                
         except Exception as e:
             logging.error(f"AI Coach error: {e}")
             return "I'm having trouble accessing my coaching insights right now. Please try again in a moment."
