@@ -110,8 +110,11 @@ const CoachChat = ({ athleteId }) => {
               <CardTitle className="text-xl font-display text-gray-900">
                 Your AI Running Coach
               </CardTitle>
-              <CardDescription className="text-gray-600">
+              <CardDescription className="text-gray-600 flex items-center">
                 Ask me anything about your training, recovery, or running goals
+                <Badge variant="outline" className="ml-2 text-xs">
+                  Powered by your OpenAI key
+                </Badge>
               </CardDescription>
             </div>
           </div>
