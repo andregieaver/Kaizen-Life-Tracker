@@ -366,14 +366,42 @@ const CoachChat = ({ athleteId }) => {
                     {contentParts.map((part, partIndex) => (
                       <div key={partIndex}>
                         {part.type === 'text' && part.content && (
-                          <div className={`inline-block p-3 rounded-lg mb-2 ${
+                          <div className={`inline-block p-3 rounded-lg mb-2 max-w-none ${
                             message.type === 'user'
                               ? 'bg-blue-600 text-white'
                               : message.isError
                               ? 'bg-red-50 text-red-700 border border-red-200'
                               : 'bg-gray-100 text-gray-900'
                           }`}>
-                            <p className="text-sm whitespace-pre-wrap">{part.content}</p>
+                            {message.type === 'user' ? (
+                              <p className="text-sm whitespace-pre-wrap">{part.content}</p>
+                            ) : (
+                              <ReactMarkdown
+                                remarkPlugins={[remarkGfm]}
+                                className="text-sm markdown-content"
+                                components={{
+                                  p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                                  ul: ({node, ...props}) => <ul className="list-disc list-inside mb-2 space-y-1" {...props} />,
+                                  ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-2 space-y-1" {...props} />,
+                                  li: ({node, ...props}) => <li className="ml-2" {...props} />,
+                                  strong: ({node, ...props}) => <strong className="font-semibold" {...props} />,
+                                  em: ({node, ...props}) => <em className="italic" {...props} />,
+                                  code: ({node, inline, ...props}) => 
+                                    inline ? (
+                                      <code className="bg-gray-200 px-1 py-0.5 rounded text-xs font-mono" {...props} />
+                                    ) : (
+                                      <code className="block bg-gray-200 p-2 rounded text-xs font-mono overflow-x-auto my-2" {...props} />
+                                    ),
+                                  h1: ({node, ...props}) => <h1 className="text-lg font-bold mb-2" {...props} />,
+                                  h2: ({node, ...props}) => <h2 className="text-base font-bold mb-2" {...props} />,
+                                  h3: ({node, ...props}) => <h3 className="text-sm font-bold mb-1" {...props} />,
+                                  blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-gray-300 pl-3 italic my-2" {...props} />,
+                                  a: ({node, ...props}) => <a className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer" {...props} />,
+                                }}
+                              >
+                                {part.content}
+                              </ReactMarkdown>
+                            )}
                           </div>
                         )}
                         {part.type === 'chart' && (
