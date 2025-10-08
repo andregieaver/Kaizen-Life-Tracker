@@ -20,6 +20,7 @@ const CoachChat = ({ athleteId }) => {
 
   useEffect(() => {
     loadChatHistory();
+    checkOpenAIKey();
   }, [athleteId]);
 
   useEffect(() => {
