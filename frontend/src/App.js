@@ -4,6 +4,7 @@ import axios from 'axios';
 import Dashboard from './components/Dashboard';
 import OnboardingForm from './components/OnboardingForm';
 import StravaCallback from './components/StravaCallback';
+import OuraCallback from './components/OuraCallback';
 import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
