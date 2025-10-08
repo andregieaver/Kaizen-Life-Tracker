@@ -7,7 +7,7 @@ import { Separator } from './ui/separator';
 import { Home, MessageCircle, PlusCircle, BarChart3, User } from 'lucide-react';
 import ReadinessCard from './ReadinessCard';
 import CoachChat from './CoachChat';
-import DataLogTabs from './DataLogTabs';
+import Recommendations from './Recommendations';
 import WorkoutHistory from './WorkoutHistory';
 import Account from './Account';
 
