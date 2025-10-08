@@ -70,8 +70,13 @@ const Account = ({ athleteId }) => {
       
       // Load integrations data from backend
       try {
-        const integrationsRes = await axios.get(`${API}/integrations/${athleteId}`);
+        const [integrationsRes, stravaStatusRes] = await Promise.all([
+          axios.get(`${API}/integrations/${athleteId}`),
+          axios.get(`${API}/integrations/strava/${athleteId}/status`)
+        ]);
+        
         const integrationsList = integrationsRes.data.integrations || [];
+        const stravaStatus = stravaStatusRes.data;
         
         // Find OpenAI integration
         const openaiIntegration = integrationsList.find(i => i.integration_type === 'openai');
@@ -79,9 +84,9 @@ const Account = ({ athleteId }) => {
         setIntegrations({
           openai_api_key: openaiIntegration ? '••••••••••••••••' : '',
           strava: { 
-            connected: false, 
-            athlete_name: '', 
-            last_sync: null 
+            connected: stravaStatus.connected,
+            athlete_name: stravaStatus.connected ? `Athlete ${stravaStatus.strava_athlete_id}` : '',
+            last_sync: stravaStatus.last_sync
           },
           oura: { 
             connected: false, 
