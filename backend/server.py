@@ -242,8 +242,12 @@ class AICoachService:
         """Chat with AI coach using athlete's personal data"""
         context = await self.get_athlete_context(athlete_id)
         
-        # Create system message with athlete context
-        system_prompt = f"""
+        try:
+            # Import here to avoid startup issues
+            from emergentintegrations.llm.chat import LlmChat, UserMessage
+            
+            # Create system message with athlete context
+            system_prompt = f"""
 You are an expert endurance running coach with deep knowledge of training physiology, periodization, and athlete development. You have access to this athlete's complete training and recovery data.
 
 ATHLETE PROFILE:
@@ -268,8 +272,7 @@ COACHING PRINCIPLES:
 
 Respond as a knowledgeable coach who truly knows this athlete's training history, sleep patterns, and current state. Reference specific data points when relevant.
 """
-        
-        try:
+            
             # Use Claude for main coaching conversations
             chat = LlmChat(
                 api_key=self.api_key,
