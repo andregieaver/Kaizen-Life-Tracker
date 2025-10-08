@@ -69,6 +69,7 @@ class AthleteProfile(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
     email: str
+    password: str  # This will be hashed before storing
     age: int
     weekly_mileage: float
     recent_race_time: Optional[str] = None
