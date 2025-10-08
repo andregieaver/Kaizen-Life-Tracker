@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Send, MessageCircle, Bot, User } from 'lucide-react';
+import { Send, MessageCircle, Bot, User, Plus, Archive, X } from 'lucide-react';
 import ChartRenderer from './ChartRenderer';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -16,6 +16,9 @@ const CoachChat = ({ athleteId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
   const [hasOpenAIKey, setHasOpenAIKey] = useState(false);
+  const [sessionId, setSessionId] = useState(() => `session_${Date.now()}`);
+  const [showArchive, setShowArchive] = useState(false);
+  const [conversations, setConversations] = useState([]);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
