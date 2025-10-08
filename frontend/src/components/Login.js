@@ -85,7 +85,7 @@ const Login = ({ onAthleteLogin }) => {
               Log In
             </CardTitle>
             <CardDescription>
-              Enter your email to access your coaching profile
+              Enter your email and password to access your coaching profile
             </CardDescription>
           </CardHeader>
           <CardContent>
