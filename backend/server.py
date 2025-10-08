@@ -354,10 +354,15 @@ async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
     return parse_from_mongo(updated_athlete)
 
 # Integration routes
-@api_router.post("/integrations/openai")
+@api_router.post("/integrations/openai/{athlete_id}")
 async def save_openai_key(athlete_id: str, key_request: APIKeyRequest):
     """Save OpenAI API key for athlete"""
-    # TODO: Encrypt the API key before storing
+    
+    # Validate the API key format
+    if not key_request.api_key.startswith('sk-'):
+        raise HTTPException(status_code=400, detail="Invalid OpenAI API key format")
+    
+    # TODO: Encrypt the API key before storing in production
     integration = Integration(
         athlete_id=athlete_id,
         integration_type="openai",
