@@ -1029,9 +1029,10 @@ async def chat_with_ai_coach(chat_request: CoachChat):
     try:
         response = await ai_coach.chat_with_coach(chat_request.athlete_id, chat_request.message)
         
-        # Save chat history
+        # Save chat history with session ID
         chat_message = ChatMessage(
             athlete_id=chat_request.athlete_id,
+            session_id=chat_request.session_id,
             message=chat_request.message,
             response=response
         )
@@ -1049,6 +1050,40 @@ async def get_chat_history(athlete_id: str, limit: int = 20):
         {"athlete_id": athlete_id}, 
         {"_id": 0}
     ).sort("timestamp", -1).limit(limit).to_list(length=None)
+    return [parse_from_mongo(m) for m in messages]
+
+@api_router.get("/coach/conversations/{athlete_id}")
+async def get_conversations(athlete_id: str):
+    """Get list of conversations grouped by session"""
+    pipeline = [
+        {"$match": {"athlete_id": athlete_id}},
+        {"$sort": {"timestamp": -1}},
+        {"$group": {
+            "_id": "$session_id",
+            "last_message": {"$first": "$timestamp"},
+            "message_count": {"$sum": 1},
+            "preview": {"$first": "$message"}
+        }},
+        {"$sort": {"last_message": -1}},
+        {"$limit": 50}
+    ]
+    
+    conversations = await db.chat_messages.aggregate(pipeline).to_list(length=None)
+    
+    return [{
+        "session_id": conv["_id"],
+        "last_message": conv["last_message"].isoformat() if isinstance(conv["last_message"], datetime) else conv["last_message"],
+        "message_count": conv["message_count"],
+        "preview": conv["preview"][:50] + "..." if len(conv["preview"]) > 50 else conv["preview"]
+    } for conv in conversations]
+
+@api_router.get("/coach/conversation/{athlete_id}/{session_id}")
+async def get_conversation(athlete_id: str, session_id: str):
+    """Get all messages from a specific conversation"""
+    messages = await db.chat_messages.find(
+        {"athlete_id": athlete_id, "session_id": session_id}, 
+        {"_id": 0}
+    ).sort("timestamp", 1).to_list(length=None)
     return [parse_from_mongo(m) for m in messages]
 
 # Strava OAuth routes
