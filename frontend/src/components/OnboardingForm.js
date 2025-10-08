@@ -133,6 +133,25 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                 )}
               </div>
 
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                  Email Address
+                </Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={`input-focus ${errors.email ? 'border-red-300' : ''}`}
+                  placeholder="your.email@example.com"
+                  data-testid="email-input"
+                />
+                {errors.email && (
+                  <p className="text-sm text-red-600" data-testid="email-error">{errors.email}</p>
+                )}
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="age" className="text-sm font-medium text-gray-700">
