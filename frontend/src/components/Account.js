@@ -163,10 +163,14 @@ const Account = ({ athleteId }) => {
     }
   };
 
-  const handleStravaConnect = () => {
-    // TODO: Implement Strava OAuth flow
-    const stravaAuthUrl = `https://www.strava.com/oauth/authorize?client_id=YOUR_CLIENT_ID&response_type=code&redirect_uri=${encodeURIComponent(window.location.origin)}/auth/strava&approval_prompt=force&scope=read,activity:read_all`;
-    window.location.href = stravaAuthUrl;
+  const handleStravaConnect = async () => {
+    try {
+      const response = await axios.get(`${API}/auth/strava/${athleteId}`);
+      window.location.href = response.data.authorization_url;
+    } catch (error) {
+      console.error('Error initiating Strava connection:', error);
+      setSaveStatus({ type: 'error', message: 'Failed to initiate Strava connection' });
+    }
   };
 
   const handleOuraConnect = () => {
