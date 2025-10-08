@@ -160,11 +160,156 @@ const CoachChat = ({ athleteId }) => {
     return parts.length > 0 ? parts : [{ type: 'text', content }];
   };
 
+  // Start a new conversation
+  const startNewConversation = () => {
+    setMessages([]);
+    setSessionId(`session_${Date.now()}`);
+    inputRef.current?.focus();
+  };
+
+  // Load past conversations
+  const loadConversations = async () => {
+    try {
+      const response = await axios.get(`${API}/coach/conversations/${athleteId}`);
+      setConversations(response.data);
+    } catch (error) {
+      console.error('Failed to load conversations:', error);
+    }
+  };
+
+  // Load a specific conversation
+  const loadConversation = async (convSessionId) => {
+    try {
+      const response = await axios.get(`${API}/coach/conversation/${athleteId}/${convSessionId}`);
+      setMessages(response.data.map(msg => ({
+        type: 'user',
+        content: msg.message,
+        timestamp: msg.timestamp,
+        isError: false
+      })).concat(response.data.map(msg => ({
+        type: 'assistant',
+        content: msg.response,
+        timestamp: msg.timestamp,
+        isError: false
+      }))).sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)));
+      
+      setSessionId(convSessionId);
+      setShowArchive(false);
+    } catch (error) {
+      console.error('Failed to load conversation:', error);
+    }
+  };
+
+  // Toggle archive sidebar
+  const toggleArchive = () => {
+    if (!showArchive) {
+      loadConversations();
+    }
+    setShowArchive(!showArchive);
+  };
+
   return (
-    <div className="flex flex-col h-full">
-      {/* Simple Title Header - Only on Desktop */}
-      <div className="hidden md:block max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <h2 className="text-2xl font-display font-bold text-gray-900">Your AI Running Coach</h2>
+    <div className="flex flex-col h-full relative">
+      {/* Archive Sidebar */}
+      {showArchive && (
+        <div className="fixed inset-0 z-50 md:relative md:inset-auto">
+          {/* Overlay for mobile */}
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 md:hidden"
+            onClick={() => setShowArchive(false)}
+          />
+          
+          {/* Sidebar */}
+          <div className="fixed left-0 top-0 bottom-0 w-80 bg-white shadow-2xl z-50 overflow-y-auto md:absolute md:left-0 md:top-0 md:bottom-0">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white">
+              <h3 className="text-lg font-semibold text-gray-900">Past Conversations</h3>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowArchive(false)}
+                className="h-8 w-8 p-0"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
+            
+            <div className="p-4 space-y-2">
+              {conversations.length === 0 ? (
+                <p className="text-sm text-gray-500 text-center py-8">No past conversations</p>
+              ) : (
+                conversations.map((conv, index) => (
+                  <button
+                    key={index}
+                    onClick={() => loadConversation(conv.session_id)}
+                    className="w-full text-left p-3 rounded-lg hover:bg-gray-50 border border-gray-200 transition-colors"
+                  >
+                    <div className="flex items-start justify-between mb-1">
+                      <p className="text-sm font-medium text-gray-900 truncate flex-1">
+                        {conv.preview || 'Conversation'}
+                      </p>
+                      <span className="text-xs text-gray-500 ml-2">
+                        {new Date(conv.last_message).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      {conv.message_count} messages
+                    </p>
+                  </button>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Header with Archive and New Chat buttons */}
+      <div className="hidden md:flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 items-center justify-between w-full">
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={toggleArchive}
+            className="btn-transition"
+            data-testid="archive-btn"
+          >
+            <Archive className="w-4 h-4 mr-2" />
+            Archive
+          </Button>
+          <h2 className="text-2xl font-display font-bold text-gray-900">Your AI Running Coach</h2>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={startNewConversation}
+          className="btn-transition"
+          data-testid="new-chat-btn"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          New Chat
+        </Button>
+      </div>
+
+      {/* Mobile Header with icons */}
+      <div className="flex md:hidden px-4 py-3 items-center justify-between border-b border-gray-200 bg-white">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={toggleArchive}
+          className="h-9 w-9 p-0"
+          data-testid="archive-btn-mobile"
+        >
+          <Archive className="w-5 h-5" />
+        </Button>
+        <h2 className="text-lg font-display font-bold text-gray-900">AI Coach</h2>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={startNewConversation}
+          className="h-9 w-9 p-0"
+          data-testid="new-chat-btn-mobile"
+        >
+          <Plus className="w-5 h-5" />
+        </Button>
       </div>
 
       {/* Chat Messages - Maximized Area */}
