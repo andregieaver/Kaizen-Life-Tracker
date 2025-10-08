@@ -49,6 +49,18 @@ const OnboardingForm = ({ onAthleteCreated }) => {
       newErrors.email = 'Please enter a valid email address';
     }
     
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+    
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = 'Please confirm your password';
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
+    }
+    
     if (!formData.age || formData.age < 16 || formData.age > 80) {
       newErrors.age = 'Please enter a valid age (16-80)';
     }
