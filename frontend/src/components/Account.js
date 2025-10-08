@@ -471,27 +471,42 @@ const Account = ({ athleteId }) => {
               <CardContent>
                 {integrations.strava.connected ? (
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg">
-                      <div className="flex items-center">
-                        <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
-                        <div>
-                          <p className="font-medium text-green-900">
-                            Connected as {integrations.strava.athlete_name}
-                          </p>
-                          <p className="text-sm text-green-600">
-                            Last sync: {integrations.strava.last_sync || 'Never'}
-                          </p>
+                    <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center">
+                          <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
+                          <div>
+                            <p className="font-medium text-green-900">
+                              Connected as {integrations.strava.athlete_name}
+                            </p>
+                            <p className="text-sm text-green-600">
+                              Last sync: {integrations.strava.last_sync ? 
+                                new Date(integrations.strava.last_sync).toLocaleString() : 
+                                'Never'
+                              }
+                            </p>
+                          </div>
                         </div>
                       </div>
-                      <Button 
-                        variant="outline" 
-                        onClick={() => handleDisconnectIntegration('strava')}
-                        className="border-red-300 text-red-600 hover:bg-red-50"
-                        data-testid="disconnect-strava-btn"
-                      >
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Disconnect
-                      </Button>
+                      <div className="flex space-x-3">
+                        <Button 
+                          onClick={handleStravaSync}
+                          className="bg-orange-600 hover:bg-orange-700 btn-transition"
+                          data-testid="sync-strava-btn"
+                        >
+                          <Activity className="w-4 h-4 mr-2" />
+                          Sync Activities
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          onClick={() => handleDisconnectIntegration('strava')}
+                          className="border-red-300 text-red-600 hover:bg-red-50"
+                          data-testid="disconnect-strava-btn"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Disconnect
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 ) : (
