@@ -361,7 +361,7 @@ const Account = ({ athleteId }) => {
   const handleLogout = () => {
     if (window.confirm('Are you sure you want to logout?')) {
       localStorage.removeItem('athleteId');
-      navigate('/');
+      window.location.href = '/';
     }
   };
 
