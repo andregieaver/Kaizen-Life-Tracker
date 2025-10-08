@@ -257,6 +257,54 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const handleSaveSchedule = async (e) => {
+    e.preventDefault();
+    
+    if (!scheduleForm.name.trim() || !scheduleForm.prompt.trim()) {
+      setSaveStatus({ type: 'error', message: 'Please fill in schedule name and prompt' });
+      return;
+    }
+    
+    try {
+      const scheduleData = {
+        ...scheduleForm,
+        athlete_id: athleteId,
+        active: true
+      };
+      
+      const response = await axios.post(`${API}/schedules`, scheduleData);
+      
+      // Add to local schedules list
+      setSchedules(prev => [...prev, response.data]);
+      
+      // Reset form and close
+      setScheduleForm({
+        name: '',
+        prompt: '',
+        frequency: 'daily',
+        time: '08:00',
+        days: []
+      });
+      setShowScheduleForm(false);
+      
+      setSaveStatus({ type: 'success', message: 'Schedule created successfully!' });
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
+      
+    } catch (error) {
+      console.error('Error saving schedule:', error);
+      setSaveStatus({ type: 'error', message: 'Failed to save schedule' });
+    }
+  };
+
+  const loadSchedules = async () => {
+    try {
+      const response = await axios.get(`${API}/schedules/${athleteId}`);
+      setSchedules(response.data);
+    } catch (error) {
+      console.error('Error loading schedules:', error);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="max-w-4xl mx-auto p-6">
