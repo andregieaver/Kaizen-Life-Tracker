@@ -94,6 +94,9 @@ class Integration(BaseModel):
 class APIKeyRequest(BaseModel):
     api_key: str
 
+class LoginRequest(BaseModel):
+    email: str
+
 class Workout(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
