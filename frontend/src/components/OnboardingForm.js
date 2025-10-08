@@ -13,6 +13,7 @@ const API = `${BACKEND_URL}/api`;
 const OnboardingForm = ({ onAthleteCreated }) => {
   const [formData, setFormData] = useState({
     name: '',
+    email: '',
     age: '',
     weekly_mileage: '',
     recent_race_time: '',
