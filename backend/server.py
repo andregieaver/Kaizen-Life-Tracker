@@ -1,4 +1,5 @@
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import FastAPI, APIRouter, HTTPException, Request, Query
+from fastapi.responses import RedirectResponse
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -10,6 +11,11 @@ from typing import List, Optional, Dict, Any
 import uuid
 from datetime import datetime, timezone, date, time
 import json
+import secrets
+import requests
+from urllib.parse import urlencode
+from stravalib import Client
+import asyncio
 # from emergentintegrations.llm.chat import LlmChat, UserMessage
 
 ROOT_DIR = Path(__file__).parent
