@@ -72,6 +72,10 @@ function App() {
               )
             } 
           />
+          <Route 
+            path="/auth/strava/callback" 
+            element={<StravaCallback />} 
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
