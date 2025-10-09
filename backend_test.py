@@ -535,18 +535,31 @@ def test_strava_oauth_initialization():
                     details.append("Strava OAuth URL: ✗")
                     success = False
                 
-                # Check for real client_id (not placeholder)
-                if "client_id=fdd4b7044a78c10de1b65e201a4ca931719f27d2" in auth_url:
-                    details.append("Real client_id: ✓")
+                # Check for SPECIFIC real client_id from review request (57985)
+                if "client_id=57985" in auth_url:
+                    details.append("Correct client_id (57985): ✓")
                 elif "client_id=" in auth_url and "your_strava_client_id" not in auth_url:
-                    details.append("Client_id present: ✓")
+                    # Extract actual client_id for debugging
+                    import re
+                    client_id_match = re.search(r'client_id=([^&]+)', auth_url)
+                    actual_client_id = client_id_match.group(1) if client_id_match else "unknown"
+                    details.append(f"Client_id present but incorrect: ✗ (got {actual_client_id}, expected 57985)")
+                    success = False
                 else:
                     details.append("Real client_id: ✗ (placeholder detected)")
                     success = False
                 
-                # Check for correct redirect_uri
+                # Check for correct redirect_uri (myhealthtracker.app domain)
                 if "redirect_uri=" in auth_url:
-                    details.append("redirect_uri: ✓")
+                    if "myhealthtracker.app" in auth_url:
+                        details.append("Correct redirect_uri (myhealthtracker.app): ✓")
+                    else:
+                        # Extract actual redirect_uri for debugging
+                        import re
+                        redirect_match = re.search(r'redirect_uri=([^&]+)', auth_url)
+                        actual_redirect = redirect_match.group(1) if redirect_match else "unknown"
+                        details.append(f"Redirect_uri present but incorrect: ✗ (got {actual_redirect})")
+                        success = False
                 else:
                     details.append("redirect_uri: ✗")
                     success = False
