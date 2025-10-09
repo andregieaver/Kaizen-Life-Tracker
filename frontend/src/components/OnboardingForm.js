@@ -142,7 +142,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                   value={formData.name}
                   onChange={handleChange}
                   className={`input-focus ${errors.name ? 'border-red-300' : ''}`}
-                  placeholder="Enter your full name"
+                  placeholder={t('auth.fullNamePlaceholder')}
                   data-testid="name-input"
                 />
                 {errors.name && (
