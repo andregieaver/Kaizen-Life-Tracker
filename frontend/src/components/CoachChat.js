@@ -240,7 +240,7 @@ const CoachChat = ({ athleteId }) => {
             
             <div className="p-4 space-y-2">
               {conversations.length === 0 ? (
-                <p className="text-sm text-gray-500 text-center py-8">No past conversations</p>
+                <p className="text-sm text-gray-500 text-center py-8">{t('coach.noPastConversations')}</p>
               ) : (
                 conversations.map((conv, index) => (
                   <button
