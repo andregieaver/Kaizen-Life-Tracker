@@ -330,7 +330,7 @@ const Dashboard = ({ athleteId }) => {
             data-testid="mobile-history-tab"
           >
             <BarChart3 className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">History</span>
+            <span className="text-xs font-medium">{t('nav.history')}</span>
           </button>
           
           <button
