@@ -222,6 +222,12 @@ class StravaCredentials(BaseModel):
     access_token: str
     refresh_token: str
 
+class OuraCredentials(BaseModel):
+    client_id: str
+    client_secret: str
+    access_token: str
+    refresh_token: str
+
 class Schedule(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
