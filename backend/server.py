@@ -1362,18 +1362,22 @@ async def get_checkout_status(session_id: str):
                 
                 # If payment succeeded, update athlete subscription
                 if checkout_status.payment_status == "paid":
-                    athlete_id = checkout_status.metadata.get("athlete_id")
+                    # Get athlete_id from transaction (we stored it there)
+                    athlete_id = transaction.get("athlete_id")
                     if athlete_id:
+                        # Calculate subscription end date
+                        period_days = 30 if transaction["interval"] == "month" else 365
+                        period_end = datetime.now(timezone.utc) + timedelta(days=period_days)
+                        
                         await db.athlete_profiles.update_one(
                             {"id": athlete_id},
                             {"$set": {
                                 "subscription_tier": transaction["tier"],
                                 "subscription_status": "active",
-                                "stripe_customer_id": checkout_status.metadata.get("customer_id"),
-                                "subscription_current_period_end": datetime.now(timezone.utc) + timedelta(days=30 if transaction["interval"] == "month" else 365)
+                                "subscription_current_period_end": period_end.isoformat()
                             }}
                         )
-                        update_data["athlete_id"] = athlete_id
+                        logging.info(f"Updated subscription for athlete {athlete_id} to {transaction['tier']}")
                 
                 await db.payment_transactions.update_one(
                     {"session_id": session_id},
