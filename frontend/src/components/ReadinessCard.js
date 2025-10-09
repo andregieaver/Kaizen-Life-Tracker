@@ -91,7 +91,7 @@ const ReadinessCard = ({ readiness, onRefresh }) => {
         {/* Contributing Factors */}
         {readiness.factors && Object.keys(readiness.factors).length > 0 && (
           <div>
-            <h4 className="font-medium text-gray-900 mb-3">Contributing Factors</h4>
+            <h4 className="font-medium text-gray-900 mb-3">{t('readiness.contributingFactors')}</h4>
             <div className="space-y-2">
               {Object.entries(readiness.factors).map(([key, value]) => (
                 <div key={key} className="flex items-center justify-between text-sm">
