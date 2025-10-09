@@ -113,7 +113,7 @@ const Merits = ({ athleteId }) => {
                         <span className={`font-mono ${isPersonalBest ? 'text-blue-600 font-semibold' : 'text-gray-700'}`}>
                           {formatTime(merit.recent_best)}
                           {isPersonalBest && (
-                            <span className="ml-2 text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">PR!</span>
+                            <span className="ml-2 text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">{t('merits.personalBest')}</span>
                           )}
                         </span>
                       ) : (
