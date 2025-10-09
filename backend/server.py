@@ -1526,6 +1526,121 @@ async def get_oura_integration_status(athlete_id: str):
         "settings": integration.get("settings", {})
     }
 
+# COROS (via Terra API) routes
+@api_router.get("/auth/coros/{athlete_id}")
+async def initiate_coros_auth(athlete_id: str):
+    """Initiate COROS OAuth via Terra API"""
+    terra_api_key = os.environ.get("TERRA_API_KEY", "")
+    terra_dev_id = os.environ.get("TERRA_DEV_ID", "")
+    redirect_uri = os.environ.get("COROS_REDIRECT_URI", "")
+    
+    if not terra_api_key or not terra_dev_id:
+        raise HTTPException(
+            status_code=503, 
+            detail="COROS integration not configured. Please add Terra API credentials to enable COROS sync."
+        )
+    
+    # Terra API auth URL for COROS
+    auth_url = f"https://api.tryterra.co/v2/auth/authenticateUser?resource=COROS&auth_success_redirect_url={redirect_uri}&reference_id={athlete_id}"
+    
+    return {"auth_url": auth_url}
+
+@api_router.post("/auth/coros/callback")
+async def coros_oauth_callback(request: Request):
+    """Handle COROS OAuth callback from Terra"""
+    data = await request.json()
+    code = data.get("code")
+    state = data.get("state") or data.get("reference_id")
+    
+    if not code:
+        raise HTTPException(status_code=400, detail="No authorization code provided")
+    
+    try:
+        # In a real implementation, you would exchange code for tokens with Terra API
+        # and store the integration
+        
+        integration_data = {
+            "athlete_id": state,
+            "integration_type": "coros",
+            "is_active": True,
+            "credentials": {
+                "terra_user_id": code,  # Placeholder
+                "access_granted": datetime.now(timezone.utc).isoformat()
+            },
+            "last_sync": None,
+            "settings": {
+                "auto_sync": True,
+                "sync_activities": True
+            },
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        # Update or insert integration
+        await db.integrations.update_one(
+            {"athlete_id": state, "integration_type": "coros"},
+            {"$set": integration_data},
+            upsert=True
+        )
+        
+        return {"message": "COROS connected successfully"}
+        
+    except Exception as e:
+        logging.error(f"COROS OAuth error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to complete COROS authorization")
+
+@api_router.post("/integrations/coros/{athlete_id}/sync")
+async def sync_coros_activities(athlete_id: str):
+    """Sync activities from COROS via Terra API"""
+    integration = await db.integrations.find_one({
+        "athlete_id": athlete_id,
+        "integration_type": "coros",
+        "is_active": True
+    })
+    
+    if not integration:
+        raise HTTPException(status_code=404, detail="COROS not connected")
+    
+    try:
+        # In real implementation, fetch activities from Terra API
+        # For now, return placeholder
+        
+        # Update last sync time
+        await db.integrations.update_one(
+            {"athlete_id": athlete_id, "integration_type": "coros"},
+            {"$set": {"last_sync": datetime.now(timezone.utc).isoformat()}}
+        )
+        
+        return {
+            "message": "COROS sync completed",
+            "imported_activities": 0,
+            "note": "COROS integration requires Terra API credentials. Please configure Terra API to enable activity syncing."
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"COROS sync error: {str(e)}")
+        raise HTTPException(status_code=500, detail="Failed to sync COROS activities")
+
+@api_router.get("/integrations/coros/{athlete_id}/status")
+async def get_coros_integration_status(athlete_id: str):
+    """Get COROS integration status"""
+    integration = await db.integrations.find_one({
+        "athlete_id": athlete_id,
+        "integration_type": "coros",
+        "is_active": True
+    })
+    
+    if not integration:
+        return {"connected": False, "last_sync": None}
+    
+    return {
+        "connected": True,
+        "last_sync": integration.get("last_sync"),
+        "settings": integration.get("settings", {})
+    }
+
 # Schedule Management Routes
 @api_router.post("/schedules", response_model=Schedule)
 async def create_schedule(schedule: Schedule):
