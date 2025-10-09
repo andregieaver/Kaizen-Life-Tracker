@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "overview": "Übersicht",
+    "coach": "KI-Trainer",
+    "reports": "Berichte",
+    "history": "Verlauf",
+    "account": "Konto",
+    "home": "Startseite"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "signup": "Registrieren",
+    "logout": "Abmelden",
+    "email": "E-Mail-Adresse",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "fullName": "Vollständiger Name",
+    "loginButton": "Anmelden",
+    "signupButton": "Konto erstellen",
+    "alreadyHaveAccount": "Haben Sie bereits ein Konto?",
+    "loginHere": "Hier anmelden",
+    "dontHaveAccount": "Haben Sie kein Konto?",
+    "signupHere": "Hier registrieren",
+    "welcomeBack": "Willkommen zurück zu Ihrem KI-Lauftrainer",
+    "enterEmailPassword": "Geben Sie Ihre E-Mail und Ihr Passwort ein, um auf Ihr Trainingsprofil zuzugreifen"
+  },
+  "dashboard": {
+    "welcome": "Willkommen zurück",
+    "quickStats": "Schnellstatistik",
+    "weeklyGoal": "Wochenziel",
+    "recentWorkouts": "Letzte Trainings",
+    "runningGoals": "Laufziele",
+    "viewGoals": "Ansehen",
+    "noWorkouts": "Noch keine Trainings protokolliert",
+    "viewReports": "Berichte ansehen"
+  },
+  "account": {
+    "title": "Kontoeinstellungen",
+    "personalInfo": "Persönliche Informationen",
+    "integrations": "Apps",
+    "schedules": "Auto",
+    "language": "Sprache",
+    "selectLanguage": "Wählen Sie Ihre bevorzugte Sprache",
+    "age": "Alter",
+    "weeklyMileage": "Wöchentliche Distanz",
+    "recentRaceTime": "Letzte Rennzeit",
+    "runningGoals": "Laufziele",
+    "saveChanges": "Änderungen speichern",
+    "cancel": "Abbrechen"
+  },
+  "merits": {
+    "title": "Verdienste",
+    "distance": "Distanz",
+    "last12Months": "Letzte 12 Monate",
+    "allTimeBest": "Allzeitbestleistung",
+    "noData": "Keine Daten",
+    "noRecords": "Noch keine Rennrekorde",
+    "completeWorkouts": "Schließen Sie Trainings ab, um Ihre persönlichen Bestleistungen zu sehen"
+  },
+  "common": {
+    "loading": "Laden...",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "connect": "Verbinden",
+    "disconnect": "Trennen",
+    "sync": "Synchronisieren",
+    "close": "Schließen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "miles": "Meilen",
+    "km": "km"
+  }
+}

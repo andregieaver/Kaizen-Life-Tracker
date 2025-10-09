@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "overview": "Overblik",
+    "coach": "AI-træner",
+    "reports": "Rapporter",
+    "history": "Historik",
+    "account": "Konto",
+    "home": "Hjem"
+  },
+  "auth": {
+    "login": "Log ind",
+    "signup": "Tilmeld dig",
+    "logout": "Log ud",
+    "email": "E-mailadresse",
+    "password": "Adgangskode",
+    "confirmPassword": "Bekræft adgangskode",
+    "fullName": "Fulde navn",
+    "loginButton": "Log ind",
+    "signupButton": "Opret konto",
+    "alreadyHaveAccount": "Har du allerede en konto?",
+    "loginHere": "Log ind her",
+    "dontHaveAccount": "Har du ikke en konto?",
+    "signupHere": "Tilmeld dig her",
+    "welcomeBack": "Velkommen tilbage til din AI-løbetræner",
+    "enterEmailPassword": "Indtast din e-mail og adgangskode for at få adgang til din træningsprofil"
+  },
+  "dashboard": {
+    "welcome": "Velkommen tilbage",
+    "quickStats": "Hurtig statistik",
+    "weeklyGoal": "Ugentligt mål",
+    "recentWorkouts": "Seneste træninger",
+    "runningGoals": "Løbemål",
+    "viewGoals": "Se",
+    "noWorkouts": "Ingen træninger logget endnu",
+    "viewReports": "Se rapporter"
+  },
+  "account": {
+    "title": "Kontoindstillinger",
+    "personalInfo": "Personlige oplysninger",
+    "integrations": "Apps",
+    "schedules": "Auto",
+    "language": "Sprog",
+    "selectLanguage": "Vælg dit foretrukne sprog",
+    "age": "Alder",
+    "weeklyMileage": "Ugentlig distance",
+    "recentRaceTime": "Seneste løbstid",
+    "runningGoals": "Løbemål",
+    "saveChanges": "Gem ændringer",
+    "cancel": "Annuller"
+  },
+  "merits": {
+    "title": "Fortjenester",
+    "distance": "Distance",
+    "last12Months": "Seneste 12 måneder",
+    "allTimeBest": "Bedste nogensinde",
+    "noData": "Ingen data",
+    "noRecords": "Ingen løbsrekorder endnu",
+    "completeWorkouts": "Fuldfør træninger for at se dine personlige rekorder"
+  },
+  "common": {
+    "loading": "Indlæser...",
+    "save": "Gem",
+    "delete": "Slet",
+    "edit": "Rediger",
+    "connect": "Forbind",
+    "disconnect": "Afbryd",
+    "sync": "Synkroniser",
+    "close": "Luk",
+    "back": "Tilbage",
+    "next": "Næste",
+    "miles": "miles",
+    "km": "km"
+  }
+}
