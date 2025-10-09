@@ -181,7 +181,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                     value={formData.password}
                     onChange={handleChange}
                     className={`input-focus ${errors.password ? 'border-red-300' : ''}`}
-                    placeholder="Minimum 6 characters"
+                    placeholder={t('auth.passwordPlaceholder')}
                     data-testid="password-input"
                   />
                   {errors.password && (
