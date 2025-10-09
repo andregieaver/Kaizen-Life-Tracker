@@ -47,7 +47,7 @@ const ReadinessCard = ({ readiness, onRefresh }) => {
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-lg font-display">Today's Readiness</CardTitle>
+            <CardTitle className="text-lg font-display">{t('readiness.title')}</CardTitle>
             <CardDescription>
               {new Date(readiness.date).toLocaleDateString('en-US', { 
                 weekday: 'long', 
