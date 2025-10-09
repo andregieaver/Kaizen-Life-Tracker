@@ -190,6 +190,29 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const handleManageBilling = async () => {
+    try {
+      const returnUrl = `${window.location.origin}/dashboard/account`;
+      
+      const response = await axios.post(`${API}/subscriptions/create-portal-session`, {
+        athlete_id: athleteId,
+        return_url: returnUrl
+      });
+
+      if (response.data.url) {
+        window.location.href = response.data.url;
+      } else {
+        throw new Error('No portal URL received');
+      }
+    } catch (error) {
+      console.error('Portal error:', error);
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Failed to open billing portal. Please try again.' 
+      });
+    }
+  };
+
   const loadAccountData = async () => {
     setIsLoading(true);
     try {
