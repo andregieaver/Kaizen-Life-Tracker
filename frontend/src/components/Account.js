@@ -1081,9 +1081,9 @@ const Account = ({ athleteId }) => {
             {/* Preset Templates */}
             <Card className="border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-lg">Quick Templates</CardTitle>
+                <CardTitle className="text-lg">{t('account.scheduleTemplates')}</CardTitle>
                 <CardDescription>
-                  Popular analysis prompts to get you started
+                  {t('account.templatesDescription')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
