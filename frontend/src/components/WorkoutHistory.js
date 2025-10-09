@@ -99,7 +99,7 @@ const WorkoutHistory = ({ athleteId }) => {
                 className="btn-transition w-full sm:w-auto"
                 data-testid="sleep-view-btn"
               >
-                Sleep ({sleepData.length})
+                {t('history.sleep')} ({sleepData.length})
               </Button>
             </div>
           </div>
