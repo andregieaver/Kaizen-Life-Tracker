@@ -257,7 +257,7 @@ const CoachChat = ({ athleteId }) => {
                       </span>
                     </div>
                     <p className="text-xs text-gray-500">
-                      {conv.message_count} messages
+                      {conv.message_count} {t('coach.messages')}
                     </p>
                   </button>
                 ))
