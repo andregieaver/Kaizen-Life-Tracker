@@ -49,7 +49,7 @@ const ReadinessCard = ({ readiness, onRefresh }) => {
           <div>
             <CardTitle className="text-lg font-display">{t('readiness.title')}</CardTitle>
             <CardDescription>
-              {new Date(readiness.date).toLocaleDateString('en-US', { 
+              {new Date(readiness.date).toLocaleDateString(undefined, { 
                 weekday: 'long', 
                 month: 'long', 
                 day: 'numeric' 
