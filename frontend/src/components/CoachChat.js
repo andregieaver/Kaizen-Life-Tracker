@@ -227,7 +227,7 @@ const CoachChat = ({ athleteId }) => {
           {/* Sidebar */}
           <div className="fixed left-0 top-0 bottom-0 w-80 bg-white shadow-2xl z-50 overflow-y-auto md:absolute md:left-0 md:top-0 md:bottom-0">
             <div className="p-4 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white">
-              <h3 className="text-lg font-semibold text-gray-900">Past Conversations</h3>
+              <h3 className="text-lg font-semibold text-gray-900">{t('coach.pastConversations')}</h3>
               <Button
                 variant="ghost"
                 size="sm"
