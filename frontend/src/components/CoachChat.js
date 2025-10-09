@@ -323,7 +323,7 @@ const CoachChat = ({ athleteId }) => {
           {messages.length === 0 ? (
             <div className="text-center py-8">
               <MessageCircle className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 mb-6">Start a conversation with your AI coach!</p>
+              <p className="text-gray-500 mb-6">{t('coach.startConversation')}</p>
               <div className="space-y-2 max-w-2xl mx-auto">
                 <p className="text-sm text-gray-600 mb-3">Try asking:</p>
                 {suggestedQuestions.map((question, index) => (
