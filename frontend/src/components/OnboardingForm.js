@@ -256,7 +256,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
 
               <div className="space-y-2">
                 <Label htmlFor="recent_race_time" className="text-sm font-medium text-gray-700">
-                  Recent Race Time <span className="text-gray-400">(optional)</span>
+                  {t('onboarding.recentRaceTime')} <span className="text-gray-400">(optional)</span>
                 </Label>
                 <Input
                   id="recent_race_time"
