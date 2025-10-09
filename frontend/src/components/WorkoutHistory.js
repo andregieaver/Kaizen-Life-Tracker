@@ -10,6 +10,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const WorkoutHistory = ({ athleteId }) => {
+  const { t } = useTranslation();
   const [workouts, setWorkouts] = useState([]);
   const [sleepData, setSleepData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
