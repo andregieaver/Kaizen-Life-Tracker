@@ -1649,13 +1649,29 @@ async def save_oura_credentials(athlete_id: str, credentials: OuraCredentials):
 
 @api_router.get("/auth/oura/{athlete_id}")
 async def oura_auth_initiate(athlete_id: str):
-    """Initiate Oura OAuth authorization flow"""
+    """Initiate Oura OAuth authorization flow using user's credentials"""
+    # Get user's Oura credentials
+    integration = await db.integrations.find_one(
+        {"athlete_id": athlete_id, "service": "oura"}, 
+        {"_id": 0}
+    )
+    
+    if not integration or not integration.get("credentials"):
+        raise HTTPException(
+            status_code=404, 
+            detail="Oura credentials not found. Please configure your Oura credentials first."
+        )
+    
+    credentials = integration["credentials"]
     state = f"{athlete_id}_{secrets.token_urlsafe(16)}"
+    
+    # Use user's redirect URI (can be configured per user or use a default)
+    redirect_uri = f"https://myhealthtracker.app/oura/callback"
     
     auth_params = {
         "response_type": "code",
-        "client_id": os.environ.get('OURA_CLIENT_ID'),
-        "redirect_uri": os.environ.get('OURA_REDIRECT_URI'),
+        "client_id": credentials["client_id"],
+        "redirect_uri": redirect_uri,
         "scope": "email personal daily heartrate workout session tag spo2",
         "state": state
     }
