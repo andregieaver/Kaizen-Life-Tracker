@@ -314,7 +314,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
 
         <div className="text-center mt-6 space-y-3">
           <p className="text-sm text-gray-500">
-            Your AI coach will analyze your data to provide personalized training insights
+            {t('onboarding.insightMessage')}
           </p>
           <div className="pt-2 border-t border-gray-200">
             <p className="text-sm text-gray-600">
