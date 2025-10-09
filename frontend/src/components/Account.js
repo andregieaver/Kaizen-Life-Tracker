@@ -84,8 +84,6 @@ const Account = ({ athleteId }) => {
       setPersonalForm({
         name: athleteRes.data.name,
         age: athleteRes.data.age.toString(),
-        weekly_mileage: athleteRes.data.weekly_mileage.toString(),
-        recent_race_time: athleteRes.data.recent_race_time || '',
         running_goals: athleteRes.data.running_goals
       });
       
