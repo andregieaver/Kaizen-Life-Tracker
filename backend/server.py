@@ -75,6 +75,12 @@ class AthleteProfile(BaseModel):
     recent_race_time: Optional[str] = None
     running_goals: str
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    # Subscription fields
+    subscription_tier: str = Field(default="free")  # 'free', 'pro', 'premium'
+    subscription_status: str = Field(default="active")  # 'active', 'canceled', 'past_due', etc.
+    stripe_customer_id: Optional[str] = None
+    stripe_subscription_id: Optional[str] = None
+    subscription_current_period_end: Optional[datetime] = None
 
 class AthleteUpdate(BaseModel):
     name: Optional[str] = None
