@@ -172,7 +172,8 @@ const Account = ({ athleteId }) => {
       
       const response = await axios.post(`${API}/subscriptions/create-checkout-session`, {
         plan_id: plan_id,
-        origin_url: originUrl
+        origin_url: originUrl,
+        athlete_id: athleteId
       });
 
       if (response.data.url) {
