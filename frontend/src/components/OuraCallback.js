@@ -105,7 +105,7 @@ const OuraCallback = () => {
         </div>
         
         <div className="text-xs text-gray-500">
-          RunWisely × Oura Ring Integration
+          My Health Tracker × Oura Ring Integration
         </div>
       </div>
     </div>
