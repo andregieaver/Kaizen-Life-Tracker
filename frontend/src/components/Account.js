@@ -778,7 +778,7 @@ const Account = ({ athleteId }) => {
                   <div className="space-y-4">
                     <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
                       <p className="text-sm text-purple-800 mb-3">
-                        Connect your Oura Ring to automatically import sleep quality, HRV, resting heart rate, and readiness scores.
+                        {t('account.ouraNote')}
                       </p>
                       <Button 
                         onClick={handleOuraConnect}
