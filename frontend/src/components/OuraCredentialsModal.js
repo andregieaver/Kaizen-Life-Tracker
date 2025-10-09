@@ -29,7 +29,7 @@ const OuraCredentialsModal = ({ athleteId, isOpen, onClose, onSuccess }) => {
   };
 
   const validateForm = () => {
-    const required = ['clientId', 'clientSecret', 'accessToken', 'refreshToken'];
+    const required = ['clientId', 'clientSecret'];
     for (const field of required) {
       if (!formData[field]?.trim()) {
         return t('oura.allFieldsRequired');
