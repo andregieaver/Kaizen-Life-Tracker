@@ -651,11 +651,15 @@ class StravaTokenManager:
         self.client_id = os.environ.get('STRAVA_CLIENT_ID')
         self.client_secret = os.environ.get('STRAVA_CLIENT_SECRET')
         
-    async def exchange_code_for_tokens(self, auth_code: str) -> Dict[str, Any]:
+    async def exchange_code_for_tokens(self, auth_code: str, client_id: str = None, client_secret: str = None) -> Dict[str, Any]:
         """Exchange authorization code for access and refresh tokens"""
+        # Use provided credentials or fall back to instance defaults
+        use_client_id = client_id or self.client_id
+        use_client_secret = client_secret or self.client_secret
+        
         token_data = {
-            "client_id": self.client_id,
-            "client_secret": self.client_secret,
+            "client_id": use_client_id,
+            "client_secret": use_client_secret,
             "code": auth_code,
             "grant_type": "authorization_code"
         }
