@@ -1521,15 +1521,65 @@ async def get_strava_integration_status(athlete_id: str):
         "settings": integration.get("settings", {})
     }
 
+@api_router.post("/integrations/strava/{athlete_id}/credentials")
+async def save_strava_credentials(athlete_id: str, credentials: StravaCredentials):
+    """Save user-specific Strava API credentials"""
+    try:
+        # Encrypt sensitive data before storing
+        encrypted_credentials = {
+            "client_id": credentials.client_id,
+            "client_secret": credentials.client_secret,  # In production, encrypt this
+            "access_token": credentials.access_token,    # In production, encrypt this
+            "refresh_token": credentials.refresh_token   # In production, encrypt this
+        }
+        
+        # Update or create Strava integration for this athlete
+        await db.integrations.update_one(
+            {"athlete_id": athlete_id, "service": "strava"},
+            {
+                "$set": {
+                    "athlete_id": athlete_id,
+                    "service": "strava",
+                    "credentials": encrypted_credentials,
+                    "connected": True,
+                    "created_at": datetime.now(timezone.utc).isoformat(),
+                    "last_sync": None
+                }
+            },
+            upsert=True
+        )
+        
+        return {"message": "Strava credentials saved successfully"}
+        
+    except Exception as e:
+        print(f"Error saving Strava credentials: {e}")
+        raise HTTPException(status_code=500, detail="Failed to save Strava credentials")
+
 @api_router.get("/auth/strava/{athlete_id}")
 async def strava_auth_initiate(athlete_id: str):
-    """Initiate Strava OAuth authorization flow"""
+    """Initiate Strava OAuth authorization flow using user's credentials"""
+    # Get user's Strava credentials
+    integration = await db.integrations.find_one(
+        {"athlete_id": athlete_id, "service": "strava"}, 
+        {"_id": 0}
+    )
+    
+    if not integration or not integration.get("credentials"):
+        raise HTTPException(
+            status_code=404, 
+            detail="Strava credentials not found. Please configure your Strava credentials first."
+        )
+    
+    credentials = integration["credentials"]
     state = f"{athlete_id}_{secrets.token_urlsafe(16)}"
     
+    # Use user's redirect URI (can be configured per user or use a default)
+    redirect_uri = f"https://myhealthtracker.app/strava/callback"
+    
     auth_params = {
-        "client_id": os.environ.get('STRAVA_CLIENT_ID'),
+        "client_id": credentials["client_id"],
         "response_type": "code",
-        "redirect_uri": os.environ.get('STRAVA_REDIRECT_URI'),
+        "redirect_uri": redirect_uri,
         "approval_prompt": "force",
         "scope": "read,activity:read_all,profile:read_all",
         "state": state
