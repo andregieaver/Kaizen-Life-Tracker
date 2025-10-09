@@ -6,6 +6,8 @@ import { Badge } from './ui/badge';
 import { RefreshCw, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 const ReadinessCard = ({ readiness, onRefresh }) => {
+  const { t } = useTranslation();
+  
   if (!readiness) {
     return (
       <Card className="border-0 shadow-lg">
