@@ -863,7 +863,7 @@ const Account = ({ athleteId }) => {
                     </div>
                     <div className="p-3 bg-gray-50 rounded border border-gray-200">
                       <p className="text-xs text-gray-600 mb-2">
-                        <strong>Note:</strong> COROS integration uses Terra API for secure data access.
+                        <strong>{t('common.note')}:</strong> {t('account.corosTerraNote')}
                       </p>
                       <p className="text-xs text-gray-500">
                         Your COROS activities will be automatically synchronized including runs, trails, and other training data from your COROS device.
