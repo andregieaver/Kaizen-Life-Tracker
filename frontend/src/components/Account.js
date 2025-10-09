@@ -533,7 +533,7 @@ const Account = ({ athleteId }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="running_goals">Running Goals</Label>
+                  <Label htmlFor="running_goals">{t('account.runningGoals')}</Label>
                   <textarea
                     id="running_goals"
                     name="running_goals"
