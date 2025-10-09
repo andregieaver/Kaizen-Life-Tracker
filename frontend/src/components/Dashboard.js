@@ -99,7 +99,7 @@ const Dashboard = ({ athleteId }) => {
                   }`}
                   data-testid="coach-tab"
                 >
-                  AI Coach
+                  {t('nav.coach')}
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/reports')}
