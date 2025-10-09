@@ -191,7 +191,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
 
                 <div className="space-y-2">
                   <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">
-                    Confirm Password
+                    {t('auth.confirmPassword')}
                   </Label>
                   <Input
                     id="confirmPassword"
