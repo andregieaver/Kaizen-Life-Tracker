@@ -1326,9 +1326,6 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
         await db.payment_transactions.insert_one(transaction)
         
         return {"url": checkout_session.url, "session_id": checkout_session.id}
-    except stripe.error.StripeError as e:
-        logging.error(f"Stripe error creating checkout session: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Stripe error: {str(e)}")
     except Exception as e:
         logging.error(f"Error creating checkout session: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to create checkout session: {str(e)}")
