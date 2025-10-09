@@ -362,7 +362,7 @@ const Account = ({ athleteId }) => {
   };
 
   const handleDeleteSchedule = async (scheduleId) => {
-    if (!window.confirm('Are you sure you want to delete this schedule?')) {
+    if (!window.confirm(t('account.confirmDeleteSchedule'))) {
       return;
     }
 
