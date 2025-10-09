@@ -111,8 +111,22 @@ const Account = ({ athleteId }) => {
         status: response.data.subscription_status || 'active',
         current_period_end: response.data.subscription_current_period_end
       });
+      
+      // Load invoices if user has a subscription
+      if (response.data.subscription_tier !== 'free') {
+        loadInvoices();
+      }
     } catch (error) {
       console.error('Error loading subscription status:', error);
+    }
+  };
+
+  const loadInvoices = async () => {
+    try {
+      const response = await axios.get(`${API}/subscriptions/invoices/${athleteId}`);
+      setInvoices(response.data.invoices || []);
+    } catch (error) {
+      console.error('Error loading invoices:', error);
     }
   };
 
