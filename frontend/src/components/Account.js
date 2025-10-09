@@ -106,6 +106,8 @@ const Account = ({ athleteId }) => {
   const loadSubscriptionStatus = async () => {
     try {
       const response = await axios.get(`${API}/subscriptions/status/${athleteId}`);
+      console.log('Subscription status response:', response.data);
+      
       setSubscriptionStatus({
         tier: response.data.subscription_tier || 'free',
         status: response.data.subscription_status || 'active',
@@ -113,7 +115,7 @@ const Account = ({ athleteId }) => {
       });
       
       // Load invoices if user has a subscription
-      if (response.data.subscription_tier !== 'free') {
+      if (response.data.subscription_tier && response.data.subscription_tier !== 'free') {
         loadInvoices();
       }
     } catch (error) {
