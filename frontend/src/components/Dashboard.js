@@ -263,7 +263,7 @@ const Dashboard = ({ athleteId }) => {
           <CoachChat athleteId={athleteId} />
         )}
 
-        {activeTab === 'recommendations' && (
+        {activeTab === 'reports' && (
           <Recommendations athleteId={athleteId} />
         )}
 
