@@ -98,6 +98,10 @@ function App() {
             path="/auth/oura/callback" 
             element={<OuraCallback />} 
           />
+          <Route 
+            path="/auth/coros/callback" 
+            element={<CorosCallback />} 
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
