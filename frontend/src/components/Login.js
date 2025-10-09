@@ -84,10 +84,10 @@ const Login = ({ onAthleteLogin }) => {
           <CardHeader className="text-center">
             <CardTitle className="text-2xl flex items-center justify-center">
               <LogIn className="w-6 h-6 mr-2 text-blue-600" />
-              Log In
+              {t('auth.login')}
             </CardTitle>
             <CardDescription>
-              Enter your email and password to access your coaching profile
+              {t('auth.enterEmailPassword')}
             </CardDescription>
           </CardHeader>
           <CardContent>
