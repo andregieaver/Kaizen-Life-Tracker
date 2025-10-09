@@ -1153,7 +1153,7 @@ const Account = ({ athleteId }) => {
                   {t('account.logoutTitle')}
                 </h3>
                 <p className="text-sm text-gray-600">
-                  Sign out of your account and return to the login page
+                  {t('account.logoutDescription')}
                 </p>
               </div>
               <Button 
