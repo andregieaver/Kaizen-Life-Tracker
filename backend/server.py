@@ -1530,7 +1530,7 @@ async def get_strava_integration_status(athlete_id: str):
     """Get Strava integration status"""
     integration = await db.integrations.find_one({
         "athlete_id": athlete_id, 
-        "service": "strava"
+        "integration_type": "strava"
     })
     
     if not integration:
