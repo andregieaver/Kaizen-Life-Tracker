@@ -173,7 +173,7 @@ const Dashboard = ({ athleteId }) => {
               {/* Quick Stats */}
               <Card className="border-0 shadow-lg">
                 <CardHeader>
-                  <CardTitle className="text-lg font-display">Quick Stats</CardTitle>
+                  <CardTitle className="text-lg font-display">{t('dashboard.quickStats')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex justify-between items-center">
