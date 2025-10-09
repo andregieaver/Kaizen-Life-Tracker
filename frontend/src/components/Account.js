@@ -573,7 +573,7 @@ const Account = ({ athleteId }) => {
                     className="bg-blue-600 hover:bg-blue-700 btn-transition"
                     data-testid="save-personal-info-btn"
                   >
-                    Save Changes
+                    {t('account.saveChanges')}
                   </Button>
                 </div>
               </form>
