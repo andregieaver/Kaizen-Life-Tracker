@@ -27,7 +27,11 @@
     "backToHome": "Back to Home",
     "runWisely": "RunWisely",
     "createYourProfile": "Create your running profile",
-    "enterDetails": "Enter your details to get started with personalized coaching"
+    "enterDetails": "Enter your details to get started with personalized coaching",
+    "fullNamePlaceholder": "Enter your full name",
+    "emailPlaceholder": "your.email@example.com",
+    "passwordPlaceholder": "Enter your password",
+    "confirmPasswordPlaceholder": "Re-enter password"
   },
   "onboarding": {
     "title": "Create Your Running Profile",
