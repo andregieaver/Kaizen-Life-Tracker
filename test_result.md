@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Complete the CRUD operations for the Schedules feature in the running coach application. Schedule creation works, but edit and delete functionality are not working."
+user_problem_statement: "Comprehensive multi-language translation implementation for the running coach application. Translate all text strings across the app into the supported languages (English, Norwegian, Swedish, Spanish, French, German, Danish)."
 
 backend:
   - task: "Schedule CRUD API Endpoints"
