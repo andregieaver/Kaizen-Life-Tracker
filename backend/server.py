@@ -1197,6 +1197,204 @@ async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
     updated_athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
     return parse_from_mongo(updated_athlete)
 
+# Subscription routes
+SUBSCRIPTION_PLANS = {
+    "pro_monthly": {"price": 9.99, "interval": "month", "tier": "pro"},
+    "pro_annual": {"price": 99.0, "interval": "year", "tier": "pro"},
+    "premium_monthly": {"price": 19.99, "interval": "month", "tier": "premium"},
+    "premium_annual": {"price": 199.0, "interval": "year", "tier": "premium"},
+}
+
+@api_router.post("/subscriptions/create-checkout-session")
+async def create_checkout_session(request: CheckoutRequest, http_request: Request):
+    """Create a Stripe Checkout session for subscription"""
+    from emergentintegrations.payments.stripe.checkout import StripeCheckout, CheckoutSessionRequest
+    
+    # Validate plan
+    if request.plan_id not in SUBSCRIPTION_PLANS:
+        raise HTTPException(status_code=400, detail="Invalid plan ID")
+    
+    plan = SUBSCRIPTION_PLANS[request.plan_id]
+    
+    # Get Stripe API key
+    stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
+    if not stripe_secret_key:
+        raise HTTPException(status_code=500, detail="Stripe not configured")
+    
+    # Initialize Stripe Checkout
+    host_url = str(http_request.base_url).rstrip('/')
+    webhook_url = f"{host_url}/api/webhooks/stripe"
+    stripe_checkout = StripeCheckout(api_key=stripe_secret_key, webhook_url=webhook_url)
+    
+    # Build success and cancel URLs
+    origin_url = request.origin_url.rstrip('/')
+    success_url = f"{origin_url}/dashboard/account?session_id={{CHECKOUT_SESSION_ID}}&success=true"
+    cancel_url = f"{origin_url}/pricing?canceled=true"
+    
+    # Create checkout session
+    checkout_request = CheckoutSessionRequest(
+        amount=plan["price"],
+        currency="eur",
+        success_url=success_url,
+        cancel_url=cancel_url,
+        metadata={
+            "plan_id": request.plan_id,
+            "tier": plan["tier"],
+            "interval": plan["interval"]
+        }
+    )
+    
+    try:
+        session = await stripe_checkout.create_checkout_session(checkout_request)
+        
+        # Create payment transaction record
+        transaction = {
+            "id": str(uuid.uuid4()),
+            "session_id": session.session_id,
+            "plan_id": request.plan_id,
+            "tier": plan["tier"],
+            "interval": plan["interval"],
+            "amount": plan["price"],
+            "currency": "eur",
+            "payment_status": "pending",
+            "status": "initiated",
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.payment_transactions.insert_one(transaction)
+        
+        return {"url": session.url, "session_id": session.session_id}
+    except Exception as e:
+        logging.error(f"Error creating checkout session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to create checkout session: {str(e)}")
+
+@api_router.get("/subscriptions/checkout-status/{session_id}")
+async def get_checkout_status(session_id: str):
+    """Get the status of a checkout session"""
+    from emergentintegrations.payments.stripe.checkout import StripeCheckout
+    
+    # Get Stripe API key
+    stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
+    if not stripe_secret_key:
+        raise HTTPException(status_code=500, detail="Stripe not configured")
+    
+    # Initialize Stripe Checkout
+    stripe_checkout = StripeCheckout(api_key=stripe_secret_key, webhook_url="")
+    
+    try:
+        checkout_status = await stripe_checkout.get_checkout_status(session_id)
+        
+        # Update transaction in database
+        transaction = await db.payment_transactions.find_one({"session_id": session_id}, {"_id": 0})
+        
+        if transaction:
+            # Only process if not already completed
+            if transaction.get("payment_status") != "paid":
+                update_data = {
+                    "status": checkout_status.status,
+                    "payment_status": checkout_status.payment_status,
+                    "updated_at": datetime.now(timezone.utc).isoformat()
+                }
+                
+                # If payment succeeded, update athlete subscription
+                if checkout_status.payment_status == "paid":
+                    athlete_id = checkout_status.metadata.get("athlete_id")
+                    if athlete_id:
+                        await db.athlete_profiles.update_one(
+                            {"id": athlete_id},
+                            {"$set": {
+                                "subscription_tier": transaction["tier"],
+                                "subscription_status": "active",
+                                "stripe_customer_id": checkout_status.metadata.get("customer_id"),
+                                "subscription_current_period_end": datetime.now(timezone.utc) + timedelta(days=30 if transaction["interval"] == "month" else 365)
+                            }}
+                        )
+                        update_data["athlete_id"] = athlete_id
+                
+                await db.payment_transactions.update_one(
+                    {"session_id": session_id},
+                    {"$set": update_data}
+                )
+        
+        return {
+            "status": checkout_status.status,
+            "payment_status": checkout_status.payment_status,
+            "amount_total": checkout_status.amount_total,
+            "currency": checkout_status.currency,
+            "metadata": checkout_status.metadata
+        }
+    except Exception as e:
+        logging.error(f"Error checking checkout status: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to check status: {str(e)}")
+
+@api_router.get("/subscriptions/status/{athlete_id}")
+async def get_subscription_status(athlete_id: str):
+    """Get athlete's subscription status"""
+    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    if not athlete:
+        raise HTTPException(status_code=404, detail="Athlete not found")
+    
+    return {
+        "subscription_tier": athlete.get("subscription_tier", "free"),
+        "subscription_status": athlete.get("subscription_status", "active"),
+        "stripe_customer_id": athlete.get("stripe_customer_id"),
+        "stripe_subscription_id": athlete.get("stripe_subscription_id"),
+        "subscription_current_period_end": athlete.get("subscription_current_period_end")
+    }
+
+@api_router.post("/webhooks/stripe")
+async def stripe_webhook(request: Request):
+    """Handle Stripe webhooks"""
+    from emergentintegrations.payments.stripe.checkout import StripeCheckout
+    
+    # Get Stripe API key
+    stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
+    if not stripe_secret_key:
+        raise HTTPException(status_code=500, detail="Stripe not configured")
+    
+    # Get raw body and signature
+    body = await request.body()
+    signature = request.headers.get("Stripe-Signature")
+    
+    if not signature:
+        raise HTTPException(status_code=400, detail="Missing Stripe signature")
+    
+    # Initialize Stripe Checkout
+    stripe_checkout = StripeCheckout(api_key=stripe_secret_key, webhook_url="")
+    
+    try:
+        webhook_response = await stripe_checkout.handle_webhook(body, signature)
+        
+        # Handle different event types
+        if webhook_response.event_type == "checkout.session.completed":
+            # Update payment transaction
+            await db.payment_transactions.update_one(
+                {"session_id": webhook_response.session_id},
+                {"$set": {
+                    "payment_status": webhook_response.payment_status,
+                    "event_id": webhook_response.event_id,
+                    "webhook_received_at": datetime.now(timezone.utc).isoformat()
+                }}
+            )
+            
+            # Update athlete subscription if athlete_id in metadata
+            athlete_id = webhook_response.metadata.get("athlete_id")
+            if athlete_id:
+                transaction = await db.payment_transactions.find_one({"session_id": webhook_response.session_id}, {"_id": 0})
+                if transaction:
+                    await db.athlete_profiles.update_one(
+                        {"id": athlete_id},
+                        {"$set": {
+                            "subscription_tier": transaction["tier"],
+                            "subscription_status": "active",
+                            "subscription_current_period_end": datetime.now(timezone.utc) + timedelta(days=30 if transaction["interval"] == "month" else 365)
+                        }}
+                    )
+        
+        return {"status": "success", "event_id": webhook_response.event_id}
+    except Exception as e:
+        logging.error(f"Webhook error: {str(e)}")
+        raise HTTPException(status_code=400, detail=str(e))
+
 # Integration routes
 @api_router.post("/integrations/openai/{athlete_id}")
 async def save_openai_key(athlete_id: str, key_request: APIKeyRequest):
