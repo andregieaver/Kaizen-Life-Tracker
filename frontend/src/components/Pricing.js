@@ -96,6 +96,14 @@ const Pricing = () => {
       return;
     }
 
+    // Check if user is logged in
+    const athleteId = localStorage.getItem('athleteId');
+    if (!athleteId) {
+      alert('Please log in or sign up to subscribe');
+      navigate('/login');
+      return;
+    }
+
     // Create plan_id based on selection
     const plan_id = `${planId}_${billingCycle === 'monthly' ? 'monthly' : 'annual'}`;
     
@@ -111,7 +119,8 @@ const Pricing = () => {
         },
         body: JSON.stringify({
           plan_id: plan_id,
-          origin_url: originUrl
+          origin_url: originUrl,
+          athlete_id: athleteId
         })
       });
 
