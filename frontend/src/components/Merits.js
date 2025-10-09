@@ -77,7 +77,7 @@ const Merits = ({ athleteId }) => {
       <CardHeader>
         <CardTitle className="flex items-center">
           <Trophy className="w-5 h-5 mr-2 text-yellow-600" />
-          Merits
+          {t('merits.title')}
         </CardTitle>
       </CardHeader>
       <CardContent>
