@@ -12,6 +12,7 @@ import { Badge } from './ui/badge';
 import LanguageSelector from './LanguageSelector';
 import ChangePassword from './ChangePassword';
 import StravaCredentialsModal from './StravaCredentialsModal';
+import OuraCredentialsModal from './OuraCredentialsModal';
 import { 
   User, 
   Key, 
