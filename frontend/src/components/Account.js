@@ -71,6 +71,7 @@ const Account = ({ athleteId }) => {
     status: 'active',
     current_period_end: null
   });
+  const [invoices, setInvoices] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [showScheduleForm, setShowScheduleForm] = useState(false);
   const [editingSchedule, setEditingSchedule] = useState(null);
