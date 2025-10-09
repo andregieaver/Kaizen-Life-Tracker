@@ -68,7 +68,7 @@ const Login = ({ onAthleteLogin }) => {
           className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Home
+          {t('auth.backToHome')}
         </Link>
 
         {/* Header */}
