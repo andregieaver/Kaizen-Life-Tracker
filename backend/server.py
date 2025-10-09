@@ -1356,16 +1356,19 @@ async def get_checkout_status(session_id: str):
             # Only process if not already completed
             if transaction.get("payment_status") != "paid":
                 update_data = {
-                    "status": checkout_status.status,
-                    "payment_status": checkout_status.payment_status,
+                    "status": checkout_session.status,
+                    "payment_status": checkout_session.payment_status,
                     "updated_at": datetime.now(timezone.utc).isoformat()
                 }
                 
                 # If payment succeeded, update athlete subscription
-                if checkout_status.payment_status == "paid":
+                if checkout_session.payment_status == "paid":
                     # Get athlete_id from transaction (we stored it there)
                     athlete_id = transaction.get("athlete_id")
                     if athlete_id:
+                        # Get subscription from Stripe
+                        subscription_id = checkout_session.subscription
+                        
                         # Calculate subscription end date
                         period_days = 30 if transaction["interval"] == "month" else 365
                         period_end = datetime.now(timezone.utc) + timedelta(days=period_days)
@@ -1375,6 +1378,8 @@ async def get_checkout_status(session_id: str):
                             {"$set": {
                                 "subscription_tier": transaction["tier"],
                                 "subscription_status": "active",
+                                "stripe_customer_id": checkout_session.customer,
+                                "stripe_subscription_id": subscription_id,
                                 "subscription_current_period_end": period_end.isoformat()
                             }}
                         )
@@ -1386,11 +1391,11 @@ async def get_checkout_status(session_id: str):
                 )
         
         return {
-            "status": checkout_status.status,
-            "payment_status": checkout_status.payment_status,
-            "amount_total": checkout_status.amount_total,
-            "currency": checkout_status.currency,
-            "metadata": checkout_status.metadata
+            "status": checkout_session.status,
+            "payment_status": checkout_session.payment_status,
+            "amount_total": checkout_session.amount_total,
+            "currency": checkout_session.currency,
+            "metadata": checkout_session.metadata
         }
     except Exception as e:
         logging.error(f"Error checking checkout status: {str(e)}")
