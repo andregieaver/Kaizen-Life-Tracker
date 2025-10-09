@@ -216,6 +216,9 @@ metadata:
 
 test_plan:
   current_focus:
+    - "Forgot Password Flow Implementation"
+    - "Reset Password Flow Implementation"
+    - "Change Password in Account Settings"
     - "Schedule Edit Functionality"
     - "Schedule Delete Functionality"
     - "Schedule Form Header Dynamic Text"
