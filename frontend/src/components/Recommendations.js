@@ -159,9 +159,9 @@ const Recommendations = ({ athleteId }) => {
           <Card className="border-0 shadow-lg">
             <CardContent className="text-center py-12">
               <Brain className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 mb-4">No AI recommendations yet</p>
+              <p className="text-gray-500 mb-4">{t('reports.noReports')}</p>
               <p className="text-sm text-gray-400">
-                Set up automated schedules in Account → Schedules to start receiving AI analysis
+                {t('reports.setupSchedules')}
               </p>
             </CardContent>
           </Card>
