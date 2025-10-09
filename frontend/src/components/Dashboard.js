@@ -88,7 +88,7 @@ const Dashboard = ({ athleteId }) => {
                   }`}
                   data-testid="overview-tab"
                 >
-                  Overview
+                  {t('nav.overview')}
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/coach')}
