@@ -941,8 +941,8 @@ def run_all_tests():
     for test_name, success, _ in integration_results:
         all_test_results.append((test_name, success))
     
-    # Phase 4: Additional Endpoints
-    print("\n📋 PHASE 4: ADDITIONAL ENDPOINTS")
+    # Phase 5: Additional Endpoints
+    print("\n📋 PHASE 5: ADDITIONAL ENDPOINTS")
     print("-" * 50)
     
     additional_results = test_additional_endpoints()
