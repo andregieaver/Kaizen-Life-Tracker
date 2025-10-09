@@ -631,7 +631,7 @@ const Account = ({ athleteId }) => {
                     {integrations.openai_api_key && integrations.openai_api_key !== '' && (
                       <div className="flex items-center text-sm text-green-600">
                         <CheckCircle className="w-4 h-4 mr-2" />
-                        Current key: {integrations.openai_api_key}
+                        {t('account.connectedWithKey')}
                       </div>
                     )}
                   </div>
