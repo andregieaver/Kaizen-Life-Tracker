@@ -5,6 +5,8 @@ import axios from 'axios';
 import Dashboard from './components/Dashboard';
 import OnboardingForm from './components/OnboardingForm';
 import Login from './components/Login';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 import StravaCallback from './components/StravaCallback';
 import OuraCallback from './components/OuraCallback';
 import CorosCallback from './components/CorosCallback';
