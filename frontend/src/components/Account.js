@@ -449,8 +449,8 @@ const Account = ({ athleteId }) => {
           </TabsTrigger>
           <TabsTrigger value="integrations" className="flex items-center text-xs md:text-sm" data-testid="integrations-tab">
             <Zap className="w-4 h-4 mr-1 md:mr-2" />
-            <span className="hidden sm:inline">Integrations</span>
-            <span className="sm:hidden">Apps</span>
+            <span className="hidden sm:inline">{t('account.integrations')}</span>
+            <span className="sm:hidden">{t('account.integrations')}</span>
           </TabsTrigger>
           <TabsTrigger value="schedules" className="flex items-center text-xs md:text-sm" data-testid="schedules-tab">
             <Calendar className="w-4 h-4 mr-1 md:mr-2" />
