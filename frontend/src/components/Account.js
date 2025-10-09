@@ -191,14 +191,18 @@ const Account = ({ athleteId }) => {
     }
   };
 
-  const handleStravaConnect = async () => {
-    try {
-      const response = await axios.get(`${API}/auth/strava/${athleteId}`);
-      window.location.href = response.data.authorization_url;
-    } catch (error) {
-      console.error('Error initiating Strava connection:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to initiate Strava connection' });
-    }
+  const handleStravaConnect = () => {
+    setShowStravaModal(true);
+  };
+
+  const handleStravaCredentialsSuccess = () => {
+    // Reload integrations data to show connected state
+    loadAccountData();
+    setSaveStatus({ 
+      type: 'success', 
+      message: 'Strava credentials configured successfully! You can now sync your activities.' 
+    });
+    setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
   };
 
   const handleOuraConnect = async () => {
