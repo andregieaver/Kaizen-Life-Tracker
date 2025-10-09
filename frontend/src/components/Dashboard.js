@@ -132,7 +132,7 @@ const Dashboard = ({ athleteId }) => {
                   }`}
                   data-testid="account-tab"
                 >
-                  Account
+                  {t('nav.account')}
                 </button>
               </nav>
             </div>
