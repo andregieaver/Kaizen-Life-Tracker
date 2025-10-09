@@ -1057,6 +1057,10 @@ def run_all_tests():
     result, oauth_data = test_strava_oauth_initialization()
     all_test_results.append(("Strava OAuth initialization", result))
     
+    # Test credentials verification (specific to review request)
+    result, cred_data = test_strava_credentials_verification()
+    all_test_results.append(("Strava credentials verification", result))
+    
     # Test environment variables loading
     result = test_strava_environment_variables()
     all_test_results.append(("Strava environment variables", result))
@@ -1072,6 +1076,10 @@ def run_all_tests():
     # Test OAuth error handling
     result = test_strava_oauth_error_handling()
     all_test_results.append(("Strava OAuth error handling", result))
+    
+    # Test pre-configured integration
+    result = test_strava_pre_configured_integration()
+    all_test_results.append(("Strava pre-configured integration", result))
     
     # Phase 4: Other Integration Endpoints
     print("\n📋 PHASE 4: OTHER INTEGRATION ENDPOINTS")
