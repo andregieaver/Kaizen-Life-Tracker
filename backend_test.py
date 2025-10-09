@@ -1534,8 +1534,27 @@ def run_all_tests():
     return all_test_results
 
 if __name__ == "__main__":
-    test_results = run_all_tests()
-    
-    # Exit with error code if any tests failed
-    failed_count = sum(1 for _, success in test_results if not success)
-    sys.exit(failed_count)
+    # Check if we should run only Oura credentials tests
+    if len(sys.argv) > 1 and sys.argv[1] == "--oura-only":
+        print("🎯 Running OURA CREDENTIALS TESTS ONLY (as per review request)")
+        oura_results = run_oura_credentials_tests()
+        failed_count = sum(1 for _, success in oura_results if not success)
+        sys.exit(failed_count)
+    else:
+        # Run all tests including Oura credentials tests
+        print("🎯 Running COMPREHENSIVE BACKEND TESTS + OURA CREDENTIALS TESTS")
+        
+        # First run Oura credentials tests
+        print("\n" + "🔍" * 20 + " OURA CREDENTIALS FOCUS " + "🔍" * 20)
+        oura_results = run_oura_credentials_tests()
+        
+        # Then run all other tests
+        print("\n" + "🚀" * 20 + " COMPREHENSIVE BACKEND TESTS " + "🚀" * 20)
+        test_results = run_all_tests()
+        
+        # Combine results
+        all_results = oura_results + test_results
+        failed_count = sum(1 for _, success in all_results if not success)
+        
+        print(f"\n🎯 FINAL SUMMARY: {len(all_results)} total tests, {failed_count} failed")
+        sys.exit(failed_count)
