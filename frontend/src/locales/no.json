@@ -240,6 +240,7 @@
     "syncComplete": "Synkronisering fullført!",
     "connecting": "Kobler til...",
     "processing": "Behandler...",
+    "note": "Merknad",
     "importedActivities": "Importerte {{count}} aktiviteter",
     "importedSleepRecords": "Importerte {{count}} søvnoppføringer"
   },
