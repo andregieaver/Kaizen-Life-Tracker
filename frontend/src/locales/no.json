@@ -201,7 +201,12 @@
     "logoutTitle": "Logg ut",
     "logoutDescription": "Logg ut av kontoen din og gå tilbake til påloggingssiden",
     "disconnectConfirm": "Er du sikker på at du vil koble fra?",
-    "confirmDeleteSchedule": "Er du sikker på at du vil slette denne planen?"
+    "confirmDeleteSchedule": "Er du sikker på at du vil slette denne planen?",
+    "apiKeySecurityNote": "Din API-nøkkel er kryptert og lagret sikkert. Få din nøkkel fra",
+    "openAIPlatform": "OpenAI-plattformen",
+    "syncSleepRecovery": "Synkroniser søvn og restitusjon",
+    "corosTerraNote": "COROS-integrering bruker Terra API for sikker datatilgang",
+    "corosSyncNote": "Dine COROS-aktiviteter vil bli automatisk synkronisert inkludert løp, trail og andre treningsdata fra din COROS-enhet"
   },
   "merits": {
     "title": "Meritter",
