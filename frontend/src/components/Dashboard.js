@@ -10,6 +10,7 @@ import CoachChat from './CoachChat';
 import Recommendations from './Recommendations';
 import WorkoutHistory from './WorkoutHistory';
 import Account from './Account';
+import Merits from './Merits';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
