@@ -343,7 +343,7 @@ const Dashboard = ({ athleteId }) => {
             data-testid="mobile-account-tab"
           >
             <User className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Account</span>
+            <span className="text-xs font-medium">{t('nav.account')}</span>
           </button>
         </div>
       </nav>
