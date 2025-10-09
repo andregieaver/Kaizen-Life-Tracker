@@ -753,6 +753,86 @@ const Account = ({ athleteId }) => {
                 )}
               </CardContent>
             </Card>
+
+            {/* COROS Integration */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Activity className="w-5 h-5 mr-2 text-blue-600" />
+                  COROS Watch Integration
+                </CardTitle>
+                <CardDescription>
+                  Connect your COROS watch via API to automatically import workouts
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {integrations.coros?.connected ? (
+                  <div className="space-y-4">
+                    <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center">
+                          <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
+                          <div>
+                            <p className="font-medium text-green-900">
+                              COROS Connected
+                            </p>
+                            <p className="text-sm text-green-600">
+                              Last sync: {integrations.coros.last_sync ? 
+                                new Date(integrations.coros.last_sync).toLocaleString() : 
+                                'Never'
+                              }
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex space-x-3">
+                        <Button 
+                          onClick={handleCorosSync}
+                          className="bg-blue-600 hover:bg-blue-700 btn-transition"
+                          data-testid="sync-coros-btn"
+                        >
+                          <Activity className="w-4 h-4 mr-2" />
+                          Sync Activities
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          onClick={() => handleDisconnectIntegration('coros')}
+                          className="border-red-300 text-red-600 hover:bg-red-50"
+                          data-testid="disconnect-coros-btn"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Disconnect
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                      <p className="text-sm text-blue-800 mb-3">
+                        Connect your COROS watch to automatically import your activities including distance, pace, heart rate, cadence, and route data. Integration powered by Terra API.
+                      </p>
+                      <Button 
+                        onClick={handleCorosConnect}
+                        className="bg-blue-600 hover:bg-blue-700 btn-transition"
+                        data-testid="connect-coros-btn"
+                      >
+                        <Activity className="w-4 h-4 mr-2" />
+                        Connect to COROS
+                      </Button>
+                    </div>
+                    <div className="p-3 bg-gray-50 rounded border border-gray-200">
+                      <p className="text-xs text-gray-600 mb-2">
+                        <strong>Note:</strong> COROS integration uses Terra API for secure data access.
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Your COROS activities will be automatically synchronized including runs, trails, and other training data from your COROS device.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
 
