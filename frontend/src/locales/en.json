@@ -106,7 +106,10 @@
     "lastGenerated": "Last Generated",
     "viewDetails": "View Details",
     "noReports": "No reports generated yet",
-    "setupSchedules": "Set up automated schedules in Account > Auto to generate regular insights from your AI coach"
+    "setupSchedules": "Set up automated schedules in Account > Auto to generate regular insights from your AI coach",
+    "highPriority": "High Priority",
+    "today": "Today", 
+    "topics": "Topics"
   },
   "history": {
     "title": "Training History",
