@@ -76,7 +76,7 @@ const Dashboard = ({ athleteId }) => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <h1 className="font-display text-2xl font-bold text-gray-900 mr-8">
-                {t('auth.runWisely')}
+                My Health Tracker
               </h1>
               <nav className="flex space-x-8">
                 <button
