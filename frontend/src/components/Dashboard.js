@@ -207,8 +207,8 @@ const Dashboard = ({ athleteId }) => {
             {/* Recent Activity */}
             <Card className="border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className="text-lg font-display">Recent Activity</CardTitle>
-                <CardDescription>Your latest workouts and training sessions</CardDescription>
+                <CardTitle className="text-lg font-display">{t('dashboard.recentActivity')}</CardTitle>
+                <CardDescription>{t('dashboard.currentReadiness')}</CardDescription>
               </CardHeader>
               <CardContent>
                 {recentWorkouts.length > 0 ? (
