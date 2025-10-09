@@ -108,7 +108,7 @@ const ReadinessCard = ({ readiness, onRefresh }) => {
         {/* Recommendations */}
         {readiness.recommendations && readiness.recommendations.length > 0 && (
           <div>
-            <h4 className="font-medium text-gray-900 mb-3">Today's Recommendations</h4>
+            <h4 className="font-medium text-gray-900 mb-3">{t('readiness.todaysRecommendations')}</h4>
             <div className="space-y-2">
               {readiness.recommendations.map((rec, index) => (
                 <div 
