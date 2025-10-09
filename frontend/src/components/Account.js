@@ -50,8 +50,6 @@ const Account = ({ athleteId }) => {
   const [personalForm, setPersonalForm] = useState({
     name: '',
     age: '',
-    weekly_mileage: '',
-    recent_race_time: '',
     running_goals: ''
   });
   
