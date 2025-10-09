@@ -114,7 +114,7 @@ const Login = ({ onAthleteLogin }) => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
+                  placeholder={t('auth.passwordPlaceholder')}
                   className="input-focus"
                   disabled={isLoading}
                   data-testid="login-password-input"
