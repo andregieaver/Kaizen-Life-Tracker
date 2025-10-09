@@ -263,6 +263,37 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const handleCorosConnect = async () => {
+    try {
+      setSaveStatus({ type: 'info', message: 'Connecting to COROS...' });
+      const response = await axios.get(`${API}/auth/coros/${athleteId}`);
+      if (response.data.auth_url) {
+        window.location.href = response.data.auth_url;
+      }
+    } catch (error) {
+      console.error('Error connecting to COROS:', error);
+      setSaveStatus({ type: 'error', message: 'Failed to connect to COROS' });
+    }
+  };
+
+  const handleCorosSync = async () => {
+    try {
+      setSaveStatus({ type: 'info', message: 'Syncing activities from COROS...' });
+      const response = await axios.post(`${API}/integrations/coros/${athleteId}/sync`);
+      setSaveStatus({ 
+        type: 'success', 
+        message: `Sync completed! Imported ${response.data.imported_activities || 0} activities.` 
+      });
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
+      
+      // Reload integrations to update last sync time
+      loadAccountData();
+    } catch (error) {
+      console.error('Error syncing COROS data:', error);
+      setSaveStatus({ type: 'error', message: 'Failed to sync COROS data' });
+    }
+  };
+
   const handleSaveSchedule = async (e) => {
     e.preventDefault();
     
