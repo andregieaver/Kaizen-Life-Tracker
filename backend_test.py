@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # Backend URL from environment
-BACKEND_URL = "https://ai-run-analyst.preview.emergentagent.com/api"
+BACKEND_URL = "https://fit-buddy-47.preview.emergentagent.com/api"
 
 # Test data
 TEST_ATHLETE_ID = "test-athlete-123"
