@@ -40,7 +40,8 @@ const Account = ({ athleteId }) => {
   const [integrations, setIntegrations] = useState({
     openai_api_key: '',
     strava: { connected: false, athlete_name: '', last_sync: null },
-    oura: { connected: false, user_id: '', last_sync: null }
+    oura: { connected: false, user_id: '', last_sync: null },
+    coros: { connected: false, last_sync: null }
   });
   
   const [personalForm, setPersonalForm] = useState({
