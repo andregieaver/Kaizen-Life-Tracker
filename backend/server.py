@@ -1151,6 +1151,74 @@ async def get_daily_readiness(athlete_id: str):
     
     return readiness
 
+# Merits / Personal Records routes
+@api_router.get("/merits/{athlete_id}")
+async def get_personal_records(athlete_id: str):
+    """Get personal records for different distances"""
+    
+    # Define distance mappings (in meters)
+    distance_map = {
+        '1km': 1000,
+        '1mile': 1609,  # 1 mile = 1609 meters
+        '5km': 5000,
+        '10km': 10000,
+        'half_marathon': 21097,  # 21.0975 km
+        'marathon': 42195  # 42.195 km
+    }
+    
+    # Get current date
+    twelve_months_ago = (datetime.now(timezone.utc) - timedelta(days=365)).isoformat()
+    
+    merits = []
+    
+    for distance_key, distance_meters in distance_map.items():
+        # Calculate tolerance (5% of distance for matching)
+        tolerance = distance_meters * 0.05
+        
+        # Find best time in last 12 months
+        recent_query = {
+            "athlete_id": athlete_id,
+            "distance": {"$gte": distance_meters - tolerance, "$lte": distance_meters + tolerance},
+            "date": {"$gte": twelve_months_ago}
+        }
+        
+        recent_best_workout = await db.workouts.find_one(
+            recent_query,
+            {"_id": 0},
+            sort=[("pace", 1)]  # Fastest pace = lowest value
+        )
+        
+        # Find all-time best
+        all_time_query = {
+            "athlete_id": athlete_id,
+            "distance": {"$gte": distance_meters - tolerance, "$lte": distance_meters + tolerance}
+        }
+        
+        all_time_best_workout = await db.workouts.find_one(
+            all_time_query,
+            {"_id": 0},
+            sort=[("pace", 1)]  # Fastest pace = lowest value
+        )
+        
+        # Calculate times (pace * distance in km = time in minutes, convert to seconds)
+        recent_best_time = None
+        all_time_best_time = None
+        
+        if recent_best_workout:
+            # pace is min/km, distance is in meters
+            recent_best_time = recent_best_workout['pace'] * (distance_meters / 1000) * 60  # in seconds
+        
+        if all_time_best_workout:
+            all_time_best_time = all_time_best_workout['pace'] * (distance_meters / 1000) * 60  # in seconds
+        
+        merits.append({
+            "distance": distance_key,
+            "recent_best": recent_best_time,
+            "all_time_best": all_time_best_time
+        })
+    
+    return merits
+
 # AI Coach chat routes
 @api_router.post("/coach/chat")
 async def chat_with_ai_coach(chat_request: CoachChat):
