@@ -636,7 +636,7 @@ const Account = ({ athleteId }) => {
                     )}
                   </div>
                   <p className="text-sm text-gray-500">
-                    Your API key is encrypted and stored securely. Get your key from{' '}
+                    {t('account.apiKeySecurityNote')}{' '}
                     <a 
                       href="https://platform.openai.com/api-keys" 
                       target="_blank" 
