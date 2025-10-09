@@ -85,16 +85,16 @@ const Merits = ({ athleteId }) => {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="text-left py-2 px-2 font-semibold text-gray-700">Distance</th>
+                <th className="text-left py-2 px-2 font-semibold text-gray-700">{t('merits.distance')}</th>
                 <th className="text-left py-2 px-2 font-semibold text-gray-700">
                   <div className="flex items-center">
                     <TrendingUp className="w-4 h-4 mr-1 text-blue-600" />
-                    Last 12 Months
+                    {t('merits.last12Months')}
                   </div>
                 </th>
                 <th className="text-left py-2 px-2 font-semibold text-gray-700">
                   <Trophy className="w-4 h-4 inline mr-1 text-yellow-600" />
-                  All-Time Best
+                  {t('merits.allTimeBest')}
                 </th>
               </tr>
             </thead>
