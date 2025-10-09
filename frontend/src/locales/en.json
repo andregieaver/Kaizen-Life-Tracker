@@ -240,6 +240,7 @@
     "syncComplete": "Sync completed!",
     "connecting": "Connecting...",
     "processing": "Processing...",
+    "note": "Note",
     "importedActivities": "Imported {{count}} activities",
     "importedSleepRecords": "Imported {{count}} sleep records"
   },
