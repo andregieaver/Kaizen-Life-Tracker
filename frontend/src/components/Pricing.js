@@ -90,14 +90,46 @@ const Pricing = () => {
     }
   };
 
-  const handleSelectPlan = (planId) => {
-    // Will integrate with Stripe later
-    console.log('Selected plan:', planId, 'billing:', billingCycle);
-    // For now, navigate to onboarding for free or show coming soon
+  const handleSelectPlan = async (planId) => {
     if (planId === 'free') {
       navigate('/onboarding');
-    } else {
-      alert('Stripe integration coming next! This will redirect to checkout.');
+      return;
+    }
+
+    // Create plan_id based on selection
+    const plan_id = `${planId}_${billingCycle === 'monthly' ? 'monthly' : 'annual'}`;
+    
+    try {
+      // Get origin URL
+      const originUrl = window.location.origin;
+      
+      // Call backend to create checkout session
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/subscriptions/create-checkout-session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          plan_id: plan_id,
+          origin_url: originUrl
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session');
+      }
+
+      const data = await response.json();
+      
+      // Redirect to Stripe Checkout
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error('No checkout URL received');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      alert('Failed to start checkout. Please try again.');
     }
   };
 
