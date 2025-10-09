@@ -200,7 +200,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     className={`input-focus ${errors.confirmPassword ? 'border-red-300' : ''}`}
-                    placeholder="Re-enter password"
+                    placeholder={t('auth.confirmPasswordPlaceholder')}
                     data-testid="confirm-password-input"
                   />
                   {errors.confirmPassword && (
