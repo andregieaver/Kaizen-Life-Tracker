@@ -152,7 +152,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
 
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-                  Email Address
+                  {t('auth.email')}
                 </Label>
                 <Input
                   id="email"
