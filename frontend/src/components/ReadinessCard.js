@@ -12,8 +12,8 @@ const ReadinessCard = ({ readiness, onRefresh }) => {
     return (
       <Card className="border-0 shadow-lg">
         <CardHeader>
-          <CardTitle className="text-lg font-display">Today's Readiness</CardTitle>
-          <CardDescription>Loading your daily training readiness...</CardDescription>
+          <CardTitle className="text-lg font-display">{t('readiness.title')}</CardTitle>
+          <CardDescription>{t('common.loading')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="skeleton h-20 rounded-lg"></div>
