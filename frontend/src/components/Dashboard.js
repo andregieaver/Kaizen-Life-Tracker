@@ -137,7 +137,7 @@ const Dashboard = ({ athleteId }) => {
               </nav>
             </div>
             <div className="flex items-center">
-              <span className="text-sm text-gray-600 mr-3">Welcome back,</span>
+              <span className="text-sm text-gray-600 mr-3">{t('dashboard.welcome')},</span>
               <Badge variant="secondary" className="font-medium">
                 {athlete?.name}
               </Badge>
