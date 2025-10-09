@@ -606,7 +606,7 @@ const Account = ({ athleteId }) => {
                           type={showApiKey ? 'text' : 'password'}
                           value={apiKeyForm.openai_api_key}
                           onChange={(e) => setApiKeyForm({ openai_api_key: e.target.value })}
-                          placeholder="sk-proj-..."
+                          placeholder={t('account.apiKeyPlaceholder')}
                           className="input-focus pr-10"
                           data-testid="openai-key-input"
                         />
