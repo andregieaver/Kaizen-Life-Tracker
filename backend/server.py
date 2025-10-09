@@ -1265,7 +1265,7 @@ async def get_or_create_stripe_price(plan_id: str, plan_config: dict, stripe_api
 @api_router.post("/subscriptions/create-checkout-session")
 async def create_checkout_session(request: CheckoutRequest, http_request: Request):
     """Create a Stripe Checkout session for subscription"""
-    from emergentintegrations.payments.stripe.checkout import StripeCheckout, CheckoutSessionRequest
+    import stripe
     
     # Validate plan
     if request.plan_id not in SUBSCRIPTION_PLANS:
@@ -1278,43 +1278,41 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
     if not stripe_secret_key:
         raise HTTPException(status_code=500, detail="Stripe not configured")
     
+    stripe.api_key = stripe_secret_key
+    
     # Get or create Stripe Price ID
     try:
         stripe_price_id = await get_or_create_stripe_price(request.plan_id, plan, stripe_secret_key)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get price: {str(e)}")
     
-    # Initialize Stripe Checkout
-    host_url = str(http_request.base_url).rstrip('/')
-    webhook_url = f"{host_url}/api/webhooks/stripe"
-    stripe_checkout = StripeCheckout(api_key=stripe_secret_key, webhook_url=webhook_url)
-    
     # Build success and cancel URLs
     origin_url = request.origin_url.rstrip('/')
     success_url = f"{origin_url}/dashboard/account?session_id={{CHECKOUT_SESSION_ID}}&success=true"
     cancel_url = f"{origin_url}/pricing?canceled=true"
     
-    # Create checkout session with Price ID (for subscriptions)
-    checkout_request = CheckoutSessionRequest(
-        stripe_price_id=stripe_price_id,
-        quantity=1,
-        success_url=success_url,
-        cancel_url=cancel_url,
-        metadata={
-            "plan_id": request.plan_id,
-            "tier": plan["tier"],
-            "interval": plan["interval"],
-            "athlete_id": request.athlete_id  # Link to user
-        }
-    )
-    
     try:
-        session = await stripe_checkout.create_checkout_session(checkout_request)
+        # Create Stripe Checkout Session for subscription
+        checkout_session = stripe.checkout.Session.create(
+            mode='subscription',  # IMPORTANT: subscription mode for recurring payments
+            line_items=[{
+                'price': stripe_price_id,
+                'quantity': 1,
+            }],
+            success_url=success_url,
+            cancel_url=cancel_url,
+            metadata={
+                "plan_id": request.plan_id,
+                "tier": plan["tier"],
+                "interval": plan["interval"],
+                "athlete_id": request.athlete_id
+            }
+        )
         
         # Create payment transaction record
         transaction = {
             "id": str(uuid.uuid4()),
-            "session_id": session.session_id,
+            "session_id": checkout_session.id,
             "athlete_id": request.athlete_id,
             "plan_id": request.plan_id,
             "tier": plan["tier"],
@@ -1327,7 +1325,10 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
         }
         await db.payment_transactions.insert_one(transaction)
         
-        return {"url": session.url, "session_id": session.session_id}
+        return {"url": checkout_session.url, "session_id": checkout_session.id}
+    except stripe.error.StripeError as e:
+        logging.error(f"Stripe error creating checkout session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Stripe error: {str(e)}")
     except Exception as e:
         logging.error(f"Error creating checkout session: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to create checkout session: {str(e)}")
