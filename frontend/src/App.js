@@ -53,7 +53,7 @@ function App() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-lg text-gray-600">Loading...</div>
+        <div className="text-lg text-gray-600">{t('common.loading')}</div>
       </div>
     );
   }
