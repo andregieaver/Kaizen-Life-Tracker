@@ -123,10 +123,10 @@ const OnboardingForm = ({ onAthleteCreated }) => {
         <Card className="glass border-0 shadow-xl">
           <CardHeader className="text-center pb-4">
             <CardTitle className="text-2xl font-display font-semibold text-gray-900">
-              Welcome, Runner!
+              {t('onboarding.title')}
             </CardTitle>
             <CardDescription className="text-gray-600">
-              Let's create your personalized coaching profile
+              {t('onboarding.description')}
             </CardDescription>
           </CardHeader>
           
