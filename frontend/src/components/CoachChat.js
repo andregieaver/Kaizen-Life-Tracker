@@ -290,7 +290,7 @@ const CoachChat = ({ athleteId }) => {
           data-testid="new-chat-btn"
         >
           <Plus className="w-4 h-4 mr-2" />
-          New Chat
+          {t('coach.newChat')}
         </Button>
       </div>
 
