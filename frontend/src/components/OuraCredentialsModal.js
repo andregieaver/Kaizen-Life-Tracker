@@ -53,9 +53,7 @@ const OuraCredentialsModal = ({ athleteId, isOpen, onClose, onSuccess }) => {
     try {
       await axios.post(`${API}/integrations/oura/${athleteId}/credentials`, {
         client_id: formData.clientId.trim(),
-        client_secret: formData.clientSecret.trim(),
-        access_token: formData.accessToken.trim(),
-        refresh_token: formData.refreshToken.trim()
+        client_secret: formData.clientSecret.trim()
       });
       
       setStatus({ type: 'success', message: t('oura.credentialsSaved') });
