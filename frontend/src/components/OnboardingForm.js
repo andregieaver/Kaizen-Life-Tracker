@@ -134,7 +134,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
                 <Label htmlFor="name" className="text-sm font-medium text-gray-700">
-                  Full Name
+                  {t('auth.fullName')}
                 </Label>
                 <Input
                   id="name"
