@@ -31,7 +31,11 @@ import {
   Plus,
   Edit3,
   Repeat,
-  LogOut
+  LogOut,
+  CreditCard,
+  Crown,
+  TrendingUp,
+  Check
 } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
