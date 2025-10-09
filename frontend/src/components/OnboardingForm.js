@@ -271,7 +271,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
 
               <div className="space-y-2">
                 <Label htmlFor="running_goals" className="text-sm font-medium text-gray-700">
-                  Running Goals
+                  {t('onboarding.runningGoals')}
                 </Label>
                 <Textarea
                   id="running_goals"
