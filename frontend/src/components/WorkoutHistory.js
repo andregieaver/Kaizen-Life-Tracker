@@ -159,7 +159,7 @@ const WorkoutHistory = ({ athleteId }) => {
                     <div className="flex items-center">
                       <Zap className={`w-4 h-4 mr-2 ${getEffortColor(workout.perceived_effort)}`} />
                       <div>
-                        <p className="text-sm text-gray-600">Effort</p>
+                        <p className="text-sm text-gray-600">{t('history.type')}</p>
                         <p className={`font-medium ${getEffortColor(workout.perceived_effort)}`}>
                           {workout.perceived_effort}/10
                         </p>
