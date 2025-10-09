@@ -120,7 +120,7 @@ const ForgotPassword = () => {
         {/* Header */}
         <div className="text-center">
           <h1 className="text-4xl font-display font-bold text-gray-900 mb-2">
-            {t('auth.runWisely')}
+            My Health Tracker
           </h1>
           <p className="text-gray-600">{t('auth.forgotPasswordSubtitle')}</p>
         </div>
