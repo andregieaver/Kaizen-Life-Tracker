@@ -42,37 +42,37 @@ const OnboardingForm = ({ onAthleteCreated }) => {
     const newErrors = {};
     
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = t('validation.nameRequired');
     }
     
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = t('validation.emailRequired');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = t('validation.emailInvalid');
     }
     
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = t('validation.passwordRequired');
     } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = t('validation.passwordTooShort');
     }
     
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
+      newErrors.confirmPassword = t('validation.confirmPasswordRequired');
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = t('validation.passwordsDoNotMatch');
     }
     
     if (!formData.age || formData.age < 16 || formData.age > 80) {
-      newErrors.age = 'Please enter a valid age (16-80)';
+      newErrors.age = t('onboarding.ageValidation');
     }
     
     if (!formData.weekly_mileage || formData.weekly_mileage < 5 || formData.weekly_mileage > 200) {
-      newErrors.weekly_mileage = 'Please enter weekly mileage (5-200 miles)';
+      newErrors.weekly_mileage = t('onboarding.mileageValidation');
     }
     
     if (!formData.running_goals.trim()) {
-      newErrors.running_goals = 'Please share your running goals';
+      newErrors.running_goals = t('onboarding.runningGoalsValidation');
     }
     
     setErrors(newErrors);
