@@ -81,8 +81,8 @@ const WorkoutHistory = ({ athleteId }) => {
         <CardHeader>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <CardTitle className="text-xl font-display">Training History</CardTitle>
-              <CardDescription>Review your past workouts and recovery data</CardDescription>
+              <CardTitle className="text-xl font-display">{t('history.title')}</CardTitle>
+              <CardDescription>{t('history.description')}</CardDescription>
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
               <Button
