@@ -77,9 +77,7 @@ const OuraCredentialsModal = ({ athleteId, isOpen, onClose, onSuccess }) => {
     if (!isLoading) {
       setFormData({
         clientId: '',
-        clientSecret: '',
-        accessToken: '',
-        refreshToken: ''
+        clientSecret: ''
       });
       setStatus({ type: '', message: '' });
       onClose();
