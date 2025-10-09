@@ -504,33 +504,7 @@ const Account = ({ athleteId }) => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="weekly_mileage" className="text-sm font-medium">{t('account.weeklyMileage')}</Label>
-                    <Input
-                      id="weekly_mileage"
-                      name="weekly_mileage"
-                      type="number"
-                      step="0.5"
-                      value={personalForm.weekly_mileage}
-                      onChange={handlePersonalFormChange}
-                      className="input-focus"
-                      data-testid="mileage-input"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="recent_race_time" className="text-sm font-medium">{t('account.recentRaceTime')}</Label>
-                    <Input
-                      id="recent_race_time"
-                      name="recent_race_time"
-                      value={personalForm.recent_race_time}
-                      onChange={handlePersonalFormChange}
-                      className="input-focus"
-                      placeholder={t('onboarding.raceTimeOptional')}
-                      data-testid="race-time-input"
-                    />
-                  </div>
-                </div>
+                {/* Weekly mileage and recent race time will be automatically imported from Strava */}
 
                 <div className="space-y-2">
                   <Label htmlFor="running_goals">{t('account.runningGoals')}</Label>
