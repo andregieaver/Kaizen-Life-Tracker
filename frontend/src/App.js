@@ -85,6 +85,26 @@ function App() {
             } 
           />
           <Route 
+            path="/forgot-password" 
+            element={
+              athleteId ? (
+                <Navigate to="/dashboard" replace />
+              ) : (
+                <ForgotPassword />
+              )
+            } 
+          />
+          <Route 
+            path="/reset-password" 
+            element={
+              athleteId ? (
+                <Navigate to="/dashboard" replace />
+              ) : (
+                <ResetPassword />
+              )
+            } 
+          />
+          <Route 
             path="/dashboard" 
             element={
               athleteId ? (
