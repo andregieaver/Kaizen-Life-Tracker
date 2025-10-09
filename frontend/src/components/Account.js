@@ -207,14 +207,18 @@ const Account = ({ athleteId }) => {
     setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
   };
 
-  const handleOuraConnect = async () => {
-    try {
-      const response = await axios.get(`${API}/auth/oura/${athleteId}`);
-      window.location.href = response.data.authorization_url;
-    } catch (error) {
-      console.error('Error initiating Oura connection:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to initiate Oura connection' });
-    }
+  const handleOuraConnect = () => {
+    setShowOuraModal(true);
+  };
+
+  const handleOuraCredentialsSuccess = () => {
+    // Reload integrations data to show connected state
+    loadAccountData();
+    setSaveStatus({ 
+      type: 'success', 
+      message: 'Oura credentials configured successfully! You can now sync your sleep and recovery data.' 
+    });
+    setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
   };
 
   const handleDisconnectIntegration = async (integration) => {
