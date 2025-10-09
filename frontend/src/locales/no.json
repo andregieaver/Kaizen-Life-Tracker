@@ -206,7 +206,8 @@
     "openAIPlatform": "OpenAI-plattformen",
     "syncSleepRecovery": "Synkroniser søvn og restitusjon",
     "corosTerraNote": "COROS-integrering bruker Terra API for sikker datatilgang",
-    "corosSyncNote": "Dine COROS-aktiviteter vil bli automatisk synkronisert inkludert løp, trail og andre treningsdata fra din COROS-enhet"
+    "corosSyncNote": "Dine COROS-aktiviteter vil bli automatisk synkronisert inkludert løp, trail og andre treningsdata fra din COROS-enhet",
+    "templatesDescription": "Populære analysespørsmål for å komme i gang"
   },
   "merits": {
     "title": "Meritter",
