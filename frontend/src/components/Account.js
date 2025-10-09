@@ -164,6 +164,31 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const handleUpgrade = async (plan, interval) => {
+    const plan_id = `${plan}_${interval}`;
+    
+    try {
+      const originUrl = window.location.origin;
+      
+      const response = await axios.post(`${API}/subscriptions/create-checkout-session`, {
+        plan_id: plan_id,
+        origin_url: originUrl
+      });
+
+      if (response.data.url) {
+        window.location.href = response.data.url;
+      } else {
+        throw new Error('No checkout URL received');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Failed to start checkout. Please try again.' 
+      });
+    }
+  };
+
   const loadAccountData = async () => {
     setIsLoading(true);
     try {
