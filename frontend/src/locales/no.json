@@ -27,7 +27,11 @@
     "backToHome": "Tilbake til hjemside",
     "runWisely": "LøpKlokt",
     "createYourProfile": "Opprett din løpeprofil",
-    "enterDetails": "Skriv inn dine detaljer for å komme i gang med personlig trening"
+    "enterDetails": "Skriv inn dine detaljer for å komme i gang med personlig trening",
+    "fullNamePlaceholder": "Skriv inn ditt fulle navn",
+    "emailPlaceholder": "din.epost@eksempel.com",
+    "passwordPlaceholder": "Skriv inn passordet ditt",
+    "confirmPasswordPlaceholder": "Gjenta passordet"
   },
   "onboarding": {
     "title": "Opprett din løpeprofil",
