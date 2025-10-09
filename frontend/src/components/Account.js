@@ -786,7 +786,7 @@ const Account = ({ athleteId }) => {
                         data-testid="connect-oura-btn"
                       >
                         <Heart className="w-4 h-4 mr-2" />
-                        Connect to Oura
+                        {t('account.connectToOura')}
                       </Button>
                     </div>
                   </div>
