@@ -688,7 +688,7 @@ const Account = ({ athleteId }) => {
                           data-testid="sync-strava-btn"
                         >
                           <Activity className="w-4 h-4 mr-2" />
-                          Sync Activities
+                          {t('account.syncActivities')}
                         </Button>
                         <Button 
                           variant="outline" 
@@ -832,7 +832,7 @@ const Account = ({ athleteId }) => {
                           data-testid="sync-coros-btn"
                         >
                           <Activity className="w-4 h-4 mr-2" />
-                          Sync Activities
+                          {t('account.syncActivities')}
                         </Button>
                         <Button 
                           variant="outline" 
