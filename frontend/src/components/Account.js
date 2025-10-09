@@ -414,7 +414,7 @@ const Account = ({ athleteId }) => {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-display font-bold text-gray-900 mb-2">
-          Account Settings
+          {t('account.title')}
         </h1>
         <p className="text-gray-600">
           Manage your profile and integrations
