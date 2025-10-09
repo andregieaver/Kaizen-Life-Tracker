@@ -148,7 +148,15 @@ const Login = ({ onAthleteLogin }) => {
             </form>
 
             {/* Sign Up Link */}
-            <div className="mt-6 text-center">
+            <div className="mt-6 text-center space-y-3">
+              <div>
+                <Link 
+                  to="/forgot-password"
+                  className="text-sm text-blue-600 hover:text-blue-700 font-medium hover:underline"
+                >
+                  {t('auth.forgotPassword')}
+                </Link>
+              </div>
               <p className="text-sm text-gray-600">
                 {t('auth.dontHaveAccount')}{' '}
                 <Link 
