@@ -643,7 +643,7 @@ const Account = ({ athleteId }) => {
                       rel="noopener noreferrer" 
                       className="text-blue-600 hover:underline inline-flex items-center"
                     >
-                      OpenAI Platform <ExternalLink className="w-3 h-3 ml-1" />
+                      {t('account.openAIPlatform')} <ExternalLink className="w-3 h-3 ml-1" />
                     </a>
                   </p>
                 </form>
