@@ -112,10 +112,10 @@ const OnboardingForm = ({ onAthleteCreated }) => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="font-display text-4xl font-bold text-gray-900 mb-2">
-            RunWisely
+            {t('auth.runWisely')}
           </h1>
           <p className="text-lg text-gray-600">
-            Your personal AI running coach
+            {t('auth.createYourProfile')}
           </p>
         </div>
 
