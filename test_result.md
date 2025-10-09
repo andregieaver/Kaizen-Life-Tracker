@@ -189,11 +189,11 @@ frontend:
 
   - task: "Multi-Language Translation Implementation"
     implemented: true
-    working: true
+    working: false
     file: "/app/frontend/src/i18n.js, /app/frontend/src/locales/, /app/frontend/src/components/"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
@@ -201,6 +201,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "✅ COMPREHENSIVE MULTI-LANGUAGE TRANSLATION TESTING COMPLETE - Executed extensive frontend translation testing with 100% success rate. VERIFIED: 1) Language Switching Functionality ✓ - Language selector works perfectly in Account settings, switching between all 7 supported languages (EN, NO, SV, ES, FR, DE, DA), UI updates immediately when language is changed, language selection persists across page navigation. 2) Translation Coverage ✓ - All major components display translated text (App, Login, Dashboard, Account, CoachChat, History, Reports), navigation menus show translated labels, form fields and buttons use translated text, app branding translates correctly (RunWisely→LøpKlokt→CorreSabio→LaufWeise). 3) UI Component Functionality ✓ - Login page works with translated labels, registration/onboarding form functions correctly, dashboard navigation and content display properly, account settings page and tabs work with translations, coach chat interface maintains functionality. 4) Cross-Language Navigation ✓ - Navigation between different sections works regardless of language, URLs and routing remain functional, mobile navigation works with translated labels. TESTED LANGUAGES: English, Norwegian, Spanish, German, French, Danish, Swedish. Both desktop and mobile views work correctly with all translations. Translation implementation is production-ready."
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL TRANSLATION ISSUES FOUND - Comprehensive testing revealed specific issues that need fixing: 1) ONBOARDING FORM VALIDATION ERRORS: All validation error messages in OnboardingForm.js are hardcoded in English and not using translation keys. Fixed by updating validation messages to use t() function and added validation translation keys to en.json and no.json. 2) BACKEND MESSAGE TRANSLATION: ✅ WORKING - Backend messages like 'Insufficient data for accurate calculation' and 'Log more workout and sleep data for better insights' are properly translated to Norwegian via translateBackendMessage() function in ReadinessCard.js. 3) LANGUAGE SWITCHING: ✅ WORKING - Language selector functions correctly, all navigation elements translate properly (Overview→Oversikt, AI Coach→AI-trener, etc.). 4) MOBILE VIEW: ✅ WORKING - Mobile navigation labels translate correctly. 5) DATE FORMATTING: Uses browser locale, no hardcoded English dates found. FIXED: Updated OnboardingForm validation to use translation keys and added missing validation translations to language files."
 
 metadata:
   created_by: "main_agent"
