@@ -1613,6 +1613,40 @@ async def strava_auth_initiate(athlete_id: str):
     return {"authorization_url": auth_url, "state": state}
 
 # Oura OAuth routes
+@api_router.post("/integrations/oura/{athlete_id}/credentials")
+async def save_oura_credentials(athlete_id: str, credentials: OuraCredentials):
+    """Save user-specific Oura API credentials"""
+    try:
+        # Encrypt sensitive data before storing
+        encrypted_credentials = {
+            "client_id": credentials.client_id,
+            "client_secret": credentials.client_secret,  # In production, encrypt this
+            "access_token": credentials.access_token,    # In production, encrypt this
+            "refresh_token": credentials.refresh_token   # In production, encrypt this
+        }
+        
+        # Update or create Oura integration for this athlete
+        await db.integrations.update_one(
+            {"athlete_id": athlete_id, "service": "oura"},
+            {
+                "$set": {
+                    "athlete_id": athlete_id,
+                    "service": "oura",
+                    "credentials": encrypted_credentials,
+                    "connected": True,
+                    "created_at": datetime.now(timezone.utc).isoformat(),
+                    "last_sync": None
+                }
+            },
+            upsert=True
+        )
+        
+        return {"message": "Oura credentials saved successfully"}
+        
+    except Exception as e:
+        print(f"Error saving Oura credentials: {e}")
+        raise HTTPException(status_code=500, detail="Failed to save Oura credentials")
+
 @api_router.get("/auth/oura/{athlete_id}")
 async def oura_auth_initiate(athlete_id: str):
     """Initiate Oura OAuth authorization flow"""
