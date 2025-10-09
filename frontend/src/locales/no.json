@@ -61,6 +61,7 @@
   "readiness": {
     "title": "Beredskapspoeng",
     "score": "Poeng",
+    "maxScore": "100",
     "excellent": "Utmerket",
     "good": "Bra",
     "fair": "Greit",
@@ -70,7 +71,11 @@
     "fairDesc": "Vurder lettere trening eller hvile",
     "poorDesc": "Prioriter hvile og restitusjon",
     "basedOn": "Basert på søvn, restitusjon og treningsbelastning",
-    "calculateReadiness": "Beregn beredskap"
+    "calculateReadiness": "Beregn beredskap",
+    "contributingFactors": "Medvirkende faktorer",
+    "todaysRecommendations": "Dagens anbefalinger",
+    "insufficientData": "Utilstrekkelig data for nøyaktig beregning",
+    "logMoreData": "Logg flere økter og søvndata for bedre innsikter"
   },
   "coach": {
     "title": "Din AI løpetrener",
@@ -101,7 +106,10 @@
     "lastGenerated": "Sist generert",
     "viewDetails": "Vis detaljer",
     "noReports": "Ingen rapporter generert ennå",
-    "setupSchedules": "Sett opp automatiserte planer i Konto > Auto for å generere regelmessige innsikter fra AI-treneren din"
+    "setupSchedules": "Sett opp automatiserte planer i Konto > Auto for å generere regelmessige innsikter fra AI-treneren din",
+    "highPriority": "Høy prioritet",
+    "today": "I dag",
+    "topics": "Emner"
   },
   "history": {
     "title": "Treningshistorikk",
