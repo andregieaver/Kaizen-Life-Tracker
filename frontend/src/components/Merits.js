@@ -8,6 +8,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Merits = ({ athleteId }) => {
+  const { t } = useTranslation();
   const [merits, setMerits] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
