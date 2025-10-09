@@ -526,7 +526,7 @@ const Account = ({ athleteId }) => {
                       value={personalForm.recent_race_time}
                       onChange={handlePersonalFormChange}
                       className="input-focus"
-                      placeholder="5K: 22:30"
+                      placeholder={t('onboarding.raceTimeOptional')}
                       data-testid="race-time-input"
                     />
                   </div>
