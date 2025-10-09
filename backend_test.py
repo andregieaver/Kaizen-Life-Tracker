@@ -961,16 +961,21 @@ def run_all_tests():
     phases = {
         "Authentication & Profile": all_test_results[:5],
         "Schedule CRUD": all_test_results[5:12] if len(all_test_results) > 12 else all_test_results[5:],
-        "Integration Endpoints": [],
+        "Strava Integration": [],
+        "Other Integration Endpoints": [],
         "Additional Endpoints": []
     }
     
     # Adjust phases based on actual results
     if len(all_test_results) > 12:
-        integration_start = 12
-        integration_count = len(integration_results)
-        phases["Integration Endpoints"] = all_test_results[integration_start:integration_start + integration_count]
-        phases["Additional Endpoints"] = all_test_results[integration_start + integration_count:]
+        strava_start = 12
+        strava_count = 5  # Number of Strava-specific tests
+        phases["Strava Integration"] = all_test_results[strava_start:strava_start + strava_count]
+        
+        other_integration_start = strava_start + strava_count
+        other_integration_count = len(integration_results)
+        phases["Other Integration Endpoints"] = all_test_results[other_integration_start:other_integration_start + other_integration_count]
+        phases["Additional Endpoints"] = all_test_results[other_integration_start + other_integration_count:]
     
     for phase_name, phase_results in phases.items():
         if phase_results:
