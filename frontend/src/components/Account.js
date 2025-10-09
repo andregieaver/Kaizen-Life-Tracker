@@ -506,7 +506,7 @@ const Account = ({ athleteId }) => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="weekly_mileage" className="text-sm font-medium">Weekly Miles</Label>
+                    <Label htmlFor="weekly_mileage" className="text-sm font-medium">{t('account.weeklyMileage')}</Label>
                     <Input
                       id="weekly_mileage"
                       name="weekly_mileage"
