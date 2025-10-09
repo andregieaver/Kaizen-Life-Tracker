@@ -1462,7 +1462,7 @@ async def strava_auth_callback(
         
         # Get user's Strava credentials for token exchange
         integration = await db.integrations.find_one(
-            {"athlete_id": athlete_id, "service": "strava"}, 
+            {"athlete_id": athlete_id, "integration_type": "strava"}, 
             {"_id": 0}
         )
         
