@@ -304,7 +304,7 @@ const Dashboard = ({ athleteId }) => {
             data-testid="mobile-coach-tab"
           >
             <MessageCircle className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Coach</span>
+            <span className="text-xs font-medium">{t('nav.coach')}</span>
           </button>
           
           <button
