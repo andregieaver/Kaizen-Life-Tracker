@@ -1420,7 +1420,6 @@ async def get_subscription_status(athlete_id: str):
 async def create_portal_session(request: dict):
     """Create a Stripe Customer Portal session for managing subscriptions"""
     import stripe
-    from stripe.error import StripeError
     
     athlete_id = request.get("athlete_id")
     return_url = request.get("return_url")
