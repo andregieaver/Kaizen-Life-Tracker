@@ -11,7 +11,7 @@ import uuid
 from datetime import datetime
 
 # Backend URL from environment
-BACKEND_URL = "https://fit-buddy-47.preview.emergentagent.com/api"
+BACKEND_URL = "https://stride-mentor.preview.emergentagent.com/api"
 
 # Test data
 TEST_ATHLETE_ID = str(uuid.uuid4())
