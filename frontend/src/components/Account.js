@@ -760,7 +760,7 @@ const Account = ({ athleteId }) => {
                           data-testid="sync-oura-btn"
                         >
                           <Heart className="w-4 h-4 mr-2" />
-                          Sync Sleep & Recovery
+                          {t('account.syncSleepRecovery')}
                         </Button>
                         <Button 
                           variant="outline" 
