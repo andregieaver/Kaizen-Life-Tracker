@@ -170,7 +170,7 @@ const WorkoutHistory = ({ athleteId }) => {
                       <div className="flex items-center">
                         <Heart className="w-4 h-4 mr-2 text-red-400" />
                         <div>
-                          <p className="text-sm text-gray-600">Avg HR</p>
+                          <p className="text-sm text-gray-600">{t('history.avgHR')}</p>
                           <p className="font-medium">{workout.avg_hr} bpm</p>
                         </div>
                       </div>
