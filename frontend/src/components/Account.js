@@ -678,7 +678,7 @@ const Account = ({ athleteId }) => {
                         data-testid="connect-strava-btn"
                       >
                         <Activity className="w-4 h-4 mr-2" />
-                        {t('account.connectToStrava')}
+                        {t('strava.setupCredentials')}
                       </Button>
                     </div>
                   </div>
