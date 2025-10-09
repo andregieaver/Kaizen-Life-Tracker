@@ -1200,11 +1200,67 @@ async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
 
 # Subscription routes
 SUBSCRIPTION_PLANS = {
-    "pro_monthly": {"price": 9.99, "interval": "month", "tier": "pro"},
-    "pro_annual": {"price": 99.0, "interval": "year", "tier": "pro"},
-    "premium_monthly": {"price": 19.99, "interval": "month", "tier": "premium"},
-    "premium_annual": {"price": 199.0, "interval": "year", "tier": "premium"},
+    "pro_monthly": {"price": 9.99, "interval": "month", "interval_count": 1, "tier": "pro", "name": "Pro Monthly"},
+    "pro_annual": {"price": 99.0, "interval": "year", "interval_count": 1, "tier": "pro", "name": "Pro Annual"},
+    "premium_monthly": {"price": 19.99, "interval": "month", "interval_count": 1, "tier": "premium", "name": "Premium Monthly"},
+    "premium_annual": {"price": 199.0, "interval": "year", "interval_count": 1, "tier": "premium", "name": "Premium Annual"},
 }
+
+async def get_or_create_stripe_price(plan_id: str, plan_config: dict, stripe_api_key: str) -> str:
+    """Get or create a Stripe Price ID for recurring subscriptions"""
+    import stripe
+    stripe.api_key = stripe_api_key
+    
+    # Check if price already exists in our database
+    price_record = await db.stripe_prices.find_one({"plan_id": plan_id})
+    if price_record:
+        return price_record["stripe_price_id"]
+    
+    try:
+        # Create product if it doesn't exist
+        products = stripe.Product.list(limit=1)
+        product = None
+        for p in products.auto_paging_iter():
+            if p.name == "My Health Tracker Subscription":
+                product = p
+                break
+        
+        if not product:
+            product = stripe.Product.create(
+                name="My Health Tracker Subscription",
+                description="Subscription plans for My Health Tracker"
+            )
+        
+        # Create recurring price
+        price = stripe.Price.create(
+            product=product.id,
+            unit_amount=int(plan_config["price"] * 100),  # Convert to cents
+            currency="eur",
+            recurring={
+                "interval": plan_config["interval"],
+                "interval_count": plan_config["interval_count"]
+            },
+            metadata={
+                "plan_id": plan_id,
+                "tier": plan_config["tier"]
+            }
+        )
+        
+        # Store price ID in database
+        await db.stripe_prices.insert_one({
+            "plan_id": plan_id,
+            "stripe_price_id": price.id,
+            "tier": plan_config["tier"],
+            "interval": plan_config["interval"],
+            "amount": plan_config["price"],
+            "created_at": datetime.now(timezone.utc).isoformat()
+        })
+        
+        logging.info(f"Created Stripe Price: {price.id} for plan {plan_id}")
+        return price.id
+    except Exception as e:
+        logging.error(f"Error creating Stripe price: {str(e)}")
+        raise
 
 @api_router.post("/subscriptions/create-checkout-session")
 async def create_checkout_session(request: CheckoutRequest, http_request: Request):
@@ -1222,6 +1278,12 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
     if not stripe_secret_key:
         raise HTTPException(status_code=500, detail="Stripe not configured")
     
+    # Get or create Stripe Price ID
+    try:
+        stripe_price_id = await get_or_create_stripe_price(request.plan_id, plan, stripe_secret_key)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get price: {str(e)}")
+    
     # Initialize Stripe Checkout
     host_url = str(http_request.base_url).rstrip('/')
     webhook_url = f"{host_url}/api/webhooks/stripe"
@@ -1232,16 +1294,17 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
     success_url = f"{origin_url}/dashboard/account?session_id={{CHECKOUT_SESSION_ID}}&success=true"
     cancel_url = f"{origin_url}/pricing?canceled=true"
     
-    # Create checkout session
+    # Create checkout session with Price ID (for subscriptions)
     checkout_request = CheckoutSessionRequest(
-        amount=plan["price"],
-        currency="eur",
+        stripe_price_id=stripe_price_id,
+        quantity=1,
         success_url=success_url,
         cancel_url=cancel_url,
         metadata={
             "plan_id": request.plan_id,
             "tier": plan["tier"],
-            "interval": plan["interval"]
+            "interval": plan["interval"],
+            "athlete_id": request.athlete_id  # Link to user
         }
     )
     
@@ -1252,6 +1315,7 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
         transaction = {
             "id": str(uuid.uuid4()),
             "session_id": session.session_id,
+            "athlete_id": request.athlete_id,
             "plan_id": request.plan_id,
             "tier": plan["tier"],
             "interval": plan["interval"],
