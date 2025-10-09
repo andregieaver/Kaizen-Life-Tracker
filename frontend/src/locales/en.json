@@ -73,7 +73,9 @@
     "basedOn": "Based on sleep, recovery, and training load",
     "calculateReadiness": "Calculate Readiness",
     "contributingFactors": "Contributing Factors",
-    "todaysRecommendations": "Today's Recommendations"
+    "todaysRecommendations": "Today's Recommendations",
+    "insufficientData": "Insufficient data for accurate calculation",
+    "logMoreData": "Log more workout and sleep data for better insights"
   },
   "coach": {
     "title": "Your AI Running Coach",
