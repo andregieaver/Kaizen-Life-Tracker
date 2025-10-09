@@ -125,10 +125,13 @@ const Account = ({ athleteId }) => {
 
   const loadInvoices = async () => {
     try {
+      console.log('Fetching invoices for athlete:', athleteId);
       const response = await axios.get(`${API}/subscriptions/invoices/${athleteId}`);
+      console.log('Invoices response:', response.data);
       setInvoices(response.data.invoices || []);
     } catch (error) {
       console.error('Error loading invoices:', error);
+      setInvoices([]); // Set empty array on error
     }
   };
 
