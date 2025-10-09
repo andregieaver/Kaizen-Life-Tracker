@@ -66,6 +66,11 @@ const Account = ({ athleteId }) => {
   
   const [activeTab, setActiveTab] = useState('personal');
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
+  const [subscriptionStatus, setSubscriptionStatus] = useState({
+    tier: 'free',
+    status: 'active',
+    current_period_end: null
+  });
   const [schedules, setSchedules] = useState([]);
   const [showScheduleForm, setShowScheduleForm] = useState(false);
   const [editingSchedule, setEditingSchedule] = useState(null);
