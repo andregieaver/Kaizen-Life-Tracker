@@ -61,6 +61,7 @@
   "readiness": {
     "title": "Readiness Score",
     "score": "Score",
+    "maxScore": "100",
     "excellent": "Excellent",
     "good": "Good",
     "fair": "Fair",
@@ -70,7 +71,9 @@
     "fairDesc": "Consider lighter training or rest",
     "poorDesc": "Prioritize rest and recovery",
     "basedOn": "Based on sleep, recovery, and training load",
-    "calculateReadiness": "Calculate Readiness"
+    "calculateReadiness": "Calculate Readiness",
+    "contributingFactors": "Contributing Factors",
+    "todaysRecommendations": "Today's Recommendations"
   },
   "coach": {
     "title": "Your AI Running Coach",
