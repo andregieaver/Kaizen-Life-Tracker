@@ -305,7 +305,7 @@ const CoachChat = ({ athleteId }) => {
         >
           <Archive className="w-5 h-5" />
         </Button>
-        <h2 className="text-lg font-display font-bold text-gray-900">AI Coach</h2>
+        <h2 className="text-lg font-display font-bold text-gray-900">{t('nav.coach')}</h2>
         <Button
           variant="ghost"
           size="sm"
