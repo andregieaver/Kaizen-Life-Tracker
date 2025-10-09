@@ -14,6 +14,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 function App() {
+  const { t } = useTranslation();
   const [athleteId, setAthleteId] = useState(localStorage.getItem('athleteId'));
   const [isLoading, setIsLoading] = useState(true);
 
