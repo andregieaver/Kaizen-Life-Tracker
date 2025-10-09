@@ -286,6 +286,26 @@
     "importedActivities": "Imported {{count}} activities",
     "importedSleepRecords": "Imported {{count}} sleep records"
   },
+  "strava": {
+    "setupCredentials": "Setup Strava Credentials",
+    "credentialsDescription": "Enter your personal Strava API credentials to connect your account",
+    "howToGetCredentials": "How to get your Strava API credentials:",
+    "step1": "Go to https://www.strava.com/settings/api and create a new application",
+    "step2": "Copy your Client ID and Client Secret from your Strava app settings",
+    "step3": "Get your Access Token and Refresh Token from your Strava app",
+    "step4": "Enter all four credentials below to connect your Strava account",
+    "learnMore": "Learn more about Strava API",
+    "clientId": "Client ID",
+    "clientSecret": "Client Secret", 
+    "accessToken": "Access Token",
+    "refreshToken": "Refresh Token",
+    "allFieldsRequired": "All fields are required",
+    "credentialsSaved": "Strava credentials saved successfully!",
+    "credentialsError": "Failed to save Strava credentials. Please check your values and try again.",
+    "saving": "Saving...",
+    "saveCredentials": "Save Credentials",
+    "securityNote": "Your credentials are encrypted and stored securely. They are only used to sync your Strava data."
+  },
   "validation": {
     "nameRequired": "Name is required",
     "emailRequired": "Email is required",
