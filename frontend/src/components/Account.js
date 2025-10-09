@@ -937,19 +937,62 @@ const Account = ({ athleteId }) => {
                       <p className="text-sm text-gray-600">
                         No invoices yet
                       </p>
+                    ) : invoices.length === 0 ? (
+                      <p className="text-sm text-gray-600">
+                        Loading invoices...
+                      </p>
                     ) : (
-                      <>
-                        <p className="text-sm text-gray-600 mb-2">
-                          View your complete billing history in the Customer Portal
-                        </p>
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={handleManageBilling}
-                        >
-                          View Invoices →
-                        </Button>
-                      </>
+                      <div className="space-y-3">
+                        {invoices.map((invoice) => (
+                          <div 
+                            key={invoice.id} 
+                            className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                          >
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-2">
+                                <p className="font-medium text-gray-900">
+                                  €{invoice.amount.toFixed(2)}
+                                </p>
+                                <span className={`text-xs px-2 py-1 rounded ${
+                                  invoice.status === 'paid' 
+                                    ? 'bg-green-100 text-green-700' 
+                                    : invoice.status === 'open'
+                                    ? 'bg-yellow-100 text-yellow-700'
+                                    : 'bg-red-100 text-red-700'
+                                }`}>
+                                  {invoice.status}
+                                </span>
+                              </div>
+                              <p className="text-xs text-gray-500 mt-1">
+                                {new Date(invoice.created * 1000).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric'
+                                })}
+                              </p>
+                            </div>
+                            <a
+                              href={invoice.invoice_pdf || invoice.hosted_invoice_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center"
+                            >
+                              Download
+                              <ExternalLink className="w-3 h-3 ml-1" />
+                            </a>
+                          </div>
+                        ))}
+                        {invoices.length > 0 && (
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="w-full"
+                            onClick={handleManageBilling}
+                          >
+                            View All in Customer Portal →
+                          </Button>
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>
