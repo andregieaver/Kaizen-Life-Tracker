@@ -291,7 +291,7 @@ const Dashboard = ({ athleteId }) => {
             data-testid="mobile-overview-tab"
           >
             <Home className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Home</span>
+            <span className="text-xs font-medium">{t('nav.home')}</span>
           </button>
           
           <button
