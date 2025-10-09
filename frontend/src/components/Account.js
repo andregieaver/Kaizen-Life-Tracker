@@ -36,6 +36,7 @@ const API = `${BACKEND_URL}/api`;
 
 const Account = ({ athleteId }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [athlete, setAthlete] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showApiKey, setShowApiKey] = useState(false);
