@@ -122,7 +122,7 @@ const Recommendations = ({ athleteId }) => {
             <div className="text-2xl font-bold text-blue-600">
               {recommendations.length}
             </div>
-            <div className="text-sm text-gray-600">Total Reports</div>
+            <div className="text-sm text-gray-600">{t('reports.totalReports')}</div>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm">
