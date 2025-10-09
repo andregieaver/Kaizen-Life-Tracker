@@ -109,10 +109,10 @@ const CoachChat = ({ athleteId }) => {
   };
 
   const suggestedQuestions = [
-    "How am I doing with my training this week?",
-    "Should I run today based on my readiness?",
-    "What should my next workout be?",
-    "Show me my weekly mileage trend"
+    t('coach.suggestedQuestions.q1'),
+    t('coach.suggestedQuestions.q2'),
+    t('coach.suggestedQuestions.q3'),
+    t('coach.suggestedQuestions.q4')
   ];
 
   const handleSuggestedQuestion = (question) => {
