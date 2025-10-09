@@ -1,0 +1,203 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { ArrowLeft, Mail, CheckCircle } from 'lucide-react';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
+
+const ForgotPassword = () => {
+  const { t } = useTranslation();
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [resetToken, setResetToken] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const response = await axios.post(`${API}/auth/forgot-password`, {
+        email: email.trim()
+      });
+      
+      setIsSubmitted(true);
+      // In development, we get the reset token back
+      if (response.data.reset_token) {
+        setResetToken(response.data.reset_token);
+      }
+    } catch (error) {
+      console.error('Error requesting password reset:', error);
+      setError(error.response?.data?.detail || 'Failed to send reset email. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isSubmitted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50 flex items-center justify-center p-4">
+        <div className="w-full max-w-md space-y-6">
+          {/* Header */}
+          <div className="text-center">
+            <h1 className="text-4xl font-display font-bold text-gray-900 mb-2">
+              {t('auth.runWisely')}
+            </h1>
+            <p className="text-gray-600">{t('auth.checkYourEmail')}</p>
+          </div>
+
+          {/* Success Card */}
+          <Card className="border-0 shadow-xl">
+            <CardHeader className="text-center">
+              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                <CheckCircle className="w-8 h-8 text-green-600" />
+              </div>
+              <CardTitle className="text-2xl">{t('auth.emailSent')}</CardTitle>
+              <CardDescription>
+                {t('auth.passwordResetInstructions')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Development only - show reset token */}
+              {resetToken && (
+                <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <p className="text-sm font-medium text-yellow-800 mb-2">
+                    {t('auth.devModeToken')}:
+                  </p>
+                  <code className="text-xs bg-white p-2 rounded border block break-all">
+                    {resetToken}
+                  </code>
+                  <p className="text-xs text-yellow-700 mt-2">
+                    {t('auth.tokenExpires')}
+                  </p>
+                </div>
+              )}
+              
+              <div className="text-center space-y-3">
+                <Link
+                  to="/reset-password"
+                  className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium hover:underline"
+                >
+                  {t('auth.resetPasswordNow')}
+                </Link>
+                <div>
+                  <Link
+                    to="/login"
+                    className="inline-flex items-center text-gray-600 hover:text-gray-700 text-sm"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    {t('auth.backToLogin')}
+                  </Link>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md space-y-6">
+        {/* Navigation */}
+        <Link
+          to="/login"
+          className="inline-flex items-center text-gray-600 hover:text-gray-700 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          {t('auth.backToLogin')}
+        </Link>
+
+        {/* Header */}
+        <div className="text-center">
+          <h1 className="text-4xl font-display font-bold text-gray-900 mb-2">
+            {t('auth.runWisely')}
+          </h1>
+          <p className="text-gray-600">{t('auth.forgotPasswordSubtitle')}</p>
+        </div>
+
+        {/* Forgot Password Card */}
+        <Card className="border-0 shadow-xl">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl flex items-center justify-center">
+              <Mail className="w-6 h-6 mr-2 text-blue-600" />
+              {t('auth.forgotPassword')}
+            </CardTitle>
+            <CardDescription>
+              {t('auth.enterEmailForReset')}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600">
+                  {error}
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="email">{t('auth.email')}</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={t('auth.emailPlaceholder')}
+                  className="input-focus"
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 btn-transition"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <div className="flex items-center justify-center">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                    {t('common.processing')}
+                  </div>
+                ) : (
+                  <>
+                    <Mail className="w-4 h-4 mr-2" />
+                    {t('auth.sendResetEmail')}
+                  </>
+                )}
+              </Button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-600">
+                {t('auth.rememberPassword')}{' '}
+                <Link 
+                  to="/login" 
+                  className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
+                >
+                  {t('auth.loginHere')}
+                </Link>
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Footer Note */}
+        <p className="text-center text-sm text-gray-500">
+          {t('auth.resetSecurityNote')}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default ForgotPassword;
