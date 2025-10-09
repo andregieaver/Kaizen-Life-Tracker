@@ -750,11 +750,20 @@ def test_strava_credentials_verification():
                 details.append(f"✗ Client ID mismatch (expected {expected_client_id})")
                 success = False
             
-            # Verify Redirect URI
-            if expected_redirect_uri in auth_url:
+            # Verify Redirect URI (URL encoded)
+            import urllib.parse
+            encoded_redirect_uri = urllib.parse.quote(expected_redirect_uri, safe='')
+            if encoded_redirect_uri in auth_url or expected_redirect_uri in auth_url:
                 details.append("✓ Redirect URI matches (myhealthtracker.app)")
             else:
-                details.append("✗ Redirect URI mismatch")
+                # Extract actual redirect_uri for debugging
+                import re
+                redirect_match = re.search(r'redirect_uri=([^&]+)', auth_url)
+                if redirect_match:
+                    actual_redirect = urllib.parse.unquote(redirect_match.group(1))
+                    details.append(f"✗ Redirect URI mismatch (got {actual_redirect}, expected {expected_redirect_uri})")
+                else:
+                    details.append("✗ Redirect URI not found")
                 success = False
             
             # Verify OAuth parameters
