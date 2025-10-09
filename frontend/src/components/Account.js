@@ -598,7 +598,7 @@ const Account = ({ athleteId }) => {
               <CardContent>
                 <form onSubmit={handleSaveApiKey} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="openai_key">API Key</Label>
+                    <Label htmlFor="openai_key">{t('account.apiKeyLabel')}</Label>
                     <div className="flex space-x-2">
                       <div className="flex-1 relative">
                         <Input
