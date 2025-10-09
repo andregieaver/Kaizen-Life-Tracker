@@ -625,7 +625,7 @@ const Account = ({ athleteId }) => {
                         className="bg-orange-600 hover:bg-orange-700 btn-transition"
                         data-testid="save-api-key-btn"
                       >
-                        Save Key
+                        {t('account.saveAPIKey')}
                       </Button>
                     </div>
                     {integrations.openai_api_key && integrations.openai_api_key !== '' && (
