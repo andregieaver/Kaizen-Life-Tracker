@@ -246,7 +246,9 @@
     "manageProfile": "Manage your profile and integrations",
     "security": "Security",
     "passwordResetSoon": "Password reset functionality will be available soon. For now, your account is secured through the platform authentication.",
-    "changePasswordSoon": "Change Password (Coming Soon)"
+    "changePasswordSoon": "Change Password (Coming Soon)",
+    "changePassword": "Change Password",
+    "changePasswordDescription": "Update your account password for security"
   },
   "merits": {
     "title": "Merits",
