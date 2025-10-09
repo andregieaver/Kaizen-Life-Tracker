@@ -192,6 +192,9 @@ const Dashboard = ({ athleteId }) => {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Merits - Personal Records */}
+              <Merits athleteId={athleteId} />
             </div>
 
             {/* Recent Activity */}
