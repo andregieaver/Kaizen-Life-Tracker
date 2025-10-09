@@ -207,6 +207,20 @@ class StravaActivity(BaseModel):
     commute: Optional[bool] = False
     imported_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+class StravaWebhookEvent(BaseModel):
+    aspect_type: str
+    event_time: int
+    object_id: int
+    object_type: str
+    owner_id: int
+    subscription_id: int
+    updates: dict = {}
+
+class StravaCredentials(BaseModel):
+    client_id: str
+    client_secret: str
+    access_token: str
+    refresh_token: str
 class Schedule(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
