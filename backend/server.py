@@ -1623,13 +1623,13 @@ async def save_oura_credentials(athlete_id: str, credentials: OuraCredentials):
         
         # Update or create Oura integration for this athlete
         await db.integrations.update_one(
-            {"athlete_id": athlete_id, "service": "oura"},
+            {"athlete_id": athlete_id, "integration_type": "oura"},
             {
                 "$set": {
                     "athlete_id": athlete_id,
-                    "service": "oura",
+                    "integration_type": "oura",
                     "credentials": encrypted_credentials,
-                    "connected": True,
+                    "is_active": True,
                     "created_at": datetime.now(timezone.utc).isoformat(),
                     "last_sync": None
                 }
