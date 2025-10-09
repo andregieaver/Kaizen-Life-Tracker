@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "overview": "Aperçu",
+    "coach": "Coach IA",
+    "reports": "Rapports",
+    "history": "Historique",
+    "account": "Compte",
+    "home": "Accueil"
+  },
+  "auth": {
+    "login": "Se connecter",
+    "signup": "S'inscrire",
+    "logout": "Se déconnecter",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "fullName": "Nom complet",
+    "loginButton": "Se connecter",
+    "signupButton": "Créer un compte",
+    "alreadyHaveAccount": "Vous avez déjà un compte?",
+    "loginHere": "Connectez-vous ici",
+    "dontHaveAccount": "Vous n'avez pas de compte?",
+    "signupHere": "Inscrivez-vous ici",
+    "welcomeBack": "Bienvenue sur votre coach de course IA",
+    "enterEmailPassword": "Entrez votre e-mail et mot de passe pour accéder à votre profil d'entraînement"
+  },
+  "dashboard": {
+    "welcome": "Bienvenue",
+    "quickStats": "Statistiques rapides",
+    "weeklyGoal": "Objectif hebdomadaire",
+    "recentWorkouts": "Entraînements récents",
+    "runningGoals": "Objectifs de course",
+    "viewGoals": "Voir",
+    "noWorkouts": "Aucun entraînement enregistré pour le moment",
+    "viewReports": "Voir les rapports"
+  },
+  "account": {
+    "title": "Paramètres du compte",
+    "personalInfo": "Informations personnelles",
+    "integrations": "Applications",
+    "schedules": "Auto",
+    "language": "Langue",
+    "selectLanguage": "Sélectionnez votre langue préférée",
+    "age": "Âge",
+    "weeklyMileage": "Distance hebdomadaire",
+    "recentRaceTime": "Temps de course récent",
+    "runningGoals": "Objectifs de course",
+    "saveChanges": "Enregistrer les modifications",
+    "cancel": "Annuler"
+  },
+  "merits": {
+    "title": "Mérites",
+    "distance": "Distance",
+    "last12Months": "12 derniers mois",
+    "allTimeBest": "Meilleur de tous les temps",
+    "noData": "Aucune donnée",
+    "noRecords": "Aucun record de course pour le moment",
+    "completeWorkouts": "Complétez des entraînements pour voir vos meilleurs records personnels"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "connect": "Connecter",
+    "disconnect": "Déconnecter",
+    "sync": "Synchroniser",
+    "close": "Fermer",
+    "back": "Retour",
+    "next": "Suivant",
+    "miles": "miles",
+    "km": "km"
+  }
+}

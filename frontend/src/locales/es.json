@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "overview": "Resumen",
+    "coach": "Entrenador IA",
+    "reports": "Informes",
+    "history": "Historial",
+    "account": "Cuenta",
+    "home": "Inicio"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "signup": "Registrarse",
+    "logout": "Cerrar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "fullName": "Nombre completo",
+    "loginButton": "Iniciar sesión",
+    "signupButton": "Crear cuenta",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "loginHere": "Inicia sesión aquí",
+    "dontHaveAccount": "¿No tienes una cuenta?",
+    "signupHere": "Regístrate aquí",
+    "welcomeBack": "Bienvenido de nuevo a tu entrenador de carrera con IA",
+    "enterEmailPassword": "Introduce tu correo y contraseña para acceder a tu perfil de entrenamiento"
+  },
+  "dashboard": {
+    "welcome": "Bienvenido de nuevo",
+    "quickStats": "Estadísticas rápidas",
+    "weeklyGoal": "Objetivo semanal",
+    "recentWorkouts": "Entrenamientos recientes",
+    "runningGoals": "Objetivos de carrera",
+    "viewGoals": "Ver",
+    "noWorkouts": "No hay entrenamientos registrados todavía",
+    "viewReports": "Ver informes"
+  },
+  "account": {
+    "title": "Configuración de cuenta",
+    "personalInfo": "Información personal",
+    "integrations": "Aplicaciones",
+    "schedules": "Auto",
+    "language": "Idioma",
+    "selectLanguage": "Selecciona tu idioma preferido",
+    "age": "Edad",
+    "weeklyMileage": "Distancia semanal",
+    "recentRaceTime": "Tiempo de carrera reciente",
+    "runningGoals": "Objetivos de carrera",
+    "saveChanges": "Guardar cambios",
+    "cancel": "Cancelar"
+  },
+  "merits": {
+    "title": "Méritos",
+    "distance": "Distancia",
+    "last12Months": "Últimos 12 meses",
+    "allTimeBest": "Mejor de todos los tiempos",
+    "noData": "Sin datos",
+    "noRecords": "No hay récords de carrera todavía",
+    "completeWorkouts": "Completa entrenamientos para ver tus mejores marcas personales"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "connect": "Conectar",
+    "disconnect": "Desconectar",
+    "sync": "Sincronizar",
+    "close": "Cerrar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "miles": "millas",
+    "km": "km"
+  }
+}

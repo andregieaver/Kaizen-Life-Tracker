@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "overview": "Overview",
+    "coach": "AI Coach",
+    "reports": "Reports",
+    "history": "History",
+    "account": "Account",
+    "home": "Home"
+  },
+  "auth": {
+    "login": "Log In",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "email": "Email Address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "fullName": "Full Name",
+    "loginButton": "Log In",
+    "signupButton": "Create Account",
+    "alreadyHaveAccount": "Already have an account?",
+    "loginHere": "Log in here",
+    "dontHaveAccount": "Don't have an account?",
+    "signupHere": "Sign up here",
+    "welcomeBack": "Welcome back to your AI running coach",
+    "enterEmailPassword": "Enter your email and password to access your coaching profile"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "quickStats": "Quick Stats",
+    "weeklyGoal": "Weekly Goal",
+    "recentWorkouts": "Recent Workouts",
+    "runningGoals": "Running Goals",
+    "viewGoals": "View",
+    "noWorkouts": "No workouts logged yet",
+    "viewReports": "View Reports"
+  },
+  "account": {
+    "title": "Account Settings",
+    "personalInfo": "Personal Information",
+    "integrations": "Apps",
+    "schedules": "Auto",
+    "language": "Language",
+    "selectLanguage": "Select your preferred language",
+    "age": "Age",
+    "weeklyMileage": "Weekly Mileage",
+    "recentRaceTime": "Recent Race Time",
+    "runningGoals": "Running Goals",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel"
+  },
+  "merits": {
+    "title": "Merits",
+    "distance": "Distance",
+    "last12Months": "Last 12 Months",
+    "allTimeBest": "All-Time Best",
+    "noData": "No data",
+    "noRecords": "No race records yet",
+    "completeWorkouts": "Complete workouts to see your personal bests"
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "sync": "Sync",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "miles": "miles",
+    "km": "km"
+  }
+}

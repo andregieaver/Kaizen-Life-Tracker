@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "overview": "Oversikt",
+    "coach": "AI-trener",
+    "reports": "Rapporter",
+    "history": "Historikk",
+    "account": "Konto",
+    "home": "Hjem"
+  },
+  "auth": {
+    "login": "Logg inn",
+    "signup": "Registrer deg",
+    "logout": "Logg ut",
+    "email": "E-postadresse",
+    "password": "Passord",
+    "confirmPassword": "Bekreft passord",
+    "fullName": "Fullt navn",
+    "loginButton": "Logg inn",
+    "signupButton": "Opprett konto",
+    "alreadyHaveAccount": "Har du allerede en konto?",
+    "loginHere": "Logg inn her",
+    "dontHaveAccount": "Har du ikke en konto?",
+    "signupHere": "Registrer deg her",
+    "welcomeBack": "Velkommen tilbake til din AI løpetrener",
+    "enterEmailPassword": "Skriv inn e-post og passord for å få tilgang til din trenerprofil"
+  },
+  "dashboard": {
+    "welcome": "Velkommen tilbake",
+    "quickStats": "Rask statistikk",
+    "weeklyGoal": "Ukentlig mål",
+    "recentWorkouts": "Nylige økter",
+    "runningGoals": "Løpemål",
+    "viewGoals": "Vis",
+    "noWorkouts": "Ingen økter registrert ennå",
+    "viewReports": "Vis rapporter"
+  },
+  "account": {
+    "title": "Kontoinnstillinger",
+    "personalInfo": "Personlig informasjon",
+    "integrations": "Apper",
+    "schedules": "Auto",
+    "language": "Språk",
+    "selectLanguage": "Velg ditt foretrukne språk",
+    "age": "Alder",
+    "weeklyMileage": "Ukentlig distanse",
+    "recentRaceTime": "Nylig løpstid",
+    "runningGoals": "Løpemål",
+    "saveChanges": "Lagre endringer",
+    "cancel": "Avbryt"
+  },
+  "merits": {
+    "title": "Meritter",
+    "distance": "Distanse",
+    "last12Months": "Siste 12 måneder",
+    "allTimeBest": "Beste noensinne",
+    "noData": "Ingen data",
+    "noRecords": "Ingen løpsrekorder ennå",
+    "completeWorkouts": "Fullfør økter for å se dine personlige rekorder"
+  },
+  "common": {
+    "loading": "Laster...",
+    "save": "Lagre",
+    "delete": "Slett",
+    "edit": "Rediger",
+    "connect": "Koble til",
+    "disconnect": "Koble fra",
+    "sync": "Synkroniser",
+    "close": "Lukk",
+    "back": "Tilbake",
+    "next": "Neste",
+    "miles": "miles",
+    "km": "km"
+  }
+}

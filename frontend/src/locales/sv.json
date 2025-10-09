@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "overview": "Översikt",
+    "coach": "AI-tränare",
+    "reports": "Rapporter",
+    "history": "Historik",
+    "account": "Konto",
+    "home": "Hem"
+  },
+  "auth": {
+    "login": "Logga in",
+    "signup": "Registrera dig",
+    "logout": "Logga ut",
+    "email": "E-postadress",
+    "password": "Lösenord",
+    "confirmPassword": "Bekräfta lösenord",
+    "fullName": "Fullständigt namn",
+    "loginButton": "Logga in",
+    "signupButton": "Skapa konto",
+    "alreadyHaveAccount": "Har du redan ett konto?",
+    "loginHere": "Logga in här",
+    "dontHaveAccount": "Har du inget konto?",
+    "signupHere": "Registrera dig här",
+    "welcomeBack": "Välkommen tillbaka till din AI löpträning",
+    "enterEmailPassword": "Ange din e-post och lösenord för att komma åt din träningsprofil"
+  },
+  "dashboard": {
+    "welcome": "Välkommen tillbaka",
+    "quickStats": "Snabbstatistik",
+    "weeklyGoal": "Veckomål",
+    "recentWorkouts": "Senaste träningar",
+    "runningGoals": "Löpmål",
+    "viewGoals": "Visa",
+    "noWorkouts": "Inga träningar registrerade än",
+    "viewReports": "Visa rapporter"
+  },
+  "account": {
+    "title": "Kontoinställningar",
+    "personalInfo": "Personlig information",
+    "integrations": "Appar",
+    "schedules": "Auto",
+    "language": "Språk",
+    "selectLanguage": "Välj ditt föredragna språk",
+    "age": "Ålder",
+    "weeklyMileage": "Veckoavstånd",
+    "recentRaceTime": "Senaste lopptid",
+    "runningGoals": "Löpmål",
+    "saveChanges": "Spara ändringar",
+    "cancel": "Avbryt"
+  },
+  "merits": {
+    "title": "Meriter",
+    "distance": "Avstånd",
+    "last12Months": "Senaste 12 månaderna",
+    "allTimeBest": "Bästa genom tiderna",
+    "noData": "Ingen data",
+    "noRecords": "Inga tävlingsrekord än",
+    "completeWorkouts": "Slutför träningar för att se dina personliga rekord"
+  },
+  "common": {
+    "loading": "Laddar...",
+    "save": "Spara",
+    "delete": "Radera",
+    "edit": "Redigera",
+    "connect": "Anslut",
+    "disconnect": "Koppla från",
+    "sync": "Synkronisera",
+    "close": "Stäng",
+    "back": "Tillbaka",
+    "next": "Nästa",
+    "miles": "miles",
+    "km": "km"
+  }
+}
