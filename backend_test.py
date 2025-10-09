@@ -296,71 +296,484 @@ def test_verify_soft_delete():
         print_test_result("GET verify soft delete", False, f"Exception: {str(e)}")
         return False
 
+# Authentication Tests
+def test_create_athlete_profile():
+    """Test POST /api/athlete - create athlete profile"""
+    print("🔍 Testing POST /api/athlete (create profile)")
+    
+    athlete_data = {
+        "id": TEST_ATHLETE_ID,
+        "name": TEST_NAME,
+        "email": TEST_EMAIL,
+        "password": TEST_PASSWORD,
+        "age": 28,
+        "weekly_mileage": 35.0,
+        "recent_race_time": "22:30",
+        "running_goals": "Sub-22 minute 5K and complete first marathon"
+    }
+    
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/athlete",
+            json=athlete_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code == 200:
+            created_athlete = response.json()
+            
+            # Verify key fields (password should not be returned)
+            success = True
+            details = []
+            
+            required_fields = ["id", "name", "email", "age", "weekly_mileage", "running_goals"]
+            for field in required_fields:
+                if field in created_athlete and created_athlete[field] == athlete_data[field]:
+                    details.append(f"{field}: ✓")
+                else:
+                    details.append(f"{field}: ✗")
+                    success = False
+            
+            # Password should not be in response
+            if "password" not in created_athlete:
+                details.append("password excluded: ✓")
+            else:
+                details.append("password excluded: ✗")
+                success = False
+                
+            print_test_result("POST create athlete", success, "; ".join(details))
+            return success, created_athlete
+        else:
+            print_test_result("POST create athlete", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print_test_result("POST create athlete", False, f"Exception: {str(e)}")
+        return False, None
+
+def test_login_athlete():
+    """Test POST /api/auth/login - authenticate athlete"""
+    print("🔍 Testing POST /api/auth/login (authentication)")
+    
+    login_data = {
+        "email": TEST_EMAIL,
+        "password": TEST_PASSWORD
+    }
+    
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code == 200:
+            login_response = response.json()
+            
+            success = True
+            details = []
+            
+            # Check required fields in response
+            required_fields = ["athlete_id", "name", "email"]
+            for field in required_fields:
+                if field in login_response:
+                    details.append(f"{field}: ✓")
+                else:
+                    details.append(f"{field}: ✗")
+                    success = False
+            
+            # Verify athlete_id matches
+            if login_response.get("athlete_id") == TEST_ATHLETE_ID:
+                details.append("athlete_id match: ✓")
+            else:
+                details.append("athlete_id match: ✗")
+                success = False
+                
+            print_test_result("POST auth/login", success, "; ".join(details))
+            return success, login_response
+        else:
+            print_test_result("POST auth/login", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print_test_result("POST auth/login", False, f"Exception: {str(e)}")
+        return False, None
+
+def test_login_invalid_credentials():
+    """Test POST /api/auth/login with invalid credentials"""
+    print("🔍 Testing POST /api/auth/login (invalid credentials)")
+    
+    login_data = {
+        "email": TEST_EMAIL,
+        "password": "WrongPassword123!"
+    }
+    
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        # Should return 401 for invalid credentials
+        if response.status_code == 401:
+            print_test_result("POST auth/login (invalid)", True, "Correctly rejected invalid credentials")
+            return True
+        else:
+            print_test_result("POST auth/login (invalid)", False, f"Expected 401, got {response.status_code}")
+            return False
+            
+    except Exception as e:
+        print_test_result("POST auth/login (invalid)", False, f"Exception: {str(e)}")
+        return False
+
+# Athlete Profile Tests
+def test_get_athlete_profile():
+    """Test GET /api/athlete/{athlete_id} - get athlete profile"""
+    print("🔍 Testing GET /api/athlete/{athlete_id} (get profile)")
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/athlete/{TEST_ATHLETE_ID}")
+        
+        if response.status_code == 200:
+            athlete = response.json()
+            
+            success = True
+            details = []
+            
+            # Check key fields
+            expected_fields = ["id", "name", "email", "age", "weekly_mileage", "running_goals"]
+            for field in expected_fields:
+                if field in athlete:
+                    details.append(f"{field}: ✓")
+                else:
+                    details.append(f"{field}: ✗")
+                    success = False
+            
+            print_test_result("GET athlete profile", success, "; ".join(details))
+            return success, athlete
+        else:
+            print_test_result("GET athlete profile", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print_test_result("GET athlete profile", False, f"Exception: {str(e)}")
+        return False, None
+
+def test_update_athlete_profile():
+    """Test PUT /api/athlete/{athlete_id} - update athlete profile"""
+    print("🔍 Testing PUT /api/athlete/{athlete_id} (update profile)")
+    
+    update_data = {
+        "weekly_mileage": 40.0,
+        "running_goals": "Sub-21 minute 5K and Boston Marathon qualifier"
+    }
+    
+    try:
+        response = requests.put(
+            f"{BACKEND_URL}/athlete/{TEST_ATHLETE_ID}",
+            json=update_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code == 200:
+            updated_athlete = response.json()
+            
+            success = True
+            details = []
+            
+            # Verify updates
+            if updated_athlete.get("weekly_mileage") == update_data["weekly_mileage"]:
+                details.append("weekly_mileage updated: ✓")
+            else:
+                details.append("weekly_mileage updated: ✗")
+                success = False
+                
+            if updated_athlete.get("running_goals") == update_data["running_goals"]:
+                details.append("running_goals updated: ✓")
+            else:
+                details.append("running_goals updated: ✗")
+                success = False
+            
+            print_test_result("PUT update athlete", success, "; ".join(details))
+            return success, updated_athlete
+        else:
+            print_test_result("PUT update athlete", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print_test_result("PUT update athlete", False, f"Exception: {str(e)}")
+        return False, None
+
+# Integration Endpoint Tests
+def test_integration_endpoints():
+    """Test integration endpoints accessibility"""
+    print("🔍 Testing Integration Endpoints Accessibility")
+    
+    integration_tests = []
+    
+    # Test Strava auth initiate
+    try:
+        response = requests.get(f"{BACKEND_URL}/auth/strava/{TEST_ATHLETE_ID}")
+        if response.status_code == 200:
+            data = response.json()
+            if "authorization_url" in data:
+                integration_tests.append(("Strava auth initiate", True, "Authorization URL returned"))
+            else:
+                integration_tests.append(("Strava auth initiate", False, "No authorization URL"))
+        else:
+            integration_tests.append(("Strava auth initiate", False, f"Status: {response.status_code}"))
+    except Exception as e:
+        integration_tests.append(("Strava auth initiate", False, f"Exception: {str(e)}"))
+    
+    # Test Oura auth initiate
+    try:
+        response = requests.get(f"{BACKEND_URL}/auth/oura/{TEST_ATHLETE_ID}")
+        if response.status_code == 200:
+            data = response.json()
+            if "authorization_url" in data:
+                integration_tests.append(("Oura auth initiate", True, "Authorization URL returned"))
+            else:
+                integration_tests.append(("Oura auth initiate", False, "No authorization URL"))
+        else:
+            integration_tests.append(("Oura auth initiate", False, f"Status: {response.status_code}"))
+    except Exception as e:
+        integration_tests.append(("Oura auth initiate", False, f"Exception: {str(e)}"))
+    
+    # Test COROS auth initiate
+    try:
+        response = requests.get(f"{BACKEND_URL}/auth/coros/{TEST_ATHLETE_ID}")
+        if response.status_code in [200, 503]:  # 503 is expected if not configured
+            if response.status_code == 200:
+                data = response.json()
+                if "auth_url" in data:
+                    integration_tests.append(("COROS auth initiate", True, "Auth URL returned"))
+                else:
+                    integration_tests.append(("COROS auth initiate", False, "No auth URL"))
+            else:
+                integration_tests.append(("COROS auth initiate", True, "Expected 503 - not configured"))
+        else:
+            integration_tests.append(("COROS auth initiate", False, f"Status: {response.status_code}"))
+    except Exception as e:
+        integration_tests.append(("COROS auth initiate", False, f"Exception: {str(e)}"))
+    
+    # Test get integrations
+    try:
+        response = requests.get(f"{BACKEND_URL}/integrations/{TEST_ATHLETE_ID}")
+        if response.status_code == 200:
+            data = response.json()
+            if "integrations" in data:
+                integration_tests.append(("Get integrations", True, f"Returned {len(data['integrations'])} integrations"))
+            else:
+                integration_tests.append(("Get integrations", False, "No integrations field"))
+        else:
+            integration_tests.append(("Get integrations", False, f"Status: {response.status_code}"))
+    except Exception as e:
+        integration_tests.append(("Get integrations", False, f"Exception: {str(e)}"))
+    
+    # Print results
+    for test_name, success, details in integration_tests:
+        print_test_result(test_name, success, details)
+    
+    return integration_tests
+
+# Additional API Tests
+def test_additional_endpoints():
+    """Test additional endpoints for basic functionality"""
+    print("🔍 Testing Additional API Endpoints")
+    
+    additional_tests = []
+    
+    # Test root endpoint
+    try:
+        response = requests.get(f"{BACKEND_URL}/")
+        if response.status_code == 200:
+            data = response.json()
+            if "message" in data:
+                additional_tests.append(("Root endpoint", True, f"Message: {data['message']}"))
+            else:
+                additional_tests.append(("Root endpoint", False, "No message field"))
+        else:
+            additional_tests.append(("Root endpoint", False, f"Status: {response.status_code}"))
+    except Exception as e:
+        additional_tests.append(("Root endpoint", False, f"Exception: {str(e)}"))
+    
+    # Test workouts endpoint
+    try:
+        response = requests.get(f"{BACKEND_URL}/workouts/{TEST_ATHLETE_ID}")
+        if response.status_code == 200:
+            workouts = response.json()
+            if isinstance(workouts, list):
+                additional_tests.append(("Get workouts", True, f"Returned {len(workouts)} workouts"))
+            else:
+                additional_tests.append(("Get workouts", False, "Not a list"))
+        else:
+            additional_tests.append(("Get workouts", False, f"Status: {response.status_code}"))
+    except Exception as e:
+        additional_tests.append(("Get workouts", False, f"Exception: {str(e)}"))
+    
+    # Test sleep data endpoint
+    try:
+        response = requests.get(f"{BACKEND_URL}/sleep/{TEST_ATHLETE_ID}")
+        if response.status_code == 200:
+            sleep_data = response.json()
+            if isinstance(sleep_data, list):
+                additional_tests.append(("Get sleep data", True, f"Returned {len(sleep_data)} records"))
+            else:
+                additional_tests.append(("Get sleep data", False, "Not a list"))
+        else:
+            additional_tests.append(("Get sleep data", False, f"Status: {response.status_code}"))
+    except Exception as e:
+        additional_tests.append(("Get sleep data", False, f"Exception: {str(e)}"))
+    
+    # Test readiness endpoint
+    try:
+        response = requests.get(f"{BACKEND_URL}/readiness/{TEST_ATHLETE_ID}")
+        if response.status_code == 200:
+            readiness = response.json()
+            if "readiness_score" in readiness:
+                additional_tests.append(("Get readiness", True, f"Score: {readiness['readiness_score']}"))
+            else:
+                additional_tests.append(("Get readiness", False, "No readiness_score field"))
+        else:
+            additional_tests.append(("Get readiness", False, f"Status: {response.status_code}"))
+    except Exception as e:
+        additional_tests.append(("Get readiness", False, f"Exception: {str(e)}"))
+    
+    # Print results
+    for test_name, success, details in additional_tests:
+        print_test_result(test_name, success, details)
+    
+    return additional_tests
+
 def run_all_tests():
-    """Run all schedule CRUD tests in sequence"""
-    print("🚀 Starting Schedule CRUD API Tests")
+    """Run comprehensive backend API tests"""
+    print("🚀 Starting Comprehensive Backend API Tests")
     print(f"Backend URL: {BACKEND_URL}")
     print(f"Test Athlete ID: {TEST_ATHLETE_ID}")
-    print(f"Test Schedule ID: {TEST_SCHEDULE_ID}")
-    print("=" * 60)
+    print(f"Test Email: {TEST_EMAIL}")
+    print("=" * 80)
     
-    test_results = []
+    all_test_results = []
+    
+    # Phase 1: Authentication & Profile Tests
+    print("\n📋 PHASE 1: AUTHENTICATION & PROFILE TESTS")
+    print("-" * 50)
+    
+    # Create athlete profile
+    result, created_athlete = test_create_athlete_profile()
+    all_test_results.append(("Create athlete profile", result))
+    
+    if not result:
+        print("❌ Cannot continue - athlete creation failed")
+        return all_test_results
+    
+    # Test login
+    result, login_response = test_login_athlete()
+    all_test_results.append(("Login athlete", result))
+    
+    # Test invalid login
+    result = test_login_invalid_credentials()
+    all_test_results.append(("Login invalid credentials", result))
+    
+    # Test get profile
+    result, athlete_profile = test_get_athlete_profile()
+    all_test_results.append(("Get athlete profile", result))
+    
+    # Test update profile
+    result, updated_profile = test_update_athlete_profile()
+    all_test_results.append(("Update athlete profile", result))
+    
+    # Phase 2: Schedule CRUD Tests
+    print("\n📋 PHASE 2: SCHEDULE CRUD TESTS")
+    print("-" * 50)
     
     # Test 1: GET empty schedules list
     result = test_get_schedules_empty()
-    test_results.append(("GET schedules (empty)", result))
+    all_test_results.append(("GET schedules (empty)", result))
     
     # Test 2: POST create schedule
     result, created_schedule = test_create_schedule()
-    test_results.append(("POST create schedule", result))
+    all_test_results.append(("POST create schedule", result))
     
-    if not result:
-        print("❌ Cannot continue tests - schedule creation failed")
-        return test_results
+    if result:
+        # Test 3: GET schedules with data
+        result, schedule_data = test_get_schedules_with_data()
+        all_test_results.append(("GET schedules (with data)", result))
+        
+        # Test 4: PUT update schedule
+        result, updated_schedule = test_update_schedule()
+        all_test_results.append(("PUT update schedule", result))
+        
+        # Test 5: Verify update in list
+        result = test_verify_update_in_list()
+        all_test_results.append(("GET verify update", result))
+        
+        # Test 6: DELETE schedule
+        result = test_delete_schedule()
+        all_test_results.append(("DELETE schedule", result))
+        
+        # Test 7: Verify soft delete
+        result = test_verify_soft_delete()
+        all_test_results.append(("GET verify soft delete", result))
     
-    # Test 3: GET schedules with data
-    result, schedule_data = test_get_schedules_with_data()
-    test_results.append(("GET schedules (with data)", result))
+    # Phase 3: Integration Endpoints
+    print("\n📋 PHASE 3: INTEGRATION ENDPOINTS")
+    print("-" * 50)
     
-    # Test 4: PUT update schedule
-    result, updated_schedule = test_update_schedule()
-    test_results.append(("PUT update schedule", result))
+    integration_results = test_integration_endpoints()
+    for test_name, success, _ in integration_results:
+        all_test_results.append((test_name, success))
     
-    # Test 5: Verify update in list
-    result = test_verify_update_in_list()
-    test_results.append(("GET verify update", result))
+    # Phase 4: Additional Endpoints
+    print("\n📋 PHASE 4: ADDITIONAL ENDPOINTS")
+    print("-" * 50)
     
-    # Test 6: DELETE schedule
-    result = test_delete_schedule()
-    test_results.append(("DELETE schedule", result))
+    additional_results = test_additional_endpoints()
+    for test_name, success, _ in additional_results:
+        all_test_results.append((test_name, success))
     
-    # Test 7: Verify soft delete
-    result = test_verify_soft_delete()
-    test_results.append(("GET verify soft delete", result))
-    
-    # Summary
-    print("=" * 60)
-    print("📊 TEST SUMMARY")
-    print("=" * 60)
+    # Final Summary
+    print("\n" + "=" * 80)
+    print("📊 COMPREHENSIVE TEST SUMMARY")
+    print("=" * 80)
     
     passed = 0
     failed = 0
     
-    for test_name, success in test_results:
-        status = "✅ PASS" if success else "❌ FAIL"
-        print(f"{status} {test_name}")
-        if success:
-            passed += 1
-        else:
-            failed += 1
+    # Group results by phase
+    phases = {
+        "Authentication & Profile": all_test_results[:5],
+        "Schedule CRUD": all_test_results[5:12] if len(all_test_results) > 12 else all_test_results[5:],
+        "Integration Endpoints": [],
+        "Additional Endpoints": []
+    }
     
-    print("=" * 60)
-    print(f"Total Tests: {len(test_results)}")
+    # Adjust phases based on actual results
+    if len(all_test_results) > 12:
+        integration_start = 12
+        integration_count = len(integration_results)
+        phases["Integration Endpoints"] = all_test_results[integration_start:integration_start + integration_count]
+        phases["Additional Endpoints"] = all_test_results[integration_start + integration_count:]
+    
+    for phase_name, phase_results in phases.items():
+        if phase_results:
+            print(f"\n{phase_name}:")
+            for test_name, success in phase_results:
+                status = "✅ PASS" if success else "❌ FAIL"
+                print(f"  {status} {test_name}")
+                if success:
+                    passed += 1
+                else:
+                    failed += 1
+    
+    print("\n" + "=" * 80)
+    print(f"Total Tests: {len(all_test_results)}")
     print(f"Passed: {passed}")
     print(f"Failed: {failed}")
-    print(f"Success Rate: {(passed/len(test_results)*100):.1f}%")
+    print(f"Success Rate: {(passed/len(all_test_results)*100):.1f}%")
     
-    return test_results
+    return all_test_results
 
 if __name__ == "__main__":
     test_results = run_all_tests()
