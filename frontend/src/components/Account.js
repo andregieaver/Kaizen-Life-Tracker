@@ -473,9 +473,14 @@ const Account = ({ athleteId }) => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSavePersonalInfo} className="space-y-4 md:space-y-6">
+                {/* Language Selector */}
+                <LanguageSelector />
+                
+                <Separator />
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
+                    <Label htmlFor="name" className="text-sm font-medium">{t('auth.fullName')}</Label>
                     <Input
                       id="name"
                       name="name"
