@@ -91,7 +91,7 @@ const WorkoutHistory = ({ athleteId }) => {
                 className="btn-transition w-full sm:w-auto"
                 data-testid="workouts-view-btn"
               >
-                Workouts ({workouts.length})
+                {t('history.workouts')} ({workouts.length})
               </Button>
               <Button
                 variant={activeView === 'sleep' ? 'default' : 'outline'}
