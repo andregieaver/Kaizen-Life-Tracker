@@ -102,7 +102,7 @@ const StravaCallback = () => {
         </div>
         
         <div className="text-xs text-gray-500">
-          RunWisely × Strava Integration
+          My Health Tracker × Strava Integration
         </div>
       </div>
     </div>
