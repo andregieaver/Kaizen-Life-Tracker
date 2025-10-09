@@ -212,7 +212,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="age" className="text-sm font-medium text-gray-700">
-                    Age
+                    {t('onboarding.age')}
                   </Label>
                   <Input
                     id="age"
