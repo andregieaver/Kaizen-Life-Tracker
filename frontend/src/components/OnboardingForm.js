@@ -161,7 +161,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                   value={formData.email}
                   onChange={handleChange}
                   className={`input-focus ${errors.email ? 'border-red-300' : ''}`}
-                  placeholder="your.email@example.com"
+                  placeholder={t('auth.emailPlaceholder')}
                   data-testid="email-input"
                 />
                 {errors.email && (
