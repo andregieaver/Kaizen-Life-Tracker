@@ -1336,18 +1336,18 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
 @api_router.get("/subscriptions/checkout-status/{session_id}")
 async def get_checkout_status(session_id: str):
     """Get the status of a checkout session"""
-    from emergentintegrations.payments.stripe.checkout import StripeCheckout
+    import stripe
     
     # Get Stripe API key
     stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
     if not stripe_secret_key:
         raise HTTPException(status_code=500, detail="Stripe not configured")
     
-    # Initialize Stripe Checkout
-    stripe_checkout = StripeCheckout(api_key=stripe_secret_key, webhook_url="")
+    stripe.api_key = stripe_secret_key
     
     try:
-        checkout_status = await stripe_checkout.get_checkout_status(session_id)
+        # Retrieve checkout session from Stripe
+        checkout_session = stripe.checkout.Session.retrieve(session_id)
         
         # Update transaction in database
         transaction = await db.payment_transactions.find_one({"session_id": session_id}, {"_id": 0})
