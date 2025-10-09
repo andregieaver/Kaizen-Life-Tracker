@@ -22,6 +22,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Recommendations = ({ athleteId }) => {
+  const { t } = useTranslation();
   const [recommendations, setRecommendations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRecommendation, setSelectedRecommendation] = useState(null);
