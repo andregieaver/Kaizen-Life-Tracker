@@ -519,7 +519,7 @@ const Account = ({ athleteId }) => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="recent_race_time" className="text-sm font-medium">Recent Race</Label>
+                    <Label htmlFor="recent_race_time" className="text-sm font-medium">{t('account.recentRaceTime')}</Label>
                     <Input
                       id="recent_race_time"
                       name="recent_race_time"
