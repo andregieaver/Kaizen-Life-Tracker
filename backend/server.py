@@ -1416,6 +1416,48 @@ async def get_subscription_status(athlete_id: str):
         "subscription_current_period_end": athlete.get("subscription_current_period_end")
     }
 
+@api_router.post("/subscriptions/create-portal-session")
+async def create_portal_session(request: dict):
+    """Create a Stripe Customer Portal session for managing subscriptions"""
+    import stripe
+    
+    athlete_id = request.get("athlete_id")
+    return_url = request.get("return_url")
+    
+    if not athlete_id or not return_url:
+        raise HTTPException(status_code=400, detail="athlete_id and return_url are required")
+    
+    # Get athlete
+    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    if not athlete:
+        raise HTTPException(status_code=404, detail="Athlete not found")
+    
+    stripe_customer_id = athlete.get("stripe_customer_id")
+    if not stripe_customer_id:
+        raise HTTPException(status_code=400, detail="No active subscription found")
+    
+    # Get Stripe API key
+    stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
+    if not stripe_secret_key:
+        raise HTTPException(status_code=500, detail="Stripe not configured")
+    
+    stripe.api_key = stripe_secret_key
+    
+    try:
+        # Create Customer Portal session
+        portal_session = stripe.billing_portal.Session.create(
+            customer=stripe_customer_id,
+            return_url=return_url,
+        )
+        
+        return {"url": portal_session.url}
+    except stripe.error.StripeError as e:
+        logging.error(f"Stripe error creating portal session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Stripe error: {str(e)}")
+    except Exception as e:
+        logging.error(f"Error creating portal session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to create portal session: {str(e)}")
+
 @api_router.post("/webhooks/stripe")
 async def stripe_webhook(request: Request):
     """Handle Stripe webhooks"""
