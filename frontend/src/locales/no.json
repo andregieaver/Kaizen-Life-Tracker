@@ -237,5 +237,15 @@
     "processing": "Behandler...",
     "importedActivities": "Importerte {{count}} aktiviteter",
     "importedSleepRecords": "Importerte {{count}} søvnoppføringer"
+  },
+  "validation": {
+    "nameRequired": "Navn er påkrevd",
+    "emailRequired": "E-post er påkrevd",
+    "emailInvalid": "Vennligst oppgi en gyldig e-postadresse",
+    "passwordRequired": "Passord er påkrevd",
+    "passwordTooShort": "Passordet må være minst 6 tegn",
+    "confirmPasswordRequired": "Vennligst bekreft passordet ditt",
+    "passwordsDoNotMatch": "Passordene stemmer ikke overens",
+    "submitError": "Kunne ikke opprette profil. Vennligst prøv igjen."
   }
 }
