@@ -130,7 +130,7 @@ const Recommendations = ({ athleteId }) => {
             <div className="text-2xl font-bold text-red-600">
               {recommendations.filter(r => r.priority === 'high').length}
             </div>
-            <div className="text-sm text-gray-600">High Priority</div>
+            <div className="text-sm text-gray-600">{t('reports.highPriority')}</div>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm">
