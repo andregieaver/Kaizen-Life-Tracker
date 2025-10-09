@@ -1420,6 +1420,7 @@ async def get_subscription_status(athlete_id: str):
 async def create_portal_session(request: dict):
     """Create a Stripe Customer Portal session for managing subscriptions"""
     import stripe
+    from stripe.error import StripeError
     
     athlete_id = request.get("athlete_id")
     return_url = request.get("return_url")
@@ -1451,12 +1452,64 @@ async def create_portal_session(request: dict):
         )
         
         return {"url": portal_session.url}
-    except stripe.error.StripeError as e:
+    except StripeError as e:
         logging.error(f"Stripe error creating portal session: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Stripe error: {str(e)}")
     except Exception as e:
         logging.error(f"Error creating portal session: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to create portal session: {str(e)}")
+
+@api_router.get("/subscriptions/invoices/{athlete_id}")
+async def get_invoices(athlete_id: str):
+    """Get list of invoices for an athlete"""
+    import stripe
+    from stripe.error import StripeError
+    
+    # Get athlete
+    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    if not athlete:
+        raise HTTPException(status_code=404, detail="Athlete not found")
+    
+    stripe_customer_id = athlete.get("stripe_customer_id")
+    if not stripe_customer_id:
+        return {"invoices": []}
+    
+    # Get Stripe API key
+    stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
+    if not stripe_secret_key:
+        raise HTTPException(status_code=500, detail="Stripe not configured")
+    
+    stripe.api_key = stripe_secret_key
+    
+    try:
+        # Fetch invoices from Stripe
+        invoices = stripe.Invoice.list(
+            customer=stripe_customer_id,
+            limit=10
+        )
+        
+        # Format invoice data
+        invoice_list = []
+        for invoice in invoices.data:
+            invoice_list.append({
+                "id": invoice.id,
+                "amount": invoice.amount_paid / 100,  # Convert from cents
+                "currency": invoice.currency.upper(),
+                "status": invoice.status,
+                "created": invoice.created,
+                "invoice_pdf": invoice.invoice_pdf,
+                "hosted_invoice_url": invoice.hosted_invoice_url,
+                "period_start": invoice.period_start,
+                "period_end": invoice.period_end
+            })
+        
+        return {"invoices": invoice_list}
+    except StripeError as e:
+        logging.error(f"Stripe error fetching invoices: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Stripe error: {str(e)}")
+    except Exception as e:
+        logging.error(f"Error fetching invoices: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch invoices: {str(e)}")
 
 @api_router.post("/webhooks/stripe")
 async def stripe_webhook(request: Request):
