@@ -74,7 +74,7 @@ const ReadinessCard = ({ readiness, onRefresh }) => {
           <div className={`inline-flex items-center justify-center w-24 h-24 rounded-full border-4 readiness-score ${getScoreColor(readiness.readiness_score)}`}>
             <div>
               <div className="text-3xl font-bold">{readiness.readiness_score}</div>
-              <div className="text-xs font-medium">/ 100</div>
+              <div className="text-xs font-medium">/ {t('readiness.maxScore')}</div>
             </div>
           </div>
           <div className="mt-3">
