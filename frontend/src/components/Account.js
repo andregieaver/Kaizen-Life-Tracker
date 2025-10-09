@@ -449,11 +449,16 @@ const Account = ({ athleteId }) => {
 
       {/* Account Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-3 mb-8">
+        <TabsList className="grid w-full grid-cols-4 mb-8">
           <TabsTrigger value="personal" className="flex items-center text-xs md:text-sm" data-testid="personal-tab">
             <User className="w-4 h-4 mr-1 md:mr-2" />
             <span className="hidden sm:inline">{t('account.personalInfo')}</span>
             <span className="sm:hidden">{t('nav.account')}</span>
+          </TabsTrigger>
+          <TabsTrigger value="subscription" className="flex items-center text-xs md:text-sm" data-testid="subscription-tab">
+            <CreditCard className="w-4 h-4 mr-1 md:mr-2" />
+            <span className="hidden sm:inline">Subscription</span>
+            <span className="sm:hidden">Plan</span>
           </TabsTrigger>
           <TabsTrigger value="integrations" className="flex items-center text-xs md:text-sm" data-testid="integrations-tab">
             <Zap className="w-4 h-4 mr-1 md:mr-2" />
