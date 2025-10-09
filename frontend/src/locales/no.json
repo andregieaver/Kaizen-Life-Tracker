@@ -200,7 +200,8 @@
     "createFirstSchedule": "Opprett din første automatiserte plan for å få regelmessige innsikter fra AI-treneren din",
     "logoutTitle": "Logg ut",
     "logoutDescription": "Logg ut av kontoen din og gå tilbake til påloggingssiden",
-    "disconnectConfirm": "Er du sikker på at du vil koble fra?"
+    "disconnectConfirm": "Er du sikker på at du vil koble fra?",
+    "confirmDeleteSchedule": "Er du sikker på at du vil slette denne planen?"
   },
   "merits": {
     "title": "Meritter",
