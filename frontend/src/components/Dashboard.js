@@ -317,7 +317,7 @@ const Dashboard = ({ athleteId }) => {
             data-testid="mobile-reports-tab"
           >
             <PlusCircle className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Reports</span>
+            <span className="text-xs font-medium">{t('nav.reports')}</span>
           </button>
           
           <button
