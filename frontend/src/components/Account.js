@@ -799,7 +799,7 @@ const Account = ({ athleteId }) => {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Activity className="w-5 h-5 mr-2 text-blue-600" />
-                  COROS Watch Integration
+                  {t('account.corosIntegration')}
                 </CardTitle>
                 <CardDescription>
                   Connect your COROS watch via API to automatically import workouts
