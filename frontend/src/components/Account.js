@@ -834,10 +834,10 @@ const Account = ({ athleteId }) => {
                   </div>
                 </div>
 
-                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-600 text-center">
-                    <strong>Note:</strong> Stripe integration coming soon! 
-                    Upgrade buttons will redirect to secure checkout.
+                <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <p className="text-sm text-blue-900 text-center">
+                    <strong>Secure Payment:</strong> All payments are processed securely through Stripe. 
+                    Your payment information is never stored on our servers.
                   </p>
                 </div>
               </CardContent>
