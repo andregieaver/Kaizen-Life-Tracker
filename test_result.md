@@ -246,7 +246,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Strava Credentials Modal Implementation"
     - "Schedule Edit Functionality"
     - "Schedule Delete Functionality"
     - "Schedule Form Header Dynamic Text"
