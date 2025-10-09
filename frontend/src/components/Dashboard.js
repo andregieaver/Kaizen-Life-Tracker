@@ -182,7 +182,7 @@ const Dashboard = ({ athleteId }) => {
                   </div>
                   <Separator />
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Recent Workouts</span>
+                    <span className="text-sm text-gray-600">{t('dashboard.recentWorkouts')}</span>
                     <span className="font-semibold">{recentWorkouts.length}</span>
                   </div>
                   <Separator />
