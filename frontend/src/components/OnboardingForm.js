@@ -233,7 +233,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
 
                 <div className="space-y-2">
                   <Label htmlFor="weekly_mileage" className="text-sm font-medium text-gray-700">
-                    Weekly Miles
+                    {t('onboarding.weeklyMileage')}
                   </Label>
                   <Input
                     id="weekly_mileage"
