@@ -956,7 +956,7 @@ const Account = ({ athleteId }) => {
                         value={scheduleForm.prompt}
                         onChange={(e) => setScheduleForm(prev => ({ ...prev, prompt: e.target.value }))}
                         className="w-full min-h-24 p-3 border border-gray-300 rounded-md input-focus resize-none"
-                        placeholder="Review yesterday's workout data along with last night's Oura sleep and HRV data. Analyze how the training intensity affected my recovery metrics and provide recommendations for today's training."
+                        placeholder={t('account.promptPlaceholder')}
                         data-testid="schedule-prompt-textarea"
                       />
                     </div>
