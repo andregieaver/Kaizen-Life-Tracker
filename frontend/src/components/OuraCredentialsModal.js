@@ -14,9 +14,7 @@ const OuraCredentialsModal = ({ athleteId, isOpen, onClose, onSuccess }) => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     clientId: '',
-    clientSecret: '',
-    accessToken: '',
-    refreshToken: ''
+    clientSecret: ''
   });
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState({ type: '', message: '' });
