@@ -1037,6 +1037,97 @@ async def login_athlete(login_data: LoginRequest):
         "email": athlete["email"]
     }
 
+@api_router.post("/auth/forgot-password")
+async def forgot_password(request: PasswordResetRequest):
+    """Initiate password reset process"""
+    athlete = await db.athlete_profiles.find_one(
+        {"email": request.email.lower().strip()}, 
+        {"_id": 0}
+    )
+    if not athlete:
+        # Don't reveal if email exists or not for security
+        return {"message": "If the email exists, a reset link will be sent"}
+    
+    # Generate a reset token (valid for 1 hour)
+    reset_token = secrets.token_urlsafe(32)
+    reset_expires = datetime.now(timezone.utc) + timedelta(hours=1)
+    
+    # Store reset token in database
+    await db.athlete_profiles.update_one(
+        {"id": athlete["id"]},
+        {"$set": {
+            "reset_token": reset_token,
+            "reset_token_expires": reset_expires.isoformat()
+        }}
+    )
+    
+    # In a real app, you would send an email here
+    # For now, we'll return the token (remove this in production)
+    return {
+        "message": "Password reset initiated",
+        "reset_token": reset_token,  # Remove this in production!
+        "email": request.email
+    }
+
+@api_router.post("/auth/reset-password")
+async def reset_password(request: PasswordResetConfirm):
+    """Complete password reset with token"""
+    athlete = await db.athlete_profiles.find_one(
+        {"email": request.email.lower().strip()}, 
+        {"_id": 0}
+    )
+    if not athlete:
+        raise HTTPException(status_code=400, detail="Invalid reset request")
+    
+    # Check if reset token exists and is valid
+    if not athlete.get("reset_token") or athlete.get("reset_token") != request.reset_token:
+        raise HTTPException(status_code=400, detail="Invalid or expired reset token")
+    
+    # Check if token is expired
+    if athlete.get("reset_token_expires"):
+        expires = datetime.fromisoformat(athlete["reset_token_expires"])
+        if datetime.now(timezone.utc) > expires:
+            raise HTTPException(status_code=400, detail="Reset token has expired")
+    
+    # Hash new password and update
+    hashed_password = pwd_context.hash(request.new_password)
+    
+    await db.athlete_profiles.update_one(
+        {"id": athlete["id"]},
+        {"$set": {
+            "password": hashed_password
+        }, "$unset": {
+            "reset_token": "",
+            "reset_token_expires": ""
+        }}
+    )
+    
+    return {"message": "Password reset successfully"}
+
+@api_router.post("/auth/change-password")
+async def change_password(request: ChangePasswordRequest):
+    """Change password for logged-in user"""
+    athlete = await db.athlete_profiles.find_one(
+        {"id": request.athlete_id}, 
+        {"_id": 0}
+    )
+    if not athlete:
+        raise HTTPException(status_code=404, detail="Athlete not found")
+    
+    # Verify current password
+    if not pwd_context.verify(request.current_password, athlete["password"]):
+        raise HTTPException(status_code=401, detail="Current password is incorrect")
+    
+    # Hash new password and update
+    hashed_password = pwd_context.hash(request.new_password)
+    
+    await db.athlete_profiles.update_one(
+        {"id": request.athlete_id},
+        {"$set": {"password": hashed_password}}
+    )
+    
+    return {"message": "Password changed successfully"}
+
 @api_router.get("/athlete/{athlete_id}", response_model=AthleteProfile)
 async def get_athlete_profile(athlete_id: str):
     athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
