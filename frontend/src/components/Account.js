@@ -817,9 +817,9 @@ const Account = ({ athleteId }) => {
                               {t('account.corosConnected')}
                             </p>
                             <p className="text-sm text-green-600">
-                              Last sync: {integrations.coros.last_sync ? 
+                              {t('account.lastSync')}: {integrations.coros.last_sync ? 
                                 new Date(integrations.coros.last_sync).toLocaleString() : 
-                                'Never'
+                                t('account.never')
                               }
                             </p>
                           </div>
