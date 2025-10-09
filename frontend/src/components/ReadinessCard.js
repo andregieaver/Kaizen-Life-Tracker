@@ -131,7 +131,7 @@ const ReadinessCard = ({ readiness, onRefresh }) => {
                   className="p-3 bg-blue-50 border border-blue-100 rounded-lg text-sm text-blue-800"
                   data-testid={`recommendation-${index}`}
                 >
-                  {rec}
+                  {translateBackendMessage(rec)}
                 </div>
               ))}
             </div>
