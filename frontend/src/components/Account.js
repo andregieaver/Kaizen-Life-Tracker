@@ -706,7 +706,7 @@ const Account = ({ athleteId }) => {
                   <div className="space-y-4">
                     <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg">
                       <p className="text-sm text-orange-800 mb-3">
-                        Connect your Strava account to automatically import your workouts, including distance, pace, heart rate, and route data.
+                        {t('account.stravaNote')}
                       </p>
                       <Button 
                         onClick={handleStravaConnect}
