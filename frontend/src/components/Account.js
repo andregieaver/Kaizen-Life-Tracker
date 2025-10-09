@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Separator } from './ui/separator';
 import { Badge } from './ui/badge';
 import LanguageSelector from './LanguageSelector';
+import ChangePassword from './ChangePassword';
 import { 
   User, 
   Key, 
