@@ -264,7 +264,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                   value={formData.recent_race_time}
                   onChange={handleChange}
                   className="input-focus"
-                  placeholder="e.g., 5K: 22:30, Marathon: 3:45:00"
+                  placeholder={t('onboarding.raceTimeOptional')}
                   data-testid="race-time-input"
                 />
               </div>
