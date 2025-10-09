@@ -452,7 +452,7 @@ const CoachChat = ({ athleteId }) => {
               ref={inputRef}
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Ask your coach anything..."
+              placeholder={t('coach.placeholder')}
               className="flex-1 input-focus"
               disabled={isLoading}
               data-testid="chat-input"
