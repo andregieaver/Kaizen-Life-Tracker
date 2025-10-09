@@ -113,7 +113,7 @@ const WorkoutHistory = ({ athleteId }) => {
             <Card className="border-0 shadow-lg">
               <CardContent className="text-center py-12">
                 <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500">No workouts logged yet</p>
+                <p className="text-gray-500">{t('history.noWorkouts')}</p>
               </CardContent>
             </Card>
           ) : (
