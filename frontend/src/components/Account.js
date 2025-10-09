@@ -540,7 +540,7 @@ const Account = ({ athleteId }) => {
                     value={personalForm.running_goals}
                     onChange={handlePersonalFormChange}
                     className="w-full min-h-24 p-3 border border-gray-300 rounded-md input-focus resize-none"
-                    placeholder="Describe your running goals and aspirations"
+                    placeholder={t('onboarding.runningGoalsPlaceholder')}
                     data-testid="goals-textarea"
                   />
                 </div>
