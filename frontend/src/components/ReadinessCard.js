@@ -30,10 +30,10 @@ const ReadinessCard = ({ readiness, onRefresh }) => {
   };
 
   const getScoreLabel = (score) => {
-    if (score >= 85) return 'Excellent';
-    if (score >= 70) return 'Good';
-    if (score >= 50) return 'Moderate';
-    return 'Low';
+    if (score >= 85) return t('readiness.excellent');
+    if (score >= 70) return t('readiness.good');
+    if (score >= 50) return t('readiness.fair');
+    return t('readiness.poor');
   };
 
   const getScoreIcon = (score) => {
