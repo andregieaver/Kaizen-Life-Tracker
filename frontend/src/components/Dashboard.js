@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -16,11 +17,15 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Dashboard = ({ athleteId }) => {
+  const navigate = useNavigate();
+  const { tab } = useParams();
   const [athlete, setAthlete] = useState(null);
   const [readiness, setReadiness] = useState(null);
   const [recentWorkouts, setRecentWorkouts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('overview');
+  
+  // Determine active tab from URL, default to overview
+  const activeTab = tab || 'overview';
 
   useEffect(() => {
     loadDashboardData();
