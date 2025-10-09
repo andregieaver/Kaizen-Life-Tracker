@@ -206,7 +206,8 @@
     "openAIPlatform": "OpenAI Platform",
     "syncSleepRecovery": "Sync Sleep & Recovery",
     "corosTerraNote": "COROS integration uses Terra API for secure data access",
-    "corosSyncNote": "Your COROS activities will be automatically synchronized including runs, trails, and other training data from your COROS device"
+    "corosSyncNote": "Your COROS activities will be automatically synchronized including runs, trails, and other training data from your COROS device",
+    "templatesDescription": "Popular analysis prompts to get you started"
   },
   "merits": {
     "title": "Merits",
