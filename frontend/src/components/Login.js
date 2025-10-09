@@ -164,7 +164,7 @@ const Login = ({ onAthleteLogin }) => {
 
         {/* Footer Note */}
         <p className="text-center text-sm text-gray-500 mt-6">
-          Your data is secure and encrypted
+          {t('auth.yourDataSecure')}
         </p>
       </div>
     </div>
