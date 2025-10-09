@@ -137,8 +137,8 @@ const Merits = ({ athleteId }) => {
         {merits.length === 0 && (
           <div className="text-center py-8">
             <Trophy className="w-12 h-12 text-gray-300 mx-auto mb-2" />
-            <p className="text-gray-500 text-sm">No race records yet</p>
-            <p className="text-gray-400 text-xs mt-1">Complete workouts to see your personal bests</p>
+            <p className="text-gray-500 text-sm">{t('merits.noRecords')}</p>
+            <p className="text-gray-400 text-xs mt-1">{t('merits.completeWorkouts')}</p>
           </div>
         )}
       </CardContent>
