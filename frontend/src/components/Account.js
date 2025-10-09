@@ -554,7 +554,7 @@ const Account = ({ athleteId }) => {
                   </h3>
                   <div className="p-4 bg-gray-50 rounded-lg">
                     <p className="text-sm text-gray-600 mb-3">
-                      Password reset functionality will be available soon. For now, your account is secured through the platform authentication.
+                      {t('account.passwordResetSoon')}
                     </p>
                     <Button 
                       type="button" 
