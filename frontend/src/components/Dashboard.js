@@ -187,14 +187,14 @@ const Dashboard = ({ athleteId }) => {
                   </div>
                   <Separator />
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Running Goals</span>
+                    <span className="text-sm text-gray-600">{t('dashboard.runningGoals')}</span>
                     <Button 
                       variant="outline" 
                       size="sm" 
                       className="text-xs"
                       data-testid="view-goals-btn"
                     >
-                      View
+                      {t('dashboard.viewGoals')}
                     </Button>
                   </div>
                 </CardContent>
