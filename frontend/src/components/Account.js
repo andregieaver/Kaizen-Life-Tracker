@@ -1163,7 +1163,7 @@ const Account = ({ athleteId }) => {
                 data-testid="logout-btn"
               >
                 <LogOut className="w-4 h-4 mr-2" />
-                Logout
+                {t('auth.logout')}
               </Button>
             </div>
           </CardContent>
