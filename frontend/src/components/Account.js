@@ -66,6 +66,7 @@ const Account = ({ athleteId }) => {
   const [showScheduleForm, setShowScheduleForm] = useState(false);
   const [editingSchedule, setEditingSchedule] = useState(null);
   const [showStravaModal, setShowStravaModal] = useState(false);
+  const [showOuraModal, setShowOuraModal] = useState(false);
   const [scheduleForm, setScheduleForm] = useState({
     name: '',
     prompt: '',
