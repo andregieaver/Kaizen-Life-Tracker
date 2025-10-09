@@ -295,6 +295,18 @@ class OuraReadinessData(BaseModel):
     sleep_balance: Optional[int] = None
     imported_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+# Subscription Models
+class CheckoutRequest(BaseModel):
+    plan_id: str  # 'pro_monthly', 'pro_annual', 'premium_monthly', 'premium_annual'
+    origin_url: str
+
+class SubscriptionWebhookData(BaseModel):
+    stripe_customer_id: Optional[str] = None
+    stripe_subscription_id: Optional[str] = None
+    subscription_tier: Optional[str] = None  # 'free', 'pro', 'premium'
+    subscription_status: Optional[str] = None  # 'active', 'canceled', 'past_due', etc.
+    subscription_current_period_end: Optional[str] = None
+
 # AI Coach Service
 class AICoachService:
     def __init__(self):
