@@ -1452,8 +1452,23 @@ async def strava_auth_callback(
         # Extract athlete_id from state
         athlete_id = state.split('_')[0]
         
-        # Exchange code for tokens
-        tokens = await strava_token_manager.exchange_code_for_tokens(code)
+        # Get user's Strava credentials for token exchange
+        integration = await db.integrations.find_one(
+            {"athlete_id": athlete_id, "service": "strava"}, 
+            {"_id": 0}
+        )
+        
+        if not integration or not integration.get("credentials"):
+            raise HTTPException(status_code=404, detail="Strava credentials not found")
+        
+        user_credentials = integration["credentials"]
+        
+        # Exchange code for tokens using user's credentials
+        tokens = await strava_token_manager.exchange_code_for_tokens(
+            code, 
+            user_credentials["client_id"], 
+            user_credentials["client_secret"]
+        )
         
         # Store Strava integration
         integration = Integration(
