@@ -1420,23 +1420,6 @@ async def delete_memory(memory_id: str):
     return {"message": "Memory deleted successfully"}
 
 # Strava OAuth routes
-@api_router.get("/auth/strava/{athlete_id}")
-async def strava_auth_initiate(athlete_id: str):
-    """Initiate Strava OAuth authorization flow"""
-    state = f"{athlete_id}_{secrets.token_urlsafe(16)}"
-    
-    auth_params = {
-        "client_id": os.environ.get('STRAVA_CLIENT_ID'),
-        "response_type": "code",
-        "redirect_uri": os.environ.get('STRAVA_REDIRECT_URI'),
-        "approval_prompt": "force",
-        "scope": "read,activity:read_all,profile:read_all",
-        "state": state
-    }
-    
-    auth_url = f"https://www.strava.com/oauth/authorize?{urlencode(auth_params)}"
-    return {"authorization_url": auth_url, "state": state}
-
 @api_router.get("/auth/strava/callback")
 async def strava_auth_callback(
     code: str = Query(None),
