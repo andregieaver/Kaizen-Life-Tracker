@@ -417,7 +417,7 @@ const Account = ({ athleteId }) => {
           {t('account.title')}
         </h1>
         <p className="text-gray-600">
-          Manage your profile and integrations
+          {t('account.manageProfile')}
         </p>
       </div>
 
