@@ -279,7 +279,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                   value={formData.running_goals}
                   onChange={handleChange}
                   className={`input-focus min-h-20 resize-none ${errors.running_goals ? 'border-red-300' : ''}`}
-                  placeholder="e.g., Train for Boston Marathon, improve 5K time, run injury-free..."
+                  placeholder={t('onboarding.runningGoalsPlaceholder')}
                   data-testid="goals-textarea"
                 />
                 {errors.running_goals && (
