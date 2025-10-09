@@ -148,7 +148,7 @@ const Recommendations = ({ athleteId }) => {
             <div className="text-2xl font-bold text-purple-600">
               {new Set(recommendations.flatMap(r => r.tags || [])).size}
             </div>
-            <div className="text-sm text-gray-600">Topics</div>
+            <div className="text-sm text-gray-600">{t('reports.topics')}</div>
           </CardContent>
         </Card>
       </div>
