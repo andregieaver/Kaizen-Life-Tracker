@@ -987,6 +987,386 @@ def test_additional_endpoints():
     
     return additional_tests
 
+# Oura Credentials Tests (Specific to Review Request)
+def test_oura_credentials_save():
+    """Test POST /api/integrations/oura/{athlete_id}/credentials - save Oura credentials"""
+    print("🔍 Testing POST /api/integrations/oura/{athlete_id}/credentials (save credentials)")
+    
+    # Use the specific athlete ID from the review request
+    test_athlete_id = "3e4ee10d-105d-4564-8b7a-1e7223acb706"
+    
+    credentials_data = {
+        "client_id": "test-client-123",
+        "client_secret": "test-secret-456"
+    }
+    
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/integrations/oura/{test_athlete_id}/credentials",
+            json=credentials_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            
+            success = True
+            details = []
+            
+            # Check for success message
+            if "message" in result:
+                if "success" in result["message"].lower():
+                    details.append(f"Success message: ✓ ({result['message']})")
+                else:
+                    details.append(f"Message present but unclear: ⚠️ ({result['message']})")
+            else:
+                details.append("Success message: ✗ (missing)")
+                success = False
+            
+            print_test_result("POST Oura credentials save", success, "; ".join(details))
+            return success, result, test_athlete_id
+        else:
+            print_test_result("POST Oura credentials save", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None, test_athlete_id
+            
+    except Exception as e:
+        print_test_result("POST Oura credentials save", False, f"Exception: {str(e)}")
+        return False, None, test_athlete_id
+
+def test_oura_credentials_database_verification():
+    """Verify Oura credentials are actually stored in database by checking integration status"""
+    print("🔍 Testing Database Storage Verification (via integration status)")
+    
+    # Use the same athlete ID from credentials save test
+    test_athlete_id = "3e4ee10d-105d-4564-8b7a-1e7223acb706"
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/integrations/oura/{test_athlete_id}/status")
+        
+        if response.status_code == 200:
+            status_data = response.json()
+            
+            success = True
+            details = []
+            
+            # Check if integration shows as connected after saving credentials
+            if "connected" in status_data:
+                if status_data["connected"] == True:
+                    details.append("Integration connected: ✓ (credentials saved successfully)")
+                else:
+                    details.append("Integration connected: ✗ (credentials may not be saved)")
+                    success = False
+            else:
+                details.append("Connected field: ✗ (missing)")
+                success = False
+            
+            # Check for other expected fields
+            expected_fields = ["last_sync"]
+            for field in expected_fields:
+                if field in status_data:
+                    details.append(f"{field}: ✓")
+                else:
+                    details.append(f"{field}: ✗")
+                    # Don't fail for missing optional fields
+            
+            print_test_result("Database verification (status check)", success, "; ".join(details))
+            return success, status_data
+        else:
+            print_test_result("Database verification (status check)", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print_test_result("Database verification (status check)", False, f"Exception: {str(e)}")
+        return False, None
+
+def test_oura_credentials_retrieval():
+    """Test that Oura credentials can be retrieved (indirectly via integration list)"""
+    print("🔍 Testing Oura Credentials Retrieval (via integrations list)")
+    
+    test_athlete_id = "3e4ee10d-105d-4564-8b7a-1e7223acb706"
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/integrations/{test_athlete_id}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            success = True
+            details = []
+            
+            if "integrations" in data:
+                integrations = data["integrations"]
+                
+                # Look for Oura integration
+                oura_integration = None
+                for integration in integrations:
+                    if integration.get("integration_type") == "oura" or integration.get("service") == "oura":
+                        oura_integration = integration
+                        break
+                
+                if oura_integration:
+                    details.append("Oura integration found: ✓")
+                    
+                    # Check integration fields (credentials should not be returned for security)
+                    if "credentials" not in oura_integration:
+                        details.append("Credentials excluded from response: ✓ (security)")
+                    else:
+                        details.append("Credentials excluded from response: ✗ (security risk)")
+                        # Don't fail the test for this
+                    
+                    # Check for expected fields
+                    expected_fields = ["athlete_id", "integration_type", "is_active"]
+                    for field in expected_fields:
+                        if field in oura_integration:
+                            details.append(f"{field}: ✓")
+                        else:
+                            # Try alternative field names
+                            if field == "integration_type" and "service" in oura_integration:
+                                details.append("service (integration_type): ✓")
+                            else:
+                                details.append(f"{field}: ✗")
+                else:
+                    details.append("Oura integration found: ✗ (not in list)")
+                    success = False
+            else:
+                details.append("Integrations field: ✗ (missing)")
+                success = False
+            
+            print_test_result("Oura credentials retrieval", success, "; ".join(details))
+            return success, data
+        else:
+            print_test_result("Oura credentials retrieval", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print_test_result("Oura credentials retrieval", False, f"Exception: {str(e)}")
+        return False, None
+
+def test_oura_credentials_validation():
+    """Test Oura credentials endpoint validation"""
+    print("🔍 Testing Oura Credentials Validation")
+    
+    test_athlete_id = "3e4ee10d-105d-4564-8b7a-1e7223acb706"
+    
+    validation_tests = []
+    
+    # Test 1: Empty payload
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/integrations/oura/{test_athlete_id}/credentials",
+            json={},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code in [400, 422]:  # Should reject empty payload
+            validation_tests.append(("Empty payload validation", True, f"Correctly rejected with {response.status_code}"))
+        else:
+            validation_tests.append(("Empty payload validation", False, f"Unexpected status: {response.status_code}"))
+    except Exception as e:
+        validation_tests.append(("Empty payload validation", False, f"Exception: {str(e)}"))
+    
+    # Test 2: Missing client_secret
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/integrations/oura/{test_athlete_id}/credentials",
+            json={"client_id": "test-client-123"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code in [400, 422]:  # Should reject incomplete payload
+            validation_tests.append(("Missing client_secret validation", True, f"Correctly rejected with {response.status_code}"))
+        else:
+            validation_tests.append(("Missing client_secret validation", False, f"Unexpected status: {response.status_code}"))
+    except Exception as e:
+        validation_tests.append(("Missing client_secret validation", False, f"Exception: {str(e)}"))
+    
+    # Test 3: Missing client_id
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/integrations/oura/{test_athlete_id}/credentials",
+            json={"client_secret": "test-secret-456"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code in [400, 422]:  # Should reject incomplete payload
+            validation_tests.append(("Missing client_id validation", True, f"Correctly rejected with {response.status_code}"))
+        else:
+            validation_tests.append(("Missing client_id validation", False, f"Unexpected status: {response.status_code}"))
+    except Exception as e:
+        validation_tests.append(("Missing client_id validation", False, f"Exception: {str(e)}"))
+    
+    # Print results
+    for test_name, success, details in validation_tests:
+        print_test_result(test_name, success, details)
+    
+    return validation_tests
+
+def test_oura_credentials_error_analysis():
+    """Test for potential errors in Oura credentials saving"""
+    print("🔍 Testing Oura Credentials Error Analysis")
+    
+    test_athlete_id = "3e4ee10d-105d-4564-8b7a-1e7223acb706"
+    
+    error_tests = []
+    
+    # Test 1: Invalid athlete ID
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/integrations/oura/invalid-athlete-id/credentials",
+            json={"client_id": "test-client-123", "client_secret": "test-secret-456"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        # This might succeed (upsert creates new record) or fail (validation)
+        if response.status_code == 200:
+            error_tests.append(("Invalid athlete ID", True, "Accepted (upsert behavior)"))
+        elif response.status_code in [400, 404]:
+            error_tests.append(("Invalid athlete ID", True, f"Correctly rejected with {response.status_code}"))
+        else:
+            error_tests.append(("Invalid athlete ID", False, f"Unexpected status: {response.status_code}"))
+    except Exception as e:
+        error_tests.append(("Invalid athlete ID", False, f"Exception: {str(e)}"))
+    
+    # Test 2: Malformed JSON
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/integrations/oura/{test_athlete_id}/credentials",
+            data='{"client_id": "test", "client_secret":}',  # Malformed JSON
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code in [400, 422]:
+            error_tests.append(("Malformed JSON", True, f"Correctly rejected with {response.status_code}"))
+        else:
+            error_tests.append(("Malformed JSON", False, f"Unexpected status: {response.status_code}"))
+    except Exception as e:
+        error_tests.append(("Malformed JSON", True, f"Exception caught: {type(e).__name__}"))
+    
+    # Test 3: Wrong Content-Type
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/integrations/oura/{test_athlete_id}/credentials",
+            data="client_id=test&client_secret=secret",  # Form data instead of JSON
+            headers={"Content-Type": "application/x-www-form-urlencoded"}
+        )
+        
+        if response.status_code in [400, 422]:
+            error_tests.append(("Wrong Content-Type", True, f"Correctly rejected with {response.status_code}"))
+        else:
+            error_tests.append(("Wrong Content-Type", False, f"Unexpected status: {response.status_code}"))
+    except Exception as e:
+        error_tests.append(("Wrong Content-Type", False, f"Exception: {str(e)}"))
+    
+    # Print results
+    for test_name, success, details in error_tests:
+        print_test_result(test_name, success, details)
+    
+    return error_tests
+
+def test_oura_integration_status_after_save():
+    """Test GET /api/integrations/oura/{athlete_id}/status after saving credentials"""
+    print("🔍 Testing Oura Integration Status After Credentials Save")
+    
+    test_athlete_id = "3e4ee10d-105d-4564-8b7a-1e7223acb706"
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/integrations/oura/{test_athlete_id}/status")
+        
+        if response.status_code == 200:
+            status_data = response.json()
+            
+            success = True
+            details = []
+            
+            # Check connection status
+            if "connected" in status_data:
+                if status_data["connected"] == True:
+                    details.append("Connected status: ✓ (true after credentials save)")
+                else:
+                    details.append("Connected status: ✗ (false - credentials may not be saved)")
+                    success = False
+            else:
+                details.append("Connected field: ✗ (missing)")
+                success = False
+            
+            # Check other expected fields
+            optional_fields = ["last_sync", "oura_user_id", "settings"]
+            for field in optional_fields:
+                if field in status_data:
+                    details.append(f"{field}: ✓")
+                else:
+                    details.append(f"{field}: - (optional)")
+            
+            print_test_result("Oura integration status (after save)", success, "; ".join(details))
+            return success, status_data
+        else:
+            print_test_result("Oura integration status (after save)", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print_test_result("Oura integration status (after save)", False, f"Exception: {str(e)}")
+        return False, None
+
+def run_oura_credentials_tests():
+    """Run comprehensive Oura credentials tests as requested in review"""
+    print("🔍 OURA CREDENTIALS TESTING (Review Request)")
+    print("=" * 60)
+    print("Testing Oura credentials saving endpoint to identify potential issues")
+    print(f"Using athlete ID: 3e4ee10d-105d-4564-8b7a-1e7223acb706")
+    print("-" * 60)
+    
+    oura_test_results = []
+    
+    # Test 1: Save Oura credentials
+    print("\n1. API ENDPOINT TESTING:")
+    result, save_response, athlete_id = test_oura_credentials_save()
+    oura_test_results.append(("Oura credentials save", result))
+    
+    if result:
+        # Test 2: Database verification
+        print("\n2. DATABASE VERIFICATION:")
+        result, status_data = test_oura_credentials_database_verification()
+        oura_test_results.append(("Database verification", result))
+        
+        # Test 3: Integration status check
+        print("\n3. INTEGRATION STATUS CHECK:")
+        result, final_status = test_oura_integration_status_after_save()
+        oura_test_results.append(("Integration status after save", result))
+        
+        # Test 4: Credentials retrieval
+        print("\n4. CREDENTIALS RETRIEVAL:")
+        result, integrations_data = test_oura_credentials_retrieval()
+        oura_test_results.append(("Credentials retrieval", result))
+    
+    # Test 5: Error analysis and validation
+    print("\n5. ERROR ANALYSIS:")
+    validation_results = test_oura_credentials_validation()
+    for test_name, success, _ in validation_results:
+        oura_test_results.append((test_name, success))
+    
+    error_results = test_oura_credentials_error_analysis()
+    for test_name, success, _ in error_results:
+        oura_test_results.append((test_name, success))
+    
+    # Summary
+    print("\n" + "=" * 60)
+    print("🔍 OURA CREDENTIALS TEST SUMMARY")
+    print("=" * 60)
+    
+    passed = sum(1 for _, success in oura_test_results if success)
+    failed = sum(1 for _, success in oura_test_results if not success)
+    
+    for test_name, success in oura_test_results:
+        status = "✅ PASS" if success else "❌ FAIL"
+        print(f"{status} {test_name}")
+    
+    print(f"\nTotal Oura Tests: {len(oura_test_results)}")
+    print(f"Passed: {passed}")
+    print(f"Failed: {failed}")
+    print(f"Success Rate: {(passed/len(oura_test_results)*100):.1f}%")
+    
+    return oura_test_results
+
 def run_all_tests():
     """Run comprehensive backend API tests"""
     print("🚀 Starting Comprehensive Backend API Tests")
