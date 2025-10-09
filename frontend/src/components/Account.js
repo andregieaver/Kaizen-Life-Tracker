@@ -858,7 +858,7 @@ const Account = ({ athleteId }) => {
                         data-testid="connect-coros-btn"
                       >
                         <Activity className="w-4 h-4 mr-2" />
-                        Connect to COROS
+                        {t('account.connectToCoros')}
                       </Button>
                     </div>
                     <div className="p-3 bg-gray-50 rounded border border-gray-200">
