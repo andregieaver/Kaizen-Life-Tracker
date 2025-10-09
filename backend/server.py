@@ -1451,9 +1451,6 @@ async def create_portal_session(request: dict):
         )
         
         return {"url": portal_session.url}
-    except StripeError as e:
-        logging.error(f"Stripe error creating portal session: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Stripe error: {str(e)}")
     except Exception as e:
         logging.error(f"Error creating portal session: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to create portal session: {str(e)}")
