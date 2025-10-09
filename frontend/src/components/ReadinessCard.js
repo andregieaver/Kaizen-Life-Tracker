@@ -8,6 +8,21 @@ import { RefreshCw, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 const ReadinessCard = ({ readiness, onRefresh }) => {
   const { t } = useTranslation();
   
+  // Helper function to translate backend messages
+  const translateBackendMessage = (message) => {
+    if (typeof message !== 'string') return message;
+    
+    // Translate common backend messages
+    if (message === 'Insufficient data for accurate calculation') {
+      return t('readiness.insufficientData');
+    }
+    if (message === 'Log more workout and sleep data for better insights') {
+      return t('readiness.logMoreData');
+    }
+    
+    return message;
+  };
+  
   if (!readiness) {
     return (
       <Card className="border-0 shadow-lg">
