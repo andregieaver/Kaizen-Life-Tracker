@@ -196,7 +196,8 @@
     "createFirstSchedule": "Create your first automated schedule to get regular insights from your AI coach",
     "logoutTitle": "Logout",
     "logoutDescription": "Sign out of your account and return to the login page",
-    "disconnectConfirm": "Are you sure you want to disconnect?"
+    "disconnectConfirm": "Are you sure you want to disconnect?",
+    "confirmDeleteSchedule": "Are you sure you want to delete this schedule?"
   },
   "merits": {
     "title": "Merits",
