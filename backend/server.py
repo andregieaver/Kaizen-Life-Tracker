@@ -1463,7 +1463,6 @@ async def create_portal_session(request: dict):
 async def get_invoices(athlete_id: str):
     """Get list of invoices for an athlete"""
     import stripe
-    from stripe.error import StripeError
     
     # Get athlete
     athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
