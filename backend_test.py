@@ -909,8 +909,32 @@ def run_all_tests():
         result = test_verify_soft_delete()
         all_test_results.append(("GET verify soft delete", result))
     
-    # Phase 3: Integration Endpoints
-    print("\n📋 PHASE 3: INTEGRATION ENDPOINTS")
+    # Phase 3: Strava Integration Tests (Comprehensive)
+    print("\n📋 PHASE 3: STRAVA INTEGRATION TESTS")
+    print("-" * 50)
+    
+    # Test Strava OAuth initialization
+    result, oauth_data = test_strava_oauth_initialization()
+    all_test_results.append(("Strava OAuth initialization", result))
+    
+    # Test environment variables loading
+    result = test_strava_environment_variables()
+    all_test_results.append(("Strava environment variables", result))
+    
+    # Test integration status endpoint
+    result, status_data = test_strava_integration_status()
+    all_test_results.append(("Strava integration status", result))
+    
+    # Test sync endpoint (should fail gracefully)
+    result = test_strava_sync_endpoint()
+    all_test_results.append(("Strava sync endpoint", result))
+    
+    # Test OAuth error handling
+    result = test_strava_oauth_error_handling()
+    all_test_results.append(("Strava OAuth error handling", result))
+    
+    # Phase 4: Other Integration Endpoints
+    print("\n📋 PHASE 4: OTHER INTEGRATION ENDPOINTS")
     print("-" * 50)
     
     integration_results = test_integration_endpoints()
