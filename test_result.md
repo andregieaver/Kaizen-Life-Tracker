@@ -238,6 +238,18 @@ frontend:
         agent: "testing"
         comment: "✅ ACCOUNT SETTINGS NORWEGIAN TRANSLATION VERIFICATION COMPLETE - Comprehensive testing of Account Settings page translations after recent fixes. VERIFIED TRANSLATIONS: 1) TOP SECTION: ✅ 'Account Settings' → 'Kontoinnstillinger', ✅ 'Manage your profile and integrations' → 'Administrer din profil og integrasjoner', ✅ App branding 'RunWisely' → 'LøpKlokt', ✅ Navigation tabs translated ('Personlig informasjon', 'Apper', 'Auto'). 2) SECURITY SECTION: ✅ 'Security' → 'Sikkerhet', ✅ Password reset message fully translated to Norwegian ('Funksjonalitet for tilbakestilling av passord vil være tilgjengelig snart...'), ✅ 'Change Password (Coming Soon)' → 'Endre passord (Kommer snart)', ✅ 'Save Changes' → 'Lagre endringer'. 3) LOGOUT SECTION: ✅ 'Logout' → 'Logg ut', ✅ Logout description translated ('Logg ut av kontoen din og gå tilbake til påloggingssiden'), ✅ Logout button → 'Logg ut'. 4) LANGUAGE SELECTOR: ✅ Working perfectly with 7 languages available, immediate UI updates when switching languages. ALL SPECIFIC USER-REPORTED TRANSLATION ISSUES RESOLVED. Account Settings page is now fully translated to Norwegian with no remaining English strings."
 
+  - task: "Oura Credentials Modal Implementation"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/OuraCredentialsModal.js, /app/frontend/src/components/Account.js, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "NEW FEATURE: Implemented Oura credentials modal that replaces OAuth flow, similar to Strava implementation. Users can now manually enter Client ID, Client Secret, Access Token, and Refresh Token. Modal includes purple theme/branding, form validation, instructions, and integrates with new backend endpoint POST /api/integrations/oura/{athlete_id}/credentials. Button text shows 'Setup Oura Credentials' instead of 'Connect to Oura'. Ready for comprehensive testing."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
