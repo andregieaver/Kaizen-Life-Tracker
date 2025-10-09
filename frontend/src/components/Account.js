@@ -560,6 +560,200 @@ const Account = ({ athleteId }) => {
           </Card>
         </TabsContent>
 
+        {/* Subscription Tab */}
+        <TabsContent value="subscription">
+          <div className="space-y-6">
+            {/* Current Plan */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Crown className="w-5 h-5 mr-2 text-yellow-600" />
+                  Current Plan
+                </CardTitle>
+                <CardDescription>
+                  Manage your subscription and billing
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg mb-4">
+                  <div>
+                    <div className="flex items-center space-x-2">
+                      <h3 className="text-2xl font-bold text-gray-900">Free Plan</h3>
+                      <Badge variant="secondary">Active</Badge>
+                    </div>
+                    <p className="text-gray-600 mt-1">€0/month • Basic features</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm text-gray-500">Next billing date</p>
+                    <p className="font-semibold text-gray-900">-</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3 mb-6">
+                  <h4 className="font-semibold text-gray-900 mb-2">Current Features:</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="flex items-center text-sm">
+                      <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                      <span>10 AI Coach questions/month</span>
+                    </div>
+                    <div className="flex items-center text-sm">
+                      <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                      <span>Manual workout logging</span>
+                    </div>
+                    <div className="flex items-center text-sm">
+                      <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                      <span>Basic readiness score</span>
+                    </div>
+                    <div className="flex items-center text-sm">
+                      <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                      <span>30-day history</span>
+                    </div>
+                  </div>
+                </div>
+
+                <Button className="w-full" onClick={() => window.open('/pricing', '_blank')}>
+                  <TrendingUp className="w-4 h-4 mr-2" />
+                  Upgrade Your Plan
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Available Plans */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle>Available Plans</CardTitle>
+                <CardDescription>
+                  Choose the plan that fits your needs
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Pro Plan */}
+                  <div className="border-2 border-blue-200 rounded-lg p-4 hover:border-blue-400 transition-colors">
+                    <div className="flex items-center justify-between mb-3">
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-900">Pro</h3>
+                        <p className="text-sm text-gray-600">For serious athletes</p>
+                      </div>
+                      <Badge className="bg-blue-600">Popular</Badge>
+                    </div>
+                    <div className="mb-4">
+                      <div className="flex items-baseline">
+                        <span className="text-3xl font-bold text-gray-900">€9.99</span>
+                        <span className="text-gray-500 ml-1">/month</span>
+                      </div>
+                      <p className="text-sm text-green-600 mt-1">or €99/year (save 17%)</p>
+                    </div>
+                    <ul className="space-y-2 mb-4">
+                      <li className="flex items-start text-sm">
+                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <span>Unlimited AI Coach access</span>
+                      </li>
+                      <li className="flex items-start text-sm">
+                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <span>All integrations</span>
+                      </li>
+                      <li className="flex items-start text-sm">
+                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <span>Advanced analytics</span>
+                      </li>
+                      <li className="flex items-start text-sm">
+                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <span>Custom schedules</span>
+                      </li>
+                    </ul>
+                    <Button className="w-full" variant="default">
+                      Upgrade to Pro
+                    </Button>
+                  </div>
+
+                  {/* Premium Plan */}
+                  <div className="border-2 border-purple-200 rounded-lg p-4 hover:border-purple-400 transition-colors">
+                    <div className="flex items-center justify-between mb-3">
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-900">Premium</h3>
+                        <p className="text-sm text-gray-600">Maximum performance</p>
+                      </div>
+                      <Crown className="w-5 h-5 text-yellow-600" />
+                    </div>
+                    <div className="mb-4">
+                      <div className="flex items-baseline">
+                        <span className="text-3xl font-bold text-gray-900">€19.99</span>
+                        <span className="text-gray-500 ml-1">/month</span>
+                      </div>
+                      <p className="text-sm text-green-600 mt-1">or €199/year (save 17%)</p>
+                    </div>
+                    <ul className="space-y-2 mb-4">
+                      <li className="flex items-start text-sm">
+                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <span>Everything in Pro</span>
+                      </li>
+                      <li className="flex items-start text-sm">
+                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <span>Personalized training plans</span>
+                      </li>
+                      <li className="flex items-start text-sm">
+                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <span>1-on-1 coaching sessions</span>
+                      </li>
+                      <li className="flex items-start text-sm">
+                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <span>24/7 priority support</span>
+                      </li>
+                    </ul>
+                    <Button className="w-full" variant="default">
+                      Upgrade to Premium
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                  <p className="text-sm text-gray-600 text-center">
+                    <strong>Note:</strong> Stripe integration coming soon! 
+                    Upgrade buttons will redirect to secure checkout.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Billing Management */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <CreditCard className="w-5 h-5 mr-2 text-blue-600" />
+                  Billing Management
+                </CardTitle>
+                <CardDescription>
+                  Manage payment methods and view billing history
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-semibold mb-2">Payment Method</h4>
+                    <p className="text-sm text-gray-600 mb-3">
+                      No payment method on file (Free plan)
+                    </p>
+                    <Button variant="outline" className="w-full" disabled>
+                      Manage Billing
+                    </Button>
+                    <p className="text-xs text-gray-500 mt-2 text-center">
+                      Stripe Customer Portal (Available after upgrading)
+                    </p>
+                  </div>
+
+                  <div className="p-4 border rounded-lg">
+                    <h4 className="font-semibold mb-2">Billing History</h4>
+                    <p className="text-sm text-gray-600">
+                      No invoices yet
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
         {/* Integrations Tab */}
         <TabsContent value="integrations">
           <div className="space-y-6">
