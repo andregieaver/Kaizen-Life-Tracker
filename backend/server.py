@@ -103,6 +103,19 @@ class LoginRequest(BaseModel):
     email: str
     password: str
 
+class PasswordResetRequest(BaseModel):
+    email: str
+
+class PasswordResetConfirm(BaseModel):
+    email: str
+    reset_token: str
+    new_password: str
+
+class ChangePasswordRequest(BaseModel):
+    athlete_id: str
+    current_password: str
+    new_password: str
+
 class Workout(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
