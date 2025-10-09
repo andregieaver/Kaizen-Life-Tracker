@@ -99,7 +99,7 @@ const Login = ({ onAthleteLogin }) => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your.email@example.com"
+                  placeholder={t('auth.emailPlaceholder')}
                   className="input-focus"
                   disabled={isLoading}
                   autoFocus
