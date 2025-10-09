@@ -1150,7 +1150,7 @@ const Account = ({ athleteId }) => {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
                 <h3 className="text-lg font-medium text-gray-900 mb-1">
-                  Logout
+                  {t('account.logoutTitle')}
                 </h3>
                 <p className="text-sm text-gray-600">
                   Sign out of your account and return to the login page
