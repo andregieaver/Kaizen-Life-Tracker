@@ -207,7 +207,11 @@
     "syncSleepRecovery": "Sync Sleep & Recovery",
     "corosTerraNote": "COROS integration uses Terra API for secure data access",
     "corosSyncNote": "Your COROS activities will be automatically synchronized including runs, trails, and other training data from your COROS device",
-    "templatesDescription": "Popular analysis prompts to get you started"
+    "templatesDescription": "Popular analysis prompts to get you started",
+    "manageProfile": "Manage your profile and integrations",
+    "security": "Security",
+    "passwordResetSoon": "Password reset functionality will be available soon. For now, your account is secured through the platform authentication.",
+    "changePasswordSoon": "Change Password (Coming Soon)"
   },
   "merits": {
     "title": "Merits",
