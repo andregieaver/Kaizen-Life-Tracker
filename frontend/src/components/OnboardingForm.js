@@ -112,7 +112,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="font-display text-4xl font-bold text-gray-900 mb-2">
-            {t('auth.runWisely')}
+            My Health Tracker
           </h1>
           <p className="text-lg text-gray-600">
             {t('auth.createYourProfile')}
