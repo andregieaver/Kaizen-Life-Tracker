@@ -802,7 +802,7 @@ const Account = ({ athleteId }) => {
                   {t('account.corosIntegration')}
                 </CardTitle>
                 <CardDescription>
-                  Connect your COROS watch via API to automatically import workouts
+                  {t('account.corosDescription')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
