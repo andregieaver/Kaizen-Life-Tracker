@@ -151,7 +151,7 @@ const Dashboard = ({ athleteId }) => {
         <div className="px-4 py-3">
           <div className="flex justify-between items-center">
             <h1 className="font-display text-xl font-bold text-gray-900">
-              RunWisely
+              {t('auth.runWisely')}
             </h1>
             <Badge variant="secondary" className="font-medium text-xs">
               {athlete?.name}
