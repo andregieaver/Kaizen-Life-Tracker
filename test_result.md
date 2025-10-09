@@ -148,6 +148,18 @@ backend:
         comment: "✅ STRAVA INTEGRATION RE-VERIFIED WITH EXACT REVIEW REQUEST CREDENTIALS - Executed comprehensive testing with 100% success rate (7/7 Strava-specific tests passed). CONFIRMED EXACT MATCH: 1) Client ID ✓ - Verified exact match with requested Client ID (57985), 2) Client Secret ✓ - Verified exact match with requested Client Secret (fdd4b7044a78c10de1b65e201a4ca931719f27d2), 3) Redirect URI ✓ - Verified exact match with requested Redirect URI (https://myhealthtracker.app/strava/callback), 4) OAuth URL Generation ✓ - Authorization URL contains correct Client ID (57985) and myhealthtracker.app domain, proper OAuth parameters (response_type=code, approval_prompt=force, scope parameters), 5) Integration Endpoints ✓ - All Strava-related routes accessible and functional, status endpoints return correct structure, sync endpoints handle no-connection gracefully, 6) Pre-configured Access Support ✓ - System ready to handle provided Access Token (faec55280628b1f24bebe0ca303a8f8f29b7dc0a) and Refresh Token (2de99353b9bd554b5175f5922446da138cb336a8) through OAuth callback flow. STRAVA INTEGRATION IS PRODUCTION-READY WITH EXACT CREDENTIALS FROM REVIEW REQUEST."
 
 frontend:
+  - task: "Strava Credentials Modal Implementation"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/StravaCredentialsModal.js, /app/frontend/src/components/Account.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "NEW FEATURE: Implemented Strava credentials modal that replaces OAuth flow. Users can now manually enter Client ID, Client Secret, Access Token, and Refresh Token. Modal includes form validation, instructions, and integrates with new backend endpoint POST /api/integrations/strava/{athlete_id}/credentials. Button text changed from 'Connect to Strava' to 'Setup Strava Credentials'."
+
   - task: "Schedule Edit Functionality"
     implemented: true
     working: "NA"
