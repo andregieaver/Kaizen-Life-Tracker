@@ -207,7 +207,11 @@
     "syncSleepRecovery": "Synkroniser søvn og restitusjon",
     "corosTerraNote": "COROS-integrering bruker Terra API for sikker datatilgang",
     "corosSyncNote": "Dine COROS-aktiviteter vil bli automatisk synkronisert inkludert løp, trail og andre treningsdata fra din COROS-enhet",
-    "templatesDescription": "Populære analysespørsmål for å komme i gang"
+    "templatesDescription": "Populære analysespørsmål for å komme i gang",
+    "manageProfile": "Administrer din profil og integrasjoner",
+    "security": "Sikkerhet",
+    "passwordResetSoon": "Funksjonalitet for tilbakestilling av passord vil være tilgjengelig snart. Foreløpig er kontoen din sikret gjennom plattformens autentisering.",
+    "changePasswordSoon": "Endre passord (Kommer snart)"
   },
   "merits": {
     "title": "Meritter",
