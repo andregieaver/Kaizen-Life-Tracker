@@ -111,7 +111,7 @@ const Recommendations = ({ athleteId }) => {
           data-testid="refresh-recommendations-btn"
         >
           <RefreshCw className="w-4 h-4 mr-2" />
-          Refresh
+          {t('common.sync')}
         </Button>
       </div>
 
