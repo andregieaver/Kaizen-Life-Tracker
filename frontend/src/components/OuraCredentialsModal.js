@@ -152,7 +152,7 @@ const OuraCredentialsModal = ({ athleteId, isOpen, onClose, onSuccess }) => {
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="clientId">{t('oura.clientId')} *</Label>
                   <Input
@@ -182,36 +182,6 @@ const OuraCredentialsModal = ({ athleteId, isOpen, onClose, onSuccess }) => {
                     disabled={isLoading}
                   />
                 </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="accessToken">{t('oura.accessToken')} *</Label>
-                <Input
-                  id="accessToken"
-                  name="accessToken"
-                  type="password"
-                  value={formData.accessToken}
-                  onChange={handleInputChange}
-                  placeholder="your-access-token"
-                  className="input-focus"
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="refreshToken">{t('oura.refreshToken')} *</Label>
-                <Input
-                  id="refreshToken"
-                  name="refreshToken"
-                  type="password"
-                  value={formData.refreshToken}
-                  onChange={handleInputChange}
-                  placeholder="your-refresh-token"
-                  className="input-focus"
-                  required
-                  disabled={isLoading}
-                />
               </div>
 
               {/* Actions */}
