@@ -98,10 +98,10 @@ const Recommendations = ({ athleteId }) => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl md:text-3xl font-display font-bold text-gray-900">
-            Reports
+            {t('reports.title')}
           </h1>
           <p className="text-gray-600 mt-1">
-            Automated analysis of your training and recovery data
+            {t('reports.description')}
           </p>
         </div>
         <Button 
