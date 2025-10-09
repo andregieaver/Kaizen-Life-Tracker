@@ -140,7 +140,7 @@ const Recommendations = ({ athleteId }) => {
                 new Date(r.generated_at) > new Date(Date.now() - 24 * 60 * 60 * 1000)
               ).length}
             </div>
-            <div className="text-sm text-gray-600">Today</div>
+            <div className="text-sm text-gray-600">{t('reports.today')}</div>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm">
