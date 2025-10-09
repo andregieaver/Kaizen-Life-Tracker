@@ -1,0 +1,369 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Check, ArrowLeft, Zap, TrendingUp, Crown, Shield, Users, Clock } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/card';
+import { Button } from './ui/button';
+import { Badge } from './ui/badge';
+
+const Pricing = () => {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' or 'annual'
+
+  const plans = [
+    {
+      id: 'free',
+      name: 'Free',
+      icon: Shield,
+      description: 'Perfect for getting started',
+      monthlyPrice: 0,
+      annualPrice: 0,
+      popular: false,
+      features: [
+        'Basic AI Coach access (10 questions/month)',
+        'Manual workout logging',
+        'Basic readiness score',
+        '30-day history',
+        'Connect 1 device',
+        'Email support',
+      ],
+      cta: 'Get Started Free',
+      ctaVariant: 'outline',
+    },
+    {
+      id: 'pro',
+      name: 'Pro',
+      icon: TrendingUp,
+      description: 'For serious athletes',
+      monthlyPrice: 9.99,
+      annualPrice: 99,
+      popular: true,
+      features: [
+        'Unlimited AI Coach access',
+        'All integrations (Strava, Oura, COROS)',
+        'Advanced analytics & reports',
+        'Unlimited history',
+        'Connect unlimited devices',
+        'Custom training schedules',
+        'Priority email support',
+        'Chart generation',
+      ],
+      cta: 'Start Pro Trial',
+      ctaVariant: 'default',
+    },
+    {
+      id: 'premium',
+      name: 'Premium',
+      icon: Crown,
+      description: 'Maximum performance',
+      monthlyPrice: 19.99,
+      annualPrice: 199,
+      popular: false,
+      features: [
+        'Everything in Pro',
+        'Personalized training plans',
+        'Recovery optimization',
+        'Injury prevention insights',
+        'Nutrition recommendations',
+        'Performance predictions',
+        '1-on-1 coaching sessions (2/month)',
+        '24/7 priority support',
+        'Early access to new features',
+      ],
+      cta: 'Go Premium',
+      ctaVariant: 'default',
+    },
+  ];
+
+  const calculateSavings = (monthlyPrice, annualPrice) => {
+    if (monthlyPrice === 0) return 0;
+    const annualEquivalent = monthlyPrice * 12;
+    return ((annualEquivalent - annualPrice) / annualEquivalent * 100).toFixed(0);
+  };
+
+  const getDisplayPrice = (plan) => {
+    if (billingCycle === 'monthly') {
+      return { amount: plan.monthlyPrice, period: '/month' };
+    } else {
+      return { amount: plan.annualPrice, period: '/year' };
+    }
+  };
+
+  const handleSelectPlan = (planId) => {
+    // Will integrate with Stripe later
+    console.log('Selected plan:', planId, 'billing:', billingCycle);
+    // For now, navigate to onboarding for free or show coming soon
+    if (planId === 'free') {
+      navigate('/onboarding');
+    } else {
+      alert('Stripe integration coming next! This will redirect to checkout.');
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => navigate('/')}
+                className="text-gray-600 hover:text-gray-900 transition-colors flex items-center"
+              >
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Back
+              </button>
+              <h1 className="font-display text-2xl font-bold text-gray-900">
+                My Health Tracker
+              </h1>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Button variant="outline" onClick={() => navigate('/login')}>
+                Log In
+              </Button>
+              <Button onClick={() => navigate('/onboarding')}>
+                Sign Up
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <Badge variant="secondary" className="mb-4">
+            <Zap className="w-3 h-3 mr-1" />
+            Subscription Plans
+          </Badge>
+          <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
+            Choose Your Perfect Plan
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+            Get personalized AI coaching, advanced analytics, and seamless integrations
+            to optimize your training and reach your goals.
+          </p>
+
+          {/* Billing Cycle Toggle */}
+          <div className="flex items-center justify-center space-x-4 bg-white rounded-full p-2 shadow-md inline-flex">
+            <button
+              onClick={() => setBillingCycle('monthly')}
+              className={`px-6 py-2 rounded-full font-medium transition-all ${
+                billingCycle === 'monthly'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setBillingCycle('annual')}
+              className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
+                billingCycle === 'annual'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Annual
+              <Badge variant="default" className="ml-2 bg-green-500 text-white border-0">
+                Save 17%
+              </Badge>
+            </button>
+          </div>
+        </div>
+
+        {/* Pricing Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {plans.map((plan) => {
+            const Icon = plan.icon;
+            const price = getDisplayPrice(plan);
+            const savings = calculateSavings(plan.monthlyPrice, plan.annualPrice);
+
+            return (
+              <Card
+                key={plan.id}
+                className={`relative ${
+                  plan.popular
+                    ? 'border-blue-500 border-2 shadow-xl scale-105 z-10'
+                    : 'border-gray-200 hover:shadow-lg transition-shadow'
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                    <Badge className="bg-blue-600 text-white px-4 py-1">
+                      Most Popular
+                    </Badge>
+                  </div>
+                )}
+
+                <CardHeader className="text-center pb-8 pt-8">
+                  <div className="mx-auto w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center mb-4">
+                    <Icon className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
+                  <CardDescription className="text-base">
+                    {plan.description}
+                  </CardDescription>
+                  
+                  <div className="mt-6">
+                    <div className="flex items-baseline justify-center">
+                      <span className="text-5xl font-bold text-gray-900">
+                        €{price.amount}
+                      </span>
+                      <span className="text-gray-500 ml-2">{price.period}</span>
+                    </div>
+                    {billingCycle === 'annual' && plan.monthlyPrice > 0 && (
+                      <p className="text-sm text-green-600 mt-2 font-medium">
+                        Save {savings}% compared to monthly
+                      </p>
+                    )}
+                  </div>
+                </CardHeader>
+
+                <CardContent>
+                  <ul className="space-y-3 mb-8">
+                    {plan.features.map((feature, index) => (
+                      <li key={index} className="flex items-start">
+                        <Check className="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
+                        <span className="text-gray-700">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Button
+                    className="w-full"
+                    size="lg"
+                    variant={plan.ctaVariant}
+                    onClick={() => handleSelectPlan(plan.id)}
+                  >
+                    {plan.cta}
+                  </Button>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+
+        {/* Feature Comparison */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 mb-16">
+          <h2 className="text-3xl font-display font-bold text-center mb-8">
+            Why Choose My Health Tracker?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                <Users className="w-8 h-8 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">AI-Powered Coaching</h3>
+              <p className="text-gray-600">
+                Get personalized insights and recommendations powered by advanced AI
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                <TrendingUp className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Comprehensive Analytics</h3>
+              <p className="text-gray-600">
+                Track your progress with detailed analytics and beautiful visualizations
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="mx-auto w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
+                <Clock className="w-8 h-8 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Seamless Integrations</h3>
+              <p className="text-gray-600">
+                Connect your favorite fitness devices and apps in one place
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl font-display font-bold text-center mb-8">
+            Frequently Asked Questions
+          </h2>
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Can I switch plans anytime?</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600">
+                  Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately,
+                  and we'll prorate any differences in billing.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">What payment methods do you accept?</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600">
+                  We accept all major credit cards (Visa, Mastercard, American Express) and support
+                  secure payment processing through Stripe.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Is there a free trial?</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600">
+                  Yes! Pro and Premium plans come with a 7-day free trial. No credit card required
+                  for the Free plan, and you can cancel anytime during the trial period.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Can I cancel my subscription?</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600">
+                  Absolutely. You can cancel your subscription at any time from your account settings.
+                  You'll continue to have access until the end of your current billing period.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="mt-16 text-center bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-12 text-white">
+          <h2 className="text-3xl font-display font-bold mb-4">
+            Ready to Transform Your Training?
+          </h2>
+          <p className="text-xl mb-8 text-blue-100">
+            Join thousands of athletes optimizing their performance with My Health Tracker
+          </p>
+          <Button
+            size="lg"
+            className="bg-white text-blue-600 hover:bg-blue-50"
+            onClick={() => navigate('/onboarding')}
+          >
+            Start Your Free Trial Today
+          </Button>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-gray-200 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+          <p>&copy; 2024 My Health Tracker. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Pricing;
