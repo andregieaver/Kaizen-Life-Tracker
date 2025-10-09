@@ -305,6 +305,7 @@ class OuraReadinessData(BaseModel):
 class CheckoutRequest(BaseModel):
     plan_id: str  # 'pro_monthly', 'pro_annual', 'premium_monthly', 'premium_annual'
     origin_url: str
+    athlete_id: str  # Added to link subscription to user
 
 class SubscriptionWebhookData(BaseModel):
     stripe_customer_id: Optional[str] = None
