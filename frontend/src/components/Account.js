@@ -697,7 +697,7 @@ const Account = ({ athleteId }) => {
                           data-testid="disconnect-strava-btn"
                         >
                           <Trash2 className="w-4 h-4 mr-2" />
-                          Disconnect
+                          {t('common.disconnect')}
                         </Button>
                       </div>
                     </div>
@@ -769,7 +769,7 @@ const Account = ({ athleteId }) => {
                           data-testid="disconnect-oura-btn"
                         >
                           <Trash2 className="w-4 h-4 mr-2" />
-                          Disconnect
+                          {t('common.disconnect')}
                         </Button>
                       </div>
                     </div>
@@ -841,7 +841,7 @@ const Account = ({ athleteId }) => {
                           data-testid="disconnect-coros-btn"
                         >
                           <Trash2 className="w-4 h-4 mr-2" />
-                          Disconnect
+                          {t('common.disconnect')}
                         </Button>
                       </div>
                     </div>
