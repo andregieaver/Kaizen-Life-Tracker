@@ -87,7 +87,82 @@ const Account = ({ athleteId }) => {
   useEffect(() => {
     loadAccountData();
     loadSchedules();
+    loadSubscriptionStatus();
+    
+    // Check if returning from Stripe checkout
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
+    const success = urlParams.get('success');
+    
+    if (sessionId && success === 'true') {
+      // Switch to subscription tab
+      setActiveTab('subscription');
+      // Poll for payment status
+      pollPaymentStatus(sessionId);
+    }
   }, [athleteId]);
+
+  const loadSubscriptionStatus = async () => {
+    try {
+      const response = await axios.get(`${API}/subscriptions/status/${athleteId}`);
+      setSubscriptionStatus({
+        tier: response.data.subscription_tier || 'free',
+        status: response.data.subscription_status || 'active',
+        current_period_end: response.data.subscription_current_period_end
+      });
+    } catch (error) {
+      console.error('Error loading subscription status:', error);
+    }
+  };
+
+  const pollPaymentStatus = async (sessionId, attempts = 0) => {
+    const maxAttempts = 5;
+    const pollInterval = 2000; // 2 seconds
+
+    if (attempts >= maxAttempts) {
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Payment status check timed out. Please refresh the page.' 
+      });
+      return;
+    }
+
+    try {
+      const response = await axios.get(`${API}/subscriptions/checkout-status/${sessionId}`);
+      
+      if (response.data.payment_status === 'paid') {
+        // Reload subscription status
+        await loadSubscriptionStatus();
+        setSaveStatus({ 
+          type: 'success', 
+          message: 'Payment successful! Your subscription is now active.' 
+        });
+        
+        // Clear URL parameters
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return;
+      } else if (response.data.status === 'expired') {
+        setSaveStatus({ 
+          type: 'error', 
+          message: 'Payment session expired. Please try again.' 
+        });
+        return;
+      }
+
+      // If payment is still pending, continue polling
+      setSaveStatus({ 
+        type: '', 
+        message: 'Processing payment...' 
+      });
+      setTimeout(() => pollPaymentStatus(sessionId, attempts + 1), pollInterval);
+    } catch (error) {
+      console.error('Error checking payment status:', error);
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Error checking payment status. Please refresh the page.' 
+      });
+    }
+  };
 
   const loadAccountData = async () => {
     setIsLoading(true);
