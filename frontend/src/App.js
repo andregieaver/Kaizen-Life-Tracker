@@ -6,6 +6,7 @@ import OnboardingForm from './components/OnboardingForm';
 import Login from './components/Login';
 import StravaCallback from './components/StravaCallback';
 import OuraCallback from './components/OuraCallback';
+import CorosCallback from './components/CorosCallback';
 import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
