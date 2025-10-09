@@ -113,7 +113,7 @@ const ReadinessCard = ({ readiness, onRefresh }) => {
                   <span className="text-gray-600 capitalize">
                     {key.replace('_', ' ')}
                   </span>
-                  <span className="text-gray-900 font-medium">{value}</span>
+                  <span className="text-gray-900 font-medium">{translateBackendMessage(value)}</span>
                 </div>
               ))}
             </div>
