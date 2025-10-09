@@ -143,8 +143,7 @@ const Account = ({ athleteId }) => {
     try {
       const updatedData = {
         ...personalForm,
-        age: parseInt(personalForm.age),
-        weekly_mileage: parseFloat(personalForm.weekly_mileage)
+        age: parseInt(personalForm.age)
       };
       
       // TODO: Implement update athlete endpoint
