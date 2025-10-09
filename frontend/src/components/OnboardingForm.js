@@ -100,7 +100,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
       onAthleteCreated(response.data.id);
     } catch (error) {
       console.error('Error creating athlete profile:', error);
-      setErrors({ submit: 'Failed to create profile. Please try again.' });
+      setErrors({ submit: t('validation.submitError') });
     } finally {
       setIsLoading(false);
     }
