@@ -151,7 +151,7 @@ const WorkoutHistory = ({ athleteId }) => {
                     <div className="flex items-center">
                       <Clock className="w-4 h-4 mr-2 text-gray-400" />
                       <div>
-                        <p className="text-sm text-gray-600">Duration</p>
+                        <p className="text-sm text-gray-600">{t('history.duration')}</p>
                         <p className="font-medium">{workout.duration_minutes} min</p>
                       </div>
                     </div>
