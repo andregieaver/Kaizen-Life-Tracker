@@ -121,7 +121,7 @@ const Dashboard = ({ athleteId }) => {
                   }`}
                   data-testid="history-tab"
                 >
-                  History
+                  {t('nav.history')}
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/account')}
