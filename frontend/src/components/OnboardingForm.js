@@ -318,13 +318,13 @@ const OnboardingForm = ({ onAthleteCreated }) => {
           </p>
           <div className="pt-2 border-t border-gray-200">
             <p className="text-sm text-gray-600">
-              Already have an account?{' '}
+              {t('auth.alreadyHaveAccount')}{' '}
               <Link 
                 to="/login" 
                 className="text-emerald-600 hover:text-emerald-700 font-medium hover:underline"
                 data-testid="login-link"
               >
-                Log in here
+                {t('auth.loginHere')}
               </Link>
             </p>
           </div>
