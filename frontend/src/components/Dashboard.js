@@ -177,8 +177,8 @@ const Dashboard = ({ athleteId }) => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Weekly Goal</span>
-                    <span className="font-semibold">{athlete?.weekly_mileage} miles</span>
+                    <span className="text-sm text-gray-600">{t('dashboard.weeklyGoal')}</span>
+                    <span className="font-semibold">{athlete?.weekly_mileage} {t('common.miles')}</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between items-center">
