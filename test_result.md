@@ -251,6 +251,42 @@ test_plan:
         agent: "testing"
         comment: "✅ PERSONAL INFORMATION FORM SIMPLIFICATION VERIFIED - Comprehensive testing confirmed successful removal of Weekly Mileage and Recent Race Time fields from Account Settings Personal Information form. VERIFIED: 1) FIELD VISIBILITY ✓ - Only 3 expected fields are visible: Full Name, Age, and Running Goals. All fields properly rendered with correct data-testid attributes. 2) REMOVED FIELDS ✓ - Weekly Mileage and Recent Race Time fields completely removed from form. No traces of removed field selectors found in DOM. 3) STRAVA IMPORT INDICATION ✓ - Code comment indicates these fields will be automatically imported from Strava (line 502-503 in Account.js). 4) FORM FUNCTIONALITY ✓ - Form save functionality working correctly with simplified 3-field structure. Form submission completes successfully and data persists after page reload. 5) UI INTEGRITY ✓ - Personal Information form maintains clean layout and proper styling with reduced field count. Screenshots captured showing simplified form structure. IMPLEMENTATION COMPLETE: Personal Information form successfully simplified as requested, maintaining full functionality while removing unnecessary manual input fields that will be imported from Strava integration."
 
+  - task: "Forgot Password Flow Implementation"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Login.js, /app/frontend/src/components/ForgotPassword.js, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "COMPREHENSIVE PASSWORD RESET IMPLEMENTATION: Implemented complete forgot password flow. Frontend: Added 'Forgot Password?' link on Login page, created ForgotPassword.js component with email form, success page shows reset token in dev mode, proper navigation and translation support. Backend: Added POST /api/auth/forgot-password endpoint with secure token generation, email validation, and 1-hour token expiry. Routes: Added /forgot-password route in App.js. Ready for testing."
+
+  - task: "Reset Password Flow Implementation"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/ResetPassword.js, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "COMPREHENSIVE RESET PASSWORD IMPLEMENTATION: Implemented complete reset password flow. Frontend: Created ResetPassword.js component with form for email, reset token, new password, and confirm password fields, proper validation, success page with redirect to login. Backend: Added POST /api/auth/reset-password endpoint with token validation, expiry checking, and secure password hashing. Routes: Added /reset-password route in App.js. Ready for testing."
+
+  - task: "Change Password in Account Settings"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/ChangePassword.js, /app/frontend/src/components/Account.js, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "COMPREHENSIVE CHANGE PASSWORD IMPLEMENTATION: Implemented change password functionality in Account settings. Frontend: Created ChangePassword.js component with current password, new password, and confirm password fields, proper validation, success/error messaging, integrated into Account.js Personal Info tab. Backend: Added POST /api/auth/change-password endpoint with current password verification and secure password hashing. Replaces 'Coming Soon' message in Account settings. Ready for testing."
+
 agent_communication:
   - agent: "main"
     message: "Fixed schedule edit/delete button onClick handlers. Backend endpoints were already implemented. Need to test full CRUD flow: 1) Create new schedule, 2) Edit existing schedule, 3) Delete schedule, 4) Verify form state management (create vs edit mode)."
