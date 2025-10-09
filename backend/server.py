@@ -1582,7 +1582,7 @@ async def strava_auth_initiate(athlete_id: str):
     """Initiate Strava OAuth authorization flow using user's credentials"""
     # Get user's Strava credentials
     integration = await db.integrations.find_one(
-        {"athlete_id": athlete_id, "service": "strava"}, 
+        {"athlete_id": athlete_id, "integration_type": "strava"}, 
         {"_id": 0}
     )
     
