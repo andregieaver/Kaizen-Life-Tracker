@@ -150,12 +150,12 @@ const Login = ({ onAthleteLogin }) => {
             {/* Sign Up Link */}
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
-                Don't have an account?{' '}
+                {t('auth.dontHaveAccount')}{' '}
                 <Link 
                   to="/" 
                   className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
                 >
-                  Sign up here
+                  {t('auth.signupHere')}
                 </Link>
               </p>
             </div>
