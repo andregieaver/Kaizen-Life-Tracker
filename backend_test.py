@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
 """
-Backend API Testing for Schedule CRUD Operations
-Tests the running coach application's schedule management functionality
+Comprehensive Backend API Testing
+Tests the running coach application's backend functionality after translation implementation
 """
 
 import requests
 import json
 import sys
+import uuid
 from datetime import datetime
 
 # Backend URL from environment
 BACKEND_URL = "https://fit-buddy-47.preview.emergentagent.com/api"
 
 # Test data
-TEST_ATHLETE_ID = "test-athlete-123"
-TEST_SCHEDULE_ID = "schedule-test-001"
+TEST_ATHLETE_ID = str(uuid.uuid4())
+TEST_SCHEDULE_ID = str(uuid.uuid4())
+TEST_EMAIL = f"test.runner.{int(datetime.now().timestamp())}@example.com"
+TEST_PASSWORD = "SecureRunning123!"
+TEST_NAME = "Alex Runner"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test results"""
