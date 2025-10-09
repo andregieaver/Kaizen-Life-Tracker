@@ -292,6 +292,8 @@ test_plan:
 
 agent_communication:
   - agent: "main"
+    message: "COMPREHENSIVE PASSWORD RESET FUNCTIONALITY IMPLEMENTED: Added complete password reset system with 3 main components: 1) Forgot Password Flow - Login page has 'Forgot Password?' link leading to ForgotPassword.js component with email form and success page showing reset token (dev mode), 2) Reset Password Flow - ResetPassword.js component with form for email, token, new password validation and success redirect, 3) Change Password in Account Settings - ChangePassword.js component integrated into Account settings Personal Info tab with current/new password validation. Backend has 3 new endpoints: /api/auth/forgot-password, /api/auth/reset-password, /api/auth/change-password. All components have proper translation support and validation. Need comprehensive testing of all password reset flows."
+  - agent: "main"
     message: "Fixed schedule edit/delete button onClick handlers. Backend endpoints were already implemented. Need to test full CRUD flow: 1) Create new schedule, 2) Edit existing schedule, 3) Delete schedule, 4) Verify form state management (create vs edit mode)."
   - agent: "testing"
     message: "✅ BACKEND SCHEDULE CRUD TESTING COMPLETE - All 7 backend API tests passed with 100% success rate. Created comprehensive test suite (/app/backend_test.py) covering full CRUD lifecycle. All endpoints working perfectly: CREATE (POST), READ (GET), UPDATE (PUT), DELETE (soft delete). Ready for main agent to summarize and finish - backend functionality is fully operational."
