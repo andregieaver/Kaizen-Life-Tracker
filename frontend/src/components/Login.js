@@ -141,7 +141,7 @@ const Login = ({ onAthleteLogin }) => {
                 ) : (
                   <>
                     <LogIn className="w-4 h-4 mr-2" />
-                    Log In
+                    {t('auth.loginButton')}
                   </>
                 )}
               </Button>
