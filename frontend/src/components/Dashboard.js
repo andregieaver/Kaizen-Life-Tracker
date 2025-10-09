@@ -246,9 +246,9 @@ const Dashboard = ({ athleteId }) => {
                   <div className="text-center py-8">
                     <p className="text-gray-500 mb-4">No workouts logged yet</p>
                     <Button 
-                      onClick={() => setActiveTab('recommendations')}
+                      onClick={() => navigate('/dashboard/reports')}
                       className="bg-blue-600 hover:bg-blue-700"
-                      data-testid="view-recommendations-btn"
+                      data-testid="view-reports-btn"
                     >
                       View Reports
                     </Button>
