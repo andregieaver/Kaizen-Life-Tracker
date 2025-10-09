@@ -850,7 +850,7 @@ const Account = ({ athleteId }) => {
                   <div className="space-y-4">
                     <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
                       <p className="text-sm text-blue-800 mb-3">
-                        Connect your COROS watch to automatically import your activities including distance, pace, heart rate, cadence, and route data. Integration powered by Terra API.
+                        {t('account.corosNote')}
                       </p>
                       <Button 
                         onClick={handleCorosConnect}
