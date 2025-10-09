@@ -322,6 +322,9 @@ def test_create_athlete_profile():
         if response.status_code == 200:
             created_athlete = response.json()
             
+            # Debug: print what we got
+            print(f"   DEBUG: Response keys: {list(created_athlete.keys())}")
+            
             # Verify key fields (password should not be returned)
             success = True
             details = []
