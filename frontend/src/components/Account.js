@@ -562,7 +562,7 @@ const Account = ({ athleteId }) => {
                       disabled
                       className="btn-transition"
                     >
-                      Change Password (Coming Soon)
+                      {t('account.changePasswordSoon')}
                     </Button>
                   </div>
                 </div>
