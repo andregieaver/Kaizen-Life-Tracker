@@ -1557,13 +1557,13 @@ async def save_strava_credentials(athlete_id: str, credentials: StravaCredential
         
         # Update or create Strava integration for this athlete
         await db.integrations.update_one(
-            {"athlete_id": athlete_id, "service": "strava"},
+            {"athlete_id": athlete_id, "integration_type": "strava"},
             {
                 "$set": {
                     "athlete_id": athlete_id,
-                    "service": "strava",
+                    "integration_type": "strava",
                     "credentials": encrypted_credentials,
-                    "connected": True,
+                    "is_active": True,
                     "created_at": datetime.now(timezone.utc).isoformat(),
                     "last_sync": None
                 }
