@@ -710,13 +710,29 @@ const Account = ({ athleteId }) => {
             {/* Current Plan */}
             <Card className="border-0 shadow-lg">
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Crown className="w-5 h-5 mr-2 text-yellow-600" />
-                  Current Plan
-                </CardTitle>
-                <CardDescription>
-                  Manage your subscription and billing
-                </CardDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="flex items-center">
+                      <Crown className="w-5 h-5 mr-2 text-yellow-600" />
+                      Current Plan
+                    </CardTitle>
+                    <CardDescription>
+                      Manage your subscription and billing
+                    </CardDescription>
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={() => {
+                      loadSubscriptionStatus();
+                      setSaveStatus({ type: '', message: 'Refreshing...' });
+                      setTimeout(() => setSaveStatus({ type: '', message: '' }), 1000);
+                    }}
+                  >
+                    <Repeat className="w-4 h-4 mr-1" />
+                    Refresh
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg mb-4">
