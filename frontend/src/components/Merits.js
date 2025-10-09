@@ -117,14 +117,14 @@ const Merits = ({ athleteId }) => {
                           )}
                         </span>
                       ) : (
-                        <span className="text-gray-400 text-xs">No data</span>
+                        <span className="text-gray-400 text-xs">{t('merits.noData')}</span>
                       )}
                     </td>
                     <td className="py-3 px-2">
                       {hasAllTime ? (
                         <span className="font-mono text-gray-900 font-semibold">{formatTime(merit.all_time_best)}</span>
                       ) : (
-                        <span className="text-gray-400 text-xs">No data</span>
+                        <span className="text-gray-400 text-xs">{t('merits.noData')}</span>
                       )}
                     </td>
                   </tr>
