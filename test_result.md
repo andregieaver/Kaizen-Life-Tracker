@@ -261,7 +261,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Oura Credentials Modal Implementation"
     - "Schedule Edit Functionality"
     - "Schedule Delete Functionality"
     - "Schedule Form Header Dynamic Text"
