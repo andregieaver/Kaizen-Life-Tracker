@@ -814,7 +814,7 @@ const Account = ({ athleteId }) => {
                           <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
                           <div>
                             <p className="font-medium text-green-900">
-                              COROS Connected
+                              {t('account.corosConnected')}
                             </p>
                             <p className="text-sm text-green-600">
                               Last sync: {integrations.coros.last_sync ? 
