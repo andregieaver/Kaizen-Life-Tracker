@@ -866,7 +866,7 @@ const Account = ({ athleteId }) => {
                         <strong>{t('common.note')}:</strong> {t('account.corosTerraNote')}
                       </p>
                       <p className="text-xs text-gray-500">
-                        Your COROS activities will be automatically synchronized including runs, trails, and other training data from your COROS device.
+                        {t('account.corosSyncNote')}
                       </p>
                     </div>
                   </div>
