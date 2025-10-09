@@ -78,7 +78,7 @@ const Dashboard = ({ athleteId }) => {
               </h1>
               <nav className="flex space-x-8">
                 <button
-                  onClick={() => setActiveTab('overview')}
+                  onClick={() => navigate('/dashboard')}
                   className={`text-sm font-medium transition-colors ${
                     activeTab === 'overview'
                       ? 'text-blue-600 border-b-2 border-blue-600'
@@ -89,7 +89,7 @@ const Dashboard = ({ athleteId }) => {
                   Overview
                 </button>
                 <button
-                  onClick={() => setActiveTab('coach')}
+                  onClick={() => navigate('/dashboard/coach')}
                   className={`text-sm font-medium transition-colors ${
                     activeTab === 'coach'
                       ? 'text-blue-600 border-b-2 border-blue-600'
@@ -100,18 +100,18 @@ const Dashboard = ({ athleteId }) => {
                   AI Coach
                 </button>
                 <button
-                  onClick={() => setActiveTab('recommendations')}
+                  onClick={() => navigate('/dashboard/reports')}
                   className={`text-sm font-medium transition-colors ${
-                    activeTab === 'recommendations'
+                    activeTab === 'reports'
                       ? 'text-blue-600 border-b-2 border-blue-600'
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
-                  data-testid="recommendations-tab"
+                  data-testid="reports-tab"
                 >
                   Reports
                 </button>
                 <button
-                  onClick={() => setActiveTab('history')}
+                  onClick={() => navigate('/dashboard/history')}
                   className={`text-sm font-medium transition-colors ${
                     activeTab === 'history'
                       ? 'text-blue-600 border-b-2 border-blue-600'
@@ -122,7 +122,7 @@ const Dashboard = ({ athleteId }) => {
                   History
                 </button>
                 <button
-                  onClick={() => setActiveTab('account')}
+                  onClick={() => navigate('/dashboard/account')}
                   className={`text-sm font-medium transition-colors ${
                     activeTab === 'account'
                       ? 'text-blue-600 border-b-2 border-blue-600'
