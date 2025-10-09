@@ -77,6 +77,12 @@ const Login = ({ onAthleteLogin }) => {
             My Health Tracker
           </h1>
           <p className="text-gray-600">{t('auth.welcomeBack')}</p>
+          <Link 
+            to="/pricing" 
+            className="inline-block mt-3 text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+          >
+            View Pricing Plans →
+          </Link>
         </div>
 
         {/* Login Form */}
