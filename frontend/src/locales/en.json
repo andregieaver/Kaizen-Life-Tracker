@@ -306,6 +306,26 @@
     "saveCredentials": "Save Credentials",
     "securityNote": "Your credentials are encrypted and stored securely. They are only used to sync your Strava data."
   },
+  "oura": {
+    "setupCredentials": "Setup Oura Credentials",
+    "credentialsDescription": "Enter your personal Oura API credentials to connect your Oura Ring",
+    "howToGetCredentials": "How to get your Oura API credentials:",
+    "step1": "Go to https://cloud.ouraring.com/oauth/applications and create a new application",
+    "step2": "Copy your Client ID and Client Secret from your Oura app settings",
+    "step3": "Get your Access Token and Refresh Token from your Oura app OAuth flow",
+    "step4": "Enter all four credentials below to connect your Oura Ring",
+    "learnMore": "Learn more about Oura API",
+    "clientId": "Client ID",
+    "clientSecret": "Client Secret", 
+    "accessToken": "Access Token",
+    "refreshToken": "Refresh Token",
+    "allFieldsRequired": "All fields are required",
+    "credentialsSaved": "Oura credentials saved successfully!",
+    "credentialsError": "Failed to save Oura credentials. Please check your values and try again.",
+    "saving": "Saving...",
+    "saveCredentials": "Save Credentials",
+    "securityNote": "Your credentials are encrypted and stored securely. They are only used to sync your Oura Ring data."
+  },
   "validation": {
     "nameRequired": "Name is required",
     "emailRequired": "Email is required",
