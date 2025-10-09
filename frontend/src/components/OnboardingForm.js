@@ -305,7 +305,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                     Creating Your Profile...
                   </div>
                 ) : (
-                  'Start Your AI Coaching Journey'
+                  t('onboarding.startCoaching')
                 )}
               </Button>
             </form>
