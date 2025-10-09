@@ -1618,9 +1618,7 @@ async def save_oura_credentials(athlete_id: str, credentials: OuraCredentials):
         # Encrypt sensitive data before storing
         encrypted_credentials = {
             "client_id": credentials.client_id,
-            "client_secret": credentials.client_secret,  # In production, encrypt this
-            "access_token": credentials.access_token,    # In production, encrypt this
-            "refresh_token": credentials.refresh_token   # In production, encrypt this
+            "client_secret": credentials.client_secret  # In production, encrypt this
         }
         
         # Update or create Oura integration for this athlete
