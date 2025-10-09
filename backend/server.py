@@ -1648,7 +1648,7 @@ async def oura_auth_initiate(athlete_id: str):
     """Initiate Oura OAuth authorization flow using user's credentials"""
     # Get user's Oura credentials
     integration = await db.integrations.find_one(
-        {"athlete_id": athlete_id, "service": "oura"}, 
+        {"athlete_id": athlete_id, "integration_type": "oura"}, 
         {"_id": 0}
     )
     
