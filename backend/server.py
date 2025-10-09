@@ -1503,12 +1503,10 @@ async def get_invoices(athlete_id: str):
             })
         
         return {"invoices": invoice_list}
-    except StripeError as e:
-        logging.error(f"Stripe error fetching invoices: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Stripe error: {str(e)}")
     except Exception as e:
         logging.error(f"Error fetching invoices: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Failed to fetch invoices: {str(e)}")
+        # Return empty list on error instead of failing
+        return {"invoices": []}
 
 @api_router.post("/webhooks/stripe")
 async def stripe_webhook(request: Request):
