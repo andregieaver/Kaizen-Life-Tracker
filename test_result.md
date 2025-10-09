@@ -212,7 +212,8 @@ test_plan:
   current_focus:
     - "Schedule Edit Functionality"
     - "Schedule Delete Functionality"
-    - "Schedule CRUD API Endpoints"
+    - "Schedule Form Header Dynamic Text"
+    - "Schedule Form Cancel Button"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
