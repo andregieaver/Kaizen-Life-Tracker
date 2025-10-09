@@ -325,7 +325,7 @@ const CoachChat = ({ athleteId }) => {
               <MessageCircle className="w-12 h-12 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500 mb-6">{t('coach.startConversation')}</p>
               <div className="space-y-2 max-w-2xl mx-auto">
-                <p className="text-sm text-gray-600 mb-3">Try asking:</p>
+                <p className="text-sm text-gray-600 mb-3">{t('coach.tryAsking')}</p>
                 {suggestedQuestions.map((question, index) => (
                   <button
                     key={index}
