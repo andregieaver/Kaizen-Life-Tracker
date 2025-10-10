@@ -359,6 +359,18 @@ test_plan:
         agent: "main"
         comment: "Backend endpoints for Training Calendar implemented: TrainingBlock model with fields (id, athlete_id, title, description, block_type, start_date, end_date, created_by, created_at, updated_at). API endpoints: GET /api/training-calendar/{athlete_id} (retrieve blocks), POST /api/training-calendar (create block), PUT /api/training-calendar/{block_id} (update block), DELETE /api/training-calendar/{block_id} (delete block). Backend restart completed successfully."
 
+  - task: "Training Calendar Frontend Implementation"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/TrainingCalendar.js, /app/frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "COMPREHENSIVE TRAINING CALENDAR FRONTEND IMPLEMENTATION: Created TrainingCalendar.js component with full calendar view using Shadcn Calendar component, form modal for creating/editing blocks, date selection with visual indicators (blue dots), selected date panel showing blocks for chosen date, monthly overview section listing all blocks. Integrated into Dashboard.js with Calendar tab in desktop navigation and slideout menu. Added all translation keys to en.json. Successfully tested: calendar navigation, date selection, Add Block modal, form submission, multiple training blocks creation, visual indicators on calendar dates, real-time UI updates after creation. Created 2 test training blocks spanning Oct 10-17 and Oct 18-24 with proper persistence and display."
+
 agent_communication:
   - agent: "main"
     message: "TRAINING CALENDAR FRONTEND IMPLEMENTATION STARTING: Backend already implemented with TrainingBlock model and CRUD API endpoints. Now implementing frontend component with calendar view, form modal for creating/editing training and recovery blocks, integration into Dashboard UI as new tab and slideout menu item. Using Shadcn UI calendar component and following existing design patterns."
