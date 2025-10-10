@@ -423,8 +423,30 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Mobile Bottom Navigation */}
+      <nav 
+        className={`md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 transition-transform duration-300 ease-in-out ${
+          scrollDirection === 'up' ? 'translate-y-full' : 'translate-y-0'
+        }`}
+      >
+        <div className="flex items-center justify-around py-3">
+          <Link to="/pricing" className="flex flex-col items-center gap-1 px-4 py-2">
+            <BarChart3 className="w-5 h-5 text-gray-600" />
+            <span className="text-xs text-gray-600">Pricing</span>
+          </Link>
+          <Link to="/login" className="flex flex-col items-center gap-1 px-4 py-2">
+            <Shield className="w-5 h-5 text-gray-600" />
+            <span className="text-xs text-gray-600">Log In</span>
+          </Link>
+          <Link to="/onboarding" className="flex flex-col items-center gap-1 px-4 py-2">
+            <Zap className="w-5 h-5 text-blue-600" />
+            <span className="text-xs text-blue-600 font-medium">Get Started</span>
+          </Link>
+        </div>
+      </nav>
+
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-12 px-4 sm:px-6 lg:px-8">
+      <footer className="bg-gray-900 text-gray-300 py-12 px-4 sm:px-6 lg:px-8 pb-24 md:pb-12">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
