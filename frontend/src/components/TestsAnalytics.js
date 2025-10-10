@@ -304,6 +304,9 @@ const TestsAnalytics = ({ athleteId }) => {
             // For distance-based tests, plot time_to_completion instead of distance
             const isDistanceTest = unit === 'distance';
             
+            // Determine Y-axis label based on what's being plotted
+            const yAxisLabel = isDistanceTest ? 'Time' : getUnitLabel(unit);
+            
             // Prepare chart data
             const chartData = sortedResults.map(result => ({
               date: formatDate(result.test_date),
