@@ -808,6 +808,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                 currentView={currentView}
                 trainingBlocks={trainingBlocks}
                 athleteId={athleteId}
+                preferences={athletePreferences}
               />
             </div>
           </div>
