@@ -589,36 +589,7 @@ const TrainingCalendar = ({ athleteId }) => {
               onSelectSlot={handleSelectSlot}
               onSelectEvent={handleSelectEvent}
               components={{
-                event: EventComponent,
-                eventWrapper: ({ event, children }) => (
-                  <div className="relative group">
-                    {children}
-                    <div className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity bg-white rounded-full shadow-lg p-1 transform translate-x-1 -translate-y-1">
-                      <div className="flex gap-1">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleEditBlock(event.resource);
-                          }}
-                          className="text-gray-600 hover:text-blue-600 transition-colors p-1 rounded"
-                          title="Edit workout"
-                        >
-                          <Edit className="w-3 h-3" />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteBlock(event.resource.id);
-                          }}
-                          className="text-gray-600 hover:text-red-600 transition-colors p-1 rounded"
-                          title="Delete workout"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )
+                event: EventComponent
               }}
               eventPropGetter={(event) => ({
                 style: {
