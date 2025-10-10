@@ -66,7 +66,7 @@ const WorkoutHistory = ({ athleteId }) => {
 
   if (isLoading) {
     return (
-      <div className="max-w-4xl mx-auto space-y-4">
+      <div className="w-full max-w-[1600px] mx-auto space-y-4">
         {[...Array(5)].map((_, i) => (
           <div key={i} className="skeleton h-24 rounded-lg"></div>
         ))}
