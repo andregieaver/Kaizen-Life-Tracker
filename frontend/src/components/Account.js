@@ -524,20 +524,60 @@ const Account = ({ athleteId }) => {
 
   const handleSavePersonalInfo = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const updatedData = {
-        ...personalForm,
-        age: parseInt(personalForm.age)
+        name: personalForm.name,
+        age: parseInt(personalForm.age),
+        running_goals: personalForm.running_goals,
+        height: personalForm.height ? parseFloat(personalForm.height) : null,
+        weight: personalForm.weight ? parseFloat(personalForm.weight) : null,
+        vo2_max: personalForm.vo2_max ? parseFloat(personalForm.vo2_max) : null,
+        measurement_system: personalForm.measurement_system
       };
       
-      // TODO: Implement update athlete endpoint
-      // await axios.put(`${API}/athlete/${athleteId}`, updatedData);
+      const response = await axios.put(`${API}/athlete/${athleteId}`, updatedData);
+      
+      // Update athlete state with the response
+      setAthlete(response.data);
+      setPersonalForm(response.data);
       
       setSaveStatus({ type: 'success', message: 'Personal information updated successfully!' });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
     } catch (error) {
       console.error('Error updating personal info:', error);
       setSaveStatus({ type: 'error', message: 'Failed to update personal information' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSavePreferences = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const updatedData = {
+        distance_unit: personalForm.distance_unit,
+        measurement_system: personalForm.measurement_system,
+        week_starts_on: personalForm.week_starts_on,
+        timezone: personalForm.timezone,
+        time_format: personalForm.time_format,
+        language: personalForm.language
+      };
+      
+      const response = await axios.put(`${API}/athlete/${athleteId}`, updatedData);
+      
+      // Update athlete state with the response
+      setAthlete(response.data);
+      setPersonalForm(response.data);
+      
+      setSaveStatus({ type: 'success', message: 'Preferences updated successfully!' });
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
+    } catch (error) {
+      console.error('Error updating preferences:', error);
+      setSaveStatus({ type: 'error', message: 'Failed to update preferences' });
+    } finally {
+      setIsLoading(false);
     }
   };
 
