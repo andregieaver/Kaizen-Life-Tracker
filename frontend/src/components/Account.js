@@ -248,7 +248,11 @@ const Account = ({ athleteId }) => {
     }
   };
 
-  const handleDowngrade = async (newPlanId) => {
+  const handleDowngrade = async () => {
+    if (!downgradeTarget) return;
+    
+    const newPlanId = `${downgradeTarget}_${selectedBillingCycle}`;
+    
     try {
       const response = await axios.post(`${API}/subscriptions/update-plan`, {
         athlete_id: athleteId,
@@ -256,12 +260,21 @@ const Account = ({ athleteId }) => {
       });
 
       if (response.data.success) {
+        setShowDowngradeDialog(false);
         setSaveStatus({ 
           type: 'success', 
-          message: response.data.message
+          message: response.data.message + ' Refreshing...'
         });
-        setShowDowngradeDialog(false);
-        await loadSubscriptionStatus();
+        
+        // Wait for Stripe to update, then reload
+        setTimeout(async () => {
+          await loadSubscriptionStatus();
+          await loadInvoices();
+          setSaveStatus({ 
+            type: 'success', 
+            message: response.data.message
+          });
+        }, 1500);
       }
     } catch (error) {
       console.error('Downgrade error:', error);
