@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
-import { Home, MessageCircle, PlusCircle, BarChart3, User, Menu, X, Settings, BookOpen, Utensils } from 'lucide-react';
+import { Home, MessageCircle, PlusCircle, BarChart3, User, Menu, X, Settings, BookOpen, Utensils, Calendar } from 'lucide-react';
 import ReadinessCard from './ReadinessCard';
 import CoachChat from './CoachChat';
 import Recommendations from './Recommendations';
@@ -15,6 +15,7 @@ import Account from './Account';
 import Merits from './Merits';
 import Journal from './Journal';
 import Nutrition from './Nutrition';
+import TrainingCalendar from './TrainingCalendar';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
