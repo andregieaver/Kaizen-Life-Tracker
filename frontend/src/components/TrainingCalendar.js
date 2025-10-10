@@ -267,6 +267,17 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
     }
   }, [athleteId, currentDate]);
 
+  // Configure moment locale to respect week start preference
+  useEffect(() => {
+    const weekStartDay = weekStartsOn === 'sunday' ? 0 : 1;
+    moment.updateLocale('en', {
+      week: {
+        dow: weekStartDay,
+        doy: 6
+      }
+    });
+  }, [weekStartsOn]);
+
   const loadTrainingBlocks = async () => {
     setIsLoading(true);
     try {
