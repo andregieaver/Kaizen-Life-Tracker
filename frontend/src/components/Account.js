@@ -1068,7 +1068,11 @@ const Account = ({ athleteId }) => {
                       <Button 
                         className="w-full" 
                         variant="default"
-                        onClick={() => handleUpgrade('pro', 'monthly')}
+                        onClick={() => {
+                          setUpgradeTarget('pro');
+                          setSelectedBillingCycle('monthly');
+                          setShowUpgradeDialog(true);
+                        }}
                       >
                         Upgrade to Pro
                       </Button>
@@ -1081,7 +1085,8 @@ const Account = ({ athleteId }) => {
                         className="w-full" 
                         variant="outline"
                         onClick={() => {
-                          setDowngradeTarget('pro_monthly');
+                          setDowngradeTarget('pro');
+                          setSelectedBillingCycle('monthly');
                           setShowDowngradeDialog(true);
                         }}
                       >
