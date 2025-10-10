@@ -1034,7 +1034,7 @@ const Account = ({ athleteId }) => {
         </TabsContent>
 
         {/* Subscription Tab */}
-        <TabsContent value="subscription">
+        <TabsContent value="subscriptions">
           <div className="space-y-6">
             {/* Current Plan */}
             <Card className="border-0 shadow-lg">
