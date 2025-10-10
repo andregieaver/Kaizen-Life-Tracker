@@ -1942,6 +1942,52 @@ async def update_training_block(block_id: str, data: dict):
     
     return {"success": True}
 
+@api_router.get("/training-calendar/{athlete_id}/weekly-summary")
+async def get_weekly_summary(athlete_id: str, year: int = Query(2025), week: int = Query(1)):
+    """Get weekly training summary"""
+    from datetime import datetime, timedelta
+    
+    # Calculate week start and end dates
+    jan_1 = datetime(year, 1, 1)
+    week_start = jan_1 + timedelta(weeks=week-1)
+    week_end = week_start + timedelta(days=6)
+    
+    # Query training blocks for this week
+    blocks = await db.training_blocks.find(
+        {
+            "athlete_id": athlete_id,
+            "$or": [
+                {
+                    "start_date": {
+                        "$gte": week_start.strftime("%Y-%m-%d"),
+                        "$lte": week_end.strftime("%Y-%m-%d")
+                    }
+                },
+                {
+                    "end_date": {
+                        "$gte": week_start.strftime("%Y-%m-%d"),
+                        "$lte": week_end.strftime("%Y-%m-%d")
+                    }
+                }
+            ]
+        },
+        {"_id": 0}
+    ).to_list(length=None)
+    
+    # Calculate totals
+    total_distance = sum(block.get("distance", 0) or 0 for block in blocks)
+    total_duration = sum(block.get("duration_minutes", 0) or 0 for block in blocks)
+    workout_count = len([b for b in blocks if b.get("workout_type")])
+    
+    return {
+        "week_start": week_start.strftime("%Y-%m-%d"),
+        "week_end": week_end.strftime("%Y-%m-%d"),
+        "total_distance": total_distance,
+        "total_duration": total_duration,
+        "workout_count": workout_count,
+        "blocks": [parse_from_mongo(block) for block in blocks]
+    }
+
 @api_router.delete("/training-calendar/{block_id}")
 async def delete_training_block(block_id: str):
     """Delete a training block"""
