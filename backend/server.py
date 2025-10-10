@@ -2313,27 +2313,39 @@ async def stripe_webhook(request: Request):
 @api_router.post("/integrations/openai/{athlete_id}")
 async def save_openai_key(athlete_id: str, key_request: APIKeyRequest):
     """Save OpenAI API key for athlete"""
-    
-    # Validate the API key format (supports both legacy 'sk-' and project-based 'sk-proj-' keys)
-    if not (key_request.api_key.startswith('sk-') or key_request.api_key.startswith('sk-proj-')):
-        raise HTTPException(status_code=400, detail="Invalid OpenAI API key format")
-    
-    # TODO: Encrypt the API key before storing in production
-    integration = Integration(
-        athlete_id=athlete_id,
-        integration_type="openai",
-        credentials={"api_key": key_request.api_key},  # Should be encrypted in production
-        settings={"model": "gpt-4", "max_tokens": 2000}
-    )
-    
-    # Upsert integration
-    await db.integrations.update_one(
-        {"athlete_id": athlete_id, "integration_type": "openai"},
-        {"$set": prepare_for_mongo(integration.model_dump())},
-        upsert=True
-    )
-    
-    return {"message": "OpenAI API key saved successfully"}
+    try:
+        logger.info(f"Saving OpenAI API key for athlete: {athlete_id}")
+        logger.info(f"API key prefix: {key_request.api_key[:10]}...")
+        
+        # Validate the API key format (supports both legacy 'sk-' and project-based 'sk-proj-' keys)
+        if not (key_request.api_key.startswith('sk-') or key_request.api_key.startswith('sk-proj-')):
+            logger.error(f"Invalid API key format. Key starts with: {key_request.api_key[:5]}")
+            raise HTTPException(status_code=400, detail="Invalid OpenAI API key format")
+        
+        logger.info("API key validation passed")
+        
+        # TODO: Encrypt the API key before storing in production
+        integration = Integration(
+            athlete_id=athlete_id,
+            integration_type="openai",
+            credentials={"api_key": key_request.api_key},  # Should be encrypted in production
+            settings={"model": "gpt-4", "max_tokens": 2000}
+        )
+        
+        # Upsert integration
+        await db.integrations.update_one(
+            {"athlete_id": athlete_id, "integration_type": "openai"},
+            {"$set": prepare_for_mongo(integration.model_dump())},
+            upsert=True
+        )
+        
+        logger.info(f"OpenAI API key saved successfully for athlete: {athlete_id}")
+        return {"message": "OpenAI API key saved successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error saving OpenAI API key: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to save API key: {str(e)}")
 
 @api_router.get("/integrations/{athlete_id}")
 async def get_athlete_integrations(athlete_id: str):
