@@ -1373,21 +1373,64 @@ const Account = ({ athleteId }) => {
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
               <Card className="w-full max-w-md mx-4">
                 <CardHeader>
-                  <CardTitle>Change Plan?</CardTitle>
+                  <CardTitle>
+                    {downgradeTarget === 'pro' ? 'Downgrade to Pro?' : 'Change Plan?'}
+                  </CardTitle>
                   <CardDescription>
-                    Confirm your plan change
+                    Choose your billing cycle
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  {/* Billing Cycle Toggle */}
+                  <div className="flex items-center justify-center space-x-4 bg-gray-100 rounded-full p-2">
+                    <button
+                      onClick={() => setSelectedBillingCycle('monthly')}
+                      className={`px-6 py-2 rounded-full font-medium transition-all ${
+                        selectedBillingCycle === 'monthly'
+                          ? 'bg-blue-600 text-white shadow-md'
+                          : 'text-gray-600 hover:text-gray-900'
+                      }`}
+                    >
+                      Monthly
+                    </button>
+                    <button
+                      onClick={() => setSelectedBillingCycle('annual')}
+                      className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
+                        selectedBillingCycle === 'annual'
+                          ? 'bg-blue-600 text-white shadow-md'
+                          : 'text-gray-600 hover:text-gray-900'
+                      }`}
+                    >
+                      Annual
+                      <Badge variant="default" className="ml-2 bg-green-500 text-white border-0">
+                        Save 17%
+                      </Badge>
+                    </button>
+                  </div>
+
+                  {/* Pricing Display */}
                   <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <p className="text-sm text-blue-900">
-                      <strong>What happens next:</strong>
-                    </p>
-                    <ul className="text-sm text-blue-800 mt-2 space-y-1 list-disc list-inside">
-                      <li>Your plan will change immediately</li>
-                      <li>You'll be charged/credited the prorated amount</li>
-                      <li>New billing cycle starts today</li>
-                    </ul>
+                    <div className="text-center mb-3">
+                      <p className="text-3xl font-bold text-blue-900">
+                        {downgradeTarget === 'pro' 
+                          ? (selectedBillingCycle === 'monthly' ? '€9.99/mo' : '€99/year')
+                          : (selectedBillingCycle === 'monthly' ? '€19.99/mo' : '€199/year')
+                        }
+                      </p>
+                      {selectedBillingCycle === 'annual' && (
+                        <p className="text-sm text-green-700 mt-2">
+                          Save {downgradeTarget === 'pro' ? '€20.88' : '€40.68'} per year!
+                        </p>
+                      )}
+                    </div>
+                    <div className="text-sm text-blue-800">
+                      <p className="font-semibold mb-1">What happens next:</p>
+                      <ul className="space-y-1 list-disc list-inside">
+                        <li>Your plan will change immediately</li>
+                        <li>You'll receive a prorated credit</li>
+                        <li>New billing cycle starts today</li>
+                      </ul>
+                    </div>
                   </div>
                   <div className="flex gap-2">
                     <Button 
@@ -1403,7 +1446,7 @@ const Account = ({ athleteId }) => {
                     <Button 
                       variant="default" 
                       className="flex-1"
-                      onClick={() => handleDowngrade(downgradeTarget)}
+                      onClick={handleDowngrade}
                     >
                       Confirm Change
                     </Button>
