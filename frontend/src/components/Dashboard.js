@@ -218,6 +218,20 @@ const Dashboard = ({ athleteId }) => {
                   <BookOpen className="w-5 h-5" />
                   <span className="font-medium">Journal</span>
                 </button>
+                <button
+                  onClick={() => {
+                    navigate('/dashboard/nutrition');
+                    setIsMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    activeTab === 'nutrition'
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <Utensils className="w-5 h-5" />
+                  <span className="font-medium">Nutrition</span>
+                </button>
               </nav>
             </div>
 
