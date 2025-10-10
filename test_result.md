@@ -347,7 +347,21 @@ test_plan:
         agent: "testing"
         comment: "✅ CHANGE PASSWORD IN ACCOUNT SETTINGS FULLY FUNCTIONAL - Comprehensive testing completed with 100% success rate. VERIFIED: 1) ACCOUNT SETTINGS INTEGRATION ✓ - Change Password section properly integrated into Account Settings Personal Information tab, replaces previous 'Coming Soon' message, accessible after user login. 2) CHANGE PASSWORD FORM ✓ - Complete form with three fields (Current Password, New Password, Confirm New Password), proper field labels and placeholders, password masking for security. 3) FORM VALIDATION ✓ - Current password verification, new password length validation (minimum 6 characters), password confirmation matching, prevents using same password, clear validation error messages. 4) FORM SUBMISSION ✓ - Successfully processes password change requests, integrates with backend API, proper loading states during submission. 5) SUCCESS/ERROR HANDLING ✓ - Clear success messages after password change, appropriate error messages for validation failures, form reset after successful submission. 6) BACKEND API ✓ - POST /api/auth/change-password endpoint working perfectly, verifies current password against stored hash, securely hashes new password, updates athlete profile. 7) SECURITY FEATURES ✓ - Current password verification required, secure password hashing, prevents password reuse, proper authentication checks. 8) UI/UX ✓ - Clean card-based design, proper spacing and styling, cancel button functionality, security note displayed. Ready for production use."
 
+  - task: "Training Calendar Backend Implementation"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Backend endpoints for Training Calendar implemented: TrainingBlock model with fields (id, athlete_id, title, description, block_type, start_date, end_date, created_by, created_at, updated_at). API endpoints: GET /api/training-calendar/{athlete_id} (retrieve blocks), POST /api/training-calendar (create block), PUT /api/training-calendar/{block_id} (update block), DELETE /api/training-calendar/{block_id} (delete block). Backend restart completed successfully."
+
 agent_communication:
+  - agent: "main"
+    message: "TRAINING CALENDAR FRONTEND IMPLEMENTATION STARTING: Backend already implemented with TrainingBlock model and CRUD API endpoints. Now implementing frontend component with calendar view, form modal for creating/editing training and recovery blocks, integration into Dashboard UI as new tab and slideout menu item. Using Shadcn UI calendar component and following existing design patterns."
   - agent: "testing"
     message: "✅ COMPREHENSIVE PASSWORD RESET FUNCTIONALITY TESTING COMPLETE - Executed extensive testing of all password reset features with 100% success rate. TESTED COMPONENTS: 1) FORGOT PASSWORD FLOW ✓ - Login page 'Forgot Password?' link works on desktop and mobile, ForgotPassword.js form processes email submissions correctly, success page shows reset token in dev mode, proper navigation between pages. 2) RESET PASSWORD FLOW ✓ - ResetPassword.js form handles all four fields (email, token, new password, confirm), form validation works correctly, backend API processes requests successfully, success page redirects to login. 3) CHANGE PASSWORD IN ACCOUNT SETTINGS ✓ - ChangePassword.js component integrated into Account settings, three-field form (current, new, confirm passwords) works perfectly, backend API verifies current password and updates securely. 4) BACKEND API ENDPOINTS ✓ - All three endpoints (/api/auth/forgot-password, /api/auth/reset-password, /api/auth/change-password) tested and working, proper token generation/validation, secure password hashing, appropriate error handling. 5) MOBILE RESPONSIVENESS ✓ - All password reset pages render correctly on mobile devices, forms fully functional on mobile viewport. 6) SECURITY & VALIDATION ✓ - Password requirements enforced, token expiry working (1 hour), secure password hashing, no email enumeration, proper authentication checks. ALL PASSWORD RESET FUNCTIONALITY IS PRODUCTION-READY."
   - agent: "testing"
