@@ -113,6 +113,18 @@ class TrainingBlock(BaseModel):
     block_type: str  # 'training' or 'recovery'
     start_date: str  # ISO date string
     end_date: str  # ISO date string
+    
+    # Workout details
+    workout_type: Optional[str] = None  # 'run', 'intervals', 'tempo', 'recovery', 'cross_training'
+    distance: Optional[float] = None  # Distance in miles or km
+    duration_minutes: Optional[int] = None  # Duration in minutes
+    pace_per_unit: Optional[str] = None  # e.g., "7:30" (minutes:seconds per mile/km)
+    intervals: Optional[int] = None  # Number of intervals
+    interval_distance: Optional[float] = None  # Distance per interval
+    interval_pace: Optional[str] = None  # Pace per interval
+    rest_duration: Optional[int] = None  # Rest between intervals in seconds
+    unit_system: str = "miles"  # 'miles' or 'km'
+    
     created_by: str = "user"  # 'user' or 'coach'
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
