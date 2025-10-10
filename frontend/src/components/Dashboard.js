@@ -406,6 +406,10 @@ const Dashboard = ({ athleteId }) => {
         {activeTab === 'nutrition' && (
           <Nutrition athleteId={athleteId} />
         )}
+
+        {activeTab === 'calendar' && (
+          <TrainingCalendar athleteId={athleteId} />
+        )}
       </main>
 
       {/* Mobile Bottom Navigation */}
