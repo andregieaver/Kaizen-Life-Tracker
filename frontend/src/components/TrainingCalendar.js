@@ -247,16 +247,31 @@ const TrainingCalendar = ({ athleteId }) => {
             {t('trainingCalendar.description')}
           </p>
         </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button 
-              onClick={handleCreateBlock}
-              className="bg-blue-600 hover:bg-blue-700"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              {t('trainingCalendar.addBlock')}
-            </Button>
-          </DialogTrigger>
+        <div className="flex gap-2">
+          {weeklySummary && (
+            <div className="bg-blue-50 p-3 rounded-lg text-sm">
+              <div className="font-medium text-blue-900">Weekly Summary</div>
+              <div className="text-blue-700">
+                {weeklySummary.total_distance > 0 && (
+                  <span>{weeklySummary.total_distance} miles • </span>
+                )}
+                {weeklySummary.total_duration > 0 && (
+                  <span>{weeklySummary.total_duration} min • </span>
+                )}
+                <span>{weeklySummary.workout_count} workouts</span>
+              </div>
+            </div>
+          )}
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button 
+                onClick={() => handleCreateBlock()}
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                {t('trainingCalendar.addBlock')}
+              </Button>
+            </DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle>
