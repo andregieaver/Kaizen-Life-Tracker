@@ -229,7 +229,7 @@ const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athlete
   );
 };
 
-const TrainingCalendar = ({ athleteId }) => {
+const TrainingCalendar = ({ athleteId, athletePreferences }) => {
   const { t } = useTranslation();
   const [trainingBlocks, setTrainingBlocks] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -238,6 +238,11 @@ const TrainingCalendar = ({ athleteId }) => {
   const [editingBlock, setEditingBlock] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [weeklySummary, setWeeklySummary] = useState(null);
+  
+  // Get user's distance unit preference
+  const distanceUnit = athletePreferences?.distance_unit || 'miles';
+  const weekStartsOn = athletePreferences?.week_starts_on || 'monday';
+  
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -252,7 +257,7 @@ const TrainingCalendar = ({ athleteId }) => {
     interval_distance: '',
     interval_pace: '',
     rest_duration: '',
-    unit_system: 'miles'
+    unit_system: distanceUnit
   });
 
   useEffect(() => {
