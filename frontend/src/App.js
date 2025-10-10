@@ -131,16 +131,6 @@ function App() {
             } 
           />
           <Route 
-            path="/journal" 
-            element={
-              athleteId ? (
-                <Journal athleteId={athleteId} />
-              ) : (
-                <Navigate to="/" replace />
-              )
-            } 
-          />
-          <Route 
             path="/auth/strava/callback" 
             element={<StravaCallback />} 
           />
