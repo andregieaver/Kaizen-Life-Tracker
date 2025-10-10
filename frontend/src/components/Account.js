@@ -143,7 +143,18 @@ const Account = ({ athleteId }) => {
   const [personalForm, setPersonalForm] = useState({
     name: '',
     age: '',
-    running_goals: ''
+    running_goals: '',
+    // Personal Information fields
+    height: '',
+    weight: '',
+    vo2_max: '',
+    // Preferences
+    distance_unit: 'miles',
+    measurement_system: 'imperial',
+    week_starts_on: 'monday',
+    timezone: 'UTC',
+    time_format: '12h',
+    language: 'en'
   });
   
   const [apiKeyForm, setApiKeyForm] = useState({
