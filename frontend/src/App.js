@@ -114,7 +114,7 @@ function App() {
             path="/dashboard" 
             element={
               athleteId ? (
-                <Navigate to="/dashboard/connections" replace />
+                <Dashboard athleteId={athleteId} />
               ) : (
                 <Navigate to="/" replace />
               )
