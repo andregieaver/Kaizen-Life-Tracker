@@ -539,6 +539,56 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  // Simple integration handlers using provider connector infrastructure
+  const handleSimpleConnect = async (providerKey) => {
+    try {
+      // Get auth URL from backend provider connector
+      const response = await axios.get(`${API}/auth/${providerKey}?user_id=${athleteId}`);
+      
+      if (response.data.authorization_url) {
+        // Store redirect info in localStorage for when we return
+        localStorage.setItem('integration_redirect', window.location.href);
+        localStorage.setItem('connecting_provider', providerKey);
+        
+        // Redirect to provider's OAuth page
+        window.location.href = response.data.authorization_url;
+      }
+    } catch (error) {
+      console.error(`Error connecting to ${providerKey}:`, error);
+      setSaveStatus({ 
+        type: 'error', 
+        message: `Failed to connect to ${providerKey}. Please ensure credentials are configured.` 
+      });
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
+    }
+  };
+
+  const handleSimpleDisconnect = async (providerKey) => {
+    if (!window.confirm(`Are you sure you want to disconnect ${providerKey}?`)) {
+      return;
+    }
+
+    try {
+      await axios.post(`${API}/me/connections/${providerKey}/disconnect?user_id=${athleteId}`);
+      
+      // Update local state
+      setIntegrations(prev => ({
+        ...prev,
+        [providerKey]: { connected: false, athlete_name: '', user_id: '', last_sync: null }
+      }));
+      
+      setSaveStatus({ type: 'success', message: `${providerKey} disconnected successfully` });
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
+    } catch (error) {
+      console.error(`Error disconnecting ${providerKey}:`, error);
+      setSaveStatus({ 
+        type: 'error', 
+        message: `Failed to disconnect ${providerKey}. Please try again.` 
+      });
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
+    }
+  };
+
   const handleStravaConnect = () => {
     setShowStravaModal(true);
   };
