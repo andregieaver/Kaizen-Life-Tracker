@@ -21,6 +21,212 @@ const API = `${BACKEND_URL}/api`;
 
 const localizer = momentLocalizer(moment);
 
+// Weekly Summary Column Component
+const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athleteId }) => {
+  const [weeklyData, setWeeklyData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    calculateWeeklySummaries();
+  }, [currentDate, currentView, trainingBlocks]);
+
+  const calculateWeeklySummaries = () => {
+    setLoading(true);
+    
+    // Get weeks to display based on current view
+    const weeks = getWeeksForView();
+    const summaries = weeks.map(weekInfo => {
+      const weekBlocks = trainingBlocks.filter(block => {
+        const blockStart = moment(block.start_date);
+        const blockEnd = moment(block.end_date);
+        return blockStart.isSameOrAfter(weekInfo.start, 'day') && 
+               blockStart.isSameOrBefore(weekInfo.end, 'day');
+      });
+
+      const totalDistance = weekBlocks.reduce((sum, block) => 
+        sum + (parseFloat(block.distance) || 0), 0
+      );
+      const totalDuration = weekBlocks.reduce((sum, block) => 
+        sum + (parseInt(block.duration_minutes) || 0), 0
+      );
+      const workoutCount = weekBlocks.filter(block => 
+        block.workout_type && block.workout_type !== 'recovery'
+      ).length;
+
+      return {
+        ...weekInfo,
+        totalDistance,
+        totalDuration,
+        workoutCount,
+        blocks: weekBlocks
+      };
+    });
+
+    setWeeklyData(summaries);
+    setLoading(false);
+  };
+
+  const getWeeksForView = () => {
+    const weeks = [];
+    
+    if (currentView === Views.WEEK) {
+      // For week view, show current week and 2 weeks before/after
+      for (let i = -2; i <= 2; i++) {
+        const weekStart = moment(currentDate).startOf('week').add(i, 'weeks');
+        const weekEnd = moment(weekStart).endOf('week');
+        weeks.push({
+          start: weekStart,
+          end: weekEnd,
+          label: i === 0 ? 'This Week' : weekStart.format('MMM D'),
+          isCurrentWeek: i === 0
+        });
+      }
+    } else {
+      // For month view, show all weeks in current month
+      const monthStart = moment(currentDate).startOf('month');
+      const monthEnd = moment(currentDate).endOf('month');
+      let weekStart = moment(monthStart).startOf('week');
+      
+      while (weekStart.isSameOrBefore(monthEnd)) {
+        const weekEnd = moment(weekStart).endOf('week');
+        const isCurrentWeek = moment().isBetween(weekStart, weekEnd, 'day', '[]');
+        
+        weeks.push({
+          start: moment(weekStart),
+          end: moment(weekEnd),
+          label: weekStart.format('MMM D'),
+          isCurrentWeek
+        });
+        
+        weekStart.add(1, 'week');
+      }
+    }
+    
+    return weeks;
+  };
+
+  const formatDuration = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    if (hours > 0) {
+      return `${hours}h ${mins}m`;
+    }
+    return `${mins}m`;
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="text-sm text-gray-500">Loading...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <h3 className="font-semibold text-gray-900 text-sm">Weekly Summary</h3>
+      
+      {weeklyData.map((week, index) => (
+        <div 
+          key={index}
+          className={`p-3 rounded-lg border ${
+            week.isCurrentWeek 
+              ? 'bg-blue-50 border-blue-200' 
+              : 'bg-white border-gray-200'
+          }`}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <h4 className={`text-xs font-medium ${
+              week.isCurrentWeek ? 'text-blue-900' : 'text-gray-700'
+            }`}>
+              {week.label}
+            </h4>
+            {week.isCurrentWeek && (
+              <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800">
+                Current
+              </Badge>
+            )}
+          </div>
+          
+          <div className="space-y-2 text-xs">
+            {/* Distance */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1">
+                <MapPin className="w-3 h-3 text-gray-400" />
+                <span className="text-gray-600">Distance</span>
+              </div>
+              <span className="font-medium text-gray-900">
+                {week.totalDistance > 0 ? `${week.totalDistance.toFixed(1)} mi` : '0 mi'}
+              </span>
+            </div>
+
+            {/* Duration */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1">
+                <Clock className="w-3 h-3 text-gray-400" />
+                <span className="text-gray-600">Time</span>
+              </div>
+              <span className="font-medium text-gray-900">
+                {week.totalDuration > 0 ? formatDuration(week.totalDuration) : '0m'}
+              </span>
+            </div>
+
+            {/* Workouts */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1">
+                <Dumbbell className="w-3 h-3 text-gray-400" />
+                <span className="text-gray-600">Workouts</span>
+              </div>
+              <span className="font-medium text-gray-900">
+                {week.workoutCount}
+              </span>
+            </div>
+
+            {/* Average Pace */}
+            {week.totalDistance > 0 && week.totalDuration > 0 && (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1">
+                  <Timer className="w-3 h-3 text-gray-400" />
+                  <span className="text-gray-600">Avg Pace</span>
+                </div>
+                <span className="font-medium text-gray-900">
+                  {Math.round(week.totalDuration / week.totalDistance)}:00/mi
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Workout List */}
+          {week.blocks.length > 0 && (
+            <div className="mt-2 pt-2 border-t border-gray-200">
+              <div className="space-y-1">
+                {week.blocks.slice(0, 3).map((block, blockIndex) => (
+                  <div key={blockIndex} className="flex items-center justify-between text-xs">
+                    <span className="text-gray-600 truncate">{block.title}</span>
+                    <div className="flex items-center gap-1 text-gray-500">
+                      {block.distance && (
+                        <span>{block.distance}mi</span>
+                      )}
+                      {block.duration_minutes && (
+                        <span>•{block.duration_minutes}m</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+                {week.blocks.length > 3 && (
+                  <div className="text-xs text-gray-500">
+                    +{week.blocks.length - 3} more
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const TrainingCalendar = ({ athleteId }) => {
   const { t } = useTranslation();
   const [trainingBlocks, setTrainingBlocks] = useState([]);
