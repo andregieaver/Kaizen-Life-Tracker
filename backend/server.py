@@ -1817,6 +1817,56 @@ async def delete_journal_entry(entry_id: str):
     
     return {"success": True}
 
+# Nutrition routes
+@api_router.get("/nutrition/{athlete_id}")
+async def get_nutrition_entries(athlete_id: str):
+    """Get all nutrition entries for an athlete"""
+    entries = await db.nutrition_entries.find(
+        {"athlete_id": athlete_id},
+        {"_id": 0}
+    ).sort("created_at", -1).to_list(length=None)
+    
+    return {"entries": [parse_from_mongo(entry) for entry in entries]}
+
+@api_router.post("/nutrition")
+async def create_nutrition_entry(entry: NutritionEntry):
+    """Create a new nutrition entry"""
+    entry_dict = prepare_for_mongo(entry.model_dump())
+    await db.nutrition_entries.insert_one(entry_dict)
+    return {"success": True, "id": entry.id}
+
+@api_router.put("/nutrition/{entry_id}")
+async def update_nutrition_entry(entry_id: str, data: dict):
+    """Update a nutrition entry"""
+    update_data = {
+        "description": data.get("description"),
+        "meal_type": data.get("meal_type"),
+        "updated_at": datetime.now(timezone.utc).isoformat()
+    }
+    
+    if "image_data" in data:
+        update_data["image_data"] = data["image_data"]
+    
+    result = await db.nutrition_entries.update_one(
+        {"id": entry_id},
+        {"$set": update_data}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Nutrition entry not found")
+    
+    return {"success": True}
+
+@api_router.delete("/nutrition/{entry_id}")
+async def delete_nutrition_entry(entry_id: str):
+    """Delete a nutrition entry"""
+    result = await db.nutrition_entries.delete_one({"id": entry_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Nutrition entry not found")
+    
+    return {"success": True}
+
 @api_router.post("/webhooks/stripe")
 async def stripe_webhook(request: Request):
     """Handle Stripe webhooks"""
