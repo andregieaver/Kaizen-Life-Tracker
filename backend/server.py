@@ -208,6 +208,20 @@ class Document(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
+class TestResult(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    test_name: str  # e.g., "Pull-ups", "5km Run", "Plank Hold"
+    unit: str  # 'repetitions', 'time', 'distance', 'weight', 'other'
+    result_value: float  # The actual test result (e.g., 20 for pull-ups, 1500 for 5km in seconds)
+    time_to_completion: Optional[float] = None  # Optional time taken (in seconds)
+    notes: Optional[str] = None
+    test_date: str  # ISO date string when test was performed
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
 class TrainingBlock(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
