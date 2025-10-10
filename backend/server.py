@@ -162,6 +162,7 @@ class AthleteProfile(BaseModel):
     week_starts_on: str = Field(default="monday")  # 'sunday' or 'monday'
     timezone: str = Field(default="UTC")  # Timezone string (e.g., "America/New_York")
     time_format: str = Field(default="12h")  # '12h' or '24h'
+    date_format: str = Field(default="MM/DD/YYYY")  # Date format preference
     language: str = Field(default="en")  # Language code (e.g., "en", "no", "sv")
     
     # Subscription fields
