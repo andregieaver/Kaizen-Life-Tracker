@@ -28,6 +28,158 @@ def print_test_result(test_name, success, details=""):
         print(f"   Details: {details}")
     print()
 
+def test_account_settings_personal_info_and_preferences():
+    """Test Account Settings Personal Information and Preferences save/load functionality"""
+    print("🔍 Testing Account Settings Personal Information and Preferences")
+    
+    # Step 1: Login as andre@example.com to get athlete_id
+    print("   Step 1: Login as andre@example.com")
+    
+    login_data = {
+        "email": "andre@example.com",
+        "password": "password123"  # Common test password
+    }
+    
+    try:
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("Account Settings - Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if not athlete_id:
+            print_test_result("Account Settings - Login", False, "No athlete_id in login response")
+            return False
+        
+        print_test_result("Account Settings - Login", True, f"Logged in as {athlete_data.get('name')} (ID: {athlete_id})")
+        
+        # Step 2: Save personal information with new fields
+        print("   Step 2: Save personal information with new fields")
+        
+        personal_info_update = {
+            "height": 175,
+            "weight": 70,
+            "vo2_max": 52.5,
+            "measurement_system": "metric"
+        }
+        
+        update_response = requests.put(
+            f"{BACKEND_URL}/athlete/{athlete_id}",
+            json=personal_info_update,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if update_response.status_code != 200:
+            print_test_result("Account Settings - Save Personal Info", False, f"Update failed: {update_response.status_code}, Response: {update_response.text}")
+            return False
+        
+        updated_athlete = update_response.json()
+        
+        # Verify personal info fields were saved
+        personal_info_success = True
+        personal_info_details = []
+        
+        for field, expected_value in personal_info_update.items():
+            if updated_athlete.get(field) == expected_value:
+                personal_info_details.append(f"{field}: ✓ ({expected_value})")
+            else:
+                personal_info_details.append(f"{field}: ✗ (expected {expected_value}, got {updated_athlete.get(field)})")
+                personal_info_success = False
+        
+        print_test_result("Account Settings - Save Personal Info", personal_info_success, "; ".join(personal_info_details))
+        
+        # Step 3: Save preferences
+        print("   Step 3: Save preferences")
+        
+        preferences_update = {
+            "distance_unit": "km",
+            "week_starts_on": "sunday",
+            "timezone": "Europe/Oslo",
+            "time_format": "24h"
+        }
+        
+        preferences_response = requests.put(
+            f"{BACKEND_URL}/athlete/{athlete_id}",
+            json=preferences_update,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if preferences_response.status_code != 200:
+            print_test_result("Account Settings - Save Preferences", False, f"Update failed: {preferences_response.status_code}, Response: {preferences_response.text}")
+            return False
+        
+        updated_athlete_prefs = preferences_response.json()
+        
+        # Verify preferences fields were saved
+        preferences_success = True
+        preferences_details = []
+        
+        for field, expected_value in preferences_update.items():
+            if updated_athlete_prefs.get(field) == expected_value:
+                preferences_details.append(f"{field}: ✓ ({expected_value})")
+            else:
+                preferences_details.append(f"{field}: ✗ (expected {expected_value}, got {updated_athlete_prefs.get(field)})")
+                preferences_success = False
+        
+        print_test_result("Account Settings - Save Preferences", preferences_success, "; ".join(preferences_details))
+        
+        # Step 4: Fetch athlete profile again to verify persistence
+        print("   Step 4: Fetch athlete profile to verify persistence")
+        
+        fetch_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+        
+        if fetch_response.status_code != 200:
+            print_test_result("Account Settings - Fetch Profile", False, f"Fetch failed: {fetch_response.status_code}")
+            return False
+        
+        fetched_athlete = fetch_response.json()
+        
+        # Step 5: Verify all saved values match what was sent
+        print("   Step 5: Verify all saved values match what was sent")
+        
+        all_expected_values = {**personal_info_update, **preferences_update}
+        
+        verification_success = True
+        verification_details = []
+        
+        for field, expected_value in all_expected_values.items():
+            if fetched_athlete.get(field) == expected_value:
+                verification_details.append(f"{field}: ✓ ({expected_value})")
+            else:
+                verification_details.append(f"{field}: ✗ (expected {expected_value}, got {fetched_athlete.get(field)})")
+                verification_success = False
+        
+        print_test_result("Account Settings - Verify Persistence", verification_success, "; ".join(verification_details))
+        
+        # Overall test result
+        overall_success = personal_info_success and preferences_success and verification_success
+        
+        if overall_success:
+            print_test_result("Account Settings - Overall Test", True, "All personal information and preferences saved and persisted correctly")
+        else:
+            failed_components = []
+            if not personal_info_success:
+                failed_components.append("personal info")
+            if not preferences_success:
+                failed_components.append("preferences")
+            if not verification_success:
+                failed_components.append("persistence verification")
+            
+            print_test_result("Account Settings - Overall Test", False, f"Failed components: {', '.join(failed_components)}")
+        
+        return overall_success
+        
+    except Exception as e:
+        print_test_result("Account Settings - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_get_schedules_empty():
     """Test GET /api/schedules/{athlete_id} - should return empty array initially"""
     print("🔍 Testing GET /api/schedules/{athlete_id} (empty list)")
