@@ -387,7 +387,7 @@ const TestsAnalytics = ({ athleteId }) => {
                           stroke="#6b7280"
                           style={{ fontSize: '12px' }}
                           label={{ 
-                            value: isDistanceTest ? 'Time' : getUnitLabel(unit), 
+                            value: yAxisLabel, 
                             angle: -90, 
                             position: 'insideLeft',
                             style: { fontSize: '12px' }
