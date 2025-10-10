@@ -441,20 +441,24 @@ const Account = ({ athleteId }) => {
       
       // Load integrations data from backend
       try {
-        const [integrationsRes, stravaStatusRes, ouraStatusRes] = await Promise.all([
-          axios.get(`${API}/integrations/${athleteId}`),
-          axios.get(`${API}/integrations/strava/${athleteId}/status`),
-          axios.get(`${API}/integrations/oura/${athleteId}/status`)
+        // Load from both old integrations and new user_connections
+        const [integrationsRes, stravaStatusRes, ouraStatusRes, connectionsRes] = await Promise.all([
+          axios.get(`${API}/integrations/${athleteId}`).catch(() => ({ data: { integrations: [] } })),
+          axios.get(`${API}/integrations/strava/${athleteId}/status`).catch(() => ({ data: { connected: false } })),
+          axios.get(`${API}/integrations/oura/${athleteId}/status`).catch(() => ({ data: { connected: false } })),
+          axios.get(`${API}/me/connections?user_id=${athleteId}`).catch(() => ({ data: { connections: [] } }))
         ]);
         
         const integrationsList = integrationsRes.data.integrations || [];
         const stravaStatus = stravaStatusRes.data;
         const ouraStatus = ouraStatusRes.data;
+        const connectionsData = connectionsRes.data.connections || [];
         
         // Find OpenAI integration
         const openaiIntegration = integrationsList.find(i => i.integration_type === 'openai');
         
-        setIntegrations({
+        // Initialize integrations state with legacy data
+        const integrationsState = {
           openai_api_key: openaiIntegration ? '••••••••••••••••' : '',
           strava: { 
             connected: stravaStatus.connected,
@@ -465,15 +469,41 @@ const Account = ({ athleteId }) => {
             connected: ouraStatus.connected,
             user_id: ouraStatus.connected ? 'Connected' : '',
             last_sync: ouraStatus.last_sync
+          },
+          coros: { connected: false, last_sync: null }
+        };
+        
+        // Update with new connections data (preferred)
+        connectionsData.forEach(connection => {
+          if (connection.provider_key === 'strava') {
+            integrationsState.strava = {
+              connected: connection.status === 'active',
+              athlete_name: connection.external_user_id || integrationsState.strava.athlete_name,
+              last_sync: connection.last_sync_at || integrationsState.strava.last_sync
+            };
+          } else if (connection.provider_key === 'oura') {
+            integrationsState.oura = {
+              connected: connection.status === 'active',
+              user_id: connection.external_user_id || integrationsState.oura.user_id,
+              last_sync: connection.last_sync_at || integrationsState.oura.last_sync
+            };
+          } else if (connection.provider_key === 'coros') {
+            integrationsState.coros = {
+              connected: connection.status === 'active',
+              last_sync: connection.last_sync_at || integrationsState.coros.last_sync
+            };
           }
         });
+        
+        setIntegrations(integrationsState);
       } catch (error) {
         console.error('Error loading integrations:', error);
         // Set default values if loading fails
         setIntegrations({
           openai_api_key: '',
           strava: { connected: false, athlete_name: '', last_sync: null },
-          oura: { connected: false, user_id: '', last_sync: null }
+          oura: { connected: false, user_id: '', last_sync: null },
+          coros: { connected: false, last_sync: null }
         });
       }
       
