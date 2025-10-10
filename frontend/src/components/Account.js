@@ -872,6 +872,15 @@ const Account = ({ athleteId }) => {
                     <TrendingUp className="w-4 h-4 mr-2" />
                     Upgrade Your Plan
                   </Button>
+                ) : subscriptionStatus.status === 'canceling' ? (
+                  <Button 
+                    className="w-full" 
+                    variant="default"
+                    onClick={handleReactivate}
+                  >
+                    <Repeat className="w-4 h-4 mr-2" />
+                    Resubscribe
+                  </Button>
                 ) : (
                   <Button 
                     className="w-full" 
