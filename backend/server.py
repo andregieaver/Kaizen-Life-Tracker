@@ -103,6 +103,20 @@ class NutritionEntry(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
+class TrainingBlock(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    title: str
+    description: Optional[str] = None
+    block_type: str  # 'training' or 'recovery'
+    start_date: str  # ISO date string
+    end_date: str  # ISO date string
+    created_by: str = "user"  # 'user' or 'coach'
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
 class AthleteUpdate(BaseModel):
     name: Optional[str] = None
     email: Optional[str] = None
