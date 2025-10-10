@@ -948,14 +948,19 @@ const Account = ({ athleteId }) => {
                         <span>24/7 priority support</span>
                       </li>
                     </ul>
-                    <Button 
-                      className="w-full" 
-                      variant="default"
-                      onClick={() => handleUpgrade('premium', 'monthly')}
-                      disabled={subscriptionStatus.tier === 'premium'}
-                    >
-                      {subscriptionStatus.tier === 'premium' ? 'Current Plan' : 'Upgrade to Premium'}
-                    </Button>
+                    {subscriptionStatus.tier === 'free' || subscriptionStatus.tier === 'pro' ? (
+                      <Button 
+                        className="w-full" 
+                        variant="default"
+                        onClick={() => handleUpgrade('premium', 'monthly')}
+                      >
+                        {subscriptionStatus.tier === 'free' ? 'Upgrade to Premium' : 'Upgrade to Premium'}
+                      </Button>
+                    ) : (
+                      <Button className="w-full" variant="outline" disabled>
+                        Current Plan
+                      </Button>
+                    )}
                   </div>
                 </div>
 
