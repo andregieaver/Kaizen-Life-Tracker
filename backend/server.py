@@ -238,6 +238,7 @@ class AthleteUpdate(BaseModel):
     week_starts_on: Optional[str] = None
     timezone: Optional[str] = None
     time_format: Optional[str] = None
+    date_format: Optional[str] = None
     language: Optional[str] = None
 
 class Integration(BaseModel):
