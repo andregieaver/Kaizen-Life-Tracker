@@ -171,12 +171,12 @@ const Dashboard = ({ athleteId }) => {
         <>
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity"
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity"
             onClick={() => setIsMenuOpen(false)}
           />
           
           {/* Menu Panel */}
-          <div className="fixed inset-y-0 left-0 w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col">
+          <div className="fixed inset-y-0 left-0 w-80 bg-white shadow-2xl z-[60] transform transition-transform duration-300 ease-in-out flex flex-col">
             {/* Menu Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
               <div className="flex items-center space-x-3">
