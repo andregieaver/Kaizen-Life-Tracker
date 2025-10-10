@@ -2973,6 +2973,345 @@ async def execute_scheduled_analyses():
         logging.error(f"Error in scheduled execution: {e}")
         raise HTTPException(status_code=500, detail="Failed to execute scheduled analyses")
 
+# =============================================================================
+# INTEGRATION HUB API ENDPOINTS
+# =============================================================================
+
+# Provider Connector Interface
+class ProviderConnector:
+    """Base class for all provider connectors"""
+    
+    def __init__(self, key: str, name: str, auth_type: str = "oauth2"):
+        self.key = key
+        self.name = name
+        self.auth_type = auth_type
+    
+    async def begin_auth(self, user_id: str) -> dict:
+        """Start OAuth flow, return auth URL"""
+        raise NotImplementedError
+    
+    async def handle_callback(self, code: str, state: str) -> str:
+        """Handle OAuth callback, return user_connection_id"""
+        raise NotImplementedError
+    
+    async def verify_webhook(self, request: Request) -> dict:
+        """Verify webhook signature, return user_id and kind"""
+        raise NotImplementedError
+    
+    async def normalize_activity(self, raw_event: dict) -> Optional[dict]:
+        """Normalize activity data"""
+        return None
+    
+    async def normalize_daily(self, raw_event: dict) -> Optional[dict]:
+        """Normalize daily metrics"""
+        return None
+
+# Strava Connector
+class StravaConnector(ProviderConnector):
+    def __init__(self):
+        super().__init__("strava", "Strava", "oauth2")
+    
+    async def begin_auth(self, user_id: str) -> dict:
+        state = f"{user_id}_{secrets.token_urlsafe(16)}"
+        
+        # Get client credentials from environment or user config
+        client_id = os.environ.get('STRAVA_CLIENT_ID')
+        if not client_id:
+            # Try to get from user's saved credentials
+            integration = await db.integrations.find_one({
+                "athlete_id": user_id, 
+                "integration_type": "strava"
+            })
+            if integration and integration.get("credentials"):
+                client_id = integration["credentials"].get("client_id")
+        
+        if not client_id:
+            raise HTTPException(status_code=400, detail="Strava credentials not configured")
+        
+        redirect_uri = f"{os.environ.get('BACKEND_URL', 'http://localhost:8001')}/api/auth/strava/callback"
+        
+        auth_params = {
+            "client_id": client_id,
+            "response_type": "code",
+            "redirect_uri": redirect_uri,
+            "approval_prompt": "force",
+            "scope": "read,activity:read_all,profile:read_all",
+            "state": state
+        }
+        
+        auth_url = f"https://www.strava.com/oauth/authorize?{urlencode(auth_params)}"
+        return {"authorization_url": auth_url, "state": state}
+    
+    async def normalize_activity(self, raw_event: dict) -> Optional[dict]:
+        """Normalize Strava activity to standard format"""
+        payload = raw_event["payload"]
+        
+        # Map activity types
+        activity_type_map = {
+            "Run": "run",
+            "Ride": "ride", 
+            "Swim": "swim",
+            "Walk": "walk",
+            "Hike": "hike"
+        }
+        
+        return {
+            "activity_type": activity_type_map.get(payload.get("type", ""), "other"),
+            "start_time": payload.get("start_date"),
+            "end_time": payload.get("start_date"),  # Would calculate from start + elapsed time
+            "distance_m": payload.get("distance"),
+            "duration_s": payload.get("elapsed_time"),
+            "avg_hr": payload.get("average_heartrate"),
+            "max_hr": payload.get("max_heartrate"),
+            "calories_kcal": payload.get("kilojoules", 0) * 0.239006 if payload.get("kilojoules") else None  # Convert kJ to kcal
+        }
+
+# Oura Connector
+class OuraConnector(ProviderConnector):
+    def __init__(self):
+        super().__init__("oura", "Oura Ring", "oauth2")
+    
+    async def begin_auth(self, user_id: str) -> dict:
+        state = f"{user_id}_{secrets.token_urlsafe(16)}"
+        
+        # Get client credentials
+        client_id = os.environ.get('OURA_CLIENT_ID')
+        if not client_id:
+            integration = await db.integrations.find_one({
+                "athlete_id": user_id, 
+                "integration_type": "oura"
+            })
+            if integration and integration.get("credentials"):
+                client_id = integration["credentials"].get("client_id")
+        
+        if not client_id:
+            raise HTTPException(status_code=400, detail="Oura credentials not configured")
+        
+        redirect_uri = f"{os.environ.get('BACKEND_URL', 'http://localhost:8001')}/api/auth/oura/callback"
+        
+        auth_params = {
+            "response_type": "code",
+            "client_id": client_id,
+            "redirect_uri": redirect_uri,
+            "scope": "email personal daily heartrate workout session tag spo2",
+            "state": state
+        }
+        
+        auth_url = f"https://cloud.ouraring.com/oauth/authorize?{urlencode(auth_params)}"
+        return {"authorization_url": auth_url, "state": state}
+    
+    async def normalize_daily(self, raw_event: dict) -> Optional[dict]:
+        """Normalize Oura daily data to standard format"""
+        payload = raw_event["payload"]
+        
+        return {
+            "date": payload.get("day"),
+            "readiness": payload.get("score"),
+            "recovery": payload.get("score"),  # Oura uses same score for both
+            "steps": payload.get("steps"),
+            "resting_hr": payload.get("resting_heart_rate"),
+            "spo2": payload.get("spo2", {}).get("average") if payload.get("spo2") else None,
+            "sleep_total_min": payload.get("total_sleep_duration", 0) // 60  # Convert seconds to minutes
+        }
+
+# Initialize connectors
+strava_connector = StravaConnector()
+oura_connector = OuraConnector()
+
+connectors = {
+    "strava": strava_connector,
+    "oura": oura_connector
+}
+
+# Hub API Endpoints
+
+@api_router.get("/providers")
+async def list_providers():
+    """List all available providers"""
+    providers = [
+        {
+            "key": "strava",
+            "name": "Strava",
+            "auth_type": "oauth2",
+            "has_webhook": True,
+            "enabled": True,
+            "description": "Activities and performance data"
+        },
+        {
+            "key": "oura",
+            "name": "Oura Ring",
+            "auth_type": "oauth2", 
+            "has_webhook": True,
+            "enabled": True,
+            "description": "Sleep, recovery, and readiness data"
+        },
+        {
+            "key": "polar",
+            "name": "Polar",
+            "auth_type": "oauth2",
+            "has_webhook": True,
+            "enabled": False,  # Phase 3
+            "description": "Heart rate and training data"
+        },
+        {
+            "key": "garmin",
+            "name": "Garmin Connect",
+            "auth_type": "oauth1",
+            "has_webhook": True,
+            "enabled": False,  # Requires partner approval
+            "description": "Comprehensive fitness tracking"
+        },
+        {
+            "key": "coros",
+            "name": "COROS",
+            "auth_type": "oauth2",
+            "has_webhook": True,
+            "enabled": False,  # Requires partner approval
+            "description": "GPS sports watches and training data"
+        }
+    ]
+    return {"providers": providers}
+
+@api_router.get("/me/connections")
+async def get_user_connections(user_id: str = Query(...)):
+    """Get all provider connections for a user"""
+    connections = await db.user_connections.find(
+        {"user_id": user_id},
+        {"_id": 0, "access_token": 0, "refresh_token": 0}  # Don't return sensitive tokens
+    ).to_list(length=None)
+    
+    return {"connections": [parse_from_mongo(conn) for conn in connections]}
+
+@api_router.post("/me/connections/{provider_key}/disconnect")
+async def disconnect_provider(provider_key: str, user_id: str = Query(...)):
+    """Disconnect a provider"""
+    result = await db.user_connections.update_one(
+        {"user_id": user_id, "provider_key": provider_key},
+        {"$set": {"status": "disconnected", "updated_at": datetime.now(timezone.utc)}}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Connection not found")
+    
+    return {"message": f"{provider_key.capitalize()} disconnected successfully"}
+
+@api_router.get("/auth/{provider_key}")
+async def begin_provider_auth(provider_key: str, user_id: str = Query(...)):
+    """Begin OAuth flow for a provider"""
+    if provider_key not in connectors:
+        raise HTTPException(status_code=404, detail="Provider not found")
+    
+    connector = connectors[provider_key]
+    auth_data = await connector.begin_auth(user_id)
+    
+    return auth_data
+
+@api_router.post("/auth/{provider_key}/callback")
+async def handle_provider_callback(provider_key: str, request: Request):
+    """Handle OAuth callback from provider"""
+    if provider_key not in connectors:
+        raise HTTPException(status_code=404, detail="Provider not found")
+    
+    # For now, just handle query parameters
+    # In production, this would handle the full OAuth token exchange
+    data = dict(request.query_params)
+    code = data.get("code")
+    state = data.get("state")
+    
+    if not code or not state:
+        raise HTTPException(status_code=400, detail="Missing code or state")
+    
+    user_id = state.split('_')[0]
+    
+    # Store basic connection (simplified for now)
+    connection = UserConnection(
+        user_id=user_id,
+        provider_key=provider_key,
+        access_token=f"temp_token_{secrets.token_urlsafe(32)}",  # Would be real token
+        status="active"
+    )
+    
+    connection_dict = prepare_for_mongo(connection.model_dump())
+    await db.user_connections.update_one(
+        {"user_id": user_id, "provider_key": provider_key},
+        {"$set": connection_dict},
+        upsert=True
+    )
+    
+    return {"message": f"{provider_key.capitalize()} connected successfully", "user_id": user_id}
+
+@api_router.post("/webhook/{provider_key}")
+async def handle_provider_webhook(provider_key: str, request: Request):
+    """Handle webhook from provider"""
+    if provider_key not in connectors:
+        raise HTTPException(status_code=404, detail="Provider not found")
+    
+    # Get raw body for signature verification
+    body = await request.body()
+    
+    # For now, just store as raw event
+    # In production, this would verify webhook signature
+    raw_event = RawEvent(
+        user_id="temp_user",  # Would be extracted from webhook
+        provider_key=provider_key,
+        external_id=f"webhook_{secrets.token_urlsafe(8)}",
+        kind="activity",  # Would be determined from webhook
+        payload=await request.json()
+    )
+    
+    raw_event_dict = prepare_for_mongo(raw_event.model_dump())
+    await db.raw_events.insert_one(raw_event_dict)
+    
+    return {"status": "success", "event_id": raw_event.id}
+
+@api_router.get("/me/activities")
+async def get_user_activities(
+    user_id: str = Query(...),
+    since: Optional[str] = Query(None),
+    limit: int = Query(50, le=100)
+):
+    """Get normalized activities for user"""
+    query = {"user_id": user_id}
+    
+    if since:
+        query["start_time"] = {"$gte": since}
+    
+    activities = await db.normalized_activities.find(
+        query,
+        {"_id": 0}
+    ).sort("start_time", -1).limit(limit).to_list(length=None)
+    
+    return {"activities": [parse_from_mongo(activity) for activity in activities]}
+
+@api_router.get("/me/daily")
+async def get_user_daily_metrics(
+    user_id: str = Query(...),
+    start_date: Optional[str] = Query(None),
+    end_date: Optional[str] = Query(None),
+    limit: int = Query(30, le=90)
+):
+    """Get normalized daily metrics for user"""
+    query = {"user_id": user_id}
+    
+    if start_date and end_date:
+        query["date"] = {"$gte": start_date, "$lte": end_date}
+    elif start_date:
+        query["date"] = {"$gte": start_date}
+    elif end_date:
+        query["date"] = {"$lte": end_date}
+    
+    daily_metrics = await db.normalized_daily.find(
+        query,
+        {"_id": 0}
+    ).sort("date", -1).limit(limit).to_list(length=None)
+    
+    return {"daily_metrics": [parse_from_mongo(metric) for metric in daily_metrics]}
+
+@api_router.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy", "timestamp": datetime.now(timezone.utc).isoformat()}
+
 # Include the router in the main app
 app.include_router(api_router)
 
