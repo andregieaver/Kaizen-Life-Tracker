@@ -864,8 +864,16 @@ const Account = ({ athleteId }) => {
                       </div>
                       <p className="text-gray-600 mt-1">
                         {subscriptionStatus.tier === 'free' && '€0/month • Basic features'}
-                        {subscriptionStatus.tier === 'pro' && 'Enhanced features for serious athletes'}
-                        {subscriptionStatus.tier === 'premium' && 'Maximum performance package'}
+                        {subscriptionStatus.tier === 'pro' && (
+                          <>
+                            {currentBillingCycle === 'monthly' ? '€9.99/month' : '€99/year'} • Enhanced features
+                          </>
+                        )}
+                        {subscriptionStatus.tier === 'premium' && (
+                          <>
+                            {currentBillingCycle === 'monthly' ? '€19.99/month' : '€199/year'} • Maximum performance
+                          </>
+                        )}
                       </p>
                     </div>
                     <div className="text-right">
