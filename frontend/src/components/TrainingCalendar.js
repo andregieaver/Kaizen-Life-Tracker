@@ -158,7 +158,7 @@ const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athlete
                 <span className="text-gray-600">Distance</span>
               </div>
               <span className="font-medium text-gray-900">
-                {week.totalDistance > 0 ? `${week.totalDistance.toFixed(1)} mi` : '0 mi'}
+                {formatDistance(week.totalDistance, distanceUnit)}
               </span>
             </div>
 
