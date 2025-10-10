@@ -423,7 +423,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
           {block.distance && (
             <div className="flex items-center gap-1">
               <MapPin className="w-3 h-3" />
-              <span>{block.distance}{block.unit_system === 'miles' ? 'mi' : 'km'}</span>
+              <span>{block.distance}{getDistanceUnitLabel(distanceUnit)}</span>
             </div>
           )}
           {block.duration_minutes && (
