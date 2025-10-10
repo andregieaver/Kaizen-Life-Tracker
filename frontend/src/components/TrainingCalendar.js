@@ -181,65 +181,51 @@ const TrainingCalendar = ({ athleteId }) => {
     }
   };
 
-  const getBlocksForDate = (date) => {
-    return trainingBlocks.filter(block => {
-      const startDate = parseISO(block.start_date);
-      const endDate = parseISO(block.end_date);
-      return date >= startDate && date <= endDate;
-    });
-  };
+  // Convert training blocks to calendar events
+  const calendarEvents = trainingBlocks.map(block => ({
+    id: block.id,
+    title: block.title,
+    start: new Date(block.start_date + 'T00:00:00'),
+    end: new Date(block.end_date + 'T23:59:59'),
+    resource: block
+  }));
 
-  const getBlocksForDateRange = (start, end) => {
-    return trainingBlocks.filter(block => {
-      const blockStart = parseISO(block.start_date);
-      const blockEnd = parseISO(block.end_date);
-      return (blockStart <= end && blockEnd >= start);
-    });
-  };
+  const handleSelectSlot = useCallback((slotInfo) => {
+    handleCreateBlock(slotInfo);
+  }, []);
 
-  const renderCalendarDay = (date) => {
-    const blocks = getBlocksForDate(date);
-    const isSelected = isSameDay(date, selectedDate);
+  const handleSelectEvent = useCallback((event) => {
+    handleEditBlock(event.resource);
+  }, []);
+
+  const EventComponent = ({ event }) => {
+    const block = event.resource;
+    const isTraining = block.block_type === 'training';
     
     return (
-      <div 
-        className={`relative w-full h-full min-h-[40px] p-1 cursor-pointer rounded-lg transition-colors ${
-          isSelected 
-            ? 'bg-blue-100 text-blue-900' 
-            : 'hover:bg-gray-50'
-        }`}
-        onClick={() => setSelectedDate(date)}
-      >
-        <div className="text-sm font-medium">{format(date, 'd')}</div>
-        {blocks.length > 0 && (
-          <div className="absolute bottom-1 left-1 right-1">
-            <div className="flex gap-1 flex-wrap">
-              {blocks.slice(0, 2).map((block) => (
-                <div
-                  key={block.id}
-                  className={`w-2 h-2 rounded-full ${
-                    block.block_type === 'training' 
-                      ? 'bg-blue-500' 
-                      : 'bg-green-500'
-                  }`}
-                />
-              ))}
-              {blocks.length > 2 && (
-                <div className="text-xs text-gray-500">+{blocks.length - 2}</div>
-              )}
-            </div>
+      <div className={`p-1 text-xs ${isTraining ? 'bg-blue-500' : 'bg-green-500'} text-white rounded`}>
+        <div className="font-medium truncate">{block.title}</div>
+        {block.distance && (
+          <div className="flex items-center gap-1">
+            <MapPin className="w-3 h-3" />
+            <span>{block.distance}{block.unit_system === 'miles' ? 'mi' : 'km'}</span>
+          </div>
+        )}
+        {block.duration_minutes && (
+          <div className="flex items-center gap-1">
+            <Clock className="w-3 h-3" />
+            <span>{block.duration_minutes}min</span>
+          </div>
+        )}
+        {block.pace_per_unit && (
+          <div className="flex items-center gap-1">
+            <Timer className="w-3 h-3" />
+            <span>{block.pace_per_unit}/{block.unit_system === 'miles' ? 'mi' : 'km'}</span>
           </div>
         )}
       </div>
     );
   };
-
-  const monthBlocks = getBlocksForDateRange(
-    startOfMonth(selectedMonth),
-    endOfMonth(selectedMonth)
-  );
-
-  const selectedDateBlocks = getBlocksForDate(selectedDate);
 
   if (isLoading) {
     return (
