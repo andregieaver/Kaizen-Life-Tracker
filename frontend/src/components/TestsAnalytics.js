@@ -414,66 +414,6 @@ const TestsAnalytics = ({ athleteId }) => {
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
-
-                  {/* Results Table */}
-                  <div className="border rounded-lg overflow-hidden">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="bg-gray-50">
-                        <tr>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Result</th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Notes</th>
-                          <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
-                        {sortedResults.map((result) => (
-                          <tr key={result.id} className="hover:bg-gray-50">
-                            <td className="px-4 py-3 text-sm text-gray-900">
-                              {formatDate(result.test_date)}
-                            </td>
-                            <td className="px-4 py-3 text-sm font-medium text-gray-900">
-                              {formatValue(result.result_value, result.unit)}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-gray-600">
-                              {result.time_to_completion 
-                                ? formatValue(result.time_to_completion, 'time')
-                                : '-'
-                              }
-                            </td>
-                            <td className="px-4 py-3 text-sm text-gray-600">
-                              {result.notes ? (
-                                <span className="line-clamp-1">{result.notes}</span>
-                              ) : (
-                                '-'
-                              )}
-                            </td>
-                            <td className="px-4 py-3 text-sm text-right">
-                              <div className="flex justify-end gap-2">
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => handleEdit(result)}
-                                  className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                                >
-                                  <Edit className="w-4 h-4" />
-                                </Button>
-                                <Button
-                                  variant="ghost"
-                                  size="sm"
-                                  onClick={() => handleDelete(result.id)}
-                                  className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                                >
-                                  <Trash2 className="w-4 h-4" />
-                                </Button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
                 </CardContent>
               </Card>
             );
