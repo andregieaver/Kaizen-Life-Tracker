@@ -25,6 +25,7 @@ const Dashboard = ({ athleteId }) => {
   const [readiness, setReadiness] = useState(null);
   const [recentWorkouts, setRecentWorkouts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   // Determine active tab from URL, default to overview
   const activeTab = tab || 'overview';
