@@ -18,20 +18,33 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
+const localizer = momentLocalizer(moment);
+
 const TrainingCalendar = ({ athleteId }) => {
   const { t } = useTranslation();
   const [trainingBlocks, setTrainingBlocks] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentView, setCurrentView] = useState(Views.WEEK);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingBlock, setEditingBlock] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [weeklySummary, setWeeklySummary] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     block_type: 'training',
+    workout_type: 'run',
     start_date: '',
-    end_date: ''
+    end_date: '',
+    distance: '',
+    duration_minutes: '',
+    pace_per_unit: '',
+    intervals: '',
+    interval_distance: '',
+    interval_pace: '',
+    rest_duration: '',
+    unit_system: 'miles'
   });
 
   useEffect(() => {
