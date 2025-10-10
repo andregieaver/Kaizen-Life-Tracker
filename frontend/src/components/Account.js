@@ -815,10 +815,32 @@ const Account = ({ athleteId }) => {
                   </div>
                 </div>
 
-                <Button className="w-full" onClick={() => window.open('/pricing', '_blank')}>
-                  <TrendingUp className="w-4 h-4 mr-2" />
-                  Upgrade Your Plan
-                </Button>
+                <div className="flex gap-2">
+                  {subscriptionStatus.tier === 'free' ? (
+                    <Button className="w-full" onClick={() => window.open('/pricing', '_blank')}>
+                      <TrendingUp className="w-4 h-4 mr-2" />
+                      Upgrade Your Plan
+                    </Button>
+                  ) : (
+                    <>
+                      <Button 
+                        className="flex-1" 
+                        onClick={() => window.open('/pricing', '_blank')}
+                        variant="outline"
+                      >
+                        <TrendingUp className="w-4 h-4 mr-2" />
+                        Change Plan
+                      </Button>
+                      <Button 
+                        className="flex-1" 
+                        variant="outline"
+                        onClick={() => setShowCancelDialog(true)}
+                      >
+                        Cancel Subscription
+                      </Button>
+                    </>
+                  )}
+                </div>
               </CardContent>
             </Card>
 
