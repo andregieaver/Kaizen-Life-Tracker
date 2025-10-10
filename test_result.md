@@ -267,8 +267,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Training Calendar Backend Implementation"
-    - "Training Calendar Frontend Implementation"
+    - "Account Settings Personal Information and Preferences Save/Load"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
