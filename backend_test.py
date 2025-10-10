@@ -1635,9 +1635,9 @@ def test_training_calendar_create_recovery_block(athlete_id):
         print_test_result("POST create recovery block", False, f"Exception: {str(e)}")
         return False, None
 
-def test_training_calendar_get_with_blocks(athlete_id):
-    """Test GET /api/training-calendar/{athlete_id} - should return created blocks"""
-    print("🔍 Testing GET /api/training-calendar/{athlete_id} (with blocks)")
+def test_enhanced_training_calendar_get_with_metrics(athlete_id):
+    """Test GET /api/training-calendar/{athlete_id} - should return created blocks with enhanced metrics"""
+    print("🔍 Testing GET /api/training-calendar/{athlete_id} (with enhanced workout metrics)")
     
     try:
         response = requests.get(f"{BACKEND_URL}/training-calendar/{athlete_id}")
@@ -1652,38 +1652,55 @@ def test_training_calendar_get_with_blocks(athlete_id):
                 blocks = data["blocks"]
                 details.append(f"blocks array: ✓ ({len(blocks)} blocks)")
                 
-                if len(blocks) >= 2:  # Should have at least the 2 blocks we created
+                if len(blocks) >= 4:  # Should have at least the 4 enhanced blocks we created
                     details.append("expected blocks count: ✓")
                     
-                    # Check for required fields in blocks
-                    for i, block in enumerate(blocks[:2]):  # Check first 2 blocks
+                    # Check for enhanced fields in blocks
+                    enhanced_fields_found = 0
+                    for i, block in enumerate(blocks[:4]):  # Check first 4 blocks
+                        # Basic required fields
                         required_fields = ["id", "athlete_id", "title", "description", "block_type", "start_date", "end_date"]
-                        block_valid = True
-                        for field in required_fields:
-                            if field not in block:
-                                block_valid = False
-                                break
+                        basic_valid = all(field in block for field in required_fields)
                         
-                        if block_valid:
-                            details.append(f"block {i+1} structure: ✓")
+                        if basic_valid:
+                            details.append(f"block {i+1} basic structure: ✓")
                         else:
-                            details.append(f"block {i+1} structure: ✗")
+                            details.append(f"block {i+1} basic structure: ✗")
                             success = False
+                        
+                        # Enhanced workout metrics fields
+                        enhanced_fields = ["workout_type", "distance", "duration_minutes", "pace_per_unit", 
+                                         "intervals", "interval_distance", "interval_pace", "rest_duration", "unit_system"]
+                        
+                        block_enhanced_fields = [field for field in enhanced_fields if field in block and block[field] is not None]
+                        
+                        if block_enhanced_fields:
+                            enhanced_fields_found += 1
+                            details.append(f"block {i+1} enhanced fields: ✓ ({len(block_enhanced_fields)} fields: {', '.join(block_enhanced_fields)})")
+                        else:
+                            details.append(f"block {i+1} enhanced fields: - (no enhanced metrics)")
+                    
+                    if enhanced_fields_found >= 3:  # At least 3 blocks should have enhanced metrics
+                        details.append("enhanced metrics coverage: ✓")
+                    else:
+                        details.append(f"enhanced metrics coverage: ✗ (only {enhanced_fields_found} blocks with enhanced metrics)")
+                        success = False
+                        
                 else:
-                    details.append(f"expected blocks count: ✗ (got {len(blocks)}, expected >= 2)")
+                    details.append(f"expected blocks count: ✗ (got {len(blocks)}, expected >= 4)")
                     success = False
             else:
                 details.append("blocks array: ✗")
                 success = False
             
-            print_test_result("GET training blocks (with data)", success, "; ".join(details))
+            print_test_result("GET training blocks (enhanced metrics)", success, "; ".join(details))
             return success, data.get("blocks", [])
         else:
-            print_test_result("GET training blocks (with data)", False, f"Status: {response.status_code}, Response: {response.text}")
+            print_test_result("GET training blocks (enhanced metrics)", False, f"Status: {response.status_code}, Response: {response.text}")
             return False, []
             
     except Exception as e:
-        print_test_result("GET training blocks (with data)", False, f"Exception: {str(e)}")
+        print_test_result("GET training blocks (enhanced metrics)", False, f"Exception: {str(e)}")
         return False, []
 
 def test_training_calendar_update_block(block_id):
