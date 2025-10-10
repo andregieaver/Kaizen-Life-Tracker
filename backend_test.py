@@ -1703,15 +1703,17 @@ def test_enhanced_training_calendar_get_with_metrics(athlete_id):
         print_test_result("GET training blocks (enhanced metrics)", False, f"Exception: {str(e)}")
         return False, []
 
-def test_training_calendar_update_block(block_id):
-    """Test PUT /api/training-calendar/{block_id} - update training block"""
-    print("🔍 Testing PUT /api/training-calendar/{block_id} (update block)")
+def test_enhanced_training_calendar_update_with_metrics(block_id):
+    """Test PUT /api/training-calendar/{block_id} - update training block with enhanced metrics"""
+    print("🔍 Testing PUT /api/training-calendar/{block_id} (update with enhanced metrics)")
     
     update_data = {
-        "title": "Updated Marathon Base Building",
-        "description": "Updated 4-week base building phase with increased mileage",
-        "start_date": "2024-01-16",
-        "end_date": "2024-02-12"
+        "title": "Updated 5K Morning Run",
+        "description": "Updated morning run with adjusted pace",
+        "distance": 3.2,
+        "duration_minutes": 24,
+        "pace_per_unit": "7:30",
+        "workout_type": "tempo"
     }
     
     try:
@@ -1734,14 +1736,14 @@ def test_training_calendar_update_block(block_id):
                 details.append("success: ✗")
                 success = False
             
-            print_test_result("PUT update training block", success, "; ".join(details))
+            print_test_result("PUT update training block (enhanced)", success, "; ".join(details))
             return success
         else:
-            print_test_result("PUT update training block", False, f"Status: {response.status_code}, Response: {response.text}")
+            print_test_result("PUT update training block (enhanced)", False, f"Status: {response.status_code}, Response: {response.text}")
             return False
             
     except Exception as e:
-        print_test_result("PUT update training block", False, f"Exception: {str(e)}")
+        print_test_result("PUT update training block (enhanced)", False, f"Exception: {str(e)}")
         return False
 
 def test_training_calendar_verify_update(athlete_id, block_id):
