@@ -209,45 +209,31 @@ const Dashboard = ({ athleteId }) => {
               <nav className="space-y-2">
                 <button
                   onClick={() => {
-                    navigate('/dashboard/journal');
+                    navigate('/dashboard/connections');
                     setIsMenuOpen(false);
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                    activeTab === 'journal'
+                    activeTab === 'connections'
                       ? 'bg-blue-50 text-blue-600'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
-                  <BookOpen className="w-5 h-5" />
-                  <span className="font-medium">Journal</span>
+                  <Zap className="w-5 h-5" />
+                  <span className="font-medium">Connections</span>
                 </button>
                 <button
                   onClick={() => {
-                    navigate('/dashboard/nutrition');
+                    navigate('/dashboard/status');
                     setIsMenuOpen(false);
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                    activeTab === 'nutrition'
+                    activeTab === 'status'
                       ? 'bg-blue-50 text-blue-600'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
-                  <Utensils className="w-5 h-5" />
-                  <span className="font-medium">Nutrition</span>
-                </button>
-                <button
-                  onClick={() => {
-                    navigate('/dashboard/calendar');
-                    setIsMenuOpen(false);
-                  }}
-                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                    activeTab === 'calendar'
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  <Calendar className="w-5 h-5" />
-                  <span className="font-medium">Training Calendar</span>
+                  <Activity className="w-5 h-5" />
+                  <span className="font-medium">Status</span>
                 </button>
               </nav>
             </div>
