@@ -205,10 +205,14 @@ const Dashboard = ({ athleteId }) => {
               <nav className="space-y-2">
                 <button
                   onClick={() => {
-                    navigate('/journal');
+                    navigate('/dashboard/journal');
                     setIsMenuOpen(false);
                   }}
-                  className="w-full flex items-center space-x-3 p-3 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    activeTab === 'journal'
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
                 >
                   <BookOpen className="w-5 h-5" />
                   <span className="font-medium">Journal</span>
