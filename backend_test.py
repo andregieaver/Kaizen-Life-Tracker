@@ -1307,7 +1307,7 @@ def test_oura_integration_status_after_save():
         print_test_result("Oura integration status (after save)", False, f"Exception: {str(e)}")
         return False, None
 
-# Training Calendar API Tests
+# Enhanced Training Calendar API Tests with Workout Metrics
 def test_training_calendar_get_empty():
     """Test GET /api/training-calendar/{athlete_id} - should return empty blocks initially"""
     print("🔍 Testing GET /api/training-calendar/{athlete_id} (empty blocks)")
