@@ -136,11 +136,26 @@ const TestsAnalytics = ({ athleteId }) => {
 
   const handleEdit = (result) => {
     setEditingResult(result);
+    
+    // Convert seconds back to hours, minutes, seconds
+    let hours = '';
+    let minutes = '';
+    let seconds = '';
+    
+    if (result.time_to_completion) {
+      const totalSeconds = result.time_to_completion;
+      hours = Math.floor(totalSeconds / 3600).toString();
+      minutes = Math.floor((totalSeconds % 3600) / 60).toString();
+      seconds = Math.floor(totalSeconds % 60).toString();
+    }
+    
     setFormData({
       test_name: result.test_name,
       unit: result.unit,
       result_value: result.result_value.toString(),
-      time_to_completion: result.time_to_completion ? result.time_to_completion.toString() : '',
+      time_hours: hours,
+      time_minutes: minutes,
+      time_seconds: seconds,
       notes: result.notes || '',
       test_date: result.test_date,
       use_existing_test: false
