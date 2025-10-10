@@ -1586,15 +1586,66 @@ const Account = ({ athleteId }) => {
               </CardContent>
             </Card>
 
-            {/* Strava Integration */}
+            {/* Third-Party Integrations */}
             <Card className="border-0 shadow-lg">
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <Activity className="w-5 h-5 mr-2 text-orange-500" />
-                  Strava Integration
+                  <Zap className="w-5 h-5 mr-2 text-blue-600" />
+                  Connected Apps
                 </CardTitle>
                 <CardDescription>
-                  Connect your Strava account to automatically import workouts
+                  Connect your fitness apps and wearables to automatically sync your data
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {/* Strava */}
+                <IntegrationCard
+                  provider="strava"
+                  name="Strava"
+                  description="Activities and performance data"
+                  icon={<Activity className="w-8 h-8 text-orange-500" />}
+                  connected={integrations.strava.connected}
+                  connectionInfo={integrations.strava}
+                  onConnect={() => handleSimpleConnect('strava')}
+                  onDisconnect={() => handleSimpleDisconnect('strava')}
+                />
+                
+                {/* Oura */}
+                <IntegrationCard
+                  provider="oura"
+                  name="Oura Ring"
+                  description="Sleep, recovery, and readiness data"
+                  icon={<Heart className="w-8 h-8 text-purple-500" />}
+                  connected={integrations.oura.connected}
+                  connectionInfo={integrations.oura}
+                  onConnect={() => handleSimpleConnect('oura')}
+                  onDisconnect={() => handleSimpleDisconnect('oura')}
+                />
+                
+                {/* COROS */}
+                <IntegrationCard
+                  provider="coros"
+                  name="COROS"
+                  description="GPS sports watches and training data"
+                  icon={<Mountain className="w-8 h-8 text-green-600" />}
+                  connected={integrations.coros.connected}
+                  connectionInfo={integrations.coros}
+                  onConnect={() => handleSimpleConnect('coros')}
+                  onDisconnect={() => handleSimpleDisconnect('coros')}
+                  comingSoon={true}
+                />
+              </CardContent>
+            </Card>
+
+            {/* Legacy Strava Integration - Keep for backwards compatibility */}
+            <Card className="border-0 shadow-lg opacity-50">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Activity className="w-5 h-5 mr-2 text-orange-500" />
+                  Strava Integration (Legacy)
+                </CardTitle>
+                <CardDescription>
+                  Advanced Strava configuration (use Connected Apps above for simple setup)
                 </CardDescription>
               </CardHeader>
               <CardContent>
