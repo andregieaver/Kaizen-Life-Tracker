@@ -12,6 +12,7 @@ import Journal from './components/Journal';
 import StravaCallback from './components/StravaCallback';
 import OuraCallback from './components/OuraCallback';
 import CorosCallback from './components/CorosCallback';
+import LandingPage from './components/LandingPage';
 import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
