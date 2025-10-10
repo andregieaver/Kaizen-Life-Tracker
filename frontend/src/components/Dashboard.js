@@ -166,6 +166,49 @@ const Dashboard = ({ athleteId }) => {
         </div>
       </header>
 
+      {/* Slideout Menu */}
+      {isMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity"
+            onClick={() => setIsMenuOpen(false)}
+          />
+          
+          {/* Menu Panel */}
+          <div className="fixed inset-y-0 left-0 w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out">
+            {/* Menu Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">
+                    {athlete?.name?.charAt(0).toUpperCase() || 'U'}
+                  </span>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900">{athlete?.name || 'User'}</p>
+                  <p className="text-xs text-gray-500">{athlete?.email || ''}</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setIsMenuOpen(false)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                aria-label="Close menu"
+              >
+                <X className="w-5 h-5 text-gray-700" />
+              </button>
+            </div>
+
+            {/* Menu Content - Empty for now */}
+            <div className="p-4">
+              <p className="text-sm text-gray-500 text-center py-8">
+                Menu items coming soon...
+              </p>
+            </div>
+          </div>
+        </>
+      )}
+
       {/* Main Content */}
       <main className={activeTab === 'coach' ? 'flex-1 flex flex-col' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-20 md:pb-8'}>
         {activeTab === 'overview' && (
