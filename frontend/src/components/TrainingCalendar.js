@@ -204,43 +204,27 @@ const TrainingCalendar = ({ athleteId }) => {
     const isTraining = block.block_type === 'training';
     
     return (
-      <div className={`p-2 text-xs ${isTraining ? 'bg-blue-500' : 'bg-green-500'} text-white rounded relative group hover:shadow-lg transition-all cursor-pointer`}>
-        <div className="flex items-start justify-between">
-          <div className="flex-1 min-w-0">
-            <div className="font-medium truncate">{block.title}</div>
-            <div className="flex items-center gap-2 text-xs mt-1 flex-wrap">
-              {block.distance && (
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-3 h-3" />
-                  <span>{block.distance}{block.unit_system === 'miles' ? 'mi' : 'km'}</span>
-                </div>
-              )}
-              {block.duration_minutes && (
-                <div className="flex items-center gap-1">
-                  <Clock className="w-3 h-3" />
-                  <span>{block.duration_minutes}min</span>
-                </div>
-              )}
-              {block.pace_per_unit && (
-                <div className="flex items-center gap-1">
-                  <Timer className="w-3 h-3" />
-                  <span>{block.pace_per_unit}</span>
-                </div>
-              )}
+      <div className={`p-2 text-xs ${isTraining ? 'bg-blue-500' : 'bg-green-500'} text-white rounded hover:shadow-lg transition-all cursor-pointer`}>
+        <div className="font-medium truncate">{block.title}</div>
+        <div className="flex items-center gap-2 text-xs mt-1 flex-wrap">
+          {block.distance && (
+            <div className="flex items-center gap-1">
+              <MapPin className="w-3 h-3" />
+              <span>{block.distance}{block.unit_system === 'miles' ? 'mi' : 'km'}</span>
             </div>
-          </div>
-          <div className="opacity-0 group-hover:opacity-100 transition-opacity ml-2">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDeleteBlock(block.id);
-              }}
-              className="text-white hover:text-red-200 transition-colors"
-              title="Delete workout"
-            >
-              <Trash2 className="w-3 h-3" />
-            </button>
-          </div>
+          )}
+          {block.duration_minutes && (
+            <div className="flex items-center gap-1">
+              <Clock className="w-3 h-3" />
+              <span>{block.duration_minutes}min</span>
+            </div>
+          )}
+          {block.pace_per_unit && (
+            <div className="flex items-center gap-1">
+              <Timer className="w-3 h-3" />
+              <span>{block.pace_per_unit}</span>
+            </div>
+          )}
         </div>
       </div>
     );
