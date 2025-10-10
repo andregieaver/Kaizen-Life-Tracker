@@ -267,10 +267,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Schedule Edit Functionality"
-    - "Schedule Delete Functionality"
-    - "Schedule Form Header Dynamic Text"
-    - "Schedule Form Cancel Button"
+    - "Training Calendar Backend Implementation"
+    - "Training Calendar Frontend Implementation"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
