@@ -2101,12 +2101,21 @@ def run_all_tests():
     return all_test_results
 
 if __name__ == "__main__":
-    # Check if we should run only Oura credentials tests
-    if len(sys.argv) > 1 and sys.argv[1] == "--oura-only":
-        print("🎯 Running OURA CREDENTIALS TESTS ONLY (as per review request)")
-        oura_results = run_oura_credentials_tests()
-        failed_count = sum(1 for _, success in oura_results if not success)
-        sys.exit(failed_count)
+    # Check command line arguments for specific test suites
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "--oura-only":
+            print("🎯 Running OURA CREDENTIALS TESTS ONLY (as per review request)")
+            oura_results = run_oura_credentials_tests()
+            failed_count = sum(1 for _, success in oura_results if not success)
+            sys.exit(failed_count)
+        elif sys.argv[1] == "--training-calendar-only":
+            print("🎯 Running TRAINING CALENDAR TESTS ONLY (as per review request)")
+            training_results = run_training_calendar_tests()
+            failed_count = sum(1 for _, success in training_results if not success)
+            sys.exit(failed_count)
+        else:
+            print("Available options: --oura-only, --training-calendar-only")
+            sys.exit(1)
     else:
         # Run all tests including Oura credentials tests
         print("🎯 Running COMPREHENSIVE BACKEND TESTS + OURA CREDENTIALS TESTS")
