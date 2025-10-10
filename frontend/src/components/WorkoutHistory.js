@@ -75,7 +75,7 @@ const WorkoutHistory = ({ athleteId }) => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="w-full max-w-[1600px] mx-auto space-y-6">
       {/* Header with view switcher */}
       <Card className="border-0 shadow-lg">
         <CardHeader>
