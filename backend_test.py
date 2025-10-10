@@ -1794,7 +1794,61 @@ def test_training_calendar_verify_update(athlete_id, block_id):
         print_test_result("GET verify block update", False, f"Exception: {str(e)}")
         return False
 
-def test_training_calendar_delete_block(block_id):
+def test_enhanced_training_calendar_weekly_summary(athlete_id):
+    """Test GET /api/training-calendar/{athlete_id}/weekly-summary - new weekly summary endpoint"""
+    print("🔍 Testing GET /api/training-calendar/{athlete_id}/weekly-summary (new weekly summary)")
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/training-calendar/{athlete_id}/weekly-summary")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            success = True
+            details = []
+            
+            # Check for expected summary fields
+            expected_fields = ["total_distance", "total_duration", "workout_count"]
+            for field in expected_fields:
+                if field in data:
+                    details.append(f"{field}: ✓ ({data[field]})")
+                else:
+                    details.append(f"{field}: ✗ (missing)")
+                    success = False
+            
+            # Validate data types and reasonable values
+            if "total_distance" in data:
+                if isinstance(data["total_distance"], (int, float)) and data["total_distance"] >= 0:
+                    details.append("total_distance type/value: ✓")
+                else:
+                    details.append("total_distance type/value: ✗")
+                    success = False
+            
+            if "total_duration" in data:
+                if isinstance(data["total_duration"], (int, float)) and data["total_duration"] >= 0:
+                    details.append("total_duration type/value: ✓")
+                else:
+                    details.append("total_duration type/value: ✗")
+                    success = False
+            
+            if "workout_count" in data:
+                if isinstance(data["workout_count"], int) and data["workout_count"] >= 0:
+                    details.append("workout_count type/value: ✓")
+                else:
+                    details.append("workout_count type/value: ✗")
+                    success = False
+            
+            print_test_result("GET weekly summary (enhanced)", success, "; ".join(details))
+            return success, data
+        else:
+            print_test_result("GET weekly summary (enhanced)", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print_test_result("GET weekly summary (enhanced)", False, f"Exception: {str(e)}")
+        return False, None
+
+def test_enhanced_training_calendar_delete_block(block_id):
     """Test DELETE /api/training-calendar/{block_id} - delete training block"""
     print("🔍 Testing DELETE /api/training-calendar/{block_id} (delete block)")
     
@@ -1814,14 +1868,14 @@ def test_training_calendar_delete_block(block_id):
                 details.append("success: ✗")
                 success = False
             
-            print_test_result("DELETE training block", success, "; ".join(details))
+            print_test_result("DELETE training block (enhanced)", success, "; ".join(details))
             return success
         else:
-            print_test_result("DELETE training block", False, f"Status: {response.status_code}, Response: {response.text}")
+            print_test_result("DELETE training block (enhanced)", False, f"Status: {response.status_code}, Response: {response.text}")
             return False
             
     except Exception as e:
-        print_test_result("DELETE training block", False, f"Exception: {str(e)}")
+        print_test_result("DELETE training block (enhanced)", False, f"Exception: {str(e)}")
         return False
 
 def test_training_calendar_verify_delete(athlete_id, deleted_block_id):
