@@ -50,8 +50,9 @@ const TrainingCalendar = ({ athleteId }) => {
   useEffect(() => {
     if (athleteId) {
       loadTrainingBlocks();
+      loadWeeklySummary();
     }
-  }, [athleteId]);
+  }, [athleteId, currentDate]);
 
   const loadTrainingBlocks = async () => {
     setIsLoading(true);
@@ -63,6 +64,18 @@ const TrainingCalendar = ({ athleteId }) => {
       setTrainingBlocks([]);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const loadWeeklySummary = async () => {
+    try {
+      const year = currentDate.getFullYear();
+      const week = moment(currentDate).week();
+      const response = await axios.get(`${API}/training-calendar/${athleteId}/weekly-summary?year=${year}&week=${week}`);
+      setWeeklySummary(response.data);
+    } catch (error) {
+      console.error('Error loading weekly summary:', error);
+      setWeeklySummary(null);
     }
   };
 
