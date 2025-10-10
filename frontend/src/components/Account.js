@@ -197,8 +197,10 @@ const Account = ({ athleteId }) => {
     }
   };
 
-  const handleUpgrade = async (plan, interval) => {
-    const plan_id = `${plan}_${interval}`;
+  const handleUpgrade = async () => {
+    if (!upgradeTarget) return;
+    
+    const plan_id = `${upgradeTarget}_${selectedBillingCycle}`;
     
     try {
       const originUrl = window.location.origin;
