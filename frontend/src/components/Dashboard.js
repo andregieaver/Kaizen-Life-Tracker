@@ -155,9 +155,13 @@ const Dashboard = ({ athleteId }) => {
             <h1 className="font-display text-xl font-bold text-gray-900">
               My Health Tracker
             </h1>
-            <Badge variant="secondary" className="font-medium text-xs">
-              {athlete?.name}
-            </Badge>
+            <button 
+              onClick={() => setIsMenuOpen(true)}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              aria-label="Open menu"
+            >
+              <Menu className="w-6 h-6 text-gray-700" />
+            </button>
           </div>
         </div>
       </header>
