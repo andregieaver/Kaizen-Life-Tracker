@@ -150,6 +150,20 @@ class AthleteProfile(BaseModel):
     recent_race_time: Optional[str] = None
     running_goals: str
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    
+    # Personal Information Fields
+    height: Optional[float] = None  # Height in cm or inches based on unit preference
+    weight: Optional[float] = None  # Weight in kg or lbs based on unit preference  
+    vo2_max: Optional[float] = None  # VO2 Max value
+    
+    # Preferences
+    distance_unit: str = Field(default="miles")  # 'miles' or 'km'
+    measurement_system: str = Field(default="imperial")  # 'imperial' or 'metric'
+    week_starts_on: str = Field(default="monday")  # 'sunday' or 'monday'
+    timezone: str = Field(default="UTC")  # Timezone string (e.g., "America/New_York")
+    time_format: str = Field(default="12h")  # '12h' or '24h'
+    language: str = Field(default="en")  # Language code (e.g., "en", "no", "sv")
+    
     # Subscription fields
     subscription_tier: str = Field(default="free")  # 'free', 'pro', 'premium'
     subscription_status: str = Field(default="active")  # 'active', 'canceled', 'past_due', etc.
