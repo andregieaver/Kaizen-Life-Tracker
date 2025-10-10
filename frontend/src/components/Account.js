@@ -1033,6 +1033,69 @@ const Account = ({ athleteId }) => {
           </Card>
         </TabsContent>
 
+        {/* Preferences Tab */}
+        <TabsContent value="preferences">
+          <Card className="border-0 shadow-lg">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Settings className="w-5 h-5 mr-2 text-blue-600" />
+                Preferences
+              </CardTitle>
+              <CardDescription>
+                Customize your experience and settings
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Language & Region</h3>
+                  <div className="space-y-2">
+                    <Label htmlFor="language">Language</Label>
+                    <LanguageSelector />
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Notifications</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label htmlFor="email-notifications">Email Notifications</Label>
+                        <p className="text-sm text-gray-600">Receive updates about your training</p>
+                      </div>
+                      <input type="checkbox" id="email-notifications" className="toggle" defaultChecked />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label htmlFor="weekly-summary">Weekly Summary</Label>
+                        <p className="text-sm text-gray-600">Get a weekly overview of your progress</p>
+                      </div>
+                      <input type="checkbox" id="weekly-summary" className="toggle" defaultChecked />
+                    </div>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900">Privacy</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label htmlFor="data-sharing">Data Sharing</Label>
+                        <p className="text-sm text-gray-600">Allow anonymous data sharing for improvements</p>
+                      </div>
+                      <input type="checkbox" id="data-sharing" className="toggle" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
         {/* Subscription Tab */}
         <TabsContent value="subscriptions">
           <div className="space-y-6">
