@@ -989,36 +989,16 @@ const Account = ({ athleteId }) => {
                   <div className="p-4 border rounded-lg">
                     <h4 className="font-semibold mb-2">Payment Method</h4>
                     {subscriptionStatus.tier === 'free' ? (
-                      <>
-                        <p className="text-sm text-gray-600 mb-3">
-                          No payment method on file (Free plan)
-                        </p>
-                        <Button variant="outline" className="w-full" disabled>
-                          Manage Billing
-                        </Button>
-                        <p className="text-xs text-gray-500 mt-2 text-center">
-                          Available after upgrading
-                        </p>
-                      </>
+                      <p className="text-sm text-gray-600">
+                        No payment method on file (Free plan)
+                      </p>
                     ) : (
-                      <>
-                        <div className="flex items-center space-x-2 mb-3">
-                          <CreditCard className="w-4 h-4 text-gray-600" />
-                          <p className="text-sm text-gray-600">
-                            Payment method on file
-                          </p>
-                        </div>
-                        <Button 
-                          variant="outline" 
-                          className="w-full"
-                          onClick={handleManageBilling}
-                        >
-                          Manage Billing
-                        </Button>
-                        <p className="text-xs text-gray-500 mt-2 text-center">
-                          Update payment method, view invoices, or cancel subscription
+                      <div className="flex items-center space-x-2">
+                        <CreditCard className="w-4 h-4 text-green-600" />
+                        <p className="text-sm text-gray-600">
+                          Payment method active • Managed by Stripe
                         </p>
-                      </>
+                      </div>
                     )}
                   </div>
 
