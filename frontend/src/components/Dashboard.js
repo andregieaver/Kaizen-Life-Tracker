@@ -176,7 +176,7 @@ const Dashboard = ({ athleteId }) => {
           />
           
           {/* Menu Panel */}
-          <div className="fixed inset-y-0 left-0 w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out">
+          <div className="fixed inset-y-0 left-0 w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col">
             {/* Menu Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
               <div className="flex items-center space-x-3">
@@ -200,10 +200,28 @@ const Dashboard = ({ athleteId }) => {
             </div>
 
             {/* Menu Content - Empty for now */}
-            <div className="p-4">
+            <div className="flex-1 p-4">
               <p className="text-sm text-gray-500 text-center py-8">
                 Menu items coming soon...
               </p>
+            </div>
+
+            {/* Account Settings - Fixed at Bottom */}
+            <div className="border-t border-gray-200">
+              <button
+                onClick={() => {
+                  navigate('/dashboard/account');
+                  setIsMenuOpen(false);
+                }}
+                className={`w-full flex items-center space-x-3 p-4 transition-colors ${
+                  activeTab === 'account'
+                    ? 'bg-blue-50 text-blue-600'
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                <Settings className="w-5 h-5" />
+                <span className="font-medium">{t('nav.account')}</span>
+              </button>
             </div>
           </div>
         </>
