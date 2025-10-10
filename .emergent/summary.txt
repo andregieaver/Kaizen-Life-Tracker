@@ -1,69 +1,77 @@
 <analysis>
-The AI engineer began with an MVP running coach application and significantly expanded its functionality. Key initial work included refining schedule CRUD operations and fixing UI elements. Subsequent major features included implementing a robust login/registration system with password authentication, adding a secure logout mechanism, improving mobile responsiveness across various components (forms, training history, account settings), integrating a dynamic chart generation capability for the AI coach, introducing conversation history and new chat functionality, and enhancing readability with Markdown rendering. The engineer then added a Merits section for personal records, integrated Coros fitness tracker (via Terra API), established URL-based navigation for tab persistence, and initiated a multi-language translation system using . The current focus is on comprehensively translating all text strings within the application.
+The previous AI engineer significantly expanded the running coach application. Initial efforts involved thorough UI/UX enhancements, core CRUD operations, and foundational component setup. A major focus was implementing robust multi-language support using , translating numerous UI elements, and integrating password reset functionality. Critically, integrations with Strava and Oura were transitioned from hardcoded API keys to secure user-input credential modals, coupled with necessary backend database field corrections. Subsequent work concentrated on a comprehensive Stripe subscription system, including a pricing page, in-app management (upgrade, downgrade, cancel, resubscribe, billing cycle changes, invoice listing), and robust backend endpoints. Most recently, the UI was refactored to include a slideout hamburger menu, and new modules for Journaling, Nutrition logging (with image upload), and Training Calendar management have been initiated, with backend endpoints for the latter being the immediate last action.
 </analysis>
 
 <product_requirements>
-The application aims to be a cross-platform (initially web-based) running coach, acting as a data vault for athletes. It should provide wise, practical guidance by connecting fitness trackers (Strava, Garmin, Oura, Coros) to offer a unified data timeline, nutrition logging, daily readiness scores, weekly training plans, and post-workout feedback. Core features include an AI coach for chat-based analysis and planning, tools for history browsing, custom insights, data export, and privacy management.
+The application functions as a cross-platform (web-based) running coach, acting as an athlete's data vault to provide wise, practical guidance. It integrates with fitness trackers (Strava, Garmin, Oura, Coros) for a unified data timeline, nutrition logging, daily readiness scores, weekly training plans, and post-workout feedback. Core features include an AI coach for chat-based analysis, history browsing, custom insights, data export, and privacy management.
 
-So far, the product includes:
-- An AI Coach powered by Claude (orchestrator) and OpenAI (text/voice), utilizing an Emergent LLM key or user's OpenAI key.
-- A My Account page with personal info, OpenAI API key management, Strava, Oura, and Coros integrations.
-- A responsive UI with a mobile-friendly bottom navigation bar.
-- A Schedules section for defining and saving automated AI analysis prompts, with CRUD operations.
-- A Reports page (formerly Recommendations) to display AI-generated insights, currently showing an empty state.
-- Login, registration, and logout with password authentication.
-- AI coach with chart generation, conversation history, and Markdown rendering.
-- A Merits section for personal records.
-- URL-based navigation for state persistence.
-- Multi-language support initiated with a language selector.
+Implemented features include:
+- An AI Coach powered by Claude and OpenAI, with conversation history and Markdown.
+- User authentication (login, registration, logout), password reset, and multi-language support.
+- User account management with configurable OpenAI API keys and user-input credentials for Strava, Oura, and Coros.
+- Responsive UI with a mobile-friendly bottom navigation and a new slideout hamburger menu.
+- A Schedules section for automated AI analysis prompts.
+- Reports (formerly Recommendations) for AI insights and a Merits section for personal records.
+- Comprehensive subscription system with pricing page, in-app plan management (upgrade, downgrade, cancel, resubscribe, billing cycle changes), invoice listing, and Stripe integration.
+- New modules for Journaling (text/voice entry) and Nutrition logging (text/image entry), with a Training Calendar under development.
 </product_requirements>
 
 <key_technical_concepts>
 - **Full-stack:** React (frontend), FastAPI (backend), MongoDB (database).
-- **AI/LLM:** Claude (orchestrator), OpenAI (text/voice), Emergent LLM Key.
-- **Integrations:** Strava OAuth, Oura OAuth, Coros (via Terra API),  for password hashing.
+- **AI/LLM:** Claude, OpenAI, Emergent LLM Key.
+- **Integrations:** Strava OAuth, Oura (via Terra API), Stripe for subscriptions,  for password hashing,  (initially for Stripe, later customized).
 - **UI:** Shadcn UI, Tailwind CSS, Radix UI,  for charting.
 - **Internationalization:** .
-- **Data:** Pydantic models, UUIDs for MongoDB IDs, .
-- **Deployment:** Kubernetes, Supervisor.
 </key_technical_concepts>
 
 <code_architecture>
 
--   : Main FastAPI app. Handles athlete profiles, AI coaching, readiness, integrations (OpenAI, Strava, Oura, Coros), and schedules. Significant additions include: password hashing/verification, memory management, chat session handling, and new endpoints for login, merits, and Coros.
--   : Environment variables for MongoDB, Emergent LLM Key, and various API credentials. Updated for new integration placeholders (e.g., COROS).
--   : Utility script to populate DB. Modified to include email and hashed password for sample athletes.
--   : New utility script to clean up and re-index MongoDB, specifically to handle  unique index issues.
--   : New script to add a specific user with a predefined password for testing.
--   : Central React routing. Updated with new routes for , , and dynamic dashboard routing (, , etc.).
--   : User account settings. Heavily modified for full schedule CRUD, password management, logout functionality, Coros integration UI, language selector, and responsive layout fixes.
--   : Dashboard layout. Updated for responsive design, dynamic active tab state from URL, and integration of new components like Merits.
--   : User registration form. Modified to include email and password fields, along with responsive layout adjustments and a link to the Login page.
--   : New component for user login with email and password.
--   : Renamed to Reports in UI, but file name remains. Displays AI recommendations. Title and navigation labels updated.
--   : Displays workout/sleep history. Updated for responsive layout of filter buttons.
--   : AI coach chat interface. Redesigned to remove the Your AI Running Coach box, maximize conversation area, fix input box to bottom (mobile), integrate , implement  for message rendering, and add new chat/archive conversation buttons.
--   : New component to render Recharts graphs from JSON data embedded in AI responses.
--   : New component to display athlete's personal bests (PRs) across various running distances.
--   : New component to handle Coros OAuth callback.
--   : New component for selecting the application's language.
--   : New configuration file for .
--   : New directories for storing translation strings (en, no, sv, es, fr, de, da).  is currently being populated.
--   : Updated to initialize .
+-   : Core FastAPI application.
+    -   **Importance**: Handles all API logic, database interactions, authentication, integrations, and now subscription management.
+    -   **Changes**: Added password reset endpoints. Modified Strava/Oura integration for user-provided credentials. Implemented comprehensive Stripe subscription endpoints (, , , , , , , , , ). Added Pydantic models for , , , , . Updated  with subscription and integration fields. Fixed multiple Stripe-related import and logic issues.
+-   : Environment variables for backend.
+    -   **Importance**: Stores sensitive API keys and database configuration.
+    -   **Changes**: Added , . Removed hardcoded Strava/Oura client secrets.
+-   : Python dependencies.
+    -   **Importance**: Lists all Python packages required for the backend.
+    -   **Changes**: Added  and .
+-   : Central React routing and context.
+    -   **Importance**: Defines the application's URL structure and top-level components.
+    -   **Changes**: Added new routes for , , , , .
+-   : User account settings.
+    -   **Importance**: Manages user profile, integrations, and now subscription.
+    -   **Changes**: Extensively refactored for Stripe integration: added Subscriptions tab, implemented fetching/displaying subscription status, upgrade/downgrade/cancel/resubscribe functionality, billing cycle change, invoice listing. Incorporated , removed Weekly Mileage/Recent Race Time, replaced Change Password with component. Fixed numerous untranslated strings. Added icon imports (, ). Removed Stripe portal links in favor of in-app management.
+-   : Main application dashboard.
+    -   **Importance**: Orchestrates various dashboard features and navigation.
+    -   **Changes**: Refactored header to replace RunWisely with My Health Tracker. Implemented a hamburger menu and slideout drawer (,  components), moving the account link to the slideout and adjusting mobile navigation. Added Journal and Nutrition as new tabs and integrated their components. Adjusted z-index for slideout menu.
+-    (new file): Displays subscription plans.
+    -   **Importance**: Provides UI for users to view and select subscription tiers.
+    -   **Changes**: Implemented monthly/annual billing toggle. Integrated with Stripe checkout for initiating subscriptions. Fetches  from .
+-    (new file): Journal entry page.
+    -   **Importance**: Allows users to log journal entries via text or voice.
+-    (new file): Nutrition logging page.
+    -   **Importance**: Enables users to log food/drink intake, including image uploads.
+-   : Environment variables for frontend.
+    -   **Importance**: Stores non-sensitive configuration for the frontend.
+    -   **Changes**: Added .
+-   : Translation files.
+    -   **Importance**: Stores translated strings for i18n.
+    -   **Changes**: Updated  and other language files with new keys for subscription, modal texts, and removed .
 </code_architecture>
 
 <pending_tasks>
--   Provide actual Strava and Oura API credentials to enable real OAuth connections and data ingestion.
--   Develop the backend logic for processing scheduled prompts and generating AI recommendations.
--   Implement the display of generated recommendations on the Reports page.
--   Add password reset functionality in the Personal Information section of the Account page.
--   Comprehensively scan the app and translate all text strings across the app into the supported languages.
+- Develop the backend logic for processing scheduled prompts and generating AI recommendations.
+- Implement the display of generated recommendations on the Reports page.
+- User still needs to provide Oura API Client ID and Client Secret via the Oura Credentials Modal in the UI.
+- Implement the frontend UI for the Training Calendar component.
+- Implement image upload and camera capture functionality for the Nutrition page.
+- Implement voice recording functionality for the Journal page.
 </pending_tasks>
 
 <current_work>
-The immediate focus is on implementing comprehensive multi-language support. The AI engineer has already integrated , created language translation files for English, Norwegian, Swedish, Spanish, French, German, and Danish, and implemented a functional language selector on the Account settings page. The core translation setup is in place, allowing users to switch languages. The last explicit request from the user was to extend this work to scan the entire application and ensure all text strings are translated. The engineer has begun this process by updating the English translation file () to include a comprehensive set of strings from the application. This is a crucial step before translating these strings into other supported languages.
+Immediately before this summary request, the AI engineer was implementing the Training Calendar feature. This involved setting up the backend with the necessary data models and API endpoints. Specifically, the  file was modified to include  and  Pydantic models, and new API routes were added for  to handle the creation, editing, and deletion of training and recovery blocks. The last action performed was restarting the backend to apply these new schema and endpoint changes. The frontend component and its integration into the UI (e.g., as a new tab in the Dashboard and a link in the slideout menu) are the next logical steps for this feature.
 </current_work>
 
 <optional_next_step>
-Continue the comprehensive translation effort by populating all text strings into the English translation file.
+Create the frontend component for the Training Calendar and integrate it into the Dashboard UI.
 </optional_next_step>
