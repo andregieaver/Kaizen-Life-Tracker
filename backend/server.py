@@ -1375,6 +1375,7 @@ async def get_checkout_status(session_id: str):
                             {"$set": {
                                 "subscription_tier": transaction["tier"],
                                 "subscription_status": "active",
+                                "subscription_interval": transaction["interval"],
                                 "stripe_customer_id": checkout_session.customer,
                                 "stripe_subscription_id": subscription_id,
                                 "subscription_current_period_end": period_end.isoformat()
