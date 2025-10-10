@@ -1408,11 +1408,12 @@ async def get_subscription_status(athlete_id: str):
     if not athlete:
         raise HTTPException(status_code=404, detail="Athlete not found")
     
-    subscription_interval = None
+    # Get subscription interval from database first, fallback to Stripe if not available
+    subscription_interval = athlete.get("subscription_interval")
     stripe_subscription_id = athlete.get("stripe_subscription_id")
     
-    # If there's an active subscription, get the interval from Stripe
-    if stripe_subscription_id and athlete.get("subscription_tier") != "free":
+    # If interval not in DB and there's an active subscription, try to get it from Stripe
+    if not subscription_interval and stripe_subscription_id and athlete.get("subscription_tier") != "free":
         try:
             stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
             if stripe_secret_key:
@@ -1425,6 +1426,11 @@ async def get_subscription_status(athlete_id: str):
                         price = items_data[0].get('price')
                         if price and price.get('recurring'):
                             subscription_interval = price['recurring'].get('interval')
+                            # Store it in database for next time
+                            await db.athlete_profiles.update_one(
+                                {"id": athlete_id},
+                                {"$set": {"subscription_interval": subscription_interval}}
+                            )
         except Exception as e:
             logging.warning(f"Could not fetch subscription interval: {str(e)}")
     
