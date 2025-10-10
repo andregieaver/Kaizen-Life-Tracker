@@ -205,6 +205,30 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
     }
   };
 
+  // Delete conversation
+  const deleteConversation = async (sessionId, e) => {
+    e.stopPropagation(); // Prevent triggering loadConversation
+    
+    if (!window.confirm('Are you sure you want to delete this conversation? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      await axios.delete(`${API}/coach/${athleteId}/${sessionId}`);
+      
+      // Reload conversations list
+      await loadConversations();
+      
+      // If the deleted conversation is currently active, start a new one
+      if (sessionId === sessionId) {
+        startNewConversation();
+      }
+    } catch (error) {
+      console.error('Failed to delete conversation:', error);
+      alert('Failed to delete conversation. Please try again.');
+    }
+  };
+
   // Toggle archive sidebar
   const toggleArchive = () => {
     if (!showArchive) {
