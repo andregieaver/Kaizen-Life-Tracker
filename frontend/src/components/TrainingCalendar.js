@@ -233,7 +233,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
   const { t } = useTranslation();
   const [trainingBlocks, setTrainingBlocks] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [currentView, setCurrentView] = useState(Views.WEEK);
+  const [currentView, setCurrentView] = useState(Views.MONTH);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingBlock, setEditingBlock] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
