@@ -2314,8 +2314,8 @@ async def stripe_webhook(request: Request):
 async def save_openai_key(athlete_id: str, key_request: APIKeyRequest):
     """Save OpenAI API key for athlete"""
     
-    # Validate the API key format
-    if not key_request.api_key.startswith('sk-'):
+    # Validate the API key format (supports both legacy 'sk-' and project-based 'sk-proj-' keys)
+    if not (key_request.api_key.startswith('sk-') or key_request.api_key.startswith('sk-proj-')):
         raise HTTPException(status_code=400, detail="Invalid OpenAI API key format")
     
     # TODO: Encrypt the API key before storing in production
