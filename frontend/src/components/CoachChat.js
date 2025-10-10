@@ -23,6 +23,8 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
   const [sessionId, setSessionId] = useState(() => `session_${Date.now()}`);
   const [showArchive, setShowArchive] = useState(false);
   const [conversations, setConversations] = useState([]);
+  const [archivedConversations, setArchivedConversations] = useState([]);
+  const [showArchivedList, setShowArchivedList] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
