@@ -32,6 +32,11 @@ const Dashboard = ({ athleteId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
+  // Scroll animation state
+  const [scrollDirection, setScrollDirection] = useState('up');
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  
   // Determine active tab from URL, default to overview
   const activeTab = tab || 'overview';
 
