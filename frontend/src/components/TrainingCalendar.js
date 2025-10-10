@@ -192,7 +192,7 @@ const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athlete
                   <span className="text-gray-600">Avg Pace</span>
                 </div>
                 <span className="font-medium text-gray-900">
-                  {Math.round(week.totalDuration / week.totalDistance)}:00/mi
+                  {formatPace(week.totalDuration, week.totalDistance, distanceUnit)}
                 </span>
               </div>
             )}
