@@ -2619,7 +2619,22 @@ def run_enhanced_training_calendar_tests():
 if __name__ == "__main__":
     # Check command line arguments for specific test suites
     if len(sys.argv) > 1:
-        if sys.argv[1] == "--oura-only":
+        if sys.argv[1] == "--account-settings":
+            print("🎯 Running ACCOUNT SETTINGS PERSONAL INFO & PREFERENCES TEST ONLY (as per review request)")
+            print("=" * 80)
+            success = test_account_settings_personal_info_and_preferences()
+            print("\n" + "=" * 80)
+            print("📊 ACCOUNT SETTINGS TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS Account Settings Personal Info & Preferences")
+                print("\n🎉 ACCOUNT SETTINGS TEST PASSED! All personal information and preferences functionality working correctly.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL Account Settings Personal Info & Preferences")
+                print("\n⚠️ ACCOUNT SETTINGS TEST FAILED! Please review the issues above.")
+                sys.exit(1)
+        elif sys.argv[1] == "--oura-only":
             print("🎯 Running OURA CREDENTIALS TESTS ONLY (as per review request)")
             oura_results = run_oura_credentials_tests()
             failed_count = sum(1 for _, success in oura_results if not success)
@@ -2635,24 +2650,22 @@ if __name__ == "__main__":
             failed_count = sum(1 for _, success in enhanced_results if not success)
             sys.exit(failed_count)
         else:
-            print("Available options: --oura-only, --training-calendar-only, --enhanced-training-calendar")
+            print("Available options: --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar")
             sys.exit(1)
     else:
-        # Run enhanced training calendar tests as primary focus
-        print("🎯 Running ENHANCED TRAINING CALENDAR TESTS (PRIMARY FOCUS)")
+        # Run account settings test as primary focus (as per review request)
+        print("🎯 Running ACCOUNT SETTINGS PERSONAL INFO & PREFERENCES TEST (PRIMARY FOCUS)")
+        print("=" * 80)
+        success = test_account_settings_personal_info_and_preferences()
+        print("\n" + "=" * 80)
+        print("📊 ACCOUNT SETTINGS TEST SUMMARY")
+        print("=" * 80)
+        if success:
+            print("✅ PASS Account Settings Personal Info & Preferences")
+            print("\n🎉 ACCOUNT SETTINGS TEST PASSED! All personal information and preferences functionality working correctly.")
+        else:
+            print("❌ FAIL Account Settings Personal Info & Preferences")
+            print("\n⚠️ ACCOUNT SETTINGS TEST FAILED! Please review the issues above.")
         
-        # Run enhanced training calendar tests
-        print("\n" + "🏃‍♂️" * 15 + " ENHANCED TRAINING CALENDAR FOCUS " + "🏃‍♂️" * 15)
-        enhanced_results = run_enhanced_training_calendar_tests()
-        
-        # Then run supporting tests
-        print("\n" + "🚀" * 15 + " SUPPORTING BACKEND TESTS " + "🚀" * 15)
-        test_results = run_all_tests()
-        
-        # Combine results
-        all_results = enhanced_results + test_results
-        failed_count = sum(1 for _, success in all_results if not success)
-        
-        print(f"\n🎯 FINAL SUMMARY: {len(all_results)} total tests, {failed_count} failed")
-        print("🔍 PRIMARY FOCUS: Enhanced Training Calendar with workout metrics")
-        sys.exit(failed_count)
+        # Exit with appropriate code
+        sys.exit(0 if success else 1)
