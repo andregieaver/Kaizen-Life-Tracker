@@ -1355,25 +1355,30 @@ def test_training_calendar_get_empty():
         print_test_result("Training Calendar GET (empty)", False, f"Exception: {str(e)}")
         return False, None
 
-def test_training_calendar_create_training_block(athlete_id):
-    """Test POST /api/training-calendar - create training block"""
-    print("🔍 Testing POST /api/training-calendar (create training block)")
+def test_enhanced_training_calendar_create_5k_morning_run(athlete_id):
+    """Test POST /api/training-calendar - create 5K Morning Run with enhanced metrics"""
+    print("🔍 Testing POST /api/training-calendar (5K Morning Run with enhanced metrics)")
     
-    training_block_data = {
+    morning_run_data = {
         "id": str(uuid.uuid4()),
         "athlete_id": athlete_id,
-        "title": "Marathon Base Building",
-        "description": "4-week base building phase focusing on aerobic development",
+        "title": "5K Morning Run",
+        "description": "Easy morning run to start the day",
         "block_type": "training",
+        "workout_type": "run",
         "start_date": "2024-01-15",
-        "end_date": "2024-02-11",
+        "end_date": "2024-01-15",
+        "distance": 3.1,
+        "duration_minutes": 22,
+        "pace_per_unit": "7:05",
+        "unit_system": "miles",
         "created_by": "user"
     }
     
     try:
         response = requests.post(
             f"{BACKEND_URL}/training-calendar",
-            json=training_block_data,
+            json=morning_run_data,
             headers={"Content-Type": "application/json"}
         )
         
@@ -1391,20 +1396,191 @@ def test_training_calendar_create_training_block(athlete_id):
                 success = False
             
             # Check for returned ID
-            if "id" in result and result["id"] == training_block_data["id"]:
+            if "id" in result and result["id"] == morning_run_data["id"]:
                 details.append("id returned: ✓")
             else:
                 details.append("id returned: ✗")
                 success = False
             
-            print_test_result("POST create training block", success, "; ".join(details))
-            return success, training_block_data["id"]
+            print_test_result("POST create 5K Morning Run (enhanced)", success, "; ".join(details))
+            return success, morning_run_data["id"]
         else:
-            print_test_result("POST create training block", False, f"Status: {response.status_code}, Response: {response.text}")
+            print_test_result("POST create 5K Morning Run (enhanced)", False, f"Status: {response.status_code}, Response: {response.text}")
             return False, None
             
     except Exception as e:
-        print_test_result("POST create training block", False, f"Exception: {str(e)}")
+        print_test_result("POST create 5K Morning Run (enhanced)", False, f"Exception: {str(e)}")
+        return False, None
+
+def test_enhanced_training_calendar_create_track_intervals(athlete_id):
+    """Test POST /api/training-calendar - create Track Intervals with enhanced metrics"""
+    print("🔍 Testing POST /api/training-calendar (Track Intervals with enhanced metrics)")
+    
+    intervals_data = {
+        "id": str(uuid.uuid4()),
+        "athlete_id": athlete_id,
+        "title": "Track Intervals",
+        "description": "Speed work on the track",
+        "block_type": "training",
+        "workout_type": "intervals",
+        "start_date": "2024-01-17",
+        "end_date": "2024-01-17",
+        "intervals": 8,
+        "interval_distance": 0.25,
+        "interval_pace": "6:00",
+        "rest_duration": 90,
+        "unit_system": "miles",
+        "created_by": "user"
+    }
+    
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/training-calendar",
+            json=intervals_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            
+            success = True
+            details = []
+            
+            # Check for success response
+            if result.get("success") == True:
+                details.append("success: ✓")
+            else:
+                details.append("success: ✗")
+                success = False
+            
+            # Check for returned ID
+            if "id" in result and result["id"] == intervals_data["id"]:
+                details.append("id returned: ✓")
+            else:
+                details.append("id returned: ✗")
+                success = False
+            
+            print_test_result("POST create Track Intervals (enhanced)", success, "; ".join(details))
+            return success, intervals_data["id"]
+        else:
+            print_test_result("POST create Track Intervals (enhanced)", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print_test_result("POST create Track Intervals (enhanced)", False, f"Exception: {str(e)}")
+        return False, None
+
+def test_enhanced_training_calendar_create_long_run(athlete_id):
+    """Test POST /api/training-calendar - create Long Run with enhanced metrics"""
+    print("🔍 Testing POST /api/training-calendar (Long Run with enhanced metrics)")
+    
+    long_run_data = {
+        "id": str(uuid.uuid4()),
+        "athlete_id": athlete_id,
+        "title": "Long Run",
+        "description": "Weekly long run for endurance building",
+        "block_type": "training",
+        "workout_type": "run",
+        "start_date": "2024-01-20",
+        "end_date": "2024-01-20",
+        "distance": 10.0,
+        "duration_minutes": 75,
+        "pace_per_unit": "7:30",
+        "unit_system": "miles",
+        "created_by": "user"
+    }
+    
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/training-calendar",
+            json=long_run_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            
+            success = True
+            details = []
+            
+            # Check for success response
+            if result.get("success") == True:
+                details.append("success: ✓")
+            else:
+                details.append("success: ✗")
+                success = False
+            
+            # Check for returned ID
+            if "id" in result and result["id"] == long_run_data["id"]:
+                details.append("id returned: ✓")
+            else:
+                details.append("id returned: ✗")
+                success = False
+            
+            print_test_result("POST create Long Run (enhanced)", success, "; ".join(details))
+            return success, long_run_data["id"]
+        else:
+            print_test_result("POST create Long Run (enhanced)", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print_test_result("POST create Long Run (enhanced)", False, f"Exception: {str(e)}")
+        return False, None
+
+def test_enhanced_training_calendar_create_recovery_run(athlete_id):
+    """Test POST /api/training-calendar - create Recovery Run with enhanced metrics"""
+    print("🔍 Testing POST /api/training-calendar (Recovery Run with enhanced metrics)")
+    
+    recovery_run_data = {
+        "id": str(uuid.uuid4()),
+        "athlete_id": athlete_id,
+        "title": "Recovery Run",
+        "description": "Easy recovery run",
+        "block_type": "training",
+        "workout_type": "recovery",
+        "start_date": "2024-01-22",
+        "end_date": "2024-01-22",
+        "distance": 3.0,
+        "duration_minutes": 25,
+        "unit_system": "miles",
+        "created_by": "user"
+    }
+    
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/training-calendar",
+            json=recovery_run_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            
+            success = True
+            details = []
+            
+            # Check for success response
+            if result.get("success") == True:
+                details.append("success: ✓")
+            else:
+                details.append("success: ✗")
+                success = False
+            
+            # Check for returned ID
+            if "id" in result and result["id"] == recovery_run_data["id"]:
+                details.append("id returned: ✓")
+            else:
+                details.append("id returned: ✗")
+                success = False
+            
+            print_test_result("POST create Recovery Run (enhanced)", success, "; ".join(details))
+            return success, recovery_run_data["id"]
+        else:
+            print_test_result("POST create Recovery Run (enhanced)", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print_test_result("POST create Recovery Run (enhanced)", False, f"Exception: {str(e)}")
         return False, None
 
 def test_training_calendar_create_recovery_block(athlete_id):
