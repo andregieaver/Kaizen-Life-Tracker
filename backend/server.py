@@ -82,6 +82,16 @@ class AthleteProfile(BaseModel):
     stripe_subscription_id: Optional[str] = None
     subscription_current_period_end: Optional[datetime] = None
 
+class JournalEntry(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    content: str
+    entry_type: str = "text"  # 'text' or 'voice'
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
 class AthleteUpdate(BaseModel):
     name: Optional[str] = None
     email: Optional[str] = None
