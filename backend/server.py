@@ -63,6 +63,81 @@ def parse_from_mongo(item):
     return item
 
 # Define Models for Running Coach
+
+# Provider Models for Integration Hub
+class Provider(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    key: str  # 'strava', 'oura', 'polar', 'garmin', 'coros'
+    name: str
+    auth_type: str = "oauth2"  # 'oauth2' or 'oauth1'
+    has_webhook: bool = False
+    enabled: bool = True
+
+class UserConnection(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    provider_key: str  # 'strava', 'oura', etc.
+    access_token: str
+    refresh_token: Optional[str] = None
+    expires_at: Optional[datetime] = None
+    scope: Optional[str] = None
+    external_user_id: Optional[str] = None  # Provider's user ID
+    last_sync_at: Optional[datetime] = None
+    status: str = "active"  # 'active', 'expired', 'error'
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
+class RawEvent(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    provider_key: str
+    external_id: str  # Provider's activity/session ID
+    kind: str  # 'activity', 'sleep', 'daily', 'hr_series'
+    payload: Dict[str, Any]  # Raw JSON from provider
+    received_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    processed: bool = False
+
+class NormalizedActivity(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    provider_key: str
+    external_id: str
+    activity_type: str  # 'run', 'ride', 'swim', etc.
+    start_time: datetime
+    end_time: Optional[datetime] = None
+    distance_m: Optional[float] = None
+    duration_s: Optional[float] = None
+    avg_hr: Optional[float] = None
+    max_hr: Optional[float] = None
+    calories_kcal: Optional[float] = None
+    raw_event_id: str  # Reference to raw event
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class NormalizedDaily(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    provider_key: str
+    date: str  # ISO date string YYYY-MM-DD
+    readiness: Optional[float] = None
+    recovery: Optional[float] = None
+    steps: Optional[int] = None
+    resting_hr: Optional[float] = None
+    spo2: Optional[float] = None
+    stress: Optional[float] = None
+    sleep_total_min: Optional[int] = None
+    raw_event_id: str  # Reference to raw event
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 class AthleteProfile(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
