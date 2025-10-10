@@ -558,32 +558,45 @@ const TrainingCalendar = ({ athleteId }) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div style={{ height: '600px' }}>
-            <Calendar
-              localizer={localizer}
-              events={calendarEvents}
-              startAccessor="start"
-              endAccessor="end"
-              style={{ height: '100%' }}
-              view={currentView}
-              onView={setCurrentView}
-              date={currentDate}
-              onNavigate={setCurrentDate}
-              selectable
-              onSelectSlot={handleSelectSlot}
-              onSelectEvent={handleSelectEvent}
-              components={{
-                event: EventComponent
-              }}
-              eventPropGetter={(event) => ({
-                style: {
-                  backgroundColor: event.resource.block_type === 'training' ? '#3B82F6' : '#10B981',
-                  border: 'none',
-                  borderRadius: '4px',
-                  color: 'white'
-                }
-              })}
-            />
+          <div className="grid grid-cols-1 xl:grid-cols-4 gap-6" style={{ height: '600px' }}>
+            {/* Calendar */}
+            <div className="xl:col-span-3" style={{ height: '100%' }}>
+              <Calendar
+                localizer={localizer}
+                events={calendarEvents}
+                startAccessor="start"
+                endAccessor="end"
+                style={{ height: '100%' }}
+                view={currentView}
+                onView={setCurrentView}
+                date={currentDate}
+                onNavigate={setCurrentDate}
+                selectable
+                onSelectSlot={handleSelectSlot}
+                onSelectEvent={handleSelectEvent}
+                components={{
+                  event: EventComponent
+                }}
+                eventPropGetter={(event) => ({
+                  style: {
+                    backgroundColor: event.resource.block_type === 'training' ? '#3B82F6' : '#10B981',
+                    border: 'none',
+                    borderRadius: '4px',
+                    color: 'white'
+                  }
+                })}
+              />
+            </div>
+
+            {/* Weekly Summary Column */}
+            <div className="xl:col-span-1 bg-gray-50 rounded-lg p-4 overflow-y-auto">
+              <WeeklySummaryColumn 
+                currentDate={currentDate}
+                currentView={currentView}
+                trainingBlocks={trainingBlocks}
+                athleteId={athleteId}
+              />
+            </div>
           </div>
         </CardContent>
       </Card>
