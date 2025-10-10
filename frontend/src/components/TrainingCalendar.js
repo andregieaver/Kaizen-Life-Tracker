@@ -604,7 +604,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                   <TabsContent value="workout" className="space-y-4">
                     <div className="grid grid-cols-3 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="distance">Distance</Label>
+                        <Label htmlFor="distance">Distance ({getDistanceUnitLabel(formData.unit_system)})</Label>
                         <Input
                           id="distance"
                           type="number"
