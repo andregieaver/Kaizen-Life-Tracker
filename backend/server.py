@@ -193,6 +193,21 @@ class NutritionEntry(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
+class Document(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    title: str
+    category: str  # 'medical', 'test_results', 'training_plan', 'research', 'other'
+    description: Optional[str] = None
+    file_data: str  # Base64 encoded document
+    file_name: str
+    file_type: str  # MIME type
+    file_size: int  # Size in bytes
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
 class TrainingBlock(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
