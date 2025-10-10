@@ -225,6 +225,19 @@ class AthleteUpdate(BaseModel):
     weekly_mileage: Optional[float] = None
     recent_race_time: Optional[str] = None
     running_goals: Optional[str] = None
+    
+    # Personal Information Fields
+    height: Optional[float] = None
+    weight: Optional[float] = None
+    vo2_max: Optional[float] = None
+    
+    # Preferences
+    distance_unit: Optional[str] = None
+    measurement_system: Optional[str] = None
+    week_starts_on: Optional[str] = None
+    timezone: Optional[str] = None
+    time_format: Optional[str] = None
+    language: Optional[str] = None
 
 class Integration(BaseModel):
     model_config = ConfigDict(extra="ignore")
