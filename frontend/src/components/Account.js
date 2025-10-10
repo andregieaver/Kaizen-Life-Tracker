@@ -190,7 +190,7 @@ const Account = ({ athleteId }) => {
     
     if (sessionId && success === 'true') {
       // Switch to subscription tab
-      setActiveTab('subscription');
+      setActiveTab('subscriptions');
       // Poll for payment status
       pollPaymentStatus(sessionId);
     }
