@@ -210,7 +210,9 @@ const Dashboard = ({ athleteId }) => {
       </header>
 
       {/* Mobile Header */}
-      <header className="md:hidden bg-white border-b border-gray-200 shadow-sm">
+      <header className={`md:hidden bg-white border-b border-gray-200 shadow-sm fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
+        isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
+      }`}>
         <div className="px-4 py-3">
           <div className="flex justify-between items-center">
             <h1 className="font-display text-xl font-bold text-gray-900">
