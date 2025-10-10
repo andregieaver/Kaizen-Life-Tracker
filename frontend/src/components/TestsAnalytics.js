@@ -80,13 +80,22 @@ const TestsAnalytics = ({ athleteId }) => {
     }
 
     try {
+      // Convert time fields to total seconds
+      let timeToCompletion = null;
+      if (formData.time_hours || formData.time_minutes || formData.time_seconds) {
+        const hours = parseInt(formData.time_hours) || 0;
+        const minutes = parseInt(formData.time_minutes) || 0;
+        const seconds = parseInt(formData.time_seconds) || 0;
+        timeToCompletion = (hours * 3600) + (minutes * 60) + seconds;
+      }
+
       const payload = {
         id: editingResult?.id || Math.random().toString(36).substring(7),
         athlete_id: athleteId,
         test_name: formData.test_name.trim(),
         unit: formData.unit,
         result_value: parseFloat(formData.result_value),
-        time_to_completion: formData.time_to_completion ? parseFloat(formData.time_to_completion) : null,
+        time_to_completion: timeToCompletion,
         notes: formData.notes.trim() || null,
         test_date: formData.test_date,
         created_at: editingResult?.created_at || new Date().toISOString()
