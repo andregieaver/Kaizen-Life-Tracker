@@ -299,19 +299,37 @@ const TestsAnalytics = ({ athleteId }) => {
               new Date(a.test_date) - new Date(b.test_date)
             );
 
+            const unit = results[0].unit;
+            
+            // For distance-based tests, plot time_to_completion instead of distance
+            const isDistanceTest = unit === 'distance';
+            
             // Prepare chart data
             const chartData = sortedResults.map(result => ({
               date: formatDate(result.test_date),
-              value: result.result_value,
+              value: isDistanceTest && result.time_to_completion 
+                ? result.time_to_completion 
+                : result.result_value,
               fullDate: result.test_date
             }));
 
-            const unit = results[0].unit;
             const latestResult = sortedResults[sortedResults.length - 1];
             const firstResult = sortedResults[0];
-            const improvement = latestResult.result_value - firstResult.result_value;
+            
+            // Calculate improvement based on what's being plotted
+            const latestValue = isDistanceTest && latestResult.time_to_completion 
+              ? latestResult.time_to_completion 
+              : latestResult.result_value;
+            const firstValue = isDistanceTest && firstResult.time_to_completion 
+              ? firstResult.time_to_completion 
+              : firstResult.result_value;
+            
+            const improvement = latestValue - firstValue;
+            
+            // For time-based metrics (including distance tests), lower is better
+            const isLowerBetter = isDistanceTest || unit === 'time';
             const improvementPercent = sortedResults.length > 1 
-              ? ((improvement / firstResult.result_value) * 100).toFixed(1) 
+              ? ((improvement / firstValue) * 100).toFixed(1) 
               : 0;
 
             return (
