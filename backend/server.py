@@ -2516,16 +2516,21 @@ async def get_chat_history(athlete_id: str, limit: int = 20):
     return [parse_from_mongo(m) for m in messages]
 
 @api_router.get("/coach/conversations/{athlete_id}")
-async def get_conversations(athlete_id: str):
-    """Get list of conversations grouped by session"""
+async def get_conversations(athlete_id: str, archived: Optional[bool] = None):
+    """Get list of conversations grouped by session, optionally filtered by archived status"""
+    match_filter = {"athlete_id": athlete_id}
+    if archived is not None:
+        match_filter["archived"] = archived
+    
     pipeline = [
-        {"$match": {"athlete_id": athlete_id}},
+        {"$match": match_filter},
         {"$sort": {"timestamp": -1}},
         {"$group": {
             "_id": "$session_id",
             "last_message": {"$first": "$timestamp"},
             "message_count": {"$sum": 1},
-            "preview": {"$first": "$message"}
+            "preview": {"$first": "$message"},
+            "archived": {"$first": "$archived"}
         }},
         {"$sort": {"last_message": -1}},
         {"$limit": 50}
@@ -2537,7 +2542,8 @@ async def get_conversations(athlete_id: str):
         "session_id": conv["_id"],
         "last_message": conv["last_message"].isoformat() if isinstance(conv["last_message"], datetime) else conv["last_message"],
         "message_count": conv["message_count"],
-        "preview": conv["preview"][:50] + "..." if len(conv["preview"]) > 50 else conv["preview"]
+        "preview": conv["preview"][:50] + "..." if len(conv["preview"]) > 50 else conv["preview"],
+        "archived": conv.get("archived", False)
     } for conv in conversations]
 
 @api_router.get("/coach/conversation/{athlete_id}/{session_id}")
