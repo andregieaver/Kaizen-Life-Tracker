@@ -438,7 +438,18 @@ const Account = ({ athleteId }) => {
       setPersonalForm({
         name: athleteRes.data.name,
         age: athleteRes.data.age.toString(),
-        running_goals: athleteRes.data.running_goals
+        running_goals: athleteRes.data.running_goals,
+        // Personal Information fields
+        height: athleteRes.data.height || '',
+        weight: athleteRes.data.weight || '',
+        vo2_max: athleteRes.data.vo2_max || '',
+        // Preferences
+        distance_unit: athleteRes.data.distance_unit || 'miles',
+        measurement_system: athleteRes.data.measurement_system || 'imperial',
+        week_starts_on: athleteRes.data.week_starts_on || 'monday',
+        timezone: athleteRes.data.timezone || 'UTC',
+        time_format: athleteRes.data.time_format || '12h',
+        language: athleteRes.data.language || 'en'
       });
       
       // Load integrations data from backend
