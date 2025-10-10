@@ -408,7 +408,17 @@ const Dashboard = ({ athleteId }) => {
         )}
 
         {activeTab === 'calendar' && (
-          <TrainingCalendar athleteId={athleteId} />
+          <TrainingCalendar 
+            athleteId={athleteId} 
+            athletePreferences={athlete ? {
+              distance_unit: athlete.distance_unit || 'miles',
+              measurement_system: athlete.measurement_system || 'imperial',
+              week_starts_on: athlete.week_starts_on || 'monday',
+              timezone: athlete.timezone || 'UTC',
+              time_format: athlete.time_format || '12h',
+              language: athlete.language || 'en'
+            } : null}
+          />
         )}
       </main>
 
