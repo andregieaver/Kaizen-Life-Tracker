@@ -213,25 +213,49 @@ const Account = ({ athleteId }) => {
     }
   };
 
-  const handleManageBilling = async () => {
+  const handleCancelSubscription = async () => {
     try {
-      const returnUrl = `${window.location.origin}/dashboard/account`;
-      
-      const response = await axios.post(`${API}/subscriptions/create-portal-session`, {
-        athlete_id: athleteId,
-        return_url: returnUrl
+      const response = await axios.post(`${API}/subscriptions/downgrade-to-free`, {
+        athlete_id: athleteId
       });
 
-      if (response.data.url) {
-        window.location.href = response.data.url;
-      } else {
-        throw new Error('No portal URL received');
+      if (response.data.success) {
+        setSaveStatus({ 
+          type: 'success', 
+          message: response.data.message
+        });
+        setShowCancelDialog(false);
+        await loadSubscriptionStatus();
       }
     } catch (error) {
-      console.error('Portal error:', error);
+      console.error('Cancel error:', error);
       setSaveStatus({ 
         type: 'error', 
-        message: 'Failed to open billing portal. Please try again.' 
+        message: 'Failed to cancel subscription. Please try again.' 
+      });
+    }
+  };
+
+  const handleDowngrade = async (newPlanId) => {
+    try {
+      const response = await axios.post(`${API}/subscriptions/update-plan`, {
+        athlete_id: athleteId,
+        new_plan_id: newPlanId
+      });
+
+      if (response.data.success) {
+        setSaveStatus({ 
+          type: 'success', 
+          message: response.data.message
+        });
+        setShowDowngradeDialog(false);
+        await loadSubscriptionStatus();
+      }
+    } catch (error) {
+      console.error('Downgrade error:', error);
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Failed to update subscription. Please try again.' 
       });
     }
   };
