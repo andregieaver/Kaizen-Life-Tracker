@@ -1042,37 +1042,80 @@ const Account = ({ athleteId }) => {
                 Preferences
               </CardTitle>
               <CardDescription>
-                Customize your experience and settings
+                Customize your application settings and preferences
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-6">
+              <form onSubmit={handleSavePreferences} className="space-y-6">
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-gray-900">Language & Region</h3>
                   <div className="space-y-2">
                     <Label htmlFor="language">Language</Label>
                     <LanguageSelector />
                   </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="timezone">Timezone</Label>
+                    <Select
+                      value={personalForm.timezone || 'UTC'}
+                      onValueChange={(value) => setPersonalForm(prev => ({...prev, timezone: value}))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select timezone" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="UTC">UTC</SelectItem>
+                        <SelectItem value="America/New_York">Eastern Time (ET)</SelectItem>
+                        <SelectItem value="America/Chicago">Central Time (CT)</SelectItem>
+                        <SelectItem value="America/Denver">Mountain Time (MT)</SelectItem>
+                        <SelectItem value="America/Los_Angeles">Pacific Time (PT)</SelectItem>
+                        <SelectItem value="Europe/London">London (GMT)</SelectItem>
+                        <SelectItem value="Europe/Paris">Paris (CET)</SelectItem>
+                        <SelectItem value="Europe/Oslo">Oslo (CET)</SelectItem>
+                        <SelectItem value="Europe/Stockholm">Stockholm (CET)</SelectItem>
+                        <SelectItem value="Asia/Tokyo">Tokyo (JST)</SelectItem>
+                        <SelectItem value="Australia/Sydney">Sydney (AEDT)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <Separator />
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Notifications</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label htmlFor="email-notifications">Email Notifications</Label>
-                        <p className="text-sm text-gray-600">Receive updates about your training</p>
-                      </div>
-                      <input type="checkbox" id="email-notifications" className="toggle" defaultChecked />
+                  <h3 className="text-lg font-semibold text-gray-900">Units & Measurements</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>Distance Unit</Label>
+                      <Select
+                        value={personalForm.distance_unit || 'miles'}
+                        onValueChange={(value) => setPersonalForm(prev => ({...prev, distance_unit: value}))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="miles">Miles</SelectItem>
+                          <SelectItem value="km">Kilometers</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label htmlFor="weekly-summary">Weekly Summary</Label>
-                        <p className="text-sm text-gray-600">Get a weekly overview of your progress</p>
-                      </div>
-                      <input type="checkbox" id="weekly-summary" className="toggle" defaultChecked />
+
+                    <div className="space-y-2">
+                      <Label>Measurement System</Label>
+                      <Select
+                        value={personalForm.measurement_system || 'imperial'}
+                        onValueChange={(value) => setPersonalForm(prev => ({...prev, measurement_system: value}))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="imperial">Imperial (lbs, ft/in)</SelectItem>
+                          <SelectItem value="metric">Metric (kg, cm)</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                 </div>
@@ -1080,18 +1123,79 @@ const Account = ({ athleteId }) => {
                 <Separator />
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Privacy</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label htmlFor="data-sharing">Data Sharing</Label>
-                        <p className="text-sm text-gray-600">Allow anonymous data sharing for improvements</p>
-                      </div>
-                      <input type="checkbox" id="data-sharing" className="toggle" />
+                  <h3 className="text-lg font-semibold text-gray-900">Calendar & Time</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>Week Starts On</Label>
+                      <Select
+                        value={personalForm.week_starts_on || 'monday'}
+                        onValueChange={(value) => setPersonalForm(prev => ({...prev, week_starts_on: value}))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="sunday">Sunday</SelectItem>
+                          <SelectItem value="monday">Monday</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Time Format</Label>
+                      <Select
+                        value={personalForm.time_format || '12h'}
+                        onValueChange={(value) => setPersonalForm(prev => ({...prev, time_format: value}))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="12h">12 Hour (AM/PM)</SelectItem>
+                          <SelectItem value="24h">24 Hour</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                 </div>
-              </div>
+
+                <Separator />
+
+                <div className="flex justify-end gap-2 pt-4">
+                  <Button 
+                    type="button" 
+                    variant="outline"
+                    onClick={() => setPersonalForm({
+                      ...athlete,
+                      distance_unit: athlete?.distance_unit || 'miles',
+                      measurement_system: athlete?.measurement_system || 'imperial',
+                      week_starts_on: athlete?.week_starts_on || 'monday',
+                      timezone: athlete?.timezone || 'UTC',
+                      time_format: athlete?.time_format || '12h'
+                    })}
+                  >
+                    Reset
+                  </Button>
+                  <Button 
+                    type="submit" 
+                    className="bg-blue-600 hover:bg-blue-700"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Saving...' : 'Save Preferences'}
+                  </Button>
+                </div>
+
+                {saveStatus.type && (
+                  <div className={`p-3 rounded-lg text-sm ${
+                    saveStatus.type === 'success' 
+                      ? 'bg-green-50 text-green-800 border border-green-200' 
+                      : 'bg-red-50 text-red-800 border border-red-200'
+                  }`}>
+                    {saveStatus.message}
+                  </div>
+                )}
+              </form>
             </CardContent>
           </Card>
         </TabsContent>
