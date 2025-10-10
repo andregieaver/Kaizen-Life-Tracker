@@ -789,31 +789,61 @@ const Account = ({ athleteId }) => {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg mb-4">
-                  <div>
-                    <div className="flex items-center space-x-2">
-                      <h3 className="text-2xl font-bold text-gray-900 capitalize">
-                        {subscriptionStatus.tier} Plan
-                      </h3>
-                      <Badge variant={subscriptionStatus.status === 'active' ? 'secondary' : 'destructive'}>
-                        {subscriptionStatus.status}
-                      </Badge>
+                {subscriptionStatus.status === 'canceling' ? (
+                  <div className="p-4 bg-gradient-to-r from-orange-50 to-red-50 border-2 border-orange-200 rounded-lg mb-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <h3 className="text-2xl font-bold text-gray-900 capitalize">
+                            {subscriptionStatus.tier} Plan
+                          </h3>
+                          <Badge variant="destructive">
+                            Canceling
+                          </Badge>
+                        </div>
+                        <p className="text-gray-700 font-medium mb-2">
+                          ⚠️ Your subscription will end on{' '}
+                          {subscriptionStatus.current_period_end 
+                            ? new Date(subscriptionStatus.current_period_end).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                              })
+                            : 'the end of your billing period'}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          You can reactivate your subscription anytime before it ends to continue enjoying all features.
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-gray-600 mt-1">
-                      {subscriptionStatus.tier === 'free' && '€0/month • Basic features'}
-                      {subscriptionStatus.tier === 'pro' && 'Enhanced features for serious athletes'}
-                      {subscriptionStatus.tier === 'premium' && 'Maximum performance package'}
-                    </p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm text-gray-500">Next billing date</p>
-                    <p className="font-semibold text-gray-900">
-                      {subscriptionStatus.current_period_end 
-                        ? new Date(subscriptionStatus.current_period_end).toLocaleDateString() 
-                        : '-'}
-                    </p>
+                ) : (
+                  <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg mb-4">
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <h3 className="text-2xl font-bold text-gray-900 capitalize">
+                          {subscriptionStatus.tier} Plan
+                        </h3>
+                        <Badge variant={subscriptionStatus.status === 'active' ? 'secondary' : 'destructive'}>
+                          {subscriptionStatus.status}
+                        </Badge>
+                      </div>
+                      <p className="text-gray-600 mt-1">
+                        {subscriptionStatus.tier === 'free' && '€0/month • Basic features'}
+                        {subscriptionStatus.tier === 'pro' && 'Enhanced features for serious athletes'}
+                        {subscriptionStatus.tier === 'premium' && 'Maximum performance package'}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-gray-500">Next billing date</p>
+                      <p className="font-semibold text-gray-900">
+                        {subscriptionStatus.current_period_end 
+                          ? new Date(subscriptionStatus.current_period_end).toLocaleDateString() 
+                          : '-'}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div className="space-y-3 mb-6">
                   <h4 className="font-semibold text-gray-900 mb-2">Current Features:</h4>
