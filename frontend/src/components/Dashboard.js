@@ -441,6 +441,10 @@ const Dashboard = ({ athleteId }) => {
           <Documents athleteId={athleteId} />
         )}
 
+        {activeTab === 'tests' && (
+          <TestsAnalytics athleteId={athleteId} />
+        )}
+
         {activeTab === 'calendar' && (
           <TrainingCalendar 
             athleteId={athleteId} 
