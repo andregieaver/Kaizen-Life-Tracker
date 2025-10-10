@@ -274,6 +274,20 @@ const Dashboard = ({ athleteId }) => {
                   <FileText className="w-5 h-5" />
                   <span className="font-medium">Documents</span>
                 </button>
+                <button
+                  onClick={() => {
+                    navigate('/dashboard/tests');
+                    setIsMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    activeTab === 'tests'
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <LineChart className="w-5 h-5" />
+                  <span className="font-medium">Tests & Analytics</span>
+                </button>
               </nav>
             </div>
 
