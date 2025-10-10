@@ -360,7 +360,7 @@ const Dashboard = ({ athleteId }) => {
       )}
 
       {/* Main Content */}
-      <main className={activeTab === 'coach' ? 'flex-1 flex flex-col' : 'w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-20 md:pb-8'}>
+      <main className={activeTab === 'coach' ? 'flex-1 flex flex-col pt-16' : 'w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-20 md:pb-8 pt-20 md:pt-24'}>
         {activeTab === 'overview' && (
           <div className="space-y-8">
             {/* Readiness Section */}
