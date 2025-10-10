@@ -23,9 +23,10 @@ const API = `${BACKEND_URL}/api`;
 const localizer = momentLocalizer(moment);
 
 // Weekly Summary Column Component
-const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athleteId }) => {
+const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athleteId, preferences }) => {
   const [weeklyData, setWeeklyData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const distanceUnit = preferences?.distance_unit || 'miles';
 
   useEffect(() => {
     calculateWeeklySummaries();
