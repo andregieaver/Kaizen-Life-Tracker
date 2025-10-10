@@ -1881,6 +1881,56 @@ async def delete_nutrition_entry(entry_id: str):
     
     return {"success": True}
 
+# Training Calendar routes
+@api_router.get("/training-calendar/{athlete_id}")
+async def get_training_blocks(athlete_id: str):
+    """Get all training blocks for an athlete"""
+    blocks = await db.training_blocks.find(
+        {"athlete_id": athlete_id},
+        {"_id": 0}
+    ).sort("start_date", 1).to_list(length=None)
+    
+    return {"blocks": [parse_from_mongo(block) for block in blocks]}
+
+@api_router.post("/training-calendar")
+async def create_training_block(block: TrainingBlock):
+    """Create a new training block"""
+    block_dict = prepare_for_mongo(block.model_dump())
+    await db.training_blocks.insert_one(block_dict)
+    return {"success": True, "id": block.id}
+
+@api_router.put("/training-calendar/{block_id}")
+async def update_training_block(block_id: str, data: dict):
+    """Update a training block"""
+    update_data = {
+        "title": data.get("title"),
+        "description": data.get("description"),
+        "block_type": data.get("block_type"),
+        "start_date": data.get("start_date"),
+        "end_date": data.get("end_date"),
+        "updated_at": datetime.now(timezone.utc).isoformat()
+    }
+    
+    result = await db.training_blocks.update_one(
+        {"id": block_id},
+        {"$set": update_data}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Training block not found")
+    
+    return {"success": True}
+
+@api_router.delete("/training-calendar/{block_id}")
+async def delete_training_block(block_id: str):
+    """Delete a training block"""
+    result = await db.training_blocks.delete_one({"id": block_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Training block not found")
+    
+    return {"success": True}
+
 @api_router.post("/webhooks/stripe")
 async def stripe_webhook(request: Request):
     """Handle Stripe webhooks"""
