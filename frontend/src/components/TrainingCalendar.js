@@ -510,32 +510,65 @@ const TrainingCalendar = ({ athleteId }) => {
         </Dialog>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Calendar */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="flex items-center">
+      {/* Calendar */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center">
               <CalendarIcon className="w-5 h-5 mr-2" />
-              {format(selectedMonth, 'MMMM yyyy')}
-            </CardTitle>
-            <CardDescription>
-              {t('trainingCalendar.calendarDescription')}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+              Training Calendar
+            </div>
+            <div className="flex gap-2">
+              <Button
+                variant={currentView === Views.WEEK ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setCurrentView(Views.WEEK)}
+              >
+                Week
+              </Button>
+              <Button
+                variant={currentView === Views.MONTH ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setCurrentView(Views.MONTH)}
+              >
+                Month
+              </Button>
+            </div>
+          </CardTitle>
+          <CardDescription>
+            Click and drag to create new training blocks. Click on existing blocks to edit them.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div style={{ height: '600px' }}>
             <Calendar
-              mode="single"
-              selected={selectedDate}
-              onSelect={setSelectedDate}
-              month={selectedMonth}
-              onMonthChange={setSelectedMonth}
+              localizer={localizer}
+              events={calendarEvents}
+              startAccessor="start"
+              endAccessor="end"
+              style={{ height: '100%' }}
+              view={currentView}
+              onView={setCurrentView}
+              date={currentDate}
+              onNavigate={setCurrentDate}
+              selectable
+              onSelectSlot={handleSelectSlot}
+              onSelectEvent={handleSelectEvent}
               components={{
-                Day: ({ date }) => renderCalendarDay(date)
+                event: EventComponent
               }}
-              className="w-full"
+              eventPropGetter={(event) => ({
+                style: {
+                  backgroundColor: event.resource.block_type === 'training' ? '#3B82F6' : '#10B981',
+                  border: 'none',
+                  borderRadius: '4px',
+                  color: 'white'
+                }
+              })}
             />
-          </CardContent>
-        </Card>
+          </div>
+        </CardContent>
+      </Card>
 
         {/* Selected Date Details */}
         <Card>
