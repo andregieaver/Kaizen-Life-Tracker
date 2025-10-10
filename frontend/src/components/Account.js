@@ -673,7 +673,7 @@ const Account = ({ athleteId }) => {
 
   if (isLoading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="skeleton h-8 w-48 mb-6"></div>
         <div className="skeleton h-96 rounded-lg"></div>
       </div>
