@@ -289,6 +289,33 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const handleChangeBillingCycle = async () => {
+    const newCycle = currentBillingCycle === 'monthly' ? 'annual' : 'monthly';
+    const newPlanId = `${subscriptionStatus.tier}_${newCycle}`;
+    
+    try {
+      const response = await axios.post(`${API}/subscriptions/update-plan`, {
+        athlete_id: athleteId,
+        new_plan_id: newPlanId
+      });
+
+      if (response.data.success) {
+        setSaveStatus({ 
+          type: 'success', 
+          message: `Switched to ${newCycle} billing successfully!`
+        });
+        setShowBillingCycleDialog(false);
+        await loadSubscriptionStatus();
+      }
+    } catch (error) {
+      console.error('Billing cycle change error:', error);
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Failed to change billing cycle. Please try again.' 
+      });
+    }
+  };
+
   const loadAccountData = async () => {
     setIsLoading(true);
     try {
