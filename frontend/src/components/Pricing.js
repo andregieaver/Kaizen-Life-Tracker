@@ -172,7 +172,7 @@ const Pricing = () => {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         {/* Hero Section */}
         <div className="text-center mb-12">
           <Badge variant="secondary" className="mb-4">
