@@ -290,8 +290,9 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
           />
           
           {/* Sidebar */}
-          <div className="fixed left-0 top-0 bottom-0 w-80 bg-white shadow-2xl z-50 overflow-y-auto md:absolute md:left-0 md:top-0 md:bottom-0">
-            <div className="p-4 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white">
+          <div className="fixed left-0 top-0 bottom-0 w-80 bg-white shadow-2xl z-50 md:absolute md:left-0 md:top-0 md:bottom-0 flex flex-col">
+            {/* Header */}
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">{t('coach.pastConversations')}</h3>
               <Button
                 variant="ghost"
@@ -303,7 +304,8 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
               </Button>
             </div>
             
-            <div className="p-4 space-y-2">
+            {/* Conversations List */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-2 pb-16">
               {conversations.length === 0 ? (
                 <p className="text-sm text-gray-500 text-center py-8">{t('coach.noPastConversations')}</p>
               ) : (
@@ -354,6 +356,105 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
                 ))
               )}
             </div>
+
+            {/* Fixed Bottom Navigation */}
+            <div className="border-t border-gray-200 bg-white">
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  setShowArchivedList(!showArchivedList);
+                  if (!showArchivedList) {
+                    loadArchivedConversations();
+                  }
+                }}
+                className="w-full flex items-center justify-between p-4 hover:bg-gray-50"
+              >
+                <div className="flex items-center gap-2">
+                  <Archive className="w-4 h-4 text-gray-600" />
+                  <span className="text-sm font-medium text-gray-700">Archived</span>
+                </div>
+                <span className="text-xs text-gray-500">
+                  {archivedConversations.length}
+                </span>
+              </Button>
+            </div>
+
+            {/* Archived Conversations Slideup */}
+            {showArchivedList && (
+              <div className="absolute inset-0 bg-white z-10 flex flex-col">
+                {/* Header */}
+                <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Archive className="w-5 h-5 text-gray-600" />
+                    <h3 className="text-lg font-semibold text-gray-900">Archived</h3>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowArchivedList(false)}
+                    className="h-8 w-8 p-0"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+
+                {/* Archived List */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-2">
+                  {archivedConversations.length === 0 ? (
+                    <p className="text-sm text-gray-500 text-center py-8">No archived conversations</p>
+                  ) : (
+                    archivedConversations.map((conv, index) => (
+                      <div
+                        key={index}
+                        className="relative"
+                      >
+                        <button
+                          onClick={() => {
+                            loadConversation(conv.session_id);
+                            setShowArchivedList(false);
+                          }}
+                          className="w-full text-left p-3 rounded-lg hover:bg-gray-50 border border-gray-200 transition-colors"
+                        >
+                          <div className="flex items-start justify-between mb-1">
+                            <p className="text-sm font-medium text-gray-900 truncate flex-1 pr-8">
+                              {conv.preview || 'Conversation'}
+                            </p>
+                            <span className="text-xs text-gray-500 ml-2">
+                              {new Date(conv.last_message).toLocaleDateString()}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <p className="text-xs text-gray-500">
+                              {conv.message_count} {t('coach.messages')}
+                            </p>
+                            <div className="flex items-center gap-1">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={(e) => unarchiveConversation(conv.session_id, e)}
+                                className="h-7 w-7 p-0 text-blue-500 hover:text-blue-700 hover:bg-blue-50"
+                                title="Unarchive conversation"
+                              >
+                                <ArchiveRestore className="w-3.5 h-3.5" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={(e) => deleteConversation(conv.session_id, e, true)}
+                                className="h-7 w-7 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                                title="Delete conversation"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </Button>
+                            </div>
+                          </div>
+                        </button>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
