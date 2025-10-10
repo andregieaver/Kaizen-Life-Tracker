@@ -119,6 +119,11 @@ const Account = ({ athleteId }) => {
         current_period_end: response.data.subscription_current_period_end
       });
       
+      // Detect billing cycle from subscription_interval if available
+      if (response.data.subscription_interval) {
+        setCurrentBillingCycle(response.data.subscription_interval === 'year' ? 'annual' : 'monthly');
+      }
+      
       // Load invoices if user has a subscription
       if (response.data.subscription_tier && response.data.subscription_tier !== 'free') {
         loadInvoices();
