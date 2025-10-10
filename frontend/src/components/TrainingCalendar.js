@@ -207,7 +207,7 @@ const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athlete
                     <span className="text-gray-600 truncate">{block.title}</span>
                     <div className="flex items-center gap-1 text-gray-500">
                       {block.distance && (
-                        <span>{block.distance}mi</span>
+                        <span>{block.distance}{getDistanceUnitLabel(distanceUnit)}</span>
                       )}
                       {block.duration_minutes && (
                         <span>•{block.duration_minutes}m</span>
