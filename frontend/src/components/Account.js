@@ -1053,16 +1053,6 @@ const Account = ({ athleteId }) => {
                             </a>
                           </div>
                         ))}
-                        {invoices.length > 0 && (
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            className="w-full"
-                            onClick={handleManageBilling}
-                          >
-                            View All in Customer Portal →
-                          </Button>
-                        )}
                       </div>
                     )}
                   </div>
