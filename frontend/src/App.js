@@ -73,6 +73,16 @@ function App() {
               athleteId ? (
                 <Navigate to="/dashboard" replace />
               ) : (
+                <LandingPage />
+              )
+            } 
+          />
+          <Route 
+            path="/onboarding" 
+            element={
+              athleteId ? (
+                <Navigate to="/dashboard" replace />
+              ) : (
                 <OnboardingForm onAthleteCreated={handleAthleteCreated} />
               )
             } 
