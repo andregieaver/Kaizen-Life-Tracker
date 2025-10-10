@@ -501,6 +501,15 @@ class AICoachService:
         self.api_key = os.environ.get('EMERGENT_LLM_KEY')
         if not self.api_key:
             raise ValueError("EMERGENT_LLM_KEY not found in environment variables")
+        
+        # Initialize Tavily client for web search
+        self.tavily_api_key = os.environ.get('TAVILY_API_KEY')
+        if self.tavily_api_key:
+            self.tavily_client = TavilyClient(api_key=self.tavily_api_key)
+            logging.info("Tavily client initialized for web search")
+        else:
+            self.tavily_client = None
+            logging.warning("TAVILY_API_KEY not found - web search disabled")
     
     async def get_memories(self, athlete_id: str) -> Dict[str, List[Dict]]:
         """Get athlete memories organized by category"""
