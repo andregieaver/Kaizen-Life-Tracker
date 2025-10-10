@@ -92,6 +92,17 @@ class JournalEntry(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
+class NutritionEntry(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    meal_type: str  # 'breakfast', 'lunch', 'dinner', 'snack'
+    description: str
+    image_data: Optional[str] = None  # Base64 encoded image
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
 class AthleteUpdate(BaseModel):
     name: Optional[str] = None
     email: Optional[str] = None
