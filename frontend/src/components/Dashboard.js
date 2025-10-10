@@ -32,8 +32,8 @@ const Dashboard = ({ athleteId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-  // Determine active tab from URL, default to overview
-  const activeTab = tab || 'overview';
+  // Determine active tab from URL, default to connections for integration hub
+  const activeTab = tab || 'connections';
 
   useEffect(() => {
     loadDashboardData();
