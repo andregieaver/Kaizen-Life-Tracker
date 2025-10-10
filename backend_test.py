@@ -2349,6 +2349,121 @@ def run_all_tests():
     
     return all_test_results
 
+def test_enhanced_training_calendar_comprehensive(athlete_id):
+    """Comprehensive test of enhanced Training Calendar API with workout metrics"""
+    print("🏃‍♂️ ENHANCED TRAINING CALENDAR COMPREHENSIVE TEST")
+    print("-" * 60)
+    
+    test_results = []
+    created_block_ids = []
+    
+    # Test 1: Create 5K Morning Run
+    success, block_id = test_enhanced_training_calendar_create_5k_morning_run(athlete_id)
+    test_results.append(("Create 5K Morning Run", success))
+    if block_id: created_block_ids.append(block_id)
+    
+    # Test 2: Create Track Intervals
+    success, block_id = test_enhanced_training_calendar_create_track_intervals(athlete_id)
+    test_results.append(("Create Track Intervals", success))
+    if block_id: created_block_ids.append(block_id)
+    
+    # Test 3: Create Long Run
+    success, block_id = test_enhanced_training_calendar_create_long_run(athlete_id)
+    test_results.append(("Create Long Run", success))
+    if block_id: created_block_ids.append(block_id)
+    
+    # Test 4: Create Recovery Run
+    success, block_id = test_enhanced_training_calendar_create_recovery_run(athlete_id)
+    test_results.append(("Create Recovery Run", success))
+    if block_id: created_block_ids.append(block_id)
+    
+    # Test 5: Get blocks with enhanced metrics
+    success, blocks = test_enhanced_training_calendar_get_with_metrics(athlete_id)
+    test_results.append(("Get blocks with enhanced metrics", success))
+    
+    # Test 6: Update block with enhanced metrics
+    if created_block_ids:
+        success = test_enhanced_training_calendar_update_with_metrics(created_block_ids[0])
+        test_results.append(("Update block with enhanced metrics", success))
+    
+    # Test 7: Weekly summary endpoint
+    success, summary_data = test_enhanced_training_calendar_weekly_summary(athlete_id)
+    test_results.append(("Weekly summary endpoint", success))
+    
+    # Test 8: Delete functionality
+    if created_block_ids:
+        success = test_enhanced_training_calendar_delete_block(created_block_ids[-1])
+        test_results.append(("Delete block functionality", success))
+    
+    # Summary of enhanced training calendar tests
+    print()
+    print("📊 ENHANCED TRAINING CALENDAR TEST SUMMARY")
+    print("-" * 50)
+    
+    passed = sum(1 for _, success in test_results if success)
+    total = len(test_results)
+    
+    for test_name, success in test_results:
+        status = "✅ PASS" if success else "❌ FAIL"
+        print(f"{status} {test_name}")
+    
+    print(f"\n📈 Enhanced Training Calendar Success Rate: {(passed/total)*100:.1f}% ({passed}/{total})")
+    
+    return test_results
+
+def run_enhanced_training_calendar_tests():
+    """Run enhanced Training Calendar API tests as requested in review"""
+    print("🔍 ENHANCED TRAINING CALENDAR TESTING (Review Request)")
+    print("=" * 80)
+    print("Testing enhanced Training Calendar backend API with new workout metrics fields")
+    print("Focus: distance, duration_minutes, pace_per_unit, intervals, unit_system, workout_type")
+    print("Using existing test user: andre@example.com")
+    print("-" * 80)
+    
+    enhanced_test_results = []
+    
+    # Test 1: Get empty training blocks (authentication)
+    print("\n1. AUTHENTICATION & EMPTY STATE:")
+    result, athlete_id = test_training_calendar_get_empty()
+    enhanced_test_results.append(("GET training blocks (empty)", result))
+    
+    if not result or not athlete_id:
+        print("❌ Cannot continue - failed to get athlete_id or endpoint failed")
+        return enhanced_test_results
+    
+    # Test 2: Run comprehensive enhanced tests
+    print("\n2. ENHANCED TRAINING CALENDAR COMPREHENSIVE TESTS:")
+    enhanced_results = test_enhanced_training_calendar_comprehensive(athlete_id)
+    enhanced_test_results.extend(enhanced_results)
+    
+    # Summary
+    print("\n" + "=" * 80)
+    print("🔍 ENHANCED TRAINING CALENDAR TEST SUMMARY")
+    print("=" * 80)
+    
+    passed = sum(1 for _, success in enhanced_test_results if success)
+    failed = sum(1 for _, success in enhanced_test_results if not success)
+    
+    for test_name, success in enhanced_test_results:
+        status = "✅ PASS" if success else "❌ FAIL"
+        print(f"{status} {test_name}")
+    
+    print(f"\nTotal Enhanced Training Calendar Tests: {len(enhanced_test_results)}")
+    print(f"Passed: {passed}")
+    print(f"Failed: {failed}")
+    print(f"Success Rate: {(passed/len(enhanced_test_results)*100):.1f}%")
+    
+    print("\n🔍 ENHANCED FEATURES TESTED:")
+    print("• 5K Morning Run (distance=3.1, duration_minutes=22, pace_per_unit='7:05', unit_system='miles')")
+    print("• Track Intervals (workout_type='intervals', intervals=8, interval_distance=0.25, interval_pace='6:00', rest_duration=90)")
+    print("• Long Run (distance=10.0, duration_minutes=75, pace_per_unit='7:30', unit_system='miles')")
+    print("• Recovery Run (distance=3.0, duration_minutes=25, workout_type='recovery')")
+    print("• Weekly Summary Calculations (total_distance, total_duration, workout_count)")
+    print("• Enhanced CRUD operations with new metrics")
+    print("• Data validation and persistence")
+    
+    return enhanced_test_results
+
 if __name__ == "__main__":
     # Check command line arguments for specific test suites
     if len(sys.argv) > 1:
@@ -2362,24 +2477,30 @@ if __name__ == "__main__":
             training_results = run_training_calendar_tests()
             failed_count = sum(1 for _, success in training_results if not success)
             sys.exit(failed_count)
+        elif sys.argv[1] == "--enhanced-training-calendar":
+            print("🎯 Running ENHANCED TRAINING CALENDAR TESTS ONLY (as per review request)")
+            enhanced_results = run_enhanced_training_calendar_tests()
+            failed_count = sum(1 for _, success in enhanced_results if not success)
+            sys.exit(failed_count)
         else:
-            print("Available options: --oura-only, --training-calendar-only")
+            print("Available options: --oura-only, --training-calendar-only, --enhanced-training-calendar")
             sys.exit(1)
     else:
-        # Run all tests including Oura credentials tests
-        print("🎯 Running COMPREHENSIVE BACKEND TESTS + OURA CREDENTIALS TESTS")
+        # Run enhanced training calendar tests as primary focus
+        print("🎯 Running ENHANCED TRAINING CALENDAR TESTS (PRIMARY FOCUS)")
         
-        # First run Oura credentials tests
-        print("\n" + "🔍" * 20 + " OURA CREDENTIALS FOCUS " + "🔍" * 20)
-        oura_results = run_oura_credentials_tests()
+        # Run enhanced training calendar tests
+        print("\n" + "🏃‍♂️" * 15 + " ENHANCED TRAINING CALENDAR FOCUS " + "🏃‍♂️" * 15)
+        enhanced_results = run_enhanced_training_calendar_tests()
         
-        # Then run all other tests
-        print("\n" + "🚀" * 20 + " COMPREHENSIVE BACKEND TESTS " + "🚀" * 20)
+        # Then run supporting tests
+        print("\n" + "🚀" * 15 + " SUPPORTING BACKEND TESTS " + "🚀" * 15)
         test_results = run_all_tests()
         
         # Combine results
-        all_results = oura_results + test_results
+        all_results = enhanced_results + test_results
         failed_count = sum(1 for _, success in all_results if not success)
         
         print(f"\n🎯 FINAL SUMMARY: {len(all_results)} total tests, {failed_count} failed")
+        print("🔍 PRIMARY FOCUS: Enhanced Training Calendar with workout metrics")
         sys.exit(failed_count)
