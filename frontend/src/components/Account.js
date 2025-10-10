@@ -888,14 +888,30 @@ const Account = ({ athleteId }) => {
                         <span>Custom schedules</span>
                       </li>
                     </ul>
-                    <Button 
-                      className="w-full" 
-                      variant="default"
-                      onClick={() => handleUpgrade('pro', 'monthly')}
-                      disabled={subscriptionStatus.tier === 'pro' || subscriptionStatus.tier === 'premium'}
-                    >
-                      {subscriptionStatus.tier === 'pro' ? 'Current Plan' : 'Upgrade to Pro'}
-                    </Button>
+                    {subscriptionStatus.tier === 'free' ? (
+                      <Button 
+                        className="w-full" 
+                        variant="default"
+                        onClick={() => handleUpgrade('pro', 'monthly')}
+                      >
+                        Upgrade to Pro
+                      </Button>
+                    ) : subscriptionStatus.tier === 'pro' ? (
+                      <Button className="w-full" variant="outline" disabled>
+                        Current Plan
+                      </Button>
+                    ) : (
+                      <Button 
+                        className="w-full" 
+                        variant="outline"
+                        onClick={() => {
+                          setDowngradeTarget('pro_monthly');
+                          setShowDowngradeDialog(true);
+                        }}
+                      >
+                        Downgrade to Pro
+                      </Button>
+                    )}
                   </div>
 
                   {/* Premium Plan */}
