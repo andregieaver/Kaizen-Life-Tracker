@@ -396,7 +396,10 @@ const TestsAnalytics = ({ athleteId }) => {
                             border: '1px solid #e5e7eb',
                             borderRadius: '6px'
                           }}
-                          formatter={(value) => [formatValue(value, unit), getUnitLabel(unit)]}
+                          formatter={(value) => [
+                            formatValue(value, isDistanceTest ? 'time' : unit), 
+                            isDistanceTest ? 'Time' : getUnitLabel(unit)
+                          ]}
                         />
                         <Legend />
                         <Line 
