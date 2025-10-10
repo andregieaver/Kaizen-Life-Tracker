@@ -1501,6 +1501,176 @@ async def get_invoices(athlete_id: str):
         # Return empty list on error instead of failing
         return {"invoices": []}
 
+@api_router.post("/subscriptions/cancel")
+async def cancel_subscription(request: dict):
+    """Cancel a user's subscription"""
+    import stripe
+    
+    athlete_id = request.get("athlete_id")
+    if not athlete_id:
+        raise HTTPException(status_code=400, detail="athlete_id is required")
+    
+    # Get athlete
+    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    if not athlete:
+        raise HTTPException(status_code=404, detail="Athlete not found")
+    
+    stripe_subscription_id = athlete.get("stripe_subscription_id")
+    if not stripe_subscription_id:
+        raise HTTPException(status_code=400, detail="No active subscription found")
+    
+    # Get Stripe API key
+    stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
+    if not stripe_secret_key:
+        raise HTTPException(status_code=500, detail="Stripe not configured")
+    
+    stripe.api_key = stripe_secret_key
+    
+    try:
+        # Cancel the subscription at period end (not immediately)
+        subscription = stripe.Subscription.modify(
+            stripe_subscription_id,
+            cancel_at_period_end=True
+        )
+        
+        # Update athlete profile
+        await db.athlete_profiles.update_one(
+            {"id": athlete_id},
+            {"$set": {
+                "subscription_status": "canceling",
+                "subscription_cancel_at": subscription.cancel_at
+            }}
+        )
+        
+        return {
+            "success": True,
+            "message": "Subscription will be canceled at the end of the current billing period",
+            "cancel_at": subscription.cancel_at
+        }
+    except Exception as e:
+        logging.error(f"Error canceling subscription: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to cancel subscription: {str(e)}")
+
+@api_router.post("/subscriptions/update-plan")
+async def update_subscription_plan(request: dict):
+    """Update (downgrade or upgrade) a subscription plan"""
+    import stripe
+    
+    athlete_id = request.get("athlete_id")
+    new_plan_id = request.get("new_plan_id")  # e.g., 'pro_monthly', 'premium_annual'
+    
+    if not athlete_id or not new_plan_id:
+        raise HTTPException(status_code=400, detail="athlete_id and new_plan_id are required")
+    
+    if new_plan_id not in SUBSCRIPTION_PLANS:
+        raise HTTPException(status_code=400, detail="Invalid plan ID")
+    
+    # Get athlete
+    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    if not athlete:
+        raise HTTPException(status_code=404, detail="Athlete not found")
+    
+    stripe_subscription_id = athlete.get("stripe_subscription_id")
+    if not stripe_subscription_id:
+        raise HTTPException(status_code=400, detail="No active subscription found")
+    
+    # Get Stripe API key
+    stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
+    if not stripe_secret_key:
+        raise HTTPException(status_code=500, detail="Stripe not configured")
+    
+    stripe.api_key = stripe_secret_key
+    
+    try:
+        # Get current subscription
+        subscription = stripe.Subscription.retrieve(stripe_subscription_id)
+        
+        # Get or create new price ID
+        new_plan = SUBSCRIPTION_PLANS[new_plan_id]
+        new_price_id = await get_or_create_stripe_price(new_plan_id, new_plan, stripe_secret_key)
+        
+        # Update subscription with new price
+        updated_subscription = stripe.Subscription.modify(
+            stripe_subscription_id,
+            items=[{
+                'id': subscription['items']['data'][0].id,
+                'price': new_price_id,
+            }],
+            proration_behavior='create_prorations'  # Prorate charges
+        )
+        
+        # Update athlete profile
+        period_days = 30 if new_plan["interval"] == "month" else 365
+        period_end = datetime.now(timezone.utc) + timedelta(days=period_days)
+        
+        await db.athlete_profiles.update_one(
+            {"id": athlete_id},
+            {"$set": {
+                "subscription_tier": new_plan["tier"],
+                "subscription_status": "active",
+                "subscription_current_period_end": period_end.isoformat()
+            }}
+        )
+        
+        return {
+            "success": True,
+            "message": f"Subscription updated to {new_plan['tier']} plan",
+            "new_tier": new_plan["tier"]
+        }
+    except Exception as e:
+        logging.error(f"Error updating subscription: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to update subscription: {str(e)}")
+
+@api_router.post("/subscriptions/downgrade-to-free")
+async def downgrade_to_free(request: dict):
+    """Downgrade subscription to free plan (cancel subscription)"""
+    import stripe
+    
+    athlete_id = request.get("athlete_id")
+    if not athlete_id:
+        raise HTTPException(status_code=400, detail="athlete_id is required")
+    
+    # Get athlete
+    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    if not athlete:
+        raise HTTPException(status_code=404, detail="Athlete not found")
+    
+    stripe_subscription_id = athlete.get("stripe_subscription_id")
+    if not stripe_subscription_id:
+        # Already on free plan
+        return {"success": True, "message": "Already on free plan"}
+    
+    # Get Stripe API key
+    stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
+    if not stripe_secret_key:
+        raise HTTPException(status_code=500, detail="Stripe not configured")
+    
+    stripe.api_key = stripe_secret_key
+    
+    try:
+        # Cancel the subscription at period end
+        subscription = stripe.Subscription.modify(
+            stripe_subscription_id,
+            cancel_at_period_end=True
+        )
+        
+        # Update athlete profile - keep tier until period ends
+        await db.athlete_profiles.update_one(
+            {"id": athlete_id},
+            {"$set": {
+                "subscription_status": "canceling"
+            }}
+        )
+        
+        return {
+            "success": True,
+            "message": "You will be downgraded to free plan at the end of your current billing period",
+            "downgrade_at": subscription.cancel_at
+        }
+    except Exception as e:
+        logging.error(f"Error downgrading to free: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to downgrade: {str(e)}")
+
 @api_router.post("/webhooks/stripe")
 async def stripe_webhook(request: Request):
     """Handle Stripe webhooks"""
