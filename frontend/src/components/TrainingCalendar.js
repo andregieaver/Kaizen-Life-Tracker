@@ -79,14 +79,26 @@ const TrainingCalendar = ({ athleteId }) => {
     }
   };
 
-  const handleCreateBlock = () => {
+  const handleCreateBlock = (slotInfo = null) => {
+    const startDate = slotInfo ? moment(slotInfo.start).format('YYYY-MM-DD') : moment(selectedDate).format('YYYY-MM-DD');
+    const endDate = slotInfo ? moment(slotInfo.end).subtract(1, 'day').format('YYYY-MM-DD') : startDate;
+    
     setEditingBlock(null);
     setFormData({
       title: '',
       description: '',
       block_type: 'training',
-      start_date: format(selectedDate, 'yyyy-MM-dd'),
-      end_date: format(selectedDate, 'yyyy-MM-dd')
+      workout_type: 'run',
+      start_date: startDate,
+      end_date: endDate,
+      distance: '',
+      duration_minutes: '',
+      pace_per_unit: '',
+      intervals: '',
+      interval_distance: '',
+      interval_pace: '',
+      rest_duration: '',
+      unit_system: 'miles'
     });
     setIsDialogOpen(true);
   };
@@ -97,8 +109,17 @@ const TrainingCalendar = ({ athleteId }) => {
       title: block.title,
       description: block.description || '',
       block_type: block.block_type,
+      workout_type: block.workout_type || 'run',
       start_date: block.start_date,
-      end_date: block.end_date
+      end_date: block.end_date,
+      distance: block.distance || '',
+      duration_minutes: block.duration_minutes || '',
+      pace_per_unit: block.pace_per_unit || '',
+      intervals: block.intervals || '',
+      interval_distance: block.interval_distance || '',
+      interval_pace: block.interval_pace || '',
+      rest_duration: block.rest_duration || '',
+      unit_system: block.unit_system || 'miles'
     });
     setIsDialogOpen(true);
   };
