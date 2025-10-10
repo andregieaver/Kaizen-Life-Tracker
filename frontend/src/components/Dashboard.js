@@ -11,7 +11,7 @@ import ReadinessCard from './ReadinessCard';
 import CoachChat from './CoachChat';
 import Recommendations from './Recommendations';
 import WorkoutHistory from './WorkoutHistory';
-import Account from './AccountSimplified';
+import Account from './Account';
 import Merits from './Merits';
 import Journal from './Journal';
 import Nutrition from './Nutrition';
