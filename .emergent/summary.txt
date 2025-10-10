@@ -1,77 +1,58 @@
 <analysis>
-The previous AI engineer significantly expanded the running coach application. Initial efforts involved thorough UI/UX enhancements, core CRUD operations, and foundational component setup. A major focus was implementing robust multi-language support using , translating numerous UI elements, and integrating password reset functionality. Critically, integrations with Strava and Oura were transitioned from hardcoded API keys to secure user-input credential modals, coupled with necessary backend database field corrections. Subsequent work concentrated on a comprehensive Stripe subscription system, including a pricing page, in-app management (upgrade, downgrade, cancel, resubscribe, billing cycle changes, invoice listing), and robust backend endpoints. Most recently, the UI was refactored to include a slideout hamburger menu, and new modules for Journaling, Nutrition logging (with image upload), and Training Calendar management have been initiated, with backend endpoints for the latter being the immediate last action.
+The previous AI engineer performed significant work on the running coach application. Initially, core features like UI/UX, CRUD, multi-language support, password reset, and secure third-party integrations (Strava/Oura) were established. A major phase involved implementing a comprehensive Stripe subscription system. Subsequently, the UI was refactored with a slideout menu, and new modules for Journaling, Nutrition, and Training Calendar were initiated. The Training Calendar feature saw extensive development, including detailed workout tracking, week/month views, and a weekly summary column. A significant pivot was attempted to transform the app into a Strava-style integration hub, which was later reverted at the user's request. The focus then shifted to simplifying existing third-party integrations within the original app's Account settings. Currently, the AI is enhancing the Account settings with new personal information fields (Height, Weight, VO2Max) and a dedicated Preferences section (unit selectors, week start, timezone, time format, and language selector). This trajectory demonstrates adaptability, addressing both new feature development and architectural shifts.
 </analysis>
 
 <product_requirements>
-The application functions as a cross-platform (web-based) running coach, acting as an athlete's data vault to provide wise, practical guidance. It integrates with fitness trackers (Strava, Garmin, Oura, Coros) for a unified data timeline, nutrition logging, daily readiness scores, weekly training plans, and post-workout feedback. Core features include an AI coach for chat-based analysis, history browsing, custom insights, data export, and privacy management.
-
-Implemented features include:
-- An AI Coach powered by Claude and OpenAI, with conversation history and Markdown.
-- User authentication (login, registration, logout), password reset, and multi-language support.
-- User account management with configurable OpenAI API keys and user-input credentials for Strava, Oura, and Coros.
-- Responsive UI with a mobile-friendly bottom navigation and a new slideout hamburger menu.
-- A Schedules section for automated AI analysis prompts.
-- Reports (formerly Recommendations) for AI insights and a Merits section for personal records.
-- Comprehensive subscription system with pricing page, in-app plan management (upgrade, downgrade, cancel, resubscribe, billing cycle changes), invoice listing, and Stripe integration.
-- New modules for Journaling (text/voice entry) and Nutrition logging (text/image entry), with a Training Calendar under development.
+The application is a web-based running coach, serving as an athlete's data vault for wise, practical guidance. It integrates with fitness trackers (Strava, Oura, Coros) for a unified data timeline, nutrition logging, daily readiness, training plans, and AI-powered post-workout feedback. Key features include an AI coach (Claude/OpenAI), user authentication, account management (API keys, user-input credentials), responsive UI with a slideout menu, scheduled AI analysis prompts, Reports for insights, and Merits for personal records. A comprehensive Stripe subscription system, journaling, and nutrition logging are implemented. The Training Calendar is being developed to include detailed workout metrics (distance, duration, pace, intervals) and weekly summaries, with customizable preferences for units, week start, timezone, and time format. The user also requested simplified third-party integration setup within the Account page.
 </product_requirements>
 
 <key_technical_concepts>
 - **Full-stack:** React (frontend), FastAPI (backend), MongoDB (database).
-- **AI/LLM:** Claude, OpenAI, Emergent LLM Key.
-- **Integrations:** Strava OAuth, Oura (via Terra API), Stripe for subscriptions,  for password hashing,  (initially for Stripe, later customized).
-- **UI:** Shadcn UI, Tailwind CSS, Radix UI,  for charting.
+- **Integrations:** Strava OAuth, Oura (Terra API), Stripe for subscriptions, Emergent LLM Key.
+- **UI:** Shadcn UI, Tailwind CSS, Radix UI, , .
 - **Internationalization:** .
+- **Data Models:** Pydantic for API schemas.
 </key_technical_concepts>
 
 <code_architecture>
 
--   : Core FastAPI application.
-    -   **Importance**: Handles all API logic, database interactions, authentication, integrations, and now subscription management.
-    -   **Changes**: Added password reset endpoints. Modified Strava/Oura integration for user-provided credentials. Implemented comprehensive Stripe subscription endpoints (, , , , , , , , , ). Added Pydantic models for , , , , . Updated  with subscription and integration fields. Fixed multiple Stripe-related import and logic issues.
--   : Environment variables for backend.
-    -   **Importance**: Stores sensitive API keys and database configuration.
-    -   **Changes**: Added , . Removed hardcoded Strava/Oura client secrets.
--   : Python dependencies.
-    -   **Importance**: Lists all Python packages required for the backend.
-    -   **Changes**: Added  and .
--   : Central React routing and context.
-    -   **Importance**: Defines the application's URL structure and top-level components.
-    -   **Changes**: Added new routes for , , , , .
--   : User account settings.
-    -   **Importance**: Manages user profile, integrations, and now subscription.
-    -   **Changes**: Extensively refactored for Stripe integration: added Subscriptions tab, implemented fetching/displaying subscription status, upgrade/downgrade/cancel/resubscribe functionality, billing cycle change, invoice listing. Incorporated , removed Weekly Mileage/Recent Race Time, replaced Change Password with component. Fixed numerous untranslated strings. Added icon imports (, ). Removed Stripe portal links in favor of in-app management.
--   : Main application dashboard.
-    -   **Importance**: Orchestrates various dashboard features and navigation.
-    -   **Changes**: Refactored header to replace RunWisely with My Health Tracker. Implemented a hamburger menu and slideout drawer (,  components), moving the account link to the slideout and adjusting mobile navigation. Added Journal and Nutrition as new tabs and integrated their components. Adjusted z-index for slideout menu.
--    (new file): Displays subscription plans.
-    -   **Importance**: Provides UI for users to view and select subscription tiers.
-    -   **Changes**: Implemented monthly/annual billing toggle. Integrated with Stripe checkout for initiating subscriptions. Fetches  from .
--    (new file): Journal entry page.
-    -   **Importance**: Allows users to log journal entries via text or voice.
--    (new file): Nutrition logging page.
-    -   **Importance**: Enables users to log food/drink intake, including image uploads.
--   : Environment variables for frontend.
-    -   **Importance**: Stores non-sensitive configuration for the frontend.
-    -   **Changes**: Added .
--   : Translation files.
-    -   **Importance**: Stores translated strings for i18n.
-    -   **Changes**: Updated  and other language files with new keys for subscription, modal texts, and removed .
+- : The core FastAPI backend.
+    - **Importance**: Handles API logic, database interactions, authentication, integrations, and subscription/training management.
+    - **Changes**: Extended  model with detailed workout metrics. Added  endpoint. Added , , , ,  Pydantic models for the integration hub (which were later adapted for re-use after the pivot). Updated  with , , , , , , , .
+- : Central React routing.
+    - **Importance**: Defines main application routes.
+    - **Changes**: Temporarily redirected  to  during the hub pivot, then reverted.
+- : Main dashboard component.
+    - **Importance**: Orchestrates navigation, global layout, and main content rendering.
+    - **Changes**: Refactored for slideout menu. Added , ,  tabs/content. Updated  to  for full-width layout. Temporarily changed navigation for hub pivot, then reverted. Default tab logic was adjusted and then reverted to .
+- : User account settings.
+    - **Importance**: Manages user profile, subscriptions, and integrations.
+    - **Changes**: Refactored for Stripe. Simplified during hub pivot attempt, then restored. Currently being updated to include new Personal Information fields (height, weight, VO2Max) and a Preferences section (unit/time settings, week start, language selector). Implemented a Connected Apps section for simplified third-party integration.
+- : Training calendar UI.
+    - **Importance**: Displays and manages training blocks, now with detailed workout tracking.
+    - **Changes**: Rewritten to use . Implemented week view, Add Workout modal with detailed metrics (distance, duration, pace, intervals), delete functionality within the edit dialog, and a . Removed internal width constraints.
+-  (new file): Styles for .
+    - **Importance**: Provides custom styling for the calendar component.
+- : English translations.
+    - **Importance**: Stores English strings for internationalization.
+    - **Changes**: Added keys for Training Calendar features and updated existing ones.
+- : Frontend dependencies.
+    - **Importance**: Lists all React packages.
+    - **Changes**: Added , , .
 </code_architecture>
 
 <pending_tasks>
 - Develop the backend logic for processing scheduled prompts and generating AI recommendations.
 - Implement the display of generated recommendations on the Reports page.
 - User still needs to provide Oura API Client ID and Client Secret via the Oura Credentials Modal in the UI.
-- Implement the frontend UI for the Training Calendar component.
 - Implement image upload and camera capture functionality for the Nutrition page.
 - Implement voice recording functionality for the Journal page.
 </pending_tasks>
 
 <current_work>
-Immediately before this summary request, the AI engineer was implementing the Training Calendar feature. This involved setting up the backend with the necessary data models and API endpoints. Specifically, the  file was modified to include  and  Pydantic models, and new API routes were added for  to handle the creation, editing, and deletion of training and recovery blocks. The last action performed was restarting the backend to apply these new schema and endpoint changes. The frontend component and its integration into the UI (e.g., as a new tab in the Dashboard and a link in the slideout menu) are the next logical steps for this feature.
+Immediately before this summary request, the AI engineer was implementing additional personal information fields and a new Preferences section within the Account settings. The backend  file has been updated to extend the  and  Pydantic models with new fields: , ,  for personal information, and , , , ,  for preferences. The backend was restarted to apply these model changes. On the frontend, the  component is being modified. The Personal Information tab is being updated to include Height, Weight, and VO2 Max input fields. A new Preferences tab has been added to the tab list, and the AI is in the process of populating its content with selectors for mileage/km, metric/imperial, week start day, timezone, and time format, also moving the existing language selector into this new section. The immediate next step is to address missing component imports for these new preference fields.
 </current_work>
 
 <optional_next_step>
-Create the frontend component for the Training Calendar and integrate it into the Dashboard UI.
+Import the , , , ,  components and other necessary UI components into .
 </optional_next_step>
