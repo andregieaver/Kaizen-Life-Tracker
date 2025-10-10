@@ -1257,7 +1257,8 @@ const Account = ({ athleteId }) => {
                       measurement_system: athlete?.measurement_system || 'imperial',
                       week_starts_on: athlete?.week_starts_on || 'monday',
                       timezone: athlete?.timezone || 'UTC',
-                      time_format: athlete?.time_format || '12h'
+                      time_format: athlete?.time_format || '12h',
+                      date_format: athlete?.date_format || 'MM/DD/YYYY'
                     })}
                   >
                     Reset
