@@ -141,7 +141,12 @@ const TrainingCalendar = ({ athleteId }) => {
     try {
       const data = {
         ...formData,
-        athlete_id: athleteId
+        athlete_id: athleteId,
+        distance: formData.distance ? parseFloat(formData.distance) : null,
+        duration_minutes: formData.duration_minutes ? parseInt(formData.duration_minutes) : null,
+        intervals: formData.intervals ? parseInt(formData.intervals) : null,
+        interval_distance: formData.interval_distance ? parseFloat(formData.interval_distance) : null,
+        rest_duration: formData.rest_duration ? parseInt(formData.rest_duration) : null
       };
 
       if (editingBlock) {
@@ -152,14 +157,24 @@ const TrainingCalendar = ({ athleteId }) => {
 
       setIsDialogOpen(false);
       await loadTrainingBlocks();
+      await loadWeeklySummary();
       
       // Reset form
       setFormData({
         title: '',
         description: '',
         block_type: 'training',
+        workout_type: 'run',
         start_date: '',
-        end_date: ''
+        end_date: '',
+        distance: '',
+        duration_minutes: '',
+        pace_per_unit: '',
+        intervals: '',
+        interval_distance: '',
+        interval_pace: '',
+        rest_duration: '',
+        unit_system: 'miles'
       });
     } catch (error) {
       console.error('Error saving training block:', error);
