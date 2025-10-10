@@ -446,7 +446,7 @@ const CoachChat = ({ athleteId }) => {
 
       {/* Message Input - Fixed at Bottom on Mobile, aligned with nav bar */}
       <div className="fixed md:relative bottom-16 md:bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:border-t-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <form onSubmit={sendMessage} className="flex space-x-3">
             <Input
               ref={inputRef}
