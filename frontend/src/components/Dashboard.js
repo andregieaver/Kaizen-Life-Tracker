@@ -244,6 +244,20 @@ const Dashboard = ({ athleteId }) => {
                   <Utensils className="w-5 h-5" />
                   <span className="font-medium">Nutrition</span>
                 </button>
+                <button
+                  onClick={() => {
+                    navigate('/dashboard/calendar');
+                    setIsMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    activeTab === 'calendar'
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <Calendar className="w-5 h-5" />
+                  <span className="font-medium">Training Calendar</span>
+                </button>
               </nav>
             </div>
 
