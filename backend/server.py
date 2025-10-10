@@ -2012,6 +2012,61 @@ async def delete_nutrition_entry(entry_id: str):
     
     return {"success": True}
 
+# Document routes
+@api_router.get("/documents/{athlete_id}")
+async def get_documents(athlete_id: str, category: Optional[str] = None):
+    """Get all documents for an athlete, optionally filtered by category"""
+    query = {"athlete_id": athlete_id}
+    if category:
+        query["category"] = category
+    
+    documents = await db.documents.find(
+        query,
+        {"_id": 0}
+    ).sort("created_at", -1).to_list(length=None)
+    
+    return {"documents": [parse_from_mongo(doc) for doc in documents]}
+
+@api_router.post("/documents")
+async def create_document(document: Document):
+    """Create a new document"""
+    document_dict = prepare_for_mongo(document.model_dump())
+    await db.documents.insert_one(document_dict)
+    return {"success": True, "id": document.id}
+
+@api_router.put("/documents/{document_id}")
+async def update_document(document_id: str, data: dict):
+    """Update a document"""
+    update_data = {
+        "title": data.get("title"),
+        "category": data.get("category"),
+        "description": data.get("description"),
+        "updated_at": datetime.now(timezone.utc).isoformat()
+    }
+    
+    # Remove None values
+    update_data = {k: v for k, v in update_data.items() if v is not None}
+    
+    result = await db.documents.update_one(
+        {"id": document_id},
+        {"$set": update_data}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Document not found")
+    
+    return {"success": True}
+
+@api_router.delete("/documents/{document_id}")
+async def delete_document(document_id: str):
+    """Delete a document"""
+    result = await db.documents.delete_one({"id": document_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Document not found")
+    
+    return {"success": True}
+
 # Training Calendar routes
 @api_router.get("/training-calendar/{athlete_id}")
 async def get_training_blocks(athlete_id: str):
