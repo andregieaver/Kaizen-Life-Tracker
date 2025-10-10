@@ -924,13 +924,23 @@ const Account = ({ athleteId }) => {
                     Resubscribe
                   </Button>
                 ) : (
-                  <Button 
-                    className="w-full" 
-                    variant="outline"
-                    onClick={() => setShowCancelDialog(true)}
-                  >
-                    Cancel Subscription
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button 
+                      className="flex-1" 
+                      variant="outline"
+                      onClick={() => setShowBillingCycleDialog(true)}
+                    >
+                      <Repeat className="w-4 h-4 mr-2" />
+                      {currentBillingCycle === 'monthly' ? 'Switch to Annual' : 'Switch to Monthly'}
+                    </Button>
+                    <Button 
+                      className="flex-1" 
+                      variant="outline"
+                      onClick={() => setShowCancelDialog(true)}
+                    >
+                      Cancel Subscription
+                    </Button>
+                  </div>
                 )}
               </CardContent>
             </Card>
