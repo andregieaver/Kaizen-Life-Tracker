@@ -1133,7 +1133,11 @@ const Account = ({ athleteId }) => {
                       <Button 
                         className="w-full" 
                         variant="default"
-                        onClick={() => handleUpgrade('premium', 'monthly')}
+                        onClick={() => {
+                          setUpgradeTarget('premium');
+                          setSelectedBillingCycle('monthly');
+                          setShowUpgradeDialog(true);
+                        }}
                       >
                         {subscriptionStatus.tier === 'free' ? 'Upgrade to Premium' : 'Upgrade to Premium'}
                       </Button>
