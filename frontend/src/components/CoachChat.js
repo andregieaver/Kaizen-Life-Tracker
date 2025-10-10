@@ -177,7 +177,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
   // Load past conversations
   const loadConversations = async () => {
     try {
-      const response = await axios.get(`${API}/coach/conversations/${athleteId}`);
+      const response = await axios.get(`${API}/coach/conversations/${athleteId}?archived=false`);
       setConversations(response.data);
     } catch (error) {
       console.error('Failed to load conversations:', error);
