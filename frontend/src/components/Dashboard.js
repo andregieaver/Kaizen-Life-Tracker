@@ -329,7 +329,7 @@ const Dashboard = ({ athleteId }) => {
 
       {/* Mobile Bottom Navigation */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
-        <div className="grid grid-cols-5 h-16">
+        <div className="grid grid-cols-4 h-16">
           <button
             onClick={() => navigate('/dashboard')}
             className={`flex flex-col items-center justify-center transition-colors ${
@@ -380,19 +380,6 @@ const Dashboard = ({ athleteId }) => {
           >
             <BarChart3 className="w-5 h-5 mb-1" />
             <span className="text-xs font-medium">{t('nav.history')}</span>
-          </button>
-          
-          <button
-            onClick={() => navigate('/dashboard/account')}
-            className={`flex flex-col items-center justify-center transition-colors ${
-              activeTab === 'account'
-                ? 'text-blue-600 bg-blue-50'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-            }`}
-            data-testid="mobile-account-tab"
-          >
-            <User className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">{t('nav.account')}</span>
           </button>
         </div>
       </nav>
