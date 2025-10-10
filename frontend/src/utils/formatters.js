@@ -68,7 +68,7 @@ export const formatPace = (durationMinutes, distance, unit = 'miles') => {
 };
 
 /**
- * Format date based on user preferences
+ * Format date based on user preferences with custom format
  * @param {string|Date} dateString - Date to format
  * @param {object} preferences - User preferences object
  * @returns {string} - Formatted date string
@@ -76,15 +76,34 @@ export const formatPace = (durationMinutes, distance, unit = 'miles') => {
 export const formatDate = (dateString, preferences = {}) => {
   if (!dateString) return '';
   
-  const { timezone = 'UTC', language = 'en' } = preferences;
+  const { date_format = 'MM/DD/YYYY', timezone = 'UTC' } = preferences;
   
   try {
-    return new Intl.DateTimeFormat(language, {
-      timeZone: timezone,
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    }).format(new Date(dateString));
+    const date = new Date(dateString);
+    
+    // Get date components in the user's timezone
+    const options = { timeZone: timezone };
+    const year = date.toLocaleString('en-US', { ...options, year: 'numeric' });
+    const month = date.toLocaleString('en-US', { ...options, month: '2-digit' });
+    const day = date.toLocaleString('en-US', { ...options, day: '2-digit' });
+    const monthShort = date.toLocaleString('en-US', { ...options, month: 'short' });
+    const monthLong = date.toLocaleString('en-US', { ...options, month: 'long' });
+    
+    // Format based on preference
+    switch (date_format) {
+      case 'MM/DD/YYYY':
+        return `${month}/${day}/${year}`;
+      case 'DD/MM/YYYY':
+        return `${day}/${month}/${year}`;
+      case 'YYYY-MM-DD':
+        return `${year}-${month}-${day}`;
+      case 'MMM DD, YYYY':
+        return `${monthShort} ${day}, ${year}`;
+      case 'DD MMM YYYY':
+        return `${day} ${monthShort} ${year}`;
+      default:
+        return `${month}/${day}/${year}`;
+    }
   } catch (error) {
     // Fallback to simple format if timezone is invalid
     return new Date(dateString).toLocaleDateString();
