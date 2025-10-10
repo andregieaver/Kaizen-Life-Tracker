@@ -397,14 +397,6 @@ const Dashboard = ({ athleteId }) => {
           <WorkoutHistory athleteId={athleteId} />
         )}
 
-        {activeTab === 'connections' && (
-          <Connections athleteId={athleteId} />
-        )}
-
-        {activeTab === 'status' && (
-          <Status athleteId={athleteId} />
-        )}
-
         {activeTab === 'account' && (
           <Account athleteId={athleteId} />
         )}
