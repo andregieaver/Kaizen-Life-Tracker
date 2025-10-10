@@ -1401,16 +1401,37 @@ async def get_checkout_status(session_id: str):
 @api_router.get("/subscriptions/status/{athlete_id}")
 async def get_subscription_status(athlete_id: str):
     """Get athlete's subscription status"""
+    import stripe
+    
     athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
     if not athlete:
         raise HTTPException(status_code=404, detail="Athlete not found")
+    
+    subscription_interval = None
+    stripe_subscription_id = athlete.get("stripe_subscription_id")
+    
+    # If there's an active subscription, get the interval from Stripe
+    if stripe_subscription_id and athlete.get("subscription_tier") != "free":
+        try:
+            stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
+            if stripe_secret_key:
+                stripe.api_key = stripe_secret_key
+                subscription = stripe.Subscription.retrieve(stripe_subscription_id)
+                # Get the interval from the subscription price
+                if subscription.items and subscription.items.data:
+                    price = subscription.items.data[0].price
+                    if price.recurring:
+                        subscription_interval = price.recurring.interval
+        except Exception as e:
+            logging.warning(f"Could not fetch subscription interval: {str(e)}")
     
     return {
         "subscription_tier": athlete.get("subscription_tier", "free"),
         "subscription_status": athlete.get("subscription_status", "active"),
         "stripe_customer_id": athlete.get("stripe_customer_id"),
-        "stripe_subscription_id": athlete.get("stripe_subscription_id"),
-        "subscription_current_period_end": athlete.get("subscription_current_period_end")
+        "stripe_subscription_id": stripe_subscription_id,
+        "subscription_current_period_end": athlete.get("subscription_current_period_end"),
+        "subscription_interval": subscription_interval
     }
 
 @api_router.post("/subscriptions/create-portal-session")
