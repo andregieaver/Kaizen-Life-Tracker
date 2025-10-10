@@ -154,6 +154,7 @@ const Account = ({ athleteId }) => {
     week_starts_on: 'monday',
     timezone: 'UTC',
     time_format: '12h',
+    date_format: 'MM/DD/YYYY',
     language: 'en'
   });
   
