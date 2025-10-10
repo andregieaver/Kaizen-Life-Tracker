@@ -272,7 +272,7 @@ const TrainingCalendar = ({ athleteId }) => {
                 {t('trainingCalendar.addBlock')}
               </Button>
             </DialogTrigger>
-          <DialogContent className="max-w-md">
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
                 {editingBlock 
@@ -288,80 +288,212 @@ const TrainingCalendar = ({ athleteId }) => {
               </DialogDescription>
             </DialogHeader>
             
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="title">{t('trainingCalendar.blockTitle')}</Label>
-                <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => setFormData(prev => ({...prev, title: e.target.value}))}
-                  placeholder={t('trainingCalendar.titlePlaceholder')}
-                  required
-                />
-              </div>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <Tabs defaultValue="basic" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="basic">Basic Details</TabsTrigger>
+                  <TabsTrigger value="workout">Workout Details</TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="basic" className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="title">{t('trainingCalendar.blockTitle')}</Label>
+                    <Input
+                      id="title"
+                      value={formData.title}
+                      onChange={(e) => setFormData(prev => ({...prev, title: e.target.value}))}
+                      placeholder={t('trainingCalendar.titlePlaceholder')}
+                      required
+                    />
+                  </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="block_type">{t('trainingCalendar.blockType')}</Label>
-                <Select 
-                  value={formData.block_type} 
-                  onValueChange={(value) => setFormData(prev => ({...prev, block_type: value}))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder={t('trainingCalendar.selectType')} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="training">
-                      <div className="flex items-center">
-                        <Dumbbell className="w-4 h-4 mr-2" />
-                        {t('trainingCalendar.training')}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="block_type">{t('trainingCalendar.blockType')}</Label>
+                      <Select 
+                        value={formData.block_type} 
+                        onValueChange={(value) => setFormData(prev => ({...prev, block_type: value}))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder={t('trainingCalendar.selectType')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="training">
+                            <div className="flex items-center">
+                              <Dumbbell className="w-4 h-4 mr-2" />
+                              {t('trainingCalendar.training')}
+                            </div>
+                          </SelectItem>
+                          <SelectItem value="recovery">
+                            <div className="flex items-center">
+                              <Heart className="w-4 h-4 mr-2" />
+                              {t('trainingCalendar.recovery')}
+                            </div>
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="workout_type">Workout Type</Label>
+                      <Select 
+                        value={formData.workout_type} 
+                        onValueChange={(value) => setFormData(prev => ({...prev, workout_type: value}))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select workout type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="run">Easy Run</SelectItem>
+                          <SelectItem value="tempo">Tempo Run</SelectItem>
+                          <SelectItem value="intervals">Intervals</SelectItem>
+                          <SelectItem value="long_run">Long Run</SelectItem>
+                          <SelectItem value="recovery">Recovery Run</SelectItem>
+                          <SelectItem value="cross_training">Cross Training</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="start_date">{t('trainingCalendar.startDate')}</Label>
+                      <Input
+                        id="start_date"
+                        type="date"
+                        value={formData.start_date}
+                        onChange={(e) => setFormData(prev => ({...prev, start_date: e.target.value}))}
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="end_date">{t('trainingCalendar.endDate')}</Label>
+                      <Input
+                        id="end_date"
+                        type="date"
+                        value={formData.end_date}
+                        onChange={(e) => setFormData(prev => ({...prev, end_date: e.target.value}))}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="description">{t('trainingCalendar.description')}</Label>
+                    <Textarea
+                      id="description"
+                      value={formData.description}
+                      onChange={(e) => setFormData(prev => ({...prev, description: e.target.value}))}
+                      placeholder={t('trainingCalendar.descriptionPlaceholder')}
+                      rows={3}
+                    />
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="workout" className="space-y-4">
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="distance">Distance</Label>
+                      <Input
+                        id="distance"
+                        type="number"
+                        step="0.1"
+                        value={formData.distance}
+                        onChange={(e) => setFormData(prev => ({...prev, distance: e.target.value}))}
+                        placeholder="5.0"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="duration_minutes">Duration (min)</Label>
+                      <Input
+                        id="duration_minutes"
+                        type="number"
+                        value={formData.duration_minutes}
+                        onChange={(e) => setFormData(prev => ({...prev, duration_minutes: e.target.value}))}
+                        placeholder="30"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="unit_system">Unit System</Label>
+                      <Select 
+                        value={formData.unit_system} 
+                        onValueChange={(value) => setFormData(prev => ({...prev, unit_system: value}))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="miles">Miles</SelectItem>
+                          <SelectItem value="km">Kilometers</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="pace_per_unit">Pace (per {formData.unit_system === 'miles' ? 'mile' : 'km'})</Label>
+                    <Input
+                      id="pace_per_unit"
+                      value={formData.pace_per_unit}
+                      onChange={(e) => setFormData(prev => ({...prev, pace_per_unit: e.target.value}))}
+                      placeholder="7:30"
+                    />
+                  </div>
+
+                  {formData.workout_type === 'intervals' && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="intervals">Number of Intervals</Label>
+                        <Input
+                          id="intervals"
+                          type="number"
+                          value={formData.intervals}
+                          onChange={(e) => setFormData(prev => ({...prev, intervals: e.target.value}))}
+                          placeholder="8"
+                        />
                       </div>
-                    </SelectItem>
-                    <SelectItem value="recovery">
-                      <div className="flex items-center">
-                        <Heart className="w-4 h-4 mr-2" />
-                        {t('trainingCalendar.recovery')}
+
+                      <div className="space-y-2">
+                        <Label htmlFor="interval_distance">Interval Distance</Label>
+                        <Input
+                          id="interval_distance"
+                          type="number"
+                          step="0.1"
+                          value={formData.interval_distance}
+                          onChange={(e) => setFormData(prev => ({...prev, interval_distance: e.target.value}))}
+                          placeholder="0.25"
+                        />
                       </div>
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="start_date">{t('trainingCalendar.startDate')}</Label>
-                  <Input
-                    id="start_date"
-                    type="date"
-                    value={formData.start_date}
-                    onChange={(e) => setFormData(prev => ({...prev, start_date: e.target.value}))}
-                    required
-                  />
-                </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="interval_pace">Interval Pace</Label>
+                        <Input
+                          id="interval_pace"
+                          value={formData.interval_pace}
+                          onChange={(e) => setFormData(prev => ({...prev, interval_pace: e.target.value}))}
+                          placeholder="6:00"
+                        />
+                      </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="end_date">{t('trainingCalendar.endDate')}</Label>
-                  <Input
-                    id="end_date"
-                    type="date"
-                    value={formData.end_date}
-                    onChange={(e) => setFormData(prev => ({...prev, end_date: e.target.value}))}
-                    required
-                  />
-                </div>
-              </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="rest_duration">Rest Duration (sec)</Label>
+                        <Input
+                          id="rest_duration"
+                          type="number"
+                          value={formData.rest_duration}
+                          onChange={(e) => setFormData(prev => ({...prev, rest_duration: e.target.value}))}
+                          placeholder="90"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </TabsContent>
+              </Tabs>
 
-              <div className="space-y-2">
-                <Label htmlFor="description">{t('trainingCalendar.description')}</Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => setFormData(prev => ({...prev, description: e.target.value}))}
-                  placeholder={t('trainingCalendar.descriptionPlaceholder')}
-                  rows={3}
-                />
-              </div>
-
-              <div className="flex justify-end gap-2 pt-4">
+              <div className="flex justify-end gap-2 pt-4 border-t">
                 <Button 
                   type="button" 
                   variant="outline" 
