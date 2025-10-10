@@ -1760,6 +1760,52 @@ async def reactivate_subscription(request: dict):
         logging.error(f"Error reactivating subscription: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to reactivate subscription: {str(e)}")
 
+# Journal routes
+@api_router.get("/journal/{athlete_id}")
+async def get_journal_entries(athlete_id: str):
+    """Get all journal entries for an athlete"""
+    entries = await db.journal_entries.find(
+        {"athlete_id": athlete_id},
+        {"_id": 0}
+    ).sort("created_at", -1).to_list(length=None)
+    
+    return {"entries": [parse_from_mongo(entry) for entry in entries]}
+
+@api_router.post("/journal")
+async def create_journal_entry(entry: JournalEntry):
+    """Create a new journal entry"""
+    entry_dict = prepare_for_mongo(entry.model_dump())
+    await db.journal_entries.insert_one(entry_dict)
+    return {"success": True, "id": entry.id}
+
+@api_router.put("/journal/{entry_id}")
+async def update_journal_entry(entry_id: str, content: dict):
+    """Update a journal entry"""
+    update_data = {
+        "content": content.get("content"),
+        "updated_at": datetime.now(timezone.utc).isoformat()
+    }
+    
+    result = await db.journal_entries.update_one(
+        {"id": entry_id},
+        {"$set": update_data}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Journal entry not found")
+    
+    return {"success": True}
+
+@api_router.delete("/journal/{entry_id}")
+async def delete_journal_entry(entry_id: str):
+    """Delete a journal entry"""
+    result = await db.journal_entries.delete_one({"id": entry_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Journal entry not found")
+    
+    return {"success": True}
+
 @api_router.post("/webhooks/stripe")
 async def stripe_webhook(request: Request):
     """Handle Stripe webhooks"""
