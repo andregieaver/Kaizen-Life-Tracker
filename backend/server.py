@@ -1920,6 +1920,15 @@ async def update_training_block(block_id: str, data: dict):
         "block_type": data.get("block_type"),
         "start_date": data.get("start_date"),
         "end_date": data.get("end_date"),
+        "workout_type": data.get("workout_type"),
+        "distance": data.get("distance"),
+        "duration_minutes": data.get("duration_minutes"),
+        "pace_per_unit": data.get("pace_per_unit"),
+        "intervals": data.get("intervals"),
+        "interval_distance": data.get("interval_distance"),
+        "interval_pace": data.get("interval_pace"),
+        "rest_duration": data.get("rest_duration"),
+        "unit_system": data.get("unit_system", "miles"),
         "updated_at": datetime.now(timezone.utc).isoformat()
     }
     
