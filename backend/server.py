@@ -743,8 +743,46 @@ Return only the JSON array, nothing else.
             logging.error(f"Error retrieving user OpenAI key: {e}")
             return None
     
+    async def search_health_information(self, query: str, category: str = "general") -> Dict:
+        """Search for health, nutrition, or training information using Tavily"""
+        if not self.tavily_client:
+            logging.warning("Tavily search requested but client not initialized")
+            return {"error": "Search functionality not available"}
+        
+        try:
+            logging.info(f"Searching Tavily for: {query} (category: {category})")
+            
+            # Use trusted health domains for more reliable information
+            trusted_domains = []
+            if category == "health":
+                trusted_domains = ["nih.gov", "cdc.gov", "who.int", "mayoclinic.org", "webmd.com", "healthline.com"]
+            elif category == "nutrition":
+                trusted_domains = ["nutrition.gov", "eatright.org", "hsph.harvard.edu", "nutritiondata.self.com"]
+            elif category == "training":
+                trusted_domains = ["runnersworld.com", "trainingpeaks.com", "active.com"]
+            
+            search_params = {
+                "query": query,
+                "search_depth": "advanced",
+                "max_results": 5,
+                "include_answer": True,
+                "include_raw_content": False
+            }
+            
+            if trusted_domains:
+                search_params["include_domains"] = trusted_domains
+            
+            response = self.tavily_client.search(**search_params)
+            
+            logging.info(f"Search completed successfully")
+            return response
+            
+        except Exception as e:
+            logging.error(f"Tavily search error: {str(e)}")
+            return {"error": str(e)}
+    
     async def chat_with_coach(self, athlete_id: str, message: str) -> str:
-        """Chat with AI coach using athlete's personal data"""
+        """Chat with AI coach using athlete's personal data with web search capabilities"""
         context = await self.get_athlete_context(athlete_id)
         
         # Create system message with athlete context
@@ -782,6 +820,7 @@ COACHING PRINCIPLES:
 - Provide specific, actionable advice
 - Explain the 'why' behind your recommendations
 - Be encouraging but realistic
+- When you need current information about health, nutrition, or training topics, use the search_health_information function to get up-to-date, accurate information from trusted sources
 
 CHART GENERATION:
 When showing trends or data visualizations, you can create interactive charts using this format:
@@ -814,7 +853,7 @@ Use charts when:
 - Displaying pace progression
 - Visualizing training load
 
-Respond as a knowledgeable coach who truly knows this athlete's training history, sleep patterns, and current state. Reference specific data points when relevant.
+Respond as a knowledgeable coach who truly knows this athlete's training history, sleep patterns, and current state. Reference specific data points when relevant. Always cite sources when using information from web searches.
 """
         
         try:
@@ -822,22 +861,106 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
             user_openai_key = await self.get_user_openai_key(athlete_id)
             
             if user_openai_key:
-                # Use user's personal OpenAI API key
+                # Use user's personal OpenAI API key with function calling
                 import openai
                 
                 client = openai.AsyncOpenAI(api_key=user_openai_key)
                 
-                response = await client.chat.completions.create(
-                    model="gpt-4o",  # Latest GPT-4 model
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": message}
-                    ],
-                    max_tokens=2000,
-                    temperature=0.7
-                )
+                # Define tools for function calling
+                tools = []
+                if self.tavily_client:  # Only add search tool if Tavily is available
+                    tools.append({
+                        "type": "function",
+                        "function": {
+                            "name": "search_health_information",
+                            "description": "Search for current health, nutrition, fitness, or training information. Use this when users ask about health conditions, nutrition facts, workout routines, training guidance, latest research, or any health-related topics that require up-to-date information. Focus on health, nutrition, and training topics.",
+                            "parameters": {
+                                "type": "object",
+                                "properties": {
+                                    "query": {
+                                        "type": "string",
+                                        "description": "The search query for health/nutrition/training information"
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "enum": ["health", "nutrition", "training", "general"],
+                                        "description": "The category of information being searched"
+                                    }
+                                },
+                                "required": ["query"]
+                            }
+                        }
+                    })
                 
-                return response.choices[0].message.content
+                messages = [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": message}
+                ]
+                
+                # First API call
+                completion_params = {
+                    "model": "gpt-4o",
+                    "messages": messages,
+                    "max_tokens": 2000,
+                    "temperature": 0.7
+                }
+                
+                if tools:
+                    completion_params["tools"] = tools
+                
+                response = await client.chat.completions.create(**completion_params)
+                
+                assistant_message = response.choices[0].message
+                
+                # Check if function call was requested
+                if hasattr(assistant_message, "tool_calls") and assistant_message.tool_calls:
+                    tool_call = assistant_message.tool_calls[0]
+                    function_name = tool_call.function.name
+                    
+                    logging.info(f"Function called: {function_name}")
+                    
+                    if function_name == "search_health_information":
+                        # Parse function arguments
+                        function_args = json.loads(tool_call.function.arguments)
+                        query = function_args.get("query")
+                        category = function_args.get("category", "general")
+                        
+                        # Execute search
+                        search_results = await self.search_health_information(query, category)
+                        
+                        # Add function call and result to messages
+                        messages.append({
+                            "role": "assistant",
+                            "content": None,
+                            "tool_calls": [{
+                                "id": tool_call.id,
+                                "type": "function",
+                                "function": {
+                                    "name": function_name,
+                                    "arguments": tool_call.function.arguments
+                                }
+                            }]
+                        })
+                        
+                        messages.append({
+                            "role": "tool",
+                            "tool_call_id": tool_call.id,
+                            "name": function_name,
+                            "content": json.dumps(search_results)
+                        })
+                        
+                        # Second API call with search results
+                        final_response = await client.chat.completions.create(
+                            model="gpt-4o",
+                            messages=messages,
+                            max_tokens=2000,
+                            temperature=0.7,
+                            tools=tools if tools else None
+                        )
+                        
+                        return final_response.choices[0].message.content
+                
+                return assistant_message.content
             
             else:
                 # Fall back to Emergent integration
