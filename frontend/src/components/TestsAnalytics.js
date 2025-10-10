@@ -185,7 +185,9 @@ const TestsAnalytics = ({ athleteId }) => {
       test_name: '',
       unit: 'repetitions',
       result_value: '',
-      time_to_completion: '',
+      time_hours: '',
+      time_minutes: '',
+      time_seconds: '',
       notes: '',
       test_date: new Date().toISOString().split('T')[0],
       use_existing_test: false
