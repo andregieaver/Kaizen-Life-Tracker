@@ -15,7 +15,7 @@ import Account from './Account';
 import Merits from './Merits';
 import Journal from './Journal';
 import Nutrition from './Nutrition';
-import TrainingCalendar from './TrainingCalendar';
+import TrainingCalendar from './TrainingCalendarSimple';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
