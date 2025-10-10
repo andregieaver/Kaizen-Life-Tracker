@@ -764,9 +764,9 @@ const TrainingCalendar = ({ athleteId }) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 xl:grid-cols-4 gap-6" style={{ height: '600px' }}>
+          <div className="flex flex-col lg:flex-row gap-6" style={{ height: '600px' }}>
             {/* Calendar */}
-            <div className="xl:col-span-3" style={{ height: '100%' }}>
+            <div className="flex-1" style={{ height: '100%', minHeight: '400px' }}>
               <Calendar
                 localizer={localizer}
                 events={calendarEvents}
@@ -795,7 +795,7 @@ const TrainingCalendar = ({ athleteId }) => {
             </div>
 
             {/* Weekly Summary Column */}
-            <div className="xl:col-span-1 bg-gray-50 rounded-lg p-4 overflow-y-auto">
+            <div className="lg:w-80 bg-gray-50 rounded-lg p-4 overflow-y-auto" style={{ minHeight: '400px' }}>
               <WeeklySummaryColumn 
                 currentDate={currentDate}
                 currentView={currentView}
