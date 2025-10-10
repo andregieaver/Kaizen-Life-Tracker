@@ -41,6 +41,89 @@ import {
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
+// Simple Integration Card Component
+const IntegrationCard = ({ 
+  provider, 
+  name, 
+  description, 
+  icon, 
+  connected, 
+  connectionInfo, 
+  onConnect, 
+  onDisconnect,
+  comingSoon = false 
+}) => {
+  const formatLastSync = (lastSync) => {
+    if (!lastSync) return 'Never';
+    const syncDate = new Date(lastSync);
+    const now = new Date();
+    const diffMs = now - syncDate;
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+    if (diffHours < 24) return `${diffHours} hours ago`;
+    if (diffDays < 7) return `${diffDays} days ago`;
+    return syncDate.toLocaleDateString();
+  };
+
+  return (
+    <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
+      <div className="flex items-center gap-4">
+        <div className="flex-shrink-0">
+          {icon}
+        </div>
+        <div>
+          <h4 className="font-semibold text-gray-900">{name}</h4>
+          <p className="text-sm text-gray-600">{description}</p>
+          {connected && connectionInfo && (
+            <div className="flex items-center gap-4 mt-1 text-xs text-gray-500">
+              {connectionInfo.athlete_name && (
+                <span>Connected as: {connectionInfo.athlete_name}</span>
+              )}
+              {connectionInfo.user_id && (
+                <span>User ID: {connectionInfo.user_id.slice(0, 8)}...</span>
+              )}
+              <span>Last sync: {formatLastSync(connectionInfo.last_sync)}</span>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <div className="flex items-center gap-2">
+        {connected ? (
+          <>
+            <Badge className="bg-green-100 text-green-800 border-green-200">
+              <CheckCircle className="w-3 h-3 mr-1" />
+              Connected
+            </Badge>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onDisconnect}
+              className="text-red-600 hover:text-red-700 hover:border-red-300"
+            >
+              Disconnect
+            </Button>
+          </>
+        ) : comingSoon ? (
+          <Badge variant="secondary" className="bg-gray-100 text-gray-600">
+            Coming Soon
+          </Badge>
+        ) : (
+          <Button
+            onClick={onConnect}
+            size="sm"
+            className="bg-blue-600 hover:bg-blue-700"
+          >
+            <ExternalLink className="w-4 h-4 mr-2" />
+            Connect {name}
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const Account = ({ athleteId }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
