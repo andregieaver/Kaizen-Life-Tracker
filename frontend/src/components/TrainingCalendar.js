@@ -311,7 +311,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
       interval_distance: '',
       interval_pace: '',
       rest_duration: '',
-      unit_system: 'miles'
+      unit_system: distanceUnit
     });
     setIsDialogOpen(true);
   };
