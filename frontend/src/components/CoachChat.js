@@ -207,9 +207,37 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
     }
   };
 
+  // Archive conversation
+  const archiveConversation = async (sessionId, e) => {
+    e.stopPropagation();
+    
+    try {
+      await axios.put(`${API}/coach/${athleteId}/${sessionId}/archive`, { archived: true });
+      await loadConversations();
+      await loadArchivedConversations();
+    } catch (error) {
+      console.error('Failed to archive conversation:', error);
+      alert('Failed to archive conversation. Please try again.');
+    }
+  };
+
+  // Unarchive conversation
+  const unarchiveConversation = async (sessionId, e) => {
+    e.stopPropagation();
+    
+    try {
+      await axios.put(`${API}/coach/${athleteId}/${sessionId}/archive`, { archived: false });
+      await loadConversations();
+      await loadArchivedConversations();
+    } catch (error) {
+      console.error('Failed to unarchive conversation:', error);
+      alert('Failed to unarchive conversation. Please try again.');
+    }
+  };
+
   // Delete conversation
-  const deleteConversation = async (sessionId, e) => {
-    e.stopPropagation(); // Prevent triggering loadConversation
+  const deleteConversation = async (sessionId, e, isArchived = false) => {
+    e.stopPropagation();
     
     if (!window.confirm('Are you sure you want to delete this conversation? This action cannot be undone.')) {
       return;
@@ -218,8 +246,9 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
     try {
       await axios.delete(`${API}/coach/${athleteId}/${sessionId}`);
       
-      // Reload conversations list
+      // Reload both lists
       await loadConversations();
+      await loadArchivedConversations();
       
       // If the deleted conversation is currently active, start a new one
       if (sessionId === sessionId) {
@@ -228,6 +257,16 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
     } catch (error) {
       console.error('Failed to delete conversation:', error);
       alert('Failed to delete conversation. Please try again.');
+    }
+  };
+
+  // Load archived conversations
+  const loadArchivedConversations = async () => {
+    try {
+      const response = await axios.get(`${API}/coach/conversations/${athleteId}?archived=true`);
+      setArchivedConversations(response.data);
+    } catch (error) {
+      console.error('Failed to load archived conversations:', error);
     }
   };
 
