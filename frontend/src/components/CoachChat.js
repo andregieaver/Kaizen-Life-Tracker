@@ -310,7 +310,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
                 conversations.map((conv, index) => (
                   <div
                     key={index}
-                    className="relative group"
+                    className="relative"
                   >
                     <button
                       onClick={() => loadConversation(conv.session_id)}
@@ -324,19 +324,32 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
                           {new Date(conv.last_message).toLocaleDateString()}
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500">
-                        {conv.message_count} {t('coach.messages')}
-                      </p>
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs text-gray-500">
+                          {conv.message_count} {t('coach.messages')}
+                        </p>
+                        <div className="flex items-center gap-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => archiveConversation(conv.session_id, e)}
+                            className="h-7 w-7 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                            title="Archive conversation"
+                          >
+                            <Archive className="w-3.5 h-3.5" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => deleteConversation(conv.session_id, e)}
+                            className="h-7 w-7 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                            title="Delete conversation"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </Button>
+                        </div>
+                      </div>
                     </button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={(e) => deleteConversation(conv.session_id, e)}
-                      className="absolute right-2 top-2 h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity text-red-600 hover:text-red-700 hover:bg-red-50"
-                      title="Delete conversation"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
                   </div>
                 ))
               )}
