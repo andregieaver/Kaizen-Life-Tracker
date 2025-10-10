@@ -72,6 +72,9 @@ const Account = ({ athleteId }) => {
     current_period_end: null
   });
   const [invoices, setInvoices] = useState([]);
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [showDowngradeDialog, setShowDowngradeDialog] = useState(false);
+  const [downgradeTarget, setDowngradeTarget] = useState(null);
   const [schedules, setSchedules] = useState([]);
   const [showScheduleForm, setShowScheduleForm] = useState(false);
   const [editingSchedule, setEditingSchedule] = useState(null);
