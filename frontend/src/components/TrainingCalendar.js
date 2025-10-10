@@ -469,7 +469,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
               <div className="font-medium text-blue-900">Weekly Summary</div>
               <div className="text-blue-700">
                 {weeklySummary.total_distance > 0 && (
-                  <span>{weeklySummary.total_distance} miles • </span>
+                  <span>{formatDistance(weeklySummary.total_distance, distanceUnit)} • </span>
                 )}
                 {weeklySummary.total_duration > 0 && (
                   <span>{weeklySummary.total_duration} min • </span>
