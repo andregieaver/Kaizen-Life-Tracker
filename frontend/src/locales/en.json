@@ -334,5 +334,32 @@
     "confirmPasswordRequired": "Please confirm your password",
     "passwordsDoNotMatch": "Passwords do not match",
     "submitError": "Failed to create profile. Please try again."
+  },
+  "trainingCalendar": {
+    "title": "Training Calendar",
+    "description": "Plan and organize your training blocks and recovery periods",
+    "addBlock": "Add Block",
+    "createBlock": "Create Training Block",
+    "editBlock": "Edit Training Block",
+    "createBlockDescription": "Plan your training or recovery period with specific dates and goals",
+    "editBlockDescription": "Update your training block details",
+    "blockTitle": "Block Title",
+    "titlePlaceholder": "e.g., Marathon Base Training, Recovery Week",
+    "blockType": "Block Type",
+    "selectType": "Select block type",
+    "training": "Training",
+    "recovery": "Recovery",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "description": "Description",
+    "descriptionPlaceholder": "Add details about your training goals, workouts, or recovery plan...",
+    "calendarDescription": "Click on dates to view or create training blocks",
+    "blocksForDate": "{{count}} block(s) scheduled",
+    "noBlocksForDate": "No blocks scheduled for this date",
+    "noBlocksSelected": "Select a date to view training blocks",
+    "addBlockForDate": "Add Block",
+    "monthlyOverview": "{{month}} Overview",
+    "monthlyDescription": "{{count}} training block(s) this month",
+    "confirmDelete": "Are you sure you want to delete this training block?"
   }
 }
