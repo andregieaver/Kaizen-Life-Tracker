@@ -1418,10 +1418,12 @@ async def get_subscription_status(athlete_id: str):
                 stripe.api_key = stripe_secret_key
                 subscription = stripe.Subscription.retrieve(stripe_subscription_id)
                 # Get the interval from the subscription price
-                if subscription.items and subscription.items.data:
-                    price = subscription.items.data[0].price
-                    if price.recurring:
-                        subscription_interval = price.recurring.interval
+                if subscription.get('items') and hasattr(subscription.get('items'), 'data'):
+                    items_data = subscription['items'].data
+                    if items_data and len(items_data) > 0:
+                        price = items_data[0].get('price')
+                        if price and price.get('recurring'):
+                            subscription_interval = price['recurring'].get('interval')
         except Exception as e:
             logging.warning(f"Could not fetch subscription interval: {str(e)}")
     
