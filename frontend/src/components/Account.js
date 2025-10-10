@@ -461,6 +461,7 @@ const Account = ({ athleteId }) => {
         week_starts_on: athleteRes.data.week_starts_on || 'monday',
         timezone: athleteRes.data.timezone || 'UTC',
         time_format: athleteRes.data.time_format || '12h',
+        date_format: athleteRes.data.date_format || 'MM/DD/YYYY',
         language: athleteRes.data.language || 'en'
       });
       
