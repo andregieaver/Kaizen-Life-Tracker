@@ -15,6 +15,7 @@ import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './TrainingCalendar.css';
+import { formatDistance, formatPace, getDistanceUnitLabel, convertDistanceUnits } from '../utils/formatters';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
