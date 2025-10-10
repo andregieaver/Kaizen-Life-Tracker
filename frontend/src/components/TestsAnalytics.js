@@ -552,15 +552,44 @@ const TestsAnalytics = ({ athleteId }) => {
 
                 {/* Time to Completion */}
                 <div className="space-y-2">
-                  <Label htmlFor="time_to_completion">Time to Completion (seconds) - Optional</Label>
-                  <Input
-                    id="time_to_completion"
-                    type="number"
-                    step="0.01"
-                    value={formData.time_to_completion}
-                    onChange={(e) => setFormData(prev => ({...prev, time_to_completion: e.target.value}))}
-                    placeholder="e.g., 1500 (for 25 minutes)"
-                  />
+                  <Label>Time to Completion - Optional</Label>
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="space-y-1">
+                      <Input
+                        id="time_hours"
+                        type="number"
+                        min="0"
+                        value={formData.time_hours}
+                        onChange={(e) => setFormData(prev => ({...prev, time_hours: e.target.value}))}
+                        placeholder="HH"
+                      />
+                      <p className="text-xs text-gray-500 text-center">Hours</p>
+                    </div>
+                    <div className="space-y-1">
+                      <Input
+                        id="time_minutes"
+                        type="number"
+                        min="0"
+                        max="59"
+                        value={formData.time_minutes}
+                        onChange={(e) => setFormData(prev => ({...prev, time_minutes: e.target.value}))}
+                        placeholder="MM"
+                      />
+                      <p className="text-xs text-gray-500 text-center">Minutes</p>
+                    </div>
+                    <div className="space-y-1">
+                      <Input
+                        id="time_seconds"
+                        type="number"
+                        min="0"
+                        max="59"
+                        value={formData.time_seconds}
+                        onChange={(e) => setFormData(prev => ({...prev, time_seconds: e.target.value}))}
+                        placeholder="SS"
+                      />
+                      <p className="text-xs text-gray-500 text-center">Seconds</p>
+                    </div>
+                  </div>
                   <p className="text-xs text-gray-500">Leave empty if not applicable</p>
                 </div>
 
