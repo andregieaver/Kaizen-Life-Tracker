@@ -124,7 +124,7 @@ const DataLogTabs = ({ athleteId, onDataLogged }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="w-full max-w-[1600px] mx-auto">
       <Card className="border-0 shadow-lg">
         <CardHeader>
           <CardTitle className="text-xl font-display flex items-center">
