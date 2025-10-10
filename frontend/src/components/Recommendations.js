@@ -83,7 +83,7 @@ const Recommendations = ({ athleteId }) => {
 
   if (isLoading) {
     return (
-      <div className="max-w-4xl mx-auto space-y-4">
+      <div className="w-full max-w-[1600px] mx-auto space-y-4">
         <div className="skeleton h-8 w-64 mb-6"></div>
         {[...Array(3)].map((_, i) => (
           <div key={i} className="skeleton h-32 rounded-lg"></div>
