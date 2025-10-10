@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
@@ -10,6 +10,46 @@ import {
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const [scrollDirection, setScrollDirection] = useState('up');
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const updateScrollDirection = () => {
+      const scrollY = window.pageYOffset;
+
+      if (Math.abs(scrollY - lastScrollY) < 10) {
+        ticking = false;
+        return;
+      }
+
+      if (scrollY > lastScrollY && scrollY > 80) {
+        // Scrolling down
+        setScrollDirection('down');
+        setIsVisible(false);
+      } else if (scrollY < lastScrollY) {
+        // Scrolling up
+        setScrollDirection('up');
+        setIsVisible(true);
+      }
+
+      setLastScrollY(scrollY > 0 ? scrollY : 0);
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScrollDirection);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll);
+
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [lastScrollY]);
 
   const features = [
     {
