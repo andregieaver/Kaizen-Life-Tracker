@@ -1289,6 +1289,85 @@ const Account = ({ athleteId }) => {
             </div>
           )}
 
+          {/* Upgrade Dialog */}
+          {showUpgradeDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-full max-w-md mx-4">
+                <CardHeader>
+                  <CardTitle>Upgrade to {upgradeTarget === 'pro' ? 'Pro' : 'Premium'}?</CardTitle>
+                  <CardDescription>
+                    Choose your billing cycle
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {/* Billing Cycle Toggle */}
+                  <div className="flex items-center justify-center space-x-4 bg-gray-100 rounded-full p-2">
+                    <button
+                      onClick={() => setSelectedBillingCycle('monthly')}
+                      className={`px-6 py-2 rounded-full font-medium transition-all ${
+                        selectedBillingCycle === 'monthly'
+                          ? 'bg-blue-600 text-white shadow-md'
+                          : 'text-gray-600 hover:text-gray-900'
+                      }`}
+                    >
+                      Monthly
+                    </button>
+                    <button
+                      onClick={() => setSelectedBillingCycle('annual')}
+                      className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
+                        selectedBillingCycle === 'annual'
+                          ? 'bg-blue-600 text-white shadow-md'
+                          : 'text-gray-600 hover:text-gray-900'
+                      }`}
+                    >
+                      Annual
+                      <Badge variant="default" className="ml-2 bg-green-500 text-white border-0">
+                        Save 17%
+                      </Badge>
+                    </button>
+                  </div>
+
+                  {/* Pricing Display */}
+                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="text-center">
+                      <p className="text-3xl font-bold text-blue-900">
+                        {upgradeTarget === 'pro' 
+                          ? (selectedBillingCycle === 'monthly' ? '€9.99/mo' : '€99/year')
+                          : (selectedBillingCycle === 'monthly' ? '€19.99/mo' : '€199/year')
+                        }
+                      </p>
+                      {selectedBillingCycle === 'annual' && (
+                        <p className="text-sm text-green-700 mt-2">
+                          Save {upgradeTarget === 'pro' ? '€20.88' : '€40.68'} per year!
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => {
+                        setShowUpgradeDialog(false);
+                        setUpgradeTarget(null);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button 
+                      variant="default" 
+                      className="flex-1"
+                      onClick={handleUpgrade}
+                    >
+                      Continue to Checkout
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
           {/* Downgrade Confirmation Dialog */}
           {showDowngradeDialog && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
