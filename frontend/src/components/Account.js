@@ -1297,6 +1297,66 @@ const Account = ({ athleteId }) => {
               </Card>
             </div>
           )}
+
+          {/* Billing Cycle Change Dialog */}
+          {showBillingCycleDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-full max-w-md mx-4">
+                <CardHeader>
+                  <CardTitle>
+                    Switch to {currentBillingCycle === 'monthly' ? 'Annual' : 'Monthly'} Billing?
+                  </CardTitle>
+                  <CardDescription>
+                    Change your billing cycle
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-sm text-green-900 mb-2">
+                      <strong>Switching to {currentBillingCycle === 'monthly' ? 'Annual' : 'Monthly'}:</strong>
+                    </p>
+                    {currentBillingCycle === 'monthly' ? (
+                      <>
+                        <p className="text-sm text-green-800 mb-2">
+                          Save 17% with annual billing!
+                        </p>
+                        <ul className="text-sm text-green-800 space-y-1 list-disc list-inside">
+                          <li>{subscriptionStatus.tier === 'pro' ? '€99/year instead of €119.88' : '€199/year instead of €239.88'}</li>
+                          <li>You'll be charged the prorated amount today</li>
+                          <li>Next billing: 1 year from today</li>
+                        </ul>
+                      </>
+                    ) : (
+                      <>
+                        <ul className="text-sm text-green-800 space-y-1 list-disc list-inside">
+                          <li>Switch to monthly billing</li>
+                          <li>You'll receive a prorated credit</li>
+                          <li>Next billing: 1 month from today</li>
+                          <li>{subscriptionStatus.tier === 'pro' ? '€9.99/month' : '€19.99/month'}</li>
+                        </ul>
+                      </>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => setShowBillingCycleDialog(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button 
+                      variant="default" 
+                      className="flex-1"
+                      onClick={handleChangeBillingCycle}
+                    >
+                      Confirm Switch
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </TabsContent>
 
         {/* Integrations Tab */}
