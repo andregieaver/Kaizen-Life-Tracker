@@ -1671,6 +1671,54 @@ async def downgrade_to_free(request: dict):
         logging.error(f"Error downgrading to free: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to downgrade: {str(e)}")
 
+@api_router.post("/subscriptions/reactivate")
+async def reactivate_subscription(request: dict):
+    """Reactivate a canceled subscription (undo cancellation)"""
+    import stripe
+    
+    athlete_id = request.get("athlete_id")
+    if not athlete_id:
+        raise HTTPException(status_code=400, detail="athlete_id is required")
+    
+    # Get athlete
+    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    if not athlete:
+        raise HTTPException(status_code=404, detail="Athlete not found")
+    
+    stripe_subscription_id = athlete.get("stripe_subscription_id")
+    if not stripe_subscription_id:
+        raise HTTPException(status_code=400, detail="No subscription found")
+    
+    # Get Stripe API key
+    stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
+    if not stripe_secret_key:
+        raise HTTPException(status_code=500, detail="Stripe not configured")
+    
+    stripe.api_key = stripe_secret_key
+    
+    try:
+        # Remove cancel_at_period_end to reactivate
+        subscription = stripe.Subscription.modify(
+            stripe_subscription_id,
+            cancel_at_period_end=False
+        )
+        
+        # Update athlete profile back to active
+        await db.athlete_profiles.update_one(
+            {"id": athlete_id},
+            {"$set": {
+                "subscription_status": "active"
+            }}
+        )
+        
+        return {
+            "success": True,
+            "message": "Subscription reactivated successfully! Your subscription will continue as normal."
+        }
+    except Exception as e:
+        logging.error(f"Error reactivating subscription: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to reactivate subscription: {str(e)}")
+
 @api_router.post("/webhooks/stripe")
 async def stripe_webhook(request: Request):
     """Handle Stripe webhooks"""
