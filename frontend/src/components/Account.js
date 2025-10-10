@@ -300,12 +300,21 @@ const Account = ({ athleteId }) => {
       });
 
       if (response.data.success) {
+        setShowBillingCycleDialog(false);
         setSaveStatus({ 
           type: 'success', 
-          message: `Switched to ${newCycle} billing successfully!`
+          message: `Switched to ${newCycle} billing successfully! Refreshing...`
         });
-        setShowBillingCycleDialog(false);
-        await loadSubscriptionStatus();
+        
+        // Wait a bit for Stripe to update, then reload
+        setTimeout(async () => {
+          await loadSubscriptionStatus();
+          await loadInvoices();
+          setSaveStatus({ 
+            type: 'success', 
+            message: `Successfully switched to ${newCycle} billing!`
+          });
+        }, 1500);
       }
     } catch (error) {
       console.error('Billing cycle change error:', error);
