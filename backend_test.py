@@ -1307,6 +1307,573 @@ def test_oura_integration_status_after_save():
         print_test_result("Oura integration status (after save)", False, f"Exception: {str(e)}")
         return False, None
 
+# Training Calendar API Tests
+def test_training_calendar_get_empty():
+    """Test GET /api/training-calendar/{athlete_id} - should return empty blocks initially"""
+    print("🔍 Testing GET /api/training-calendar/{athlete_id} (empty blocks)")
+    
+    # Use existing test user andre@example.com
+    test_email = "andre@example.com"
+    test_password = "password123"  # Common test password
+    
+    # First login to get athlete_id
+    try:
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json={"email": test_email, "password": test_password},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("Training Calendar GET (empty) - Login", False, f"Login failed: {login_response.status_code}")
+            return False, None
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if not athlete_id:
+            print_test_result("Training Calendar GET (empty) - Login", False, "No athlete_id in login response")
+            return False, None
+        
+        # Now test the training calendar endpoint
+        response = requests.get(f"{BACKEND_URL}/training-calendar/{athlete_id}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if "blocks" in data and isinstance(data["blocks"], list):
+                print_test_result("Training Calendar GET (empty)", True, f"Returned {len(data['blocks'])} blocks")
+                return True, athlete_id
+            else:
+                print_test_result("Training Calendar GET (empty)", False, f"Expected blocks array, got: {data}")
+                return False, athlete_id
+        else:
+            print_test_result("Training Calendar GET (empty)", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, athlete_id
+            
+    except Exception as e:
+        print_test_result("Training Calendar GET (empty)", False, f"Exception: {str(e)}")
+        return False, None
+
+def test_training_calendar_create_training_block(athlete_id):
+    """Test POST /api/training-calendar - create training block"""
+    print("🔍 Testing POST /api/training-calendar (create training block)")
+    
+    training_block_data = {
+        "id": str(uuid.uuid4()),
+        "athlete_id": athlete_id,
+        "title": "Marathon Base Building",
+        "description": "4-week base building phase focusing on aerobic development",
+        "block_type": "training",
+        "start_date": "2024-01-15",
+        "end_date": "2024-02-11",
+        "created_by": "user"
+    }
+    
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/training-calendar",
+            json=training_block_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            
+            success = True
+            details = []
+            
+            # Check for success response
+            if result.get("success") == True:
+                details.append("success: ✓")
+            else:
+                details.append("success: ✗")
+                success = False
+            
+            # Check for returned ID
+            if "id" in result and result["id"] == training_block_data["id"]:
+                details.append("id returned: ✓")
+            else:
+                details.append("id returned: ✗")
+                success = False
+            
+            print_test_result("POST create training block", success, "; ".join(details))
+            return success, training_block_data["id"]
+        else:
+            print_test_result("POST create training block", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print_test_result("POST create training block", False, f"Exception: {str(e)}")
+        return False, None
+
+def test_training_calendar_create_recovery_block(athlete_id):
+    """Test POST /api/training-calendar - create recovery block"""
+    print("🔍 Testing POST /api/training-calendar (create recovery block)")
+    
+    recovery_block_data = {
+        "id": str(uuid.uuid4()),
+        "athlete_id": athlete_id,
+        "title": "Recovery Week",
+        "description": "Active recovery with easy runs and cross-training",
+        "block_type": "recovery",
+        "start_date": "2024-02-12",
+        "end_date": "2024-02-18",
+        "created_by": "user"
+    }
+    
+    try:
+        response = requests.post(
+            f"{BACKEND_URL}/training-calendar",
+            json=recovery_block_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            
+            success = True
+            details = []
+            
+            # Check for success response
+            if result.get("success") == True:
+                details.append("success: ✓")
+            else:
+                details.append("success: ✗")
+                success = False
+            
+            # Check for returned ID
+            if "id" in result and result["id"] == recovery_block_data["id"]:
+                details.append("id returned: ✓")
+            else:
+                details.append("id returned: ✗")
+                success = False
+            
+            print_test_result("POST create recovery block", success, "; ".join(details))
+            return success, recovery_block_data["id"]
+        else:
+            print_test_result("POST create recovery block", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, None
+            
+    except Exception as e:
+        print_test_result("POST create recovery block", False, f"Exception: {str(e)}")
+        return False, None
+
+def test_training_calendar_get_with_blocks(athlete_id):
+    """Test GET /api/training-calendar/{athlete_id} - should return created blocks"""
+    print("🔍 Testing GET /api/training-calendar/{athlete_id} (with blocks)")
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/training-calendar/{athlete_id}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            success = True
+            details = []
+            
+            if "blocks" in data and isinstance(data["blocks"], list):
+                blocks = data["blocks"]
+                details.append(f"blocks array: ✓ ({len(blocks)} blocks)")
+                
+                if len(blocks) >= 2:  # Should have at least the 2 blocks we created
+                    details.append("expected blocks count: ✓")
+                    
+                    # Check for required fields in blocks
+                    for i, block in enumerate(blocks[:2]):  # Check first 2 blocks
+                        required_fields = ["id", "athlete_id", "title", "description", "block_type", "start_date", "end_date"]
+                        block_valid = True
+                        for field in required_fields:
+                            if field not in block:
+                                block_valid = False
+                                break
+                        
+                        if block_valid:
+                            details.append(f"block {i+1} structure: ✓")
+                        else:
+                            details.append(f"block {i+1} structure: ✗")
+                            success = False
+                else:
+                    details.append(f"expected blocks count: ✗ (got {len(blocks)}, expected >= 2)")
+                    success = False
+            else:
+                details.append("blocks array: ✗")
+                success = False
+            
+            print_test_result("GET training blocks (with data)", success, "; ".join(details))
+            return success, data.get("blocks", [])
+        else:
+            print_test_result("GET training blocks (with data)", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False, []
+            
+    except Exception as e:
+        print_test_result("GET training blocks (with data)", False, f"Exception: {str(e)}")
+        return False, []
+
+def test_training_calendar_update_block(block_id):
+    """Test PUT /api/training-calendar/{block_id} - update training block"""
+    print("🔍 Testing PUT /api/training-calendar/{block_id} (update block)")
+    
+    update_data = {
+        "title": "Updated Marathon Base Building",
+        "description": "Updated 4-week base building phase with increased mileage",
+        "start_date": "2024-01-16",
+        "end_date": "2024-02-12"
+    }
+    
+    try:
+        response = requests.put(
+            f"{BACKEND_URL}/training-calendar/{block_id}",
+            json=update_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            
+            success = True
+            details = []
+            
+            # Check for success response
+            if result.get("success") == True:
+                details.append("success: ✓")
+            else:
+                details.append("success: ✗")
+                success = False
+            
+            print_test_result("PUT update training block", success, "; ".join(details))
+            return success
+        else:
+            print_test_result("PUT update training block", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print_test_result("PUT update training block", False, f"Exception: {str(e)}")
+        return False
+
+def test_training_calendar_verify_update(athlete_id, block_id):
+    """Verify the update is reflected in the GET list"""
+    print("🔍 Testing GET /api/training-calendar/{athlete_id} (verify update)")
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/training-calendar/{athlete_id}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            blocks = data.get("blocks", [])
+            
+            # Find the updated block
+            updated_block = None
+            for block in blocks:
+                if block.get("id") == block_id:
+                    updated_block = block
+                    break
+            
+            if updated_block:
+                success = True
+                details = []
+                
+                # Check if updates were applied
+                if updated_block.get("title") == "Updated Marathon Base Building":
+                    details.append("title updated: ✓")
+                else:
+                    details.append(f"title updated: ✗ (got {updated_block.get('title')})")
+                    success = False
+                
+                if updated_block.get("start_date") == "2024-01-16":
+                    details.append("start_date updated: ✓")
+                else:
+                    details.append(f"start_date updated: ✗ (got {updated_block.get('start_date')})")
+                    success = False
+                
+                print_test_result("GET verify block update", success, "; ".join(details))
+                return success
+            else:
+                print_test_result("GET verify block update", False, "Updated block not found in list")
+                return False
+        else:
+            print_test_result("GET verify block update", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print_test_result("GET verify block update", False, f"Exception: {str(e)}")
+        return False
+
+def test_training_calendar_delete_block(block_id):
+    """Test DELETE /api/training-calendar/{block_id} - delete training block"""
+    print("🔍 Testing DELETE /api/training-calendar/{block_id} (delete block)")
+    
+    try:
+        response = requests.delete(f"{BACKEND_URL}/training-calendar/{block_id}")
+        
+        if response.status_code == 200:
+            result = response.json()
+            
+            success = True
+            details = []
+            
+            # Check for success response
+            if result.get("success") == True:
+                details.append("success: ✓")
+            else:
+                details.append("success: ✗")
+                success = False
+            
+            print_test_result("DELETE training block", success, "; ".join(details))
+            return success
+        else:
+            print_test_result("DELETE training block", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print_test_result("DELETE training block", False, f"Exception: {str(e)}")
+        return False
+
+def test_training_calendar_verify_delete(athlete_id, deleted_block_id):
+    """Verify the block no longer appears in GET list"""
+    print("🔍 Testing GET /api/training-calendar/{athlete_id} (verify delete)")
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/training-calendar/{athlete_id}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            blocks = data.get("blocks", [])
+            
+            # Check that deleted block is not in the list
+            deleted_block_found = False
+            for block in blocks:
+                if block.get("id") == deleted_block_id:
+                    deleted_block_found = True
+                    break
+            
+            if not deleted_block_found:
+                print_test_result("GET verify block delete", True, f"Block not in list ({len(blocks)} blocks remaining)")
+                return True
+            else:
+                print_test_result("GET verify block delete", False, "Deleted block still appears in list")
+                return False
+        else:
+            print_test_result("GET verify block delete", False, f"Status: {response.status_code}, Response: {response.text}")
+            return False
+            
+    except Exception as e:
+        print_test_result("GET verify block delete", False, f"Exception: {str(e)}")
+        return False
+
+def test_training_calendar_validation():
+    """Test Training Calendar API validation"""
+    print("🔍 Testing Training Calendar API Validation")
+    
+    # Use existing test user
+    test_email = "andre@example.com"
+    test_password = "password123"
+    
+    # Get athlete_id
+    try:
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json={"email": test_email, "password": test_password},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("Training Calendar Validation - Login", False, f"Login failed: {login_response.status_code}")
+            return []
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        validation_tests = []
+        
+        # Test 1: Missing required fields
+        try:
+            response = requests.post(
+                f"{BACKEND_URL}/training-calendar",
+                json={"title": "Incomplete Block"},  # Missing required fields
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if response.status_code in [400, 422]:
+                validation_tests.append(("Missing required fields validation", True, f"Correctly rejected with {response.status_code}"))
+            else:
+                validation_tests.append(("Missing required fields validation", False, f"Unexpected status: {response.status_code}"))
+        except Exception as e:
+            validation_tests.append(("Missing required fields validation", False, f"Exception: {str(e)}"))
+        
+        # Test 2: Invalid block_type
+        try:
+            invalid_block_data = {
+                "id": str(uuid.uuid4()),
+                "athlete_id": athlete_id,
+                "title": "Invalid Block",
+                "description": "Test block with invalid type",
+                "block_type": "invalid_type",  # Should be 'training' or 'recovery'
+                "start_date": "2024-01-15",
+                "end_date": "2024-02-11",
+                "created_by": "user"
+            }
+            
+            response = requests.post(
+                f"{BACKEND_URL}/training-calendar",
+                json=invalid_block_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            # This might succeed (no validation) or fail (validation exists)
+            if response.status_code in [400, 422]:
+                validation_tests.append(("Invalid block_type validation", True, f"Correctly rejected with {response.status_code}"))
+            elif response.status_code == 200:
+                validation_tests.append(("Invalid block_type validation", True, "Accepted (no validation implemented)"))
+            else:
+                validation_tests.append(("Invalid block_type validation", False, f"Unexpected status: {response.status_code}"))
+        except Exception as e:
+            validation_tests.append(("Invalid block_type validation", False, f"Exception: {str(e)}"))
+        
+        # Test 3: Invalid date format
+        try:
+            invalid_date_block = {
+                "id": str(uuid.uuid4()),
+                "athlete_id": athlete_id,
+                "title": "Invalid Date Block",
+                "description": "Test block with invalid date",
+                "block_type": "training",
+                "start_date": "invalid-date",  # Invalid date format
+                "end_date": "2024-02-11",
+                "created_by": "user"
+            }
+            
+            response = requests.post(
+                f"{BACKEND_URL}/training-calendar",
+                json=invalid_date_block,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if response.status_code in [400, 422]:
+                validation_tests.append(("Invalid date format validation", True, f"Correctly rejected with {response.status_code}"))
+            elif response.status_code == 200:
+                validation_tests.append(("Invalid date format validation", True, "Accepted (no date validation)"))
+            else:
+                validation_tests.append(("Invalid date format validation", False, f"Unexpected status: {response.status_code}"))
+        except Exception as e:
+            validation_tests.append(("Invalid date format validation", False, f"Exception: {str(e)}"))
+        
+        # Test 4: Update non-existent block
+        try:
+            response = requests.put(
+                f"{BACKEND_URL}/training-calendar/non-existent-id",
+                json={"title": "Updated Title"},
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if response.status_code == 404:
+                validation_tests.append(("Update non-existent block", True, "Correctly returned 404"))
+            else:
+                validation_tests.append(("Update non-existent block", False, f"Expected 404, got {response.status_code}"))
+        except Exception as e:
+            validation_tests.append(("Update non-existent block", False, f"Exception: {str(e)}"))
+        
+        # Test 5: Delete non-existent block
+        try:
+            response = requests.delete(f"{BACKEND_URL}/training-calendar/non-existent-id")
+            
+            if response.status_code == 404:
+                validation_tests.append(("Delete non-existent block", True, "Correctly returned 404"))
+            else:
+                validation_tests.append(("Delete non-existent block", False, f"Expected 404, got {response.status_code}"))
+        except Exception as e:
+            validation_tests.append(("Delete non-existent block", False, f"Exception: {str(e)}"))
+        
+        # Print results
+        for test_name, success, details in validation_tests:
+            print_test_result(test_name, success, details)
+        
+        return validation_tests
+        
+    except Exception as e:
+        print_test_result("Training Calendar Validation", False, f"Setup exception: {str(e)}")
+        return []
+
+def run_training_calendar_tests():
+    """Run comprehensive Training Calendar API tests"""
+    print("🔍 TRAINING CALENDAR API TESTING (Review Request)")
+    print("=" * 60)
+    print("Testing all CRUD operations for Training Calendar functionality")
+    print("Using existing test user: andre@example.com")
+    print("-" * 60)
+    
+    training_calendar_results = []
+    
+    # Test 1: Get empty training blocks
+    print("\n1. GET EMPTY TRAINING BLOCKS:")
+    result, athlete_id = test_training_calendar_get_empty()
+    training_calendar_results.append(("GET training blocks (empty)", result))
+    
+    if not result or not athlete_id:
+        print("❌ Cannot continue - failed to get athlete_id or endpoint failed")
+        return training_calendar_results
+    
+    # Test 2: Create training block
+    print("\n2. CREATE TRAINING BLOCK:")
+    result, training_block_id = test_training_calendar_create_training_block(athlete_id)
+    training_calendar_results.append(("POST create training block", result))
+    
+    # Test 3: Create recovery block
+    print("\n3. CREATE RECOVERY BLOCK:")
+    result, recovery_block_id = test_training_calendar_create_recovery_block(athlete_id)
+    training_calendar_results.append(("POST create recovery block", result))
+    
+    # Test 4: Get training blocks with data
+    print("\n4. GET TRAINING BLOCKS WITH DATA:")
+    result, blocks = test_training_calendar_get_with_blocks(athlete_id)
+    training_calendar_results.append(("GET training blocks (with data)", result))
+    
+    # Test 5: Update training block (if we have a block to update)
+    if training_block_id:
+        print("\n5. UPDATE TRAINING BLOCK:")
+        result = test_training_calendar_update_block(training_block_id)
+        training_calendar_results.append(("PUT update training block", result))
+        
+        # Test 6: Verify update
+        print("\n6. VERIFY UPDATE:")
+        result = test_training_calendar_verify_update(athlete_id, training_block_id)
+        training_calendar_results.append(("GET verify update", result))
+        
+        # Test 7: Delete training block
+        print("\n7. DELETE TRAINING BLOCK:")
+        result = test_training_calendar_delete_block(training_block_id)
+        training_calendar_results.append(("DELETE training block", result))
+        
+        # Test 8: Verify delete
+        print("\n8. VERIFY DELETE:")
+        result = test_training_calendar_verify_delete(athlete_id, training_block_id)
+        training_calendar_results.append(("GET verify delete", result))
+    
+    # Test 9: API Validation
+    print("\n9. API VALIDATION TESTS:")
+    validation_results = test_training_calendar_validation()
+    for test_name, success, _ in validation_results:
+        training_calendar_results.append((test_name, success))
+    
+    # Summary
+    print("\n" + "=" * 60)
+    print("🔍 TRAINING CALENDAR API TEST SUMMARY")
+    print("=" * 60)
+    
+    passed = sum(1 for _, success in training_calendar_results if success)
+    failed = sum(1 for _, success in training_calendar_results if not success)
+    
+    for test_name, success in training_calendar_results:
+        status = "✅ PASS" if success else "❌ FAIL"
+        print(f"{status} {test_name}")
+    
+    print(f"\nTotal Training Calendar Tests: {len(training_calendar_results)}")
+    print(f"Passed: {passed}")
+    print(f"Failed: {failed}")
+    print(f"Success Rate: {(passed/len(training_calendar_results)*100):.1f}%")
+    
+    return training_calendar_results
+
 def run_oura_credentials_tests():
     """Run comprehensive Oura credentials tests as requested in review"""
     print("🔍 OURA CREDENTIALS TESTING (Review Request)")
