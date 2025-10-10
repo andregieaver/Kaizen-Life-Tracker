@@ -345,14 +345,26 @@ const TestsAnalytics = ({ athleteId }) => {
                     <div className="flex items-center gap-2">
                       {sortedResults.length > 1 && (
                         <Badge 
-                          className={improvement >= 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}
+                          className={
+                            isLowerBetter 
+                              ? (improvement <= 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800')
+                              : (improvement >= 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800')
+                          }
                         >
                           <TrendingUp className="w-3 h-3 mr-1" />
-                          {improvement >= 0 ? '+' : ''}{improvementPercent}%
+                          {isLowerBetter 
+                            ? (improvement <= 0 ? '' : '+')
+                            : (improvement >= 0 ? '+' : '')
+                          }
+                          {improvementPercent}%
                         </Badge>
                       )}
                       <Badge className="bg-blue-100 text-blue-800">
-                        Latest: {formatValue(latestResult.result_value, unit)}
+                        Latest: {
+                          isDistanceTest && latestResult.time_to_completion
+                            ? formatValue(latestResult.time_to_completion, 'time')
+                            : formatValue(latestResult.result_value, unit)
+                        }
                       </Badge>
                     </div>
                   </div>
