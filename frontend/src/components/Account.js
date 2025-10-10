@@ -1221,6 +1221,25 @@ const Account = ({ athleteId }) => {
                       </Select>
                     </div>
                   </div>
+
+                  <div className="space-y-2">
+                    <Label>Date Format</Label>
+                    <Select
+                      value={personalForm.date_format || 'MM/DD/YYYY'}
+                      onValueChange={(value) => setPersonalForm(prev => ({...prev, date_format: value}))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="MM/DD/YYYY">MM/DD/YYYY (12/31/2024)</SelectItem>
+                        <SelectItem value="DD/MM/YYYY">DD/MM/YYYY (31/12/2024)</SelectItem>
+                        <SelectItem value="YYYY-MM-DD">YYYY-MM-DD (2024-12-31)</SelectItem>
+                        <SelectItem value="MMM DD, YYYY">MMM DD, YYYY (Dec 31, 2024)</SelectItem>
+                        <SelectItem value="DD MMM YYYY">DD MMM YYYY (31 Dec 2024)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <Separator />
