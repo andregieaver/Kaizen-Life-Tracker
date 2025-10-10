@@ -285,7 +285,10 @@
     "processing": "Processing...",
     "note": "Note",
     "importedActivities": "Imported {{count}} activities",
-    "importedSleepRecords": "Imported {{count}} sleep records"
+    "importedSleepRecords": "Imported {{count}} sleep records",
+    "cancel": "Cancel",
+    "create": "Create",
+    "update": "Update"
   },
   "strava": {
     "setupCredentials": "Setup Strava Credentials",
