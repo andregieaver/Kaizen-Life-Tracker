@@ -2567,6 +2567,21 @@ async def delete_conversation(athlete_id: str, session_id: str):
     
     return {"success": True, "deleted_count": result.deleted_count}
 
+@api_router.put("/coach/{athlete_id}/{session_id}/archive")
+async def archive_conversation(athlete_id: str, session_id: str, data: dict):
+    """Archive or unarchive a conversation"""
+    archived = data.get("archived", True)
+    
+    result = await db.chat_messages.update_many(
+        {"athlete_id": athlete_id, "session_id": session_id},
+        {"$set": {"archived": archived}}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    
+    return {"success": True, "modified_count": result.modified_count, "archived": archived}
+
 # Memory Management routes
 @api_router.get("/memory/{athlete_id}")
 async def get_athlete_memories(athlete_id: str):
