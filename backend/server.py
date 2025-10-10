@@ -1622,16 +1622,17 @@ async def update_subscription_plan(request: dict):
             proration_behavior='create_prorations'  # Prorate charges
         )
         
-        # Update athlete profile
-        period_days = 30 if new_plan["interval"] == "month" else 365
-        period_end = datetime.now(timezone.utc) + timedelta(days=period_days)
+        # Update athlete profile with new interval info
+        # Get actual period end from Stripe subscription
+        actual_period_end = datetime.fromtimestamp(updated_subscription.current_period_end, timezone.utc)
         
         await db.athlete_profiles.update_one(
             {"id": athlete_id},
             {"$set": {
                 "subscription_tier": new_plan["tier"],
                 "subscription_status": "active",
-                "subscription_current_period_end": period_end.isoformat()
+                "subscription_interval": new_plan["interval"],
+                "subscription_current_period_end": actual_period_end.isoformat()
             }}
         )
         
