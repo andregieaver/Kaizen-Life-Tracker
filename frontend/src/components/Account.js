@@ -1060,6 +1060,94 @@ const Account = ({ athleteId }) => {
               </CardContent>
             </Card>
           </div>
+
+          {/* Cancel Subscription Dialog */}
+          {showCancelDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-full max-w-md mx-4">
+                <CardHeader>
+                  <CardTitle className="text-red-600">Cancel Subscription?</CardTitle>
+                  <CardDescription>
+                    Are you sure you want to cancel your subscription?
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p className="text-sm text-yellow-900">
+                      <strong>What happens next:</strong>
+                    </p>
+                    <ul className="text-sm text-yellow-800 mt-2 space-y-1 list-disc list-inside">
+                      <li>Your subscription will remain active until the end of your billing period</li>
+                      <li>You'll be downgraded to the Free plan automatically</li>
+                      <li>You won't be charged again</li>
+                      <li>You can resubscribe anytime</li>
+                    </ul>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => setShowCancelDialog(false)}
+                    >
+                      Keep Subscription
+                    </Button>
+                    <Button 
+                      variant="destructive" 
+                      className="flex-1"
+                      onClick={handleCancelSubscription}
+                    >
+                      Cancel Subscription
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Downgrade Confirmation Dialog */}
+          {showDowngradeDialog && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <Card className="w-full max-w-md mx-4">
+                <CardHeader>
+                  <CardTitle>Change Plan?</CardTitle>
+                  <CardDescription>
+                    Confirm your plan change
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <p className="text-sm text-blue-900">
+                      <strong>What happens next:</strong>
+                    </p>
+                    <ul className="text-sm text-blue-800 mt-2 space-y-1 list-disc list-inside">
+                      <li>Your plan will change immediately</li>
+                      <li>You'll be charged/credited the prorated amount</li>
+                      <li>New billing cycle starts today</li>
+                    </ul>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      className="flex-1"
+                      onClick={() => {
+                        setShowDowngradeDialog(false);
+                        setDowngradeTarget(null);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button 
+                      variant="default" 
+                      className="flex-1"
+                      onClick={() => handleDowngrade(downgradeTarget)}
+                    >
+                      Confirm Change
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </TabsContent>
 
         {/* Integrations Tab */}
