@@ -2549,6 +2549,18 @@ async def get_conversation(athlete_id: str, session_id: str):
     ).sort("timestamp", 1).to_list(length=None)
     return [parse_from_mongo(m) for m in messages]
 
+@api_router.delete("/coach/{athlete_id}/{session_id}")
+async def delete_conversation(athlete_id: str, session_id: str):
+    """Delete all messages from a specific conversation"""
+    result = await db.chat_messages.delete_many(
+        {"athlete_id": athlete_id, "session_id": session_id}
+    )
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    
+    return {"success": True, "deleted_count": result.deleted_count}
+
 # Memory Management routes
 @api_router.get("/memory/{athlete_id}")
 async def get_athlete_memories(athlete_id: str):
