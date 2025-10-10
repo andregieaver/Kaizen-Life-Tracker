@@ -332,7 +332,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
       interval_distance: block.interval_distance || '',
       interval_pace: block.interval_pace || '',
       rest_duration: block.rest_duration || '',
-      unit_system: block.unit_system || 'miles'
+      unit_system: block.unit_system || distanceUnit
     });
     setIsDialogOpen(true);
   };
