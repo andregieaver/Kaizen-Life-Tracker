@@ -586,6 +586,7 @@ const Account = ({ athleteId }) => {
         week_starts_on: personalForm.week_starts_on,
         timezone: personalForm.timezone,
         time_format: personalForm.time_format,
+        date_format: personalForm.date_format,
         language: personalForm.language
       };
       
