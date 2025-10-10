@@ -137,12 +137,13 @@ const Dashboard = ({ athleteId }) => {
                 </button>
               </nav>
             </div>
-            <div className="flex items-center">
-              <span className="text-sm text-gray-600 mr-3">{t('dashboard.welcome')},</span>
-              <Badge variant="secondary" className="font-medium">
-                {athlete?.name}
-              </Badge>
-            </div>
+            <button 
+              onClick={() => setIsMenuOpen(true)}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              aria-label="Open menu"
+            >
+              <Menu className="w-6 h-6 text-gray-700" />
+            </button>
           </div>
         </div>
       </header>
