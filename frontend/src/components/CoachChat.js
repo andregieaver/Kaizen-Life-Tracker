@@ -13,7 +13,7 @@ import ChartRenderer from './ChartRenderer';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-const CoachChat = ({ athleteId }) => {
+const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
   const { t } = useTranslation();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
