@@ -199,11 +199,20 @@ const Dashboard = ({ athleteId }) => {
               </button>
             </div>
 
-            {/* Menu Content - Empty for now */}
+            {/* Menu Content */}
             <div className="flex-1 p-4">
-              <p className="text-sm text-gray-500 text-center py-8">
-                Menu items coming soon...
-              </p>
+              <nav className="space-y-2">
+                <button
+                  onClick={() => {
+                    navigate('/journal');
+                    setIsMenuOpen(false);
+                  }}
+                  className="w-full flex items-center space-x-3 p-3 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  <BookOpen className="w-5 h-5" />
+                  <span className="font-medium">Journal</span>
+                </button>
+              </nav>
             </div>
 
             {/* Account Settings - Fixed at Bottom */}
