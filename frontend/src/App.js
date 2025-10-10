@@ -8,6 +8,7 @@ import Login from './components/Login';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import Pricing from './components/Pricing';
+import Journal from './components/Journal';
 import StravaCallback from './components/StravaCallback';
 import OuraCallback from './components/OuraCallback';
 import CorosCallback from './components/CorosCallback';
