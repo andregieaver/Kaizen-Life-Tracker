@@ -260,6 +260,28 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const handleReactivate = async () => {
+    try {
+      const response = await axios.post(`${API}/subscriptions/reactivate`, {
+        athlete_id: athleteId
+      });
+
+      if (response.data.success) {
+        setSaveStatus({ 
+          type: 'success', 
+          message: response.data.message
+        });
+        await loadSubscriptionStatus();
+      }
+    } catch (error) {
+      console.error('Reactivate error:', error);
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Failed to reactivate subscription. Please try again.' 
+      });
+    }
+  };
+
   const loadAccountData = async () => {
     setIsLoading(true);
     try {
