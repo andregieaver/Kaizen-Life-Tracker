@@ -345,6 +345,18 @@ test_plan:
         agent: "testing"
         comment: "✅ CHANGE PASSWORD IN ACCOUNT SETTINGS FULLY FUNCTIONAL - Comprehensive testing completed with 100% success rate. VERIFIED: 1) ACCOUNT SETTINGS INTEGRATION ✓ - Change Password section properly integrated into Account Settings Personal Information tab, replaces previous 'Coming Soon' message, accessible after user login. 2) CHANGE PASSWORD FORM ✓ - Complete form with three fields (Current Password, New Password, Confirm New Password), proper field labels and placeholders, password masking for security. 3) FORM VALIDATION ✓ - Current password verification, new password length validation (minimum 6 characters), password confirmation matching, prevents using same password, clear validation error messages. 4) FORM SUBMISSION ✓ - Successfully processes password change requests, integrates with backend API, proper loading states during submission. 5) SUCCESS/ERROR HANDLING ✓ - Clear success messages after password change, appropriate error messages for validation failures, form reset after successful submission. 6) BACKEND API ✓ - POST /api/auth/change-password endpoint working perfectly, verifies current password against stored hash, securely hashes new password, updates athlete profile. 7) SECURITY FEATURES ✓ - Current password verification required, secure password hashing, prevents password reuse, proper authentication checks. 8) UI/UX ✓ - Clean card-based design, proper spacing and styling, cancel button functionality, security note displayed. Ready for production use."
 
+  - task: "Account Settings Personal Information and Preferences Save/Load"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ ACCOUNT SETTINGS PERSONAL INFO & PREFERENCES FULLY FUNCTIONAL - Comprehensive testing completed with 100% success rate. VERIFIED ALL REQUIREMENTS: 1) LOGIN ✓ - Successfully logged in as andre@example.com and retrieved athlete_id (90de5b99-6db3-4e14-8455-c00864fb9976). 2) PERSONAL INFO SAVE ✓ - PUT /api/athlete/{athlete_id} successfully saved all new fields: height=175, weight=70, vo2_max=52.5, measurement_system=metric. All values persisted correctly in database. 3) PREFERENCES SAVE ✓ - PUT /api/athlete/{athlete_id} successfully saved all preference fields: distance_unit=km, week_starts_on=sunday, timezone=Europe/Oslo, time_format=24h. All values persisted correctly in database. 4) PERSISTENCE VERIFICATION ✓ - GET /api/athlete/{athlete_id} returned all saved values exactly as sent, confirming proper database persistence. 5) DATA INTEGRITY ✓ - All 8 fields (4 personal info + 4 preferences) verified to match expected values after save and fetch operations. TESTED EXACT VALUES FROM REVIEW REQUEST: Personal Info (height=175, weight=70, vo2_max=52.5, measurement_system=metric), Preferences (distance_unit=km, week_starts_on=sunday, timezone=Europe/Oslo, time_format=24h). Account Settings save/load functionality is production-ready and working perfectly."
+
   - task: "Training Calendar Backend Implementation"
     implemented: true
     working: true
