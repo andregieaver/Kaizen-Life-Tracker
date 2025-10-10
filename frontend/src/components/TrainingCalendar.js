@@ -506,17 +506,37 @@ const TrainingCalendar = ({ athleteId }) => {
                   </TabsContent>
                 </Tabs>
 
-                <div className="flex justify-end gap-2 pt-4 border-t">
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={() => setIsDialogOpen(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
-                    {editingBlock ? 'Update Workout' : 'Create Workout'}
-                  </Button>
+                <div className="flex justify-between pt-4 border-t">
+                  <div>
+                    {editingBlock && (
+                      <Button 
+                        type="button" 
+                        variant="destructive" 
+                        onClick={() => {
+                          if (window.confirm('Are you sure you want to delete this workout?')) {
+                            handleDeleteBlock(editingBlock.id);
+                            setIsDialogOpen(false);
+                          }
+                        }}
+                        className="bg-red-600 hover:bg-red-700 text-white"
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete Workout
+                      </Button>
+                    )}
+                  </div>
+                  <div className="flex gap-2">
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={() => setIsDialogOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+                      {editingBlock ? 'Update Workout' : 'Create Workout'}
+                    </Button>
+                  </div>
                 </div>
               </form>
             </DialogContent>
