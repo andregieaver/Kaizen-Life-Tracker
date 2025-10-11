@@ -1252,9 +1252,9 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                             tools=tools if tools else None
                         )
                         
-                        return final_response.choices[0].message.content
+                        return final_response.choices[0].message.content or "I've processed your request."
                 
-                return assistant_message.content
+                return assistant_message.content or "I've received your message, but couldn't generate a proper response. Please try rephrasing."
             
             else:
                 # Fall back to Emergent integration
