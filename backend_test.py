@@ -28,6 +28,272 @@ def print_test_result(test_name, success, details=""):
         print(f"   Details: {details}")
     print()
 
+def test_voice_session_token_response_debug():
+    """Debug voice session token response structure to understand frontend 'Failed to get session token' issue"""
+    print("🔍 DEBUGGING Voice Session Token Response Structure")
+    
+    # Use the specific athlete_id from the review request
+    athlete_id = "3e4ee10d-105d-4564-8b7a-1e7223acb706"  # andre@example.com
+    
+    print(f"   Testing with athlete_id: {athlete_id} (andre@example.com)")
+    
+    try:
+        # Step 1: Check if andre@example.com has OpenAI API key configured
+        print("   Step 1: Check if andre@example.com has OpenAI API key configured")
+        
+        integrations_response = requests.get(f"{BACKEND_URL}/integrations/{athlete_id}")
+        
+        openai_integration = None
+        if integrations_response.status_code == 200:
+            integrations_data = integrations_response.json()
+            for integration in integrations_data.get("integrations", []):
+                if integration.get("integration_type") == "openai":
+                    openai_integration = integration
+                    break
+        
+        if openai_integration:
+            print_test_result("Voice Debug - OpenAI Key Check", True, "✅ OpenAI API key is configured for andre@example.com")
+            api_key_configured = True
+        else:
+            print_test_result("Voice Debug - OpenAI Key Check", False, "❌ No OpenAI API key configured for andre@example.com")
+            api_key_configured = False
+        
+        # Step 2: Test POST /api/coach/voice/session/{athlete_id} and capture exact response
+        print("   Step 2: Test POST /api/coach/voice/session/3e4ee10d-105d-4564-8b7a-1e7223acb706")
+        
+        session_response = requests.post(
+            f"{BACKEND_URL}/coach/voice/session/{athlete_id}",
+            headers={"Content-Type": "application/json"}
+        )
+        
+        print(f"   Response Status Code: {session_response.status_code}")
+        print(f"   Response Headers: {dict(session_response.headers)}")
+        
+        # Step 3: Analyze exact response structure
+        print("   Step 3: Analyze exact JSON response structure")
+        
+        response_analysis = []
+        
+        try:
+            response_json = session_response.json()
+            print(f"   Raw Response JSON: {json.dumps(response_json, indent=2)}")
+            
+            # Check if client_secret exists at root level
+            if "client_secret" in response_json:
+                client_secret = response_json["client_secret"]
+                response_analysis.append(f"✅ client_secret exists at root level")
+                response_analysis.append(f"   Type: {type(client_secret)}")
+                response_analysis.append(f"   Value: {str(client_secret)[:50]}...")
+                
+                # Check if it's a nested object with .value property
+                if isinstance(client_secret, dict) and "value" in client_secret:
+                    response_analysis.append("✅ client_secret.value exists (nested structure)")
+                    response_analysis.append(f"   client_secret.value: {client_secret['value'][:50]}...")
+                elif isinstance(client_secret, str):
+                    response_analysis.append("⚠️ client_secret is string (not nested object)")
+                    response_analysis.append("❌ Frontend expects client_secret.value but got direct string")
+                else:
+                    response_analysis.append(f"❌ client_secret is {type(client_secret)} (unexpected type)")
+            else:
+                response_analysis.append("❌ client_secret field missing from response")
+            
+            # Check for other fields that might contain the token
+            for key, value in response_json.items():
+                if key != "client_secret":
+                    response_analysis.append(f"   Other field: {key} = {str(value)[:50]}...")
+            
+        except json.JSONDecodeError as e:
+            response_analysis.append(f"❌ Invalid JSON response: {e}")
+            print(f"   Raw Response Text: {session_response.text}")
+        
+        # Step 4: Test what happens with current API key (valid or invalid)
+        print("   Step 4: Test with current OpenAI API key status")
+        
+        api_key_analysis = []
+        
+        if session_response.status_code == 200:
+            api_key_analysis.append("✅ Session creation succeeded (API key is valid)")
+        elif session_response.status_code == 400:
+            try:
+                error_data = session_response.json()
+                error_detail = error_data.get("detail", "")
+                if "OpenAI API key required" in error_detail:
+                    api_key_analysis.append("❌ No OpenAI API key configured")
+                elif "API key" in error_detail:
+                    api_key_analysis.append("❌ OpenAI API key is invalid")
+                else:
+                    api_key_analysis.append(f"❌ Other error: {error_detail}")
+            except:
+                api_key_analysis.append("❌ 400 error with invalid JSON")
+        elif session_response.status_code == 500:
+            api_key_analysis.append("❌ 500 error - check backend logs")
+            print(f"   500 Error Response: {session_response.text}")
+        else:
+            api_key_analysis.append(f"❌ Unexpected status: {session_response.status_code}")
+        
+        # Step 5: Check emergentintegrations library response format
+        print("   Step 5: Debug emergentintegrations library response format")
+        
+        library_analysis = []
+        
+        if session_response.status_code == 200:
+            try:
+                response_json = session_response.json()
+                
+                # The issue might be that emergentintegrations returns a different format
+                # than what the frontend expects
+                
+                # Frontend expects: data.client_secret?.value
+                # Let's check what we actually get
+                
+                if "client_secret" in response_json:
+                    client_secret = response_json["client_secret"]
+                    
+                    if isinstance(client_secret, dict):
+                        if "value" in client_secret:
+                            library_analysis.append("✅ Response matches frontend expectation: client_secret.value")
+                        else:
+                            library_analysis.append("❌ client_secret is object but missing 'value' field")
+                            library_analysis.append(f"   Available fields: {list(client_secret.keys())}")
+                    elif isinstance(client_secret, str):
+                        library_analysis.append("❌ MISMATCH: Backend returns string, frontend expects object.value")
+                        library_analysis.append("💡 FIX NEEDED: Wrap string in {value: string} or update frontend")
+                    else:
+                        library_analysis.append(f"❌ Unexpected client_secret type: {type(client_secret)}")
+                else:
+                    library_analysis.append("❌ No client_secret field in response")
+            except:
+                library_analysis.append("❌ Could not analyze response structure")
+        else:
+            library_analysis.append("⚠️ Cannot analyze library format - request failed")
+        
+        # Step 6: Test frontend expectations
+        print("   Step 6: Test frontend expectations vs actual response")
+        
+        frontend_analysis = []
+        
+        # Frontend code checks for: data.client_secret?.value
+        # This means it expects:
+        # {
+        #   "client_secret": {
+        #     "value": "actual_token_string"
+        #   }
+        # }
+        
+        if session_response.status_code == 200:
+            try:
+                response_json = session_response.json()
+                
+                # Simulate frontend access pattern
+                client_secret_value = None
+                
+                # Try: data.client_secret?.value
+                if "client_secret" in response_json:
+                    client_secret = response_json["client_secret"]
+                    if isinstance(client_secret, dict) and "value" in client_secret:
+                        client_secret_value = client_secret["value"]
+                        frontend_analysis.append("✅ Frontend can access: data.client_secret.value")
+                    elif isinstance(client_secret, str):
+                        frontend_analysis.append("❌ Frontend cannot access: data.client_secret.value")
+                        frontend_analysis.append("   Reason: client_secret is string, not object with value property")
+                        frontend_analysis.append(f"   Actual value: {client_secret[:50]}...")
+                    else:
+                        frontend_analysis.append("❌ Frontend cannot access: data.client_secret.value")
+                        frontend_analysis.append(f"   Reason: client_secret is {type(client_secret)}, not object")
+                else:
+                    frontend_analysis.append("❌ Frontend cannot access: data.client_secret.value")
+                    frontend_analysis.append("   Reason: client_secret field missing")
+                
+                if client_secret_value:
+                    frontend_analysis.append(f"✅ Token would be accessible: {client_secret_value[:20]}...")
+                else:
+                    frontend_analysis.append("❌ Token is NOT accessible to frontend")
+            except:
+                frontend_analysis.append("❌ Could not simulate frontend access")
+        else:
+            frontend_analysis.append("⚠️ Cannot test frontend expectations - request failed")
+        
+        # Step 7: Print comprehensive analysis
+        print("\n📊 VOICE SESSION TOKEN RESPONSE ANALYSIS:")
+        print("=" * 60)
+        print(f"Status Code: {session_response.status_code}")
+        print(f"OpenAI Key Configured: {'Yes' if api_key_configured else 'No'}")
+        print()
+        
+        print("RESPONSE STRUCTURE:")
+        for analysis in response_analysis:
+            print(f"  {analysis}")
+        print()
+        
+        print("API KEY STATUS:")
+        for analysis in api_key_analysis:
+            print(f"  {analysis}")
+        print()
+        
+        print("LIBRARY FORMAT:")
+        for analysis in library_analysis:
+            print(f"  {analysis}")
+        print()
+        
+        print("FRONTEND COMPATIBILITY:")
+        for analysis in frontend_analysis:
+            print(f"  {analysis}")
+        print()
+        
+        # Step 8: Determine root cause and solution
+        print("ROOT CAUSE ANALYSIS:")
+        print("-" * 30)
+        
+        if session_response.status_code != 200:
+            print("❌ PRIMARY ISSUE: Session creation is failing")
+            if not api_key_configured:
+                print("   Cause: No OpenAI API key configured for andre@example.com")
+                print("   Solution: Configure valid OpenAI API key in Account Settings")
+            elif session_response.status_code == 400:
+                print("   Cause: Invalid OpenAI API key")
+                print("   Solution: Update to valid OpenAI API key")
+            else:
+                print("   Cause: Backend error - check server logs")
+        else:
+            # Session creation succeeded, check response format
+            try:
+                response_json = session_response.json()
+                if "client_secret" in response_json:
+                    client_secret = response_json["client_secret"]
+                    if isinstance(client_secret, dict) and "value" in client_secret:
+                        print("✅ NO ISSUE: Response format matches frontend expectations")
+                    elif isinstance(client_secret, str):
+                        print("❌ FORMAT MISMATCH: Backend returns string, frontend expects object.value")
+                        print("   Current: {\"client_secret\": \"token_string\"}")
+                        print("   Expected: {\"client_secret\": {\"value\": \"token_string\"}}")
+                        print("   Solution: Update backend to wrap token in {value: token} structure")
+                    else:
+                        print(f"❌ TYPE MISMATCH: client_secret is {type(client_secret)}")
+                else:
+                    print("❌ MISSING FIELD: client_secret not in response")
+            except:
+                print("❌ RESPONSE FORMAT: Invalid JSON")
+        
+        print("=" * 60)
+        
+        # Determine overall success
+        success = False
+        if session_response.status_code == 200:
+            try:
+                response_json = session_response.json()
+                if ("client_secret" in response_json and 
+                    isinstance(response_json["client_secret"], dict) and 
+                    "value" in response_json["client_secret"]):
+                    success = True
+            except:
+                pass
+        
+        return success
+        
+    except Exception as e:
+        print_test_result("Voice Debug - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_openai_realtime_voice_api_error_handling():
     """Test OpenAI Realtime Voice API error handling for missing API keys - returns 400 instead of 500"""
     print("🔍 Testing OpenAI Realtime Voice API Error Handling (400 Status Codes)")
