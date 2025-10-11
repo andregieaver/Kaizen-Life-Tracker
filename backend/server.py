@@ -3448,10 +3448,20 @@ COACHING PRINCIPLES:
 You can access their training calendar, create workouts, and provide personalized coaching advice through voice conversation.
 """
         
-        # Create ephemeral session for audio chat
-        # Note: The method signature may not accept system_message parameter
-        # Try without parameters first, then add system message via other means if needed
-        session_data = await realtime_chat.create_ephemeral_session_for_audio_chat()
+        # Create ephemeral session for audio chat with voice preference
+        # Pass voice preference to use the athlete's selected voice
+        try:
+            session_data = await realtime_chat.create_ephemeral_session_for_audio_chat(
+                voice=voice_preference,
+                system_message=system_message
+            )
+        except TypeError:
+            # Fallback: Try with just voice parameter if system_message not supported
+            try:
+                session_data = await realtime_chat.create_ephemeral_session_for_audio_chat(voice=voice_preference)
+            except TypeError:
+                # Final fallback: Use default parameters
+                session_data = await realtime_chat.create_ephemeral_session_for_audio_chat()
         
         # Debug logging removed for production
         
