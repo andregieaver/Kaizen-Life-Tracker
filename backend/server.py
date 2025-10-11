@@ -769,9 +769,27 @@ Return only the JSON array, nothing else.
                 "integration_type": "openai",
                 "is_active": True
             })
-            return integration["credentials"]["api_key"] if integration else None
+            
+            if not integration:
+                logging.info(f"No OpenAI integration found for athlete {athlete_id}")
+                return None
+                
+            credentials = integration.get("credentials", {})
+            api_key = credentials.get("api_key")
+            
+            # Ensure we have a valid, non-empty API key
+            if not api_key or not api_key.strip():
+                logging.info(f"OpenAI integration exists for athlete {athlete_id} but API key is empty")
+                return None
+                
+            # Basic validation - OpenAI keys should start with sk-
+            if not api_key.startswith("sk-"):
+                logging.warning(f"Invalid OpenAI API key format for athlete {athlete_id}")
+                return None
+                
+            return api_key.strip()
         except Exception as e:
-            logging.error(f"Error retrieving user OpenAI key: {e}")
+            logging.error(f"Error retrieving user OpenAI key for athlete {athlete_id}: {e}")
             return None
     
     async def search_health_information(self, query: str, category: str = "general") -> Dict:
