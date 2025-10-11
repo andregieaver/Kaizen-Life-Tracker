@@ -1361,7 +1361,7 @@ const Account = ({ athleteId }) => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="max_heart_rate" className="text-sm font-medium">Max Heart Rate (BPM)</Label>
+                      <Label htmlFor="max_heart_rate" className="text-sm font-medium">{t('account.maxHeartRate')}</Label>
                       <Input
                         id="max_heart_rate"
                         name="max_heart_rate"
