@@ -567,9 +567,18 @@ const Account = ({ athleteId }) => {
     e.preventDefault();
     setIsLoading(true);
     try {
+      // Construct date_of_birth from day, month, year
+      let date_of_birth = null;
+      if (personalForm.birth_day && personalForm.birth_month && personalForm.birth_year) {
+        const year = parseInt(personalForm.birth_year);
+        const month = parseInt(personalForm.birth_month) - 1; // JavaScript months are 0-based
+        const day = parseInt(personalForm.birth_day);
+        date_of_birth = new Date(year, month, day).toISOString().split('T')[0]; // YYYY-MM-DD format
+      }
+      
       const updatedData = {
         name: personalForm.name,
-        age: parseInt(personalForm.age),
+        date_of_birth: date_of_birth,
         running_goals: personalForm.running_goals,
         height: personalForm.height ? parseFloat(personalForm.height) : null,
         weight: personalForm.weight ? parseFloat(personalForm.weight) : null,
