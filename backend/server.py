@@ -69,8 +69,21 @@ def calculate_age(date_of_birth):
     age = today.year - date_of_birth.year
     
     # Check if birthday has occurred this year
-    if today < date(today.year, date_of_birth.month, date_of_birth.day):
-        age -= 1
+    # Handle leap year edge case (Feb 29 birthday in non-leap year)
+    try:
+        birthday_this_year = date(today.year, date_of_birth.month, date_of_birth.day)
+        if today < birthday_this_year:
+            age -= 1
+    except ValueError:
+        # This handles Feb 29 birthday in non-leap years
+        # For Feb 29 birthdays, consider the birthday as Feb 28 in non-leap years
+        if date_of_birth.month == 2 and date_of_birth.day == 29:
+            birthday_this_year = date(today.year, 2, 28)
+            if today < birthday_this_year:
+                age -= 1
+        else:
+            # For other invalid dates, just return the calculated age
+            pass
         
     return age
 
