@@ -177,6 +177,9 @@ class RealtimeAudioChat {
 
     async disconnect() {
         try {
+            // Save the conversation if we have transcript data
+            await this.saveConversation();
+            
             if (this.localStream) {
                 this.localStream.getTracks().forEach(track => track.stop());
             }
@@ -196,6 +199,44 @@ class RealtimeAudioChat {
             console.log("Voice chat disconnected");
         } catch (error) {
             console.error("Error disconnecting:", error);
+        }
+    }
+    
+    async saveConversation() {
+        if (!this.transcript || this.transcript.length === 0) {
+            console.log("No transcript to save");
+            return;
+        }
+        
+        try {
+            const durationSeconds = this.sessionStartTime ? 
+                Math.round((new Date() - this.sessionStartTime) / 1000) : null;
+            
+            const conversationData = {
+                athlete_id: this.athleteId,
+                session_id: this.sessionId,
+                transcript: this.transcript,
+                duration_seconds: durationSeconds
+            };
+            
+            console.log("Saving voice conversation:", conversationData);
+            
+            const response = await fetch(`${this.backendUrl}/api/coach/voice/save-conversation`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(conversationData)
+            });
+            
+            if (response.ok) {
+                console.log("Voice conversation saved successfully");
+            } else {
+                const errorData = await response.json();
+                console.error("Failed to save voice conversation:", errorData);
+            }
+        } catch (error) {
+            console.error("Error saving voice conversation:", error);
         }
     }
 }
