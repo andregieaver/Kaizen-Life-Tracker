@@ -54,15 +54,25 @@ def prepare_for_mongo(data):
     return data
 
 def parse_from_mongo(item):
-    """Parse data from MongoDB by converting ISO strings back to datetime objects"""
-    if isinstance(item, dict):
-        for key, value in item.items():
-            if isinstance(value, str) and 'timestamp' in key.lower():
-                try:
-                    item[key] = datetime.fromisoformat(value.replace('Z', '+00:00'))
-                except:
-                    pass
+    if isinstance(item.get('date'), str):
+        item['date'] = datetime.fromisoformat(item['date']).date()
+    if isinstance(item.get('time'), str):
+        item['time'] = datetime.strptime(item['time'], '%H:%M:%S').time()
     return item
+
+def calculate_age(date_of_birth):
+    """Calculate age from date of birth"""
+    if not date_of_birth:
+        return None
+    
+    today = date.today()
+    age = today.year - date_of_birth.year
+    
+    # Check if birthday has occurred this year
+    if today < date(today.year, date_of_birth.month, date_of_birth.day):
+        age -= 1
+        
+    return age
 
 # Define Models for Running Coach
 
