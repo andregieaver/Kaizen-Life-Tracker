@@ -28,6 +28,167 @@ def print_test_result(test_name, success, details=""):
         print(f"   Details: {details}")
     print()
 
+def test_ai_coach_web_search():
+    """Test AI Coach web search functionality with Tavily API"""
+    print("🔍 Testing AI Coach Web Search Functionality")
+    
+    # Step 1: Login as andre@example.com to get athlete_id
+    print("   Step 1: Login as andre@example.com")
+    
+    login_data = {
+        "email": "andre@example.com",
+        "password": "password123"
+    }
+    
+    try:
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("AI Coach Web Search - Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if not athlete_id:
+            print_test_result("AI Coach Web Search - Login", False, "No athlete_id in login response")
+            return False
+        
+        print_test_result("AI Coach Web Search - Login", True, f"Logged in as {athlete_data.get('name')} (ID: {athlete_id})")
+        
+        # Step 2: Test the test-search endpoint first to verify Tavily is working
+        print("   Step 2: Test Tavily API endpoint")
+        
+        test_search_response = requests.get(f"{BACKEND_URL}/coach/test-search")
+        
+        if test_search_response.status_code == 200:
+            test_search_data = test_search_response.json()
+            print_test_result("AI Coach - Test Search Endpoint", True, f"Tavily API working: {test_search_data.get('status', 'unknown')}")
+        else:
+            print_test_result("AI Coach - Test Search Endpoint", False, f"Test search failed: {test_search_response.status_code}")
+            return False
+        
+        # Step 3: Send a chat message that should trigger web search
+        print("   Step 3: Send chat message that should trigger web search")
+        
+        chat_data = {
+            "athlete_id": athlete_id,
+            "message": "What's the latest research on Zone 2 training for runners?",
+            "session_id": f"test_session_{int(datetime.now().timestamp())}"
+        }
+        
+        chat_response = requests.post(
+            f"{BACKEND_URL}/coach/chat",
+            json=chat_data,
+            headers={"Content-Type": "application/json"},
+            timeout=60  # Increased timeout for AI processing
+        )
+        
+        if chat_response.status_code != 200:
+            print_test_result("AI Coach - Chat with Search Query", False, f"Chat failed: {chat_response.status_code}, Response: {chat_response.text}")
+            return False
+        
+        chat_result = chat_response.json()
+        
+        # Step 4: Analyze the response for web search indicators
+        print("   Step 4: Analyze response for web search indicators")
+        
+        response_text = chat_result.get("response", "")
+        
+        success = True
+        details = []
+        
+        # Check if response contains information that suggests web search was used
+        search_indicators = [
+            "research", "study", "studies", "according to", "recent", "latest",
+            "source", "published", "journal", "evidence", "data shows"
+        ]
+        
+        found_indicators = [indicator for indicator in search_indicators if indicator.lower() in response_text.lower()]
+        
+        if found_indicators:
+            details.append(f"Search indicators found: ✓ ({', '.join(found_indicators[:3])}...)")
+        else:
+            details.append("Search indicators: ⚠️ (may not have used web search)")
+        
+        # Check response length (web search responses tend to be more detailed)
+        if len(response_text) > 200:
+            details.append(f"Response length: ✓ ({len(response_text)} chars - detailed response)")
+        else:
+            details.append(f"Response length: ⚠️ ({len(response_text)} chars - may be generic)")
+        
+        # Check if response mentions Zone 2 training specifically
+        if "zone 2" in response_text.lower():
+            details.append("Zone 2 content: ✓ (specific to query)")
+        else:
+            details.append("Zone 2 content: ✗ (missing specific content)")
+            success = False
+        
+        # Check if response contains citations or references
+        citation_indicators = ["according to", "research shows", "studies indicate", "source:", "ref:", "http"]
+        found_citations = [indicator for indicator in citation_indicators if indicator.lower() in response_text.lower()]
+        
+        if found_citations:
+            details.append(f"Citations/References: ✓ ({', '.join(found_citations[:2])})")
+        else:
+            details.append("Citations/References: ⚠️ (no clear citations found)")
+        
+        print_test_result("AI Coach - Response Analysis", success, "; ".join(details))
+        
+        # Step 5: Check backend logs for function calling activity (if accessible)
+        print("   Step 5: Check for function calling indicators")
+        
+        # Since we can't directly access backend logs, we'll look for other indicators
+        # The response quality and content should indicate if web search was used
+        
+        function_call_success = True
+        function_details = []
+        
+        # If the response is very detailed and contains recent information, it likely used web search
+        if len(response_text) > 300 and any(word in response_text.lower() for word in ["recent", "latest", "current", "new"]):
+            function_details.append("Function calling likely occurred: ✓ (detailed, current information)")
+        else:
+            function_details.append("Function calling uncertain: ⚠️ (response may be from training data)")
+        
+        # Check if Tavily API key is configured (from test endpoint)
+        if test_search_data.get("status") == "success":
+            function_details.append("Tavily API configured: ✓")
+        else:
+            function_details.append("Tavily API configured: ✗")
+            function_call_success = False
+        
+        print_test_result("AI Coach - Function Calling Indicators", function_call_success, "; ".join(function_details))
+        
+        # Overall test result
+        overall_success = success and function_call_success
+        
+        if overall_success:
+            print_test_result("AI Coach Web Search - Overall Test", True, "Web search functionality appears to be working correctly")
+        else:
+            failed_components = []
+            if not success:
+                failed_components.append("response analysis")
+            if not function_call_success:
+                failed_components.append("function calling")
+            
+            print_test_result("AI Coach Web Search - Overall Test", False, f"Issues with: {', '.join(failed_components)}")
+        
+        # Print the actual response for manual verification
+        print("\n📝 ACTUAL AI COACH RESPONSE:")
+        print("-" * 40)
+        print(response_text[:500] + ("..." if len(response_text) > 500 else ""))
+        print("-" * 40)
+        
+        return overall_success
+        
+    except Exception as e:
+        print_test_result("AI Coach Web Search - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_account_settings_personal_info_and_preferences():
     """Test Account Settings Personal Information and Preferences save/load functionality"""
     print("🔍 Testing Account Settings Personal Information and Preferences")
