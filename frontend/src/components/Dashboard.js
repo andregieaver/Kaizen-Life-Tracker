@@ -57,11 +57,11 @@ const Dashboard = ({ athleteId }) => {
       }
 
       if (scrollY > lastScrollY && scrollY > 80) {
-        // Scrolling down
+        // Scrolling down - hide navigation
         setScrollDirection('down');
         setIsHeaderVisible(false);
       } else if (scrollY < lastScrollY) {
-        // Scrolling up
+        // Scrolling up - show navigation
         setScrollDirection('up');
         setIsHeaderVisible(true);
       }
