@@ -2833,6 +2833,378 @@ def run_enhanced_training_calendar_tests():
     
     return enhanced_test_results
 
+def test_ai_coach_sequential_function_calling():
+    """Test AI Coach sequential function calling capabilities for calendar management"""
+    print("🔍 Testing AI Coach Sequential Function Calling - Calendar Management")
+    
+    # Step 1: Login as andre@example.com to get athlete_id
+    print("   Step 1: Login as andre@example.com")
+    
+    login_data = {
+        "email": "andre@example.com",
+        "password": "password123"
+    }
+    
+    try:
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("AI Coach Sequential - Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if not athlete_id:
+            print_test_result("AI Coach Sequential - Login", False, "No athlete_id in login response")
+            return False
+        
+        print_test_result("AI Coach Sequential - Login", True, f"Logged in as {athlete_data.get('name')} (ID: {athlete_id})")
+        
+        # Step 2: Check if OpenAI API key is configured for this athlete
+        print("   Step 2: Check OpenAI API key configuration")
+        
+        integrations_response = requests.get(f"{BACKEND_URL}/integrations/{athlete_id}")
+        has_openai = False
+        
+        if integrations_response.status_code == 200:
+            integrations_data = integrations_response.json()
+            for integration in integrations_data.get("integrations", []):
+                if integration.get("integration_type") == "openai":
+                    has_openai = True
+                    break
+        
+        if not has_openai:
+            print_test_result("AI Coach Sequential - OpenAI Key Check", False, "No OpenAI API key configured - sequential function calling requires OpenAI")
+            return False
+        
+        print_test_result("AI Coach Sequential - OpenAI Key Check", True, "OpenAI API key is configured")
+        
+        # Step 3: Create test training blocks for the next few days
+        print("   Step 3: Create test training blocks for deletion testing")
+        
+        from datetime import datetime, timedelta
+        today = datetime.now()
+        tomorrow = today + timedelta(days=1)
+        day_after = today + timedelta(days=2)
+        
+        test_blocks = [
+            {
+                "title": "Morning Easy Run",
+                "description": "5 mile easy run for deletion test",
+                "block_type": "training",
+                "start_date": tomorrow.strftime("%Y-%m-%d"),
+                "end_date": tomorrow.strftime("%Y-%m-%d"),
+                "start_time": "06:00",
+                "end_time": "07:00",
+                "workout_type": "run",
+                "distance": 5.0,
+                "pace_per_unit": "8:30"
+            },
+            {
+                "title": "Interval Training",
+                "description": "Track intervals for deletion test",
+                "block_type": "training",
+                "start_date": tomorrow.strftime("%Y-%m-%d"),
+                "end_date": tomorrow.strftime("%Y-%m-%d"),
+                "start_time": "18:00",
+                "end_time": "19:30",
+                "workout_type": "intervals",
+                "intervals": 6,
+                "interval_distance": 0.5,
+                "interval_pace": "7:00",
+                "rest_duration": 90
+            },
+            {
+                "title": "Recovery Run",
+                "description": "Easy recovery run for deletion test",
+                "block_type": "training",
+                "start_date": day_after.strftime("%Y-%m-%d"),
+                "end_date": day_after.strftime("%Y-%m-%d"),
+                "start_time": "07:00",
+                "end_time": "08:00",
+                "workout_type": "recovery",
+                "distance": 3.0,
+                "pace_per_unit": "9:00"
+            }
+        ]
+        
+        created_block_ids = []
+        
+        for block_data in test_blocks:
+            create_response = requests.post(
+                f"{BACKEND_URL}/training-calendar",
+                json=block_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if create_response.status_code == 200:
+                result = create_response.json()
+                if result.get("success") and result.get("block_id"):
+                    created_block_ids.append(result["block_id"])
+                else:
+                    print_test_result("AI Coach Sequential - Create Test Blocks", False, f"Block creation failed: {result}")
+                    return False
+            else:
+                print_test_result("AI Coach Sequential - Create Test Blocks", False, f"Block creation failed: {create_response.status_code}")
+                return False
+        
+        print_test_result("AI Coach Sequential - Create Test Blocks", True, f"Created {len(created_block_ids)} test training blocks")
+        
+        # Step 4: Verify blocks exist in calendar
+        print("   Step 4: Verify test blocks exist in calendar")
+        
+        calendar_response = requests.get(f"{BACKEND_URL}/training-calendar/{athlete_id}")
+        
+        if calendar_response.status_code != 200:
+            print_test_result("AI Coach Sequential - Verify Blocks Exist", False, f"Calendar fetch failed: {calendar_response.status_code}")
+            return False
+        
+        calendar_data = calendar_response.json()
+        existing_blocks = calendar_data.get("blocks", [])
+        
+        # Find our test blocks
+        found_blocks = []
+        for block in existing_blocks:
+            if block.get("id") in created_block_ids:
+                found_blocks.append(block)
+        
+        if len(found_blocks) != len(created_block_ids):
+            print_test_result("AI Coach Sequential - Verify Blocks Exist", False, f"Expected {len(created_block_ids)} blocks, found {len(found_blocks)}")
+            return False
+        
+        print_test_result("AI Coach Sequential - Verify Blocks Exist", True, f"All {len(found_blocks)} test blocks found in calendar")
+        
+        # Step 5: Test sequential function calling - AI should get blocks then delete them
+        print("   Step 5: Test sequential function calling with deletion request")
+        
+        tomorrow_str = tomorrow.strftime("%A")  # e.g., "Monday"
+        chat_message = f"Please remove all my workouts for tomorrow ({tomorrow_str}). I need a complete rest day."
+        
+        chat_data = {
+            "athlete_id": athlete_id,
+            "message": chat_message,
+            "session_id": f"test_sequential_{int(datetime.now().timestamp())}"
+        }
+        
+        print(f"      Sending message: '{chat_message}'")
+        
+        chat_response = requests.post(
+            f"{BACKEND_URL}/coach/chat",
+            json=chat_data,
+            headers={"Content-Type": "application/json"},
+            timeout=120  # Increased timeout for function calling
+        )
+        
+        if chat_response.status_code != 200:
+            print_test_result("AI Coach Sequential - Chat Request", False, f"Chat failed: {chat_response.status_code}, Response: {chat_response.text}")
+            return False
+        
+        chat_result = chat_response.json()
+        ai_response = chat_result.get("response", "")
+        
+        print_test_result("AI Coach Sequential - Chat Request", True, f"AI responded with {len(ai_response)} characters")
+        
+        # Step 6: Check backend logs for function calling sequence (we'll analyze the response)
+        print("   Step 6: Analyze AI response for function calling indicators")
+        
+        function_call_indicators = []
+        
+        # Check if AI mentions checking the calendar
+        if any(phrase in ai_response.lower() for phrase in ["check", "found", "existing", "calendar", "schedule"]):
+            function_call_indicators.append("✓ AI mentions checking calendar")
+        else:
+            function_call_indicators.append("✗ AI doesn't mention checking calendar")
+        
+        # Check if AI mentions deletion/removal
+        if any(phrase in ai_response.lower() for phrase in ["removed", "deleted", "cancelled", "cleared"]):
+            function_call_indicators.append("✓ AI mentions deletion action")
+        else:
+            function_call_indicators.append("✗ AI doesn't mention deletion action")
+        
+        # Check if AI provides specific details about what was removed
+        if any(phrase in ai_response.lower() for phrase in ["morning", "interval", "run", "workout"]):
+            function_call_indicators.append("✓ AI mentions specific workout details")
+        else:
+            function_call_indicators.append("✗ AI lacks specific workout details")
+        
+        print_test_result("AI Coach Sequential - Response Analysis", True, "; ".join(function_call_indicators))
+        
+        # Step 7: Verify deletion actually occurred in database
+        print("   Step 7: Verify blocks were actually deleted from database")
+        
+        # Wait a moment for any async operations
+        import time
+        time.sleep(2)
+        
+        verification_response = requests.get(f"{BACKEND_URL}/training-calendar/{athlete_id}")
+        
+        if verification_response.status_code != 200:
+            print_test_result("AI Coach Sequential - Verify Deletion", False, f"Calendar verification failed: {verification_response.status_code}")
+            return False
+        
+        verification_data = verification_response.json()
+        remaining_blocks = verification_data.get("blocks", [])
+        
+        # Check if our test blocks still exist
+        remaining_test_blocks = []
+        for block in remaining_blocks:
+            if block.get("id") in created_block_ids:
+                remaining_test_blocks.append(block)
+        
+        # For tomorrow's blocks, they should be deleted
+        tomorrow_blocks = []
+        for block in remaining_test_blocks:
+            if block.get("start_date") == tomorrow.strftime("%Y-%m-%d"):
+                tomorrow_blocks.append(block)
+        
+        deletion_success = len(tomorrow_blocks) == 0
+        
+        if deletion_success:
+            print_test_result("AI Coach Sequential - Verify Deletion", True, f"All tomorrow's blocks successfully deleted (0 remaining)")
+        else:
+            print_test_result("AI Coach Sequential - Verify Deletion", False, f"Deletion failed - {len(tomorrow_blocks)} blocks still exist for tomorrow")
+        
+        # Step 8: Test edge case - multiple blocks to delete
+        print("   Step 8: Test edge case - delete multiple blocks across different days")
+        
+        if len(remaining_test_blocks) > 0:
+            multi_delete_message = "Please clear my entire training schedule for the next few days. I need to take a break."
+            
+            multi_chat_data = {
+                "athlete_id": athlete_id,
+                "message": multi_delete_message,
+                "session_id": f"test_multi_delete_{int(datetime.now().timestamp())}"
+            }
+            
+            multi_chat_response = requests.post(
+                f"{BACKEND_URL}/coach/chat",
+                json=multi_chat_data,
+                headers={"Content-Type": "application/json"},
+                timeout=120
+            )
+            
+            if multi_chat_response.status_code == 200:
+                multi_result = multi_chat_response.json()
+                multi_ai_response = multi_result.get("response", "")
+                
+                # Wait and verify
+                time.sleep(2)
+                
+                final_verification_response = requests.get(f"{BACKEND_URL}/training-calendar/{athlete_id}")
+                if final_verification_response.status_code == 200:
+                    final_data = final_verification_response.json()
+                    final_blocks = final_data.get("blocks", [])
+                    
+                    final_test_blocks = []
+                    for block in final_blocks:
+                        if block.get("id") in created_block_ids:
+                            final_test_blocks.append(block)
+                    
+                    multi_delete_success = len(final_test_blocks) == 0
+                    
+                    if multi_delete_success:
+                        print_test_result("AI Coach Sequential - Multi-Delete Test", True, "All remaining test blocks successfully deleted")
+                    else:
+                        print_test_result("AI Coach Sequential - Multi-Delete Test", False, f"{len(final_test_blocks)} blocks still remain")
+                else:
+                    print_test_result("AI Coach Sequential - Multi-Delete Test", False, "Final verification failed")
+                    multi_delete_success = False
+            else:
+                print_test_result("AI Coach Sequential - Multi-Delete Test", False, f"Multi-delete chat failed: {multi_chat_response.status_code}")
+                multi_delete_success = False
+        else:
+            print_test_result("AI Coach Sequential - Multi-Delete Test", True, "No remaining blocks to test multi-delete")
+            multi_delete_success = True
+        
+        # Step 9: Test create + delete workflow
+        print("   Step 9: Test replace workflow (delete + create)")
+        
+        replace_message = f"Replace tomorrow's workouts with a single 30-minute easy run at 7 AM."
+        
+        replace_chat_data = {
+            "athlete_id": athlete_id,
+            "message": replace_message,
+            "session_id": f"test_replace_{int(datetime.now().timestamp())}"
+        }
+        
+        replace_chat_response = requests.post(
+            f"{BACKEND_URL}/coach/chat",
+            json=replace_chat_data,
+            headers={"Content-Type": "application/json"},
+            timeout=120
+        )
+        
+        if replace_chat_response.status_code == 200:
+            replace_result = replace_chat_response.json()
+            replace_ai_response = replace_result.get("response", "")
+            
+            # Wait and verify
+            time.sleep(2)
+            
+            replace_verification_response = requests.get(f"{BACKEND_URL}/training-calendar/{athlete_id}")
+            if replace_verification_response.status_code == 200:
+                replace_data = replace_verification_response.json()
+                replace_blocks = replace_data.get("blocks", [])
+                
+                # Look for new blocks created for tomorrow
+                tomorrow_new_blocks = []
+                for block in replace_blocks:
+                    if (block.get("start_date") == tomorrow.strftime("%Y-%m-%d") and 
+                        block.get("id") not in created_block_ids):
+                        tomorrow_new_blocks.append(block)
+                
+                replace_success = len(tomorrow_new_blocks) > 0
+                
+                if replace_success:
+                    print_test_result("AI Coach Sequential - Replace Workflow", True, f"Successfully created {len(tomorrow_new_blocks)} new blocks for tomorrow")
+                else:
+                    print_test_result("AI Coach Sequential - Replace Workflow", False, "No new blocks created for tomorrow")
+            else:
+                print_test_result("AI Coach Sequential - Replace Workflow", False, "Replace verification failed")
+                replace_success = False
+        else:
+            print_test_result("AI Coach Sequential - Replace Workflow", False, f"Replace chat failed: {replace_chat_response.status_code}")
+            replace_success = False
+        
+        # Overall assessment
+        overall_success = deletion_success and multi_delete_success and replace_success
+        
+        print("\n   📊 SEQUENTIAL FUNCTION CALLING ANALYSIS:")
+        print(f"      ✓ OpenAI API Key: Configured")
+        print(f"      ✓ Test Blocks Created: {len(created_block_ids)} blocks")
+        print(f"      {'✓' if deletion_success else '✗'} Single Delete: {'Working' if deletion_success else 'Failed'}")
+        print(f"      {'✓' if multi_delete_success else '✗'} Multi Delete: {'Working' if multi_delete_success else 'Failed'}")
+        print(f"      {'✓' if replace_success else '✗'} Replace Workflow: {'Working' if replace_success else 'Failed'}")
+        
+        # Print AI responses for manual analysis
+        print("\n   📝 AI RESPONSES FOR MANUAL ANALYSIS:")
+        print("      Single Delete Response:")
+        print(f"      {ai_response[:200]}...")
+        
+        if overall_success:
+            print_test_result("AI Coach Sequential Function Calling - Overall", True, "Sequential function calling is working correctly")
+        else:
+            failed_components = []
+            if not deletion_success:
+                failed_components.append("single delete")
+            if not multi_delete_success:
+                failed_components.append("multi delete")
+            if not replace_success:
+                failed_components.append("replace workflow")
+            
+            print_test_result("AI Coach Sequential Function Calling - Overall", False, f"Failed components: {', '.join(failed_components)}")
+        
+        return overall_success
+        
+    except Exception as e:
+        print_test_result("AI Coach Sequential Function Calling - Exception", False, f"Exception: {str(e)}")
+        return False
+
 if __name__ == "__main__":
     # Check command line arguments for specific test suites
     if len(sys.argv) > 1:
