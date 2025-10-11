@@ -988,6 +988,44 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                         }
                     })
                 
+                # Always add training block creation tool
+                tools.append({
+                    "type": "function",
+                    "function": {
+                        "name": "create_training_blocks",
+                        "description": "Create training blocks or complete training programs in the athlete's calendar. Use this when the user asks to add workouts, create a training plan, schedule training, or build a program. Each block represents a workout session on a specific date.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "blocks_data": {
+                                    "type": "array",
+                                    "description": "Array of training blocks to create",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "title": {"type": "string", "description": "Title of the workout (e.g., 'Easy Run', '5K Tempo')"},
+                                            "description": {"type": "string", "description": "Detailed description of the workout"},
+                                            "block_type": {"type": "string", "enum": ["training", "recovery"], "description": "Type of block"},
+                                            "start_date": {"type": "string", "description": "Start date in YYYY-MM-DD format"},
+                                            "end_date": {"type": "string", "description": "End date in YYYY-MM-DD format (same as start_date for single-day workouts)"},
+                                            "workout_type": {"type": "string", "enum": ["run", "intervals", "tempo", "recovery", "cross_training"], "description": "Type of workout"},
+                                            "distance": {"type": "number", "description": "Distance in miles or km"},
+                                            "duration_minutes": {"type": "integer", "description": "Duration in minutes"},
+                                            "pace_per_unit": {"type": "string", "description": "Target pace in MM:SS format (e.g., '8:30')"},
+                                            "intervals": {"type": "integer", "description": "Number of intervals"},
+                                            "interval_distance": {"type": "number", "description": "Distance per interval"},
+                                            "interval_pace": {"type": "string", "description": "Pace per interval in MM:SS format"},
+                                            "rest_duration": {"type": "integer", "description": "Rest between intervals in seconds"}
+                                        },
+                                        "required": ["title", "start_date", "end_date"]
+                                    }
+                                }
+                            },
+                            "required": ["blocks_data"]
+                        }
+                    }
+                })
+                
                 messages = [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": message}
