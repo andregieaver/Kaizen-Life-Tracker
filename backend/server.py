@@ -1182,6 +1182,15 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                         # Execute search
                         function_result = await self.search_health_information(query, category)
                     
+                    elif function_name == "get_training_blocks_for_period":
+                        # Parse function arguments
+                        function_args = json.loads(tool_call.function.arguments)
+                        start_date = function_args.get("start_date")
+                        end_date = function_args.get("end_date")
+                        
+                        # Execute get training blocks
+                        function_result = await self.get_training_blocks_for_period(athlete_id, start_date, end_date)
+                    
                     elif function_name == "create_training_blocks":
                         # Parse function arguments
                         function_args = json.loads(tool_call.function.arguments)
