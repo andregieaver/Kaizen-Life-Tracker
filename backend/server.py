@@ -1196,6 +1196,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                     function_name = tool_call.function.name
                     
                     logging.info(f"Function called: {function_name}")
+                    logging.info(f"Function arguments: {tool_call.function.arguments}")
                     
                     function_result = None
                     
