@@ -380,6 +380,23 @@ const VoiceChat = ({ backendUrl, athleteId, onError }) => {
                 </div>
             )}
             
+            {/* Live Transcript Display */}
+            {isConnected && transcript.length > 0 && (
+                <div className="voice-transcript">
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">Live Transcript:</h4>
+                    <div className="transcript-messages">
+                        {transcript.slice(-6).map((entry, index) => (
+                            <div key={index} className={`transcript-message ${entry.role}`}>
+                                <span className="transcript-role">
+                                    {entry.role === 'user' ? 'You:' : 'Coach:'}
+                                </span>
+                                <span className="transcript-content">{entry.content}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+            
             {error && (
                 <div className="voice-chat-error">
                     <p className="text-red-600 text-sm">{error}</p>
