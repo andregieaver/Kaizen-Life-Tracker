@@ -1188,19 +1188,19 @@ When showing trends or data visualizations, you can create interactive charts us
   "type": "line|bar|area",
   "title": "Chart Title",
   "data": [
-    {{"name": "Week 1", "miles": 25, "pace": 8.5}},
-    {{"name": "Week 2", "miles": 30, "pace": 8.2}}
+    {{"name": "Week 1", "{distance_unit.lower()}": {'40' if distance_unit == 'km' else '25'}, "pace": {'5.3' if distance_unit == 'km' else '8.5'}}},
+    {{"name": "Week 2", "{distance_unit.lower()}": {'48' if distance_unit == 'km' else '30'}, "pace": {'5.1' if distance_unit == 'km' else '8.2'}}}
   ],
   "xKey": "name",
-  "yKey": "miles",
+  "yKey": "{distance_unit.lower()}",
   "xLabel": "Week",
-  "yLabel": "Miles",
+  "yLabel": "{distance_unit.title()}",
   "color": "#3b82f6"
 }}
 ```
 
 Chart types:
-- "line": For trends over time (pace progression, mileage trends)
+- "line": For trends over time (pace progression, distance trends)
 - "bar": For comparing values (weekly volume, workout types)
 - "area": For cumulative data (elevation gain, training load)
 
