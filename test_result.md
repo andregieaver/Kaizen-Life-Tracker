@@ -288,6 +288,7 @@ test_plan:
     - "Voice Conversation Transcription and Saving"
     - "AI Coach Voice Preference Functionality"
     - "Date of Birth Timezone Fix"
+    - "Profile Picture Upload Functionality"
 
   - task: "Login and Authentication System"
     implemented: true
