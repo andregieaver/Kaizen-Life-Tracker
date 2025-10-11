@@ -147,7 +147,8 @@ class AthleteProfile(BaseModel):
     name: str
     email: str
     password: str  # This will be hashed before storing
-    age: int
+    age: Optional[int] = None  # Computed from date_of_birth, kept for backward compatibility
+    date_of_birth: Optional[date] = None  # Birth date for accurate age calculation
     weekly_mileage: float
     recent_race_time: Optional[str] = None
     running_goals: str
