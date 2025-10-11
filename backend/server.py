@@ -1301,6 +1301,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                     }
                 })
                 
+                logging.info("Adding create_training_blocks tool")
                 tools.append({
                     "type": "function",
                     "function": {
