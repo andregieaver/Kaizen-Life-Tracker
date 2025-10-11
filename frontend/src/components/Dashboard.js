@@ -134,12 +134,8 @@ const Dashboard = ({ athleteId }) => {
       // Make athlete call first (this is critical and must succeed)
       const athleteRes = await axios.get(`${API}/athlete/${athleteId}${cacheBuster}`);
       
-      // Force a clean state update
-      setAthlete(null); // Clear first
-      setTimeout(() => {
-        setAthlete(athleteRes.data); // Then set new data
-        console.log('Athlete state updated successfully');
-      }, 100);
+      // Set athlete data
+      setAthlete(athleteRes.data);
       
       // Make other calls but don't fail if they error
       try {
