@@ -6756,8 +6756,26 @@ if __name__ == "__main__":
                 print("❌ FAIL AI Coach Voice Preference Functionality")
                 print("\n⚠️ VOICE PREFERENCE TEST FAILED! Please review the issues above.")
                 sys.exit(1)
+        elif sys.argv[1] == "--date-of-birth":
+            print("🎯 Running DATE OF BIRTH FUNCTIONALITY TEST ONLY (as per review request)")
+            print("=" * 80)
+            print("REVIEW REQUEST: Test the new date of birth functionality that replaces")
+            print("the age field with day, month, and year selectors.")
+            print("=" * 80)
+            success = test_date_of_birth_functionality()
+            print("\n" + "=" * 80)
+            print("📊 DATE OF BIRTH FUNCTIONALITY TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS Date of Birth Functionality")
+                print("\n🎉 DATE OF BIRTH TEST PASSED! Date of birth system works correctly with automatic age calculation.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL Date of Birth Functionality")
+                print("\n⚠️ DATE OF BIRTH TEST FAILED! Please review the issues above.")
+                sys.exit(1)
         else:
-            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug, --openai-validation-fix, --voice-preference")
+            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug, --openai-validation-fix, --voice-preference, --date-of-birth")
             sys.exit(1)
     else:
         # Run OpenAI API Key Validation Fix test as primary focus (as per review request)
