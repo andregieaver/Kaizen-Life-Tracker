@@ -3637,19 +3637,19 @@ if __name__ == "__main__":
             print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units")
             sys.exit(1)
     else:
-        # Run AI Coach Sequential Function Calling test as primary focus (as per review request)
-        print("🎯 Running AI COACH SEQUENTIAL FUNCTION CALLING TEST (PRIMARY FOCUS)")
+        # Run AI Coach Unit Preferences test as primary focus (as per review request)
+        print("🎯 Running AI COACH UNIT PREFERENCES TEST (PRIMARY FOCUS)")
         print("=" * 80)
-        success = test_ai_coach_sequential_function_calling()
+        success = test_ai_coach_unit_preferences()
         print("\n" + "=" * 80)
-        print("📊 AI COACH SEQUENTIAL FUNCTION CALLING TEST SUMMARY")
+        print("📊 AI COACH UNIT PREFERENCES TEST SUMMARY")
         print("=" * 80)
         if success:
-            print("✅ PASS AI Coach Sequential Function Calling")
-            print("\n🎉 AI COACH SEQUENTIAL FUNCTION CALLING TEST PASSED! Sequential function calling is working correctly.")
+            print("✅ PASS AI Coach Unit Preferences")
+            print("\n🎉 AI COACH UNIT PREFERENCES TEST PASSED! AI Coach correctly respects user unit preferences.")
         else:
-            print("❌ FAIL AI Coach Sequential Function Calling")
-            print("\n⚠️ AI COACH SEQUENTIAL FUNCTION CALLING TEST FAILED! Please review the issues above.")
+            print("❌ FAIL AI Coach Unit Preferences")
+            print("\n⚠️ AI COACH UNIT PREFERENCES TEST FAILED! Please review the issues above.")
         
         # Exit with appropriate code
         sys.exit(0 if success else 1)
