@@ -2967,8 +2967,8 @@ def test_ai_coach_sequential_function_calling():
             
             if create_response.status_code == 200:
                 result = create_response.json()
-                if result.get("success") and result.get("block_id"):
-                    created_block_ids.append(result["block_id"])
+                if result.get("success") and result.get("id"):
+                    created_block_ids.append(result["id"])
                 else:
                     print_test_result("AI Coach Sequential - Create Test Blocks", False, f"Block creation failed: {result}")
                     return False
