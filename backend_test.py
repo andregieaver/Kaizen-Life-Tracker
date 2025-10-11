@@ -1368,18 +1368,25 @@ def test_profile_picture_upload_functionality():
         print("   Step 4: Test file size validation (over 5MB limit)")
         
         # Create a large image that will exceed 5MB when saved
-        large_image = Image.new('RGB', (2000, 2000), color='blue')
+        # Start with a very large image to ensure we exceed 5MB
+        large_image = Image.new('RGB', (4000, 4000), color='blue')
         large_buffer = io.BytesIO()
         large_image.save(large_buffer, format='JPEG', quality=100)  # High quality to increase size
         large_data = large_buffer.getvalue()
         
-        # If it's not over 5MB, pad it
+        # If still not over 5MB, create an even larger one or pad the data
         if len(large_data) < 5 * 1024 * 1024:
-            # Create an even larger image
-            large_image = Image.new('RGB', (3000, 3000), color='blue')
+            # Create an extremely large image
+            large_image = Image.new('RGB', (6000, 6000), color='blue')
             large_buffer = io.BytesIO()
             large_image.save(large_buffer, format='JPEG', quality=100)
             large_data = large_buffer.getvalue()
+            
+            # If still not large enough, pad with extra data
+            if len(large_data) < 5 * 1024 * 1024:
+                padding_size = (5 * 1024 * 1024) - len(large_data) + 1000  # Add extra 1KB
+                padding = b'0' * padding_size
+                large_data = large_data + padding
         
         files = {'file': ('large_image.jpg', large_data, 'image/jpeg')}
         
