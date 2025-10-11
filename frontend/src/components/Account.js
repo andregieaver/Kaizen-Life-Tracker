@@ -1380,13 +1380,13 @@ const Account = ({ athleteId }) => {
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, gender: value}))}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select gender" />
+                          <SelectValue placeholder={`Select ${t('account.gender').toLowerCase()}`} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="male">Male</SelectItem>
-                          <SelectItem value="female">Female</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                          <SelectItem value="prefer_not_to_say">Prefer not to say</SelectItem>
+                          <SelectItem value="male">{t('account.genderMale')}</SelectItem>
+                          <SelectItem value="female">{t('account.genderFemale')}</SelectItem>
+                          <SelectItem value="other">{t('account.genderOther')}</SelectItem>
+                          <SelectItem value="prefer_not_to_say">{t('account.genderPreferNotToSay')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
