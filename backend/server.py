@@ -3449,6 +3449,9 @@ async def negotiate_voice_connection(athlete_id: str, request: Request):
         
         return {"sdp": answer_sdp}
         
+    except HTTPException:
+        # Re-raise HTTPExceptions (like 400 for missing API key) without modification
+        raise
     except Exception as e:
         logging.error(f"Voice negotiation error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
