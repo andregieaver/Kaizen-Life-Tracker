@@ -281,7 +281,7 @@ const VoiceChat = ({ backendUrl, athleteId, onError }) => {
                 throw new Error("Microphone permission is required for voice chat. Please enable it in your browser settings.");
             }
             
-            realtimeChatRef.current = new RealtimeAudioChat(backendUrl, athleteId);
+            realtimeChatRef.current = new RealtimeAudioChat(backendUrl, athleteId, setTranscript);
             await realtimeChatRef.current.init();
             
             setIsConnected(true);
