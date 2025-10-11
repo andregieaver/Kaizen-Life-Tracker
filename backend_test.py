@@ -633,7 +633,7 @@ def test_backend_api_status_verification():
             print("      ✅ Backend API is working correctly")
             print("      ✅ date_of_birth serialization issue is fixed")
             print("      ✅ API returns proper 200 responses with valid JSON")
-        elif serialization_fixed but not api_working:
+        elif serialization_fixed and not api_working:
             print("      ⚠️ Serialization issue fixed but API has other problems")
         else:
             print("      ❌ Backend API still has serialization issues")
