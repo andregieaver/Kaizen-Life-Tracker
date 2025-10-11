@@ -856,6 +856,8 @@ Return only the JSON array, nothing else.
                     block_type=block_data.get("block_type", "training"),
                     start_date=block_data.get("start_date"),
                     end_date=block_data.get("end_date"),
+                    start_time=block_data.get("start_time"),
+                    end_time=block_data.get("end_time"),
                     workout_type=block_data.get("workout_type"),
                     distance=block_data.get("distance"),
                     duration_minutes=block_data.get("duration_minutes"),
