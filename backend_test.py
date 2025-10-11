@@ -5216,19 +5216,24 @@ if __name__ == "__main__":
             print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api")
             sys.exit(1)
     else:
-        # Run OpenAI Realtime Voice API Error Handling test as primary focus (as per review request)
-        print("🎯 Running OPENAI REALTIME VOICE API ERROR HANDLING TEST (PRIMARY FOCUS)")
+        # Run Voice Session Token Response Debug test as primary focus (as per review request)
+        print("🎯 Running VOICE SESSION TOKEN RESPONSE DEBUG TEST (PRIMARY FOCUS)")
         print("=" * 80)
-        success = test_openai_realtime_voice_api_error_handling()
+        print("REVIEW REQUEST: Debug voice session token response to understand")
+        print("why frontend shows 'Failed to get session token' despite backend returning 200 OK")
+        print("=" * 80)
+        
+        success = test_voice_session_token_response_debug()
+        
         print("\n" + "=" * 80)
-        print("📊 OPENAI REALTIME VOICE API ERROR HANDLING TEST SUMMARY")
+        print("📊 VOICE SESSION TOKEN RESPONSE DEBUG SUMMARY")
         print("=" * 80)
         if success:
-            print("✅ PASS OpenAI Realtime Voice API Error Handling")
-            print("\n🎉 ERROR HANDLING TEST PASSED! Voice endpoints return proper 400 status codes for missing API keys.")
+            print("✅ PASS Voice Session Token Response Debug")
+            print("\n🎉 VOICE TOKEN DEBUG PASSED! Response format matches frontend expectations.")
         else:
-            print("❌ FAIL OpenAI Realtime Voice API Error Handling")
-            print("\n⚠️ ERROR HANDLING TEST FAILED! Check the detailed output above for issues.")
+            print("❌ FAIL Voice Session Token Response Debug")
+            print("\n⚠️ VOICE TOKEN DEBUG FAILED! Response format mismatch identified.")
         
         # Exit with appropriate code
         sys.exit(0 if success else 1)
