@@ -1182,6 +1182,7 @@ CRITICAL UNIT CONSISTENCY:
 - ALWAYS use the athlete's preferred distance unit ({distance_unit}) in ALL training plans and workouts
 - If distance_unit is "km", NEVER use miles - convert distances to km
 - If distance_unit is "miles", NEVER use km - convert distances to miles
+- The backend automatically sets unit_system="{distance_unit}" on all training blocks you create
 - Distance examples for {distance_unit}: Easy run = {'8 km' if distance_unit == 'km' else '5 miles'}, Long run = {'16 km' if distance_unit == 'km' else '10 miles'}
 
 Example training block types (using {distance_unit}):
