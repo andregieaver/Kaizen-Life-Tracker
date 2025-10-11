@@ -124,13 +124,55 @@ class RealtimeAudioChat {
         };
         
         this.dataChannel.onmessage = (event) => {
-            console.log("Received event:", event.data);
-            // Handle different event types here if needed
+            try {
+                const eventData = JSON.parse(event.data);
+                console.log("Received event:", eventData);
+                
+                // Handle transcript events from OpenAI Realtime API
+                if (eventData.type === 'conversation.item.input_audio_transcription.completed') {
+                    // User speech transcribed
+                    this.addToTranscript('user', eventData.transcript, new Date());
+                } else if (eventData.type === 'response.audio_transcript.done') {
+                    // Assistant response transcribed
+                    this.addToTranscript('assistant', eventData.transcript, new Date());
+                } else if (eventData.type === 'conversation.item.created' && eventData.item?.type === 'message') {
+                    // Alternative way to get transcripts
+                    const content = eventData.item?.content;
+                    if (content && Array.isArray(content)) {
+                        content.forEach(part => {
+                            if (part.type === 'input_text' || part.type === 'text') {
+                                const role = eventData.item.role || 'assistant';
+                                this.addToTranscript(role, part.text, new Date());
+                            }
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error("Error parsing data channel event:", error);
+            }
         };
         
         this.dataChannel.onerror = (error) => {
             console.error("Data channel error:", error);
         };
+    }
+    
+    addToTranscript(role, content, timestamp) {
+        if (content && content.trim()) {
+            const transcriptEntry = {
+                role: role,
+                content: content.trim(),
+                timestamp: timestamp.toISOString()
+            };
+            
+            this.transcript.push(transcriptEntry);
+            console.log(`Added to transcript [${role}]: ${content.trim()}`);
+            
+            // Notify parent component of transcript update
+            if (this.onTranscriptUpdate) {
+                this.onTranscriptUpdate(this.transcript);
+            }
+        }
     }
 
     async disconnect() {
