@@ -1180,7 +1180,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                                             "start_date": {"type": "string", "description": "Start date in YYYY-MM-DD format"},
                                             "end_date": {"type": "string", "description": "End date in YYYY-MM-DD format (same as start_date for single-day workouts)"},
                                             "start_time": {"type": "string", "description": "Start time in HH:MM format (e.g., '06:00' for 6:00 AM). Optional - if not specified, workout is all-day"},
-                                            "end_time": {"type": "string", "description": "End time in HH:MM format (e.g., '07:30' for 7:30 AM). Optional - if not specified, calculated from duration"},
+                                            "end_time": {"type": "string", "description": "End time in HH:MM format (e.g., '07:30' for 7:30 AM). REQUIRED if start_time is provided. Calculate from workout duration including warmup, main workout, cool down, and rest periods. Round to nearest 5-15 minute increment."},
                                             "workout_type": {"type": "string", "enum": ["run", "intervals", "tempo", "recovery", "cross_training"], "description": "Type of workout"},
                                             "distance": {"type": "number", "description": "Distance in miles or km"},
                                             "duration_minutes": {"type": "integer", "description": "Duration in minutes"},
