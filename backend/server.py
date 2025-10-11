@@ -1383,8 +1383,14 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                 if assistant_message.content:
                     logging.info(f"Response content preview: {assistant_message.content[:100]}...")
                 
-                # Check if function call was requested
-                if has_tool_calls:
+                # Check if function call was requested - support multiple sequential calls
+                max_function_calls = 5  # Prevent infinite loops
+                function_call_count = 0
+                
+                while has_tool_calls and function_call_count < max_function_calls:
+                    function_call_count += 1
+                    print(f"🔄 Function call iteration {function_call_count}")
+                    
                     tool_call = assistant_message.tool_calls[0]
                     function_name = tool_call.function.name
                     
@@ -1396,45 +1402,30 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                     function_result = None
                     
                     if function_name == "search_health_information":
-                        # Parse function arguments
                         function_args = json.loads(tool_call.function.arguments)
                         query = function_args.get("query")
                         category = function_args.get("category", "general")
-                        
-                        # Execute search
                         function_result = await self.search_health_information(query, category)
                     
                     elif function_name == "get_training_blocks_for_period":
-                        # Parse function arguments
                         function_args = json.loads(tool_call.function.arguments)
                         start_date = function_args.get("start_date")
                         end_date = function_args.get("end_date")
-                        
-                        # Execute get training blocks
                         function_result = await self.get_training_blocks_for_period(athlete_id, start_date, end_date)
                     
                     elif function_name == "update_training_blocks":
-                        # Parse function arguments
                         function_args = json.loads(tool_call.function.arguments)
                         updates = function_args.get("updates", [])
-                        
-                        # Execute training block update
                         function_result = await self.update_training_blocks(athlete_id, updates)
                     
                     elif function_name == "delete_training_blocks":
-                        # Parse function arguments
                         function_args = json.loads(tool_call.function.arguments)
                         block_ids = function_args.get("block_ids", [])
-                        
-                        # Execute training block deletion
                         function_result = await self.delete_training_blocks(athlete_id, block_ids)
                     
                     elif function_name == "create_training_blocks":
-                        # Parse function arguments
                         function_args = json.loads(tool_call.function.arguments)
                         blocks_data = function_args.get("blocks_data", [])
-                        
-                        # Execute training block creation
                         function_result = await self.create_training_blocks(athlete_id, blocks_data)
                     
                     if function_result:
@@ -1459,8 +1450,9 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                             "content": json.dumps(function_result)
                         })
                         
-                        # Second API call with function results
-                        final_response = await client.chat.completions.create(
+                        # Call OpenAI again to see if it wants to call another function
+                        print(f"🔁 Calling OpenAI again with function result...")
+                        next_response = await client.chat.completions.create(
                             model="gpt-4o",
                             messages=messages,
                             max_tokens=2000,
@@ -1468,7 +1460,14 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                             tools=tools if tools else None
                         )
                         
-                        return final_response.choices[0].message.content or "I've processed your request."
+                        assistant_message = next_response.choices[0].message
+                        has_tool_calls = hasattr(assistant_message, "tool_calls") and assistant_message.tool_calls
+                        print(f"📨 Next response - Has tool calls: {has_tool_calls}")
+                        
+                        # If no more tool calls, return the final message
+                        if not has_tool_calls:
+                            print(f"✅ Function calling complete after {function_call_count} calls")
+                            return assistant_message.content or "I've completed the requested actions."
                 
                 return assistant_message.content or "I've received your message, but couldn't generate a proper response. Please try rephrasing."
                 
