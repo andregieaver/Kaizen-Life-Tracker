@@ -3442,8 +3442,7 @@ You can access their training calendar, create workouts, and provide personalize
         # Try without parameters first, then add system message via other means if needed
         session_data = await realtime_chat.create_ephemeral_session_for_audio_chat()
         
-        logging.warning(f"Voice session creation for athlete {athlete_id}: session_data type = {type(session_data)}")
-        logging.warning(f"Voice session creation for athlete {athlete_id}: session_data = {session_data}")
+        # Debug logging removed for production
         
         # Check if the session creation returned an error (invalid API key, etc.)
         if isinstance(session_data, dict):
