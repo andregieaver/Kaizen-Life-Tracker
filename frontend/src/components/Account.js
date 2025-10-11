@@ -1025,16 +1025,66 @@ const Account = ({ athleteId }) => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="age" className="text-sm font-medium">{t('account.age')}</Label>
-                    <Input
-                      id="age"
-                      name="age"
-                      type="number"
-                      value={personalForm.age}
-                      onChange={handlePersonalFormChange}
-                      className="input-focus"
-                      data-testid="age-input"
-                    />
+                    <Label className="text-sm font-medium">Date of Birth</Label>
+                    <div className="grid grid-cols-3 gap-2">
+                      <div>
+                        <Label className="text-xs text-gray-600">Day</Label>
+                        <Select
+                          value={personalForm.birth_day}
+                          onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_day: value}))}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Day" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Array.from({ length: 31 }, (_, i) => i + 1).map(day => (
+                              <SelectItem key={day} value={day.toString()}>{day}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label className="text-xs text-gray-600">Month</Label>
+                        <Select
+                          value={personalForm.birth_month}
+                          onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_month: value}))}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Month" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="1">January</SelectItem>
+                            <SelectItem value="2">February</SelectItem>
+                            <SelectItem value="3">March</SelectItem>
+                            <SelectItem value="4">April</SelectItem>
+                            <SelectItem value="5">May</SelectItem>
+                            <SelectItem value="6">June</SelectItem>
+                            <SelectItem value="7">July</SelectItem>
+                            <SelectItem value="8">August</SelectItem>
+                            <SelectItem value="9">September</SelectItem>
+                            <SelectItem value="10">October</SelectItem>
+                            <SelectItem value="11">November</SelectItem>
+                            <SelectItem value="12">December</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label className="text-xs text-gray-600">Year</Label>
+                        <Select
+                          value={personalForm.birth_year}
+                          onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_year: value}))}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Year" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map(year => (
+                              <SelectItem key={year} value={year.toString()}>{year}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
