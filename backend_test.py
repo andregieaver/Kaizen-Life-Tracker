@@ -28,6 +28,311 @@ def print_test_result(test_name, success, details=""):
         print(f"   Details: {details}")
     print()
 
+def test_ai_coach_unit_preferences():
+    """Test AI Coach respects user unit preferences (km vs miles)"""
+    print("🔍 Testing AI Coach Unit Preferences Compliance")
+    
+    # Step 1: Login as andre@example.com to get athlete_id
+    print("   Step 1: Login as andre@example.com")
+    
+    login_data = {
+        "email": "andre@example.com",
+        "password": "password123"
+    }
+    
+    try:
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("AI Coach Unit Preferences - Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if not athlete_id:
+            print_test_result("AI Coach Unit Preferences - Login", False, "No athlete_id in login response")
+            return False
+        
+        print_test_result("AI Coach Unit Preferences - Login", True, f"Logged in as {athlete_data.get('name')} (ID: {athlete_id})")
+        
+        # Step 2: Get current athlete profile to check unit preferences
+        print("   Step 2: Get athlete profile to check current unit preferences")
+        
+        profile_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+        
+        if profile_response.status_code != 200:
+            print_test_result("AI Coach Unit Preferences - Get Profile", False, f"Profile fetch failed: {profile_response.status_code}")
+            return False
+        
+        profile_data = profile_response.json()
+        
+        # Check current preferences
+        current_distance_unit = profile_data.get("distance_unit", "miles")
+        current_measurement_system = profile_data.get("measurement_system", "imperial")
+        current_time_format = profile_data.get("time_format", "12h")
+        current_timezone = profile_data.get("timezone", "UTC")
+        current_week_starts_on = profile_data.get("week_starts_on", "sunday")
+        
+        preference_details = [
+            f"distance_unit: {current_distance_unit}",
+            f"measurement_system: {current_measurement_system}",
+            f"time_format: {current_time_format}",
+            f"timezone: {current_timezone}",
+            f"week_starts_on: {current_week_starts_on}"
+        ]
+        
+        print_test_result("AI Coach Unit Preferences - Current Profile", True, "; ".join(preference_details))
+        
+        # Step 3: Set preferences to km (metric) to test the reported issue
+        print("   Step 3: Set user preferences to km (metric system)")
+        
+        preferences_update = {
+            "distance_unit": "km",
+            "measurement_system": "metric",
+            "time_format": "24h",
+            "timezone": "Europe/Oslo",
+            "week_starts_on": "monday"
+        }
+        
+        update_response = requests.put(
+            f"{BACKEND_URL}/athlete/{athlete_id}",
+            json=preferences_update,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if update_response.status_code != 200:
+            print_test_result("AI Coach Unit Preferences - Set Preferences", False, f"Update failed: {update_response.status_code}")
+            return False
+        
+        updated_profile = update_response.json()
+        
+        # Verify preferences were saved
+        preferences_success = True
+        preferences_details = []
+        
+        for field, expected_value in preferences_update.items():
+            if updated_profile.get(field) == expected_value:
+                preferences_details.append(f"{field}: ✓ ({expected_value})")
+            else:
+                preferences_details.append(f"{field}: ✗ (expected {expected_value}, got {updated_profile.get(field)})")
+                preferences_success = False
+        
+        print_test_result("AI Coach Unit Preferences - Set Preferences", preferences_success, "; ".join(preferences_details))
+        
+        if not preferences_success:
+            return False
+        
+        # Step 4: Test AI Coach with a training plan request
+        print("   Step 4: Ask AI Coach for a 5K training plan (should use km)")
+        
+        chat_data = {
+            "athlete_id": athlete_id,
+            "message": "Create a 5K training plan for next week",
+            "session_id": f"unit_test_session_{int(datetime.now().timestamp())}"
+        }
+        
+        chat_response = requests.post(
+            f"{BACKEND_URL}/coach/chat",
+            json=chat_data,
+            headers={"Content-Type": "application/json"},
+            timeout=60  # Increased timeout for AI processing
+        )
+        
+        if chat_response.status_code != 200:
+            print_test_result("AI Coach Unit Preferences - Chat Request", False, f"Chat failed: {chat_response.status_code}, Response: {chat_response.text}")
+            return False
+        
+        chat_result = chat_response.json()
+        response_text = chat_result.get("response", "")
+        
+        print_test_result("AI Coach Unit Preferences - Chat Request", True, f"Response received ({len(response_text)} chars)")
+        
+        # Step 5: Analyze response for unit consistency
+        print("   Step 5: Analyze response for unit consistency (should use km, not miles)")
+        
+        unit_analysis_success = True
+        unit_analysis_details = []
+        
+        # Check for km usage (positive indicators)
+        km_indicators = ["km", "kilometer", "kilometres", "5k", "3k", "8k", "10k"]
+        found_km_indicators = []
+        for indicator in km_indicators:
+            if indicator.lower() in response_text.lower():
+                found_km_indicators.append(indicator)
+        
+        if found_km_indicators:
+            unit_analysis_details.append(f"✓ km indicators found: {', '.join(found_km_indicators[:3])}")
+        else:
+            unit_analysis_details.append("⚠️ No km indicators found")
+        
+        # Check for miles usage (negative indicators - should NOT be present)
+        miles_indicators = ["mile", "miles", "mi.", " mi "]
+        found_miles_indicators = []
+        for indicator in miles_indicators:
+            if indicator.lower() in response_text.lower():
+                found_miles_indicators.append(indicator)
+        
+        if found_miles_indicators:
+            unit_analysis_details.append(f"✗ MILES FOUND (should not be present): {', '.join(found_miles_indicators[:3])}")
+            unit_analysis_success = False
+        else:
+            unit_analysis_details.append("✓ No miles indicators found (correct)")
+        
+        # Check for pace format (should be per km, not per mile)
+        pace_patterns = ["per km", "/km", "min/km", "pace per km"]
+        found_pace_patterns = []
+        for pattern in pace_patterns:
+            if pattern.lower() in response_text.lower():
+                found_pace_patterns.append(pattern)
+        
+        if found_pace_patterns:
+            unit_analysis_details.append(f"✓ km pace indicators: {', '.join(found_pace_patterns[:2])}")
+        else:
+            unit_analysis_details.append("⚠️ No specific km pace indicators found")
+        
+        # Check for mile pace patterns (should NOT be present)
+        mile_pace_patterns = ["per mile", "/mile", "min/mile", "pace per mile"]
+        found_mile_pace_patterns = []
+        for pattern in mile_pace_patterns:
+            if pattern.lower() in response_text.lower():
+                found_mile_pace_patterns.append(pattern)
+        
+        if found_mile_pace_patterns:
+            unit_analysis_details.append(f"✗ MILE PACE FOUND (should not be present): {', '.join(found_mile_pace_patterns[:2])}")
+            unit_analysis_success = False
+        else:
+            unit_analysis_details.append("✓ No mile pace indicators found (correct)")
+        
+        print_test_result("AI Coach Unit Preferences - Unit Analysis", unit_analysis_success, "; ".join(unit_analysis_details))
+        
+        # Step 6: Test with miles preference to verify it works both ways
+        print("   Step 6: Switch to miles preference and test again")
+        
+        miles_preferences = {
+            "distance_unit": "miles",
+            "measurement_system": "imperial"
+        }
+        
+        miles_update_response = requests.put(
+            f"{BACKEND_URL}/athlete/{athlete_id}",
+            json=miles_preferences,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if miles_update_response.status_code != 200:
+            print_test_result("AI Coach Unit Preferences - Switch to Miles", False, f"Update failed: {miles_update_response.status_code}")
+            return False
+        
+        # Test with miles preference
+        miles_chat_data = {
+            "athlete_id": athlete_id,
+            "message": "Create a 5K training plan for next week",
+            "session_id": f"miles_test_session_{int(datetime.now().timestamp())}"
+        }
+        
+        miles_chat_response = requests.post(
+            f"{BACKEND_URL}/coach/chat",
+            json=miles_chat_data,
+            headers={"Content-Type": "application/json"},
+            timeout=60
+        )
+        
+        if miles_chat_response.status_code != 200:
+            print_test_result("AI Coach Unit Preferences - Miles Test", False, f"Miles chat failed: {miles_chat_response.status_code}")
+            return False
+        
+        miles_result = miles_chat_response.json()
+        miles_response_text = miles_result.get("response", "")
+        
+        # Analyze miles response
+        miles_analysis_success = True
+        miles_analysis_details = []
+        
+        # Should find miles indicators
+        found_miles_in_miles_test = []
+        for indicator in miles_indicators:
+            if indicator.lower() in miles_response_text.lower():
+                found_miles_in_miles_test.append(indicator)
+        
+        if found_miles_in_miles_test:
+            miles_analysis_details.append(f"✓ Miles indicators found: {', '.join(found_miles_in_miles_test[:3])}")
+        else:
+            miles_analysis_details.append("⚠️ No miles indicators found")
+        
+        # Should NOT find km indicators (except for race distance like "5K")
+        problematic_km_in_miles = []
+        for indicator in ["kilometer", "kilometres"]:  # Exclude "5k" as it's a race name
+            if indicator.lower() in miles_response_text.lower():
+                problematic_km_in_miles.append(indicator)
+        
+        if problematic_km_in_miles:
+            miles_analysis_details.append(f"✗ KM FOUND in miles mode: {', '.join(problematic_km_in_miles)}")
+            miles_analysis_success = False
+        else:
+            miles_analysis_details.append("✓ No problematic km indicators found")
+        
+        print_test_result("AI Coach Unit Preferences - Miles Mode Test", miles_analysis_success, "; ".join(miles_analysis_details))
+        
+        # Step 7: Overall assessment
+        print("   Step 7: Overall unit preference compliance assessment")
+        
+        overall_success = preferences_success and unit_analysis_success and miles_analysis_success
+        
+        # Print actual responses for manual verification
+        print("\n📝 ACTUAL AI COACH RESPONSES:")
+        print("-" * 50)
+        print("KM MODE RESPONSE:")
+        print(response_text[:300] + ("..." if len(response_text) > 300 else ""))
+        print("-" * 25)
+        print("MILES MODE RESPONSE:")
+        print(miles_response_text[:300] + ("..." if len(miles_response_text) > 300 else ""))
+        print("-" * 50)
+        
+        if overall_success:
+            print_test_result("AI Coach Unit Preferences - Overall Test", True, "AI Coach correctly respects user unit preferences")
+        else:
+            failed_components = []
+            if not preferences_success:
+                failed_components.append("preference saving")
+            if not unit_analysis_success:
+                failed_components.append("km mode compliance")
+            if not miles_analysis_success:
+                failed_components.append("miles mode compliance")
+            
+            print_test_result("AI Coach Unit Preferences - Overall Test", False, f"Failed: {', '.join(failed_components)}")
+        
+        # Reset preferences to original values
+        print("   Step 8: Reset preferences to original values")
+        original_preferences = {
+            "distance_unit": current_distance_unit,
+            "measurement_system": current_measurement_system,
+            "time_format": current_time_format,
+            "timezone": current_timezone,
+            "week_starts_on": current_week_starts_on
+        }
+        
+        reset_response = requests.put(
+            f"{BACKEND_URL}/athlete/{athlete_id}",
+            json=original_preferences,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if reset_response.status_code == 200:
+            print_test_result("AI Coach Unit Preferences - Reset Preferences", True, "Preferences reset to original values")
+        else:
+            print_test_result("AI Coach Unit Preferences - Reset Preferences", False, f"Reset failed: {reset_response.status_code}")
+        
+        return overall_success
+        
+    except Exception as e:
+        print_test_result("AI Coach Unit Preferences - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_ai_coach_web_search():
     """Test AI Coach web search functionality with Tavily API"""
     print("🔍 Testing AI Coach Web Search Functionality")
