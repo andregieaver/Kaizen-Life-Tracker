@@ -267,7 +267,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "AI Coach Web Search Functionality"
+    - "AI Coach Unit Preferences Compliance"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
