@@ -301,6 +301,21 @@ frontend:
         agent: "testing"
         comment: "✅ PERSONAL INFORMATION FORM NEW FIELDS FULLY FUNCTIONAL - Comprehensive testing completed with 100% success rate (4/4 new fields working). VERIFIED ALL REVIEW REQUEST REQUIREMENTS: 1) NAVIGATION ✓ - Successfully logged in as andre@example.com, navigated to Account Settings → Personal Information tab, stayed on correct page throughout testing. 2) PHYSICAL INFORMATION FIELDS ✓ - All fields present and functional: Height (175), Weight (70), VO2 Max (52.5), Max Heart Rate (185 - number input working), Gender (dropdown with Male/Female/Other/Prefer not to say options working). 3) BIO FIELD ✓ - Textarea field located and functional, accepts multi-line text input, character counter displays correctly (X/500 characters), 500 character limit enforced properly. 4) INTERESTS MULTI-SELECT ✓ - 16 interest checkboxes found and functional (Running, Marathon, Cycling, Fitness, Trail Running, Ultramarathon, Swimming, Triathlon, Nutrition, Yoga, Strength Training, CrossFit, Hiking, Rock Climbing, Tennis, Basketball), checkboxes can be checked and unchecked, multiple selections maintained correctly. 5) FORM SAVE FUNCTIONALITY ✓ - Save Personal Information button working, form submission successful, all new field data persists after save. 6) FORM VALIDATION ✓ - Max Heart Rate accepts only numeric input, Bio character limit enforced, form maintains existing functionality. 7) PROFESSIONAL STYLING ✓ - All new fields consistent with existing form elements, responsive design working on mobile (390x844 viewport). CRITICAL SUCCESS CRITERIA MET: All 4 new fields (Max Heart Rate, Gender, Bio, Interests) working correctly, multi-select interests functionality operational, form saves and loads all new field data successfully. Minor: Console shows nested form warnings (HTML validation issue) but doesn't affect functionality."
 
+  - task: "Duplicate Physical Information Section Fix"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Account.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "User reported duplicate 'Physical Information' section appearing in Account Settings after adding new personal detail fields (max heart rate, gender, bio, interests)."
+      - working: true
+        agent: "main"
+        comment: "✅ DUPLICATE PHYSICAL INFORMATION SECTION FIXED - Root cause identified and resolved. ISSUE IDENTIFIED: Two 'Physical Information' sections were present in Account.js - OLD section (lines 1247-1294) with only Height, Weight, VO2 Max fields, and NEW section (lines 1313-1435) with complete set of fields including Height, Weight, VO2 Max, Max Heart Rate, Gender, Bio, Interests. FIX APPLIED: Removed OLD duplicate section (lines 1247-1296) including surrounding separators, keeping only the NEW complete section with all fields. VERIFICATION: grep search confirms only ONE 'Physical Information' section remains at line 1264. Screenshots confirm clean UI with single Physical Information section displaying all fields correctly (Height, Weight, VO2 Max, Max Heart Rate, Gender, Bio, Interests checkboxes). Page structure now flows logically: Profile Picture → Full Name → Date of Birth → Running Goals → Physical Information (single, complete) → Security. All functionality preserved."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
