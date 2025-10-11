@@ -288,15 +288,18 @@ frontend:
 
   - task: "Personal Information Form New Fields Testing"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/components/Account.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "NEW FEATURE: Added new fields to personal information form - Max Heart Rate (number input), Gender (dropdown with Male/Female/Other/Prefer not to say), Bio (textarea with 500 character limit and counter), and Interests (multi-select checkboxes with 16 predefined options). All fields integrated with form state management and backend API. Ready for comprehensive testing."
+      - working: true
+        agent: "testing"
+        comment: "✅ PERSONAL INFORMATION FORM NEW FIELDS FULLY FUNCTIONAL - Comprehensive testing completed with 100% success rate (4/4 new fields working). VERIFIED ALL REVIEW REQUEST REQUIREMENTS: 1) NAVIGATION ✓ - Successfully logged in as andre@example.com, navigated to Account Settings → Personal Information tab, stayed on correct page throughout testing. 2) PHYSICAL INFORMATION FIELDS ✓ - All fields present and functional: Height (175), Weight (70), VO2 Max (52.5), Max Heart Rate (185 - number input working), Gender (dropdown with Male/Female/Other/Prefer not to say options working). 3) BIO FIELD ✓ - Textarea field located and functional, accepts multi-line text input, character counter displays correctly (X/500 characters), 500 character limit enforced properly. 4) INTERESTS MULTI-SELECT ✓ - 16 interest checkboxes found and functional (Running, Marathon, Cycling, Fitness, Trail Running, Ultramarathon, Swimming, Triathlon, Nutrition, Yoga, Strength Training, CrossFit, Hiking, Rock Climbing, Tennis, Basketball), checkboxes can be checked and unchecked, multiple selections maintained correctly. 5) FORM SAVE FUNCTIONALITY ✓ - Save Personal Information button working, form submission successful, all new field data persists after save. 6) FORM VALIDATION ✓ - Max Heart Rate accepts only numeric input, Bio character limit enforced, form maintains existing functionality. 7) PROFESSIONAL STYLING ✓ - All new fields consistent with existing form elements, responsive design working on mobile (390x844 viewport). CRITICAL SUCCESS CRITERIA MET: All 4 new fields (Max Heart Rate, Gender, Bio, Interests) working correctly, multi-select interests functionality operational, form saves and loads all new field data successfully. Minor: Console shows nested form warnings (HTML validation issue) but doesn't affect functionality."
 
 metadata:
   created_by: "main_agent"
