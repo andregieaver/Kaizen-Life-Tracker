@@ -451,13 +451,17 @@ const Account = ({ athleteId }) => {
       // Load athlete profile
       const athleteRes = await axios.get(`${API}/athlete/${athleteId}`);
       setAthlete(athleteRes.data);
-      // Parse date of birth if available
+      // Parse date of birth if available (avoid timezone issues)
       let birthDay = '', birthMonth = '', birthYear = '';
       if (athleteRes.data.date_of_birth) {
-        const birthDate = new Date(athleteRes.data.date_of_birth);
-        birthDay = birthDate.getDate().toString();
-        birthMonth = (birthDate.getMonth() + 1).toString(); // getMonth() is 0-based
-        birthYear = birthDate.getFullYear().toString();
+        // Parse YYYY-MM-DD format directly without Date object to avoid timezone issues
+        const dateString = athleteRes.data.date_of_birth;
+        if (typeof dateString === 'string' && dateString.includes('-')) {
+          const [year, month, day] = dateString.split('-');
+          birthYear = year;
+          birthMonth = parseInt(month).toString(); // Remove leading zero
+          birthDay = parseInt(day).toString(); // Remove leading zero
+        }
       }
       
       setPersonalForm({
