@@ -2689,8 +2689,6 @@ async def get_chat_history(athlete_id: str, limit: int = 20):
 async def get_conversations(athlete_id: str, archived: Optional[bool] = None):
     """Get list of conversations grouped by session, optionally filtered by archived status"""
     match_filter = {"athlete_id": athlete_id}
-    if archived is not None:
-        match_filter["archived"] = archived
     
     pipeline = [
         {"$match": match_filter},
@@ -2708,13 +2706,32 @@ async def get_conversations(athlete_id: str, archived: Optional[bool] = None):
     
     conversations = await db.chat_messages.aggregate(pipeline).to_list(length=None)
     
-    return [{
-        "session_id": conv["_id"],
-        "last_message": conv["last_message"].isoformat() if isinstance(conv["last_message"], datetime) else conv["last_message"],
-        "message_count": conv["message_count"],
-        "preview": conv["preview"][:50] + "..." if len(conv["preview"]) > 50 else conv["preview"],
-        "archived": conv.get("archived", False)
-    } for conv in conversations]
+    # Filter by archived status after aggregation (to handle missing archived field)
+    result = []
+    for conv in conversations:
+        is_archived = conv.get("archived", False)  # Default to False if field missing
+        
+        # Apply archived filter if specified
+        if archived is not None:
+            if archived == is_archived:
+                result.append({
+                    "session_id": conv["_id"],
+                    "last_message": conv["last_message"].isoformat() if isinstance(conv["last_message"], datetime) else conv["last_message"],
+                    "message_count": conv["message_count"],
+                    "preview": conv["preview"][:50] + "..." if len(conv["preview"]) > 50 else conv["preview"],
+                    "archived": is_archived
+                })
+        else:
+            # No filter, return all
+            result.append({
+                "session_id": conv["_id"],
+                "last_message": conv["last_message"].isoformat() if isinstance(conv["last_message"], datetime) else conv["last_message"],
+                "message_count": conv["message_count"],
+                "preview": conv["preview"][:50] + "..." if len(conv["preview"]) > 50 else conv["preview"],
+                "archived": is_archived
+            })
+    
+    return result
 
 @api_router.get("/coach/conversation/{athlete_id}/{session_id}")
 async def get_conversation(athlete_id: str, session_id: str):
