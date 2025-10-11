@@ -275,6 +275,7 @@ test_plan:
   completed_tests:
     - "Voice Conversation Transcription and Saving"
     - "AI Coach Voice Preference Functionality"
+    - "Date of Birth Timezone Fix"
 
   - task: "Login and Authentication System"
     implemented: true
