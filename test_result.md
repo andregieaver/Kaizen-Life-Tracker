@@ -294,6 +294,7 @@ metadata:
 
 test_plan:
   current_focus:
+    - "Personal Information Form New Fields Testing"
     - "Schedule Edit Functionality"
     - "Schedule Delete Functionality"
   stuck_tasks: []
