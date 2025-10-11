@@ -1880,6 +1880,20 @@ strava_activity_manager = StravaActivityManager(strava_token_manager)
 oura_token_manager = OuraTokenManager()
 oura_data_manager = OuraDataManager(oura_token_manager)
 
+# Initialize OpenAI Realtime Voice Service
+openai_realtime_chat = None
+
+async def get_realtime_chat_for_athlete(athlete_id: str):
+    """Get or create OpenAI Realtime Chat instance for athlete"""
+    # Get user's OpenAI API key
+    user_openai_key = await ai_coach.get_user_openai_key(athlete_id)
+    if not user_openai_key:
+        raise HTTPException(status_code=400, detail="OpenAI API key required for voice chat")
+    
+    # Create realtime chat instance
+    realtime_chat = OpenAIChatRealtime(api_key=user_openai_key)
+    return realtime_chat
+
 # API Routes
 @api_router.get("/")
 async def root():
