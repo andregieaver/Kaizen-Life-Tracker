@@ -1356,7 +1356,8 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                 
                 if tools:
                     completion_params["tools"] = tools
-                    logging.info(f"Tools available for function calling: {len(tools)} tools")
+                    tool_names = [t["function"]["name"] for t in tools]
+                    logging.info(f"Tools available for function calling: {len(tools)} tools - {', '.join(tool_names)}")
                 else:
                     logging.info("No tools available - Tavily not configured")
                 
