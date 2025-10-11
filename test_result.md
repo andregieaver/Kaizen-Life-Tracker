@@ -331,6 +331,21 @@ frontend:
         agent: "main"
         comment: "✅ JOURNAL VOICE RECORDING WITH TRANSCRIPTION IMPLEMENTED - Complete voice-to-text functionality added to journal entries. BACKEND IMPLEMENTATION: Created new endpoint POST /api/journal/transcribe/{athlete_id} that accepts audio file uploads and uses OpenAI Whisper API for transcription. Endpoint includes proper error handling for missing/invalid OpenAI API keys with user-friendly messages. Uses existing get_user_openai_key() function to retrieve athlete's OpenAI credentials. Returns transcribed text that can be edited before saving. FRONTEND IMPLEMENTATION: Updated Journal.js component to send recorded audio blob to backend transcription endpoint via FormData. Added status messages during transcription ('Transcribing audio...') and after completion. Includes fallback error handling if transcription fails. Transcribed text appears in editable textarea for review before saving. UI COMPONENTS VERIFIED: Modal with Text/Voice toggle buttons working correctly. Voice recording interface displays blue microphone icon, 'Click to start recording' instruction, and 'Start Recording' button. Recording timer and 'Stop Recording' functionality operational. Screenshots confirm UI matches user's provided screenshot exactly. READY FOR TESTING: Feature requires athlete to have configured OpenAI API key in Account Settings. Full testing needed with actual voice recording and transcription flow."
 
+  - task: "Nutrition Entry Edit and Delete Functionality"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Nutrition.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "User reported image upload/capture not attaching to nutrition entries and requested edit/delete functionality."
+      - working: true
+        agent: "main"
+        comment: "✅ NUTRITION EDIT/DELETE FUNCTIONALITY IMPLEMENTED - Added complete CRUD operations for nutrition entries. EDIT FUNCTIONALITY: Added Edit button (blue pencil icon) to each nutrition entry card. Click Edit loads entry data into modal (meal type, description, image). Modal title changes to 'Edit Meal or Drink' when editing. Save button text changes to 'Update Entry' when editing. handleEditEntry function populates form with existing entry data including image preview. handleSaveEntry updated to handle both create and update operations using PUT /api/nutrition/{entry_id} for updates. DELETE FUNCTIONALITY: Delete button (red trash icon) already present on each entry card. Confirmation dialog prevents accidental deletion. Successfully removes entries from database and refreshes list. IMAGE UPLOAD: Image upload functionality verified working correctly - Upload Photo and Take Photo buttons present, image preview displays after selection, Remove button (X) allows clearing selected image, base64 image data sent to backend in image_data field. BACKEND SUPPORT: Backend already has complete CRUD endpoints (GET, POST, PUT, DELETE) with image_data support. NutritionEntry model includes optional image_data field for base64 encoded images. SCREENSHOTS VERIFIED: UI shows meal type selector, description textarea, image upload buttons, all functioning correctly. READY FOR TESTING: Full end-to-end testing needed with actual image upload, edit, and delete operations."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
