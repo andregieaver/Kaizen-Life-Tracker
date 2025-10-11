@@ -880,33 +880,68 @@ Return only the JSON array, nothing else.
                     for mem in items[:5]:  # Top 5 per category
                         memory_summary += f"- {mem['content']}\n"
         
+        # Create concise summaries instead of full JSON dumps to reduce token usage
+        athlete_info = context.get('athlete', {})
+        athlete_summary = f"Name: {athlete_info.get('name')}, Age: {athlete_info.get('age')}, Weekly Mileage: {athlete_info.get('weekly_mileage')} miles, Goals: {athlete_info.get('running_goals', 'Not specified')}"
+        
+        # Summarize workouts
+        workouts = context.get('recent_workouts', [])
+        workout_summary = f"{len(workouts)} workouts in last 14 days. " if workouts else "No recent workouts. "
+        if workouts:
+            total_miles = sum(w.get('distance_miles', 0) for w in workouts)
+            workout_summary += f"Total: {total_miles:.1f} miles. Latest: {workouts[0].get('workout_type', 'run')} - {workouts[0].get('distance_miles', 0)} miles on {workouts[0].get('date')}"
+        
+        # Summarize sleep
+        sleep_data = context.get('recent_sleep', [])
+        sleep_summary = f"{len(sleep_data)} nights tracked. " if sleep_data else "No recent sleep data. "
+        if sleep_data:
+            avg_sleep = sum(s.get('total_sleep_hours', 0) for s in sleep_data) / len(sleep_data)
+            sleep_summary += f"Average: {avg_sleep:.1f}h/night"
+        
+        # Summarize journal
+        journal_entries = context.get('journal_entries', [])
+        journal_summary = f"{len(journal_entries)} journal entries in last 30 days. " if journal_entries else "No journal entries. "
+        if journal_entries and len(journal_entries) > 0:
+            journal_summary += f"Latest: {journal_entries[0].get('entry', '')[:100]}..."
+        
+        # Summarize nutrition
+        nutrition_entries = context.get('nutrition_entries', [])
+        nutrition_summary = f"{len(nutrition_entries)} nutrition logs in last 7 days" if nutrition_entries else "No nutrition logs"
+        
+        # Summarize documents
+        documents = context.get('documents', [])
+        doc_summary = f"{len(documents)} documents uploaded" if documents else "No documents"
+        if documents:
+            doc_types = set(d.get('category', 'other') for d in documents)
+            doc_summary += f" ({', '.join(doc_types)})"
+        
+        # Summarize test results
+        test_results = context.get('test_results', [])
+        test_summary = f"{len(test_results)} test results" if test_results else "No test results"
+        if test_results:
+            test_names = set(t.get('test_name') for t in test_results[:10])
+            test_summary += f": {', '.join(test_names)}"
+        
+        readiness = context.get('current_readiness', {})
+        readiness_summary = f"Score: {readiness.get('readiness_score', 'N/A')}" if readiness else "No readiness data"
+        
         system_prompt = f"""
-You are an expert endurance running coach with deep knowledge of training physiology, periodization, and athlete development. You have access to this athlete's complete training and recovery data, including their journal entries, nutrition logs, documents, and performance test results.
+You are an expert endurance running coach with deep knowledge of training physiology, periodization, and athlete development. You have access to this athlete's complete training and recovery data.
 
 ATHLETE PROFILE:
-{json.dumps(context.get('athlete', {}), indent=2)}
+{athlete_summary}
 {memory_summary}
 
-RECENT WORKOUTS (last 14 days):
-{json.dumps(context.get('recent_workouts', []), indent=2)}
+RECENT ACTIVITY SUMMARY:
+- Workouts: {workout_summary}
+- Sleep: {sleep_summary}
+- Readiness: {readiness_summary}
+- Journal: {journal_summary}
+- Nutrition: {nutrition_summary}
+- Documents: {doc_summary}
+- Tests: {test_summary}
 
-RECENT SLEEP & RECOVERY (last 7 days):
-{json.dumps(context.get('recent_sleep', []), indent=2)}
-
-CURRENT READINESS:
-{json.dumps(context.get('current_readiness', {}), indent=2)}
-
-JOURNAL ENTRIES (last 30 days):
-{json.dumps(context.get('journal_entries', []), indent=2)}
-
-NUTRITION ENTRIES (last 7 days):
-{json.dumps(context.get('nutrition_entries', []), indent=2)}
-
-DOCUMENTS (medical records, test results, etc.):
-{json.dumps(context.get('documents', []), indent=2)}
-
-PERFORMANCE TEST RESULTS (recent tests):
-{json.dumps(context.get('test_results', []), indent=2)}
+Note: Full detailed data is available in the database if you need specific information. These are just summaries.
 
 COACHING PRINCIPLES:
 - Prioritize safety and injury prevention
