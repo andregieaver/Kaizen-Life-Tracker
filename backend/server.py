@@ -1459,21 +1459,6 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                         return final_response.choices[0].message.content or "I've processed your request."
                 
                 return assistant_message.content or "I've received your message, but couldn't generate a proper response. Please try rephrasing."
-            
-            else:
-                # Fall back to Emergent integration
-                from emergentintegrations.llm.chat import LlmChat, UserMessage
-                
-                chat = LlmChat(
-                    api_key=self.api_key,
-                    session_id=f"coach_{athlete_id}",
-                    system_message=system_prompt
-                ).with_model("anthropic", "claude-3-7-sonnet-20250219")
-                
-                user_message = UserMessage(text=message)
-                response = await chat.send_message(user_message)
-                
-                return response
                 
         except Exception as e:
             logging.error(f"AI Coach error: {e}")
