@@ -37,6 +37,46 @@ def test_openai_realtime_voice_api_error_handling():
     
     print(f"   Testing with athlete_id: {athlete_id} (andre@example.com)")
     
+    # First, check if there's an existing OpenAI integration and temporarily remove it for testing
+    existing_openai_integration = None
+    
+    try:
+        integrations_response = requests.get(f"{BACKEND_URL}/integrations/{athlete_id}")
+        if integrations_response.status_code == 200:
+            integrations_data = integrations_response.json()
+            for integration in integrations_data.get("integrations", []):
+                if integration.get("integration_type") == "openai":
+                    existing_openai_integration = integration
+                    break
+        
+        # If there's an existing OpenAI integration, we need to test with a different approach
+        # Since we can't easily remove it, let's create a new test athlete without OpenAI integration
+        if existing_openai_integration:
+            print(f"   Note: Found existing OpenAI integration - creating test athlete without API key")
+            
+            # Create a temporary test athlete for error handling testing
+            test_athlete_data = {
+                "id": str(uuid.uuid4()),
+                "name": "Voice API Test User",
+                "email": f"voice.test.{int(datetime.now().timestamp())}@example.com",
+                "password": "VoiceTest123!",
+                "age": 25,
+                "weekly_mileage": 20.0,
+                "running_goals": "Test voice API error handling"
+            }
+            
+            create_response = requests.post(
+                f"{BACKEND_URL}/athlete",
+                json=test_athlete_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if create_response.status_code == 200:
+                athlete_id = test_athlete_data["id"]
+                print(f"   Created test athlete: {athlete_id} (no OpenAI API key)")
+            else:
+                print(f"   Failed to create test athlete, using original: {athlete_id}")
+    
     try:
         # Step 1: Test Voice Session Creation Error Handling
         print("   Step 1: Test POST /api/coach/voice/session/{athlete_id} - Missing API Key Error")
