@@ -4578,8 +4578,23 @@ if __name__ == "__main__":
                 print("❌ FAIL AI Coach Unit System Training Blocks")
                 print("\n⚠️ UNIT SYSTEM TRAINING BLOCKS TEST FAILED! Please review the issues above.")
                 sys.exit(1)
+        elif sys.argv[1] == "--voice-api":
+            print("🎯 Running OPENAI REALTIME VOICE API INTEGRATION TEST ONLY (as per review request)")
+            print("=" * 80)
+            success = test_openai_realtime_voice_api_integration()
+            print("\n" + "=" * 80)
+            print("📊 OPENAI REALTIME VOICE API INTEGRATION TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS OpenAI Realtime Voice API Integration")
+                print("\n🎉 VOICE API INTEGRATION TEST PASSED! Voice endpoints are functional with corrected method names.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL OpenAI Realtime Voice API Integration")
+                print("\n⚠️ VOICE API INTEGRATION TEST FAILED! Please review the issues above.")
+                sys.exit(1)
         else:
-            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks")
+            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api")
             sys.exit(1)
     else:
         # Run AI Coach Unit System Training Blocks test as primary focus (as per review request)
