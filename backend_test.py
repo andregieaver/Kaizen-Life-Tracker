@@ -8,7 +8,10 @@ import requests
 import json
 import sys
 import uuid
+import io
+import base64
 from datetime import datetime
+from PIL import Image
 
 # Backend URL from environment
 BACKEND_URL = "https://smart-coach-9.preview.emergentagent.com/api"
