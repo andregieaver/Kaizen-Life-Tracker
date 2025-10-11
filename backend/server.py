@@ -2621,30 +2621,31 @@ async def update_training_block(block_id: str, data: dict):
     return {"success": True}
 
 @api_router.get("/training-calendar/{athlete_id}/weekly-summary")
-async def get_weekly_summary(athlete_id: str, year: int = Query(2025), week: int = Query(1)):
-    """Get weekly training summary"""
+async def get_weekly_summary(athlete_id: str, year: int = Query(2025), month: int = Query(1)):
+    """Get weekly training summaries for a given month"""
     from datetime import datetime, timedelta
+    import calendar
     
-    # Calculate week start and end dates
-    jan_1 = datetime(year, 1, 1)
-    week_start = jan_1 + timedelta(weeks=week-1)
-    week_end = week_start + timedelta(days=6)
+    # Get all days in the month
+    _, num_days = calendar.monthrange(year, month)
+    month_start = datetime(year, month, 1)
+    month_end = datetime(year, month, num_days)
     
-    # Query training blocks for this week
+    # Query all training blocks for this month
     blocks = await db.training_blocks.find(
         {
             "athlete_id": athlete_id,
             "$or": [
                 {
                     "start_date": {
-                        "$gte": week_start.strftime("%Y-%m-%d"),
-                        "$lte": week_end.strftime("%Y-%m-%d")
+                        "$gte": month_start.strftime("%Y-%m-%d"),
+                        "$lte": month_end.strftime("%Y-%m-%d")
                     }
                 },
                 {
                     "end_date": {
-                        "$gte": week_start.strftime("%Y-%m-%d"),
-                        "$lte": week_end.strftime("%Y-%m-%d")
+                        "$gte": month_start.strftime("%Y-%m-%d"),
+                        "$lte": month_end.strftime("%Y-%m-%d")
                     }
                 }
             ]
@@ -2652,19 +2653,39 @@ async def get_weekly_summary(athlete_id: str, year: int = Query(2025), week: int
         {"_id": 0}
     ).to_list(length=None)
     
-    # Calculate totals
-    total_distance = sum(block.get("distance", 0) or 0 for block in blocks)
-    total_duration = sum(block.get("duration_minutes", 0) or 0 for block in blocks)
-    workout_count = len([b for b in blocks if b.get("workout_type")])
+    # Group blocks by week
+    weeks = {}
+    for block in blocks:
+        start_date_str = block.get("start_date")
+        if not start_date_str or start_date_str == "None":
+            continue
+            
+        try:
+            start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+            # Get the Monday of the week this date is in
+            week_start = start_date - timedelta(days=start_date.weekday())
+            week_key = week_start.strftime("%Y-%m-%d")
+            
+            if week_key not in weeks:
+                weeks[week_key] = {
+                    "week_start": week_start.strftime("%Y-%m-%d"),
+                    "week_end": (week_start + timedelta(days=6)).strftime("%Y-%m-%d"),
+                    "total_distance": 0,
+                    "total_duration": 0,
+                    "workout_count": 0,
+                    "blocks": []
+                }
+            
+            weeks[week_key]["blocks"].append(parse_from_mongo(block))
+            weeks[week_key]["total_distance"] += block.get("distance", 0) or 0
+            weeks[week_key]["total_duration"] += block.get("duration_minutes", 0) or 0
+            if block.get("workout_type"):
+                weeks[week_key]["workout_count"] += 1
+        except ValueError:
+            continue
     
-    return {
-        "week_start": week_start.strftime("%Y-%m-%d"),
-        "week_end": week_end.strftime("%Y-%m-%d"),
-        "total_distance": total_distance,
-        "total_duration": total_duration,
-        "workout_count": workout_count,
-        "blocks": [parse_from_mongo(block) for block in blocks]
-    }
+    # Return sorted weeks
+    return sorted(weeks.values(), key=lambda x: x["week_start"])
 
 @api_router.delete("/training-calendar/{block_id}")
 async def delete_training_block(block_id: str):
