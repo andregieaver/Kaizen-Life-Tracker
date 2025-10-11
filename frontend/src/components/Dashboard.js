@@ -134,11 +134,38 @@ const Dashboard = ({ athleteId }) => {
       
       // Add cache-busting to ensure fresh data
       const cacheBuster = `?_t=${Date.now()}`;
-      const [athleteRes, readinessRes, workoutsRes] = await Promise.all([
-        axios.get(`${API}/athlete/${athleteId}${cacheBuster}`),
-        axios.get(`${API}/readiness/${athleteId}${cacheBuster}`),
-        axios.get(`${API}/workouts/${athleteId}?limit=5${cacheBuster}`)
-      ]);
+      
+      // Make athlete call first (this is critical and must succeed)
+      const athleteRes = await axios.get(`${API}/athlete/${athleteId}${cacheBuster}`);
+      
+      console.log('Raw API response for athlete:', athleteRes.data);
+      console.log('Setting athlete state to:', athleteRes.data);
+      
+      // Force a clean state update
+      setAthlete(null); // Clear first
+      setTimeout(() => {
+        setAthlete(athleteRes.data); // Then set new data
+        console.log('Athlete state updated successfully');
+      }, 100);
+      
+      // Make other calls but don't fail if they error
+      try {
+        const readinessRes = await axios.get(`${API}/readiness/${athleteId}${cacheBuster}`);
+        setReadiness(readinessRes.data);
+      } catch (error) {
+        console.warn('Readiness API failed, continuing without readiness data:', error.message);
+        setReadiness(null);
+      }
+      
+      try {
+        const workoutsRes = await axios.get(`${API}/workouts/${athleteId}?limit=5&_t=${Date.now()}`);
+        setRecentWorkouts(workoutsRes.data);
+      } catch (error) {
+        console.warn('Workouts API failed, continuing without workouts data:', error.message);
+        setRecentWorkouts([]);
+      }
+      
+      return; // Skip the old Promise.all code
 
       console.log('Raw API response for athlete:', athleteRes.data);
       console.log('Setting athlete state to:', athleteRes.data);
