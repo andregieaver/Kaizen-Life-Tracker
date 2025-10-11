@@ -1204,13 +1204,13 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
             
             logging.info(f"Using user's OpenAI API key for athlete {athlete_id}")
             client = openai.AsyncOpenAI(api_key=user_openai_key)
-                
-                # Define tools for function calling
-                tools = []
-                logging.info(f"Setting up function calling tools for athlete {athlete_id}")
-                if self.tavily_client:  # Only add search tool if Tavily is available
-                    logging.info("Adding search_health_information tool")
-                    tools.append({
+            
+            # Define tools for function calling
+            tools = []
+            logging.info(f"Setting up function calling tools for athlete {athlete_id}")
+            if self.tavily_client:  # Only add search tool if Tavily is available
+                logging.info("Adding search_health_information tool")
+                tools.append({
                         "type": "function",
                         "function": {
                             "name": "search_health_information",
