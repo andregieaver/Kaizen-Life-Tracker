@@ -135,6 +135,16 @@
       "q4": "Show me my weekly mileage trend"
     }
   },
+  "voiceChat": {
+    "startVoice": "Start Voice Chat",
+    "stopVoice": "Stop Voice Chat",
+    "connecting": "Connecting...",
+    "connected": "Voice chat active",
+    "speakNow": "Speak to your coach - they can hear you!",
+    "micPermissionRequired": "Microphone permission required",
+    "micPermissionDenied": "Microphone access is blocked. Please enable microphone permission in your browser settings to use voice chat.",
+    "apiKeyRequired": "Add your OpenAI API key in Account Settings to enable voice chat"
+  },
   "reports": {
     "title": "Reports",
     "description": "Automated analysis of your training and recovery data",
