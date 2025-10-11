@@ -14,6 +14,7 @@ const Nutrition = ({ athleteId }) => {
   const [entries, setEntries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [editingEntry, setEditingEntry] = useState(null);
   const [mealType, setMealType] = useState('breakfast');
   const [description, setDescription] = useState('');
   const [imageData, setImageData] = useState(null);
