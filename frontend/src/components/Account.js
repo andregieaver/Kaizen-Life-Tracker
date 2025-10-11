@@ -1407,7 +1407,7 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium">Interests</Label>
+                    <Label className="text-sm font-medium">{t('account.interests')}</Label>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                       {[
                         'Running', 'Marathon', 'Trail Running', 'Ultramarathon', 
