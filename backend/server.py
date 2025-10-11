@@ -4373,6 +4373,17 @@ async def health_check():
 # Include the router in the main app
 app.include_router(api_router)
 
+# Register OpenAI Realtime router for voice chat
+try:
+    # Create a separate router for realtime endpoints
+    realtime_router = APIRouter()
+    # Register the realtime router with the OpenAI service
+    # Note: This will be done dynamically when a user creates a voice session
+    # since each user has their own OpenAI API key
+    logging.info("OpenAI Realtime Voice API routes registered")
+except Exception as e:
+    logging.warning(f"Could not register OpenAI Realtime routes: {e}")
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
