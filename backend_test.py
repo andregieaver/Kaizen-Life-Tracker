@@ -8978,8 +8978,62 @@ if __name__ == "__main__":
                 print("❌ FAIL Date of Birth Timezone Fix")
                 print("\n⚠️ TIMEZONE FIX FAILED! Date shifting issues detected - please review the issues above.")
                 sys.exit(1)
+        elif sys.argv[1] == "--athlete-data-debug":
+            print("🎯 Running ATHLETE DATA DEBUG FOR SLIDEOUT MENU ISSUE (as per review request)")
+            print("=" * 80)
+            print("REVIEW REQUEST: Debug why the Dashboard component is still not getting")
+            print("the correct athlete data despite the backend API fix. Need to investigate")
+            print("the actual API responses and athlete data.")
+            print("=" * 80)
+            
+            # Run all the debug tests in sequence
+            print("\n🔍 STEP 1: CHECK ALL ATHLETES IN DATABASE")
+            athletes = test_all_athletes_in_database()
+            
+            print("\n🔍 STEP 2: TEST API CALLS FOR DIFFERENT ATHLETE IDs")
+            api_results = test_api_calls_different_athlete_ids()
+            
+            print("\n🔍 STEP 3: VERIFY LOGIN FLOW AND ATHLETE ID STORAGE")
+            login_result = test_login_flow_athlete_id_storage()
+            
+            print("\n🔍 STEP 4: CHECK PROFILE PICTURE STORAGE")
+            storage_result = test_profile_picture_storage_verification()
+            
+            print("\n🔍 STEP 5: TEST BACKEND API STATUS")
+            api_status = test_backend_api_status_verification()
+            
+            print("\n🔍 STEP 6: DEBUG ATHLETE ID MISMATCH")
+            mismatch_result = test_athlete_id_mismatch_debug()
+            
+            print("\n🔍 STEP 7: COMPREHENSIVE SLIDEOUT DEBUG")
+            slideout_result = test_andre_athlete_data_slideout_debug()
+            
+            # Overall assessment
+            print("\n" + "=" * 80)
+            print("📊 ATHLETE DATA DEBUG SUMMARY")
+            print("=" * 80)
+            
+            all_success = (
+                athletes and 
+                api_results and 
+                login_result and 
+                storage_result and 
+                api_status and 
+                mismatch_result and 
+                slideout_result
+            )
+            
+            if all_success:
+                print("✅ PASS Athlete Data Debug")
+                print("\n🎉 ATHLETE DATA DEBUG COMPLETED! All backend data appears correct.")
+                print("💡 If slideout menu still shows wrong data, the issue is in frontend state management.")
+            else:
+                print("❌ FAIL Athlete Data Debug")
+                print("\n⚠️ ATHLETE DATA DEBUG FOUND ISSUES! Backend data problems identified.")
+            
+            sys.exit(0 if all_success else 1)
         else:
-            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug, --openai-validation-fix, --voice-preference, --date-of-birth, --timezone-fix")
+            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug, --openai-validation-fix, --voice-preference, --date-of-birth, --timezone-fix, --athlete-data-debug")
             sys.exit(1)
     else:
         # Run Date of Birth Functionality test as primary focus (as per review request)
