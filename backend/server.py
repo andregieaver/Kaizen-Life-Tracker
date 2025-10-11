@@ -3377,6 +3377,77 @@ async def delete_memory(memory_id: str):
         raise HTTPException(status_code=404, detail="Memory not found")
     return {"message": "Memory deleted successfully"}
 
+# OpenAI Realtime Voice API routes
+@api_router.post("/coach/voice/session/{athlete_id}")
+async def create_voice_session(athlete_id: str):
+    """Create a new realtime voice session for the athlete"""
+    try:
+        # Get the realtime chat instance for this athlete
+        realtime_chat = await get_realtime_chat_for_athlete(athlete_id)
+        
+        # Get athlete context for the voice session
+        context = await ai_coach.get_athlete_context(athlete_id)
+        
+        # Create the system message with athlete context (similar to text chat)
+        athlete_info = context.get('athlete', {})
+        distance_unit = athlete_info.get('distance_unit', 'miles')
+        measurement_system = athlete_info.get('measurement_system', 'imperial')
+        
+        system_message = f"""
+You are an expert endurance running coach speaking directly with your athlete via voice. You have access to their complete training and recovery data.
+
+ATHLETE PROFILE:
+- Name: {athlete_info.get('name')}
+- Age: {athlete_info.get('age')}
+- Goals: {athlete_info.get('running_goals', 'Not specified')}
+- Preferred Units: {distance_unit} ({measurement_system})
+
+VOICE CONVERSATION GUIDELINES:
+- Keep responses conversational and natural for voice chat
+- Be encouraging and personalized
+- Use the athlete's name when appropriate
+- Ask follow-up questions to engage them
+- Keep responses concise but informative
+- Always respect their unit preferences ({distance_unit})
+
+COACHING PRINCIPLES:
+- Prioritize safety and injury prevention
+- Base recommendations on their actual data
+- Be encouraging but realistic
+- Reference specific data when relevant
+
+You can access their training calendar, create workouts, and provide personalized coaching advice through voice conversation.
+"""
+        
+        # Create session with system message
+        session_token = await realtime_chat.create_session(system_message=system_message)
+        
+        return {"client_secret": session_token}
+        
+    except Exception as e:
+        logging.error(f"Voice session creation error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/coach/voice/negotiate/{athlete_id}")
+async def negotiate_voice_connection(athlete_id: str, request: Request):
+    """Negotiate WebRTC connection for voice chat"""
+    try:
+        # Get the realtime chat instance
+        realtime_chat = await get_realtime_chat_for_athlete(athlete_id)
+        
+        # Get the SDP offer from request body
+        offer_sdp = await request.body()
+        offer_sdp = offer_sdp.decode('utf-8')
+        
+        # Negotiate the connection
+        answer_sdp = await realtime_chat.negotiate_connection(offer_sdp)
+        
+        return {"sdp": answer_sdp}
+        
+    except Exception as e:
+        logging.error(f"Voice negotiation error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Strava OAuth routes
 @api_router.get("/auth/strava/callback")
 async def strava_auth_callback(
