@@ -335,7 +335,7 @@ def test_ai_coach_unit_preferences():
             print_test_result("AI Coach Unit Preferences - Overall Test", False, f"Failed: {', '.join(failed_components)}")
         
         # Reset preferences to original values
-        print("   Step 8: Reset preferences to original values")
+        print("   Step 9: Reset preferences to original values")
         original_preferences = {
             "distance_unit": current_distance_unit,
             "measurement_system": current_measurement_system,
