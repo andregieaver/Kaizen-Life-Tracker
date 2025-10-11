@@ -462,7 +462,8 @@ const Account = ({ athleteId }) => {
         timezone: athleteRes.data.timezone || 'UTC',
         time_format: athleteRes.data.time_format || '12h',
         date_format: athleteRes.data.date_format || 'MM/DD/YYYY',
-        language: athleteRes.data.language || 'en'
+        language: athleteRes.data.language || 'en',
+        voice_preference: athleteRes.data.voice_preference || 'alloy'
       });
       
       // Load integrations data from backend
