@@ -23,6 +23,236 @@ TEST_EMAIL = f"test.runner.{int(datetime.now().timestamp())}@example.com"
 TEST_PASSWORD = "SecureRunning123!"
 TEST_NAME = "Alex Runner"
 
+def test_andre_athlete_data_slideout_debug():
+    """
+    SPECIFIC TEST FOR REVIEW REQUEST:
+    Check the current athlete data for andre@example.com to debug why the slideout menu 
+    isn't showing the profile picture and correct name.
+    """
+    print("🔍 DEBUGGING ANDRE'S ATHLETE DATA FOR SLIDEOUT MENU ISSUE")
+    print("=" * 70)
+    
+    # Login credentials for andre@example.com
+    athlete_email = "andre@example.com"
+    athlete_password = "password123"
+    
+    try:
+        # Step 1: Login as andre@example.com to get athlete_id
+        print("   Step 1: Login as andre@example.com")
+        
+        login_data = {
+            "email": athlete_email,
+            "password": athlete_password
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("Andre Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if not athlete_id:
+            print_test_result("Andre Login", False, "No athlete_id in login response")
+            return False
+        
+        print_test_result("Andre Login", True, f"Successfully logged in (athlete_id: {athlete_id})")
+        
+        # Step 2: Test GET /api/athlete/{athlete_id} - Main API for slideout menu
+        print("   Step 2: Test GET /api/athlete/{athlete_id} - Primary slideout menu data source")
+        
+        athlete_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+        
+        if athlete_response.status_code != 200:
+            print_test_result("Get Athlete Data", False, f"API call failed: {athlete_response.status_code}")
+            return False
+        
+        athlete_profile = athlete_response.json()
+        
+        # Step 3: Check Name Field (should not be "User")
+        print("   Step 3: Verify name field shows correct full name (not just 'User')")
+        
+        name_success = False
+        name_details = []
+        
+        name_field = athlete_profile.get("name")
+        if name_field:
+            name_details.append(f"✅ Name field exists: '{name_field}'")
+            
+            if name_field.strip() and name_field.lower() != "user":
+                name_details.append("✅ Name is NOT defaulting to 'User'")
+                name_details.append(f"✅ Actual name value: '{name_field}'")
+                name_success = True
+            else:
+                name_details.append("❌ Name is empty or defaulting to 'User'")
+                name_details.append("❌ SLIDEOUT MENU ISSUE: Name field not properly populated")
+        else:
+            name_details.append("❌ Name field is missing from response")
+            name_details.append("❌ SLIDEOUT MENU ISSUE: No name data available")
+        
+        print_test_result("Name Field Verification", name_success, "; ".join(name_details))
+        
+        # Step 4: Check Profile Picture Field
+        print("   Step 4: Verify profile_picture field contains valid base64 image data")
+        
+        picture_success = False
+        picture_details = []
+        
+        profile_picture = athlete_profile.get("profile_picture")
+        if profile_picture:
+            picture_details.append("✅ profile_picture field exists")
+            
+            if isinstance(profile_picture, str) and profile_picture.strip():
+                picture_details.append("✅ profile_picture has data (not empty)")
+                
+                # Check format
+                if profile_picture.startswith("data:image/jpeg;base64,"):
+                    picture_details.append("✅ Correct format: starts with 'data:image/jpeg;base64,'")
+                    
+                    # Extract base64 data
+                    try:
+                        base64_data = profile_picture.split(',')[1] if ',' in profile_picture else profile_picture
+                        picture_details.append(f"✅ Base64 data length: {len(base64_data)} characters")
+                        
+                        # Verify it's valid base64 and can be decoded as image
+                        import base64
+                        decoded_data = base64.b64decode(base64_data)
+                        
+                        from PIL import Image
+                        import io
+                        test_image = Image.open(io.BytesIO(decoded_data))
+                        picture_details.append(f"✅ Valid image: {test_image.size} pixels, {test_image.format} format")
+                        picture_success = True
+                        
+                    except Exception as e:
+                        picture_details.append(f"❌ Invalid base64 or corrupted image data: {str(e)}")
+                        picture_details.append("❌ SLIDEOUT MENU ISSUE: Image data is corrupted")
+                else:
+                    picture_details.append(f"❌ Wrong format: {profile_picture[:50]}...")
+                    picture_details.append("❌ SLIDEOUT MENU ISSUE: Image format not compatible")
+            else:
+                picture_details.append("❌ profile_picture field exists but is empty")
+                picture_details.append("❌ SLIDEOUT MENU ISSUE: No image data to display")
+        else:
+            picture_details.append("❌ profile_picture field is missing from response")
+            picture_details.append("❌ SLIDEOUT MENU ISSUE: No profile picture field available")
+        
+        print_test_result("Profile Picture Verification", picture_success, "; ".join(picture_details))
+        
+        # Step 5: Check API Response Format (all required fields)
+        print("   Step 5: Verify API response structure matches frontend expectations")
+        
+        format_success = True
+        format_details = []
+        
+        required_fields = ["id", "name", "email", "profile_picture"]
+        for field in required_fields:
+            if field in athlete_profile:
+                value = athlete_profile[field]
+                if value is not None:
+                    format_details.append(f"✅ {field}: present and not null")
+                else:
+                    format_details.append(f"⚠️ {field}: present but null")
+                    if field in ["name", "profile_picture"]:
+                        format_success = False
+            else:
+                format_details.append(f"❌ {field}: missing from response")
+                format_success = False
+        
+        # Check for any unexpected null/undefined values
+        null_fields = [k for k, v in athlete_profile.items() if v is None and k in required_fields]
+        if null_fields:
+            format_details.append(f"❌ Null fields detected: {null_fields}")
+            format_details.append("❌ SLIDEOUT MENU ISSUE: Null values may cause display problems")
+        
+        print_test_result("API Response Format", format_success, "; ".join(format_details))
+        
+        # Step 6: Print Complete Athlete Profile for Analysis
+        print("   Step 6: Complete athlete profile analysis")
+        
+        print("\n📋 COMPLETE ATHLETE PROFILE DATA:")
+        print("-" * 50)
+        print(f"ID: {athlete_profile.get('id', 'MISSING')}")
+        print(f"Name: '{athlete_profile.get('name', 'MISSING')}'")
+        print(f"Email: {athlete_profile.get('email', 'MISSING')}")
+        
+        profile_pic = athlete_profile.get('profile_picture')
+        if profile_pic:
+            if len(profile_pic) > 100:
+                print(f"Profile Picture: {profile_pic[:50]}... ({len(profile_pic)} chars total)")
+            else:
+                print(f"Profile Picture: {profile_pic}")
+        else:
+            print("Profile Picture: MISSING/NULL")
+        
+        # Show other relevant fields
+        other_fields = ["age", "weekly_mileage", "running_goals", "created_at"]
+        for field in other_fields:
+            if field in athlete_profile:
+                print(f"{field.replace('_', ' ').title()}: {athlete_profile[field]}")
+        
+        print("-" * 50)
+        
+        # Step 7: Determine Root Cause of Slideout Menu Issue
+        print("   Step 7: Root cause analysis for slideout menu display issue")
+        
+        root_cause_analysis = []
+        
+        if not name_success:
+            root_cause_analysis.append("❌ NAME ISSUE: Name field is empty or defaulting to 'User'")
+            root_cause_analysis.append("   → Slideout menu will show incorrect name")
+            root_cause_analysis.append("   → Check athlete profile creation/update process")
+        
+        if not picture_success:
+            root_cause_analysis.append("❌ PROFILE PICTURE ISSUE: No valid image data")
+            root_cause_analysis.append("   → Slideout menu will show default avatar/initials")
+            root_cause_analysis.append("   → Check profile picture upload and storage process")
+        
+        if not format_success:
+            root_cause_analysis.append("❌ API FORMAT ISSUE: Missing or null required fields")
+            root_cause_analysis.append("   → Frontend may not receive expected data structure")
+            root_cause_analysis.append("   → Check API response serialization")
+        
+        if name_success and picture_success and format_success:
+            root_cause_analysis.append("✅ BACKEND DATA IS CORRECT")
+            root_cause_analysis.append("   → Issue is likely in frontend state management")
+            root_cause_analysis.append("   → Dashboard component may not be refreshing athlete data")
+            root_cause_analysis.append("   → Check if slideout menu is using cached/stale data")
+        
+        # Step 8: Final Assessment
+        overall_success = name_success and picture_success and format_success
+        
+        print("\n🔍 ROOT CAUSE ANALYSIS:")
+        for analysis in root_cause_analysis:
+            print(f"  {analysis}")
+        
+        print(f"\n📊 SLIDEOUT MENU DEBUG SUMMARY:")
+        print("=" * 60)
+        print(f"Name Field: {'✅ Correct' if name_success else '❌ Issue Found'}")
+        print(f"Profile Picture: {'✅ Valid Data' if picture_success else '❌ Issue Found'}")
+        print(f"API Response Format: {'✅ Complete' if format_success else '❌ Issue Found'}")
+        print(f"Backend Data Status: {'✅ All Good' if overall_success else '❌ Has Issues'}")
+        
+        if overall_success:
+            print("\n✅ BACKEND CONCLUSION: All athlete data is correct")
+            print("💡 RECOMMENDATION: Issue is likely in frontend - check Dashboard component state management")
+        else:
+            print("\n❌ BACKEND CONCLUSION: Found data issues that explain slideout menu problems")
+            print("💡 RECOMMENDATION: Fix the identified backend data issues first")
+        
+        print("=" * 60)
+        
+        return overall_success
+        
+    except Exception as e:
+        print_test_result("Andre Athlete Data Debug - Exception", False, f"Exception: {str(e)}")
+        return False
 def print_test_result(test_name, success, details=""):
     """Print formatted test results"""
     status = "✅ PASS" if success else "❌ FAIL"
