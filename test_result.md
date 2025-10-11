@@ -380,6 +380,18 @@ test_plan:
         agent: "testing"
         comment: "✅ AI COACH UNIT SYSTEM TRAINING BLOCKS COMPREHENSIVE TESTING COMPLETE - Executed extensive testing of unit_system field setting with 100% success rate (12/12 tests passed). CRITICAL FIX APPLIED: 1) BACKEND BUG IDENTIFIED AND FIXED ✓ - POST /api/training-calendar endpoint was not respecting athlete's distance_unit preference, always defaulting to 'miles'. Fixed by adding athlete preference lookup and automatic unit_system setting. 2) TRAINING BLOCK CREATION TESTING ✓ - Verified both km and miles modes: KM Mode: Created training block with distance_unit='km' → unit_system correctly set to 'km', Miles Mode: Created training block with distance_unit='miles' → unit_system correctly set to 'miles'. 3) API ENDPOINT VERIFICATION ✓ - POST /api/training-calendar now automatically reads athlete's distance_unit preference and sets unit_system field accordingly, PUT /api/training-calendar also updated to respect unit preferences for distance-related updates. 4) AI COACH FUNCTION TESTING ✓ - create_training_blocks function in AICoachService correctly implements unit preference logic, Function would work properly with valid OpenAI API key for AI-generated training blocks. 5) DATABASE VERIFICATION ✓ - GET /api/training-calendar/{athlete_id} returns training blocks with correct unit_system field matching user preferences. RESOLUTION: The reported issue where users got training plans in miles despite setting preference to km has been FIXED. Backend now properly sets unit_system field based on athlete's distance_unit preference for all training block creation methods."
 
+  - task: "OpenAI Realtime Voice API Integration"
+    implemented: true
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL VOICE API INTEGRATION ISSUE IDENTIFIED - Comprehensive testing of OpenAI Realtime Voice API endpoints revealed critical implementation bug. TESTED COMPONENTS: 1) AUTHENTICATION ✅ - Login as andre@example.com successful, OpenAI API key is configured for athlete. 2) VOICE SESSION ENDPOINT ❌ - POST /api/coach/voice/session/{athlete_id} fails with 500 error: 'OpenAIChatRealtime' object has no attribute 'create_session'. Backend logs confirm the emergentintegrations.llm.openai.OpenAIChatRealtime class does not have the expected create_session method. 3) VOICE NEGOTIATION ENDPOINT ⚠️ - POST /api/coach/voice/negotiate/{athlete_id} returns 200 but may have similar method issues. 4) ERROR HANDLING ✅ - Proper error responses for invalid athlete_id (500 status). 5) INTEGRATION COMPONENTS ❌ - emergentintegrations library accessible but OpenAIChatRealtime class missing required methods. 6) ATHLETE CONTEXT ✅ - Athlete context retrieval working, unit preferences available for system message. ROOT CAUSE: The OpenAIChatRealtime class from emergentintegrations library does not implement the create_session method that the voice endpoints expect. RESOLUTION NEEDED: 1) Check emergentintegrations library documentation for correct method names, 2) Update voice endpoint implementation to use correct OpenAIChatRealtime API methods, 3) Test with valid OpenAI API key once methods are corrected. CURRENT STATUS: Voice endpoints are structurally implemented but non-functional due to incorrect API method calls."
+
   - task: "Account Settings Personal Information and Preferences Save/Load"
     implemented: true
     working: true
