@@ -90,6 +90,12 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
         session_id: sessionId
       });
 
+      // Mark that user has sent a message (no longer first visit)
+      setIsFirstVisit(false);
+      
+      // Reload conversations immediately after sending message so it appears in the list
+      await loadConversations();
+
       const coachMessage = {
         type: 'coach',
         content: response.data.response,
@@ -97,12 +103,6 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       };
 
       setMessages(prev => [...prev, coachMessage]);
-      
-      // Mark that user has sent a message (no longer first visit)
-      setIsFirstVisit(false);
-      
-      // Reload conversations to update the list with new messages
-      await loadConversations();
     } catch (error) {
       console.error('Error sending message:', error);
       const errorMessage = {
