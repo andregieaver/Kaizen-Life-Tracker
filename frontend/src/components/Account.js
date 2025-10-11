@@ -188,6 +188,8 @@ const Account = ({ athleteId }) => {
   const [editingSchedule, setEditingSchedule] = useState(null);
   const [showStravaModal, setShowStravaModal] = useState(false);
   const [showOuraModal, setShowOuraModal] = useState(false);
+  const [profilePictureFile, setProfilePictureFile] = useState(null);
+  const [profilePicturePreview, setProfilePicturePreview] = useState('');
   const [scheduleForm, setScheduleForm] = useState({
     name: '',
     prompt: '',
