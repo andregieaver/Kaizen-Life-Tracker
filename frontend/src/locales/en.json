@@ -261,7 +261,14 @@
     "passwordResetSoon": "Password reset functionality will be available soon. For now, your account is secured through the platform authentication.",
     "changePasswordSoon": "Change Password (Coming Soon)",
     "changePassword": "Change Password",
-    "changePasswordDescription": "Update your account password for security"
+    "changePasswordDescription": "Update your account password for security",
+    "aiCoachVoice": "AI Coach Voice",
+    "voiceAlloy": "Alloy (Warm and confident)",
+    "voiceEcho": "Echo (Clear and professional)",
+    "voiceFable": "Fable (Expressive and friendly)",
+    "voiceOnyx": "Onyx (Deep and authoritative)",
+    "voiceNova": "Nova (Bright and energetic)",
+    "voiceShimmer": "Shimmer (Gentle and calm)"
   },
   "merits": {
     "title": "Merits",
