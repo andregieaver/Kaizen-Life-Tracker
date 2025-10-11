@@ -1248,7 +1248,7 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>AI Coach Voice</Label>
+                    <Label>{t('account.aiCoachVoice')}</Label>
                     <Select
                       value={personalForm.voice_preference || 'alloy'}
                       onValueChange={(value) => setPersonalForm(prev => ({...prev, voice_preference: value}))}
@@ -1257,12 +1257,12 @@ const Account = ({ athleteId }) => {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="alloy">Alloy (Warm and confident)</SelectItem>
-                        <SelectItem value="echo">Echo (Clear and professional)</SelectItem>
-                        <SelectItem value="fable">Fable (Expressive and friendly)</SelectItem>
-                        <SelectItem value="onyx">Onyx (Deep and authoritative)</SelectItem>
-                        <SelectItem value="nova">Nova (Bright and energetic)</SelectItem>
-                        <SelectItem value="shimmer">Shimmer (Gentle and calm)</SelectItem>
+                        <SelectItem value="alloy">{t('account.voiceAlloy')}</SelectItem>
+                        <SelectItem value="echo">{t('account.voiceEcho')}</SelectItem>
+                        <SelectItem value="fable">{t('account.voiceFable')}</SelectItem>
+                        <SelectItem value="onyx">{t('account.voiceOnyx')}</SelectItem>
+                        <SelectItem value="nova">{t('account.voiceNova')}</SelectItem>
+                        <SelectItem value="shimmer">{t('account.voiceShimmer')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
