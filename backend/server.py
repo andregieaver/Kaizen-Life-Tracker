@@ -274,6 +274,7 @@ class AthleteUpdate(BaseModel):
     time_format: Optional[str] = None
     date_format: Optional[str] = None
     language: Optional[str] = None
+    voice_preference: Optional[str] = None
 
 class Integration(BaseModel):
     model_config = ConfigDict(extra="ignore")
