@@ -119,14 +119,19 @@ const Dashboard = ({ athleteId }) => {
     setIsLoading(true);
     try {
       console.log('Loading dashboard data for athlete:', athleteId);
+      
+      // Add cache-busting to ensure fresh data
+      const cacheBuster = `?_t=${Date.now()}`;
       const [athleteRes, readinessRes, workoutsRes] = await Promise.all([
-        axios.get(`${API}/athlete/${athleteId}`),
-        axios.get(`${API}/readiness/${athleteId}`),
-        axios.get(`${API}/workouts/${athleteId}?limit=5`)
+        axios.get(`${API}/athlete/${athleteId}${cacheBuster}`),
+        axios.get(`${API}/readiness/${athleteId}${cacheBuster}`),
+        axios.get(`${API}/workouts/${athleteId}?limit=5${cacheBuster}`)
       ]);
 
       console.log('Athlete data loaded:', {
+        id: athleteRes.data.id,
         name: athleteRes.data.name,
+        email: athleteRes.data.email,
         hasProfilePicture: !!athleteRes.data.profile_picture,
         profilePictureLength: athleteRes.data.profile_picture ? athleteRes.data.profile_picture.length : 0
       });
@@ -136,6 +141,7 @@ const Dashboard = ({ athleteId }) => {
       setRecentWorkouts(workoutsRes.data);
     } catch (error) {
       console.error('Error loading dashboard data:', error);
+      console.error('Error details:', error.response?.data || error.message);
     } finally {
       setIsLoading(false);
     }
