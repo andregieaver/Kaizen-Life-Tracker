@@ -54,9 +54,34 @@ const Journal = ({ athleteId }) => {
       mediaRecorderRef.current.onstop = async () => {
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
         
-        // Convert audio to text (placeholder - will need actual transcription service)
-        const transcription = `[Voice recording - ${recordingTime}s] Transcription coming soon...`;
-        setTextContent(transcription);
+        // Transcribe audio using backend API
+        try {
+          setSaveStatus({ type: '', message: 'Transcribing audio...' });
+          
+          const formData = new FormData();
+          formData.append('audio', audioBlob, 'recording.wav');
+          
+          const response = await axios.post(
+            `${API}/journal/transcribe/${athleteId}`,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+            }
+          );
+          
+          setTextContent(response.data.transcription);
+          setSaveStatus({ type: 'success', message: 'Audio transcribed successfully!' });
+        } catch (error) {
+          console.error('Error transcribing audio:', error);
+          const errorMessage = error.response?.data?.detail || 'Failed to transcribe audio';
+          setSaveStatus({ type: 'error', message: errorMessage });
+          
+          // Fallback to placeholder if transcription fails
+          const fallbackText = `[Voice recording - ${recordingTime}s] Transcription failed. ${errorMessage}`;
+          setTextContent(fallbackText);
+        }
         
         // Stop all tracks
         stream.getTracks().forEach(track => track.stop());
