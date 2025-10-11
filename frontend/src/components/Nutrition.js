@@ -417,6 +417,7 @@ const Nutrition = ({ athleteId }) => {
                   className="flex-1"
                   onClick={() => {
                     setShowModal(false);
+                    setEditingEntry(null);
                     setDescription('');
                     setMealType('breakfast');
                     removeImage();
