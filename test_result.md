@@ -149,8 +149,8 @@ backend:
 
   - task: "Profile Picture Upload Functionality"
     implemented: true
-    working: true
-    file: "/app/backend/server.py"
+    working: false
+    file: "/app/frontend/src/components/Account.js, /app/frontend/src/components/Dashboard.js, /app/backend/server.py"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
@@ -158,6 +158,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ PROFILE PICTURE UPLOAD FUNCTIONALITY FULLY WORKING - Comprehensive testing completed with 100% success rate (all 6 test categories passed). VERIFIED ALL REVIEW REQUEST REQUIREMENTS: 1) PROFILE PICTURE UPLOAD ENDPOINT ✓ - POST /api/athlete/{athlete_id}/profile-picture accepts valid image files (JPG, PNG), processes uploads successfully, returns proper success responses with profile_picture data. 2) IMAGE FILE VALIDATION ✓ - Accepts valid image formats (JPEG, PNG), rejects non-image files with proper 400 errors, enforces 5MB file size limit correctly, provides descriptive error messages for invalid files. 3) IMAGE PROCESSING ✓ - Images correctly resized to 200x200 pixels, aspect ratio handling works (rectangular images centered on 200x200 canvas), conversion to base64 format with proper data:image/jpeg prefix, image quality maintained at 85% compression. 4) DATABASE STORAGE ✓ - profile_picture field updated in athlete profile, base64 image data persists correctly in database, profile picture retrievable via GET /api/athlete/{athlete_id}, appears properly in athlete profile response. 5) DIFFERENT IMAGE SCENARIOS ✓ - Square images (300x300) fit perfectly, rectangular images (600x300, 400x200) centered appropriately, very large images (2000x2000) resized correctly, RGBA/PNG images with transparency converted to RGB with white background. 6) ERROR HANDLING ✓ - Invalid athlete_id returns proper 404 error, corrupted image files rejected with 400 status, empty files rejected appropriately, all error responses use correct HTTP status codes and descriptive messages. CRITICAL WORKFLOW VERIFIED: Complete upload workflow functional - file validation → image processing → base64 conversion → database storage → retrieval through athlete profile API. All expected behaviors confirmed: valid images upload and process to 200x200 base64 format, profile pictures stored and retrievable, invalid files rejected with appropriate messages, image processing maintains quality while reducing file size."
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL FRONTEND PROFILE PICTURE DISPLAY ISSUE IDENTIFIED - Comprehensive frontend testing revealed profile picture upload works but slideout menu display fails. DETAILED FINDINGS: 1) ACCOUNT SETTINGS UI ✅ - Profile picture section appears before Full Name field correctly, empty circle with user icon displays initially, upload button shows 'Upload Picture' initially, file input accepts only image files (accept='image/*'), file size hints displayed correctly ('JPG, PNG up to 5MB. Will be resized to 200x200px'). 2) UPLOAD PROCESS ✅ - Image preview updates immediately after file selection, upload button changes to 'Change Picture' after selection, profile picture preview is circular and properly styled, file upload and save process works correctly. 3) ACCOUNT SETTINGS PERSISTENCE ✅ - Profile picture persists in Account Settings after page refresh, image displays correctly in preview area. 4) SLIDEOUT MENU DISPLAY ❌ - CRITICAL ISSUE: Slideout menu continues to show initial letter 'U' instead of uploaded profile picture, profile picture does not appear in slideout menu after upload and save, slideout menu does not update to reflect uploaded profile picture. 5) RESPONSIVE DESIGN ✅ - Profile picture UI is responsive and works on mobile devices. ROOT CAUSE: The slideout menu in Dashboard.js is not properly loading the updated athlete profile data with the new profile picture after upload. The athlete state in Dashboard component needs to be refreshed after profile picture upload to display correctly in slideout menu."
 
 frontend:
   - task: "Strava Credentials Modal Implementation"
