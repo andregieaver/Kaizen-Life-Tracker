@@ -5467,24 +5467,24 @@ if __name__ == "__main__":
             print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug")
             sys.exit(1)
     else:
-        # Run Voice Session Token Response Debug test as primary focus (as per review request)
-        print("🎯 Running VOICE SESSION TOKEN RESPONSE DEBUG TEST (PRIMARY FOCUS)")
+        # Run OpenAI API Key Validation Fix test as primary focus (as per review request)
+        print("🎯 Running OPENAI API KEY VALIDATION FIX TEST (PRIMARY FOCUS)")
         print("=" * 80)
-        print("REVIEW REQUEST: Debug voice session token response to understand")
-        print("why frontend shows 'Failed to get session token' despite backend returning 200 OK")
+        print("REVIEW REQUEST: Test the improved OpenAI API key validation to verify")
+        print("that the 'Failed to get session token' issue is resolved.")
         print("=" * 80)
         
-        success = test_voice_session_token_response_debug()
+        success = test_openai_api_key_validation_fix()
         
         print("\n" + "=" * 80)
-        print("📊 VOICE SESSION TOKEN RESPONSE DEBUG SUMMARY")
+        print("📊 OPENAI API KEY VALIDATION FIX SUMMARY")
         print("=" * 80)
         if success:
-            print("✅ PASS Voice Session Token Response Debug")
-            print("\n🎉 VOICE TOKEN DEBUG PASSED! Response format matches frontend expectations.")
+            print("✅ PASS OpenAI API Key Validation Fix")
+            print("\n🎉 VALIDATION FIX VERIFIED! The 'Failed to get session token' issue is resolved.")
         else:
-            print("❌ FAIL Voice Session Token Response Debug")
-            print("\n⚠️ VOICE TOKEN DEBUG FAILED! Response format mismatch identified.")
+            print("❌ FAIL OpenAI API Key Validation Fix")
+            print("\n⚠️ VALIDATION FIX FAILED! The issue may still persist.")
         
         # Exit with appropriate code
         sys.exit(0 if success else 1)
