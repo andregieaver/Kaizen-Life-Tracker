@@ -5231,7 +5231,7 @@ if __name__ == "__main__":
                 print("\n⚠️ VOICE TOKEN DEBUG FAILED! Response format mismatch identified.")
                 sys.exit(1)
         else:
-            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api")
+            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug")
             sys.exit(1)
     else:
         # Run Voice Session Token Response Debug test as primary focus (as per review request)
