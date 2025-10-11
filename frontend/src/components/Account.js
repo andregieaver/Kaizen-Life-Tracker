@@ -1319,7 +1319,7 @@ const Account = ({ athleteId }) => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="height" className="text-sm font-medium">Height (cm)</Label>
+                      <Label htmlFor="height" className="text-sm font-medium">{t('account.height')}</Label>
                       <Input
                         id="height"
                         name="height"
