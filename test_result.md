@@ -267,7 +267,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Account Settings Personal Information and Preferences Save/Load"
+    - "AI Coach Web Search Functionality"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
