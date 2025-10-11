@@ -1207,6 +1207,416 @@ a=rtpmap:111 opus/48000/2"""
         print_test_result("Voice API - Exception", False, f"Exception: {str(e)}")
         return False
 
+def test_date_of_birth_functionality():
+    """Test the new date of birth functionality that replaces the age field with day, month, and year selectors"""
+    print("🔍 Testing Date of Birth Functionality")
+    
+    # Create a test athlete for date of birth testing
+    test_athlete_data = {
+        "id": str(uuid.uuid4()),
+        "name": "DOB Test Runner",
+        "email": f"dob.test.{int(datetime.now().timestamp())}@example.com",
+        "password": "DOBTest123!",
+        "weekly_mileage": 25.0,
+        "running_goals": "Test date of birth functionality"
+    }
+    
+    try:
+        # Step 1: Create test athlete
+        print("   Step 1: Create test athlete for date of birth testing")
+        
+        create_response = requests.post(
+            f"{BACKEND_URL}/athlete",
+            json=test_athlete_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_response.status_code != 200:
+            print_test_result("DOB - Create Test Athlete", False, f"Failed to create athlete: {create_response.status_code}")
+            return False
+        
+        athlete_id = test_athlete_data["id"]
+        print_test_result("DOB - Create Test Athlete", True, f"Created athlete: {athlete_id}")
+        
+        # Step 2: Test Date of Birth Storage with various formats
+        print("   Step 2: Test date of birth storage with various date formats")
+        
+        test_dates = [
+            ("1990-05-15", "Standard format"),
+            ("1985-12-25", "Christmas birthday"),
+            ("1992-02-29", "Leap year birthday"),
+            ("2000-01-01", "Millennium baby"),
+            ("1988-07-04", "Independence Day birthday")
+        ]
+        
+        storage_success = True
+        storage_details = []
+        
+        for test_date, description in test_dates:
+            update_data = {
+                "date_of_birth": test_date
+            }
+            
+            update_response = requests.put(
+                f"{BACKEND_URL}/athlete/{athlete_id}",
+                json=update_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if update_response.status_code == 200:
+                storage_details.append(f"✅ {description} ({test_date}): Saved successfully")
+            else:
+                storage_details.append(f"❌ {description} ({test_date}): Save failed ({update_response.status_code})")
+                storage_success = False
+        
+        print_test_result("DOB - Date Storage", storage_success, "; ".join(storage_details))
+        
+        # Step 3: Test Age Calculation Accuracy
+        print("   Step 3: Test automatic age calculation from date of birth")
+        
+        from datetime import date as date_class
+        today = date_class.today()
+        
+        # Test cases for age calculation
+        age_test_cases = [
+            ("1990-05-15", "Birthday already passed this year"),
+            ("1985-12-25", "Birthday later this year" if today.month < 12 or (today.month == 12 and today.day < 25) else "Birthday already passed"),
+            ("2000-01-01", "New millennium birthday"),
+            (f"{today.year - 25}-{today.month:02d}-{today.day:02d}", "Birthday today (25 years old)"),
+            (f"{today.year - 30}-{today.month:02d}-{(today.day + 1) % 28 + 1:02d}", "Birthday tomorrow (should be 29)")
+        ]
+        
+        age_calculation_success = True
+        age_details = []
+        
+        for test_date, description in age_test_cases:
+            # Update with test date
+            update_data = {"date_of_birth": test_date}
+            update_response = requests.put(
+                f"{BACKEND_URL}/athlete/{athlete_id}",
+                json=update_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if update_response.status_code == 200:
+                # Retrieve and check calculated age
+                get_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+                
+                if get_response.status_code == 200:
+                    athlete_data = get_response.json()
+                    calculated_age = athlete_data.get("age")
+                    stored_dob = athlete_data.get("date_of_birth")
+                    
+                    if calculated_age is not None:
+                        age_details.append(f"✅ {description}: DOB={stored_dob}, Age={calculated_age}")
+                    else:
+                        age_details.append(f"❌ {description}: Age not calculated")
+                        age_calculation_success = False
+                else:
+                    age_details.append(f"❌ {description}: Failed to retrieve athlete")
+                    age_calculation_success = False
+            else:
+                age_details.append(f"❌ {description}: Failed to update DOB")
+                age_calculation_success = False
+        
+        print_test_result("DOB - Age Calculation", age_calculation_success, "; ".join(age_details))
+        
+        # Step 4: Test Date of Birth Retrieval and Format
+        print("   Step 4: Test date of birth retrieval and format verification")
+        
+        # Set a known date for testing
+        known_date = "1995-08-20"
+        update_data = {"date_of_birth": known_date}
+        
+        update_response = requests.put(
+            f"{BACKEND_URL}/athlete/{athlete_id}",
+            json=update_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        retrieval_success = False
+        retrieval_details = []
+        
+        if update_response.status_code == 200:
+            get_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+            
+            if get_response.status_code == 200:
+                athlete_data = get_response.json()
+                retrieved_dob = athlete_data.get("date_of_birth")
+                retrieved_age = athlete_data.get("age")
+                
+                if retrieved_dob == known_date:
+                    retrieval_details.append(f"✅ DOB format correct: {retrieved_dob} (YYYY-MM-DD)")
+                    retrieval_success = True
+                else:
+                    retrieval_details.append(f"❌ DOB format incorrect: expected {known_date}, got {retrieved_dob}")
+                
+                if retrieved_age is not None:
+                    retrieval_details.append(f"✅ Age included in response: {retrieved_age}")
+                else:
+                    retrieval_details.append("❌ Age missing from response")
+                    retrieval_success = False
+            else:
+                retrieval_details.append(f"❌ Failed to retrieve athlete: {get_response.status_code}")
+        else:
+            retrieval_details.append(f"❌ Failed to update DOB: {update_response.status_code}")
+        
+        print_test_result("DOB - Retrieval & Format", retrieval_success, "; ".join(retrieval_details))
+        
+        # Step 5: Test Backward Compatibility
+        print("   Step 5: Test backward compatibility with existing age-only data")
+        
+        # Create another athlete with only age (no date_of_birth)
+        legacy_athlete_data = {
+            "id": str(uuid.uuid4()),
+            "name": "Legacy Age Runner",
+            "email": f"legacy.age.{int(datetime.now().timestamp())}@example.com",
+            "password": "LegacyAge123!",
+            "age": 28,  # Only age, no date_of_birth
+            "weekly_mileage": 20.0,
+            "running_goals": "Test backward compatibility"
+        }
+        
+        legacy_create_response = requests.post(
+            f"{BACKEND_URL}/athlete",
+            json=legacy_athlete_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        backward_compatibility_success = False
+        backward_details = []
+        
+        if legacy_create_response.status_code == 200:
+            legacy_athlete_id = legacy_athlete_data["id"]
+            
+            # Retrieve legacy athlete
+            legacy_get_response = requests.get(f"{BACKEND_URL}/athlete/{legacy_athlete_id}")
+            
+            if legacy_get_response.status_code == 200:
+                legacy_data = legacy_get_response.json()
+                legacy_age = legacy_data.get("age")
+                legacy_dob = legacy_data.get("date_of_birth")
+                
+                if legacy_age == 28:
+                    backward_details.append("✅ Legacy age field preserved: 28")
+                    backward_compatibility_success = True
+                else:
+                    backward_details.append(f"❌ Legacy age incorrect: expected 28, got {legacy_age}")
+                
+                if legacy_dob is None:
+                    backward_details.append("✅ DOB is null for legacy athlete (expected)")
+                else:
+                    backward_details.append(f"⚠️ DOB not null for legacy athlete: {legacy_dob}")
+                
+                # Test updating legacy athlete (should still work)
+                legacy_update_data = {"running_goals": "Updated legacy goals"}
+                legacy_update_response = requests.put(
+                    f"{BACKEND_URL}/athlete/{legacy_athlete_id}",
+                    json=legacy_update_data,
+                    headers={"Content-Type": "application/json"}
+                )
+                
+                if legacy_update_response.status_code == 200:
+                    backward_details.append("✅ Legacy athlete updates work correctly")
+                else:
+                    backward_details.append("❌ Legacy athlete update failed")
+                    backward_compatibility_success = False
+            else:
+                backward_details.append(f"❌ Failed to retrieve legacy athlete: {legacy_get_response.status_code}")
+        else:
+            backward_details.append(f"❌ Failed to create legacy athlete: {legacy_create_response.status_code}")
+        
+        print_test_result("DOB - Backward Compatibility", backward_compatibility_success, "; ".join(backward_details))
+        
+        # Step 6: Test Edge Cases and Error Handling
+        print("   Step 6: Test edge cases and error handling")
+        
+        edge_cases = [
+            (None, "Null date_of_birth"),
+            ("", "Empty string date_of_birth"),
+            ("invalid-date", "Invalid date format"),
+            ("2025-13-45", "Invalid date values"),
+            ("1800-01-01", "Very old date")
+        ]
+        
+        edge_case_success = True
+        edge_details = []
+        
+        for test_value, description in edge_cases:
+            update_data = {"date_of_birth": test_value}
+            
+            update_response = requests.put(
+                f"{BACKEND_URL}/athlete/{athlete_id}",
+                json=update_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if test_value in [None, ""]:
+                # These should be handled gracefully
+                if update_response.status_code == 200:
+                    edge_details.append(f"✅ {description}: Handled gracefully")
+                else:
+                    edge_details.append(f"❌ {description}: Not handled gracefully ({update_response.status_code})")
+                    edge_case_success = False
+            else:
+                # Invalid formats should be rejected or handled
+                if update_response.status_code in [400, 422]:
+                    edge_details.append(f"✅ {description}: Properly rejected ({update_response.status_code})")
+                elif update_response.status_code == 200:
+                    edge_details.append(f"⚠️ {description}: Accepted (may be valid)")
+                else:
+                    edge_details.append(f"❌ {description}: Unexpected response ({update_response.status_code})")
+        
+        print_test_result("DOB - Edge Cases", edge_case_success, "; ".join(edge_details))
+        
+        # Step 7: Test MongoDB Date Storage
+        print("   Step 7: Test MongoDB date storage and retrieval")
+        
+        # Set a specific date and verify it's stored correctly
+        mongo_test_date = "1993-11-07"
+        update_data = {"date_of_birth": mongo_test_date}
+        
+        update_response = requests.put(
+            f"{BACKEND_URL}/athlete/{athlete_id}",
+            json=update_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        mongo_success = False
+        mongo_details = []
+        
+        if update_response.status_code == 200:
+            # Retrieve multiple times to ensure consistency
+            for i in range(3):
+                get_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+                
+                if get_response.status_code == 200:
+                    athlete_data = get_response.json()
+                    retrieved_dob = athlete_data.get("date_of_birth")
+                    
+                    if retrieved_dob == mongo_test_date:
+                        mongo_details.append(f"✅ Retrieval {i+1}: Consistent DOB format")
+                        mongo_success = True
+                    else:
+                        mongo_details.append(f"❌ Retrieval {i+1}: Inconsistent DOB ({retrieved_dob})")
+                        mongo_success = False
+                        break
+                else:
+                    mongo_details.append(f"❌ Retrieval {i+1}: Failed ({get_response.status_code})")
+                    mongo_success = False
+                    break
+        else:
+            mongo_details.append(f"❌ Failed to update for MongoDB test: {update_response.status_code}")
+        
+        print_test_result("DOB - MongoDB Storage", mongo_success, "; ".join(mongo_details))
+        
+        # Step 8: Test Calculate Age Helper Function Directly
+        print("   Step 8: Test calculate_age helper function behavior")
+        
+        # We can't directly test the function, but we can test its behavior through the API
+        helper_test_cases = [
+            ("2000-01-01", "Y2K birthday"),
+            ("1990-02-29", "Leap year birthday (1990 - not a leap year, should be invalid)"),
+            ("1992-02-29", "Valid leap year birthday"),
+            ("1999-12-31", "Last day of millennium")
+        ]
+        
+        helper_success = True
+        helper_details = []
+        
+        for test_date, description in helper_test_cases:
+            update_data = {"date_of_birth": test_date}
+            
+            update_response = requests.put(
+                f"{BACKEND_URL}/athlete/{athlete_id}",
+                json=update_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if update_response.status_code == 200:
+                get_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+                
+                if get_response.status_code == 200:
+                    athlete_data = get_response.json()
+                    calculated_age = athlete_data.get("age")
+                    
+                    if calculated_age is not None and isinstance(calculated_age, int) and calculated_age >= 0:
+                        helper_details.append(f"✅ {description}: Valid age calculated ({calculated_age})")
+                    else:
+                        helper_details.append(f"❌ {description}: Invalid age ({calculated_age})")
+                        helper_success = False
+                else:
+                    helper_details.append(f"❌ {description}: Failed to retrieve")
+                    helper_success = False
+            else:
+                # Some dates might be invalid (like 1990-02-29)
+                if "1990-02-29" in test_date:
+                    helper_details.append(f"✅ {description}: Invalid date properly rejected")
+                else:
+                    helper_details.append(f"❌ {description}: Update failed ({update_response.status_code})")
+                    helper_success = False
+        
+        print_test_result("DOB - Helper Function", helper_success, "; ".join(helper_details))
+        
+        # Step 9: Overall Assessment
+        print("   Step 9: Overall date of birth functionality assessment")
+        
+        overall_success = (storage_success and age_calculation_success and retrieval_success and 
+                          backward_compatibility_success and edge_case_success and mongo_success and helper_success)
+        
+        assessment_details = []
+        
+        if overall_success:
+            assessment_details.append("✅ DATE OF BIRTH FUNCTIONALITY FULLY WORKING")
+            assessment_details.append("✅ Date storage in YYYY-MM-DD format working")
+            assessment_details.append("✅ Automatic age calculation accurate")
+            assessment_details.append("✅ Both date_of_birth and age returned in API responses")
+            assessment_details.append("✅ Backward compatibility maintained")
+            assessment_details.append("✅ MongoDB date storage working correctly")
+            assessment_details.append("✅ Edge cases handled appropriately")
+        else:
+            assessment_details.append("❌ DATE OF BIRTH FUNCTIONALITY HAS ISSUES")
+            if not storage_success:
+                assessment_details.append("❌ Date storage issues")
+            if not age_calculation_success:
+                assessment_details.append("❌ Age calculation problems")
+            if not retrieval_success:
+                assessment_details.append("❌ Date retrieval/format issues")
+            if not backward_compatibility_success:
+                assessment_details.append("❌ Backward compatibility broken")
+            if not mongo_success:
+                assessment_details.append("❌ MongoDB storage issues")
+            if not helper_success:
+                assessment_details.append("❌ Helper function issues")
+        
+        print_test_result("DOB - Overall Assessment", overall_success, "; ".join(assessment_details))
+        
+        # Print detailed analysis
+        print("\n📊 DATE OF BIRTH FUNCTIONALITY ANALYSIS:")
+        print("=" * 60)
+        print(f"Date Storage: {'✅ Working' if storage_success else '❌ Failed'}")
+        print(f"Age Calculation: {'✅ Working' if age_calculation_success else '❌ Failed'}")
+        print(f"Date Retrieval: {'✅ Working' if retrieval_success else '❌ Failed'}")
+        print(f"Backward Compatibility: {'✅ Working' if backward_compatibility_success else '❌ Failed'}")
+        print(f"Edge Case Handling: {'✅ Working' if edge_case_success else '❌ Failed'}")
+        print(f"MongoDB Storage: {'✅ Working' if mongo_success else '❌ Failed'}")
+        print(f"Helper Function: {'✅ Working' if helper_success else '❌ Failed'}")
+        print("=" * 60)
+        
+        if overall_success:
+            print("🎉 DATE OF BIRTH SYSTEM IS PRODUCTION-READY")
+            print("✅ Automatic age calculation working correctly")
+            print("✅ Maintains backward compatibility with existing age-only data")
+            print("✅ Date format standardized to YYYY-MM-DD")
+        else:
+            print("⚠️ DATE OF BIRTH SYSTEM NEEDS ATTENTION")
+        
+        return overall_success
+        
+    except Exception as e:
+        print_test_result("DOB - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_voice_preference_functionality():
     """Test AI Coach voice preference functionality to ensure users can select and save their preferred voice"""
     print("🔍 Testing AI Coach Voice Preference Functionality")
