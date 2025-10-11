@@ -4013,6 +4013,21 @@ if __name__ == "__main__":
                 print("❌ FAIL AI Coach Unit Preferences")
                 print("\n⚠️ AI COACH UNIT PREFERENCES TEST FAILED! Please review the issues above.")
                 sys.exit(1)
+        elif sys.argv[1] == "--unit-system-blocks":
+            print("🎯 Running AI COACH UNIT SYSTEM TRAINING BLOCKS TEST ONLY (as per review request)")
+            print("=" * 80)
+            success = test_ai_coach_unit_system_training_blocks()
+            print("\n" + "=" * 80)
+            print("📊 AI COACH UNIT SYSTEM TRAINING BLOCKS TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS AI Coach Unit System Training Blocks")
+                print("\n🎉 UNIT SYSTEM TRAINING BLOCKS TEST PASSED! AI Coach properly sets unit_system field based on user preferences.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL AI Coach Unit System Training Blocks")
+                print("\n⚠️ UNIT SYSTEM TRAINING BLOCKS TEST FAILED! Please review the issues above.")
+                sys.exit(1)
         else:
             print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units")
             sys.exit(1)
