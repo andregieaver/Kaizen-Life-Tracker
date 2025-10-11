@@ -57,7 +57,11 @@ class RealtimeAudioChat {
             });
 
             if (!response.ok) {
-                throw new Error("Failed to negotiate WebRTC connection");
+                const errorData = await response.json();
+                if (response.status === 400 && errorData.detail?.includes("OpenAI API key")) {
+                    throw new Error("OpenAI API key required for voice chat. Please add your API key in Account Settings.");
+                }
+                throw new Error(errorData.detail || "Failed to negotiate WebRTC connection");
             }
 
             const { sdp: answerSdp } = await response.json();
