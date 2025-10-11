@@ -1377,6 +1377,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                 
                 # Log whether function was called
                 has_tool_calls = hasattr(assistant_message, "tool_calls") and assistant_message.tool_calls
+                print(f"📨 Response received - Has tool calls: {has_tool_calls}")
                 logging.info(f"Response received - Has tool calls: {has_tool_calls}")
                 
                 if assistant_message.content:
