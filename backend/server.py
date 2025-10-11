@@ -837,6 +837,71 @@ Return only the JSON array, nothing else.
             logging.error(f"Error getting training blocks: {str(e)}")
             return {"success": False, "error": str(e), "blocks": [], "count": 0}
     
+    async def update_training_blocks(self, athlete_id: str, updates: list) -> Dict:
+        """Update existing training blocks in the athlete's calendar"""
+        try:
+            logging.info(f"Updating {len(updates)} training blocks for athlete: {athlete_id}")
+            
+            updated_blocks = []
+            for update in updates:
+                block_id = update.get("id")
+                if not block_id:
+                    continue
+                
+                # Remove id from update data
+                update_data = {k: v for k, v in update.items() if k != "id"}
+                update_data["updated_at"] = datetime.now(timezone.utc)
+                
+                # Update the block
+                result = await db.training_blocks.update_one(
+                    {"id": block_id, "athlete_id": athlete_id},
+                    {"$set": prepare_for_mongo(update_data)}
+                )
+                
+                if result.modified_count > 0:
+                    updated_blocks.append({"id": block_id, "updated": True})
+                else:
+                    updated_blocks.append({"id": block_id, "updated": False, "reason": "Not found"})
+            
+            logging.info(f"Successfully updated {len(updated_blocks)} training blocks")
+            return {
+                "success": True,
+                "message": f"Updated {len(updated_blocks)} training blocks",
+                "blocks": updated_blocks
+            }
+            
+        except Exception as e:
+            logging.error(f"Error updating training blocks: {str(e)}")
+            return {
+                "success": False,
+                "error": str(e)
+            }
+    
+    async def delete_training_blocks(self, athlete_id: str, block_ids: list) -> Dict:
+        """Delete training blocks from the athlete's calendar"""
+        try:
+            logging.info(f"Deleting {len(block_ids)} training blocks for athlete: {athlete_id}")
+            
+            # Delete multiple blocks
+            result = await db.training_blocks.delete_many({
+                "id": {"$in": block_ids},
+                "athlete_id": athlete_id
+            })
+            
+            logging.info(f"Successfully deleted {result.deleted_count} training blocks")
+            return {
+                "success": True,
+                "message": f"Deleted {result.deleted_count} training blocks",
+                "deleted_count": result.deleted_count
+            }
+            
+        except Exception as e:
+            logging.error(f"Error deleting training blocks: {str(e)}")
+            return {
+                "success": False,
+                "error": str(e)
+            }
+    
     async def create_training_blocks(self, athlete_id: str, blocks_data: list) -> Dict:
         """Create multiple training blocks in the athlete's calendar"""
         try:
