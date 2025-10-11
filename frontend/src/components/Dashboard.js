@@ -74,7 +74,6 @@ const Dashboard = ({ athleteId }) => {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (!document.hidden && athleteId) {
-        console.log('Page visible, refreshing athlete data');
         loadDashboardData();
       }
     };
