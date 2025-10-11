@@ -3419,8 +3419,8 @@ COACHING PRINCIPLES:
 You can access their training calendar, create workouts, and provide personalized coaching advice through voice conversation.
 """
         
-        # Create session with system message
-        session_token = await realtime_chat.create_session(system_message=system_message)
+        # Create ephemeral session for audio chat
+        session_token = await realtime_chat.create_ephemeral_session_for_audio_chat(system_message=system_message)
         
         return {"client_secret": session_token}
         
