@@ -76,6 +76,8 @@ def test_openai_realtime_voice_api_error_handling():
                 print(f"   Created test athlete: {athlete_id} (no OpenAI API key)")
             else:
                 print(f"   Failed to create test athlete, using original: {athlete_id}")
+    except Exception as e:
+        print(f"   Warning: Could not check/create test athlete: {e}")
     
     try:
         # Step 1: Test Voice Session Creation Error Handling
