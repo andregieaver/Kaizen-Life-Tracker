@@ -1365,6 +1365,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                 else:
                     logging.info("No tools available - Tavily not configured")
                 
+                logging.info(f"Sending request to OpenAI with {len(messages)} messages and {len(tools) if tools else 0} tools")
                 response = await client.chat.completions.create(**completion_params)
                 
                 assistant_message = response.choices[0].message
@@ -1372,6 +1373,9 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                 # Log whether function was called
                 has_tool_calls = hasattr(assistant_message, "tool_calls") and assistant_message.tool_calls
                 logging.info(f"Response received - Has tool calls: {has_tool_calls}")
+                
+                if assistant_message.content:
+                    logging.info(f"Response content preview: {assistant_message.content[:100]}...")
                 
                 # Check if function call was requested
                 if has_tool_calls:
