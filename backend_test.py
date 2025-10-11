@@ -32,8 +32,8 @@ def test_voice_session_token_response_debug():
     """Debug voice session token response structure to understand frontend 'Failed to get session token' issue"""
     print("🔍 DEBUGGING Voice Session Token Response Structure")
     
-    # Use the specific athlete_id from the review request
-    athlete_id = "3e4ee10d-105d-4564-8b7a-1e7223acb706"  # andre@example.com
+    # Use the specific athlete_id from the review request logs
+    athlete_id = "90de5b99-6db3-4e14-8455-c00864fb9976"  # The ID from recent logs
     
     print(f"   Testing with athlete_id: {athlete_id} (andre@example.com)")
     
