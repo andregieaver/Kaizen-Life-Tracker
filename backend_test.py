@@ -3253,8 +3253,23 @@ if __name__ == "__main__":
             enhanced_results = run_enhanced_training_calendar_tests()
             failed_count = sum(1 for _, success in enhanced_results if not success)
             sys.exit(failed_count)
+        elif sys.argv[1] == "--ai-coach-sequential":
+            print("🎯 Running AI COACH SEQUENTIAL FUNCTION CALLING TEST ONLY (as per review request)")
+            print("=" * 80)
+            success = test_ai_coach_sequential_function_calling()
+            print("\n" + "=" * 80)
+            print("📊 AI COACH SEQUENTIAL FUNCTION CALLING TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS AI Coach Sequential Function Calling")
+                print("\n🎉 AI COACH SEQUENTIAL FUNCTION CALLING TEST PASSED! Sequential function calling is working correctly.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL AI Coach Sequential Function Calling")
+                print("\n⚠️ AI COACH SEQUENTIAL FUNCTION CALLING TEST FAILED! Please review the issues above.")
+                sys.exit(1)
         else:
-            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar")
+            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential")
             sys.exit(1)
     else:
         # Run AI Coach web search test as primary focus (as per review request)
