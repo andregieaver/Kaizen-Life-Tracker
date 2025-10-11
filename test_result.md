@@ -267,9 +267,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "OpenAI Realtime Voice API Integration"
-  stuck_tasks:
-    - "OpenAI Realtime Voice API Integration"
+    - "Schedule Edit Functionality"
+    - "Schedule Delete Functionality"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
