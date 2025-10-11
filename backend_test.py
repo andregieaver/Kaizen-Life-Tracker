@@ -6328,6 +6328,24 @@ if __name__ == "__main__":
                 print("❌ FAIL OpenAI API Key Validation Fix")
                 print("\n⚠️ VALIDATION FIX FAILED! The issue may still persist.")
                 sys.exit(1)
+        elif sys.argv[1] == "--voice-preference":
+            print("🎯 Running AI COACH VOICE PREFERENCE FUNCTIONALITY TEST ONLY (as per review request)")
+            print("=" * 80)
+            print("REVIEW REQUEST: Test the new AI Coach voice preference functionality")
+            print("to ensure users can select and save their preferred voice for the AI coach.")
+            print("=" * 80)
+            success = test_voice_preference_functionality()
+            print("\n" + "=" * 80)
+            print("📊 AI COACH VOICE PREFERENCE FUNCTIONALITY TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS AI Coach Voice Preference Functionality")
+                print("\n🎉 VOICE PREFERENCE TEST PASSED! Users can select and save their preferred voice for AI coach.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL AI Coach Voice Preference Functionality")
+                print("\n⚠️ VOICE PREFERENCE TEST FAILED! Please review the issues above.")
+                sys.exit(1)
         else:
             print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug, --openai-validation-fix")
             sys.exit(1)
