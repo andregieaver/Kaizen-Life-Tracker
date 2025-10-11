@@ -155,7 +155,8 @@ const Account = ({ athleteId }) => {
     timezone: 'UTC',
     time_format: '12h',
     date_format: 'MM/DD/YYYY',
-    language: 'en'
+    language: 'en',
+    voice_preference: 'alloy'
   });
   
   const [apiKeyForm, setApiKeyForm] = useState({
