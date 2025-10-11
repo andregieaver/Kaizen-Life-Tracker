@@ -1061,6 +1061,13 @@ IMPORTANT: When creating training plans, use current and future dates (2025 and 
 
 ATHLETE PROFILE:
 {athlete_summary}
+
+USER PREFERENCES (CRITICAL - ALWAYS RESPECT THESE):
+- Distance Unit: {distance_unit} (ALWAYS use {distance_unit} in training plans, never miles if set to km)
+- Measurement System: {measurement_system}
+- Time Format: {time_format}
+- Timezone: {timezone_pref}
+- Week Starts On: {week_starts_on}
 {memory_summary}
 
 RECENT ACTIVITY SUMMARY:
