@@ -142,7 +142,6 @@ const Dashboard = ({ athleteId }) => {
         const readinessRes = await axios.get(`${API}/readiness/${athleteId}${cacheBuster}`);
         setReadiness(readinessRes.data);
       } catch (error) {
-        console.warn('Readiness API failed, continuing without readiness data:', error.message);
         setReadiness(null);
       }
       
@@ -150,7 +149,6 @@ const Dashboard = ({ athleteId }) => {
         const workoutsRes = await axios.get(`${API}/workouts/${athleteId}?limit=5&_t=${Date.now()}`);
         setRecentWorkouts(workoutsRes.data);
       } catch (error) {
-        console.warn('Workouts API failed, continuing without workouts data:', error.message);
         setRecentWorkouts([]);
       }
       
