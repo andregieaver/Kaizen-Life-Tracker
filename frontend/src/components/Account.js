@@ -1332,7 +1332,7 @@ const Account = ({ athleteId }) => {
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="weight" className="text-sm font-medium">Weight (kg)</Label>
+                      <Label htmlFor="weight" className="text-sm font-medium">{t('account.weight')}</Label>
                       <Input
                         id="weight"
                         name="weight"
