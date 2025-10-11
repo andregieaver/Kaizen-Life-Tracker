@@ -809,6 +809,32 @@ Return only the JSON array, nothing else.
             logging.error(f"Tavily search error: {str(e)}")
             return {"error": str(e)}
     
+    async def get_training_blocks_for_period(self, athlete_id: str, start_date: str, end_date: str) -> Dict:
+        """Get existing training blocks for a date range"""
+        try:
+            logging.info(f"Checking training blocks for athlete {athlete_id} from {start_date} to {end_date}")
+            
+            blocks = await db.training_blocks.find({
+                "athlete_id": athlete_id,
+                "$or": [
+                    {"start_date": {"$gte": start_date, "$lte": end_date}},
+                    {"end_date": {"$gte": start_date, "$lte": end_date}},
+                    {"$and": [
+                        {"start_date": {"$lte": start_date}},
+                        {"end_date": {"$gte": end_date}}
+                    ]}
+                ]
+            }, {"_id": 0}).to_list(length=None)
+            
+            return {
+                "success": True,
+                "blocks": [parse_from_mongo(b) for b in blocks],
+                "count": len(blocks)
+            }
+        except Exception as e:
+            logging.error(f"Error getting training blocks: {str(e)}")
+            return {"success": False, "error": str(e), "blocks": [], "count": 0}
+    
     async def create_training_blocks(self, athlete_id: str, blocks_data: list) -> Dict:
         """Create multiple training blocks in the athlete's calendar"""
         try:
