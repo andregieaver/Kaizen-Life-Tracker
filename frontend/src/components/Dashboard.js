@@ -118,12 +118,19 @@ const Dashboard = ({ athleteId }) => {
   const loadDashboardData = async () => {
     setIsLoading(true);
     try {
+      console.log('Loading dashboard data for athlete:', athleteId);
       const [athleteRes, readinessRes, workoutsRes] = await Promise.all([
         axios.get(`${API}/athlete/${athleteId}`),
         axios.get(`${API}/readiness/${athleteId}`),
         axios.get(`${API}/workouts/${athleteId}?limit=5`)
       ]);
 
+      console.log('Athlete data loaded:', {
+        name: athleteRes.data.name,
+        hasProfilePicture: !!athleteRes.data.profile_picture,
+        profilePictureLength: athleteRes.data.profile_picture ? athleteRes.data.profile_picture.length : 0
+      });
+      
       setAthlete(athleteRes.data);
       setReadiness(readinessRes.data);
       setRecentWorkouts(workoutsRes.data);
