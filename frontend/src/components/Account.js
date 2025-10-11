@@ -143,6 +143,7 @@ const Account = ({ athleteId }) => {
   const [personalForm, setPersonalForm] = useState({
     name: '',
     age: '',
+    profile_picture: '',
     birth_day: '',
     birth_month: '',
     birth_year: '',
