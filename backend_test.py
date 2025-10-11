@@ -263,9 +263,10 @@ def test_openai_api_key_validation_fix():
         
         if overall_success:
             assessment_details.append("✅ OPENAI API KEY VALIDATION FIX VERIFIED")
-            assessment_details.append("✅ Both athletes return proper 400 errors")
+            assessment_details.append("✅ Invalid API keys return proper 400 errors")
+            assessment_details.append("✅ Valid API keys return proper 200 responses")
             assessment_details.append("✅ No more confusing 200 responses with error objects")
-            assessment_details.append("✅ Frontend should receive proper error responses")
+            assessment_details.append("✅ Frontend will receive proper error/success responses")
             assessment_details.append("✅ HTTPException properly raised and not caught")
         else:
             assessment_details.append("❌ OPENAI API KEY VALIDATION NEEDS ATTENTION")
