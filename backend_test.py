@@ -1509,7 +1509,7 @@ def test_voice_conversation_save_functionality():
         print("   Step 7: Verify database integration and message format consistency")
         
         # Get conversation messages to verify format
-        conversation_messages_response = requests.get(f"{BACKEND_URL}/coach/conversation/{sample_session_id}")
+        conversation_messages_response = requests.get(f"{BACKEND_URL}/coach/conversation/{athlete_id}/{sample_session_id}")
         
         db_integration_success = False
         db_details = []
