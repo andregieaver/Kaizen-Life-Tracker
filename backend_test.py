@@ -6347,7 +6347,7 @@ if __name__ == "__main__":
                 print("\n⚠️ VOICE PREFERENCE TEST FAILED! Please review the issues above.")
                 sys.exit(1)
         else:
-            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug, --openai-validation-fix")
+            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug, --openai-validation-fix, --voice-preference")
             sys.exit(1)
     else:
         # Run OpenAI API Key Validation Fix test as primary focus (as per review request)
