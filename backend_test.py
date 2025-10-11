@@ -3272,19 +3272,19 @@ if __name__ == "__main__":
             print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential")
             sys.exit(1)
     else:
-        # Run AI Coach web search test as primary focus (as per review request)
-        print("🎯 Running AI COACH WEB SEARCH TEST (PRIMARY FOCUS)")
+        # Run AI Coach Sequential Function Calling test as primary focus (as per review request)
+        print("🎯 Running AI COACH SEQUENTIAL FUNCTION CALLING TEST (PRIMARY FOCUS)")
         print("=" * 80)
-        success = test_ai_coach_web_search()
+        success = test_ai_coach_sequential_function_calling()
         print("\n" + "=" * 80)
-        print("📊 AI COACH WEB SEARCH TEST SUMMARY")
+        print("📊 AI COACH SEQUENTIAL FUNCTION CALLING TEST SUMMARY")
         print("=" * 80)
         if success:
-            print("✅ PASS AI Coach Web Search Functionality")
-            print("\n🎉 AI COACH WEB SEARCH TEST PASSED! Web search functionality working correctly.")
+            print("✅ PASS AI Coach Sequential Function Calling")
+            print("\n🎉 AI COACH SEQUENTIAL FUNCTION CALLING TEST PASSED! Sequential function calling is working correctly.")
         else:
-            print("❌ FAIL AI Coach Web Search Functionality")
-            print("\n⚠️ AI COACH WEB SEARCH TEST FAILED! Please review the issues above.")
+            print("❌ FAIL AI Coach Sequential Function Calling")
+            print("\n⚠️ AI COACH SEQUENTIAL FUNCTION CALLING TEST FAILED! Please review the issues above.")
         
         # Exit with appropriate code
         sys.exit(0 if success else 1)
