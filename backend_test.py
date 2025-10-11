@@ -5463,6 +5463,24 @@ if __name__ == "__main__":
                 print("❌ FAIL Voice Session Token Response Debug")
                 print("\n⚠️ VOICE TOKEN DEBUG FAILED! Response format mismatch identified.")
                 sys.exit(1)
+        elif sys.argv[1] == "--openai-validation-fix":
+            print("🎯 Running OPENAI API KEY VALIDATION FIX TEST ONLY (as per review request)")
+            print("=" * 80)
+            print("REVIEW REQUEST: Test the improved OpenAI API key validation to verify")
+            print("that the 'Failed to get session token' issue is resolved.")
+            print("=" * 80)
+            success = test_openai_api_key_validation_fix()
+            print("\n" + "=" * 80)
+            print("📊 OPENAI API KEY VALIDATION FIX SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS OpenAI API Key Validation Fix")
+                print("\n🎉 VALIDATION FIX VERIFIED! The 'Failed to get session token' issue is resolved.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL OpenAI API Key Validation Fix")
+                print("\n⚠️ VALIDATION FIX FAILED! The issue may still persist.")
+                sys.exit(1)
         else:
             print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug")
             sys.exit(1)
