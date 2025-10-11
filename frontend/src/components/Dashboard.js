@@ -138,20 +138,22 @@ const Dashboard = ({ athleteId }) => {
         axios.get(`${API}/workouts/${athleteId}?limit=5${cacheBuster}`)
       ]);
 
-      console.log('Athlete data loaded:', {
-        id: athleteRes.data.id,
-        name: athleteRes.data.name,
-        email: athleteRes.data.email,
-        hasProfilePicture: !!athleteRes.data.profile_picture,
-        profilePictureLength: athleteRes.data.profile_picture ? athleteRes.data.profile_picture.length : 0
-      });
+      console.log('Raw API response for athlete:', athleteRes.data);
+      console.log('Setting athlete state to:', athleteRes.data);
       
-      setAthlete(athleteRes.data);
+      // Force a clean state update
+      setAthlete(null); // Clear first
+      setTimeout(() => {
+        setAthlete(athleteRes.data); // Then set new data
+        console.log('Athlete state updated');
+      }, 100);
+      
       setReadiness(readinessRes.data);
       setRecentWorkouts(workoutsRes.data);
     } catch (error) {
       console.error('Error loading dashboard data:', error);
       console.error('Error details:', error.response?.data || error.message);
+      console.error('Full error object:', error);
     } finally {
       setIsLoading(false);
     }
