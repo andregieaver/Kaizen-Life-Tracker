@@ -281,6 +281,7 @@ class TrainingBlock(BaseModel):
 class AthleteUpdate(BaseModel):
     name: Optional[str] = None
     email: Optional[str] = None
+    profile_picture: Optional[str] = None
     age: Optional[int] = None  # Kept for backward compatibility
     date_of_birth: Optional[date] = None
     weekly_mileage: Optional[float] = None
