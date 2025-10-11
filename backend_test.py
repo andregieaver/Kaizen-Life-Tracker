@@ -7785,6 +7785,21 @@ if __name__ == "__main__":
                 print("❌ FAIL Profile Picture Upload Functionality")
                 print("\n⚠️ PROFILE PICTURE UPLOAD TEST FAILED! Please review the issues above.")
                 sys.exit(1)
+        elif sys.argv[1] == "--profile-picture-debug":
+            print("🎯 Running PROFILE PICTURE DEBUG FOR andre@example.com (as per review request)")
+            print("=" * 80)
+            success = test_andre_profile_picture_debug()
+            print("\n" + "=" * 80)
+            print("📊 PROFILE PICTURE DEBUG SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS Profile Picture Debug")
+                print("\n🎉 PROFILE PICTURE DEBUG PASSED! Profile picture is properly saved and accessible.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL Profile Picture Debug")
+                print("\n⚠️ PROFILE PICTURE DEBUG FAILED! Issues identified with profile picture storage or retrieval.")
+                sys.exit(1)
         elif sys.argv[1] == "--ai-coach-sequential":
             print("🎯 Running AI COACH SEQUENTIAL FUNCTION CALLING TEST ONLY (as per review request)")
             print("=" * 80)
