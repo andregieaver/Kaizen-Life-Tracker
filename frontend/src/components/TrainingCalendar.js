@@ -763,16 +763,19 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
             Click and drag to create new workouts. Click on existing workouts to edit them.
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="flex flex-col lg:flex-row gap-6 lg:h-[600px]">
+        <CardContent className="p-2 sm:p-4 md:p-6">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
             {/* Calendar */}
-            <div className="flex-1 h-[500px] lg:h-full min-h-[400px]">
+            <div className="flex-1 min-h-[400px] sm:min-h-[500px] lg:h-[600px] w-full overflow-hidden">
               <Calendar
                 localizer={localizer}
                 events={calendarEvents}
                 startAccessor="start"
                 endAccessor="end"
-                style={{ height: '100%' }}
+                style={{ 
+                  height: '100%',
+                  minHeight: '400px'
+                }}
                 view={currentView}
                 onView={setCurrentView}
                 date={currentDate}
@@ -780,6 +783,8 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                 selectable
                 onSelectSlot={handleSelectSlot}
                 onSelectEvent={handleSelectEvent}
+                views={[Views.MONTH, Views.WEEK, Views.DAY]}
+                defaultView={Views.MONTH}
                 components={{
                   event: EventComponent
                 }}
@@ -788,14 +793,18 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                     backgroundColor: event.resource.block_type === 'training' ? '#3B82F6' : '#10B981',
                     border: 'none',
                     borderRadius: '4px',
-                    color: 'white'
+                    color: 'white',
+                    fontSize: window.innerWidth < 640 ? '0.625rem' : '0.75rem',
+                    padding: window.innerWidth < 640 ? '1px 2px' : '2px 4px'
                   }
                 })}
+                popup
+                popupOffset={{ x: 0, y: 0 }}
               />
             </div>
 
-            {/* Weekly Summary Column */}
-            <div className="w-full lg:w-80 bg-gray-50 rounded-lg p-4 overflow-y-auto max-h-[400px] lg:max-h-none lg:h-full">
+            {/* Weekly Summary Column - Hidden on small mobile, shown on tablet+ */}
+            <div className="hidden md:block w-full lg:w-80 bg-gray-50 rounded-lg p-4 overflow-y-auto max-h-[400px] lg:max-h-[600px]">
               <WeeklySummaryColumn 
                 currentDate={currentDate}
                 currentView={currentView}
@@ -804,6 +813,17 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                 preferences={athletePreferences}
               />
             </div>
+          </div>
+          
+          {/* Mobile Summary - Show below calendar on small screens */}
+          <div className="md:hidden mt-4 bg-gray-50 rounded-lg p-4 max-h-[300px] overflow-y-auto">
+            <WeeklySummaryColumn 
+              currentDate={currentDate}
+              currentView={currentView}
+              trainingBlocks={trainingBlocks}
+              athleteId={athleteId}
+              preferences={athletePreferences}
+            />
           </div>
         </CardContent>
       </Card>
