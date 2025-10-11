@@ -430,7 +430,7 @@ const Nutrition = ({ athleteId }) => {
                   onClick={handleSaveEntry}
                   disabled={!description.trim()}
                 >
-                  Save Entry
+                  {editingEntry ? 'Update Entry' : 'Save Entry'}
                 </Button>
               </div>
             </CardContent>
