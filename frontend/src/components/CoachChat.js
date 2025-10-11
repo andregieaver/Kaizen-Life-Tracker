@@ -651,7 +651,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
 
       {/* Message Input - Fixed at Bottom on Mobile, aligned with nav bar */}
       <div className={`fixed md:relative bottom-16 md:bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:border-t-0 transition-transform duration-300 ease-in-out md:translate-y-0 ${
-        scrollDirection === 'up' ? 'translate-y-[calc(100%+4rem)] md:translate-y-0' : 'translate-y-0'
+        scrollDirection === 'down' ? 'translate-y-[calc(100%+4rem)] md:translate-y-0' : 'translate-y-0'
       }`}>
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <form onSubmit={sendMessage} className="flex space-x-3">
