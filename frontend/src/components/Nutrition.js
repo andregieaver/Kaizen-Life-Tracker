@@ -255,12 +255,20 @@ const Nutrition = ({ athleteId }) => {
                       </div>
                       <span className="text-sm text-gray-500">{formatDate(entry.created_at)}</span>
                     </div>
-                    <button
-                      onClick={() => handleDeleteEntry(entry.id)}
-                      className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <div className="flex gap-1">
+                      <button
+                        onClick={() => handleEditEntry(entry)}
+                        className="p-2 hover:bg-blue-50 rounded-lg transition-colors text-blue-600"
+                      >
+                        <Edit3 className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteEntry(entry.id)}
+                        className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent>
