@@ -688,6 +688,11 @@ const Account = ({ athleteId }) => {
       
       setSaveStatus({ type: 'success', message: 'Personal information updated successfully!' });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
+      
+      // Dispatch event to notify Dashboard to refresh athlete data
+      window.dispatchEvent(new CustomEvent('athleteProfileUpdated', { 
+        detail: { athleteId, profilePictureUpdated: !!newProfilePicture }
+      }));
     } catch (error) {
       console.error('Error updating personal info:', error);
       setSaveStatus({ type: 'error', message: 'Failed to update personal information' });
