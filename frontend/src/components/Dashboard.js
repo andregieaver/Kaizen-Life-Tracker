@@ -509,7 +509,7 @@ const Dashboard = ({ athleteId }) => {
 
       {/* Mobile Bottom Navigation */}
       <nav className={`md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 transition-transform duration-300 ease-in-out ${
-        scrollDirection === 'up' ? 'translate-y-full' : 'translate-y-0'
+        scrollDirection === 'down' ? 'translate-y-full' : 'translate-y-0'
       }`}>
         <div className="grid grid-cols-4 h-16">
           <button
