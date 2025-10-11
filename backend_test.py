@@ -2914,6 +2914,7 @@ def test_ai_coach_sequential_function_calling():
         
         test_blocks = [
             {
+                "athlete_id": athlete_id,
                 "title": "Morning Easy Run",
                 "description": "5 mile easy run for deletion test",
                 "block_type": "training",
@@ -2926,6 +2927,7 @@ def test_ai_coach_sequential_function_calling():
                 "pace_per_unit": "8:30"
             },
             {
+                "athlete_id": athlete_id,
                 "title": "Interval Training",
                 "description": "Track intervals for deletion test",
                 "block_type": "training",
@@ -2940,6 +2942,7 @@ def test_ai_coach_sequential_function_calling():
                 "rest_duration": 90
             },
             {
+                "athlete_id": athlete_id,
                 "title": "Recovery Run",
                 "description": "Easy recovery run for deletion test",
                 "block_type": "training",
