@@ -576,6 +576,60 @@ const Account = ({ athleteId }) => {
     setPersonalForm(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleProfilePictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setSaveStatus({ type: 'error', message: 'Please select an image file' });
+        return;
+      }
+      
+      // Validate file size (5MB max)
+      if (file.size > 5 * 1024 * 1024) {
+        setSaveStatus({ type: 'error', message: 'Image size must be less than 5MB' });
+        return;
+      }
+      
+      setProfilePictureFile(file);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setProfilePicturePreview(e.target.result);
+      };
+      reader.readAsDataURL(file);
+      
+      // Clear any previous error
+      setSaveStatus({ type: '', message: '' });
+    }
+  };
+
+  const uploadProfilePicture = async () => {
+    if (!profilePictureFile || !athleteId) return null;
+    
+    try {
+      const formData = new FormData();
+      formData.append('file', profilePictureFile);
+      
+      const response = await fetch(`${API}/athlete/${athleteId}/profile-picture`, {
+        method: 'POST',
+        body: formData
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to upload profile picture');
+      }
+      
+      const result = await response.json();
+      return result.profile_picture;
+    } catch (error) {
+      console.error('Error uploading profile picture:', error);
+      throw error;
+    }
+  };
+
   const handleSavePersonalInfo = async (e) => {
     e.preventDefault();
     setIsLoading(true);
