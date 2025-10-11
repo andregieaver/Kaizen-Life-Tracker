@@ -1345,7 +1345,7 @@ const Account = ({ athleteId }) => {
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="vo2_max" className="text-sm font-medium">VO2 Max</Label>
+                      <Label htmlFor="vo2_max" className="text-sm font-medium">{t('account.vo2Max')}</Label>
                       <Input
                         id="vo2_max"
                         name="vo2_max"
