@@ -635,6 +635,30 @@ Return only the JSON array, nothing else.
             sort=[("date", -1)]
         )
         
+        # Get recent journal entries (last 30 days)
+        journal_entries = await db.journal_entries.find(
+            {"athlete_id": athlete_id},
+            {"_id": 0}
+        ).sort("date", -1).limit(30).to_list(length=None)
+        
+        # Get recent nutrition entries (last 7 days)
+        nutrition_entries = await db.nutrition_entries.find(
+            {"athlete_id": athlete_id},
+            {"_id": 0}
+        ).sort("date", -1).limit(50).to_list(length=None)
+        
+        # Get all documents (relevant for medical history, test results, etc.)
+        documents = await db.documents.find(
+            {"athlete_id": athlete_id},
+            {"_id": 0}
+        ).sort("upload_date", -1).to_list(length=None)
+        
+        # Get recent test results (all tests, latest 10 per test type)
+        test_results = await db.test_results.find(
+            {"athlete_id": athlete_id},
+            {"_id": 0}
+        ).sort("test_date", -1).limit(50).to_list(length=None)
+        
         # Get memories
         memories = await self.get_memories(athlete_id)
         
@@ -643,6 +667,10 @@ Return only the JSON array, nothing else.
             "recent_workouts": workouts,
             "recent_sleep": sleep_data,
             "current_readiness": readiness,
+            "journal_entries": journal_entries,
+            "nutrition_entries": nutrition_entries,
+            "documents": documents,
+            "test_results": test_results,
             "memories": memories
         }
     
