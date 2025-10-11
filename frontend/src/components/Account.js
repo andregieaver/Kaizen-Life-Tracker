@@ -584,32 +584,104 @@ const Account = ({ athleteId }) => {
     setPersonalForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleProfilePictureChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+  const compressImage = (file) => {
+    return new Promise((resolve, reject) => {
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        setSaveStatus({ type: 'error', message: 'Please select an image file' });
+        reject(new Error('Please select an image file'));
         return;
       }
-      
-      // Validate file size (5MB max)
-      if (file.size > 5 * 1024 * 1024) {
-        setSaveStatus({ type: 'error', message: 'Image size must be less than 5MB' });
-        return;
-      }
-      
-      setProfilePictureFile(file);
-      
-      // Create preview
+
       const reader = new FileReader();
       reader.onload = (e) => {
-        setProfilePicturePreview(e.target.result);
+        const img = new Image();
+        img.onload = () => {
+          // Calculate new dimensions (max 800px for profile pictures, maintaining aspect ratio)
+          let width = img.width;
+          let height = img.height;
+          const maxSize = 800;
+
+          if (width > maxSize || height > maxSize) {
+            if (width > height) {
+              height = (height / width) * maxSize;
+              width = maxSize;
+            } else {
+              width = (width / height) * maxSize;
+              height = maxSize;
+            }
+          }
+
+          // Create canvas and compress
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Convert to blob with compression
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                // Check if blob is under 5MB
+                if (blob.size > 5 * 1024 * 1024) {
+                  // Try with lower quality
+                  canvas.toBlob(
+                    (blob2) => {
+                      if (blob2 && blob2.size <= 5 * 1024 * 1024) {
+                        resolve(blob2);
+                      } else {
+                        reject(new Error('Unable to compress image below 5MB'));
+                      }
+                    },
+                    'image/jpeg',
+                    0.7
+                  );
+                } else {
+                  resolve(blob);
+                }
+              } else {
+                reject(new Error('Failed to compress image'));
+              }
+            },
+            'image/jpeg',
+            0.85
+          );
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = e.target.result;
       };
+      reader.onerror = () => reject(new Error('Failed to read file'));
       reader.readAsDataURL(file);
-      
-      // Clear any previous error
-      setSaveStatus({ type: '', message: '' });
+    });
+  };
+
+  const handleProfilePictureChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        setSaveStatus({ type: '', message: 'Compressing image...' });
+        
+        const compressedBlob = await compressImage(file);
+        
+        // Convert blob to file
+        const compressedFile = new File([compressedBlob], file.name, { type: 'image/jpeg' });
+        setProfilePictureFile(compressedFile);
+        
+        // Create preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setProfilePicturePreview(e.target.result);
+        };
+        reader.readAsDataURL(compressedFile);
+        
+        // Clear status after short delay
+        setTimeout(() => {
+          setSaveStatus({ type: '', message: '' });
+        }, 1500);
+      } catch (error) {
+        console.error('Error processing image:', error);
+        setSaveStatus({ type: 'error', message: error.message });
+      }
     }
   };
 
