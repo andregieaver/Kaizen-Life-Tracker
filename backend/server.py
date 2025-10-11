@@ -3437,7 +3437,7 @@ You can access their training calendar, create workouts, and provide personalize
 async def negotiate_voice_connection(athlete_id: str, request: Request):
     """Negotiate WebRTC connection for voice chat"""
     try:
-        # Get the realtime chat instance
+        # Get the realtime chat instance (this can raise HTTPException)
         realtime_chat = await get_realtime_chat_for_athlete(athlete_id)
         
         # Get the SDP offer from request body
