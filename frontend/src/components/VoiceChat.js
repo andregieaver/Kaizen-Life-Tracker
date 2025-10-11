@@ -2,13 +2,17 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 class RealtimeAudioChat {
-    constructor(backendUrl, athleteId) {
+    constructor(backendUrl, athleteId, onTranscriptUpdate) {
         this.backendUrl = backendUrl;
         this.athleteId = athleteId;
         this.peerConnection = null;
         this.dataChannel = null;
         this.audioElement = null;
         this.localStream = null;
+        this.onTranscriptUpdate = onTranscriptUpdate;
+        this.sessionId = null;
+        this.transcript = [];
+        this.sessionStartTime = null;
     }
 
     async init() {
