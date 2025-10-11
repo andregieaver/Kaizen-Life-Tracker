@@ -3446,13 +3446,10 @@ You can access their training calendar, create workouts, and provide personalize
         logging.warning(f"Voice session creation for athlete {athlete_id}: session_data = {session_data}")
         
         # Check if the session creation returned an error (invalid API key, etc.)
-        if isinstance(session_data, dict) and "client_secret" in session_data:
-            client_secret_data = session_data["client_secret"]
-            logging.warning(f"Voice session client_secret_data for athlete {athlete_id}: {client_secret_data}")
-            
-            # Check for error in the response
-            if isinstance(client_secret_data, dict) and "error" in client_secret_data:
-                error_info = client_secret_data["error"]
+        if isinstance(session_data, dict):
+            # Check for direct error response (emergentintegrations format)
+            if "error" in session_data:
+                error_info = session_data["error"]
                 error_message = error_info.get("message", "OpenAI API error")
                 
                 logging.warning(f"DETECTED ERROR in voice session for athlete {athlete_id}: {error_message}")
@@ -3465,11 +3462,31 @@ You can access their training calendar, create workouts, and provide personalize
                     logging.error(f"OpenAI API error for athlete {athlete_id}: {error_message}")
                     raise HTTPException(status_code=400, detail="OpenAI API error")
             
-            # Check for valid token
-            elif isinstance(client_secret_data, dict) and "value" in client_secret_data:
-                logging.warning(f"Valid token found for athlete {athlete_id}")
-                # Return in the format expected by frontend
-                return {"client_secret": {"value": client_secret_data["value"]}}
+            # Check for client_secret structure
+            elif "client_secret" in session_data:
+                client_secret_data = session_data["client_secret"]
+                logging.warning(f"Voice session client_secret_data for athlete {athlete_id}: {client_secret_data}")
+                
+                # Check for error in the client_secret
+                if isinstance(client_secret_data, dict) and "error" in client_secret_data:
+                    error_info = client_secret_data["error"]
+                    error_message = error_info.get("message", "OpenAI API error")
+                    
+                    logging.warning(f"DETECTED ERROR in client_secret for athlete {athlete_id}: {error_message}")
+                    
+                    # Convert OpenAI API errors to proper 400 HTTPException
+                    if "API key" in error_message or error_info.get("code") == "invalid_api_key":
+                        logging.warning(f"Invalid OpenAI API key for athlete {athlete_id}: {error_message}")
+                        raise HTTPException(status_code=400, detail="OpenAI API key required for voice chat")
+                    else:
+                        logging.error(f"OpenAI API error for athlete {athlete_id}: {error_message}")
+                        raise HTTPException(status_code=400, detail="OpenAI API error")
+                
+                # Check for valid token
+                elif isinstance(client_secret_data, dict) and "value" in client_secret_data:
+                    logging.warning(f"Valid token found for athlete {athlete_id}")
+                    # Return in the format expected by frontend
+                    return {"client_secret": {"value": client_secret_data["value"]}}
         
         logging.warning(f"Unexpected session_data structure for athlete {athlete_id}, returning raw data")
         # Fallback: return the raw session data if structure is unexpected
