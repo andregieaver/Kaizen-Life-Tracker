@@ -2825,6 +2825,13 @@ async def get_training_blocks(athlete_id: str):
 @api_router.post("/training-calendar")
 async def create_training_block(block: TrainingBlock):
     """Create a new training block"""
+    # Get athlete's unit preference and set unit_system accordingly
+    athlete = await db.athlete_profiles.find_one({"id": block.athlete_id}, {"_id": 0})
+    unit_system = athlete.get("distance_unit", "miles") if athlete else "miles"
+    
+    # Override the unit_system with athlete's preference
+    block.unit_system = unit_system
+    
     block_dict = prepare_for_mongo(block.model_dump())
     await db.training_blocks.insert_one(block_dict)
     return {"success": True, "id": block.id}
