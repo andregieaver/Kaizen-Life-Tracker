@@ -12,6 +12,9 @@ import uuid
 from datetime import datetime, timezone, date, time
 import json
 import secrets
+import base64
+import io
+from PIL import Image
 import requests
 from urllib.parse import urlencode
 from stravalib import Client
