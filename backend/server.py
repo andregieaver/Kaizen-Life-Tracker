@@ -294,7 +294,7 @@ class AthleteUpdate(BaseModel):
     email: Optional[str] = None
     profile_picture: Optional[str] = None
     age: Optional[int] = None  # Kept for backward compatibility
-    date_of_birth: Optional[date] = None
+    date_of_birth: Optional[str] = None
     weekly_mileage: Optional[float] = None
     recent_race_time: Optional[str] = None
     running_goals: Optional[str] = None
