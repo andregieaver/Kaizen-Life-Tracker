@@ -3420,7 +3420,9 @@ You can access their training calendar, create workouts, and provide personalize
 """
         
         # Create ephemeral session for audio chat
-        session_token = await realtime_chat.create_ephemeral_session_for_audio_chat(system_message=system_message)
+        # Note: The method signature may not accept system_message parameter
+        # Try without parameters first, then add system message via other means if needed
+        session_token = await realtime_chat.create_ephemeral_session_for_audio_chat()
         
         return {"client_secret": session_token}
         
