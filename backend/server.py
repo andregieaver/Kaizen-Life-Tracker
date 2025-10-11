@@ -809,6 +809,61 @@ Return only the JSON array, nothing else.
             logging.error(f"Tavily search error: {str(e)}")
             return {"error": str(e)}
     
+    async def create_training_blocks(self, athlete_id: str, blocks_data: list) -> Dict:
+        """Create multiple training blocks in the athlete's calendar"""
+        try:
+            logging.info(f"Creating {len(blocks_data)} training blocks for athlete: {athlete_id}")
+            
+            # Get athlete's unit preference
+            athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+            unit_system = athlete.get("preferences", {}).get("distance_unit", "miles") if athlete else "miles"
+            
+            created_blocks = []
+            for block_data in blocks_data:
+                # Create training block
+                training_block = TrainingBlock(
+                    athlete_id=athlete_id,
+                    title=block_data.get("title", "Training"),
+                    description=block_data.get("description"),
+                    block_type=block_data.get("block_type", "training"),
+                    start_date=block_data.get("start_date"),
+                    end_date=block_data.get("end_date"),
+                    workout_type=block_data.get("workout_type"),
+                    distance=block_data.get("distance"),
+                    duration_minutes=block_data.get("duration_minutes"),
+                    pace_per_unit=block_data.get("pace_per_unit"),
+                    intervals=block_data.get("intervals"),
+                    interval_distance=block_data.get("interval_distance"),
+                    interval_pace=block_data.get("interval_pace"),
+                    rest_duration=block_data.get("rest_duration"),
+                    unit_system=unit_system,
+                    created_by="coach"
+                )
+                
+                # Save to database
+                block_dict = prepare_for_mongo(training_block.model_dump())
+                await db.training_blocks.insert_one(block_dict)
+                created_blocks.append({
+                    "id": training_block.id,
+                    "title": training_block.title,
+                    "start_date": training_block.start_date,
+                    "end_date": training_block.end_date
+                })
+                
+            logging.info(f"Successfully created {len(created_blocks)} training blocks")
+            return {
+                "success": True,
+                "message": f"Created {len(created_blocks)} training blocks",
+                "blocks": created_blocks
+            }
+            
+        except Exception as e:
+            logging.error(f"Error creating training blocks: {str(e)}")
+            return {
+                "success": False,
+                "error": str(e)
+            }
+    
     async def chat_with_coach(self, athlete_id: str, message: str) -> str:
         """Chat with AI coach using athlete's personal data with web search capabilities"""
         context = await self.get_athlete_context(athlete_id)
