@@ -634,6 +634,18 @@ const Account = ({ athleteId }) => {
     e.preventDefault();
     setIsLoading(true);
     try {
+      // Upload profile picture if a new one is selected
+      let newProfilePicture = null;
+      if (profilePictureFile) {
+        try {
+          newProfilePicture = await uploadProfilePicture();
+        } catch (error) {
+          setSaveStatus({ type: 'error', message: error.message });
+          setIsLoading(false);
+          return;
+        }
+      }
+      
       // Construct date_of_birth from day, month, year (avoid timezone issues)
       let date_of_birth = null;
       if (personalForm.birth_day && personalForm.birth_month && personalForm.birth_year) {
@@ -656,6 +668,11 @@ const Account = ({ athleteId }) => {
         vo2_max: personalForm.vo2_max ? parseFloat(personalForm.vo2_max) : null,
         measurement_system: personalForm.measurement_system
       };
+      
+      // Include profile picture if uploaded
+      if (newProfilePicture) {
+        updatedData.profile_picture = newProfilePicture;
+      }
       
       const response = await axios.put(`${API}/athlete/${athleteId}`, updatedData);
       
