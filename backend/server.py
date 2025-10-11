@@ -1228,8 +1228,60 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                 tools.append({
                     "type": "function",
                     "function": {
+                        "name": "update_training_blocks",
+                        "description": "Update existing training blocks in the calendar. Use this when user wants to modify, change, or adjust existing workouts (e.g., 'move my run to 7 AM', 'change tomorrow's distance to 8 miles', 'make Wednesday an easy run'). First get blocks with get_training_blocks_for_period, then update specific ones.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "updates": {
+                                    "type": "array",
+                                    "description": "Array of block updates. Each must include the block ID and fields to update.",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {"type": "string", "description": "The ID of the block to update (from get_training_blocks_for_period)"},
+                                            "title": {"type": "string", "description": "New title"},
+                                            "start_time": {"type": "string", "description": "New start time in HH:MM format"},
+                                            "end_time": {"type": "string", "description": "New end time in HH:MM format"},
+                                            "distance": {"type": "number", "description": "New distance"},
+                                            "pace_per_unit": {"type": "string", "description": "New pace"},
+                                            "description": {"type": "string", "description": "New description"}
+                                        },
+                                        "required": ["id"]
+                                    }
+                                }
+                            },
+                            "required": ["updates"]
+                        }
+                    }
+                })
+                
+                tools.append({
+                    "type": "function",
+                    "function": {
+                        "name": "delete_training_blocks",
+                        "description": "Delete training blocks from the calendar. Use this when user wants to remove, cancel, or delete workouts (e.g., 'delete tomorrow's workout', 'remove all workouts this week', 'cancel my Monday run'). First get blocks with get_training_blocks_for_period to find IDs.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "block_ids": {
+                                    "type": "array",
+                                    "description": "Array of block IDs to delete (from get_training_blocks_for_period)",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "required": ["block_ids"]
+                        }
+                    }
+                })
+                
+                tools.append({
+                    "type": "function",
+                    "function": {
                         "name": "create_training_blocks",
-                        "description": "Create training blocks or complete training programs in the athlete's calendar. Use this when the user asks to add workouts, create a training plan, schedule training, or build a program. ALWAYS check existing blocks first using get_training_blocks_for_period before creating new ones.",
+                        "description": "Create NEW training blocks in the athlete's calendar. Use this ONLY for adding completely new workouts, NOT for modifying existing ones. For modifications, use update_training_blocks instead. ALWAYS check existing blocks first using get_training_blocks_for_period.",
                         "parameters": {
                             "type": "object",
                             "properties": {
