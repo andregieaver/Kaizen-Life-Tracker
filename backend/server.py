@@ -856,6 +856,10 @@ Return only the JSON array, nothing else.
                 update_data = {k: v for k, v in update.items() if k != "id"}
                 update_data["updated_at"] = datetime.now(timezone.utc)
                 
+                # Set unit system if distance-related fields are being updated
+                if any(key in update_data for key in ["distance", "interval_distance", "pace_per_unit", "interval_pace"]):
+                    update_data["unit_system"] = unit_system
+                
                 # Update the block
                 result = await db.training_blocks.update_one(
                     {"id": block_id, "athlete_id": athlete_id},
