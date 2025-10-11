@@ -3426,6 +3426,9 @@ You can access their training calendar, create workouts, and provide personalize
         
         return {"client_secret": session_token}
         
+    except HTTPException:
+        # Re-raise HTTPExceptions (like 400 for missing API key) without modification
+        raise
     except Exception as e:
         logging.error(f"Voice session creation error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
