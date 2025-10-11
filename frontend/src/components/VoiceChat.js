@@ -247,6 +247,7 @@ const VoiceChat = ({ backendUrl, athleteId, onError }) => {
     const [isConnecting, setIsConnecting] = useState(false);
     const [error, setError] = useState(null);
     const [micPermission, setMicPermission] = useState('prompt');
+    const [transcript, setTranscript] = useState([]);
     
     const realtimeChatRef = useRef(null);
 
