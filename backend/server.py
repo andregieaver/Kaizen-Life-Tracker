@@ -1371,6 +1371,22 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                         # Execute get training blocks
                         function_result = await self.get_training_blocks_for_period(athlete_id, start_date, end_date)
                     
+                    elif function_name == "update_training_blocks":
+                        # Parse function arguments
+                        function_args = json.loads(tool_call.function.arguments)
+                        updates = function_args.get("updates", [])
+                        
+                        # Execute training block update
+                        function_result = await self.update_training_blocks(athlete_id, updates)
+                    
+                    elif function_name == "delete_training_blocks":
+                        # Parse function arguments
+                        function_args = json.loads(tool_call.function.arguments)
+                        block_ids = function_args.get("block_ids", [])
+                        
+                        # Execute training block deletion
+                        function_result = await self.delete_training_blocks(athlete_id, block_ids)
+                    
                     elif function_name == "create_training_blocks":
                         # Parse function arguments
                         function_args = json.loads(tool_call.function.arguments)
