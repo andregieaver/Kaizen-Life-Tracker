@@ -3382,7 +3382,7 @@ async def delete_memory(memory_id: str):
 async def create_voice_session(athlete_id: str):
     """Create a new realtime voice session for the athlete"""
     try:
-        # Get the realtime chat instance for this athlete
+        # Get the realtime chat instance for this athlete (this can raise HTTPException)
         realtime_chat = await get_realtime_chat_for_athlete(athlete_id)
         
         # Get athlete context for the voice session
