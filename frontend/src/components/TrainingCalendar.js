@@ -250,6 +250,8 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
     workout_type: 'run',
     start_date: '',
     end_date: '',
+    start_time: '',
+    end_time: '',
     distance: '',
     duration_minutes: '',
     pace_per_unit: '',
