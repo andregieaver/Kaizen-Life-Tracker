@@ -286,6 +286,18 @@ frontend:
         agent: "testing"
         comment: "✅ OURA CREDENTIALS SAVING ISSUE IDENTIFIED AND FIXED - Comprehensive testing revealed critical backend bug preventing proper credential persistence. ROOT CAUSE IDENTIFIED: Database field name mismatch in backend endpoints - save_oura_credentials() used 'service': 'oura' while get_oura_integration_status() queried 'integration_type': 'oura', causing credentials to save but status to show disconnected. FIXED: 1) Updated save_oura_credentials to use consistent 'integration_type': 'oura' field, 2) Changed 'connected': True to 'is_active': True to match integrations list query, 3) Applied same fixes to Strava endpoints for consistency. COMPREHENSIVE TESTING RESULTS: ✅ POST /api/integrations/oura/{athlete_id}/credentials - saves successfully, ✅ GET /api/integrations/oura/{athlete_id}/status - shows connected: true after save, ✅ GET /api/integrations/{athlete_id} - Oura integration appears in list, ✅ Database verification - credentials properly stored and retrievable, ✅ Error handling - proper validation for missing fields, malformed JSON, wrong content-type. TESTING COMPLETED: 10/10 tests passed (100% success rate). OURA CREDENTIALS SAVING NOW FULLY FUNCTIONAL."
 
+  - task: "Personal Information Form New Fields Testing"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Account.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "NEW FEATURE: Added new fields to personal information form - Max Heart Rate (number input), Gender (dropdown with Male/Female/Other/Prefer not to say), Bio (textarea with 500 character limit and counter), and Interests (multi-select checkboxes with 16 predefined options). All fields integrated with form state management and backend API. Ready for comprehensive testing."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
