@@ -96,6 +96,9 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
       };
 
       setMessages(prev => [...prev, coachMessage]);
+      
+      // Reload conversations to update the list with new messages
+      await loadConversations();
     } catch (error) {
       console.error('Error sending message:', error);
       const errorMessage = {
