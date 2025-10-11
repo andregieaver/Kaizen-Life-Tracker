@@ -152,6 +152,10 @@ const Account = ({ athleteId }) => {
     height: '',
     weight: '',
     vo2_max: '',
+    max_heart_rate: '',
+    gender: '',
+    bio: '',
+    interests: [],
     // Preferences
     distance_unit: 'miles',
     measurement_system: 'imperial',
