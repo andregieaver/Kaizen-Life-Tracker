@@ -274,6 +274,7 @@ test_plan:
   test_priority: "high_first"
   completed_tests:
     - "Voice Conversation Transcription and Saving"
+    - "AI Coach Voice Preference Functionality"
 
   - task: "Login and Authentication System"
     implemented: true
