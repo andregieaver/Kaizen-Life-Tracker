@@ -680,6 +680,12 @@ const Account = ({ athleteId }) => {
       setAthlete(response.data);
       setPersonalForm(response.data);
       
+      // Clear profile picture file state after successful upload
+      setProfilePictureFile(null);
+      if (newProfilePicture) {
+        setProfilePicturePreview(newProfilePicture);
+      }
+      
       setSaveStatus({ type: 'success', message: 'Personal information updated successfully!' });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
     } catch (error) {
