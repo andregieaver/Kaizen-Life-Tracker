@@ -170,6 +170,7 @@ class AthleteProfile(BaseModel):
     name: str
     email: str
     password: str  # This will be hashed before storing
+    profile_picture: Optional[str] = None  # Base64 encoded image or URL
     age: Optional[int] = None  # Computed from date_of_birth, kept for backward compatibility
     date_of_birth: Optional[date] = None  # Birth date for accurate age calculation
     weekly_mileage: float
