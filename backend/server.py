@@ -3467,7 +3467,7 @@ You can access their training calendar, create workouts, and provide personalize
             
             # Check for valid token
             elif isinstance(client_secret_data, dict) and "value" in client_secret_data:
-                logging.info(f"Valid token found for athlete {athlete_id}")
+                logging.warning(f"Valid token found for athlete {athlete_id}")
                 # Return in the format expected by frontend
                 return {"client_secret": {"value": client_secret_data["value"]}}
         
