@@ -329,6 +329,8 @@ def test_ai_coach_unit_preferences():
                 failed_components.append("preference saving")
             if not unit_analysis_success:
                 failed_components.append("km mode compliance")
+            if not system_prompt_success:
+                failed_components.append("system prompt integration")
             if not miles_analysis_success:
                 failed_components.append("miles mode compliance")
             
