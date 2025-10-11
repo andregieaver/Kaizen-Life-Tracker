@@ -157,25 +157,47 @@ def test_openai_api_key_validation_fix():
         format_success = True
         format_details = []
         
-        # Both athletes should return consistent 400 errors
-        if problematic_response.status_code == 400 and fresh_response.status_code == 400:
-            format_details.append("✅ CONSISTENT STATUS CODES: Both return 400")
+        # Check that error responses are consistent and success responses are proper
+        if problematic_response.status_code == 400:
+            format_details.append("✅ PROBLEMATIC ATHLETE: Proper 400 error for invalid key")
             
-            try:
-                prob_error = problematic_response.json()
-                fresh_error = fresh_response.json()
-                
-                if prob_error.get("detail") == fresh_error.get("detail"):
-                    format_details.append("✅ CONSISTENT ERROR MESSAGES")
-                else:
-                    format_details.append("❌ INCONSISTENT ERROR MESSAGES")
+            if fresh_response.status_code == 400:
+                format_details.append("✅ FRESH ATHLETE: Also returns 400 error")
+                # Check error message consistency
+                try:
+                    prob_error = problematic_response.json()
+                    fresh_error = fresh_response.json()
+                    
+                    if prob_error.get("detail") == fresh_error.get("detail"):
+                        format_details.append("✅ CONSISTENT ERROR MESSAGES")
+                    else:
+                        format_details.append("❌ INCONSISTENT ERROR MESSAGES")
+                        format_success = False
+                        
+                except json.JSONDecodeError:
+                    format_details.append("❌ JSON PARSING ERROR")
                     format_success = False
                     
-            except json.JSONDecodeError:
-                format_details.append("❌ JSON PARSING ERROR")
+            elif fresh_response.status_code == 200:
+                format_details.append("✅ FRESH ATHLETE: Valid API key returns 200 success")
+                # Check success response format
+                try:
+                    fresh_data = fresh_response.json()
+                    if ("client_secret" in fresh_data and 
+                        isinstance(fresh_data["client_secret"], dict) and 
+                        "value" in fresh_data["client_secret"]):
+                        format_details.append("✅ SUCCESS RESPONSE FORMAT: Proper client_secret.value structure")
+                    else:
+                        format_details.append("❌ SUCCESS RESPONSE FORMAT: Invalid structure")
+                        format_success = False
+                except json.JSONDecodeError:
+                    format_details.append("❌ SUCCESS RESPONSE: Invalid JSON")
+                    format_success = False
+            else:
+                format_details.append(f"❌ FRESH ATHLETE: Unexpected status {fresh_response.status_code}")
                 format_success = False
         else:
-            format_details.append("❌ INCONSISTENT STATUS CODES")
+            format_details.append("❌ PROBLEMATIC ATHLETE: Should return 400 error")
             format_success = False
         
         print_test_result("Response Format Consistency", format_success, "; ".join(format_details))
