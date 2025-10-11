@@ -61,6 +61,14 @@ def parse_from_mongo(item):
         item['date'] = datetime.fromisoformat(item['date']).date()
     if isinstance(item.get('time'), str):
         item['time'] = datetime.strptime(item['time'], '%H:%M:%S').time()
+    # Handle date_of_birth conversion - keep as string for API serialization
+    if isinstance(item.get('date_of_birth'), str):
+        # Validate the date format but keep as string
+        try:
+            datetime.fromisoformat(item['date_of_birth']).date()
+        except ValueError:
+            # If invalid date format, remove it
+            item.pop('date_of_birth', None)
     return item
 
 def calculate_age(date_of_birth):
