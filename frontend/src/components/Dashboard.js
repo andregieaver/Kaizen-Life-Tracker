@@ -329,15 +329,19 @@ const Dashboard = ({ athleteId }) => {
           <div className="fixed inset-y-0 left-0 w-80 bg-white shadow-2xl z-[60] transform transition-transform duration-300 ease-in-out flex flex-col">
             {/* Menu Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
-              <div className="flex items-center space-x-3">
+              <button 
+                className="flex items-center space-x-3 w-full text-left hover:bg-gray-50 rounded-lg p-2 transition-colors"
+                onClick={() => {
+                  setActiveTab('account');
+                  setIsMenuOpen(false);
+                }}
+              >
                 {/* Profile Picture or Initial */}
                 {athlete?.profile_picture ? (
                   <img
                     src={athlete.profile_picture}
                     alt="Profile"
                     className="w-10 h-10 rounded-full object-cover border-2 border-gray-200"
-                    onLoad={() => console.log('Profile picture loaded in slideout menu')}
-                    onError={() => console.log('Profile picture failed to load in slideout menu')}
                   />
                 ) : (
                   <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
@@ -348,27 +352,8 @@ const Dashboard = ({ athleteId }) => {
                 )}
                 <div>
                   <p className="font-semibold text-gray-900">{athlete?.name || 'User'}</p>
-                  <p className="text-xs text-gray-500">{athlete?.email || ''}</p>
                 </div>
-              </div>
-              {/* Debug info and force refresh button - remove in production */}
-              {process.env.NODE_ENV === 'development' && (
-                <div className="mt-2 p-2 bg-gray-100 text-xs">
-                  <p>Debug: Name: {athlete?.name}</p>
-                  <p>Debug: Has picture: {athlete?.profile_picture ? 'Yes' : 'No'}</p>
-                  <p>Debug: Picture length: {athlete?.profile_picture?.length || 0}</p>
-                  <p>Debug: Athlete ID: {athleteId}</p>
-                  <button 
-                    onClick={() => {
-                      console.log('Force refreshing athlete data...');
-                      loadDashboardData();
-                    }}
-                    className="mt-1 px-2 py-1 bg-blue-500 text-white text-xs rounded"
-                  >
-                    Force Refresh Data
-                  </button>
-                </div>
-              )}
+              </button>
               <button 
                 onClick={() => setIsMenuOpen(false)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
