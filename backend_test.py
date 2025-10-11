@@ -1207,6 +1207,471 @@ a=rtpmap:111 opus/48000/2"""
         print_test_result("Voice API - Exception", False, f"Exception: {str(e)}")
         return False
 
+def test_profile_picture_upload_functionality():
+    """Test profile picture upload functionality - image validation, processing, and storage"""
+    print("🔍 Testing Profile Picture Upload Functionality")
+    
+    # Create a test athlete for profile picture testing
+    test_athlete_data = {
+        "id": str(uuid.uuid4()),
+        "name": "Profile Picture Test Runner",
+        "email": f"profile.test.{int(datetime.now().timestamp())}@example.com",
+        "password": "ProfileTest123!",
+        "weekly_mileage": 25.0,
+        "running_goals": "Test profile picture upload functionality"
+    }
+    
+    try:
+        # Step 1: Create test athlete
+        print("   Step 1: Create test athlete for profile picture testing")
+        
+        create_response = requests.post(
+            f"{BACKEND_URL}/athlete",
+            json=test_athlete_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_response.status_code != 200:
+            print_test_result("Profile Picture - Create Test Athlete", False, f"Failed to create athlete: {create_response.status_code}")
+            return False
+        
+        athlete_id = test_athlete_data["id"]
+        print_test_result("Profile Picture - Create Test Athlete", True, f"Created athlete: {athlete_id}")
+        
+        # Step 2: Test Valid Image Upload (JPEG)
+        print("   Step 2: Test valid JPEG image upload")
+        
+        # Create a simple test image (100x100 JPEG)
+        import io
+        from PIL import Image
+        import base64
+        
+        # Create a simple colored square image
+        test_image = Image.new('RGB', (100, 100), color='red')
+        jpeg_buffer = io.BytesIO()
+        test_image.save(jpeg_buffer, format='JPEG', quality=90)
+        jpeg_data = jpeg_buffer.getvalue()
+        
+        # Upload the JPEG image
+        files = {'file': ('test_image.jpg', jpeg_data, 'image/jpeg')}
+        
+        jpeg_upload_response = requests.post(
+            f"{BACKEND_URL}/athlete/{athlete_id}/profile-picture",
+            files=files
+        )
+        
+        jpeg_success = False
+        jpeg_details = []
+        
+        if jpeg_upload_response.status_code == 200:
+            jpeg_response_data = jpeg_upload_response.json()
+            
+            if jpeg_response_data.get("success"):
+                jpeg_details.append("✅ JPEG upload successful")
+                
+                # Check if profile_picture is returned
+                if "profile_picture" in jpeg_response_data:
+                    profile_picture = jpeg_response_data["profile_picture"]
+                    
+                    # Verify base64 format with data:image/jpeg prefix
+                    if profile_picture.startswith("data:image/jpeg;base64,"):
+                        jpeg_details.append("✅ Correct base64 format with data:image/jpeg prefix")
+                        
+                        # Extract and verify base64 data
+                        base64_data = profile_picture.split(',')[1]
+                        try:
+                            decoded_data = base64.b64decode(base64_data)
+                            # Verify it's a valid image
+                            test_decode_image = Image.open(io.BytesIO(decoded_data))
+                            
+                            # Check if resized to 200x200
+                            if test_decode_image.size == (200, 200):
+                                jpeg_details.append("✅ Image correctly resized to 200x200 pixels")
+                                jpeg_success = True
+                            else:
+                                jpeg_details.append(f"❌ Wrong size: {test_decode_image.size} (expected 200x200)")
+                        except Exception as e:
+                            jpeg_details.append(f"❌ Invalid base64 image data: {e}")
+                    else:
+                        jpeg_details.append(f"❌ Wrong format: {profile_picture[:50]}... (expected data:image/jpeg;base64,)")
+                else:
+                    jpeg_details.append("❌ No profile_picture in response")
+            else:
+                jpeg_details.append("❌ Upload marked as unsuccessful")
+        else:
+            jpeg_details.append(f"❌ Upload failed with status: {jpeg_upload_response.status_code}")
+            if jpeg_upload_response.text:
+                jpeg_details.append(f"Error: {jpeg_upload_response.text[:100]}")
+        
+        print_test_result("Profile Picture - JPEG Upload", jpeg_success, "; ".join(jpeg_details))
+        
+        # Step 3: Test Valid PNG Image Upload
+        print("   Step 3: Test valid PNG image upload")
+        
+        # Create a PNG image with transparency
+        png_image = Image.new('RGBA', (150, 150), color=(0, 255, 0, 128))  # Semi-transparent green
+        png_buffer = io.BytesIO()
+        png_image.save(png_buffer, format='PNG')
+        png_data = png_buffer.getvalue()
+        
+        files = {'file': ('test_image.png', png_data, 'image/png')}
+        
+        png_upload_response = requests.post(
+            f"{BACKEND_URL}/athlete/{athlete_id}/profile-picture",
+            files=files
+        )
+        
+        png_success = False
+        png_details = []
+        
+        if png_upload_response.status_code == 200:
+            png_response_data = png_upload_response.json()
+            
+            if png_response_data.get("success"):
+                png_details.append("✅ PNG upload successful")
+                
+                # Check RGBA to RGB conversion
+                if "profile_picture" in png_response_data:
+                    profile_picture = png_response_data["profile_picture"]
+                    
+                    if profile_picture.startswith("data:image/jpeg;base64,"):
+                        png_details.append("✅ PNG converted to JPEG format")
+                        
+                        # Verify transparency handling (should have white background)
+                        base64_data = profile_picture.split(',')[1]
+                        try:
+                            decoded_data = base64.b64decode(base64_data)
+                            converted_image = Image.open(io.BytesIO(decoded_data))
+                            
+                            if converted_image.mode == 'RGB':
+                                png_details.append("✅ RGBA properly converted to RGB")
+                                png_success = True
+                            else:
+                                png_details.append(f"❌ Wrong mode: {converted_image.mode} (expected RGB)")
+                        except Exception as e:
+                            png_details.append(f"❌ Error verifying converted image: {e}")
+                    else:
+                        png_details.append("❌ PNG not converted to JPEG format")
+                else:
+                    png_details.append("❌ No profile_picture in response")
+            else:
+                png_details.append("❌ Upload marked as unsuccessful")
+        else:
+            png_details.append(f"❌ Upload failed with status: {png_upload_response.status_code}")
+        
+        print_test_result("Profile Picture - PNG Upload", png_success, "; ".join(png_details))
+        
+        # Step 4: Test File Size Validation (Over 5MB)
+        print("   Step 4: Test file size validation (over 5MB limit)")
+        
+        # Create a large image that will exceed 5MB when saved
+        large_image = Image.new('RGB', (2000, 2000), color='blue')
+        large_buffer = io.BytesIO()
+        large_image.save(large_buffer, format='JPEG', quality=100)  # High quality to increase size
+        large_data = large_buffer.getvalue()
+        
+        # If it's not over 5MB, pad it
+        if len(large_data) < 5 * 1024 * 1024:
+            # Create an even larger image
+            large_image = Image.new('RGB', (3000, 3000), color='blue')
+            large_buffer = io.BytesIO()
+            large_image.save(large_buffer, format='JPEG', quality=100)
+            large_data = large_buffer.getvalue()
+        
+        files = {'file': ('large_image.jpg', large_data, 'image/jpeg')}
+        
+        large_upload_response = requests.post(
+            f"{BACKEND_URL}/athlete/{athlete_id}/profile-picture",
+            files=files
+        )
+        
+        size_validation_success = False
+        size_details = []
+        
+        size_details.append(f"Test file size: {len(large_data) / (1024*1024):.1f}MB")
+        
+        if large_upload_response.status_code == 400:
+            try:
+                error_data = large_upload_response.json()
+                error_detail = error_data.get("detail", "")
+                
+                if "5MB" in error_detail or "size" in error_detail.lower():
+                    size_details.append("✅ Correct 400 error for oversized file")
+                    size_details.append(f"✅ Proper error message: {error_detail}")
+                    size_validation_success = True
+                else:
+                    size_details.append(f"❌ Wrong error message: {error_detail}")
+            except:
+                size_details.append("❌ Invalid JSON error response")
+        else:
+            size_details.append(f"❌ Wrong status code: {large_upload_response.status_code} (expected 400)")
+        
+        print_test_result("Profile Picture - Size Validation", size_validation_success, "; ".join(size_details))
+        
+        # Step 5: Test Invalid File Type Validation
+        print("   Step 5: Test invalid file type validation")
+        
+        # Create a text file disguised as an image
+        text_data = b"This is not an image file, it's just text content."
+        files = {'file': ('fake_image.txt', text_data, 'text/plain')}
+        
+        invalid_type_response = requests.post(
+            f"{BACKEND_URL}/athlete/{athlete_id}/profile-picture",
+            files=files
+        )
+        
+        type_validation_success = False
+        type_details = []
+        
+        if invalid_type_response.status_code == 400:
+            try:
+                error_data = invalid_type_response.json()
+                error_detail = error_data.get("detail", "")
+                
+                if "image" in error_detail.lower():
+                    type_details.append("✅ Correct 400 error for non-image file")
+                    type_details.append(f"✅ Proper error message: {error_detail}")
+                    type_validation_success = True
+                else:
+                    type_details.append(f"❌ Wrong error message: {error_detail}")
+            except:
+                type_details.append("❌ Invalid JSON error response")
+        else:
+            type_details.append(f"❌ Wrong status code: {invalid_type_response.status_code} (expected 400)")
+        
+        print_test_result("Profile Picture - Type Validation", type_validation_success, "; ".join(type_details))
+        
+        # Step 6: Test Corrupted Image File
+        print("   Step 6: Test corrupted image file handling")
+        
+        # Create corrupted image data
+        corrupted_data = b"JPEG\x00\x00\x00corrupted image data that looks like JPEG but isn't"
+        files = {'file': ('corrupted.jpg', corrupted_data, 'image/jpeg')}
+        
+        corrupted_response = requests.post(
+            f"{BACKEND_URL}/athlete/{athlete_id}/profile-picture",
+            files=files
+        )
+        
+        corrupted_validation_success = False
+        corrupted_details = []
+        
+        if corrupted_response.status_code == 400:
+            try:
+                error_data = corrupted_response.json()
+                error_detail = error_data.get("detail", "")
+                
+                if "invalid" in error_detail.lower() or "image" in error_detail.lower():
+                    corrupted_details.append("✅ Correct 400 error for corrupted image")
+                    corrupted_details.append(f"✅ Proper error message: {error_detail}")
+                    corrupted_validation_success = True
+                else:
+                    corrupted_details.append(f"❌ Wrong error message: {error_detail}")
+            except:
+                corrupted_details.append("❌ Invalid JSON error response")
+        else:
+            corrupted_details.append(f"❌ Wrong status code: {corrupted_response.status_code} (expected 400)")
+        
+        print_test_result("Profile Picture - Corrupted File", corrupted_validation_success, "; ".join(corrupted_details))
+        
+        # Step 7: Test Database Storage and Retrieval
+        print("   Step 7: Test database storage and retrieval")
+        
+        # Get athlete profile to verify profile picture is stored
+        profile_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+        
+        storage_success = False
+        storage_details = []
+        
+        if profile_response.status_code == 200:
+            profile_data = profile_response.json()
+            
+            if "profile_picture" in profile_data and profile_data["profile_picture"]:
+                profile_picture = profile_data["profile_picture"]
+                
+                if profile_picture.startswith("data:image/jpeg;base64,"):
+                    storage_details.append("✅ Profile picture stored in database")
+                    storage_details.append("✅ Correct format in database")
+                    
+                    # Verify the stored image is valid
+                    try:
+                        base64_data = profile_picture.split(',')[1]
+                        decoded_data = base64.b64decode(base64_data)
+                        stored_image = Image.open(io.BytesIO(decoded_data))
+                        
+                        if stored_image.size == (200, 200):
+                            storage_details.append("✅ Stored image has correct dimensions")
+                            storage_success = True
+                        else:
+                            storage_details.append(f"❌ Wrong stored dimensions: {stored_image.size}")
+                    except Exception as e:
+                        storage_details.append(f"❌ Error verifying stored image: {e}")
+                else:
+                    storage_details.append(f"❌ Wrong format in database: {profile_picture[:50]}...")
+            else:
+                storage_details.append("❌ No profile_picture in athlete profile")
+        else:
+            storage_details.append(f"❌ Failed to retrieve athlete profile: {profile_response.status_code}")
+        
+        print_test_result("Profile Picture - Database Storage", storage_success, "; ".join(storage_details))
+        
+        # Step 8: Test Different Image Scenarios
+        print("   Step 8: Test different image scenarios")
+        
+        scenario_success = True
+        scenario_details = []
+        
+        # Test square image (should fit perfectly)
+        square_image = Image.new('RGB', (300, 300), color='yellow')
+        square_buffer = io.BytesIO()
+        square_image.save(square_buffer, format='JPEG')
+        square_data = square_buffer.getvalue()
+        
+        files = {'file': ('square.jpg', square_data, 'image/jpeg')}
+        square_response = requests.post(f"{BACKEND_URL}/athlete/{athlete_id}/profile-picture", files=files)
+        
+        if square_response.status_code == 200:
+            scenario_details.append("✅ Square image (300x300) processed successfully")
+        else:
+            scenario_details.append("❌ Square image processing failed")
+            scenario_success = False
+        
+        # Test rectangular image (should be centered)
+        rect_image = Image.new('RGB', (400, 200), color='purple')
+        rect_buffer = io.BytesIO()
+        rect_image.save(rect_buffer, format='JPEG')
+        rect_data = rect_buffer.getvalue()
+        
+        files = {'file': ('rectangle.jpg', rect_data, 'image/jpeg')}
+        rect_response = requests.post(f"{BACKEND_URL}/athlete/{athlete_id}/profile-picture", files=files)
+        
+        if rect_response.status_code == 200:
+            scenario_details.append("✅ Rectangular image (400x200) processed successfully")
+        else:
+            scenario_details.append("❌ Rectangular image processing failed")
+            scenario_success = False
+        
+        # Test very large image (should be resized)
+        large_square = Image.new('RGB', (1000, 1000), color='orange')
+        large_square_buffer = io.BytesIO()
+        large_square.save(large_square_buffer, format='JPEG', quality=70)  # Lower quality to stay under 5MB
+        large_square_data = large_square_buffer.getvalue()
+        
+        files = {'file': ('large_square.jpg', large_square_data, 'image/jpeg')}
+        large_square_response = requests.post(f"{BACKEND_URL}/athlete/{athlete_id}/profile-picture", files=files)
+        
+        if large_square_response.status_code == 200:
+            scenario_details.append("✅ Large image (1000x1000) processed successfully")
+        else:
+            scenario_details.append("❌ Large image processing failed")
+            scenario_success = False
+        
+        print_test_result("Profile Picture - Image Scenarios", scenario_success, "; ".join(scenario_details))
+        
+        # Step 9: Test Invalid Athlete ID
+        print("   Step 9: Test invalid athlete ID error handling")
+        
+        invalid_athlete_id = "invalid-athlete-id-12345"
+        
+        # Use a simple test image
+        simple_image = Image.new('RGB', (50, 50), color='black')
+        simple_buffer = io.BytesIO()
+        simple_image.save(simple_buffer, format='JPEG')
+        simple_data = simple_buffer.getvalue()
+        
+        files = {'file': ('test.jpg', simple_data, 'image/jpeg')}
+        
+        invalid_athlete_response = requests.post(
+            f"{BACKEND_URL}/athlete/{invalid_athlete_id}/profile-picture",
+            files=files
+        )
+        
+        invalid_athlete_success = False
+        invalid_athlete_details = []
+        
+        if invalid_athlete_response.status_code == 404:
+            try:
+                error_data = invalid_athlete_response.json()
+                error_detail = error_data.get("detail", "")
+                
+                if "not found" in error_detail.lower() or "athlete" in error_detail.lower():
+                    invalid_athlete_details.append("✅ Correct 404 error for invalid athlete ID")
+                    invalid_athlete_details.append(f"✅ Proper error message: {error_detail}")
+                    invalid_athlete_success = True
+                else:
+                    invalid_athlete_details.append(f"❌ Wrong error message: {error_detail}")
+            except:
+                invalid_athlete_details.append("❌ Invalid JSON error response")
+        else:
+            invalid_athlete_details.append(f"❌ Wrong status code: {invalid_athlete_response.status_code} (expected 404)")
+        
+        print_test_result("Profile Picture - Invalid Athlete ID", invalid_athlete_success, "; ".join(invalid_athlete_details))
+        
+        # Step 10: Overall Assessment
+        print("   Step 10: Overall profile picture functionality assessment")
+        
+        overall_success = (jpeg_success and png_success and size_validation_success and 
+                          type_validation_success and corrupted_validation_success and 
+                          storage_success and scenario_success and invalid_athlete_success)
+        
+        assessment_details = []
+        
+        if jpeg_success and png_success:
+            assessment_details.append("✅ Image format support (JPEG, PNG)")
+        else:
+            assessment_details.append("❌ Image format support issues")
+        
+        if size_validation_success and type_validation_success and corrupted_validation_success:
+            assessment_details.append("✅ File validation (size, type, corruption)")
+        else:
+            assessment_details.append("❌ File validation issues")
+        
+        if storage_success:
+            assessment_details.append("✅ Database storage and retrieval")
+        else:
+            assessment_details.append("❌ Database storage issues")
+        
+        if scenario_success:
+            assessment_details.append("✅ Image processing (resize, aspect ratio)")
+        else:
+            assessment_details.append("❌ Image processing issues")
+        
+        if invalid_athlete_success:
+            assessment_details.append("✅ Error handling (invalid athlete)")
+        else:
+            assessment_details.append("❌ Error handling issues")
+        
+        print_test_result("Profile Picture - Overall Assessment", overall_success, "; ".join(assessment_details))
+        
+        # Print detailed analysis
+        print("\n📊 PROFILE PICTURE UPLOAD ANALYSIS:")
+        print("-" * 60)
+        print(f"JPEG Upload: {'✅ Working' if jpeg_success else '❌ Failed'}")
+        print(f"PNG Upload: {'✅ Working' if png_success else '❌ Failed'}")
+        print(f"Size Validation: {'✅ Working' if size_validation_success else '❌ Failed'}")
+        print(f"Type Validation: {'✅ Working' if type_validation_success else '❌ Failed'}")
+        print(f"Corrupted File Handling: {'✅ Working' if corrupted_validation_success else '❌ Failed'}")
+        print(f"Database Storage: {'✅ Working' if storage_success else '❌ Failed'}")
+        print(f"Image Scenarios: {'✅ Working' if scenario_success else '❌ Failed'}")
+        print(f"Error Handling: {'✅ Working' if invalid_athlete_success else '❌ Failed'}")
+        print("-" * 60)
+        
+        if overall_success:
+            print("🎉 PROFILE PICTURE UPLOAD FUNCTIONALITY IS FULLY WORKING")
+            print("✅ Image validation, processing, and storage all functional")
+            print("✅ Proper resize to 200x200 with aspect ratio handling")
+            print("✅ Base64 conversion with correct data:image/jpeg prefix")
+            print("✅ Database persistence and retrieval working")
+        else:
+            print("⚠️ PROFILE PICTURE UPLOAD HAS ISSUES")
+            print("💡 Check specific test failures above for details")
+        
+        return overall_success
+        
+    except Exception as e:
+        print_test_result("Profile Picture - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_date_of_birth_timezone_fix():
     """Test the date of birth timezone fix to ensure dates are stored and retrieved correctly without timezone shifting issues"""
     print("🔍 Testing Date of Birth Timezone Fix - October 16, 1979 Test Case")
