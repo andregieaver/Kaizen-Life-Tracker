@@ -451,9 +451,21 @@ const Account = ({ athleteId }) => {
       // Load athlete profile
       const athleteRes = await axios.get(`${API}/athlete/${athleteId}`);
       setAthlete(athleteRes.data);
+      // Parse date of birth if available
+      let birthDay = '', birthMonth = '', birthYear = '';
+      if (athleteRes.data.date_of_birth) {
+        const birthDate = new Date(athleteRes.data.date_of_birth);
+        birthDay = birthDate.getDate().toString();
+        birthMonth = (birthDate.getMonth() + 1).toString(); // getMonth() is 0-based
+        birthYear = birthDate.getFullYear().toString();
+      }
+      
       setPersonalForm({
         name: athleteRes.data.name,
-        age: athleteRes.data.age.toString(),
+        age: athleteRes.data.age?.toString() || '',
+        birth_day: birthDay,
+        birth_month: birthMonth,
+        birth_year: birthYear,
         running_goals: athleteRes.data.running_goals,
         // Personal Information fields
         height: athleteRes.data.height || '',
