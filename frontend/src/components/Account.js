@@ -1245,6 +1245,26 @@ const Account = ({ athleteId }) => {
                       </SelectContent>
                     </Select>
                   </div>
+
+                  <div className="space-y-2">
+                    <Label>AI Coach Voice</Label>
+                    <Select
+                      value={personalForm.voice_preference || 'alloy'}
+                      onValueChange={(value) => setPersonalForm(prev => ({...prev, voice_preference: value}))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="alloy">Alloy (Warm and confident)</SelectItem>
+                        <SelectItem value="echo">Echo (Clear and professional)</SelectItem>
+                        <SelectItem value="fable">Fable (Expressive and friendly)</SelectItem>
+                        <SelectItem value="onyx">Onyx (Deep and authoritative)</SelectItem>
+                        <SelectItem value="nova">Nova (Bright and energetic)</SelectItem>
+                        <SelectItem value="shimmer">Shimmer (Gentle and calm)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <Separator />
