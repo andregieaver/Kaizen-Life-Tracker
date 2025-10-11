@@ -907,13 +907,20 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                 
                 if tools:
                     completion_params["tools"] = tools
+                    logging.info(f"Tools available for function calling: {len(tools)} tools")
+                else:
+                    logging.info("No tools available - Tavily not configured")
                 
                 response = await client.chat.completions.create(**completion_params)
                 
                 assistant_message = response.choices[0].message
                 
+                # Log whether function was called
+                has_tool_calls = hasattr(assistant_message, "tool_calls") and assistant_message.tool_calls
+                logging.info(f"Response received - Has tool calls: {has_tool_calls}")
+                
                 # Check if function call was requested
-                if hasattr(assistant_message, "tool_calls") and assistant_message.tool_calls:
+                if has_tool_calls:
                     tool_call = assistant_message.tool_calls[0]
                     function_name = tool_call.function.name
                     
