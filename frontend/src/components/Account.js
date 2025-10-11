@@ -1025,10 +1025,10 @@ const Account = ({ athleteId }) => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium">Date of Birth</Label>
+                    <Label className="text-sm font-medium">{t('account.dateOfBirth')}</Label>
                     <div className="grid grid-cols-3 gap-2">
                       <div>
-                        <Label className="text-xs text-gray-600">Day</Label>
+                        <Label className="text-xs text-gray-600">{t('account.birthDay')}</Label>
                         <Select
                           value={personalForm.birth_day}
                           onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_day: value}))}
