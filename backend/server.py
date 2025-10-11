@@ -2833,7 +2833,11 @@ async def get_personal_records(athlete_id: str):
 @api_router.post("/coach/chat")
 async def chat_with_ai_coach(chat_request: CoachChat):
     try:
-        response = await ai_coach.chat_with_coach(chat_request.athlete_id, chat_request.message)
+        response = await ai_coach.chat_with_coach(
+            chat_request.athlete_id, 
+            chat_request.message,
+            chat_request.session_id
+        )
         
         # Save chat history with session ID
         chat_message = ChatMessage(
