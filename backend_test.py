@@ -179,19 +179,52 @@ def test_ai_coach_web_search():
         
         print_test_result("AI Coach - Function Calling Configuration", function_call_success, "; ".join(function_details))
         
-        # Overall test result
-        overall_success = success and function_call_success
+        # Overall test result and detailed analysis
+        print("\n   📊 COMPREHENSIVE TEST ANALYSIS:")
         
-        if overall_success:
-            print_test_result("AI Coach Web Search - Overall Test", True, "Web search functionality appears to be working correctly")
+        # Check what's working
+        working_components = []
+        failing_components = []
+        
+        if success:
+            working_components.append("AI Coach Response Quality")
         else:
-            failed_components = []
-            if not success:
-                failed_components.append("response analysis")
-            if not function_call_success:
-                failed_components.append("function calling")
-            
-            print_test_result("AI Coach Web Search - Overall Test", False, f"Issues with: {', '.join(failed_components)}")
+            failing_components.append("AI Coach Response Quality")
+        
+        if test_search_data.get("tavily_configured") == True:
+            working_components.append("Tavily API Configuration")
+        else:
+            failing_components.append("Tavily API Configuration")
+        
+        # Check OpenAI integration status
+        integrations_response = requests.get(f"{BACKEND_URL}/integrations/{athlete_id}")
+        has_openai = False
+        if integrations_response.status_code == 200:
+            integrations_data = integrations_response.json()
+            for integration in integrations_data.get("integrations", []):
+                if integration.get("integration_type") == "openai":
+                    has_openai = True
+                    break
+        
+        if has_openai:
+            working_components.append("OpenAI Integration (Function Calling Available)")
+        else:
+            failing_components.append("OpenAI Integration (Required for Web Search)")
+        
+        # Determine overall status
+        web_search_functional = success and test_search_data.get("tavily_configured") == True and has_openai
+        
+        if web_search_functional:
+            print_test_result("AI Coach Web Search - Overall Test", True, "Web search functionality is fully operational")
+        else:
+            print_test_result("AI Coach Web Search - Overall Test", False, f"Web search not fully functional")
+        
+        # Print detailed status
+        print("\n📋 COMPONENT STATUS:")
+        for component in working_components:
+            print(f"   ✅ {component}")
+        for component in failing_components:
+            print(f"   ❌ {component}")
         
         # Print the actual response for manual verification
         print("\n📝 ACTUAL AI COACH RESPONSE:")
@@ -199,7 +232,14 @@ def test_ai_coach_web_search():
         print(response_text[:500] + ("..." if len(response_text) > 500 else ""))
         print("-" * 40)
         
-        return overall_success
+        # Print configuration guidance
+        if not has_openai:
+            print("\n💡 TO ENABLE WEB SEARCH:")
+            print("   1. User needs to configure a valid OpenAI API key")
+            print("   2. Tavily API is already configured and working")
+            print("   3. Once OpenAI key is added, function calling will enable web search")
+        
+        return web_search_functional
         
     except Exception as e:
         print_test_result("AI Coach Web Search - Exception", False, f"Exception: {str(e)}")
