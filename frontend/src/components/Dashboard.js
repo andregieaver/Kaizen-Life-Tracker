@@ -44,6 +44,22 @@ const Dashboard = ({ athleteId }) => {
     loadDashboardData();
   }, [athleteId]);
 
+  // Listen for athlete profile updates (e.g., profile picture changes)
+  useEffect(() => {
+    const handleAthleteProfileUpdate = (event) => {
+      // Reload athlete data to get updated profile picture
+      if (event.detail.athleteId === athleteId) {
+        loadDashboardData();
+      }
+    };
+
+    window.addEventListener('athleteProfileUpdated', handleAthleteProfileUpdate);
+    
+    return () => {
+      window.removeEventListener('athleteProfileUpdated', handleAthleteProfileUpdate);
+    };
+  }, [athleteId]);
+
   // Scroll animation effect
   useEffect(() => {
     let ticking = false;
