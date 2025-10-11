@@ -470,6 +470,7 @@ const Account = ({ athleteId }) => {
       setPersonalForm({
         name: athleteRes.data.name,
         age: athleteRes.data.age?.toString() || '',
+        profile_picture: athleteRes.data.profile_picture || '',
         birth_day: birthDay,
         birth_month: birthMonth,
         birth_year: birthYear,
