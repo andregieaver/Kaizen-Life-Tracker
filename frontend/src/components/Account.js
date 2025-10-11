@@ -693,6 +693,13 @@ const Account = ({ athleteId }) => {
       window.dispatchEvent(new CustomEvent('athleteProfileUpdated', { 
         detail: { athleteId, profilePictureUpdated: !!newProfilePicture }
       }));
+      
+      // Force page refresh to ensure slideout menu shows updated profile picture
+      if (newProfilePicture) {
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000); // Wait 2 seconds to show success message first
+      }
     } catch (error) {
       console.error('Error updating personal info:', error);
       setSaveStatus({ type: 'error', message: 'Failed to update personal information' });
