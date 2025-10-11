@@ -358,7 +358,15 @@ class ChatMessage(BaseModel):
 class CoachChat(BaseModel):
     athlete_id: str
     message: str
-    session_id: str = Field(default_factory=lambda: f"session_{int(datetime.now(timezone.utc).timestamp() * 1000)}")
+    session_id: str
+
+class VoiceConversation(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    athlete_id: str
+    session_id: str
+    transcript: list  # List of {role: 'user'/'assistant', content: 'text', timestamp: datetime}
+    duration_seconds: Optional[int] = None = Field(default_factory=lambda: f"session_{int(datetime.now(timezone.utc).timestamp() * 1000)}")
 
 class AthleteMemory(BaseModel):
     model_config = ConfigDict(extra="ignore")
