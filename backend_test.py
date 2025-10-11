@@ -4908,19 +4908,19 @@ if __name__ == "__main__":
             print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api")
             sys.exit(1)
     else:
-        # Run OpenAI Realtime Voice API Integration test as primary focus (as per review request)
-        print("🎯 Running OPENAI REALTIME VOICE API INTEGRATION TEST (PRIMARY FOCUS)")
+        # Run OpenAI Realtime Voice API Error Handling test as primary focus (as per review request)
+        print("🎯 Running OPENAI REALTIME VOICE API ERROR HANDLING TEST (PRIMARY FOCUS)")
         print("=" * 80)
-        success = test_openai_realtime_voice_api_integration()
+        success = test_openai_realtime_voice_api_error_handling()
         print("\n" + "=" * 80)
-        print("📊 OPENAI REALTIME VOICE API INTEGRATION TEST SUMMARY")
+        print("📊 OPENAI REALTIME VOICE API ERROR HANDLING TEST SUMMARY")
         print("=" * 80)
         if success:
-            print("✅ PASS OpenAI Realtime Voice API Integration")
-            print("\n🎉 VOICE API INTEGRATION TEST PASSED! Voice endpoints are functional with corrected method names.")
+            print("✅ PASS OpenAI Realtime Voice API Error Handling")
+            print("\n🎉 ERROR HANDLING TEST PASSED! Voice endpoints return proper 400 status codes for missing API keys.")
         else:
-            print("❌ FAIL OpenAI Realtime Voice API Integration")
-            print("\n⚠️ VOICE API INTEGRATION TEST FAILED! Please review the issues above.")
+            print("❌ FAIL OpenAI Realtime Voice API Error Handling")
+            print("\n⚠️ ERROR HANDLING TEST FAILED! Check the detailed output above for issues.")
         
         # Exit with appropriate code
         sys.exit(0 if success else 1)
