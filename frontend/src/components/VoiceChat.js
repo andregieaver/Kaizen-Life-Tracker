@@ -311,6 +311,7 @@ const VoiceChat = ({ backendUrl, athleteId, onError }) => {
             
             setIsConnected(false);
             setError(null);
+            setTranscript([]); // Clear transcript when stopping
         } catch (error) {
             console.error("Error stopping voice chat:", error);
             setError("Error stopping voice chat");
