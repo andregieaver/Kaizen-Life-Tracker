@@ -211,6 +211,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
       }))).sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)));
       
       setSessionId(convSessionId);
+      setIsFirstVisit(false); // Loading a conversation means not first visit
       setShowArchive(false);
     } catch (error) {
       console.error('Failed to load conversation:', error);
