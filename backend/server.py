@@ -1083,12 +1083,28 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                         }
                     })
                 
-                # Always add training block creation tool
+                # Always add training block management tools
+                tools.append({
+                    "type": "function",
+                    "function": {
+                        "name": "get_training_blocks_for_period",
+                        "description": "Check what training blocks exist in the calendar for a specific date range. Use this BEFORE creating new blocks to check for conflicts and inform the user about existing workouts.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "start_date": {"type": "string", "description": "Start date in YYYY-MM-DD format"},
+                                "end_date": {"type": "string", "description": "End date in YYYY-MM-DD format"}
+                            },
+                            "required": ["start_date", "end_date"]
+                        }
+                    }
+                })
+                
                 tools.append({
                     "type": "function",
                     "function": {
                         "name": "create_training_blocks",
-                        "description": "Create training blocks or complete training programs in the athlete's calendar. Use this when the user asks to add workouts, create a training plan, schedule training, or build a program. Each block represents a workout session on a specific date.",
+                        "description": "Create training blocks or complete training programs in the athlete's calendar. Use this when the user asks to add workouts, create a training plan, schedule training, or build a program. ALWAYS check existing blocks first using get_training_blocks_for_period before creating new ones.",
                         "parameters": {
                             "type": "object",
                             "properties": {
@@ -1121,10 +1137,10 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                     }
                 })
                 
-                messages = [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": message}
-                ]
+                # Build messages with conversation history
+                messages = [{"role": "system", "content": system_prompt}]
+                messages.extend(conversation_history)  # Add conversation history
+                messages.append({"role": "user", "content": message})
                 
                 # First API call
                 completion_params = {
