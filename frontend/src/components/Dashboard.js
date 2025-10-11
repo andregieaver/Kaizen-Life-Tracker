@@ -33,7 +33,7 @@ const Dashboard = ({ athleteId }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
   // Scroll animation state
-  const [scrollDirection, setScrollDirection] = useState('up');
+  const [scrollDirection, setScrollDirection] = useState('none'); // 'none' on initial load to show elements
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   
