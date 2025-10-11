@@ -289,6 +289,8 @@ const Dashboard = ({ athleteId }) => {
                     src={athlete.profile_picture}
                     alt="Profile"
                     className="w-10 h-10 rounded-full object-cover border-2 border-gray-200"
+                    onLoad={() => console.log('Profile picture loaded in slideout menu')}
+                    onError={() => console.log('Profile picture failed to load in slideout menu')}
                   />
                 ) : (
                   <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
@@ -302,6 +304,14 @@ const Dashboard = ({ athleteId }) => {
                   <p className="text-xs text-gray-500">{athlete?.email || ''}</p>
                 </div>
               </div>
+              {/* Debug info - remove in production */}
+              {process.env.NODE_ENV === 'development' && (
+                <div className="mt-2 p-2 bg-gray-100 text-xs">
+                  <p>Debug: Name: {athlete?.name}</p>
+                  <p>Debug: Has picture: {athlete?.profile_picture ? 'Yes' : 'No'}</p>
+                  <p>Debug: Picture length: {athlete?.profile_picture?.length || 0}</p>
+                </div>
+              )}
               <button 
                 onClick={() => setIsMenuOpen(false)}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
