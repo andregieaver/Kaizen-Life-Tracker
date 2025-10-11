@@ -1060,6 +1060,8 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                     
                     logging.info(f"Function called: {function_name}")
                     
+                    function_result = None
+                    
                     if function_name == "search_health_information":
                         # Parse function arguments
                         function_args = json.loads(tool_call.function.arguments)
@@ -1067,8 +1069,17 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                         category = function_args.get("category", "general")
                         
                         # Execute search
-                        search_results = await self.search_health_information(query, category)
+                        function_result = await self.search_health_information(query, category)
+                    
+                    elif function_name == "create_training_blocks":
+                        # Parse function arguments
+                        function_args = json.loads(tool_call.function.arguments)
+                        blocks_data = function_args.get("blocks_data", [])
                         
+                        # Execute training block creation
+                        function_result = await self.create_training_blocks(chat_request.athlete_id, blocks_data)
+                    
+                    if function_result:
                         # Add function call and result to messages
                         messages.append({
                             "role": "assistant",
@@ -1087,10 +1098,10 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                             "role": "tool",
                             "tool_call_id": tool_call.id,
                             "name": function_name,
-                            "content": json.dumps(search_results)
+                            "content": json.dumps(function_result)
                         })
                         
-                        # Second API call with search results
+                        # Second API call with function results
                         final_response = await client.chat.completions.create(
                             model="gpt-4o",
                             messages=messages,
