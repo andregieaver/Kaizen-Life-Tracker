@@ -909,7 +909,7 @@ Return only the JSON array, nothing else.
             
             # Get athlete's unit preference
             athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
-            unit_system = athlete.get("preferences", {}).get("distance_unit", "miles") if athlete else "miles"
+            unit_system = athlete.get("distance_unit", "miles") if athlete else "miles"
             
             created_blocks = []
             for block_data in blocks_data:
