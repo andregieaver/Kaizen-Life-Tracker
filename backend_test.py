@@ -306,10 +306,10 @@ def test_ai_coach_unit_preferences():
         
         print_test_result("AI Coach Unit Preferences - Miles Mode Test", miles_analysis_success, "; ".join(miles_analysis_details))
         
-        # Step 7: Overall assessment
-        print("   Step 7: Overall unit preference compliance assessment")
+        # Step 8: Overall assessment
+        print("   Step 8: Overall unit preference compliance assessment")
         
-        overall_success = preferences_success and unit_analysis_success and miles_analysis_success
+        overall_success = preferences_success and unit_analysis_success and system_prompt_success and miles_analysis_success
         
         # Print actual responses for manual verification
         print("\n📝 ACTUAL AI COACH RESPONSES:")
