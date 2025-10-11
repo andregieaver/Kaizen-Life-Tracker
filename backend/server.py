@@ -1356,7 +1356,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                                             "start_time": {"type": "string", "description": "Start time in HH:MM format (e.g., '06:00' for 6:00 AM). Optional - if not specified, workout is all-day"},
                                             "end_time": {"type": "string", "description": "End time in HH:MM format (e.g., '07:30' for 7:30 AM). REQUIRED if start_time is provided. Calculate from workout duration including warmup, main workout, cool down, and rest periods. Round to nearest 5-15 minute increment."},
                                             "workout_type": {"type": "string", "enum": ["run", "intervals", "tempo", "recovery", "cross_training"], "description": "Type of workout"},
-                                            "distance": {"type": "number", "description": "Distance in miles or km"},
+                                            "distance": {"type": "number", "description": f"Distance in {distance_unit} (user's preferred unit)"},
                                             "duration_minutes": {"type": "integer", "description": "Duration in minutes"},
                                             "pace_per_unit": {"type": "string", "description": "Target pace in MM:SS format (e.g., '8:30')"},
                                             "intervals": {"type": "integer", "description": "Number of intervals"},
