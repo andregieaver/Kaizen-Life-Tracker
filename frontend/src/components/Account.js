@@ -1245,55 +1245,6 @@ const Account = ({ athleteId }) => {
                 </div>
 
                 <Separator />
-                <h3 className="text-lg font-semibold text-gray-900">Physical Information</h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="height" className="text-sm font-medium">
-                      Height ({personalForm.measurement_system === 'metric' ? 'cm' : 'inches'})
-                    </Label>
-                    <Input
-                      id="height"
-                      name="height"
-                      type="number"
-                      step="0.1"
-                      value={personalForm.height}
-                      onChange={handlePersonalFormChange}
-                      placeholder={personalForm.measurement_system === 'metric' ? '175' : '69'}
-                      className="input-focus"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="weight" className="text-sm font-medium">
-                      Weight ({personalForm.measurement_system === 'metric' ? 'kg' : 'lbs'})
-                    </Label>
-                    <Input
-                      id="weight"
-                      name="weight"
-                      type="number"
-                      step="0.1"
-                      value={personalForm.weight}
-                      onChange={handlePersonalFormChange}
-                      placeholder={personalForm.measurement_system === 'metric' ? '70' : '154'}
-                      className="input-focus"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="vo2_max" className="text-sm font-medium">VO2 Max (ml/kg/min)</Label>
-                    <Input
-                      id="vo2_max"
-                      name="vo2_max"
-                      type="number"
-                      step="0.1"
-                      value={personalForm.vo2_max}
-                      onChange={handlePersonalFormChange}
-                      placeholder="45.0"
-                      className="input-focus"
-                    />
-                  </div>
-                </div>
-
-                <Separator />
 
                 <div className="space-y-2">
                   <Label htmlFor="running_goals">{t('account.runningGoals')}</Label>
