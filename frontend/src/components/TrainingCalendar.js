@@ -407,13 +407,20 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
   };
 
   // Convert training blocks to calendar events
-  const calendarEvents = trainingBlocks.map(block => ({
-    id: block.id,
-    title: block.title,
-    start: new Date(block.start_date + 'T00:00:00'),
-    end: new Date(block.end_date + 'T23:59:59'),
-    resource: block
-  }));
+  const calendarEvents = trainingBlocks.map(block => {
+    // If start_time is provided, use it; otherwise default to 00:00:00
+    const startTime = block.start_time || '00:00';
+    const endTime = block.end_time || '23:59';
+    
+    return {
+      id: block.id,
+      title: block.title,
+      start: new Date(block.start_date + 'T' + startTime + ':00'),
+      end: new Date(block.end_date + 'T' + endTime + ':59'),
+      allDay: !block.start_time, // If no start_time, treat as all-day event
+      resource: block
+    };
+  });
 
   const handleSelectSlot = useCallback((slotInfo) => {
     handleCreateBlock(slotInfo);
