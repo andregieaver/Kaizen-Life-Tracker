@@ -243,11 +243,20 @@ const Dashboard = ({ athleteId }) => {
             {/* Menu Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">
-                    {athlete?.name?.charAt(0).toUpperCase() || 'U'}
-                  </span>
-                </div>
+                {/* Profile Picture or Initial */}
+                {athlete?.profile_picture ? (
+                  <img
+                    src={athlete.profile_picture}
+                    alt="Profile"
+                    className="w-10 h-10 rounded-full object-cover border-2 border-gray-200"
+                  />
+                ) : (
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-lg">
+                      {athlete?.name?.charAt(0).toUpperCase() || 'U'}
+                    </span>
+                  </div>
+                )}
                 <div>
                   <p className="font-semibold text-gray-900">{athlete?.name || 'User'}</p>
                   <p className="text-xs text-gray-500">{athlete?.email || ''}</p>
