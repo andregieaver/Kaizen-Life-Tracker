@@ -267,8 +267,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "AI Coach Unit Preferences Compliance"
-  stuck_tasks: []
+    - "OpenAI Realtime Voice API Integration"
+  stuck_tasks:
+    - "OpenAI Realtime Voice API Integration"
   test_all: false
   test_priority: "high_first"
 
