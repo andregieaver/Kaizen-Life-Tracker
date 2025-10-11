@@ -2805,6 +2805,46 @@ async def delete_journal_entry(entry_id: str):
     
     return {"success": True}
 
+@api_router.post("/journal/transcribe/{athlete_id}")
+async def transcribe_audio(athlete_id: str, audio: UploadFile = File(...)):
+    """Transcribe audio to text using OpenAI Whisper"""
+    try:
+        # Get OpenAI API key for the athlete
+        openai_key = await get_user_openai_key(athlete_id)
+        if not openai_key:
+            raise HTTPException(status_code=400, detail="OpenAI API key required for voice transcription. Please configure your API key in Account Settings.")
+        
+        # Read audio file
+        audio_content = await audio.read()
+        
+        # Import OpenAI client
+        import openai
+        
+        # Create OpenAI client
+        client = openai.OpenAI(api_key=openai_key)
+        
+        # Transcribe using Whisper
+        # Create a file-like object from the audio content
+        audio_file = io.BytesIO(audio_content)
+        audio_file.name = audio.filename or "audio.wav"
+        
+        transcription = client.audio.transcriptions.create(
+            model="whisper-1",
+            file=audio_file,
+            response_format="text"
+        )
+        
+        return {"transcription": transcription}
+        
+    except openai.OpenAIError as e:
+        error_message = str(e)
+        if "invalid_api_key" in error_message.lower() or "incorrect api key" in error_message.lower():
+            raise HTTPException(status_code=400, detail="Invalid OpenAI API key. Please update your API key in Account Settings.")
+        raise HTTPException(status_code=500, detail=f"Transcription failed: {error_message}")
+    except Exception as e:
+        logging.error(f"Error transcribing audio: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to transcribe audio: {str(e)}")
+
 # Nutrition routes
 @api_router.get("/nutrition/{athlete_id}")
 async def get_nutrition_entries(athlete_id: str):
