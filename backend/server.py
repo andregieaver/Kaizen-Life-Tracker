@@ -1077,7 +1077,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                         blocks_data = function_args.get("blocks_data", [])
                         
                         # Execute training block creation
-                        function_result = await self.create_training_blocks(chat_request.athlete_id, blocks_data)
+                        function_result = await self.create_training_blocks(athlete_id, blocks_data)
                     
                     if function_result:
                         # Add function call and result to messages
