@@ -483,6 +483,10 @@ const Account = ({ athleteId }) => {
         height: athleteRes.data.height || '',
         weight: athleteRes.data.weight || '',
         vo2_max: athleteRes.data.vo2_max || '',
+        max_heart_rate: athleteRes.data.max_heart_rate || '',
+        gender: athleteRes.data.gender || '',
+        bio: athleteRes.data.bio || '',
+        interests: athleteRes.data.interests || [],
         // Preferences
         distance_unit: athleteRes.data.distance_unit || 'miles',
         measurement_system: athleteRes.data.measurement_system || 'imperial',
