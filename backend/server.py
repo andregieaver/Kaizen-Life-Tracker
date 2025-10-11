@@ -2839,6 +2839,19 @@ async def create_training_block(block: TrainingBlock):
 @api_router.put("/training-calendar/{block_id}")
 async def update_training_block(block_id: str, data: dict):
     """Update a training block"""
+    # Get the existing training block to find the athlete_id
+    existing_block = await db.training_blocks.find_one({"id": block_id}, {"_id": 0})
+    if not existing_block:
+        raise HTTPException(status_code=404, detail="Training block not found")
+    
+    athlete_id = existing_block.get("athlete_id")
+    
+    # Get athlete's unit preference if distance-related fields are being updated
+    unit_system = data.get("unit_system")
+    if not unit_system and any(key in data for key in ["distance", "interval_distance", "pace_per_unit", "interval_pace"]):
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        unit_system = athlete.get("distance_unit", "miles") if athlete else "miles"
+    
     update_data = {
         "title": data.get("title"),
         "description": data.get("description"),
@@ -2853,9 +2866,12 @@ async def update_training_block(block_id: str, data: dict):
         "interval_distance": data.get("interval_distance"),
         "interval_pace": data.get("interval_pace"),
         "rest_duration": data.get("rest_duration"),
-        "unit_system": data.get("unit_system", "miles"),
+        "unit_system": unit_system or existing_block.get("unit_system", "miles"),
         "updated_at": datetime.now(timezone.utc).isoformat()
     }
+    
+    # Remove None values to avoid overwriting existing data with None
+    update_data = {k: v for k, v in update_data.items() if v is not None}
     
     result = await db.training_blocks.update_one(
         {"id": block_id},
