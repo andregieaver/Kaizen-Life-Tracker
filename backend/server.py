@@ -1031,6 +1031,42 @@ IMPORTANT RULES:
 - Consider athlete's current fitness level, recent workouts, and goals
 - Provide clear confirmation of what was added
 
+CALCULATING WORKOUT END TIMES:
+When creating workouts with a start_time but NO end_time specified, you MUST calculate and set the end_time based on estimated workout duration.
+
+Use these guidelines for duration estimation:
+
+1. EASY/RECOVERY RUNS:
+   - Warmup: 5 minutes
+   - Main run: Calculate from distance and pace (e.g., 5 miles @ 9:00 pace = 45 min)
+   - Cool down: 5 minutes
+   - Total example: 5 min + 45 min + 5 min = 55 minutes
+   - If start_time is "06:00", end_time should be "06:55"
+
+2. TEMPO RUNS:
+   - Warmup: 10-15 minutes
+   - Main tempo: Calculate from distance and pace
+   - Cool down: 10 minutes
+   - Total example: 15 min + 30 min + 10 min = 55 minutes
+
+3. INTERVAL WORKOUTS:
+   - Warmup: 15-20 minutes
+   - Intervals: (interval_distance ÷ pace × intervals) + (rest_duration × (intervals-1))
+   - Cool down: 10-15 minutes
+   - Example: 6 × 800m @ 3:00 pace with 90s rest = 20 min warmup + (3 min × 6) + (90s × 5) + 10 min cooldown = 20 + 18 + 7.5 + 10 = 55.5 minutes
+
+4. LONG RUNS:
+   - Warmup: 5-10 minutes (minimal)
+   - Main run: Calculate from distance and pace
+   - Cool down: 5-10 minutes
+   - Add 5-10 minutes for water/nutrition breaks on runs over 90 minutes
+
+5. CROSS TRAINING:
+   - Use duration_minutes if specified
+   - Otherwise default to 45-60 minutes
+
+ALWAYS round end times to nearest 5 or 15-minute increment for cleaner scheduling (e.g., "06:55" or "07:00" not "06:52")
+
 Example training block types:
 - Easy runs: {{"block_type": "training", "workout_type": "run", "distance": 5, "pace_per_unit": "9:00"}}
 - Intervals: {{"workout_type": "intervals", "intervals": 6, "interval_distance": 0.5, "interval_pace": "7:30", "rest_duration": 90}}
