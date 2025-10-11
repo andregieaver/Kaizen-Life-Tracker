@@ -5212,6 +5212,24 @@ if __name__ == "__main__":
                 print("❌ FAIL OpenAI Realtime Voice API Integration")
                 print("\n⚠️ VOICE API INTEGRATION TEST FAILED! Please review the issues above.")
                 sys.exit(1)
+        elif sys.argv[1] == "--voice-debug":
+            print("🎯 Running VOICE SESSION TOKEN RESPONSE DEBUG TEST ONLY (as per review request)")
+            print("=" * 80)
+            print("REVIEW REQUEST: Debug voice session token response to understand")
+            print("why frontend shows 'Failed to get session token' despite backend returning 200 OK")
+            print("=" * 80)
+            success = test_voice_session_token_response_debug()
+            print("\n" + "=" * 80)
+            print("📊 VOICE SESSION TOKEN RESPONSE DEBUG SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS Voice Session Token Response Debug")
+                print("\n🎉 VOICE TOKEN DEBUG PASSED! Response format matches frontend expectations.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL Voice Session Token Response Debug")
+                print("\n⚠️ VOICE TOKEN DEBUG FAILED! Response format mismatch identified.")
+                sys.exit(1)
         else:
             print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api")
             sys.exit(1)
