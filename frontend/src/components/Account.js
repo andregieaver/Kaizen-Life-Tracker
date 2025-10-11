@@ -589,7 +589,8 @@ const Account = ({ athleteId }) => {
         timezone: personalForm.timezone,
         time_format: personalForm.time_format,
         date_format: personalForm.date_format,
-        language: personalForm.language
+        language: personalForm.language,
+        voice_preference: personalForm.voice_preference
       };
       
       const response = await axios.put(`${API}/athlete/${athleteId}`, updatedData);
