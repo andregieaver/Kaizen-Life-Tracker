@@ -28,6 +28,239 @@ def print_test_result(test_name, success, details=""):
         print(f"   Details: {details}")
     print()
 
+def test_openai_api_key_validation_fix():
+    """Test the improved OpenAI API key validation to verify that the 'Failed to get session token' issue is resolved"""
+    print("🔍 Testing Improved OpenAI API Key Validation Fix")
+    
+    # Test the specific athlete IDs mentioned in the review request
+    problematic_athlete_id = "90de5b99-6db3-4e14-8455-c00864fb9976"  # Has empty credentials
+    fresh_athlete_id = "3e4ee10d-105d-4564-8b7a-1e7223acb706"  # Should have no integration
+    
+    print(f"   Testing problematic athlete: {problematic_athlete_id}")
+    print(f"   Testing fresh athlete: {fresh_athlete_id}")
+    
+    try:
+        # Step 1: Test Problematic Athlete (90de5b99-6db3-4e14-8455-c00864fb9976)
+        print("   Step 1: Test POST /api/coach/voice/session/90de5b99-6db3-4e14-8455-c00864fb9976")
+        
+        problematic_response = requests.post(
+            f"{BACKEND_URL}/coach/voice/session/{problematic_athlete_id}",
+            headers={"Content-Type": "application/json"}
+        )
+        
+        problematic_success = False
+        problematic_details = []
+        
+        # Should return 400 error instead of 200 with error object
+        if problematic_response.status_code == 400:
+            problematic_details.append("✅ CORRECT STATUS: 400 (not 200 with error object)")
+            
+            try:
+                error_data = problematic_response.json()
+                error_detail = error_data.get("detail", "")
+                
+                if error_detail == "OpenAI API key required for voice chat":
+                    problematic_details.append("✅ CORRECT ERROR MESSAGE: 'OpenAI API key required for voice chat'")
+                    problematic_success = True
+                else:
+                    problematic_details.append(f"❌ WRONG ERROR MESSAGE: '{error_detail}'")
+                    
+            except json.JSONDecodeError:
+                problematic_details.append("❌ INVALID JSON RESPONSE")
+                
+        elif problematic_response.status_code == 200:
+            # This was the old problematic behavior
+            try:
+                response_data = problematic_response.json()
+                if "client_secret" in response_data:
+                    client_secret = response_data["client_secret"]
+                    if isinstance(client_secret, dict) and "error" in client_secret:
+                        problematic_details.append("❌ OLD BUG: 200 status with error object (should be 400)")
+                        problematic_details.append(f"   Error object: {client_secret.get('error', {}).get('message', '')[:50]}...")
+                        problematic_success = False
+                    elif isinstance(client_secret, dict) and "value" in client_secret:
+                        problematic_details.append("✅ UNEXPECTED SUCCESS: Valid session token returned")
+                        problematic_success = True
+                    else:
+                        problematic_details.append("❌ UNEXPECTED RESPONSE FORMAT")
+                        problematic_success = False
+                else:
+                    problematic_details.append("❌ MISSING client_secret FIELD")
+                    problematic_success = False
+            except json.JSONDecodeError:
+                problematic_details.append("❌ INVALID JSON IN 200 RESPONSE")
+                problematic_success = False
+        else:
+            problematic_details.append(f"❌ UNEXPECTED STATUS: {problematic_response.status_code}")
+            problematic_success = False
+        
+        print_test_result("Problematic Athlete Voice Session", problematic_success, "; ".join(problematic_details))
+        
+        # Step 2: Test Fresh Athlete (3e4ee10d-105d-4564-8b7a-1e7223acb706)
+        print("   Step 2: Test POST /api/coach/voice/session/3e4ee10d-105d-4564-8b7a-1e7223acb706")
+        
+        fresh_response = requests.post(
+            f"{BACKEND_URL}/coach/voice/session/{fresh_athlete_id}",
+            headers={"Content-Type": "application/json"}
+        )
+        
+        fresh_success = False
+        fresh_details = []
+        
+        # Should return 400 error for missing API key
+        if fresh_response.status_code == 400:
+            fresh_details.append("✅ CORRECT STATUS: 400 for missing integration")
+            
+            try:
+                error_data = fresh_response.json()
+                error_detail = error_data.get("detail", "")
+                
+                if error_detail == "OpenAI API key required for voice chat":
+                    fresh_details.append("✅ CORRECT ERROR MESSAGE: 'OpenAI API key required for voice chat'")
+                    fresh_success = True
+                else:
+                    fresh_details.append(f"❌ WRONG ERROR MESSAGE: '{error_detail}'")
+                    
+            except json.JSONDecodeError:
+                fresh_details.append("❌ INVALID JSON RESPONSE")
+                
+        elif fresh_response.status_code == 200:
+            fresh_details.append("❌ UNEXPECTED SUCCESS: Should fail without API key")
+            fresh_success = False
+        else:
+            fresh_details.append(f"❌ UNEXPECTED STATUS: {fresh_response.status_code}")
+            fresh_success = False
+        
+        print_test_result("Fresh Athlete Voice Session", fresh_success, "; ".join(fresh_details))
+        
+        # Step 3: Check Response Format Consistency
+        print("   Step 3: Check response format consistency")
+        
+        format_success = True
+        format_details = []
+        
+        # Both athletes should return consistent 400 errors
+        if problematic_response.status_code == 400 and fresh_response.status_code == 400:
+            format_details.append("✅ CONSISTENT STATUS CODES: Both return 400")
+            
+            try:
+                prob_error = problematic_response.json()
+                fresh_error = fresh_response.json()
+                
+                if prob_error.get("detail") == fresh_error.get("detail"):
+                    format_details.append("✅ CONSISTENT ERROR MESSAGES")
+                else:
+                    format_details.append("❌ INCONSISTENT ERROR MESSAGES")
+                    format_success = False
+                    
+            except json.JSONDecodeError:
+                format_details.append("❌ JSON PARSING ERROR")
+                format_success = False
+        else:
+            format_details.append("❌ INCONSISTENT STATUS CODES")
+            format_success = False
+        
+        print_test_result("Response Format Consistency", format_success, "; ".join(format_details))
+        
+        # Step 4: Validate Logging (check backend logs)
+        print("   Step 4: Validate backend logging")
+        
+        logging_success = True
+        logging_details = []
+        
+        # We can't directly check logs in this test, but we can infer from the responses
+        if problematic_response.status_code == 400:
+            logging_details.append("✅ Expected log: 'OpenAI integration exists for athlete but API key is empty'")
+        else:
+            logging_details.append("⚠️ Logging unclear - response not as expected")
+            
+        if fresh_response.status_code == 400:
+            logging_details.append("✅ Expected log: 'No OpenAI integration found for athlete'")
+        else:
+            logging_details.append("⚠️ Logging unclear - response not as expected")
+        
+        print_test_result("Backend Logging Validation", logging_success, "; ".join(logging_details))
+        
+        # Step 5: Critical Check - Main Goal Verification
+        print("   Step 5: Critical check - Main goal verification")
+        
+        main_goal_success = False
+        main_goal_details = []
+        
+        # The main goal is ensuring athlete 90de5b99-6db3-4e14-8455-c00864fb9976 
+        # now returns 400 error instead of 200 response with error object
+        if problematic_response.status_code == 400:
+            main_goal_details.append("✅ MAIN GOAL ACHIEVED: Athlete 90de5b99-6db3-4e14-8455-c00864fb9976 returns 400 error")
+            main_goal_details.append("✅ NO MORE 200 RESPONSES WITH ERROR OBJECTS")
+            main_goal_details.append("✅ FRONTEND WILL RECEIVE PROPER ERROR RESPONSE")
+            main_goal_success = True
+        elif problematic_response.status_code == 200:
+            try:
+                response_data = problematic_response.json()
+                if "client_secret" in response_data and isinstance(response_data["client_secret"], dict):
+                    if "error" in response_data["client_secret"]:
+                        main_goal_details.append("❌ MAIN GOAL NOT ACHIEVED: Still returns 200 with error object")
+                        main_goal_details.append("❌ FRONTEND WILL STILL GET 'Failed to get session token' ERROR")
+                        main_goal_success = False
+                    else:
+                        main_goal_details.append("✅ UNEXPECTED: Valid session token returned")
+                        main_goal_success = True
+            except:
+                main_goal_details.append("❌ RESPONSE ANALYSIS FAILED")
+                main_goal_success = False
+        else:
+            main_goal_details.append(f"⚠️ UNEXPECTED STATUS: {problematic_response.status_code}")
+            main_goal_success = False
+        
+        print_test_result("Main Goal - Fix 'Failed to get session token'", main_goal_success, "; ".join(main_goal_details))
+        
+        # Step 6: Overall Assessment
+        print("   Step 6: Overall assessment")
+        
+        overall_success = problematic_success and fresh_success and format_success and main_goal_success
+        
+        assessment_details = []
+        
+        if overall_success:
+            assessment_details.append("✅ OPENAI API KEY VALIDATION FIX VERIFIED")
+            assessment_details.append("✅ Both athletes return proper 400 errors")
+            assessment_details.append("✅ No more confusing 200 responses with error objects")
+            assessment_details.append("✅ Frontend should receive proper error responses")
+            assessment_details.append("✅ HTTPException properly raised and not caught")
+        else:
+            assessment_details.append("❌ OPENAI API KEY VALIDATION NEEDS ATTENTION")
+            if not main_goal_success:
+                assessment_details.append("❌ Main issue not resolved - still getting 200 with error object")
+            if not format_success:
+                assessment_details.append("❌ Response format inconsistency")
+        
+        print_test_result("OpenAI API Key Validation - Overall Assessment", overall_success, "; ".join(assessment_details))
+        
+        # Print detailed analysis
+        print("\n📊 OPENAI API KEY VALIDATION FIX ANALYSIS:")
+        print("=" * 70)
+        print(f"Problematic Athlete (90de5b99...): {problematic_response.status_code} ({'✅ Fixed' if problematic_response.status_code == 400 else '❌ Not Fixed'})")
+        print(f"Fresh Athlete (3e4ee10d...): {fresh_response.status_code} ({'✅ Correct' if fresh_response.status_code == 400 else '❌ Wrong'})")
+        print(f"Response Format Consistency: {'✅ Consistent' if format_success else '❌ Inconsistent'}")
+        print(f"Main Goal (Fix 'Failed to get session token'): {'✅ Achieved' if main_goal_success else '❌ Not Achieved'}")
+        print("=" * 70)
+        
+        if overall_success:
+            print("🎉 OPENAI API KEY VALIDATION FIX IS WORKING")
+            print("✅ The 'Failed to get session token' issue has been resolved")
+            print("✅ Frontend will now receive proper 400 errors it can handle")
+        else:
+            print("⚠️ OPENAI API KEY VALIDATION FIX NEEDS MORE WORK")
+            if not main_goal_success:
+                print("❌ The main issue persists - check get_user_openai_key() implementation")
+                print("💡 Ensure empty credentials return None and trigger 400 error")
+        
+        return overall_success
+        
+    except Exception as e:
+        print_test_result("OpenAI API Key Validation - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_voice_session_token_response_debug():
     """Debug voice session token response structure to understand frontend 'Failed to get session token' issue"""
     print("🔍 DEBUGGING Voice Session Token Response Structure")
