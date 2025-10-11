@@ -28,6 +28,291 @@ def print_test_result(test_name, success, details=""):
         print(f"   Details: {details}")
     print()
 
+def test_openai_realtime_voice_api_error_handling():
+    """Test OpenAI Realtime Voice API error handling for missing API keys - returns 400 instead of 500"""
+    print("🔍 Testing OpenAI Realtime Voice API Error Handling (400 Status Codes)")
+    
+    # Use the specific athlete_id from the review request
+    athlete_id = "3e4ee10d-105d-4564-8b7a-1e7223acb706"  # andre@example.com
+    
+    print(f"   Testing with athlete_id: {athlete_id} (andre@example.com)")
+    
+    try:
+        # Step 1: Test Voice Session Creation Error Handling
+        print("   Step 1: Test POST /api/coach/voice/session/{athlete_id} - Missing API Key Error")
+        
+        session_response = requests.post(
+            f"{BACKEND_URL}/coach/voice/session/{athlete_id}",
+            headers={"Content-Type": "application/json"}
+        )
+        
+        session_success = False
+        session_details = []
+        
+        # Check for proper 400 status code (not 500)
+        if session_response.status_code == 400:
+            session_details.append("✅ CORRECT STATUS: 400 (not 500)")
+            
+            try:
+                error_data = session_response.json()
+                error_detail = error_data.get("detail", "")
+                
+                if error_detail == "OpenAI API key required for voice chat":
+                    session_details.append("✅ CORRECT ERROR MESSAGE: 'OpenAI API key required for voice chat'")
+                    session_success = True
+                else:
+                    session_details.append(f"❌ WRONG ERROR MESSAGE: '{error_detail}' (expected 'OpenAI API key required for voice chat')")
+                    session_success = False
+                    
+                # Verify JSON error response structure
+                if "detail" in error_data:
+                    session_details.append("✅ PROPER JSON STRUCTURE: Contains 'detail' field")
+                else:
+                    session_details.append("❌ IMPROPER JSON STRUCTURE: Missing 'detail' field")
+                    session_success = False
+                    
+            except json.JSONDecodeError:
+                session_details.append("❌ INVALID JSON RESPONSE")
+                session_success = False
+                
+        elif session_response.status_code == 500:
+            session_details.append("❌ WRONG STATUS: 500 (should be 400)")
+            session_details.append("❌ HTTPException not properly bubbled up - caught as generic Exception")
+            session_success = False
+            
+            # Check if it's the old error pattern
+            error_text = session_response.text
+            if "OpenAI API key" in error_text:
+                session_details.append("⚠️ Error message correct but wrong status code")
+            else:
+                session_details.append(f"❌ Unexpected error: {error_text[:100]}")
+                
+        elif session_response.status_code == 200:
+            session_details.append("❌ UNEXPECTED SUCCESS: Should fail without API key")
+            session_success = False
+        else:
+            session_details.append(f"❌ UNEXPECTED STATUS: {session_response.status_code} (expected 400)")
+            session_success = False
+        
+        print_test_result("Voice Session Error Handling", session_success, "; ".join(session_details))
+        
+        # Step 2: Test Voice Negotiation Error Handling
+        print("   Step 2: Test POST /api/coach/voice/negotiate/{athlete_id} - Missing API Key Error")
+        
+        # Sample SDP data for testing
+        sample_sdp = """v=0
+o=- 123456789 123456789 IN IP4 127.0.0.1
+s=-
+t=0 0
+m=audio 9 UDP/TLS/RTP/SAVPF 111
+c=IN IP4 127.0.0.1
+a=rtcp:9 IN IP4 127.0.0.1
+a=ice-ufrag:test
+a=ice-pwd:testpassword
+a=fingerprint:sha-256 00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00
+a=setup:actpass
+a=mid:0
+a=sendrecv
+a=rtcp-mux
+a=rtpmap:111 opus/48000/2"""
+        
+        negotiate_response = requests.post(
+            f"{BACKEND_URL}/coach/voice/negotiate/{athlete_id}",
+            data=sample_sdp,
+            headers={"Content-Type": "text/plain"}
+        )
+        
+        negotiate_success = False
+        negotiate_details = []
+        
+        # Check for proper 400 status code (not 500)
+        if negotiate_response.status_code == 400:
+            negotiate_details.append("✅ CORRECT STATUS: 400 (not 500)")
+            
+            try:
+                error_data = negotiate_response.json()
+                error_detail = error_data.get("detail", "")
+                
+                if error_detail == "OpenAI API key required for voice chat":
+                    negotiate_details.append("✅ CORRECT ERROR MESSAGE: 'OpenAI API key required for voice chat'")
+                    negotiate_success = True
+                else:
+                    negotiate_details.append(f"❌ WRONG ERROR MESSAGE: '{error_detail}' (expected 'OpenAI API key required for voice chat')")
+                    negotiate_success = False
+                    
+                # Verify JSON error response structure
+                if "detail" in error_data:
+                    negotiate_details.append("✅ PROPER JSON STRUCTURE: Contains 'detail' field")
+                else:
+                    negotiate_details.append("❌ IMPROPER JSON STRUCTURE: Missing 'detail' field")
+                    negotiate_success = False
+                    
+            except json.JSONDecodeError:
+                negotiate_details.append("❌ INVALID JSON RESPONSE")
+                negotiate_success = False
+                
+        elif negotiate_response.status_code == 500:
+            negotiate_details.append("❌ WRONG STATUS: 500 (should be 400)")
+            negotiate_details.append("❌ HTTPException not properly bubbled up - caught as generic Exception")
+            negotiate_success = False
+            
+            # Check if it's the old error pattern
+            error_text = negotiate_response.text
+            if "OpenAI API key" in error_text:
+                negotiate_details.append("⚠️ Error message correct but wrong status code")
+            else:
+                negotiate_details.append(f"❌ Unexpected error: {error_text[:100]}")
+                
+        elif negotiate_response.status_code == 200:
+            negotiate_details.append("❌ UNEXPECTED SUCCESS: Should fail without API key")
+            negotiate_success = False
+        else:
+            negotiate_details.append(f"❌ UNEXPECTED STATUS: {negotiate_response.status_code} (expected 400)")
+            negotiate_success = False
+        
+        print_test_result("Voice Negotiation Error Handling", negotiate_success, "; ".join(negotiate_details))
+        
+        # Step 3: Test Error Response Format Consistency
+        print("   Step 3: Verify error response format consistency")
+        
+        format_success = True
+        format_details = []
+        
+        # Check if both endpoints return the same error format
+        if session_response.status_code == 400 and negotiate_response.status_code == 400:
+            try:
+                session_error = session_response.json()
+                negotiate_error = negotiate_response.json()
+                
+                if session_error.get("detail") == negotiate_error.get("detail"):
+                    format_details.append("✅ CONSISTENT ERROR MESSAGES: Both endpoints return same message")
+                else:
+                    format_details.append("❌ INCONSISTENT ERROR MESSAGES: Different messages between endpoints")
+                    format_success = False
+                    
+                # Check JSON structure consistency
+                if "detail" in session_error and "detail" in negotiate_error:
+                    format_details.append("✅ CONSISTENT JSON STRUCTURE: Both use 'detail' field")
+                else:
+                    format_details.append("❌ INCONSISTENT JSON STRUCTURE")
+                    format_success = False
+                    
+            except json.JSONDecodeError:
+                format_details.append("❌ JSON PARSING ERROR: Cannot verify consistency")
+                format_success = False
+        else:
+            format_details.append("❌ STATUS CODE INCONSISTENCY: Cannot verify format consistency")
+            format_success = False
+        
+        print_test_result("Error Response Format", format_success, "; ".join(format_details))
+        
+        # Step 4: Test with Valid API Key (if available)
+        print("   Step 4: Test with valid OpenAI API key (if configured)")
+        
+        # Check if user has OpenAI integration configured
+        integrations_response = requests.get(f"{BACKEND_URL}/integrations/{athlete_id}")
+        
+        valid_key_success = True
+        valid_key_details = []
+        
+        if integrations_response.status_code == 200:
+            integrations_data = integrations_response.json()
+            openai_integration = None
+            for integration in integrations_data.get("integrations", []):
+                if integration.get("integration_type") == "openai":
+                    openai_integration = integration
+                    break
+            
+            if openai_integration:
+                valid_key_details.append("✅ OpenAI API key is configured")
+                
+                # Test session creation with valid key
+                session_with_key_response = requests.post(
+                    f"{BACKEND_URL}/coach/voice/session/{athlete_id}",
+                    headers={"Content-Type": "application/json"}
+                )
+                
+                if session_with_key_response.status_code == 200:
+                    try:
+                        session_data = session_with_key_response.json()
+                        if "client_secret" in session_data:
+                            valid_key_details.append("✅ Valid key: Session token returned")
+                        else:
+                            valid_key_details.append("❌ Valid key: No session token in response")
+                            valid_key_success = False
+                    except json.JSONDecodeError:
+                        valid_key_details.append("❌ Valid key: Invalid JSON response")
+                        valid_key_success = False
+                elif session_with_key_response.status_code == 400:
+                    valid_key_details.append("⚠️ Valid key still returns 400 - may be invalid key")
+                else:
+                    valid_key_details.append(f"⚠️ Valid key returns {session_with_key_response.status_code}")
+            else:
+                valid_key_details.append("⚠️ No OpenAI API key configured - cannot test valid key scenario")
+        else:
+            valid_key_details.append("❌ Cannot check integration status")
+            valid_key_success = False
+        
+        print_test_result("Valid API Key Test", valid_key_success, "; ".join(valid_key_details))
+        
+        # Step 5: Overall Assessment
+        print("   Step 5: Overall error handling assessment")
+        
+        overall_success = session_success and negotiate_success and format_success
+        
+        assessment_details = []
+        
+        # Check if the main fix is working (400 instead of 500)
+        if session_response.status_code == 400 and negotiate_response.status_code == 400:
+            assessment_details.append("✅ STATUS CODE FIX VERIFIED: Both endpoints return 400 (not 500)")
+        elif session_response.status_code == 500 or negotiate_response.status_code == 500:
+            assessment_details.append("❌ STATUS CODE NOT FIXED: Still returning 500 errors")
+            overall_success = False
+        else:
+            assessment_details.append("⚠️ STATUS CODE UNCLEAR: Unexpected response codes")
+        
+        # Check error message consistency
+        if session_success and negotiate_success:
+            assessment_details.append("✅ ERROR MESSAGES: Proper 'OpenAI API key required for voice chat' message")
+        else:
+            assessment_details.append("❌ ERROR MESSAGES: Incorrect or inconsistent messages")
+            overall_success = False
+        
+        # Check JSON structure
+        if format_success:
+            assessment_details.append("✅ JSON STRUCTURE: Proper FastAPI error format with 'detail' field")
+        else:
+            assessment_details.append("❌ JSON STRUCTURE: Improper error response format")
+            overall_success = False
+        
+        print_test_result("Voice API Error Handling - Overall Assessment", overall_success, "; ".join(assessment_details))
+        
+        # Print detailed analysis
+        print("\n📊 VOICE API ERROR HANDLING ANALYSIS:")
+        print("-" * 60)
+        print(f"Session Endpoint Status: {session_response.status_code} ({'✅ Correct' if session_response.status_code == 400 else '❌ Wrong'})")
+        print(f"Negotiation Endpoint Status: {negotiate_response.status_code} ({'✅ Correct' if negotiate_response.status_code == 400 else '❌ Wrong'})")
+        print(f"Error Message Consistency: {'✅ Consistent' if format_success else '❌ Inconsistent'}")
+        print(f"HTTPException Handling: {'✅ Proper' if overall_success else '❌ Needs Fix'}")
+        print("-" * 60)
+        
+        if overall_success:
+            print("🎉 VOICE API ERROR HANDLING IS FIXED")
+            print("✅ HTTPException with status 400 is properly bubbled up")
+            print("✅ No more 500 errors for missing API keys")
+            print("✅ Frontend will receive proper error response")
+        else:
+            print("⚠️ VOICE API ERROR HANDLING NEEDS ATTENTION")
+            if session_response.status_code == 500 or negotiate_response.status_code == 500:
+                print("❌ HTTPException is being caught and re-raised as 500 error")
+                print("💡 Need to ensure HTTPException is not caught by generic Exception handler")
+        
+        return overall_success
+        
+    except Exception as e:
+        print_test_result("Voice API Error Handling - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_openai_realtime_voice_api_integration():
     """Test OpenAI Realtime Voice API integration endpoints after fixing method name issue"""
     print("🔍 Testing OpenAI Realtime Voice API Integration")
@@ -106,6 +391,19 @@ def test_openai_realtime_voice_api_integration():
             else:
                 session_details.append("✗ No client_secret in response")
                 session_success = False
+        elif session_response.status_code == 400:
+            # New expected behavior - proper error handling
+            try:
+                error_data = session_response.json()
+                if error_data.get("detail") == "OpenAI API key required for voice chat":
+                    session_details.append("✓ PROPER ERROR HANDLING: 400 status with correct message")
+                    session_success = True
+                else:
+                    session_details.append(f"✗ Wrong error message: {error_data.get('detail')}")
+                    session_success = False
+            except:
+                session_details.append("✗ Invalid JSON error response")
+                session_success = False
         elif session_response.status_code == 500:
             error_text = session_response.text
             
@@ -122,8 +420,8 @@ def test_openai_realtime_voice_api_integration():
                     session_details.append(f"✗ Unexpected error: {error_text[:100]}")
                     session_success = False
             elif "OpenAI API key" in error_text:
-                session_details.append("✓ PROPER ERROR HANDLING: Missing OpenAI API key error")
-                session_success = True  # This is expected behavior
+                session_details.append("⚠️ ERROR HANDLING ISSUE: Should return 400, not 500")
+                session_success = False  # This should be 400, not 500
             else:
                 session_details.append(f"✗ Unknown error: {error_text[:100]}")
                 session_success = False
@@ -178,12 +476,25 @@ a=rtpmap:111 opus/48000/2"""
             else:
                 negotiate_details.append("✗ No SDP in response")
                 negotiate_success = False
+        elif negotiate_response.status_code == 400:
+            # New expected behavior - proper error handling
+            try:
+                error_data = negotiate_response.json()
+                if error_data.get("detail") == "OpenAI API key required for voice chat":
+                    negotiate_details.append("✓ PROPER ERROR HANDLING: 400 status with correct message")
+                    negotiate_success = True
+                else:
+                    negotiate_details.append(f"✗ Wrong error message: {error_data.get('detail')}")
+                    negotiate_success = False
+            except:
+                negotiate_details.append("✗ Invalid JSON error response")
+                negotiate_success = False
         elif negotiate_response.status_code == 500:
             error_text = negotiate_response.text
             
             if "OpenAI API key" in error_text or "API key" in error_text:
-                negotiate_details.append("✓ Expected error: OpenAI API key required")
-                negotiate_success = True  # This is expected behavior
+                negotiate_details.append("⚠️ ERROR HANDLING ISSUE: Should return 400, not 500")
+                negotiate_success = False  # This should be 400, not 500
             else:
                 negotiate_details.append(f"✗ Unexpected error: {error_text[:100]}")
                 negotiate_success = False
