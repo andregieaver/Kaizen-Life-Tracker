@@ -139,29 +139,45 @@ def test_ai_coach_web_search():
         
         print_test_result("AI Coach - Response Analysis", success, "; ".join(details))
         
-        # Step 5: Check backend logs for function calling activity (if accessible)
-        print("   Step 5: Check for function calling indicators")
-        
-        # Since we can't directly access backend logs, we'll look for other indicators
-        # The response quality and content should indicate if web search was used
+        # Step 5: Check for function calling indicators and configuration
+        print("   Step 5: Check for function calling indicators and configuration")
         
         function_call_success = True
         function_details = []
         
-        # If the response is very detailed and contains recent information, it likely used web search
-        if len(response_text) > 300 and any(word in response_text.lower() for word in ["recent", "latest", "current", "new"]):
-            function_details.append("Function calling likely occurred: ✓ (detailed, current information)")
-        else:
-            function_details.append("Function calling uncertain: ⚠️ (response may be from training data)")
-        
         # Check if Tavily API key is configured (from test endpoint)
-        if test_search_data.get("status") == "success":
+        if test_search_data.get("tavily_configured") == True:
             function_details.append("Tavily API configured: ✓")
         else:
             function_details.append("Tavily API configured: ✗")
             function_call_success = False
         
-        print_test_result("AI Coach - Function Calling Indicators", function_call_success, "; ".join(function_details))
+        # Check if user has OpenAI integration (required for function calling)
+        integrations_response = requests.get(f"{BACKEND_URL}/integrations/{athlete_id}")
+        if integrations_response.status_code == 200:
+            integrations_data = integrations_response.json()
+            openai_integration = None
+            for integration in integrations_data.get("integrations", []):
+                if integration.get("integration_type") == "openai":
+                    openai_integration = integration
+                    break
+            
+            if openai_integration:
+                function_details.append("OpenAI integration: ✓ (function calling available)")
+            else:
+                function_details.append("OpenAI integration: ✗ (using Emergent fallback - no function calling)")
+                function_call_success = False
+        else:
+            function_details.append("Integration check: ✗ (unable to verify)")
+            function_call_success = False
+        
+        # If the response is very detailed and contains recent information, it likely used web search
+        if len(response_text) > 300 and any(word in response_text.lower() for word in ["recent", "latest", "current", "new"]):
+            function_details.append("Response quality: ✓ (detailed, current information)")
+        else:
+            function_details.append("Response quality: ⚠️ (may be from training data)")
+        
+        print_test_result("AI Coach - Function Calling Configuration", function_call_success, "; ".join(function_details))
         
         # Overall test result
         overall_success = success and function_call_success
