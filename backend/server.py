@@ -994,7 +994,18 @@ Return only the JSON array, nothing else.
         
         # Create concise summaries instead of full JSON dumps to reduce token usage
         athlete_info = context.get('athlete', {})
-        athlete_summary = f"Name: {athlete_info.get('name')}, Age: {athlete_info.get('age')}, Weekly Mileage: {athlete_info.get('weekly_mileage')} miles, Goals: {athlete_info.get('running_goals', 'Not specified')}"
+        
+        # Get user preferences for proper unit display
+        distance_unit = athlete_info.get('distance_unit', 'miles')
+        measurement_system = athlete_info.get('measurement_system', 'imperial')
+        time_format = athlete_info.get('time_format', '12h')
+        timezone_pref = athlete_info.get('timezone', 'UTC')
+        week_starts_on = athlete_info.get('week_starts_on', 'sunday')
+        
+        # Format athlete summary with proper units
+        weekly_distance = athlete_info.get('weekly_mileage', 0)
+        distance_label = 'km' if distance_unit == 'km' else 'miles'
+        athlete_summary = f"Name: {athlete_info.get('name')}, Age: {athlete_info.get('age')}, Weekly Distance: {weekly_distance} {distance_label}, Goals: {athlete_info.get('running_goals', 'Not specified')}"
         
         # Summarize workouts
         workouts = context.get('recent_workouts', [])
