@@ -1360,7 +1360,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                                             "duration_minutes": {"type": "integer", "description": "Duration in minutes"},
                                             "pace_per_unit": {"type": "string", "description": "Target pace in MM:SS format (e.g., '8:30')"},
                                             "intervals": {"type": "integer", "description": "Number of intervals"},
-                                            "interval_distance": {"type": "number", "description": "Distance per interval"},
+                                            "interval_distance": {"type": "number", "description": f"Distance per interval in {distance_unit}"},
                                             "interval_pace": {"type": "string", "description": "Pace per interval in MM:SS format"},
                                             "rest_duration": {"type": "integer", "description": "Rest between intervals in seconds"}
                                         },
