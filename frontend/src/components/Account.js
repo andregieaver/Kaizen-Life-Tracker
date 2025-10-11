@@ -490,6 +490,11 @@ const Account = ({ athleteId }) => {
         voice_preference: athleteRes.data.voice_preference || 'alloy'
       });
       
+      // Set profile picture preview if available
+      if (athleteRes.data.profile_picture) {
+        setProfilePicturePreview(athleteRes.data.profile_picture);
+      }
+      
       // Load integrations data from backend
       try {
         // Load from both old integrations and new user_connections
