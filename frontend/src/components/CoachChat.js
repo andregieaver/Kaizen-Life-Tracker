@@ -108,6 +108,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
     } finally {
       setIsLoading(false);
       inputRef.current?.focus();
+      loadConversations(); // Reload conversations to update the list
     }
   };
 
