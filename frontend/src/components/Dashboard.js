@@ -57,10 +57,8 @@ const Dashboard = ({ athleteId }) => {
   // Listen for athlete profile updates (e.g., profile picture changes)
   useEffect(() => {
     const handleAthleteProfileUpdate = (event) => {
-      console.log('Athlete profile update event received:', event.detail);
       // Reload athlete data to get updated profile picture
       if (event.detail.athleteId === athleteId) {
-        console.log('Reloading dashboard data for athlete:', athleteId);
         loadDashboardData();
       }
     };
