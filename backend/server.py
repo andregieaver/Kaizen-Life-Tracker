@@ -3542,6 +3542,57 @@ async def negotiate_voice_connection(athlete_id: str, request: Request):
         logging.error(f"Voice negotiation error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/coach/voice/save-conversation")
+async def save_voice_conversation(voice_conversation: VoiceConversation):
+    """Save voice conversation transcript as chat messages"""
+    try:
+        logging.info(f"Saving voice conversation for athlete {voice_conversation.athlete_id}, session {voice_conversation.session_id}")
+        
+        # Convert voice transcript to individual chat messages
+        for i, turn in enumerate(voice_conversation.transcript):
+            if turn.get('role') == 'user':
+                # Find the corresponding assistant response
+                user_message = turn.get('content', '')
+                assistant_response = ''
+                
+                # Look for the next assistant message
+                if i + 1 < len(voice_conversation.transcript):
+                    next_turn = voice_conversation.transcript[i + 1]
+                    if next_turn.get('role') == 'assistant':
+                        assistant_response = next_turn.get('content', '')
+                
+                # Save as a chat message pair (similar to text chat)
+                if user_message.strip():  # Only save non-empty messages
+                    chat_message = ChatMessage(
+                        athlete_id=voice_conversation.athlete_id,
+                        session_id=voice_conversation.session_id,
+                        message=user_message,
+                        response=assistant_response,
+                        timestamp=turn.get('timestamp', datetime.now(timezone.utc))
+                    )
+                    chat_dict = prepare_for_mongo(chat_message.model_dump())
+                    await db.chat_messages.insert_one(chat_dict)
+                    
+                    logging.info(f"Saved voice message pair: user='{user_message[:50]}...' assistant='{assistant_response[:50]}...'")
+                    
+                    # Extract memories from voice conversation asynchronously
+                    if assistant_response:
+                        asyncio.create_task(
+                            ai_coach.extract_memories(
+                                voice_conversation.athlete_id,
+                                user_message,
+                                assistant_response,
+                                voice_conversation.session_id
+                            )
+                        )
+        
+        logging.info(f"Successfully saved voice conversation with {len(voice_conversation.transcript)} turns")
+        return {"success": True, "message": "Voice conversation saved successfully"}
+        
+    except Exception as e:
+        logging.error(f"Error saving voice conversation: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to save voice conversation: {str(e)}")
+
 # Strava OAuth routes
 @api_router.get("/auth/strava/callback")
 async def strava_auth_callback(
