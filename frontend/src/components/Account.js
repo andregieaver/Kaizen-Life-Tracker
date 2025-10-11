@@ -1069,7 +1069,7 @@ const Account = ({ athleteId }) => {
                         </Select>
                       </div>
                       <div>
-                        <Label className="text-xs text-gray-600">Year</Label>
+                        <Label className="text-xs text-gray-600">{t('account.birthYear')}</Label>
                         <Select
                           value={personalForm.birth_year}
                           onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_year: value}))}
