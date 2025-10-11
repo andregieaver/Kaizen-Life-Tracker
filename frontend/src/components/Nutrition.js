@@ -94,6 +94,15 @@ const Nutrition = ({ athleteId }) => {
     if (cameraInputRef.current) cameraInputRef.current.value = '';
   };
 
+  const handleEditEntry = (entry) => {
+    setEditingEntry(entry);
+    setMealType(entry.meal_type);
+    setDescription(entry.description);
+    setImageData(entry.image_data);
+    setImagePreview(entry.image_data);
+    setShowModal(true);
+  };
+
   const handleSaveEntry = async () => {
     if (!description.trim()) {
       setSaveStatus({ type: 'error', message: 'Please add a description' });
@@ -101,15 +110,27 @@ const Nutrition = ({ athleteId }) => {
     }
 
     try {
-      await axios.post(`${API}/nutrition`, {
-        athlete_id: athleteId,
-        meal_type: mealType,
-        description: description,
-        image_data: imageData
-      });
+      if (editingEntry) {
+        // Update existing entry
+        await axios.put(`${API}/nutrition/${editingEntry.id}`, {
+          meal_type: mealType,
+          description: description,
+          image_data: imageData
+        });
+        setSaveStatus({ type: 'success', message: 'Nutrition entry updated!' });
+      } else {
+        // Create new entry
+        await axios.post(`${API}/nutrition`, {
+          athlete_id: athleteId,
+          meal_type: mealType,
+          description: description,
+          image_data: imageData
+        });
+        setSaveStatus({ type: 'success', message: 'Nutrition entry saved!' });
+      }
 
-      setSaveStatus({ type: 'success', message: 'Nutrition entry saved!' });
       setShowModal(false);
+      setEditingEntry(null);
       setDescription('');
       setMealType('breakfast');
       setImageData(null);
