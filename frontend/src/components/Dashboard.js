@@ -129,6 +129,8 @@ const Dashboard = ({ athleteId }) => {
     setIsLoading(true);
     try {
       console.log('Loading dashboard data for athlete:', athleteId);
+      console.log('API URL being used:', API);
+      console.log('Full athlete API URL:', `${API}/athlete/${athleteId}`);
       
       // Add cache-busting to ensure fresh data
       const cacheBuster = `?_t=${Date.now()}`;
