@@ -44,6 +44,16 @@ const Dashboard = ({ athleteId }) => {
     loadDashboardData();
   }, [athleteId]);
 
+  // Force reload athlete data on component mount to ensure fresh data
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log('Force reloading dashboard data after 2 seconds');
+      loadDashboardData();
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   // Listen for athlete profile updates (e.g., profile picture changes)
   useEffect(() => {
     const handleAthleteProfileUpdate = (event) => {
