@@ -31,6 +31,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
   useEffect(() => {
     loadChatHistory();
     checkOpenAIKey();
+    loadConversations(); // Load conversations on mount
   }, [athleteId]);
 
   useEffect(() => {
