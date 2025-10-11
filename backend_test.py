@@ -327,7 +327,7 @@ def test_ai_coach_unit_preferences():
         print(response_text[:300] + ("..." if len(response_text) > 300 else ""))
         print("-" * 25)
         print("MILES MODE RESPONSE:")
-        print(miles_response_text[:300] + ("..." if len(miles_response_text) > 300 else ""))
+        print("(Not tested - focusing on preference saving and system prompt integration)")
         print("-" * 50)
         
         if overall_success:
