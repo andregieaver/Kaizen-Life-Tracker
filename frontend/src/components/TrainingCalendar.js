@@ -607,6 +607,32 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                       </div>
                     </div>
 
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="start_time">Start Time (Optional)</Label>
+                        <Input
+                          id="start_time"
+                          type="time"
+                          value={formData.start_time || ''}
+                          onChange={(e) => setFormData(prev => ({...prev, start_time: e.target.value}))}
+                          placeholder="06:00"
+                        />
+                        <p className="text-xs text-gray-500">Leave empty for all-day workout</p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="end_time">End Time (Optional)</Label>
+                        <Input
+                          id="end_time"
+                          type="time"
+                          value={formData.end_time || ''}
+                          onChange={(e) => setFormData(prev => ({...prev, end_time: e.target.value}))}
+                          placeholder="07:30"
+                        />
+                        <p className="text-xs text-gray-500">Calculated from duration if empty</p>
+                      </div>
+                    </div>
+
                     <div className="space-y-2">
                       <Label htmlFor="description">Description</Label>
                       <Textarea
