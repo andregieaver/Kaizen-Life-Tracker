@@ -7414,6 +7414,21 @@ if __name__ == "__main__":
             enhanced_results = run_enhanced_training_calendar_tests()
             failed_count = sum(1 for _, success in enhanced_results if not success)
             sys.exit(failed_count)
+        elif sys.argv[1] == "--profile-picture":
+            print("🎯 Running PROFILE PICTURE UPLOAD TEST ONLY (as per review request)")
+            print("=" * 80)
+            success = test_profile_picture_upload_functionality()
+            print("\n" + "=" * 80)
+            print("📊 PROFILE PICTURE UPLOAD TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS Profile Picture Upload Functionality")
+                print("\n🎉 PROFILE PICTURE UPLOAD TEST PASSED! Image upload, validation, processing, and storage all working correctly.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL Profile Picture Upload Functionality")
+                print("\n⚠️ PROFILE PICTURE UPLOAD TEST FAILED! Please review the issues above.")
+                sys.exit(1)
         elif sys.argv[1] == "--ai-coach-sequential":
             print("🎯 Running AI COACH SEQUENTIAL FUNCTION CALLING TEST ONLY (as per review request)")
             print("=" * 80)
