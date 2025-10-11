@@ -306,7 +306,7 @@ const Dashboard = ({ athleteId }) => {
               <button 
                 className="flex items-center space-x-3 w-full text-left hover:bg-gray-50 rounded-lg p-2 transition-colors"
                 onClick={() => {
-                  setActiveTab('account');
+                  navigate('/dashboard/account');
                   setIsMenuOpen(false);
                 }}
               >
