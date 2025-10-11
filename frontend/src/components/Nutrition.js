@@ -51,39 +51,98 @@ const Nutrition = ({ athleteId }) => {
     }
   };
 
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
+  const compressImage = (file) => {
+    return new Promise((resolve, reject) => {
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        setSaveStatus({ type: 'error', message: 'Please select an image file' });
-        return;
-      }
-
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        setSaveStatus({ type: 'error', message: 'Image size should be less than 5MB' });
+        reject(new Error('Please select an image file'));
         return;
       }
 
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageData(reader.result);
-        setImagePreview(reader.result);
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          // Calculate new dimensions (max 1920px width, maintaining aspect ratio)
+          let width = img.width;
+          let height = img.height;
+          const maxWidth = 1920;
+          const maxHeight = 1920;
+
+          if (width > maxWidth || height > maxHeight) {
+            if (width > height) {
+              height = (height / width) * maxWidth;
+              width = maxWidth;
+            } else {
+              width = (width / height) * maxHeight;
+              height = maxHeight;
+            }
+          }
+
+          // Create canvas and compress
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Try different quality levels until under 5MB
+          let quality = 0.9;
+          let compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          
+          // Keep reducing quality until under 5MB (base64 string length * 0.75 ≈ file size in bytes)
+          while (compressedDataUrl.length * 0.75 > 5 * 1024 * 1024 && quality > 0.1) {
+            quality -= 0.1;
+            compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          }
+
+          // Final check
+          const finalSizeInMB = (compressedDataUrl.length * 0.75) / (1024 * 1024);
+          if (finalSizeInMB > 5) {
+            reject(new Error('Unable to compress image below 5MB. Please use a smaller image.'));
+          } else {
+            resolve(compressedDataUrl);
+          }
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = e.target.result;
       };
+      reader.onerror = () => reject(new Error('Failed to read file'));
       reader.readAsDataURL(file);
+    });
+  };
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      try {
+        setSaveStatus({ type: '', message: 'Compressing image...' });
+        const compressedImage = await compressImage(file);
+        setImageData(compressedImage);
+        setImagePreview(compressedImage);
+        setSaveStatus({ type: 'success', message: 'Image ready!' });
+        setTimeout(() => setSaveStatus({ type: '', message: '' }), 2000);
+      } catch (error) {
+        console.error('Error processing image:', error);
+        setSaveStatus({ type: 'error', message: error.message });
+      }
     }
   };
 
-  const handleCameraCapture = (event) => {
+  const handleCameraCapture = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageData(reader.result);
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
+      try {
+        setSaveStatus({ type: '', message: 'Processing image...' });
+        const compressedImage = await compressImage(file);
+        setImageData(compressedImage);
+        setImagePreview(compressedImage);
+        setSaveStatus({ type: 'success', message: 'Image ready!' });
+        setTimeout(() => setSaveStatus({ type: '', message: '' }), 2000);
+      } catch (error) {
+        console.error('Error processing image:', error);
+        setSaveStatus({ type: 'error', message: error.message });
+      }
     }
   };
 
