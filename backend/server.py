@@ -906,10 +906,14 @@ Return only the JSON array, nothing else.
                 {"_id": 0}
             ).sort("timestamp", 1).to_list(length=None)
             
+            logging.info(f"Loaded {len(history_messages)} messages from session {session_id}")
+            
             # Convert to OpenAI message format (limit to last 10 exchanges to avoid token limits)
             for msg in history_messages[-10:]:
                 conversation_history.append({"role": "user", "content": msg.get("message", "")})
                 conversation_history.append({"role": "assistant", "content": msg.get("response", "")})
+            
+            logging.info(f"Added {len(conversation_history)} messages to conversation history")
         
         # Create system message with athlete context
         memories = context.get('memories', {})
