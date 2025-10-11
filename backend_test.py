@@ -2780,7 +2780,22 @@ def run_enhanced_training_calendar_tests():
 if __name__ == "__main__":
     # Check command line arguments for specific test suites
     if len(sys.argv) > 1:
-        if sys.argv[1] == "--account-settings":
+        if sys.argv[1] == "--ai-coach-search":
+            print("🎯 Running AI COACH WEB SEARCH TEST ONLY (as per review request)")
+            print("=" * 80)
+            success = test_ai_coach_web_search()
+            print("\n" + "=" * 80)
+            print("📊 AI COACH WEB SEARCH TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS AI Coach Web Search Functionality")
+                print("\n🎉 AI COACH WEB SEARCH TEST PASSED! Web search functionality working correctly.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL AI Coach Web Search Functionality")
+                print("\n⚠️ AI COACH WEB SEARCH TEST FAILED! Please review the issues above.")
+                sys.exit(1)
+        elif sys.argv[1] == "--account-settings":
             print("🎯 Running ACCOUNT SETTINGS PERSONAL INFO & PREFERENCES TEST ONLY (as per review request)")
             print("=" * 80)
             success = test_account_settings_personal_info_and_preferences()
@@ -2811,22 +2826,22 @@ if __name__ == "__main__":
             failed_count = sum(1 for _, success in enhanced_results if not success)
             sys.exit(failed_count)
         else:
-            print("Available options: --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar")
+            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar")
             sys.exit(1)
     else:
-        # Run account settings test as primary focus (as per review request)
-        print("🎯 Running ACCOUNT SETTINGS PERSONAL INFO & PREFERENCES TEST (PRIMARY FOCUS)")
+        # Run AI Coach web search test as primary focus (as per review request)
+        print("🎯 Running AI COACH WEB SEARCH TEST (PRIMARY FOCUS)")
         print("=" * 80)
-        success = test_account_settings_personal_info_and_preferences()
+        success = test_ai_coach_web_search()
         print("\n" + "=" * 80)
-        print("📊 ACCOUNT SETTINGS TEST SUMMARY")
+        print("📊 AI COACH WEB SEARCH TEST SUMMARY")
         print("=" * 80)
         if success:
-            print("✅ PASS Account Settings Personal Info & Preferences")
-            print("\n🎉 ACCOUNT SETTINGS TEST PASSED! All personal information and preferences functionality working correctly.")
+            print("✅ PASS AI Coach Web Search Functionality")
+            print("\n🎉 AI COACH WEB SEARCH TEST PASSED! Web search functionality working correctly.")
         else:
-            print("❌ FAIL Account Settings Personal Info & Preferences")
-            print("\n⚠️ ACCOUNT SETTINGS TEST FAILED! Please review the issues above.")
+            print("❌ FAIL AI Coach Web Search Functionality")
+            print("\n⚠️ AI COACH WEB SEARCH TEST FAILED! Please review the issues above.")
         
         # Exit with appropriate code
         sys.exit(0 if success else 1)
