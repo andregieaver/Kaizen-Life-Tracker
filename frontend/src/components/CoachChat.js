@@ -526,19 +526,21 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
             <div className="text-center py-8">
               <MessageCircle className="w-12 h-12 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-500 mb-6">{t('coach.startConversation')}</p>
-              <div className="space-y-2 max-w-2xl mx-auto">
-                <p className="text-sm text-gray-600 mb-3">{t('coach.tryAsking')}</p>
-                {suggestedQuestions.map((question, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleSuggestedQuestion(question)}
-                    className="block w-full text-left p-3 text-sm bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
-                    data-testid={`suggested-question-${index}`}
-                  >
-                    "{question}"
-                  </button>
-                ))}
-              </div>
+              {isFirstVisit && (
+                <div className="space-y-2 max-w-2xl mx-auto">
+                  <p className="text-sm text-gray-600 mb-3">{t('coach.tryAsking')}</p>
+                  {suggestedQuestions.map((question, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleSuggestedQuestion(question)}
+                      className="block w-full text-left p-3 text-sm bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
+                      data-testid={`suggested-question-${index}`}
+                    >
+                      "{question}"
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
             messages.map((message, index) => {
