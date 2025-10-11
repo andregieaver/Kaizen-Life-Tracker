@@ -1107,6 +1107,51 @@ const Account = ({ athleteId }) => {
             <CardContent>
               <form onSubmit={handleSavePersonalInfo} className="space-y-4 md:space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                  <div className="space-y-4">
+                    <Label className="text-sm font-medium">Profile Picture</Label>
+                    <div className="flex items-center space-x-4">
+                      {/* Profile Picture Preview */}
+                      <div className="relative">
+                        {profilePicturePreview ? (
+                          <img
+                            src={profilePicturePreview}
+                            alt="Profile"
+                            className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
+                          />
+                        ) : (
+                          <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300">
+                            <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Upload Button */}
+                      <div className="flex-1">
+                        <input
+                          type="file"
+                          id="profile-picture"
+                          accept="image/*"
+                          onChange={handleProfilePictureChange}
+                          className="hidden"
+                        />
+                        <Label
+                          htmlFor="profile-picture"
+                          className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer transition-colors"
+                        >
+                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                          </svg>
+                          {profilePictureFile ? 'Change Picture' : 'Upload Picture'}
+                        </Label>
+                        <p className="text-xs text-gray-500 mt-1">
+                          JPG, PNG up to 5MB. Will be resized to 200x200px.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="name" className="text-sm font-medium">{t('auth.fullName')}</Label>
                     <Input
