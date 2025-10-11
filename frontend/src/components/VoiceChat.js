@@ -23,6 +23,9 @@ class RealtimeAudioChat {
             
             if (!tokenResponse.ok) {
                 const errorData = await tokenResponse.json();
+                if (tokenResponse.status === 400 && errorData.detail?.includes("OpenAI API key")) {
+                    throw new Error("OpenAI API key required for voice chat. Please add your API key in Account Settings.");
+                }
                 throw new Error(errorData.detail || "Failed to create voice session");
             }
             
