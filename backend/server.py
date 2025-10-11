@@ -842,6 +842,10 @@ Return only the JSON array, nothing else.
         try:
             logging.info(f"Updating {len(updates)} training blocks for athlete: {athlete_id}")
             
+            # Get athlete's unit preference for updates involving distance
+            athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+            unit_system = athlete.get("distance_unit", "miles") if athlete else "miles"
+            
             updated_blocks = []
             for update in updates:
                 block_id = update.get("id")
