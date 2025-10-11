@@ -314,6 +314,10 @@ class AthleteUpdate(BaseModel):
     height: Optional[float] = None
     weight: Optional[float] = None
     vo2_max: Optional[float] = None
+    max_heart_rate: Optional[int] = None
+    gender: Optional[str] = None
+    bio: Optional[str] = None
+    interests: Optional[list] = None
     
     # Preferences
     distance_unit: Optional[str] = None
