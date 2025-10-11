@@ -366,7 +366,7 @@ class VoiceConversation(BaseModel):
     athlete_id: str
     session_id: str
     transcript: list  # List of {role: 'user'/'assistant', content: 'text', timestamp: datetime}
-    duration_seconds: Optional[int] = None = Field(default_factory=lambda: f"session_{int(datetime.now(timezone.utc).timestamp() * 1000)}")
+    duration_seconds: Optional[int] = None
 
 class AthleteMemory(BaseModel):
     model_config = ConfigDict(extra="ignore")
