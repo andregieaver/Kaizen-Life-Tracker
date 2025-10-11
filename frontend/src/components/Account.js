@@ -567,13 +567,17 @@ const Account = ({ athleteId }) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      // Construct date_of_birth from day, month, year
+      // Construct date_of_birth from day, month, year (avoid timezone issues)
       let date_of_birth = null;
       if (personalForm.birth_day && personalForm.birth_month && personalForm.birth_year) {
         const year = parseInt(personalForm.birth_year);
-        const month = parseInt(personalForm.birth_month) - 1; // JavaScript months are 0-based
+        const month = parseInt(personalForm.birth_month);
         const day = parseInt(personalForm.birth_day);
-        date_of_birth = new Date(year, month, day).toISOString().split('T')[0]; // YYYY-MM-DD format
+        
+        // Create date string directly to avoid timezone conversion issues
+        const paddedMonth = month.toString().padStart(2, '0');
+        const paddedDay = day.toString().padStart(2, '0');
+        date_of_birth = `${year}-${paddedMonth}-${paddedDay}`;
       }
       
       const updatedData = {
