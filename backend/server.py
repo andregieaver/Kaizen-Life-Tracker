@@ -3488,6 +3488,19 @@ async def negotiate_voice_connection(athlete_id: str, request: Request):
         # Negotiate the connection
         answer_sdp = await realtime_chat.negotiate_connection(offer_sdp)
         
+        # Check if negotiation returned an error
+        if isinstance(answer_sdp, dict) and "error" in answer_sdp:
+            error_info = answer_sdp["error"]
+            error_message = error_info.get("message", "OpenAI API error")
+            
+            # Convert OpenAI API errors to proper 400 HTTPException
+            if "API key" in error_message or error_info.get("code") == "invalid_api_key":
+                logging.warning(f"Invalid OpenAI API key for athlete {athlete_id} during negotiation: {error_message}")
+                raise HTTPException(status_code=400, detail="OpenAI API key required for voice chat")
+            else:
+                logging.error(f"OpenAI API error for athlete {athlete_id} during negotiation: {error_message}")
+                raise HTTPException(status_code=400, detail="OpenAI API error")
+        
         return {"sdp": answer_sdp}
         
     except HTTPException:
