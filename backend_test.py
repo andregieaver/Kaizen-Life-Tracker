@@ -2882,8 +2882,8 @@ def test_ai_coach_sequential_function_calling():
             # Try to configure a test OpenAI API key
             print("      No OpenAI API key found, attempting to configure test key...")
             
-            # Use a test OpenAI API key (this should be a real key for testing)
-            test_openai_key = "sk-test-key-for-sequential-function-calling-testing"
+            # Use a test OpenAI API key (placeholder for testing - system should handle gracefully)
+            test_openai_key = "sk-test1234567890abcdef1234567890abcdef1234567890abcdef"
             
             openai_key_data = {
                 "api_key": test_openai_key
