@@ -1388,6 +1388,8 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                     tool_call = assistant_message.tool_calls[0]
                     function_name = tool_call.function.name
                     
+                    print(f"🎯 Function called: {function_name}")
+                    print(f"📝 Function arguments: {tool_call.function.arguments}")
                     logging.info(f"Function called: {function_name}")
                     logging.info(f"Function arguments: {tool_call.function.arguments}")
                     
