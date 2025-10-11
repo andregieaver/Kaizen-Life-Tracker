@@ -1169,10 +1169,16 @@ Use these guidelines for duration estimation:
 
 ALWAYS round end times to nearest 5 or 15-minute increment for cleaner scheduling (e.g., "06:55" or "07:00" not "06:52")
 
-Example training block types:
-- Easy runs: {{"block_type": "training", "workout_type": "run", "distance": 5, "pace_per_unit": "9:00"}}
-- Intervals: {{"workout_type": "intervals", "intervals": 6, "interval_distance": 0.5, "interval_pace": "7:30", "rest_duration": 90}}
-- Tempo runs: {{"workout_type": "tempo", "distance": 4, "pace_per_unit": "7:45"}}
+CRITICAL UNIT CONSISTENCY:
+- ALWAYS use the athlete's preferred distance unit ({distance_unit}) in ALL training plans and workouts
+- If distance_unit is "km", NEVER use miles - convert distances to km
+- If distance_unit is "miles", NEVER use km - convert distances to miles
+- Distance examples for {distance_unit}: Easy run = {'8 km' if distance_unit == 'km' else '5 miles'}, Long run = {'16 km' if distance_unit == 'km' else '10 miles'}
+
+Example training block types (using {distance_unit}):
+- Easy runs: {{"block_type": "training", "workout_type": "run", "distance": {'8' if distance_unit == 'km' else '5'}, "pace_per_unit": "{'5:30' if distance_unit == 'km' else '9:00'}"}}
+- Intervals: {{"workout_type": "intervals", "intervals": 6, "interval_distance": {'0.8' if distance_unit == 'km' else '0.5'}, "interval_pace": "{'4:40' if distance_unit == 'km' else '7:30'}", "rest_duration": 90}}
+- Tempo runs: {{"workout_type": "tempo", "distance": {'6' if distance_unit == 'km' else '4'}, "pace_per_unit": "{'4:50' if distance_unit == 'km' else '7:45'}"}}
 - Recovery days: {{"block_type": "recovery", "title": "Rest Day"}}
 
 CHART GENERATION:
