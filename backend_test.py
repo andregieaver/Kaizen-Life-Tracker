@@ -1313,6 +1313,338 @@ def test_openai_api_key_validation_fix():
         print_test_result("OpenAI API Key Validation - Exception", False, f"Exception: {str(e)}")
         return False
 
+def test_exact_dashboard_api_call():
+    """
+    REVIEW REQUEST: Test the exact API call that the Dashboard is making to debug why it's not getting the correct athlete data.
+    
+    SPECIFIC TESTING REQUIREMENTS:
+    1. Test GET /api/athlete/90de5b99-6db3-4e14-8455-c00864fb9976 (the exact ID from slideout debug)
+    2. Test API with cache-busting parameter
+    3. Verify API response structure
+    4. Test API error handling
+    5. Compare expected vs actual data
+    """
+    print("🔍 TESTING EXACT DASHBOARD API CALL - ATHLETE DATA DEBUG")
+    print("=" * 70)
+    
+    # The exact athlete ID from the slideout debug mentioned in review request
+    exact_athlete_id = "90de5b99-6db3-4e14-8455-c00864fb9976"
+    
+    print(f"   Testing exact athlete ID: {exact_athlete_id}")
+    print("   This is the ID the Dashboard component is using")
+    
+    try:
+        # REQUIREMENT 1: Test Exact API Call
+        print("\n   REQUIREMENT 1: Test GET /api/athlete/90de5b99-6db3-4e14-8455-c00864fb9976")
+        print("   " + "=" * 60)
+        
+        exact_response = requests.get(f"{BACKEND_URL}/athlete/{exact_athlete_id}")
+        
+        exact_call_success = False
+        exact_call_details = []
+        
+        exact_call_details.append(f"Status Code: {exact_response.status_code}")
+        exact_call_details.append(f"Response Headers: {dict(exact_response.headers)}")
+        
+        if exact_response.status_code == 200:
+            try:
+                athlete_data = exact_response.json()
+                exact_call_details.append("✅ Valid JSON response received")
+                
+                # Check for the expected data
+                name = athlete_data.get("name")
+                profile_picture = athlete_data.get("profile_picture")
+                
+                if name == "Andre Updated":
+                    exact_call_details.append("✅ Name is 'Andre Updated' as expected")
+                    exact_call_success = True
+                else:
+                    exact_call_details.append(f"❌ Name is '{name}' (expected 'Andre Updated')")
+                
+                if profile_picture and len(profile_picture) > 100:
+                    exact_call_details.append("✅ Profile picture data present")
+                else:
+                    exact_call_details.append("❌ Profile picture missing or empty")
+                    exact_call_success = False
+                
+            except json.JSONDecodeError as e:
+                exact_call_details.append(f"❌ Invalid JSON response: {str(e)}")
+                exact_call_success = False
+        else:
+            exact_call_details.append(f"❌ API call failed with status {exact_response.status_code}")
+            exact_call_success = False
+        
+        print_test_result("Exact API Call Test", exact_call_success, "; ".join(exact_call_details))
+        
+        # REQUIREMENT 2: Test API with Cache-Busting
+        print("\n   REQUIREMENT 2: Test GET /api/athlete/{id}?_t=1234567890 (cache-busting)")
+        print("   " + "=" * 60)
+        
+        cache_busting_url = f"{BACKEND_URL}/athlete/{exact_athlete_id}?_t=1234567890"
+        cache_response = requests.get(cache_busting_url)
+        
+        cache_busting_success = False
+        cache_busting_details = []
+        
+        cache_busting_details.append(f"Status Code: {cache_response.status_code}")
+        
+        if cache_response.status_code == 200:
+            try:
+                cache_data = cache_response.json()
+                cache_busting_details.append("✅ Cache-busting parameter doesn't break API")
+                
+                # Compare with non-cache-busting response
+                if exact_response.status_code == 200:
+                    exact_data = exact_response.json()
+                    
+                    # Compare key fields
+                    if (cache_data.get("name") == exact_data.get("name") and
+                        cache_data.get("profile_picture") == exact_data.get("profile_picture")):
+                        cache_busting_details.append("✅ Response identical to non-cache-busting call")
+                        cache_busting_success = True
+                    else:
+                        cache_busting_details.append("❌ Response differs from non-cache-busting call")
+                else:
+                    cache_busting_details.append("⚠️ Cannot compare - original call failed")
+                    cache_busting_success = True  # At least cache-busting works
+                
+            except json.JSONDecodeError as e:
+                cache_busting_details.append(f"❌ Invalid JSON with cache-busting: {str(e)}")
+        else:
+            cache_busting_details.append(f"❌ Cache-busting call failed: {cache_response.status_code}")
+        
+        print_test_result("Cache-Busting API Test", cache_busting_success, "; ".join(cache_busting_details))
+        
+        # REQUIREMENT 3: Verify API Response Structure
+        print("\n   REQUIREMENT 3: Verify API Response Structure")
+        print("   " + "=" * 60)
+        
+        structure_success = False
+        structure_details = []
+        
+        if exact_response.status_code == 200:
+            try:
+                athlete_data = exact_response.json()
+                
+                # Check all required fields for Dashboard
+                required_fields = ["id", "name", "email", "profile_picture"]
+                missing_fields = []
+                null_fields = []
+                
+                for field in required_fields:
+                    if field not in athlete_data:
+                        missing_fields.append(field)
+                    elif athlete_data[field] is None:
+                        null_fields.append(field)
+                
+                if not missing_fields and not null_fields:
+                    structure_details.append("✅ All required fields present and not null")
+                    structure_success = True
+                else:
+                    if missing_fields:
+                        structure_details.append(f"❌ Missing fields: {missing_fields}")
+                    if null_fields:
+                        structure_details.append(f"❌ Null fields: {null_fields}")
+                
+                # Verify profile_picture format
+                profile_picture = athlete_data.get("profile_picture")
+                if profile_picture:
+                    if profile_picture.startswith("data:image/jpeg;base64,"):
+                        structure_details.append("✅ Profile picture has correct base64 format")
+                        
+                        # Verify base64 data is valid
+                        try:
+                            base64_data = profile_picture.split(',')[1]
+                            import base64
+                            decoded_data = base64.b64decode(base64_data)
+                            structure_details.append(f"✅ Valid base64 data ({len(decoded_data)} bytes)")
+                        except Exception as e:
+                            structure_details.append(f"❌ Invalid base64 data: {str(e)}")
+                            structure_success = False
+                    else:
+                        structure_details.append("❌ Profile picture wrong format")
+                        structure_success = False
+                
+                # Print complete response structure for analysis
+                structure_details.append(f"Response fields: {list(athlete_data.keys())}")
+                
+            except json.JSONDecodeError:
+                structure_details.append("❌ Cannot verify structure - invalid JSON")
+        else:
+            structure_details.append("❌ Cannot verify structure - API call failed")
+        
+        print_test_result("API Response Structure", structure_success, "; ".join(structure_details))
+        
+        # REQUIREMENT 4: Test API Error Handling
+        print("\n   REQUIREMENT 4: Test API Error Handling")
+        print("   " + "=" * 60)
+        
+        error_handling_success = True
+        error_handling_details = []
+        
+        # Test CORS headers
+        if exact_response.status_code == 200:
+            cors_headers = exact_response.headers.get('Access-Control-Allow-Origin')
+            if cors_headers:
+                error_handling_details.append("✅ CORS headers present")
+            else:
+                error_handling_details.append("⚠️ No CORS headers (may cause frontend issues)")
+        
+        # Test with invalid athlete ID to check error handling
+        invalid_id = "invalid-athlete-id-12345"
+        invalid_response = requests.get(f"{BACKEND_URL}/athlete/{invalid_id}")
+        
+        if invalid_response.status_code in [400, 404]:
+            error_handling_details.append("✅ Proper error handling for invalid athlete ID")
+        else:
+            error_handling_details.append(f"❌ Unexpected response for invalid ID: {invalid_response.status_code}")
+            error_handling_success = False
+        
+        # Test network accessibility from frontend domain
+        try:
+            # This simulates a request from the frontend domain
+            frontend_headers = {
+                'Origin': 'https://smart-coach-9.preview.emergentagent.com',
+                'Referer': 'https://smart-coach-9.preview.emergentagent.com/'
+            }
+            frontend_response = requests.get(f"{BACKEND_URL}/athlete/{exact_athlete_id}", headers=frontend_headers)
+            
+            if frontend_response.status_code == exact_response.status_code:
+                error_handling_details.append("✅ API accessible from frontend domain")
+            else:
+                error_handling_details.append("❌ Different response from frontend domain")
+                error_handling_success = False
+                
+        except Exception as e:
+            error_handling_details.append(f"⚠️ Frontend domain test failed: {str(e)}")
+        
+        print_test_result("API Error Handling", error_handling_success, "; ".join(error_handling_details))
+        
+        # REQUIREMENT 5: Compare Expected vs Actual
+        print("\n   REQUIREMENT 5: Compare Expected vs Actual Data")
+        print("   " + "=" * 60)
+        
+        comparison_success = False
+        comparison_details = []
+        
+        if exact_response.status_code == 200:
+            try:
+                athlete_data = exact_response.json()
+                
+                # Expected data based on review request
+                expected_name = "Andre Updated"
+                expected_has_profile_picture = True
+                
+                actual_name = athlete_data.get("name")
+                actual_profile_picture = athlete_data.get("profile_picture")
+                
+                comparison_details.append(f"Expected name: '{expected_name}'")
+                comparison_details.append(f"Actual name: '{actual_name}'")
+                
+                if actual_name == expected_name:
+                    comparison_details.append("✅ Name matches expected value")
+                    name_match = True
+                else:
+                    comparison_details.append("❌ Name does not match expected value")
+                    name_match = False
+                
+                comparison_details.append(f"Expected profile picture: {expected_has_profile_picture}")
+                comparison_details.append(f"Actual profile picture: {'Present' if actual_profile_picture else 'Missing'}")
+                
+                if bool(actual_profile_picture) == expected_has_profile_picture:
+                    comparison_details.append("✅ Profile picture presence matches expected")
+                    picture_match = True
+                else:
+                    comparison_details.append("❌ Profile picture presence does not match expected")
+                    picture_match = False
+                
+                comparison_success = name_match and picture_match
+                
+                # Additional field analysis
+                comparison_details.append(f"Athlete ID: {athlete_data.get('id')}")
+                comparison_details.append(f"Email: {athlete_data.get('email')}")
+                
+                if actual_profile_picture:
+                    comparison_details.append(f"Profile picture size: {len(actual_profile_picture)} characters")
+                
+            except json.JSONDecodeError:
+                comparison_details.append("❌ Cannot compare - invalid JSON response")
+        else:
+            comparison_details.append("❌ Cannot compare - API call failed")
+        
+        print_test_result("Expected vs Actual Comparison", comparison_success, "; ".join(comparison_details))
+        
+        # CRITICAL CHECK: Dashboard Data Issue Analysis
+        print("\n   CRITICAL CHECK: Dashboard Data Issue Analysis")
+        print("   " + "=" * 60)
+        
+        dashboard_issue_analysis = []
+        
+        if exact_response.status_code == 200:
+            try:
+                athlete_data = exact_response.json()
+                
+                # This is what Dashboard component should receive
+                dashboard_issue_analysis.append("🔍 DASHBOARD COMPONENT DATA ANALYSIS:")
+                dashboard_issue_analysis.append(f"   API URL: GET /api/athlete/{exact_athlete_id}")
+                dashboard_issue_analysis.append(f"   Status: {exact_response.status_code}")
+                dashboard_issue_analysis.append(f"   Name: '{athlete_data.get('name')}'")
+                dashboard_issue_analysis.append(f"   Profile Picture: {'Present' if athlete_data.get('profile_picture') else 'Missing'}")
+                
+                if athlete_data.get("name") == "Andre Updated" and athlete_data.get("profile_picture"):
+                    dashboard_issue_analysis.append("✅ BACKEND DATA IS CORRECT")
+                    dashboard_issue_analysis.append("💡 If Dashboard still shows wrong data, the issue is in:")
+                    dashboard_issue_analysis.append("   - Frontend state management")
+                    dashboard_issue_analysis.append("   - Component not refreshing athlete data")
+                    dashboard_issue_analysis.append("   - Slideout menu using cached/stale data")
+                    dashboard_issue_analysis.append("   - localStorage athlete ID mismatch")
+                else:
+                    dashboard_issue_analysis.append("❌ BACKEND DATA IS INCORRECT")
+                    dashboard_issue_analysis.append("💡 Dashboard shows wrong data because:")
+                    dashboard_issue_analysis.append("   - API returns wrong athlete data")
+                    dashboard_issue_analysis.append("   - Profile picture not properly stored")
+                    dashboard_issue_analysis.append("   - Name not updated to 'Andre Updated'")
+                
+            except json.JSONDecodeError:
+                dashboard_issue_analysis.append("❌ BACKEND RESPONSE IS INVALID JSON")
+                dashboard_issue_analysis.append("💡 Dashboard fails because API returns corrupted data")
+        else:
+            dashboard_issue_analysis.append("❌ BACKEND API CALL FAILS")
+            dashboard_issue_analysis.append("💡 Dashboard shows wrong data because API is not accessible")
+        
+        print("\n🔍 DASHBOARD ISSUE ROOT CAUSE ANALYSIS:")
+        print("-" * 60)
+        for analysis in dashboard_issue_analysis:
+            print(f"  {analysis}")
+        
+        # Overall Assessment
+        overall_success = (exact_call_success and cache_busting_success and 
+                          structure_success and error_handling_success and comparison_success)
+        
+        print(f"\n📊 EXACT DASHBOARD API CALL TEST SUMMARY:")
+        print("=" * 70)
+        print(f"Exact API Call: {'✅ Success' if exact_call_success else '❌ Failed'}")
+        print(f"Cache-Busting: {'✅ Works' if cache_busting_success else '❌ Failed'}")
+        print(f"Response Structure: {'✅ Valid' if structure_success else '❌ Invalid'}")
+        print(f"Error Handling: {'✅ Proper' if error_handling_success else '❌ Issues'}")
+        print(f"Expected vs Actual: {'✅ Match' if comparison_success else '❌ Mismatch'}")
+        print(f"Overall Status: {'✅ API Working Correctly' if overall_success else '❌ API Has Issues'}")
+        
+        if overall_success:
+            print("\n✅ CONCLUSION: Backend API returns correct athlete data")
+            print("💡 If Dashboard still shows wrong data, check frontend implementation")
+        else:
+            print("\n❌ CONCLUSION: Backend API has issues that explain Dashboard problems")
+            print("💡 Fix the identified backend issues first")
+        
+        print("=" * 70)
+        
+        return overall_success
+        
+    except Exception as e:
+        print_test_result("Exact Dashboard API Call - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_voice_session_token_response_debug():
     """Debug voice session token response structure to understand frontend 'Failed to get session token' issue"""
     print("🔍 DEBUGGING Voice Session Token Response Structure")
