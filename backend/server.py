@@ -2084,10 +2084,18 @@ async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
     # Update only provided fields
     update_data = {k: v for k, v in updates.model_dump().items() if v is not None}
     
+    # If date_of_birth is being updated, calculate and set age
+    if 'date_of_birth' in update_data and update_data['date_of_birth']:
+        calculated_age = calculate_age(update_data['date_of_birth'])
+        if calculated_age is not None:
+            update_data['age'] = calculated_age
+    
+    # Convert date objects to ISO strings for MongoDB storage
     if update_data:
+        prepared_data = prepare_for_mongo(update_data)
         await db.athlete_profiles.update_one(
             {"id": athlete_id},
-            {"$set": update_data}
+            {"$set": prepared_data}
         )
     
     # Return updated athlete
