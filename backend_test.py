@@ -3618,8 +3618,23 @@ if __name__ == "__main__":
                 print("❌ FAIL AI Coach Sequential Function Calling")
                 print("\n⚠️ AI COACH SEQUENTIAL FUNCTION CALLING TEST FAILED! Please review the issues above.")
                 sys.exit(1)
+        elif sys.argv[1] == "--ai-coach-units":
+            print("🎯 Running AI COACH UNIT PREFERENCES TEST ONLY (as per review request)")
+            print("=" * 80)
+            success = test_ai_coach_unit_preferences()
+            print("\n" + "=" * 80)
+            print("📊 AI COACH UNIT PREFERENCES TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS AI Coach Unit Preferences")
+                print("\n🎉 AI COACH UNIT PREFERENCES TEST PASSED! AI Coach correctly respects user unit preferences.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL AI Coach Unit Preferences")
+                print("\n⚠️ AI COACH UNIT PREFERENCES TEST FAILED! Please review the issues above.")
+                sys.exit(1)
         else:
-            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential")
+            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units")
             sys.exit(1)
     else:
         # Run AI Coach Sequential Function Calling test as primary focus (as per review request)
