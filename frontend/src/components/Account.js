@@ -690,19 +690,9 @@ const Account = ({ athleteId }) => {
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
       
       // Dispatch event to notify Dashboard to refresh athlete data
-      console.log('Dispatching athleteProfileUpdated event for athlete:', athleteId);
       window.dispatchEvent(new CustomEvent('athleteProfileUpdated', { 
         detail: { athleteId, profilePictureUpdated: !!newProfilePicture }
       }));
-      
-      // Force page refresh to ensure slideout menu shows updated profile picture
-      if (newProfilePicture) {
-        console.log('Profile picture updated, will refresh page in 3 seconds');
-        setTimeout(() => {
-          console.log('Refreshing page to update slideout menu');
-          window.location.reload();
-        }, 3000); // Wait 3 seconds to show success message first
-      }
     } catch (error) {
       console.error('Error updating personal info:', error);
       setSaveStatus({ type: 'error', message: 'Failed to update personal information' });
