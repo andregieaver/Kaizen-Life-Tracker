@@ -1012,7 +1012,7 @@ Return only the JSON array, nothing else.
         workout_summary = f"{len(workouts)} workouts in last 14 days. " if workouts else "No recent workouts. "
         if workouts:
             total_miles = sum(w.get('distance_miles', 0) for w in workouts)
-            workout_summary += f"Total: {total_miles:.1f} miles. Latest: {workouts[0].get('workout_type', 'run')} - {workouts[0].get('distance_miles', 0)} miles on {workouts[0].get('date')}"
+            workout_summary += f"Total: {total_miles:.1f} {distance_label}. Latest: {workouts[0].get('workout_type', 'run')} - {workouts[0].get('distance_miles', 0)} {distance_label} on {workouts[0].get('date')}"
         
         # Summarize sleep
         sleep_data = context.get('recent_sleep', [])
