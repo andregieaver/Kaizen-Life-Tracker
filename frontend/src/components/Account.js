@@ -1393,14 +1393,14 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="bio" className="text-sm font-medium">Bio</Label>
+                    <Label htmlFor="bio" className="text-sm font-medium">{t('account.bio')}</Label>
                     <textarea
                       id="bio"
                       name="bio"
                       value={personalForm.bio}
                       onChange={handlePersonalFormChange}
                       className="w-full min-h-20 p-3 border border-gray-300 rounded-md input-focus resize-none"
-                      placeholder="Tell us about yourself..."
+                      placeholder={t('account.bioPlaceholder')}
                       maxLength="500"
                     />
                     <p className="text-xs text-gray-500">{personalForm.bio?.length || 0}/500 characters</p>
