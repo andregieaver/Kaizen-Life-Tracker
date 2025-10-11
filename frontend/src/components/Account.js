@@ -1146,7 +1146,7 @@ const Account = ({ athleteId }) => {
                           {profilePictureFile ? t('account.changePicture') : t('account.uploadPicture')}
                         </Label>
                         <p className="text-xs text-gray-500 mt-1">
-                          JPG, PNG up to 5MB. Will be resized to 200x200px.
+                          {t('account.profilePictureHint')}
                         </p>
                       </div>
                     </div>
