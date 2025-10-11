@@ -3448,7 +3448,7 @@ You can access their training calendar, create workouts, and provide personalize
         # Check if the session creation returned an error (invalid API key, etc.)
         if isinstance(session_data, dict) and "client_secret" in session_data:
             client_secret_data = session_data["client_secret"]
-            logging.info(f"Voice session client_secret_data for athlete {athlete_id}: {client_secret_data}")
+            logging.warning(f"Voice session client_secret_data for athlete {athlete_id}: {client_secret_data}")
             
             # Check for error in the response
             if isinstance(client_secret_data, dict) and "error" in client_secret_data:
