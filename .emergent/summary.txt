@@ -1,44 +1,64 @@
 <analysis>
-The previous AI engineer performed significant work on the running coach application. Initially, core features like UI/UX, CRUD, multi-language support, password reset, and secure third-party integrations (Strava/Oura) were established. A major phase involved implementing a comprehensive Stripe subscription system. Subsequently, the UI was refactored with a slideout menu, and new modules for Journaling, Nutrition, and Training Calendar were initiated. The Training Calendar feature saw extensive development, including detailed workout tracking, week/month views, and a weekly summary column. A significant pivot was attempted to transform the app into a Strava-style integration hub, which was later reverted at the user's request. The focus then shifted to simplifying existing third-party integrations within the original app's Account settings. Currently, the AI is enhancing the Account settings with new personal information fields (Height, Weight, VO2Max) and a dedicated Preferences section (unit selectors, week start, timezone, time format, and language selector). This trajectory demonstrates adaptability, addressing both new feature development and architectural shifts.
+The AI engineer continued the development of the TrainSmart application, focusing on several key areas. Initially, work revolved around refining the  page, removing the recent entries table, and dynamically adjusting chart Y-axis labels. A significant effort was then dedicated to integrating **Tavily Search API** with OpenAI's function calling feature to provide the AI coach with real-time internet access, resolving initial API key and configuration issues. UI/UX improvements included fixing scroll-dependent visibility for the conversation input bar and mobile navigation, and ensuring correct z-index for the slideout menu. A major part of the work involved enhancing the AI Coach's capabilities: ensuring past conversations were properly saved and loaded, providing it access to journal, nutrition, and document entries, and implementing complex function-calling logic for creating, updating, and deleting training blocks in the calendar. Debugging this function-calling mechanism and resolving token limit issues with context management proved challenging, eventually leading to a problem where the AI was making single tool calls instead of sequential ones, leaving the delete functionality unresolved.
 </analysis>
 
 <product_requirements>
-The application is a web-based running coach, serving as an athlete's data vault for wise, practical guidance. It integrates with fitness trackers (Strava, Oura, Coros) for a unified data timeline, nutrition logging, daily readiness, training plans, and AI-powered post-workout feedback. Key features include an AI coach (Claude/OpenAI), user authentication, account management (API keys, user-input credentials), responsive UI with a slideout menu, scheduled AI analysis prompts, Reports for insights, and Merits for personal records. A comprehensive Stripe subscription system, journaling, and nutrition logging are implemented. The Training Calendar is being developed to include detailed workout metrics (distance, duration, pace, intervals) and weekly summaries, with customizable preferences for units, week start, timezone, and time format. The user also requested simplified third-party integration setup within the Account page.
+The TrainSmart application is an AI-powered running coach, integrating with fitness trackers and offering guidance based on aggregated athlete data. Key features include AI coach interactions, user authentication, comprehensive account management, responsive UI, scheduled AI analysis, and journaling/nutrition logging.
+
+Recent development focused on:
+1.  **Account Settings**: Expanding user preferences (height, weight, VO2Max, unit systems, week start day, time/date formats, language).
+2.  **Training Calendar**: Displaying detailed workout metrics, utilizing user preferences for formatting, and setting a default month view. The user requested adding start/end times for training blocks.
+3.  **New Features**:
+    *   **Documents Page**: For uploading and categorizing documents for AI analysis (implementation pending).
+    *   **Tests & Analytics Page**: Tracking manual test results with line graphs; updated time to completion input and dynamic Y-axis labels.
+    *   **Landing Page**: A new marketing page for logged-out users.
+4.  **UI/UX Polish**: Smooth scroll animations for headers and footers, and a scroll-down-to-hide animation for the Coach Chat message bar. The user later reported issues with initial visibility and z-index on mobile.
+5.  **Coach Chat Management**: Ability to delete, archive, and unarchive past conversations. Users explicitly requested auto-saving conversations, ensuring new sessions are fresh, removing suggested starters on new sessions, and later, the ability for the AI coach to access and modify calendar entries.
+6.  **AI Coach Enhancements**: Enable real-time internet access (Tavily integration via OpenAI function calling), access to Journal, Nutrition, Documents, and Test results data for context. The AI coach should be able to create, update, and delete training blocks, estimate end times for workouts if not provided, remember conversation context, and check for calendar conflicts.
 </product_requirements>
 
 <key_technical_concepts>
 - **Full-stack:** React (frontend), FastAPI (backend), MongoDB (database).
-- **Integrations:** Strava OAuth, Oura (Terra API), Stripe for subscriptions, Emergent LLM Key.
-- **UI:** Shadcn UI, Tailwind CSS, Radix UI, , .
+- **Integrations:** Strava, Oura (Terra API), Stripe, Coros, OpenAI API (for LLM), **Tavily Search API** (for web search).
+- **UI:** Shadcn UI, Tailwind CSS, Radix UI, , , Recharts.
 - **Internationalization:** .
-- **Data Models:** Pydantic for API schemas.
+- **Data Models:** Pydantic.
+- **Utility functions:** Custom .
+- **AI Function Calling:** OpenAI's function calling feature for dynamic tool usage.
 </key_technical_concepts>
 
 <code_architecture>
 
-- : The core FastAPI backend.
-    - **Importance**: Handles API logic, database interactions, authentication, integrations, and subscription/training management.
-    - **Changes**: Extended  model with detailed workout metrics. Added  endpoint. Added , , , ,  Pydantic models for the integration hub (which were later adapted for re-use after the pivot). Updated  with , , , , , , , .
+- : FastAPI backend.
+    - **Importance**: Core API, authentication, integrations, data management.
+    - **Changes**:  and  models updated. CRUD for  and . Coach conversation archive/unarchive/delete endpoints. Integrated Tavily API for web search and OpenAI function calling. Added , , , and  functions for AI Coach calendar management, and their respective tool definitions and handlers. Implemented conversation history loading for AI context. Modified  to include Journal, Nutrition, Documents, and Test results. Added  and  to  model. Fixed a bug in  where  field was null.
 - : Central React routing.
     - **Importance**: Defines main application routes.
-    - **Changes**: Temporarily redirected  to  during the hub pivot, then reverted.
-- : Main dashboard component.
-    - **Importance**: Orchestrates navigation, global layout, and main content rendering.
-    - **Changes**: Refactored for slideout menu. Added , ,  tabs/content. Updated  to  for full-width layout. Temporarily changed navigation for hub pivot, then reverted. Default tab logic was adjusted and then reverted to .
+    - **Changes**: Root route  renders  for logged-out users,  for .
 - : User account settings.
-    - **Importance**: Manages user profile, subscriptions, and integrations.
-    - **Changes**: Refactored for Stripe. Simplified during hub pivot attempt, then restored. Currently being updated to include new Personal Information fields (height, weight, VO2Max) and a Preferences section (unit/time settings, week start, language selector). Implemented a Connected Apps section for simplified third-party integration.
+    - **Importance**: Manages user profile and preferences.
+    - **Changes**: Implemented  and  for height, weight, VO2Max, unit systems, time/date formats. OpenAI API key saving logic was fixed.
+- : AI coach chat interface.
+    - **Importance**: Handles chat, message input, and AI interactions.
+    - **Changes**: Scroll-sensitive animation for message input bar. Refactored Past Conversations sidebar for archive/unarchive/delete. Fixed conversation loading on mount and after sending messages. Removed suggested conversation starters on new sessions. Adjusted z-index for slideout menu. Fixed initial scroll visibility of message bar.
+- : Main dashboard.
+    - **Importance**: Orchestrates navigation and global layout.
+    - **Changes**: Integrated  and . Implemented smooth scroll animations for header and mobile bottom navigation, adjusting initial visibility.
 - : Training calendar UI.
-    - **Importance**: Displays and manages training blocks, now with detailed workout tracking.
-    - **Changes**: Rewritten to use . Implemented week view, Add Workout modal with detailed metrics (distance, duration, pace, intervals), delete functionality within the edit dialog, and a . Removed internal width constraints.
--  (new file): Styles for .
-    - **Importance**: Provides custom styling for the calendar component.
-- : English translations.
-    - **Importance**: Stores English strings for internationalization.
-    - **Changes**: Added keys for Training Calendar features and updated existing ones.
-- : Frontend dependencies.
-    - **Importance**: Lists all React packages.
-    - **Changes**: Added , , .
+    - **Importance**: Displays training blocks.
+    - **Changes**: Consumes user preferences for formatting. Month view set as default. Responsive layout improvements. Added  and  inputs to the form. Fixed month view display logic for events with times.
+- : New page for test results.
+    - **Importance**: Track progress from test results.
+    - **Changes**: Removed recent entries table. Dynamic Y-axis label and tooltip formatting based on test unit/type.
+- : Environment variables.
+    - **Importance**: Configuration for backend services.
+    - **Changes**: Fixed syntax error regarding  and .  was added and later updated with a provided key.
+- : Python dependencies.
+    - **Importance**: Lists required Python packages.
+    - **Changes**:  was added.
+- : New file.
+    - **Importance**: Instructions for setting up Tavily API key.
+    - **Changes**: Created to guide the user.
 </code_architecture>
 
 <pending_tasks>
@@ -47,12 +67,21 @@ The application is a web-based running coach, serving as an athlete's data vault
 - User still needs to provide Oura API Client ID and Client Secret via the Oura Credentials Modal in the UI.
 - Implement image upload and camera capture functionality for the Nutrition page.
 - Implement voice recording functionality for the Journal page.
+- Complete the full implementation of document upload functionality and AI integration on the  page.
+- Scan the app for hardcoded date formats (identified in ) and integrate the new  utility.
+- The AI Coach's ability to delete training blocks is still not fully functional due to sequential function calling issues.
 </pending_tasks>
 
 <current_work>
-Immediately before this summary request, the AI engineer was implementing additional personal information fields and a new Preferences section within the Account settings. The backend  file has been updated to extend the  and  Pydantic models with new fields: , ,  for personal information, and , , , ,  for preferences. The backend was restarted to apply these model changes. On the frontend, the  component is being modified. The Personal Information tab is being updated to include Height, Weight, and VO2 Max input fields. A new Preferences tab has been added to the tab list, and the AI is in the process of populating its content with selectors for mileage/km, metric/imperial, week start day, timezone, and time format, also moving the existing language selector into this new section. The immediate next step is to address missing component imports for these new preference fields.
+Immediately before this summary request, the AI engineer was actively debugging an issue where the AI coach failed to delete training entries from the calendar. The user reported that despite the coach responding that it did remove entries, they remained visible in the calendar.
+
+Investigation revealed that the training blocks were still present in the MongoDB database. Through detailed logging, it was discovered that the AI was successfully calling the  function (to identify existing blocks) but was then failing to subsequently call the  function. The logs explicitly showed the AI trying to respond with Python code for  instead of executing the  function.
+
+The identified root cause is that the backend's AI interaction logic currently handles only **one** function call at a time. After the AI performs an initial function call (e.g., to retrieve data), the subsequent response from the AI assistant is treated as the final output, preventing any further tool calls, such as the intended deletion.
+
+The AI engineer removed the Emergent fallback to ensure predictable AI behavior, fixed indentation errors in the  file, and added extensive print statements for debugging the function calling process. The last action taken was a code edit to support multiple sequential function calls, which is currently being applied to the backend.
 </current_work>
 
 <optional_next_step>
-Import the , , , ,  components and other necessary UI components into .
+Restart the backend and test if the AI coach can now perform sequential function calls (e.g., getting blocks and then deleting them).
 </optional_next_step>
