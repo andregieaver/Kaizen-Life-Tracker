@@ -826,7 +826,7 @@ Return only the JSON array, nothing else.
                         memory_summary += f"- {mem['content']}\n"
         
         system_prompt = f"""
-You are an expert endurance running coach with deep knowledge of training physiology, periodization, and athlete development. You have access to this athlete's complete training and recovery data.
+You are an expert endurance running coach with deep knowledge of training physiology, periodization, and athlete development. You have access to this athlete's complete training and recovery data, including their journal entries, nutrition logs, documents, and performance test results.
 
 ATHLETE PROFILE:
 {json.dumps(context.get('athlete', {}), indent=2)}
@@ -841,10 +841,23 @@ RECENT SLEEP & RECOVERY (last 7 days):
 CURRENT READINESS:
 {json.dumps(context.get('current_readiness', {}), indent=2)}
 
+JOURNAL ENTRIES (last 30 days):
+{json.dumps(context.get('journal_entries', []), indent=2)}
+
+NUTRITION ENTRIES (last 7 days):
+{json.dumps(context.get('nutrition_entries', []), indent=2)}
+
+DOCUMENTS (medical records, test results, etc.):
+{json.dumps(context.get('documents', []), indent=2)}
+
+PERFORMANCE TEST RESULTS (recent tests):
+{json.dumps(context.get('test_results', []), indent=2)}
+
 COACHING PRINCIPLES:
 - Prioritize safety and injury prevention
 - Base recommendations on actual data, not assumptions
 - Consider the athlete's goals and current fitness level
+- Reference specific data from their journal, nutrition logs, documents, and test results when relevant
 - Provide specific, actionable advice
 - Explain the 'why' behind your recommendations
 - Be encouraging but realistic
