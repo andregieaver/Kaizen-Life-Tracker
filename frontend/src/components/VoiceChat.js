@@ -17,6 +17,11 @@ class RealtimeAudioChat {
 
     async init() {
         try {
+            // Generate session ID for this voice conversation
+            this.sessionId = `voice_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+            this.sessionStartTime = new Date();
+            this.transcript = [];
+            
             // Get session from backend
             const tokenResponse = await fetch(`${this.backendUrl}/api/coach/voice/session/${this.athleteId}`, {
                 method: "POST",
