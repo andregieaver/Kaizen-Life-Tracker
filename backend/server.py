@@ -200,6 +200,10 @@ class AthleteProfile(BaseModel):
     height: Optional[float] = None  # Height in cm or inches based on unit preference
     weight: Optional[float] = None  # Weight in kg or lbs based on unit preference  
     vo2_max: Optional[float] = None  # VO2 Max value
+    max_heart_rate: Optional[int] = None  # Maximum heart rate in BPM
+    gender: Optional[str] = None  # Gender: 'male', 'female', 'other', 'prefer_not_to_say'
+    bio: Optional[str] = None  # Personal bio/description
+    interests: Optional[list] = Field(default_factory=list)  # List of interests/activities
     
     # Preferences
     distance_unit: str = Field(default="miles")  # 'miles' or 'km'
