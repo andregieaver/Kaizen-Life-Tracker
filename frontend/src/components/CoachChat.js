@@ -98,6 +98,9 @@ const CoachChat = ({ athleteId, scrollDirection = 'up' }) => {
 
       setMessages(prev => [...prev, coachMessage]);
       
+      // Mark that user has sent a message (no longer first visit)
+      setIsFirstVisit(false);
+      
       // Reload conversations to update the list with new messages
       await loadConversations();
     } catch (error) {
