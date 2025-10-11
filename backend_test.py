@@ -1210,6 +1210,355 @@ a=rtpmap:111 opus/48000/2"""
         print_test_result("Voice API - Exception", False, f"Exception: {str(e)}")
         return False
 
+def test_andre_profile_picture_debug():
+    """Debug profile picture for andre@example.com - check if saved and why slideout menu isn't displaying it"""
+    print("🔍 DEBUGGING Profile Picture for andre@example.com")
+    
+    # Use the specific athlete mentioned in the review request
+    athlete_email = "andre@example.com"
+    athlete_password = "password123"
+    
+    try:
+        # Step 1: Login as andre@example.com to get athlete_id
+        print("   Step 1: Login as andre@example.com")
+        
+        login_data = {
+            "email": athlete_email,
+            "password": athlete_password
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("Profile Picture Debug - Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        athlete_name = athlete_data.get("name", "Unknown")
+        
+        if not athlete_id:
+            print_test_result("Profile Picture Debug - Login", False, "No athlete_id in login response")
+            return False
+        
+        print_test_result("Profile Picture Debug - Login", True, f"Logged in as {athlete_name} (ID: {athlete_id})")
+        
+        # Step 2: Get current athlete profile and check profile_picture field
+        print("   Step 2: Get current athlete profile data")
+        
+        profile_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+        
+        profile_success = False
+        profile_details = []
+        
+        if profile_response.status_code == 200:
+            profile_data = profile_response.json()
+            
+            profile_details.append(f"✅ Profile retrieved successfully")
+            profile_details.append(f"Name: {profile_data.get('name', 'N/A')}")
+            profile_details.append(f"Email: {profile_data.get('email', 'N/A')}")
+            
+            # Check if profile_picture field exists
+            if "profile_picture" in profile_data:
+                profile_picture = profile_data["profile_picture"]
+                
+                if profile_picture:
+                    profile_details.append("✅ profile_picture field EXISTS and has data")
+                    
+                    # Check format
+                    if isinstance(profile_picture, str):
+                        if profile_picture.startswith("data:image/jpeg;base64,"):
+                            profile_details.append("✅ Correct format: data:image/jpeg;base64,")
+                            
+                            # Check base64 data length
+                            base64_data = profile_picture.split(',')[1] if ',' in profile_picture else profile_picture
+                            profile_details.append(f"✅ Base64 data length: {len(base64_data)} characters")
+                            
+                            # Try to decode and verify it's a valid image
+                            try:
+                                import base64
+                                decoded_data = base64.b64decode(base64_data)
+                                from PIL import Image
+                                import io
+                                
+                                test_image = Image.open(io.BytesIO(decoded_data))
+                                profile_details.append(f"✅ Valid image data: {test_image.size} pixels, {test_image.format}")
+                                profile_success = True
+                                
+                            except Exception as e:
+                                profile_details.append(f"❌ Invalid image data: {str(e)}")
+                        else:
+                            profile_details.append(f"❌ Wrong format: {profile_picture[:50]}... (expected data:image/jpeg;base64,)")
+                    else:
+                        profile_details.append(f"❌ Wrong type: {type(profile_picture)} (expected string)")
+                else:
+                    profile_details.append("❌ profile_picture field exists but is EMPTY/NULL")
+            else:
+                profile_details.append("❌ profile_picture field MISSING from profile")
+        else:
+            profile_details.append(f"❌ Failed to get profile: {profile_response.status_code}")
+        
+        print_test_result("Profile Picture Debug - Current Profile Data", profile_success, "; ".join(profile_details))
+        
+        # Step 3: Check database storage directly (via API)
+        print("   Step 3: Verify profile picture in database storage")
+        
+        # Make another API call to double-check persistence
+        db_check_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+        
+        db_success = False
+        db_details = []
+        
+        if db_check_response.status_code == 200:
+            db_data = db_check_response.json()
+            
+            if "profile_picture" in db_data and db_data["profile_picture"]:
+                profile_picture_db = db_data["profile_picture"]
+                
+                db_details.append("✅ Profile picture persists in database")
+                db_details.append(f"Size: {len(profile_picture_db)} characters")
+                
+                # Check if it's the same as before
+                if profile_success and profile_data.get("profile_picture") == profile_picture_db:
+                    db_details.append("✅ Data consistency: Same as previous API call")
+                    db_success = True
+                else:
+                    db_details.append("⚠️ Data inconsistency or previous call failed")
+            else:
+                db_details.append("❌ Profile picture NOT found in database")
+        else:
+            db_details.append(f"❌ Database check failed: {db_check_response.status_code}")
+        
+        print_test_result("Profile Picture Debug - Database Storage", db_success, "; ".join(db_details))
+        
+        # Step 4: Test profile picture retrieval in API response format
+        print("   Step 4: Test profile picture retrieval for frontend")
+        
+        # Check what the frontend would receive
+        api_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+        
+        api_success = False
+        api_details = []
+        
+        if api_response.status_code == 200:
+            api_data = api_response.json()
+            
+            # Check all fields that frontend expects
+            expected_fields = ["id", "name", "email", "profile_picture"]
+            missing_fields = []
+            
+            for field in expected_fields:
+                if field in api_data:
+                    if field == "profile_picture":
+                        if api_data[field]:
+                            api_details.append(f"✅ {field}: Present with data")
+                        else:
+                            api_details.append(f"❌ {field}: Present but EMPTY")
+                            missing_fields.append(field)
+                    else:
+                        api_details.append(f"✅ {field}: {api_data[field]}")
+                else:
+                    api_details.append(f"❌ {field}: MISSING")
+                    missing_fields.append(field)
+            
+            if not missing_fields and api_data.get("profile_picture"):
+                api_success = True
+                api_details.append("✅ All required fields present for frontend")
+            else:
+                api_details.append(f"❌ Missing or empty fields: {missing_fields}")
+        else:
+            api_details.append(f"❌ API call failed: {api_response.status_code}")
+        
+        print_test_result("Profile Picture Debug - API Response Format", api_success, "; ".join(api_details))
+        
+        # Step 5: Simulate frontend slideout menu data access
+        print("   Step 5: Simulate frontend slideout menu data access")
+        
+        slideout_success = False
+        slideout_details = []
+        
+        if api_response.status_code == 200:
+            api_data = api_response.json()
+            
+            # Simulate how frontend accesses the data for slideout menu
+            athlete_name = api_data.get("name", "")
+            athlete_profile_picture = api_data.get("profile_picture", "")
+            
+            slideout_details.append(f"Name for slideout: '{athlete_name}'")
+            
+            if athlete_profile_picture:
+                slideout_details.append("✅ Profile picture available for slideout menu")
+                slideout_details.append(f"Profile picture starts with: {athlete_profile_picture[:30]}...")
+                
+                # Check if it would display properly
+                if athlete_profile_picture.startswith("data:image/"):
+                    slideout_details.append("✅ Profile picture format suitable for <img> src")
+                    slideout_success = True
+                else:
+                    slideout_details.append("❌ Profile picture format NOT suitable for <img> src")
+            else:
+                slideout_details.append("❌ NO profile picture data for slideout menu")
+                slideout_details.append("⚠️ Slideout will show initial letter instead of image")
+                
+                # Check what initial letter would be shown
+                if athlete_name:
+                    initial = athlete_name[0].upper()
+                    slideout_details.append(f"Initial letter that would show: '{initial}'")
+        else:
+            slideout_details.append("❌ Cannot simulate slideout - API call failed")
+        
+        print_test_result("Profile Picture Debug - Slideout Menu Simulation", slideout_success, "; ".join(slideout_details))
+        
+        # Step 6: Test profile picture upload to verify functionality
+        print("   Step 6: Test profile picture upload functionality")
+        
+        # Create a small test image to verify upload works
+        from PIL import Image
+        import io
+        import base64
+        
+        # Create a simple test image
+        test_image = Image.new('RGB', (100, 100), color='blue')
+        jpeg_buffer = io.BytesIO()
+        test_image.save(jpeg_buffer, format='JPEG', quality=85)
+        jpeg_data = jpeg_buffer.getvalue()
+        
+        # Upload the test image
+        files = {'file': ('test_profile.jpg', jpeg_data, 'image/jpeg')}
+        
+        upload_response = requests.post(
+            f"{BACKEND_URL}/athlete/{athlete_id}/profile-picture",
+            files=files
+        )
+        
+        upload_success = False
+        upload_details = []
+        
+        if upload_response.status_code == 200:
+            upload_data = upload_response.json()
+            
+            if upload_data.get("success"):
+                upload_details.append("✅ Profile picture upload successful")
+                
+                if "profile_picture" in upload_data:
+                    new_profile_picture = upload_data["profile_picture"]
+                    
+                    if new_profile_picture.startswith("data:image/jpeg;base64,"):
+                        upload_details.append("✅ New profile picture has correct format")
+                        upload_success = True
+                        
+                        # Verify it's different from before (if there was one before)
+                        if profile_success and profile_data.get("profile_picture") != new_profile_picture:
+                            upload_details.append("✅ Profile picture updated (different from previous)")
+                        elif not profile_success:
+                            upload_details.append("✅ Profile picture added (was missing before)")
+                    else:
+                        upload_details.append("❌ New profile picture has wrong format")
+                else:
+                    upload_details.append("❌ No profile_picture in upload response")
+            else:
+                upload_details.append("❌ Upload marked as unsuccessful")
+        else:
+            upload_details.append(f"❌ Upload failed: {upload_response.status_code}")
+            if upload_response.text:
+                upload_details.append(f"Error: {upload_response.text[:100]}")
+        
+        print_test_result("Profile Picture Debug - Upload Test", upload_success, "; ".join(upload_details))
+        
+        # Step 7: Verify profile picture after upload
+        print("   Step 7: Verify profile picture persists after upload")
+        
+        post_upload_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+        
+        post_upload_success = False
+        post_upload_details = []
+        
+        if post_upload_response.status_code == 200:
+            post_upload_data = post_upload_response.json()
+            
+            if "profile_picture" in post_upload_data and post_upload_data["profile_picture"]:
+                post_upload_details.append("✅ Profile picture persists after upload")
+                
+                # Check if it matches the uploaded image
+                if upload_success and upload_data.get("profile_picture") == post_upload_data["profile_picture"]:
+                    post_upload_details.append("✅ Profile picture matches uploaded image")
+                    post_upload_success = True
+                else:
+                    post_upload_details.append("⚠️ Profile picture differs from upload response")
+            else:
+                post_upload_details.append("❌ Profile picture LOST after upload")
+        else:
+            post_upload_details.append(f"❌ Post-upload check failed: {post_upload_response.status_code}")
+        
+        print_test_result("Profile Picture Debug - Post-Upload Verification", post_upload_success, "; ".join(post_upload_details))
+        
+        # Step 8: Overall diagnosis
+        print("   Step 8: Overall diagnosis and recommendations")
+        
+        overall_success = profile_success and db_success and api_success and slideout_success
+        
+        diagnosis_details = []
+        
+        # Determine the root cause
+        if not profile_success:
+            diagnosis_details.append("❌ ROOT CAUSE: Profile picture NOT saved in database")
+            diagnosis_details.append("💡 SOLUTION: User needs to upload a profile picture")
+        elif not api_success:
+            diagnosis_details.append("❌ ROOT CAUSE: Profile picture not returned in API response")
+            diagnosis_details.append("💡 SOLUTION: Check backend API endpoint implementation")
+        elif not slideout_success:
+            diagnosis_details.append("❌ ROOT CAUSE: Profile picture data not accessible for slideout menu")
+            diagnosis_details.append("💡 SOLUTION: Check frontend slideout menu implementation")
+        else:
+            diagnosis_details.append("✅ Profile picture should be working correctly")
+            diagnosis_details.append("⚠️ If slideout still shows initial letter, check frontend state management")
+        
+        # Additional recommendations
+        if upload_success:
+            diagnosis_details.append("✅ Upload functionality is working")
+        else:
+            diagnosis_details.append("❌ Upload functionality has issues")
+        
+        print_test_result("Profile Picture Debug - Overall Diagnosis", overall_success, "; ".join(diagnosis_details))
+        
+        # Print comprehensive analysis
+        print("\n📊 PROFILE PICTURE DEBUG ANALYSIS FOR andre@example.com:")
+        print("=" * 70)
+        print(f"Athlete ID: {athlete_id}")
+        print(f"Athlete Name: {athlete_name}")
+        print(f"Profile Picture in Database: {'✅ Yes' if profile_success else '❌ No'}")
+        print(f"API Response Includes Picture: {'✅ Yes' if api_success else '❌ No'}")
+        print(f"Slideout Menu Data Available: {'✅ Yes' if slideout_success else '❌ No'}")
+        print(f"Upload Functionality: {'✅ Working' if upload_success else '❌ Broken'}")
+        print("=" * 70)
+        
+        if overall_success:
+            print("🎉 PROFILE PICTURE IS PROPERLY SAVED AND ACCESSIBLE")
+            print("💡 If slideout menu still shows initial letter, the issue is in frontend state management")
+            print("   - Check if Dashboard component refreshes athlete data after profile picture upload")
+            print("   - Verify slideout menu uses updated athlete state")
+        else:
+            print("⚠️ PROFILE PICTURE ISSUES IDENTIFIED")
+            if not profile_success:
+                print("❌ CRITICAL: Profile picture is not saved in database")
+                print("💡 User needs to upload a profile picture in Account Settings")
+            elif not api_success:
+                print("❌ CRITICAL: Backend API not returning profile picture data")
+                print("💡 Check GET /api/athlete/{athlete_id} endpoint implementation")
+            elif not slideout_success:
+                print("❌ CRITICAL: Profile picture data not suitable for frontend display")
+                print("💡 Check profile picture format and API response structure")
+        
+        return overall_success
+        
+    except Exception as e:
+        print_test_result("Profile Picture Debug - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_profile_picture_upload_functionality():
     """Test profile picture upload functionality - image validation, processing, and storage"""
     print("🔍 Testing Profile Picture Upload Functionality")
