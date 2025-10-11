@@ -21,6 +21,7 @@ from datetime import timedelta
 from passlib.context import CryptContext
 # from emergentintegrations.llm.chat import LlmChat, UserMessage
 from tavily import TavilyClient
+from emergentintegrations.llm.openai import OpenAIChatRealtime
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
