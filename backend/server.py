@@ -3420,6 +3420,7 @@ async def create_voice_session(athlete_id: str):
         athlete_info = context.get('athlete', {})
         distance_unit = athlete_info.get('distance_unit', 'miles')
         measurement_system = athlete_info.get('measurement_system', 'imperial')
+        voice_preference = athlete_info.get('voice_preference', 'alloy')
         
         system_message = f"""
 You are an expert endurance running coach speaking directly with your athlete via voice. You have access to their complete training and recovery data.
