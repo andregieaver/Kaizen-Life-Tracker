@@ -1310,6 +1310,132 @@ const Account = ({ athleteId }) => {
 
                 <Separator />
 
+                {/* Physical Information Section */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium flex items-center">
+                    <User className="w-5 h-5 mr-2 text-blue-600" />
+                    Physical Information
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="height" className="text-sm font-medium">Height (cm)</Label>
+                      <Input
+                        id="height"
+                        name="height"
+                        type="number"
+                        value={personalForm.height}
+                        onChange={handlePersonalFormChange}
+                        placeholder="175"
+                        className="input-focus"
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="weight" className="text-sm font-medium">Weight (kg)</Label>
+                      <Input
+                        id="weight"
+                        name="weight"
+                        type="number"
+                        value={personalForm.weight}
+                        onChange={handlePersonalFormChange}
+                        placeholder="70"
+                        className="input-focus"
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="vo2_max" className="text-sm font-medium">VO2 Max</Label>
+                      <Input
+                        id="vo2_max"
+                        name="vo2_max"
+                        type="number"
+                        step="0.1"
+                        value={personalForm.vo2_max}
+                        onChange={handlePersonalFormChange}
+                        placeholder="50.0"
+                        className="input-focus"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="max_heart_rate" className="text-sm font-medium">Max Heart Rate (BPM)</Label>
+                      <Input
+                        id="max_heart_rate"
+                        name="max_heart_rate"
+                        type="number"
+                        value={personalForm.max_heart_rate}
+                        onChange={handlePersonalFormChange}
+                        placeholder="190"
+                        className="input-focus"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="gender" className="text-sm font-medium">Gender</Label>
+                      <Select
+                        value={personalForm.gender}
+                        onValueChange={(value) => setPersonalForm(prev => ({...prev, gender: value}))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select gender" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="male">Male</SelectItem>
+                          <SelectItem value="female">Female</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                          <SelectItem value="prefer_not_to_say">Prefer not to say</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="bio" className="text-sm font-medium">Bio</Label>
+                    <textarea
+                      id="bio"
+                      name="bio"
+                      value={personalForm.bio}
+                      onChange={handlePersonalFormChange}
+                      className="w-full min-h-20 p-3 border border-gray-300 rounded-md input-focus resize-none"
+                      placeholder="Tell us about yourself..."
+                      maxLength="500"
+                    />
+                    <p className="text-xs text-gray-500">{personalForm.bio?.length || 0}/500 characters</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">Interests</Label>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                      {[
+                        'Running', 'Marathon', 'Trail Running', 'Ultramarathon', 
+                        'Cycling', 'Swimming', 'Triathlon', 'Fitness',
+                        'Nutrition', 'Yoga', 'Strength Training', 'CrossFit',
+                        'Hiking', 'Rock Climbing', 'Tennis', 'Basketball'
+                      ].map((interest) => (
+                        <label key={interest} className="flex items-center space-x-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={personalForm.interests.includes(interest)}
+                            onChange={(e) => {
+                              const newInterests = e.target.checked
+                                ? [...personalForm.interests, interest]
+                                : personalForm.interests.filter(i => i !== interest);
+                              setPersonalForm(prev => ({...prev, interests: newInterests}));
+                            }}
+                            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          />
+                          <span className="text-sm text-gray-700">{interest}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <Separator />
+
                 <div className="space-y-4">
                   <h3 className="text-lg font-medium flex items-center">
                     <Shield className="w-5 h-5 mr-2 text-blue-600" />
