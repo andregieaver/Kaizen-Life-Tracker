@@ -674,6 +674,10 @@ const Account = ({ athleteId }) => {
         height: personalForm.height ? parseFloat(personalForm.height) : null,
         weight: personalForm.weight ? parseFloat(personalForm.weight) : null,
         vo2_max: personalForm.vo2_max ? parseFloat(personalForm.vo2_max) : null,
+        max_heart_rate: personalForm.max_heart_rate ? parseInt(personalForm.max_heart_rate) : null,
+        gender: personalForm.gender || null,
+        bio: personalForm.bio || null,
+        interests: personalForm.interests || [],
         measurement_system: personalForm.measurement_system
       };
       
