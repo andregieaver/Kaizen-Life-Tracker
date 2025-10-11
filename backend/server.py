@@ -2659,6 +2659,24 @@ async def chat_with_ai_coach(chat_request: CoachChat):
         logging.error(f"Chat error: {e}")
         raise HTTPException(status_code=500, detail="Failed to get coach response")
 
+@api_router.get("/coach/test-search")
+async def test_search(query: str = "benefits of Zone 2 training"):
+    """Test endpoint to verify Tavily search is working"""
+    try:
+        result = await ai_coach.search_health_information(query, "training")
+        return {
+            "success": True,
+            "query": query,
+            "tavily_configured": ai_coach.tavily_client is not None,
+            "result": result
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e),
+            "tavily_configured": ai_coach.tavily_client is not None
+        }
+
 @api_router.get("/coach/history/{athlete_id}")
 async def get_chat_history(athlete_id: str, limit: int = 20):
     messages = await db.chat_messages.find(
