@@ -2709,7 +2709,8 @@ async def get_conversations(athlete_id: str, archived: Optional[bool] = None):
     # Filter by archived status after aggregation (to handle missing archived field)
     result = []
     for conv in conversations:
-        is_archived = conv.get("archived", False)  # Default to False if field missing
+        # Treat null/None/missing as False (not archived)
+        is_archived = conv.get("archived") or False
         
         # Apply archived filter if specified
         if archived is not None:
