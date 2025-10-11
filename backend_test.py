@@ -59,7 +59,7 @@ def test_voice_session_token_response_debug():
             api_key_configured = False
         
         # Step 2: Test POST /api/coach/voice/session/{athlete_id} and capture exact response
-        print("   Step 2: Test POST /api/coach/voice/session/3e4ee10d-105d-4564-8b7a-1e7223acb706")
+        print("   Step 2: Test POST /api/coach/voice/session/90de5b99-6db3-4e14-8455-c00864fb9976")
         
         session_response = requests.post(
             f"{BACKEND_URL}/coach/voice/session/{athlete_id}",
