@@ -964,8 +964,16 @@ Return only the JSON array, nothing else.
         readiness = context.get('current_readiness', {})
         readiness_summary = f"Score: {readiness.get('readiness_score', 'N/A')}" if readiness else "No readiness data"
         
+        # Get current date for context
+        from datetime import datetime, timezone
+        current_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        current_day = datetime.now(timezone.utc).strftime("%A, %B %d, %Y")
+        
         system_prompt = f"""
 You are an expert endurance running coach with deep knowledge of training physiology, periodization, and athlete development. You have access to this athlete's complete training and recovery data.
+
+TODAY'S DATE: {current_day} ({current_date})
+IMPORTANT: When creating training plans, use current and future dates (2025 and beyond), NOT past dates from 2023 or 2024.
 
 ATHLETE PROFILE:
 {athlete_summary}
