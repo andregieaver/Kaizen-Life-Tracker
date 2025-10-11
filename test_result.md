@@ -272,6 +272,8 @@ test_plan:
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
+  completed_tests:
+    - "Voice Conversation Transcription and Saving"
 
   - task: "Login and Authentication System"
     implemented: true
