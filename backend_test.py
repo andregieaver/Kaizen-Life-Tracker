@@ -1207,6 +1207,321 @@ a=rtpmap:111 opus/48000/2"""
         print_test_result("Voice API - Exception", False, f"Exception: {str(e)}")
         return False
 
+def test_date_of_birth_timezone_fix():
+    """Test the date of birth timezone fix to ensure dates are stored and retrieved correctly without timezone shifting issues"""
+    print("🔍 Testing Date of Birth Timezone Fix - October 16, 1979 Test Case")
+    
+    # Create a test athlete for timezone testing
+    test_athlete_data = {
+        "id": str(uuid.uuid4()),
+        "name": "Timezone Test Runner",
+        "email": f"timezone.test.{int(datetime.now().timestamp())}@example.com",
+        "password": "TimezoneTest123!",
+        "weekly_mileage": 30.0,
+        "running_goals": "Test date of birth timezone fix"
+    }
+    
+    try:
+        # Step 1: Create test athlete
+        print("   Step 1: Create test athlete for timezone testing")
+        
+        create_response = requests.post(
+            f"{BACKEND_URL}/athlete",
+            json=test_athlete_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_response.status_code != 200:
+            print_test_result("Timezone Fix - Create Test Athlete", False, f"Failed to create athlete: {create_response.status_code}")
+            return False
+        
+        athlete_id = test_athlete_data["id"]
+        print_test_result("Timezone Fix - Create Test Athlete", True, f"Created athlete: {athlete_id}")
+        
+        # Step 2: Test October 16, 1979 Storage (Primary Test Case)
+        print("   Step 2: Test October 16, 1979 date storage accuracy")
+        
+        target_date = "1979-10-16"
+        update_data = {
+            "date_of_birth": target_date
+        }
+        
+        storage_response = requests.put(
+            f"{BACKEND_URL}/athlete/{athlete_id}",
+            json=update_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        storage_success = False
+        storage_details = []
+        
+        if storage_response.status_code == 200:
+            storage_details.append("✅ October 16, 1979 date accepted by API")
+            storage_success = True
+        else:
+            storage_details.append(f"❌ Failed to save October 16, 1979: {storage_response.status_code}")
+            storage_success = False
+        
+        print_test_result("Timezone Fix - October 16, 1979 Storage", storage_success, "; ".join(storage_details))
+        
+        # Step 3: Test Retrieval Accuracy (Critical Test)
+        print("   Step 3: Test October 16, 1979 retrieval accuracy - no timezone shifting")
+        
+        retrieval_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+        
+        retrieval_success = False
+        retrieval_details = []
+        
+        if retrieval_response.status_code == 200:
+            athlete_data = retrieval_response.json()
+            retrieved_dob = athlete_data.get("date_of_birth")
+            
+            if retrieved_dob == target_date:
+                retrieval_details.append(f"✅ PERFECT MATCH: Retrieved exactly '{target_date}' (no timezone shift)")
+                retrieval_success = True
+            elif retrieved_dob == "1979-10-15":
+                retrieval_details.append(f"❌ TIMEZONE SHIFT DETECTED: Got '{retrieved_dob}' instead of '{target_date}' (shifted to October 15th)")
+                retrieval_success = False
+            elif retrieved_dob == "1979-10-17":
+                retrieval_details.append(f"❌ TIMEZONE SHIFT DETECTED: Got '{retrieved_dob}' instead of '{target_date}' (shifted to October 17th)")
+                retrieval_success = False
+            elif retrieved_dob:
+                retrieval_details.append(f"❌ UNEXPECTED DATE: Got '{retrieved_dob}' instead of '{target_date}'")
+                retrieval_success = False
+            else:
+                retrieval_details.append("❌ NO DATE RETURNED: date_of_birth field missing or null")
+                retrieval_success = False
+        else:
+            retrieval_details.append(f"❌ Failed to retrieve athlete data: {retrieval_response.status_code}")
+            retrieval_success = False
+        
+        print_test_result("Timezone Fix - October 16, 1979 Retrieval", retrieval_success, "; ".join(retrieval_details))
+        
+        # Step 4: Test Date String Format Consistency
+        print("   Step 4: Test date string format consistency (YYYY-MM-DD)")
+        
+        format_success = True
+        format_details = []
+        
+        if retrieval_success:
+            retrieved_dob = athlete_data.get("date_of_birth")
+            
+            # Check YYYY-MM-DD format
+            if len(retrieved_dob) == 10 and retrieved_dob[4] == '-' and retrieved_dob[7] == '-':
+                format_details.append("✅ CORRECT FORMAT: YYYY-MM-DD format maintained")
+            else:
+                format_details.append(f"❌ WRONG FORMAT: Expected YYYY-MM-DD, got '{retrieved_dob}'")
+                format_success = False
+            
+            # Check zero-padding
+            parts = retrieved_dob.split('-')
+            if len(parts) == 3:
+                year, month, day = parts
+                if len(year) == 4 and len(month) == 2 and len(day) == 2:
+                    format_details.append("✅ PROPER ZERO-PADDING: All components properly padded")
+                else:
+                    format_details.append(f"❌ IMPROPER PADDING: Year={len(year)}, Month={len(month)}, Day={len(day)}")
+                    format_success = False
+            else:
+                format_details.append("❌ INVALID DATE FORMAT: Cannot parse components")
+                format_success = False
+        else:
+            format_details.append("⚠️ Cannot test format - retrieval failed")
+            format_success = False
+        
+        print_test_result("Timezone Fix - Date Format", format_success, "; ".join(format_details))
+        
+        # Step 5: Test Edge Cases (Month Boundaries)
+        print("   Step 5: Test edge cases - month boundaries and leap years")
+        
+        edge_cases = [
+            ("1979-01-31", "January 31st (month boundary)"),
+            ("1979-02-28", "February 28th (non-leap year)"),
+            ("1980-02-29", "February 29th (leap year)"),
+            ("1979-12-31", "December 31st (year boundary)"),
+            ("1979-09-30", "September 30th (30-day month)")
+        ]
+        
+        edge_case_success = True
+        edge_case_details = []
+        
+        for test_date, description in edge_cases:
+            # Save edge case date
+            update_data = {"date_of_birth": test_date}
+            update_response = requests.put(
+                f"{BACKEND_URL}/athlete/{athlete_id}",
+                json=update_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if update_response.status_code == 200:
+                # Retrieve and verify
+                get_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+                
+                if get_response.status_code == 200:
+                    athlete_data = get_response.json()
+                    retrieved_date = athlete_data.get("date_of_birth")
+                    
+                    if retrieved_date == test_date:
+                        edge_case_details.append(f"✅ {description}: {test_date} → {retrieved_date}")
+                    else:
+                        edge_case_details.append(f"❌ {description}: {test_date} → {retrieved_date} (MISMATCH)")
+                        edge_case_success = False
+                else:
+                    edge_case_details.append(f"❌ {description}: Retrieval failed")
+                    edge_case_success = False
+            else:
+                edge_case_details.append(f"❌ {description}: Storage failed")
+                edge_case_success = False
+        
+        print_test_result("Timezone Fix - Edge Cases", edge_case_success, "; ".join(edge_case_details))
+        
+        # Step 6: Test Age Calculation Consistency
+        print("   Step 6: Test age calculation consistency with timezone-safe dates")
+        
+        # Reset to October 16, 1979 for age calculation test
+        update_data = {"date_of_birth": "1979-10-16"}
+        requests.put(f"{BACKEND_URL}/athlete/{athlete_id}", json=update_data, headers={"Content-Type": "application/json"})
+        
+        age_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+        
+        age_success = False
+        age_details = []
+        
+        if age_response.status_code == 200:
+            athlete_data = age_response.json()
+            calculated_age = athlete_data.get("age")
+            stored_dob = athlete_data.get("date_of_birth")
+            
+            if calculated_age is not None and stored_dob == "1979-10-16":
+                # Calculate expected age
+                from datetime import date as date_class
+                today = date_class.today()
+                birth_date = date_class(1979, 10, 16)
+                
+                expected_age = today.year - birth_date.year
+                if today < date_class(today.year, birth_date.month, birth_date.day):
+                    expected_age -= 1
+                
+                if calculated_age == expected_age:
+                    age_details.append(f"✅ CORRECT AGE: {calculated_age} years old (born 1979-10-16)")
+                    age_success = True
+                else:
+                    age_details.append(f"❌ WRONG AGE: Got {calculated_age}, expected {expected_age}")
+                    age_success = False
+            else:
+                age_details.append(f"❌ Age calculation failed: age={calculated_age}, dob={stored_dob}")
+                age_success = False
+        else:
+            age_details.append("❌ Failed to retrieve athlete for age calculation")
+            age_success = False
+        
+        print_test_result("Timezone Fix - Age Calculation", age_success, "; ".join(age_details))
+        
+        # Step 7: Test Multiple Timezone Scenarios
+        print("   Step 7: Test various dates to simulate different timezone scenarios")
+        
+        timezone_test_dates = [
+            ("1979-10-16", "Target date (October 16, 1979)"),
+            ("1990-01-01", "New Year's Day (timezone sensitive)"),
+            ("2000-12-31", "New Year's Eve (timezone sensitive)"),
+            ("1985-06-15", "Mid-year date (less timezone sensitive)"),
+            ("1992-02-29", "Leap year date (February 29)")
+        ]
+        
+        timezone_success = True
+        timezone_details = []
+        
+        for test_date, description in timezone_test_dates:
+            # Save date
+            update_data = {"date_of_birth": test_date}
+            update_response = requests.put(
+                f"{BACKEND_URL}/athlete/{athlete_id}",
+                json=update_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if update_response.status_code == 200:
+                # Retrieve immediately
+                get_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+                
+                if get_response.status_code == 200:
+                    athlete_data = get_response.json()
+                    retrieved_date = athlete_data.get("date_of_birth")
+                    
+                    if retrieved_date == test_date:
+                        timezone_details.append(f"✅ {description}: No timezone shift")
+                    else:
+                        timezone_details.append(f"❌ {description}: {test_date} → {retrieved_date} (TIMEZONE SHIFT)")
+                        timezone_success = False
+                else:
+                    timezone_details.append(f"❌ {description}: Retrieval failed")
+                    timezone_success = False
+            else:
+                timezone_details.append(f"❌ {description}: Storage failed")
+                timezone_success = False
+        
+        print_test_result("Timezone Fix - Multiple Scenarios", timezone_success, "; ".join(timezone_details))
+        
+        # Step 8: Overall Assessment
+        print("   Step 8: Overall timezone fix assessment")
+        
+        overall_success = (storage_success and retrieval_success and format_success and 
+                          edge_case_success and age_success and timezone_success)
+        
+        assessment_details = []
+        
+        if overall_success:
+            assessment_details.append("✅ DATE STORAGE: October 16, 1979 stored correctly as 1979-10-16")
+            assessment_details.append("✅ DATE RETRIEVAL: Retrieved exactly as 1979-10-16 (no timezone shift)")
+            assessment_details.append("✅ FORMAT CONSISTENCY: YYYY-MM-DD format maintained")
+            assessment_details.append("✅ EDGE CASES: Month boundaries and leap years handled correctly")
+            assessment_details.append("✅ AGE CALCULATION: Accurate age calculation without timezone issues")
+            assessment_details.append("✅ TIMEZONE SAFETY: No timezone conversion affecting stored dates")
+        else:
+            assessment_details.append("❌ TIMEZONE FIX ISSUES DETECTED")
+            if not retrieval_success:
+                assessment_details.append("❌ CRITICAL: October 16, 1979 not retrieved correctly")
+            if not storage_success:
+                assessment_details.append("❌ CRITICAL: Date storage failing")
+            if not format_success:
+                assessment_details.append("❌ Format inconsistency detected")
+            if not edge_case_success:
+                assessment_details.append("❌ Edge case failures detected")
+            if not age_success:
+                assessment_details.append("❌ Age calculation issues detected")
+            if not timezone_success:
+                assessment_details.append("❌ Timezone shifting still occurring")
+        
+        print_test_result("Timezone Fix - Overall Assessment", overall_success, "; ".join(assessment_details))
+        
+        # Print detailed analysis
+        print("\n📊 DATE OF BIRTH TIMEZONE FIX ANALYSIS:")
+        print("=" * 60)
+        print(f"Primary Test (Oct 16, 1979): {'✅ PASS' if retrieval_success else '❌ FAIL'}")
+        print(f"Date Format (YYYY-MM-DD): {'✅ PASS' if format_success else '❌ FAIL'}")
+        print(f"Edge Cases: {'✅ PASS' if edge_case_success else '❌ FAIL'}")
+        print(f"Age Calculation: {'✅ PASS' if age_success else '❌ FAIL'}")
+        print(f"Timezone Safety: {'✅ PASS' if timezone_success else '❌ FAIL'}")
+        print("=" * 60)
+        
+        if overall_success:
+            print("🎉 DATE OF BIRTH TIMEZONE FIX IS WORKING")
+            print("✅ October 16, 1979 stored and retrieved as exactly 1979-10-16")
+            print("✅ No timezone conversion affecting date storage or retrieval")
+            print("✅ Age calculation accurate and consistent")
+        else:
+            print("⚠️ DATE OF BIRTH TIMEZONE FIX NEEDS ATTENTION")
+            if not retrieval_success:
+                print("❌ CRITICAL ISSUE: Date shifting detected (October 16 → October 15)")
+                print("💡 Check backend date handling - ensure dates stored as strings, not datetime objects")
+        
+        return overall_success
+        
+    except Exception as e:
+        print_test_result("Timezone Fix - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_date_of_birth_functionality():
     """Test the new date of birth functionality that replaces the age field with day, month, and year selectors"""
     print("🔍 Testing Date of Birth Functionality")
