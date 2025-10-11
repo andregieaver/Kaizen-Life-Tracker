@@ -864,9 +864,22 @@ Return only the JSON array, nothing else.
                 "error": str(e)
             }
     
-    async def chat_with_coach(self, athlete_id: str, message: str) -> str:
+    async def chat_with_coach(self, athlete_id: str, message: str, session_id: str = None) -> str:
         """Chat with AI coach using athlete's personal data with web search capabilities"""
         context = await self.get_athlete_context(athlete_id)
+        
+        # Load conversation history for this session
+        conversation_history = []
+        if session_id:
+            history_messages = await db.chat_messages.find(
+                {"athlete_id": athlete_id, "session_id": session_id},
+                {"_id": 0}
+            ).sort("timestamp", 1).to_list(length=None)
+            
+            # Convert to OpenAI message format (limit to last 10 exchanges to avoid token limits)
+            for msg in history_messages[-10:]:
+                conversation_history.append({"role": "user", "content": msg.get("message", "")})
+                conversation_history.append({"role": "assistant", "content": msg.get("response", "")})
         
         # Create system message with athlete context
         memories = context.get('memories', {})
