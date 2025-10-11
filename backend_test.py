@@ -9110,6 +9110,21 @@ if __name__ == "__main__":
             enhanced_results = run_enhanced_training_calendar_tests()
             failed_count = sum(1 for _, success in enhanced_results if not success)
             sys.exit(failed_count)
+        elif sys.argv[1] == "--dashboard-api":
+            print("🎯 Running EXACT DASHBOARD API CALL TEST ONLY (as per review request)")
+            print("=" * 80)
+            success = test_exact_dashboard_api_call()
+            print("\n" + "=" * 80)
+            print("📊 EXACT DASHBOARD API CALL TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS Exact Dashboard API Call Test")
+                print("\n🎉 DASHBOARD API TEST PASSED! Backend API returns correct athlete data.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL Exact Dashboard API Call Test")
+                print("\n⚠️ DASHBOARD API TEST FAILED! Backend API has issues that explain Dashboard problems.")
+                sys.exit(1)
         elif sys.argv[1] == "--profile-picture":
             print("🎯 Running PROFILE PICTURE UPLOAD TEST ONLY (as per review request)")
             print("=" * 80)
