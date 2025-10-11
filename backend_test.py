@@ -1451,12 +1451,19 @@ def test_date_of_birth_functionality():
                 headers={"Content-Type": "application/json"}
             )
             
-            if test_value in [None, ""]:
-                # These should be handled gracefully
+            if test_value is None:
+                # Null should be handled gracefully (clearing the field)
                 if update_response.status_code == 200:
                     edge_details.append(f"✅ {description}: Handled gracefully")
                 else:
                     edge_details.append(f"❌ {description}: Not handled gracefully ({update_response.status_code})")
+                    edge_case_success = False
+            elif test_value == "":
+                # Empty string should be properly validated and rejected
+                if update_response.status_code in [400, 422]:
+                    edge_details.append(f"✅ {description}: Properly validated and rejected ({update_response.status_code})")
+                else:
+                    edge_details.append(f"❌ {description}: Should be rejected but got ({update_response.status_code})")
                     edge_case_success = False
             else:
                 # Invalid formats should be rejected or handled
