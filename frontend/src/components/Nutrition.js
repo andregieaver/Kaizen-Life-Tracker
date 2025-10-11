@@ -286,10 +286,11 @@ const Nutrition = ({ athleteId }) => {
           <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>Log Meal or Drink</CardTitle>
+                <CardTitle>{editingEntry ? 'Edit Meal or Drink' : 'Log Meal or Drink'}</CardTitle>
                 <button
                   onClick={() => {
                     setShowModal(false);
+                    setEditingEntry(null);
                     setDescription('');
                     setMealType('breakfast');
                     removeImage();
@@ -299,7 +300,7 @@ const Nutrition = ({ athleteId }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <CardDescription>Add what you ate or drank</CardDescription>
+              <CardDescription>{editingEntry ? 'Update your meal or drink entry' : 'Add what you ate or drank'}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Meal Type Selection */}
