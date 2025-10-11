@@ -6778,24 +6778,24 @@ if __name__ == "__main__":
             print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug, --openai-validation-fix, --voice-preference, --date-of-birth")
             sys.exit(1)
     else:
-        # Run OpenAI API Key Validation Fix test as primary focus (as per review request)
-        print("🎯 Running OPENAI API KEY VALIDATION FIX TEST (PRIMARY FOCUS)")
+        # Run Date of Birth Functionality test as primary focus (as per review request)
+        print("🎯 Running DATE OF BIRTH FUNCTIONALITY TEST (PRIMARY FOCUS)")
         print("=" * 80)
-        print("REVIEW REQUEST: Test the improved OpenAI API key validation to verify")
-        print("that the 'Failed to get session token' issue is resolved.")
+        print("REVIEW REQUEST: Test the new date of birth functionality that replaces")
+        print("the age field with day, month, and year selectors.")
         print("=" * 80)
         
-        success = test_openai_api_key_validation_fix()
+        success = test_date_of_birth_functionality()
         
         print("\n" + "=" * 80)
-        print("📊 OPENAI API KEY VALIDATION FIX SUMMARY")
+        print("📊 DATE OF BIRTH FUNCTIONALITY TEST SUMMARY")
         print("=" * 80)
         if success:
-            print("✅ PASS OpenAI API Key Validation Fix")
-            print("\n🎉 VALIDATION FIX VERIFIED! The 'Failed to get session token' issue is resolved.")
+            print("✅ PASS Date of Birth Functionality")
+            print("\n🎉 DATE OF BIRTH TEST PASSED! Date of birth system works correctly with automatic age calculation.")
         else:
-            print("❌ FAIL OpenAI API Key Validation Fix")
-            print("\n⚠️ VALIDATION FIX FAILED! The issue may still persist.")
+            print("❌ FAIL Date of Birth Functionality")
+            print("\n⚠️ DATE OF BIRTH TEST FAILED! Please review the issues above.")
         
         # Exit with appropriate code
         sys.exit(0 if success else 1)
