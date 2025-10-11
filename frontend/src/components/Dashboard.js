@@ -47,8 +47,10 @@ const Dashboard = ({ athleteId }) => {
   // Listen for athlete profile updates (e.g., profile picture changes)
   useEffect(() => {
     const handleAthleteProfileUpdate = (event) => {
+      console.log('Athlete profile update event received:', event.detail);
       // Reload athlete data to get updated profile picture
       if (event.detail.athleteId === athleteId) {
+        console.log('Reloading dashboard data for athlete:', athleteId);
         loadDashboardData();
       }
     };
@@ -57,6 +59,21 @@ const Dashboard = ({ athleteId }) => {
     
     return () => {
       window.removeEventListener('athleteProfileUpdated', handleAthleteProfileUpdate);
+    };
+  }, [athleteId]);
+  
+  // Force refresh athlete data on page visibility change (when user returns to page)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden && athleteId) {
+        console.log('Page visible, refreshing athlete data');
+        loadDashboardData();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [athleteId]);
 
