@@ -233,6 +233,8 @@ class TrainingBlock(BaseModel):
     block_type: str  # 'training' or 'recovery'
     start_date: str  # ISO date string
     end_date: str  # ISO date string
+    start_time: Optional[str] = None  # HH:MM format (e.g., "06:00")
+    end_time: Optional[str] = None  # HH:MM format (e.g., "07:30")
     
     # Workout details
     workout_type: Optional[str] = None  # 'run', 'intervals', 'tempo', 'recovery', 'cross_training'
