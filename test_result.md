@@ -316,6 +316,21 @@ frontend:
         agent: "main"
         comment: "✅ DUPLICATE PHYSICAL INFORMATION SECTION FIXED - Root cause identified and resolved. ISSUE IDENTIFIED: Two 'Physical Information' sections were present in Account.js - OLD section (lines 1247-1294) with only Height, Weight, VO2 Max fields, and NEW section (lines 1313-1435) with complete set of fields including Height, Weight, VO2 Max, Max Heart Rate, Gender, Bio, Interests. FIX APPLIED: Removed OLD duplicate section (lines 1247-1296) including surrounding separators, keeping only the NEW complete section with all fields. VERIFICATION: grep search confirms only ONE 'Physical Information' section remains at line 1264. Screenshots confirm clean UI with single Physical Information section displaying all fields correctly (Height, Weight, VO2 Max, Max Heart Rate, Gender, Bio, Interests checkboxes). Page structure now flows logically: Profile Picture → Full Name → Date of Birth → Running Goals → Physical Information (single, complete) → Security. All functionality preserved."
 
+  - task: "Journal Voice Recording with Transcription"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Journal.js, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "user"
+        comment: "User confirmed AI Coach voice mode is working flawlessly and requested verification that journal voice entry is also working."
+      - working: true
+        agent: "main"
+        comment: "✅ JOURNAL VOICE RECORDING WITH TRANSCRIPTION IMPLEMENTED - Complete voice-to-text functionality added to journal entries. BACKEND IMPLEMENTATION: Created new endpoint POST /api/journal/transcribe/{athlete_id} that accepts audio file uploads and uses OpenAI Whisper API for transcription. Endpoint includes proper error handling for missing/invalid OpenAI API keys with user-friendly messages. Uses existing get_user_openai_key() function to retrieve athlete's OpenAI credentials. Returns transcribed text that can be edited before saving. FRONTEND IMPLEMENTATION: Updated Journal.js component to send recorded audio blob to backend transcription endpoint via FormData. Added status messages during transcription ('Transcribing audio...') and after completion. Includes fallback error handling if transcription fails. Transcribed text appears in editable textarea for review before saving. UI COMPONENTS VERIFIED: Modal with Text/Voice toggle buttons working correctly. Voice recording interface displays blue microphone icon, 'Click to start recording' instruction, and 'Start Recording' button. Recording timer and 'Stop Recording' functionality operational. Screenshots confirm UI matches user's provided screenshot exactly. READY FOR TESTING: Feature requires athlete to have configured OpenAI API key in Account Settings. Full testing needed with actual voice recording and transcription flow."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
