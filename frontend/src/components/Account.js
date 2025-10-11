@@ -1374,7 +1374,7 @@ const Account = ({ athleteId }) => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="gender" className="text-sm font-medium">Gender</Label>
+                      <Label htmlFor="gender" className="text-sm font-medium">{t('account.gender')}</Label>
                       <Select
                         value={personalForm.gender}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, gender: value}))}
