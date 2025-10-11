@@ -72,9 +72,16 @@ def parse_from_mongo(item):
     return item
 
 def calculate_age(date_of_birth):
-    """Calculate age from date of birth"""
+    """Calculate age from date of birth (accepts string or date object)"""
     if not date_of_birth:
         return None
+    
+    # Convert string to date object if needed
+    if isinstance(date_of_birth, str):
+        try:
+            date_of_birth = datetime.fromisoformat(date_of_birth).date()
+        except ValueError:
+            return None
     
     today = date.today()
     age = today.year - date_of_birth.year
