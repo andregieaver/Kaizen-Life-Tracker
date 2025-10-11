@@ -1230,6 +1230,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                     })
                 
                 # Always add training block management tools
+                logging.info("Adding get_training_blocks_for_period tool")
                 tools.append({
                     "type": "function",
                     "function": {
