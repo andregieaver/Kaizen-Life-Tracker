@@ -23,13 +23,791 @@ TEST_EMAIL = f"test.runner.{int(datetime.now().timestamp())}@example.com"
 TEST_PASSWORD = "SecureRunning123!"
 TEST_NAME = "Alex Runner"
 
+def test_all_athletes_in_database():
+    """
+    REVIEW REQUEST REQUIREMENT 1:
+    List all athletes in the database to see how many exist and check for multiple records
+    """
+    print("🔍 CHECKING ALL ATHLETES IN DATABASE")
+    print("=" * 70)
+    
+    try:
+        # Get all athlete profiles from the database
+        # Since we can't directly query MongoDB, we'll use the backend API to check known athletes
+        
+        # First, try to get all athletes by checking common test emails
+        test_emails = [
+            "andre@example.com",
+            "test@example.com", 
+            "user@example.com",
+            "athlete@example.com"
+        ]
+        
+        found_athletes = []
+        
+        for email in test_emails:
+            try:
+                # Try to login with common password
+                login_data = {"email": email, "password": "password123"}
+                login_response = requests.post(
+                    f"{BACKEND_URL}/auth/login",
+                    json=login_data,
+                    headers={"Content-Type": "application/json"}
+                )
+                
+                if login_response.status_code == 200:
+                    athlete_data = login_response.json()
+                    athlete_id = athlete_data.get("athlete_id")
+                    
+                    # Get full athlete profile
+                    profile_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+                    if profile_response.status_code == 200:
+                        profile = profile_response.json()
+                        found_athletes.append({
+                            "email": email,
+                            "athlete_id": athlete_id,
+                            "name": profile.get("name", "Unknown"),
+                            "has_profile_picture": bool(profile.get("profile_picture")),
+                            "profile_picture_length": len(profile.get("profile_picture", "")) if profile.get("profile_picture") else 0
+                        })
+            except Exception as e:
+                continue
+        
+        print(f"   Found {len(found_athletes)} athletes in database:")
+        print("-" * 50)
+        
+        for i, athlete in enumerate(found_athletes, 1):
+            print(f"   {i}. Email: {athlete['email']}")
+            print(f"      ID: {athlete['athlete_id']}")
+            print(f"      Name: '{athlete['name']}'")
+            print(f"      Has Profile Picture: {athlete['has_profile_picture']}")
+            if athlete['has_profile_picture']:
+                print(f"      Profile Picture Size: {athlete['profile_picture_length']} characters")
+            print()
+        
+        # Check specifically for andre@example.com duplicates
+        andre_athletes = [a for a in found_athletes if a['email'] == 'andre@example.com']
+        
+        if len(andre_athletes) > 1:
+            print("❌ MULTIPLE ANDRE RECORDS FOUND - This could cause athlete ID mismatch!")
+            for i, andre in enumerate(andre_athletes, 1):
+                print(f"   Andre Record {i}: ID {andre['athlete_id']}, Name: '{andre['name']}'")
+        elif len(andre_athletes) == 1:
+            print("✅ Single andre@example.com record found")
+            andre = andre_athletes[0]
+            print(f"   Andre's ID: {andre['athlete_id']}")
+            print(f"   Andre's Name: '{andre['name']}'")
+            print(f"   Has Profile Picture: {andre['has_profile_picture']}")
+        else:
+            print("❌ No andre@example.com record found")
+        
+        print("-" * 50)
+        return found_athletes
+        
+    except Exception as e:
+        print_test_result("Database Athletes Check", False, f"Exception: {str(e)}")
+        return []
+
+def test_api_calls_different_athlete_ids():
+    """
+    REVIEW REQUEST REQUIREMENT 2:
+    Test API calls for different athlete IDs to compare responses
+    """
+    print("🔍 TESTING API CALLS FOR DIFFERENT ATHLETE IDs")
+    print("=" * 70)
+    
+    try:
+        # First get all athletes
+        athletes = test_all_athletes_in_database()
+        
+        if not athletes:
+            print("❌ No athletes found to test")
+            return False
+        
+        # Test each athlete's API response
+        api_results = []
+        
+        for athlete in athletes:
+            athlete_id = athlete['athlete_id']
+            email = athlete['email']
+            
+            print(f"   Testing API for {email} (ID: {athlete_id})")
+            
+            try:
+                response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+                
+                if response.status_code == 200:
+                    profile = response.json()
+                    
+                    result = {
+                        "email": email,
+                        "athlete_id": athlete_id,
+                        "status_code": response.status_code,
+                        "name": profile.get("name"),
+                        "has_profile_picture": bool(profile.get("profile_picture")),
+                        "profile_picture_preview": profile.get("profile_picture", "")[:50] if profile.get("profile_picture") else None,
+                        "all_fields": list(profile.keys())
+                    }
+                    
+                    api_results.append(result)
+                    
+                    print(f"      ✅ Status: {response.status_code}")
+                    print(f"      Name: '{profile.get('name', 'MISSING')}'")
+                    print(f"      Profile Picture: {'Yes' if profile.get('profile_picture') else 'No'}")
+                    
+                else:
+                    print(f"      ❌ Status: {response.status_code}")
+                    api_results.append({
+                        "email": email,
+                        "athlete_id": athlete_id,
+                        "status_code": response.status_code,
+                        "error": response.text
+                    })
+                    
+            except Exception as e:
+                print(f"      ❌ Exception: {str(e)}")
+                api_results.append({
+                    "email": email,
+                    "athlete_id": athlete_id,
+                    "error": str(e)
+                })
+        
+        # Compare results specifically for andre@example.com
+        andre_results = [r for r in api_results if r['email'] == 'andre@example.com']
+        
+        print("\n📊 ANDRE@EXAMPLE.COM API COMPARISON:")
+        print("-" * 50)
+        
+        if len(andre_results) > 1:
+            print("❌ MULTIPLE ANDRE RECORDS - COMPARING RESPONSES:")
+            for i, result in enumerate(andre_results, 1):
+                print(f"   Andre Record {i} (ID: {result['athlete_id']}):")
+                print(f"      Status: {result.get('status_code', 'ERROR')}")
+                print(f"      Name: '{result.get('name', 'MISSING')}'")
+                print(f"      Has Profile Picture: {result.get('has_profile_picture', False)}")
+                if result.get('profile_picture_preview'):
+                    print(f"      Picture Preview: {result['profile_picture_preview']}...")
+        elif len(andre_results) == 1:
+            result = andre_results[0]
+            print("✅ SINGLE ANDRE RECORD:")
+            print(f"   ID: {result['athlete_id']}")
+            print(f"   Status: {result.get('status_code', 'ERROR')}")
+            print(f"   Name: '{result.get('name', 'MISSING')}'")
+            print(f"   Has Profile Picture: {result.get('has_profile_picture', False)}")
+            print(f"   Available Fields: {result.get('all_fields', [])}")
+        else:
+            print("❌ NO ANDRE RECORDS FOUND")
+        
+        return api_results
+        
+    except Exception as e:
+        print_test_result("API Calls Different IDs", False, f"Exception: {str(e)}")
+        return []
+
+def test_login_flow_athlete_id_storage():
+    """
+    REVIEW REQUEST REQUIREMENT 3:
+    Verify authentication and login flow - check which athlete ID gets stored
+    """
+    print("🔍 TESTING LOGIN FLOW AND ATHLETE ID STORAGE")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Login as andre@example.com
+        print("   Step 1: Login as andre@example.com")
+        
+        login_data = {
+            "email": "andre@example.com",
+            "password": "password123"
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("Login Flow Test", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        login_result = login_response.json()
+        returned_athlete_id = login_result.get("athlete_id")
+        
+        print(f"      ✅ Login successful")
+        print(f"      Returned athlete_id: {returned_athlete_id}")
+        
+        # Step 2: Verify the returned athlete ID matches the profile
+        print("   Step 2: Verify returned athlete_id matches profile data")
+        
+        if not returned_athlete_id:
+            print_test_result("Login Flow - Athlete ID", False, "No athlete_id returned from login")
+            return False
+        
+        profile_response = requests.get(f"{BACKEND_URL}/athlete/{returned_athlete_id}")
+        
+        if profile_response.status_code != 200:
+            print_test_result("Login Flow - Profile Check", False, f"Profile API failed: {profile_response.status_code}")
+            return False
+        
+        profile_data = profile_response.json()
+        profile_email = profile_data.get("email")
+        profile_name = profile_data.get("name")
+        has_profile_picture = bool(profile_data.get("profile_picture"))
+        
+        print(f"      Profile email: {profile_email}")
+        print(f"      Profile name: '{profile_name}'")
+        print(f"      Has profile picture: {has_profile_picture}")
+        
+        # Step 3: Check if this is the athlete with profile picture
+        print("   Step 3: Check if this athlete has the uploaded profile picture")
+        
+        profile_picture_data = profile_data.get("profile_picture")
+        picture_analysis = []
+        
+        if profile_picture_data:
+            picture_analysis.append("✅ Profile picture field exists")
+            
+            if profile_picture_data.startswith("data:image/jpeg;base64,"):
+                picture_analysis.append("✅ Correct format (data:image/jpeg;base64,)")
+                
+                # Check if it's the "Andre Updated" profile
+                if profile_name and "Andre" in profile_name:
+                    picture_analysis.append("✅ Name contains 'Andre' - likely the updated profile")
+                else:
+                    picture_analysis.append(f"⚠️ Name is '{profile_name}' - may not be the updated profile")
+                
+                # Verify image data integrity
+                try:
+                    base64_data = profile_picture_data.split(',')[1]
+                    import base64
+                    decoded_data = base64.b64decode(base64_data)
+                    
+                    from PIL import Image
+                    import io
+                    test_image = Image.open(io.BytesIO(decoded_data))
+                    picture_analysis.append(f"✅ Valid image: {test_image.size} pixels")
+                    
+                except Exception as e:
+                    picture_analysis.append(f"❌ Invalid image data: {str(e)}")
+            else:
+                picture_analysis.append("❌ Wrong format - not data:image/jpeg;base64,")
+        else:
+            picture_analysis.append("❌ No profile picture data")
+        
+        for analysis in picture_analysis:
+            print(f"      {analysis}")
+        
+        # Step 4: Check localStorage simulation (what would be stored)
+        print("   Step 4: Simulate localStorage athlete ID storage")
+        
+        # This simulates what the frontend would store in localStorage
+        localStorage_athlete_id = returned_athlete_id
+        
+        print(f"      localStorage would store: {localStorage_athlete_id}")
+        print(f"      This matches login response: {'✅ Yes' if localStorage_athlete_id == returned_athlete_id else '❌ No'}")
+        
+        # Step 5: Verify this is the correct athlete for Dashboard
+        print("   Step 5: Verify this athlete should be used by Dashboard component")
+        
+        dashboard_check = []
+        
+        if profile_email == "andre@example.com":
+            dashboard_check.append("✅ Email matches andre@example.com")
+        else:
+            dashboard_check.append(f"❌ Email mismatch: {profile_email}")
+        
+        if profile_name and profile_name.strip() and profile_name.lower() != "user":
+            dashboard_check.append(f"✅ Valid name for slideout: '{profile_name}'")
+        else:
+            dashboard_check.append(f"❌ Invalid name for slideout: '{profile_name}'")
+        
+        if has_profile_picture:
+            dashboard_check.append("✅ Has profile picture for slideout")
+        else:
+            dashboard_check.append("❌ No profile picture for slideout")
+        
+        for check in dashboard_check:
+            print(f"      {check}")
+        
+        # Step 6: Final assessment
+        print("   Step 6: Login flow assessment")
+        
+        login_success = (
+            returned_athlete_id and 
+            profile_email == "andre@example.com" and
+            profile_response.status_code == 200
+        )
+        
+        if login_success:
+            print("      ✅ Login flow is working correctly")
+            print(f"      ✅ Correct athlete ID returned: {returned_athlete_id}")
+            
+            if has_profile_picture and profile_name and "Andre" in profile_name:
+                print("      ✅ This appears to be the athlete with uploaded profile picture")
+                print("      ✅ Dashboard should show correct data if using this athlete ID")
+            else:
+                print("      ⚠️ This may not be the athlete with the uploaded profile picture")
+                print("      ⚠️ Check if there are multiple andre@example.com records")
+        else:
+            print("      ❌ Login flow has issues")
+        
+        return {
+            "success": login_success,
+            "athlete_id": returned_athlete_id,
+            "profile_email": profile_email,
+            "profile_name": profile_name,
+            "has_profile_picture": has_profile_picture,
+            "picture_analysis": picture_analysis
+        }
+        
+    except Exception as e:
+        print_test_result("Login Flow Test", False, f"Exception: {str(e)}")
+        return False
+
+def test_profile_picture_storage_verification():
+    """
+    REVIEW REQUEST REQUIREMENT 4:
+    Check profile picture storage and verify the athlete with profile picture has name "Andre Updated"
+    """
+    print("🔍 VERIFYING PROFILE PICTURE STORAGE")
+    print("=" * 70)
+    
+    try:
+        # Get all athletes and check their profile pictures
+        athletes = test_all_athletes_in_database()
+        
+        athletes_with_pictures = []
+        
+        for athlete in athletes:
+            athlete_id = athlete['athlete_id']
+            
+            if athlete['has_profile_picture']:
+                # Get full profile data
+                response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+                if response.status_code == 200:
+                    profile = response.json()
+                    
+                    athletes_with_pictures.append({
+                        "athlete_id": athlete_id,
+                        "email": athlete['email'],
+                        "name": profile.get("name"),
+                        "profile_picture": profile.get("profile_picture"),
+                        "picture_length": len(profile.get("profile_picture", ""))
+                    })
+        
+        print(f"   Found {len(athletes_with_pictures)} athletes with profile pictures:")
+        print("-" * 50)
+        
+        andre_updated_found = False
+        correct_storage_athlete = None
+        
+        for i, athlete in enumerate(athletes_with_pictures, 1):
+            print(f"   {i}. Athlete ID: {athlete['athlete_id']}")
+            print(f"      Email: {athlete['email']}")
+            print(f"      Name: '{athlete['name']}'")
+            print(f"      Picture Size: {athlete['picture_length']} characters")
+            
+            # Check if this is the "Andre Updated" athlete
+            if athlete['name'] and "Andre" in athlete['name']:
+                print(f"      ✅ Contains 'Andre' in name")
+                if "Updated" in athlete['name']:
+                    print(f"      ✅ Contains 'Updated' - this is likely the correct athlete!")
+                    andre_updated_found = True
+                    correct_storage_athlete = athlete
+                else:
+                    print(f"      ⚠️ Contains 'Andre' but not 'Updated'")
+            
+            # Verify image data integrity
+            try:
+                picture_data = athlete['profile_picture']
+                if picture_data and picture_data.startswith("data:image/jpeg;base64,"):
+                    base64_data = picture_data.split(',')[1]
+                    import base64
+                    decoded_data = base64.b64decode(base64_data)
+                    
+                    from PIL import Image
+                    import io
+                    test_image = Image.open(io.BytesIO(decoded_data))
+                    print(f"      ✅ Valid image: {test_image.size} pixels, {test_image.format}")
+                else:
+                    print(f"      ❌ Invalid image format")
+            except Exception as e:
+                print(f"      ❌ Image validation error: {str(e)}")
+            
+            print()
+        
+        # Check if we found the correct athlete
+        print("📊 PROFILE PICTURE STORAGE ANALYSIS:")
+        print("-" * 50)
+        
+        if andre_updated_found and correct_storage_athlete:
+            print("✅ FOUND ATHLETE WITH 'ANDRE UPDATED' NAME AND PROFILE PICTURE")
+            print(f"   Athlete ID: {correct_storage_athlete['athlete_id']}")
+            print(f"   Email: {correct_storage_athlete['email']}")
+            print(f"   Name: '{correct_storage_athlete['name']}'")
+            print(f"   Picture Size: {correct_storage_athlete['picture_length']} characters")
+            
+            # This should be the athlete ID that Dashboard uses
+            print(f"\n💡 DASHBOARD SHOULD USE ATHLETE ID: {correct_storage_athlete['athlete_id']}")
+            
+        elif len(athletes_with_pictures) > 0:
+            print("⚠️ FOUND ATHLETES WITH PROFILE PICTURES BUT NOT 'ANDRE UPDATED'")
+            print("   This might indicate:")
+            print("   - Profile was uploaded to different athlete record")
+            print("   - Name was not updated to 'Andre Updated'")
+            print("   - Multiple athlete records exist")
+            
+        else:
+            print("❌ NO ATHLETES WITH PROFILE PICTURES FOUND")
+            print("   This indicates profile picture upload may have failed")
+        
+        return {
+            "athletes_with_pictures": athletes_with_pictures,
+            "andre_updated_found": andre_updated_found,
+            "correct_athlete": correct_storage_athlete
+        }
+        
+    except Exception as e:
+        print_test_result("Profile Picture Storage", False, f"Exception: {str(e)}")
+        return False
+
+def test_backend_api_status_verification():
+    """
+    REVIEW REQUEST REQUIREMENT 5:
+    Test backend API status and verify the date_of_birth fix resolved serialization issues
+    """
+    print("🔍 TESTING BACKEND API STATUS AND DATE_OF_BIRTH FIX")
+    print("=" * 70)
+    
+    try:
+        # Test the specific athlete mentioned in the review request
+        athlete_id = "90de5b99-6db3-4e14-8455-c00864fb9976"  # Andre's athlete ID from logs
+        
+        print(f"   Testing athlete ID: {athlete_id}")
+        
+        # Step 1: Test GET /api/athlete/{athlete_id} for 200 OK (not 500)
+        print("   Step 1: Test GET /api/athlete/{athlete_id} for proper response")
+        
+        response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+        
+        api_status_details = []
+        
+        if response.status_code == 200:
+            api_status_details.append("✅ Status Code: 200 OK (not 500 error)")
+            
+            try:
+                profile_data = response.json()
+                api_status_details.append("✅ Valid JSON response")
+                
+                # Check for date_of_birth field handling
+                date_of_birth = profile_data.get("date_of_birth")
+                if date_of_birth is not None:
+                    if isinstance(date_of_birth, str):
+                        api_status_details.append("✅ date_of_birth is string (serialization fix working)")
+                        
+                        # Validate date format
+                        try:
+                            from datetime import datetime
+                            datetime.fromisoformat(date_of_birth)
+                            api_status_details.append("✅ date_of_birth has valid ISO format")
+                        except ValueError:
+                            api_status_details.append("⚠️ date_of_birth string format invalid")
+                    else:
+                        api_status_details.append(f"❌ date_of_birth is {type(date_of_birth)} (should be string)")
+                else:
+                    api_status_details.append("⚠️ date_of_birth is null/missing")
+                
+                # Check other critical fields
+                required_fields = ["id", "name", "email"]
+                for field in required_fields:
+                    if field in profile_data and profile_data[field] is not None:
+                        api_status_details.append(f"✅ {field}: present")
+                    else:
+                        api_status_details.append(f"❌ {field}: missing or null")
+                
+                # Check profile picture field specifically
+                profile_picture = profile_data.get("profile_picture")
+                if profile_picture:
+                    api_status_details.append("✅ profile_picture: present")
+                    if isinstance(profile_picture, str) and len(profile_picture) > 100:
+                        api_status_details.append("✅ profile_picture: substantial data")
+                    else:
+                        api_status_details.append("⚠️ profile_picture: minimal data")
+                else:
+                    api_status_details.append("❌ profile_picture: missing or null")
+                
+            except json.JSONDecodeError as e:
+                api_status_details.append(f"❌ Invalid JSON response: {str(e)}")
+                
+        elif response.status_code == 500:
+            api_status_details.append("❌ Status Code: 500 (serialization issue not fixed)")
+            
+            error_text = response.text
+            if "ResponseValidationError" in error_text:
+                api_status_details.append("❌ ResponseValidationError still occurring")
+            elif "date_of_birth" in error_text:
+                api_status_details.append("❌ date_of_birth still causing serialization issues")
+            else:
+                api_status_details.append(f"❌ Other 500 error: {error_text[:100]}")
+                
+        else:
+            api_status_details.append(f"❌ Unexpected status code: {response.status_code}")
+        
+        for detail in api_status_details:
+            print(f"      {detail}")
+        
+        # Step 2: Test API response format and structure
+        print("   Step 2: Verify API response format matches frontend expectations")
+        
+        format_details = []
+        
+        if response.status_code == 200:
+            try:
+                profile_data = response.json()
+                
+                # Check response structure for Dashboard component
+                dashboard_fields = ["id", "name", "email", "profile_picture"]
+                
+                for field in dashboard_fields:
+                    if field in profile_data:
+                        value = profile_data[field]
+                        if value is not None:
+                            format_details.append(f"✅ {field}: {type(value).__name__}")
+                        else:
+                            format_details.append(f"⚠️ {field}: null")
+                    else:
+                        format_details.append(f"❌ {field}: missing")
+                
+                # Check for any fields that might cause frontend issues
+                problematic_fields = []
+                for key, value in profile_data.items():
+                    if value is None and key in dashboard_fields:
+                        problematic_fields.append(key)
+                
+                if problematic_fields:
+                    format_details.append(f"⚠️ Null fields that may affect frontend: {problematic_fields}")
+                else:
+                    format_details.append("✅ No problematic null fields for Dashboard")
+                
+            except:
+                format_details.append("❌ Cannot analyze response format")
+        else:
+            format_details.append("❌ Cannot verify format - API call failed")
+        
+        for detail in format_details:
+            print(f"      {detail}")
+        
+        # Step 3: Test multiple athlete IDs to ensure fix is comprehensive
+        print("   Step 3: Test multiple athlete IDs to verify comprehensive fix")
+        
+        # Get other athlete IDs from previous tests
+        athletes = test_all_athletes_in_database()
+        
+        comprehensive_test_results = []
+        
+        for athlete in athletes[:3]:  # Test up to 3 athletes
+            test_id = athlete['athlete_id']
+            test_email = athlete['email']
+            
+            test_response = requests.get(f"{BACKEND_URL}/athlete/{test_id}")
+            
+            if test_response.status_code == 200:
+                comprehensive_test_results.append(f"✅ {test_email}: 200 OK")
+            elif test_response.status_code == 500:
+                comprehensive_test_results.append(f"❌ {test_email}: 500 error")
+            else:
+                comprehensive_test_results.append(f"⚠️ {test_email}: {test_response.status_code}")
+        
+        print("      Comprehensive API Status Check:")
+        for result in comprehensive_test_results:
+            print(f"        {result}")
+        
+        # Step 4: Overall assessment
+        print("   Step 4: Overall backend API status assessment")
+        
+        api_working = response.status_code == 200
+        serialization_fixed = response.status_code != 500
+        
+        if api_working and serialization_fixed:
+            print("      ✅ Backend API is working correctly")
+            print("      ✅ date_of_birth serialization issue is fixed")
+            print("      ✅ API returns proper 200 responses with valid JSON")
+        elif serialization_fixed but not api_working:
+            print("      ⚠️ Serialization issue fixed but API has other problems")
+        else:
+            print("      ❌ Backend API still has serialization issues")
+            print("      ❌ date_of_birth fix may not be working")
+        
+        return {
+            "api_working": api_working,
+            "serialization_fixed": serialization_fixed,
+            "status_code": response.status_code,
+            "response_data": response.json() if response.status_code == 200 else None
+        }
+        
+    except Exception as e:
+        print_test_result("Backend API Status", False, f"Exception: {str(e)}")
+        return False
+
+def test_athlete_id_mismatch_debug():
+    """
+    REVIEW REQUEST REQUIREMENT 6:
+    Debug athlete ID mismatch - check if Dashboard is using different athlete ID than where profile was uploaded
+    """
+    print("🔍 DEBUGGING ATHLETE ID MISMATCH ISSUE")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Get login athlete ID (what Dashboard would use)
+        print("   Step 1: Get athlete ID from login (what Dashboard uses)")
+        
+        login_result = test_login_flow_athlete_id_storage()
+        
+        if not login_result or not login_result.get("success"):
+            print("      ❌ Cannot get login athlete ID")
+            return False
+        
+        login_athlete_id = login_result["athlete_id"]
+        login_has_picture = login_result["has_profile_picture"]
+        login_name = login_result["profile_name"]
+        
+        print(f"      Login Athlete ID: {login_athlete_id}")
+        print(f"      Login Name: '{login_name}'")
+        print(f"      Login Has Picture: {login_has_picture}")
+        
+        # Step 2: Get athlete ID where profile picture is stored
+        print("   Step 2: Find athlete ID where profile picture is actually stored")
+        
+        storage_result = test_profile_picture_storage_verification()
+        
+        if not storage_result:
+            print("      ❌ Cannot check profile picture storage")
+            return False
+        
+        storage_athletes = storage_result.get("athletes_with_pictures", [])
+        correct_athlete = storage_result.get("correct_athlete")
+        
+        if correct_athlete:
+            storage_athlete_id = correct_athlete["athlete_id"]
+            storage_name = correct_athlete["name"]
+            storage_email = correct_athlete["email"]
+            
+            print(f"      Storage Athlete ID: {storage_athlete_id}")
+            print(f"      Storage Name: '{storage_name}'")
+            print(f"      Storage Email: {storage_email}")
+        else:
+            print("      ❌ No athlete with profile picture found")
+            return False
+        
+        # Step 3: Compare athlete IDs
+        print("   Step 3: Compare login athlete ID vs storage athlete ID")
+        
+        mismatch_analysis = []
+        
+        if login_athlete_id == storage_athlete_id:
+            mismatch_analysis.append("✅ ATHLETE IDs MATCH")
+            mismatch_analysis.append("✅ Dashboard is using the correct athlete ID")
+            mismatch_analysis.append("✅ No athlete ID mismatch issue")
+            
+            # If IDs match but Dashboard still shows wrong data, it's a frontend issue
+            if login_has_picture:
+                mismatch_analysis.append("✅ Login athlete has profile picture")
+                mismatch_analysis.append("💡 If slideout still shows wrong data, it's a frontend state issue")
+            else:
+                mismatch_analysis.append("❌ Login athlete should have profile picture but doesn't")
+                mismatch_analysis.append("💡 Data inconsistency in backend")
+        else:
+            mismatch_analysis.append("❌ ATHLETE ID MISMATCH DETECTED!")
+            mismatch_analysis.append(f"❌ Dashboard uses: {login_athlete_id}")
+            mismatch_analysis.append(f"❌ Profile picture stored in: {storage_athlete_id}")
+            mismatch_analysis.append("❌ This explains why slideout shows wrong data")
+            
+            # Check if these are different records for same email
+            if storage_email == "andre@example.com":
+                mismatch_analysis.append("❌ Multiple andre@example.com records exist")
+                mismatch_analysis.append("💡 Need to consolidate or fix login to return correct athlete ID")
+            else:
+                mismatch_analysis.append("❌ Profile picture uploaded to different email account")
+        
+        for analysis in mismatch_analysis:
+            print(f"      {analysis}")
+        
+        # Step 4: Check localStorage simulation
+        print("   Step 4: Simulate localStorage athlete ID check")
+        
+        # In the frontend, localStorage.getItem('athleteId') would return login_athlete_id
+        localStorage_athlete_id = login_athlete_id
+        
+        print(f"      localStorage athleteId: {localStorage_athlete_id}")
+        print(f"      Profile picture athlete ID: {storage_athlete_id}")
+        print(f"      Match: {'✅ Yes' if localStorage_athlete_id == storage_athlete_id else '❌ No'}")
+        
+        # Step 5: Test what Dashboard component would actually get
+        print("   Step 5: Test what Dashboard component API call returns")
+        
+        dashboard_response = requests.get(f"{BACKEND_URL}/athlete/{localStorage_athlete_id}")
+        
+        if dashboard_response.status_code == 200:
+            dashboard_data = dashboard_response.json()
+            dashboard_name = dashboard_data.get("name")
+            dashboard_picture = dashboard_data.get("profile_picture")
+            
+            print(f"      Dashboard API Status: 200 OK")
+            print(f"      Dashboard Name: '{dashboard_name}'")
+            print(f"      Dashboard Has Picture: {'Yes' if dashboard_picture else 'No'}")
+            
+            # This is what the slideout menu would actually display
+            if dashboard_picture and dashboard_name and "Andre" in dashboard_name:
+                print("      ✅ Dashboard API returns correct data for slideout")
+                print("      💡 If slideout still wrong, check frontend state management")
+            else:
+                print("      ❌ Dashboard API returns incorrect data")
+                print("      💡 This explains the slideout menu issue")
+        else:
+            print(f"      ❌ Dashboard API failed: {dashboard_response.status_code}")
+        
+        # Step 6: Final diagnosis
+        print("   Step 6: Final athlete ID mismatch diagnosis")
+        
+        is_mismatch = login_athlete_id != storage_athlete_id
+        
+        diagnosis = []
+        
+        if is_mismatch:
+            diagnosis.append("🔍 ROOT CAUSE: ATHLETE ID MISMATCH")
+            diagnosis.append(f"   Login returns: {login_athlete_id}")
+            diagnosis.append(f"   Profile stored in: {storage_athlete_id}")
+            diagnosis.append("   SOLUTION: Fix login to return correct athlete ID OR")
+            diagnosis.append("   SOLUTION: Move profile picture to correct athlete record")
+        else:
+            diagnosis.append("🔍 ROOT CAUSE: NOT ATHLETE ID MISMATCH")
+            diagnosis.append("   Same athlete ID used for login and profile storage")
+            diagnosis.append("   SOLUTION: Check frontend Dashboard component state management")
+            diagnosis.append("   SOLUTION: Verify slideout menu is refreshing athlete data")
+        
+        print("\n📊 ATHLETE ID MISMATCH DIAGNOSIS:")
+        print("-" * 50)
+        for diag in diagnosis:
+            print(f"  {diag}")
+        
+        return {
+            "is_mismatch": is_mismatch,
+            "login_athlete_id": login_athlete_id,
+            "storage_athlete_id": storage_athlete_id,
+            "dashboard_data_correct": dashboard_response.status_code == 200 and dashboard_response.json().get("profile_picture") and "Andre" in dashboard_response.json().get("name", "")
+        }
+        
+    except Exception as e:
+        print_test_result("Athlete ID Mismatch Debug", False, f"Exception: {str(e)}")
+        return False
+
 def test_andre_athlete_data_slideout_debug():
     """
-    SPECIFIC TEST FOR REVIEW REQUEST:
-    Check the current athlete data for andre@example.com to debug why the slideout menu 
-    isn't showing the profile picture and correct name.
+    COMPREHENSIVE TEST FOR REVIEW REQUEST:
+    Debug why the Dashboard component is still not getting the correct athlete data despite the backend API fix
     """
-    print("🔍 DEBUGGING ANDRE'S ATHLETE DATA FOR SLIDEOUT MENU ISSUE")
+    print("🔍 COMPREHENSIVE ANDRE ATHLETE DATA DEBUG FOR SLIDEOUT MENU")
     print("=" * 70)
     
     # Login credentials for andre@example.com
