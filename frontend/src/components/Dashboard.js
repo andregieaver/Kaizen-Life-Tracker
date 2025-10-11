@@ -168,8 +168,6 @@ const Dashboard = ({ athleteId }) => {
       setRecentWorkouts(workoutsRes.data);
     } catch (error) {
       console.error('Error loading dashboard data:', error);
-      console.error('Error details:', error.response?.data || error.message);
-      console.error('Full error object:', error);
     } finally {
       setIsLoading(false);
     }
