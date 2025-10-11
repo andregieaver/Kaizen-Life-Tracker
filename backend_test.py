@@ -5889,6 +5889,24 @@ if __name__ == "__main__":
                 print("❌ FAIL Voice Session Token Response Debug")
                 print("\n⚠️ VOICE TOKEN DEBUG FAILED! Response format mismatch identified.")
                 sys.exit(1)
+        elif sys.argv[1] == "--voice-conversation":
+            print("🎯 Running VOICE CONVERSATION SAVE FUNCTIONALITY TEST ONLY (as per review request)")
+            print("=" * 80)
+            print("REVIEW REQUEST: Test voice conversation transcription and saving functionality")
+            print("to ensure voice chats are properly saved as regular conversations.")
+            print("=" * 80)
+            success = test_voice_conversation_save_functionality()
+            print("\n" + "=" * 80)
+            print("📊 VOICE CONVERSATION SAVE FUNCTIONALITY TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS Voice Conversation Save Functionality")
+                print("\n🎉 VOICE CONVERSATION TEST PASSED! Voice chats are seamlessly integrated into the chat system.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL Voice Conversation Save Functionality")
+                print("\n⚠️ VOICE CONVERSATION TEST FAILED! Please review the issues above.")
+                sys.exit(1)
         elif sys.argv[1] == "--openai-validation-fix":
             print("🎯 Running OPENAI API KEY VALIDATION FIX TEST ONLY (as per review request)")
             print("=" * 80)
