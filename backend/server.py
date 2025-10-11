@@ -3422,9 +3422,19 @@ You can access their training calendar, create workouts, and provide personalize
         # Create ephemeral session for audio chat
         # Note: The method signature may not accept system_message parameter
         # Try without parameters first, then add system message via other means if needed
-        session_token = await realtime_chat.create_ephemeral_session_for_audio_chat()
+        session_data = await realtime_chat.create_ephemeral_session_for_audio_chat()
         
-        return {"client_secret": session_token}
+        # Extract the client_secret.value from the session data for frontend compatibility
+        # Frontend expects: {client_secret: {value: "token"}}
+        # emergentintegrations returns: {client_secret: {value: "token", expires_at: timestamp}}
+        if isinstance(session_data, dict) and "client_secret" in session_data:
+            client_secret_data = session_data["client_secret"]
+            if isinstance(client_secret_data, dict) and "value" in client_secret_data:
+                # Return in the format expected by frontend
+                return {"client_secret": {"value": client_secret_data["value"]}}
+        
+        # Fallback: return the raw session data if structure is unexpected
+        return {"client_secret": session_data}
         
     except HTTPException:
         # Re-raise HTTPExceptions (like 400 for missing API key) without modification
