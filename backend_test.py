@@ -7096,8 +7096,28 @@ if __name__ == "__main__":
                 print("❌ FAIL Date of Birth Functionality")
                 print("\n⚠️ DATE OF BIRTH TEST FAILED! Please review the issues above.")
                 sys.exit(1)
+        elif sys.argv[1] == "--timezone-fix":
+            print("🎯 Running DATE OF BIRTH TIMEZONE FIX TEST ONLY (as per review request)")
+            print("=" * 80)
+            print("REVIEW REQUEST: Test the date of birth timezone fix to ensure dates")
+            print("are stored and retrieved correctly without timezone shifting issues.")
+            print("CRITICAL TEST: October 16, 1979 should be stored as exactly 1979-10-16")
+            print("and retrieved as the same date without any timezone-related shifting.")
+            print("=" * 80)
+            success = test_date_of_birth_timezone_fix()
+            print("\n" + "=" * 80)
+            print("📊 DATE OF BIRTH TIMEZONE FIX TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS Date of Birth Timezone Fix")
+                print("\n🎉 TIMEZONE FIX VERIFIED! October 16, 1979 stored and retrieved correctly without timezone shifting.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL Date of Birth Timezone Fix")
+                print("\n⚠️ TIMEZONE FIX FAILED! Date shifting issues detected - please review the issues above.")
+                sys.exit(1)
         else:
-            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug, --openai-validation-fix, --voice-preference, --date-of-birth")
+            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug, --openai-validation-fix, --voice-preference, --date-of-birth, --timezone-fix")
             sys.exit(1)
     else:
         # Run Date of Birth Functionality test as primary focus (as per review request)
