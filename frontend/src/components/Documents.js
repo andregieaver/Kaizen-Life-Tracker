@@ -133,23 +133,30 @@ const Documents = ({ athleteId }) => {
   };
 
   const handleFileUpload = async (event) => {
+    console.log('handleFileUpload called', event);
     const file = event.target.files[0];
+    console.log('File selected:', file);
     if (file) {
       try {
+        console.log('Processing file:', file.name, file.type);
         // Check if file is an image
         const isImage = file.type.startsWith('image/');
         
         if (isImage) {
+          console.log('File is image, compressing...');
           // Compress images automatically
           setSaveStatus({ type: '', message: 'Compressing image...' });
           const compressedImage = await compressImage(file);
+          console.log('Image compressed, size:', compressedImage.length);
           setFileData(compressedImage);
           setFilePreview(compressedImage);
           setFileName(file.name);
           setFileType('image/jpeg');
           setFileSize(Math.round(compressedImage.length * 0.75));
           setSaveStatus({ type: 'success', message: 'Image ready!' });
+          console.log('State updated successfully');
         } else {
+          console.log('File is not image, reading as base64...');
           // Non-image files: validate size and read normally
           if (file.size > 10 * 1024 * 1024) {
             setSaveStatus({ type: 'error', message: 'File size must be less than 10MB' });
@@ -159,6 +166,7 @@ const Documents = ({ athleteId }) => {
           // Read file as base64
           const reader = new FileReader();
           reader.onload = (e) => {
+            console.log('File read successfully');
             setFileData(e.target.result);
             setFilePreview(null);
             setFileName(file.name);
@@ -166,6 +174,7 @@ const Documents = ({ athleteId }) => {
             setFileSize(file.size);
           };
           reader.onerror = () => {
+            console.error('File read error');
             setSaveStatus({ type: 'error', message: 'Failed to read file' });
           };
           reader.readAsDataURL(file);
@@ -175,6 +184,7 @@ const Documents = ({ athleteId }) => {
         if (!title) {
           setTitle(file.name);
         }
+        console.log('handleFileUpload completed');
       } catch (error) {
         console.error('Error processing file:', error);
         setSaveStatus({ type: 'error', message: error.message });
