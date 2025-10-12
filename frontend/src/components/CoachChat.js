@@ -42,6 +42,25 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+  // Check for action parameter in URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const action = urlParams.get('action');
+    
+    if (action === 'voice' && hasOpenAIKey && voiceChatRef.current) {
+      // Small delay to ensure component is fully mounted
+      setTimeout(async () => {
+        try {
+          await voiceChatRef.current.startVoiceChat();
+          setIsVoiceActive(true);
+          // Clean up URL
+          window.history.replaceState({}, '', window.location.pathname);
+        } catch (error) {
+          console.error('Error auto-starting voice chat:', error);
+        }
+      }, 500);
+    }
+  }, [hasOpenAIKey]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
