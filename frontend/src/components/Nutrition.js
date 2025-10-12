@@ -365,7 +365,7 @@ const Nutrition = ({ athleteId }) => {
     };
   };
 
-  const stats = calculateNutritionStats(nutritionEntries);
+  const stats = calculateNutritionStats(entries);
 
   return (
     <div className="space-y-6">
