@@ -668,7 +668,7 @@ const Documents = ({ athleteId }) => {
                 </div>
               </div>
             </div>
-          </div>
+          </Card>
         </div>
       )}
     </div>
