@@ -360,10 +360,7 @@ const Documents = ({ athleteId }) => {
           </p>
         </div>
         <Button 
-          onClick={() => {
-            alert('Opening upload modal...');
-            setShowModal(true);
-          }}
+          onClick={() => setShowModal(true)}
           className="bg-blue-600 hover:bg-blue-700 btn-transition"
         >
           <Plus className="w-4 h-4 mr-2" />
