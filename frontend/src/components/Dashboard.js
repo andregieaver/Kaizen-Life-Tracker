@@ -125,9 +125,14 @@ const Dashboard = ({ athleteId }) => {
       const response = await axios.get(`${API}/workouts/${athleteId}?start_date=${startOfYear}&end_date=${endOfYear}`);
       const workouts = response.data;
       
+      // Determine if user prefers metric (check both fields for compatibility)
+      const isMetric = athleteData?.measurement_system === 'metric' || 
+                       athleteData?.distance_unit === 'kilometers' || 
+                       athleteData?.distance_unit === 'km';
+      
       // Calculate total distance (convert to appropriate unit based on athlete preference)
       const totalDistance = workouts.reduce((sum, workout) => {
-        const distance = athleteData?.distance_unit === 'kilometers' 
+        const distance = isMetric
           ? workout.distance_miles * 1.60934 // Convert miles to km
           : workout.distance_miles;
         return sum + distance;
