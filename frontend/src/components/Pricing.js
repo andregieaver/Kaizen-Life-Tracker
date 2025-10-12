@@ -67,6 +67,7 @@ const Pricing = () => {
       features: [
         'Everything in Pro',
         'Unlimited scheduled AI analyses',
+        'Unlimited fitness test tracking',
         'Personalized training plans',
         'Recovery optimization',
         'Injury prevention insights',
