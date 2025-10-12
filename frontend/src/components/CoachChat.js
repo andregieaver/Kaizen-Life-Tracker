@@ -757,27 +757,32 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                   type="button"
                   variant="outline"
                   onClick={async () => {
-                    console.log('Mic button clicked');
-                    console.log('voiceChatRef.current:', voiceChatRef.current);
+                    console.log('=== MIC BUTTON CLICKED ===');
                     console.log('hasOpenAIKey:', hasOpenAIKey);
+                    console.log('voiceChatRef.current:', voiceChatRef.current);
+                    console.log('isVoiceActive:', isVoiceActive);
                     
                     if (!voiceChatRef.current) {
-                      console.error('VoiceChat ref is null!');
+                      console.error('❌ VoiceChat ref is null!');
+                      alert('Voice chat component not initialized. Please refresh the page.');
                       return;
                     }
                     
                     try {
                       if (isVoiceActive) {
-                        console.log('Stopping voice chat...');
+                        console.log('🛑 Stopping voice chat...');
                         await voiceChatRef.current.stopVoiceChat();
                         setIsVoiceActive(false);
+                        console.log('✅ Voice chat stopped');
                       } else {
-                        console.log('Starting voice chat...');
+                        console.log('🎤 Starting voice chat...');
                         await voiceChatRef.current.startVoiceChat();
                         setIsVoiceActive(true);
+                        console.log('✅ Voice chat started');
                       }
                     } catch (error) {
-                      console.error('Error toggling voice chat:', error);
+                      console.error('❌ Error toggling voice chat:', error);
+                      alert(`Voice chat error: ${error.message}`);
                       setIsVoiceActive(false);
                     }
                   }}
