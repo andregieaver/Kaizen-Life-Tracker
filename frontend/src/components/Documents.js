@@ -190,6 +190,10 @@ const Documents = ({ athleteId }) => {
       return;
     }
 
+    // Set loading state
+    setIsLoading(true);
+    setSaveStatus({ type: '', message: 'Uploading document...' });
+
     try {
       const newDocument = {
         id: Math.random().toString(36).substring(7),
@@ -204,35 +208,53 @@ const Documents = ({ athleteId }) => {
         created_at: new Date().toISOString()
       };
 
-      console.log('Uploading document:', {
-        fileName,
-        fileType,
-        fileSize: `${(fileSize / 1024 / 1024).toFixed(2)} MB`,
-        dataSize: `${(fileData.length * 0.75 / 1024 / 1024).toFixed(2)} MB`
+      // Upload document
+      const response = await axios.post(`${API}/documents`, newDocument, {
+        timeout: 30000 // 30 second timeout for large files
       });
-
-      await axios.post(`${API}/documents`, newDocument);
       
-      setSaveStatus({ type: 'success', message: 'Document uploaded successfully!' });
-      setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
-      
-      // Reset form
-      setTitle('');
-      setCategory('medical');
-      setDescription('');
-      setFileData(null);
-      setFileName('');
-      setFileType('');
-      setFileSize(0);
-      setShowModal(false);
-      
-      // Reload documents
-      loadDocuments();
+      if (response.data.success) {
+        // Reset form first
+        setTitle('');
+        setCategory('medical');
+        setDescription('');
+        setFileData(null);
+        setFileName('');
+        setFileType('');
+        setFileSize(0);
+        
+        // Reload documents
+        await loadDocuments();
+        
+        // Show success and close modal
+        setSaveStatus({ type: 'success', message: 'Document uploaded successfully!' });
+        
+        // Close modal after short delay to show success message
+        setTimeout(() => {
+          setShowModal(false);
+          setSaveStatus({ type: '', message: '' });
+        }, 1500);
+      } else {
+        throw new Error('Upload failed - no success response');
+      }
     } catch (error) {
       console.error('Error uploading document:', error);
-      const errorMessage = error.response?.data?.detail || error.message || 'Failed to upload document';
-      console.error('Detailed error:', errorMessage);
+      
+      let errorMessage = 'Failed to upload document';
+      
+      if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+        errorMessage = 'Upload timed out. File may be too large.';
+      } else if (error.response?.status === 413) {
+        errorMessage = 'File is too large. Please compress or use a smaller file.';
+      } else if (error.response?.data?.detail) {
+        errorMessage = error.response.data.detail;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       setSaveStatus({ type: 'error', message: errorMessage });
+    } finally {
+      setIsLoading(false);
     }
   };
 
