@@ -29,6 +29,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
   const [isFirstVisit, setIsFirstVisit] = useState(true); // Track if this is the first visit to show suggested questions
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const voiceChatRef = useRef(null);
 
   useEffect(() => {
     // Don't load chat history on mount - start fresh
