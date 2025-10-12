@@ -381,6 +381,95 @@ const Nutrition = ({ athleteId }) => {
         </div>
       )}
 
+      {/* Nutrition Statistics */}
+      {nutritionEntries.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Total Nutrition */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Total Intake</CardTitle>
+              <CardDescription>{stats.daysTracked} days tracked</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div>
+                <div className="text-3xl font-bold text-blue-600">{stats.total.calories}</div>
+                <div className="text-sm text-gray-600">Calories</div>
+              </div>
+              <div className="grid grid-cols-3 gap-2 pt-2 border-t">
+                <div>
+                  <div className="text-lg font-semibold text-orange-600">{stats.total.protein}g</div>
+                  <div className="text-xs text-gray-500">Protein</div>
+                </div>
+                <div>
+                  <div className="text-lg font-semibold text-green-600">{stats.total.carbs}g</div>
+                  <div className="text-xs text-gray-500">Carbs</div>
+                </div>
+                <div>
+                  <div className="text-lg font-semibold text-purple-600">{stats.total.fat}g</div>
+                  <div className="text-xs text-gray-500">Fat</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Daily Average */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Daily Average</CardTitle>
+              <CardDescription>Per day tracked</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div>
+                <div className="text-3xl font-bold text-blue-600">{stats.daily.calories}</div>
+                <div className="text-sm text-gray-600">Calories/day</div>
+              </div>
+              <div className="grid grid-cols-3 gap-2 pt-2 border-t">
+                <div>
+                  <div className="text-lg font-semibold text-orange-600">{stats.daily.protein}g</div>
+                  <div className="text-xs text-gray-500">Protein</div>
+                </div>
+                <div>
+                  <div className="text-lg font-semibold text-green-600">{stats.daily.carbs}g</div>
+                  <div className="text-xs text-gray-500">Carbs</div>
+                </div>
+                <div>
+                  <div className="text-lg font-semibold text-purple-600">{stats.daily.fat}g</div>
+                  <div className="text-xs text-gray-500">Fat</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Weekly Average */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Weekly Average</CardTitle>
+              <CardDescription>Per week</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div>
+                <div className="text-3xl font-bold text-blue-600">{stats.weekly.calories}</div>
+                <div className="text-sm text-gray-600">Calories/week</div>
+              </div>
+              <div className="grid grid-cols-3 gap-2 pt-2 border-t">
+                <div>
+                  <div className="text-lg font-semibold text-orange-600">{stats.weekly.protein}g</div>
+                  <div className="text-xs text-gray-500">Protein</div>
+                </div>
+                <div>
+                  <div className="text-lg font-semibold text-green-600">{stats.weekly.carbs}g</div>
+                  <div className="text-xs text-gray-500">Carbs</div>
+                </div>
+                <div>
+                  <div className="text-lg font-semibold text-purple-600">{stats.weekly.fat}g</div>
+                  <div className="text-xs text-gray-500">Fat</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* Nutrition Entries List */}
       {isLoading ? (
         <div className="text-center py-8">
