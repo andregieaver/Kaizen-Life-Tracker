@@ -338,12 +338,20 @@ const Documents = ({ athleteId }) => {
       {/* Debug Panel */}
       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-xs">
         <div className="font-bold mb-1 text-lg">🔧 DEBUG INFO v3.0</div>
-        <button 
-          onClick={() => setSaveStatus({ type: '', message: 'TEST BUTTON CLICKED!' })}
-          className="bg-green-500 text-white px-4 py-2 rounded mb-2 text-base"
-        >
-          CLICK TO TEST
-        </button>
+        <div className="flex gap-2 mb-2">
+          <button 
+            onClick={() => setSaveStatus({ type: '', message: 'TEST BUTTON CLICKED!' })}
+            className="bg-green-500 text-white px-3 py-2 rounded text-sm"
+          >
+            TEST CLICK
+          </button>
+          <button 
+            onClick={handleSubmit}
+            className="bg-blue-500 text-white px-3 py-2 rounded text-sm"
+          >
+            TEST UPLOAD
+          </button>
+        </div>
         <div className="text-base">Documents loaded: <span className="font-bold">{documents.length}</span></div>
         <div className="text-base">Filtered: <span className="font-bold">{filteredDocuments.length}</span></div>
         <div>Category: {selectedCategory}</div>
