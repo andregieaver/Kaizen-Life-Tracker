@@ -387,7 +387,34 @@ const Nutrition = ({ athleteId }) => {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-700 whitespace-pre-wrap">{entry.description}</p>
+                  <p className="text-gray-700 whitespace-pre-wrap mb-3">{entry.description}</p>
+                  
+                  {/* Nutritional Information */}
+                  {entry.calories > 0 && (
+                    <div className="mt-3 pt-3 border-t border-gray-200">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-2">
+                        <div className="bg-blue-50 rounded-lg p-2 text-center">
+                          <div className="text-xs text-gray-600">Calories</div>
+                          <div className="text-lg font-bold text-blue-600">{entry.calories}</div>
+                        </div>
+                        <div className="bg-green-50 rounded-lg p-2 text-center">
+                          <div className="text-xs text-gray-600">Protein</div>
+                          <div className="text-lg font-bold text-green-600">{entry.protein}g</div>
+                        </div>
+                        <div className="bg-orange-50 rounded-lg p-2 text-center">
+                          <div className="text-xs text-gray-600">Carbs</div>
+                          <div className="text-lg font-bold text-orange-600">{entry.carbs}g</div>
+                        </div>
+                        <div className="bg-purple-50 rounded-lg p-2 text-center">
+                          <div className="text-xs text-gray-600">Fat</div>
+                          <div className="text-lg font-bold text-purple-600">{entry.fat}g</div>
+                        </div>
+                      </div>
+                      {entry.ai_analysis && (
+                        <p className="text-xs text-gray-500 italic">AI: {entry.ai_analysis}</p>
+                      )}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             );
