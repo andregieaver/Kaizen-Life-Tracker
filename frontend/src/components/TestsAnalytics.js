@@ -653,6 +653,87 @@ const TestsAnalytics = ({ athleteId }) => {
           </div>
         </div>
       )}
+
+      {/* Test Limit Modal */}
+      {showTestLimitModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-md">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Crown className="w-5 h-5 mr-2 text-yellow-500" />
+                Upgrade to Track More Tests
+              </CardTitle>
+              <CardDescription>
+                {subscriptionStatus.tier === 'free' 
+                  ? "You've reached the limit of 3 fitness tests on the Free plan."
+                  : "You've reached the limit of 10 fitness tests on the Pro plan."}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h3 className="font-semibold text-blue-900 mb-2">Upgrade Benefits:</h3>
+                <ul className="space-y-2 text-sm text-blue-800">
+                  {subscriptionStatus.tier === 'free' ? (
+                    <>
+                      <li className="flex items-start">
+                        <Check className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span><strong>Pro:</strong> Track up to 10 fitness tests</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span><strong>Premium:</strong> Unlimited test tracking</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Advanced analytics & trend visualization</span>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li className="flex items-start">
+                        <Check className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span><strong>Premium:</strong> Unlimited test tracking</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Personalized training plans</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Performance predictions & insights</span>
+                      </li>
+                      <li className="flex items-start">
+                        <Check className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>1-on-1 coaching sessions</span>
+                      </li>
+                    </>
+                  )}
+                </ul>
+              </div>
+              
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => setShowTestLimitModal(false)}
+                >
+                  Maybe Later
+                </Button>
+                <Button
+                  className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  onClick={() => {
+                    setShowTestLimitModal(false);
+                    window.location.href = '/dashboard/account?tab=subscriptions';
+                  }}
+                >
+                  <Crown className="w-4 h-4 mr-2" />
+                  Upgrade Now
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 };
