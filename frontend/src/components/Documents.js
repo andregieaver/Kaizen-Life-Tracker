@@ -554,9 +554,10 @@ const Documents = ({ athleteId }) => {
                   <Button
                     type="submit"
                     className="flex-1 bg-blue-600 hover:bg-blue-700"
+                    disabled={isLoading || !title.trim() || !fileData}
                   >
                     <Upload className="w-4 h-4 mr-2" />
-                    Upload Document
+                    {isLoading ? 'Uploading...' : 'Upload Document'}
                   </Button>
                 </div>
               </form>
