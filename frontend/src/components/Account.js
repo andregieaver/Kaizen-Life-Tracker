@@ -699,6 +699,13 @@ const Account = ({ athleteId }) => {
     if (!profilePictureFile || !athleteId) return null;
     
     try {
+      console.log('Uploading profile picture:', {
+        fileName: profilePictureFile.name,
+        fileType: profilePictureFile.type,
+        fileSize: profilePictureFile.size,
+        athleteId: athleteId
+      });
+      
       const formData = new FormData();
       formData.append('file', profilePictureFile);
       
@@ -707,12 +714,16 @@ const Account = ({ athleteId }) => {
         body: formData
       });
       
+      console.log('Upload response status:', response.status);
+      
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('Upload error response:', errorData);
         throw new Error(errorData.detail || 'Failed to upload profile picture');
       }
       
       const result = await response.json();
+      console.log('Upload successful:', result);
       return result.profile_picture;
     } catch (error) {
       console.error('Error uploading profile picture:', error);
