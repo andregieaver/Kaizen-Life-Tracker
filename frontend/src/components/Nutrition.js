@@ -40,6 +40,21 @@ const Nutrition = ({ athleteId }) => {
     loadNutritionEntries();
   }, [athleteId]);
 
+  // Check for action parameter in URL to auto-open modal
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const action = urlParams.get('action');
+    
+    if (action === 'add') {
+      // Small delay to ensure component is fully mounted
+      setTimeout(() => {
+        setShowModal(true);
+        // Clean up URL
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 300);
+    }
+  }, []);
+
   const loadNutritionEntries = async () => {
     try {
       setIsLoading(true);
