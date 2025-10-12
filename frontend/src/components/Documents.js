@@ -142,15 +142,13 @@ const Documents = ({ athleteId }) => {
         if (isImage) {
           // Compress images automatically
           setSaveStatus({ type: '', message: 'Compressing image...' });
-          
-          const compressed = await compressImage(file);
-          setFileData(compressed.data);
-          setFileName(compressed.name);
+          const compressedImage = await compressImage(file);
+          setFileData(compressedImage);
+          setFilePreview(compressedImage);
+          setFileName(file.name);
           setFileType('image/jpeg');
-          setFileSize(compressed.size);
-          
-          setSaveStatus({ type: 'success', message: 'Image compressed successfully!' });
-          setTimeout(() => setSaveStatus({ type: '', message: '' }), 2000);
+          setFileSize(Math.round(compressedImage.length * 0.75));
+          setSaveStatus({ type: 'success', message: 'Image ready!' });
         } else {
           // Non-image files: validate size and read normally
           if (file.size > 10 * 1024 * 1024) {
@@ -162,6 +160,7 @@ const Documents = ({ athleteId }) => {
           const reader = new FileReader();
           reader.onload = (e) => {
             setFileData(e.target.result);
+            setFilePreview(null);
             setFileName(file.name);
             setFileType(file.type);
             setFileSize(file.size);
