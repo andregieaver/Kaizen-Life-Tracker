@@ -241,7 +241,7 @@ class RealtimeAudioChat {
     }
 }
 
-const VoiceChat = ({ backendUrl, athleteId, onError }) => {
+const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError }, ref) => {
     const { t } = useTranslation();
     const [isConnected, setIsConnected] = useState(false);
     const [isConnecting, setIsConnecting] = useState(false);
