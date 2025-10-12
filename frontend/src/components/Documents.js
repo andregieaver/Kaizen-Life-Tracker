@@ -225,29 +225,25 @@ const Documents = ({ athleteId }) => {
         timeout: 30000,
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          setSaveStatus({ type: '', message: `Uploading: ${percentCompleted}%` });
+          setSaveStatus({ type: '', message: `📤 Uploading: ${percentCompleted}%` });
         }
       });
       
       // Step 5: Check response
-      setSaveStatus({ type: '', message: 'Step 5: Checking response...' });
+      setSaveStatus({ type: '', message: '▶ STEP 5: Checking server response...' });
       
       if (!response) {
-        alert('ERROR: No response from server');
         throw new Error('No response from server');
       }
       
       if (!response.data) {
-        alert('ERROR: Empty response from server');
         throw new Error('Empty response data');
       }
       
       if (response.data.success) {
-        alert(`SUCCESS! Document ID: ${response.data.id}`);
-        setSaveStatus({ type: 'success', message: `✓ Upload successful! ID: ${response.data.id}` });
+        setSaveStatus({ type: 'success', message: `✅ SUCCESS! Document ID: ${response.data.id}` });
         
         // Step 6: Reset form
-        setSaveStatus({ type: 'success', message: 'Step 6: Cleaning up...' });
         setTitle('');
         setCategory('medical');
         setDescription('');
@@ -256,33 +252,22 @@ const Documents = ({ athleteId }) => {
         setFileType('');
         setFileSize(0);
         
-        // Wait to show success
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // Wait to show success - DON'T CLOSE MODAL YET
+        await new Promise(resolve => setTimeout(resolve, 3000));
         
         // Step 7: Close and reload
-        setSaveStatus({ type: 'success', message: 'Step 7: Reloading...' });
-        setShowModal(false);
-        setSaveStatus({ type: '', message: '' });
+        setSaveStatus({ type: 'success', message: '▶ STEP 7: Closing and reloading documents...' });
         
         await loadDocuments();
         
-        alert('Upload complete! Document should now be visible.');
+        setShowModal(false);
+        setSaveStatus({ type: '', message: '' });
       } else {
-        alert('ERROR: Server returned success=false');
         throw new Error('Upload failed - server returned success=false');
       }
     } catch (error) {
       // Detailed error handling
-      let errorDetails = `ERROR at Step ${saveStatus.message.split(':')[0] || 'Unknown'}:\n`;
-      errorDetails += `Message: ${error.message || 'Unknown error'}\n`;
-      errorDetails += `Code: ${error.code || 'N/A'}\n`;
-      errorDetails += `Status: ${error.response?.status || 'N/A'}\n`;
-      
-      if (error.response?.data) {
-        errorDetails += `Server: ${JSON.stringify(error.response.data).substring(0, 100)}`;
-      }
-      
-      alert(errorDetails);
+      let errorMessage = `❌ ERROR: ${error.message || 'Unknown'} | Code: ${error.code || 'N/A'} | Status: ${error.response?.status || 'N/A'}`;
       
       let errorMessage = 'Upload failed';
       
