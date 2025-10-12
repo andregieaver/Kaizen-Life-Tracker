@@ -462,7 +462,7 @@ const Documents = ({ athleteId }) => {
                     </p>
                   )}
                   <p className="text-xs text-gray-500">
-                    Accepted formats: PDF, Word, Text, Images (Max 10MB)
+                    Accepted formats: PDF, Word, Text, Images • Images auto-compressed
                   </p>
                 </div>
 
