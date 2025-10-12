@@ -64,6 +64,7 @@ const Pricing = () => {
       popular: false,
       features: [
         'Everything in Pro',
+        'Unlimited scheduled AI analyses',
         'Personalized training plans',
         'Recovery optimization',
         'Injury prevention insights',
