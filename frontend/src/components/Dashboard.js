@@ -474,6 +474,63 @@ const Dashboard = ({ athleteId }) => {
       <main className={activeTab === 'coach' ? 'flex-1 flex flex-col pt-16' : 'w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-20 md:pb-8 pt-20 md:pt-24'}>
         {activeTab === 'overview' && (
           <div className="space-y-8">
+            {/* Quick Actions */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Voice Journal Entry */}
+              <Card 
+                className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-blue-50 to-blue-100 hover:scale-105"
+                onClick={() => navigate('/dashboard/journal')}
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-blue-600 rounded-full">
+                      <Mic className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">Voice Journal</h3>
+                      <p className="text-sm text-gray-600">Record your thoughts</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Voice AI Coach */}
+              <Card 
+                className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100 hover:scale-105"
+                onClick={() => navigate('/dashboard/coach')}
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-purple-600 rounded-full">
+                      <MessageCircle className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">Talk to Coach</h3>
+                      <p className="text-sm text-gray-600">Voice AI assistance</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Add Nutrition Entry */}
+              <Card 
+                className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-green-50 to-green-100 hover:scale-105"
+                onClick={() => navigate('/dashboard/nutrition')}
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-green-600 rounded-full">
+                      <Utensils className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">Log Meal</h3>
+                      <p className="text-sm text-gray-600">Track nutrition</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
             {/* Readiness Section */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2">
