@@ -453,7 +453,10 @@ const Documents = ({ athleteId }) => {
       {/* Upload Modal */}
       {showModal && (
         <div 
+          key="documents-modal"
           className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4"
+          onMouseDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
         >
           <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <CardHeader>
