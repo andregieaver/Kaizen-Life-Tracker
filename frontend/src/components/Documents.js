@@ -526,19 +526,28 @@ const Documents = ({ athleteId }) => {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
           <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-gray-900">Upload Document</h2>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowModal(false)}
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle>Upload Document</CardTitle>
+                <button
+                  onClick={() => {
+                    setShowModal(false);
+                    setTitle('');
+                    setCategory('medical');
+                    setDescription('');
+                    setFileData(null);
+                    setFileName('');
+                    setFileType('');
+                    setFileSize(0);
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                 >
                   <X className="w-5 h-5" />
-                </Button>
+                </button>
               </div>
-
-              <div className="space-y-4">
+              <CardDescription>Upload medical records, test results, and other important documents</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
                 {/* File Upload */}
                 <div className="space-y-2">
                   <Label htmlFor="file">Document File</Label>
