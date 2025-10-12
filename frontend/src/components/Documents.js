@@ -295,10 +295,10 @@ const Documents = ({ athleteId }) => {
           onClick={() => setSelectedCategory('all')}
           size="sm"
         >
-          All ({documents.length})
+          All ({Array.isArray(documents) ? documents.length : 0})
         </Button>
         {categories.map((cat) => {
-          const count = documents.filter(d => d.category === cat.value).length;
+          const count = Array.isArray(documents) ? documents.filter(d => d.category === cat.value).length : 0;
           return (
             <Button
               key={cat.value}
