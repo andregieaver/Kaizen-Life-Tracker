@@ -2880,6 +2880,18 @@ async def update_nutrition_entry(entry_id: str, data: dict):
     if "image_data" in data:
         update_data["image_data"] = data["image_data"]
     
+    # Include nutritional data if provided
+    if "calories" in data:
+        update_data["calories"] = data["calories"]
+    if "protein" in data:
+        update_data["protein"] = data["protein"]
+    if "carbs" in data:
+        update_data["carbs"] = data["carbs"]
+    if "fat" in data:
+        update_data["fat"] = data["fat"]
+    if "ai_analysis" in data:
+        update_data["ai_analysis"] = data["ai_analysis"]
+    
     result = await db.nutrition_entries.update_one(
         {"id": entry_id},
         {"$set": update_data}
