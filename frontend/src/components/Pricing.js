@@ -44,6 +44,7 @@ const Pricing = () => {
       features: [
         'Unlimited AI Coach access',
         'Up to 5 scheduled AI analyses',
+        'Track up to 10 fitness tests',
         'All integrations (Strava, Oura, COROS)',
         'Advanced analytics & reports',
         'Unlimited history',
