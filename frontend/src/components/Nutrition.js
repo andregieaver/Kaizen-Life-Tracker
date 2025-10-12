@@ -23,6 +23,8 @@ const Nutrition = ({ athleteId }) => {
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [nutritionData, setNutritionData] = useState(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
   
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
