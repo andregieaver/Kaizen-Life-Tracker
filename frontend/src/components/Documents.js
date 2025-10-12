@@ -659,7 +659,8 @@ const Documents = ({ athleteId }) => {
                 </div>
             </CardContent>
           </Card>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
