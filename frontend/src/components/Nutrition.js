@@ -315,19 +315,28 @@ const Nutrition = ({ athleteId }) => {
   };
 
   // Calculate nutrition statistics
-  const calculateNutritionStats = () => {
-    const totalCalories = nutritionEntries.reduce((sum, entry) => sum + (entry.calories || 0), 0);
-    const totalProtein = nutritionEntries.reduce((sum, entry) => sum + (entry.macros?.protein || 0), 0);
-    const totalCarbs = nutritionEntries.reduce((sum, entry) => sum + (entry.macros?.carbs || 0), 0);
-    const totalFat = nutritionEntries.reduce((sum, entry) => sum + (entry.macros?.fat || 0), 0);
+  const calculateNutritionStats = (entries) => {
+    if (!entries || entries.length === 0) {
+      return {
+        total: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+        daily: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+        weekly: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+        daysTracked: 0
+      };
+    }
+
+    const totalCalories = entries.reduce((sum, entry) => sum + (entry.calories || 0), 0);
+    const totalProtein = entries.reduce((sum, entry) => sum + (entry.macros?.protein || 0), 0);
+    const totalCarbs = entries.reduce((sum, entry) => sum + (entry.macros?.carbs || 0), 0);
+    const totalFat = entries.reduce((sum, entry) => sum + (entry.macros?.fat || 0), 0);
 
     // Calculate unique days with entries
     const uniqueDays = new Set(
-      nutritionEntries.map(entry => new Date(entry.created_at).toDateString())
+      entries.map(entry => new Date(entry.created_at).toDateString())
     ).size;
 
     // Calculate date range in weeks
-    const dates = nutritionEntries.map(entry => new Date(entry.created_at));
+    const dates = entries.map(entry => new Date(entry.created_at));
     const oldestDate = dates.length > 0 ? new Date(Math.min(...dates)) : new Date();
     const newestDate = dates.length > 0 ? new Date(Math.max(...dates)) : new Date();
     const daysDifference = Math.max(1, Math.ceil((newestDate - oldestDate) / (1000 * 60 * 60 * 24)) + 1);
@@ -356,7 +365,7 @@ const Nutrition = ({ athleteId }) => {
     };
   };
 
-  const stats = calculateNutritionStats();
+  const stats = calculateNutritionStats(nutritionEntries);
 
   return (
     <div className="space-y-6">
