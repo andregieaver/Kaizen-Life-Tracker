@@ -68,32 +68,112 @@ const Documents = ({ athleteId }) => {
     }
   };
 
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      // Validate file size (max 10MB)
-      if (file.size > 10 * 1024 * 1024) {
-        setSaveStatus({ type: 'error', message: 'File size must be less than 10MB' });
-        return;
-      }
-
-      // Read file as base64
+  const compressImage = (file) => {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setFileData(e.target.result);
-        setFileName(file.name);
-        setFileType(file.type);
-        setFileSize(file.size);
+        const img = new Image();
+        img.onload = () => {
+          // Calculate new dimensions (max 1920px, maintaining aspect ratio)
+          let width = img.width;
+          let height = img.height;
+          const maxSize = 1920;
+
+          if (width > maxSize || height > maxSize) {
+            if (width > height) {
+              height = (height / width) * maxSize;
+              width = maxSize;
+            } else {
+              width = (width / height) * maxSize;
+              height = maxSize;
+            }
+          }
+
+          // Create canvas and compress
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Try different quality levels until under 10MB
+          let quality = 0.9;
+          let compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          
+          // Keep reducing quality until under 10MB (base64 string length * 0.75 ≈ file size in bytes)
+          while (compressedDataUrl.length * 0.75 > 10 * 1024 * 1024 && quality > 0.1) {
+            quality -= 0.1;
+            compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          }
+
+          // Final check
+          const finalSizeInMB = (compressedDataUrl.length * 0.75) / (1024 * 1024);
+          if (finalSizeInMB > 10) {
+            reject(new Error('Unable to compress image below 10MB. Please use a smaller image.'));
+          } else {
+            resolve({
+              data: compressedDataUrl,
+              size: Math.round(compressedDataUrl.length * 0.75),
+              name: file.name.replace(/\.[^.]+$/, '.jpg')
+            });
+          }
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = e.target.result;
+      };
+      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      try {
+        // Check if file is an image
+        const isImage = file.type.startsWith('image/');
+        
+        if (isImage) {
+          // Compress images automatically
+          setSaveStatus({ type: '', message: 'Compressing image...' });
+          
+          const compressed = await compressImage(file);
+          setFileData(compressed.data);
+          setFileName(compressed.name);
+          setFileType('image/jpeg');
+          setFileSize(compressed.size);
+          
+          setSaveStatus({ type: 'success', message: 'Image compressed successfully!' });
+          setTimeout(() => setSaveStatus({ type: '', message: '' }), 2000);
+        } else {
+          // Non-image files: validate size and read normally
+          if (file.size > 10 * 1024 * 1024) {
+            setSaveStatus({ type: 'error', message: 'File size must be less than 10MB' });
+            return;
+          }
+
+          // Read file as base64
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            setFileData(e.target.result);
+            setFileName(file.name);
+            setFileType(file.type);
+            setFileSize(file.size);
+          };
+          reader.onerror = () => {
+            setSaveStatus({ type: 'error', message: 'Failed to read file' });
+          };
+          reader.readAsDataURL(file);
+        }
         
         // Auto-populate title if empty
         if (!title) {
           setTitle(file.name);
         }
-      };
-      reader.onerror = () => {
-        setSaveStatus({ type: 'error', message: 'Failed to read file' });
-      };
-      reader.readAsDataURL(file);
+      } catch (error) {
+        console.error('Error processing file:', error);
+        setSaveStatus({ type: 'error', message: error.message });
+      }
     }
   };
 
