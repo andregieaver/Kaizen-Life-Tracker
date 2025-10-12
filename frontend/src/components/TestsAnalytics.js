@@ -81,6 +81,29 @@ const TestsAnalytics = ({ athleteId }) => {
     }
   };
 
+  // Helper functions for test limits
+  const getTestLimit = (tier) => {
+    const limits = {
+      free: 3,
+      pro: 10,
+      premium: Infinity
+    };
+    return limits[tier] || 3;
+  };
+
+  const canAddTest = () => {
+    const limit = getTestLimit(subscriptionStatus.tier);
+    return testNames.length < limit;
+  };
+
+  const handleAddTestClick = () => {
+    if (canAddTest()) {
+      setShowModal(true);
+    } else {
+      setShowTestLimitModal(true);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
