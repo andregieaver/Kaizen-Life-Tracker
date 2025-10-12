@@ -184,6 +184,7 @@ const Nutrition = ({ athleteId }) => {
   const removeImage = () => {
     setImageData(null);
     setImagePreview(null);
+    setNutritionData(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
     if (cameraInputRef.current) cameraInputRef.current.value = '';
   };
