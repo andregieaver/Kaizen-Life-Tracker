@@ -22,6 +22,8 @@ const TestsAnalytics = ({ athleteId }) => {
   const [showModal, setShowModal] = useState(false);
   const [editingResult, setEditingResult] = useState(null);
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
+  const [subscriptionStatus, setSubscriptionStatus] = useState({ tier: 'free', status: 'active' });
+  const [showTestLimitModal, setShowTestLimitModal] = useState(false);
   
   const [formData, setFormData] = useState({
     test_name: '',
