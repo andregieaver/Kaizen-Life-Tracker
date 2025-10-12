@@ -28,6 +28,26 @@ const Journal = ({ athleteId }) => {
     loadJournalEntries();
   }, [athleteId]);
 
+  // Check for action parameter in URL to auto-start voice recording
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const action = urlParams.get('action');
+    
+    if (action === 'voice') {
+      // Small delay to ensure component is fully mounted
+      setTimeout(() => {
+        setShowModal(true);
+        setEntryType('voice');
+        // Auto-start recording after modal opens
+        setTimeout(() => {
+          startRecording();
+        }, 500);
+        // Clean up URL
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 300);
+    }
+  }, []);
+
   const loadJournalEntries = async () => {
     try {
       setIsLoading(true);
