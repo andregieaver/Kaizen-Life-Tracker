@@ -136,9 +136,6 @@ const Documents = ({ athleteId }) => {
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Force modal open (critical for mobile)
-      setShowModal(true);
-      
       try {
         // Check if file is an image
         const isImage = file.type.startsWith('image/');
@@ -148,43 +145,65 @@ const Documents = ({ athleteId }) => {
           setSaveStatus({ type: '', message: 'Compressing image...' });
           
           const compressed = await compressImage(file);
+          
+          // IMMEDIATELY store in localStorage
+          localStorage.setItem('doc_upload_data', JSON.stringify({
+            fileData: compressed.data,
+            fileName: compressed.name,
+            fileType: 'image/jpeg',
+            fileSize: compressed.size,
+            title: title || compressed.name,
+            category: category
+          }));
+          
           setFileData(compressed.data);
           setFileName(compressed.name);
           setFileType('image/jpeg');
           setFileSize(compressed.size);
+          if (!title) setTitle(compressed.name);
           
           setSaveStatus({ type: 'success', message: '✅ Image ready! Click Upload Document button below.' });
+          setShowModal(true);
         } else {
           // Non-image files: validate size and read normally
           if (file.size > 10 * 1024 * 1024) {
             setSaveStatus({ type: 'error', message: 'File size must be less than 10MB' });
+            localStorage.removeItem('doc_upload_active');
             return;
           }
 
           // Read file as base64
           const reader = new FileReader();
           reader.onload = (e) => {
+            // IMMEDIATELY store in localStorage
+            localStorage.setItem('doc_upload_data', JSON.stringify({
+              fileData: e.target.result,
+              fileName: file.name,
+              fileType: file.type,
+              fileSize: file.size,
+              title: title || file.name,
+              category: category
+            }));
+            
             setFileData(e.target.result);
             setFileName(file.name);
             setFileType(file.type);
             setFileSize(file.size);
+            if (!title) setTitle(file.name);
+            
             setSaveStatus({ type: 'success', message: '✅ File ready! Click Upload Document button below.' });
-            // Force modal open after file loads
             setShowModal(true);
           };
           reader.onerror = () => {
             setSaveStatus({ type: 'error', message: 'Failed to read file' });
+            localStorage.removeItem('doc_upload_active');
           };
           reader.readAsDataURL(file);
-        }
-        
-        // Auto-populate title if empty
-        if (!title) {
-          setTitle(file.name);
         }
       } catch (error) {
         console.error('Error processing file:', error);
         setSaveStatus({ type: 'error', message: error.message });
+        localStorage.removeItem('doc_upload_active');
       }
     }
   };
