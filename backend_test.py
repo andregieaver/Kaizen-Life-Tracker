@@ -9629,7 +9629,7 @@ if __name__ == "__main__":
             
             sys.exit(0 if all_success else 1)
         else:
-            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug, --openai-validation-fix, --voice-preference, --date-of-birth, --timezone-fix, --athlete-data-debug")
+            print("Available options: --ai-coach-search, --account-settings, --oura-only, --training-calendar-only, --enhanced-training-calendar, --ai-coach-sequential, --ai-coach-units, --unit-system-blocks, --voice-api, --voice-debug, --voice-chat, --openai-validation-fix, --voice-preference, --date-of-birth, --timezone-fix, --athlete-data-debug")
             sys.exit(1)
     else:
         # Run Date of Birth Functionality test as primary focus (as per review request)
