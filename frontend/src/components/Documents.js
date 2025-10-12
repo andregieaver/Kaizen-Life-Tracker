@@ -50,24 +50,6 @@ const Documents = ({ athleteId }) => {
     filterDocuments();
   }, [documents, selectedCategory]);
 
-  // Prevent modal from closing during file upload
-  useEffect(() => {
-    if (showModal) {
-      console.log('Modal opened');
-      // Prevent any navigation or page unload while modal is open
-      const handleBeforeUnload = (e) => {
-        if (fileData || fileName) {
-          e.preventDefault();
-          e.returnValue = '';
-        }
-      };
-      window.addEventListener('beforeunload', handleBeforeUnload);
-      return () => {
-        window.removeEventListener('beforeunload', handleBeforeUnload);
-      };
-    }
-  }, [showModal, fileData, fileName]);
-
   const loadDocuments = async () => {
     try {
       setIsLoading(true);
