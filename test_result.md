@@ -401,6 +401,14 @@ frontend:
     stuck_count: 2
     priority: "high"
     needs_retesting: false
+    
+  - task: "Subscription Plan Limits for Scheduled Prompts"
+    implemented: false
+    working: "NA"
+    file: "/app/frontend/src/components/Account.js, /app/frontend/src/components/Pricing.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "user"
