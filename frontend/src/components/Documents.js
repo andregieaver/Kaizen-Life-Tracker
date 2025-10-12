@@ -541,6 +541,17 @@ const Documents = ({ athleteId }) => {
                   />
                 </div>
 
+                {/* Status Message */}
+                {saveStatus.message && (
+                  <div className={`p-3 rounded-lg text-sm ${
+                    saveStatus.type === 'success' ? 'bg-green-50 text-green-800' :
+                    saveStatus.type === 'error' ? 'bg-red-50 text-red-800' :
+                    'bg-blue-50 text-blue-800'
+                  }`}>
+                    {saveStatus.message}
+                  </div>
+                )}
+
                 {/* Action Buttons */}
                 <div className="flex gap-2 pt-4">
                   <Button
