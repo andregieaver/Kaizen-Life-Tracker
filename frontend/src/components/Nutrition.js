@@ -114,6 +114,35 @@ const Nutrition = ({ athleteId }) => {
     });
   };
 
+  const analyzeFoodImage = async (imageData) => {
+    try {
+      setIsAnalyzing(true);
+      setSaveStatus({ type: '', message: 'Analyzing food image with AI...' });
+      
+      const response = await axios.post(`${API}/nutrition/analyze-image/${athleteId}`, {
+        image_data: imageData
+      });
+      
+      setNutritionData(response.data);
+      setSaveStatus({ type: 'success', message: 'Nutritional analysis complete!' });
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 2000);
+    } catch (error) {
+      console.error('Error analyzing food image:', error);
+      const errorMessage = error.response?.data?.detail || 'Failed to analyze image';
+      setSaveStatus({ type: 'error', message: errorMessage });
+      // Set default nutrition data on error
+      setNutritionData({
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        ai_analysis: 'Analysis unavailable'
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -123,7 +152,9 @@ const Nutrition = ({ athleteId }) => {
         setImageData(compressedImage);
         setImagePreview(compressedImage);
         setSaveStatus({ type: 'success', message: 'Image ready!' });
-        setTimeout(() => setSaveStatus({ type: '', message: '' }), 2000);
+        
+        // Automatically analyze the image
+        await analyzeFoodImage(compressedImage);
       } catch (error) {
         console.error('Error processing image:', error);
         setSaveStatus({ type: 'error', message: error.message });
@@ -140,7 +171,9 @@ const Nutrition = ({ athleteId }) => {
         setImageData(compressedImage);
         setImagePreview(compressedImage);
         setSaveStatus({ type: 'success', message: 'Image ready!' });
-        setTimeout(() => setSaveStatus({ type: '', message: '' }), 2000);
+        
+        // Automatically analyze the image
+        await analyzeFoodImage(compressedImage);
       } catch (error) {
         console.error('Error processing image:', error);
         setSaveStatus({ type: 'error', message: error.message });
