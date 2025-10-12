@@ -482,25 +482,17 @@ const Dashboard = ({ athleteId }) => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">{t('dashboard.weeklyGoal')}</span>
-                    <span className="font-semibold">{athlete?.weekly_mileage} {t('common.miles')}</span>
+                    <span className="text-sm text-gray-600">Health Score</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-gray-400">Coming Soon</span>
+                    </div>
                   </div>
                   <Separator />
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">{t('dashboard.recentWorkouts')}</span>
-                    <span className="font-semibold">{recentWorkouts.length}</span>
-                  </div>
-                  <Separator />
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">{t('dashboard.runningGoals')}</span>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="text-xs"
-                      data-testid="view-goals-btn"
-                    >
-                      {t('dashboard.viewGoals')}
-                    </Button>
+                    <span className="text-sm text-gray-600">Running (YTD)</span>
+                    <span className="font-semibold">
+                      {ytdDistance.toFixed(1)} {athlete?.distance_unit === 'kilometers' ? 'km' : 'mi'}
+                    </span>
                   </div>
                 </CardContent>
               </Card>
