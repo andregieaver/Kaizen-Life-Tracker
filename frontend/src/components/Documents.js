@@ -42,6 +42,14 @@ const Documents = ({ athleteId }) => {
   useEffect(() => {
     loadDocuments();
   }, [athleteId]);
+  
+  // Keep modal open after file selection on mobile
+  useEffect(() => {
+    if (fileData && !showModal) {
+      setShowModal(true);
+      setSaveStatus({ type: 'success', message: '📁 File loaded! Now click Upload Document.' });
+    }
+  }, [fileData]);
 
   useEffect(() => {
     filterDocuments();
