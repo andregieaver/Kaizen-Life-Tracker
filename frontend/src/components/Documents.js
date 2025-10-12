@@ -214,22 +214,8 @@ const Documents = ({ athleteId }) => {
       });
       
       if (response.data.success) {
-        // Show success message first
-        setSaveStatus({ type: 'success', message: 'Document uploaded successfully!' });
-        
-        // Wait a moment to show the message
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Reload documents
-        await loadDocuments();
-        
-        // Check if document was actually loaded
-        const uploadedDoc = documents.find(doc => doc.id === response.data.id);
-        if (uploadedDoc) {
-          setSaveStatus({ type: 'success', message: 'Document uploaded and loaded!' });
-        } else {
-          setSaveStatus({ type: 'success', message: 'Document uploaded! Refresh page if not visible.' });
-        }
+        // Show success message
+        setSaveStatus({ type: 'success', message: `Upload successful! ID: ${response.data.id}` });
         
         // Reset form
         setTitle('');
@@ -240,11 +226,15 @@ const Documents = ({ athleteId }) => {
         setFileType('');
         setFileSize(0);
         
-        // Close modal after showing success
-        setTimeout(() => {
-          setShowModal(false);
-          setSaveStatus({ type: '', message: '' });
-        }, 2000);
+        // Wait to show success message
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Close modal
+        setShowModal(false);
+        setSaveStatus({ type: '', message: '' });
+        
+        // Reload documents after modal closes
+        await loadDocuments();
       } else {
         throw new Error('Upload failed - no success response');
       }
