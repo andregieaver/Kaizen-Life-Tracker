@@ -180,33 +180,19 @@ const Documents = ({ athleteId }) => {
   };
 
   const handleSubmit = async () => {
-    setSaveStatus({ type: '', message: '🔴 FUNCTION CALLED!' });
-    
+    if (!title.trim()) {
+      setSaveStatus({ type: 'error', message: 'Please enter a title' });
+      return;
+    }
+
+    if (!fileData) {
+      setSaveStatus({ type: 'error', message: 'Please select a file' });
+      return;
+    }
+
     try {
-      // Step 1: Validation
-      setSaveStatus({ type: '', message: '▶ STEP 1: Validating...' });
-      await new Promise(resolve => setTimeout(resolve, 500));
-    
-      if (!title.trim()) {
-        setSaveStatus({ type: 'error', message: '❌ ERROR: No title' });
-        return;
-      }
-
-      if (!fileData) {
-        setSaveStatus({ type: 'error', message: '❌ ERROR: No file' });
-        return;
-      }
-
-      // Step 2: Prepare data
-      setSaveStatus({ type: '', message: '▶ STEP 2: Preparing...' });
-      await new Promise(resolve => setTimeout(resolve, 500));
       setIsLoading(true);
-    
-    try {
-      const fileSizeMB = (fileSize / 1024 / 1024).toFixed(2);
-      const dataSizeMB = (fileData.length * 0.75 / 1024 / 1024).toFixed(2);
-      
-      setSaveStatus({ type: '', message: `▶ STEP 3: Uploading ${fileSizeMB}MB file (${fileName})...` });
+      setSaveStatus({ type: '', message: 'Uploading document...' });
       
       const newDocument = {
         id: Math.random().toString(36).substring(7),
@@ -221,32 +207,14 @@ const Documents = ({ athleteId }) => {
         created_at: new Date().toISOString()
       };
 
-      // Step 4: Send to server
-      setSaveStatus({ type: '', message: '▶ STEP 4: Sending to server...' });
-      
       const response = await axios.post(`${API}/documents`, newDocument, {
-        timeout: 30000,
-        onUploadProgress: (progressEvent) => {
-          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          setSaveStatus({ type: '', message: `📤 Uploading: ${percentCompleted}%` });
-        }
+        timeout: 30000
       });
       
-      // Step 5: Check response
-      setSaveStatus({ type: '', message: '▶ STEP 5: Checking server response...' });
-      
-      if (!response) {
-        throw new Error('No response from server');
-      }
-      
-      if (!response.data) {
-        throw new Error('Empty response data');
-      }
-      
       if (response.data.success) {
-        setSaveStatus({ type: 'success', message: `✅ SUCCESS! Document ID: ${response.data.id}` });
+        setSaveStatus({ type: 'success', message: 'Document uploaded successfully!' });
         
-        // Step 6: Reset form
+        // Reset form
         setTitle('');
         setCategory('medical');
         setDescription('');
@@ -255,29 +223,31 @@ const Documents = ({ athleteId }) => {
         setFileType('');
         setFileSize(0);
         
-        // Wait to show success - DON'T CLOSE MODAL YET
-        await new Promise(resolve => setTimeout(resolve, 3000));
-        
-        // Step 7: Close and reload
-        setSaveStatus({ type: 'success', message: '▶ STEP 7: Closing and reloading documents...' });
-        
+        // Reload documents
         await loadDocuments();
         
-        setShowModal(false);
-        setSaveStatus({ type: '', message: '' });
+        // Close modal after brief delay
+        setTimeout(() => {
+          setShowModal(false);
+          setSaveStatus({ type: '', message: '' });
+        }, 1500);
       } else {
-        throw new Error('Upload failed - server returned success=false');
+        throw new Error('Upload failed');
       }
     } catch (error) {
-      // Detailed error handling
-      let errorMessage = `❌ ERROR: ${error.message || 'Unknown'} | Code: ${error.code || 'N/A'} | Status: ${error.response?.status || 'N/A'}`;
+      console.error('Error uploading document:', error);
+      let errorMessage = 'Failed to upload document';
+      
+      if (error.code === 'ECONNABORTED') {
+        errorMessage = 'Upload timed out. File may be too large.';
+      } else if (error.response?.status === 413) {
+        errorMessage = 'File is too large. Please compress or use a smaller file.';
+      } else if (error.response?.data?.detail) {
+        errorMessage = error.response.data.detail;
+      }
       
       setSaveStatus({ type: 'error', message: errorMessage });
     } finally {
-      setIsLoading(false);
-    }
-    } catch (topLevelError) {
-      setSaveStatus({ type: 'error', message: `💥 FATAL ERROR: ${topLevelError.message}` });
       setIsLoading(false);
     }
   };
