@@ -579,11 +579,7 @@ const Documents = ({ athleteId }) => {
                       ref={fileInputRef}
                       type="file"
                       accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,image/*"
-                      onChange={(e) => {
-                        // CRITICAL: Store that upload is in progress IMMEDIATELY
-                        localStorage.setItem('doc_upload_active', 'true');
-                        handleFileUpload(e);
-                      }}
+                      onChange={handleFileUpload}
                       className="hidden"
                     />
                     <Button
