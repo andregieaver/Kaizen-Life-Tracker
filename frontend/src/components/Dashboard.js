@@ -115,6 +115,31 @@ const Dashboard = ({ athleteId }) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, [lastScrollY]);
 
+  const calculateYTD = async () => {
+    try {
+      // Get all workouts for the current year
+      const currentYear = new Date().getFullYear();
+      const startOfYear = `${currentYear}-01-01`;
+      const endOfYear = `${currentYear}-12-31`;
+      
+      const response = await axios.get(`${API}/workouts/${athleteId}?start_date=${startOfYear}&end_date=${endOfYear}`);
+      const workouts = response.data;
+      
+      // Calculate total distance (convert to appropriate unit based on athlete preference)
+      const totalDistance = workouts.reduce((sum, workout) => {
+        const distance = athlete?.distance_unit === 'kilometers' 
+          ? workout.distance_miles * 1.60934 // Convert miles to km
+          : workout.distance_miles;
+        return sum + distance;
+      }, 0);
+      
+      setYtdDistance(totalDistance);
+    } catch (error) {
+      console.error('Error calculating YTD:', error);
+      setYtdDistance(0);
+    }
+  };
+
   const loadDashboardData = async () => {
     setIsLoading(true);
     try {
@@ -140,6 +165,11 @@ const Dashboard = ({ athleteId }) => {
         setRecentWorkouts(workoutsRes.data);
       } catch (error) {
         setRecentWorkouts([]);
+      }
+      
+      // Calculate YTD after athlete data is loaded
+      if (athleteRes.data) {
+        await calculateYTD();
       }
       
       return; // Skip the old Promise.all code
