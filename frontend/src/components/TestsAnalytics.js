@@ -292,11 +292,11 @@ const TestsAnalytics = ({ athleteId }) => {
           </p>
         </div>
         <Button 
-          onClick={handleAddNew}
+          onClick={handleAddTestClick}
           className="bg-blue-600 hover:bg-blue-700 btn-transition"
         >
           <Plus className="w-4 h-4 mr-2" />
-          Add New Test
+          Add New Test ({testNames.length}/{getTestLimit(subscriptionStatus.tier) === Infinity ? '∞' : getTestLimit(subscriptionStatus.tier)})
         </Button>
       </div>
 
