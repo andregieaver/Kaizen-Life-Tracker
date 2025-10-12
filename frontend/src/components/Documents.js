@@ -133,10 +133,6 @@ const Documents = ({ athleteId }) => {
   };
 
   const handleFileUpload = async (event) => {
-    // CRITICAL: Stop all event propagation immediately
-    event.preventDefault();
-    event.stopPropagation();
-    
     const file = event.target.files[0];
     if (file) {
       try {
