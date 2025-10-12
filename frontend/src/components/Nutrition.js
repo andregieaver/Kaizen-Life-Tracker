@@ -326,9 +326,9 @@ const Nutrition = ({ athleteId }) => {
     }
 
     const totalCalories = entries.reduce((sum, entry) => sum + (entry.calories || 0), 0);
-    const totalProtein = entries.reduce((sum, entry) => sum + (entry.macros?.protein || 0), 0);
-    const totalCarbs = entries.reduce((sum, entry) => sum + (entry.macros?.carbs || 0), 0);
-    const totalFat = entries.reduce((sum, entry) => sum + (entry.macros?.fat || 0), 0);
+    const totalProtein = entries.reduce((sum, entry) => sum + (entry.protein || 0), 0);
+    const totalCarbs = entries.reduce((sum, entry) => sum + (entry.carbs || 0), 0);
+    const totalFat = entries.reduce((sum, entry) => sum + (entry.fat || 0), 0);
 
     // Calculate unique days with entries
     const uniqueDays = new Set(
