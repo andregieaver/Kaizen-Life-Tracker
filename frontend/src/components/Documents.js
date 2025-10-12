@@ -598,13 +598,12 @@ const Documents = ({ athleteId }) => {
                 <div className="space-y-2">
                   <Label htmlFor="file">Document File</Label>
                   <div className="flex items-center gap-2">
-                    <Input
+                    <input
                       ref={fileInputRef}
-                      id="file"
                       type="file"
+                      accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,image/*"
                       onChange={handleFileUpload}
                       className="hidden"
-                      accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png"
                     />
                     <Button
                       type="button"
