@@ -2900,6 +2900,109 @@ async def delete_nutrition_entry(entry_id: str):
     
     return {"success": True}
 
+@api_router.post("/nutrition/analyze-image/{athlete_id}")
+async def analyze_food_image(athlete_id: str, image_data: dict):
+    """Analyze food image using OpenAI Vision API to estimate nutritional content"""
+    try:
+        # Get OpenAI API key for the athlete
+        openai_key = await get_user_openai_key(athlete_id)
+        if not openai_key:
+            raise HTTPException(status_code=400, detail="OpenAI API key required for food analysis. Please configure your API key in Account Settings.")
+        
+        # Import OpenAI client
+        import openai
+        
+        # Create OpenAI client
+        client = openai.OpenAI(api_key=openai_key)
+        
+        # Get the base64 image data
+        base64_image = image_data.get("image_data", "")
+        if not base64_image:
+            raise HTTPException(status_code=400, detail="No image data provided")
+        
+        # Create the prompt for nutritional analysis
+        prompt = """Analyze this food image and provide a detailed nutritional estimate. 
+        
+Please provide:
+1. Estimated total calories
+2. Protein (in grams)
+3. Carbohydrates (in grams)
+4. Fat (in grams)
+5. A brief description of the food items you can see
+
+Format your response as JSON with these exact keys:
+{
+  "calories": <number>,
+  "protein": <number>,
+  "carbs": <number>,
+  "fat": <number>,
+  "description": "<brief description>"
+}
+
+Be as accurate as possible based on visible portion sizes. If you cannot see the food clearly or if it's not a food image, return calories as 0 and mention this in the description."""
+
+        # Call OpenAI Vision API
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt},
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": base64_image
+                            }
+                        }
+                    ]
+                }
+            ],
+            max_tokens=500
+        )
+        
+        # Parse the response
+        analysis_text = response.choices[0].message.content
+        
+        # Try to extract JSON from the response
+        import json
+        import re
+        
+        # Look for JSON in the response
+        json_match = re.search(r'\{[^{}]*\}', analysis_text, re.DOTALL)
+        if json_match:
+            nutrition_data = json.loads(json_match.group())
+        else:
+            # If no JSON found, try to parse the whole response
+            try:
+                nutrition_data = json.loads(analysis_text)
+            except:
+                # Fallback: return a default response
+                nutrition_data = {
+                    "calories": 0,
+                    "protein": 0,
+                    "carbs": 0,
+                    "fat": 0,
+                    "description": "Unable to analyze image"
+                }
+        
+        return {
+            "calories": int(nutrition_data.get("calories", 0)),
+            "protein": float(nutrition_data.get("protein", 0)),
+            "carbs": float(nutrition_data.get("carbs", 0)),
+            "fat": float(nutrition_data.get("fat", 0)),
+            "ai_analysis": nutrition_data.get("description", "")
+        }
+        
+    except openai.OpenAIError as e:
+        error_message = str(e)
+        if "invalid_api_key" in error_message.lower() or "incorrect api key" in error_message.lower():
+            raise HTTPException(status_code=400, detail="Invalid OpenAI API key. Please update your API key in Account Settings.")
+        raise HTTPException(status_code=500, detail=f"Analysis failed: {error_message}")
+    except Exception as e:
+        logging.error(f"Error analyzing food image: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to analyze food image: {str(e)}")
+
 # Document routes
 @api_router.get("/documents/{athlete_id}")
 async def get_documents(athlete_id: str, category: Optional[str] = None):
