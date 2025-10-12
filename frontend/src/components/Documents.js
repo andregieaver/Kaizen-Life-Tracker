@@ -24,6 +24,7 @@ const Documents = ({ athleteId }) => {
   const [category, setCategory] = useState('medical');
   const [description, setDescription] = useState('');
   const [fileData, setFileData] = useState(null);
+  const [filePreview, setFilePreview] = useState(null);
   const [fileName, setFileName] = useState('');
   const [fileType, setFileType] = useState('');
   const [fileSize, setFileSize] = useState(0);
