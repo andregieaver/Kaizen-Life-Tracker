@@ -338,12 +338,20 @@ const Documents = ({ athleteId }) => {
     <div className="space-y-6">
       {/* Debug Panel */}
       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-xs">
-        <div className="font-bold mb-1 text-lg">🔧 DEBUG INFO v2.0</div>
+        <div className="font-bold mb-1 text-lg">🔧 DEBUG INFO v3.0</div>
+        <button 
+          onClick={() => setSaveStatus({ type: '', message: 'TEST BUTTON CLICKED!' })}
+          className="bg-green-500 text-white px-4 py-2 rounded mb-2 text-base"
+        >
+          CLICK TO TEST
+        </button>
         <div className="text-base">Documents loaded: <span className="font-bold">{documents.length}</span></div>
         <div className="text-base">Filtered: <span className="font-bold">{filteredDocuments.length}</span></div>
         <div>Category: {selectedCategory}</div>
         <div>Loading: {isLoading ? 'YES' : 'NO'}</div>
         <div>Modal Open: {showModal ? 'YES' : 'NO'}</div>
+        <div>File Selected: {fileData ? 'YES' : 'NO'}</div>
+        <div>Title: {title || '(empty)'}</div>
         <div className="break-all">Athlete ID: {athleteId}</div>
         <div className="break-all">API: {API}</div>
         {saveStatus.message && (
