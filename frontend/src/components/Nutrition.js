@@ -391,7 +391,7 @@ const Nutrition = ({ athleteId }) => {
       )}
 
       {/* Nutrition Statistics */}
-      {nutritionEntries.length > 0 && (
+      {entries.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Total Nutrition */}
           <Card>
