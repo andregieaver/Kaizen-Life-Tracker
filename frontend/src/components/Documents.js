@@ -476,6 +476,18 @@ const Documents = ({ athleteId }) => {
               <CardDescription>Upload medical records, test results, and other important documents</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+                {/* Debug Info */}
+                <div className="bg-yellow-50 border-2 border-yellow-400 rounded p-3 text-sm font-mono">
+                  <div className="font-bold text-lg mb-2">🔍 DEBUG:</div>
+                  <div>showModal: {showModal ? '✅ TRUE' : '❌ FALSE'}</div>
+                  <div>fileName: {fileName || '(empty)'}</div>
+                  <div>filePreview: {filePreview ? '✅ exists' : '❌ null'}</div>
+                  <div>fileData length: {fileData ? fileData.length : 0}</div>
+                  <div className="mt-2 text-red-600 font-bold">
+                    If this disappears, modal closed!
+                  </div>
+                </div>
+
                 {/* File Upload */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
