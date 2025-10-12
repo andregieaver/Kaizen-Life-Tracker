@@ -478,7 +478,7 @@ const Documents = ({ athleteId }) => {
                     Document File
                   </label>
                   
-                  {!fileName ? (
+                  {!filePreview && !fileName ? (
                     <div className="space-y-2">
                       <Button
                         variant="outline"
@@ -501,7 +501,28 @@ const Documents = ({ athleteId }) => {
                     </div>
                   ) : (
                     <div>
-                      <div className="relative">
+                      {filePreview ? (
+                        <div className="relative">
+                          <img
+                            src={filePreview}
+                            alt="Preview"
+                            className="w-full h-64 object-cover rounded-lg"
+                          />
+                          <button
+                            onClick={() => {
+                              setFileData(null);
+                              setFilePreview(null);
+                              setFileName('');
+                              setFileType('');
+                              setFileSize(0);
+                              if (fileInputRef.current) fileInputRef.current.value = '';
+                            }}
+                            className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ) : (
                         <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
                           <div className="flex-1">
                             <p className="text-sm font-medium text-gray-900">{fileName}</p>
@@ -510,6 +531,7 @@ const Documents = ({ athleteId }) => {
                           <button
                             onClick={() => {
                               setFileData(null);
+                              setFilePreview(null);
                               setFileName('');
                               setFileType('');
                               setFileSize(0);
@@ -520,7 +542,7 @@ const Documents = ({ athleteId }) => {
                             <X className="w-4 h-4" />
                           </button>
                         </div>
-                      </div>
+                      )}
                     </div>
                   )}
                 </div>
