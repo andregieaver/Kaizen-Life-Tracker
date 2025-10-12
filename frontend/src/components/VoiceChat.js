@@ -270,12 +270,19 @@ const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError }, ref) => 
     }, []);
 
     const startVoiceChat = useCallback(async () => {
-        if (isConnecting || isConnected) return;
+        console.log('VoiceChat: startVoiceChat called');
+        console.log('VoiceChat: isConnecting:', isConnecting, 'isConnected:', isConnected);
+        
+        if (isConnecting || isConnected) {
+            console.log('VoiceChat: Already connecting or connected, returning');
+            return;
+        }
         
         setIsConnecting(true);
         setError(null);
         
         try {
+            console.log('VoiceChat: Checking microphone permission...');
             // Check for microphone permission first
             if (micPermission === 'denied') {
                 throw new Error("Microphone permission is required for voice chat. Please enable it in your browser settings.");
