@@ -2497,20 +2497,32 @@ const Account = ({ athleteId }) => {
                           {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </Button>
                       </div>
-                      <Button 
-                        type="submit" 
-                        className="bg-orange-600 hover:bg-orange-700 btn-transition"
-                        data-testid="save-api-key-btn"
-                      >
-                        {t('account.saveAPIKey')}
-                      </Button>
+                      {integrations.openai_api_key && integrations.openai_api_key !== '' ? (
+                        <div className="flex items-center gap-4">
+                          <div className="flex items-center text-sm text-green-600">
+                            <CheckCircle className="w-4 h-4 mr-2" />
+                            {t('account.connectedWithKey')}
+                          </div>
+                          <Button 
+                            onClick={handleDisconnectOpenAI}
+                            variant="outline"
+                            className="border-red-500 text-red-600 hover:bg-red-50"
+                            data-testid="disconnect-api-key-btn"
+                          >
+                            <X className="w-4 h-4 mr-2" />
+                            Disconnect
+                          </Button>
+                        </div>
+                      ) : (
+                        <Button 
+                          type="submit" 
+                          className="bg-orange-600 hover:bg-orange-700 btn-transition"
+                          data-testid="save-api-key-btn"
+                        >
+                          {t('account.saveAPIKey')}
+                        </Button>
+                      )}
                     </div>
-                    {integrations.openai_api_key && integrations.openai_api_key !== '' && (
-                      <div className="flex items-center text-sm text-green-600">
-                        <CheckCircle className="w-4 h-4 mr-2" />
-                        {t('account.connectedWithKey')}
-                      </div>
-                    )}
                   </div>
                   <p className="text-sm text-gray-500">
                     {t('account.apiKeySecurityNote')}{' '}
