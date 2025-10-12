@@ -2926,13 +2926,17 @@ async def analyze_food_image(athlete_id: str, request: dict):
         # Create OpenAI client
         client = openai.OpenAI(api_key=openai_key)
         
-        # Get the base64 image data
-        base64_image = image_data.get("image_data", "")
+        # Get the base64 image data and optional description
+        base64_image = request.get("image_data", "")
+        user_description = request.get("description", "")
+        
         if not base64_image:
             raise HTTPException(status_code=400, detail="No image data provided")
         
         # Create the prompt for nutritional analysis
-        prompt = """Analyze this food image and provide a detailed nutritional estimate. 
+        description_context = f"\n\nUser's description: {user_description}" if user_description else ""
+        
+        prompt = f"""Analyze this food image and provide a detailed nutritional estimate.{description_context}
         
 Please provide:
 1. Estimated total calories
@@ -2941,16 +2945,18 @@ Please provide:
 4. Fat (in grams)
 5. A brief description of the food items you can see
 
+{f"The user described it as: '{user_description}'. Use this to help with your analysis." if user_description else ""}
+
 Format your response as JSON with these exact keys:
-{
+{{
   "calories": <number>,
   "protein": <number>,
   "carbs": <number>,
   "fat": <number>,
   "description": "<brief description>"
-}
+}}
 
-Be as accurate as possible based on visible portion sizes. If you cannot see the food clearly or if it's not a food image, return calories as 0 and mention this in the description."""
+Be as accurate as possible based on visible portion sizes{" and the user's description" if user_description else ""}. If you cannot see the food clearly or if it's not a food image, return calories as 0 and mention this in the description."""
 
         # Call OpenAI Vision API
         response = client.chat.completions.create(
