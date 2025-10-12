@@ -2949,11 +2949,24 @@ async def analyze_food_image(athlete_id: str, request: dict):
         prompt = f"""Analyze this food image and provide a detailed nutritional estimate.{description_context}
         
 Please provide:
+MACRONUTRIENTS:
 1. Estimated total calories
 2. Protein (in grams)
 3. Carbohydrates (in grams)
 4. Fat (in grams)
-5. A brief description of the food items you can see
+
+MICRONUTRIENTS (estimate if possible, use 0 if uncertain):
+5. Fiber (in grams)
+6. Sodium (in milligrams)
+7. Sugar (in grams)
+8. Vitamin A (in micrograms)
+9. Vitamin C (in milligrams)
+10. Vitamin D (in micrograms)
+11. Calcium (in milligrams)
+12. Iron (in milligrams)
+13. Potassium (in milligrams)
+
+14. A brief description of the food items you can see
 
 {f"The user described it as: '{user_description}'. Use this to help with your analysis." if user_description else ""}
 
@@ -2963,10 +2976,19 @@ Format your response as JSON with these exact keys:
   "protein": <number>,
   "carbs": <number>,
   "fat": <number>,
+  "fiber": <number>,
+  "sodium": <number>,
+  "sugar": <number>,
+  "vitamin_a": <number>,
+  "vitamin_c": <number>,
+  "vitamin_d": <number>,
+  "calcium": <number>,
+  "iron": <number>,
+  "potassium": <number>,
   "description": "<brief description>"
 }}
 
-Be as accurate as possible based on visible portion sizes{" and the user's description" if user_description else ""}. If you cannot see the food clearly or if it's not a food image, return calories as 0 and mention this in the description."""
+Be as accurate as possible based on visible portion sizes{" and the user's description" if user_description else ""}. Use 0 for micronutrients if you cannot accurately estimate them. If you cannot see the food clearly or if it's not a food image, return all values as 0 and mention this in the description."""
 
         # Call OpenAI Vision API
         response = client.chat.completions.create(
