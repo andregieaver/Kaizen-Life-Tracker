@@ -178,10 +178,12 @@ const Documents = ({ athleteId }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    // Step 1: Validation
-    setSaveStatus({ type: '', message: 'Step 1: Validating...' });
+    try {
+      e.preventDefault();
+      alert('handleSubmit called!');
+      
+      // Step 1: Validation
+      setSaveStatus({ type: '', message: 'Step 1: Validating...' });
     
     if (!title.trim()) {
       setSaveStatus({ type: 'error', message: 'ERROR: Please enter a title' });
