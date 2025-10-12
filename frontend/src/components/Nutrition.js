@@ -582,16 +582,6 @@ const Nutrition = ({ athleteId }) => {
                         <p className="text-xs text-gray-600 mt-1">{nutritionData.ai_analysis}</p>
                       )}
                     </div>
-                    {imageData && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => analyzeFoodImage(imageData, description)}
-                        className="ml-2 text-xs"
-                      >
-                        Re-analyze
-                      </Button>
-                    )}
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <div className="bg-white rounded-lg p-3 text-center shadow-sm">
