@@ -409,6 +409,14 @@ frontend:
     stuck_count: 0
     priority: "high"
     needs_retesting: true
+    
+  - task: "Subscription Plan Limits for Tests & Analytics"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/TestsAnalytics.js, /app/frontend/src/components/Pricing.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
