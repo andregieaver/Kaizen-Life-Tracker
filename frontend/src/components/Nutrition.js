@@ -552,6 +552,47 @@ const Nutrition = ({ athleteId }) => {
                 )}
               </div>
 
+              {/* AI Nutritional Analysis */}
+              {isAnalyzing && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                    <span className="text-blue-600 font-medium">Analyzing food image...</span>
+                  </div>
+                </div>
+              )}
+              
+              {nutritionData && nutritionData.calories > 0 && !isAnalyzing && (
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-center mb-3">
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-gray-900">AI Nutritional Analysis</h4>
+                      {nutritionData.ai_analysis && (
+                        <p className="text-xs text-gray-600 mt-1">{nutritionData.ai_analysis}</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <div className="bg-white rounded-lg p-3 text-center shadow-sm">
+                      <div className="text-xs text-gray-600 mb-1">Calories</div>
+                      <div className="text-xl font-bold text-blue-600">{nutritionData.calories}</div>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 text-center shadow-sm">
+                      <div className="text-xs text-gray-600 mb-1">Protein</div>
+                      <div className="text-xl font-bold text-green-600">{nutritionData.protein}g</div>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 text-center shadow-sm">
+                      <div className="text-xs text-gray-600 mb-1">Carbs</div>
+                      <div className="text-xl font-bold text-orange-600">{nutritionData.carbs}g</div>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 text-center shadow-sm">
+                      <div className="text-xs text-gray-600 mb-1">Fat</div>
+                      <div className="text-xl font-bold text-purple-600">{nutritionData.fat}g</div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Action Buttons */}
               <div className="flex gap-2 pt-4">
                 <Button
