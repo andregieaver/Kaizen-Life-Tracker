@@ -216,21 +216,28 @@ const Nutrition = ({ athleteId }) => {
     }
 
     try {
+      const entryData = {
+        meal_type: mealType,
+        description: description,
+        image_data: imageData,
+        ...(nutritionData && {
+          calories: nutritionData.calories,
+          protein: nutritionData.protein,
+          carbs: nutritionData.carbs,
+          fat: nutritionData.fat,
+          ai_analysis: nutritionData.ai_analysis
+        })
+      };
+
       if (editingEntry) {
         // Update existing entry
-        await axios.put(`${API}/nutrition/${editingEntry.id}`, {
-          meal_type: mealType,
-          description: description,
-          image_data: imageData
-        });
+        await axios.put(`${API}/nutrition/${editingEntry.id}`, entryData);
         setSaveStatus({ type: 'success', message: 'Nutrition entry updated!' });
       } else {
         // Create new entry
         await axios.post(`${API}/nutrition`, {
           athlete_id: athleteId,
-          meal_type: mealType,
-          description: description,
-          image_data: imageData
+          ...entryData
         });
         setSaveStatus({ type: 'success', message: 'Nutrition entry saved!' });
       }
@@ -241,6 +248,7 @@ const Nutrition = ({ athleteId }) => {
       setMealType('breakfast');
       setImageData(null);
       setImagePreview(null);
+      setNutritionData(null);
       await loadNutritionEntries();
     } catch (error) {
       console.error('Error saving nutrition entry:', error);
