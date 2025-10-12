@@ -307,6 +307,11 @@ const Documents = ({ athleteId }) => {
     } finally {
       setIsLoading(false);
     }
+    } catch (topLevelError) {
+      alert(`FATAL ERROR: ${topLevelError.message}`);
+      setSaveStatus({ type: 'error', message: `Fatal: ${topLevelError.message}` });
+      setIsLoading(false);
+    }
   };
 
   const handleDelete = async (documentId) => {
