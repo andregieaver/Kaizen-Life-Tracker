@@ -29,6 +29,7 @@ const Dashboard = ({ athleteId }) => {
   const [athlete, setAthlete] = useState(null);
   const [readiness, setReadiness] = useState(null);
   const [recentWorkouts, setRecentWorkouts] = useState([]);
+  const [ytdDistance, setYtdDistance] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
