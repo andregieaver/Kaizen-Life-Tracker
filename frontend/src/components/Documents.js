@@ -601,7 +601,8 @@ const Documents = ({ athleteId }) => {
                     Cancel
                   </Button>
                   <Button
-                    type="submit"
+                    type="button"
+                    onClick={handleSubmit}
                     className="flex-1 bg-blue-600 hover:bg-blue-700"
                     disabled={isLoading || !title.trim() || !fileData}
                   >
