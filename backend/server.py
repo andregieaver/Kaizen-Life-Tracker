@@ -3359,7 +3359,27 @@ async def save_openai_key(athlete_id: str, key_request: APIKeyRequest):
             logger.error(f"Invalid API key format. Key starts with: {key_request.api_key[:5]}")
             raise HTTPException(status_code=400, detail="Invalid OpenAI API key format")
         
-        logger.info("API key validation passed")
+        logger.info("API key format validation passed")
+        
+        # Test the API key by making a simple API call to OpenAI
+        logger.info("Testing API key with OpenAI...")
+        try:
+            from openai import OpenAI
+            test_client = OpenAI(api_key=key_request.api_key)
+            # Make a minimal API call to verify the key works
+            test_client.models.list()
+            logger.info("✅ API key validated successfully with OpenAI")
+        except Exception as validation_error:
+            logger.error(f"❌ API key validation failed: {str(validation_error)}")
+            error_message = str(validation_error)
+            if "Incorrect API key" in error_message or "invalid" in error_message.lower():
+                raise HTTPException(status_code=400, detail="Invalid OpenAI API key. Please check your key and try again.")
+            elif "quota" in error_message.lower():
+                raise HTTPException(status_code=400, detail="OpenAI API key has exceeded quota. Please check your OpenAI account.")
+            else:
+                raise HTTPException(status_code=400, detail=f"Failed to validate OpenAI API key: {error_message}")
+        
+        logger.info("Saving validated API key to database")
         
         # TODO: Encrypt the API key before storing in production
         integration = Integration(
