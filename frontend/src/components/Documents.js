@@ -444,8 +444,24 @@ const Documents = ({ athleteId }) => {
 
       {/* Upload Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
-          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4"
+          onClick={(e) => {
+            // Only close if clicking the overlay itself, not the modal content
+            if (e.target === e.currentTarget) {
+              setShowModal(false);
+              setTitle('');
+              setCategory('medical');
+              setDescription('');
+              setFileData(null);
+              setFileName('');
+              setFileType('');
+              setFileSize(0);
+              setSaveStatus({ type: '', message: '' });
+            }
+          }}
+        >
+          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Upload Document</CardTitle>
@@ -459,6 +475,7 @@ const Documents = ({ athleteId }) => {
                     setFileName('');
                     setFileType('');
                     setFileSize(0);
+                    setSaveStatus({ type: '', message: '' });
                   }}
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                 >
@@ -471,32 +488,55 @@ const Documents = ({ athleteId }) => {
                 {/* File Upload */}
                 <div className="space-y-2">
                   <Label htmlFor="file">Document File</Label>
-                  <div className="flex items-center gap-2">
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,image/*"
-                      onChange={handleFileUpload}
-                      className="hidden"
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="flex-1"
-                    >
-                      <Upload className="w-4 h-4 mr-2" />
-                      {fileName || 'Choose File'}
-                    </Button>
-                  </div>
-                  {fileName && (
-                    <p className="text-sm text-gray-600">
-                      Selected: {fileName} ({formatFileSize(fileSize)})
-                    </p>
+                  
+                  {!fileName ? (
+                    <div className="space-y-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          fileInputRef.current?.click();
+                        }}
+                        className="w-full"
+                      >
+                        <Upload className="w-4 h-4 mr-2" />
+                        Choose File
+                      </Button>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,image/*"
+                        onChange={handleFileUpload}
+                        className="hidden"
+                      />
+                      <p className="text-xs text-gray-500 text-center">
+                        Accepted formats: PDF, Word, Text, Images • Images auto-compressed
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-900">{fileName}</p>
+                          <p className="text-xs text-gray-500">{formatFileSize(fileSize)}</p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setFileData(null);
+                            setFileName('');
+                            setFileType('');
+                            setFileSize(0);
+                            if (fileInputRef.current) fileInputRef.current.value = '';
+                          }}
+                          className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
                   )}
-                  <p className="text-xs text-gray-500">
-                    Accepted formats: PDF, Word, Text, Images • Images auto-compressed
-                  </p>
                 </div>
 
                 {/* Title */}
