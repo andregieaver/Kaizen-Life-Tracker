@@ -1313,6 +1313,237 @@ def test_openai_api_key_validation_fix():
         print_test_result("OpenAI API Key Validation - Exception", False, f"Exception: {str(e)}")
         return False
 
+def test_voice_chat_api_endpoint():
+    """
+    REVIEW REQUEST: Test the Voice Chat API endpoint to verify it's working correctly.
+    
+    ENDPOINT TO TEST: POST /api/coach/voice/session/{athlete_id}
+    
+    CONTEXT:
+    - The voice chat feature in the AI Coach uses OpenAI's Realtime API
+    - Users click a mic button which should start a voice session
+    - Currently not working - need to verify backend is functioning
+    
+    TEST REQUIREMENTS:
+    1. Check if the endpoint exists and is accessible
+    2. Verify it returns a proper session token (client_secret)
+    3. Check if OpenAI API key is properly configured
+    4. Test with a valid athlete_id (use "test_athlete_123" or any existing one)
+    5. Verify error handling for missing OpenAI key
+    
+    EXPECTED RESPONSE:
+    Should return JSON with:
+    {
+      "client_secret": {
+        "value": "...",
+        "expires_at": ...
+      }
+    }
+    """
+    print("🔍 TESTING VOICE CHAT API ENDPOINT")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Test with existing athlete that has OpenAI API key
+        print("   Step 1: Test with existing athlete (andre@example.com)")
+        
+        # First login to get athlete_id
+        login_data = {
+            "email": "andre@example.com",
+            "password": "password123"
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("Voice Chat - Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if not athlete_id:
+            print_test_result("Voice Chat - Login", False, "No athlete_id returned")
+            return False
+        
+        print(f"      Using athlete_id: {athlete_id}")
+        
+        # Step 2: Test the voice session endpoint
+        print("   Step 2: Test POST /api/coach/voice/session/{athlete_id}")
+        
+        voice_response = requests.post(
+            f"{BACKEND_URL}/coach/voice/session/{athlete_id}",
+            headers={"Content-Type": "application/json"}
+        )
+        
+        voice_success = False
+        voice_details = []
+        
+        voice_details.append(f"Status Code: {voice_response.status_code}")
+        
+        if voice_response.status_code == 200:
+            try:
+                response_data = voice_response.json()
+                voice_details.append("✅ Valid JSON response received")
+                
+                # Check for expected structure
+                if "client_secret" in response_data:
+                    client_secret = response_data["client_secret"]
+                    voice_details.append("✅ client_secret field present")
+                    
+                    if isinstance(client_secret, dict):
+                        if "value" in client_secret:
+                            token_value = client_secret["value"]
+                            voice_details.append("✅ client_secret.value present")
+                            
+                            if token_value and len(token_value) > 10:
+                                voice_details.append(f"✅ Valid session token (length: {len(token_value)})")
+                                voice_success = True
+                            else:
+                                voice_details.append("❌ Session token appears invalid or empty")
+                        
+                        elif "error" in client_secret:
+                            error_info = client_secret["error"]
+                            error_message = error_info.get("message", "Unknown error")
+                            voice_details.append(f"❌ Error in client_secret: {error_message}")
+                        else:
+                            voice_details.append("❌ client_secret missing 'value' field")
+                    else:
+                        voice_details.append(f"❌ client_secret is not dict: {type(client_secret)}")
+                else:
+                    voice_details.append("❌ Missing client_secret field")
+                    
+            except json.JSONDecodeError as e:
+                voice_details.append(f"❌ Invalid JSON response: {str(e)}")
+                
+        elif voice_response.status_code == 400:
+            try:
+                error_data = voice_response.json()
+                error_detail = error_data.get("detail", "")
+                voice_details.append(f"❌ 400 Error: {error_detail}")
+                
+                if "OpenAI API key required" in error_detail:
+                    voice_details.append("💡 This athlete needs to configure OpenAI API key in Account Settings")
+                else:
+                    voice_details.append("💡 Other API configuration issue")
+                    
+            except json.JSONDecodeError:
+                voice_details.append("❌ 400 error with invalid JSON response")
+                
+        elif voice_response.status_code == 500:
+            voice_details.append("❌ 500 Internal Server Error - Backend issue")
+            try:
+                error_text = voice_response.text
+                if error_text:
+                    voice_details.append(f"Error details: {error_text[:200]}...")
+            except:
+                pass
+        else:
+            voice_details.append(f"❌ Unexpected status code: {voice_response.status_code}")
+        
+        print_test_result("Voice Chat API Endpoint", voice_success, "; ".join(voice_details))
+        
+        # Step 3: Test with test athlete ID
+        print("   Step 3: Test with test athlete ID")
+        
+        test_athlete_id = "test_athlete_123"
+        test_response = requests.post(
+            f"{BACKEND_URL}/coach/voice/session/{test_athlete_id}",
+            headers={"Content-Type": "application/json"}
+        )
+        
+        test_success = False
+        test_details = []
+        
+        test_details.append(f"Status Code: {test_response.status_code}")
+        
+        if test_response.status_code == 400:
+            try:
+                error_data = test_response.json()
+                error_detail = error_data.get("detail", "")
+                
+                if "OpenAI API key required" in error_detail:
+                    test_details.append("✅ Proper error handling for missing API key")
+                    test_success = True
+                else:
+                    test_details.append(f"⚠️ Different error: {error_detail}")
+                    
+            except json.JSONDecodeError:
+                test_details.append("❌ Invalid JSON in error response")
+        else:
+            test_details.append(f"⚠️ Expected 400 error, got {test_response.status_code}")
+        
+        print_test_result("Voice Chat - Test Athlete", test_success, "; ".join(test_details))
+        
+        # Step 4: Check backend logs for any errors
+        print("   Step 4: Backend status check")
+        
+        # Test a simple endpoint to verify backend is running
+        health_response = requests.get(f"{BACKEND_URL}/")
+        
+        backend_status = []
+        
+        if health_response.status_code == 200:
+            backend_status.append("✅ Backend is responding")
+        else:
+            backend_status.append(f"❌ Backend health check failed: {health_response.status_code}")
+        
+        print_test_result("Backend Status", health_response.status_code == 200, "; ".join(backend_status))
+        
+        # Step 5: Overall assessment
+        print("   Step 5: Voice Chat API Assessment")
+        
+        assessment = []
+        overall_success = False
+        
+        if voice_success:
+            assessment.append("✅ Voice Chat API is working correctly")
+            assessment.append("✅ Returns proper session token for valid requests")
+            assessment.append("✅ OpenAI Realtime API integration functional")
+            overall_success = True
+        elif voice_response.status_code == 400:
+            assessment.append("⚠️ Voice Chat API endpoint exists but requires OpenAI API key")
+            assessment.append("💡 User needs to configure OpenAI API key in Account Settings")
+            assessment.append("✅ Error handling is working correctly")
+        else:
+            assessment.append("❌ Voice Chat API has issues")
+            assessment.append("💡 Check backend logs and OpenAI integration")
+        
+        if test_success:
+            assessment.append("✅ Error handling for invalid athlete IDs works correctly")
+        
+        print_test_result("Voice Chat API - Overall Assessment", overall_success, "; ".join(assessment))
+        
+        # Print summary
+        print("\n📊 VOICE CHAT API TEST SUMMARY:")
+        print("=" * 60)
+        print(f"Endpoint: POST /api/coach/voice/session/{{athlete_id}}")
+        print(f"Test Athlete Response: {voice_response.status_code}")
+        print(f"Error Handling: {'✅ Working' if test_success else '❌ Issues'}")
+        print(f"Backend Status: {'✅ Online' if health_response.status_code == 200 else '❌ Issues'}")
+        
+        if voice_success:
+            print(f"✅ CONCLUSION: Voice Chat API is working correctly")
+            print(f"✅ Returns valid session tokens for authenticated users")
+        elif voice_response.status_code == 400:
+            print(f"⚠️ CONCLUSION: API works but requires OpenAI API key configuration")
+            print(f"💡 NEXT STEP: User should add OpenAI API key in Account Settings")
+        else:
+            print(f"❌ CONCLUSION: Voice Chat API needs attention")
+            print(f"💡 NEXT STEP: Check backend implementation and logs")
+        
+        print("=" * 60)
+        
+        return overall_success or (voice_response.status_code == 400 and test_success)
+        
+    except Exception as e:
+        print_test_result("Voice Chat API Test - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_exact_dashboard_api_call():
     """
     REVIEW REQUEST: Test the exact API call that the Dashboard is making to debug why it's not getting the correct athlete data.
