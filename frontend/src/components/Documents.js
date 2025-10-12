@@ -346,10 +346,17 @@ const Documents = ({ athleteId }) => {
             TEST CLICK
           </button>
           <button 
-            onClick={handleSubmit}
-            className="bg-blue-500 text-white px-3 py-2 rounded text-sm"
+            onClick={() => {
+              setTitle('Test Document');
+              setFileData('data:text/plain;base64,VGVzdCBmaWxl');
+              setFileName('test.txt');
+              setFileType('text/plain');
+              setFileSize(100);
+              setSaveStatus({ type: '', message: '✅ Test data set! Now try upload.' });
+            }}
+            className="bg-purple-500 text-white px-3 py-2 rounded text-sm"
           >
-            TEST UPLOAD
+            SET TEST DATA
           </button>
         </div>
         <div className="text-base">Documents loaded: <span className="font-bold">{documents.length}</span></div>
