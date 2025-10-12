@@ -319,12 +319,15 @@ const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError }, ref) => 
     }, [isConnected]);
 
     // Expose startVoiceChat and stopVoiceChat to parent component
-    React.useImperativeHandle(ref, () => ({
-        startVoiceChat,
-        stopVoiceChat,
-        isConnected,
-        isConnecting
-    }));
+    React.useImperativeHandle(ref, () => {
+        console.log('VoiceChat: useImperativeHandle called, exposing functions');
+        return {
+            startVoiceChat,
+            stopVoiceChat,
+            isConnected,
+            isConnecting
+        };
+    });
 
     // Clean up on component unmount
     useEffect(() => {
