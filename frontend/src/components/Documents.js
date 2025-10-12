@@ -580,8 +580,8 @@ const Documents = ({ athleteId }) => {
                 {/* Action Buttons */}
                 <div className="flex gap-2 pt-4">
                   <Button
-                    type="button"
                     variant="outline"
+                    className="flex-1"
                     onClick={() => {
                       setShowModal(false);
                       setTitle('');
@@ -593,14 +593,12 @@ const Documents = ({ athleteId }) => {
                       setFileSize(0);
                       setSaveStatus({ type: '', message: '' });
                     }}
-                    className="flex-1"
                   >
                     Cancel
                   </Button>
                   <Button
-                    type="button"
+                    className="flex-1"
                     onClick={handleSubmit}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700"
                     disabled={isLoading || !title.trim() || !fileData}
                   >
                     <Upload className="w-4 h-4 mr-2" />
