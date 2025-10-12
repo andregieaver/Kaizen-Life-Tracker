@@ -63,10 +63,11 @@ const Documents = ({ athleteId }) => {
   };
 
   const filterDocuments = () => {
+    const docsArray = Array.isArray(documents) ? documents : [];
     if (selectedCategory === 'all') {
-      setFilteredDocuments(documents);
+      setFilteredDocuments(docsArray);
     } else {
-      setFilteredDocuments(documents.filter(doc => doc.category === selectedCategory));
+      setFilteredDocuments(docsArray.filter(doc => doc.category === selectedCategory));
     }
   };
 
