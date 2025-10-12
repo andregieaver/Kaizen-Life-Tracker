@@ -169,7 +169,7 @@ const Dashboard = ({ athleteId }) => {
       
       // Calculate YTD after athlete data is loaded
       if (athleteRes.data) {
-        await calculateYTD();
+        calculateYTD(athleteRes.data);
       }
       
       return; // Skip the old Promise.all code
