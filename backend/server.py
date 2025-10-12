@@ -240,6 +240,11 @@ class NutritionEntry(BaseModel):
     meal_type: str  # 'breakfast', 'lunch', 'dinner', 'snack'
     description: str
     image_data: Optional[str] = None  # Base64 encoded image
+    calories: Optional[int] = None  # Estimated calories
+    protein: Optional[float] = None  # Grams of protein
+    carbs: Optional[float] = None  # Grams of carbohydrates
+    fat: Optional[float] = None  # Grams of fat
+    ai_analysis: Optional[str] = None  # AI-generated description/notes
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
