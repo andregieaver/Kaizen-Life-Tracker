@@ -27,7 +27,6 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
   const [archivedConversations, setArchivedConversations] = useState([]);
   const [showArchivedList, setShowArchivedList] = useState(false);
   const [isFirstVisit, setIsFirstVisit] = useState(true); // Track if this is the first visit to show suggested questions
-  const [showVoiceMode, setShowVoiceMode] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
