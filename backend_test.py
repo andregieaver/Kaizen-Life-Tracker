@@ -9556,6 +9556,24 @@ if __name__ == "__main__":
                 print("❌ FAIL Date of Birth Timezone Fix")
                 print("\n⚠️ TIMEZONE FIX FAILED! Date shifting issues detected - please review the issues above.")
                 sys.exit(1)
+        elif sys.argv[1] == "--voice-chat":
+            print("🎯 Running VOICE CHAT API ENDPOINT TEST (as per review request)")
+            print("=" * 80)
+            print("REVIEW REQUEST: Test the Voice Chat API endpoint to verify it's working correctly.")
+            print("ENDPOINT TO TEST: POST /api/coach/voice/session/{athlete_id}")
+            print("=" * 80)
+            success = test_voice_chat_api_endpoint()
+            print("\n" + "=" * 80)
+            print("📊 VOICE CHAT API ENDPOINT TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS Voice Chat API Endpoint")
+                print("\n🎉 VOICE CHAT API TEST PASSED! Voice chat endpoint is working correctly.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL Voice Chat API Endpoint")
+                print("\n⚠️ VOICE CHAT API TEST FAILED! Please review the issues above.")
+                sys.exit(1)
         elif sys.argv[1] == "--athlete-data-debug":
             print("🎯 Running ATHLETE DATA DEBUG FOR SLIDEOUT MENU ISSUE (as per review request)")
             print("=" * 80)
