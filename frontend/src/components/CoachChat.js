@@ -652,9 +652,9 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
         </div>
       </div>
 
-      {/* Voice Chat Component */}
-      {hasOpenAIKey && (
-        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Voice Chat Component - Shown when voice mode is active */}
+      {hasOpenAIKey && showVoiceMode && (
+        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 mb-4">
           <VoiceChat 
             backendUrl={BACKEND_URL}
             athleteId={athleteId}
@@ -667,25 +667,53 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       <div className={`fixed md:relative bottom-16 md:bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:border-t-0 transition-transform duration-300 ease-in-out md:translate-y-0 ${
         scrollDirection === 'down' ? 'translate-y-[calc(100%+4rem)] md:translate-y-0' : 'translate-y-0'
       }`}>
-        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <form onSubmit={sendMessage} className="flex space-x-3">
-            <Input
+        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <form onSubmit={sendMessage} className="space-y-3">
+            {/* Textarea Input */}
+            <textarea
               ref={inputRef}
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
+              onKeyDown={(e) => {
+                // Send on Enter, new line on Shift+Enter
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  sendMessage(e);
+                }
+              }}
               placeholder={t('coach.placeholder')}
-              className="flex-1 input-focus"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none min-h-[80px] max-h-[200px]"
               disabled={isLoading}
               data-testid="chat-input"
+              rows={3}
             />
-            <Button 
-              type="submit" 
-              disabled={!newMessage.trim() || isLoading}
-              className="bg-blue-600 hover:bg-blue-700 btn-transition"
-              data-testid="send-message-btn"
-            >
-              <Send className="w-4 h-4" />
-            </Button>
+            
+            {/* Button Row */}
+            <div className="flex justify-end items-center gap-2">
+              {/* Voice Mode Toggle - Only show if OpenAI key exists */}
+              {hasOpenAIKey && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setShowVoiceMode(!showVoiceMode)}
+                  className={`${showVoiceMode ? 'bg-blue-50 border-blue-500 text-blue-600' : ''}`}
+                  title={showVoiceMode ? 'Hide Voice Mode' : 'Activate Voice Mode'}
+                >
+                  <Mic className={`w-4 h-4 ${showVoiceMode ? '' : ''}`} />
+                </Button>
+              )}
+              
+              {/* Send Button */}
+              <Button 
+                type="submit" 
+                disabled={!newMessage.trim() || isLoading}
+                className="bg-blue-600 hover:bg-blue-700 btn-transition"
+                data-testid="send-message-btn"
+              >
+                <Send className="w-4 h-4 mr-2" />
+                {isLoading ? t('coach.sending') : t('coach.send')}
+              </Button>
+            </div>
           </form>
         </div>
       </div>
