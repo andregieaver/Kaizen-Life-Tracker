@@ -2813,17 +2813,16 @@ async def delete_journal_entry(entry_id: str):
 @api_router.post("/journal/transcribe/{athlete_id}")
 async def transcribe_audio(athlete_id: str, audio: UploadFile = File(...)):
     """Transcribe audio to text using OpenAI Whisper"""
+    import openai
+    
     try:
         # Get OpenAI API key for the athlete
-        openai_key = await get_user_openai_key(athlete_id)
+        openai_key = await ai_coach.get_user_openai_key(athlete_id)
         if not openai_key:
             raise HTTPException(status_code=400, detail="OpenAI API key required for voice transcription. Please configure your API key in Account Settings.")
         
         # Read audio file
         audio_content = await audio.read()
-        
-        # Import OpenAI client
-        import openai
         
         # Create OpenAI client
         client = openai.OpenAI(api_key=openai_key)
