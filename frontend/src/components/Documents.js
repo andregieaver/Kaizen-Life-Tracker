@@ -508,6 +508,7 @@ const Documents = ({ athleteId }) => {
                           <p className="text-xs text-gray-500">{formatFileSize(fileSize)}</p>
                         </div>
                         <button
+                          type="button"
                           onClick={() => {
                             setFileData(null);
                             setFileName('');
