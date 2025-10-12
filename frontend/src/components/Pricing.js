@@ -42,6 +42,7 @@ const Pricing = () => {
       popular: true,
       features: [
         'Unlimited AI Coach access',
+        'Up to 5 scheduled AI analyses',
         'All integrations (Strava, Oura, COROS)',
         'Advanced analytics & reports',
         'Unlimited history',
