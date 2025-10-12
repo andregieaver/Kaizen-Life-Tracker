@@ -504,7 +504,7 @@ const Documents = ({ athleteId }) => {
                 </Button>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-4">
                 {/* File Upload */}
                 <div className="space-y-2">
                   <Label htmlFor="file">Document File</Label>
