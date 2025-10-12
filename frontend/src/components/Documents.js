@@ -626,13 +626,21 @@ const Documents = ({ athleteId }) => {
                   </Button>
                   <Button
                     type="button"
-                    onClick={handleSubmit}
+                    onClick={() => {
+                      setSaveStatus({ type: '', message: '🔵 MODAL BUTTON CLICKED!' });
+                      handleSubmit();
+                    }}
                     className="flex-1 bg-blue-600 hover:bg-blue-700"
                     disabled={isLoading || !title.trim() || !fileData}
                   >
                     <Upload className="w-4 h-4 mr-2" />
                     {isLoading ? 'Uploading...' : 'Upload Document'}
                   </Button>
+                  {(isLoading || !title.trim() || !fileData) && (
+                    <div className="text-xs text-red-600 mt-1">
+                      Button disabled: {isLoading ? 'Loading' : !title.trim() ? 'No title' : 'No file'}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
