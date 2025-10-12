@@ -429,6 +429,14 @@ frontend:
     stuck_count: 0
     priority: "high"
     needs_retesting: true
+    
+  - task: "OpenAI API Key Validation"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
