@@ -44,17 +44,10 @@ const Documents = ({ athleteId }) => {
       loadDocuments();
     }
   }, [athleteId]);
-  
-  // Critical: Reopen modal after file is selected (for mobile file picker)
-  useEffect(() => {
-    if (fileData && fileName) {
-      setShowModal(true);
-    }
-  }, [fileData, fileName]);
 
   useEffect(() => {
     filterDocuments();
-  }, [selectedCategory, documents]);
+  }, [documents, selectedCategory]);
 
   const loadDocuments = async () => {
     try {
