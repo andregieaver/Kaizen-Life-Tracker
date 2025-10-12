@@ -41,8 +41,7 @@ const Documents = ({ athleteId }) => {
   ];
 
   useEffect(() => {
-    if (athleteId && !showModal) {
-      // Only load documents if modal is not open
+    if (athleteId) {
       loadDocuments();
     }
   }, [athleteId]);
