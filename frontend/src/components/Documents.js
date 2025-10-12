@@ -43,41 +43,6 @@ const Documents = ({ athleteId }) => {
     loadDocuments();
   }, [athleteId]);
   
-  // Restore upload state from localStorage (for mobile file picker)
-  useEffect(() => {
-    const uploadPending = localStorage.getItem('document_upload_pending');
-    const uploadData = localStorage.getItem('document_upload_data');
-    
-    if (uploadPending === 'true' && uploadData) {
-      try {
-        const data = JSON.parse(uploadData);
-        setFileData(data.fileData);
-        setFileName(data.fileName);
-        setFileType(data.fileType);
-        setFileSize(data.fileSize);
-        setTitle(data.title);
-        setShowModal(true);
-        setSaveStatus({ type: 'success', message: '📁 File loaded from storage! Click Upload.' });
-        
-        // Clear localStorage
-        localStorage.removeItem('document_upload_pending');
-        localStorage.removeItem('document_upload_data');
-      } catch (error) {
-        console.error('Error restoring upload data:', error);
-        localStorage.removeItem('document_upload_pending');
-        localStorage.removeItem('document_upload_data');
-      }
-    }
-  }, []);
-  
-  // Keep modal open after file selection on mobile
-  useEffect(() => {
-    if (fileData && !showModal) {
-      setShowModal(true);
-      setSaveStatus({ type: 'success', message: '📁 File loaded! Now click Upload Document.' });
-    }
-  }, [fileData]);
-
   useEffect(() => {
     filterDocuments();
   }, [selectedCategory, documents]);
