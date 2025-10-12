@@ -492,6 +492,12 @@ const Documents = ({ athleteId }) => {
                   <div>File Selected: {fileName ? `✅ ${fileName}` : '❌ None'}</div>
                   <div>File Preview: {filePreview ? '✅ Yes' : '❌ No'}</div>
                   <div>File Data: {fileData ? `✅ ${(fileData.length / 1024).toFixed(1)}KB` : '❌ None'}</div>
+                  <div className="mt-2 font-bold">Last Actions:</div>
+                  <div className="text-xs max-h-20 overflow-y-auto">
+                    {debugLog.slice(-5).map((log, i) => (
+                      <div key={i}>{log}</div>
+                    ))}
+                  </div>
                 </div>
 
                 {/* File Upload */}
