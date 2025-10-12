@@ -40,7 +40,35 @@ const Documents = ({ athleteId }) => {
   ];
 
   useEffect(() => {
-    loadDocuments();
+    if (athleteId) {
+      loadDocuments();
+    }
+    
+    // CRITICAL: Restore upload state from localStorage (for mobile file picker)
+    const uploadActive = localStorage.getItem('doc_upload_active');
+    const uploadData = localStorage.getItem('doc_upload_data');
+    
+    if (uploadActive === 'true' && uploadData) {
+      try {
+        const data = JSON.parse(uploadData);
+        setFileData(data.fileData);
+        setFileName(data.fileName);
+        setFileType(data.fileType);
+        setFileSize(data.fileSize);
+        setTitle(data.title);
+        setCategory(data.category);
+        setShowModal(true);
+        setSaveStatus({ type: 'success', message: '✅ File restored! Ready to upload.' });
+        
+        // Clear flags
+        localStorage.removeItem('doc_upload_active');
+        localStorage.removeItem('doc_upload_data');
+      } catch (error) {
+        console.error('Error restoring upload:', error);
+        localStorage.removeItem('doc_upload_active');
+        localStorage.removeItem('doc_upload_data');
+      }
+    }
   }, [athleteId]);
   
   // Critical: Reopen modal after file is selected (for mobile file picker)
