@@ -72,22 +72,29 @@ const Documents = ({ athleteId }) => {
 
   const compressImage = (file) => {
     return new Promise((resolve, reject) => {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        reject(new Error('Please select an image file'));
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = (e) => {
         const img = new Image();
         img.onload = () => {
-          // Calculate new dimensions (max 1920px, maintaining aspect ratio)
+          // Calculate new dimensions (max 1920px width, maintaining aspect ratio)
           let width = img.width;
           let height = img.height;
-          const maxSize = 1920;
+          const maxWidth = 1920;
+          const maxHeight = 1920;
 
-          if (width > maxSize || height > maxSize) {
+          if (width > maxWidth || height > maxHeight) {
             if (width > height) {
-              height = (height / width) * maxSize;
-              width = maxSize;
+              height = (height / width) * maxWidth;
+              width = maxWidth;
             } else {
-              width = (width / height) * maxSize;
-              height = maxSize;
+              width = (width / height) * maxHeight;
+              height = maxHeight;
             }
           }
 
@@ -98,26 +105,22 @@ const Documents = ({ athleteId }) => {
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
 
-          // Try different quality levels until under 10MB
+          // Try different quality levels until under 5MB
           let quality = 0.9;
           let compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
           
-          // Keep reducing quality until under 10MB (base64 string length * 0.75 ≈ file size in bytes)
-          while (compressedDataUrl.length * 0.75 > 10 * 1024 * 1024 && quality > 0.1) {
+          // Keep reducing quality until under 5MB (base64 string length * 0.75 ≈ file size in bytes)
+          while (compressedDataUrl.length * 0.75 > 5 * 1024 * 1024 && quality > 0.1) {
             quality -= 0.1;
             compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
           }
 
           // Final check
           const finalSizeInMB = (compressedDataUrl.length * 0.75) / (1024 * 1024);
-          if (finalSizeInMB > 10) {
-            reject(new Error('Unable to compress image below 10MB. Please use a smaller image.'));
+          if (finalSizeInMB > 5) {
+            reject(new Error('Unable to compress image below 5MB. Please use a smaller image.'));
           } else {
-            resolve({
-              data: compressedDataUrl,
-              size: Math.round(compressedDataUrl.length * 0.75),
-              name: file.name.replace(/\.[^.]+$/, '.jpg')
-            });
+            resolve(compressedDataUrl);
           }
         };
         img.onerror = () => reject(new Error('Failed to load image'));
