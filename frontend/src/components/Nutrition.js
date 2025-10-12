@@ -568,8 +568,72 @@ const Nutrition = ({ athleteId }) => {
                           <div className="text-lg font-bold text-purple-600">{entry.fat}g</div>
                         </div>
                       </div>
+                      
+                      {/* Micronutrients - Show if any are present */}
+                      {(entry.fiber || entry.sodium || entry.sugar || entry.vitamin_a || entry.vitamin_c || entry.vitamin_d || entry.calcium || entry.iron || entry.potassium) && (
+                        <div className="mt-3">
+                          <div className="text-xs font-semibold text-gray-700 mb-2">Micronutrients</div>
+                          <div className="grid grid-cols-3 gap-2">
+                            {entry.fiber > 0 && (
+                              <div className="bg-gray-50 rounded p-2">
+                                <div className="text-xs text-gray-500">Fiber</div>
+                                <div className="text-sm font-semibold">{entry.fiber}g</div>
+                              </div>
+                            )}
+                            {entry.sugar > 0 && (
+                              <div className="bg-gray-50 rounded p-2">
+                                <div className="text-xs text-gray-500">Sugar</div>
+                                <div className="text-sm font-semibold">{entry.sugar}g</div>
+                              </div>
+                            )}
+                            {entry.sodium > 0 && (
+                              <div className="bg-gray-50 rounded p-2">
+                                <div className="text-xs text-gray-500">Sodium</div>
+                                <div className="text-sm font-semibold">{entry.sodium}mg</div>
+                              </div>
+                            )}
+                            {entry.vitamin_a > 0 && (
+                              <div className="bg-gray-50 rounded p-2">
+                                <div className="text-xs text-gray-500">Vit A</div>
+                                <div className="text-sm font-semibold">{entry.vitamin_a}μg</div>
+                              </div>
+                            )}
+                            {entry.vitamin_c > 0 && (
+                              <div className="bg-gray-50 rounded p-2">
+                                <div className="text-xs text-gray-500">Vit C</div>
+                                <div className="text-sm font-semibold">{entry.vitamin_c}mg</div>
+                              </div>
+                            )}
+                            {entry.vitamin_d > 0 && (
+                              <div className="bg-gray-50 rounded p-2">
+                                <div className="text-xs text-gray-500">Vit D</div>
+                                <div className="text-sm font-semibold">{entry.vitamin_d}μg</div>
+                              </div>
+                            )}
+                            {entry.calcium > 0 && (
+                              <div className="bg-gray-50 rounded p-2">
+                                <div className="text-xs text-gray-500">Calcium</div>
+                                <div className="text-sm font-semibold">{entry.calcium}mg</div>
+                              </div>
+                            )}
+                            {entry.iron > 0 && (
+                              <div className="bg-gray-50 rounded p-2">
+                                <div className="text-xs text-gray-500">Iron</div>
+                                <div className="text-sm font-semibold">{entry.iron}mg</div>
+                              </div>
+                            )}
+                            {entry.potassium > 0 && (
+                              <div className="bg-gray-50 rounded p-2">
+                                <div className="text-xs text-gray-500">Potassium</div>
+                                <div className="text-sm font-semibold">{entry.potassium}mg</div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      
                       {entry.ai_analysis && (
-                        <p className="text-xs text-gray-500 italic">AI: {entry.ai_analysis}</p>
+                        <p className="text-xs text-gray-500 italic mt-2">AI: {entry.ai_analysis}</p>
                       )}
                     </div>
                   )}
