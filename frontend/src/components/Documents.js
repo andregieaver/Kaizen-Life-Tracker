@@ -129,6 +129,9 @@ const Documents = ({ athleteId }) => {
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
+      // CRITICAL: Ensure modal stays open after file selection on mobile
+      setShowModal(true);
+      
       try {
         // Check if file is an image
         const isImage = file.type.startsWith('image/');
@@ -143,8 +146,7 @@ const Documents = ({ athleteId }) => {
           setFileType('image/jpeg');
           setFileSize(compressed.size);
           
-          setSaveStatus({ type: 'success', message: 'Image compressed successfully!' });
-          setTimeout(() => setSaveStatus({ type: '', message: '' }), 2000);
+          setSaveStatus({ type: 'success', message: '✅ Image ready! Fill title and click Upload.' });
         } else {
           // Non-image files: validate size and read normally
           if (file.size > 10 * 1024 * 1024) {
@@ -159,6 +161,7 @@ const Documents = ({ athleteId }) => {
             setFileName(file.name);
             setFileType(file.type);
             setFileSize(file.size);
+            setSaveStatus({ type: 'success', message: '✅ File ready! Fill title and click Upload.' });
           };
           reader.onerror = () => {
             setSaveStatus({ type: 'error', message: 'Failed to read file' });
@@ -170,6 +173,9 @@ const Documents = ({ athleteId }) => {
         if (!title) {
           setTitle(file.name);
         }
+        
+        // CRITICAL: Force modal to stay open
+        setTimeout(() => setShowModal(true), 100);
       } catch (error) {
         console.error('Error processing file:', error);
         setSaveStatus({ type: 'error', message: error.message });
