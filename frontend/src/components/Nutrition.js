@@ -194,6 +194,18 @@ const Nutrition = ({ athleteId }) => {
     setDescription(entry.description);
     setImageData(entry.image_data);
     setImagePreview(entry.image_data);
+    
+    // Load nutrition data if available
+    if (entry.calories || entry.protein || entry.carbs || entry.fat) {
+      setNutritionData({
+        calories: entry.calories,
+        protein: entry.protein,
+        carbs: entry.carbs,
+        fat: entry.fat,
+        ai_analysis: entry.ai_analysis
+      });
+    }
+    
     setShowModal(true);
   };
 
