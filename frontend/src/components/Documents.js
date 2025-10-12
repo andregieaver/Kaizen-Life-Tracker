@@ -484,6 +484,15 @@ const Documents = ({ athleteId }) => {
               <CardDescription>Upload medical records, test results, and other important documents</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+                {/* Debug Status - Visible on screen */}
+                <div className="bg-blue-50 border border-blue-200 rounded p-3 text-sm">
+                  <div className="font-bold mb-1">Debug Info:</div>
+                  <div>Modal State: {showModal ? '✅ OPEN' : '❌ CLOSED'}</div>
+                  <div>File Selected: {fileName ? `✅ ${fileName}` : '❌ None'}</div>
+                  <div>File Preview: {filePreview ? '✅ Yes' : '❌ No'}</div>
+                  <div>File Data: {fileData ? `✅ ${(fileData.length / 1024).toFixed(1)}KB` : '❌ None'}</div>
+                </div>
+
                 {/* File Upload */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
