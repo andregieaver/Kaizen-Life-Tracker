@@ -537,18 +537,28 @@ const Nutrition = ({ athleteId }) => {
                     </p>
                   </div>
                 ) : (
-                  <div className="relative">
-                    <img
-                      src={imagePreview}
-                      alt="Preview"
-                      className="w-full h-64 object-cover rounded-lg"
-                    />
-                    <button
-                      onClick={removeImage}
-                      className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                  <div>
+                    <div className="relative">
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        className="w-full h-64 object-cover rounded-lg"
+                      />
+                      <button
+                        onClick={removeImage}
+                        className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <Button
+                      variant="outline"
+                      className="w-full mt-3"
+                      onClick={() => analyzeFoodImage(imageData, description)}
+                      disabled={isAnalyzing}
                     >
-                      <X className="w-4 h-4" />
-                    </button>
+                      {isAnalyzing ? 'Analyzing...' : 'Analyze Nutrition with AI'}
+                    </Button>
                   </div>
                 )}
               </div>
