@@ -465,7 +465,7 @@ const Documents = ({ athleteId }) => {
       )}
 
       {/* Upload Modal */}
-      {showModal && ReactDOM.createPortal(
+      {showModal && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4"
         >
