@@ -479,7 +479,7 @@ const Dashboard = ({ athleteId }) => {
               {/* Voice Journal Entry */}
               <Card 
                 className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-blue-50 to-blue-100 hover:scale-105"
-                onClick={() => navigate('/dashboard/journal')}
+                onClick={() => navigate('/dashboard/journal?action=voice')}
               >
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">
@@ -497,7 +497,7 @@ const Dashboard = ({ athleteId }) => {
               {/* Voice AI Coach */}
               <Card 
                 className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100 hover:scale-105"
-                onClick={() => navigate('/dashboard/coach')}
+                onClick={() => navigate('/dashboard/coach?action=voice')}
               >
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">
@@ -515,7 +515,7 @@ const Dashboard = ({ athleteId }) => {
               {/* Add Nutrition Entry */}
               <Card 
                 className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-green-50 to-green-100 hover:scale-105"
-                onClick={() => navigate('/dashboard/nutrition')}
+                onClick={() => navigate('/dashboard/nutrition?action=add')}
               >
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">
