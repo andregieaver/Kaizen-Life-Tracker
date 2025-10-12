@@ -388,6 +388,21 @@ frontend:
         agent: "main"
         comment: "✅ RE-ANALYZE BUTTON NOW VISIBLE FOR ALL ENTRIES WITH IMAGES. UI IMPROVEMENT: Added 'Analyze Nutrition with AI' button that appears below image preview in modal. Button is always visible when an image is present (both new entries and when editing). Button text shows 'Analyzing...' during processing, 'Analyze Nutrition with AI' when ready. Button is disabled during analysis to prevent duplicate requests. BETTER PLACEMENT: Moved from small corner button to full-width button below image for better visibility. Works for both new entries and when editing existing entries. Accessible at all times when image exists, not hidden in nutrition display card. USER WORKFLOW: Create new entry → Add description → Upload image → See 'Analyze Nutrition with AI' button → Click to analyze. Edit existing entry with image → Update description if needed → Click 'Analyze Nutrition with AI' button → Get fresh analysis. Button is prominently displayed and easy to find in both scenarios. TECHNICAL CHANGES: Button placed after image preview div, full-width with mt-3 spacing. onClick handler calls analyzeFoodImage(imageData, description) with current values. Disabled state during isAnalyzing prevents multiple simultaneous requests. Simple, clean implementation that works for all use cases."
 
+  - task: "Documents Page Image Compression"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Documents.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "user"
+        comment: "User requested that image compression and resize must also apply to uploading in /dashboard/documents page."
+      - working: true
+        agent: "main"
+        comment: "✅ IMAGE COMPRESSION ADDED TO DOCUMENTS PAGE - All image uploads now automatically compressed. IMPLEMENTATION: Created compressImage() function matching Nutrition and Profile picture compression logic. Max dimensions: 1920x1920px (suitable for document images), maintains aspect ratio for proper viewing. JPEG compression starts at 90% quality, iteratively reduces until under 10MB size limit. Handles edge case: rejects images that can't compress below 10MB (extremely rare). SMART FILE HANDLING: Detects if uploaded file is image using file.type.startsWith('image/'). Images: Auto-compress → Show 'Compressing image...' message → Convert to JPEG. Non-images (PDF, Word, Text): Skip compression → Validate size directly → Read normally. Auto-populates title field with filename for convenience. FILE TYPE SUPPORT: Images: Any format (PNG, JPG, WEBP, etc.) → All converted to optimized JPEG. Documents: PDF, Word (.doc, .docx), Text files → No compression, direct upload. TECHNICAL DETAILS: Base64 size estimation: string.length × 0.75 ≈ actual file size in bytes. Progressive quality reduction algorithm (0.9 → 0.8 → 0.7... until <10MB). Returns compressed data, new size, and updated filename (.jpg extension). Error handling for corrupted images or read failures. UI UPDATES: Help text updated: 'Accepted formats: PDF, Word, Text, Images • Images auto-compressed'. Removed mention of 'Max 10MB' since images now auto-compress to stay under limit. Status messages: 'Compressing image...' → 'Image compressed successfully!'. SCREENSHOTS VERIFIED: Upload modal shows updated text about auto-compression. Clean, professional UI matching existing design. READY FOR USE: Upload any size image - automatic compression ensures successful upload."
+
   - task: "Dashboard Quick Stats Update"
     implemented: true
     working: true
