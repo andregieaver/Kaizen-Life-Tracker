@@ -115,7 +115,7 @@ const Dashboard = ({ athleteId }) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, [lastScrollY]);
 
-  const calculateYTD = async () => {
+  const calculateYTD = async (athleteData) => {
     try {
       // Get all workouts for the current year
       const currentYear = new Date().getFullYear();
@@ -127,7 +127,7 @@ const Dashboard = ({ athleteId }) => {
       
       // Calculate total distance (convert to appropriate unit based on athlete preference)
       const totalDistance = workouts.reduce((sum, workout) => {
-        const distance = athlete?.distance_unit === 'kilometers' 
+        const distance = athleteData?.distance_unit === 'kilometers' 
           ? workout.distance_miles * 1.60934 // Convert miles to km
           : workout.distance_miles;
         return sum + distance;
