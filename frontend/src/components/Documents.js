@@ -51,9 +51,11 @@ const Documents = ({ athleteId }) => {
     try {
       setIsLoading(true);
       const response = await axios.get(`${API}/api/documents/${athleteId}`);
-      setDocuments(response.data || []);
+      const docs = response.data || [];
+      setDocuments(Array.isArray(docs) ? docs : []);
     } catch (error) {
       console.error('Error loading documents:', error);
+      setDocuments([]);
       setSaveStatus({ type: 'error', message: 'Failed to load documents' });
     } finally {
       setIsLoading(false);
