@@ -697,17 +697,33 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => {
-                    if (voiceChatRef.current) {
-                      if (voiceChatRef.current.isConnected) {
-                        voiceChatRef.current.stopVoiceChat();
+                  onClick={async () => {
+                    console.log('Mic button clicked');
+                    console.log('voiceChatRef.current:', voiceChatRef.current);
+                    console.log('hasOpenAIKey:', hasOpenAIKey);
+                    
+                    if (!voiceChatRef.current) {
+                      console.error('VoiceChat ref is null!');
+                      return;
+                    }
+                    
+                    try {
+                      if (isVoiceActive) {
+                        console.log('Stopping voice chat...');
+                        await voiceChatRef.current.stopVoiceChat();
+                        setIsVoiceActive(false);
                       } else {
-                        voiceChatRef.current.startVoiceChat();
+                        console.log('Starting voice chat...');
+                        await voiceChatRef.current.startVoiceChat();
+                        setIsVoiceActive(true);
                       }
+                    } catch (error) {
+                      console.error('Error toggling voice chat:', error);
+                      setIsVoiceActive(false);
                     }
                   }}
-                  className={`${voiceChatRef.current?.isConnected ? 'bg-red-50 border-red-500 text-red-600' : ''}`}
-                  title={voiceChatRef.current?.isConnected ? 'Stop Voice Chat' : 'Start Voice Chat'}
+                  className={`${isVoiceActive ? 'bg-red-50 border-red-500 text-red-600' : ''}`}
+                  title={isVoiceActive ? 'Stop Voice Chat' : 'Start Voice Chat'}
                 >
                   <Mic className="w-4 h-4" />
                 </Button>
