@@ -314,6 +314,50 @@ const Nutrition = ({ athleteId }) => {
     return colors[type] || 'bg-gray-100 text-gray-700';
   };
 
+  // Calculate nutrition statistics
+  const calculateNutritionStats = () => {
+    const totalCalories = nutritionEntries.reduce((sum, entry) => sum + (entry.calories || 0), 0);
+    const totalProtein = nutritionEntries.reduce((sum, entry) => sum + (entry.macros?.protein || 0), 0);
+    const totalCarbs = nutritionEntries.reduce((sum, entry) => sum + (entry.macros?.carbs || 0), 0);
+    const totalFat = nutritionEntries.reduce((sum, entry) => sum + (entry.macros?.fat || 0), 0);
+
+    // Calculate unique days with entries
+    const uniqueDays = new Set(
+      nutritionEntries.map(entry => new Date(entry.created_at).toDateString())
+    ).size;
+
+    // Calculate date range in weeks
+    const dates = nutritionEntries.map(entry => new Date(entry.created_at));
+    const oldestDate = dates.length > 0 ? new Date(Math.min(...dates)) : new Date();
+    const newestDate = dates.length > 0 ? new Date(Math.max(...dates)) : new Date();
+    const daysDifference = Math.max(1, Math.ceil((newestDate - oldestDate) / (1000 * 60 * 60 * 24)) + 1);
+    const weeks = daysDifference / 7;
+
+    return {
+      total: {
+        calories: totalCalories,
+        protein: totalProtein,
+        carbs: totalCarbs,
+        fat: totalFat
+      },
+      daily: {
+        calories: uniqueDays > 0 ? Math.round(totalCalories / uniqueDays) : 0,
+        protein: uniqueDays > 0 ? Math.round(totalProtein / uniqueDays) : 0,
+        carbs: uniqueDays > 0 ? Math.round(totalCarbs / uniqueDays) : 0,
+        fat: uniqueDays > 0 ? Math.round(totalFat / uniqueDays) : 0
+      },
+      weekly: {
+        calories: weeks > 0 ? Math.round(totalCalories / weeks) : 0,
+        protein: weeks > 0 ? Math.round(totalProtein / weeks) : 0,
+        carbs: weeks > 0 ? Math.round(totalCarbs / weeks) : 0,
+        fat: weeks > 0 ? Math.round(totalFat / weeks) : 0
+      },
+      daysTracked: uniqueDays
+    };
+  };
+
+  const stats = calculateNutritionStats();
+
   return (
     <div className="space-y-6">
       {/* Header */}
