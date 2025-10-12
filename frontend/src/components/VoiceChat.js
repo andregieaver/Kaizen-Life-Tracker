@@ -425,6 +425,8 @@ const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError }, ref) => 
             )}
         </div>
     );
-};
+});
+
+VoiceChat.displayName = 'VoiceChat';
 
 export default VoiceChat;
