@@ -663,9 +663,19 @@ const Account = ({ athleteId }) => {
         
         const compressedBlob = await compressImage(file);
         
-        // Convert blob to file
-        const compressedFile = new File([compressedBlob], file.name, { type: 'image/jpeg' });
+        // Convert blob to file with proper filename and MIME type
+        const filename = file.name.replace(/\.[^.]+$/, '.jpg'); // Ensure .jpg extension
+        const compressedFile = new File([compressedBlob], filename, { 
+          type: 'image/jpeg',
+          lastModified: Date.now()
+        });
         setProfilePictureFile(compressedFile);
+        
+        console.log('Compressed file:', {
+          name: compressedFile.name,
+          type: compressedFile.type,
+          size: compressedFile.size
+        });
         
         // Create preview
         const reader = new FileReader();
