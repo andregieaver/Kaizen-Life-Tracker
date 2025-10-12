@@ -496,7 +496,11 @@ const Dashboard = ({ athleteId }) => {
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Running (YTD)</span>
                     <span className="font-semibold">
-                      {ytdDistance.toFixed(1)} {athlete?.distance_unit === 'kilometers' ? 'km' : 'mi'}
+                      {ytdDistance.toFixed(1)} {
+                        (athlete?.measurement_system === 'metric' || 
+                         athlete?.distance_unit === 'kilometers' || 
+                         athlete?.distance_unit === 'km') ? 'km' : 'mi'
+                      }
                     </span>
                   </div>
                 </CardContent>
