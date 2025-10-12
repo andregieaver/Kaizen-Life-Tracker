@@ -29,6 +29,7 @@ const Documents = ({ athleteId }) => {
   const [fileType, setFileType] = useState('');
   const [fileSize, setFileSize] = useState(0);
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
+  const [debugLog, setDebugLog] = useState([]);
   
   const fileInputRef = useRef(null);
 
