@@ -177,29 +177,28 @@ const Documents = ({ athleteId }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    try {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      
-      // Step 1: Validation
-      setSaveStatus({ type: '', message: '▶ STEP 1: Validating form...' });
+  const handleSubmit = async () => {
+    setSaveStatus({ type: '', message: '🔴 FUNCTION CALLED!' });
     
-    if (!title.trim()) {
-      setSaveStatus({ type: 'error', message: '❌ ERROR: Please enter a title' });
-      return;
-    }
+    try {
+      // Step 1: Validation
+      setSaveStatus({ type: '', message: '▶ STEP 1: Validating...' });
+      await new Promise(resolve => setTimeout(resolve, 500));
+    
+      if (!title.trim()) {
+        setSaveStatus({ type: 'error', message: '❌ ERROR: No title' });
+        return;
+      }
 
-    if (!fileData) {
-      setSaveStatus({ type: 'error', message: '❌ ERROR: Please select a file' });
-      return;
-    }
+      if (!fileData) {
+        setSaveStatus({ type: 'error', message: '❌ ERROR: No file' });
+        return;
+      }
 
-    // Step 2: Prepare data
-    setSaveStatus({ type: '', message: '▶ STEP 2: Preparing data...' });
-    setIsLoading(true);
+      // Step 2: Prepare data
+      setSaveStatus({ type: '', message: '▶ STEP 2: Preparing...' });
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setIsLoading(true);
     
     try {
       const fileSizeMB = (fileSize / 1024 / 1024).toFixed(2);
