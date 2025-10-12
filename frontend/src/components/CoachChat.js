@@ -652,22 +652,23 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
         </div>
       </div>
 
+      {/* Hidden Voice Chat Component - Mounted but not visible */}
+      {hasOpenAIKey && (
+        <div style={{ display: 'none' }}>
+          <VoiceChat 
+            ref={voiceChatRef}
+            backendUrl={BACKEND_URL}
+            athleteId={athleteId}
+            onError={(error) => console.error('Voice chat error:', error)}
+          />
+        </div>
+      )}
+
       {/* Message Input - Fixed at Bottom on Mobile, aligned with nav bar */}
       <div className={`fixed md:relative bottom-16 md:bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:border-t-0 transition-transform duration-300 ease-in-out md:translate-y-0 ${
         scrollDirection === 'down' ? 'translate-y-[calc(100%+4rem)] md:translate-y-0' : 'translate-y-0'
       }`}>
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          {/* Voice Chat Component - Positioned above text input */}
-          {hasOpenAIKey && (
-            <div className="mb-3">
-              <VoiceChat 
-                backendUrl={BACKEND_URL}
-                athleteId={athleteId}
-                onError={(error) => console.error('Voice chat error:', error)}
-              />
-            </div>
-          )}
-          
           <form onSubmit={sendMessage} className="space-y-3">
             {/* Textarea Input */}
             <textarea
@@ -690,6 +691,27 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
             
             {/* Button Row */}
             <div className="flex justify-end items-center gap-2">
+              {/* Voice Mode Button - Only show if OpenAI key exists */}
+              {hasOpenAIKey && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    if (voiceChatRef.current) {
+                      if (voiceChatRef.current.isConnected) {
+                        voiceChatRef.current.stopVoiceChat();
+                      } else {
+                        voiceChatRef.current.startVoiceChat();
+                      }
+                    }
+                  }}
+                  className={`${voiceChatRef.current?.isConnected ? 'bg-red-50 border-red-500 text-red-600' : ''}`}
+                  title={voiceChatRef.current?.isConnected ? 'Stop Voice Chat' : 'Start Voice Chat'}
+                >
+                  <Mic className="w-4 h-4" />
+                </Button>
+              )}
+              
               {/* Send Button */}
               <Button 
                 type="submit" 
