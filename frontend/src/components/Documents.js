@@ -362,6 +362,19 @@ const Documents = ({ athleteId }) => {
 
   return (
     <div className="space-y-6">
+      {/* Debug Panel */}
+      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-xs">
+        <div className="font-bold mb-1">DEBUG INFO:</div>
+        <div>Documents loaded: {documents.length}</div>
+        <div>Filtered: {filteredDocuments.length}</div>
+        <div>Category: {selectedCategory}</div>
+        <div>Athlete ID: {athleteId}</div>
+        <div>API: {API}</div>
+        {saveStatus.message && (
+          <div className="mt-1 text-red-600 font-bold">Status: {saveStatus.message}</div>
+        )}
+      </div>
+      
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
