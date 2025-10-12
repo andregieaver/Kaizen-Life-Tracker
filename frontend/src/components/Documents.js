@@ -523,20 +523,22 @@ const Documents = ({ athleteId }) => {
                 </div>
 
                 {/* Title */}
-                <div className="space-y-2">
-                  <Label htmlFor="title">Title *</Label>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Title *
+                  </label>
                   <Input
-                    id="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="e.g., Blood Test Results - January 2024"
-                    required
                   />
                 </div>
 
                 {/* Category */}
-                <div className="space-y-2">
-                  <Label htmlFor="category">Category *</Label>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Category *
+                  </label>
                   <Select value={category} onValueChange={setCategory}>
                     <SelectTrigger>
                       <SelectValue />
@@ -555,14 +557,15 @@ const Documents = ({ athleteId }) => {
                 </div>
 
                 {/* Description */}
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description (Optional)</Label>
-                  <Textarea
-                    id="description"
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Description (Optional)
+                  </label>
+                  <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Add any additional notes about this document..."
-                    rows={3}
+                    className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                   />
                 </div>
 
