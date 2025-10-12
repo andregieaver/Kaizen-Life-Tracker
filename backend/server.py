@@ -2913,16 +2913,15 @@ async def delete_nutrition_entry(entry_id: str):
     return {"success": True}
 
 @api_router.post("/nutrition/analyze-image/{athlete_id}")
-async def analyze_food_image(athlete_id: str, image_data: dict):
+async def analyze_food_image(athlete_id: str, request: dict):
     """Analyze food image using OpenAI Vision API to estimate nutritional content"""
+    import openai
+    
     try:
         # Get OpenAI API key for the athlete
-        openai_key = await get_user_openai_key(athlete_id)
+        openai_key = await ai_coach.get_user_openai_key(athlete_id)
         if not openai_key:
             raise HTTPException(status_code=400, detail="OpenAI API key required for food analysis. Please configure your API key in Account Settings.")
-        
-        # Import OpenAI client
-        import openai
         
         # Create OpenAI client
         client = openai.OpenAI(api_key=openai_key)
