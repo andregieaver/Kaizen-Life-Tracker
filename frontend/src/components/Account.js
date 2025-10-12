@@ -899,7 +899,7 @@ const Account = ({ athleteId }) => {
     }
 
     try {
-      await axios.delete(`${API}/integrations/openai/${athleteId}`);
+      await axios.delete(`${API}/integrations/${athleteId}/openai`);
       
       // Update UI to show disconnected state
       setIntegrations(prev => ({
