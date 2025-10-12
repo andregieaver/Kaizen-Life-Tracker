@@ -444,24 +444,8 @@ const Documents = ({ athleteId }) => {
 
       {/* Upload Modal */}
       {showModal && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4"
-          onClick={(e) => {
-            // Only close if clicking the overlay itself, not the modal content
-            if (e.target === e.currentTarget) {
-              setShowModal(false);
-              setTitle('');
-              setCategory('medical');
-              setDescription('');
-              setFileData(null);
-              setFileName('');
-              setFileType('');
-              setFileSize(0);
-              setSaveStatus({ type: '', message: '' });
-            }
-          }}
-        >
-          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
+          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Upload Document</CardTitle>
