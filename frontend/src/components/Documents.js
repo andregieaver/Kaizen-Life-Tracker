@@ -337,46 +337,6 @@ const Documents = ({ athleteId }) => {
 
   return (
     <div className="space-y-6">
-      {/* Debug Panel */}
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-xs">
-        <div className="font-bold mb-1 text-lg">🔧 DEBUG INFO v3.0</div>
-        <div className="flex gap-2 mb-2">
-          <button 
-            onClick={() => setSaveStatus({ type: '', message: 'TEST BUTTON CLICKED!' })}
-            className="bg-green-500 text-white px-3 py-2 rounded text-sm"
-          >
-            TEST CLICK
-          </button>
-          <button 
-            onClick={() => {
-              setTitle('Test Document');
-              setFileData('data:text/plain;base64,VGVzdCBmaWxl');
-              setFileName('test.txt');
-              setFileType('text/plain');
-              setFileSize(100);
-              setSaveStatus({ type: '', message: '✅ Test data set! Now try upload.' });
-            }}
-            className="bg-purple-500 text-white px-3 py-2 rounded text-sm"
-          >
-            SET TEST DATA
-          </button>
-        </div>
-        <div className="text-base">Documents loaded: <span className="font-bold">{documents.length}</span></div>
-        <div className="text-base">Filtered: <span className="font-bold">{filteredDocuments.length}</span></div>
-        <div>Category: {selectedCategory}</div>
-        <div>Loading: {isLoading ? 'YES' : 'NO'}</div>
-        <div>Modal Open: {showModal ? 'YES' : 'NO'}</div>
-        <div>File Selected: {fileData ? 'YES' : 'NO'}</div>
-        <div>Title: {title || '(empty)'}</div>
-        <div className="break-all">Athlete ID: {athleteId}</div>
-        <div className="break-all">API: {API}</div>
-        {saveStatus.message && (
-          <div className="mt-2 p-2 bg-red-100 border border-red-400 rounded text-base font-bold">
-            STATUS: {saveStatus.message}
-          </div>
-        )}
-      </div>
-      
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
