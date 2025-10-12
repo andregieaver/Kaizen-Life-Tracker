@@ -179,8 +179,10 @@ const Documents = ({ athleteId }) => {
 
   const handleSubmit = async (e) => {
     try {
-      e.preventDefault();
-      e.stopPropagation();
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       
       // Step 1: Validation
       setSaveStatus({ type: '', message: '▶ STEP 1: Validating form...' });
