@@ -638,9 +638,13 @@ const Documents = ({ athleteId }) => {
                   </Button>
                   <Button
                     type="button"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       setSaveStatus({ type: '', message: '🔵 MODAL BUTTON CLICKED!' });
-                      handleSubmit();
+                      setTimeout(() => {
+                        handleSubmit();
+                      }, 100);
                     }}
                     className="flex-1 bg-blue-600 hover:bg-blue-700"
                     disabled={isLoading || !title.trim() || !fileData}
