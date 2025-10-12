@@ -388,6 +388,21 @@ frontend:
         agent: "main"
         comment: "✅ RE-ANALYZE BUTTON NOW VISIBLE FOR ALL ENTRIES WITH IMAGES. UI IMPROVEMENT: Added 'Analyze Nutrition with AI' button that appears below image preview in modal. Button is always visible when an image is present (both new entries and when editing). Button text shows 'Analyzing...' during processing, 'Analyze Nutrition with AI' when ready. Button is disabled during analysis to prevent duplicate requests. BETTER PLACEMENT: Moved from small corner button to full-width button below image for better visibility. Works for both new entries and when editing existing entries. Accessible at all times when image exists, not hidden in nutrition display card. USER WORKFLOW: Create new entry → Add description → Upload image → See 'Analyze Nutrition with AI' button → Click to analyze. Edit existing entry with image → Update description if needed → Click 'Analyze Nutrition with AI' button → Get fresh analysis. Button is prominently displayed and easy to find in both scenarios. TECHNICAL CHANGES: Button placed after image preview div, full-width with mt-3 spacing. onClick handler calls analyzeFoodImage(imageData, description) with current values. Disabled state during isAnalyzing prevents multiple simultaneous requests. Simple, clean implementation that works for all use cases."
 
+  - task: "Dashboard Quick Stats Update"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "user"
+        comment: "User requested to update Quick Stats section on main dashboard. Replace current stats (Weekly Goal, Recent Workouts, Running Goals) with: Health Score (calculation coming) and Running (YTD)."
+      - working: true
+        agent: "main"
+        comment: "✅ QUICK STATS UPDATED SUCCESSFULLY - Dashboard now shows Health Score and Running YTD. IMPLEMENTATION: Added ytdDistance state variable to track year-to-date running distance. Created calculateYTD() function that fetches all workouts for current year (Jan 1 - Dec 31) and calculates total distance. Function respects user's distance unit preference (miles or kilometers) and converts accordingly. YTD calculation called after athlete data loads in loadDashboardData(). QUICK STATS DISPLAY: Replaced old stats (Weekly Goal 50 miles, Recent Workouts count, Running Goals button) with new stats. Health Score: Shows 'Coming Soon' as placeholder (calculation to be implemented later). Running (YTD): Displays calculated year-to-date distance with proper unit (mi or km based on athlete preference). Clean two-row layout with Health Score on top, Running YTD below. TECHNICAL DETAILS: YTD distance formatted to 1 decimal place (e.g., 125.3 mi). Backend query uses date range parameters: start_date=YYYY-01-01, end_date=YYYY-12-31. Distance conversion: miles × 1.60934 = kilometers when needed. Error handling: Sets ytdDistance to 0 if API call fails. SCREENSHOTS VERIFIED: Quick Stats card shows 'Health Score: Coming Soon' and 'Running (YTD): 0.0 mi'. Clean, professional display matching existing UI styling. Ready for Health Score calculation to be added in future."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
