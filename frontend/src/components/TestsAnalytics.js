@@ -48,7 +48,20 @@ const TestsAnalytics = ({ athleteId }) => {
 
   useEffect(() => {
     loadData();
+    loadSubscriptionStatus();
   }, [athleteId]);
+
+  const loadSubscriptionStatus = async () => {
+    try {
+      const response = await axios.get(`${API}/subscriptions/status/${athleteId}`);
+      setSubscriptionStatus({
+        tier: response.data.subscription_tier || 'free',
+        status: response.data.subscription_status || 'active'
+      });
+    } catch (error) {
+      console.error('Error loading subscription status:', error);
+    }
+  };
 
   const loadData = async () => {
     try {
