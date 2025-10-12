@@ -919,32 +919,6 @@ const Account = ({ athleteId }) => {
     }
   };
 
-  const handleDisconnectOpenAI = async () => {
-    if (!window.confirm('Are you sure you want to disconnect your OpenAI API key?')) {
-      return;
-    }
-
-    try {
-      await axios.delete(`${API}/integrations/${athleteId}/openai`);
-      
-      // Update UI to show disconnected state
-      setIntegrations(prev => ({
-        ...prev,
-        openai_api_key: ''
-      }));
-      
-      setApiKeyForm({ openai_api_key: '' });
-      setSaveStatus({ type: 'success', message: 'OpenAI API key disconnected successfully!' });
-      setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
-    } catch (error) {
-      console.error('Error disconnecting OpenAI API key:', error);
-      setSaveStatus({ 
-        type: 'error', 
-        message: error.response?.data?.detail || 'Failed to disconnect API key' 
-      });
-    }
-  };
-
   // Simple integration handlers using provider connector infrastructure
   const handleSimpleConnect = async (providerKey) => {
     try {
