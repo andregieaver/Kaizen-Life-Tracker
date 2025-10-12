@@ -612,7 +612,7 @@ const Documents = ({ athleteId }) => {
                     {isLoading ? 'Uploading...' : 'Upload Document'}
                   </Button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
