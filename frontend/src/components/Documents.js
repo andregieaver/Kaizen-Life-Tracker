@@ -222,6 +222,7 @@ const Documents = ({ athleteId }) => {
         setCategory('medical');
         setDescription('');
         setFileData(null);
+        setFilePreview(null);
         setFileName('');
         setFileType('');
         setFileSize(0);
