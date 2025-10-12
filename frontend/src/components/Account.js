@@ -2794,12 +2794,12 @@ const Account = ({ athleteId }) => {
                     </CardDescription>
                   </div>
                   <Button 
-                    onClick={() => setShowScheduleForm(true)}
+                    onClick={handleAddScheduleClick}
                     className="bg-blue-600 hover:bg-blue-700 btn-transition w-full md:w-auto"
                     data-testid="add-schedule-btn"
                   >
                     <Plus className="w-4 h-4 mr-2" />
-                    Add Schedule
+                    Add Schedule ({schedules.length}/{getScheduleLimit(subscriptionStatus.tier) === Infinity ? '∞' : getScheduleLimit(subscriptionStatus.tier)})
                   </Button>
                 </div>
               </CardHeader>
