@@ -133,45 +133,32 @@ const Documents = ({ athleteId }) => {
   };
 
   const handleFileUpload = async (event) => {
-    const timestamp = new Date().toLocaleTimeString();
-    setDebugLog(prev => [...prev, `${timestamp}: handleFileUpload called`]);
-    
     const file = event.target.files[0];
-    setDebugLog(prev => [...prev, `${timestamp}: File: ${file ? file.name : 'none'}`]);
-    
     if (file) {
       try {
-        setDebugLog(prev => [...prev, `${timestamp}: Processing ${file.type}`]);
         // Check if file is an image
         const isImage = file.type.startsWith('image/');
         
         if (isImage) {
-          setDebugLog(prev => [...prev, `${timestamp}: Compressing image...`]);
           // Compress images automatically
           setSaveStatus({ type: '', message: 'Compressing image...' });
           const compressedImage = await compressImage(file);
-          setDebugLog(prev => [...prev, `${timestamp}: Compressed ${compressedImage.length} bytes`]);
-          
           setFileData(compressedImage);
           setFilePreview(compressedImage);
           setFileName(file.name);
           setFileType('image/jpeg');
           setFileSize(Math.round(compressedImage.length * 0.75));
           setSaveStatus({ type: 'success', message: 'Image ready!' });
-          setDebugLog(prev => [...prev, `${timestamp}: ✅ State updated`]);
         } else {
-          setDebugLog(prev => [...prev, `${timestamp}: Reading non-image file...`]);
           // Non-image files: validate size and read normally
           if (file.size > 10 * 1024 * 1024) {
             setSaveStatus({ type: 'error', message: 'File size must be less than 10MB' });
-            setDebugLog(prev => [...prev, `${timestamp}: ❌ File too large`]);
             return;
           }
 
           // Read file as base64
           const reader = new FileReader();
           reader.onload = (e) => {
-            setDebugLog(prev => [...prev, `${timestamp}: ✅ File read complete`]);
             setFileData(e.target.result);
             setFilePreview(null);
             setFileName(file.name);
@@ -179,7 +166,6 @@ const Documents = ({ athleteId }) => {
             setFileSize(file.size);
           };
           reader.onerror = () => {
-            setDebugLog(prev => [...prev, `${timestamp}: ❌ File read error`]);
             setSaveStatus({ type: 'error', message: 'Failed to read file' });
           };
           reader.readAsDataURL(file);
@@ -188,10 +174,9 @@ const Documents = ({ athleteId }) => {
         // Auto-populate title if empty
         if (!title) {
           setTitle(file.name);
-          setDebugLog(prev => [...prev, `${timestamp}: Title set to ${file.name}`]);
         }
       } catch (error) {
-        setDebugLog(prev => [...prev, `${timestamp}: ❌ ERROR: ${error.message}`]);
+        console.error('Error processing file:', error);
         setSaveStatus({ type: 'error', message: error.message });
       }
     }
