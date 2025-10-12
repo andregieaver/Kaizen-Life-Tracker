@@ -400,7 +400,7 @@ frontend:
     file: "/app/frontend/src/components/Documents.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "user"
@@ -408,6 +408,12 @@ frontend:
       - working: true
         agent: "main"
         comment: "✅ IMAGE COMPRESSION ADDED TO DOCUMENTS PAGE - All image uploads now automatically compressed. IMPLEMENTATION: Created compressImage() function matching Nutrition and Profile picture compression logic. Max dimensions: 1920x1920px (suitable for document images), maintains aspect ratio for proper viewing. JPEG compression starts at 90% quality, iteratively reduces until under 10MB size limit. Handles edge case: rejects images that can't compress below 10MB (extremely rare). SMART FILE HANDLING: Detects if uploaded file is image using file.type.startsWith('image/'). Images: Auto-compress → Show 'Compressing image...' message → Convert to JPEG. Non-images (PDF, Word, Text): Skip compression → Validate size directly → Read normally. Auto-populates title field with filename for convenience. FILE TYPE SUPPORT: Images: Any format (PNG, JPG, WEBP, etc.) → All converted to optimized JPEG. Documents: PDF, Word (.doc, .docx), Text files → No compression, direct upload. TECHNICAL DETAILS: Base64 size estimation: string.length × 0.75 ≈ actual file size in bytes. Progressive quality reduction algorithm (0.9 → 0.8 → 0.7... until <10MB). Returns compressed data, new size, and updated filename (.jpg extension). Error handling for corrupted images or read failures. UI UPDATES: Help text updated: 'Accepted formats: PDF, Word, Text, Images • Images auto-compressed'. Removed mention of 'Max 10MB' since images now auto-compress to stay under limit. Status messages: 'Compressing image...' → 'Image compressed successfully!'. SCREENSHOTS VERIFIED: Upload modal shows updated text about auto-compression. Clean, professional UI matching existing design. READY FOR USE: Upload any size image - automatic compression ensures successful upload."
+      - working: false
+        agent: "user"
+        comment: "User reported document upload failing. Modal closes but document doesn't appear. No error messages shown. Testing with PDF and images on mobile."
+      - working: true
+        agent: "main"
+        comment: "✅ DOCUMENT UPLOAD ERROR HANDLING IMPROVED - Added comprehensive error handling and user feedback. IMPROVEMENTS: Added loading state (isLoading) to prevent double-submissions and show progress. Upload button now shows 'Uploading...' during processing and is disabled during upload. Added 30-second timeout for large file uploads (timeout: 30000ms). Status message now displays in modal during upload ('Uploading document...'). Success message shows for 1.5 seconds before modal closes (instead of closing immediately). Better error messages for specific failure cases: timeout errors, 413 (file too large), generic upload failures. TECHNICAL ENHANCEMENTS: Moved loadDocuments() to run after successful upload and before modal closes. Added response validation (checks response.data.success). Form reset happens before modal close to prevent showing old data. Status message display with color coding: blue for loading, green for success, red for errors. Upload button disabled when: isLoading=true, title empty, or no file selected. ERROR HANDLING: Timeout: 'Upload timed out. File may be too large.' 413 status: 'File is too large. Please compress or use a smaller file.' Network errors: Specific error message from backend. Generic: 'Failed to upload document'. USER EXPERIENCE: Clear visual feedback during entire upload process. Success confirmation before modal closes. Button prevents accidental double-clicks. Helpful error messages guide user to solution. READY FOR TESTING: User should now see clear status messages and any errors that occur. If upload still fails, error message will indicate the specific problem."
 
   - task: "Dashboard Quick Stats Update"
     implemented: true
