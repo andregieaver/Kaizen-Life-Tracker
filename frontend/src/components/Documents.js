@@ -450,6 +450,7 @@ const Documents = ({ athleteId }) => {
               <div className="flex items-center justify-between">
                 <CardTitle>Upload Document</CardTitle>
                 <button
+                  type="button"
                   onClick={() => {
                     setShowModal(false);
                     setTitle('');
