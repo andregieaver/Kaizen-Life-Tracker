@@ -186,26 +186,24 @@ const Documents = ({ athleteId }) => {
       setSaveStatus({ type: '', message: '▶ STEP 1: Validating form...' });
     
     if (!title.trim()) {
-      setSaveStatus({ type: 'error', message: 'ERROR: Please enter a title' });
-      alert('Please enter a title');
+      setSaveStatus({ type: 'error', message: '❌ ERROR: Please enter a title' });
       return;
     }
 
     if (!fileData) {
-      setSaveStatus({ type: 'error', message: 'ERROR: Please select a file' });
-      alert('Please select a file to upload');
+      setSaveStatus({ type: 'error', message: '❌ ERROR: Please select a file' });
       return;
     }
 
     // Step 2: Prepare data
-    setSaveStatus({ type: '', message: 'Step 2: Preparing data...' });
+    setSaveStatus({ type: '', message: '▶ STEP 2: Preparing data...' });
     setIsLoading(true);
     
     try {
       const fileSizeMB = (fileSize / 1024 / 1024).toFixed(2);
       const dataSizeMB = (fileData.length * 0.75 / 1024 / 1024).toFixed(2);
       
-      setSaveStatus({ type: '', message: `Step 3: Uploading ${fileSizeMB}MB file...` });
+      setSaveStatus({ type: '', message: `▶ STEP 3: Uploading ${fileSizeMB}MB file (${fileName})...` });
       
       const newDocument = {
         id: Math.random().toString(36).substring(7),
@@ -220,11 +218,8 @@ const Documents = ({ athleteId }) => {
         created_at: new Date().toISOString()
       };
 
-      // Alert with file info
-      alert(`Uploading:\nFile: ${fileName}\nSize: ${fileSizeMB}MB\nType: ${fileType}`);
-
       // Step 4: Send to server
-      setSaveStatus({ type: '', message: 'Step 4: Sending to server...' });
+      setSaveStatus({ type: '', message: '▶ STEP 4: Sending to server...' });
       
       const response = await axios.post(`${API}/documents`, newDocument, {
         timeout: 30000,
