@@ -269,27 +269,12 @@ const Documents = ({ athleteId }) => {
       // Detailed error handling
       let errorMessage = `❌ ERROR: ${error.message || 'Unknown'} | Code: ${error.code || 'N/A'} | Status: ${error.response?.status || 'N/A'}`;
       
-      let errorMessage = 'Upload failed';
-      
-      if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
-        errorMessage = 'Timeout: File too large or slow connection';
-      } else if (error.response?.status === 413) {
-        errorMessage = 'Error 413: File is too large';
-      } else if (error.response?.status === 500) {
-        errorMessage = 'Error 500: Server error';
-      } else if (error.response?.data?.detail) {
-        errorMessage = `Server: ${error.response.data.detail}`;
-      } else if (error.message) {
-        errorMessage = error.message;
-      }
-      
       setSaveStatus({ type: 'error', message: errorMessage });
     } finally {
       setIsLoading(false);
     }
     } catch (topLevelError) {
-      alert(`FATAL ERROR: ${topLevelError.message}`);
-      setSaveStatus({ type: 'error', message: `Fatal: ${topLevelError.message}` });
+      setSaveStatus({ type: 'error', message: `💥 FATAL ERROR: ${topLevelError.message}` });
       setIsLoading(false);
     }
   };
