@@ -201,6 +201,7 @@ const Account = ({ athleteId }) => {
     time: '08:00',
     days: []
   });
+  const [showScheduleLimitModal, setShowScheduleLimitModal] = useState(false);
 
   useEffect(() => {
     loadAccountData();
