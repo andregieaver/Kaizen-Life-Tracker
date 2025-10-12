@@ -23,6 +23,7 @@ const Pricing = () => {
       features: [
         'Basic AI Coach access (10 questions/month)',
         '1 scheduled AI analysis',
+        'Track up to 3 fitness tests',
         'Manual workout logging',
         'Basic readiness score',
         '30-day history',
