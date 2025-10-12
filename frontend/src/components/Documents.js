@@ -450,7 +450,6 @@ const Documents = ({ athleteId }) => {
               <div className="flex items-center justify-between">
                 <CardTitle>Upload Document</CardTitle>
                 <button
-                  type="button"
                   onClick={() => {
                     setShowModal(false);
                     setTitle('');
@@ -471,20 +470,17 @@ const Documents = ({ athleteId }) => {
             </CardHeader>
             <CardContent className="space-y-4">
                 {/* File Upload */}
-                <div className="space-y-2">
-                  <Label htmlFor="file">Document File</Label>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Document File
+                  </label>
                   
                   {!fileName ? (
                     <div className="space-y-2">
                       <Button
-                        type="button"
                         variant="outline"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          fileInputRef.current?.click();
-                        }}
                         className="w-full"
+                        onClick={() => fileInputRef.current?.click()}
                       >
                         <Upload className="w-4 h-4 mr-2" />
                         Choose File
@@ -501,25 +497,26 @@ const Documents = ({ athleteId }) => {
                       </p>
                     </div>
                   ) : (
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
-                        <div className="flex-1">
-                          <p className="text-sm font-medium text-gray-900">{fileName}</p>
-                          <p className="text-xs text-gray-500">{formatFileSize(fileSize)}</p>
+                    <div>
+                      <div className="relative">
+                        <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
+                          <div className="flex-1">
+                            <p className="text-sm font-medium text-gray-900">{fileName}</p>
+                            <p className="text-xs text-gray-500">{formatFileSize(fileSize)}</p>
+                          </div>
+                          <button
+                            onClick={() => {
+                              setFileData(null);
+                              setFileName('');
+                              setFileType('');
+                              setFileSize(0);
+                              if (fileInputRef.current) fileInputRef.current.value = '';
+                            }}
+                            className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setFileData(null);
-                            setFileName('');
-                            setFileType('');
-                            setFileSize(0);
-                            if (fileInputRef.current) fileInputRef.current.value = '';
-                          }}
-                          className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
                       </div>
                     </div>
                   )}
