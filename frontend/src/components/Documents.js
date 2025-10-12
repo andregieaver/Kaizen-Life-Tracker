@@ -583,15 +583,6 @@ const Documents = ({ athleteId }) => {
                   />
                 </div>
 
-                {/* Form State Debug */}
-                <div className="bg-yellow-100 border border-yellow-300 rounded p-2 text-xs">
-                  <div className="font-bold mb-1">FORM STATE:</div>
-                  <div>Title: "{title}" ({title.trim() ? 'OK' : 'EMPTY'})</div>
-                  <div>File: {fileData ? `${fileName} (${(fileSize/1024).toFixed(1)}KB)` : 'NONE'}</div>
-                  <div>Category: {category}</div>
-                  <div>Button Enabled: {!(isLoading || !title.trim() || !fileData) ? 'YES' : 'NO'}</div>
-                </div>
-
                 {/* Status Message */}
                 {saveStatus.message && (
                   <div className={`p-3 rounded-lg text-sm ${
@@ -608,32 +599,30 @@ const Documents = ({ athleteId }) => {
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                      setShowModal(false);
+                      setTitle('');
+                      setCategory('medical');
+                      setDescription('');
+                      setFileData(null);
+                      setFileName('');
+                      setFileType('');
+                      setFileSize(0);
+                      setSaveStatus({ type: '', message: '' });
+                    }}
                     className="flex-1"
                   >
                     Cancel
                   </Button>
                   <Button
                     type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setSaveStatus({ type: '', message: '🔵 MODAL BUTTON CLICKED!' });
-                      setTimeout(() => {
-                        handleSubmit();
-                      }, 100);
-                    }}
+                    onClick={handleSubmit}
                     className="flex-1 bg-blue-600 hover:bg-blue-700"
                     disabled={isLoading || !title.trim() || !fileData}
                   >
                     <Upload className="w-4 h-4 mr-2" />
                     {isLoading ? 'Uploading...' : 'Upload Document'}
                   </Button>
-                  {(isLoading || !title.trim() || !fileData) && (
-                    <div className="text-xs text-red-600 mt-1">
-                      Button disabled: {isLoading ? 'Loading' : !title.trim() ? 'No title' : 'No file'}
-                    </div>
-                  )}
                 </div>
             </CardContent>
           </Card>
