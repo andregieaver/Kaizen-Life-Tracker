@@ -50,11 +50,6 @@ const Documents = ({ athleteId }) => {
     filterDocuments();
   }, [documents, selectedCategory]);
 
-  useEffect(() => {
-    const timestamp = new Date().toLocaleTimeString();
-    setDebugLog(prev => [...prev, `${timestamp}: Modal ${showModal ? 'OPENED' : 'CLOSED'}`]);
-  }, [showModal]);
-
   const loadDocuments = async () => {
     try {
       setIsLoading(true);
