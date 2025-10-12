@@ -241,9 +241,20 @@ class NutritionEntry(BaseModel):
     description: str
     image_data: Optional[str] = None  # Base64 encoded image
     calories: Optional[int] = None  # Estimated calories
+    # Macronutrients
     protein: Optional[float] = None  # Grams of protein
     carbs: Optional[float] = None  # Grams of carbohydrates
     fat: Optional[float] = None  # Grams of fat
+    # Micronutrients
+    fiber: Optional[float] = None  # Grams of fiber
+    sodium: Optional[float] = None  # Milligrams of sodium
+    sugar: Optional[float] = None  # Grams of sugar
+    vitamin_a: Optional[float] = None  # Micrograms
+    vitamin_c: Optional[float] = None  # Milligrams
+    vitamin_d: Optional[float] = None  # Micrograms
+    calcium: Optional[float] = None  # Milligrams
+    iron: Optional[float] = None  # Milligrams
+    potassium: Optional[float] = None  # Milligrams
     ai_analysis: Optional[str] = None  # AI-generated description/notes
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
