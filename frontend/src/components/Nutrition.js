@@ -154,8 +154,8 @@ const Nutrition = ({ athleteId }) => {
         setImagePreview(compressedImage);
         setSaveStatus({ type: 'success', message: 'Image ready!' });
         
-        // Automatically analyze the image
-        await analyzeFoodImage(compressedImage);
+        // Automatically analyze the image with description if available
+        await analyzeFoodImage(compressedImage, description);
       } catch (error) {
         console.error('Error processing image:', error);
         setSaveStatus({ type: 'error', message: error.message });
@@ -173,8 +173,8 @@ const Nutrition = ({ athleteId }) => {
         setImagePreview(compressedImage);
         setSaveStatus({ type: 'success', message: 'Image ready!' });
         
-        // Automatically analyze the image
-        await analyzeFoodImage(compressedImage);
+        // Automatically analyze the image with description if available
+        await analyzeFoodImage(compressedImage, description);
       } catch (error) {
         console.error('Error processing image:', error);
         setSaveStatus({ type: 'error', message: error.message });
