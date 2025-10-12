@@ -204,6 +204,13 @@ const Documents = ({ athleteId }) => {
         created_at: new Date().toISOString()
       };
 
+      console.log('Uploading document:', {
+        fileName,
+        fileType,
+        fileSize: `${(fileSize / 1024 / 1024).toFixed(2)} MB`,
+        dataSize: `${(fileData.length * 0.75 / 1024 / 1024).toFixed(2)} MB`
+      });
+
       await axios.post(`${API}/documents`, newDocument);
       
       setSaveStatus({ type: 'success', message: 'Document uploaded successfully!' });
@@ -223,7 +230,9 @@ const Documents = ({ athleteId }) => {
       loadDocuments();
     } catch (error) {
       console.error('Error uploading document:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to upload document' });
+      const errorMessage = error.response?.data?.detail || error.message || 'Failed to upload document';
+      console.error('Detailed error:', errorMessage);
+      setSaveStatus({ type: 'error', message: errorMessage });
     }
   };
 
