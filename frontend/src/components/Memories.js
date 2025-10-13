@@ -294,7 +294,7 @@ const Memories = ({ athleteId }) => {
         <Card>
           <CardContent className="py-12 text-center">
             <Brain className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="text-lg font-display font-medium text-gray-900 mb-2">
               {searchTerm || selectedCategory !== 'all' ? 'No memories found' : 'No memories yet'}
             </h3>
             <p className="text-gray-600 mb-4">
