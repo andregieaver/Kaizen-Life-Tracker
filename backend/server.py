@@ -346,6 +346,8 @@ class AthleteUpdate(BaseModel):
     timezone: Optional[str] = None
     time_format: Optional[str] = None
     date_format: Optional[str] = None
+    weight_unit: Optional[str] = None
+    fluid_unit: Optional[str] = None
     language: Optional[str] = None
     voice_preference: Optional[str] = None
 
