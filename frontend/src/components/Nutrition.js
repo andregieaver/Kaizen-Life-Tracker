@@ -1564,6 +1564,7 @@ const Nutrition = ({ athleteId }) => {
                 </CardContent>
               </Card>
             );
+            }
           })}
         </div>
       )}
