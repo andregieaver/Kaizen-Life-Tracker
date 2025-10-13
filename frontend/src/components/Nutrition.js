@@ -33,6 +33,13 @@ const Nutrition = ({ athleteId }) => {
   const [selectedWeekStart, setSelectedWeekStart] = useState(null); // Track selected week
   const [viewType, setViewType] = useState('week'); // 'day' or 'week'
   const [selectedDay, setSelectedDay] = useState(null); // Track selected day (Date object)
+  const [showSupplementModal, setShowSupplementModal] = useState(false);
+  const [supplements, setSupplements] = useState([]);
+  const [selectedSupplements, setSelectedSupplements] = useState([]);
+  const [supplementLogs, setSupplementLogs] = useState([]);
+  const [supplementLogDate, setSupplementLogDate] = useState('');
+  const [supplementLogTime, setSupplementLogTime] = useState('');
+  const [supplementNotes, setSupplementNotes] = useState('');
   
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
