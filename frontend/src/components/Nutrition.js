@@ -95,6 +95,24 @@ const Nutrition = ({ athleteId }) => {
     }
   };
 
+  const loadSupplements = async () => {
+    try {
+      const response = await axios.get(`${API}/supplements/${athleteId}`);
+      setSupplements(response.data.supplements || []);
+    } catch (error) {
+      console.error('Error loading supplements:', error);
+    }
+  };
+
+  const loadSupplementLogs = async () => {
+    try {
+      const response = await axios.get(`${API}/supplement-logs/${athleteId}`);
+      setSupplementLogs(response.data.logs || []);
+    } catch (error) {
+      console.error('Error loading supplement logs:', error);
+    }
+  };
+
   // Helper function to get current date and time in required formats
   const getCurrentDateTime = () => {
     const now = new Date();
