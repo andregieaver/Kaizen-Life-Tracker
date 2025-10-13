@@ -3089,6 +3089,15 @@ Be as accurate as possible based on visible portion sizes{" and the user's descr
             "protein": float(nutrition_data.get("protein", 0)),
             "carbs": float(nutrition_data.get("carbs", 0)),
             "fat": float(nutrition_data.get("fat", 0)),
+            "fiber": float(nutrition_data.get("fiber", 0)),
+            "sodium": float(nutrition_data.get("sodium", 0)),
+            "sugar": float(nutrition_data.get("sugar", 0)),
+            "vitamin_a": float(nutrition_data.get("vitamin_a", 0)),
+            "vitamin_c": float(nutrition_data.get("vitamin_c", 0)),
+            "vitamin_d": float(nutrition_data.get("vitamin_d", 0)),
+            "calcium": float(nutrition_data.get("calcium", 0)),
+            "iron": float(nutrition_data.get("iron", 0)),
+            "potassium": float(nutrition_data.get("potassium", 0)),
             "ai_analysis": nutrition_data.get("description", "")
         }
         
