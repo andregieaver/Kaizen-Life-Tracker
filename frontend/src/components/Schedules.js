@@ -103,7 +103,13 @@ const Schedules = ({ athleteId }) => {
       handleCancelScheduleForm();
     } catch (error) {
       console.error('Error saving schedule:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to save schedule' });
+      // Check if it's a subscription limit error
+      if (error.response && error.response.status === 403) {
+        setSaveStatus({ type: 'error', message: error.response.data.detail || 'Schedule limit reached. Please upgrade your plan.' });
+        setShowScheduleLimitModal(true);
+      } else {
+        setSaveStatus({ type: 'error', message: 'Failed to save schedule' });
+      }
     }
   };
 
