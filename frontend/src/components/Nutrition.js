@@ -31,6 +31,8 @@ const Nutrition = ({ athleteId }) => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [athlete, setAthlete] = useState(null); // For time format preference
   const [selectedWeekStart, setSelectedWeekStart] = useState(null); // Track selected week
+  const [viewType, setViewType] = useState('week'); // 'day' or 'week'
+  const [selectedDay, setSelectedDay] = useState(null); // Track selected day (Date object)
   
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
