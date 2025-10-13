@@ -2913,7 +2913,13 @@ async def update_nutrition_entry(entry_id: str, data: dict):
     if "image_data" in data:
         update_data["image_data"] = data["image_data"]
     
-    # Include nutritional data if provided
+    if "entry_date" in data:
+        update_data["entry_date"] = data["entry_date"]
+    
+    if "entry_time" in data:
+        update_data["entry_time"] = data["entry_time"]
+    
+    # Include macronutrients if provided
     if "calories" in data:
         update_data["calories"] = data["calories"]
     if "protein" in data:
@@ -2924,6 +2930,26 @@ async def update_nutrition_entry(entry_id: str, data: dict):
         update_data["fat"] = data["fat"]
     if "ai_analysis" in data:
         update_data["ai_analysis"] = data["ai_analysis"]
+    
+    # Include micronutrients if provided
+    if "fiber" in data:
+        update_data["fiber"] = data["fiber"]
+    if "sodium" in data:
+        update_data["sodium"] = data["sodium"]
+    if "sugar" in data:
+        update_data["sugar"] = data["sugar"]
+    if "vitamin_a" in data:
+        update_data["vitamin_a"] = data["vitamin_a"]
+    if "vitamin_c" in data:
+        update_data["vitamin_c"] = data["vitamin_c"]
+    if "vitamin_d" in data:
+        update_data["vitamin_d"] = data["vitamin_d"]
+    if "calcium" in data:
+        update_data["calcium"] = data["calcium"]
+    if "iron" in data:
+        update_data["iron"] = data["iron"]
+    if "potassium" in data:
+        update_data["potassium"] = data["potassium"]
     
     result = await db.nutrition_entries.update_one(
         {"id": entry_id},
