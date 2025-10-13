@@ -28,6 +28,7 @@ from emergentintegrations.llm.openai import OpenAIChatRealtime
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 import openai
+from pywebpush import webpush, WebPushException
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
