@@ -462,6 +462,20 @@ const Dashboard = ({ athleteId }) => {
                   <LineChart className="w-5 h-5" />
                   <span className="font-medium">Tests & Analytics</span>
                 </button>
+                <button
+                  onClick={() => {
+                    navigate('/dashboard/schedules');
+                    setIsMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    activeTab === 'schedules'
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <Calendar className="w-5 h-5" />
+                  <span className="font-medium">Schedules</span>
+                </button>
               </nav>
             </div>
 
