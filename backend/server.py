@@ -240,6 +240,8 @@ class NutritionEntry(BaseModel):
     meal_type: str  # 'breakfast', 'lunch', 'dinner', 'snack'
     description: str
     image_data: Optional[str] = None  # Base64 encoded image
+    entry_date: Optional[str] = None  # Date of the meal (YYYY-MM-DD format)
+    entry_time: Optional[str] = None  # Time of the meal (HH:MM format)
     calories: Optional[int] = None  # Estimated calories
     # Macronutrients
     protein: Optional[float] = None  # Grams of protein
