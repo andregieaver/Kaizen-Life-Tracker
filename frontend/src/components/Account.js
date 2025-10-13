@@ -1779,56 +1779,6 @@ const Account = ({ athleteId }) => {
                       </SelectContent>
                     </Select>
                   </div>
-
-                  {/* Push Notifications */}
-                  <div className="space-y-4 p-4 border rounded-lg bg-blue-50">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          {pushSubscribed ? (
-                            <Bell className="w-5 h-5 text-blue-600" />
-                          ) : (
-                            <BellOff className="w-5 h-5 text-gray-400" />
-                          )}
-                          <Label className="text-sm font-medium">Push Notifications</Label>
-                          {pushSubscribed && (
-                            <Badge className="bg-green-100 text-green-800">Enabled</Badge>
-                          )}
-                        </div>
-                        <p className="text-xs text-gray-600">
-                          {pushSupported 
-                            ? 'Get instant alerts for new AI-generated reports and recommendations'
-                            : 'Push notifications are not supported on this browser'
-                          }
-                        </p>
-                      </div>
-                      {pushSupported && (
-                        <Button
-                          type="button"
-                          onClick={handleTogglePushNotifications}
-                          disabled={pushLoading}
-                          variant={pushSubscribed ? "outline" : "default"}
-                          className={pushSubscribed ? "" : "bg-blue-600 hover:bg-blue-700"}
-                        >
-                          {pushLoading ? 'Loading...' : pushSubscribed ? 'Disable' : 'Enable'}
-                        </Button>
-                      )}
-                    </div>
-                    {pushSupported && pushSubscribed && (
-                      <div className="text-xs text-gray-600 bg-white p-2 rounded border">
-                        <div className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                          <div>
-                            <p className="font-medium">You'll receive notifications for:</p>
-                            <ul className="mt-1 space-y-1 ml-2">
-                              <li>• New AI-generated reports</li>
-                              <li>• Scheduled analysis completions</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
                 </div>
 
                 <Separator />
