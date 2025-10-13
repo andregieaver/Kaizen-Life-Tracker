@@ -1280,6 +1280,7 @@ const Nutrition = ({ athleteId }) => {
                   {editingEntry ? 'Update Entry' : 'Save Entry'}
                 </Button>
               </div>
+                </div>
               )}
             </CardContent>
           </Card>
