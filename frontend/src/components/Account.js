@@ -1236,7 +1236,7 @@ const Account = ({ athleteId }) => {
 
       {/* Account Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-5 mb-8">
+        <TabsList className="grid w-full grid-cols-4 mb-8">
           <TabsTrigger value="personal" className="flex items-center text-xs md:text-sm" data-testid="personal-tab">
             <User className="w-4 h-4 mr-1 md:mr-2" />
             <span className="hidden sm:inline">{t('account.personalInfo')}</span>
@@ -1251,11 +1251,6 @@ const Account = ({ athleteId }) => {
             <Zap className="w-4 h-4 mr-1 md:mr-2" />
             <span className="hidden sm:inline">{t('account.integrations')}</span>
             <span className="sm:hidden">{t('account.integrations')}</span>
-          </TabsTrigger>
-          <TabsTrigger value="schedules" className="flex items-center text-xs md:text-sm" data-testid="schedules-tab">
-            <Calendar className="w-4 h-4 mr-1 md:mr-2" />
-            <span className="hidden sm:inline">{t('account.schedules')}</span>
-            <span className="sm:hidden">{t('account.schedules')}</span>
           </TabsTrigger>
           <TabsTrigger value="subscriptions" className="flex items-center text-xs md:text-sm" data-testid="subscriptions-tab">
             <CreditCard className="w-4 h-4 mr-1 md:mr-2" />
