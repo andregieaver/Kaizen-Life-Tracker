@@ -2869,9 +2869,30 @@ async def get_nutrition_entries(athlete_id: str):
     entries = await db.nutrition_entries.find(
         {"athlete_id": athlete_id},
         {"_id": 0}
-    ).sort("created_at", -1).to_list(length=None)
+    ).to_list(length=None)
     
-    return {"entries": [parse_from_mongo(entry) for entry in entries]}
+    # Parse entries and sort by entry_date and entry_time (most recent first)
+    parsed_entries = [parse_from_mongo(entry) for entry in entries]
+    
+    def sort_key(entry):
+        # Create sortable datetime from entry_date and entry_time
+        # If not provided, use created_at
+        if entry.get('entry_date') and entry.get('entry_time'):
+            try:
+                date_str = entry['entry_date']
+                time_str = entry['entry_time']
+                datetime_str = f"{date_str} {time_str}"
+                return datetime.strptime(datetime_str, "%Y-%m-%d %H:%M")
+            except:
+                pass
+        # Fallback to created_at
+        if isinstance(entry.get('created_at'), str):
+            return datetime.fromisoformat(entry['created_at'].replace('Z', '+00:00'))
+        return entry.get('created_at', datetime.min)
+    
+    parsed_entries.sort(key=sort_key, reverse=True)
+    
+    return {"entries": parsed_entries}
 
 @api_router.post("/nutrition")
 async def create_nutrition_entry(entry: NutritionEntry):
