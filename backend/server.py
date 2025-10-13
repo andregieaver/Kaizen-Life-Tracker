@@ -1396,6 +1396,16 @@ Return only the JSON array, nothing else.
         time_format = athlete_info.get('time_format', '12h')
         timezone_pref = athlete_info.get('timezone', 'UTC')
         week_starts_on = athlete_info.get('week_starts_on', 'sunday')
+        coach_language = athlete_info.get('coach_language', 'en')
+        
+        # Language name mapping for system prompt
+        language_names = {
+            'en': 'English', 'es': 'Spanish', 'fr': 'French', 'de': 'German', 
+            'it': 'Italian', 'pt': 'Portuguese', 'nl': 'Dutch', 'no': 'Norwegian',
+            'sv': 'Swedish', 'da': 'Danish', 'fi': 'Finnish', 'pl': 'Polish',
+            'ru': 'Russian', 'ja': 'Japanese', 'zh': 'Chinese', 'ko': 'Korean'
+        }
+        language_name = language_names.get(coach_language, 'English')
         
         # Format athlete summary with proper units
         weekly_distance = athlete_info.get('weekly_mileage', 0)
