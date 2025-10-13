@@ -100,28 +100,40 @@ const Documents = ({ athleteId }) => {
           const canvas = document.createElement('canvas');
           canvas.width = width;
           canvas.height = height;
+
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
 
-          let quality = 0.9;
-          let compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          // Adjust quality based on estimated size to stay under 12MB
+          let quality = 0.85;
           
-          while (compressedDataUrl.length * 0.75 > 5 * 1024 * 1024 && quality > 0.1) {
-            quality -= 0.1;
-            compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          // Estimate the base64 size and reduce quality if needed
+          const estimatedSize = (width * height * 3) * 1.33; // RGB * base64 overhead
+          if (estimatedSize > 10 * 1024 * 1024) {
+            quality = 0.6; // More aggressive compression for large images
+          } else if (estimatedSize > 5 * 1024 * 1024) {
+            quality = 0.7;
           }
 
-          const finalSizeInMB = (compressedDataUrl.length * 0.75) / (1024 * 1024);
-          if (finalSizeInMB > 5) {
-            reject(new Error('Unable to compress image below 5MB'));
-          } else {
-            resolve(compressedDataUrl);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          
+          // Final size check
+          const finalSize = compressedDataUrl.length * 0.75;
+          if (finalSize > 12 * 1024 * 1024) {
+            reject(new Error('Image is too large even after compression. Please try a smaller image.'));
+            return;
           }
+
+          resolve(compressedDataUrl);
         };
-        img.onerror = () => reject(new Error('Failed to load image'));
+        img.onerror = () => {
+          reject(new Error('Failed to load image'));
+        };
         img.src = e.target.result;
       };
-      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.onerror = () => {
+        reject(new Error('Failed to read file'));
+      };
       reader.readAsDataURL(file);
     });
   };
