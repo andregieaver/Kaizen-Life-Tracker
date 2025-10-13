@@ -3586,6 +3586,89 @@ async def delete_supplement_log(log_id: str):
     
     return {"success": True}
 
+# File routes
+@api_router.get("/files/{athlete_id}")
+async def get_files(athlete_id: str):
+    """Get all file entries for an athlete"""
+    entries = await db.file_entries.find(
+        {"athlete_id": athlete_id},
+        {"_id": 0}
+    ).to_list(length=None)
+    
+    # Parse entries and sort by entry_date and entry_time (most recent first)
+    parsed_entries = [parse_from_mongo(entry) for entry in entries]
+    
+    def sort_key(entry):
+        # Create sortable datetime from entry_date and entry_time
+        if entry.get('entry_date') and entry.get('entry_time'):
+            try:
+                date_str = entry['entry_date']
+                time_str = entry['entry_time']
+                datetime_str = f"{date_str} {time_str}"
+                dt = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M")
+                return dt.replace(tzinfo=timezone.utc)
+            except:
+                pass
+        # Fallback to created_at
+        if isinstance(entry.get('created_at'), str):
+            try:
+                return datetime.fromisoformat(entry['created_at'].replace('Z', '+00:00'))
+            except:
+                pass
+        elif isinstance(entry.get('created_at'), datetime):
+            dt = entry['created_at']
+            if dt.tzinfo is None:
+                return dt.replace(tzinfo=timezone.utc)
+            return dt
+        return datetime.min.replace(tzinfo=timezone.utc)
+    
+    parsed_entries.sort(key=sort_key, reverse=True)
+    
+    return {"entries": parsed_entries}
+
+@api_router.post("/files/{athlete_id}")
+async def create_file_entry(athlete_id: str, entry: FileEntry):
+    """Create a new file entry"""
+    entry_dict = prepare_for_mongo(entry.model_dump())
+    await db.file_entries.insert_one(entry_dict)
+    return {"success": True, "id": entry.id}
+
+@api_router.put("/files/{entry_id}")
+async def update_file_entry(entry_id: str, data: dict):
+    """Update a file entry"""
+    update_data = {
+        "file_type": data.get("file_type"),
+        "description": data.get("description"),
+        "file_data": data.get("file_data"),
+        "file_name": data.get("file_name"),
+        "entry_date": data.get("entry_date"),
+        "entry_time": data.get("entry_time"),
+        "updated_at": datetime.now(timezone.utc).isoformat()
+    }
+    
+    # Remove None values
+    update_data = {k: v for k, v in update_data.items() if v is not None}
+    
+    result = await db.file_entries.update_one(
+        {"id": entry_id},
+        {"$set": update_data}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="File entry not found")
+    
+    return {"success": True}
+
+@api_router.delete("/files/{entry_id}")
+async def delete_file_entry(entry_id: str):
+    """Delete a file entry"""
+    result = await db.file_entries.delete_one({"id": entry_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="File entry not found")
+    
+    return {"success": True}
+
 # Document routes
 @api_router.get("/documents/{athlete_id}")
 async def get_documents(athlete_id: str, category: Optional[str] = None):
