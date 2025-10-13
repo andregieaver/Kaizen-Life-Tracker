@@ -964,19 +964,19 @@ const Nutrition = ({ athleteId }) => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Nutrition Log</h1>
           <p className="text-gray-600 mt-1">Track what you eat and drink</p>
         </div>
-        <div className="flex gap-2">
-          <Button onClick={openSupplementModal} variant="outline">
+        <div className="flex gap-2 flex-wrap">
+          <Button onClick={openSupplementModal} variant="outline" className="flex-1 sm:flex-none">
             <Pill className="w-4 h-4 mr-2" />
-            Log Supplements
+            <span className="hidden sm:inline">Log </span>Supplements
           </Button>
-          <Button onClick={openNewEntryModal}>
+          <Button onClick={openNewEntryModal} className="flex-1 sm:flex-none">
             <Plus className="w-4 h-4 mr-2" />
-            Log Meal
+            <span className="hidden sm:inline">Log </span>Meal
           </Button>
         </div>
       </div>
