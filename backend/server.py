@@ -277,6 +277,18 @@ class Supplement(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
+class SupplementLog(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    supplement_ids: List[str]  # List of supplement IDs taken
+    log_date: date  # Date when supplements were taken
+    log_time: time  # Time when supplements were taken
+    notes: Optional[str] = None  # Additional notes for this log
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
 class Document(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
