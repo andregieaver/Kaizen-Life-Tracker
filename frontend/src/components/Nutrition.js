@@ -42,6 +42,7 @@ const Nutrition = ({ athleteId }) => {
   const [supplementNotes, setSupplementNotes] = useState('');
   const [expandedMacros, setExpandedMacros] = useState({});
   const [expandedMicros, setExpandedMicros] = useState({});
+  const [expandedSupplements, setExpandedSupplements] = useState({});
   
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
