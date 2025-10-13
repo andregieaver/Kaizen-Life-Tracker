@@ -54,6 +54,8 @@ const Nutrition = ({ athleteId }) => {
   useEffect(() => {
     loadNutritionEntries();
     loadAthleteData();
+    loadSupplements();
+    loadSupplementLogs();
   }, [athleteId]);
 
   // Check for action parameter in URL to auto-open modal
