@@ -198,7 +198,6 @@ const Account = ({ athleteId }) => {
 
   useEffect(() => {
     loadAccountData();
-    loadSchedules();
     loadSubscriptionStatus();
     
     // Check if returning from Stripe checkout
