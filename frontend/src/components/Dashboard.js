@@ -535,7 +535,25 @@ const Dashboard = ({ athleteId }) => {
         {activeTab === 'overview' && (
           <div className="space-y-8">
             {/* Quick Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-4">
+              {/* Today Overview */}
+              <Card 
+                className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-orange-50 to-orange-100 hover:scale-105"
+                onClick={() => navigate('/dashboard/today')}
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-orange-600 rounded-full">
+                      <Calendar className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">Today</h3>
+                      <p className="text-sm text-gray-600">Daily overview</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
               {/* Voice Journal Entry */}
               <Card 
                 className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-blue-50 to-blue-100 hover:scale-105"
