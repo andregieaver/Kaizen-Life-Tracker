@@ -1750,12 +1750,14 @@ const Account = ({ athleteId }) => {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="alloy">{t('account.voiceAlloy')}</SelectItem>
-                        <SelectItem value="echo">{t('account.voiceEcho')}</SelectItem>
-                        <SelectItem value="fable">{t('account.voiceFable')}</SelectItem>
-                        <SelectItem value="onyx">{t('account.voiceOnyx')}</SelectItem>
-                        <SelectItem value="nova">{t('account.voiceNova')}</SelectItem>
-                        <SelectItem value="shimmer">{t('account.voiceShimmer')}</SelectItem>
+                        <SelectItem value="alloy">Alloy (Neutral)</SelectItem>
+                        <SelectItem value="ash">Ash (Calm)</SelectItem>
+                        <SelectItem value="ballad">Ballad (Expressive)</SelectItem>
+                        <SelectItem value="coral">Coral (Friendly)</SelectItem>
+                        <SelectItem value="echo">Echo (Steady)</SelectItem>
+                        <SelectItem value="sage">Sage (Wise)</SelectItem>
+                        <SelectItem value="shimmer">Shimmer (Bright)</SelectItem>
+                        <SelectItem value="verse">Verse (Articulate)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
