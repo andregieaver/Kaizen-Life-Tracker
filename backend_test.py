@@ -23,6 +23,501 @@ TEST_EMAIL = f"test.runner.{int(datetime.now().timestamp())}@example.com"
 TEST_PASSWORD = "SecureRunning123!"
 TEST_NAME = "Alex Runner"
 
+def test_schedule_active_checkbox_state_saving():
+    """
+    PRIORITY 1: Test Schedule Active Checkbox State Saving
+    Test the following schedule CRUD operations with active field
+    """
+    print("🔍 TESTING SCHEDULE ACTIVE CHECKBOX STATE SAVING")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Login as andre@example.com to get athlete_id
+        print("   Step 1: Login as andre@example.com to get athlete_id")
+        
+        login_data = {
+            "email": "andre@example.com",
+            "password": "password123"
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("Schedule Testing - Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if not athlete_id:
+            print_test_result("Schedule Testing - Login", False, "No athlete_id returned")
+            return False
+        
+        print(f"      ✅ Login successful, athlete_id: {athlete_id}")
+        
+        # Step 2: CREATE SCHEDULE WITH ACTIVE=TRUE
+        print("   Step 2: CREATE SCHEDULE WITH ACTIVE=TRUE")
+        
+        schedule_data = {
+            "athlete_id": athlete_id,
+            "name": "Morning Analysis",
+            "prompt": "Analyze my recovery from yesterday",
+            "frequency": "daily",
+            "time": "08:00",
+            "active": True
+        }
+        
+        create_response = requests.post(
+            f"{BACKEND_URL}/schedules",
+            json=schedule_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_response.status_code != 200:
+            print_test_result("Create Schedule with Active=True", False, f"Create failed: {create_response.status_code} - {create_response.text}")
+            return False
+        
+        created_schedule = create_response.json()
+        schedule_id = created_schedule.get("id")
+        
+        if not schedule_id:
+            print_test_result("Create Schedule with Active=True", False, "No schedule ID returned")
+            return False
+        
+        # Verify response contains active: true
+        if created_schedule.get("active") is True:
+            print_test_result("Create Schedule with Active=True", True, f"Schedule created with active=True, ID: {schedule_id}")
+        else:
+            print_test_result("Create Schedule with Active=True", False, f"Schedule created but active={created_schedule.get('active')}, expected True")
+            return False
+        
+        # Step 3: GET SCHEDULES - VERIFY ACTIVE FIELD
+        print("   Step 3: GET SCHEDULES - VERIFY ACTIVE FIELD")
+        
+        get_response = requests.get(f"{BACKEND_URL}/schedules/{athlete_id}")
+        
+        if get_response.status_code != 200:
+            print_test_result("Get Schedules - Verify Active", False, f"Get failed: {get_response.status_code}")
+            return False
+        
+        schedules = get_response.json()
+        
+        # Find our created schedule
+        created_schedule_found = None
+        for schedule in schedules:
+            if schedule.get("id") == schedule_id:
+                created_schedule_found = schedule
+                break
+        
+        if not created_schedule_found:
+            print_test_result("Get Schedules - Verify Active", False, "Created schedule not found in list")
+            return False
+        
+        if created_schedule_found.get("active") is True:
+            print_test_result("Get Schedules - Verify Active", True, "Created schedule has active=True")
+        else:
+            print_test_result("Get Schedules - Verify Active", False, f"Created schedule has active={created_schedule_found.get('active')}, expected True")
+            return False
+        
+        # Step 4: UPDATE SCHEDULE TO INACTIVE
+        print("   Step 4: UPDATE SCHEDULE TO INACTIVE")
+        
+        update_data = {
+            "name": "Morning Analysis",
+            "prompt": "Analyze my recovery from yesterday",
+            "frequency": "daily",
+            "time": "08:00",
+            "active": False
+        }
+        
+        update_response = requests.put(
+            f"{BACKEND_URL}/schedules/{schedule_id}",
+            json=update_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if update_response.status_code != 200:
+            print_test_result("Update Schedule to Inactive", False, f"Update failed: {update_response.status_code} - {update_response.text}")
+            return False
+        
+        updated_schedule = update_response.json()
+        
+        if updated_schedule.get("active") is False:
+            print_test_result("Update Schedule to Inactive", True, "Schedule updated to active=False")
+        else:
+            print_test_result("Update Schedule to Inactive", False, f"Schedule updated but active={updated_schedule.get('active')}, expected False")
+            return False
+        
+        # Step 5: GET SCHEDULES - VERIFY INACTIVE
+        print("   Step 5: GET SCHEDULES - VERIFY INACTIVE")
+        
+        get_response2 = requests.get(f"{BACKEND_URL}/schedules/{athlete_id}")
+        
+        if get_response2.status_code != 200:
+            print_test_result("Get Schedules - Verify Inactive", False, f"Get failed: {get_response2.status_code}")
+            return False
+        
+        schedules2 = get_response2.json()
+        
+        # Find our updated schedule
+        updated_schedule_found = None
+        for schedule in schedules2:
+            if schedule.get("id") == schedule_id:
+                updated_schedule_found = schedule
+                break
+        
+        if not updated_schedule_found:
+            print_test_result("Get Schedules - Verify Inactive", False, "Updated schedule not found in list")
+            return False
+        
+        if updated_schedule_found.get("active") is False:
+            print_test_result("Get Schedules - Verify Inactive", True, "Updated schedule has active=False")
+        else:
+            print_test_result("Get Schedules - Verify Inactive", False, f"Updated schedule has active={updated_schedule_found.get('active')}, expected False")
+            return False
+        
+        # Step 6: UPDATE SCHEDULE BACK TO ACTIVE (partial update)
+        print("   Step 6: UPDATE SCHEDULE BACK TO ACTIVE (partial update)")
+        
+        partial_update_data = {
+            "active": True
+        }
+        
+        partial_update_response = requests.put(
+            f"{BACKEND_URL}/schedules/{schedule_id}",
+            json=partial_update_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if partial_update_response.status_code != 200:
+            print_test_result("Partial Update Schedule to Active", False, f"Partial update failed: {partial_update_response.status_code} - {partial_update_response.text}")
+            return False
+        
+        partial_updated_schedule = partial_update_response.json()
+        
+        if partial_updated_schedule.get("active") is True:
+            print_test_result("Partial Update Schedule to Active", True, "Schedule partially updated to active=True")
+        else:
+            print_test_result("Partial Update Schedule to Active", False, f"Schedule partially updated but active={partial_updated_schedule.get('active')}, expected True")
+            return False
+        
+        # Step 7: DELETE SCHEDULE (soft delete)
+        print("   Step 7: DELETE SCHEDULE (soft delete)")
+        
+        delete_response = requests.delete(f"{BACKEND_URL}/schedules/{schedule_id}")
+        
+        if delete_response.status_code != 200:
+            print_test_result("Delete Schedule (Soft Delete)", False, f"Delete failed: {delete_response.status_code} - {delete_response.text}")
+            return False
+        
+        # Verify schedule is set to active: false (soft delete)
+        get_response3 = requests.get(f"{BACKEND_URL}/schedules/{athlete_id}")
+        
+        if get_response3.status_code != 200:
+            print_test_result("Delete Schedule (Soft Delete)", False, f"Get after delete failed: {get_response3.status_code}")
+            return False
+        
+        schedules3 = get_response3.json()
+        
+        # Check if schedule is still there but inactive, or completely removed
+        deleted_schedule_found = None
+        for schedule in schedules3:
+            if schedule.get("id") == schedule_id:
+                deleted_schedule_found = schedule
+                break
+        
+        if deleted_schedule_found:
+            # If schedule still exists, it should be inactive (soft delete)
+            if deleted_schedule_found.get("active") is False:
+                print_test_result("Delete Schedule (Soft Delete)", True, "Schedule soft deleted - set to active=False")
+            else:
+                print_test_result("Delete Schedule (Soft Delete)", False, f"Schedule still exists but active={deleted_schedule_found.get('active')}, expected False for soft delete")
+                return False
+        else:
+            # Schedule completely removed (hard delete)
+            print_test_result("Delete Schedule (Soft Delete)", True, "Schedule completely removed from list")
+        
+        print("\n✅ ALL SCHEDULE ACTIVE CHECKBOX STATE SAVING TESTS PASSED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Schedule Active Checkbox Testing - Exception", False, f"Exception: {str(e)}")
+        return False
+
+def test_apscheduler_integration_and_report_generation():
+    """
+    PRIORITY 2: Test APScheduler Integration and Report Generation
+    """
+    print("🔍 TESTING APSCHEDULER INTEGRATION AND REPORT GENERATION")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Login as andre@example.com to get athlete_id
+        print("   Step 1: Login as andre@example.com to get athlete_id")
+        
+        login_data = {
+            "email": "andre@example.com",
+            "password": "password123"
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("APScheduler Testing - Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if not athlete_id:
+            print_test_result("APScheduler Testing - Login", False, "No athlete_id returned")
+            return False
+        
+        print(f"      ✅ Login successful, athlete_id: {athlete_id}")
+        
+        # Step 2: CREATE SCHEDULE DUE NOW
+        print("   Step 2: CREATE SCHEDULE DUE NOW")
+        
+        # Get current time and add 1 minute for immediate execution
+        from datetime import datetime, timedelta
+        current_time = datetime.now()
+        execution_time = current_time + timedelta(minutes=1)
+        time_str = execution_time.strftime("%H:%M")
+        
+        print(f"      Creating schedule for execution at: {time_str}")
+        
+        immediate_schedule_data = {
+            "athlete_id": athlete_id,
+            "name": "Test Immediate Schedule",
+            "prompt": "Provide a brief summary of my training readiness",
+            "frequency": "daily",
+            "time": time_str,
+            "active": True
+        }
+        
+        create_immediate_response = requests.post(
+            f"{BACKEND_URL}/schedules",
+            json=immediate_schedule_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_immediate_response.status_code != 200:
+            print_test_result("Create Immediate Schedule", False, f"Create failed: {create_immediate_response.status_code} - {create_immediate_response.text}")
+            return False
+        
+        immediate_schedule = create_immediate_response.json()
+        immediate_schedule_id = immediate_schedule.get("id")
+        
+        if not immediate_schedule_id:
+            print_test_result("Create Immediate Schedule", False, "No schedule ID returned")
+            return False
+        
+        print_test_result("Create Immediate Schedule", True, f"Schedule created for execution at {time_str}, ID: {immediate_schedule_id}")
+        
+        # Step 3: Wait for scheduler execution (2-3 minutes)
+        print("   Step 3: Wait for scheduler execution (2-3 minutes)")
+        print("      ⏳ Waiting 3 minutes for APScheduler to execute the schedule...")
+        
+        import time
+        time.sleep(180)  # Wait 3 minutes
+        
+        # Step 4: VERIFY SCHEDULER EXECUTION
+        print("   Step 4: VERIFY SCHEDULER EXECUTION")
+        
+        # Check for new recommendation
+        recommendations_response = requests.get(f"{BACKEND_URL}/recommendations/{athlete_id}")
+        
+        if recommendations_response.status_code != 200:
+            print_test_result("Verify Scheduler Execution", False, f"Get recommendations failed: {recommendations_response.status_code}")
+            return False
+        
+        recommendations = recommendations_response.json()
+        
+        # Look for recommendation with our schedule_id
+        scheduled_recommendation = None
+        for rec in recommendations:
+            if rec.get("schedule_id") == immediate_schedule_id:
+                scheduled_recommendation = rec
+                break
+        
+        if not scheduled_recommendation:
+            print_test_result("Verify Scheduler Execution", False, "No recommendation found for the scheduled prompt")
+            return False
+        
+        # Verify recommendation properties
+        verification_results = []
+        
+        # Check type
+        if scheduled_recommendation.get("type") == "scheduled_analysis":
+            verification_results.append("✅ type: 'scheduled_analysis'")
+        else:
+            verification_results.append(f"❌ type: '{scheduled_recommendation.get('type')}', expected 'scheduled_analysis'")
+        
+        # Check priority
+        if scheduled_recommendation.get("priority") == "medium":
+            verification_results.append("✅ priority: 'medium'")
+        else:
+            verification_results.append(f"❌ priority: '{scheduled_recommendation.get('priority')}', expected 'medium'")
+        
+        # Check tags
+        tags = scheduled_recommendation.get("tags", [])
+        if "scheduled" in tags and "automated" in tags:
+            verification_results.append("✅ tags: ['scheduled', 'automated']")
+        else:
+            verification_results.append(f"❌ tags: {tags}, expected ['scheduled', 'automated']")
+        
+        # Check scheduled_prompt field
+        if scheduled_recommendation.get("scheduled_prompt") == "Provide a brief summary of my training readiness":
+            verification_results.append("✅ scheduled_prompt field contains the prompt")
+        else:
+            verification_results.append(f"❌ scheduled_prompt: '{scheduled_recommendation.get('scheduled_prompt')}'")
+        
+        # Check content field has AI-generated response
+        content = scheduled_recommendation.get("content", "")
+        if content and len(content) > 50:  # Should have substantial AI response
+            verification_results.append("✅ content field has AI-generated response")
+        else:
+            verification_results.append(f"❌ content field: '{content[:50]}...' (too short or empty)")
+        
+        # Check schedule_id matches
+        if scheduled_recommendation.get("schedule_id") == immediate_schedule_id:
+            verification_results.append("✅ schedule_id matches the created schedule")
+        else:
+            verification_results.append(f"❌ schedule_id: '{scheduled_recommendation.get('schedule_id')}', expected '{immediate_schedule_id}'")
+        
+        # Check generated_at timestamp is recent
+        generated_at = scheduled_recommendation.get("generated_at")
+        if generated_at:
+            verification_results.append("✅ generated_at timestamp is present")
+        else:
+            verification_results.append("❌ generated_at timestamp is missing")
+        
+        # Check read status
+        if scheduled_recommendation.get("read") is False:
+            verification_results.append("✅ read: false")
+        else:
+            verification_results.append(f"❌ read: {scheduled_recommendation.get('read')}, expected false")
+        
+        # Print verification results
+        all_verified = all("✅" in result for result in verification_results)
+        
+        for result in verification_results:
+            print(f"      {result}")
+        
+        if all_verified:
+            print_test_result("Verify Scheduler Execution", True, "All recommendation fields verified correctly")
+        else:
+            print_test_result("Verify Scheduler Execution", False, "Some recommendation fields are incorrect")
+            return False
+        
+        # Step 5: CHECK SCHEDULE LAST_EXECUTED
+        print("   Step 5: CHECK SCHEDULE LAST_EXECUTED")
+        
+        # Get updated schedule to check last_executed timestamp
+        get_schedules_response = requests.get(f"{BACKEND_URL}/schedules/{athlete_id}")
+        
+        if get_schedules_response.status_code != 200:
+            print_test_result("Check Schedule Last Executed", False, f"Get schedules failed: {get_schedules_response.status_code}")
+            return False
+        
+        schedules = get_schedules_response.json()
+        
+        # Find our executed schedule
+        executed_schedule = None
+        for schedule in schedules:
+            if schedule.get("id") == immediate_schedule_id:
+                executed_schedule = schedule
+                break
+        
+        if not executed_schedule:
+            print_test_result("Check Schedule Last Executed", False, "Executed schedule not found")
+            return False
+        
+        last_executed = executed_schedule.get("last_executed")
+        if last_executed:
+            print_test_result("Check Schedule Last Executed", True, f"last_executed timestamp updated: {last_executed}")
+        else:
+            print_test_result("Check Schedule Last Executed", False, "last_executed timestamp not updated")
+            return False
+        
+        # Step 6: TEST INACTIVE SCHEDULE NOT EXECUTED
+        print("   Step 6: TEST INACTIVE SCHEDULE NOT EXECUTED")
+        
+        # Create another schedule with time 1 minute ahead but active: false
+        future_time = datetime.now() + timedelta(minutes=1)
+        inactive_time_str = future_time.strftime("%H:%M")
+        
+        inactive_schedule_data = {
+            "athlete_id": athlete_id,
+            "name": "Test Inactive Schedule",
+            "prompt": "This should not execute",
+            "frequency": "daily",
+            "time": inactive_time_str,
+            "active": False
+        }
+        
+        create_inactive_response = requests.post(
+            f"{BACKEND_URL}/schedules",
+            json=inactive_schedule_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_inactive_response.status_code != 200:
+            print_test_result("Create Inactive Schedule", False, f"Create failed: {create_inactive_response.status_code}")
+            return False
+        
+        inactive_schedule = create_inactive_response.json()
+        inactive_schedule_id = inactive_schedule.get("id")
+        
+        print(f"      Created inactive schedule for {inactive_time_str}, ID: {inactive_schedule_id}")
+        
+        # Wait 2 minutes
+        print("      ⏳ Waiting 2 minutes to verify inactive schedule is NOT executed...")
+        time.sleep(120)
+        
+        # Check that NO new recommendation was created for this inactive schedule
+        recommendations_response2 = requests.get(f"{BACKEND_URL}/recommendations/{athlete_id}")
+        
+        if recommendations_response2.status_code != 200:
+            print_test_result("Verify Inactive Schedule Not Executed", False, f"Get recommendations failed: {recommendations_response2.status_code}")
+            return False
+        
+        recommendations2 = recommendations_response2.json()
+        
+        # Look for recommendation with inactive schedule_id
+        inactive_recommendation = None
+        for rec in recommendations2:
+            if rec.get("schedule_id") == inactive_schedule_id:
+                inactive_recommendation = rec
+                break
+        
+        if inactive_recommendation:
+            print_test_result("Verify Inactive Schedule Not Executed", False, "Inactive schedule was executed (should not happen)")
+            return False
+        else:
+            print_test_result("Verify Inactive Schedule Not Executed", True, "Inactive schedule was NOT executed (correct behavior)")
+        
+        # Clean up - delete test schedules
+        print("   Step 7: Clean up test schedules")
+        
+        requests.delete(f"{BACKEND_URL}/schedules/{immediate_schedule_id}")
+        requests.delete(f"{BACKEND_URL}/schedules/{inactive_schedule_id}")
+        
+        print("\n✅ ALL APSCHEDULER INTEGRATION AND REPORT GENERATION TESTS PASSED")
+        return True
+        
+    except Exception as e:
+        print_test_result("APScheduler Integration Testing - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_all_athletes_in_database():
     """
     REVIEW REQUEST REQUIREMENT 1:
