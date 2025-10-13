@@ -122,13 +122,14 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
     try:
         print(f"[SCHEDULER] Starting execution for schedule {schedule_id}")
         
-        # Get athlete data for context
-        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
-        if not athlete:
+        # Get comprehensive athlete context
+        athlete_context = await ai_coach.get_athlete_context(athlete_id)
+        if not athlete_context or not athlete_context.get('athlete'):
             print(f"[SCHEDULER] ERROR: Athlete {athlete_id} not found")
             logging.error(f"Athlete {athlete_id} not found for schedule {schedule_id}")
             return
         
+        athlete = athlete_context['athlete']
         print(f"[SCHEDULER] Athlete found: {athlete.get('name')}")
         
         # Get user's OpenAI API key
@@ -140,17 +141,76 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
         
         print(f"[SCHEDULER] OpenAI key found, calling API...")
         
-        # Prepare context for OpenAI
-        context = f"Athlete: {athlete.get('name', 'Unknown')}\n"
-        context += f"Age: {calculate_age(athlete.get('date_of_birth'))}\n" if athlete.get('date_of_birth') else ""
-        context += f"\nTask: {prompt}"
+        # Prepare comprehensive context for OpenAI
+        context = f"Athlete Profile:\n"
+        context += f"- Name: {athlete.get('name', 'Unknown')}\n"
+        context += f"- Age: {calculate_age(athlete.get('date_of_birth'))}\n" if athlete.get('date_of_birth') else ""
+        context += f"- Gender: {athlete.get('gender', 'Not specified')}\n"
+        context += f"- Goals: {', '.join(athlete.get('training_goals', [])) if athlete.get('training_goals') else 'None specified'}\n"
+        
+        # Add recent nutrition data
+        if athlete_context.get('nutrition_entries'):
+            context += f"\n📊 Recent Nutrition (last 7 days - {len(athlete_context['nutrition_entries'])} entries):\n"
+            for entry in athlete_context['nutrition_entries'][:10]:  # Show up to 10 recent entries
+                context += f"  - {entry.get('entry_date', 'Date unknown')} {entry.get('entry_time', '')}: {entry.get('meal_name', 'Unnamed meal')}\n"
+                if entry.get('calories'):
+                    context += f"    Calories: {entry.get('calories')}kcal, "
+                if entry.get('protein'):
+                    context += f"Protein: {entry.get('protein')}g, "
+                if entry.get('carbs'):
+                    context += f"Carbs: {entry.get('carbs')}g, "
+                if entry.get('fat'):
+                    context += f"Fat: {entry.get('fat')}g"
+                context += "\n"
+        
+        # Add supplements data
+        if athlete_context.get('supplements'):
+            context += f"\n💊 Current Supplements ({len(athlete_context['supplements'])} supplements):\n"
+            for supp in athlete_context['supplements']:
+                context += f"  - {supp.get('name')}: {supp.get('dosage')} {supp.get('unit')}, {supp.get('frequency')}"
+                if supp.get('time_of_day'):
+                    context += f" ({supp.get('time_of_day')})"
+                context += "\n"
+        
+        # Add recent supplement logs
+        if athlete_context.get('supplement_logs'):
+            context += f"\n📋 Recent Supplement Logs (last 7 days - {len(athlete_context['supplement_logs'])} logs):\n"
+            for log in athlete_context['supplement_logs'][:10]:
+                context += f"  - {log.get('date', 'Date unknown')} {log.get('time', '')}: {log.get('supplement_name')} ({log.get('dosage_taken')} {log.get('unit')})\n"
+        
+        # Add recent workouts
+        if athlete_context.get('recent_workouts'):
+            context += f"\n🏃 Recent Workouts (last 14 days - {len(athlete_context['recent_workouts'])} workouts):\n"
+            for workout in athlete_context['recent_workouts'][:5]:  # Show up to 5 recent workouts
+                context += f"  - {workout.get('date', 'Date unknown')}: {workout.get('type', 'Unknown type')}, "
+                context += f"{workout.get('distance', 0)}km, {workout.get('duration', 0)}min\n"
+        
+        # Add recent sleep data
+        if athlete_context.get('recent_sleep'):
+            context += f"\n😴 Recent Sleep (last 7 days - {len(athlete_context['recent_sleep'])} nights):\n"
+            for sleep in athlete_context['recent_sleep'][:5]:
+                context += f"  - {sleep.get('date', 'Date unknown')}: {sleep.get('total_sleep_hours', 0)}h, quality: {sleep.get('sleep_quality', 'N/A')}/10\n"
+        
+        # Add readiness score
+        if athlete_context.get('current_readiness'):
+            readiness = athlete_context['current_readiness']
+            context += f"\n📈 Current Readiness Score: {readiness.get('readiness_score', 'N/A')}/100\n"
+        
+        # Add recent journal entries
+        if athlete_context.get('journal_entries'):
+            context += f"\n📝 Recent Journal Entries (last 30 days - {len(athlete_context['journal_entries'])} entries)\n"
+            for journal in athlete_context['journal_entries'][:3]:  # Show up to 3 recent entries
+                context += f"  - {journal.get('date', 'Date unknown')}: {journal.get('content', '')[:100]}...\n"
+        
+        # Add the user's prompt/task
+        context += f"\n🎯 Task: {prompt}\n"
         
         # Call OpenAI API using standard openai library
         openai_client = openai.OpenAI(api_key=user_openai_key)
         response = openai_client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are an AI running coach providing personalized training analysis and recommendations."},
+                {"role": "system", "content": "You are an AI running coach providing personalized training analysis and recommendations. You have access to the athlete's comprehensive data including nutrition, supplements, workouts, sleep, and journal entries. Use this data to provide specific, personalized insights."},
                 {"role": "user", "content": context}
             ],
             temperature=0.7,
@@ -159,6 +219,7 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
         
         ai_response = response.choices[0].message.content
         print(f"[SCHEDULER] Got AI response: {ai_response[:100]}...")
+
         
         # Save as a recommendation
         recommendation = {
