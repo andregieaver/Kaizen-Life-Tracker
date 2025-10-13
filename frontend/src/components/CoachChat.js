@@ -142,18 +142,6 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
     }
   };
 
-  const suggestedQuestions = [
-    t('coach.suggestedQuestions.q1'),
-    t('coach.suggestedQuestions.q2'),
-    t('coach.suggestedQuestions.q3'),
-    t('coach.suggestedQuestions.q4')
-  ];
-
-  const handleSuggestedQuestion = (question) => {
-    setNewMessage(question);
-    inputRef.current?.focus();
-  };
-
   // Parse message content to extract charts
   const parseMessageContent = (content) => {
     const parts = [];
