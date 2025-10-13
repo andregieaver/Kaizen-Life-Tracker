@@ -2908,8 +2908,6 @@ const Account = ({ athleteId }) => {
         </Card>
       </div>
 
- 
-
       {/* Strava Credentials Modal */}
       <StravaCredentialsModal
         athleteId={athleteId}
