@@ -1,0 +1,139 @@
+<analysis>
+The AI engineer's work in this trajectory primarily focused on refining and extending the TrainSmart application, building upon prior work in Nutrition and Supplements. Key areas of development included:
+1.  **Scheduled AI Prompts**: A major effort was dedicated to debugging and completing the  integration to ensure schedules correctly trigger OpenAI API calls, generate recommendations, and respect user timezones. This involved extensive backend fixes related to API key retrieval, database collection names, and  handling.
+2.  **UI/UX Enhancements**: The  page was improved with better formatting, delete functionality, and visual indicators for unread reports. The  upload functionality was refactored from a modal to an inline expandable form for mobile usability.
+3.  **Core Feature Additions**: A new  setting was added to control the AI coach's response language. Schedules functionality was moved to a dedicated page for better organization. A  page was created as a blueprint from the Nutrition page to support general file uploads.
+4.  **Bug Fixes**: Critical bugs addressed include the  checkbox not saving for schedules, an invalid OpenAI voice preference preventing voice mode, and backend validation for schedule limits based on subscription tiers. The  page upload is currently being investigated.
+</analysis>
+
+<product_requirements>
+The TrainSmart app is an AI-powered running coach integrating fitness trackers to offer guidance based on athlete data. It includes AI coach interactions, user authentication, account management, responsive UI, scheduled AI analysis, and journaling/nutrition logging. Recent enhancements implemented by the AI engineer include:
+
+1.  **Documents Page**: Persistent upload issues on mobile were resolved. The upload modal was converted to an inline expandable form.
+2.  **Account Settings (Subscription Plans)**: Subscription plans (Free, Pro, Premium) were differentiated with limits on scheduled prompts. Backend validation was added to enforce these limits.
+3.  **Coach Chat Management**: The input area was redesigned (prior to this trajectory). The voice mode dialogue was fixed by addressing an invalid OpenAI voice preference and updating available voice options.
+4.  **Dashboard**: Three quick links were added (prior to this trajectory). A new Schedules menu item was added to the slideout menu.
+5.  **Nutrition Enhancements**: Micronutrient display, date/time override, enhanced daily/weekly averages, day/week toggle/navigation, and expandable/collapsible nutrients were implemented (prior to this trajectory).
+6.  **Supplements Feature**: A new Supplements page allows registering and logging supplements, displayed on the Nutrition page (prior to this trajectory).
+7.  **Scheduled Prompts**: The initial problem was that schedules were being saved but not triggering actual AI prompts. This was fixed, including timezone awareness, AI access to nutrition and supplement data, and storing responses as recommendations. The Active checkbox state saving for schedules was also fixed.
+8.  **Reports/Recommendations Page**: Enhanced to use normal formatting (not markdown), include the ability to delete reports, remove prompt/excerpt from report cards (click to view details), and highlight unread reports.
+9.  **Language Preference**: Added a language preference in Account settings, beneath birthday fields, to dictate the AI coach's response language (textual, voice, reports).
+10. **Schedules Page**: Moved all schedule-related functionality from Account settings to a dedicated Schedules page, with a link in the slideout menu.
+11. **Files Page**: A blueprint copy of the Nutrition page, adapted for general file uploads, was created and integrated into the navigation.
+</product_requirements>
+
+<key_technical_concepts>
+- **Full-stack**: React (Frontend), FastAPI (Backend), MongoDB (Database).
+- **Integrations**: OpenAI API (Vision, text generation, Realtime voice), APScheduler (Python background tasks for scheduled prompts).
+- **UI Libraries**: Shadcn UI components (Card, Button, Input, Select, Dialog), Tailwind CSS.
+- **React Features**: , .
+- **Date/Time Handling**: Consistent conversion between timezone-aware datetimes using  and .
+</key_technical_concepts>
+
+<code_architecture>
+
+- :
+  - **Importance**: Lists Python dependencies for the backend.
+  - **Changes**:  and  were added.
+- : FastAPI backend, core API.
+  - **Importance**: Handles authentication, data management, AI coach logic, and integrations.
+  - **Changes**:
+    -  model datetime handling was fixed for  and .
+    -  and  models updated to include .
+    -  model fields in  were corrected (, , , , , ).
+    -  was updated to retrieve .
+    -  and  were updated to use the full  and include  in the system prompt.
+    -  integration:  now uses athlete's  for  comparison. Database collection  changed to .  is used instead of global . The  import was replaced with standard usage: openai [-h] [-v] [-b API_BASE] [-k API_KEY] [-p PROXY [PROXY ...]]
+              [-o ORGANIZATION] [-t {openai,azure}]
+              [--api-version API_VERSION] [--azure-endpoint AZURE_ENDPOINT]
+              [--azure-ad-token AZURE_AD_TOKEN] [-V]
+              {api,tools,migrate,grit} ...
+
+positional arguments:
+  {api,tools,migrate,grit}
+    api                 Direct API calls
+    tools               Client side tools for convenience
+
+options:
+  -h, --help            show this help message and exit
+  -v, --verbose         Set verbosity.
+  -b API_BASE, --api-base API_BASE
+                        What API base url to use.
+  -k API_KEY, --api-key API_KEY
+                        What API key to use.
+  -p PROXY [PROXY ...], --proxy PROXY [PROXY ...]
+                        What proxy to use.
+  -o ORGANIZATION, --organization ORGANIZATION
+                        Which organization to run as (will use your default
+                        organization if not specified)
+  -t {openai,azure}, --api-type {openai,azure}
+                        The backend API to call, must be `openai` or `azure`
+  --api-version API_VERSION
+                        The Azure API version, e.g.
+                        'https://learn.microsoft.com/en-us/azure/ai-
+                        services/openai/reference#rest-api-versioning'
+  --azure-endpoint AZURE_ENDPOINT
+                        The Azure endpoint, e.g.
+                        'https://endpoint.openai.azure.com'
+  --azure-ad-token AZURE_AD_TOKEN
+                        A token from Azure Active Directory,
+                        https://www.microsoft.com/en-
+                        us/security/business/identity-access/microsoft-entra-
+                        id
+  -V, --version         show program's version number and exit library.
+    -  endpoint: Added validation and fallback for OpenAI voice preferences (from 'nova' to supported voices) and passes .
+    - New  endpoint was added.
+    -  endpoint: Added backend validation to enforce  based on subscription tier.
+    - New  model and CRUD endpoints ().
+- : Main application component.
+  - **Importance**: Defines routes and overall application structure.
+  - **Changes**: Added import for  component.
+- : User account settings.
+  - **Importance**: Manages user preferences.
+  - **Changes**:
+    - Fixed Active checkbox for schedules:  field added to  state, UI checkbox connected with / handlers,  resets .
+    - New   field added in Preferences section.
+    - **Refactoring**: All schedule-related UI, state, and functions were removed from this file, as schedules were moved to . This included removing the schedule limit modal.
+- : User dashboard.
+  - **Importance**: Provides an overview and navigation to different app sections.
+  - **Changes**:
+    - Updated  array to include Schedules and Files with respective icons.
+    - Added conditional rendering logic to display  and  components when their tabs are active.
+- : Displays AI recommendations.
+  - **Importance**: Presents AI-generated insights to the user.
+  - **Changes**: Refactored to remove markdown, show title/summary on cards, and open full details in a view-only modal. Added delete button,  functionality (auto-mark on view), and visual highlighting for unread reports.
+- : Handles AI coach voice interactions.
+  - **Importance**: Enables real-time voice communication with the AI coach.
+  - **Changes**: Implicitly affected by backend voice preference validation and language support.
+- : Document upload and management.
+  - **Importance**: Allows users to upload and store documents.
+  - **Changes**: Implemented image quality compression for large files and better error handling. Converted the upload modal to an inline, expandable form for improved mobile UX, removing all modal-specific logic.
+-  (New file):
+  - **Importance**: Dedicated page for managing and viewing scheduled AI analyses.
+  - **Changes**: Created by extracting all schedule-related UI, state, and functions from . Displays schedule list, allows adding/editing, includes visual active/inactive indicators. Handles backend 403 errors for subscription limits.
+-  (New file):
+  - **Importance**: New page for general file uploads, structured similarly to .
+  - **Changes**: Created as a blueprint copy of , adapted for file entry management (upload, display, delete). Interacts with new  backend endpoints.
+</code_architecture>
+
+<pending_tasks>
+- User still needs to provide Oura API Client ID and Client Secret via the Oura Credentials Modal in the UI.
+- Implement image upload and camera capture functionality for the Nutrition page (full completion and testing needed for image attachment and delete) (The general image upload logic in  was improved and moved to inline form, but Nutrition might need specifics).
+- Scan the app for hardcoded date formats () and integrate the new  utility.
+- Add delete functionality for nutrition entries.
+- Investigate persistent profile picture upload failures.
+</pending_tasks>
+
+<current_work>
+Immediately before this summary request, the AI engineer was investigating an issue where adding files to upload fails on the newly created  page (Chat 643).
+
+The engineer first checked backend logs but found no POST requests for . Manual testing of the backend  endpoint confirmed it was working successfully (Chat 647). The focus then shifted to the frontend  component, specifically the  function and the modal/button setup for file uploads. The code appeared correct (Chat 649, 653).
+
+The engineer then considered a  model mismatch or a missing ID, but the backend model looked correct with default ID generation. Suspecting a more fundamental issue, the engineer decided to leverage the , which identified that there was likely a routing/proxy configuration issue preventing frontend from reaching working backend API (Chat 657).
+
+The AI engineer's last action (Chat 658) was to verify the API URL constant within the  component, as the troubleshoot agent's suggestion about a routing/proxy issue seemed to contradict the fact that the  endpoint *was* working from the frontend, implying the backend was indeed reachable.
+</current_work>
+
+<optional_next_step>
+Verify the  URL constant in  to ensure the correct endpoint is being targeted for file uploads.
+</optional_next_step>
