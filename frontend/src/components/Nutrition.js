@@ -999,6 +999,7 @@ const Nutrition = ({ athleteId }) => {
               
               {/* EDIT MODE - Form for creating/editing */}
               {!viewMode && (
+                <div className="space-y-4">
               {/* Meal Type Selection */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
