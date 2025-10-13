@@ -204,6 +204,11 @@ const Account = ({ athleteId }) => {
   const [showOuraModal, setShowOuraModal] = useState(false);
   const [profilePictureFile, setProfilePictureFile] = useState(null);
   const [profilePicturePreview, setProfilePicturePreview] = useState('');
+  
+  // Push notifications state
+  const [pushSupported, setPushSupported] = useState(false);
+  const [pushSubscribed, setPushSubscribed] = useState(false);
+  const [pushLoading, setPushLoading] = useState(false);
 
   useEffect(() => {
     loadAccountData();
