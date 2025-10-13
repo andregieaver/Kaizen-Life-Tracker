@@ -398,7 +398,7 @@ const Supplements = ({ athleteId }) => {
                   className="flex-1"
                   onClick={() => {
                     setShowModal(false);
-                    setEditingSupplementstate(null);
+                    setEditingSupplement(null);
                   }}
                 >
                   Cancel
