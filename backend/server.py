@@ -941,6 +941,18 @@ Return only the JSON array, nothing else.
             {"_id": 0}
         ).sort("date", -1).limit(50).to_list(length=None)
         
+        # Get supplements (active supplements the athlete is taking)
+        supplements = await db.supplements.find(
+            {"athlete_id": athlete_id},
+            {"_id": 0}
+        ).to_list(length=None)
+        
+        # Get recent supplement logs (last 7 days)
+        supplement_logs = await db.supplement_logs.find(
+            {"athlete_id": athlete_id},
+            {"_id": 0}
+        ).sort("date", -1).limit(50).to_list(length=None)
+        
         # Get all documents (relevant for medical history, test results, etc.)
         documents = await db.documents.find(
             {"athlete_id": athlete_id},
@@ -963,6 +975,8 @@ Return only the JSON array, nothing else.
             "current_readiness": readiness,
             "journal_entries": journal_entries,
             "nutrition_entries": nutrition_entries,
+            "supplements": supplements,
+            "supplement_logs": supplement_logs,
             "documents": documents,
             "test_results": test_results,
             "memories": memories
