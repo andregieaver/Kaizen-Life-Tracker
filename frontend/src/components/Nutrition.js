@@ -625,7 +625,8 @@ const Nutrition = ({ athleteId }) => {
     };
   };
 
-  const weekStats = calculateWeeklyAverage(entries);
+  const weekStats = calculateWeeklyAverage(entries, selectedWeekStart);
+  const currentWeekStart = selectedWeekStart || getStartOfWeek(new Date());
 
   return (
     <div className="space-y-6">
