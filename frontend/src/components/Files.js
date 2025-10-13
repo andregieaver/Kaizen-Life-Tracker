@@ -13,7 +13,7 @@ const Files = ({ athleteId }) => {
   const { t } = useTranslation();
   const [entries, setEntries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
+  const [showUploadForm, setShowUploadForm] = useState(false);
   const [viewMode, setViewMode] = useState(false);
   const [viewingEntry, setViewingEntry] = useState(null);
   const [editingEntry, setEditingEntry] = useState(null);
