@@ -286,17 +286,29 @@ def test_schedule_update_last_executed_reset_logic():
         print(f"      💡 To verify execution, wait 3 minutes and check recommendations")
         print(f"      💡 GET /api/recommendations/{athlete_id} should show new recommendation")
         
-        # Step 10: Clean up test schedule
-        print("   Step 10: Clean up test schedule")
+        # Step 10: Restore original schedule settings
+        print("   Step 10: Restore original schedule settings")
         
-        delete_response = requests.delete(f"{BACKEND_URL}/schedules/{schedule_id}")
+        restore_data = {
+            "name": target_schedule["name"],
+            "prompt": target_schedule["prompt"],
+            "frequency": original_frequency,
+            "time": original_time,
+            "active": target_schedule["active"]
+        }
         
-        cleanup_success = delete_response.status_code == 200
+        restore_response = requests.put(
+            f"{BACKEND_URL}/schedules/{schedule_id}",
+            json=restore_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        cleanup_success = restore_response.status_code == 200
         
         if cleanup_success:
-            print_test_result("Cleanup Test Schedule", True, "Test schedule deleted successfully")
+            print_test_result("Restore Original Schedule", True, "Original schedule settings restored")
         else:
-            print_test_result("Cleanup Test Schedule", False, f"Cleanup failed: {delete_response.status_code}")
+            print_test_result("Restore Original Schedule", False, f"Restore failed: {restore_response.status_code}")
         
         # Overall assessment
         print("\n📊 SCHEDULE UPDATE LAST_EXECUTED RESET LOGIC RESULTS:")
