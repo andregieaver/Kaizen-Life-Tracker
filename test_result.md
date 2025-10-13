@@ -687,6 +687,30 @@ test_plan:
       - working: "NA"
         agent: "main"
         comment: "✅ MICRONUTRIENT DISPLAY IN AI ANALYSIS MODAL IMPLEMENTED - Added simplified list display of micronutrients when AI analyzes food images. IMPLEMENTATION DETAILS: 1) BACKEND ALREADY CONFIGURED ✅ - AI prompt already requests 9 micronutrients (fiber, sodium, sugar, vitamin A, vitamin C, vitamin D, calcium, iron, potassium), NutritionEntry model already stores all micronutrient fields. 2) FRONTEND DISPLAY ADDED ✅ - Added new 'Micronutrients' section in the AI Nutritional Analysis modal display (lines 827-869), shows simplified list format with label-value pairs (e.g., 'Fiber: 5g'), only displays micronutrients with values > 0 to keep display clean. 3) UI DESIGN ✅ - White card background with proper padding and shadow, each micronutrient shown in a flex layout (label left, value right), proper units displayed (g for fiber/sugar, mg for sodium/calcium/iron/potassium, μg for vitamins A/D). 4) LOCATION IN WORKFLOW ✅ - Appears in modal after user uploads food image and clicks 'Analyze Nutrition with AI', displayed below the macronutrient grid (calories, protein, carbs, fat), shown in the same gradient card as the macros with a dividing border. READY FOR TESTING: User needs to upload a food image in Nutrition page, click 'Analyze Nutrition with AI' button, and verify micronutrients display in simplified list format below the macro grid."
+  
+  - task: "Nutrition Entry View-Only Modal with Micronutrients"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Nutrition.js, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ VIEW-ONLY MODAL FOR NUTRITION ENTRIES IMPLEMENTED - Clicking a nutrition entry now opens a read-only modal with full details. FEATURES: 1) MODAL DISPLAY ✅ - Shows meal image (clickable for full-screen), meal type badge, date & time, description, macronutrients (calories, protein, carbs, fat) in colored cards, micronutrients in simplified list format (fiber, sugar, sodium, vitamins, minerals), AI analysis description. 2) ACTION BUTTONS ✅ - 'Close' button to dismiss modal, 'Edit' button to switch to edit mode, 'Delete' button to remove entry. 3) IMAGE INTERACTION ✅ - Clicking image in view modal opens full-screen preview (same behavior as entry cards). 4) EDIT MODE TRANSITION ✅ - Edit button switches from view mode to edit mode, loads all entry data into form fields, allows user to update and save changes. WORKFLOW: Click entry card → View modal opens → Click Edit → Edit mode activates → Make changes → Save/Cancel."
+  
+  - task: "Nutrition Entry Date and Time Override"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Nutrition.js, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ DATE AND TIME OVERRIDE FOR NUTRITION ENTRIES IMPLEMENTED - Users can now log meals for past dates and specific times. BACKEND CHANGES: 1) NutritionEntry model updated with entry_date (YYYY-MM-DD) and entry_time (HH:MM) fields. 2) GET endpoint now sorts entries by entry_date and entry_time (most recent first), fallback to created_at if date/time not provided. 3) PUT endpoint updated to save entry_date and entry_time fields along with all micronutrient data. FRONTEND CHANGES: 1) DATE PICKER ✅ - Date input field in entry form, defaults to today's date, allows selection of past or future dates. 2) TIME PICKER ✅ - Time input field in entry form, defaults to current time, 24-hour format input (browser converts to user's preferred format). 3) DISPLAY FORMAT ✅ - Entry cards show formatted date and time using user's time_format preference from Account Settings (12h or 24h), format: 'Jan 15, 2025 at 2:30 PM' or 'Jan 15, 2025 at 14:30'. 4) HELPER FUNCTIONS ✅ - formatTime() respects user's time_format preference, formatDateTime() combines date and time for display, getCurrentDateTime() sets default values for new entries. TESTED: Screenshot confirms date and time pickers visible in modal (showing 10/13/2025 and 08:36 AM)."
 
   - task: "Voice Conversation Transcription and Saving"
     implemented: true
