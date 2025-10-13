@@ -1489,6 +1489,7 @@ RECENT ACTIVITY SUMMARY:
 - Readiness: {readiness_summary}
 - Journal: {journal_summary}
 - Nutrition: {nutrition_summary}
+- Supplements: {supplement_summary}
 - Documents: {doc_summary}
 - Tests: {test_summary}
 
