@@ -117,6 +117,62 @@ def calculate_age(date_of_birth):
         
     return age
 
+# Push Notification Helper Function
+async def send_push_notification(athlete_id: str, title: str, body: str, url: str = "/dashboard/reports"):
+    """Send push notification to all subscribed devices for an athlete"""
+    try:
+        # Get all push subscriptions for this athlete
+        subscriptions = await db.push_subscriptions.find(
+            {"athlete_id": athlete_id},
+            {"_id": 0}
+        ).to_list(length=None)
+        
+        if not subscriptions:
+            logging.info(f"No push subscriptions found for athlete {athlete_id}")
+            return
+        
+        # Get VAPID keys from environment
+        vapid_private_key = os.environ.get('VAPID_PRIVATE_KEY')
+        vapid_claim_email = os.environ.get('VAPID_CLAIM_EMAIL', 'mailto:admin@trainsmart.app')
+        
+        if not vapid_private_key:
+            logging.error("VAPID_PRIVATE_KEY not found in environment")
+            return
+        
+        # Prepare notification data
+        notification_data = {
+            "title": title,
+            "body": body,
+            "icon": "/logo192.png",
+            "badge": "/logo192.png",
+            "url": url
+        }
+        
+        # Send notification to each subscription
+        for subscription in subscriptions:
+            try:
+                webpush(
+                    subscription_info={
+                        "endpoint": subscription["endpoint"],
+                        "keys": subscription["keys"]
+                    },
+                    data=json.dumps(notification_data),
+                    vapid_private_key=vapid_private_key,
+                    vapid_claims={"sub": vapid_claim_email}
+                )
+                logging.info(f"Push notification sent successfully to subscription {subscription['id']}")
+            except WebPushException as e:
+                logging.error(f"Failed to send push notification to subscription {subscription['id']}: {e}")
+                # If subscription is expired/invalid, remove it
+                if e.response and e.response.status_code in [404, 410]:
+                    await db.push_subscriptions.delete_one({"id": subscription['id']})
+                    logging.info(f"Removed expired subscription {subscription['id']}")
+            except Exception as e:
+                logging.error(f"Unexpected error sending push notification: {e}")
+                
+    except Exception as e:
+        logging.error(f"Error in send_push_notification: {e}")
+
 # Scheduler Functions
 async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: str, title: str):
     """Execute a scheduled prompt and save as a recommendation"""
