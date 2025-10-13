@@ -460,54 +460,132 @@ const Nutrition = ({ athleteId }) => {
     return colors[type] || 'bg-gray-100 text-gray-700';
   };
 
-  // Calculate nutrition statistics
-  const calculateNutritionStats = (entries) => {
+  // Get start of current week (Monday)
+  const getStartOfWeek = (date) => {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust when day is Sunday
+    return new Date(d.setDate(diff));
+  };
+
+  // Get end of current week (Sunday)
+  const getEndOfWeek = (date) => {
+    const start = getStartOfWeek(date);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    return end;
+  };
+
+  // Calculate daily average for current calendar week
+  const calculateWeeklyAverage = (entries) => {
     if (!entries || entries.length === 0) {
       return {
-        total: { calories: 0, protein: 0, carbs: 0, fat: 0 },
-        daily: { calories: 0, protein: 0, carbs: 0, fat: 0 },
-        weekly: { calories: 0, protein: 0, carbs: 0, fat: 0 },
-        daysTracked: 0
+        dailyAverage: {
+          calories: 0,
+          protein: 0,
+          carbs: 0,
+          fat: 0,
+          fiber: 0,
+          sodium: 0,
+          sugar: 0,
+          vitamin_a: 0,
+          vitamin_c: 0,
+          vitamin_d: 0,
+          calcium: 0,
+          iron: 0,
+          potassium: 0
+        },
+        daysInWeek: 0
       };
     }
 
-    const totalCalories = entries.reduce((sum, entry) => sum + (entry.calories || 0), 0);
-    const totalProtein = entries.reduce((sum, entry) => sum + (entry.protein || 0), 0);
-    const totalCarbs = entries.reduce((sum, entry) => sum + (entry.carbs || 0), 0);
-    const totalFat = entries.reduce((sum, entry) => sum + (entry.fat || 0), 0);
+    // Get current week boundaries
+    const now = new Date();
+    const weekStart = getStartOfWeek(now);
+    const weekEnd = getEndOfWeek(now);
+    weekStart.setHours(0, 0, 0, 0);
+    weekEnd.setHours(23, 59, 59, 999);
 
-    // Calculate unique days with entries
+    // Filter entries from current week
+    const weekEntries = entries.filter(entry => {
+      const entryDate = entry.entry_date 
+        ? new Date(entry.entry_date) 
+        : new Date(entry.created_at);
+      return entryDate >= weekStart && entryDate <= weekEnd;
+    });
+
+    if (weekEntries.length === 0) {
+      return {
+        dailyAverage: {
+          calories: 0,
+          protein: 0,
+          carbs: 0,
+          fat: 0,
+          fiber: 0,
+          sodium: 0,
+          sugar: 0,
+          vitamin_a: 0,
+          vitamin_c: 0,
+          vitamin_d: 0,
+          calcium: 0,
+          iron: 0,
+          potassium: 0
+        },
+        daysInWeek: 0
+      };
+    }
+
+    // Calculate unique days with entries in current week
     const uniqueDays = new Set(
-      entries.map(entry => new Date(entry.created_at).toDateString())
+      weekEntries.map(entry => {
+        const date = entry.entry_date 
+          ? new Date(entry.entry_date) 
+          : new Date(entry.created_at);
+        return date.toDateString();
+      })
     ).size;
 
-    // Calculate date range in weeks
-    const dates = entries.map(entry => new Date(entry.created_at));
-    const oldestDate = dates.length > 0 ? new Date(Math.min(...dates)) : new Date();
-    const newestDate = dates.length > 0 ? new Date(Math.max(...dates)) : new Date();
-    const daysDifference = Math.max(1, Math.ceil((newestDate - oldestDate) / (1000 * 60 * 60 * 24)) + 1);
-    const weeks = daysDifference / 7;
+    // Sum all nutrients for the week
+    const totals = weekEntries.reduce((acc, entry) => ({
+      calories: acc.calories + (entry.calories || 0),
+      protein: acc.protein + (entry.protein || 0),
+      carbs: acc.carbs + (entry.carbs || 0),
+      fat: acc.fat + (entry.fat || 0),
+      fiber: acc.fiber + (entry.fiber || 0),
+      sodium: acc.sodium + (entry.sodium || 0),
+      sugar: acc.sugar + (entry.sugar || 0),
+      vitamin_a: acc.vitamin_a + (entry.vitamin_a || 0),
+      vitamin_c: acc.vitamin_c + (entry.vitamin_c || 0),
+      vitamin_d: acc.vitamin_d + (entry.vitamin_d || 0),
+      calcium: acc.calcium + (entry.calcium || 0),
+      iron: acc.iron + (entry.iron || 0),
+      potassium: acc.potassium + (entry.potassium || 0)
+    }), {
+      calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0,
+      sodium: 0, sugar: 0, vitamin_a: 0, vitamin_c: 0, vitamin_d: 0,
+      calcium: 0, iron: 0, potassium: 0
+    });
+
+    // Calculate daily averages
+    const dailyAverage = {
+      calories: uniqueDays > 0 ? Math.round(totals.calories / uniqueDays) : 0,
+      protein: uniqueDays > 0 ? Math.round(totals.protein / uniqueDays) : 0,
+      carbs: uniqueDays > 0 ? Math.round(totals.carbs / uniqueDays) : 0,
+      fat: uniqueDays > 0 ? Math.round(totals.fat / uniqueDays) : 0,
+      fiber: uniqueDays > 0 ? Math.round(totals.fiber / uniqueDays) : 0,
+      sodium: uniqueDays > 0 ? Math.round(totals.sodium / uniqueDays) : 0,
+      sugar: uniqueDays > 0 ? Math.round(totals.sugar / uniqueDays) : 0,
+      vitamin_a: uniqueDays > 0 ? Math.round(totals.vitamin_a / uniqueDays) : 0,
+      vitamin_c: uniqueDays > 0 ? Math.round(totals.vitamin_c / uniqueDays) : 0,
+      vitamin_d: uniqueDays > 0 ? Math.round(totals.vitamin_d / uniqueDays) : 0,
+      calcium: uniqueDays > 0 ? Math.round(totals.calcium / uniqueDays) : 0,
+      iron: uniqueDays > 0 ? Math.round(totals.iron / uniqueDays) : 0,
+      potassium: uniqueDays > 0 ? Math.round(totals.potassium / uniqueDays) : 0
+    };
 
     return {
-      total: {
-        calories: totalCalories,
-        protein: totalProtein,
-        carbs: totalCarbs,
-        fat: totalFat
-      },
-      daily: {
-        calories: uniqueDays > 0 ? Math.round(totalCalories / uniqueDays) : 0,
-        protein: uniqueDays > 0 ? Math.round(totalProtein / uniqueDays) : 0,
-        carbs: uniqueDays > 0 ? Math.round(totalCarbs / uniqueDays) : 0,
-        fat: uniqueDays > 0 ? Math.round(totalFat / uniqueDays) : 0
-      },
-      weekly: {
-        calories: weeks > 0 ? Math.round(totalCalories / weeks) : 0,
-        protein: weeks > 0 ? Math.round(totalProtein / weeks) : 0,
-        carbs: weeks > 0 ? Math.round(totalCarbs / weeks) : 0,
-        fat: weeks > 0 ? Math.round(totalFat / weeks) : 0
-      },
-      daysTracked: uniqueDays
+      dailyAverage,
+      daysInWeek: uniqueDays
     };
   };
 
