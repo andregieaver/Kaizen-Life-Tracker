@@ -1588,6 +1588,198 @@ def test_andre_athlete_data_slideout_debug():
     except Exception as e:
         print_test_result("Andre Athlete Data Debug - Exception", False, f"Exception: {str(e)}")
         return False
+
+def test_enhanced_recommendations_endpoints():
+    """
+    PRIORITY: Test Enhanced Recommendations/Reports Endpoints
+    Test the new delete endpoint and mark as read functionality
+    Using athlete_id: 3e4ee10d-105d-4564-8b7a-1e7223acb706 (has OpenAI key and existing recommendations)
+    """
+    print("🔍 TESTING ENHANCED RECOMMENDATIONS/REPORTS ENDPOINTS")
+    print("=" * 70)
+    
+    # Use the specific athlete_id from the review request
+    athlete_id = "3e4ee10d-105d-4564-8b7a-1e7223acb706"
+    
+    try:
+        # Step 1: GET RECOMMENDATIONS - Verify unread status
+        print("   Step 1: GET RECOMMENDATIONS - Verify unread status")
+        
+        get_response = requests.get(f"{BACKEND_URL}/recommendations/{athlete_id}")
+        
+        if get_response.status_code != 200:
+            print_test_result("GET Recommendations", False, f"Failed: {get_response.status_code} - {get_response.text}")
+            return False
+        
+        recommendations = get_response.json()
+        
+        if not recommendations:
+            print_test_result("GET Recommendations", False, "No recommendations found for athlete")
+            return False
+        
+        # Verify response contains recommendations with 'read' field
+        read_field_checks = []
+        recommendation_ids = []
+        
+        for i, rec in enumerate(recommendations[:5]):  # Check first 5 recommendations
+            rec_id = rec.get("id")
+            if rec_id:
+                recommendation_ids.append(rec_id)
+            
+            if "read" in rec:
+                read_value = rec.get("read")
+                if isinstance(read_value, bool):
+                    read_field_checks.append(f"✅ Recommendation {i+1}: has 'read' field (boolean: {read_value})")
+                else:
+                    read_field_checks.append(f"❌ Recommendation {i+1}: 'read' field is not boolean ({type(read_value)})")
+            else:
+                read_field_checks.append(f"❌ Recommendation {i+1}: missing 'read' field")
+        
+        all_have_read_field = all("✅" in check for check in read_field_checks)
+        
+        for check in read_field_checks:
+            print(f"      {check}")
+        
+        if all_have_read_field and recommendation_ids:
+            print_test_result("GET Recommendations - Verify Read Field", True, f"Found {len(recommendations)} recommendations, all have 'read' field")
+        else:
+            print_test_result("GET Recommendations - Verify Read Field", False, "Some recommendations missing 'read' field")
+            return False
+        
+        # Step 2: MARK RECOMMENDATION AS READ
+        print("   Step 2: MARK RECOMMENDATION AS READ")
+        
+        if not recommendation_ids:
+            print_test_result("Mark Recommendation as Read", False, "No recommendation IDs available for testing")
+            return False
+        
+        # Use the first recommendation ID
+        test_recommendation_id = recommendation_ids[0]
+        print(f"      Using recommendation ID: {test_recommendation_id}")
+        
+        # Mark as read using PUT method
+        mark_read_response = requests.put(f"{BACKEND_URL}/recommendations/{test_recommendation_id}/read")
+        
+        if mark_read_response.status_code != 200:
+            print_test_result("Mark Recommendation as Read", False, f"PUT failed: {mark_read_response.status_code} - {mark_read_response.text}")
+            return False
+        
+        mark_read_result = mark_read_response.json()
+        expected_message = "Recommendation marked as read"
+        
+        if mark_read_result.get("message") == expected_message:
+            print_test_result("Mark Recommendation as Read", True, "Successfully marked recommendation as read")
+        else:
+            print_test_result("Mark Recommendation as Read", False, f"Unexpected response: {mark_read_result}")
+            return False
+        
+        # Step 3: Verify recommendation is now marked as read
+        print("   Step 3: Verify recommendation is now marked as read")
+        
+        verify_response = requests.get(f"{BACKEND_URL}/recommendations/{athlete_id}")
+        
+        if verify_response.status_code != 200:
+            print_test_result("Verify Read Status", False, f"GET failed: {verify_response.status_code}")
+            return False
+        
+        updated_recommendations = verify_response.json()
+        
+        # Find the recommendation we marked as read
+        marked_recommendation = None
+        for rec in updated_recommendations:
+            if rec.get("id") == test_recommendation_id:
+                marked_recommendation = rec
+                break
+        
+        if not marked_recommendation:
+            print_test_result("Verify Read Status", False, "Marked recommendation not found in updated list")
+            return False
+        
+        if marked_recommendation.get("read") is True:
+            print_test_result("Verify Read Status", True, f"Recommendation {test_recommendation_id} now has read: true")
+        else:
+            print_test_result("Verify Read Status", False, f"Recommendation still has read: {marked_recommendation.get('read')}")
+            return False
+        
+        # Step 4: DELETE RECOMMENDATION
+        print("   Step 4: DELETE RECOMMENDATION")
+        
+        if len(recommendation_ids) < 2:
+            print_test_result("Delete Recommendation", False, "Need at least 2 recommendations for delete test")
+            return False
+        
+        # Use the second recommendation ID for deletion
+        delete_recommendation_id = recommendation_ids[1]
+        print(f"      Deleting recommendation ID: {delete_recommendation_id}")
+        
+        delete_response = requests.delete(f"{BACKEND_URL}/recommendations/{delete_recommendation_id}")
+        
+        if delete_response.status_code != 200:
+            print_test_result("Delete Recommendation", False, f"DELETE failed: {delete_response.status_code} - {delete_response.text}")
+            return False
+        
+        delete_result = delete_response.json()
+        expected_delete_message = "Recommendation deleted successfully"
+        
+        if delete_result.get("message") == expected_delete_message:
+            print_test_result("Delete Recommendation", True, "Successfully deleted recommendation")
+        else:
+            print_test_result("Delete Recommendation", False, f"Unexpected delete response: {delete_result}")
+            return False
+        
+        # Step 5: Verify deleted recommendation is no longer in the list
+        print("   Step 5: Verify deleted recommendation is no longer in the list")
+        
+        final_response = requests.get(f"{BACKEND_URL}/recommendations/{athlete_id}")
+        
+        if final_response.status_code != 200:
+            print_test_result("Verify Deletion", False, f"GET after delete failed: {final_response.status_code}")
+            return False
+        
+        final_recommendations = final_response.json()
+        
+        # Check if deleted recommendation is still in the list
+        deleted_recommendation_found = False
+        for rec in final_recommendations:
+            if rec.get("id") == delete_recommendation_id:
+                deleted_recommendation_found = True
+                break
+        
+        if deleted_recommendation_found:
+            print_test_result("Verify Deletion", False, "Deleted recommendation still appears in the list")
+            return False
+        else:
+            print_test_result("Verify Deletion", True, f"Deleted recommendation {delete_recommendation_id} no longer in list")
+        
+        # Step 6: DELETE NON-EXISTENT RECOMMENDATION
+        print("   Step 6: DELETE NON-EXISTENT RECOMMENDATION")
+        
+        non_existent_id = "non-existent-recommendation-id"
+        
+        error_response = requests.delete(f"{BACKEND_URL}/recommendations/{non_existent_id}")
+        
+        if error_response.status_code == 404:
+            error_result = error_response.json()
+            if "not found" in error_result.get("detail", "").lower():
+                print_test_result("Delete Non-Existent Recommendation", True, "Correctly returns 404 for non-existent recommendation")
+            else:
+                print_test_result("Delete Non-Existent Recommendation", False, f"404 returned but wrong message: {error_result}")
+                return False
+        else:
+            print_test_result("Delete Non-Existent Recommendation", False, f"Expected 404, got {error_response.status_code}")
+            return False
+        
+        print("\n✅ ALL ENHANCED RECOMMENDATIONS ENDPOINTS TESTS PASSED")
+        print("✅ GET returns recommendations with read field")
+        print("✅ PUT marks recommendation as read")
+        print("✅ DELETE removes recommendation")
+        print("✅ DELETE non-existent returns 404")
+        return True
+        
+    except Exception as e:
+        print_test_result("Enhanced Recommendations Testing - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def print_test_result(test_name, success, details=""):
     """Print formatted test results"""
     status = "✅ PASS" if success else "❌ FAIL"
