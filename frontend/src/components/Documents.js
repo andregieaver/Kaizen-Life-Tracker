@@ -407,8 +407,11 @@ const Documents = ({ athleteId }) => {
 
       {/* Upload Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
-          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4"
+          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
+        >
+          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Upload Document</CardTitle>
@@ -426,6 +429,7 @@ const Documents = ({ athleteId }) => {
                     setSaveStatus({ type: '', message: '' });
                   }}
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  type="button"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -442,9 +446,14 @@ const Documents = ({ athleteId }) => {
                 {!filePreview && !fileName ? (
                   <div className="space-y-2">
                     <Button
+                      type="button"
                       variant="outline"
                       className="w-full"
-                      onClick={() => fileInputRef.current?.click()}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        fileInputRef.current?.click();
+                      }}
                     >
                       <Upload className="w-4 h-4 mr-2" />
                       Choose File
@@ -455,6 +464,7 @@ const Documents = ({ athleteId }) => {
                       accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,image/*"
                       onChange={handleFileUpload}
                       className="hidden"
+                      style={{ display: 'none' }}
                     />
                     <p className="text-xs text-gray-500 text-center">
                       Accepted formats: PDF, Word, Text, Images • Images auto-compressed
