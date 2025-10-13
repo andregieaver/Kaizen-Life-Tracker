@@ -10859,6 +10859,25 @@ if __name__ == "__main__":
                 sys.exit(0)
             else:
                 print("❌ FAIL AI Coach Sequential Function Calling")
+        elif sys.argv[1] == "--schedule-execution-debug":
+            print("🎯 Running SCHEDULE EXECUTION FAILURE INVESTIGATION (as per review request)")
+            print("=" * 80)
+            print("REVIEW REQUEST: Diagnose schedule execution failure - detailed investigation")
+            print("PROBLEM: User re-added OpenAI API key but schedules still not executing")
+            print("SUSPECTED ISSUE: Schedule might have last_executed value from today")
+            print("TEST ATHLETE: andre@example.com (athlete_id: 90de5b99-6db3-4e14-8455-c00864fb9976)")
+            print("=" * 80)
+            success = test_schedule_execution_failure_investigation()
+            print("\n" + "=" * 80)
+            print("📊 SCHEDULE EXECUTION FAILURE INVESTIGATION SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS Schedule Execution Failure Investigation")
+                print("\n🎉 INVESTIGATION COMPLETED! Root cause identified and documented.")
+            else:
+                print("❌ FAIL Schedule Execution Failure Investigation")
+                print("\n⚠️ INVESTIGATION FOUND ISSUES! Check the detailed results above.")
+            sys.exit(0 if success else 1)
         elif sys.argv[1] == "--schedule-execution":
             print("🎯 Running SCHEDULE EXECUTION FLOW TEST ONLY (as per review request)")
             print("=" * 80)
