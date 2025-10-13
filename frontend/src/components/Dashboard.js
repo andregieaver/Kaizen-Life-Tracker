@@ -728,6 +728,10 @@ const Dashboard = ({ athleteId }) => {
           <Files athleteId={athleteId} />
         )}
 
+        {activeTab === 'memories' && (
+          <Memories athleteId={athleteId} />
+        )}
+
         {activeTab === 'calendar' && (
           <TrainingCalendar 
             athleteId={athleteId} 
