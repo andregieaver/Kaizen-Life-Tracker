@@ -749,6 +749,41 @@ const Nutrition = ({ athleteId }) => {
 
   const weekStats = calculateWeeklyAverage(entries, selectedWeekStart);
   const currentWeekStart = selectedWeekStart || getStartOfWeek(new Date());
+  const dayStats = calculateDailyStats(entries, selectedDay);
+  const currentDay = selectedDay || new Date();
+
+  // Filter entries based on view type
+  const getFilteredEntries = () => {
+    if (viewType === 'day') {
+      // Show only entries from the selected day
+      const dayStart = new Date(currentDay);
+      dayStart.setHours(0, 0, 0, 0);
+      const dayEnd = new Date(currentDay);
+      dayEnd.setHours(23, 59, 59, 999);
+
+      return entries.filter(entry => {
+        const entryDate = entry.entry_date 
+          ? new Date(entry.entry_date) 
+          : new Date(entry.created_at);
+        return entryDate >= dayStart && entryDate <= dayEnd;
+      });
+    } else {
+      // Show only entries from the selected week
+      const weekStart = new Date(currentWeekStart);
+      weekStart.setHours(0, 0, 0, 0);
+      const weekEnd = getEndOfWeek(currentWeekStart);
+      weekEnd.setHours(23, 59, 59, 999);
+
+      return entries.filter(entry => {
+        const entryDate = entry.entry_date 
+          ? new Date(entry.entry_date) 
+          : new Date(entry.created_at);
+        return entryDate >= weekStart && entryDate <= weekEnd;
+      });
+    }
+  };
+
+  const filteredEntries = getFilteredEntries();
 
   return (
     <div className="space-y-6">
