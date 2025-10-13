@@ -852,6 +852,7 @@ const Account = ({ athleteId }) => {
         weight_unit: personalForm.weight_unit,
         fluid_unit: personalForm.fluid_unit,
         language: personalForm.language,
+        coach_language: personalForm.coach_language,
         voice_preference: personalForm.voice_preference
       };
       
