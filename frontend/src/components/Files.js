@@ -589,80 +589,84 @@ const Files = ({ athleteId }) => {
         )}
       </div>
 
-      {/* Entry Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>
+      {/* Inline Upload/Edit Form */}
+      {showUploadForm && (
+        <Card className="border-2 border-blue-200 shadow-lg">
+          <CardHeader className="bg-blue-50">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-lg">
                   {viewMode ? 'File Entry' : editingEntry ? 'Edit File Entry' : 'Add File Entry'}
                 </CardTitle>
-                <Button variant="ghost" size="sm" onClick={closeModals}>
-                  <X className="w-5 h-5" />
-                </Button>
+                <CardDescription>
+                  {viewMode ? 'View file details' : editingEntry ? 'Update file information' : 'Upload and track your files'}
+                </CardDescription>
               </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {viewMode ? (
-                <>
-                  {viewingEntry?.file_data && (
-                    <div className="mb-4">
-                      {viewingEntry.file_data.startsWith('data:image') ? (
-                        <img 
-                          src={viewingEntry.file_data} 
-                          alt="File preview" 
-                          className="w-full rounded-lg cursor-pointer"
-                          onClick={() => {
-                            setSelectedImage(viewingEntry.file_data);
-                            setShowImageModal(true);
-                          }}
-                        />
-                      ) : (
-                        <div className="p-8 bg-gray-50 rounded-lg text-center">
-                          <FileText className="w-16 h-16 mx-auto text-gray-400 mb-2" />
-                          <p className="text-sm text-gray-600">{viewingEntry.file_name}</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
+              <Button variant="ghost" size="sm" onClick={closeModals}>
+                <X className="w-5 h-5" />
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4 pt-6">
+            {viewMode ? (
+              <>
+                {viewingEntry?.file_data && (
+                  <div className="mb-4">
+                    {viewingEntry.file_data.startsWith('data:image') ? (
+                      <img 
+                        src={viewingEntry.file_data} 
+                        alt="File preview" 
+                        className="w-full rounded-lg cursor-pointer"
+                        onClick={() => {
+                          setSelectedImage(viewingEntry.file_data);
+                          setShowImageModal(true);
+                        }}
+                      />
+                    ) : (
+                      <div className="p-8 bg-gray-50 rounded-lg text-center">
+                        <FileText className="w-16 h-16 mx-auto text-gray-400 mb-2" />
+                        <p className="text-sm text-gray-600">{viewingEntry.file_name}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Type</label>
+                  <p className="mt-1 capitalize">{viewingEntry?.file_type}</p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Description</label>
+                  <p className="mt-1">{viewingEntry?.description}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Type</label>
-                    <p className="mt-1 capitalize">{viewingEntry?.file_type}</p>
+                    <label className="text-sm font-medium text-gray-700">Date</label>
+                    <p className="mt-1">{viewingEntry?.entry_date}</p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-gray-700">Description</label>
-                    <p className="mt-1">{viewingEntry?.description}</p>
+                    <label className="text-sm font-medium text-gray-700">Time</label>
+                    <p className="mt-1">{viewingEntry?.entry_time}</p>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">Date</label>
-                      <p className="mt-1">{viewingEntry?.entry_date}</p>
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-gray-700">Time</label>
-                      <p className="mt-1">{viewingEntry?.entry_time}</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-2 pt-4">
-                    <Button 
-                      onClick={handleEditEntry}
-                      className="flex-1"
-                    >
-                      <Edit3 className="w-4 h-4 mr-2" />
-                      Edit Entry
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      onClick={closeModals}
-                      className="flex-1"
-                    >
-                      Close
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <>
+                </div>
+                <div className="flex gap-2 pt-4">
+                  <Button 
+                    onClick={handleEditEntry}
+                    className="flex-1"
+                  >
+                    <Edit3 className="w-4 h-4 mr-2" />
+                    Edit Entry
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={closeModals}
+                    className="flex-1"
+                  >
+                    Close
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
                   {/* File Upload */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
