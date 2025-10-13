@@ -3081,6 +3081,15 @@ Be as accurate as possible based on visible portion sizes{" and the user's descr
                     "protein": 0,
                     "carbs": 0,
                     "fat": 0,
+                    "fiber": 0,
+                    "sodium": 0,
+                    "sugar": 0,
+                    "vitamin_a": 0,
+                    "vitamin_c": 0,
+                    "vitamin_d": 0,
+                    "calcium": 0,
+                    "iron": 0,
+                    "potassium": 0,
                     "description": "Unable to analyze image"
                 }
         
