@@ -557,6 +557,19 @@ class Document(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
+class FileEntry(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    file_type: str  # document, image, file
+    description: str
+    file_data: str  # base64 encoded file
+    file_name: str
+    entry_date: str  # YYYY-MM-DD
+    entry_time: str  # HH:MM
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 class TestResult(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
