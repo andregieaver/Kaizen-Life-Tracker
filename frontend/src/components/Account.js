@@ -15,6 +15,13 @@ import ChangePassword from './ChangePassword';
 import StravaCredentialsModal from './StravaCredentialsModal';
 import OuraCredentialsModal from './OuraCredentialsModal';
 import { 
+  registerServiceWorker,
+  isPushSupported,
+  subscribeToPush,
+  unsubscribeFromPush,
+  isSubscribed
+} from '../utils/pushNotifications';
+import { 
   User, 
   Key, 
   Zap, 
@@ -39,7 +46,9 @@ import {
   Check,
   Mountain,
   Settings,
-  X
+  X,
+  Bell,
+  BellOff
 } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
