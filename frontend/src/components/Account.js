@@ -526,6 +526,7 @@ const Account = ({ athleteId }) => {
         weight_unit: athleteRes.data.weight_unit || 'lbs',
         fluid_unit: athleteRes.data.fluid_unit || 'fl oz',
         language: athleteRes.data.language || 'en',
+        coach_language: athleteRes.data.coach_language || 'en',
         voice_preference: athleteRes.data.voice_preference || 'alloy'
       });
       
