@@ -40,6 +40,14 @@ mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
+# Initialize OpenAI
+openai_api_key = os.environ.get('OPENAI_API_KEY')
+if openai_api_key:
+    openai.api_key = openai_api_key
+
+# Initialize scheduler
+scheduler = AsyncIOScheduler()
+
 # Create the main app without a prefix
 app = FastAPI()
 
