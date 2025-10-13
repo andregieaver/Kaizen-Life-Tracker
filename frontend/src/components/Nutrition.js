@@ -40,6 +40,8 @@ const Nutrition = ({ athleteId }) => {
   const [supplementLogDate, setSupplementLogDate] = useState('');
   const [supplementLogTime, setSupplementLogTime] = useState('');
   const [supplementNotes, setSupplementNotes] = useState('');
+  const [expandedMacros, setExpandedMacros] = useState({});
+  const [expandedMicros, setExpandedMicros] = useState({});
   
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
