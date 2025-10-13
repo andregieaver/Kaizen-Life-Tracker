@@ -523,6 +523,11 @@ class AthleteProfile(BaseModel):
     bio: Optional[str] = None  # Personal bio/description
     interests: Optional[list] = Field(default_factory=list)  # List of interests/activities
     
+    # Health & Nutrition Goals
+    estimated_calorie_need: Optional[int] = None  # Daily calorie need (calculated or manual)
+    weight_goal: Optional[str] = None  # 'decrease', 'maintain', 'increase'
+    health_goals: Optional[list] = Field(default_factory=list)  # List of health goals (e.g., ['muscle_mass', 'speed', 'endurance'])
+    
     # Preferences
     distance_unit: str = Field(default="miles")  # 'miles' or 'km'
     measurement_system: str = Field(default="imperial")  # 'imperial' or 'metric'
