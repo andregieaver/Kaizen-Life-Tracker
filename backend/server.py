@@ -308,6 +308,15 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
         await db.recommendations.insert_one(recommendation)
         print(f"[SCHEDULER] Recommendation saved to database")
         
+        # Send push notification
+        await send_push_notification(
+            athlete_id=athlete_id,
+            title=f"New Report: {title}",
+            body=recommendation['summary'],
+            url="/dashboard/reports"
+        )
+        print(f"[SCHEDULER] Push notification sent")
+        
         # Update schedule last_executed time
         await db.schedules.update_one(
             {"id": schedule_id},
