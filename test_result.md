@@ -477,6 +477,18 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "✅ SUBSCRIPTION PLAN LIMITS IMPLEMENTED - Added scheduled prompt limits based on subscription tier. CHANGES: 1) PRICING PAGE UPDATES - Updated Pricing.js plan cards to show scheduled AI analysis limits: Free: 1 scheduled analysis, Pro: Up to 5 scheduled analyses, Premium: Unlimited scheduled analyses. 2) LIMIT ENFORCEMENT - Added helper functions getScheduleLimit() and canAddSchedule() to check current schedule count against tier limits. 3) ADD SCHEDULE BUTTON - Updated button to show current count (e.g., 'Add Schedule (2/5)'). Shows infinity symbol (∞) for Premium unlimited. Triggers limit check before opening form. 4) UPGRADE MODAL - Created showScheduleLimitModal with beautiful upgrade prompt. Shows different messaging for Free vs Pro users. Highlights upgrade benefits relevant to current tier. Has 'Maybe Later' and 'Upgrade Now' buttons. 'Upgrade Now' switches to Subscriptions tab. 5) VISUAL IMPROVEMENTS - Modal uses gradient button styling. Crown icon for premium feel. Blue info box with check marks for benefits. LIMITS: Free: 1 schedule, Pro: 5 schedules, Premium: Unlimited. Modal appears when limit reached. READY FOR TESTING: Try adding schedules to see counter and test limit modal."
+
+  - task: "Files Page Backend CRUD Endpoints"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "✅ FILES CRUD ENDPOINTS IMPLEMENTED - ROOT CAUSE IDENTIFIED: The Files.js frontend component was created but the backend API endpoints were completely missing! No GET, POST, PUT, or DELETE endpoints existed for /api/files. FIX APPLIED: Created complete CRUD endpoints for file entries following the nutrition entries pattern: 1) GET /api/files/{athlete_id} - retrieves all file entries for an athlete, sorted by entry_date and entry_time (most recent first), uses parse_from_mongo for data parsing. 2) POST /api/files/{athlete_id} - creates new file entry, saves to db.file_entries collection, returns success with entry ID. 3) PUT /api/files/{entry_id} - updates existing file entry, handles all fields (file_type, description, file_data, file_name, entry_date, entry_time), includes updated_at timestamp. 4) DELETE /api/files/{entry_id} - deletes file entry, returns 404 if not found. TECHNICAL DETAILS: Endpoints added at line 3589 in server.py (after supplement logs, before document routes). Uses existing FileEntry model which has proper UUID generation. Follows same patterns as nutrition and supplement endpoints for consistency. Backend restarted successfully - no errors in logs. READY FOR COMPREHENSIVE TESTING: All four CRUD operations need testing with actual file data."
     status_history:
       - working: "NA"
         agent: "user"
