@@ -217,7 +217,7 @@ async def check_and_execute_schedules():
                     schedule['id'],
                     schedule['athlete_id'],
                     schedule['prompt'],
-                    schedule['title']
+                    schedule.get('name', 'Scheduled Analysis')
                 )
     
     except Exception as e:
