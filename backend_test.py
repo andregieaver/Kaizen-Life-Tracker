@@ -10403,6 +10403,356 @@ def test_schedule_execution_flow():
         traceback.print_exc()
         return False
 
+def test_schedule_execution_failure_investigation():
+    """
+    PRIORITY: DIAGNOSE SCHEDULE EXECUTION FAILURE - DETAILED INVESTIGATION
+    
+    Problem: User re-added OpenAI API key but schedules still not executing. 
+    Logs show schedule "Test" was scheduled for 23:00 and time matched at 23:00, 
+    but NO execution attempt occurred.
+    
+    Suspected Issue: Schedule might have `last_executed` value from today, 
+    preventing re-execution due to daily frequency logic.
+    
+    Test Athlete: andre@example.com (athlete_id: 90de5b99-6db3-4e14-8455-c00864fb9976)
+    """
+    print("🔍 DIAGNOSING SCHEDULE EXECUTION FAILURE - DETAILED INVESTIGATION")
+    print("=" * 70)
+    
+    try:
+        # Test athlete credentials
+        athlete_email = "andre@example.com"
+        athlete_password = "password123"
+        expected_athlete_id = "90de5b99-6db3-4e14-8455-c00864fb9976"
+        
+        # Step 1: Login as andre@example.com
+        print("   Step 1: Login as andre@example.com")
+        
+        login_data = {
+            "email": athlete_email,
+            "password": athlete_password
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("Schedule Investigation - Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if athlete_id != expected_athlete_id:
+            print_test_result("Schedule Investigation - Athlete ID", False, f"Expected {expected_athlete_id}, got {athlete_id}")
+            return False
+        
+        print_test_result("Schedule Investigation - Login", True, f"Successfully logged in as {athlete_email} (ID: {athlete_id})")
+        
+        # Step 2: CHECK SCHEDULE DETAILS - Look for schedule named "Test" scheduled at 23:00
+        print("   Step 2: CHECK SCHEDULE DETAILS - Look for 'Test' schedule at 23:00")
+        
+        schedules_response = requests.get(f"{BACKEND_URL}/schedules/{athlete_id}")
+        
+        if schedules_response.status_code != 200:
+            print_test_result("Get Schedules", False, f"Failed to get schedules: {schedules_response.status_code}")
+            return False
+        
+        schedules = schedules_response.json()
+        
+        # Look for the "Test" schedule
+        test_schedule = None
+        for schedule in schedules:
+            if schedule.get("name") == "Test" and schedule.get("time") == "23:00":
+                test_schedule = schedule
+                break
+        
+        schedule_details = []
+        
+        if test_schedule:
+            schedule_details.append(f"✅ Found 'Test' schedule scheduled at 23:00")
+            schedule_details.append(f"   Schedule ID: {test_schedule.get('id')}")
+            schedule_details.append(f"   Active: {test_schedule.get('active')}")
+            schedule_details.append(f"   Frequency: {test_schedule.get('frequency')}")
+            schedule_details.append(f"   Last Executed: {test_schedule.get('last_executed')}")
+            schedule_details.append(f"   Prompt: {test_schedule.get('prompt', '')[:50]}...")
+            
+            # Check if last_executed is from today (suspected issue)
+            last_executed = test_schedule.get('last_executed')
+            if last_executed:
+                from datetime import datetime, timezone
+                try:
+                    last_exec_dt = datetime.fromisoformat(last_executed.replace('Z', '+00:00'))
+                    today = datetime.now(timezone.utc).date()
+                    last_exec_date = last_exec_dt.date()
+                    
+                    if last_exec_date == today:
+                        schedule_details.append("❌ SUSPECTED ISSUE: last_executed is from TODAY")
+                        schedule_details.append("❌ This prevents daily re-execution due to frequency logic")
+                    else:
+                        schedule_details.append(f"✅ last_executed is from {last_exec_date} (not today)")
+                except Exception as e:
+                    schedule_details.append(f"⚠️ Could not parse last_executed date: {e}")
+            else:
+                schedule_details.append("✅ last_executed is null (should execute)")
+            
+            print_test_result("Check Schedule Details", True, "\n      ".join(schedule_details))
+        else:
+            # Look for any schedules at 23:00
+            schedules_23 = [s for s in schedules if s.get("time") == "23:00"]
+            if schedules_23:
+                schedule_details.append(f"⚠️ No 'Test' schedule found, but found {len(schedules_23)} schedule(s) at 23:00:")
+                for i, sched in enumerate(schedules_23, 1):
+                    schedule_details.append(f"   {i}. Name: '{sched.get('name')}', Active: {sched.get('active')}, Last Executed: {sched.get('last_executed')}")
+            else:
+                schedule_details.append("❌ No schedules found at 23:00")
+            
+            print_test_result("Check Schedule Details", False, "\n      ".join(schedule_details))
+        
+        # Step 3: VERIFY OPENAI API KEY
+        print("   Step 3: VERIFY OPENAI API KEY")
+        
+        integrations_response = requests.get(f"{BACKEND_URL}/integrations/{athlete_id}")
+        
+        openai_details = []
+        openai_integration = None
+        
+        if integrations_response.status_code == 200:
+            integrations_data = integrations_response.json()
+            integrations = integrations_data.get("integrations", [])
+            
+            for integration in integrations:
+                if integration.get("integration_type") == "openai":
+                    openai_integration = integration
+                    break
+            
+            if openai_integration:
+                is_active = openai_integration.get("is_active", False)
+                credentials = openai_integration.get("credentials", {})
+                api_key = credentials.get("api_key", "")
+                
+                openai_details.append("✅ OpenAI integration found")
+                openai_details.append(f"   Active: {is_active}")
+                openai_details.append(f"   Has API Key: {'Yes' if api_key else 'No'}")
+                
+                if api_key:
+                    # Check if it's the old test key
+                    if api_key.startswith("sk-test1"):
+                        openai_details.append("❌ API key is old test key (sk-test1...)")
+                        openai_details.append("❌ This will cause execution failures")
+                    elif api_key.startswith("sk-"):
+                        openai_details.append("✅ API key format looks valid (sk-...)")
+                        openai_details.append(f"   Key preview: {api_key[:10]}...")
+                    else:
+                        openai_details.append("❌ API key format invalid (doesn't start with sk-)")
+                else:
+                    openai_details.append("❌ No API key configured")
+                
+                print_test_result("Verify OpenAI API Key", bool(api_key and is_active and not api_key.startswith("sk-test1")), "\n      ".join(openai_details))
+            else:
+                openai_details.append("❌ No OpenAI integration found")
+                print_test_result("Verify OpenAI API Key", False, "\n      ".join(openai_details))
+        else:
+            openai_details.append(f"❌ Failed to get integrations: {integrations_response.status_code}")
+            print_test_result("Verify OpenAI API Key", False, "\n      ".join(openai_details))
+        
+        # Step 4: CREATE NEW TEST SCHEDULE (to bypass last_executed issue)
+        print("   Step 4: CREATE NEW TEST SCHEDULE (to bypass last_executed issue)")
+        
+        from datetime import datetime, timedelta
+        import pytz
+        
+        # Get current time in Oslo timezone and add 2 minutes
+        oslo_tz = pytz.timezone('Europe/Oslo')
+        current_oslo = datetime.now(oslo_tz)
+        execution_time = current_oslo + timedelta(minutes=2)
+        time_str = execution_time.strftime("%H:%M")
+        
+        print(f"      Creating new schedule for execution at: {time_str} Oslo time")
+        
+        # First, delete any existing "Test Execution Debug" schedules
+        cleanup_schedules = [s for s in schedules if s.get("name") == "Test Execution Debug"]
+        for cleanup_schedule in cleanup_schedules:
+            cleanup_id = cleanup_schedule.get("id")
+            if cleanup_id:
+                requests.delete(f"{BACKEND_URL}/schedules/{cleanup_id}")
+                print(f"      Cleaned up existing schedule: {cleanup_id}")
+        
+        new_schedule_data = {
+            "athlete_id": athlete_id,
+            "name": "Test Execution Debug",
+            "prompt": "Provide a brief test analysis for schedule execution debugging",
+            "frequency": "daily",
+            "time": time_str,
+            "active": True
+        }
+        
+        create_response = requests.post(
+            f"{BACKEND_URL}/schedules",
+            json=new_schedule_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        new_schedule_details = []
+        new_schedule_id = None
+        
+        if create_response.status_code == 200:
+            new_schedule = create_response.json()
+            new_schedule_id = new_schedule.get("id")
+            
+            new_schedule_details.append("✅ New test schedule created successfully")
+            new_schedule_details.append(f"   Schedule ID: {new_schedule_id}")
+            new_schedule_details.append(f"   Execution Time: {time_str} Oslo time")
+            new_schedule_details.append(f"   Active: {new_schedule.get('active')}")
+            new_schedule_details.append(f"   Frequency: {new_schedule.get('frequency')}")
+            new_schedule_details.append(f"   Last Executed: {new_schedule.get('last_executed')} (should be null)")
+            
+            print_test_result("Create New Test Schedule", True, "\n      ".join(new_schedule_details))
+        else:
+            new_schedule_details.append(f"❌ Failed to create schedule: {create_response.status_code}")
+            new_schedule_details.append(f"   Error: {create_response.text}")
+            print_test_result("Create New Test Schedule", False, "\n      ".join(new_schedule_details))
+            return False
+        
+        # Step 5: MONITOR EXECUTION (wait 3 minutes and check)
+        print("   Step 5: MONITOR EXECUTION (wait 3 minutes and check)")
+        
+        print(f"      Waiting 3 minutes for schedule execution at {time_str}...")
+        print(f"      Current time: {datetime.now(oslo_tz).strftime('%H:%M:%S')} Oslo time")
+        
+        # Wait for 3 minutes (180 seconds)
+        import time
+        time.sleep(180)
+        
+        # Check if schedule executed
+        execution_check_details = []
+        
+        # Check 1: Look for new recommendations
+        recommendations_response = requests.get(f"{BACKEND_URL}/recommendations/{athlete_id}")
+        
+        new_recommendations = []
+        if recommendations_response.status_code == 200:
+            recommendations = recommendations_response.json()
+            
+            # Look for recommendations created in the last 5 minutes
+            recent_cutoff = datetime.now(timezone.utc) - timedelta(minutes=5)
+            
+            for rec in recommendations:
+                generated_at = rec.get("generated_at")
+                if generated_at:
+                    try:
+                        rec_time = datetime.fromisoformat(generated_at.replace('Z', '+00:00'))
+                        if rec_time > recent_cutoff:
+                            new_recommendations.append(rec)
+                    except:
+                        pass
+            
+            if new_recommendations:
+                execution_check_details.append(f"✅ Found {len(new_recommendations)} new recommendation(s)")
+                for i, rec in enumerate(new_recommendations, 1):
+                    execution_check_details.append(f"   {i}. Title: '{rec.get('title', 'Unknown')}'")
+                    execution_check_details.append(f"      Type: {rec.get('type', 'Unknown')}")
+                    execution_check_details.append(f"      Schedule ID: {rec.get('schedule_id', 'None')}")
+                    execution_check_details.append(f"      Generated: {rec.get('generated_at', 'Unknown')}")
+            else:
+                execution_check_details.append("❌ No new recommendations found")
+        else:
+            execution_check_details.append(f"❌ Failed to check recommendations: {recommendations_response.status_code}")
+        
+        # Check 2: Check if last_executed was updated
+        updated_schedule_response = requests.get(f"{BACKEND_URL}/schedules/{athlete_id}")
+        
+        updated_test_schedule = None
+        if updated_schedule_response.status_code == 200:
+            updated_schedules = updated_schedule_response.json()
+            
+            for schedule in updated_schedules:
+                if schedule.get("id") == new_schedule_id:
+                    updated_test_schedule = schedule
+                    break
+            
+            if updated_test_schedule:
+                updated_last_executed = updated_test_schedule.get("last_executed")
+                if updated_last_executed:
+                    execution_check_details.append("✅ Schedule last_executed field was updated")
+                    execution_check_details.append(f"   Last Executed: {updated_last_executed}")
+                else:
+                    execution_check_details.append("❌ Schedule last_executed field was NOT updated")
+                    execution_check_details.append("❌ This indicates the schedule did not execute")
+            else:
+                execution_check_details.append("❌ Could not find updated schedule")
+        else:
+            execution_check_details.append(f"❌ Failed to check updated schedule: {updated_schedule_response.status_code}")
+        
+        execution_success = len(new_recommendations) > 0 or (updated_test_schedule and updated_test_schedule.get("last_executed"))
+        
+        print_test_result("Monitor Execution", execution_success, "\n      ".join(execution_check_details))
+        
+        # Step 6: CLEANUP - Delete test schedule
+        print("   Step 6: CLEANUP - Delete test schedule")
+        
+        if new_schedule_id:
+            cleanup_response = requests.delete(f"{BACKEND_URL}/schedules/{new_schedule_id}")
+            if cleanup_response.status_code == 200:
+                print_test_result("Cleanup Test Schedule", True, "Test schedule deleted successfully")
+            else:
+                print_test_result("Cleanup Test Schedule", False, f"Failed to delete: {cleanup_response.status_code}")
+        
+        # Step 7: FINAL DIAGNOSIS
+        print("   Step 7: FINAL DIAGNOSIS")
+        
+        diagnosis = []
+        
+        if test_schedule and test_schedule.get('last_executed'):
+            from datetime import datetime, timezone
+            try:
+                last_exec_dt = datetime.fromisoformat(test_schedule['last_executed'].replace('Z', '+00:00'))
+                today = datetime.now(timezone.utc).date()
+                if last_exec_dt.date() == today:
+                    diagnosis.append("🔍 ROOT CAUSE IDENTIFIED: 'Test' schedule has last_executed from TODAY")
+                    diagnosis.append("   This prevents daily re-execution due to frequency logic")
+                    diagnosis.append("   SOLUTION: Delete and recreate the 'Test' schedule OR")
+                    diagnosis.append("   SOLUTION: Update last_executed to yesterday's date")
+            except:
+                pass
+        
+        if openai_integration:
+            api_key = openai_integration.get("credentials", {}).get("api_key", "")
+            if not api_key:
+                diagnosis.append("🔍 ISSUE: No OpenAI API key configured")
+                diagnosis.append("   SOLUTION: Configure valid OpenAI API key in Account Settings")
+            elif api_key.startswith("sk-test1"):
+                diagnosis.append("🔍 ISSUE: Using old test OpenAI API key")
+                diagnosis.append("   SOLUTION: Replace with valid OpenAI API key")
+        else:
+            diagnosis.append("🔍 ISSUE: No OpenAI integration found")
+            diagnosis.append("   SOLUTION: Configure OpenAI integration in Account Settings")
+        
+        if execution_success:
+            diagnosis.append("✅ NEW SCHEDULE EXECUTION: SUCCESS")
+            diagnosis.append("   Scheduler infrastructure is working correctly")
+            diagnosis.append("   Issue is likely with the specific 'Test' schedule")
+        else:
+            diagnosis.append("❌ NEW SCHEDULE EXECUTION: FAILED")
+            diagnosis.append("   Deeper scheduler infrastructure issue detected")
+            diagnosis.append("   May require backend scheduler service restart")
+        
+        print("\n📊 SCHEDULE EXECUTION FAILURE DIAGNOSIS:")
+        print("-" * 50)
+        for diag in diagnosis:
+            print(f"  {diag}")
+        
+        return execution_success or (test_schedule and test_schedule.get('last_executed'))
+        
+    except Exception as e:
+        print_test_result("Schedule Execution Investigation", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 if __name__ == "__main__":
     # Check command line arguments for specific test suites
     if len(sys.argv) > 1:
