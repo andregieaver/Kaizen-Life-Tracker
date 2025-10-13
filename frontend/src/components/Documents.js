@@ -47,22 +47,6 @@ const Documents = ({ athleteId }) => {
     filterDocuments();
   }, [documents, selectedCategory]);
 
-  // Prevent body scroll when modal is open and ensure it stays visible on mobile
-  useEffect(() => {
-    if (showModal) {
-      // Prevent body scroll on mobile
-      document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
-      
-      return () => {
-        document.body.style.overflow = '';
-        document.body.style.position = '';
-        document.body.style.width = '';
-      };
-    }
-  }, [showModal]);
-
   const loadDocuments = async () => {
     try {
       setIsLoading(true);
