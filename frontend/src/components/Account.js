@@ -167,6 +167,7 @@ const Account = ({ athleteId }) => {
     weight_unit: 'lbs',
     fluid_unit: 'fl oz',
     language: 'en',
+    coach_language: 'en', // AI Coach preferred language
     voice_preference: 'alloy'
   });
   
