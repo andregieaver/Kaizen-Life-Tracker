@@ -702,6 +702,11 @@ class AthleteUpdate(BaseModel):
     bio: Optional[str] = None
     interests: Optional[list] = None
     
+    # Health & Nutrition Goals
+    estimated_calorie_need: Optional[int] = None
+    weight_goal: Optional[str] = None
+    health_goals: Optional[list] = None
+    
     # Preferences
     distance_unit: Optional[str] = None
     measurement_system: Optional[str] = None
