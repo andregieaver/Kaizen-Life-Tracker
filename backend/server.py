@@ -1493,6 +1493,7 @@ USER PREFERENCES (CRITICAL - ALWAYS RESPECT THESE):
 - Time Format: {time_format}
 - Timezone: {timezone_pref}
 - Week Starts On: {week_starts_on}
+- Preferred Language: {language_name} (RESPOND IN {language_name.upper()} - all responses must be in this language)
 {memory_summary}
 
 RECENT ACTIVITY SUMMARY:
