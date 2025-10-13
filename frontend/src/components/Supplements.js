@@ -261,8 +261,8 @@ const Supplements = ({ athleteId }) => {
 
       {/* Add/Edit Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
-          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>
@@ -314,7 +314,7 @@ const Supplements = ({ athleteId }) => {
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="z-[100]">
                       <SelectItem value="mg">mg (milligrams)</SelectItem>
                       <SelectItem value="g">g (grams)</SelectItem>
                       <SelectItem value="mcg">mcg (micrograms)</SelectItem>
@@ -350,7 +350,7 @@ const Supplements = ({ athleteId }) => {
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="z-[100]">
                     <SelectItem value="daily">Daily</SelectItem>
                     <SelectItem value="twice_daily">Twice Daily</SelectItem>
                     <SelectItem value="weekly">Weekly</SelectItem>
@@ -369,7 +369,7 @@ const Supplements = ({ athleteId }) => {
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="z-[100]">
                     <SelectItem value="morning">Morning</SelectItem>
                     <SelectItem value="afternoon">Afternoon</SelectItem>
                     <SelectItem value="evening">Evening</SelectItem>
