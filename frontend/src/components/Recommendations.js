@@ -15,7 +15,9 @@ import {
   ChevronRight,
   CheckCircle,
   AlertCircle,
-  Info
+  Info,
+  Trash2,
+  X
 } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -44,6 +46,43 @@ const Recommendations = ({ athleteId }) => {
     }
   };
 
+  const deleteRecommendation = async (recommendationId, e) => {
+    e.stopPropagation(); // Prevent card click when clicking delete
+    
+    if (!window.confirm('Are you sure you want to delete this report?')) {
+      return;
+    }
+
+    try {
+      await axios.delete(`${API}/recommendations/${recommendationId}`);
+      setRecommendations(recommendations.filter(r => r.id !== recommendationId));
+      if (selectedRecommendation && selectedRecommendation.id === recommendationId) {
+        setSelectedRecommendation(null);
+      }
+    } catch (error) {
+      console.error('Error deleting recommendation:', error);
+      alert('Failed to delete report. Please try again.');
+    }
+  };
+
+  const markAsRead = async (recommendationId) => {
+    try {
+      await axios.put(`${API}/recommendations/${recommendationId}/read`);
+      setRecommendations(recommendations.map(r => 
+        r.id === recommendationId ? { ...r, read: true } : r
+      ));
+    } catch (error) {
+      console.error('Error marking as read:', error);
+    }
+  };
+
+  const handleCardClick = (recommendation) => {
+    setSelectedRecommendation(recommendation);
+    if (!recommendation.read) {
+      markAsRead(recommendation.id);
+    }
+  };
+
   const getPriorityColor = (priority) => {
     switch (priority) {
       case 'high':
@@ -65,6 +104,8 @@ const Recommendations = ({ athleteId }) => {
         return <Activity className="w-5 h-5 text-blue-600" />;
       case 'sleep_analysis':
         return <Brain className="w-5 h-5 text-purple-600" />;
+      case 'scheduled_analysis':
+        return <Calendar className="w-5 h-5 text-green-600" />;
       default:
         return <Info className="w-5 h-5 text-gray-600" />;
     }
@@ -79,6 +120,21 @@ const Recommendations = ({ athleteId }) => {
     if (diffInHours < 24) return `${diffInHours}h ago`;
     const diffInDays = Math.floor(diffInHours / 24);
     return `${diffInDays}d ago`;
+  };
+
+  const formatContent = (content) => {
+    // Convert markdown-style formatting to plain text with line breaks
+    return content
+      .replace(/#{1,6}\s?/g, '') // Remove markdown headers
+      .replace(/\*\*(.+?)\*\*/g, '$1') // Remove bold
+      .replace(/\*(.+?)\*/g, '$1') // Remove italic
+      .replace(/\[(.+?)\]\(.+?\)/g, '$1') // Remove links but keep text
+      .split('\n')
+      .map((line, idx) => (
+        <p key={idx} className="mb-2 last:mb-0">
+          {line || <br />}
+        </p>
+      ));
   };
 
   if (isLoading) {
@@ -127,10 +183,10 @@ const Recommendations = ({ athleteId }) => {
         </Card>
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-red-600">
-              {recommendations.filter(r => r.priority === 'high').length}
+            <div className="text-2xl font-bold text-orange-600">
+              {recommendations.filter(r => !r.read).length}
             </div>
-            <div className="text-sm text-gray-600">{t('reports.highPriority')}</div>
+            <div className="text-sm text-gray-600">Unread</div>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm">
@@ -169,30 +225,32 @@ const Recommendations = ({ athleteId }) => {
           recommendations.map((recommendation) => (
             <Card 
               key={recommendation.id} 
-              className="border-0 shadow-lg hover-lift cursor-pointer"
-              onClick={() => setSelectedRecommendation(recommendation)}
+              className={`border-0 shadow-lg hover-lift cursor-pointer transition-all ${
+                !recommendation.read 
+                  ? 'ring-2 ring-blue-400 bg-blue-50' 
+                  : 'hover:shadow-xl'
+              }`}
+              onClick={() => handleCardClick(recommendation)}
             >
               <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
+                <div className="flex items-start justify-between">
                   <div className="flex items-start space-x-3 flex-1">
                     <div className="mt-1">
                       {getTypeIcon(recommendation.type)}
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 mb-2">
-                        {recommendation.title}
-                      </h3>
-                      <p className="text-gray-600 mb-3">
-                        {recommendation.summary}
-                      </p>
+                      <div className="flex items-center gap-2 mb-2">
+                        <h3 className="font-semibold text-gray-900">
+                          {recommendation.title}
+                        </h3>
+                        {!recommendation.read && (
+                          <span className="inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
+                        )}
+                      </div>
                       <div className="flex items-center space-x-4 text-sm text-gray-500">
                         <div className="flex items-center">
                           <Clock className="w-4 h-4 mr-1" />
                           {formatTimeAgo(recommendation.generated_at)}
-                        </div>
-                        <div className="flex items-center">
-                          <Calendar className="w-4 h-4 mr-1" />
-                          {recommendation.scheduled_prompt}
                         </div>
                       </div>
                     </div>
@@ -203,12 +261,20 @@ const Recommendations = ({ athleteId }) => {
                     >
                       {recommendation.priority}
                     </Badge>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={(e) => deleteRecommendation(recommendation.id, e)}
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
                     <ChevronRight className="w-5 h-5 text-gray-400" />
                   </div>
                 </div>
                 
                 {recommendation.tags && (
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mt-3">
                     {recommendation.tags.map((tag, index) => (
                       <span 
                         key={index}
@@ -228,30 +294,58 @@ const Recommendations = ({ athleteId }) => {
       {/* Recommendation Detail Modal */}
       {selectedRecommendation && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-96 overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 p-4">
+          <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   {getTypeIcon(selectedRecommendation.type)}
-                  <h2 className="text-lg font-semibold text-gray-900">
+                  <h2 className="text-xl font-semibold text-gray-900">
                     {selectedRecommendation.title}
                   </h2>
                 </div>
-                <Button 
-                  variant="outline"
-                  onClick={() => setSelectedRecommendation(null)}
-                  data-testid="close-recommendation-btn"
-                >
-                  ✕
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button 
+                    variant="ghost"
+                    size="sm"
+                    onClick={(e) => {
+                      deleteRecommendation(selectedRecommendation.id, e);
+                    }}
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Delete
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    onClick={() => setSelectedRecommendation(null)}
+                    data-testid="close-recommendation-btn"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 mt-3 text-sm text-gray-500">
+                <Clock className="w-4 h-4" />
+                {new Date(selectedRecommendation.generated_at).toLocaleDateString()} at {new Date(selectedRecommendation.generated_at).toLocaleTimeString()}
               </div>
             </div>
-            <div className="p-6">
-              <div className="prose prose-sm max-w-none">
-                <pre className="whitespace-pre-wrap font-sans text-gray-700 leading-relaxed">
-                  {selectedRecommendation.content}
-                </pre>
+            <div className="p-6 overflow-y-auto flex-1">
+              <div className="text-gray-700 leading-relaxed space-y-2">
+                {formatContent(selectedRecommendation.content)}
               </div>
+              
+              {selectedRecommendation.tags && (
+                <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-gray-200">
+                  {selectedRecommendation.tags.map((tag, index) => (
+                    <span 
+                      key={index}
+                      className="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
