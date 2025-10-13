@@ -1423,6 +1423,26 @@ Return only the JSON array, nothing else.
         # Summarize nutrition
         nutrition_entries = context.get('nutrition_entries', [])
         nutrition_summary = f"{len(nutrition_entries)} nutrition logs in last 7 days" if nutrition_entries else "No nutrition logs"
+        if nutrition_entries:
+            # Calculate average daily macros
+            total_cals = sum(n.get('calories', 0) for n in nutrition_entries if n.get('calories'))
+            total_protein = sum(n.get('protein', 0) for n in nutrition_entries if n.get('protein'))
+            total_carbs = sum(n.get('carbs', 0) for n in nutrition_entries if n.get('carbs'))
+            total_fat = sum(n.get('fat', 0) for n in nutrition_entries if n.get('fat'))
+            days_tracked = len(set(n.get('entry_date') for n in nutrition_entries if n.get('entry_date')))
+            if days_tracked > 0:
+                nutrition_summary += f". Avg: {total_cals/days_tracked:.0f}cal, {total_protein/days_tracked:.0f}g protein, {total_carbs/days_tracked:.0f}g carbs, {total_fat/days_tracked:.0f}g fat per day"
+        
+        # Summarize supplements
+        supplements = context.get('supplements', [])
+        supplement_logs = context.get('supplement_logs', [])
+        supplement_summary = ""
+        if supplements:
+            supplement_summary = f"{len(supplements)} supplements registered: " + ", ".join([f"{s.get('name')} ({s.get('dosage')} {s.get('unit')})" for s in supplements[:5]])
+        if supplement_logs:
+            supplement_summary += f" | {len(supplement_logs)} supplement logs in last 7 days"
+        if not supplement_summary:
+            supplement_summary = "No supplements tracked"
         
         # Summarize documents
         documents = context.get('documents', [])
