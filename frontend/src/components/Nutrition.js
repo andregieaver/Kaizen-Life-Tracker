@@ -216,6 +216,50 @@ const Nutrition = ({ athleteId }) => {
     }
   };
 
+  const openSupplementModal = () => {
+    const { date, time } = getCurrentDateTime();
+    setSelectedSupplements([]);
+    setSupplementLogDate(date);
+    setSupplementLogTime(time);
+    setSupplementNotes('');
+    setShowSupplementModal(true);
+  };
+
+  const handleSupplementToggle = (supplementId) => {
+    setSelectedSupplements(prev => {
+      if (prev.includes(supplementId)) {
+        return prev.filter(id => id !== supplementId);
+      } else {
+        return [...prev, supplementId];
+      }
+    });
+  };
+
+  const handleSaveSupplementLog = async () => {
+    if (selectedSupplements.length === 0) {
+      setSaveStatus({ type: 'error', message: 'Please select at least one supplement' });
+      return;
+    }
+
+    try {
+      await axios.post(`${API}/supplement-logs`, {
+        athlete_id: athleteId,
+        supplement_ids: selectedSupplements,
+        log_date: supplementLogDate,
+        log_time: supplementLogTime,
+        notes: supplementNotes
+      });
+
+      setSaveStatus({ type: 'success', message: 'Supplements logged successfully!' });
+      setShowSupplementModal(false);
+      await loadSupplementLogs();
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
+    } catch (error) {
+      console.error('Error saving supplement log:', error);
+      setSaveStatus({ type: 'error', message: 'Failed to log supplements' });
+    }
+  };
+
   const compressImage = (file) => {
     return new Promise((resolve, reject) => {
       // Validate file type
