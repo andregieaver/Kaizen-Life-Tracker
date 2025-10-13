@@ -655,12 +655,58 @@ const Nutrition = ({ athleteId }) => {
       {entries.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Daily Average (Current Week)</CardTitle>
-            <CardDescription>
-              {weekStats.daysInWeek > 0 
-                ? `Based on ${weekStats.daysInWeek} day${weekStats.daysInWeek > 1 ? 's' : ''} tracked this week`
-                : 'No entries this week'}
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <CardTitle className="text-lg">Daily Average</CardTitle>
+                <CardDescription>
+                  {weekStats.daysInWeek > 0 
+                    ? `${weekStats.daysInWeek} day${weekStats.daysInWeek > 1 ? 's' : ''} tracked`
+                    : 'No entries this week'}
+                </CardDescription>
+              </div>
+              
+              {/* Week Navigation */}
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={goToPreviousWeek}
+                  className="h-8 w-8 p-0"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                
+                {!isCurrentWeek(currentWeekStart) && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={goToCurrentWeek}
+                    className="h-8 px-2 text-xs"
+                  >
+                    Today
+                  </Button>
+                )}
+                
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={goToNextWeek}
+                  className="h-8 w-8 p-0"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            
+            {/* Week Range Display */}
+            <div className="mt-2">
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium">
+                {formatWeekRange(currentWeekStart)}
+                {isCurrentWeek(currentWeekStart) && (
+                  <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">Current Week</span>
+                )}
+              </div>
+            </div>
           </CardHeader>
           <CardContent className="space-y-4">
             {/* Calories */}
