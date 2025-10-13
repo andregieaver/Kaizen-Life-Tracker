@@ -438,6 +438,20 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => {
+                    navigate('/dashboard/memories');
+                    setIsMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    activeTab === 'memories'
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <Brain className="w-5 h-5" />
+                  <span className="font-medium">Memories</span>
+                </button>
+                <button
+                  onClick={() => {
                     navigate('/dashboard/calendar');
                     setIsMenuOpen(false);
                   }}
