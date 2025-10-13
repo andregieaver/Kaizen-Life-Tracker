@@ -187,7 +187,6 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
   const startNewConversation = () => {
     setMessages([]);
     setSessionId(`session_${Date.now()}`);
-    setIsFirstVisit(false); // Not first visit anymore, so don't show suggested questions
     inputRef.current?.focus();
   };
 
