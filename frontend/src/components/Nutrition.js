@@ -14,17 +14,22 @@ const Nutrition = ({ athleteId }) => {
   const [entries, setEntries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [viewMode, setViewMode] = useState(false); // true = view-only, false = edit mode
+  const [viewingEntry, setViewingEntry] = useState(null); // Entry being viewed
   const [editingEntry, setEditingEntry] = useState(null);
   const [mealType, setMealType] = useState('breakfast');
   const [description, setDescription] = useState('');
   const [imageData, setImageData] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [entryDate, setEntryDate] = useState(''); // YYYY-MM-DD
+  const [entryTime, setEntryTime] = useState(''); // HH:MM
   const [captureMethod, setCaptureMethod] = useState('upload'); // 'upload' or 'camera'
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [nutritionData, setNutritionData] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [athlete, setAthlete] = useState(null); // For time format preference
   
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
