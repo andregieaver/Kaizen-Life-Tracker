@@ -4611,7 +4611,13 @@ async def get_coros_integration_status(athlete_id: str):
 @api_router.post("/schedules", response_model=Schedule)
 async def create_schedule(schedule: Schedule):
     """Create a new automated analysis schedule"""
-    schedule_dict = prepare_for_mongo(schedule.model_dump())
+    schedule_dict = schedule.model_dump()
+    # Convert datetime to ISO string for MongoDB
+    if isinstance(schedule_dict.get('created_at'), datetime):
+        schedule_dict['created_at'] = schedule_dict['created_at'].isoformat()
+    if isinstance(schedule_dict.get('last_executed'), datetime):
+        schedule_dict['last_executed'] = schedule_dict['last_executed'].isoformat()
+    
     await db.schedules.insert_one(schedule_dict)
     return schedule
 
@@ -4622,7 +4628,7 @@ async def get_athlete_schedules(athlete_id: str):
         {"athlete_id": athlete_id, "active": True}, 
         {"_id": 0}
     ).to_list(length=None)
-    return [parse_from_mongo(s) for s in schedules]
+    return schedules
 
 @api_router.put("/schedules/{schedule_id}", response_model=Schedule)
 async def update_schedule(schedule_id: str, updates: dict):
