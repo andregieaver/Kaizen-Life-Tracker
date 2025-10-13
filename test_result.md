@@ -510,12 +510,12 @@ frontend:
         comment: "✅ UNIT DISPLAY FIXED - Running YTD now correctly respects user's distance unit preference. BUG IDENTIFIED: Code was only checking distance_unit === 'kilometers' but backend supports multiple field names (distance_unit, measurement_system) and values ('miles', 'km', 'kilometers', 'metric', 'imperial'). FIX APPLIED: Updated calculateYTD() to check ALL possible unit preference fields: measurement_system === 'metric' OR distance_unit === 'kilometers' OR distance_unit === 'km'. Updated display logic to use same comprehensive check for showing 'km' vs 'mi'. TECHNICAL IMPROVEMENT: isMetric variable checks: athlete?.measurement_system === 'metric' || athlete?.distance_unit === 'kilometers' || athlete?.distance_unit === 'km'. Display unit determination uses same logic for consistency. Ensures compatibility with both old and new preference formats. VERIFICATION: Screenshot confirms display now shows '0.0 km' for users with metric preference. Unit changes immediately when user updates preference in Account Settings. Backward compatible with existing data. READY FOR USE: Works correctly for both Imperial (mi) and Metric (km) users."
 
   - task: "Schedule Active Checkbox State Saving"
-    implemented: false
+    implemented: true
     working: "NA"
     file: "/app/frontend/src/components/Account.js"
     stuck_count: 0
     priority: "critical"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: false
         agent: "user"
@@ -523,6 +523,9 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "ISSUE IDENTIFIED: Active checkbox (lines 2961-2968) has no state binding. Currently: 1) scheduleForm state doesn't include 'active' field (line 200), 2) Checkbox has no checked or onChange handlers, 3) When creating, active:true is hardcoded (line 1112), 4) When editing, active field is not copied to scheduleForm (line 1144-1150), 5) When updating, active field is not sent in PUT request (line 1101). FIX PLAN: Add 'active' field to scheduleForm state, bind checkbox to state with checked and onChange, include active in handleEditSchedule, ensure active is sent in both POST and PUT requests."
+      - working: "NA"
+        agent: "main"
+        comment: "FIXES IMPLEMENTED: 1) Added 'active: true' to scheduleForm initial state (line 200), 2) Added checked={scheduleForm.active} and onChange handler to checkbox (line 2963-2965), 3) Updated handleEditSchedule to include active field with fallback to true (line 1150), 4) Updated handleCancelScheduleForm to reset active to true (line 1184), 5) Added visual indicator badge showing Active/Inactive status on schedule cards with green/gray colors (line 3032-3040). Now scheduleForm includes active field and is properly sent in both POST and PUT requests. Frontend restarted successfully. Ready for testing."
 
   - task: "APScheduler Integration and Report Generation"
     implemented: true
