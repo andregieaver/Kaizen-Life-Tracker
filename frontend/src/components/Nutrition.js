@@ -808,46 +808,87 @@ const Nutrition = ({ athleteId }) => {
         </div>
       )}
 
-      {/* Daily Average Statistics - Current Week */}
+      {/* Nutrition Statistics - Day/Week View */}
       {entries.length > 0 && (
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
+            {/* View Type Toggle and Navigation */}
+            <div className="flex items-center justify-between mb-4">
               <div className="flex-1">
-                <CardTitle className="text-lg">Daily Average</CardTitle>
+                <CardTitle className="text-lg">
+                  {viewType === 'week' ? 'Daily Average' : 'Day Total'}
+                </CardTitle>
                 <CardDescription>
-                  {weekStats.daysInWeek > 0 
-                    ? `${weekStats.daysInWeek} day${weekStats.daysInWeek > 1 ? 's' : ''} tracked`
-                    : 'No entries this week'}
+                  {viewType === 'week' 
+                    ? (weekStats.daysInWeek > 0 
+                        ? `${weekStats.daysInWeek} day${weekStats.daysInWeek > 1 ? 's' : ''} tracked`
+                        : 'No entries this week')
+                    : (dayStats.entryCount > 0
+                        ? `${dayStats.entryCount} meal${dayStats.entryCount > 1 ? 's' : ''} logged`
+                        : 'No entries this day')
+                  }
                 </CardDescription>
               </div>
               
-              {/* Week Navigation */}
+              {/* Day/Week Toggle */}
+              <div className="flex items-center gap-2 mr-4">
+                <Button
+                  variant={viewType === 'day' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewType('day')}
+                  className="h-8 px-3 text-xs"
+                >
+                  Day
+                </Button>
+                <Button
+                  variant={viewType === 'week' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setViewType('week')}
+                  className="h-8 px-3 text-xs"
+                >
+                  Week
+                </Button>
+              </div>
+              
+              {/* Navigation Controls */}
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={goToPreviousWeek}
+                  onClick={viewType === 'week' ? goToPreviousWeek : goToPreviousDay}
                   className="h-8 w-8 p-0"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
                 
-                {!isCurrentWeek(currentWeekStart) && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={goToCurrentWeek}
-                    className="h-8 px-2 text-xs"
-                  >
-                    Today
-                  </Button>
+                {viewType === 'week' ? (
+                  !isCurrentWeek(currentWeekStart) && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={goToCurrentWeek}
+                      className="h-8 px-2 text-xs"
+                    >
+                      Today
+                    </Button>
+                  )
+                ) : (
+                  !isToday(currentDay) && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={goToToday}
+                      className="h-8 px-2 text-xs"
+                    >
+                      Today
+                    </Button>
+                  )
                 )}
                 
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={goToNextWeek}
+                  onClick={viewType === 'week' ? goToNextWeek : goToNextDay}
                   className="h-8 w-8 p-0"
                 >
                   <ChevronRight className="h-4 w-4" />
@@ -855,12 +896,15 @@ const Nutrition = ({ athleteId }) => {
               </div>
             </div>
             
-            {/* Week Range Display */}
+            {/* Date Range Display */}
             <div className="mt-2">
               <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium">
-                {formatWeekRange(currentWeekStart)}
-                {isCurrentWeek(currentWeekStart) && (
+                {viewType === 'week' ? formatWeekRange(currentWeekStart) : formatDayDisplay(currentDay)}
+                {viewType === 'week' && isCurrentWeek(currentWeekStart) && (
                   <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">Current Week</span>
+                )}
+                {viewType === 'day' && isToday(currentDay) && (
+                  <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">Today</span>
                 )}
               </div>
             </div>
@@ -869,8 +913,10 @@ const Nutrition = ({ athleteId }) => {
             {/* Calories */}
             <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-4">
               <div className="text-sm text-gray-600 mb-1">Calories</div>
-              <div className="text-3xl font-bold text-blue-600">{weekStats.dailyAverage.calories}</div>
-              <div className="text-xs text-gray-500">per day</div>
+              <div className="text-3xl font-bold text-blue-600">
+                {viewType === 'week' ? weekStats.dailyAverage.calories : dayStats.totals.calories}
+              </div>
+              <div className="text-xs text-gray-500">{viewType === 'week' ? 'per day' : 'total'}</div>
             </div>
 
             {/* Macronutrients */}
@@ -879,77 +925,105 @@ const Nutrition = ({ athleteId }) => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <div className="bg-orange-50 rounded-lg p-3 text-center">
                   <div className="text-xs text-gray-600 mb-1">Protein</div>
-                  <div className="text-2xl font-bold text-orange-600">{weekStats.dailyAverage.protein}g</div>
+                  <div className="text-2xl font-bold text-orange-600">
+                    {viewType === 'week' ? weekStats.dailyAverage.protein : dayStats.totals.protein}g
+                  </div>
                 </div>
                 <div className="bg-green-50 rounded-lg p-3 text-center">
                   <div className="text-xs text-gray-600 mb-1">Carbs</div>
-                  <div className="text-2xl font-bold text-green-600">{weekStats.dailyAverage.carbs}g</div>
+                  <div className="text-2xl font-bold text-green-600">
+                    {viewType === 'week' ? weekStats.dailyAverage.carbs : dayStats.totals.carbs}g
+                  </div>
                 </div>
                 <div className="bg-purple-50 rounded-lg p-3 text-center">
                   <div className="text-xs text-gray-600 mb-1">Fat</div>
-                  <div className="text-2xl font-bold text-purple-600">{weekStats.dailyAverage.fat}g</div>
+                  <div className="text-2xl font-bold text-purple-600">
+                    {viewType === 'week' ? weekStats.dailyAverage.fat : dayStats.totals.fat}g
+                  </div>
                 </div>
                 <div className="bg-amber-50 rounded-lg p-3 text-center">
                   <div className="text-xs text-gray-600 mb-1">Fiber</div>
-                  <div className="text-2xl font-bold text-amber-600">{weekStats.dailyAverage.fiber}g</div>
+                  <div className="text-2xl font-bold text-amber-600">
+                    {viewType === 'week' ? weekStats.dailyAverage.fiber : dayStats.totals.fiber}g
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Micronutrients */}
-            {(weekStats.dailyAverage.sodium > 0 || weekStats.dailyAverage.sugar > 0 || 
+            {((viewType === 'week' && (weekStats.dailyAverage.sodium > 0 || weekStats.dailyAverage.sugar > 0 || 
               weekStats.dailyAverage.vitamin_a > 0 || weekStats.dailyAverage.vitamin_c > 0 || 
               weekStats.dailyAverage.vitamin_d > 0 || weekStats.dailyAverage.calcium > 0 || 
-              weekStats.dailyAverage.iron > 0 || weekStats.dailyAverage.potassium > 0) && (
+              weekStats.dailyAverage.iron > 0 || weekStats.dailyAverage.potassium > 0)) ||
+             (viewType === 'day' && (dayStats.totals.sodium > 0 || dayStats.totals.sugar > 0 || 
+              dayStats.totals.vitamin_a > 0 || dayStats.totals.vitamin_c > 0 || 
+              dayStats.totals.vitamin_d > 0 || dayStats.totals.calcium > 0 || 
+              dayStats.totals.iron > 0 || dayStats.totals.potassium > 0))) && (
               <div className="border-t pt-4">
                 <h4 className="text-sm font-semibold text-gray-700 mb-3">Micronutrients</h4>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {weekStats.dailyAverage.sugar > 0 && (
+                  {((viewType === 'week' && weekStats.dailyAverage.sugar > 0) || (viewType === 'day' && dayStats.totals.sugar > 0)) && (
                     <div className="bg-gray-50 rounded-lg p-3">
                       <div className="text-xs text-gray-500">Sugar</div>
-                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.sugar}g</div>
+                      <div className="text-lg font-semibold text-gray-900">
+                        {viewType === 'week' ? weekStats.dailyAverage.sugar : dayStats.totals.sugar}g
+                      </div>
                     </div>
                   )}
-                  {weekStats.dailyAverage.sodium > 0 && (
+                  {((viewType === 'week' && weekStats.dailyAverage.sodium > 0) || (viewType === 'day' && dayStats.totals.sodium > 0)) && (
                     <div className="bg-gray-50 rounded-lg p-3">
                       <div className="text-xs text-gray-500">Sodium</div>
-                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.sodium}mg</div>
+                      <div className="text-lg font-semibold text-gray-900">
+                        {viewType === 'week' ? weekStats.dailyAverage.sodium : dayStats.totals.sodium}mg
+                      </div>
                     </div>
                   )}
-                  {weekStats.dailyAverage.vitamin_a > 0 && (
+                  {((viewType === 'week' && weekStats.dailyAverage.vitamin_a > 0) || (viewType === 'day' && dayStats.totals.vitamin_a > 0)) && (
                     <div className="bg-gray-50 rounded-lg p-3">
                       <div className="text-xs text-gray-500">Vitamin A</div>
-                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.vitamin_a}μg</div>
+                      <div className="text-lg font-semibold text-gray-900">
+                        {viewType === 'week' ? weekStats.dailyAverage.vitamin_a : dayStats.totals.vitamin_a}μg
+                      </div>
                     </div>
                   )}
-                  {weekStats.dailyAverage.vitamin_c > 0 && (
+                  {((viewType === 'week' && weekStats.dailyAverage.vitamin_c > 0) || (viewType === 'day' && dayStats.totals.vitamin_c > 0)) && (
                     <div className="bg-gray-50 rounded-lg p-3">
                       <div className="text-xs text-gray-500">Vitamin C</div>
-                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.vitamin_c}mg</div>
+                      <div className="text-lg font-semibold text-gray-900">
+                        {viewType === 'week' ? weekStats.dailyAverage.vitamin_c : dayStats.totals.vitamin_c}mg
+                      </div>
                     </div>
                   )}
-                  {weekStats.dailyAverage.vitamin_d > 0 && (
+                  {((viewType === 'week' && weekStats.dailyAverage.vitamin_d > 0) || (viewType === 'day' && dayStats.totals.vitamin_d > 0)) && (
                     <div className="bg-gray-50 rounded-lg p-3">
                       <div className="text-xs text-gray-500">Vitamin D</div>
-                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.vitamin_d}μg</div>
+                      <div className="text-lg font-semibold text-gray-900">
+                        {viewType === 'week' ? weekStats.dailyAverage.vitamin_d : dayStats.totals.vitamin_d}μg
+                      </div>
                     </div>
                   )}
-                  {weekStats.dailyAverage.calcium > 0 && (
+                  {((viewType === 'week' && weekStats.dailyAverage.calcium > 0) || (viewType === 'day' && dayStats.totals.calcium > 0)) && (
                     <div className="bg-gray-50 rounded-lg p-3">
                       <div className="text-xs text-gray-500">Calcium</div>
-                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.calcium}mg</div>
+                      <div className="text-lg font-semibold text-gray-900">
+                        {viewType === 'week' ? weekStats.dailyAverage.calcium : dayStats.totals.calcium}mg
+                      </div>
                     </div>
                   )}
-                  {weekStats.dailyAverage.iron > 0 && (
+                  {((viewType === 'week' && weekStats.dailyAverage.iron > 0) || (viewType === 'day' && dayStats.totals.iron > 0)) && (
                     <div className="bg-gray-50 rounded-lg p-3">
                       <div className="text-xs text-gray-500">Iron</div>
-                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.iron}mg</div>
+                      <div className="text-lg font-semibold text-gray-900">
+                        {viewType === 'week' ? weekStats.dailyAverage.iron : dayStats.totals.iron}mg
+                      </div>
                     </div>
                   )}
-                  {weekStats.dailyAverage.potassium > 0 && (
+                  {((viewType === 'week' && weekStats.dailyAverage.potassium > 0) || (viewType === 'day' && dayStats.totals.potassium > 0)) && (
                     <div className="bg-gray-50 rounded-lg p-3">
                       <div className="text-xs text-gray-500">Potassium</div>
-                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.potassium}mg</div>
+                      <div className="text-lg font-semibold text-gray-900">
+                        {viewType === 'week' ? weekStats.dailyAverage.potassium : dayStats.totals.potassium}mg
+                      </div>
                     </div>
                   )}
                 </div>
