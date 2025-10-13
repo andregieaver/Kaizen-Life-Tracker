@@ -266,12 +266,12 @@ const Supplements = ({ athleteId }) => {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>
-                  {editingSupplementstate ? 'Edit Supplement' : 'Add Supplement'}
+                  {editingSupplement ? 'Edit Supplement' : 'Add Supplement'}
                 </CardTitle>
                 <button
                   onClick={() => {
                     setShowModal(false);
-                    setEditingSupplementstate(null);
+                    setEditingSupplement(null);
                   }}
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                 >
