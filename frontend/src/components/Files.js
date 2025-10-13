@@ -400,7 +400,7 @@ const Files = ({ athleteId }) => {
       </div>
 
       {/* Save Status */}
-      {saveStatus.message && !showModal && (
+      {saveStatus.message && !showUploadForm && (
         <div className={`p-4 rounded-lg ${
           saveStatus.type === 'success' 
             ? 'bg-green-50 text-green-800 border border-green-200' 
