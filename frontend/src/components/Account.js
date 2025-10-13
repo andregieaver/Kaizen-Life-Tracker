@@ -521,6 +521,8 @@ const Account = ({ athleteId }) => {
         timezone: athleteRes.data.timezone || 'UTC',
         time_format: athleteRes.data.time_format || '12h',
         date_format: athleteRes.data.date_format || 'MM/DD/YYYY',
+        weight_unit: athleteRes.data.weight_unit || 'lbs',
+        fluid_unit: athleteRes.data.fluid_unit || 'fl oz',
         language: athleteRes.data.language || 'en',
         voice_preference: athleteRes.data.voice_preference || 'alloy'
       });
