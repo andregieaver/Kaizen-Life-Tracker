@@ -227,6 +227,29 @@ const Account = ({ athleteId }) => {
     }
   }, [athleteId]);
 
+  // Initialize push notifications
+  useEffect(() => {
+    const initPushNotifications = async () => {
+      // Check if push is supported
+      setPushSupported(isPushSupported());
+      
+      if (isPushSupported()) {
+        try {
+          // Register service worker
+          await registerServiceWorker();
+          
+          // Check if already subscribed
+          const subscribed = await isSubscribed();
+          setPushSubscribed(subscribed);
+        } catch (error) {
+          console.error('Error initializing push notifications:', error);
+        }
+      }
+    };
+    
+    initPushNotifications();
+  }, []);
+
   const loadSubscriptionStatus = async () => {
     try {
       const response = await axios.get(`${API}/subscriptions/status/${athleteId}`);
