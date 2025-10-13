@@ -3149,6 +3149,51 @@ Be as accurate as possible based on visible portion sizes{" and the user's descr
         logging.error(f"Error analyzing food image: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to analyze food image: {str(e)}")
 
+# Supplement routes
+@api_router.get("/supplements/{athlete_id}")
+async def get_supplements(athlete_id: str):
+    """Get all supplements for an athlete"""
+    supplements = await db.supplements.find(
+        {"athlete_id": athlete_id},
+        {"_id": 0}
+    ).sort("created_at", -1).to_list(length=None)
+    
+    return {"supplements": [parse_from_mongo(supp) for supp in supplements]}
+
+@api_router.post("/supplements")
+async def create_supplement(supplement: Supplement):
+    """Create a new supplement entry"""
+    supplement_dict = prepare_for_mongo(supplement.model_dump())
+    await db.supplements.insert_one(supplement_dict)
+    return {"success": True, "id": supplement.id}
+
+@api_router.put("/supplements/{supplement_id}")
+async def update_supplement(supplement_id: str, data: dict):
+    """Update a supplement entry"""
+    update_data = {k: v for k, v in data.items() if v is not None}
+    update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
+    update_data = prepare_for_mongo(update_data)
+    
+    result = await db.supplements.update_one(
+        {"id": supplement_id},
+        {"$set": update_data}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Supplement not found")
+    
+    return {"success": True}
+
+@api_router.delete("/supplements/{supplement_id}")
+async def delete_supplement(supplement_id: str):
+    """Delete a supplement entry"""
+    result = await db.supplements.delete_one({"id": supplement_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Supplement not found")
+    
+    return {"success": True}
+
 # Document routes
 @api_router.get("/documents/{athlete_id}")
 async def get_documents(athlete_id: str, category: Optional[str] = None):
