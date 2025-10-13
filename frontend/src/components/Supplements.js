@@ -99,8 +99,8 @@ const Supplements = ({ athleteId }) => {
         notes: formData.notes
       };
 
-      if (editingSupplementstate) {
-        await axios.put(`${API}/supplements/${editingSupplementstate.id}`, supplementData);
+      if (editingSupplement) {
+        await axios.put(`${API}/supplements/${editingSupplement.id}`, supplementData);
         setSaveStatus({ type: 'success', message: 'Supplement updated!' });
       } else {
         await axios.post(`${API}/supplements`, supplementData);
