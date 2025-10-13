@@ -198,26 +198,40 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
 async def check_and_execute_schedules():
     """Check for due schedules and execute them"""
     try:
-        now = datetime.now(timezone.utc)
-        current_time = now.strftime("%H:%M")
-        current_day = now.strftime("%A").lower()
+        now_utc = datetime.now(timezone.utc)
         
-        print(f"[SCHEDULER] Checking schedules at {current_time} UTC")
-        logging.info(f"[SCHEDULER] Checking schedules at {current_time} UTC")
+        print(f"[SCHEDULER] Checking schedules at {now_utc.strftime('%H:%M')} UTC")
         
         # Find active schedules that are due
         schedules = await db.schedules.find({"active": True}).to_list(length=None)
         
         print(f"[SCHEDULER] Found {len(schedules)} active schedules")
-        logging.info(f"[SCHEDULER] Found {len(schedules)} active schedules")
         
         for schedule in schedules:
             schedule_time = schedule.get('time', '')
             frequency = schedule.get('frequency', 'daily')
             last_executed = schedule.get('last_executed')
+            athlete_id = schedule.get('athlete_id')
             
-            print(f"[SCHEDULER] Checking schedule '{schedule.get('name')}' - scheduled for {schedule_time}, current time {current_time}")
-            logging.info(f"[SCHEDULER] Checking schedule '{schedule.get('name')}' - scheduled for {schedule_time}, current time {current_time}")
+            # Get athlete's timezone preference
+            athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0, "timezone": 1})
+            athlete_timezone_str = athlete.get('timezone', 'UTC') if athlete else 'UTC'
+            
+            # Convert current UTC time to athlete's timezone
+            try:
+                from zoneinfo import ZoneInfo
+                athlete_tz = ZoneInfo(athlete_timezone_str)
+                now_local = now_utc.astimezone(athlete_tz)
+                current_time = now_local.strftime("%H:%M")
+                current_day = now_local.strftime("%A").lower()
+            except Exception as tz_error:
+                # Fallback to UTC if timezone conversion fails
+                print(f"[SCHEDULER] Timezone conversion error for {athlete_timezone_str}: {tz_error}. Using UTC.")
+                current_time = now_utc.strftime("%H:%M")
+                current_day = now_utc.strftime("%A").lower()
+                athlete_timezone_str = "UTC"
+            
+            print(f"[SCHEDULER] Checking schedule '{schedule.get('name')}' - scheduled for {schedule_time} {athlete_timezone_str}, current time {current_time} {athlete_timezone_str}")
             
             # Check if schedule is due
             is_due = False
@@ -230,30 +244,43 @@ async def check_and_execute_schedules():
                 if schedule_hour == current_hour and abs(schedule_minute - current_minute) <= 1:
                     # Check frequency
                     if frequency == 'daily':
-                        # Execute if not already executed today
-                        if not last_executed or datetime.fromisoformat(last_executed).date() < now.date():
+                        # Execute if not already executed today (in athlete's timezone)
+                        if not last_executed:
                             is_due = True
-                            print(f"[SCHEDULER] Schedule '{schedule.get('name')}' is due for execution")
-                            logging.info(f"[SCHEDULER] Schedule '{schedule.get('name')}' is due for execution")
+                            print(f"[SCHEDULER] Schedule '{schedule.get('name')}' is due for execution (never executed)")
+                        else:
+                            # Convert last_executed to athlete's timezone for comparison
+                            try:
+                                last_exec_utc = datetime.fromisoformat(last_executed)
+                                if last_exec_utc.tzinfo is None:
+                                    last_exec_utc = last_exec_utc.replace(tzinfo=timezone.utc)
+                                last_exec_local = last_exec_utc.astimezone(athlete_tz)
+                                
+                                # Check if last execution was on a different day in athlete's timezone
+                                if last_exec_local.date() < now_local.date():
+                                    is_due = True
+                                    print(f"[SCHEDULER] Schedule '{schedule.get('name')}' is due for execution (last executed on {last_exec_local.date()}, now {now_local.date()})")
+                            except Exception as date_error:
+                                print(f"[SCHEDULER] Date comparison error: {date_error}")
+                                # Fallback: execute if last_executed is more than 20 hours ago
+                                if (now_utc - datetime.fromisoformat(last_executed).replace(tzinfo=timezone.utc)).total_seconds() > 72000:
+                                    is_due = True
+                                    
                     elif frequency == 'weekly':
                         # Execute if it's the right day and not executed this week
                         if current_day == schedule.get('day_of_week', '').lower():
-                            if not last_executed or datetime.fromisoformat(last_executed).date() < now.date():
+                            if not last_executed or datetime.fromisoformat(last_executed).date() < now_local.date():
                                 is_due = True
                                 print(f"[SCHEDULER] Weekly schedule '{schedule.get('name')}' is due for execution")
-                                logging.info(f"[SCHEDULER] Weekly schedule '{schedule.get('name')}' is due for execution")
             
             if is_due:
                 print(f"[SCHEDULER] Executing schedule '{schedule.get('name')}'")
-                logging.info(f"[SCHEDULER] Executing schedule '{schedule.get('name')}'")
                 await execute_scheduled_prompt(
                     schedule['id'],
                     schedule['athlete_id'],
                     schedule['prompt'],
                     schedule.get('name', 'Scheduled Analysis')
                 )
-    
-    
     
     except Exception as e:
         logging.error(f"Error checking schedules: {str(e)}")
