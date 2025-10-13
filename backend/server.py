@@ -120,23 +120,37 @@ def calculate_age(date_of_birth):
 async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: str, title: str):
     """Execute a scheduled prompt and save as a recommendation"""
     try:
+        print(f"[SCHEDULER] Starting execution for schedule {schedule_id}")
+        
         # Get athlete data for context
         athlete = await db.athletes.find_one({"id": athlete_id}, {"_id": 0})
         if not athlete:
+            print(f"[SCHEDULER] ERROR: Athlete {athlete_id} not found")
             logging.error(f"Athlete {athlete_id} not found for schedule {schedule_id}")
             return
+        
+        print(f"[SCHEDULER] Athlete found: {athlete.get('name')}")
+        
+        # Get user's OpenAI API key
+        user_openai_key = await ai_coach.get_user_openai_key(athlete_id)
+        if not user_openai_key:
+            print(f"[SCHEDULER] ERROR: No OpenAI API key configured for athlete {athlete_id}")
+            logging.error(f"No OpenAI API key configured for athlete {athlete_id}")
+            return
+        
+        print(f"[SCHEDULER] OpenAI key found, calling API...")
         
         # Prepare context for OpenAI
         context = f"Athlete: {athlete.get('name', 'Unknown')}\n"
         context += f"Age: {calculate_age(athlete.get('date_of_birth'))}\n" if athlete.get('date_of_birth') else ""
         context += f"\nTask: {prompt}"
         
+        # Create OpenAI client with user's key
+        from emergentintegrations.llm.openai import OpenAIChatSync
+        openai_client = OpenAIChatSync(api_key=user_openai_key)
+        
         # Call OpenAI API
-        if not openai_api_key:
-            logging.error("OpenAI API key not configured")
-            return
-            
-        response = openai.chat.completions.create(
+        response = openai_client.create_message(
             model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are an AI running coach providing personalized training analysis and recommendations."},
@@ -146,7 +160,8 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
             max_tokens=1500
         )
         
-        ai_response = response.choices[0].message.content
+        ai_response = response
+        print(f"[SCHEDULER] Got AI response: {ai_response[:100]}...")
         
         # Save as a recommendation
         recommendation = {
@@ -165,6 +180,7 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
         }
         
         await db.recommendations.insert_one(recommendation)
+        print(f"[SCHEDULER] Recommendation saved to database")
         
         # Update schedule last_executed time
         await db.schedules.update_one(
@@ -172,10 +188,15 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
             {"$set": {"last_executed": datetime.now(timezone.utc).isoformat()}}
         )
         
+        print(f"[SCHEDULER] Successfully executed schedule {schedule_id}")
         logging.info(f"Successfully executed schedule {schedule_id} for athlete {athlete_id}")
         
     except Exception as e:
+        print(f"[SCHEDULER] ERROR executing schedule {schedule_id}: {str(e)}")
         logging.error(f"Error executing schedule {schedule_id}: {str(e)}")
+        import traceback
+        traceback.print_exc()
+
 
 async def check_and_execute_schedules():
     """Check for due schedules and execute them"""
