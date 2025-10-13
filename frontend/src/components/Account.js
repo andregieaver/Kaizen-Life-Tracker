@@ -1147,7 +1147,8 @@ const Account = ({ athleteId }) => {
       prompt: schedule.prompt,
       frequency: schedule.frequency,
       time: schedule.time,
-      days: schedule.days || []
+      days: schedule.days || [],
+      active: schedule.active !== undefined ? schedule.active : true
     });
     setShowScheduleForm(true);
   };
