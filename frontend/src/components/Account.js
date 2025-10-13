@@ -191,22 +191,10 @@ const Account = ({ athleteId }) => {
   const [showUpgradeDialog, setShowUpgradeDialog] = useState(false);
   const [upgradeTarget, setUpgradeTarget] = useState(null);
   const [selectedBillingCycle, setSelectedBillingCycle] = useState('monthly');
-  const [schedules, setSchedules] = useState([]);
-  const [showScheduleForm, setShowScheduleForm] = useState(false);
-  const [editingSchedule, setEditingSchedule] = useState(null);
   const [showStravaModal, setShowStravaModal] = useState(false);
   const [showOuraModal, setShowOuraModal] = useState(false);
   const [profilePictureFile, setProfilePictureFile] = useState(null);
   const [profilePicturePreview, setProfilePicturePreview] = useState('');
-  const [scheduleForm, setScheduleForm] = useState({
-    name: '',
-    prompt: '',
-    frequency: 'daily',
-    time: '08:00',
-    days: [],
-    active: true
-  });
-  const [showScheduleLimitModal, setShowScheduleLimitModal] = useState(false);
 
   useEffect(() => {
     loadAccountData();
