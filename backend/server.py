@@ -3158,12 +3158,15 @@ async def get_supplements(athlete_id: str):
         {"_id": 0}
     ).sort("created_at", -1).to_list(length=None)
     
-    return {"supplements": [parse_from_mongo(supp) for supp in supplements]}
+    return {"supplements": supplements}
 
 @api_router.post("/supplements")
 async def create_supplement(supplement: Supplement):
     """Create a new supplement entry"""
-    supplement_dict = prepare_for_mongo(supplement.model_dump())
+    supplement_dict = supplement.model_dump()
+    # Convert datetime to ISO string for MongoDB
+    if isinstance(supplement_dict.get('created_at'), datetime):
+        supplement_dict['created_at'] = supplement_dict['created_at'].isoformat()
     await db.supplements.insert_one(supplement_dict)
     return {"success": True, "id": supplement.id}
 
@@ -3172,7 +3175,6 @@ async def update_supplement(supplement_id: str, data: dict):
     """Update a supplement entry"""
     update_data = {k: v for k, v in data.items() if v is not None}
     update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
-    update_data = prepare_for_mongo(update_data)
     
     result = await db.supplements.update_one(
         {"id": supplement_id},
