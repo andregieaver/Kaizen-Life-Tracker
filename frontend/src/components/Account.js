@@ -1772,7 +1772,9 @@ const Account = ({ athleteId }) => {
                       week_starts_on: athlete?.week_starts_on || 'monday',
                       timezone: athlete?.timezone || 'UTC',
                       time_format: athlete?.time_format || '12h',
-                      date_format: athlete?.date_format || 'MM/DD/YYYY'
+                      date_format: athlete?.date_format || 'MM/DD/YYYY',
+                      weight_unit: athlete?.weight_unit || 'lbs',
+                      fluid_unit: athlete?.fluid_unit || 'fl oz'
                     })}
                   >
                     Reset
