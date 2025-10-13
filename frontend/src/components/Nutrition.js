@@ -839,9 +839,9 @@ const Nutrition = ({ athleteId }) => {
     };
   };
 
-  const weekStats = calculateWeeklyAverage(entries, selectedWeekStart);
+  const weekStats = calculateWeeklyAverage(entries, supplementLogs, selectedWeekStart);
   const currentWeekStart = selectedWeekStart || getStartOfWeek(new Date());
-  const dayStats = calculateDailyStats(entries, selectedDay);
+  const dayStats = calculateDailyStats(entries, supplementLogs, selectedDay);
   const currentDay = selectedDay || new Date();
 
   // Filter entries based on view type
