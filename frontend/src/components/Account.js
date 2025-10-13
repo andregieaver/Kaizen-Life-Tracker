@@ -873,6 +873,40 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  // Push notification handlers
+  const handleTogglePushNotifications = async () => {
+    if (pushLoading) return;
+    
+    setPushLoading(true);
+    try {
+      if (pushSubscribed) {
+        // Unsubscribe
+        await unsubscribeFromPush(athleteId);
+        setPushSubscribed(false);
+        setSaveStatus({ type: 'success', message: 'Push notifications disabled' });
+      } else {
+        // Subscribe
+        await subscribeToPush(athleteId);
+        setPushSubscribed(true);
+        setSaveStatus({ type: 'success', message: 'Push notifications enabled! You\'ll receive alerts for new reports.' });
+      }
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
+    } catch (error) {
+      console.error('Error toggling push notifications:', error);
+      let errorMessage = 'Failed to update push notifications';
+      
+      if (error.message === 'Notification permission denied') {
+        errorMessage = 'Please allow notifications in your browser settings';
+      } else if (error.message === 'Push notifications are not supported') {
+        errorMessage = 'Push notifications are not supported on this browser';
+      }
+      
+      setSaveStatus({ type: 'error', message: errorMessage });
+    } finally {
+      setPushLoading(false);
+    }
+  };
+
   const handleSaveApiKey = async (e) => {
     e.preventDefault();
     
