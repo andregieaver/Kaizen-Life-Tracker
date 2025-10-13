@@ -4277,6 +4277,16 @@ async def create_voice_session(athlete_id: str):
         distance_unit = athlete_info.get('distance_unit', 'miles')
         measurement_system = athlete_info.get('measurement_system', 'imperial')
         voice_preference = athlete_info.get('voice_preference', 'alloy')
+        coach_language = athlete_info.get('coach_language', 'en')
+        
+        # Language name mapping
+        language_names = {
+            'en': 'English', 'es': 'Spanish', 'fr': 'French', 'de': 'German', 
+            'it': 'Italian', 'pt': 'Portuguese', 'nl': 'Dutch', 'no': 'Norwegian',
+            'sv': 'Swedish', 'da': 'Danish', 'fi': 'Finnish', 'pl': 'Polish',
+            'ru': 'Russian', 'ja': 'Japanese', 'zh': 'Chinese', 'ko': 'Korean'
+        }
+        language_name = language_names.get(coach_language, 'English')
         
         # Validate voice preference - OpenAI Realtime API supported voices
         valid_voices = ['alloy', 'ash', 'ballad', 'coral', 'echo', 'sage', 'shimmer', 'verse', 'marin', 'cedar']
@@ -4284,10 +4294,12 @@ async def create_voice_session(athlete_id: str):
             print(f"[VOICE] Invalid voice '{voice_preference}', using default 'alloy'")
             voice_preference = 'alloy'
         
-        print(f"[VOICE] Voice preference: {voice_preference}")
+        print(f"[VOICE] Voice preference: {voice_preference}, Language: {language_name}")
         
         system_message = f"""
 You are an expert endurance running coach speaking directly with your athlete via voice. You have access to their complete training and recovery data.
+
+CRITICAL: RESPOND IN {language_name.upper()} - All your responses must be in {language_name}. This is the athlete's preferred language.
 
 ATHLETE PROFILE:
 - Name: {athlete_info.get('name')}
