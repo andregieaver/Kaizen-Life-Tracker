@@ -1109,8 +1109,7 @@ const Account = ({ athleteId }) => {
         // Create new schedule
         const scheduleData = {
           ...scheduleForm,
-          athlete_id: athleteId,
-          active: true
+          athlete_id: athleteId
         };
         
         const response = await axios.post(`${API}/schedules`, scheduleData);
