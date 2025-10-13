@@ -647,14 +647,11 @@ const Nutrition = ({ athleteId }) => {
           {entries.map((entry) => {
             const MealIcon = getMealIcon(entry.meal_type);
             return (
-              <Card key={entry.id} className="hover:shadow-lg transition-shadow overflow-hidden">
+              <Card key={entry.id} className="hover:shadow-lg transition-shadow overflow-hidden cursor-pointer">
                 {entry.image_data && (
                   <div 
-                    className="relative h-48 bg-gray-100 cursor-pointer"
-                    onClick={() => {
-                      setSelectedImage(entry.image_data);
-                      setShowImageModal(true);
-                    }}
+                    className="relative h-48 bg-gray-100"
+                    onClick={() => handleViewEntry(entry)}
                   >
                     <img
                       src={entry.image_data}
@@ -663,7 +660,7 @@ const Nutrition = ({ athleteId }) => {
                     />
                   </div>
                 )}
-                <CardHeader>
+                <CardHeader onClick={() => handleViewEntry(entry)}>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-1">
@@ -672,9 +669,11 @@ const Nutrition = ({ athleteId }) => {
                           {entry.meal_type.charAt(0).toUpperCase() + entry.meal_type.slice(1)}
                         </Badge>
                       </div>
-                      <span className="text-sm text-gray-500">{formatDate(entry.created_at)}</span>
+                      <span className="text-sm text-gray-500">
+                        {formatDateTime(entry.entry_date || entry.created_at, entry.entry_time)}
+                      </span>
                     </div>
-                    <div className="flex gap-1">
+                    <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
                       <button
                         onClick={() => handleEditEntry(entry)}
                         className="p-2 hover:bg-blue-50 rounded-lg transition-colors text-blue-600"
@@ -690,7 +689,7 @@ const Nutrition = ({ athleteId }) => {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent onClick={() => handleViewEntry(entry)}>
                   <p className="text-gray-700 whitespace-pre-wrap mb-3">{entry.description}</p>
                   
                   {/* Nutritional Information */}
