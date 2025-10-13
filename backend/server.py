@@ -3591,9 +3591,46 @@ async def get_documents(athlete_id: str, category: Optional[str] = None):
 @api_router.post("/documents")
 async def create_document(document: Document):
     """Create a new document"""
-    document_dict = prepare_for_mongo(document.model_dump())
-    await db.documents.insert_one(document_dict)
-    return {"success": True, "id": document.id}
+    try:
+        # Validate file size - MongoDB has 16MB BSON limit
+        # Base64 encoding increases size by ~33%, so limit original to ~12MB
+        if document.file_data:
+            # Estimate original file size from base64
+            base64_data = document.file_data
+            if ',' in base64_data:
+                base64_data = base64_data.split(',')[1]
+            
+            # Base64 length * 0.75 = approximate original size
+            estimated_size = len(base64_data) * 0.75
+            max_size = 12 * 1024 * 1024  # 12MB
+            
+            if estimated_size > max_size:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"File size too large. Maximum size is 12MB. Current size: {estimated_size / (1024*1024):.1f}MB"
+                )
+        
+        document_dict = prepare_for_mongo(document.model_dump())
+        await db.documents.insert_one(document_dict)
+        return {"success": True, "id": document.id}
+        
+    except HTTPException:
+        # Re-raise HTTP exceptions
+        raise
+    except Exception as e:
+        # Handle MongoDB size errors and other database errors
+        error_msg = str(e)
+        if 'document is too large' in error_msg.lower() or 'bson' in error_msg.lower():
+            raise HTTPException(
+                status_code=400,
+                detail="Document size exceeds MongoDB limit (16MB). Please upload a smaller file or compress images further."
+            )
+        else:
+            logging.error(f"Error creating document: {e}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Failed to upload document: {str(e)}"
+            )
 
 @api_router.put("/documents/{document_id}")
 async def update_document(document_id: str, data: dict):
