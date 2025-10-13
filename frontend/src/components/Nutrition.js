@@ -1259,9 +1259,13 @@ const Nutrition = ({ athleteId }) => {
                   className="flex-1"
                   onClick={() => {
                     setShowModal(false);
+                    setViewMode(false);
+                    setViewingEntry(null);
                     setEditingEntry(null);
                     setDescription('');
                     setMealType('breakfast');
+                    setEntryDate('');
+                    setEntryTime('');
                     removeImage();
                   }}
                 >
@@ -1275,6 +1279,7 @@ const Nutrition = ({ athleteId }) => {
                   {editingEntry ? 'Update Entry' : 'Save Entry'}
                 </Button>
               </div>
+              )}
             </CardContent>
           </Card>
         </div>
