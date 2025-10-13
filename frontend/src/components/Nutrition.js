@@ -622,8 +622,8 @@ const Nutrition = ({ athleteId }) => {
     });
   };
 
-  // Calculate stats for a single day
-  const calculateDailyStats = (entries, targetDay = null) => {
+  // Calculate stats for a single day (includes supplement logs for count)
+  const calculateDailyStats = (entries, supplementLogs, targetDay = null) => {
     if (!entries || entries.length === 0) {
       return {
         totals: {
@@ -659,6 +659,12 @@ const Nutrition = ({ athleteId }) => {
       return entryDate >= dayStart && entryDate <= dayEnd;
     });
 
+    // Filter supplement logs from the specified day
+    const daySupplements = (supplementLogs || []).filter(log => {
+      const logDate = new Date(log.log_date);
+      return logDate >= dayStart && logDate <= dayEnd;
+    });
+
     if (dayEntries.length === 0) {
       return {
         totals: {
@@ -676,11 +682,11 @@ const Nutrition = ({ athleteId }) => {
           iron: 0,
           potassium: 0
         },
-        entryCount: 0
+        entryCount: daySupplements.length // Count supplements even if no meals
       };
     }
 
-    // Sum all nutrients for the day
+    // Sum all nutrients for the day (only from meal entries)
     const totals = dayEntries.reduce((acc, entry) => ({
       calories: acc.calories + (entry.calories || 0),
       protein: acc.protein + (entry.protein || 0),
@@ -703,7 +709,7 @@ const Nutrition = ({ athleteId }) => {
 
     return {
       totals,
-      entryCount: dayEntries.length
+      entryCount: dayEntries.length + daySupplements.length
     };
   };
 
