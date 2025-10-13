@@ -10069,6 +10069,44 @@ if __name__ == "__main__":
                 print("❌ FAIL Voice Chat API Endpoint")
                 print("\n⚠️ VOICE CHAT API TEST FAILED! Please review the issues above.")
                 sys.exit(1)
+        elif sys.argv[1] == "--schedule-tests":
+            print("🎯 Running SCHEDULE ACTIVE CHECKBOX STATE SAVING AND APSCHEDULER INTEGRATION TESTS (as per review request)")
+            print("=" * 80)
+            print("REVIEW REQUEST: Test the Schedule Active Checkbox State Saving and APScheduler Integration features")
+            print("AUTHENTICATION: Use andre@example.com / password123 to get athlete_id")
+            print("USER HAS OPENAI API KEY CONFIGURED")
+            print("=" * 80)
+            
+            # Run priority tests
+            print("\n🔍 PRIORITY 1: SCHEDULE ACTIVE CHECKBOX STATE SAVING")
+            schedule_active_success = test_schedule_active_checkbox_state_saving()
+            
+            print("\n🔍 PRIORITY 2: APSCHEDULER INTEGRATION AND REPORT GENERATION")
+            apscheduler_success = test_apscheduler_integration_and_report_generation()
+            
+            # Overall assessment
+            print("\n" + "=" * 80)
+            print("📊 SCHEDULE TESTS SUMMARY")
+            print("=" * 80)
+            print(f"Schedule Active Checkbox State Saving: {'✅ PASSED' if schedule_active_success else '❌ FAILED'}")
+            print(f"APScheduler Integration & Report Generation: {'✅ PASSED' if apscheduler_success else '❌ FAILED'}")
+            
+            overall_success = schedule_active_success and apscheduler_success
+            
+            if overall_success:
+                print("\n✅ ALL SCHEDULE TESTS PASSED")
+                print("🎉 SCHEDULE FUNCTIONALITY IS WORKING CORRECTLY!")
+                print("✅ Active field properly saved and updated in schedules")
+                print("✅ Active/inactive toggle works via PUT requests")
+                print("✅ Scheduler executes only active schedules")
+                print("✅ Recommendations are created with correct Recommendation model fields")
+                print("✅ last_executed timestamp is updated after execution")
+                print("✅ Inactive schedules are NOT executed")
+            else:
+                print("\n❌ SOME SCHEDULE TESTS FAILED")
+                print("⚠️ Please review the detailed test results above.")
+            
+            sys.exit(0 if overall_success else 1)
         elif sys.argv[1] == "--athlete-data-debug":
             print("🎯 Running ATHLETE DATA DEBUG FOR SLIDEOUT MENU ISSUE (as per review request)")
             print("=" * 80)
