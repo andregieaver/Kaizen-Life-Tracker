@@ -5300,3 +5300,10 @@ async def shutdown_db_client():
     client.close()
     scheduler.shutdown()
     logging.info("Scheduler shutdown")
+
+@api_router.get("/schedules/debug/trigger")
+async def debug_trigger_schedules():
+    """Debug endpoint to manually trigger schedule checking"""
+    await check_and_execute_schedules()
+    return {"message": "Schedule check triggered"}
+
