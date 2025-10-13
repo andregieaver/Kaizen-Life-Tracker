@@ -456,6 +456,7 @@ class AthleteProfile(BaseModel):
     weight_unit: str = Field(default="lbs")  # 'lbs' or 'kg'
     fluid_unit: str = Field(default="fl oz")  # 'fl oz' or 'ml'
     language: str = Field(default="en")  # Language code (e.g., "en", "no", "sv")
+    coach_language: str = Field(default="en")  # Preferred language for AI coach responses
     voice_preference: str = Field(default="alloy")  # OpenAI voice: 'alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'
     
     # Subscription fields
