@@ -4771,6 +4771,23 @@ async def delete_schedule(schedule_id: str):
         raise HTTPException(status_code=404, detail="Schedule not found")
     return {"message": "Schedule deleted successfully"}
 
+# Manual trigger endpoint for testing
+@api_router.post("/schedules/execute-now/{schedule_id}")
+async def execute_schedule_now(schedule_id: str):
+    """Manually trigger a schedule execution (for testing)"""
+    schedule = await db.schedules.find_one({"id": schedule_id}, {"_id": 0})
+    if not schedule:
+        raise HTTPException(status_code=404, detail="Schedule not found")
+    
+    await execute_scheduled_prompt(
+        schedule['id'],
+        schedule['athlete_id'],
+        schedule['prompt'],
+        schedule['title']
+    )
+    
+    return {"message": "Schedule executed successfully", "schedule_id": schedule_id}
+
 # Recommendations Routes  
 @api_router.get("/recommendations/{athlete_id}", response_model=List[Recommendation])
 async def get_athlete_recommendations(athlete_id: str, limit: int = 20):
