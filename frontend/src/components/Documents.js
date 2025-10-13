@@ -142,6 +142,9 @@ const Documents = ({ athleteId }) => {
     const file = event.target.files[0];
     if (file) {
       try {
+        // Ensure modal stays open during file processing (important for mobile)
+        setShowModal(true);
+        
         const isImage = file.type.startsWith('image/');
         
         if (isImage) {
@@ -176,9 +179,14 @@ const Documents = ({ athleteId }) => {
         if (!title) {
           setTitle(file.name);
         }
+        
+        // Ensure modal stays visible after file processing
+        setShowModal(true);
       } catch (error) {
         console.error('Error processing file:', error);
         setSaveStatus({ type: 'error', message: error.message });
+        // Keep modal open even on error
+        setShowModal(true);
       }
     }
   };
