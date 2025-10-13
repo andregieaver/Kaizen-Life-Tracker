@@ -538,6 +538,9 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "APScheduler integration already implemented. Backend has: 1) check_and_execute_schedules() function that filters schedules by active:True (line 184), 2) execute_scheduled_prompt() function that calls OpenAI API and saves to recommendations collection (lines 120-174), 3) Scheduler runs every minute to check due schedules, 4) Recommendations stored with schedule_id reference. Need to verify scheduler is running and reports are properly generated and displayed."
+      - working: "NA"
+        agent: "main"
+        comment: "CRITICAL FIXES APPLIED: 1) Fixed execute_scheduled_prompt to create recommendations with correct Recommendation model fields - added type:'scheduled_analysis', priority:'medium', summary (200 char truncated), tags:['scheduled','automated'], scheduled_prompt field, changed created_at to generated_at, changed status to read (lines 151-165). 2) Fixed check_and_execute_schedules to use schedule.get('name') instead of schedule['title'] which doesn't exist in Schedule model (line 220). Backend restarted successfully. Scheduler confirmed running ('SCHEDULER STARTED SUCCESSFULLY' in logs). Ready for testing."
 
 metadata:
   created_by: "main_agent"
