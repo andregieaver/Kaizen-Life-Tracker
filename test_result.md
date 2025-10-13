@@ -539,17 +539,16 @@ frontend:
 metadata:
   created_by: "main_agent"
   version: "1.0"
-  test_sequence: 0
+  test_sequence: 1
   run_ui: false
 
 test_plan:
   current_focus:
-    - "Personal Information Form New Fields Testing"
-    - "Schedule Edit Functionality"
-    - "Schedule Delete Functionality"
+    - "Schedule Active Checkbox State Saving"
+    - "APScheduler Integration and Report Generation"
   stuck_tasks: []
   test_all: false
-  test_priority: "high_first"
+  test_priority: "critical_first"
   completed_tests:
     - "Voice Conversation Transcription and Saving"
     - "AI Coach Voice Preference Functionality"
