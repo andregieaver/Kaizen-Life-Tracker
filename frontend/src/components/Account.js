@@ -238,29 +238,6 @@ const Account = ({ athleteId }) => {
     }
   };
 
-  // Helper functions for schedule limits
-  const getScheduleLimit = (tier) => {
-    const limits = {
-      free: 1,
-      pro: 5,
-      premium: Infinity
-    };
-    return limits[tier] || 1;
-  };
-
-  const canAddSchedule = () => {
-    const limit = getScheduleLimit(subscriptionStatus.tier);
-    return schedules.length < limit;
-  };
-
-  const handleAddScheduleClick = () => {
-    if (canAddSchedule()) {
-      setShowScheduleForm(true);
-    } else {
-      setShowScheduleLimitModal(true);
-    }
-  };
-
   const loadInvoices = async () => {
     try {
       console.log('Fetching invoices for athlete:', athleteId);
