@@ -25,6 +25,9 @@ from passlib.context import CryptContext
 # from emergentintegrations.llm.chat import LlmChat, UserMessage
 from tavily import TavilyClient
 from emergentintegrations.llm.openai import OpenAIChatRealtime
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
+import openai
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
