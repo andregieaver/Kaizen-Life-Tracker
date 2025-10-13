@@ -1698,6 +1698,40 @@ const Account = ({ athleteId }) => {
                     </Select>
                   </div>
 
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label>Weight Unit</Label>
+                      <Select
+                        value={personalForm.weight_unit || 'lbs'}
+                        onValueChange={(value) => setPersonalForm(prev => ({...prev, weight_unit: value}))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="lbs">Pounds (lbs)</SelectItem>
+                          <SelectItem value="kg">Kilograms (kg)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Fluid Unit</Label>
+                      <Select
+                        value={personalForm.fluid_unit || 'fl oz'}
+                        onValueChange={(value) => setPersonalForm(prev => ({...prev, fluid_unit: value}))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="fl oz">Fluid Ounces (fl oz)</SelectItem>
+                          <SelectItem value="ml">Milliliters (ml)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
                   <div className="space-y-2">
                     <Label>{t('account.aiCoachVoice')}</Label>
                     <Select
