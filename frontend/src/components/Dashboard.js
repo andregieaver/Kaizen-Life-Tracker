@@ -542,12 +542,12 @@ const Dashboard = ({ athleteId }) => {
                 className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-orange-50 to-orange-100 hover:scale-105"
                 onClick={() => navigate('/dashboard/today')}
               >
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-orange-600 rounded-full">
                       <Calendar className="w-6 h-6 text-white" />
                     </div>
-                    <div>
+                    <div className="text-center md:text-left">
                       <h3 className="font-semibold text-gray-900">Today</h3>
                       <p className="text-sm text-gray-600">Daily overview</p>
                     </div>
@@ -560,12 +560,12 @@ const Dashboard = ({ athleteId }) => {
                 className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-blue-50 to-blue-100 hover:scale-105"
                 onClick={() => navigate('/dashboard/journal?action=voice')}
               >
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-blue-600 rounded-full">
                       <Mic className="w-6 h-6 text-white" />
                     </div>
-                    <div>
+                    <div className="text-center md:text-left">
                       <h3 className="font-semibold text-gray-900">Voice Journal</h3>
                       <p className="text-sm text-gray-600">Record your thoughts</p>
                     </div>
@@ -578,12 +578,12 @@ const Dashboard = ({ athleteId }) => {
                 className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100 hover:scale-105"
                 onClick={() => navigate('/dashboard/coach?action=voice')}
               >
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-purple-600 rounded-full">
                       <MessageCircle className="w-6 h-6 text-white" />
                     </div>
-                    <div>
+                    <div className="text-center md:text-left">
                       <h3 className="font-semibold text-gray-900">Talk to Coach</h3>
                       <p className="text-sm text-gray-600">Voice AI assistance</p>
                     </div>
@@ -596,12 +596,12 @@ const Dashboard = ({ athleteId }) => {
                 className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-green-50 to-green-100 hover:scale-105"
                 onClick={() => navigate('/dashboard/nutrition?action=add')}
               >
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-green-600 rounded-full">
                       <Utensils className="w-6 h-6 text-white" />
                     </div>
-                    <div>
+                    <div className="text-center md:text-left">
                       <h3 className="font-semibold text-gray-900">Log Meal</h3>
                       <p className="text-sm text-gray-600">Track nutrition</p>
                     </div>
