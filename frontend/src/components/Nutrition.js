@@ -514,6 +514,126 @@ const Nutrition = ({ athleteId }) => {
     setSelectedWeekStart(null); // null means current week
   };
 
+  // Day navigation functions
+  const goToPreviousDay = () => {
+    const currentDay = selectedDay || new Date();
+    const previousDay = new Date(currentDay);
+    previousDay.setDate(previousDay.getDate() - 1);
+    setSelectedDay(previousDay);
+  };
+
+  const goToNextDay = () => {
+    const currentDay = selectedDay || new Date();
+    const nextDay = new Date(currentDay);
+    nextDay.setDate(nextDay.getDate() + 1);
+    setSelectedDay(nextDay);
+  };
+
+  const goToToday = () => {
+    setSelectedDay(null); // null means today
+  };
+
+  const isToday = (day) => {
+    const today = new Date();
+    const compareDay = day || today;
+    return compareDay.toDateString() === today.toDateString();
+  };
+
+  const formatDayDisplay = (day) => {
+    const displayDay = day || new Date();
+    return displayDay.toLocaleDateString('en-US', { 
+      weekday: 'long',
+      month: 'short', 
+      day: 'numeric', 
+      year: 'numeric' 
+    });
+  };
+
+  // Calculate stats for a single day
+  const calculateDailyStats = (entries, targetDay = null) => {
+    if (!entries || entries.length === 0) {
+      return {
+        totals: {
+          calories: 0,
+          protein: 0,
+          carbs: 0,
+          fat: 0,
+          fiber: 0,
+          sodium: 0,
+          sugar: 0,
+          vitamin_a: 0,
+          vitamin_c: 0,
+          vitamin_d: 0,
+          calcium: 0,
+          iron: 0,
+          potassium: 0
+        },
+        entryCount: 0
+      };
+    }
+
+    const selectedDate = targetDay || new Date();
+    const dayStart = new Date(selectedDate);
+    dayStart.setHours(0, 0, 0, 0);
+    const dayEnd = new Date(selectedDate);
+    dayEnd.setHours(23, 59, 59, 999);
+
+    // Filter entries from the specified day
+    const dayEntries = entries.filter(entry => {
+      const entryDate = entry.entry_date 
+        ? new Date(entry.entry_date) 
+        : new Date(entry.created_at);
+      return entryDate >= dayStart && entryDate <= dayEnd;
+    });
+
+    if (dayEntries.length === 0) {
+      return {
+        totals: {
+          calories: 0,
+          protein: 0,
+          carbs: 0,
+          fat: 0,
+          fiber: 0,
+          sodium: 0,
+          sugar: 0,
+          vitamin_a: 0,
+          vitamin_c: 0,
+          vitamin_d: 0,
+          calcium: 0,
+          iron: 0,
+          potassium: 0
+        },
+        entryCount: 0
+      };
+    }
+
+    // Sum all nutrients for the day
+    const totals = dayEntries.reduce((acc, entry) => ({
+      calories: acc.calories + (entry.calories || 0),
+      protein: acc.protein + (entry.protein || 0),
+      carbs: acc.carbs + (entry.carbs || 0),
+      fat: acc.fat + (entry.fat || 0),
+      fiber: acc.fiber + (entry.fiber || 0),
+      sodium: acc.sodium + (entry.sodium || 0),
+      sugar: acc.sugar + (entry.sugar || 0),
+      vitamin_a: acc.vitamin_a + (entry.vitamin_a || 0),
+      vitamin_c: acc.vitamin_c + (entry.vitamin_c || 0),
+      vitamin_d: acc.vitamin_d + (entry.vitamin_d || 0),
+      calcium: acc.calcium + (entry.calcium || 0),
+      iron: acc.iron + (entry.iron || 0),
+      potassium: acc.potassium + (entry.potassium || 0)
+    }), {
+      calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0,
+      sodium: 0, sugar: 0, vitamin_a: 0, vitamin_c: 0, vitamin_d: 0,
+      calcium: 0, iron: 0, potassium: 0
+    });
+
+    return {
+      totals,
+      entryCount: dayEntries.length
+    };
+  };
+
   // Calculate daily average for a specific week
   const calculateWeeklyAverage = (entries, weekStartDate = null) => {
     if (!entries || entries.length === 0) {
