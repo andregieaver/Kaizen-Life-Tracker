@@ -1763,6 +1763,38 @@ const Account = ({ athleteId }) => {
                       </SelectContent>
                     </Select>
                   </div>
+
+                  {/* AI Coach Language Preference */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">AI Coach Language</Label>
+                    <p className="text-xs text-gray-500">Choose the language for AI responses in chat, voice, and reports</p>
+                    <Select
+                      value={personalForm.coach_language || 'en'}
+                      onValueChange={(value) => setPersonalForm(prev => ({...prev, coach_language: value}))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="en">English</SelectItem>
+                        <SelectItem value="es">Spanish (Español)</SelectItem>
+                        <SelectItem value="fr">French (Français)</SelectItem>
+                        <SelectItem value="de">German (Deutsch)</SelectItem>
+                        <SelectItem value="it">Italian (Italiano)</SelectItem>
+                        <SelectItem value="pt">Portuguese (Português)</SelectItem>
+                        <SelectItem value="nl">Dutch (Nederlands)</SelectItem>
+                        <SelectItem value="no">Norwegian (Norsk)</SelectItem>
+                        <SelectItem value="sv">Swedish (Svenska)</SelectItem>
+                        <SelectItem value="da">Danish (Dansk)</SelectItem>
+                        <SelectItem value="fi">Finnish (Suomi)</SelectItem>
+                        <SelectItem value="pl">Polish (Polski)</SelectItem>
+                        <SelectItem value="ru">Russian (Русский)</SelectItem>
+                        <SelectItem value="ja">Japanese (日本語)</SelectItem>
+                        <SelectItem value="zh">Chinese (中文)</SelectItem>
+                        <SelectItem value="ko">Korean (한국어)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
 
                 <Separator />
