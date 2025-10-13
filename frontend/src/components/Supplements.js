@@ -57,7 +57,7 @@ const Supplements = ({ athleteId }) => {
   };
 
   const openNewSupplementModal = () => {
-    setEditingSupplementstate(null);
+    setEditingSupplement(null);
     setFormData({
       name: '',
       dosage: '',
