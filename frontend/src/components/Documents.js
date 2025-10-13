@@ -318,11 +318,233 @@ const Documents = ({ athleteId }) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">Documents</h2>
-        <Button onClick={() => setShowModal(true)} className="bg-blue-600 hover:bg-blue-700">
+        <Button 
+          onClick={() => setShowModal(!showModal)} 
+          className="bg-blue-600 hover:bg-blue-700"
+        >
           <Plus className="w-4 h-4 mr-2" />
-          Upload Document
+          {showModal ? 'Cancel' : 'Upload Document'}
         </Button>
       </div>
+
+      {/* Save Status */}
+      {saveStatus.message && (
+        <div className={`p-4 rounded-lg ${
+          saveStatus.type === 'success' 
+            ? 'bg-green-50 text-green-800 border border-green-200' 
+            : 'bg-red-50 text-red-800 border border-red-200'
+        }`}>
+          {saveStatus.message}
+        </div>
+      )}
+
+      {/* Inline Upload Form */}
+      {showModal && (
+        <Card className="border-2 border-blue-200 shadow-lg">
+          <CardHeader className="bg-blue-50">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-lg">Upload Document</CardTitle>
+                <CardDescription>Upload medical records, test results, and other important documents</CardDescription>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setShowModal(false);
+                  setTitle('');
+                  setCategory('medical');
+                  setDescription('');
+                  setFileData(null);
+                  setFilePreview(null);
+                  setFileName('');
+                  setFileType('');
+                  setFileSize(0);
+                  setSaveStatus({ type: '', message: '' });
+                }}
+              >
+                <X className="w-5 h-5" />
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4 pt-6">
+            {/* File Upload */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Document File *
+              </label>
+              
+              {!filePreview && !fileName ? (
+                <div className="space-y-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full h-32 border-2 border-dashed border-gray-300 hover:border-blue-400"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      fileInputRef.current?.click();
+                    }}
+                  >
+                    <div className="text-center">
+                      <Upload className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                      <div className="text-sm font-medium text-gray-700">Choose File</div>
+                      <div className="text-xs text-gray-500 mt-1">or drag and drop</div>
+                    </div>
+                  </Button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,image/*"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                    style={{ display: 'none' }}
+                  />
+                  <p className="text-xs text-gray-500 text-center">
+                    Accepted formats: PDF, Word, Text, Images • Max size: 12MB • Images auto-compressed
+                  </p>
+                </div>
+              ) : (
+                <div>
+                  {filePreview ? (
+                    <div className="relative rounded-lg overflow-hidden border-2 border-gray-200">
+                      <img
+                        src={filePreview}
+                        alt="Preview"
+                        className="w-full h-64 object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFileData(null);
+                          setFilePreview(null);
+                          setFileName('');
+                          setFileType('');
+                          setFileSize(0);
+                          if (fileInputRef.current) fileInputRef.current.value = '';
+                        }}
+                        className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 shadow-lg"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+                      <div className="flex items-center space-x-3">
+                        <FileText className="w-8 h-8 text-blue-600" />
+                        <div>
+                          <p className="text-sm font-medium text-gray-900">{fileName}</p>
+                          <p className="text-xs text-gray-500">{formatFileSize(fileSize)}</p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFileData(null);
+                          setFilePreview(null);
+                          setFileName('');
+                          setFileType('');
+                          setFileSize(0);
+                          if (fileInputRef.current) fileInputRef.current.value = '';
+                        }}
+                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                      >
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Title */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Document Title *
+              </label>
+              <Input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="e.g., Blood Test Results - January 2024"
+                className="w-full"
+              />
+            </div>
+
+            {/* Category */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Category *
+              </label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                {categories.map((cat) => (
+                  <option key={cat.value} value={cat.value}>
+                    {cat.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description (optional)
+              </label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Add any notes or details about this document..."
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                rows={3}
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3 pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                className="flex-1"
+                onClick={() => {
+                  setShowModal(false);
+                  setTitle('');
+                  setCategory('medical');
+                  setDescription('');
+                  setFileData(null);
+                  setFilePreview(null);
+                  setFileName('');
+                  setFileType('');
+                  setFileSize(0);
+                  setSaveStatus({ type: '', message: '' });
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                onClick={handleSubmit}
+                disabled={!fileData || !title || isLoading}
+                className="flex-1 bg-blue-600 hover:bg-blue-700"
+              >
+                {isLoading ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                    Uploading...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="w-4 h-4 mr-2" />
+                    Upload Document
+                  </>
+                )}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Category Filter */}
       <div className="flex gap-2 flex-wrap">
