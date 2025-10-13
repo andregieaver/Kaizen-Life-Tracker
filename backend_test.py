@@ -163,22 +163,18 @@ def test_schedule_active_checkbox_state_saving():
         
         schedules2 = get_response2.json()
         
-        # Find our updated schedule
+        # Find our updated schedule - it should NOT be in the list since GET filters by active=True
         updated_schedule_found = None
         for schedule in schedules2:
             if schedule.get("id") == schedule_id:
                 updated_schedule_found = schedule
                 break
         
-        if not updated_schedule_found:
-            print_test_result("Get Schedules - Verify Inactive", False, "Updated schedule not found in list")
+        if updated_schedule_found:
+            print_test_result("Get Schedules - Verify Inactive", False, f"Updated schedule still found in active list (should be filtered out)")
             return False
-        
-        if updated_schedule_found.get("active") is False:
-            print_test_result("Get Schedules - Verify Inactive", True, "Updated schedule has active=False")
         else:
-            print_test_result("Get Schedules - Verify Inactive", False, f"Updated schedule has active={updated_schedule_found.get('active')}, expected False")
-            return False
+            print_test_result("Get Schedules - Verify Inactive", True, "Updated schedule correctly filtered out from active schedules list")
         
         # Step 6: UPDATE SCHEDULE BACK TO ACTIVE (partial update)
         print("   Step 6: UPDATE SCHEDULE BACK TO ACTIVE (partial update)")
@@ -205,6 +201,28 @@ def test_schedule_active_checkbox_state_saving():
             print_test_result("Partial Update Schedule to Active", False, f"Schedule partially updated but active={partial_updated_schedule.get('active')}, expected True")
             return False
         
+        # Verify schedule is back in the active list
+        get_response_after_reactivate = requests.get(f"{BACKEND_URL}/schedules/{athlete_id}")
+        
+        if get_response_after_reactivate.status_code != 200:
+            print_test_result("Verify Schedule Reactivated", False, f"Get after reactivate failed: {get_response_after_reactivate.status_code}")
+            return False
+        
+        schedules_after_reactivate = get_response_after_reactivate.json()
+        
+        # Find our reactivated schedule
+        reactivated_schedule_found = None
+        for schedule in schedules_after_reactivate:
+            if schedule.get("id") == schedule_id:
+                reactivated_schedule_found = schedule
+                break
+        
+        if reactivated_schedule_found and reactivated_schedule_found.get("active") is True:
+            print_test_result("Verify Schedule Reactivated", True, "Schedule reactivated and appears in active schedules list")
+        else:
+            print_test_result("Verify Schedule Reactivated", False, "Schedule not found in active list after reactivation")
+            return False
+        
         # Step 7: DELETE SCHEDULE (soft delete)
         print("   Step 7: DELETE SCHEDULE (soft delete)")
         
@@ -214,7 +232,7 @@ def test_schedule_active_checkbox_state_saving():
             print_test_result("Delete Schedule (Soft Delete)", False, f"Delete failed: {delete_response.status_code} - {delete_response.text}")
             return False
         
-        # Verify schedule is set to active: false (soft delete)
+        # Verify schedule is removed from active list (soft delete behavior)
         get_response3 = requests.get(f"{BACKEND_URL}/schedules/{athlete_id}")
         
         if get_response3.status_code != 200:
@@ -223,7 +241,7 @@ def test_schedule_active_checkbox_state_saving():
         
         schedules3 = get_response3.json()
         
-        # Check if schedule is still there but inactive, or completely removed
+        # Check if schedule is removed from active list (should be filtered out)
         deleted_schedule_found = None
         for schedule in schedules3:
             if schedule.get("id") == schedule_id:
@@ -231,15 +249,11 @@ def test_schedule_active_checkbox_state_saving():
                 break
         
         if deleted_schedule_found:
-            # If schedule still exists, it should be inactive (soft delete)
-            if deleted_schedule_found.get("active") is False:
-                print_test_result("Delete Schedule (Soft Delete)", True, "Schedule soft deleted - set to active=False")
-            else:
-                print_test_result("Delete Schedule (Soft Delete)", False, f"Schedule still exists but active={deleted_schedule_found.get('active')}, expected False for soft delete")
-                return False
+            print_test_result("Delete Schedule (Soft Delete)", False, f"Schedule still appears in active list after delete")
+            return False
         else:
-            # Schedule completely removed (hard delete)
-            print_test_result("Delete Schedule (Soft Delete)", True, "Schedule completely removed from list")
+            # Schedule correctly removed from active list (soft delete behavior)
+            print_test_result("Delete Schedule (Soft Delete)", True, "Schedule soft deleted - removed from active schedules list")
         
         print("\n✅ ALL SCHEDULE ACTIVE CHECKBOX STATE SAVING TESTS PASSED")
         return True
