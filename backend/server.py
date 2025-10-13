@@ -617,6 +617,7 @@ class AthleteUpdate(BaseModel):
     weight_unit: Optional[str] = None
     fluid_unit: Optional[str] = None
     language: Optional[str] = None
+    coach_language: Optional[str] = None
     voice_preference: Optional[str] = None
 
 class Integration(BaseModel):
