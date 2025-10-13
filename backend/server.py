@@ -5247,15 +5247,22 @@ logger = logging.getLogger(__name__)
 @app.on_event("startup")
 async def startup_scheduler():
     """Start the scheduler on app startup"""
-    # Add job to check schedules every minute
-    scheduler.add_job(
-        check_and_execute_schedules,
-        CronTrigger(minute='*'),  # Run every minute
-        id='check_schedules',
-        replace_existing=True
-    )
-    scheduler.start()
-    logging.info("Scheduler started - checking for due schedules every minute")
+    try:
+        # Add job to check schedules every minute
+        scheduler.add_job(
+            check_and_execute_schedules,
+            CronTrigger(minute='*'),  # Run every minute
+            id='check_schedules',
+            replace_existing=True
+        )
+        scheduler.start()
+        print("=" * 50)
+        print("SCHEDULER STARTED SUCCESSFULLY")
+        print("=" * 50)
+        logging.info("Scheduler started - checking for due schedules every minute")
+    except Exception as e:
+        print(f"ERROR STARTING SCHEDULER: {e}")
+        logging.error(f"Failed to start scheduler: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
