@@ -713,8 +713,8 @@ const Nutrition = ({ athleteId }) => {
     };
   };
 
-  // Calculate daily average for a specific week
-  const calculateWeeklyAverage = (entries, weekStartDate = null) => {
+  // Calculate daily average for a specific week (includes supplement logs for count)
+  const calculateWeeklyAverage = (entries, supplementLogs, weekStartDate = null) => {
     if (!entries || entries.length === 0) {
       return {
         dailyAverage: {
@@ -751,7 +751,13 @@ const Nutrition = ({ athleteId }) => {
       return entryDate >= weekStart && entryDate <= weekEnd;
     });
 
-    if (weekEntries.length === 0) {
+    // Filter supplement logs from the specified week
+    const weekSupplements = (supplementLogs || []).filter(log => {
+      const logDate = new Date(log.log_date);
+      return logDate >= weekStart && logDate <= weekEnd;
+    });
+
+    if (weekEntries.length === 0 && weekSupplements.length === 0) {
       return {
         dailyAverage: {
           calories: 0,
@@ -772,15 +778,22 @@ const Nutrition = ({ athleteId }) => {
       };
     }
 
-    // Calculate unique days with entries in the specified week
-    const uniqueDays = new Set(
-      weekEntries.map(entry => {
-        const date = entry.entry_date 
-          ? new Date(entry.entry_date) 
-          : new Date(entry.created_at);
-        return date.toDateString();
-      })
-    ).size;
+    // Calculate unique days with entries OR supplement logs in the specified week
+    const uniqueDaysSet = new Set();
+    
+    weekEntries.forEach(entry => {
+      const date = entry.entry_date 
+        ? new Date(entry.entry_date) 
+        : new Date(entry.created_at);
+      uniqueDaysSet.add(date.toDateString());
+    });
+    
+    weekSupplements.forEach(log => {
+      const date = new Date(log.log_date);
+      uniqueDaysSet.add(date.toDateString());
+    });
+    
+    const uniqueDays = uniqueDaysSet.size;
 
     // Sum all nutrients for the week
     const totals = weekEntries.reduce((acc, entry) => ({
