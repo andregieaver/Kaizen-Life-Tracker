@@ -184,13 +184,19 @@ async def check_and_execute_schedules():
         current_time = now.strftime("%H:%M")
         current_day = now.strftime("%A").lower()
         
+        logging.info(f"[SCHEDULER] Checking schedules at {current_time} UTC")
+        
         # Find active schedules that are due
         schedules = await db.schedules.find({"active": True}).to_list(length=None)
+        
+        logging.info(f"[SCHEDULER] Found {len(schedules)} active schedules")
         
         for schedule in schedules:
             schedule_time = schedule.get('time', '')
             frequency = schedule.get('frequency', 'daily')
             last_executed = schedule.get('last_executed')
+            
+            logging.info(f"[SCHEDULER] Checking schedule '{schedule.get('name')}' - scheduled for {schedule_time}, current time {current_time}")
             
             # Check if schedule is due
             is_due = False
@@ -206,19 +212,23 @@ async def check_and_execute_schedules():
                         # Execute if not already executed today
                         if not last_executed or datetime.fromisoformat(last_executed).date() < now.date():
                             is_due = True
+                            logging.info(f"[SCHEDULER] Schedule '{schedule.get('name')}' is due for execution")
                     elif frequency == 'weekly':
                         # Execute if it's the right day and not executed this week
                         if current_day == schedule.get('day_of_week', '').lower():
                             if not last_executed or datetime.fromisoformat(last_executed).date() < now.date():
                                 is_due = True
+                                logging.info(f"[SCHEDULER] Weekly schedule '{schedule.get('name')}' is due for execution")
             
             if is_due:
+                logging.info(f"[SCHEDULER] Executing schedule '{schedule.get('name')}'")
                 await execute_scheduled_prompt(
                     schedule['id'],
                     schedule['athlete_id'],
                     schedule['prompt'],
                     schedule.get('name', 'Scheduled Analysis')
                 )
+    
     
     except Exception as e:
         logging.error(f"Error checking schedules: {str(e)}")
