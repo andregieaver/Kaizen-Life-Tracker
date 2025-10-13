@@ -324,11 +324,15 @@ const Nutrition = ({ athleteId }) => {
   };
 
   const handleEditEntry = (entry) => {
+    setViewMode(false);
+    setViewingEntry(null);
     setEditingEntry(entry);
     setMealType(entry.meal_type);
     setDescription(entry.description);
     setImageData(entry.image_data);
     setImagePreview(entry.image_data);
+    setEntryDate(entry.entry_date || '');
+    setEntryTime(entry.entry_time || '');
     
     // Load nutrition data if available
     if (entry.calories || entry.protein || entry.carbs || entry.fat) {
@@ -337,6 +341,15 @@ const Nutrition = ({ athleteId }) => {
         protein: entry.protein,
         carbs: entry.carbs,
         fat: entry.fat,
+        fiber: entry.fiber,
+        sodium: entry.sodium,
+        sugar: entry.sugar,
+        vitamin_a: entry.vitamin_a,
+        vitamin_c: entry.vitamin_c,
+        vitamin_d: entry.vitamin_d,
+        calcium: entry.calcium,
+        iron: entry.iron,
+        potassium: entry.potassium,
         ai_analysis: entry.ai_analysis
       });
     }
