@@ -995,7 +995,8 @@ const Nutrition = ({ athleteId }) => {
         <Card>
           <CardHeader>
             {/* View Type Toggle and Navigation */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col gap-4">
+              {/* Title and Description */}
               <div className="flex-1">
                 <CardTitle className="text-lg">
                   {viewType === 'week' ? 'Daily Average' : 'Day Total'}
@@ -1006,88 +1007,91 @@ const Nutrition = ({ athleteId }) => {
                         ? `${weekStats.daysInWeek} day${weekStats.daysInWeek > 1 ? 's' : ''} tracked`
                         : 'No entries this week')
                     : (dayStats.entryCount > 0
-                        ? `${dayStats.entryCount} meal${dayStats.entryCount > 1 ? 's' : ''} logged`
+                        ? `${dayStats.entryCount} entr${dayStats.entryCount > 1 ? 'ies' : 'y'} logged`
                         : 'No entries this day')
                   }
                 </CardDescription>
               </div>
-              
-              {/* Day/Week Toggle */}
-              <div className="flex items-center gap-2 mr-4">
-                <Button
-                  variant={viewType === 'day' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setViewType('day')}
-                  className="h-8 px-3 text-xs"
-                >
-                  Day
-                </Button>
-                <Button
-                  variant={viewType === 'week' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setViewType('week')}
-                  className="h-8 px-3 text-xs"
-                >
-                  Week
-                </Button>
-              </div>
-              
-              {/* Navigation Controls */}
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={viewType === 'week' ? goToPreviousWeek : goToPreviousDay}
-                  className="h-8 w-8 p-0"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
+
+              {/* Toggle and Navigation Controls */}
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                {/* Day/Week Toggle */}
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant={viewType === 'day' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setViewType('day')}
+                    className="h-8 px-3 text-xs"
+                  >
+                    Day
+                  </Button>
+                  <Button
+                    variant={viewType === 'week' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setViewType('week')}
+                    className="h-8 px-3 text-xs"
+                  >
+                    Week
+                  </Button>
+                </div>
                 
-                {viewType === 'week' ? (
-                  !isCurrentWeek(currentWeekStart) && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={goToCurrentWeek}
-                      className="h-8 px-2 text-xs"
-                    >
-                      Today
-                    </Button>
-                  )
-                ) : (
-                  !isToday(currentDay) && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={goToToday}
-                      className="h-8 px-2 text-xs"
-                    >
-                      Today
-                    </Button>
-                  )
-                )}
-                
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={viewType === 'week' ? goToNextWeek : goToNextDay}
-                  className="h-8 w-8 p-0"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
+                {/* Navigation Controls */}
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={viewType === 'week' ? goToPreviousWeek : goToPreviousDay}
+                    className="h-8 w-8 p-0"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  
+                  {viewType === 'week' ? (
+                    !isCurrentWeek(currentWeekStart) && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={goToCurrentWeek}
+                        className="h-8 px-2 text-xs"
+                      >
+                        Today
+                      </Button>
+                    )
+                  ) : (
+                    !isToday(currentDay) && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={goToToday}
+                        className="h-8 px-2 text-xs"
+                      >
+                        Today
+                      </Button>
+                    )
+                  )}
+                  
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={viewType === 'week' ? goToNextWeek : goToNextDay}
+                    className="h-8 w-8 p-0"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
-            </div>
             
-            {/* Date Range Display */}
-            <div className="mt-2">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium">
-                {viewType === 'week' ? formatWeekRange(currentWeekStart) : formatDayDisplay(currentDay)}
-                {viewType === 'week' && isCurrentWeek(currentWeekStart) && (
-                  <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">Current Week</span>
-                )}
-                {viewType === 'day' && isToday(currentDay) && (
-                  <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">Today</span>
-                )}
+              {/* Date Range Display */}
+              <div className="mt-2">
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium flex-wrap">
+                  <span>{viewType === 'week' ? formatWeekRange(currentWeekStart) : formatDayDisplay(currentDay)}</span>
+                  {viewType === 'week' && isCurrentWeek(currentWeekStart) && (
+                    <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">Current Week</span>
+                  )}
+                  {viewType === 'day' && isToday(currentDay) && (
+                    <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">Today</span>
+                  )}
+                </div>
               </div>
             </div>
           </CardHeader>
