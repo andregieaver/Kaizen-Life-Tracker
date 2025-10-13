@@ -212,6 +212,8 @@ class AthleteProfile(BaseModel):
     timezone: str = Field(default="UTC")  # Timezone string (e.g., "America/New_York")
     time_format: str = Field(default="12h")  # '12h' or '24h'
     date_format: str = Field(default="MM/DD/YYYY")  # Date format preference
+    weight_unit: str = Field(default="lbs")  # 'lbs' or 'kg'
+    fluid_unit: str = Field(default="fl oz")  # 'fl oz' or 'ml'
     language: str = Field(default="en")  # Language code (e.g., "en", "no", "sv")
     voice_preference: str = Field(default="alloy")  # OpenAI voice: 'alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'
     
