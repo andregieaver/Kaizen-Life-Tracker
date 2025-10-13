@@ -854,7 +854,91 @@ const Nutrition = ({ athleteId }) => {
     }
   };
 
-  const filteredEntries = getFilteredEntries();
+  // Merge and filter entries based on view type
+  const getFilteredEntriesWithSupplements = () => {
+    let filteredMeals = [];
+    let filteredSupplements = [];
+
+    if (viewType === 'day') {
+      // Show only entries from the selected day
+      const dayStart = new Date(currentDay);
+      dayStart.setHours(0, 0, 0, 0);
+      const dayEnd = new Date(currentDay);
+      dayEnd.setHours(23, 59, 59, 999);
+
+      filteredMeals = entries.filter(entry => {
+        const entryDate = entry.entry_date 
+          ? new Date(entry.entry_date) 
+          : new Date(entry.created_at);
+        return entryDate >= dayStart && entryDate <= dayEnd;
+      });
+
+      filteredSupplements = supplementLogs.filter(log => {
+        const logDate = new Date(log.log_date);
+        return logDate >= dayStart && logDate <= dayEnd;
+      });
+    } else {
+      // Show only entries from the selected week
+      const weekStart = new Date(currentWeekStart);
+      weekStart.setHours(0, 0, 0, 0);
+      const weekEnd = getEndOfWeek(currentWeekStart);
+      weekEnd.setHours(23, 59, 59, 999);
+
+      filteredMeals = entries.filter(entry => {
+        const entryDate = entry.entry_date 
+          ? new Date(entry.entry_date) 
+          : new Date(entry.created_at);
+        return entryDate >= weekStart && entryDate <= weekEnd;
+      });
+
+      filteredSupplements = supplementLogs.filter(log => {
+        const logDate = new Date(log.log_date);
+        return logDate >= weekStart && logDate <= weekEnd;
+      });
+    }
+
+    // Combine and sort all entries by date and time
+    const combined = [
+      ...filteredMeals.map(entry => ({
+        ...entry,
+        type: 'meal',
+        sortDate: entry.entry_date || entry.created_at,
+        sortTime: entry.entry_time || new Date(entry.created_at).toTimeString().slice(0, 8)
+      })),
+      ...filteredSupplements.map(log => ({
+        ...log,
+        type: 'supplement',
+        sortDate: log.log_date,
+        sortTime: log.log_time
+      }))
+    ];
+
+    // Sort by date and time
+    combined.sort((a, b) => {
+      const dateA = new Date(`${a.sortDate}T${a.sortTime}`);
+      const dateB = new Date(`${b.sortDate}T${b.sortTime}`);
+      return dateB - dateA; // Most recent first
+    });
+
+    return combined;
+  };
+
+  const filteredEntries = getFilteredEntriesWithSupplements();
+
+  // Group entries by day for week view
+  const groupEntriesByDay = (entries) => {
+    const groups = {};
+    entries.forEach(entry => {
+      const date = entry.sortDate;
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(entry);
+    });
+    return groups;
+  };
+
+  const entriesByDay = viewType === 'week' ? groupEntriesByDay(filteredEntries) : {};
 
   return (
     <div className="space-y-6">
