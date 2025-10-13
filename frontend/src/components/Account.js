@@ -2962,6 +2962,8 @@ const Account = ({ athleteId }) => {
                           <input
                             type="checkbox"
                             id="schedule-active"
+                            checked={scheduleForm.active}
+                            onChange={(e) => setScheduleForm(prev => ({ ...prev, active: e.target.checked }))}
                             className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                           />
                           <Label htmlFor="schedule-active" className="ml-2 text-sm text-gray-700">
