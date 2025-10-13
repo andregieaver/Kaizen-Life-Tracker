@@ -477,8 +477,43 @@ const Nutrition = ({ athleteId }) => {
     return end;
   };
 
-  // Calculate daily average for current calendar week
-  const calculateWeeklyAverage = (entries) => {
+  // Format date range for display
+  const formatWeekRange = (weekStart) => {
+    const weekEnd = getEndOfWeek(weekStart);
+    const startStr = weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const endStr = weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return `${startStr} - ${endStr}`;
+  };
+
+  // Check if a date is in the current week
+  const isCurrentWeek = (weekStart) => {
+    const currentWeekStart = getStartOfWeek(new Date());
+    return weekStart.toDateString() === currentWeekStart.toDateString();
+  };
+
+  // Navigate to previous week
+  const goToPreviousWeek = () => {
+    const currentStart = selectedWeekStart || getStartOfWeek(new Date());
+    const previousWeek = new Date(currentStart);
+    previousWeek.setDate(previousWeek.getDate() - 7);
+    setSelectedWeekStart(previousWeek);
+  };
+
+  // Navigate to next week
+  const goToNextWeek = () => {
+    const currentStart = selectedWeekStart || getStartOfWeek(new Date());
+    const nextWeek = new Date(currentStart);
+    nextWeek.setDate(nextWeek.getDate() + 7);
+    setSelectedWeekStart(nextWeek);
+  };
+
+  // Go to current week
+  const goToCurrentWeek = () => {
+    setSelectedWeekStart(null); // null means current week
+  };
+
+  // Calculate daily average for a specific week
+  const calculateWeeklyAverage = (entries, weekStartDate = null) => {
     if (!entries || entries.length === 0) {
       return {
         dailyAverage: {
@@ -500,14 +535,14 @@ const Nutrition = ({ athleteId }) => {
       };
     }
 
-    // Get current week boundaries
-    const now = new Date();
-    const weekStart = getStartOfWeek(now);
-    const weekEnd = getEndOfWeek(now);
+    // Use provided week or current week
+    const targetWeekStart = weekStartDate || getStartOfWeek(new Date());
+    const weekEnd = getEndOfWeek(targetWeekStart);
+    const weekStart = new Date(targetWeekStart);
     weekStart.setHours(0, 0, 0, 0);
     weekEnd.setHours(23, 59, 59, 999);
 
-    // Filter entries from current week
+    // Filter entries from the specified week
     const weekEntries = entries.filter(entry => {
       const entryDate = entry.entry_date 
         ? new Date(entry.entry_date) 
@@ -536,7 +571,7 @@ const Nutrition = ({ athleteId }) => {
       };
     }
 
-    // Calculate unique days with entries in current week
+    // Calculate unique days with entries in the specified week
     const uniqueDays = new Set(
       weekEntries.map(entry => {
         const date = entry.entry_date 
