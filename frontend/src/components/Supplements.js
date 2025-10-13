@@ -70,7 +70,7 @@ const Supplements = ({ athleteId }) => {
   };
 
   const handleEditSupplement = (supplement) => {
-    setEditingSupplementstate(supplement);
+    setEditingSupplement(supplement);
     setFormData({
       name: supplement.name,
       dosage: supplement.dosage.toString(),
