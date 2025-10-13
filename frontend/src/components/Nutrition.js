@@ -789,19 +789,25 @@ const Nutrition = ({ athleteId }) => {
         </div>
       )}
 
-      {/* New Entry Modal */}
+      {/* Nutrition Entry Modal - View or Edit Mode */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
           <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>{editingEntry ? 'Edit Meal or Drink' : 'Log Meal or Drink'}</CardTitle>
+                <CardTitle>
+                  {viewMode ? 'Meal Details' : (editingEntry ? 'Edit Meal or Drink' : 'Log Meal or Drink')}
+                </CardTitle>
                 <button
                   onClick={() => {
                     setShowModal(false);
+                    setViewMode(false);
+                    setViewingEntry(null);
                     setEditingEntry(null);
                     setDescription('');
                     setMealType('breakfast');
+                    setEntryDate('');
+                    setEntryTime('');
                     removeImage();
                   }}
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -809,9 +815,190 @@ const Nutrition = ({ athleteId }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <CardDescription>{editingEntry ? 'Update your meal or drink entry' : 'Add what you ate or drank'}</CardDescription>
+              <CardDescription>
+                {viewMode ? 'View your meal or drink details' : (editingEntry ? 'Update your meal or drink entry' : 'Add what you ate or drank')}
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              
+              {/* VIEW MODE - Read Only */}
+              {viewMode && viewingEntry && (
+                <div className="space-y-4">
+                  {/* Image */}
+                  {viewingEntry.image_data && (
+                    <div 
+                      className="relative h-64 bg-gray-100 rounded-lg overflow-hidden cursor-pointer"
+                      onClick={() => {
+                        setSelectedImage(viewingEntry.image_data);
+                        setShowImageModal(true);
+                      }}
+                    >
+                      <img
+                        src={viewingEntry.image_data}
+                        alt="Food"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  
+                  {/* Meal Type Badge */}
+                  <div>
+                    <Badge className={`${getMealColor(viewingEntry.meal_type)} text-lg px-3 py-1`}>
+                      {React.createElement(getMealIcon(viewingEntry.meal_type), { className: 'w-4 h-4 mr-2 inline' })}
+                      {viewingEntry.meal_type.charAt(0).toUpperCase() + viewingEntry.meal_type.slice(1)}
+                    </Badge>
+                  </div>
+                  
+                  {/* Date and Time */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Date & Time</label>
+                    <p className="text-gray-900">{formatDateTime(viewingEntry.entry_date || viewingEntry.created_at, viewingEntry.entry_time)}</p>
+                  </div>
+                  
+                  {/* Description */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <p className="text-gray-900 whitespace-pre-wrap">{viewingEntry.description}</p>
+                  </div>
+                  
+                  {/* Nutritional Information */}
+                  {viewingEntry.calories > 0 && (
+                    <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4">
+                      <h4 className="font-semibold text-gray-900 mb-3">Nutritional Information</h4>
+                      
+                      {/* Macronutrients */}
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
+                        <div className="bg-white rounded-lg p-3 text-center shadow-sm">
+                          <div className="text-xs text-gray-600 mb-1">Calories</div>
+                          <div className="text-xl font-bold text-blue-600">{viewingEntry.calories}</div>
+                        </div>
+                        <div className="bg-white rounded-lg p-3 text-center shadow-sm">
+                          <div className="text-xs text-gray-600 mb-1">Protein</div>
+                          <div className="text-xl font-bold text-green-600">{viewingEntry.protein}g</div>
+                        </div>
+                        <div className="bg-white rounded-lg p-3 text-center shadow-sm">
+                          <div className="text-xs text-gray-600 mb-1">Carbs</div>
+                          <div className="text-xl font-bold text-orange-600">{viewingEntry.carbs}g</div>
+                        </div>
+                        <div className="bg-white rounded-lg p-3 text-center shadow-sm">
+                          <div className="text-xs text-gray-600 mb-1">Fat</div>
+                          <div className="text-xl font-bold text-purple-600">{viewingEntry.fat}g</div>
+                        </div>
+                      </div>
+                      
+                      {/* Micronutrients */}
+                      {(viewingEntry.fiber > 0 || viewingEntry.sodium > 0 || viewingEntry.sugar > 0 || 
+                        viewingEntry.vitamin_a > 0 || viewingEntry.vitamin_c > 0 || viewingEntry.vitamin_d > 0 || 
+                        viewingEntry.calcium > 0 || viewingEntry.iron > 0 || viewingEntry.potassium > 0) && (
+                        <div className="pt-3 border-t border-blue-200">
+                          <h5 className="text-sm font-semibold text-gray-800 mb-2">Micronutrients</h5>
+                          <div className="bg-white rounded-lg p-3 shadow-sm">
+                            <ul className="space-y-1 text-sm">
+                              {viewingEntry.fiber > 0 && (
+                                <li className="flex justify-between">
+                                  <span className="text-gray-600">Fiber:</span>
+                                  <span className="font-medium text-gray-900">{viewingEntry.fiber}g</span>
+                                </li>
+                              )}
+                              {viewingEntry.sugar > 0 && (
+                                <li className="flex justify-between">
+                                  <span className="text-gray-600">Sugar:</span>
+                                  <span className="font-medium text-gray-900">{viewingEntry.sugar}g</span>
+                                </li>
+                              )}
+                              {viewingEntry.sodium > 0 && (
+                                <li className="flex justify-between">
+                                  <span className="text-gray-600">Sodium:</span>
+                                  <span className="font-medium text-gray-900">{viewingEntry.sodium}mg</span>
+                                </li>
+                              )}
+                              {viewingEntry.vitamin_a > 0 && (
+                                <li className="flex justify-between">
+                                  <span className="text-gray-600">Vitamin A:</span>
+                                  <span className="font-medium text-gray-900">{viewingEntry.vitamin_a}μg</span>
+                                </li>
+                              )}
+                              {viewingEntry.vitamin_c > 0 && (
+                                <li className="flex justify-between">
+                                  <span className="text-gray-600">Vitamin C:</span>
+                                  <span className="font-medium text-gray-900">{viewingEntry.vitamin_c}mg</span>
+                                </li>
+                              )}
+                              {viewingEntry.vitamin_d > 0 && (
+                                <li className="flex justify-between">
+                                  <span className="text-gray-600">Vitamin D:</span>
+                                  <span className="font-medium text-gray-900">{viewingEntry.vitamin_d}μg</span>
+                                </li>
+                              )}
+                              {viewingEntry.calcium > 0 && (
+                                <li className="flex justify-between">
+                                  <span className="text-gray-600">Calcium:</span>
+                                  <span className="font-medium text-gray-900">{viewingEntry.calcium}mg</span>
+                                </li>
+                              )}
+                              {viewingEntry.iron > 0 && (
+                                <li className="flex justify-between">
+                                  <span className="text-gray-600">Iron:</span>
+                                  <span className="font-medium text-gray-900">{viewingEntry.iron}mg</span>
+                                </li>
+                              )}
+                              {viewingEntry.potassium > 0 && (
+                                <li className="flex justify-between">
+                                  <span className="text-gray-600">Potassium:</span>
+                                  <span className="font-medium text-gray-900">{viewingEntry.potassium}mg</span>
+                                </li>
+                              )}
+                            </ul>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* AI Analysis */}
+                      {viewingEntry.ai_analysis && (
+                        <p className="text-xs text-gray-500 italic mt-3">AI: {viewingEntry.ai_analysis}</p>
+                      )}
+                    </div>
+                  )}
+                  
+                  {/* View Mode Action Buttons */}
+                  <div className="flex gap-2 pt-4">
+                    <Button
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => {
+                        setShowModal(false);
+                        setViewMode(false);
+                        setViewingEntry(null);
+                      }}
+                    >
+                      Close
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="flex-1"
+                      onClick={switchToEditMode}
+                    >
+                      <Edit3 className="w-4 h-4 mr-2" />
+                      Edit
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      onClick={() => {
+                        setShowModal(false);
+                        setViewMode(false);
+                        setViewingEntry(null);
+                        handleDeleteEntry(viewingEntry.id);
+                      }}
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      Delete
+                    </Button>
+                  </div>
+                </div>
+              )}
+              
+              {/* EDIT MODE - Form for creating/editing */}
+              {!viewMode && (
               {/* Meal Type Selection */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
