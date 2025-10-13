@@ -520,6 +520,9 @@ const Account = ({ athleteId }) => {
         gender: athleteRes.data.gender || '',
         bio: athleteRes.data.bio || '',
         interests: athleteRes.data.interests || [],
+        estimated_calorie_need: athleteRes.data.estimated_calorie_need || '',
+        weight_goal: athleteRes.data.weight_goal || '',
+        health_goals: athleteRes.data.health_goals || [],
         // Preferences
         distance_unit: athleteRes.data.distance_unit || 'miles',
         measurement_system: athleteRes.data.measurement_system || 'imperial',
