@@ -408,7 +408,7 @@ const Supplements = ({ athleteId }) => {
                   onClick={handleSaveSupplement}
                   disabled={!formData.name.trim() || !formData.dosage}
                 >
-                  {editingSupplementstate ? 'Update' : 'Save'}
+                  {editingSupplement ? 'Update' : 'Save'}
                 </Button>
               </div>
             </CardContent>
