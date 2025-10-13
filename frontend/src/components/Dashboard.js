@@ -703,6 +703,10 @@ const Dashboard = ({ athleteId }) => {
           </div>
         )}
 
+        {activeTab === 'today' && (
+          <Today athleteId={athleteId} />
+        )}
+
         {activeTab === 'coach' && (
           <CoachChat athleteId={athleteId} scrollDirection={scrollDirection} />
         )}
