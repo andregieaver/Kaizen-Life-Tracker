@@ -384,7 +384,7 @@ const Files = ({ athleteId }) => {
       {/* Header with Navigation */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Files</h2>
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-gray-900">Files</h2>
           <p className="text-gray-600 mt-1">Track and manage your files</p>
         </div>
 
