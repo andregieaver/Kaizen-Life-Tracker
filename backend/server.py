@@ -2882,13 +2882,25 @@ async def get_nutrition_entries(athlete_id: str):
                 date_str = entry['entry_date']
                 time_str = entry['entry_time']
                 datetime_str = f"{date_str} {time_str}"
-                return datetime.strptime(datetime_str, "%Y-%m-%d %H:%M")
+                # Make timezone-aware by adding UTC timezone
+                dt = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M")
+                return dt.replace(tzinfo=timezone.utc)
             except:
                 pass
         # Fallback to created_at
         if isinstance(entry.get('created_at'), str):
-            return datetime.fromisoformat(entry['created_at'].replace('Z', '+00:00'))
-        return entry.get('created_at', datetime.min)
+            try:
+                return datetime.fromisoformat(entry['created_at'].replace('Z', '+00:00'))
+            except:
+                pass
+        elif isinstance(entry.get('created_at'), datetime):
+            # If already a datetime object, ensure it's timezone-aware
+            dt = entry['created_at']
+            if dt.tzinfo is None:
+                return dt.replace(tzinfo=timezone.utc)
+            return dt
+        # Default to epoch (oldest possible)
+        return datetime.min.replace(tzinfo=timezone.utc)
     
     parsed_entries.sort(key=sort_key, reverse=True)
     
