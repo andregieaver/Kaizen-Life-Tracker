@@ -15,7 +15,7 @@ const Supplements = ({ athleteId }) => {
   const [supplements, setSupplements] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [editingsupplement, setEditingSupplementstate] = useState(null);
+  const [editingSupplement, setEditingSupplement] = useState(null);
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
   const [athlete, setAthlete] = useState(null);
   
