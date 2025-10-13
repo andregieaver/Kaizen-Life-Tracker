@@ -208,7 +208,7 @@ const Memories = ({ athleteId }) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+          <h2 className="text-2xl font-display font-bold text-gray-900 flex items-center gap-2">
             <Brain className="w-7 h-7 text-blue-600" />
             AI Coach Memories
           </h2>
