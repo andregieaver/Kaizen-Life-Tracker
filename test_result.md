@@ -612,10 +612,12 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Files Page Backend CRUD Endpoints"
+    - "Files Page Frontend Implementation"
   stuck_tasks: []
   test_all: false
-  test_priority: "critical_first"
+  test_priority: "high_first"
   completed_tests:
     - "Schedule Active Checkbox State Saving"
     - "APScheduler Integration and Report Generation"
