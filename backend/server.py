@@ -116,6 +116,109 @@ def calculate_age(date_of_birth):
         
     return age
 
+# Scheduler Functions
+async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: str, title: str):
+    """Execute a scheduled prompt and save as a recommendation"""
+    try:
+        # Get athlete data for context
+        athlete = await db.athletes.find_one({"id": athlete_id}, {"_id": 0})
+        if not athlete:
+            logging.error(f"Athlete {athlete_id} not found for schedule {schedule_id}")
+            return
+        
+        # Prepare context for OpenAI
+        context = f"Athlete: {athlete.get('name', 'Unknown')}\n"
+        context += f"Age: {calculate_age(athlete.get('date_of_birth'))}\n" if athlete.get('date_of_birth') else ""
+        context += f"\nTask: {prompt}"
+        
+        # Call OpenAI API
+        if not openai_api_key:
+            logging.error("OpenAI API key not configured")
+            return
+            
+        response = openai.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are an AI running coach providing personalized training analysis and recommendations."},
+                {"role": "user", "content": context}
+            ],
+            temperature=0.7,
+            max_tokens=1500
+        )
+        
+        ai_response = response.choices[0].message.content
+        
+        # Save as a recommendation
+        recommendation = {
+            "id": str(uuid.uuid4()),
+            "athlete_id": athlete_id,
+            "title": title,
+            "content": ai_response,
+            "generated_by": "scheduled_prompt",
+            "schedule_id": schedule_id,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "status": "unread"
+        }
+        
+        await db.recommendations.insert_one(recommendation)
+        
+        # Update schedule last_executed time
+        await db.schedules.update_one(
+            {"id": schedule_id},
+            {"$set": {"last_executed": datetime.now(timezone.utc).isoformat()}}
+        )
+        
+        logging.info(f"Successfully executed schedule {schedule_id} for athlete {athlete_id}")
+        
+    except Exception as e:
+        logging.error(f"Error executing schedule {schedule_id}: {str(e)}")
+
+async def check_and_execute_schedules():
+    """Check for due schedules and execute them"""
+    try:
+        now = datetime.now(timezone.utc)
+        current_time = now.strftime("%H:%M")
+        current_day = now.strftime("%A").lower()
+        
+        # Find active schedules that are due
+        schedules = await db.schedules.find({"active": True}).to_list(length=None)
+        
+        for schedule in schedules:
+            schedule_time = schedule.get('time', '')
+            frequency = schedule.get('frequency', 'daily')
+            last_executed = schedule.get('last_executed')
+            
+            # Check if schedule is due
+            is_due = False
+            
+            # Check if time matches (within 1 minute window)
+            if schedule_time:
+                schedule_hour, schedule_minute = map(int, schedule_time.split(':'))
+                current_hour, current_minute = map(int, current_time.split(':'))
+                
+                if schedule_hour == current_hour and abs(schedule_minute - current_minute) <= 1:
+                    # Check frequency
+                    if frequency == 'daily':
+                        # Execute if not already executed today
+                        if not last_executed or datetime.fromisoformat(last_executed).date() < now.date():
+                            is_due = True
+                    elif frequency == 'weekly':
+                        # Execute if it's the right day and not executed this week
+                        if current_day == schedule.get('day_of_week', '').lower():
+                            if not last_executed or datetime.fromisoformat(last_executed).date() < now.date():
+                                is_due = True
+            
+            if is_due:
+                await execute_scheduled_prompt(
+                    schedule['id'],
+                    schedule['athlete_id'],
+                    schedule['prompt'],
+                    schedule['title']
+                )
+    
+    except Exception as e:
+        logging.error(f"Error checking schedules: {str(e)}")
+
 # Define Models for Running Coach
 
 # Provider Models for Integration Hub
