@@ -166,6 +166,9 @@ const Account = ({ athleteId }) => {
     gender: '',
     bio: '',
     interests: [],
+    estimated_calorie_need: '',
+    weight_goal: '',
+    health_goals: [],
     // Preferences
     distance_unit: 'miles',
     measurement_system: 'imperial',
