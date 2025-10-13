@@ -1038,11 +1038,11 @@ const Nutrition = ({ athleteId }) => {
         <div className="text-center py-8">
           <p className="text-gray-500">Loading entries...</p>
         </div>
-      ) : entries.length === 0 ? (
+      ) : filteredEntries.length === 0 ? (
         <Card>
           <CardContent className="text-center py-12">
             <Utensils className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No nutrition entries yet</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">No nutrition entries for this {viewType === 'day' ? 'day' : 'week'}</h3>
             <p className="text-gray-600 mb-4">Start tracking your meals and drinks</p>
             <Button onClick={() => setShowModal(true)}>
               <Plus className="w-4 h-4 mr-2" />
@@ -1052,7 +1052,7 @@ const Nutrition = ({ athleteId }) => {
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {entries.map((entry) => {
+          {filteredEntries.map((entry) => {
             const MealIcon = getMealIcon(entry.meal_type);
             return (
               <Card key={entry.id} className="hover:shadow-lg transition-shadow overflow-hidden cursor-pointer">
