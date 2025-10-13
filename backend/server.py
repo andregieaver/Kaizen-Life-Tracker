@@ -4999,6 +4999,23 @@ async def mark_recommendation_read(recommendation_id: str):
     )
     return {"message": "Recommendation marked as read"}
 
+@api_router.put("/recommendations/{recommendation_id}/read")
+async def mark_recommendation_read_put(recommendation_id: str):
+    """Mark a recommendation as read (PUT method)"""
+    await db.recommendations.update_one(
+        {"id": recommendation_id},
+        {"$set": {"read": True}}
+    )
+    return {"message": "Recommendation marked as read"}
+
+@api_router.delete("/recommendations/{recommendation_id}")
+async def delete_recommendation(recommendation_id: str):
+    """Delete a recommendation"""
+    result = await db.recommendations.delete_one({"id": recommendation_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Recommendation not found")
+    return {"message": "Recommendation deleted successfully"}
+
 # Schedule Execution Service (would be called by cron job)
 @api_router.post("/schedules/execute")
 async def execute_scheduled_analyses():
