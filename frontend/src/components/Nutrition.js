@@ -43,6 +43,7 @@ const Nutrition = ({ athleteId }) => {
 
   useEffect(() => {
     loadNutritionEntries();
+    loadAthleteData();
   }, [athleteId]);
 
   // Check for action parameter in URL to auto-open modal
@@ -53,12 +54,21 @@ const Nutrition = ({ athleteId }) => {
     if (action === 'add') {
       // Small delay to ensure component is fully mounted
       setTimeout(() => {
-        setShowModal(true);
+        openNewEntryModal();
         // Clean up URL
         window.history.replaceState({}, '', window.location.pathname);
       }, 300);
     }
   }, []);
+
+  const loadAthleteData = async () => {
+    try {
+      const response = await axios.get(`${API}/athlete/${athleteId}`);
+      setAthlete(response.data);
+    } catch (error) {
+      console.error('Error loading athlete data:', error);
+    }
+  };
 
   const loadNutritionEntries = async () => {
     try {
