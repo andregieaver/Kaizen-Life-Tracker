@@ -17,6 +17,7 @@ import Journal from './Journal';
 import Nutrition from './Nutrition';
 import Supplements from './Supplements';
 import Schedules from './Schedules';
+import Files from './Files';
 import TrainingCalendar from './TrainingCalendar';
 import Documents from './Documents';
 import TestsAnalytics from './TestsAnalytics';
