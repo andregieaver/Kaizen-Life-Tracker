@@ -123,7 +123,7 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
         print(f"[SCHEDULER] Starting execution for schedule {schedule_id}")
         
         # Get athlete data for context
-        athlete = await db.athletes.find_one({"id": athlete_id}, {"_id": 0})
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
         if not athlete:
             print(f"[SCHEDULER] ERROR: Athlete {athlete_id} not found")
             logging.error(f"Athlete {athlete_id} not found for schedule {schedule_id}")
