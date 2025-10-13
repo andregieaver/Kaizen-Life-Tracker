@@ -824,6 +824,15 @@ class Recommendation(BaseModel):
     generated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     read: bool = False
 
+class PushSubscription(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    endpoint: str
+    keys: dict  # Contains 'p256dh' and 'auth' keys
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 class OuraSleepData(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
