@@ -152,12 +152,16 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
         recommendation = {
             "id": str(uuid.uuid4()),
             "athlete_id": athlete_id,
-            "title": title,
-            "content": ai_response,
-            "generated_by": "scheduled_prompt",
             "schedule_id": schedule_id,
-            "created_at": datetime.now(timezone.utc).isoformat(),
-            "status": "unread"
+            "title": title,
+            "type": "scheduled_analysis",
+            "priority": "medium",
+            "summary": ai_response[:200] + "..." if len(ai_response) > 200 else ai_response,
+            "content": ai_response,
+            "tags": ["scheduled", "automated"],
+            "scheduled_prompt": prompt,
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "read": False
         }
         
         await db.recommendations.insert_one(recommendation)
