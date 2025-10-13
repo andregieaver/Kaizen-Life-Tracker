@@ -3208,6 +3208,71 @@ async def delete_supplement(supplement_id: str):
     
     return {"success": True}
 
+# Supplement Log routes
+@api_router.get("/supplement-logs/{athlete_id}")
+async def get_supplement_logs(athlete_id: str):
+    """Get all supplement logs for an athlete"""
+    logs = await db.supplement_logs.find(
+        {"athlete_id": athlete_id},
+        {"_id": 0}
+    ).sort("log_date", -1).to_list(length=None)
+    
+    # Parse date and time from strings
+    for log in logs:
+        if isinstance(log.get('log_date'), str):
+            log['log_date'] = log['log_date']
+        if isinstance(log.get('log_time'), str):
+            log['log_time'] = log['log_time']
+    
+    return {"logs": logs}
+
+@api_router.post("/supplement-logs")
+async def create_supplement_log(log: SupplementLog):
+    """Create a new supplement log entry"""
+    log_dict = log.model_dump()
+    # Convert date and time to ISO strings for MongoDB
+    if isinstance(log_dict.get('log_date'), date):
+        log_dict['log_date'] = log_dict['log_date'].isoformat()
+    if isinstance(log_dict.get('log_time'), time):
+        log_dict['log_time'] = log_dict['log_time'].strftime('%H:%M:%S')
+    if isinstance(log_dict.get('created_at'), datetime):
+        log_dict['created_at'] = log_dict['created_at'].isoformat()
+    
+    await db.supplement_logs.insert_one(log_dict)
+    return {"success": True, "id": log.id}
+
+@api_router.put("/supplement-logs/{log_id}")
+async def update_supplement_log(log_id: str, data: dict):
+    """Update a supplement log entry"""
+    update_data = {k: v for k, v in data.items() if v is not None}
+    update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
+    
+    # Convert date and time if present
+    if 'log_date' in update_data and isinstance(update_data['log_date'], date):
+        update_data['log_date'] = update_data['log_date'].isoformat()
+    if 'log_time' in update_data and isinstance(update_data['log_time'], time):
+        update_data['log_time'] = update_data['log_time'].strftime('%H:%M:%S')
+    
+    result = await db.supplement_logs.update_one(
+        {"id": log_id},
+        {"$set": update_data}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Supplement log not found")
+    
+    return {"success": True}
+
+@api_router.delete("/supplement-logs/{log_id}")
+async def delete_supplement_log(log_id: str):
+    """Delete a supplement log entry"""
+    result = await db.supplement_logs.delete_one({"id": log_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Supplement log not found")
+    
+    return {"success": True}
+
 # Document routes
 @api_router.get("/documents/{athlete_id}")
 async def get_documents(athlete_id: str, category: Optional[str] = None):
