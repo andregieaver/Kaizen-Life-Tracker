@@ -862,7 +862,6 @@ const Files = ({ athleteId }) => {
               )}
             </CardContent>
           </Card>
-        </div>
       )}
 
       {/* Image Modal */}
