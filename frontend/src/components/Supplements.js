@@ -279,7 +279,7 @@ const Supplements = ({ athleteId }) => {
                 </button>
               </div>
               <CardDescription>
-                {editingSupplementstate ? 'Update supplement details' : 'Add a new supplement to your routine'}
+                {editingSupplement ? 'Update supplement details' : 'Add a new supplement to your routine'}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
