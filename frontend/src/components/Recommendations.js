@@ -227,7 +227,7 @@ const Recommendations = ({ athleteId }) => {
               key={recommendation.id} 
               className={`border-0 shadow-lg hover-lift cursor-pointer transition-all ${
                 !recommendation.read 
-                  ? 'ring-2 ring-blue-400 bg-blue-50' 
+                  ? 'ring-2 ring-blue-400 bg-white' 
                   : 'hover:shadow-xl'
               }`}
               onClick={() => handleCardClick(recommendation)}
