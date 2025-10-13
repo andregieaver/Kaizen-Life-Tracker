@@ -263,6 +263,20 @@ class NutritionEntry(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
+class Supplement(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    name: str  # Name of the supplement
+    dosage: float  # Amount/quantity
+    unit: str  # 'mg', 'g', 'mcg', 'IU', 'ml', 'fl oz', 'capsules', 'tablets', 'drops', 'other'
+    frequency: str  # 'daily', 'twice_daily', 'weekly', 'as_needed'
+    time_of_day: Optional[str] = None  # 'morning', 'afternoon', 'evening', 'night', 'with_meals', 'any'
+    notes: Optional[str] = None  # Additional notes
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
 class Document(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
