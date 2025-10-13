@@ -91,7 +91,7 @@ const Files = ({ athleteId }) => {
     setEntryTime(timeStr);
     setViewMode(false);
     setEditingEntry(null);
-    setShowModal(true);
+    setShowUploadForm(true);
   };
 
   const openViewEntryModal = (entry) => {
