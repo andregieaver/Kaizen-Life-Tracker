@@ -141,8 +141,19 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
         
         print(f"[SCHEDULER] OpenAI key found, calling API...")
         
+        # Get coach language preference
+        coach_language = athlete.get('coach_language', 'en')
+        language_names = {
+            'en': 'English', 'es': 'Spanish', 'fr': 'French', 'de': 'German', 
+            'it': 'Italian', 'pt': 'Portuguese', 'nl': 'Dutch', 'no': 'Norwegian',
+            'sv': 'Swedish', 'da': 'Danish', 'fi': 'Finnish', 'pl': 'Polish',
+            'ru': 'Russian', 'ja': 'Japanese', 'zh': 'Chinese', 'ko': 'Korean'
+        }
+        language_name = language_names.get(coach_language, 'English')
+        
         # Prepare comprehensive context for OpenAI
-        context = f"Athlete Profile:\n"
+        context = f"IMPORTANT: Respond in {language_name.upper()}. This is the athlete's preferred language for all coaching responses.\n\n"
+        context += f"Athlete Profile:\n"
         context += f"- Name: {athlete.get('name', 'Unknown')}\n"
         context += f"- Age: {calculate_age(athlete.get('date_of_birth'))}\n" if athlete.get('date_of_birth') else ""
         context += f"- Gender: {athlete.get('gender', 'Not specified')}\n"
