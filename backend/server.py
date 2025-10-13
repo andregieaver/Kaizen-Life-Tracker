@@ -4249,17 +4249,23 @@ async def delete_memory(memory_id: str):
 async def create_voice_session(athlete_id: str):
     """Create a new realtime voice session for the athlete"""
     try:
+        print(f"[VOICE] Starting voice session creation for athlete {athlete_id}")
+        
         # Get the realtime chat instance for this athlete (this can raise HTTPException)
         realtime_chat = await get_realtime_chat_for_athlete(athlete_id)
+        print(f"[VOICE] Realtime chat instance created")
         
         # Get athlete context for the voice session
         context = await ai_coach.get_athlete_context(athlete_id)
+        print(f"[VOICE] Athlete context retrieved")
         
         # Create the system message with athlete context (similar to text chat)
         athlete_info = context.get('athlete', {})
         distance_unit = athlete_info.get('distance_unit', 'miles')
         measurement_system = athlete_info.get('measurement_system', 'imperial')
         voice_preference = athlete_info.get('voice_preference', 'alloy')
+        
+        print(f"[VOICE] Voice preference: {voice_preference}")
         
         system_message = f"""
 You are an expert endurance running coach speaking directly with your athlete via voice. You have access to their complete training and recovery data.
@@ -4290,19 +4296,27 @@ You can access their training calendar, create workouts, and provide personalize
         # Create ephemeral session for audio chat with voice preference
         # Pass voice preference to use the athlete's selected voice
         try:
+            print(f"[VOICE] Creating ephemeral session with voice={voice_preference}")
             session_data = await realtime_chat.create_ephemeral_session_for_audio_chat(
                 voice=voice_preference,
                 system_message=system_message
             )
-        except TypeError:
+            print(f"[VOICE] Session data received: {type(session_data)}")
+        except TypeError as te:
+            print(f"[VOICE] TypeError with system_message: {te}")
             # Fallback: Try with just voice parameter if system_message not supported
             try:
+                print(f"[VOICE] Retrying with just voice parameter")
                 session_data = await realtime_chat.create_ephemeral_session_for_audio_chat(voice=voice_preference)
-            except TypeError:
+                print(f"[VOICE] Session data received (fallback 1): {type(session_data)}")
+            except TypeError as te2:
+                print(f"[VOICE] TypeError with voice only: {te2}")
                 # Final fallback: Use default parameters
+                print(f"[VOICE] Using default parameters")
                 session_data = await realtime_chat.create_ephemeral_session_for_audio_chat()
+                print(f"[VOICE] Session data received (fallback 2): {type(session_data)}")
         
-        # Debug logging removed for production
+        print(f"[VOICE] Inspecting session_data structure: {session_data}")
         
         # Check if the session creation returned an error (invalid API key, etc.)
         if isinstance(session_data, dict):
@@ -4311,6 +4325,7 @@ You can access their training calendar, create workouts, and provide personalize
                 error_info = session_data["error"]
                 error_message = error_info.get("message", "OpenAI API error")
                 
+                print(f"[VOICE] DETECTED ERROR in session_data: {error_message}")
                 logging.warning(f"DETECTED ERROR in voice session for athlete {athlete_id}: {error_message}")
                 
                 # Convert OpenAI API errors to proper 400 HTTPException
@@ -4319,18 +4334,19 @@ You can access their training calendar, create workouts, and provide personalize
                     raise HTTPException(status_code=400, detail="OpenAI API key required for voice chat")
                 else:
                     logging.error(f"OpenAI API error for athlete {athlete_id}: {error_message}")
-                    raise HTTPException(status_code=400, detail="OpenAI API error")
+                    raise HTTPException(status_code=400, detail=f"OpenAI API error: {error_message}")
             
             # Check for client_secret structure
             elif "client_secret" in session_data:
                 client_secret_data = session_data["client_secret"]
-                # Debug logging removed for production
+                print(f"[VOICE] Found client_secret: {type(client_secret_data)}")
                 
                 # Check for error in the client_secret
                 if isinstance(client_secret_data, dict) and "error" in client_secret_data:
                     error_info = client_secret_data["error"]
                     error_message = error_info.get("message", "OpenAI API error")
                     
+                    print(f"[VOICE] DETECTED ERROR in client_secret: {error_message}")
                     logging.warning(f"DETECTED ERROR in client_secret for athlete {athlete_id}: {error_message}")
                     
                     # Convert OpenAI API errors to proper 400 HTTPException
@@ -4339,14 +4355,15 @@ You can access their training calendar, create workouts, and provide personalize
                         raise HTTPException(status_code=400, detail="OpenAI API key required for voice chat")
                     else:
                         logging.error(f"OpenAI API error for athlete {athlete_id}: {error_message}")
-                        raise HTTPException(status_code=400, detail="OpenAI API error")
+                        raise HTTPException(status_code=400, detail=f"OpenAI API error: {error_message}")
                 
                 # Check for valid token
                 elif isinstance(client_secret_data, dict) and "value" in client_secret_data:
                     # Valid token found, return it
-                    # Return in the format expected by frontend
+                    print(f"[VOICE] Valid token found, returning to client")
                     return {"client_secret": {"value": client_secret_data["value"]}}
         
+        print(f"[VOICE] WARNING: Unexpected session_data structure, returning raw data")
         logging.warning(f"Unexpected session_data structure for athlete {athlete_id}, returning raw data")
         # Fallback: return the raw session data if structure is unexpected
         return {"client_secret": session_data}
@@ -4355,7 +4372,10 @@ You can access their training calendar, create workouts, and provide personalize
         # Re-raise HTTPExceptions (like 400 for missing API key) without modification
         raise
     except Exception as e:
+        print(f"[VOICE] ERROR: {type(e).__name__}: {str(e)}")
         logging.error(f"Voice session creation error: {e}")
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.post("/coach/voice/negotiate/{athlete_id}")
