@@ -1806,6 +1806,43 @@ const Nutrition = ({ athleteId }) => {
                       )}
                     </div>
                   )}
+
+                  {/* Supplements Summary - Expandable */}
+                  {(() => {
+                    const daySupplements = getSupplementsForDay(entry.entry_date || entry.created_at);
+                    return daySupplements.length > 0 && (
+                      <div className="border-t pt-2 mt-2">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExpandedSupplements(prev => ({
+                              ...prev,
+                              [entry.id]: !prev[entry.id]
+                            }));
+                          }}
+                          className="w-full flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors"
+                        >
+                          <span className="text-sm font-semibold text-gray-700">Supplements Taken</span>
+                          {expandedSupplements[entry.id] ? (
+                            <ChevronUp className="w-4 h-4 text-gray-400" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4 text-gray-400" />
+                          )}
+                        </button>
+                        {expandedSupplements[entry.id] && (
+                          <div className="space-y-2 mt-2">
+                            {daySupplements.map(supp => (
+                              <div key={supp.id} className="flex items-center gap-2 text-sm bg-purple-50 rounded-lg p-2">
+                                <Pill className="w-3 h-3 text-purple-600" />
+                                <span className="font-medium text-purple-900">{supp.name}</span>
+                                <span className="text-purple-600 ml-auto">{supp.dosage} {supp.unit}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </CardContent>
               </Card>
             );
