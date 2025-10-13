@@ -164,6 +164,8 @@ const Account = ({ athleteId }) => {
     timezone: 'UTC',
     time_format: '12h',
     date_format: 'MM/DD/YYYY',
+    weight_unit: 'lbs',
+    fluid_unit: 'fl oz',
     language: 'en',
     voice_preference: 'alloy'
   });
