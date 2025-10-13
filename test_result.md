@@ -573,13 +573,13 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "Schedule Active Checkbox State Saving"
-    - "APScheduler Integration and Report Generation"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "critical_first"
   completed_tests:
+    - "Schedule Active Checkbox State Saving"
+    - "APScheduler Integration and Report Generation"
     - "Voice Conversation Transcription and Saving"
     - "AI Coach Voice Preference Functionality"
     - "Date of Birth Timezone Fix"
