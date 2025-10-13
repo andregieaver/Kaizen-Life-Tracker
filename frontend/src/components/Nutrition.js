@@ -521,7 +521,7 @@ const Nutrition = ({ athleteId }) => {
           <h1 className="text-2xl font-bold text-gray-900">Nutrition Log</h1>
           <p className="text-gray-600 mt-1">Track what you eat and drink</p>
         </div>
-        <Button onClick={() => setShowModal(true)}>
+        <Button onClick={openNewEntryModal}>
           <Plus className="w-4 h-4 mr-2" />
           Log Meal
         </Button>
