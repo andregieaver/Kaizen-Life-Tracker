@@ -145,12 +145,9 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
         context += f"Age: {calculate_age(athlete.get('date_of_birth'))}\n" if athlete.get('date_of_birth') else ""
         context += f"\nTask: {prompt}"
         
-        # Create OpenAI client with user's key
-        from emergentintegrations.llm.openai import OpenAIChatSync
-        openai_client = OpenAIChatSync(api_key=user_openai_key)
-        
-        # Call OpenAI API
-        response = openai_client.create_message(
+        # Call OpenAI API using standard openai library
+        openai_client = openai.OpenAI(api_key=user_openai_key)
+        response = openai_client.chat.completions.create(
             model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are an AI running coach providing personalized training analysis and recommendations."},
@@ -160,7 +157,7 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
             max_tokens=1500
         )
         
-        ai_response = response
+        ai_response = response.choices[0].message.content
         print(f"[SCHEDULER] Got AI response: {ai_response[:100]}...")
         
         # Save as a recommendation
