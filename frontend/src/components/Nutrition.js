@@ -368,11 +368,22 @@ const Nutrition = ({ athleteId }) => {
         meal_type: mealType,
         description: description,
         image_data: imageData,
+        entry_date: entryDate,
+        entry_time: entryTime,
         ...(nutritionData && {
           calories: nutritionData.calories,
           protein: nutritionData.protein,
           carbs: nutritionData.carbs,
           fat: nutritionData.fat,
+          fiber: nutritionData.fiber,
+          sodium: nutritionData.sodium,
+          sugar: nutritionData.sugar,
+          vitamin_a: nutritionData.vitamin_a,
+          vitamin_c: nutritionData.vitamin_c,
+          vitamin_d: nutritionData.vitamin_d,
+          calcium: nutritionData.calcium,
+          iron: nutritionData.iron,
+          potassium: nutritionData.potassium,
           ai_analysis: nutritionData.ai_analysis
         })
       };
@@ -391,11 +402,15 @@ const Nutrition = ({ athleteId }) => {
       }
 
       setShowModal(false);
+      setViewMode(false);
+      setViewingEntry(null);
       setEditingEntry(null);
       setDescription('');
       setMealType('breakfast');
       setImageData(null);
       setImagePreview(null);
+      setEntryDate('');
+      setEntryTime('');
       setNutritionData(null);
       await loadNutritionEntries();
     } catch (error) {
