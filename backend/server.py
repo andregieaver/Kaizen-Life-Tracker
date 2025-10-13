@@ -4265,6 +4265,12 @@ async def create_voice_session(athlete_id: str):
         measurement_system = athlete_info.get('measurement_system', 'imperial')
         voice_preference = athlete_info.get('voice_preference', 'alloy')
         
+        # Validate voice preference - OpenAI Realtime API supported voices
+        valid_voices = ['alloy', 'ash', 'ballad', 'coral', 'echo', 'sage', 'shimmer', 'verse', 'marin', 'cedar']
+        if voice_preference not in valid_voices:
+            print(f"[VOICE] Invalid voice '{voice_preference}', using default 'alloy'")
+            voice_preference = 'alloy'
+        
         print(f"[VOICE] Voice preference: {voice_preference}")
         
         system_message = f"""
