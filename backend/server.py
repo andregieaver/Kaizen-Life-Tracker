@@ -4633,6 +4633,10 @@ async def get_athlete_schedules(athlete_id: str):
 @api_router.put("/schedules/{schedule_id}", response_model=Schedule)
 async def update_schedule(schedule_id: str, updates: dict):
     """Update an existing schedule"""
+    # Convert datetime fields if present
+    if 'last_executed' in updates and isinstance(updates['last_executed'], datetime):
+        updates['last_executed'] = updates['last_executed'].isoformat()
+    
     await db.schedules.update_one(
         {"id": schedule_id},
         {"$set": updates}
@@ -4640,7 +4644,7 @@ async def update_schedule(schedule_id: str, updates: dict):
     updated_schedule = await db.schedules.find_one({"id": schedule_id}, {"_id": 0})
     if not updated_schedule:
         raise HTTPException(status_code=404, detail="Schedule not found")
-    return parse_from_mongo(updated_schedule)
+    return updated_schedule
 
 @api_router.delete("/schedules/{schedule_id}")
 async def delete_schedule(schedule_id: str):
