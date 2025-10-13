@@ -1485,6 +1485,86 @@ const Account = ({ athleteId }) => {
                 <Separator />
 
                 <div className="space-y-4">
+                  <h3 className="text-lg font-display font-semibold text-gray-900">Health & Nutrition Goals</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Estimated Calorie Need */}
+                    <div className="space-y-2">
+                      <Label htmlFor="estimated_calorie_need" className="text-sm font-medium">
+                        Estimated Daily Calorie Need
+                      </Label>
+                      <Input
+                        id="estimated_calorie_need"
+                        name="estimated_calorie_need"
+                        type="number"
+                        value={personalForm.estimated_calorie_need}
+                        onChange={handlePersonalFormChange}
+                        placeholder="e.g., 2500"
+                        className="input-focus"
+                      />
+                      <p className="text-xs text-gray-500">
+                        Calories per day (based on age, gender, activity level)
+                      </p>
+                    </div>
+
+                    {/* Weight Goal */}
+                    <div className="space-y-2">
+                      <Label htmlFor="weight_goal" className="text-sm font-medium">
+                        Weight Goal
+                      </Label>
+                      <Select 
+                        value={personalForm.weight_goal}
+                        onValueChange={(value) => setPersonalForm(prev => ({...prev, weight_goal: value}))}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select weight goal" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="decrease">Decrease Weight</SelectItem>
+                          <SelectItem value="maintain">Maintain Weight</SelectItem>
+                          <SelectItem value="increase">Increase Weight</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  {/* Health Goals */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">Health Goals</Label>
+                    <p className="text-xs text-gray-500 mb-3">Select all that apply to your fitness journey</p>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {[
+                        { value: 'muscle_mass', label: 'Increase Muscle Mass' },
+                        { value: 'speed', label: 'Improve Speed' },
+                        { value: 'strength', label: 'Build Strength' },
+                        { value: 'flexibility', label: 'Increase Flexibility' },
+                        { value: 'endurance', label: 'Build Endurance' },
+                        { value: 'longevity', label: 'Longevity' },
+                        { value: 'mental_clarity', label: 'Mental Clarity' },
+                        { value: 'emotional_stability', label: 'Emotional Stability' }
+                      ].map((goal) => (
+                        <label key={goal.value} className="flex items-start space-x-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={personalForm.health_goals.includes(goal.value)}
+                            onChange={(e) => {
+                              const newGoals = e.target.checked
+                                ? [...personalForm.health_goals, goal.value]
+                                : personalForm.health_goals.filter(g => g !== goal.value);
+                              setPersonalForm(prev => ({...prev, health_goals: newGoals}));
+                            }}
+                            className="mt-0.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          />
+                          <span className="text-sm text-gray-700">{goal.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div className="space-y-4">
                   <h3 className="text-lg font-medium flex items-center">
                     <Shield className="w-5 h-5 mr-2 text-blue-600" />
                     {t('account.security')}
