@@ -4949,6 +4949,40 @@ async def get_coros_integration_status(athlete_id: str):
 @api_router.post("/schedules", response_model=Schedule)
 async def create_schedule(schedule: Schedule):
     """Create a new automated analysis schedule"""
+    # Check subscription tier and enforce limits
+    athlete_id = schedule.athlete_id
+    
+    # Get current subscription status
+    try:
+        subscription = await db.athlete_profiles.find_one(
+            {"id": athlete_id},
+            {"_id": 0, "subscription_tier": 1}
+        )
+        tier = subscription.get('subscription_tier', 'free') if subscription else 'free'
+    except:
+        tier = 'free'
+    
+    # Define schedule limits per tier
+    schedule_limits = {
+        'free': 1,
+        'pro': 5,
+        'premium': float('inf')
+    }
+    limit = schedule_limits.get(tier, 1)
+    
+    # Count existing schedules for this athlete
+    existing_count = await db.schedules.count_documents({
+        "athlete_id": athlete_id,
+        "active": True
+    })
+    
+    # Check if limit would be exceeded
+    if existing_count >= limit:
+        raise HTTPException(
+            status_code=403,
+            detail=f"Schedule limit reached for {tier} plan. Current: {existing_count}, Limit: {int(limit) if limit != float('inf') else 'unlimited'}. Please upgrade to add more schedules."
+        )
+    
     schedule_dict = schedule.model_dump()
     # Convert datetime to ISO string for MongoDB
     if isinstance(schedule_dict.get('created_at'), datetime):
