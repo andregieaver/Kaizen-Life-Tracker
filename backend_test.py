@@ -10148,6 +10148,21 @@ if __name__ == "__main__":
                 sys.exit(0)
             else:
                 print("❌ FAIL AI Coach Sequential Function Calling")
+        elif sys.argv[1] == "--schedule-execution":
+            print("🎯 Running SCHEDULE EXECUTION FLOW TEST ONLY (as per review request)")
+            print("=" * 80)
+            success = test_schedule_execution_flow()
+            print("\n" + "=" * 80)
+            print("📊 SCHEDULE EXECUTION FLOW TEST SUMMARY")
+            print("=" * 80)
+            if success:
+                print("✅ PASS Schedule Execution Flow")
+                print("\n🎉 SCHEDULE EXECUTION FLOW TEST PASSED! Scheduler is working correctly.")
+                sys.exit(0)
+            else:
+                print("❌ FAIL Schedule Execution Flow")
+                print("\n⚠️ SCHEDULE EXECUTION FLOW TEST FAILED! Scheduler has issues that need to be addressed.")
+                sys.exit(1)
                 print("\n⚠️ AI COACH SEQUENTIAL FUNCTION CALLING TEST FAILED! Please review the issues above.")
                 sys.exit(1)
         elif sys.argv[1] == "--ai-coach-units":
