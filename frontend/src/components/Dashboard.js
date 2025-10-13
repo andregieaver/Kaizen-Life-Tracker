@@ -19,6 +19,7 @@ import Supplements from './Supplements';
 import Schedules from './Schedules';
 import Files from './Files';
 import Memories from './Memories';
+import Today from './Today';
 import TrainingCalendar from './TrainingCalendar';
 import Documents from './Documents';
 import TestsAnalytics from './TestsAnalytics';
