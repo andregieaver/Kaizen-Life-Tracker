@@ -3027,7 +3027,16 @@ const Account = ({ athleteId }) => {
                             )}
                           </div>
                           <div>
-                            <h3 className="font-medium text-gray-900">{schedule.name}</h3>
+                            <h3 className="font-medium text-gray-900 flex items-center gap-2">
+                              {schedule.name}
+                              <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${
+                                schedule.active 
+                                  ? 'bg-green-100 text-green-800' 
+                                  : 'bg-gray-100 text-gray-600'
+                              }`}>
+                                {schedule.active ? 'Active' : 'Inactive'}
+                              </span>
+                            </h3>
                             <p className="text-sm text-gray-500 capitalize">
                               {schedule.frequency} at {schedule.time}
                             </p>
