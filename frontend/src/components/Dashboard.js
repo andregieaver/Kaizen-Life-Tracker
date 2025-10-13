@@ -663,6 +663,10 @@ const Dashboard = ({ athleteId }) => {
           <Nutrition athleteId={athleteId} />
         )}
 
+        {activeTab === 'supplements' && (
+          <Supplements athleteId={athleteId} />
+        )}
+
         {activeTab === 'documents' && (
           <Documents athleteId={athleteId} />
         )}
