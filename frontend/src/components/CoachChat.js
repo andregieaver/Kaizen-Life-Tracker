@@ -112,9 +112,6 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
         session_id: sessionId
       });
 
-      // Mark that user has sent a message (no longer first visit)
-      setIsFirstVisit(false);
-      
       // Reload conversations immediately after sending message so it appears in the list
       await loadConversations();
 
