@@ -709,6 +709,10 @@ const Dashboard = ({ athleteId }) => {
           <Schedules athleteId={athleteId} />
         )}
 
+        {activeTab === 'files' && (
+          <Files athleteId={athleteId} />
+        )}
+
         {activeTab === 'calendar' && (
           <TrainingCalendar 
             athleteId={athleteId} 
