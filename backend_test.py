@@ -14,7 +14,7 @@ from datetime import datetime
 from PIL import Image
 
 # Backend URL from environment
-BACKEND_URL = "https://trainsmart-nutrition.preview.emergentagent.com/api"
+BACKEND_URL = "https://fitnesslog-ai.preview.emergentagent.com/api"
 
 # Test data
 TEST_ATHLETE_ID = str(uuid.uuid4())
@@ -1735,8 +1735,8 @@ def test_exact_dashboard_api_call():
         try:
             # This simulates a request from the frontend domain
             frontend_headers = {
-                'Origin': 'https://trainsmart-nutrition.preview.emergentagent.com',
-                'Referer': 'https://trainsmart-nutrition.preview.emergentagent.com/'
+                'Origin': 'https://fitnesslog-ai.preview.emergentagent.com',
+                'Referer': 'https://fitnesslog-ai.preview.emergentagent.com/'
             }
             frontend_response = requests.get(f"{BACKEND_URL}/athlete/{exact_athlete_id}", headers=frontend_headers)
             
