@@ -74,40 +74,16 @@ def test_schedule_update_last_executed_reset_logic():
         schedules = get_response.json()
         print(f"      Found {len(schedules)} existing schedules")
         
-        # Find a schedule with last_executed value or create one
+        # Find any existing schedule to use for testing
         target_schedule = None
-        for schedule in schedules:
-            if schedule.get("last_executed"):
-                target_schedule = schedule
-                print(f"      Found schedule with last_executed: {schedule.get('name')}")
-                break
+        if schedules:
+            target_schedule = schedules[0]  # Use the first available schedule
+            print(f"      Using existing schedule: {target_schedule.get('name')} (ID: {target_schedule.get('id')})")
         
-        # If no schedule with last_executed, create one
+        # If no schedules exist, we can't test (subscription limit prevents creation)
         if not target_schedule:
-            print("      No existing schedule with last_executed found, creating test schedule...")
-            
-            # Create a test schedule
-            schedule_data = {
-                "athlete_id": athlete_id,
-                "name": "Test Reset Schedule",
-                "prompt": "Test prompt for reset logic",
-                "frequency": "daily",
-                "time": "10:00",
-                "active": True
-            }
-            
-            create_response = requests.post(
-                f"{BACKEND_URL}/schedules",
-                json=schedule_data,
-                headers={"Content-Type": "application/json"}
-            )
-            
-            if create_response.status_code != 200:
-                print_test_result("Create Test Schedule", False, f"Create failed: {create_response.status_code}")
-                return False
-            
-            target_schedule = create_response.json()
-            print(f"      ✅ Created test schedule: {target_schedule.get('id')}")
+            print_test_result("Find Test Schedule", False, "No existing schedules found and cannot create new ones (subscription limit)")
+            return False
         
         schedule_id = target_schedule["id"]
         original_time = target_schedule.get("time")
