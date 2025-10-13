@@ -589,7 +589,7 @@ const Nutrition = ({ athleteId }) => {
     };
   };
 
-  const stats = calculateNutritionStats(entries);
+  const weekStats = calculateWeeklyAverage(entries);
 
   return (
     <div className="space-y-6">
