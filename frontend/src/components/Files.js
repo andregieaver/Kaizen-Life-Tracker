@@ -390,11 +390,19 @@ const Files = ({ athleteId }) => {
 
         <div className="flex flex-col sm:flex-row gap-3">
           <Button
-            onClick={() => setShowUploadForm(!showUploadForm)}
+            onClick={() => {
+              if (showUploadForm && !viewMode && !editingEntry) {
+                // If form is open for new entry, close it
+                closeModals();
+              } else {
+                // Open new entry form
+                openNewEntryModal();
+              }
+            }}
             className="bg-blue-600 hover:bg-blue-700 btn-transition"
           >
             <Plus className="w-4 h-4 mr-2" />
-            {showUploadForm ? 'Cancel' : 'Add File'}
+            {(showUploadForm && !viewMode && !editingEntry) ? 'Cancel' : 'Add File'}
           </Button>
         </div>
       </div>
