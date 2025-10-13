@@ -864,10 +864,16 @@ const Nutrition = ({ athleteId }) => {
           <h1 className="text-2xl font-bold text-gray-900">Nutrition Log</h1>
           <p className="text-gray-600 mt-1">Track what you eat and drink</p>
         </div>
-        <Button onClick={openNewEntryModal}>
-          <Plus className="w-4 h-4 mr-2" />
-          Log Meal
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={openSupplementModal} variant="outline">
+            <Pill className="w-4 h-4 mr-2" />
+            Log Supplements
+          </Button>
+          <Button onClick={openNewEntryModal}>
+            <Plus className="w-4 h-4 mr-2" />
+            Log Meal
+          </Button>
+        </div>
       </div>
 
       {/* Status Messages */}
