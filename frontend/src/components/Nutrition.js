@@ -614,93 +614,109 @@ const Nutrition = ({ athleteId }) => {
         </div>
       )}
 
-      {/* Nutrition Statistics */}
+      {/* Daily Average Statistics - Current Week */}
       {entries.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Total Nutrition */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Total Intake</CardTitle>
-              <CardDescription>{stats.daysTracked} days tracked</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div>
-                <div className="text-3xl font-bold text-blue-600">{stats.total.calories}</div>
-                <div className="text-sm text-gray-600">Calories</div>
-              </div>
-              <div className="grid grid-cols-3 gap-2 pt-2 border-t">
-                <div>
-                  <div className="text-lg font-semibold text-orange-600">{stats.total.protein}g</div>
-                  <div className="text-xs text-gray-500">Protein</div>
-                </div>
-                <div>
-                  <div className="text-lg font-semibold text-green-600">{stats.total.carbs}g</div>
-                  <div className="text-xs text-gray-500">Carbs</div>
-                </div>
-                <div>
-                  <div className="text-lg font-semibold text-purple-600">{stats.total.fat}g</div>
-                  <div className="text-xs text-gray-500">Fat</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Daily Average (Current Week)</CardTitle>
+            <CardDescription>
+              {weekStats.daysInWeek > 0 
+                ? `Based on ${weekStats.daysInWeek} day${weekStats.daysInWeek > 1 ? 's' : ''} tracked this week`
+                : 'No entries this week'}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {/* Calories */}
+            <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-4">
+              <div className="text-sm text-gray-600 mb-1">Calories</div>
+              <div className="text-3xl font-bold text-blue-600">{weekStats.dailyAverage.calories}</div>
+              <div className="text-xs text-gray-500">per day</div>
+            </div>
 
-          {/* Daily Average */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Daily Average</CardTitle>
-              <CardDescription>Per day tracked</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div>
-                <div className="text-3xl font-bold text-blue-600">{stats.daily.calories}</div>
-                <div className="text-sm text-gray-600">Calories/day</div>
-              </div>
-              <div className="grid grid-cols-3 gap-2 pt-2 border-t">
-                <div>
-                  <div className="text-lg font-semibold text-orange-600">{stats.daily.protein}g</div>
-                  <div className="text-xs text-gray-500">Protein</div>
+            {/* Macronutrients */}
+            <div>
+              <h4 className="text-sm font-semibold text-gray-700 mb-3">Macronutrients</h4>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="bg-orange-50 rounded-lg p-3 text-center">
+                  <div className="text-xs text-gray-600 mb-1">Protein</div>
+                  <div className="text-2xl font-bold text-orange-600">{weekStats.dailyAverage.protein}g</div>
                 </div>
-                <div>
-                  <div className="text-lg font-semibold text-green-600">{stats.daily.carbs}g</div>
-                  <div className="text-xs text-gray-500">Carbs</div>
+                <div className="bg-green-50 rounded-lg p-3 text-center">
+                  <div className="text-xs text-gray-600 mb-1">Carbs</div>
+                  <div className="text-2xl font-bold text-green-600">{weekStats.dailyAverage.carbs}g</div>
                 </div>
-                <div>
-                  <div className="text-lg font-semibold text-purple-600">{stats.daily.fat}g</div>
-                  <div className="text-xs text-gray-500">Fat</div>
+                <div className="bg-purple-50 rounded-lg p-3 text-center">
+                  <div className="text-xs text-gray-600 mb-1">Fat</div>
+                  <div className="text-2xl font-bold text-purple-600">{weekStats.dailyAverage.fat}g</div>
+                </div>
+                <div className="bg-amber-50 rounded-lg p-3 text-center">
+                  <div className="text-xs text-gray-600 mb-1">Fiber</div>
+                  <div className="text-2xl font-bold text-amber-600">{weekStats.dailyAverage.fiber}g</div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
 
-          {/* Weekly Average */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Weekly Average</CardTitle>
-              <CardDescription>Per week</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div>
-                <div className="text-3xl font-bold text-blue-600">{stats.weekly.calories}</div>
-                <div className="text-sm text-gray-600">Calories/week</div>
+            {/* Micronutrients */}
+            {(weekStats.dailyAverage.sodium > 0 || weekStats.dailyAverage.sugar > 0 || 
+              weekStats.dailyAverage.vitamin_a > 0 || weekStats.dailyAverage.vitamin_c > 0 || 
+              weekStats.dailyAverage.vitamin_d > 0 || weekStats.dailyAverage.calcium > 0 || 
+              weekStats.dailyAverage.iron > 0 || weekStats.dailyAverage.potassium > 0) && (
+              <div className="border-t pt-4">
+                <h4 className="text-sm font-semibold text-gray-700 mb-3">Micronutrients</h4>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {weekStats.dailyAverage.sugar > 0 && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs text-gray-500">Sugar</div>
+                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.sugar}g</div>
+                    </div>
+                  )}
+                  {weekStats.dailyAverage.sodium > 0 && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs text-gray-500">Sodium</div>
+                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.sodium}mg</div>
+                    </div>
+                  )}
+                  {weekStats.dailyAverage.vitamin_a > 0 && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs text-gray-500">Vitamin A</div>
+                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.vitamin_a}μg</div>
+                    </div>
+                  )}
+                  {weekStats.dailyAverage.vitamin_c > 0 && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs text-gray-500">Vitamin C</div>
+                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.vitamin_c}mg</div>
+                    </div>
+                  )}
+                  {weekStats.dailyAverage.vitamin_d > 0 && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs text-gray-500">Vitamin D</div>
+                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.vitamin_d}μg</div>
+                    </div>
+                  )}
+                  {weekStats.dailyAverage.calcium > 0 && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs text-gray-500">Calcium</div>
+                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.calcium}mg</div>
+                    </div>
+                  )}
+                  {weekStats.dailyAverage.iron > 0 && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs text-gray-500">Iron</div>
+                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.iron}mg</div>
+                    </div>
+                  )}
+                  {weekStats.dailyAverage.potassium > 0 && (
+                    <div className="bg-gray-50 rounded-lg p-3">
+                      <div className="text-xs text-gray-500">Potassium</div>
+                      <div className="text-lg font-semibold text-gray-900">{weekStats.dailyAverage.potassium}mg</div>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="grid grid-cols-3 gap-2 pt-2 border-t">
-                <div>
-                  <div className="text-lg font-semibold text-orange-600">{stats.weekly.protein}g</div>
-                  <div className="text-xs text-gray-500">Protein</div>
-                </div>
-                <div>
-                  <div className="text-lg font-semibold text-green-600">{stats.weekly.carbs}g</div>
-                  <div className="text-xs text-gray-500">Carbs</div>
-                </div>
-                <div>
-                  <div className="text-lg font-semibold text-purple-600">{stats.weekly.fat}g</div>
-                  <div className="text-xs text-gray-500">Fat</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            )}
+          </CardContent>
+        </Card>
       )}
 
       {/* Nutrition Entries List */}
