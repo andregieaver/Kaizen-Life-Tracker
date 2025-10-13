@@ -1203,18 +1203,228 @@ const Nutrition = ({ athleteId }) => {
         <Card>
           <CardContent className="text-center py-12">
             <Utensils className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No nutrition entries for this {viewType === 'day' ? 'day' : 'week'}</h3>
-            <p className="text-gray-600 mb-4">Start tracking your meals and drinks</p>
-            <Button onClick={() => setShowModal(true)}>
-              <Plus className="w-4 h-4 mr-2" />
-              Log First Meal
-            </Button>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">No entries for this {viewType === 'day' ? 'day' : 'week'}</h3>
+            <p className="text-gray-600 mb-4">Start tracking your meals and supplements</p>
+            <div className="flex gap-2 justify-center">
+              <Button onClick={openSupplementModal} variant="outline">
+                <Pill className="w-4 h-4 mr-2" />
+                Log Supplements
+              </Button>
+              <Button onClick={openNewEntryModal}>
+                <Plus className="w-4 h-4 mr-2" />
+                Log Meal
+              </Button>
+            </div>
           </CardContent>
         </Card>
+      ) : viewType === 'week' ? (
+        // Week view with day separators
+        <div className="space-y-6">
+          {Object.keys(entriesByDay).sort((a, b) => new Date(b) - new Date(a)).map(date => (
+            <div key={date}>
+              {/* Day Separator */}
+              <div className="flex items-center gap-4 mb-4">
+                <div className="flex-1 h-px bg-gray-300"></div>
+                <div className="text-sm font-semibold text-gray-600">
+                  {new Date(date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
+                </div>
+                <div className="flex-1 h-px bg-gray-300"></div>
+              </div>
+              
+              {/* Entries for this day */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {entriesByDay[date].map((entry) => {
+                  if (entry.type === 'supplement') {
+                    // Render supplement log card
+                    const logSupplements = supplements.filter(s => entry.supplement_ids.includes(s.id));
+                    return (
+                      <Card key={entry.id} className="hover:shadow-lg transition-shadow">
+                        <CardHeader>
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-2 mb-1">
+                                <Badge className="bg-purple-100 text-purple-800 border-purple-200">
+                                  <Pill className="w-3 h-3 mr-1" />
+                                  Supplements
+                                </Badge>
+                              </div>
+                              <CardTitle className="text-base">
+                                {new Date(`${entry.log_date}T${entry.log_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </CardTitle>
+                            </div>
+                            <button
+                              onClick={() => {
+                                if (window.confirm('Delete this supplement log?')) {
+                                  axios.delete(`${API}/supplement-logs/${entry.id}`)
+                                    .then(() => {
+                                      setSaveStatus({ type: 'success', message: 'Supplement log deleted' });
+                                      loadSupplementLogs();
+                                    })
+                                    .catch(err => console.error('Error deleting log:', err));
+                                }
+                              }}
+                              className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-2">
+                            {logSupplements.map(supp => (
+                              <div key={supp.id} className="flex items-center gap-2 text-sm">
+                                <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                                <span className="font-medium">{supp.name}</span>
+                                <span className="text-gray-500">({supp.dosage} {supp.unit})</span>
+                              </div>
+                            ))}
+                            {entry.notes && (
+                              <p className="text-sm text-gray-600 mt-2 pt-2 border-t">{entry.notes}</p>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  } else {
+                    // Render meal card
+                    const MealIcon = getMealIcon(entry.meal_type);
+                    return (
+                      <Card key={entry.id} className="hover:shadow-lg transition-shadow overflow-hidden cursor-pointer">
+                        {entry.image_data && (
+                          <div 
+                            className="relative h-48 bg-gray-100"
+                            onClick={() => handleViewEntry(entry)}
+                          >
+                            <img
+                              src={entry.image_data}
+                              alt="Food"
+                              className="w-full h-full object-cover hover:scale-105 transition-transform"
+                            />
+                          </div>
+                        )}
+                        <CardHeader onClick={() => handleViewEntry(entry)}>
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-2 mb-1">
+                                <Badge className={getMealColor(entry.meal_type)}>
+                                  <MealIcon className="w-3 h-3 mr-1" />
+                                  {entry.meal_type.charAt(0).toUpperCase() + entry.meal_type.slice(1)}
+                                </Badge>
+                              </div>
+                              <CardTitle className="text-base line-clamp-2">
+                                {entry.description || 'No description'}
+                              </CardTitle>
+                              <CardDescription>
+                                {formatDateTime(entry.entry_date || entry.created_at, entry.entry_time)}
+                              </CardDescription>
+                            </div>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteEntry(entry.id);
+                              }}
+                              className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </CardHeader>
+                        <CardContent onClick={() => handleViewEntry(entry)}>
+                          {(entry.calories || entry.protein || entry.carbs || entry.fat) && (
+                            <div className="grid grid-cols-2 gap-2 pt-2 border-t">
+                              {entry.calories > 0 && (
+                                <div>
+                                  <div className="text-xs text-gray-500">Calories</div>
+                                  <div className="text-lg font-semibold text-blue-600">{entry.calories}</div>
+                                </div>
+                              )}
+                              {entry.protein > 0 && (
+                                <div>
+                                  <div className="text-xs text-gray-500">Protein</div>
+                                  <div className="text-lg font-semibold text-orange-600">{entry.protein}g</div>
+                                </div>
+                              )}
+                              {entry.carbs > 0 && (
+                                <div>
+                                  <div className="text-xs text-gray-500">Carbs</div>
+                                  <div className="text-lg font-semibold text-green-600">{entry.carbs}g</div>
+                                </div>
+                              )}
+                              {entry.fat > 0 && (
+                                <div>
+                                  <div className="text-xs text-gray-500">Fat</div>
+                                  <div className="text-lg font-semibold text-purple-600">{entry.fat}g</div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    );
+                  }
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
       ) : (
+        // Day view without separators
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredEntries.map((entry) => {
-            const MealIcon = getMealIcon(entry.meal_type);
+            if (entry.type === 'supplement') {
+              // Render supplement log card
+              const logSupplements = supplements.filter(s => entry.supplement_ids.includes(s.id));
+              return (
+                <Card key={entry.id} className="hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <Badge className="bg-purple-100 text-purple-800 border-purple-200">
+                            <Pill className="w-3 h-3 mr-1" />
+                            Supplements
+                          </Badge>
+                        </div>
+                        <CardTitle className="text-base">
+                          {new Date(`${entry.log_date}T${entry.log_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </CardTitle>
+                      </div>
+                      <button
+                        onClick={() => {
+                          if (window.confirm('Delete this supplement log?')) {
+                            axios.delete(`${API}/supplement-logs/${entry.id}`)
+                              .then(() => {
+                                setSaveStatus({ type: 'success', message: 'Supplement log deleted' });
+                                loadSupplementLogs();
+                              })
+                              .catch(err => console.error('Error deleting log:', err));
+                          }
+                        }}
+                        className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      {logSupplements.map(supp => (
+                        <div key={supp.id} className="flex items-center gap-2 text-sm">
+                          <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                          <span className="font-medium">{supp.name}</span>
+                          <span className="text-gray-500">({supp.dosage} {supp.unit})</span>
+                        </div>
+                      ))}
+                      {entry.notes && (
+                        <p className="text-sm text-gray-600 mt-2 pt-2 border-t">{entry.notes}</p>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            } else {
+              // Render meal card
+              const MealIcon = getMealIcon(entry.meal_type);
             return (
               <Card key={entry.id} className="hover:shadow-lg transition-shadow overflow-hidden cursor-pointer">
                 {entry.image_data && (
