@@ -83,6 +83,109 @@ const Nutrition = ({ athleteId }) => {
     }
   };
 
+  // Helper function to get current date and time in required formats
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const date = now.toISOString().split('T')[0]; // YYYY-MM-DD
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const time = `${hours}:${minutes}`; // HH:MM
+    return { date, time };
+  };
+
+  // Format time according to user preference (12h or 24h)
+  const formatTime = (timeString) => {
+    if (!timeString) return '';
+    
+    const [hours, minutes] = timeString.split(':');
+    const hour = parseInt(hours, 10);
+    
+    if (athlete?.time_format === '12h') {
+      const period = hour >= 12 ? 'PM' : 'AM';
+      const displayHour = hour % 12 || 12;
+      return `${displayHour}:${minutes} ${period}`;
+    }
+    
+    return `${hours}:${minutes}`;
+  };
+
+  // Format date and time for display
+  const formatDateTime = (dateString, timeString) => {
+    if (!dateString) return '';
+    
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+    
+    if (timeString) {
+      return `${formattedDate} at ${formatTime(timeString)}`;
+    }
+    
+    return formattedDate;
+  };
+
+  // Open modal for new entry
+  const openNewEntryModal = () => {
+    const { date, time } = getCurrentDateTime();
+    setViewMode(false);
+    setEditingEntry(null);
+    setViewingEntry(null);
+    setMealType('breakfast');
+    setDescription('');
+    setImageData(null);
+    setImagePreview(null);
+    setEntryDate(date);
+    setEntryTime(time);
+    setNutritionData(null);
+    setShowModal(true);
+  };
+
+  // Open modal to view entry (read-only)
+  const handleViewEntry = (entry) => {
+    setViewingEntry(entry);
+    setViewMode(true);
+    setShowModal(true);
+  };
+
+  // Switch from view mode to edit mode
+  const switchToEditMode = () => {
+    if (viewingEntry) {
+      setEditingEntry(viewingEntry);
+      setMealType(viewingEntry.meal_type);
+      setDescription(viewingEntry.description);
+      setImageData(viewingEntry.image_data);
+      setImagePreview(viewingEntry.image_data);
+      setEntryDate(viewingEntry.entry_date || '');
+      setEntryTime(viewingEntry.entry_time || '');
+      
+      // Load nutrition data if available
+      if (viewingEntry.calories || viewingEntry.protein || viewingEntry.carbs || viewingEntry.fat) {
+        setNutritionData({
+          calories: viewingEntry.calories,
+          protein: viewingEntry.protein,
+          carbs: viewingEntry.carbs,
+          fat: viewingEntry.fat,
+          fiber: viewingEntry.fiber,
+          sodium: viewingEntry.sodium,
+          sugar: viewingEntry.sugar,
+          vitamin_a: viewingEntry.vitamin_a,
+          vitamin_c: viewingEntry.vitamin_c,
+          vitamin_d: viewingEntry.vitamin_d,
+          calcium: viewingEntry.calcium,
+          iron: viewingEntry.iron,
+          potassium: viewingEntry.potassium,
+          ai_analysis: viewingEntry.ai_analysis
+        });
+      }
+      
+      setViewMode(false);
+      setViewingEntry(null);
+    }
+  };
+
   const compressImage = (file) => {
     return new Promise((resolve, reject) => {
       // Validate file type
