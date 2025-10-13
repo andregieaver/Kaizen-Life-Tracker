@@ -116,7 +116,7 @@ const Files = ({ athleteId }) => {
   };
 
   const closeModals = () => {
-    setShowModal(false);
+    setShowUploadForm(false);
     setShowImageModal(false);
     setViewMode(false);
     setViewingEntry(null);
