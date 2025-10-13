@@ -1180,7 +1180,8 @@ const Account = ({ athleteId }) => {
       prompt: '',
       frequency: 'daily',
       time: '08:00',
-      days: []
+      days: [],
+      active: true
     });
   };
 
