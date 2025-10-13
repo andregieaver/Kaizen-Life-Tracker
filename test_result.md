@@ -509,6 +509,33 @@ frontend:
         agent: "main"
         comment: "✅ UNIT DISPLAY FIXED - Running YTD now correctly respects user's distance unit preference. BUG IDENTIFIED: Code was only checking distance_unit === 'kilometers' but backend supports multiple field names (distance_unit, measurement_system) and values ('miles', 'km', 'kilometers', 'metric', 'imperial'). FIX APPLIED: Updated calculateYTD() to check ALL possible unit preference fields: measurement_system === 'metric' OR distance_unit === 'kilometers' OR distance_unit === 'km'. Updated display logic to use same comprehensive check for showing 'km' vs 'mi'. TECHNICAL IMPROVEMENT: isMetric variable checks: athlete?.measurement_system === 'metric' || athlete?.distance_unit === 'kilometers' || athlete?.distance_unit === 'km'. Display unit determination uses same logic for consistency. Ensures compatibility with both old and new preference formats. VERIFICATION: Screenshot confirms display now shows '0.0 km' for users with metric preference. Unit changes immediately when user updates preference in Account Settings. Backward compatible with existing data. READY FOR USE: Works correctly for both Imperial (mi) and Metric (km) users."
 
+  - task: "Schedule Active Checkbox State Saving"
+    implemented: false
+    working: "NA"
+    file: "/app/frontend/src/components/Account.js"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "User reported: 'I notice that the checkbox to set active doesn't save the state. Could this be the reason?' The active checkbox exists in UI but is not connected to state - missing checked and onChange handlers."
+      - working: "NA"
+        agent: "main"
+        comment: "ISSUE IDENTIFIED: Active checkbox (lines 2961-2968) has no state binding. Currently: 1) scheduleForm state doesn't include 'active' field (line 200), 2) Checkbox has no checked or onChange handlers, 3) When creating, active:true is hardcoded (line 1112), 4) When editing, active field is not copied to scheduleForm (line 1144-1150), 5) When updating, active field is not sent in PUT request (line 1101). FIX PLAN: Add 'active' field to scheduleForm state, bind checkbox to state with checked and onChange, include active in handleEditSchedule, ensure active is sent in both POST and PUT requests."
+
+  - task: "APScheduler Integration and Report Generation"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "APScheduler integration already implemented. Backend has: 1) check_and_execute_schedules() function that filters schedules by active:True (line 184), 2) execute_scheduled_prompt() function that calls OpenAI API and saves to recommendations collection (lines 120-174), 3) Scheduler runs every minute to check due schedules, 4) Recommendations stored with schedule_id reference. Need to verify scheduler is running and reports are properly generated and displayed."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
