@@ -1225,27 +1225,23 @@ const Account = ({ athleteId }) => {
       )}
 
       {/* Account Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
+      <Tabs value={activeTab} onValueChange={handleTabChange}>
         <TabsList className="grid w-full grid-cols-4 mb-8">
-          <TabsTrigger value="personal" className="flex items-center text-xs md:text-sm" data-testid="personal-tab">
-            <User className="w-4 h-4 mr-1 md:mr-2" />
+          <TabsTrigger value="personal" className="text-xs md:text-sm" data-testid="personal-tab">
             <span className="hidden sm:inline">{t('account.personalInfo')}</span>
             <span className="sm:hidden">{t('nav.account')}</span>
           </TabsTrigger>
-          <TabsTrigger value="preferences" className="flex items-center text-xs md:text-sm" data-testid="preferences-tab">
-            <Settings className="w-4 h-4 mr-1 md:mr-2" />
+          <TabsTrigger value="preferences" className="text-xs md:text-sm" data-testid="preferences-tab">
             <span className="hidden sm:inline">Preferences</span>
             <span className="sm:hidden">Prefs</span>
           </TabsTrigger>
-          <TabsTrigger value="integrations" className="flex items-center text-xs md:text-sm" data-testid="integrations-tab">
-            <Zap className="w-4 h-4 mr-1 md:mr-2" />
+          <TabsTrigger value="integrations" className="text-xs md:text-sm" data-testid="integrations-tab">
             <span className="hidden sm:inline">{t('account.integrations')}</span>
-            <span className="sm:hidden">{t('account.integrations')}</span>
+            <span className="sm:hidden">Apps</span>
           </TabsTrigger>
-          <TabsTrigger value="subscriptions" className="flex items-center text-xs md:text-sm" data-testid="subscriptions-tab">
-            <CreditCard className="w-4 h-4 mr-1 md:mr-2" />
+          <TabsTrigger value="subscriptions" className="text-xs md:text-sm" data-testid="subscriptions-tab">
             <span className="hidden sm:inline">{t('account.subscriptions')}</span>
-            <span className="sm:hidden">{t('account.subs')}</span>
+            <span className="sm:hidden">Plans</span>
           </TabsTrigger>
         </TabsList>
 
