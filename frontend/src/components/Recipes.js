@@ -62,60 +62,25 @@ const Recipes = ({ athleteId }) => {
     }
   };
 
-  const generateWeeklyMenu = async () => {
+  const generateRecipe = async () => {
     setIsGenerating(true);
-    setCancelGeneration(false);
-    setGeneratingProgress({ current: 0, total: 7, currentDay: '' });
     
     try {
-      const weekStartDate = new Date().toISOString().split('T')[0]; // Today's date
+      const response = await axios.post(`${API}/recipes/generate/${athleteId}`, {
+        meal_type: selectedMealType
+      });
       
-      // Generate recipes day by day
-      for (let i = 0; i < days.length; i++) {
-        // Check if user cancelled
-        if (cancelGeneration) {
-          alert('Recipe generation cancelled.');
-          break;
-        }
-        
-        const day = days[i];
-        setGeneratingProgress({ 
-          current: i + 1, 
-          total: 7, 
-          currentDay: day.charAt(0).toUpperCase() + day.slice(1) 
-        });
-        
-        try {
-          const response = await axios.post(`${API}/recipes/generate-day/${athleteId}`, {
-            day_of_week: day,
-            week_start_date: weekStartDate
-          });
-          console.log(`Generated recipes for ${day}:`, response.data);
-          
-          // Reload recipes after each day to show progress
-          await loadRecipes();
-        } catch (dayError) {
-          console.error(`Error generating recipes for ${day}:`, dayError);
-          // Continue with next day even if one fails
-        }
-      }
+      console.log('Generated recipe:', response.data);
       
-      if (!cancelGeneration) {
-        alert('Weekly menu generated successfully! 🎉');
+      // Add the new recipe to the list
+      if (response.data.recipe) {
+        setRecipes([response.data.recipe, ...recipes]);
       }
     } catch (error) {
-      console.error('Error generating recipes:', error);
-      alert(error.response?.data?.detail || 'Failed to generate recipes. Please make sure you have an OpenAI API key set in Account Settings → Apps tab.');
+      console.error('Error generating recipe:', error);
+      alert(error.response?.data?.detail || 'Failed to generate recipe. Please make sure you have an OpenAI API key set in Account Settings → Apps tab.');
     } finally {
       setIsGenerating(false);
-      setCancelGeneration(false);
-      setGeneratingProgress({ current: 0, total: 7, currentDay: '' });
-    }
-  };
-
-  const handleCancelGeneration = () => {
-    if (window.confirm('Are you sure you want to cancel recipe generation?')) {
-      setCancelGeneration(true);
     }
   };
 
