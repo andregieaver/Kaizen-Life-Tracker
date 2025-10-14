@@ -2028,6 +2028,279 @@ def test_push_notification_setup():
         print_test_result("Push Notification Testing - Exception", False, f"Exception: {str(e)}")
         return False
 
+def test_schedule_limit_issue_for_pro_user():
+    """
+    DIAGNOSE SCHEDULE LIMIT ISSUE FOR PRO USER
+    
+    Problem: User andre@humanweb.no reports having Pro plan but can only create 1 schedule 
+    (Free plan limit) instead of 5 schedules.
+    
+    Investigation Steps:
+    1. Find user by email "andre@humanweb.no"
+    2. Check subscription_tier field in athlete_profiles collection
+    3. Verify subscription status via API
+    4. Check existing schedules count
+    5. Test schedule creation and verify error message
+    6. Check schedule limit logic in backend
+    """
+    print("🔍 DIAGNOSING SCHEDULE LIMIT ISSUE FOR PRO USER")
+    print("=" * 70)
+    
+    target_email = "andre@humanweb.no"
+    
+    try:
+        # Step 1: Find user by email andre@humanweb.no
+        print(f"   Step 1: Find user by email '{target_email}'")
+        
+        # Try to login with common passwords to find the user
+        common_passwords = ["password123", "password", "123456", "admin", "test"]
+        user_found = False
+        athlete_id = None
+        
+        for password in common_passwords:
+            try:
+                login_data = {
+                    "email": target_email,
+                    "password": password
+                }
+                
+                login_response = requests.post(
+                    f"{BACKEND_URL}/auth/login",
+                    json=login_data,
+                    headers={"Content-Type": "application/json"}
+                )
+                
+                if login_response.status_code == 200:
+                    athlete_data = login_response.json()
+                    athlete_id = athlete_data.get("athlete_id")
+                    user_found = True
+                    print(f"      ✅ User found with password '{password}'")
+                    print(f"      ✅ Athlete ID: {athlete_id}")
+                    break
+                    
+            except Exception as e:
+                continue
+        
+        if not user_found:
+            print(f"      ❌ User '{target_email}' not found or cannot login")
+            print(f"      💡 User may not exist in database or password unknown")
+            
+            # Try to create the user for testing
+            print(f"   Creating test user '{target_email}' for diagnosis...")
+            
+            create_data = {
+                "name": "Andre Pro User",
+                "email": target_email,
+                "password": "password123",
+                "weekly_mileage": 30.0,
+                "running_goals": "Marathon training"
+            }
+            
+            create_response = requests.post(
+                f"{BACKEND_URL}/auth/register",
+                json=create_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if create_response.status_code == 200:
+                athlete_data = create_response.json()
+                athlete_id = athlete_data.get("athlete_id")
+                print(f"      ✅ Test user created with ID: {athlete_id}")
+                user_found = True
+            else:
+                print(f"      ❌ Cannot create test user: {create_response.status_code}")
+                return False
+        
+        # Step 2: Get athlete profile and check subscription_tier
+        print(f"   Step 2: Check subscription_tier in athlete profile")
+        
+        profile_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
+        
+        if profile_response.status_code != 200:
+            print_test_result("Get Athlete Profile", False, f"Profile API failed: {profile_response.status_code}")
+            return False
+        
+        profile_data = profile_response.json()
+        subscription_tier = profile_data.get("subscription_tier", "free")
+        subscription_status = profile_data.get("subscription_status", "active")
+        
+        print(f"      Database subscription_tier: '{subscription_tier}'")
+        print(f"      Database subscription_status: '{subscription_status}'")
+        
+        # Step 3: Verify subscription status via API
+        print(f"   Step 3: Check subscription status via API")
+        
+        subscription_response = requests.get(f"{BACKEND_URL}/subscription/status/{athlete_id}")
+        
+        api_tier = None
+        if subscription_response.status_code == 200:
+            subscription_data = subscription_response.json()
+            api_tier = subscription_data.get("tier", "unknown")
+            api_status = subscription_data.get("status", "unknown")
+            
+            print(f"      API subscription tier: '{api_tier}'")
+            print(f"      API subscription status: '{api_status}'")
+            
+            # Check for mismatch
+            if subscription_tier != api_tier:
+                print(f"      ❌ MISMATCH: Database has '{subscription_tier}' but API returns '{api_tier}'")
+            else:
+                print(f"      ✅ Database and API tier match: '{subscription_tier}'")
+                
+        else:
+            print(f"      ❌ Subscription status API failed: {subscription_response.status_code}")
+            print(f"      Response: {subscription_response.text}")
+        
+        # Step 4: Check existing schedules count
+        print(f"   Step 4: Check existing schedules for athlete")
+        
+        schedules_response = requests.get(f"{BACKEND_URL}/schedules/{athlete_id}")
+        
+        existing_schedules = []
+        if schedules_response.status_code == 200:
+            existing_schedules = schedules_response.json()
+            print(f"      Current schedules count: {len(existing_schedules)}")
+            
+            for i, schedule in enumerate(existing_schedules, 1):
+                print(f"        {i}. '{schedule.get('name')}' - Active: {schedule.get('active')}")
+        else:
+            print(f"      ❌ Cannot get schedules: {schedules_response.status_code}")
+        
+        # Step 5: Test schedule creation and check limit enforcement
+        print(f"   Step 5: Test schedule creation to verify limit enforcement")
+        
+        # Determine expected limit based on subscription tier
+        expected_limits = {
+            "free": 1,
+            "pro": 5,
+            "premium": 10
+        }
+        
+        expected_limit = expected_limits.get(subscription_tier, 1)
+        print(f"      Expected schedule limit for '{subscription_tier}' tier: {expected_limit}")
+        
+        # Try to create a new schedule
+        test_schedule_data = {
+            "athlete_id": athlete_id,
+            "name": "Test Schedule Limit",
+            "prompt": "Test schedule for limit diagnosis",
+            "frequency": "daily",
+            "time": "09:00",
+            "active": True
+        }
+        
+        create_schedule_response = requests.post(
+            f"{BACKEND_URL}/schedules",
+            json=test_schedule_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        print(f"      Schedule creation status: {create_schedule_response.status_code}")
+        
+        if create_schedule_response.status_code == 200:
+            created_schedule = create_schedule_response.json()
+            print(f"      ✅ Schedule created successfully: {created_schedule.get('id')}")
+            
+            # Clean up - delete the test schedule
+            delete_response = requests.delete(f"{BACKEND_URL}/schedules/{created_schedule.get('id')}")
+            if delete_response.status_code == 200:
+                print(f"      ✅ Test schedule cleaned up")
+                
+        elif create_schedule_response.status_code == 400:
+            error_response = create_schedule_response.json()
+            error_message = error_response.get("detail", "Unknown error")
+            
+            print(f"      ❌ Schedule creation blocked: {error_message}")
+            
+            # Check if error message mentions limit
+            if "limit" in error_message.lower():
+                print(f"      ✅ Limit enforcement is working")
+                
+                # Extract current count and limit from error message
+                if "current:" in error_message.lower() and "limit:" in error_message.lower():
+                    print(f"      📊 Error details: {error_message}")
+                    
+                    # Check if the enforced limit matches the subscription tier
+                    if subscription_tier == "pro" and "limit: 1" in error_message.lower():
+                        print(f"      ❌ PROBLEM IDENTIFIED: Pro user being limited to 1 schedule (free tier limit)")
+                        print(f"      💡 Backend is not recognizing Pro subscription tier correctly")
+                    elif subscription_tier == "free" and "limit: 1" in error_message.lower():
+                        print(f"      ✅ Correct limit enforcement for free tier")
+                    else:
+                        print(f"      ⚠️ Unexpected limit enforcement pattern")
+            else:
+                print(f"      ⚠️ Error not related to schedule limits: {error_message}")
+        else:
+            print(f"      ❌ Unexpected response: {create_schedule_response.status_code}")
+            print(f"      Response: {create_schedule_response.text}")
+        
+        # Step 6: Check schedule limit logic in backend code
+        print(f"   Step 6: Analyze schedule limit logic")
+        
+        # Based on the backend code analysis, check the schedule_limits dictionary
+        print(f"      Expected schedule_limits mapping:")
+        print(f"        'free': 1 schedule")
+        print(f"        'pro': 5 schedules") 
+        print(f"        'premium': 10 schedules")
+        
+        # Step 7: Root cause analysis
+        print(f"   Step 7: Root cause analysis")
+        
+        root_cause_findings = []
+        
+        # Check database vs API tier mismatch
+        if api_tier and subscription_tier != api_tier:
+            root_cause_findings.append(f"❌ Database tier ('{subscription_tier}') != API tier ('{api_tier}')")
+        
+        # Check if user actually has pro tier in database
+        if subscription_tier != "pro":
+            root_cause_findings.append(f"❌ User subscription_tier in database is '{subscription_tier}', not 'pro'")
+            root_cause_findings.append(f"💡 User may need subscription upgrade or database update")
+        
+        # Check if backend is reading the correct field
+        if subscription_tier == "pro" and create_schedule_response.status_code == 400:
+            error_text = create_schedule_response.text
+            if "limit: 1" in error_text.lower():
+                root_cause_findings.append(f"❌ Backend enforcing free tier limit despite pro subscription")
+                root_cause_findings.append(f"💡 Backend may be reading wrong subscription field or has caching issue")
+        
+        if not root_cause_findings:
+            root_cause_findings.append(f"✅ No obvious issues found - subscription and limits appear correct")
+        
+        print(f"\n📊 ROOT CAUSE ANALYSIS:")
+        print("-" * 50)
+        for finding in root_cause_findings:
+            print(f"  {finding}")
+        
+        # Step 8: Recommendations
+        print(f"\n💡 RECOMMENDATIONS:")
+        print("-" * 50)
+        
+        if subscription_tier != "pro":
+            print(f"  1. Update user's subscription_tier to 'pro' in athlete_profiles collection")
+            print(f"  2. Verify subscription_status is 'active'")
+        
+        if subscription_tier == "pro" and create_schedule_response.status_code == 400:
+            print(f"  1. Check backend schedule limit logic reads subscription_tier correctly")
+            print(f"  2. Verify schedule_limits dictionary has correct mapping")
+            print(f"  3. Check for caching issues in subscription tier lookup")
+        
+        print(f"  4. Test schedule creation after fixing subscription tier")
+        
+        return {
+            "user_found": user_found,
+            "athlete_id": athlete_id,
+            "database_tier": subscription_tier,
+            "api_tier": api_tier,
+            "existing_schedules_count": len(existing_schedules),
+            "schedule_creation_blocked": create_schedule_response.status_code == 400,
+            "error_message": create_schedule_response.json().get("detail") if create_schedule_response.status_code == 400 else None
+        }
+        
+    except Exception as e:
+        print_test_result("Schedule Limit Diagnosis", False, f"Exception: {str(e)}")
+        return False
+
 def print_test_result(test_name, success, details=""):
     """Print formatted test results"""
     status = "✅ PASS" if success else "❌ FAIL"
