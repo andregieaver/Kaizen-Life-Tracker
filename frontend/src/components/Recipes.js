@@ -252,8 +252,8 @@ const Recipes = ({ athleteId }) => {
                       </CardHeader>
 
                       <CardContent className="space-y-4">
-                            {/* Nutrition Info */}
-                            <div className="grid grid-cols-2 gap-2 text-sm">
+                        {/* Nutrition Info */}
+                        <div className="grid grid-cols-2 gap-2 text-sm">
                               <div className="bg-blue-50 p-2 rounded">
                                 <p className="text-xs text-gray-600">Calories</p>
                                 <p className="font-semibold">{recipe.nutrition_info.calories}</p>
