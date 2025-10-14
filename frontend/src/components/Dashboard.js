@@ -178,6 +178,20 @@ const Dashboard = ({ athleteId }) => {
         setRecentWorkouts([]);
       }
       
+      try {
+        const testResultsRes = await axios.get(`${API}/test-results/${athleteId}${cacheBuster}`);
+        // Group by test name and get latest for each
+        const grouped = {};
+        testResultsRes.data.results.forEach(test => {
+          if (!grouped[test.test_name] || new Date(test.test_date) > new Date(grouped[test.test_name].test_date)) {
+            grouped[test.test_name] = test;
+          }
+        });
+        setTestResults(Object.values(grouped));
+      } catch (error) {
+        setTestResults([]);
+      }
+      
       // Calculate YTD after athlete data is loaded
       if (athleteRes.data) {
         calculateYTD(athleteRes.data);
