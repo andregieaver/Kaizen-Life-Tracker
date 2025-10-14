@@ -427,6 +427,20 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => {
+                    navigate('/dashboard/recipes');
+                    setIsMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    activeTab === 'recipes'
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <ChefHat className="w-5 h-5" />
+                  <span className="font-medium">Recipes</span>
+                </button>
+                <button
+                  onClick={() => {
                     navigate('/dashboard/supplements');
                     setIsMenuOpen(false);
                   }}
