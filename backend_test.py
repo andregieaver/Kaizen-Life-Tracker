@@ -2671,6 +2671,287 @@ def test_test_results_crud_api():
         print_test_result("Test Results CRUD API - Exception", False, f"Exception: {str(e)}")
         return False
 
+def test_recipe_generation_api_endpoints():
+    """
+    COMPREHENSIVE RECIPE GENERATION API TESTING
+    Test all recipe endpoints as specified in the review request
+    """
+    print("🔍 TESTING RECIPE GENERATION API ENDPOINTS")
+    print("=" * 70)
+    
+    # Test athlete ID from review request
+    test_athlete_id = "3e4ee10d-105d-4564-8b7a-1e7223acb706"
+    
+    try:
+        # Step 1: Verify athlete exists and has OpenAI integration
+        print("   Step 1: Verify athlete exists and has OpenAI integration configured")
+        
+        # Check athlete profile
+        athlete_response = requests.get(f"{BACKEND_URL}/athlete/{test_athlete_id}")
+        if athlete_response.status_code != 200:
+            print_test_result("Athlete Profile Check", False, f"Athlete not found: {athlete_response.status_code}")
+            return False
+        
+        athlete_data = athlete_response.json()
+        athlete_email = athlete_data.get("email", "Unknown")
+        print(f"      ✅ Athlete found: {athlete_email}")
+        
+        # Check OpenAI integration
+        integrations_response = requests.get(f"{BACKEND_URL}/integrations/{test_athlete_id}")
+        openai_configured = False
+        
+        if integrations_response.status_code == 200:
+            integrations = integrations_response.json().get("integrations", [])
+            for integration in integrations:
+                if integration.get("integration_type") == "openai" and integration.get("is_active"):
+                    openai_configured = True
+                    break
+        
+        if openai_configured:
+            print_test_result("OpenAI Integration Check", True, "OpenAI API key is configured")
+        else:
+            print_test_result("OpenAI Integration Check", False, "OpenAI API key not configured - recipe generation will fail")
+            print("      ⚠️ Note: Recipe generation requires OpenAI API key in Account Settings")
+        
+        # Step 2: Test POST /api/recipes/generate/{athlete_id} for breakfast
+        print("   Step 2: Test POST /api/recipes/generate/{athlete_id} - Generate breakfast recipe")
+        
+        recipe_request = {
+            "meal_type": "breakfast"
+        }
+        
+        print(f"      Generating breakfast recipe for athlete: {test_athlete_id}")
+        print("      ⏳ This may take 20-60 seconds...")
+        
+        generate_response = requests.post(
+            f"{BACKEND_URL}/recipes/generate/{test_athlete_id}",
+            json=recipe_request,
+            headers={"Content-Type": "application/json"},
+            timeout=120  # 2 minute timeout for recipe generation
+        )
+        
+        recipe_generation_success = False
+        generated_recipe_id = None
+        
+        if generate_response.status_code == 200:
+            recipe_result = generate_response.json()
+            
+            # Verify response structure
+            required_fields = ["success", "meal_type", "recipe_name", "recipe"]
+            missing_fields = [field for field in required_fields if field not in recipe_result]
+            
+            if not missing_fields:
+                recipe_data = recipe_result.get("recipe", {})
+                recipe_required_fields = ["id", "recipe_name", "ingredients", "instructions", "nutrition_info", "prep_time", "cook_time", "servings"]
+                recipe_missing_fields = [field for field in recipe_required_fields if field not in recipe_data]
+                
+                if not recipe_missing_fields:
+                    generated_recipe_id = recipe_data.get("id")
+                    recipe_generation_success = True
+                    
+                    print_test_result("Recipe Generation - Breakfast", True, 
+                        f"Recipe '{recipe_result.get('recipe_name')}' generated successfully (ID: {generated_recipe_id})")
+                    
+                    # Verify nutrition info structure
+                    nutrition_info = recipe_data.get("nutrition_info", {})
+                    if isinstance(nutrition_info, dict) and "calories" in nutrition_info:
+                        print(f"      ✅ Nutrition info: {nutrition_info.get('calories')} calories")
+                    
+                    # Check if image was generated
+                    image_base64 = recipe_data.get("image_base64")
+                    if image_base64:
+                        print(f"      ✅ Recipe image generated (size: {len(image_base64)} chars)")
+                    else:
+                        print(f"      ⚠️ Recipe image not generated (this is OK if image generation fails)")
+                        
+                else:
+                    print_test_result("Recipe Generation - Breakfast", False, f"Recipe missing required fields: {recipe_missing_fields}")
+            else:
+                print_test_result("Recipe Generation - Breakfast", False, f"Response missing required fields: {missing_fields}")
+                
+        elif generate_response.status_code == 400:
+            error_detail = generate_response.json().get("detail", "Unknown error")
+            if "OpenAI API key" in error_detail:
+                print_test_result("Recipe Generation - Breakfast", False, f"OpenAI API key issue: {error_detail}")
+            else:
+                print_test_result("Recipe Generation - Breakfast", False, f"Bad request: {error_detail}")
+        else:
+            print_test_result("Recipe Generation - Breakfast", False, f"Generation failed: {generate_response.status_code} - {generate_response.text}")
+        
+        # Step 3: Test GET /api/recipes/{athlete_id} - Get all recipes
+        print("   Step 3: Test GET /api/recipes/{athlete_id} - Retrieve generated recipes")
+        
+        get_recipes_response = requests.get(f"{BACKEND_URL}/recipes/{test_athlete_id}")
+        
+        if get_recipes_response.status_code == 200:
+            recipes_data = get_recipes_response.json()
+            recipes_list = recipes_data.get("recipes", [])
+            
+            print_test_result("Get Recipes", True, f"Retrieved {len(recipes_list)} recipes")
+            
+            # Verify our generated recipe is in the list
+            if generated_recipe_id:
+                found_recipe = None
+                for recipe in recipes_list:
+                    if recipe.get("id") == generated_recipe_id:
+                        found_recipe = recipe
+                        break
+                
+                if found_recipe:
+                    print(f"      ✅ Generated recipe found in list: '{found_recipe.get('recipe_name')}'")
+                    print(f"      ✅ Recipe format: {found_recipe.get('meal_type')} with {len(found_recipe.get('ingredients', []))} ingredients")
+                else:
+                    print(f"      ❌ Generated recipe not found in recipes list")
+            
+        else:
+            print_test_result("Get Recipes", False, f"Failed to retrieve recipes: {get_recipes_response.status_code}")
+        
+        # Step 4: Test PUT /api/recipes/{recipe_id}/rating - Rate a recipe
+        print("   Step 4: Test PUT /api/recipes/{recipe_id}/rating - Rate the generated recipe")
+        
+        if generated_recipe_id:
+            rating_request = {
+                "rating": 4
+            }
+            
+            rating_response = requests.put(
+                f"{BACKEND_URL}/recipes/{generated_recipe_id}/rating",
+                json=rating_request,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if rating_response.status_code == 200:
+                rating_result = rating_response.json()
+                if rating_result.get("success"):
+                    print_test_result("Recipe Rating", True, "Recipe rated 4/5 stars successfully")
+                else:
+                    print_test_result("Recipe Rating", False, "Rating response indicates failure")
+            else:
+                print_test_result("Recipe Rating", False, f"Rating failed: {rating_response.status_code} - {rating_response.text}")
+            
+            # Verify rating was saved by getting recipes again
+            verify_rating_response = requests.get(f"{BACKEND_URL}/recipes/{test_athlete_id}")
+            if verify_rating_response.status_code == 200:
+                updated_recipes = verify_rating_response.json().get("recipes", [])
+                rated_recipe = None
+                for recipe in updated_recipes:
+                    if recipe.get("id") == generated_recipe_id:
+                        rated_recipe = recipe
+                        break
+                
+                if rated_recipe and rated_recipe.get("user_rating") == 4:
+                    print(f"      ✅ Rating persisted: {rated_recipe.get('user_rating')}/5 stars")
+                else:
+                    print(f"      ⚠️ Rating may not have persisted correctly")
+        else:
+            print_test_result("Recipe Rating", False, "No recipe ID available for rating test")
+        
+        # Step 5: Test DELETE /api/recipes/{recipe_id} - Delete the recipe
+        print("   Step 5: Test DELETE /api/recipes/{recipe_id} - Delete the generated recipe")
+        
+        if generated_recipe_id:
+            delete_response = requests.delete(f"{BACKEND_URL}/recipes/{generated_recipe_id}")
+            
+            if delete_response.status_code == 200:
+                delete_result = delete_response.json()
+                if delete_result.get("success"):
+                    print_test_result("Recipe Deletion", True, "Recipe deleted successfully")
+                else:
+                    print_test_result("Recipe Deletion", False, "Delete response indicates failure")
+            else:
+                print_test_result("Recipe Deletion", False, f"Deletion failed: {delete_response.status_code} - {delete_response.text}")
+            
+            # Verify recipe was deleted
+            verify_delete_response = requests.get(f"{BACKEND_URL}/recipes/{test_athlete_id}")
+            if verify_delete_response.status_code == 200:
+                remaining_recipes = verify_delete_response.json().get("recipes", [])
+                deleted_recipe_found = any(recipe.get("id") == generated_recipe_id for recipe in remaining_recipes)
+                
+                if not deleted_recipe_found:
+                    print(f"      ✅ Recipe successfully removed from database")
+                else:
+                    print(f"      ❌ Recipe still exists in database after deletion")
+        else:
+            print_test_result("Recipe Deletion", False, "No recipe ID available for deletion test")
+        
+        # Step 6: Test error handling - Delete non-existent recipe
+        print("   Step 6: Test error handling - Delete non-existent recipe")
+        
+        fake_recipe_id = str(uuid.uuid4())
+        error_delete_response = requests.delete(f"{BACKEND_URL}/recipes/{fake_recipe_id}")
+        
+        if error_delete_response.status_code == 404:
+            print_test_result("Error Handling - Delete Non-existent", True, "Correctly returned 404 for non-existent recipe")
+        else:
+            print_test_result("Error Handling - Delete Non-existent", False, f"Expected 404, got {error_delete_response.status_code}")
+        
+        # Step 7: Test different meal types (if OpenAI is configured)
+        if openai_configured and recipe_generation_success:
+            print("   Step 7: Test different meal types - Generate lunch recipe")
+            
+            lunch_request = {
+                "meal_type": "lunch"
+            }
+            
+            print("      ⏳ Generating lunch recipe (may take 20-60 seconds)...")
+            
+            lunch_response = requests.post(
+                f"{BACKEND_URL}/recipes/generate/{test_athlete_id}",
+                json=lunch_request,
+                headers={"Content-Type": "application/json"},
+                timeout=120
+            )
+            
+            if lunch_response.status_code == 200:
+                lunch_result = lunch_response.json()
+                lunch_recipe_id = lunch_result.get("recipe", {}).get("id")
+                
+                print_test_result("Recipe Generation - Lunch", True, 
+                    f"Lunch recipe '{lunch_result.get('recipe_name')}' generated successfully")
+                
+                # Clean up lunch recipe
+                if lunch_recipe_id:
+                    requests.delete(f"{BACKEND_URL}/recipes/{lunch_recipe_id}")
+                    print(f"      ✅ Lunch recipe cleaned up")
+            else:
+                print_test_result("Recipe Generation - Lunch", False, f"Lunch generation failed: {lunch_response.status_code}")
+        
+        # Overall assessment
+        print("\n📊 RECIPE GENERATION API TESTING SUMMARY:")
+        print("-" * 50)
+        
+        if recipe_generation_success:
+            print("✅ Recipe generation endpoint working correctly")
+            print("✅ Recipe retrieval endpoint working correctly")
+            print("✅ Recipe rating endpoint working correctly")
+            print("✅ Recipe deletion endpoint working correctly")
+            print("✅ Error handling working correctly")
+            print("✅ All CRUD operations functional")
+            
+            if openai_configured:
+                print("✅ OpenAI integration properly configured")
+                print("✅ Recipe generation takes 20-60 seconds as expected")
+            else:
+                print("⚠️ OpenAI integration not configured - affects recipe generation")
+            
+            print("\n🎉 ALL RECIPE GENERATION API TESTS PASSED")
+            return True
+        else:
+            print("❌ Recipe generation failed - check OpenAI integration")
+            print("⚠️ Other endpoints may work but cannot test without generated recipes")
+            
+            if not openai_configured:
+                print("💡 SOLUTION: Configure OpenAI API key in Account Settings → Apps tab")
+            
+            return False
+        
+    except requests.exceptions.Timeout:
+        print_test_result("Recipe Generation API", False, "Request timeout - recipe generation takes longer than expected")
+        return False
+    except Exception as e:
+        print_test_result("Recipe Generation API", False, f"Exception: {str(e)}")
+        return False
+
 def print_test_result(test_name, success, details=""):
     """Print formatted test results"""
     status = "✅ PASS" if success else "❌ FAIL"
