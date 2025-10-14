@@ -4017,6 +4017,226 @@ async def delete_test_result(result_id: str):
     
     return {"success": True}
 
+
+# Recipe routes
+@api_router.post("/recipes/generate-week/{athlete_id}")
+async def generate_weekly_recipes(athlete_id: str):
+    """Generate a full week of recipes (21 meals) based on athlete's nutrition data and preferences"""
+    try:
+        from emergentintegrations.llm.openai.image_generation import OpenAIImageGeneration
+        from dotenv import load_dotenv
+        load_dotenv()
+        
+        # Get athlete data
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="Athlete not found")
+        
+        # Get OpenAI key (user's key or Emergent LLM key)
+        openai_key = athlete.get('openai_api_key') or os.environ.get('EMERGENT_LLM_KEY')
+        if not openai_key:
+            raise HTTPException(status_code=400, detail="OpenAI API key required. Please add your key in Account Settings.")
+        
+        # Get recent nutrition entries (last 14 days)
+        two_weeks_ago = (datetime.now(timezone.utc) - timedelta(days=14)).strftime("%Y-%m-%d")
+        nutrition_entries = await db.nutrition_entries.find(
+            {"athlete_id": athlete_id, "entry_date": {"$gte": two_weeks_ago}},
+            {"_id": 0}
+        ).to_list(length=None)
+        
+        # Get supplements
+        supplements = await db.supplements.find(
+            {"athlete_id": athlete_id},
+            {"_id": 0}
+        ).to_list(length=None)
+        
+        # Calculate average daily nutrition
+        total_cals = sum(n.get('calories', 0) for n in nutrition_entries if n.get('calories'))
+        total_protein = sum(n.get('protein', 0) for n in nutrition_entries if n.get('protein'))
+        total_carbs = sum(n.get('carbs', 0) for n in nutrition_entries if n.get('carbs'))
+        total_fat = sum(n.get('fat', 0) for n in nutrition_entries if n.get('fat'))
+        days_tracked = len(set(n.get('entry_date') for n in nutrition_entries if n.get('entry_date'))) or 1
+        
+        avg_nutrition = {
+            "calories": total_cals / days_tracked if days_tracked > 0 else 2000,
+            "protein": total_protein / days_tracked if days_tracked > 0 else 150,
+            "carbs": total_carbs / days_tracked if days_tracked > 0 else 200,
+            "fat": total_fat / days_tracked if days_tracked > 0 else 65
+        }
+        
+        # Get dietary restrictions
+        allergies = athlete.get('allergies', [])
+        dietary_prefs = athlete.get('dietary_preferences', [])
+        
+        # Build context for AI
+        context = f"""
+        Athlete Profile:
+        - Estimated daily calorie need: {athlete.get('estimated_calorie_need', 2000)} calories
+        - Current average intake: {avg_nutrition['calories']:.0f} calories
+        - Average macros: {avg_nutrition['protein']:.0f}g protein, {avg_nutrition['carbs']:.0f}g carbs, {avg_nutrition['fat']:.0f}g fat
+        - Allergies: {', '.join(allergies) if allergies else 'None'}
+        - Dietary preferences: {', '.join(dietary_prefs) if dietary_prefs else 'None'}
+        - Running goals: {athlete.get('running_goals', 'General fitness')}
+        - Supplements: {', '.join([s.get('name', '') for s in supplements[:5]]) if supplements else 'None'}
+        
+        Generate a complete 7-day meal plan (breakfast, lunch, dinner for each day).
+        Each meal should be athlete-appropriate, balanced, and delicious.
+        Target calories per meal: ~{athlete.get('estimated_calorie_need', 2000) / 3:.0f}
+        """
+        
+        # Generate recipes using OpenAI
+        client = openai.AsyncOpenAI(api_key=openai_key)
+        
+        prompt = f"""{context}
+
+        Create exactly 21 recipes (7 days x 3 meals) formatted as JSON array.
+        Each recipe must have:
+        - recipe_name: string (creative, appetizing name)
+        - day_of_week: 'monday' through 'sunday'
+        - meal_type: 'breakfast', 'lunch', or 'dinner'
+        - ingredients: array of strings with quantities (e.g., "2 cups rice", "1 lb chicken breast")
+        - instructions: detailed step-by-step cooking instructions as single string
+        - nutrition_info: object with calories, protein, carbs, fat (numbers)
+        - prep_time: minutes (number)
+        - cook_time: minutes (number)
+        - servings: number
+        
+        IMPORTANT: Avoid all allergens: {', '.join(allergies) if allergies else 'none'}
+        Follow dietary preferences: {', '.join(dietary_prefs) if dietary_prefs else 'balanced diet'}
+        
+        Return ONLY valid JSON array, no other text."""
+        
+        response = await client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are a nutrition expert and chef specializing in athlete meal planning."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.8
+        )
+        
+        recipes_text = response.choices[0].message.content
+        
+        # Parse JSON
+        import json
+        import re
+        
+        # Extract JSON from response (might be wrapped in code blocks)
+        json_match = re.search(r'\[.*\]', recipes_text, re.DOTALL)
+        if json_match:
+            recipes_data = json.loads(json_match.group(0))
+        else:
+            recipes_data = json.loads(recipes_text)
+        
+        # Generate images for each recipe (in batches to avoid overload)
+        image_gen = OpenAIImageGeneration(api_key=openai_key)
+        
+        week_start = datetime.now(timezone.utc).strftime("%Y-%m-%d")  # This week's Monday
+        
+        saved_recipes = []
+        for i, recipe_data in enumerate(recipes_data[:21]):  # Limit to 21
+            try:
+                # Generate food image
+                image_prompt = f"Professional food photography of {recipe_data['recipe_name']}, appetizing, well-plated, high quality"
+                images = await image_gen.generate_images(
+                    prompt=image_prompt,
+                    model="gpt-image-1",
+                    number_of_images=1
+                )
+                
+                image_base64 = base64.b64encode(images[0]).decode('utf-8') if images else None
+                
+                # Create recipe document
+                recipe = Recipe(
+                    athlete_id=athlete_id,
+                    week_start_date=week_start,
+                    day_of_week=recipe_data['day_of_week'],
+                    meal_type=recipe_data['meal_type'],
+                    recipe_name=recipe_data['recipe_name'],
+                    ingredients=recipe_data['ingredients'],
+                    instructions=recipe_data['instructions'],
+                    nutrition_info=recipe_data['nutrition_info'],
+                    prep_time=recipe_data['prep_time'],
+                    cook_time=recipe_data['cook_time'],
+                    servings=recipe_data['servings'],
+                    image_base64=image_base64
+                )
+                
+                recipe_dict = prepare_for_mongo(recipe.model_dump())
+                await db.recipes.insert_one(recipe_dict)
+                saved_recipes.append(recipe_data['recipe_name'])
+                
+            except Exception as img_error:
+                print(f"Error generating image for recipe {i}: {img_error}")
+                # Save recipe without image
+                recipe = Recipe(
+                    athlete_id=athlete_id,
+                    week_start_date=week_start,
+                    day_of_week=recipe_data['day_of_week'],
+                    meal_type=recipe_data['meal_type'],
+                    recipe_name=recipe_data['recipe_name'],
+                    ingredients=recipe_data['ingredients'],
+                    instructions=recipe_data['instructions'],
+                    nutrition_info=recipe_data['nutrition_info'],
+                    prep_time=recipe_data['prep_time'],
+                    cook_time=recipe_data['cook_time'],
+                    servings=recipe_data['servings'],
+                    image_base64=None
+                )
+                
+                recipe_dict = prepare_for_mongo(recipe.model_dump())
+                await db.recipes.insert_one(recipe_dict)
+                saved_recipes.append(recipe_data['recipe_name'])
+        
+        return {
+            "success": True,
+            "week_start_date": week_start,
+            "recipes_created": len(saved_recipes),
+            "recipe_names": saved_recipes
+        }
+        
+    except Exception as e:
+        logging.error(f"Error generating recipes: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/recipes/{athlete_id}")
+async def get_recipes(athlete_id: str, week_start_date: Optional[str] = None):
+    """Get recipes for an athlete, optionally filtered by week"""
+    query = {"athlete_id": athlete_id}
+    if week_start_date:
+        query["week_start_date"] = week_start_date
+    
+    recipes = await db.recipes.find(query, {"_id": 0}).sort("day_of_week", 1).to_list(length=None)
+    return {"recipes": [parse_from_mongo(recipe) for recipe in recipes]}
+
+@api_router.put("/recipes/{recipe_id}/rating")
+async def rate_recipe(recipe_id: str, rating: dict):
+    """Update recipe rating"""
+    user_rating = rating.get('rating')
+    if user_rating is None or not (1 <= user_rating <= 5):
+        raise HTTPException(status_code=400, detail="Rating must be between 1 and 5")
+    
+    result = await db.recipes.update_one(
+        {"id": recipe_id},
+        {"$set": {"user_rating": user_rating, "updated_at": datetime.now(timezone.utc).isoformat()}}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Recipe not found")
+    
+    return {"success": True}
+
+@api_router.delete("/recipes/{recipe_id}")
+async def delete_recipe(recipe_id: str):
+    """Delete a recipe"""
+    result = await db.recipes.delete_one({"id": recipe_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Recipe not found")
+    
+    return {"success": True}
+
+
 # Training Calendar routes
 @api_router.get("/training-calendar/{athlete_id}")
 async def get_training_blocks(athlete_id: str):
