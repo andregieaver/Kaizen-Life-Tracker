@@ -107,23 +107,6 @@ const Recipes = ({ athleteId }) => {
     }
   };
 
-  // Filter recipes
-  const filteredRecipes = recipes.filter(recipe => {
-    if (selectedDay !== 'all' && recipe.day_of_week !== selectedDay) return false;
-    if (selectedMeal !== 'all' && recipe.meal_type !== selectedMeal) return false;
-    return true;
-  });
-
-  // Group recipes by day and meal
-  const recipesByDay = {};
-  days.forEach(day => {
-    recipesByDay[day] = {
-      breakfast: filteredRecipes.find(r => r.day_of_week === day && r.meal_type === 'breakfast'),
-      lunch: filteredRecipes.find(r => r.day_of_week === day && r.meal_type === 'lunch'),
-      dinner: filteredRecipes.find(r => r.day_of_week === day && r.meal_type === 'dinner'),
-    };
-  });
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
