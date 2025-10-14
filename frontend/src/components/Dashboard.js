@@ -821,15 +821,7 @@ const Dashboard = ({ athleteId }) => {
         )}
 
         {activeTab === 'recipes' && (
-          <Recipes athleteId={athleteId} />
-        )}
-
-        {activeTab === 'recipe-browser' && (
-          <RecipeBrowser athleteId={athleteId} />
-        )}
-
-        {activeTab === 'weekly-menu' && (
-          <WeeklyMenuBuilder athleteId={athleteId} />
+          <RecipesPage athleteId={athleteId} />
         )}
 
         {activeTab === 'supplements' && (
