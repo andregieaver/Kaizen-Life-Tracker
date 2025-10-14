@@ -69,7 +69,28 @@ const TestsAnalytics = ({ athleteId }) => {
   useEffect(() => {
     loadData();
     loadSubscriptionStatus();
+    loadTestOrder();
   }, [athleteId]);
+
+  const loadTestOrder = () => {
+    try {
+      const savedOrder = localStorage.getItem(`testOrder_${athleteId}`);
+      if (savedOrder) {
+        setTestOrder(JSON.parse(savedOrder));
+      }
+    } catch (error) {
+      console.error('Error loading test order:', error);
+    }
+  };
+
+  const saveTestOrder = (order) => {
+    try {
+      localStorage.setItem(`testOrder_${athleteId}`, JSON.stringify(order));
+      setTestOrder(order);
+    } catch (error) {
+      console.error('Error saving test order:', error);
+    }
+  };
 
   const loadSubscriptionStatus = async () => {
     try {
