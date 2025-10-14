@@ -4156,8 +4156,8 @@ async def generate_daily_recipes(athlete_id: str, day_request: dict):
                 # Create recipe document
                 recipe = Recipe(
                     athlete_id=athlete_id,
-                    week_start_date=week_start,
-                    day_of_week=recipe_data['day_of_week'],
+                    week_start_date=week_start_date,
+                    day_of_week=day_of_week,
                     meal_type=recipe_data['meal_type'],
                     recipe_name=recipe_data['recipe_name'],
                     ingredients=recipe_data['ingredients'],
