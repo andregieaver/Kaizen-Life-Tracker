@@ -715,6 +715,8 @@ agent_communication:
     message: "REMOVED ALL EMERGENT_LLM_KEY USAGE per user request. Recipe generation now exclusively uses user's OpenAI API key from Account Settings. Removed EMERGENT_LLM_KEY from .env. Removed emergentintegrations usage for text generation. Changed image generation from emergentintegrations to direct OpenAI DALL-E 3 API. Updated AICoachService to not require EMERGENT_LLM_KEY at initialization. Recipe generation now requires user to have OpenAI key set in Account Settings → Plans tab."
   - agent: "main"
     message: "Fixed recipe generation to correctly fetch OpenAI key from integrations collection. Key is stored in db.integrations with integration_type='openai' and credentials.api_key field, not in athlete_profiles.openai_api_key. Updated error message to direct users to Apps tab (not Plans tab). Recipe generation now works with user's OpenAI key from Apps tab."
+  - agent: "main"
+    message: "REFACTORED: Recipe generation from weekly batch to day-by-day progressive generation. Changed endpoint from /recipes/generate-week to /recipes/generate-day. Backend now generates 3 meals (breakfast, lunch, dinner) per day instead of 21 meals at once. Frontend loops through 7 days calling API for each day. Added progress indicator showing current day being generated and X/7 days progress. Recipes appear progressively as each day completes. Prevents timeout issues and provides better UX feedback."
 
   - task: "Login and Authentication System"
     implemented: true
