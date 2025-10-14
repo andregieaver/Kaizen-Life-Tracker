@@ -659,6 +659,65 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Merits - Personal Records */}
               <Merits athleteId={athleteId} />
+
+              {/* Progress - Test Results */}
+              <Card className="border-0 shadow-lg">
+                <CardHeader>
+                  <CardTitle className="text-lg font-display">Progress</CardTitle>
+                  <CardDescription>Latest test results and performance metrics</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {testResults.length > 0 ? (
+                    <div className="space-y-3">
+                      {testResults.map((test) => (
+                        <div 
+                          key={test.id} 
+                          className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover-lift cursor-pointer"
+                          onClick={() => navigate('/dashboard/tests')}
+                        >
+                          <div className="flex items-center space-x-4">
+                            <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                              <LineChart className="w-5 h-5 text-purple-600" />
+                            </div>
+                            <div>
+                              <p className="font-medium text-gray-900">
+                                {test.test_name}
+                              </p>
+                              <p className="text-sm text-gray-500">
+                                {new Date(test.test_date).toLocaleDateString()}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <p className="font-semibold text-gray-900">
+                              {test.result_value} {test.unit === 'repetitions' ? 'reps' : 
+                               test.unit === 'time' ? 'min' : 
+                               test.unit === 'distance' ? 'km' : 
+                               test.unit === 'weight' ? 'kg' : 
+                               test.unit === 'percentage' ? '%' : test.unit}
+                            </p>
+                            {test.time_to_completion && (
+                              <p className="text-sm text-gray-500">
+                                {test.time_to_completion} min
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <p className="text-gray-500 mb-4">No test results yet</p>
+                      <Button 
+                        onClick={() => navigate('/dashboard/tests')}
+                        className="bg-purple-600 hover:bg-purple-700"
+                      >
+                        Add Test Results
+                      </Button>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             </div>
 
             {/* Recent Activity */}
