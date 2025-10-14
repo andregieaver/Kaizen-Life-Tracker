@@ -12,7 +12,7 @@ const API = `${BACKEND_URL}/api`;
 const Recipes = ({ athleteId }) => {
   const { t } = useTranslation();
   const [recipes, setRecipes] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedMealType, setSelectedMealType] = useState('breakfast');
   const [filterMealType, setFilterMealType] = useState('all');
