@@ -29,10 +29,15 @@ const Recipes = ({ athleteId }) => {
   const loadRecipes = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${API}/recipes/${athleteId}`);
+      const response = await axios.get(`${API}/recipes/${athleteId}`, {
+        timeout: 10000 // 10 second timeout
+      });
       setRecipes(response.data.recipes || []);
     } catch (error) {
       console.error('Error loading recipes:', error);
+      if (error.code === 'ECONNABORTED') {
+        console.error('Request timeout - backend might be slow');
+      }
       setRecipes([]);
     } finally {
       setIsLoading(false);
