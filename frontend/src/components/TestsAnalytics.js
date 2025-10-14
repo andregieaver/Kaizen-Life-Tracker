@@ -396,6 +396,20 @@ const TestsAnalytics = ({ athleteId }) => {
   };
 
   const testGroups = getTestGroups();
+  
+  // Get ordered test names
+  const orderedTestNames = (() => {
+    const allTestNames = Object.keys(testGroups);
+    
+    // If we have a saved order, use it and append any new tests
+    if (testOrder.length > 0) {
+      const newTests = allTestNames.filter(name => !testOrder.includes(name));
+      return [...testOrder.filter(name => allTestNames.includes(name)), ...newTests];
+    }
+    
+    // Default: alphabetical order
+    return allTestNames.sort();
+  })();
 
   if (isLoading) {
     return (
