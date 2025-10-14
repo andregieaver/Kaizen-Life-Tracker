@@ -163,6 +163,7 @@ const TestsAnalytics = ({ athleteId }) => {
         use_existing_test: false
       });
       setEditingResult(null);
+      setAddingEntryToTest(null);
       setShowModal(false);
       
       // Reload data
