@@ -138,23 +138,30 @@ const Recipes = ({ athleteId }) => {
           <h1 className="text-3xl font-display font-bold text-gray-900">Weekly Meal Plan</h1>
           <p className="text-gray-600 mt-1">AI-generated recipes tailored to your nutrition needs</p>
         </div>
-        <Button
-          onClick={generateWeeklyMenu}
-          disabled={isGenerating}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-        >
-          {isGenerating ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Generating...
-            </>
-          ) : (
-            <>
-              <Sparkles className="w-4 h-4 mr-2" />
-              Generate New Week
-            </>
+        <div className="flex flex-col gap-2">
+          <Button
+            onClick={generateWeeklyMenu}
+            disabled={isGenerating}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+          >
+            {isGenerating ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Generating {generatingProgress.currentDay}...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4 mr-2" />
+                Generate New Week
+              </>
+            )}
+          </Button>
+          {isGenerating && (
+            <div className="text-sm text-gray-600">
+              Progress: {generatingProgress.current}/{generatingProgress.total} days
+            </div>
           )}
-        </Button>
+        </div>
       </div>
 
       {recipes.length === 0 ? (
