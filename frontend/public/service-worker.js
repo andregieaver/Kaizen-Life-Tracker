@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-globals */
 // Service Worker for Push Notifications
+// Version: 1.0.1 - Updated drag handle position
 
 self.addEventListener('push', function(event) {
   console.log('[Service Worker] Push Received:', event);
