@@ -719,6 +719,8 @@ agent_communication:
     message: "REFACTORED: Recipe generation from weekly batch to day-by-day progressive generation. Changed endpoint from /recipes/generate-week to /recipes/generate-day. Backend now generates 3 meals (breakfast, lunch, dinner) per day instead of 21 meals at once. Frontend loops through 7 days calling API for each day. Added progress indicator showing current day being generated and X/7 days progress. Recipes appear progressively as each day completes. Prevents timeout issues and provides better UX feedback."
   - agent: "main"
     message: "Added Cancel button to stop recipe generation. Red 'Cancel' button appears next to 'Generate' button during generation. Uses cancelGeneration state flag checked in generation loop. Shows confirmation dialog before cancelling. Breaks out of loop and shows 'Recipe generation cancelled' message. Properly cleans up state on cancel. Button styled with red border and text to indicate destructive action."
+  - agent: "main"
+    message: "MAJOR REFACTOR: Recipe page completely redesigned from weekly generation to on-demand single meal generation. Backend: Changed endpoint from /recipes/generate-day to /recipes/generate with meal_type parameter. Generates single recipe (1 meal) instead of 3 per day. No longer requires day_of_week. Frontend: Removed weekly loop, progress tracking, cancel button. Added simple form with meal type dropdown (breakfast/lunch/dinner) and Generate button. Recipes appear in grid below form. Filter by meal type. Much simpler UX - generate one recipe at a time. Fixed infinite loading by consolidating useEffect logic. Both services restarted successfully."
 
   - task: "Login and Authentication System"
     implemented: true
