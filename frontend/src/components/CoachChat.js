@@ -525,8 +525,8 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
         </Button>
       </div>
 
-      {/* Chat Messages - Maximized Area */}
-      <div className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 pb-24 md:pb-6" data-testid="chat-messages">
+      {/* Chat Messages - Maximized Area with bottom padding for fixed input */}
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 pb-32 md:pb-40" data-testid="chat-messages">
         <div className="w-full max-w-[1600px] mx-auto space-y-4 py-4">
           {messages.length === 0 ? (
             <div className="text-center py-8">
