@@ -709,6 +709,8 @@ agent_communication:
     message: "Fixed Coach chat page desktop layout: Message input bar now fixed at bottom with proper z-index. Past conversations sidebar now full viewport height (h-screen) with white background and proper positioning (fixed inset-y-0). Increased chat messages bottom padding to accommodate fixed input bar."
   - agent: "main"
     message: "Added Progress section to Dashboard home page below Merits section. Displays all tests with title, latest entry date, and latest value. Tests grouped by name showing most recent result for each. Click on any test to navigate to Tests & Analytics page. Empty state with 'Add Test Results' button if no tests exist."
+  - agent: "main"
+    message: "MAJOR FEATURE: Recipes page with AI-generated weekly meal plans. Backend: Added Recipe model, installed emergentintegrations, created /api/recipes endpoints (generate-week, get, rate, delete). Uses OpenAI GPT-4o for recipe generation and gpt-image-1 for food images. Generates 21 recipes (7 days x 3 meals) based on athlete's nutrition data, allergies, and dietary preferences. Frontend: Created Recipes.js component with filters, star ratings, nutrition info display. Added menu link beneath Nutrition. Account Settings: Added Allergies (10 options) and Dietary Preferences (9 options) checklists to Personal Information section with backend model updates. Full integration with emergentintegrations library and EMERGENT_LLM_KEY support."
 
   - task: "Login and Authentication System"
     implemented: true
