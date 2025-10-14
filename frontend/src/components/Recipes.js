@@ -20,34 +20,19 @@ const Recipes = ({ athleteId }) => {
   const mealTypes = ['breakfast', 'lunch', 'dinner'];
 
   useEffect(() => {
-    let mounted = true;
-    
     const fetchRecipes = async () => {
-      setIsLoading(true);
       try {
         const response = await axios.get(`${API}/recipes/${athleteId}`, {
-          timeout: 5000 // 5 second timeout
+          timeout: 5000
         });
-        if (mounted) {
-          setRecipes(response.data.recipes || []);
-        }
+        setRecipes(response.data.recipes || []);
       } catch (error) {
         console.error('Error loading recipes:', error);
-        if (mounted) {
-          setRecipes([]);
-        }
-      } finally {
-        if (mounted) {
-          setIsLoading(false);
-        }
+        setRecipes([]);
       }
     };
     
     fetchRecipes();
-    
-    return () => {
-      mounted = false;
-    };
   }, [athleteId]);
 
   const loadRecipes = async () => {
