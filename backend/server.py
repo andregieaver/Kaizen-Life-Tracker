@@ -681,6 +681,26 @@ class Recipe(BaseModel):
     updated_at: Optional[datetime] = None
     # Note: Recipes are saved individually and will be used for weekly menu building later
 
+class WeeklyMenuMeal(BaseModel):
+    """Individual meal slot in a weekly menu"""
+    recipe_id: Optional[str] = None  # ID of the recipe assigned to this slot
+    recipe_name: Optional[str] = None  # Cached recipe name for quick display
+    meal_type: str  # 'breakfast', 'lunch', 'dinner'
+    day_of_week: str  # 'monday', 'tuesday', etc.
+
+class WeeklyMenu(BaseModel):
+    """Template for weekly meal planning"""
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    menu_name: str  # e.g., "High Protein Week", "Recovery Week"
+    description: Optional[str] = None
+    meals: list[WeeklyMenuMeal]  # 21 slots (7 days × 3 meals)
+    is_active: bool = Field(default=False)  # Only one menu can be active at a time
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
 class TrainingBlock(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
