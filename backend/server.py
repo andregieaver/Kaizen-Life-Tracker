@@ -2463,7 +2463,10 @@ async def create_athlete_profile(profile: AthleteProfile):
     profile_dict["password"] = hashed_password
     
     await db.athlete_profiles.insert_one(profile_dict)
-    return profile
+    
+    # Retrieve the created profile and return it properly parsed
+    created_profile = await db.athlete_profiles.find_one({"id": profile.id}, {"_id": 0})
+    return parse_from_mongo(created_profile)
 
 @api_router.post("/auth/login")
 async def login_athlete(login_data: LoginRequest):
