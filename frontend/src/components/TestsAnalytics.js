@@ -40,24 +40,37 @@ const SortableTestCard = ({ testName, children }) => {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: testName });
+  } = useSortable({ 
+    id: testName,
+    // Restrict to vertical axis only
+    transition: {
+      duration: 150,
+      easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+    },
+  });
 
+  // Only apply vertical transform to prevent horizontal movement
   const style = {
-    transform: CSS.Transform.toString(transform),
+    transform: transform ? `translate3d(0px, ${transform.y}px, 0)` : undefined,
     transition,
     opacity: isDragging ? 0.5 : 1,
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="relative">
+    <div 
+      ref={setNodeRef} 
+      style={style} 
+      className={`relative sortable-test-card ${isDragging ? 'dragging-test-card' : ''}`}
+    >
       {/* Drag Handle */}
       <div
         {...attributes}
         {...listeners}
-        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 cursor-move touch-none p-2 hover:bg-gray-100 rounded transition-colors"
+        className="absolute left-2 top-8 z-10 drag-handle p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-grab active:cursor-grabbing"
         style={{ touchAction: 'none' }}
+        title="Drag to reorder"
       >
-        <GripVertical className="w-5 h-5 text-gray-400" />
+        <GripVertical className="w-5 h-5 text-gray-400 hover:text-gray-600" />
       </div>
       <div className="pl-10">
         {children}
