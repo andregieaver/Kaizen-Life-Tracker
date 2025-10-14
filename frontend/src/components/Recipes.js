@@ -119,6 +119,71 @@ const Recipes = ({ athleteId }) => {
     }
   };
 
+  const openRecipeDetail = (recipe) => {
+    setSelectedRecipe(recipe);
+    setAdjustedServings(recipe.servings);
+  };
+
+  const closeRecipeDetail = () => {
+    setSelectedRecipe(null);
+    setAdjustedServings(1);
+  };
+
+  // Scale ingredients based on servings
+  const scaleIngredient = (ingredient, originalServings, newServings) => {
+    const scaleFactor = newServings / originalServings;
+    
+    // Match numbers (including fractions and decimals) in the ingredient string
+    const numberPattern = /(\d+\/\d+|\d+\.\d+|\d+)/g;
+    
+    return ingredient.replace(numberPattern, (match) => {
+      let num;
+      
+      // Handle fractions (e.g., "1/2")
+      if (match.includes('/')) {
+        const [numerator, denominator] = match.split('/').map(Number);
+        num = numerator / denominator;
+      } else {
+        num = parseFloat(match);
+      }
+      
+      const scaled = num * scaleFactor;
+      
+      // Format the result nicely
+      if (scaled === Math.floor(scaled)) {
+        return scaled.toString();
+      } else if (scaled < 1) {
+        // Convert to fraction for small amounts
+        const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+        const denominator = 4; // Use quarters for simplicity
+        const numerator = Math.round(scaled * denominator);
+        const divisor = gcd(numerator, denominator);
+        if (numerator === denominator) return '1';
+        return `${numerator / divisor}/${denominator / divisor}`;
+      } else {
+        return scaled.toFixed(1).replace('.0', '');
+      }
+    });
+  };
+
+  const getScaledIngredients = () => {
+    if (!selectedRecipe) return [];
+    return selectedRecipe.ingredients.map(ing => 
+      scaleIngredient(ing, selectedRecipe.servings, adjustedServings)
+    );
+  };
+
+  const getScaledNutrition = () => {
+    if (!selectedRecipe) return {};
+    const scaleFactor = adjustedServings / selectedRecipe.servings;
+    return {
+      calories: Math.round(selectedRecipe.nutrition_info.calories * scaleFactor),
+      protein: Math.round(selectedRecipe.nutrition_info.protein * scaleFactor),
+      carbs: Math.round(selectedRecipe.nutrition_info.carbs * scaleFactor),
+      fat: Math.round(selectedRecipe.nutrition_info.fat * scaleFactor),
+    };
+  };
+
   return (
     <div className="space-y-6 p-4 sm:p-6 lg:p-8">
       {/* Header */}
