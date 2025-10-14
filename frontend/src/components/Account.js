@@ -894,8 +894,31 @@ const Account = ({ athleteId }) => {
         setPushSubscribed(false);
         setSaveStatus({ type: 'success', message: 'Push notifications disabled' });
       } else {
-        // Subscribe
+        // Subscribe - first ensure service worker is registered
+        console.log('Starting push notification subscription...');
+        
+        // Check if service worker is supported
+        if (!('serviceWorker' in navigator)) {
+          throw new Error('Service workers are not supported in this browser');
+        }
+        
+        // Check if push is supported
+        if (!('PushManager' in window)) {
+          throw new Error('Push notifications are not supported in this browser');
+        }
+        
+        // Register service worker if not already registered
+        let registration = await navigator.serviceWorker.getRegistration();
+        if (!registration) {
+          console.log('Registering service worker...');
+          registration = await registerServiceWorker();
+        }
+        console.log('Service worker ready:', registration);
+        
+        // Now request permission and subscribe
+        console.log('Requesting notification permission...');
         await subscribeToPush(athleteId);
+        
         setPushSubscribed(true);
         setSaveStatus({ type: 'success', message: 'Push notifications enabled! You\'ll receive alerts for new reports.' });
       }
@@ -906,8 +929,8 @@ const Account = ({ athleteId }) => {
       
       if (error.message === 'Notification permission denied') {
         errorMessage = 'Please allow notifications in your browser settings';
-      } else if (error.message === 'Push notifications are not supported') {
-        errorMessage = 'Push notifications are not supported on this browser';
+      } else if (error.message.includes('not supported')) {
+        errorMessage = error.message;
       }
       
       setSaveStatus({ type: 'error', message: errorMessage });
