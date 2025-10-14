@@ -34,7 +34,7 @@ def test_test_results_crud_api():
         
         login_data = {
             "email": "andre@example.com",
-            "password": "test123"
+            "password": "password123"
         }
         
         login_response = requests.post(
