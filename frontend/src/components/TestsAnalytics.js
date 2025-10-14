@@ -577,8 +577,8 @@ const TestsAnalytics = ({ athleteId }) => {
 
             return (
               <SortableTestCard key={testName} testName={testName}>
-                <Card>
-                <CardHeader>
+                <Card className="w-full">
+                <CardHeader className="pr-14">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <CardTitle className="text-xl">{testName}</CardTitle>
