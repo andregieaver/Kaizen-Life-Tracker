@@ -806,6 +806,10 @@ const Dashboard = ({ athleteId }) => {
           <Nutrition athleteId={athleteId} />
         )}
 
+        {activeTab === 'recipes' && (
+          <Recipes athleteId={athleteId} />
+        )}
+
         {activeTab === 'supplements' && (
           <Supplements athleteId={athleteId} />
         )}
