@@ -396,14 +396,14 @@ const TestsAnalytics = ({ athleteId }) => {
             return (
               <Card key={testName}>
                 <CardHeader>
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <CardTitle className="text-xl">{testName}</CardTitle>
                       <CardDescription>
                         {sortedResults.length} test{sortedResults.length !== 1 ? 's' : ''} recorded
                       </CardDescription>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       {sortedResults.length > 1 && (
                         <Badge 
                           className={
@@ -427,6 +427,14 @@ const TestsAnalytics = ({ athleteId }) => {
                             : formatValue(latestResult.result_value, unit)
                         }
                       </Badge>
+                      <Button
+                        size="sm"
+                        onClick={() => handleAddEntryToTest(testName, unit)}
+                        className="bg-green-600 hover:bg-green-700 text-white"
+                      >
+                        <Plus className="w-4 h-4 mr-1" />
+                        Add Entry
+                      </Button>
                     </div>
                   </div>
                 </CardHeader>
