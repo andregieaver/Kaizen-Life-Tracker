@@ -17,10 +17,17 @@ const RecipeBrowser = ({ athleteId }) => {
   const [adjustedServings, setAdjustedServings] = useState(1);
 
   useEffect(() => {
-    fetchRecipes();
+    if (athleteId) {
+      fetchRecipes();
+    }
   }, [athleteId]);
 
   const fetchRecipes = async () => {
+    if (!athleteId) {
+      setIsLoading(false);
+      return;
+    }
+    
     try {
       setIsLoading(true);
       const response = await axios.get(`${API}/recipes/${athleteId}`);
