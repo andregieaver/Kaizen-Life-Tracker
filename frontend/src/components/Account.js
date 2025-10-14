@@ -188,6 +188,26 @@ const Account = ({ athleteId }) => {
   });
   
   const [activeTab, setActiveTab] = useState('personal');
+  const navigate = useNavigate();
+  const location = window.location;
+
+  // Initialize active tab from URL parameter on mount
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const tab = urlParams.get('tab');
+    if (tab && ['personal', 'preferences', 'integrations', 'subscriptions'].includes(tab)) {
+      setActiveTab(tab);
+    }
+  }, [location.search]);
+
+  // Update URL when tab changes
+  const handleTabChange = (value) => {
+    setActiveTab(value);
+    // Update URL without page reload
+    const url = new URL(window.location);
+    url.searchParams.set('tab', value);
+    window.history.pushState({}, '', url);
+  };
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
   const [subscriptionStatus, setSubscriptionStatus] = useState({
     tier: 'free',
