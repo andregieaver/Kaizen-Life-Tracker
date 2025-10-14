@@ -222,20 +222,20 @@ const Recipes = ({ athleteId }) => {
               .map((recipe) => {
                 return (
                   <div key={recipe.id}>
-                        <Card key={recipe.id} className="hover:shadow-lg transition-shadow">
-                          {/* Recipe Image */}
-                          {recipe.image_base64 && (
-                            <div className="relative h-48 overflow-hidden rounded-t-lg">
-                              <img
-                                src={`data:image/png;base64,${recipe.image_base64}`}
-                                alt={recipe.recipe_name}
-                                className="w-full h-full object-cover"
-                              />
-                              <Badge className="absolute top-2 right-2 bg-white text-purple-700 capitalize">
-                                {meal}
-                              </Badge>
-                            </div>
-                          )}
+                    <Card className="hover:shadow-lg transition-shadow">
+                      {/* Recipe Image */}
+                      {recipe.image_base64 && (
+                        <div className="relative h-48 overflow-hidden rounded-t-lg">
+                          <img
+                            src={`data:image/png;base64,${recipe.image_base64}`}
+                            alt={recipe.recipe_name}
+                            className="w-full h-full object-cover"
+                          />
+                          <Badge className="absolute top-2 right-2 bg-white text-purple-700 capitalize">
+                            {recipe.meal_type === 'breakfast' ? '🍳' : recipe.meal_type === 'lunch' ? '🥗' : '🍽️'} {recipe.meal_type}
+                          </Badge>
+                        </div>
+                      )}
                           
                           <CardHeader>
                             <CardTitle className="text-lg font-display">{recipe.recipe_name}</CardTitle>
