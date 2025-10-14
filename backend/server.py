@@ -4025,6 +4025,8 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
     
     if not meal_type or meal_type not in ['breakfast', 'lunch', 'dinner']:
         raise HTTPException(status_code=400, detail="meal_type must be 'breakfast', 'lunch', or 'dinner'")
+    
+    logging.info(f"[RECIPE] Generating {meal_type} recipe for athlete: {athlete_id}")
     try:
         
         # Get athlete data
