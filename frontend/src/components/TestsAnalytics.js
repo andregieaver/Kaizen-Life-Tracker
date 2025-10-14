@@ -254,6 +254,40 @@ const TestsAnalytics = ({ athleteId }) => {
     setShowModal(true);
   };
 
+  const toggleTestHistory = (testName) => {
+    setExpandedTests(prev => ({
+      ...prev,
+      [testName]: !prev[testName]
+    }));
+  };
+
+  const handleDeleteAllTests = async (testName) => {
+    if (!window.confirm(`Are you sure you want to delete ALL test results for "${testName}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      // Get all results for this test
+      const testResults = await axios.get(`${API}/test-results/${athleteId}`, {
+        params: { test_name: testName }
+      });
+      
+      // Delete each result
+      const deletePromises = testResults.data.results.map(result => 
+        axios.delete(`${API}/test-results/${result.id}`)
+      );
+      
+      await Promise.all(deletePromises);
+      
+      setSaveStatus({ type: 'success', message: `All test results for "${testName}" deleted successfully!` });
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
+      loadData();
+    } catch (error) {
+      console.error('Error deleting all tests:', error);
+      setSaveStatus({ type: 'error', message: 'Failed to delete test results' });
+    }
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
