@@ -51,19 +51,36 @@ const Recipes = ({ athleteId }) => {
     setIsGenerating(true);
     
     try {
+      console.log('[RECIPE] Starting generation for:', selectedMealType);
+      
       const response = await axios.post(`${API}/recipes/generate/${athleteId}`, {
         meal_type: selectedMealType
       });
       
-      console.log('Generated recipe:', response.data);
+      console.log('[RECIPE] Success! Generated recipe:', response.data);
+      alert(`✅ Recipe generated successfully: ${response.data.recipe_name || 'Success'}`);
       
       // Add the new recipe to the list
       if (response.data.recipe) {
         setRecipes([response.data.recipe, ...recipes]);
       }
     } catch (error) {
-      console.error('Error generating recipe:', error);
-      alert(error.response?.data?.detail || 'Failed to generate recipe. Please make sure you have an OpenAI API key set in Account Settings → Apps tab.');
+      console.error('[RECIPE] Error generating recipe:', error);
+      
+      // Show detailed error to user
+      const errorDetail = error.response?.data?.detail || error.message || 'Unknown error';
+      const errorStatus = error.response?.status || 'N/A';
+      
+      alert(`❌ Recipe Generation Failed\n\nStatus: ${errorStatus}\nError: ${errorDetail}\n\nFull error logged to console.`);
+      
+      // Log full error details
+      console.error('[RECIPE] Full error object:', {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        message: error.message,
+        config: error.config
+      });
     } finally {
       setIsGenerating(false);
     }
