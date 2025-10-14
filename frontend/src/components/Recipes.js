@@ -23,17 +23,34 @@ const Recipes = ({ athleteId }) => {
   const meals = ['breakfast', 'lunch', 'dinner'];
 
   useEffect(() => {
-    loadRecipes();
+    let mounted = true;
     
-    // Fallback timeout - if still loading after 15 seconds, stop loading
-    const timeoutId = setTimeout(() => {
-      if (isLoading) {
-        console.warn('Recipe loading timeout - forcing stop');
-        setIsLoading(false);
+    const fetchRecipes = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(`${API}/recipes/${athleteId}`, {
+          timeout: 5000 // 5 second timeout
+        });
+        if (mounted) {
+          setRecipes(response.data.recipes || []);
+        }
+      } catch (error) {
+        console.error('Error loading recipes:', error);
+        if (mounted) {
+          setRecipes([]);
+        }
+      } finally {
+        if (mounted) {
+          setIsLoading(false);
+        }
       }
-    }, 15000);
+    };
     
-    return () => clearTimeout(timeoutId);
+    fetchRecipes();
+    
+    return () => {
+      mounted = false;
+    };
   }, [athleteId]);
 
   const loadRecipes = async () => {
