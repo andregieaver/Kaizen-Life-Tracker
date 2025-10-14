@@ -50,6 +50,7 @@ const Recipes = ({ athleteId }) => {
 
   const generateRecipe = async () => {
     setIsGenerating(true);
+    setStatusMessage({ type: 'info', message: `Generating ${selectedMealType} recipe... (this may take 30-60 seconds)` });
     
     try {
       console.log('[RECIPE] Starting generation for:', selectedMealType);
@@ -59,12 +60,15 @@ const Recipes = ({ athleteId }) => {
       });
       
       console.log('[RECIPE] Success! Generated recipe:', response.data);
-      alert(`✅ Recipe generated successfully: ${response.data.recipe_name || 'Success'}`);
+      setStatusMessage({ type: 'success', message: `✅ Recipe generated: ${response.data.recipe_name || 'Success'}` });
       
       // Add the new recipe to the list
       if (response.data.recipe) {
         setRecipes([response.data.recipe, ...recipes]);
       }
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => setStatusMessage({ type: '', message: '' }), 5000);
     } catch (error) {
       console.error('[RECIPE] Error generating recipe:', error);
       
@@ -72,7 +76,10 @@ const Recipes = ({ athleteId }) => {
       const errorDetail = error.response?.data?.detail || error.message || 'Unknown error';
       const errorStatus = error.response?.status || 'N/A';
       
-      alert(`❌ Recipe Generation Failed\n\nStatus: ${errorStatus}\nError: ${errorDetail}\n\nFull error logged to console.`);
+      setStatusMessage({ 
+        type: 'error', 
+        message: `❌ Generation Failed (Status: ${errorStatus}): ${errorDetail}` 
+      });
       
       // Log full error details
       console.error('[RECIPE] Full error object:', {
