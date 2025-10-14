@@ -354,10 +354,7 @@ const Recipes = ({ athleteId }) => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => {
-                              // Show recipe details in modal or expanded view
-                              alert(`Recipe: ${recipe.recipe_name}\n\nIngredients:\n${recipe.ingredients.join('\n')}\n\nInstructions:\n${recipe.instructions}`);
-                            }}
+                            onClick={() => openRecipeDetail(recipe)}
                             className="text-purple-600 hover:text-purple-700"
                           >
                             View Recipe
