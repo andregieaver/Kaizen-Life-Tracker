@@ -220,9 +220,27 @@ const TestsAnalytics = ({ athleteId }) => {
 
   const handleAddNew = () => {
     setEditingResult(null);
+    setAddingEntryToTest(null);
     setFormData({
       test_name: '',
       unit: 'repetitions',
+      result_value: '',
+      time_hours: '',
+      time_minutes: '',
+      time_seconds: '',
+      notes: '',
+      test_date: new Date().toISOString().split('T')[0],
+      use_existing_test: false
+    });
+    setShowModal(true);
+  };
+
+  const handleAddEntryToTest = (testName, unit) => {
+    setEditingResult(null);
+    setAddingEntryToTest({ testName, unit });
+    setFormData({
+      test_name: testName,
+      unit: unit,
       result_value: '',
       time_hours: '',
       time_minutes: '',
