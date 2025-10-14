@@ -4603,16 +4603,91 @@ async def create_voice_session(athlete_id: str):
         
         print(f"[VOICE] Voice preference: {voice_preference}, Language: {language_name}")
         
+        # Get current date for context
+        from datetime import datetime, timezone as dt_timezone
+        current_date = datetime.now(dt_timezone.utc).strftime("%Y-%m-%d")
+        current_day = datetime.now(dt_timezone.utc).strftime("%A, %B %d, %Y")
+        
+        # Format athlete summary with proper units
+        weekly_distance = athlete_info.get('weekly_mileage', 0)
+        distance_label = 'km' if distance_unit == 'km' else 'miles'
+        athlete_summary = f"Name: {athlete_info.get('name')}, Age: {athlete_info.get('age')}, Weekly Distance: {weekly_distance} {distance_label}, Goals: {athlete_info.get('running_goals', 'Not specified')}"
+        
+        # Summarize workouts
+        workouts = context.get('recent_workouts', [])
+        workout_summary = f"{len(workouts)} workouts in last 14 days. " if workouts else "No recent workouts. "
+        if workouts:
+            total_miles = sum(w.get('distance_miles', 0) for w in workouts)
+            workout_summary += f"Total: {total_miles:.1f} {distance_label}. Latest: {workouts[0].get('workout_type', 'run')} - {workouts[0].get('distance_miles', 0)} {distance_label} on {workouts[0].get('date')}"
+        
+        # Summarize sleep
+        sleep_data = context.get('recent_sleep', [])
+        sleep_summary = f"{len(sleep_data)} nights tracked. " if sleep_data else "No recent sleep data. "
+        if sleep_data:
+            avg_sleep = sum(s.get('total_sleep_hours', 0) for s in sleep_data) / len(sleep_data)
+            sleep_summary += f"Average: {avg_sleep:.1f}h/night"
+        
+        # Summarize journal
+        journal_entries = context.get('journal_entries', [])
+        journal_summary = f"{len(journal_entries)} journal entries in last 30 days. " if journal_entries else "No journal entries. "
+        if journal_entries and len(journal_entries) > 0:
+            journal_summary += f"Latest: {journal_entries[0].get('entry', '')[:100]}..."
+        
+        # Summarize nutrition
+        nutrition_entries = context.get('nutrition_entries', [])
+        nutrition_summary = f"{len(nutrition_entries)} nutrition logs in last 7 days" if nutrition_entries else "No nutrition logs"
+        if nutrition_entries:
+            total_cals = sum(n.get('calories', 0) for n in nutrition_entries if n.get('calories'))
+            total_protein = sum(n.get('protein', 0) for n in nutrition_entries if n.get('protein'))
+            total_carbs = sum(n.get('carbs', 0) for n in nutrition_entries if n.get('carbs'))
+            total_fat = sum(n.get('fat', 0) for n in nutrition_entries if n.get('fat'))
+            days_tracked = len(set(n.get('entry_date') for n in nutrition_entries if n.get('entry_date')))
+            if days_tracked > 0:
+                nutrition_summary += f". Avg: {total_cals/days_tracked:.0f}cal, {total_protein/days_tracked:.0f}g protein, {total_carbs/days_tracked:.0f}g carbs, {total_fat/days_tracked:.0f}g fat per day"
+        
+        # Summarize supplements
+        supplements = context.get('supplements', [])
+        supplement_logs = context.get('supplement_logs', [])
+        supplement_summary = ""
+        if supplements:
+            supplement_summary = f"{len(supplements)} supplements registered: " + ", ".join([f"{s.get('name')} ({s.get('dosage')} {s.get('unit')})" for s in supplements[:5]])
+        if supplement_logs:
+            supplement_summary += f" | {len(supplement_logs)} supplement logs in last 7 days"
+        if not supplement_summary:
+            supplement_summary = "No supplements tracked"
+        
+        # Summarize test results
+        test_results = context.get('test_results', [])
+        test_summary = f"{len(test_results)} test results" if test_results else "No test results"
+        if test_results:
+            test_names = set(t.get('test_name') for t in test_results[:10])
+            test_summary += f": {', '.join(test_names)}"
+        
+        readiness = context.get('current_readiness', {})
+        readiness_summary = f"Score: {readiness.get('readiness_score', 'N/A')}" if readiness else "No readiness data"
+        
         system_message = f"""
 You are an expert endurance running coach speaking directly with your athlete via voice. You have access to their complete training and recovery data.
+
+TODAY'S DATE: {current_day} ({current_date})
 
 CRITICAL: RESPOND IN {language_name.upper()} - All your responses must be in {language_name}. This is the athlete's preferred language.
 
 ATHLETE PROFILE:
-- Name: {athlete_info.get('name')}
-- Age: {athlete_info.get('age')}
-- Goals: {athlete_info.get('running_goals', 'Not specified')}
-- Preferred Units: {distance_unit} ({measurement_system})
+{athlete_summary}
+
+USER PREFERENCES:
+- Distance Unit: {distance_unit} (ALWAYS use {distance_unit}, never mix units)
+- Measurement System: {measurement_system}
+
+RECENT ACTIVITY SUMMARY:
+- Workouts: {workout_summary}
+- Sleep: {sleep_summary}
+- Readiness: {readiness_summary}
+- Journal: {journal_summary}
+- Nutrition: {nutrition_summary}
+- Supplements: {supplement_summary}
+- Tests: {test_summary}
 
 VOICE CONVERSATION GUIDELINES:
 - Keep responses conversational and natural for voice chat
@@ -4624,10 +4699,12 @@ VOICE CONVERSATION GUIDELINES:
 
 COACHING PRINCIPLES:
 - Prioritize safety and injury prevention
-- Base recommendations on their actual data
+- Base recommendations on their actual data (workouts, sleep, nutrition, tests, calendar)
 - Be encouraging but realistic
-- Reference specific data when relevant
+- Reference specific data when relevant (e.g., "Based on your recent 5km test result...")
 
+TRAINING CALENDAR MANAGEMENT:
+You have full calendar management capabilities: VIEW, CREATE, UPDATE, and DELETE training blocks.
 You can access their training calendar, create workouts, and provide personalized coaching advice through voice conversation.
 """
         
