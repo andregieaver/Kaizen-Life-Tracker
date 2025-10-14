@@ -24,6 +24,7 @@ const TestsAnalytics = ({ athleteId }) => {
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
   const [subscriptionStatus, setSubscriptionStatus] = useState({ tier: 'free', status: 'active' });
   const [showTestLimitModal, setShowTestLimitModal] = useState(false);
+  const [addingEntryToTest, setAddingEntryToTest] = useState(null); // Track which test we're adding entry to
   
   const [formData, setFormData] = useState({
     test_name: '',
