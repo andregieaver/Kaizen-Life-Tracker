@@ -4028,10 +4028,14 @@ async def generate_weekly_recipes(athlete_id: str):
         if not athlete:
             raise HTTPException(status_code=404, detail="Athlete not found")
         
-        # Get OpenAI key from user's account settings
-        openai_key = athlete.get('openai_api_key')
-        if not openai_key:
-            raise HTTPException(status_code=400, detail="OpenAI API key required. Please add your OpenAI API key in Account Settings → Plans tab.")
+        # Get OpenAI key from integrations collection
+        openai_integration = await db.integrations.find_one(
+            {"athlete_id": athlete_id, "integration_type": "openai", "is_active": True},
+            {"_id": 0}
+        )
+        
+        if not openai_integration or not openai_integration.get('credentials', {}).get('api_key'):
+            raise HTTPException(status_code=400, detail="OpenAI API key required. Please add your OpenAI API key in Account Settings → Apps tab.")
         
         # Get recent nutrition entries (last 14 days)
         two_weeks_ago = (datetime.now(timezone.utc) - timedelta(days=14)).strftime("%Y-%m-%d")
