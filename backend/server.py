@@ -4083,9 +4083,24 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
             "fat": total_fat / days_tracked if days_tracked > 0 else 65
         }
         
-        # Get dietary restrictions
+        # Get dietary restrictions and preferences
         allergies = athlete.get('allergies', [])
         dietary_prefs = athlete.get('dietary_preferences', [])
+        
+        # Get measurement preferences
+        measurement_system = athlete.get('measurement_system', 'imperial')
+        weight_unit = athlete.get('weight_unit', 'lbs')
+        fluid_unit = athlete.get('fluid_unit', 'fl oz')
+        
+        # Determine measurement units based on preferences
+        if measurement_system == 'metric':
+            volume_unit = 'ml or liters'
+            weight_example = 'grams or kg'
+            temp_unit = 'Celsius'
+        else:
+            volume_unit = 'cups, tablespoons, or teaspoons'
+            weight_example = 'oz or lbs'
+            temp_unit = 'Fahrenheit'
         
         # Build context for AI
         context = f"""
@@ -4097,6 +4112,7 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         - Dietary preferences: {', '.join(dietary_prefs) if dietary_prefs else 'None'}
         - Running goals: {athlete.get('running_goals', 'General fitness')}
         - Supplements: {', '.join([s.get('name', '') for s in supplements[:5]]) if supplements else 'None'}
+        - Measurement system: {measurement_system}
         
         Generate a complete 7-day meal plan (breakfast, lunch, dinner for each day).
         Each meal should be athlete-appropriate, balanced, and delicious.
@@ -4114,6 +4130,13 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         - prep_time: minutes (number)
         - cook_time: minutes (number)
         - servings: number
+        
+        CRITICAL MEASUREMENT REQUIREMENTS:
+        - Use {measurement_system} measurements ONLY
+        - Volume: Use {volume_unit}
+        - Weight: Use {weight_example}
+        - Temperature: Use {temp_unit}
+        - Be specific and consistent with units throughout the recipe
         
         IMPORTANT: Avoid all allergens: {', '.join(allergies) if allergies else 'none'}
         Follow dietary preferences: {', '.join(dietary_prefs) if dietary_prefs else 'balanced diet'}
