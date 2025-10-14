@@ -357,10 +357,21 @@ p {
   -webkit-user-select: none;
 }
 
+/* Sortable test card - full width */
+.sortable-test-card {
+  width: 100%;
+}
+
 /* Mobile drag improvements - restrict horizontal movement */
 @media (max-width: 768px) {
   .sortable-test-card {
     touch-action: pan-y !important;
+    width: 100% !important;
+  }
+  
+  /* Ensure cards take full width on mobile */
+  .sortable-test-card > * {
+    width: 100%;
   }
 }
 
@@ -377,4 +388,18 @@ p {
 
 .drag-handle:active {
   cursor: grabbing;
+}
+
+/* Ensure drag handle is visible and accessible on mobile */
+@media (max-width: 768px) {
+  .drag-handle {
+    padding: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .drag-handle:active {
+    background-color: rgba(243, 244, 246, 1);
+  }
 }
