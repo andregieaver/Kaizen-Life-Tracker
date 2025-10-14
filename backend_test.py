@@ -11951,7 +11951,6 @@ if __name__ == "__main__":
         print("❌ SOME RECIPE GENERATION API TESTS FAILED")
         print("⚠️ Check the detailed output above for specific issues")
         sys.exit(1)
-        if sys.argv[1] == "--ai-coach-search":
             print("🎯 Running AI COACH WEB SEARCH TEST ONLY (as per review request)")
             print("=" * 80)
             success = test_ai_coach_web_search()
