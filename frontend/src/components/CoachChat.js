@@ -295,18 +295,18 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
   };
 
   return (
-    <div className="flex flex-col h-full relative">
+    <div className="flex flex-col h-screen md:h-full relative">
       {/* Archive Sidebar */}
       {showArchive && (
-        <div className="fixed inset-0 z-[60] md:relative md:inset-auto">
+        <div className="fixed inset-0 z-[60] md:fixed md:inset-y-0 md:left-0 md:w-80">
           {/* Overlay for mobile */}
           <div 
             className="fixed inset-0 bg-black bg-opacity-50 md:hidden z-[60]"
             onClick={() => setShowArchive(false)}
           />
           
-          {/* Sidebar */}
-          <div className="fixed left-0 top-0 bottom-0 w-80 bg-white shadow-2xl z-[60] md:absolute md:left-0 md:top-0 md:bottom-0 flex flex-col">
+          {/* Sidebar - Full viewport height on desktop with white background */}
+          <div className="fixed left-0 top-0 bottom-0 w-80 bg-white shadow-2xl z-[60] md:fixed md:inset-y-0 md:h-screen flex flex-col">
             {/* Header */}
             <div className="p-4 border-b border-gray-200 flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">{t('coach.pastConversations')}</h3>
