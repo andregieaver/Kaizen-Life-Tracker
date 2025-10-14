@@ -16,6 +16,7 @@ const Recipes = ({ athleteId }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedMealType, setSelectedMealType] = useState('breakfast');
   const [filterMealType, setFilterMealType] = useState('all');
+  const [statusMessage, setStatusMessage] = useState({ type: '', message: '' });
 
   const mealTypes = ['breakfast', 'lunch', 'dinner'];
 
