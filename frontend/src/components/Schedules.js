@@ -51,9 +51,15 @@ const Schedules = ({ athleteId }) => {
   const loadSubscriptionStatus = async () => {
     try {
       const response = await axios.get(`${API}/subscriptions/status/${athleteId}`);
-      setSubscriptionStatus(response.data);
+      // Backend returns 'subscription_tier' but we use 'tier' in frontend
+      setSubscriptionStatus({
+        tier: response.data.subscription_tier || 'free',
+        status: response.data.subscription_status,
+        ...response.data
+      });
     } catch (error) {
       console.error('Error loading subscription:', error);
+      setSubscriptionStatus({ tier: 'free' });
     }
   };
 
