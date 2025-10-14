@@ -557,7 +557,8 @@ const TestsAnalytics = ({ athleteId }) => {
               : 0;
 
             return (
-              <Card key={testName}>
+              <SortableTestCard key={testName} testName={testName}>
+                <Card>
                 <CardHeader>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
