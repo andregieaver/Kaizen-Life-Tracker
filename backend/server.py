@@ -4023,9 +4023,6 @@ async def delete_test_result(result_id: str):
 async def generate_weekly_recipes(athlete_id: str):
     """Generate a full week of recipes (21 meals) based on athlete's nutrition data and preferences"""
     try:
-        from emergentintegrations.llm.openai.image_generation import OpenAIImageGeneration
-        from dotenv import load_dotenv
-        load_dotenv()
         
         # Get athlete data
         athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
