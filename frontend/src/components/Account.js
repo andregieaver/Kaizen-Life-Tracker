@@ -2151,6 +2151,10 @@ const Account = ({ athleteId }) => {
                       </li>
                       <li className="flex items-start text-sm">
                         <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <span>Up to 5 scheduled AI analyses</span>
+                      </li>
+                      <li className="flex items-start text-sm">
+                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
                         <span>All integrations</span>
                       </li>
                       <li className="flex items-start text-sm">
