@@ -703,6 +703,8 @@ agent_communication:
     message: "Implemented drag and drop reordering for test cards with vertical-only movement and mobile optimization. Uses @dnd-kit library with touch/pointer sensors. Order persisted to localStorage. Horizontal drag restricted via transform and touch-action CSS. Haptic feedback on mobile. Drag handle with GripVertical icon on left side. Build successful."
   - agent: "main"
     message: "Repositioned drag handle to top right corner per user screenshot. Made test cards full-width on mobile with proper width constraints and enhanced mobile drag handle styling. Build successful."
+  - agent: "main"
+    message: "Fixed voice mode AI coach context - now includes same detailed athlete data as text mode: workouts, sleep, readiness, journal, nutrition with macros, supplements, test results, and training calendar access. Voice mode now has parity with text mode data access."
 
   - task: "Login and Authentication System"
     implemented: true
