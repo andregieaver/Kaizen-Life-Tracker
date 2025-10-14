@@ -155,7 +155,7 @@ const Recipes = ({ athleteId }) => {
           <h1 className="text-3xl font-display font-bold text-gray-900">Weekly Meal Plan</h1>
           <p className="text-gray-600 mt-1">AI-generated recipes tailored to your nutrition needs</p>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <Button
             onClick={generateWeeklyMenu}
             disabled={isGenerating}
@@ -174,11 +174,21 @@ const Recipes = ({ athleteId }) => {
             )}
           </Button>
           {isGenerating && (
-            <div className="text-sm text-gray-600">
-              Progress: {generatingProgress.current}/{generatingProgress.total} days
-            </div>
+            <Button
+              onClick={handleCancelGeneration}
+              variant="outline"
+              className="border-red-300 text-red-600 hover:bg-red-50"
+            >
+              <X className="w-4 h-4 mr-2" />
+              Cancel
+            </Button>
           )}
         </div>
+        {isGenerating && (
+          <div className="text-sm text-gray-600 mt-2">
+            Progress: {generatingProgress.current}/{generatingProgress.total} days
+          </div>
+        )}
       </div>
 
       {recipes.length === 0 ? (
