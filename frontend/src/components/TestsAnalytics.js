@@ -526,6 +526,7 @@ const TestsAnalytics = ({ athleteId }) => {
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
           <SortableContext
