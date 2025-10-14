@@ -41,6 +41,7 @@ const Recipes = ({ athleteId }) => {
 
   const generateWeeklyMenu = async () => {
     setIsGenerating(true);
+    setCancelGeneration(false);
     setGeneratingProgress({ current: 0, total: 7, currentDay: '' });
     
     try {
@@ -48,6 +49,12 @@ const Recipes = ({ athleteId }) => {
       
       // Generate recipes day by day
       for (let i = 0; i < days.length; i++) {
+        // Check if user cancelled
+        if (cancelGeneration) {
+          alert('Recipe generation cancelled.');
+          break;
+        }
+        
         const day = days[i];
         setGeneratingProgress({ 
           current: i + 1, 
@@ -70,13 +77,22 @@ const Recipes = ({ athleteId }) => {
         }
       }
       
-      alert('Weekly menu generated successfully! 🎉');
+      if (!cancelGeneration) {
+        alert('Weekly menu generated successfully! 🎉');
+      }
     } catch (error) {
       console.error('Error generating recipes:', error);
       alert(error.response?.data?.detail || 'Failed to generate recipes. Please make sure you have an OpenAI API key set in Account Settings → Apps tab.');
     } finally {
       setIsGenerating(false);
+      setCancelGeneration(false);
       setGeneratingProgress({ current: 0, total: 7, currentDay: '' });
+    }
+  };
+
+  const handleCancelGeneration = () => {
+    if (window.confirm('Are you sure you want to cancel recipe generation?')) {
+      setCancelGeneration(true);
     }
   };
 
