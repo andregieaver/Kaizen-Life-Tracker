@@ -633,8 +633,9 @@ const TestsAnalytics = ({ athleteId }) => {
                   <Select 
                     value={formData.unit} 
                     onValueChange={(value) => setFormData(prev => ({...prev, unit: value}))}
+                    disabled={addingEntryToTest !== null}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className={addingEntryToTest ? "bg-gray-100 cursor-not-allowed" : ""}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -645,6 +646,9 @@ const TestsAnalytics = ({ athleteId }) => {
                       ))}
                     </SelectContent>
                   </Select>
+                  {addingEntryToTest && (
+                    <p className="text-xs text-gray-500">Unit is fixed for this test</p>
+                  )}
                 </div>
 
                 {/* Result Value */}
