@@ -737,7 +737,10 @@ const TestsAnalytics = ({ athleteId }) => {
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                      setShowModal(false);
+                      setAddingEntryToTest(null);
+                    }}
                     className="flex-1"
                   >
                     Cancel
@@ -746,7 +749,7 @@ const TestsAnalytics = ({ athleteId }) => {
                     type="submit"
                     className="flex-1 bg-blue-600 hover:bg-blue-700"
                   >
-                    {editingResult ? 'Update Test' : 'Add Test'}
+                    {editingResult ? 'Update Test' : addingEntryToTest ? 'Add Entry' : 'Add Test'}
                   </Button>
                 </div>
               </form>
