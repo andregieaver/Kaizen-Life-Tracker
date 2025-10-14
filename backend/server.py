@@ -4229,14 +4229,18 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
             )
             
             recipe_dict = prepare_for_mongo(recipe.model_dump())
+            recipe_id = recipe_dict.get('id')
             await db.recipes.insert_one(recipe_dict)
-            logging.info(f"[RECIPE] Recipe saved to database successfully. ID: {recipe_dict.get('id')}")
+            logging.info(f"[RECIPE] Recipe saved to database successfully. ID: {recipe_id}")
+            
+            # Fetch the saved recipe without _id to avoid serialization issues
+            saved_recipe = await db.recipes.find_one({"id": recipe_id}, {"_id": 0})
             
             return {
                 "success": True,
                 "meal_type": meal_type,
                 "recipe_name": recipe_data['recipe_name'],
-                "recipe": parse_from_mongo(recipe_dict)
+                "recipe": parse_from_mongo(saved_recipe)
             }
         except Exception as db_error:
             logging.error(f"[RECIPE] Database error: {str(db_error)}", exc_info=True)
