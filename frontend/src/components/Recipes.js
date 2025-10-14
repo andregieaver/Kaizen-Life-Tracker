@@ -92,17 +92,6 @@ const Recipes = ({ athleteId }) => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-blue-600" />
-          <p className="text-gray-600">Loading recipes...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6 p-4 sm:p-6 lg:p-8">
       {/* Header */}
