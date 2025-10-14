@@ -188,7 +188,6 @@ const Account = ({ athleteId }) => {
   });
   
   const [activeTab, setActiveTab] = useState('personal');
-  const navigate = useNavigate();
   const location = window.location;
 
   // Initialize active tab from URL parameter on mount
