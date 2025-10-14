@@ -988,9 +988,8 @@ class SubscriptionWebhookData(BaseModel):
 # AI Coach Service
 class AICoachService:
     def __init__(self):
-        self.api_key = os.environ.get('EMERGENT_LLM_KEY')
-        if not self.api_key:
-            raise ValueError("EMERGENT_LLM_KEY not found in environment variables")
+        # API key will be provided per-athlete from their settings
+        self.api_key = None
         
         # Initialize Tavily client for web search
         self.tavily_api_key = os.environ.get('TAVILY_API_KEY')
