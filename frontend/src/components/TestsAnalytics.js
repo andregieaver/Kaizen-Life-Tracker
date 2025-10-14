@@ -503,8 +503,18 @@ const TestsAnalytics = ({ athleteId }) => {
           </CardContent>
         </Card>
       ) : (
-        <div className="space-y-6">
-          {Object.entries(testGroups).map(([testName, results]) => {
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={orderedTestNames}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="space-y-6">
+              {orderedTestNames.map((testName) => {
+                const results = testGroups[testName];
             // Sort results by date
             const sortedResults = [...results].sort((a, b) => 
               new Date(a.test_date) - new Date(b.test_date)
