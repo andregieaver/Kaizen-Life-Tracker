@@ -4189,9 +4189,11 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
             "recipe": parse_from_mongo(recipe_dict)
         }
         
+    except HTTPException:
+        raise
     except Exception as e:
-        logging.error(f"Error generating recipes: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        logging.error(f"[RECIPE] Error generating recipe: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Recipe generation failed: {str(e)}")
 
 @api_router.get("/recipes/{athlete_id}")
 async def get_recipes(athlete_id: str, week_start_date: Optional[str] = None):
