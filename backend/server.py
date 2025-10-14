@@ -4207,31 +4207,37 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
             image_base64 = None
         
         # Create recipe document
-        current_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        recipe = Recipe(
-            athlete_id=athlete_id,
-            week_start_date=current_date,
-            day_of_week='',  # Not used in new format
-            meal_type=meal_type,
-            recipe_name=recipe_data['recipe_name'],
-            ingredients=recipe_data['ingredients'],
-            instructions=recipe_data['instructions'],
-            nutrition_info=recipe_data['nutrition_info'],
-            prep_time=recipe_data['prep_time'],
-            cook_time=recipe_data['cook_time'],
-            servings=recipe_data['servings'],
-            image_base64=image_base64
-        )
-        
-        recipe_dict = prepare_for_mongo(recipe.model_dump())
-        await db.recipes.insert_one(recipe_dict)
-        
-        return {
-            "success": True,
-            "meal_type": meal_type,
-            "recipe_name": recipe_data['recipe_name'],
-            "recipe": parse_from_mongo(recipe_dict)
-        }
+        logging.info(f"[RECIPE] Creating recipe document for database...")
+        try:
+            current_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+            recipe = Recipe(
+                athlete_id=athlete_id,
+                week_start_date=current_date,
+                day_of_week='',  # Not used in new format
+                meal_type=meal_type,
+                recipe_name=recipe_data['recipe_name'],
+                ingredients=recipe_data['ingredients'],
+                instructions=recipe_data['instructions'],
+                nutrition_info=recipe_data['nutrition_info'],
+                prep_time=recipe_data['prep_time'],
+                cook_time=recipe_data['cook_time'],
+                servings=recipe_data['servings'],
+                image_base64=image_base64
+            )
+            
+            recipe_dict = prepare_for_mongo(recipe.model_dump())
+            await db.recipes.insert_one(recipe_dict)
+            logging.info(f"[RECIPE] Recipe saved to database successfully. ID: {recipe_dict.get('id')}")
+            
+            return {
+                "success": True,
+                "meal_type": meal_type,
+                "recipe_name": recipe_data['recipe_name'],
+                "recipe": parse_from_mongo(recipe_dict)
+            }
+        except Exception as db_error:
+            logging.error(f"[RECIPE] Database error: {str(db_error)}", exc_info=True)
+            raise HTTPException(status_code=500, detail=f"Failed to save recipe: {str(db_error)}")
         
     except HTTPException:
         raise
