@@ -4197,7 +4197,8 @@ async def generate_daily_recipes(athlete_id: str, day_request: dict):
         
         return {
             "success": True,
-            "week_start_date": week_start,
+            "day_of_week": day_of_week,
+            "week_start_date": week_start_date,
             "recipes_created": len(saved_recipes),
             "recipe_names": saved_recipes
         }
