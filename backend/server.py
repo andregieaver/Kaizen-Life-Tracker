@@ -528,6 +528,10 @@ class AthleteProfile(BaseModel):
     weight_goal: Optional[str] = None  # 'decrease', 'maintain', 'increase'
     health_goals: Optional[list] = Field(default_factory=list)  # List of health goals (e.g., ['muscle_mass', 'speed', 'endurance'])
     
+    # Dietary Restrictions & Preferences
+    allergies: Optional[list] = Field(default_factory=list)  # List of allergens (e.g., ['dairy', 'eggs', 'nuts'])
+    dietary_preferences: Optional[list] = Field(default_factory=list)  # List of diets (e.g., ['vegan', 'keto', 'gluten_free'])
+    
     # Preferences
     distance_unit: str = Field(default="miles")  # 'miles' or 'km'
     measurement_system: str = Field(default="imperial")  # 'imperial' or 'metric'
