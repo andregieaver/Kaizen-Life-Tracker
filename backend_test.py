@@ -11275,7 +11275,36 @@ def test_schedule_execution_failure_investigation():
         return False
 
 if __name__ == "__main__":
-    # Check command line arguments for specific test suites
+    print("🚀 STARTING SCHEDULE LIMIT DIAGNOSIS FOR PRO USER")
+    print("=" * 70)
+    
+    # Run the specific diagnostic test for the review request
+    result = test_schedule_limit_issue_for_pro_user()
+    
+    # Final summary
+    print("\n" + "=" * 70)
+    if result:
+        print("🎉 SCHEDULE LIMIT DIAGNOSIS COMPLETED!")
+        print("✅ Check the detailed analysis above for findings")
+        
+        # Print key findings
+        if isinstance(result, dict):
+            print(f"\n📋 KEY FINDINGS:")
+            print(f"   User Found: {'✅ Yes' if result.get('user_found') else '❌ No'}")
+            print(f"   Athlete ID: {result.get('athlete_id', 'N/A')}")
+            print(f"   Database Tier: {result.get('database_tier', 'N/A')}")
+            print(f"   API Tier: {result.get('api_tier', 'N/A')}")
+            print(f"   Existing Schedules: {result.get('existing_schedules_count', 0)}")
+            print(f"   Schedule Creation Blocked: {'✅ Yes' if result.get('schedule_creation_blocked') else '❌ No'}")
+            if result.get('error_message'):
+                print(f"   Error Message: {result.get('error_message')}")
+    else:
+        print("⚠️ SCHEDULE LIMIT DIAGNOSIS ENCOUNTERED ISSUES")
+        print("❌ Check the detailed results above for problems")
+    
+    print("=" * 70)
+    
+    # Check command line arguments for other test suites
     if len(sys.argv) > 1:
         if sys.argv[1] == "--ai-coach-search":
             print("🎯 Running AI COACH WEB SEARCH TEST ONLY (as per review request)")
