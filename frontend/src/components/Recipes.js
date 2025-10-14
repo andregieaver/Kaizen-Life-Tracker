@@ -274,43 +274,40 @@ const Recipes = ({ athleteId }) => {
 
                         {/* Rating */}
                         <div className="flex items-center justify-between pt-2 border-t">
-                              <div className="flex gap-1">
-                                {[1, 2, 3, 4, 5].map(star => (
-                                  <button
-                                    key={star}
-                                    onClick={() => rateRecipe(recipe.id, star)}
-                                    className="focus:outline-none"
-                                  >
-                                    <Star
-                                      className={`w-5 h-5 ${
-                                        star <= (recipe.user_rating || 0)
-                                          ? 'fill-yellow-400 text-yellow-400'
-                                          : 'text-gray-300'
-                                      }`}
-                                    />
-                                  </button>
-                                ))}
-                              </div>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => {
-                                  // Show recipe details in modal or expanded view
-                                  alert(`Recipe: ${recipe.recipe_name}\n\nIngredients:\n${recipe.ingredients.join('\n')}\n\nInstructions:\n${recipe.instructions}`);
-                                }}
-                                className="text-purple-600 hover:text-purple-700"
+                          <div className="flex gap-1">
+                            {[1, 2, 3, 4, 5].map(star => (
+                              <button
+                                key={star}
+                                onClick={() => rateRecipe(recipe.id, star)}
+                                className="focus:outline-none"
                               >
-                                View Recipe
-                              </Button>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      );
-                    })}
+                                <Star
+                                  className={`w-5 h-5 ${
+                                    star <= (recipe.user_rating || 0)
+                                      ? 'fill-yellow-400 text-yellow-400'
+                                      : 'text-gray-300'
+                                  }`}
+                                />
+                              </button>
+                            ))}
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              // Show recipe details in modal or expanded view
+                              alert(`Recipe: ${recipe.recipe_name}\n\nIngredients:\n${recipe.ingredients.join('\n')}\n\nInstructions:\n${recipe.instructions}`);
+                            }}
+                            className="text-purple-600 hover:text-purple-700"
+                          >
+                            View Recipe
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </>
       )}
