@@ -4133,10 +4133,8 @@ async def generate_daily_recipes(athlete_id: str, day_request: dict):
             recipes_data = json.loads(recipes_text)
         
         # Generate images for each recipe using OpenAI DALL-E
-        week_start = datetime.now(timezone.utc).strftime("%Y-%m-%d")  # This week's Monday
-        
         saved_recipes = []
-        for i, recipe_data in enumerate(recipes_data[:21]):  # Limit to 21
+        for i, recipe_data in enumerate(recipes_data[:3]):  # Limit to 3 meals per day
             try:
                 # Generate food image using OpenAI DALL-E
                 image_prompt = f"Professional food photography of {recipe_data['recipe_name']}, appetizing, well-plated, high quality"
