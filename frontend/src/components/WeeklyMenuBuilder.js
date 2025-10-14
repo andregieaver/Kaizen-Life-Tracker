@@ -24,6 +24,8 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
   useEffect(() => {
     if (athleteId) {
       fetchData();
+    } else {
+      setIsLoading(false);
     }
   }, [athleteId]);
 
