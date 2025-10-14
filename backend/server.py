@@ -4177,6 +4177,7 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
             raise HTTPException(status_code=500, detail=f"Failed to parse recipe data: {str(parse_error)}")
         
         # Generate image for the recipe using OpenAI DALL-E
+        logging.info(f"[RECIPE] Generating image for recipe: {recipe_data['recipe_name']}")
         try:
             # Generate food image using OpenAI DALL-E
             image_prompt = f"Professional food photography of {recipe_data['recipe_name']}, appetizing, well-plated, high quality"
@@ -4187,15 +4188,22 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
                 quality="standard",
                 n=1,
             )
+            logging.info(f"[RECIPE] DALL-E image generated successfully")
             
             # Download image and convert to base64
             image_url = image_response.data[0].url
+            logging.info(f"[RECIPE] Downloading image from: {image_url}")
             import httpx
             async with httpx.AsyncClient() as http_client:
                 img_response = await http_client.get(image_url)
-                image_base64 = base64.b64encode(img_response.content).decode('utf-8') if img_response.status_code == 200 else None
+                if img_response.status_code == 200:
+                    image_base64 = base64.b64encode(img_response.content).decode('utf-8')
+                    logging.info(f"[RECIPE] Image downloaded and encoded. Size: {len(image_base64)} chars")
+                else:
+                    logging.error(f"[RECIPE] Failed to download image. Status: {img_response.status_code}")
+                    image_base64 = None
         except Exception as img_error:
-            print(f"Error generating image: {img_error}")
+            logging.error(f"[RECIPE] Error generating image: {str(img_error)}", exc_info=True)
             image_base64 = None
         
         # Create recipe document
