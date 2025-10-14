@@ -696,6 +696,8 @@ agent_communication:
     message: "Implemented Tests & Analytics enhancement with edit, delete, and 'Add Entry' functionality. Backend endpoints already exist (GET, POST, PUT, DELETE for test results). Frontend changes complete: added 'Add Entry' button to each test card, added Test History section showing all entries with Edit/Delete buttons, updated modal to handle three modes (new test, add entry to existing, edit entry). Test name and unit fields are disabled when adding entry to specific test. Ready for backend testing to verify all CRUD operations work correctly with frontend integration."
   - agent: "main"
     message: "Added expandable/collapsible Test History with chevron toggle and 'Delete All' button aligned right. Test History collapsed by default to reduce clutter. Delete All removes all results for specific test with confirmation dialog. Fixed backend date serialization bug in parse_from_mongo function. All features implemented and build successful. Ready for user testing."
+  - agent: "main"
+    message: "Implemented drag and drop reordering for test cards with vertical-only movement and mobile optimization. Uses @dnd-kit library with touch/pointer sensors. Order persisted to localStorage. Horizontal drag restricted via transform and touch-action CSS. Haptic feedback on mobile. Drag handle with GripVertical icon on left side. Build successful."
 
   - task: "Login and Authentication System"
     implemented: true
