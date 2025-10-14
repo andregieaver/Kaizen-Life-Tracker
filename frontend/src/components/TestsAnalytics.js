@@ -548,12 +548,19 @@ const TestsAnalytics = ({ athleteId }) => {
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-2xl font-bold text-gray-900">
-                  {editingResult ? 'Edit Test Result' : 'Add New Test Result'}
+                  {editingResult 
+                    ? 'Edit Test Result' 
+                    : addingEntryToTest 
+                      ? `Add Entry to ${addingEntryToTest.testName}` 
+                      : 'Add New Test Result'}
                 </h2>
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => setShowModal(false)}
+                  onClick={() => {
+                    setShowModal(false);
+                    setAddingEntryToTest(null);
+                  }}
                 >
                   <X className="w-5 h-5" />
                 </Button>
