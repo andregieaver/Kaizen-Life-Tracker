@@ -521,53 +521,77 @@ const TestsAnalytics = ({ athleteId }) => {
 
                   {/* Individual Test Results List */}
                   <div className="border-t pt-4">
-                    <h4 className="font-semibold text-gray-900 mb-3">Test History</h4>
-                    <div className="space-y-2">
-                      {sortedResults.map((result) => (
-                        <div
-                          key={result.id}
-                          className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-                        >
-                          <div className="flex-1">
-                            <div className="flex items-center gap-3 flex-wrap">
-                              <div className="flex items-center text-gray-600">
-                                <CalendarIcon className="w-4 h-4 mr-1" />
-                                <span className="text-sm font-medium">{formatDate(result.test_date)}</span>
-                              </div>
-                              <div className="font-semibold text-gray-900">
-                                {formatValue(result.result_value, unit)} {getUnitLabel(unit)}
-                              </div>
-                              {result.time_to_completion && (
-                                <div className="text-sm text-gray-600">
-                                  Time: {formatValue(result.time_to_completion, 'time')}
+                    <div className="flex items-center justify-between mb-3">
+                      <button
+                        onClick={() => toggleTestHistory(testName)}
+                        className="flex items-center gap-2 font-semibold text-gray-900 hover:text-blue-600 transition-colors"
+                      >
+                        <span>Test History</span>
+                        {expandedTests[testName] ? (
+                          <ChevronUp className="w-5 h-5" />
+                        ) : (
+                          <ChevronDown className="w-5 h-5" />
+                        )}
+                      </button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleDeleteAllTests(testName)}
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-300"
+                      >
+                        <Trash2 className="w-4 h-4 mr-1" />
+                        Delete All
+                      </Button>
+                    </div>
+                    
+                    {expandedTests[testName] && (
+                      <div className="space-y-2">
+                        {sortedResults.map((result) => (
+                          <div
+                            key={result.id}
+                            className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                          >
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3 flex-wrap">
+                                <div className="flex items-center text-gray-600">
+                                  <CalendarIcon className="w-4 h-4 mr-1" />
+                                  <span className="text-sm font-medium">{formatDate(result.test_date)}</span>
                                 </div>
+                                <div className="font-semibold text-gray-900">
+                                  {formatValue(result.result_value, unit)} {getUnitLabel(unit)}
+                                </div>
+                                {result.time_to_completion && (
+                                  <div className="text-sm text-gray-600">
+                                    Time: {formatValue(result.time_to_completion, 'time')}
+                                  </div>
+                                )}
+                              </div>
+                              {result.notes && (
+                                <p className="text-sm text-gray-600 mt-1 truncate">{result.notes}</p>
                               )}
                             </div>
-                            {result.notes && (
-                              <p className="text-sm text-gray-600 mt-1 truncate">{result.notes}</p>
-                            )}
+                            <div className="flex gap-2">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => handleEdit(result)}
+                                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                              >
+                                <Edit className="w-4 h-4" />
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => handleDelete(result.id)}
+                                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
                           </div>
-                          <div className="flex gap-2">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleEdit(result)}
-                              className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                            >
-                              <Edit className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleDelete(result.id)}
-                              className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
