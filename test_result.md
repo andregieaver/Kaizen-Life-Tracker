@@ -705,6 +705,8 @@ agent_communication:
     message: "Repositioned drag handle to top right corner per user screenshot. Made test cards full-width on mobile with proper width constraints and enhanced mobile drag handle styling. Build successful."
   - agent: "main"
     message: "Fixed voice mode AI coach context - now includes same detailed athlete data as text mode: workouts, sleep, readiness, journal, nutrition with macros, supplements, test results, and training calendar access. Voice mode now has parity with text mode data access."
+  - agent: "main"
+    message: "Fixed Coach chat page desktop layout: Message input bar now fixed at bottom with proper z-index. Past conversations sidebar now full viewport height (h-screen) with white background and proper positioning (fixed inset-y-0). Increased chat messages bottom padding to accommodate fixed input bar."
 
   - task: "Login and Authentication System"
     implemented: true
