@@ -125,6 +125,17 @@ const Recipes = ({ athleteId }) => {
         <p className="text-gray-600 mt-1">Generate AI-powered recipes tailored to your nutrition needs</p>
       </div>
 
+      {/* Status Message */}
+      {statusMessage.message && (
+        <div className={`p-4 rounded-lg ${
+          statusMessage.type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' :
+          statusMessage.type === 'error' ? 'bg-red-50 text-red-800 border border-red-200' :
+          'bg-blue-50 text-blue-800 border border-blue-200'
+        }`}>
+          {statusMessage.message}
+        </div>
+      )}
+
       {/* Generation Form */}
       <Card>
         <CardHeader>
