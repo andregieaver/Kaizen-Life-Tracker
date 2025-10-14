@@ -24,6 +24,16 @@ const Recipes = ({ athleteId }) => {
 
   useEffect(() => {
     loadRecipes();
+    
+    // Fallback timeout - if still loading after 15 seconds, stop loading
+    const timeoutId = setTimeout(() => {
+      if (isLoading) {
+        console.warn('Recipe loading timeout - forcing stop');
+        setIsLoading(false);
+      }
+    }, 15000);
+    
+    return () => clearTimeout(timeoutId);
   }, [athleteId]);
 
   const loadRecipes = async () => {
