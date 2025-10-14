@@ -344,3 +344,37 @@ p {
     margin-left: 1rem;
   }
 }
+
+/* Drag and Drop Styles for Tests & Analytics */
+.dragging-test-card {
+  opacity: 0.5;
+  cursor: grabbing !important;
+}
+
+/* Prevent text selection while dragging */
+.dragging * {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Mobile drag improvements - restrict horizontal movement */
+@media (max-width: 768px) {
+  .sortable-test-card {
+    touch-action: pan-y !important;
+  }
+}
+
+/* Drag handle hover state */
+.drag-handle {
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.drag-handle:hover {
+  cursor: grab;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
