@@ -187,56 +187,33 @@ const Recipes = ({ athleteId }) => {
         </CardContent>
       </Card>
 
+      {/* Filter */}
+      {recipes.length > 0 && (
+        <div className="flex items-center gap-2">
+          <label className="text-sm font-medium text-gray-700">Filter by:</label>
+          <select
+            value={filterMealType}
+            onChange={(e) => setFilterMealType(e.target.value)}
+            className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500"
+          >
+            <option value="all">All Meals</option>
+            <option value="breakfast">🍳 Breakfast</option>
+            <option value="lunch">🥗 Lunch</option>
+            <option value="dinner">🍽️ Dinner</option>
+          </select>
+        </div>
+      )}
+
       {recipes.length === 0 ? (
         <Card className="border-2 border-dashed">
           <CardContent className="text-center py-12">
             <ChefHat className="w-16 h-16 mx-auto mb-4 text-gray-400" />
             <h3 className="text-xl font-semibold text-gray-900 mb-2">No Recipes Yet</h3>
-            <p className="text-gray-600 mb-6">Generate your first AI-powered weekly meal plan</p>
-            <Button
-              onClick={generateWeeklyMenu}
-              disabled={isGenerating}
-              className="bg-purple-600 hover:bg-purple-700"
-            >
-              {isGenerating ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Generating...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  Generate Weekly Menu
-                </>
-              )}
-            </Button>
+            <p className="text-gray-600">Use the form above to generate your first AI-powered recipe</p>
           </CardContent>
         </Card>
       ) : (
         <>
-          {/* Filters */}
-          <div className="flex flex-wrap gap-2">
-            <select
-              value={selectedDay}
-              onChange={(e) => setSelectedDay(e.target.value)}
-              className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500"
-            >
-              <option value="all">All Days</option>
-              {days.map(day => (
-                <option key={day} value={day}>{day.charAt(0).toUpperCase() + day.slice(1)}</option>
-              ))}
-            </select>
-            <select
-              value={selectedMeal}
-              onChange={(e) => setSelectedMeal(e.target.value)}
-              className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500"
-            >
-              <option value="all">All Meals</option>
-              {meals.map(meal => (
-                <option key={meal} value={meal}>{meal.charAt(0).toUpperCase() + meal.slice(1)}</option>
-              ))}
-            </select>
-          </div>
 
           {/* Recipes Grid */}
           <div className="space-y-8">
