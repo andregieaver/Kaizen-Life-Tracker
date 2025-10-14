@@ -4018,9 +4018,14 @@ async def delete_test_result(result_id: str):
 
 
 # Recipe routes
-@api_router.post("/recipes/generate-week/{athlete_id}")
-async def generate_weekly_recipes(athlete_id: str):
-    """Generate a full week of recipes (21 meals) based on athlete's nutrition data and preferences"""
+@api_router.post("/recipes/generate-day/{athlete_id}")
+async def generate_daily_recipes(athlete_id: str, day_request: dict):
+    """Generate recipes for a single day (3 meals) based on athlete's nutrition data and preferences"""
+    day_of_week = day_request.get('day_of_week')  # e.g., 'monday'
+    week_start_date = day_request.get('week_start_date')  # e.g., '2025-01-14'
+    
+    if not day_of_week or not week_start_date:
+        raise HTTPException(status_code=400, detail="day_of_week and week_start_date are required")
     try:
         
         # Get athlete data
