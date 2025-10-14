@@ -69,8 +69,8 @@ def prepare_for_mongo(data):
     return data
 
 def parse_from_mongo(item):
-    if isinstance(item.get('date'), str):
-        item['date'] = datetime.fromisoformat(item['date']).date()
+    # Keep date fields as strings for JSON serialization
+    # Only convert date/time for specific models that need Python date objects
     if isinstance(item.get('time'), str):
         item['time'] = datetime.strptime(item['time'], '%H:%M:%S').time()
     # Handle date_of_birth conversion - keep as string for API serialization
