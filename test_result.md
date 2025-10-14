@@ -102,7 +102,20 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "TESTS & ANALYSIS ENHANCEMENT - Implement edit, delete, and 'Add Entry' button functionality for test results in TestsAnalytics.js component."
+user_problem_statement: "Test the new Weekly Menu Builder API endpoints - CRUD operations for weekly menu templates with 21 meal slots (7 days × 3 meals per day) and activation logic."
+
+backend:
+  - task: "Weekly Menu Builder API Endpoints"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ WEEKLY MENU BUILDER API ENDPOINTS FULLY FUNCTIONAL - Comprehensive testing completed with 100% success rate (9/9 tests passed). VERIFIED ALL REVIEW REQUEST REQUIREMENTS using athlete_id: 3e4ee10d-105d-4564-8b7a-1e7223acb706: 1) GET ALL WEEKLY MENUS ✓ - GET /api/weekly-menus/{athlete_id} returns proper JSON with menus array, handles empty state correctly (found 0 existing menus initially), proper response format with 'menus' field. 2) CREATE WEEKLY MENU ✓ - POST /api/weekly-menus successfully creates weekly menu template with all required fields: athlete_id, menu_name ('Test Weekly Menu'), description, 21 meal slots (7 days × 3 meals), is_active status (false), returns success: true with menu object including generated ID. 3) MENU STRUCTURE VALIDATION ✓ - Created menu has correct athlete_id, menu_name, 21 meal slots (monday-sunday × breakfast/lunch/dinner), proper is_active status, all meal slots contain day_of_week, meal_type, recipe_id (null), recipe_name fields. 4) GET MENUS AFTER CREATE ✓ - Created menu appears in GET /api/weekly-menus/{athlete_id} list, menu found and retrievable with all data intact. 5) UPDATE WEEKLY MENU ✓ - PUT /api/weekly-menus/{menu_id} successfully updates menu name ('Updated Test Weekly Menu'), description, is_active status (true), updated_at timestamp set correctly, returns success: true with updated menu object. 6) MENU ACTIVATION LOGIC ✓ - Only one menu can be active at a time: created second menu with is_active: true, first menu automatically deactivated, only 1 menu active across all menus, activation/deactivation logic working perfectly. 7) GET MENU DETAILS ✓ - GET /api/weekly-menus/{menu_id}/details returns full menu details with menu object and recipes object, all 21 meal slots present in details, proper structure for recipe population. 8) DELETE WEEKLY MENU ✓ - DELETE /api/weekly-menus/{menu_id} successfully removes menu, returns success: true, deleted menu no longer appears in GET requests, proper cleanup verified. 9) ERROR HANDLING ✓ - DELETE with non-existent menu ID correctly returns 404 status, proper error responses for invalid requests. CRITICAL SUCCESS CRITERIA MET: All CRUD operations working perfectly, 21 meal slots structure correct, menu activation logic ensures only one active menu per athlete, menu details endpoint ready for recipe population, proper JSON responses with success indicators, comprehensive error handling. WEEKLY MENU BUILDER API IS PRODUCTION-READY AND FULLY FUNCTIONAL."
 
 backend:
   - task: "Recipe Generation API Endpoints"
