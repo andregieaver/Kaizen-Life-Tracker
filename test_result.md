@@ -678,9 +678,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Files Page Backend CRUD Endpoints"
-    - "Files Page Frontend Implementation"
-  stuck_tasks: []
+    - "Schedule Limit Issue Diagnosis for Pro User"
+  stuck_tasks: 
+    - "Schedule Limit Issue Diagnosis for Pro User"
   test_all: false
   test_priority: "high_first"
   completed_tests:
@@ -690,6 +690,7 @@ test_plan:
     - "AI Coach Voice Preference Functionality"
     - "Date of Birth Timezone Fix"
     - "Profile Picture Upload Functionality"
+    - "Files Page Backend CRUD Endpoints"
 
   - task: "Login and Authentication System"
     implemented: true
