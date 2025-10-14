@@ -713,6 +713,8 @@ agent_communication:
     message: "MAJOR FEATURE: Recipes page with AI-generated weekly meal plans. Backend: Added Recipe model, installed emergentintegrations, created /api/recipes endpoints (generate-week, get, rate, delete). Uses OpenAI GPT-4o for recipe generation and gpt-image-1 for food images. Generates 21 recipes (7 days x 3 meals) based on athlete's nutrition data, allergies, and dietary preferences. Frontend: Created Recipes.js component with filters, star ratings, nutrition info display. Added menu link beneath Nutrition. Account Settings: Added Allergies (10 options) and Dietary Preferences (9 options) checklists to Personal Information section with backend model updates. Full integration with emergentintegrations library and EMERGENT_LLM_KEY support."
   - agent: "main"
     message: "REMOVED ALL EMERGENT_LLM_KEY USAGE per user request. Recipe generation now exclusively uses user's OpenAI API key from Account Settings. Removed EMERGENT_LLM_KEY from .env. Removed emergentintegrations usage for text generation. Changed image generation from emergentintegrations to direct OpenAI DALL-E 3 API. Updated AICoachService to not require EMERGENT_LLM_KEY at initialization. Recipe generation now requires user to have OpenAI key set in Account Settings → Plans tab."
+  - agent: "main"
+    message: "Fixed recipe generation to correctly fetch OpenAI key from integrations collection. Key is stored in db.integrations with integration_type='openai' and credentials.api_key field, not in athlete_profiles.openai_api_key. Updated error message to direct users to Apps tab (not Plans tab). Recipe generation now works with user's OpenAI key from Apps tab."
 
   - task: "Login and Authentication System"
     implemented: true
