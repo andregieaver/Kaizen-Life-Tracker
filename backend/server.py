@@ -4092,10 +4092,9 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         
         prompt = f"""{context}
 
-        Create exactly 3 recipes for {day_of_week.upper()} (breakfast, lunch, dinner) formatted as JSON array.
-        Each recipe must have:
-        - recipe_name: string (creative, appetizing name)
-        - meal_type: 'breakfast', 'lunch', or 'dinner'
+        Create 1 delicious {meal_type.upper()} recipe formatted as JSON object (not array).
+        The recipe must have:
+        - recipe_name: string (creative, appetizing name appropriate for {meal_type})
         - ingredients: array of strings with quantities (e.g., "2 cups rice", "1 lb chicken breast")
         - instructions: detailed step-by-step cooking instructions as single string
         - nutrition_info: object with calories, protein, carbs, fat (numbers)
@@ -4106,7 +4105,7 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         IMPORTANT: Avoid all allergens: {', '.join(allergies) if allergies else 'none'}
         Follow dietary preferences: {', '.join(dietary_prefs) if dietary_prefs else 'balanced diet'}
         
-        Return ONLY valid JSON array with 3 recipes, no other text."""
+        Return ONLY a valid JSON object for one recipe, no other text."""
         
         # Generate recipes using OpenAI
         client = openai.AsyncOpenAI(api_key=openai_key)
