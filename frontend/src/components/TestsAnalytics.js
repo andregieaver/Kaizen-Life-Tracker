@@ -66,7 +66,7 @@ const SortableTestCard = ({ testName, children }) => {
       <div
         {...attributes}
         {...listeners}
-        className="absolute right-4 top-4 z-10 drag-handle p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-grab active:cursor-grabbing"
+        className="absolute right-2 top-2 z-20 drag-handle p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-grab active:cursor-grabbing"
         style={{ touchAction: 'none' }}
         title="Drag to reorder"
       >
