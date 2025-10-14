@@ -24,6 +24,8 @@ import TrainingCalendar from './TrainingCalendar';
 import Documents from './Documents';
 import TestsAnalytics from './TestsAnalytics';
 import Recipes from './Recipes';
+import RecipeBrowser from './RecipeBrowser';
+import WeeklyMenuBuilder from './WeeklyMenuBuilder';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
