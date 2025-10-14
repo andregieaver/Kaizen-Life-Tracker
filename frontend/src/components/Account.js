@@ -1625,6 +1625,85 @@ const Account = ({ athleteId }) => {
 
                 <Separator />
 
+                {/* Dietary Restrictions & Preferences */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium flex items-center">
+                    <Utensils className="w-5 h-5 mr-2 text-blue-600" />
+                    Dietary Restrictions & Preferences
+                  </h3>
+                  
+                  {/* Allergies */}
+                  <div>
+                    <Label className="text-base font-medium mb-3 block">Allergies</Label>
+                    <p className="text-sm text-gray-600 mb-3">Select any food allergies (for recipe generation)</p>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {[
+                        { value: 'dairy', label: 'Dairy' },
+                        { value: 'eggs', label: 'Eggs' },
+                        { value: 'fish', label: 'Fish' },
+                        { value: 'shellfish', label: 'Shellfish' },
+                        { value: 'tree_nuts', label: 'Tree Nuts' },
+                        { value: 'peanuts', label: 'Peanuts' },
+                        { value: 'wheat', label: 'Wheat' },
+                        { value: 'soy', label: 'Soy' },
+                        { value: 'sesame', label: 'Sesame' },
+                        { value: 'gluten', label: 'Gluten' },
+                      ].map(allergy => (
+                        <label key={allergy.value} className="flex items-start space-x-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={personalForm.allergies?.includes(allergy.value)}
+                            onChange={(e) => {
+                              const newAllergies = e.target.checked
+                                ? [...(personalForm.allergies || []), allergy.value]
+                                : (personalForm.allergies || []).filter(a => a !== allergy.value);
+                              setPersonalForm(prev => ({...prev, allergies: newAllergies}));
+                            }}
+                            className="mt-0.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          />
+                          <span className="text-sm text-gray-700">{allergy.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Dietary Preferences */}
+                  <div>
+                    <Label className="text-base font-medium mb-3 block">Dietary Preferences</Label>
+                    <p className="text-sm text-gray-600 mb-3">Select your dietary preferences (for recipe generation)</p>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {[
+                        { value: 'vegan', label: 'Vegan' },
+                        { value: 'vegetarian', label: 'Vegetarian' },
+                        { value: 'pescatarian', label: 'Pescatarian' },
+                        { value: 'keto', label: 'Keto' },
+                        { value: 'paleo', label: 'Paleo' },
+                        { value: 'mediterranean', label: 'Mediterranean' },
+                        { value: 'low_carb', label: 'Low-Carb' },
+                        { value: 'gluten_free', label: 'Gluten-Free' },
+                        { value: 'dairy_free', label: 'Dairy-Free' },
+                      ].map(diet => (
+                        <label key={diet.value} className="flex items-start space-x-2 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={personalForm.dietary_preferences?.includes(diet.value)}
+                            onChange={(e) => {
+                              const newPrefs = e.target.checked
+                                ? [...(personalForm.dietary_preferences || []), diet.value]
+                                : (personalForm.dietary_preferences || []).filter(d => d !== diet.value);
+                              setPersonalForm(prev => ({...prev, dietary_preferences: newPrefs}));
+                            }}
+                            className="mt-0.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          />
+                          <span className="text-sm text-gray-700">{diet.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <Separator />
+
                 <div className="space-y-4">
                   <h3 className="text-lg font-medium flex items-center">
                     <Shield className="w-5 h-5 mr-2 text-blue-600" />
