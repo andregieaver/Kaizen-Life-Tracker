@@ -62,19 +62,17 @@ const SortableTestCard = ({ testName, children }) => {
       style={style} 
       className={`relative sortable-test-card ${isDragging ? 'dragging-test-card' : ''}`}
     >
-      {/* Drag Handle */}
+      {/* Drag Handle - Top Right */}
       <div
         {...attributes}
         {...listeners}
-        className="absolute left-2 top-8 z-10 drag-handle p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-grab active:cursor-grabbing"
+        className="absolute right-4 top-4 z-10 drag-handle p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-grab active:cursor-grabbing"
         style={{ touchAction: 'none' }}
         title="Drag to reorder"
       >
         <GripVertical className="w-5 h-5 text-gray-400 hover:text-gray-600" />
       </div>
-      <div className="pl-10">
-        {children}
-      </div>
+      {children}
     </div>
   );
 };
