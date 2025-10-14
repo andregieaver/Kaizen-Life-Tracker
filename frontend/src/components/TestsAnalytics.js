@@ -724,9 +724,12 @@ const TestsAnalytics = ({ athleteId }) => {
                   </div>
                 </CardContent>
               </Card>
+              </SortableTestCard>
             );
           })}
-        </div>
+            </div>
+          </SortableContext>
+        </DndContext>
       )}
 
       {/* Add/Edit Modal */}
