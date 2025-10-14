@@ -4084,8 +4084,8 @@ async def generate_weekly_recipes(athlete_id: str):
         Target calories per meal: ~{athlete.get('estimated_calorie_need', 2000) / 3:.0f}
         """
         
-        # Generate recipes using OpenAI
-        client = openai.AsyncOpenAI(api_key=openai_key)
+        # Check if using Emergent LLM key or regular OpenAI key
+        is_emergent_key = openai_key.startswith('sk-emergent-')
         
         prompt = f"""{context}
 
@@ -4106,16 +4106,28 @@ async def generate_weekly_recipes(athlete_id: str):
         
         Return ONLY valid JSON array, no other text."""
         
-        response = await client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "You are a nutrition expert and chef specializing in athlete meal planning."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.8
-        )
-        
-        recipes_text = response.choices[0].message.content
+        # Generate recipes using appropriate method
+        if is_emergent_key:
+            from emergentintegrations.llm.openai.text_generation import OpenAITextGeneration
+            text_gen = OpenAITextGeneration(api_key=openai_key)
+            system_msg = "You are a nutrition expert and chef specializing in athlete meal planning."
+            recipes_text = await text_gen.generate_text(
+                prompt=prompt,
+                system_message=system_msg,
+                model="gpt-4o",
+                temperature=0.8
+            )
+        else:
+            client = openai.AsyncOpenAI(api_key=openai_key)
+            response = await client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": "You are a nutrition expert and chef specializing in athlete meal planning."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.8
+            )
+            recipes_text = response.choices[0].message.content
         
         # Parse JSON
         import json
