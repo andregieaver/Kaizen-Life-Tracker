@@ -439,7 +439,35 @@ const Dashboard = ({ athleteId }) => {
                   }`}
                 >
                   <ChefHat className="w-5 h-5" />
-                  <span className="font-medium">Recipes</span>
+                  <span className="font-medium">Recipe Generator</span>
+                </button>
+                <button
+                  onClick={() => {
+                    navigate('/dashboard/recipe-browser');
+                    setIsMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    activeTab === 'recipe-browser'
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <BookOpen className="w-5 h-5" />
+                  <span className="font-medium">Recipe Collection</span>
+                </button>
+                <button
+                  onClick={() => {
+                    navigate('/dashboard/weekly-menu');
+                    setIsMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    activeTab === 'weekly-menu'
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <Calendar className="w-5 h-5" />
+                  <span className="font-medium">Weekly Menus</span>
                 </button>
                 <button
                   onClick={() => {
