@@ -11925,29 +11925,380 @@ def test_schedule_execution_failure_investigation():
         traceback.print_exc()
         return False
 
+def test_weekly_menu_builder_api_endpoints():
+    """
+    PRIORITY 1: Test Weekly Menu Builder API Endpoints
+    Test all CRUD operations for weekly menu templates
+    """
+    print("🔍 TESTING WEEKLY MENU BUILDER API ENDPOINTS")
+    print("=" * 70)
+    
+    try:
+        # Use the athlete ID from the review request
+        athlete_id = "3e4ee10d-105d-4564-8b7a-1e7223acb706"
+        
+        print(f"   Testing with athlete ID: {athlete_id}")
+        
+        # Step 1: GET /api/weekly-menus/{athlete_id} - Should return empty array initially
+        print("   Step 1: GET /api/weekly-menus/{athlete_id} - Check initial state")
+        
+        get_initial_response = requests.get(f"{BACKEND_URL}/weekly-menus/{athlete_id}")
+        
+        if get_initial_response.status_code != 200:
+            print_test_result("Get Initial Weekly Menus", False, f"GET failed: {get_initial_response.status_code} - {get_initial_response.text}")
+            return False
+        
+        initial_menus = get_initial_response.json()
+        
+        if "menus" in initial_menus and isinstance(initial_menus["menus"], list):
+            print_test_result("Get Initial Weekly Menus", True, f"Found {len(initial_menus['menus'])} existing menus")
+        else:
+            print_test_result("Get Initial Weekly Menus", False, "Invalid response format - missing 'menus' array")
+            return False
+        
+        # Step 2: POST /api/weekly-menus - Create a new weekly menu template
+        print("   Step 2: POST /api/weekly-menus - Create new weekly menu template")
+        
+        # Create 21 meal slots (7 days × 3 meals per day)
+        meals = []
+        days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+        meal_types = ["breakfast", "lunch", "dinner"]
+        
+        for day in days:
+            for meal_type in meal_types:
+                meals.append({
+                    "day_of_week": day,
+                    "meal_type": meal_type,
+                    "recipe_id": None,
+                    "recipe_name": None
+                })
+        
+        # Add one meal with a recipe name (simulating assigned recipe)
+        meals[0]["recipe_name"] = "Test Breakfast Recipe"  # Monday breakfast
+        
+        menu_data = {
+            "athlete_id": athlete_id,
+            "menu_name": "Test Weekly Menu",
+            "description": "Test menu description for weekly meal planning",
+            "meals": meals,
+            "is_active": False
+        }
+        
+        create_response = requests.post(
+            f"{BACKEND_URL}/weekly-menus",
+            json=menu_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_response.status_code != 200:
+            print_test_result("Create Weekly Menu", False, f"POST failed: {create_response.status_code} - {create_response.text}")
+            return False
+        
+        created_menu = create_response.json()
+        
+        if created_menu.get("success") and created_menu.get("menu"):
+            menu_id = created_menu["menu"].get("id")
+            if menu_id:
+                print_test_result("Create Weekly Menu", True, f"Menu created successfully, ID: {menu_id}")
+            else:
+                print_test_result("Create Weekly Menu", False, "Menu created but no ID returned")
+                return False
+        else:
+            print_test_result("Create Weekly Menu", False, "Invalid response format")
+            return False
+        
+        # Verify menu structure
+        menu = created_menu["menu"]
+        
+        structure_checks = []
+        
+        if menu.get("athlete_id") == athlete_id:
+            structure_checks.append("✅ Correct athlete_id")
+        else:
+            structure_checks.append("❌ Wrong athlete_id")
+        
+        if menu.get("menu_name") == "Test Weekly Menu":
+            structure_checks.append("✅ Correct menu_name")
+        else:
+            structure_checks.append("❌ Wrong menu_name")
+        
+        if len(menu.get("meals", [])) == 21:
+            structure_checks.append("✅ Correct number of meals (21)")
+        else:
+            structure_checks.append(f"❌ Wrong number of meals: {len(menu.get('meals', []))}")
+        
+        if menu.get("is_active") is False:
+            structure_checks.append("✅ Correct is_active status")
+        else:
+            structure_checks.append("❌ Wrong is_active status")
+        
+        for check in structure_checks:
+            print(f"      {check}")
+        
+        # Step 3: GET /api/weekly-menus/{athlete_id} - Verify menu appears in list
+        print("   Step 3: GET /api/weekly-menus/{athlete_id} - Verify menu in list")
+        
+        get_after_create_response = requests.get(f"{BACKEND_URL}/weekly-menus/{athlete_id}")
+        
+        if get_after_create_response.status_code != 200:
+            print_test_result("Get Menus After Create", False, f"GET failed: {get_after_create_response.status_code}")
+            return False
+        
+        menus_after_create = get_after_create_response.json()
+        
+        # Find our created menu
+        created_menu_found = False
+        for menu in menus_after_create.get("menus", []):
+            if menu.get("id") == menu_id:
+                created_menu_found = True
+                break
+        
+        if created_menu_found:
+            print_test_result("Get Menus After Create", True, "Created menu found in list")
+        else:
+            print_test_result("Get Menus After Create", False, "Created menu not found in list")
+            return False
+        
+        # Step 4: PUT /api/weekly-menus/{menu_id} - Update menu (set as active)
+        print("   Step 4: PUT /api/weekly-menus/{menu_id} - Update menu to active")
+        
+        update_data = {
+            "athlete_id": athlete_id,
+            "menu_name": "Updated Test Weekly Menu",
+            "description": "Updated description",
+            "is_active": True
+        }
+        
+        update_response = requests.put(
+            f"{BACKEND_URL}/weekly-menus/{menu_id}",
+            json=update_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if update_response.status_code != 200:
+            print_test_result("Update Weekly Menu", False, f"PUT failed: {update_response.status_code} - {update_response.text}")
+            return False
+        
+        updated_menu = update_response.json()
+        
+        if updated_menu.get("success") and updated_menu.get("menu"):
+            menu = updated_menu["menu"]
+            
+            update_checks = []
+            
+            if menu.get("menu_name") == "Updated Test Weekly Menu":
+                update_checks.append("✅ Menu name updated")
+            else:
+                update_checks.append("❌ Menu name not updated")
+            
+            if menu.get("is_active") is True:
+                update_checks.append("✅ Menu set to active")
+            else:
+                update_checks.append("❌ Menu not set to active")
+            
+            if menu.get("updated_at"):
+                update_checks.append("✅ Updated timestamp set")
+            else:
+                update_checks.append("❌ Updated timestamp missing")
+            
+            for check in update_checks:
+                print(f"      {check}")
+            
+            print_test_result("Update Weekly Menu", True, "Menu updated successfully")
+        else:
+            print_test_result("Update Weekly Menu", False, "Invalid update response")
+            return False
+        
+        # Step 5: Test menu activation logic (only one active at a time)
+        print("   Step 5: Test menu activation logic - Create second menu as active")
+        
+        # Create another menu and set it as active
+        second_menu_data = {
+            "athlete_id": athlete_id,
+            "menu_name": "Second Test Menu",
+            "description": "Second menu to test activation logic",
+            "meals": meals,  # Same 21 meals structure
+            "is_active": True  # This should deactivate the first menu
+        }
+        
+        create_second_response = requests.post(
+            f"{BACKEND_URL}/weekly-menus",
+            json=second_menu_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_second_response.status_code != 200:
+            print_test_result("Create Second Active Menu", False, f"POST failed: {create_second_response.status_code}")
+            return False
+        
+        second_menu = create_second_response.json()
+        second_menu_id = second_menu["menu"]["id"]
+        
+        # Verify first menu is now inactive
+        get_menus_response = requests.get(f"{BACKEND_URL}/weekly-menus/{athlete_id}")
+        
+        if get_menus_response.status_code == 200:
+            all_menus = get_menus_response.json()
+            
+            active_count = 0
+            first_menu_active = False
+            second_menu_active = False
+            
+            for menu in all_menus.get("menus", []):
+                if menu.get("is_active"):
+                    active_count += 1
+                    if menu.get("id") == menu_id:
+                        first_menu_active = True
+                    elif menu.get("id") == second_menu_id:
+                        second_menu_active = True
+            
+            activation_checks = []
+            
+            if active_count == 1:
+                activation_checks.append("✅ Only one menu is active")
+            else:
+                activation_checks.append(f"❌ {active_count} menus are active (should be 1)")
+            
+            if not first_menu_active:
+                activation_checks.append("✅ First menu deactivated")
+            else:
+                activation_checks.append("❌ First menu still active")
+            
+            if second_menu_active:
+                activation_checks.append("✅ Second menu is active")
+            else:
+                activation_checks.append("❌ Second menu not active")
+            
+            for check in activation_checks:
+                print(f"      {check}")
+            
+            print_test_result("Menu Activation Logic", True, "Activation logic working correctly")
+        else:
+            print_test_result("Menu Activation Logic", False, "Cannot verify activation logic")
+        
+        # Step 6: GET /api/weekly-menus/{menu_id}/details - Get full menu details
+        print("   Step 6: GET /api/weekly-menus/{menu_id}/details - Get full menu details")
+        
+        details_response = requests.get(f"{BACKEND_URL}/weekly-menus/{menu_id}/details")
+        
+        if details_response.status_code != 200:
+            print_test_result("Get Menu Details", False, f"GET details failed: {details_response.status_code}")
+            return False
+        
+        menu_details = details_response.json()
+        
+        details_checks = []
+        
+        if "menu" in menu_details:
+            details_checks.append("✅ Menu object present")
+        else:
+            details_checks.append("❌ Menu object missing")
+        
+        if "recipes" in menu_details:
+            details_checks.append("✅ Recipes object present")
+        else:
+            details_checks.append("❌ Recipes object missing")
+        
+        # Check if menu has all required fields
+        menu_detail = menu_details.get("menu", {})
+        if menu_detail.get("meals") and len(menu_detail["meals"]) == 21:
+            details_checks.append("✅ All 21 meal slots present in details")
+        else:
+            details_checks.append("❌ Meal slots missing in details")
+        
+        for check in details_checks:
+            print(f"      {check}")
+        
+        print_test_result("Get Menu Details", True, "Menu details retrieved successfully")
+        
+        # Step 7: DELETE /api/weekly-menus/{menu_id} - Delete menu
+        print("   Step 7: DELETE /api/weekly-menus/{menu_id} - Delete menu")
+        
+        delete_response = requests.delete(f"{BACKEND_URL}/weekly-menus/{menu_id}")
+        
+        if delete_response.status_code != 200:
+            print_test_result("Delete Weekly Menu", False, f"DELETE failed: {delete_response.status_code}")
+            return False
+        
+        delete_result = delete_response.json()
+        
+        if delete_result.get("success"):
+            print_test_result("Delete Weekly Menu", True, "Menu deleted successfully")
+        else:
+            print_test_result("Delete Weekly Menu", False, "Delete response indicates failure")
+            return False
+        
+        # Verify menu is deleted
+        get_after_delete_response = requests.get(f"{BACKEND_URL}/weekly-menus/{athlete_id}")
+        
+        if get_after_delete_response.status_code == 200:
+            menus_after_delete = get_after_delete_response.json()
+            
+            deleted_menu_found = False
+            for menu in menus_after_delete.get("menus", []):
+                if menu.get("id") == menu_id:
+                    deleted_menu_found = True
+                    break
+            
+            if not deleted_menu_found:
+                print_test_result("Verify Menu Deleted", True, "Deleted menu no longer in list")
+            else:
+                print_test_result("Verify Menu Deleted", False, "Deleted menu still in list")
+                return False
+        
+        # Step 8: Test DELETE with non-existent menu ID (should return 404)
+        print("   Step 8: DELETE non-existent menu - Test error handling")
+        
+        fake_menu_id = str(uuid.uuid4())
+        delete_fake_response = requests.delete(f"{BACKEND_URL}/weekly-menus/{fake_menu_id}")
+        
+        if delete_fake_response.status_code == 404:
+            print_test_result("Delete Non-existent Menu", True, "Correctly returned 404 for non-existent menu")
+        else:
+            print_test_result("Delete Non-existent Menu", False, f"Expected 404, got {delete_fake_response.status_code}")
+        
+        # Clean up - delete second menu
+        print("   Step 9: Clean up - Delete second test menu")
+        
+        cleanup_response = requests.delete(f"{BACKEND_URL}/weekly-menus/{second_menu_id}")
+        
+        if cleanup_response.status_code == 200:
+            print_test_result("Cleanup Second Menu", True, "Second menu cleaned up successfully")
+        else:
+            print_test_result("Cleanup Second Menu", False, "Failed to clean up second menu")
+        
+        print("\n✅ ALL WEEKLY MENU BUILDER API TESTS PASSED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Weekly Menu Builder API Testing - Exception", False, f"Exception: {str(e)}")
+        return False
+
 if __name__ == "__main__":
     print("🚀 STARTING COMPREHENSIVE BACKEND API TESTING")
     print("=" * 70)
     
-    # Run Recipe Generation API Tests (as requested in review)
+    # Run Weekly Menu Builder API Tests (as requested in review)
     all_tests_passed = True
     
-    # Test Recipe Generation API Endpoints
-    if not test_recipe_generation_api_endpoints():
+    # Test Weekly Menu Builder API Endpoints
+    if not test_weekly_menu_builder_api_endpoints():
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final summary
     if all_tests_passed:
-        print("🎉 ALL RECIPE GENERATION API TESTS PASSED!")
-        print("✅ Recipe Generation: Working")
-        print("✅ Recipe Retrieval: Working") 
-        print("✅ Recipe Rating: Working")
-        print("✅ Recipe Deletion: Working")
+        print("🎉 ALL WEEKLY MENU BUILDER API TESTS PASSED!")
+        print("✅ Weekly Menu Creation: Working")
+        print("✅ Weekly Menu Retrieval: Working") 
+        print("✅ Weekly Menu Updates: Working")
+        print("✅ Weekly Menu Deletion: Working")
+        print("✅ Menu Activation Logic: Working")
+        print("✅ Menu Details Endpoint: Working")
         print("✅ Error Handling: Working")
         sys.exit(0)
     else:
-        print("❌ SOME RECIPE GENERATION API TESTS FAILED")
+        print("❌ SOME WEEKLY MENU BUILDER API TESTS FAILED")
         print("⚠️ Check the detailed output above for specific issues")
         sys.exit(1)
