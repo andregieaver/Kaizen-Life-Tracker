@@ -37,6 +37,7 @@ const Dashboard = ({ athleteId }) => {
   const [ytdDistance, setYtdDistance] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [testResults, setTestResults] = useState([]);
   
   // Scroll animation state
   const [scrollDirection, setScrollDirection] = useState('none'); // 'none' on initial load to show elements
