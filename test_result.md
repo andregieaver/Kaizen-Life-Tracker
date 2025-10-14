@@ -707,6 +707,8 @@ agent_communication:
     message: "Fixed voice mode AI coach context - now includes same detailed athlete data as text mode: workouts, sleep, readiness, journal, nutrition with macros, supplements, test results, and training calendar access. Voice mode now has parity with text mode data access."
   - agent: "main"
     message: "Fixed Coach chat page desktop layout: Message input bar now fixed at bottom with proper z-index. Past conversations sidebar now full viewport height (h-screen) with white background and proper positioning (fixed inset-y-0). Increased chat messages bottom padding to accommodate fixed input bar."
+  - agent: "main"
+    message: "Added Progress section to Dashboard home page below Merits section. Displays all tests with title, latest entry date, and latest value. Tests grouped by name showing most recent result for each. Click on any test to navigate to Tests & Analytics page. Empty state with 'Add Test Results' button if no tests exist."
 
   - task: "Login and Authentication System"
     implemented: true
