@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Comprehensive multi-language translation implementation for the running coach application. Translate all text strings across the app into the supported languages (English, Norwegian, Swedish, Spanish, French, German, Danish)."
+user_problem_statement: "DIAGNOSE SCHEDULE LIMIT ISSUE FOR PRO USER - User andre@humanweb.no reports having Pro plan but can only create 1 schedule (Free plan limit) instead of 5 schedules."
 
 backend:
   - task: "Schedule Active Checkbox State Saving"
