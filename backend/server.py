@@ -659,6 +659,26 @@ class TestResult(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
+class Recipe(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    week_start_date: str  # ISO date string - Monday of the week this menu belongs to
+    day_of_week: str  # 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
+    meal_type: str  # 'breakfast', 'lunch', 'dinner'
+    recipe_name: str
+    ingredients: list  # List of ingredients with quantities
+    instructions: str  # Step-by-step cooking instructions
+    nutrition_info: dict  # {'calories': 500, 'protein': 30, 'carbs': 40, 'fat': 15}
+    prep_time: int  # Minutes
+    cook_time: int  # Minutes
+    servings: int
+    image_base64: Optional[str] = None  # AI-generated food image
+    user_rating: Optional[int] = None  # 1-5 stars
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
 class TrainingBlock(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
