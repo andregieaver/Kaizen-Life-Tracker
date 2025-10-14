@@ -20,6 +20,7 @@ const API = `${BACKEND_URL}/api`;
 
 const Schedules = ({ athleteId }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [schedules, setSchedules] = useState([]);
   const [showScheduleForm, setShowScheduleForm] = useState(false);
   const [editingSchedule, setEditingSchedule] = useState(null);
