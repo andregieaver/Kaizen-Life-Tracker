@@ -93,10 +93,11 @@ async def test_recipe_generation():
                     json={
                         "email": TEST_EMAIL,
                         "password": TEST_PASSWORD,
-                        "athlete_name": TEST_NAME,
-                        "birth_date": "1990-01-01",
+                        "name": TEST_NAME,
+                        "weekly_mileage": 20.0,
+                        "date_of_birth": "1990-01-01",
                         "gender": "male",
-                        "unit_system": "metric",
+                        "measurement_system": "metric",
                         "running_goals": "general fitness",
                         "allergies": ["peanuts"],
                         "dietary_preferences": ["balanced"]
