@@ -676,8 +676,10 @@ class Recipe(BaseModel):
     servings: int
     image_base64: Optional[str] = None  # AI-generated food image
     user_rating: Optional[int] = None  # 1-5 stars
+    measurement_system: str = Field(default="imperial")  # 'imperial' or 'metric' - for consistent unit display
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
+    # Note: Recipes are saved individually and will be used for weekly menu building later
 
 class TrainingBlock(BaseModel):
     model_config = ConfigDict(extra="ignore")
