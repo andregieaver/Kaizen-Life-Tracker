@@ -4037,6 +4037,8 @@ async def generate_weekly_recipes(athlete_id: str):
         if not openai_integration or not openai_integration.get('credentials', {}).get('api_key'):
             raise HTTPException(status_code=400, detail="OpenAI API key required. Please add your OpenAI API key in Account Settings → Apps tab.")
         
+        openai_key = openai_integration['credentials']['api_key']
+        
         # Get recent nutrition entries (last 14 days)
         two_weeks_ago = (datetime.now(timezone.utc) - timedelta(days=14)).strftime("%Y-%m-%d")
         nutrition_entries = await db.nutrition_entries.find(
