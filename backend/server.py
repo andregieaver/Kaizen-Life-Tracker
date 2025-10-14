@@ -4132,72 +4132,51 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         
         # Generate image for the recipe using OpenAI DALL-E
         try:
-            try:
-                # Generate food image using OpenAI DALL-E
-                image_prompt = f"Professional food photography of {recipe_data['recipe_name']}, appetizing, well-plated, high quality"
-                image_response = await client.images.generate(
-                    model="dall-e-3",
-                    prompt=image_prompt,
-                    size="1024x1024",
-                    quality="standard",
-                    n=1,
-                )
-                
-                # Download image and convert to base64
-                image_url = image_response.data[0].url
-                import httpx
-                async with httpx.AsyncClient() as http_client:
-                    img_response = await http_client.get(image_url)
-                    image_base64 = base64.b64encode(img_response.content).decode('utf-8') if img_response.status_code == 200 else None
-                
-                # Create recipe document
-                recipe = Recipe(
-                    athlete_id=athlete_id,
-                    week_start_date=week_start_date,
-                    day_of_week=day_of_week,
-                    meal_type=recipe_data['meal_type'],
-                    recipe_name=recipe_data['recipe_name'],
-                    ingredients=recipe_data['ingredients'],
-                    instructions=recipe_data['instructions'],
-                    nutrition_info=recipe_data['nutrition_info'],
-                    prep_time=recipe_data['prep_time'],
-                    cook_time=recipe_data['cook_time'],
-                    servings=recipe_data['servings'],
-                    image_base64=image_base64
-                )
-                
-                recipe_dict = prepare_for_mongo(recipe.model_dump())
-                await db.recipes.insert_one(recipe_dict)
-                saved_recipes.append(recipe_data['recipe_name'])
-                
-            except Exception as img_error:
-                print(f"Error generating image for recipe {i}: {img_error}")
-                # Save recipe without image
-                recipe = Recipe(
-                    athlete_id=athlete_id,
-                    week_start_date=week_start_date,
-                    day_of_week=day_of_week,
-                    meal_type=recipe_data['meal_type'],
-                    recipe_name=recipe_data['recipe_name'],
-                    ingredients=recipe_data['ingredients'],
-                    instructions=recipe_data['instructions'],
-                    nutrition_info=recipe_data['nutrition_info'],
-                    prep_time=recipe_data['prep_time'],
-                    cook_time=recipe_data['cook_time'],
-                    servings=recipe_data['servings'],
-                    image_base64=None
-                )
-                
-                recipe_dict = prepare_for_mongo(recipe.model_dump())
-                await db.recipes.insert_one(recipe_dict)
-                saved_recipes.append(recipe_data['recipe_name'])
+            # Generate food image using OpenAI DALL-E
+            image_prompt = f"Professional food photography of {recipe_data['recipe_name']}, appetizing, well-plated, high quality"
+            image_response = await client.images.generate(
+                model="dall-e-3",
+                prompt=image_prompt,
+                size="1024x1024",
+                quality="standard",
+                n=1,
+            )
+            
+            # Download image and convert to base64
+            image_url = image_response.data[0].url
+            import httpx
+            async with httpx.AsyncClient() as http_client:
+                img_response = await http_client.get(image_url)
+                image_base64 = base64.b64encode(img_response.content).decode('utf-8') if img_response.status_code == 200 else None
+        except Exception as img_error:
+            print(f"Error generating image: {img_error}")
+            image_base64 = None
+        
+        # Create recipe document
+        current_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        recipe = Recipe(
+            athlete_id=athlete_id,
+            week_start_date=current_date,
+            day_of_week='',  # Not used in new format
+            meal_type=meal_type,
+            recipe_name=recipe_data['recipe_name'],
+            ingredients=recipe_data['ingredients'],
+            instructions=recipe_data['instructions'],
+            nutrition_info=recipe_data['nutrition_info'],
+            prep_time=recipe_data['prep_time'],
+            cook_time=recipe_data['cook_time'],
+            servings=recipe_data['servings'],
+            image_base64=image_base64
+        )
+        
+        recipe_dict = prepare_for_mongo(recipe.model_dump())
+        await db.recipes.insert_one(recipe_dict)
         
         return {
             "success": True,
-            "day_of_week": day_of_week,
-            "week_start_date": week_start_date,
-            "recipes_created": len(saved_recipes),
-            "recipe_names": saved_recipes
+            "meal_type": meal_type,
+            "recipe_name": recipe_data['recipe_name'],
+            "recipe": parse_from_mongo(recipe_dict)
         }
         
     except Exception as e:
