@@ -22,10 +22,17 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
   const [showRecipePicker, setShowRecipePicker] = useState(false);
 
   useEffect(() => {
-    fetchData();
+    if (athleteId) {
+      fetchData();
+    }
   }, [athleteId]);
 
   const fetchData = async () => {
+    if (!athleteId) {
+      setIsLoading(false);
+      return;
+    }
+    
     try {
       setIsLoading(true);
       const [menusRes, recipesRes] = await Promise.all([
