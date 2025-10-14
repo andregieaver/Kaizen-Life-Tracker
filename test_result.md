@@ -701,6 +701,8 @@ agent_communication:
     message: "Added expandable/collapsible Test History with chevron toggle and 'Delete All' button aligned right. Test History collapsed by default to reduce clutter. Delete All removes all results for specific test with confirmation dialog. Fixed backend date serialization bug in parse_from_mongo function. All features implemented and build successful. Ready for user testing."
   - agent: "main"
     message: "Implemented drag and drop reordering for test cards with vertical-only movement and mobile optimization. Uses @dnd-kit library with touch/pointer sensors. Order persisted to localStorage. Horizontal drag restricted via transform and touch-action CSS. Haptic feedback on mobile. Drag handle with GripVertical icon on left side. Build successful."
+  - agent: "main"
+    message: "Repositioned drag handle to top right corner per user screenshot. Made test cards full-width on mobile with proper width constraints and enhanced mobile drag handle styling. Build successful."
 
   - task: "Login and Authentication System"
     implemented: true
