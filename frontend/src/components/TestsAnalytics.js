@@ -405,6 +405,13 @@ const TestsAnalytics = ({ athleteId }) => {
     }
   };
 
+  const handleDragStart = () => {
+    // Provide haptic feedback on mobile if available
+    if (window.navigator.vibrate) {
+      window.navigator.vibrate(50);
+    }
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
