@@ -409,6 +409,29 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const handleManagePaymentMethod = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.post(`${API}/subscriptions/create-portal-session`, {
+        athlete_id: athleteId,
+        return_url: window.location.href
+      });
+
+      if (response.data.url) {
+        // Redirect to Stripe Customer Portal
+        window.location.href = response.data.url;
+      }
+    } catch (error) {
+      console.error('Portal session error:', error);
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Failed to open payment management. Please try again.' 
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleDowngrade = async () => {
     if (!downgradeTarget) return;
     
