@@ -216,26 +216,12 @@ const Recipes = ({ athleteId }) => {
         <>
 
           {/* Recipes Grid */}
-          <div className="space-y-8">
-            {days.map(day => {
-              const dayRecipes = recipesByDay[day];
-              const hasRecipes = dayRecipes.breakfast || dayRecipes.lunch || dayRecipes.dinner;
-              
-              if (!hasRecipes && selectedDay === 'all') return null;
-              if (selectedDay !== 'all' && selectedDay !== day) return null;
-
-              return (
-                <div key={day} className="space-y-4">
-                  <h2 className="text-2xl font-display font-bold text-gray-900 capitalize border-b pb-2">
-                    {day}
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {meals.map(meal => {
-                      const recipe = dayRecipes[meal];
-                      if (!recipe) return null;
-                      if (selectedMeal !== 'all' && selectedMeal !== meal) return null;
-
-                      return (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {recipes
+              .filter(recipe => filterMealType === 'all' || recipe.meal_type === filterMealType)
+              .map((recipe) => {
+                return (
+                  <div key={recipe.id}>
                         <Card key={recipe.id} className="hover:shadow-lg transition-shadow">
                           {/* Recipe Image */}
                           {recipe.image_base64 && (
