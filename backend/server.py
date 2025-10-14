@@ -4118,27 +4118,63 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         Return ONLY a valid JSON object for one recipe, no other text."""
         
         # Generate recipes using OpenAI
-        client = openai.AsyncOpenAI(api_key=openai_key)
-        response = await client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "You are a nutrition expert and chef specializing in athlete meal planning."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.8
-        )
-        recipes_text = response.choices[0].message.content
+        logging.info(f"[RECIPE] Creating OpenAI client and calling API...")
+        try:
+            client = openai.AsyncOpenAI(api_key=openai_key)
+            response = await client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": "You are a nutrition expert and chef specializing in athlete meal planning."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.8
+            )
+            recipes_text = response.choices[0].message.content
+            logging.info(f"[RECIPE] OpenAI API call successful. Response length: {len(recipes_text)}")
+            logging.info(f"[RECIPE] Response preview: {recipes_text[:200]}...")
+        except Exception as api_error:
+            logging.error(f"[RECIPE] OpenAI API call failed: {str(api_error)}", exc_info=True)
+            raise HTTPException(status_code=500, detail=f"Failed to generate recipe text: {str(api_error)}")
         
         # Parse JSON
         import json
         import re
         
-        # Extract JSON from response (might be wrapped in code blocks)
-        json_match = re.search(r'\{.*\}', recipes_text, re.DOTALL)
-        if json_match:
-            recipe_data = json.loads(json_match.group(0))
-        else:
-            recipe_data = json.loads(recipes_text)
+        logging.info(f"[RECIPE] Parsing JSON response...")
+        try:
+            # Remove markdown code blocks if present
+            cleaned_text = recipes_text.strip()
+            if cleaned_text.startswith('```'):
+                # Extract content between code blocks
+                cleaned_text = re.sub(r'^```(?:json)?\n', '', cleaned_text)
+                cleaned_text = re.sub(r'\n```$', '', cleaned_text)
+            
+            # Try to find JSON object
+            json_match = re.search(r'\{.*\}', cleaned_text, re.DOTALL)
+            if json_match:
+                recipe_data = json.loads(json_match.group(0))
+            else:
+                recipe_data = json.loads(cleaned_text)
+            
+            logging.info(f"[RECIPE] JSON parsed successfully. Recipe name: {recipe_data.get('recipe_name', 'N/A')}")
+            
+            # Validate required fields
+            required_fields = ['recipe_name', 'ingredients', 'instructions', 'nutrition_info', 'prep_time', 'cook_time', 'servings']
+            missing_fields = [field for field in required_fields if field not in recipe_data]
+            if missing_fields:
+                logging.error(f"[RECIPE] Missing required fields: {missing_fields}")
+                raise ValueError(f"Recipe data missing required fields: {missing_fields}")
+                
+        except json.JSONDecodeError as json_error:
+            logging.error(f"[RECIPE] JSON parsing failed: {str(json_error)}", exc_info=True)
+            logging.error(f"[RECIPE] Raw response text: {recipes_text}")
+            raise HTTPException(status_code=500, detail=f"Failed to parse recipe data (invalid JSON): {str(json_error)}")
+        except ValueError as val_error:
+            logging.error(f"[RECIPE] Validation failed: {str(val_error)}")
+            raise HTTPException(status_code=500, detail=str(val_error))
+        except Exception as parse_error:
+            logging.error(f"[RECIPE] Unexpected parsing error: {str(parse_error)}", exc_info=True)
+            raise HTTPException(status_code=500, detail=f"Failed to parse recipe data: {str(parse_error)}")
         
         # Generate image for the recipe using OpenAI DALL-E
         try:
