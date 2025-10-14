@@ -854,6 +854,14 @@ const Dashboard = ({ athleteId }) => {
           <Recipes athleteId={athleteId} />
         )}
 
+        {activeTab === 'recipe-browser' && (
+          <RecipeBrowser athleteId={athleteId} />
+        )}
+
+        {activeTab === 'weekly-menu' && (
+          <WeeklyMenuBuilder athleteId={athleteId} />
+        )}
+
         {activeTab === 'supplements' && (
           <Supplements athleteId={athleteId} />
         )}
