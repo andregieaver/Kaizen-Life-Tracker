@@ -254,26 +254,26 @@ const Recipes = ({ athleteId }) => {
                       <CardContent className="space-y-4">
                         {/* Nutrition Info */}
                         <div className="grid grid-cols-2 gap-2 text-sm">
-                              <div className="bg-blue-50 p-2 rounded">
-                                <p className="text-xs text-gray-600">Calories</p>
-                                <p className="font-semibold">{recipe.nutrition_info.calories}</p>
-                              </div>
-                              <div className="bg-green-50 p-2 rounded">
-                                <p className="text-xs text-gray-600">Protein</p>
-                                <p className="font-semibold">{recipe.nutrition_info.protein}g</p>
-                              </div>
-                              <div className="bg-yellow-50 p-2 rounded">
-                                <p className="text-xs text-gray-600">Carbs</p>
-                                <p className="font-semibold">{recipe.nutrition_info.carbs}g</p>
-                              </div>
-                              <div className="bg-red-50 p-2 rounded">
-                                <p className="text-xs text-gray-600">Fat</p>
-                                <p className="font-semibold">{recipe.nutrition_info.fat}g</p>
-                              </div>
-                            </div>
+                          <div className="bg-blue-50 p-2 rounded">
+                            <p className="text-xs text-gray-600">Calories</p>
+                            <p className="font-semibold">{recipe.nutrition_info.calories}</p>
+                          </div>
+                          <div className="bg-green-50 p-2 rounded">
+                            <p className="text-xs text-gray-600">Protein</p>
+                            <p className="font-semibold">{recipe.nutrition_info.protein}g</p>
+                          </div>
+                          <div className="bg-yellow-50 p-2 rounded">
+                            <p className="text-xs text-gray-600">Carbs</p>
+                            <p className="font-semibold">{recipe.nutrition_info.carbs}g</p>
+                          </div>
+                          <div className="bg-red-50 p-2 rounded">
+                            <p className="text-xs text-gray-600">Fat</p>
+                            <p className="font-semibold">{recipe.nutrition_info.fat}g</p>
+                          </div>
+                        </div>
 
-                            {/* Rating */}
-                            <div className="flex items-center justify-between pt-2 border-t">
+                        {/* Rating */}
+                        <div className="flex items-center justify-between pt-2 border-t">
                               <div className="flex gap-1">
                                 {[1, 2, 3, 4, 5].map(star => (
                                   <button
