@@ -4032,8 +4032,10 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         # Get athlete data
         athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
         if not athlete:
+            logging.error(f"[RECIPE] Athlete not found: {athlete_id}")
             raise HTTPException(status_code=404, detail="Athlete not found")
         
+        logging.info(f"[RECIPE] Fetching OpenAI key for athlete: {athlete_id}")
         # Get OpenAI key from integrations collection
         openai_integration = await db.integrations.find_one(
             {"athlete_id": athlete_id, "integration_type": "openai"},
@@ -4041,12 +4043,15 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         )
         
         if not openai_integration:
+            logging.error(f"[RECIPE] OpenAI integration not found for athlete: {athlete_id}")
             raise HTTPException(status_code=400, detail="OpenAI API key not found. Please add your OpenAI API key in Account Settings → Apps tab, then try again.")
         
         if not openai_integration.get('credentials', {}).get('api_key'):
+            logging.error(f"[RECIPE] OpenAI key missing in credentials")
             raise HTTPException(status_code=400, detail="OpenAI API key is invalid or missing. Please re-add your key in Account Settings → Apps tab.")
         
         openai_key = openai_integration['credentials']['api_key']
+        logging.info(f"[RECIPE] OpenAI key found, length: {len(openai_key)}")
         
         # Get recent nutrition entries (last 14 days)
         two_weeks_ago = (datetime.now(timezone.utc) - timedelta(days=14)).strftime("%Y-%m-%d")
