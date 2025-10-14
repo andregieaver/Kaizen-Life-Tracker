@@ -368,6 +368,187 @@ const Recipes = ({ athleteId }) => {
           </div>
         </>
       )}
+
+      {/* Recipe Detail Modal */}
+      {selectedRecipe && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+            {/* Header with Image */}
+            <div className="relative">
+              {selectedRecipe.image_base64 && (
+                <div className="h-64 md:h-80 overflow-hidden">
+                  <img
+                    src={`data:image/png;base64,${selectedRecipe.image_base64}`}
+                    alt={selectedRecipe.recipe_name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+              <button
+                onClick={closeRecipeDetail}
+                className="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+              >
+                <X className="w-5 h-5 text-gray-600" />
+              </button>
+              <Badge className="absolute bottom-4 left-4 bg-white text-purple-700 capitalize text-lg py-2 px-4">
+                {selectedRecipe.meal_type === 'breakfast' ? '🍳' : selectedRecipe.meal_type === 'lunch' ? '🥗' : '🍽️'} {selectedRecipe.meal_type}
+              </Badge>
+            </div>
+
+            {/* Content */}
+            <div className="p-6 md:p-8 space-y-6">
+              {/* Title and Meta Info */}
+              <div>
+                <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">
+                  {selectedRecipe.recipe_name}
+                </h2>
+                <div className="flex flex-wrap items-center gap-4 text-gray-600">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-5 h-5" />
+                    <span><strong>Prep:</strong> {selectedRecipe.prep_time} min</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-5 h-5" />
+                    <span><strong>Cook:</strong> {selectedRecipe.cook_time} min</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-5 h-5 text-purple-600" />
+                    <span className="font-semibold text-purple-600">
+                      <strong>Total:</strong> {selectedRecipe.prep_time + selectedRecipe.cook_time} min
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Servings Adjuster */}
+              <div className="bg-purple-50 rounded-lg p-6 border-2 border-purple-200">
+                <div className="flex items-center justify-between mb-4">
+                  <label className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                    <Users className="w-5 h-5 text-purple-600" />
+                    Servings
+                  </label>
+                  <span className="text-2xl font-bold text-purple-600">{adjustedServings}</span>
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="12"
+                  value={adjustedServings}
+                  onChange={(e) => setAdjustedServings(parseInt(e.target.value))}
+                  className="w-full h-2 bg-purple-200 rounded-lg appearance-none cursor-pointer slider"
+                  style={{
+                    background: `linear-gradient(to right, rgb(147 51 234) 0%, rgb(147 51 234) ${((adjustedServings - 1) / 11) * 100}%, rgb(233 213 255) ${((adjustedServings - 1) / 11) * 100}%, rgb(233 213 255) 100%)`
+                  }}
+                />
+                <div className="flex justify-between text-xs text-gray-600 mt-2">
+                  <span>1 serving</span>
+                  <span>12 servings</span>
+                </div>
+              </div>
+
+              {/* Scaled Nutrition Info */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Flame className="w-5 h-5 text-orange-600" />
+                    <p className="text-sm font-medium text-gray-600">Calories</p>
+                  </div>
+                  <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().calories}</p>
+                  <p className="text-xs text-gray-500 mt-1">per serving</p>
+                </div>
+                <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Beef className="w-5 h-5 text-red-600" />
+                    <p className="text-sm font-medium text-gray-600">Protein</p>
+                  </div>
+                  <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().protein}g</p>
+                  <p className="text-xs text-gray-500 mt-1">per serving</p>
+                </div>
+                <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Wheat className="w-5 h-5 text-yellow-600" />
+                    <p className="text-sm font-medium text-gray-600">Carbs</p>
+                  </div>
+                  <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().carbs}g</p>
+                  <p className="text-xs text-gray-500 mt-1">per serving</p>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Droplet className="w-5 h-5 text-blue-600" />
+                    <p className="text-sm font-medium text-gray-600">Fat</p>
+                  </div>
+                  <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().fat}g</p>
+                  <p className="text-xs text-gray-500 mt-1">per serving</p>
+                </div>
+              </div>
+
+              {/* Ingredients */}
+              <div>
+                <h3 className="text-2xl font-display font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <ChefHat className="w-6 h-6 text-purple-600" />
+                  Ingredients
+                </h3>
+                <div className="bg-gray-50 rounded-lg p-6">
+                  <ul className="space-y-3">
+                    {getScaledIngredients().map((ingredient, index) => (
+                      <li key={index} className="flex items-start gap-3">
+                        <span className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-0.5">
+                          {index + 1}
+                        </span>
+                        <span className="text-gray-700 leading-relaxed">{ingredient}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Instructions */}
+              <div>
+                <h3 className="text-2xl font-display font-bold text-gray-900 mb-4">
+                  Preparation Instructions
+                </h3>
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-6 border border-purple-200">
+                  <div className="prose prose-lg max-w-none">
+                    <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                      {selectedRecipe.instructions}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Rating Section */}
+              <div className="flex items-center justify-between pt-6 border-t">
+                <div>
+                  <p className="text-sm text-gray-600 mb-2">Rate this recipe</p>
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4, 5].map(star => (
+                      <button
+                        key={star}
+                        onClick={() => rateRecipe(selectedRecipe.id, star)}
+                        className="focus:outline-none hover:scale-110 transition-transform"
+                      >
+                        <Star
+                          className={`w-7 h-7 ${
+                            star <= (selectedRecipe.user_rating || 0)
+                              ? 'fill-yellow-400 text-yellow-400'
+                              : 'text-gray-300 hover:text-yellow-300'
+                          }`}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <Button
+                  onClick={closeRecipeDetail}
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                >
+                  Close
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
