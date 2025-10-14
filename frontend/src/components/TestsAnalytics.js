@@ -531,7 +531,7 @@ const TestsAnalytics = ({ athleteId }) => {
             items={orderedTestNames}
             strategy={verticalListSortingStrategy}
           >
-            <div className="space-y-6">
+            <div className="space-y-6 w-full">
               {orderedTestNames.map((testName) => {
                 const results = testGroups[testName];
             // Sort results by date
