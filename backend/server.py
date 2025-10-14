@@ -132,11 +132,19 @@ async def send_push_notification(athlete_id: str, title: str, body: str, url: st
             return
         
         # Get VAPID keys from environment
-        vapid_private_key = os.environ.get('VAPID_PRIVATE_KEY')
+        vapid_private_key_encoded = os.environ.get('VAPID_PRIVATE_KEY')
         vapid_claim_email = os.environ.get('VAPID_CLAIM_EMAIL', 'mailto:admin@trainsmart.app')
         
-        if not vapid_private_key:
+        if not vapid_private_key_encoded:
             logging.error("VAPID_PRIVATE_KEY not found in environment")
+            return
+        
+        # Decode the base64-encoded private key
+        import base64
+        try:
+            vapid_private_key = base64.urlsafe_b64decode(vapid_private_key_encoded + '==').decode('utf-8')
+        except Exception as e:
+            logging.error(f"Error decoding VAPID private key: {e}")
             return
         
         # Prepare notification data
