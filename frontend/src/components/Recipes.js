@@ -14,13 +14,10 @@ const Recipes = ({ athleteId }) => {
   const [recipes, setRecipes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [cancelGeneration, setCancelGeneration] = useState(false);
-  const [generatingProgress, setGeneratingProgress] = useState({ current: 0, total: 7, currentDay: '' });
-  const [selectedDay, setSelectedDay] = useState('all');
-  const [selectedMeal, setSelectedMeal] = useState('all');
+  const [selectedMealType, setSelectedMealType] = useState('breakfast');
+  const [filterMealType, setFilterMealType] = useState('all');
 
-  const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-  const meals = ['breakfast', 'lunch', 'dinner'];
+  const mealTypes = ['breakfast', 'lunch', 'dinner'];
 
   useEffect(() => {
     let mounted = true;
