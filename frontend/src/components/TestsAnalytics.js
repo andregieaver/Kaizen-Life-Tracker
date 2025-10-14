@@ -579,7 +579,7 @@ const TestsAnalytics = ({ athleteId }) => {
               <SortableTestCard key={testName} testName={testName}>
                 <Card className="w-full">
                 <CardHeader>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pr-12">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <CardTitle className="text-xl">{testName}</CardTitle>
                       <CardDescription>
