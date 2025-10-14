@@ -486,7 +486,7 @@ const Schedules = ({ athleteId }) => {
                   className="bg-blue-600 hover:bg-blue-700"
                   onClick={() => {
                     setShowScheduleLimitModal(false);
-                    // Navigate to subscriptions would be handled by parent
+                    navigate('/dashboard/account?tab=subscriptions');
                   }}
                 >
                   View Plans
