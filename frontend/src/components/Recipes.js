@@ -236,22 +236,22 @@ const Recipes = ({ athleteId }) => {
                           </Badge>
                         </div>
                       )}
-                          
-                          <CardHeader>
-                            <CardTitle className="text-lg font-display">{recipe.recipe_name}</CardTitle>
-                            <div className="flex items-center gap-4 text-sm text-gray-600">
-                              <div className="flex items-center gap-1">
-                                <Clock className="w-4 h-4" />
-                                {recipe.prep_time + recipe.cook_time} min
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <Users className="w-4 h-4" />
-                                {recipe.servings} servings
-                              </div>
-                            </div>
-                          </CardHeader>
 
-                          <CardContent className="space-y-4">
+                      <CardHeader>
+                        <CardTitle className="text-lg font-display">{recipe.recipe_name}</CardTitle>
+                        <div className="flex items-center gap-4 text-sm text-gray-600">
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-4 h-4" />
+                            {recipe.prep_time + recipe.cook_time} min
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Users className="w-4 h-4" />
+                            {recipe.servings} servings
+                          </div>
+                        </div>
+                      </CardHeader>
+
+                      <CardContent className="space-y-4">
                             {/* Nutrition Info */}
                             <div className="grid grid-cols-2 gap-2 text-sm">
                               <div className="bg-blue-50 p-2 rounded">
