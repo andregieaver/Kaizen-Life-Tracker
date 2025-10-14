@@ -327,6 +327,36 @@ const TestsAnalytics = ({ athleteId }) => {
     }
   };
 
+  // Drag and drop sensors - optimized for mobile
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // 8px movement required before drag starts
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 200, // 200ms press before drag on touch devices
+        tolerance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      const oldIndex = orderedTestNames.indexOf(active.id);
+      const newIndex = orderedTestNames.indexOf(over.id);
+      
+      const newOrder = arrayMove(orderedTestNames, oldIndex, newIndex);
+      saveTestOrder(newOrder);
+    }
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
