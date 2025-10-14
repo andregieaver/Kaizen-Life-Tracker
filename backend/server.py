@@ -4250,7 +4250,8 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
                 prep_time=recipe_data['prep_time'],
                 cook_time=recipe_data['cook_time'],
                 servings=recipe_data['servings'],
-                image_base64=image_base64
+                image_base64=image_base64,
+                measurement_system=measurement_system  # Store user's measurement preference
             )
             
             recipe_dict = prepare_for_mongo(recipe.model_dump())
