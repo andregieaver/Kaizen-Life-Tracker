@@ -4126,23 +4126,28 @@ async def generate_weekly_recipes(athlete_id: str):
         else:
             recipes_data = json.loads(recipes_text)
         
-        # Generate images for each recipe (in batches to avoid overload)
-        image_gen = OpenAIImageGeneration(api_key=openai_key)
-        
+        # Generate images for each recipe using OpenAI DALL-E
         week_start = datetime.now(timezone.utc).strftime("%Y-%m-%d")  # This week's Monday
         
         saved_recipes = []
         for i, recipe_data in enumerate(recipes_data[:21]):  # Limit to 21
             try:
-                # Generate food image
+                # Generate food image using OpenAI DALL-E
                 image_prompt = f"Professional food photography of {recipe_data['recipe_name']}, appetizing, well-plated, high quality"
-                images = await image_gen.generate_images(
+                image_response = await client.images.generate(
+                    model="dall-e-3",
                     prompt=image_prompt,
-                    model="gpt-image-1",
-                    number_of_images=1
+                    size="1024x1024",
+                    quality="standard",
+                    n=1,
                 )
                 
-                image_base64 = base64.b64encode(images[0]).decode('utf-8') if images else None
+                # Download image and convert to base64
+                image_url = image_response.data[0].url
+                import httpx
+                async with httpx.AsyncClient() as http_client:
+                    img_response = await http_client.get(image_url)
+                    image_base64 = base64.b64encode(img_response.content).decode('utf-8') if img_response.status_code == 200 else None
                 
                 # Create recipe document
                 recipe = Recipe(
