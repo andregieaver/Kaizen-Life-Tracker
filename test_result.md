@@ -699,8 +699,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Test Results CRUD API Endpoints"
-    - "Tests & Analytics - Edit, Delete, and Add Entry Functionality"
+    - "Recipe Detail Page with Servings Adjuster"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
