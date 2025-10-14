@@ -734,6 +734,18 @@ agent_communication:
   - agent: "main"
     message: "MAJOR REFACTOR: Recipe page completely redesigned from weekly generation to on-demand single meal generation. Backend: Changed endpoint from /recipes/generate-day to /recipes/generate with meal_type parameter. Generates single recipe (1 meal) instead of 3 per day. No longer requires day_of_week. Frontend: Removed weekly loop, progress tracking, cancel button. Added simple form with meal type dropdown (breakfast/lunch/dinner) and Generate button. Recipes appear in grid below form. Filter by meal type. Much simpler UX - generate one recipe at a time. Fixed infinite loading by consolidating useEffect logic. Both services restarted successfully."
 
+  - task: "Recipe Detail Page with Servings Adjuster"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Recipes.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "NEW FEATURE: Implemented Recipe Detail Page with Servings Adjuster functionality. Modal opens when clicking 'View Recipe' button on recipe cards. Features include: full-screen modal with recipe image, recipe name as large heading, prep/cook/total time display, meal type badge, servings slider (1-12 servings) that dynamically scales ingredients and nutrition info, numbered ingredients list with scaled quantities, preparation instructions display, modal close functionality via X button and Close button at bottom. Ingredients scale mathematically correct (e.g., 2x servings = 2x ingredients) with proper fraction handling. Nutrition values (calories, protein, carbs, fat) scale proportionally. Frontend restarted and running. Ready for comprehensive testing."
+
   - task: "Login and Authentication System"
     implemented: true
     working: true
