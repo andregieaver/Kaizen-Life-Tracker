@@ -2322,12 +2322,23 @@ const Account = ({ athleteId }) => {
                         No payment method on file (Free plan)
                       </p>
                     ) : (
-                      <div className="flex items-center space-x-2">
-                        <CreditCard className="w-4 h-4 text-green-600" />
-                        <p className="text-sm text-gray-600">
-                          Payment method active • Managed by Stripe
-                        </p>
-                      </div>
+                      <>
+                        <div className="flex items-center space-x-2 mb-3">
+                          <CreditCard className="w-4 h-4 text-green-600" />
+                          <p className="text-sm text-gray-600">
+                            Payment method active • Managed by Stripe
+                          </p>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleManagePaymentMethod}
+                          disabled={isLoading}
+                        >
+                          <CreditCard className="w-4 h-4 mr-2" />
+                          Manage Payment Method
+                        </Button>
+                      </>
                     )}
                   </div>
 
