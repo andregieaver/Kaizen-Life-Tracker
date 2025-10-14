@@ -859,6 +859,8 @@ const Account = ({ athleteId }) => {
         estimated_calorie_need: personalForm.estimated_calorie_need ? parseInt(personalForm.estimated_calorie_need) : null,
         weight_goal: personalForm.weight_goal || null,
         health_goals: personalForm.health_goals || [],
+        allergies: personalForm.allergies || [],
+        dietary_preferences: personalForm.dietary_preferences || [],
         measurement_system: personalForm.measurement_system
       };
       
