@@ -138,46 +138,54 @@ const Recipes = ({ athleteId }) => {
   return (
     <div className="space-y-6 p-4 sm:p-6 lg:p-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-display font-bold text-gray-900">Weekly Meal Plan</h1>
-          <p className="text-gray-600 mt-1">AI-generated recipes tailored to your nutrition needs</p>
-        </div>
-        <div className="flex flex-col sm:flex-row gap-2">
-          <Button
-            onClick={generateWeeklyMenu}
-            disabled={isGenerating}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-          >
-            {isGenerating ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Generating {generatingProgress.currentDay}...
-              </>
-            ) : (
-              <>
-                <Sparkles className="w-4 h-4 mr-2" />
-                Generate New Week
-              </>
-            )}
-          </Button>
-          {isGenerating && (
-            <Button
-              onClick={handleCancelGeneration}
-              variant="outline"
-              className="border-red-300 text-red-600 hover:bg-red-50"
-            >
-              <X className="w-4 h-4 mr-2" />
-              Cancel
-            </Button>
-          )}
-        </div>
-        {isGenerating && (
-          <div className="text-sm text-gray-600 mt-2">
-            Progress: {generatingProgress.current}/{generatingProgress.total} days
-          </div>
-        )}
+      <div>
+        <h1 className="text-3xl font-display font-bold text-gray-900">Recipe Generator</h1>
+        <p className="text-gray-600 mt-1">Generate AI-powered recipes tailored to your nutrition needs</p>
       </div>
+
+      {/* Generation Form */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg font-display">Generate New Recipe</CardTitle>
+          <CardDescription>Select a meal type and generate a personalized recipe</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col sm:flex-row gap-4 items-end">
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Meal Type
+              </label>
+              <select
+                value={selectedMealType}
+                onChange={(e) => setSelectedMealType(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                disabled={isGenerating}
+              >
+                <option value="breakfast">🍳 Breakfast</option>
+                <option value="lunch">🥗 Lunch</option>
+                <option value="dinner">🍽️ Dinner</option>
+              </select>
+            </div>
+            <Button
+              onClick={generateRecipe}
+              disabled={isGenerating}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white whitespace-nowrap"
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Generate Recipe
+                </>
+              )}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       {recipes.length === 0 ? (
         <Card className="border-2 border-dashed">
