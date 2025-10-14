@@ -571,7 +571,8 @@ const TestsAnalytics = ({ athleteId }) => {
                 <div className="space-y-2">
                   <Label htmlFor="test_name">Test Name *</Label>
                   <div className="space-y-2">
-                    {testNames.length > 0 && !editingResult && (
+                    {/* Show checkbox only when not editing and not adding entry to specific test */}
+                    {testNames.length > 0 && !editingResult && !addingEntryToTest && (
                       <div className="flex items-center gap-2">
                         <input
                           type="checkbox"
@@ -590,7 +591,15 @@ const TestsAnalytics = ({ athleteId }) => {
                       </div>
                     )}
                     
-                    {formData.use_existing_test ? (
+                    {/* If adding entry to specific test, show disabled input */}
+                    {addingEntryToTest ? (
+                      <Input
+                        id="test_name"
+                        value={formData.test_name}
+                        disabled
+                        className="bg-gray-100 cursor-not-allowed"
+                      />
+                    ) : formData.use_existing_test ? (
                       <Select 
                         value={formData.test_name} 
                         onValueChange={(value) => setFormData(prev => ({...prev, test_name: value}))}
@@ -611,6 +620,8 @@ const TestsAnalytics = ({ athleteId }) => {
                         onChange={(e) => setFormData(prev => ({...prev, test_name: e.target.value}))}
                         placeholder="e.g., Pull-ups, 5km Run, Plank Hold"
                         required
+                        disabled={editingResult !== null}
+                        className={editingResult ? "bg-gray-100 cursor-not-allowed" : ""}
                       />
                     )}
                   </div>
