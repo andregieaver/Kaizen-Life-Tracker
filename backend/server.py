@@ -4124,15 +4124,14 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         import re
         
         # Extract JSON from response (might be wrapped in code blocks)
-        json_match = re.search(r'\[.*\]', recipes_text, re.DOTALL)
+        json_match = re.search(r'\{.*\}', recipes_text, re.DOTALL)
         if json_match:
-            recipes_data = json.loads(json_match.group(0))
+            recipe_data = json.loads(json_match.group(0))
         else:
-            recipes_data = json.loads(recipes_text)
+            recipe_data = json.loads(recipes_text)
         
-        # Generate images for each recipe using OpenAI DALL-E
-        saved_recipes = []
-        for i, recipe_data in enumerate(recipes_data[:3]):  # Limit to 3 meals per day
+        # Generate image for the recipe using OpenAI DALL-E
+        try:
             try:
                 # Generate food image using OpenAI DALL-E
                 image_prompt = f"Professional food photography of {recipe_data['recipe_name']}, appetizing, well-plated, high quality"
