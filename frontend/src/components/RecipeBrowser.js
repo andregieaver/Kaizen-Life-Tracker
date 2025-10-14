@@ -19,6 +19,8 @@ const RecipeBrowser = ({ athleteId }) => {
   useEffect(() => {
     if (athleteId) {
       fetchRecipes();
+    } else {
+      setIsLoading(false);
     }
   }, [athleteId]);
 
