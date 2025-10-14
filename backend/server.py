@@ -4034,12 +4034,15 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         
         # Get OpenAI key from integrations collection
         openai_integration = await db.integrations.find_one(
-            {"athlete_id": athlete_id, "integration_type": "openai", "is_active": True},
+            {"athlete_id": athlete_id, "integration_type": "openai"},
             {"_id": 0}
         )
         
-        if not openai_integration or not openai_integration.get('credentials', {}).get('api_key'):
-            raise HTTPException(status_code=400, detail="OpenAI API key required. Please add your OpenAI API key in Account Settings → Apps tab.")
+        if not openai_integration:
+            raise HTTPException(status_code=400, detail="OpenAI API key not found. Please add your OpenAI API key in Account Settings → Apps tab, then try again.")
+        
+        if not openai_integration.get('credentials', {}).get('api_key'):
+            raise HTTPException(status_code=400, detail="OpenAI API key is invalid or missing. Please re-add your key in Account Settings → Apps tab.")
         
         openai_key = openai_integration['credentials']['api_key']
         
