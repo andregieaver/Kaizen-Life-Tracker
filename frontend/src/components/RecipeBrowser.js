@@ -37,7 +37,9 @@ const RecipeBrowser = ({ athleteId }) => {
     
     try {
       setIsLoading(true);
-      const response = await axios.get(`${API}/recipes/${athleteId}`);
+      const response = await axios.get(`${API}/recipes/${athleteId}`, {
+        timeout: 30000 // 30 seconds timeout for large response with images
+      });
       console.log('[RecipeBrowser] Recipes loaded successfully:', response.data.recipes?.length || 0);
       setRecipes(response.data.recipes || []);
     } catch (error) {
