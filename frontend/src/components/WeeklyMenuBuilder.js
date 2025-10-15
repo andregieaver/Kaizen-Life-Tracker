@@ -27,6 +27,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
     } else {
       setIsLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [athleteId]);
 
   const fetchData = async () => {
