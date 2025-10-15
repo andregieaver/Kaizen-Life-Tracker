@@ -717,6 +717,18 @@ frontend:
         agent: "main"
         comment: "✅ MOBILE UPLOAD MODAL ISSUE FIXED - Converted from modal overlay to inline expandable form (same pattern as Documents.js). CHANGES APPLIED: 1) STATE MANAGEMENT - Renamed showModal to showUploadForm for clarity, updated all references throughout component. 2) REMOVED MODAL OVERLAY - Removed fixed inset-0 bg-black overlay wrapper that was causing mobile issues, converted to inline Card component that expands/collapses on same page. 3) HEADER BUTTON LOGIC - Updated 'Add File' button to toggle between 'Add File' and 'Cancel', button intelligently handles new entry vs view/edit modes, proper state cleanup when canceling. 4) INLINE CARD STYLING - Added border-2 border-blue-200 and bg-blue-50 header styling for visual distinction, maintains CardDescription for better UX, form remains visible in page flow instead of overlay. 5) PRESERVED ALL FUNCTIONALITY - View entry details, Edit entry, Upload/Camera capture, Image compression, File type selection, Date/time override, Delete functionality. MOBILE FIX RATIONALE: On Chrome/Android, file input triggers system file picker which takes focus. With modal overlay, the modal closes when picker opens. With inline form, the form stays visible in page flow, so user can complete upload after file selection. Pattern proven successful in Documents.js. Frontend restarted successfully. READY FOR MOBILE TESTING."
 
+  - task: "Enhanced Instructions Display in Weekly Menu Recipe Modal"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/WeeklyMenuBuilder.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "ENHANCED INSTRUCTIONS DISPLAY IMPLEMENTATION COMPLETE: Enhanced the Instructions section in Weekly Menu recipe detail modal with beautiful, easily digestible formatting. CHANGES MADE: 1) HEADER STYLING ✓ - Changed label from 'Preparation Instructions' to 'Instructions', added gradient text header (Teal/Cyan: from-[#62D2C4] to-[#4fc4b5]), text-2xl font-display font-bold styling. 2) STEP NUMBERS ENHANCEMENT ✓ - Larger step numbers (w-10 h-10), gradient backgrounds (from-[#62D2C4] to-[#4fc4b5]), hover scale animation (group-hover:scale-110), shadow effects (shadow-md), white text on gradient background. 3) VISUAL CONNECTORS ✓ - Added gradient vertical lines between steps (w-0.5 h-5 bg-gradient-to-b from-[#62D2C4] to-transparent), positioned between step numbers, NOT shown after the last step. 4) BACKGROUND STYLING ✓ - Beautiful gradient background (bg-gradient-to-br from-teal-50 to-cyan-50), rounded container (rounded-xl p-6), shadow-inner and border effects (border-teal-100). 5) TYPOGRAPHY ✓ - Improved text styling (text-gray-800 leading-relaxed font-medium), proper spacing between steps (space-y-5), mobile responsive design. Ready for comprehensive testing of visual design quality and functionality."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
