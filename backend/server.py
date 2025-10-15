@@ -4228,7 +4228,7 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         logging.info(f"[RECIPE] === IMAGE GENERATION START ===")
         logging.info(f"[RECIPE] Generating image for recipe: {recipe_data['recipe_name']}")
         try:
-            # Generate food image using gpt-image-1 (latest model)
+            # Generate food image using DALL-E 3 (reliable, widely available)
             image_prompt = f"Hyper-realistic professional food photography of {recipe_data['recipe_name']}, shot with high-end camera, studio lighting, perfectly plated on elegant dishware, appetizing presentation, shallow depth of field, food magazine quality, 8K resolution, photorealistic"
             
             logging.info(f"[RECIPE] Creating OpenAI client for DALL-E 3...")
