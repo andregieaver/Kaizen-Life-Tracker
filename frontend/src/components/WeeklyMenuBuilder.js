@@ -735,9 +735,9 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                           className="border rounded-lg p-4 hover:bg-blue-50 cursor-pointer transition-colors"
                         >
                           <div className="flex gap-4">
-                            {entry.image_base64 && (
+                            {entry.image_data && (
                               <img
-                                src={`data:image/jpeg;base64,${entry.image_base64}`}
+                                src={`data:image/jpeg;base64,${entry.image_data}`}
                                 alt={entry.description}
                                 className="w-20 h-20 object-cover rounded"
                               />
