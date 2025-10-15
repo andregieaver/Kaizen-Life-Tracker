@@ -382,13 +382,13 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                           return (
                             <td key={meal} className="p-3 border">
                               {mealData?.recipe_name ? (
-                                <div className="flex items-center justify-between gap-2 bg-purple-50 p-2 rounded">
+                                <div className="flex items-center justify-between gap-2 bg-gradient-to-r from-[#D4F0E9] to-[#b8e6db] p-2 rounded">
                                   <span className="text-sm text-gray-900 flex-1">
                                     {mealData.recipe_name}
                                   </span>
                                   <button
                                     onClick={() => removeRecipeFromSlot(day, meal)}
-                                    className="text-red-600 hover:text-red-700"
+                                    className="text-[#FF7F7F] hover:text-[#ff6666]"
                                   >
                                     <X className="w-4 h-4" />
                                   </button>
@@ -396,7 +396,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                               ) : (
                                 <button
                                   onClick={() => selectRecipeForSlot(day, meal)}
-                                  className="w-full px-3 py-2 text-sm text-purple-600 hover:bg-purple-50 rounded border-2 border-dashed border-purple-300 hover:border-purple-500 transition-colors"
+                                  className="w-full px-3 py-2 text-sm text-[#62D2C4] hover:bg-[#D4F0E9] rounded border-2 border-dashed border-[#62D2C4] hover:border-[#4fc4b5] transition-colors"
                                 >
                                   <Plus className="w-4 h-4 mx-auto" />
                                 </button>
