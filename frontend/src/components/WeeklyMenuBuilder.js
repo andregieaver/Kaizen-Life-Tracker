@@ -404,8 +404,59 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-sm text-gray-600">
-                    {menu.meals.filter(m => m.recipe_id).length} of 21 meals assigned
+                  <div className="space-y-4">
+                    <div className="text-sm text-gray-600 mb-4">
+                      {menu.meals.filter(m => m.recipe_id).length} of 21 meals assigned
+                    </div>
+
+                    {/* Weekly Overview */}
+                    <div className="space-y-3">
+                      {DAYS.map(day => {
+                        const dayMeals = menu.meals.filter(m => m.day_of_week === day && m.recipe_id);
+                        if (dayMeals.length === 0) return null;
+
+                        // Calculate daily nutrition totals
+                        const dailyNutrition = dayMeals.reduce((acc, meal) => {
+                          const recipe = recipes.find(r => r.id === meal.recipe_id);
+                          if (recipe && recipe.nutrition_info) {
+                            acc.calories += recipe.nutrition_info.calories || 0;
+                            acc.protein += recipe.nutrition_info.protein || 0;
+                            acc.carbs += recipe.nutrition_info.carbs || 0;
+                            acc.fat += recipe.nutrition_info.fat || 0;
+                          }
+                          return acc;
+                        }, { calories: 0, protein: 0, carbs: 0, fat: 0 });
+
+                        return (
+                          <div key={day} className="border rounded-lg p-3 bg-gray-50">
+                            <div className="flex items-center justify-between mb-2">
+                              <h4 className="font-semibold text-gray-900 capitalize">{day}</h4>
+                              <div className="flex gap-3 text-xs text-gray-600">
+                                <span className="bg-blue-100 px-2 py-1 rounded">{Math.round(dailyNutrition.calories)} cal</span>
+                                <span className="bg-green-100 px-2 py-1 rounded">{Math.round(dailyNutrition.protein)}g protein</span>
+                                <span className="bg-yellow-100 px-2 py-1 rounded">{Math.round(dailyNutrition.carbs)}g carbs</span>
+                                <span className="bg-red-100 px-2 py-1 rounded">{Math.round(dailyNutrition.fat)}g fat</span>
+                              </div>
+                            </div>
+                            <div className="space-y-1 ml-2">
+                              {MEALS.map(mealType => {
+                                const meal = dayMeals.find(m => m.meal_type === mealType);
+                                if (!meal) return null;
+                                const mealIcon = mealType === 'breakfast' ? '🍳' : mealType === 'lunch' ? '🥗' : '🍽️';
+                                return (
+                                  <div key={mealType} className="text-sm text-gray-700">
+                                    {mealIcon} <span className="capitalize">{mealType}:</span> <span className="font-medium">{meal.recipe_name}</span>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })}
+                      {menu.meals.filter(m => m.recipe_id).length === 0 && (
+                        <p className="text-sm text-gray-500 italic">No meals assigned yet</p>
+                      )}
+                    </div>
                   </div>
                 </CardContent>
               </Card>
