@@ -552,8 +552,8 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                                     {mealImage && (
                                       <div className="h-32 overflow-hidden">
                                         <img
-                                          src={`data:image/jpeg;base64,${mealImage}`}
-                                          alt={meal.recipe_name}
+                                          src={mealImage.startsWith('data:') ? mealImage : `data:image/jpeg;base64,${mealImage}`}
+                                          alt={mealName}
                                           className="w-full h-full object-cover"
                                         />
                                       </div>
