@@ -824,7 +824,6 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Progress - Test Results */}
               <Card className="border-0 shadow-md bg-white overflow-hidden">
-                <div className="h-2 bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5]"></div>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg font-display text-gray-800">Progress</CardTitle>
                   <CardDescription className="text-gray-600">Latest test results and performance metrics</CardDescription>
