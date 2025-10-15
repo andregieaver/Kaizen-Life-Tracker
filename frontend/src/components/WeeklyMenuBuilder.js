@@ -608,40 +608,93 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                 </button>
               </div>
             </div>
-            <div className="p-6">
-              {recipesByMealType[selectedSlot.mealType].length === 0 ? (
-                <div className="text-center py-12">
-                  <ChefHat className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-                  <p className="text-gray-600">No {selectedSlot.mealType} recipes available</p>
-                  <p className="text-sm text-gray-500 mt-2">Generate some recipes first</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {recipesByMealType[selectedSlot.mealType].map(recipe => (
-                    <div
-                      key={recipe.id}
-                      onClick={() => assignRecipe(recipe)}
-                      className="border rounded-lg p-4 hover:bg-purple-50 cursor-pointer transition-colors"
-                    >
-                      <div className="flex gap-4">
-                        {recipe.image_base64 && (
-                          <img
-                            src={`data:image/png;base64,${recipe.image_base64}`}
-                            alt={recipe.recipe_name}
-                            className="w-20 h-20 object-cover rounded"
-                          />
-                        )}
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900">{recipe.recipe_name}</h3>
-                          <p className="text-sm text-gray-600">
-                            {recipe.prep_time + recipe.cook_time} min • {recipe.nutrition_info.calories} cal
-                          </p>
+            <div className="p-6 space-y-6">
+              {/* AI Generated Recipes Section */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  <ChefHat className="w-5 h-5 text-purple-600" />
+                  AI Generated Recipes
+                </h3>
+                {recipesByMealType[selectedSlot.mealType].length === 0 ? (
+                  <div className="text-center py-8 bg-gray-50 rounded-lg">
+                    <p className="text-gray-600">No {selectedSlot.mealType} recipes available</p>
+                    <p className="text-sm text-gray-500 mt-2">Generate some recipes first</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {recipesByMealType[selectedSlot.mealType].map(recipe => (
+                      <div
+                        key={recipe.id}
+                        onClick={() => assignRecipe(recipe)}
+                        className="border rounded-lg p-4 hover:bg-purple-50 cursor-pointer transition-colors"
+                      >
+                        <div className="flex gap-4">
+                          {recipe.image_base64 && (
+                            <img
+                              src={`data:image/jpeg;base64,${recipe.image_base64}`}
+                              alt={recipe.recipe_name}
+                              className="w-20 h-20 object-cover rounded"
+                            />
+                          )}
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-gray-900">{recipe.recipe_name}</h3>
+                            <p className="text-sm text-gray-600">
+                              {recipe.prep_time + recipe.cook_time} min • {recipe.nutrition_info.calories} cal
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Nutrition Log Entries Section */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  📊 Nutrition Log Entries
+                </h3>
+                {nutritionEntries.length === 0 ? (
+                  <div className="text-center py-8 bg-gray-50 rounded-lg">
+                    <p className="text-gray-600">No nutrition entries available</p>
+                    <p className="text-sm text-gray-500 mt-2">Log some meals in the Nutrition section first</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {nutritionEntries.map(entry => (
+                      <div
+                        key={entry.id}
+                        onClick={() => assignNutritionEntry(entry)}
+                        className="border rounded-lg p-4 hover:bg-blue-50 cursor-pointer transition-colors"
+                      >
+                        <div className="flex gap-4">
+                          {entry.image_base64 && (
+                            <img
+                              src={`data:image/jpeg;base64,${entry.image_base64}`}
+                              alt={entry.meal_description}
+                              className="w-20 h-20 object-cover rounded"
+                            />
+                          )}
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-semibold text-gray-900">{entry.meal_description || 'Meal Entry'}</h3>
+                              <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs">Logged</span>
+                            </div>
+                            <p className="text-sm text-gray-600">
+                              {entry.calories} cal • {entry.protein}g protein • {entry.carbs}g carbs • {entry.fat}g fat
+                            </p>
+                            {entry.date && (
+                              <p className="text-xs text-gray-500 mt-1">
+                                {new Date(entry.date).toLocaleDateString()}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
