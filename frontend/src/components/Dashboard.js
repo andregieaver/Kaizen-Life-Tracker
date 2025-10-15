@@ -895,61 +895,6 @@ const Dashboard = ({ athleteId }) => {
                 </CardContent>
               </Card>
             </div>
-
-            {/* Recent Activity */}
-            <Card className="border-0 shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-lg font-display">{t('dashboard.recentActivity')}</CardTitle>
-                <CardDescription>{t('dashboard.currentReadiness')}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {recentWorkouts.length > 0 ? (
-                  <div className="space-y-3">
-                    {recentWorkouts.slice(0, 3).map((workout) => (
-                      <div 
-                        key={workout.id} 
-                        className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover-lift"
-                      >
-                        <div className="flex items-center space-x-4">
-                          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <span className="text-blue-600 font-semibold text-sm">
-                              {workout.workout_type.charAt(0).toUpperCase()}
-                            </span>
-                          </div>
-                          <div>
-                            <p className="font-medium text-gray-900 capitalize">
-                              {workout.workout_type.replace('_', ' ')}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              {new Date(workout.date).toLocaleDateString()}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-semibold text-gray-900">
-                            {workout.distance_miles} mi
-                          </p>
-                          <p className="text-sm text-gray-500">
-                            {workout.duration_minutes} min
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <p className="text-gray-500 mb-4">No workouts logged yet</p>
-                    <Button 
-                      onClick={() => navigate('/dashboard/reports')}
-                      className="bg-blue-600 hover:bg-blue-700"
-                      data-testid="view-reports-btn"
-                    >
-                      View Reports
-                    </Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
           </div>
         )}
 
