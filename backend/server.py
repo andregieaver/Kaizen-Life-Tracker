@@ -4224,7 +4224,7 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
             logging.error(f"[RECIPE] Unexpected parsing error: {str(parse_error)}", exc_info=True)
             raise HTTPException(status_code=500, detail=f"Failed to parse recipe data: {str(parse_error)}")
         
-        # Generate image for the recipe using gpt-image-1
+        # Generate image for the recipe using DALL-E 3
         logging.info(f"[RECIPE] === IMAGE GENERATION START ===")
         logging.info(f"[RECIPE] Generating image for recipe: {recipe_data['recipe_name']}")
         try:
