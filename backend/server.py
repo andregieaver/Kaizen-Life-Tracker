@@ -4224,58 +4224,59 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
             logging.error(f"[RECIPE] Unexpected parsing error: {str(parse_error)}", exc_info=True)
             raise HTTPException(status_code=500, detail=f"Failed to parse recipe data: {str(parse_error)}")
         
-        # Generate image for the recipe using OpenAI DALL-E
+        # Generate image for the recipe using gpt-image-1
         logging.info(f"[RECIPE] Generating image for recipe: {recipe_data['recipe_name']}")
         try:
-            # Generate food image using OpenAI DALL-E
-            image_prompt = f"Hyper-realistic professional food photography of {recipe_data['recipe_name']}, shot with high-end camera, studio lighting, perfectly plated on elegant dishware, appetizing presentation, shallow depth of field, food magazine quality, 8K resolution, photorealistic"
-            image_response = await client.images.generate(
-                model="dall-e-3",
-                prompt=image_prompt,
-                size="1024x1024",
-                quality="hd",
-                n=1,
-            )
-            logging.info(f"[RECIPE] DALL-E image generated successfully")
+            from emergentintegrations.llm.openai.image_generation import OpenAIImageGeneration
             
-            # Download image and convert to base64
-            image_url = image_response.data[0].url
-            logging.info(f"[RECIPE] Downloading image from: {image_url}")
-            import httpx
-            async with httpx.AsyncClient() as http_client:
-                img_response = await http_client.get(image_url)
-                if img_response.status_code == 200:
-                    # Compress the image before encoding to base64
-                    try:
-                        original_size = len(img_response.content)
-                        image = Image.open(io.BytesIO(img_response.content))
-                        
-                        # Convert to RGB if needed
-                        if image.mode in ('RGBA', 'LA', 'P'):
-                            background = Image.new('RGB', image.size, (255, 255, 255))
-                            if image.mode == 'P':
-                                image = image.convert('RGBA')
-                            background.paste(image, mask=image.split()[-1] if image.mode == 'RGBA' else None)
-                            image = background
-                        
-                        # Resize to 800x800 (smaller than original 1024x1024)
-                        image.thumbnail((800, 800), Image.Resampling.LANCZOS)
-                        
-                        # Convert to base64 with JPEG compression
-                        buffer = io.BytesIO()
-                        image.save(buffer, format='JPEG', quality=85)
-                        image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
-                        compressed_size = len(image_base64)
-                        compression_ratio = (1 - compressed_size / original_size) * 100
-                        logging.info(f"[RECIPE] Image compressed: {original_size} → {compressed_size} bytes ({compression_ratio:.1f}% reduction)")
-                    except Exception as compress_error:
-                        logging.error(f"[RECIPE] Error compressing image: {str(compress_error)}")
-                        # Fallback to uncompressed
-                        image_base64 = base64.b64encode(img_response.content).decode('utf-8')
-                        logging.info(f"[RECIPE] Image downloaded and encoded (uncompressed). Size: {len(image_base64)} chars")
-                else:
-                    logging.error(f"[RECIPE] Failed to download image. Status: {img_response.status_code}")
-                    image_base64 = None
+            # Generate food image using gpt-image-1 (latest model)
+            image_prompt = f"Hyper-realistic professional food photography of {recipe_data['recipe_name']}, shot with high-end camera, studio lighting, perfectly plated on elegant dishware, appetizing presentation, shallow depth of field, food magazine quality, 8K resolution, photorealistic"
+            
+            # Initialize image generator
+            image_gen = OpenAIImageGeneration(api_key=openai_key)
+            
+            # Generate image (returns list of image bytes)
+            logging.info(f"[RECIPE] Calling gpt-image-1 for image generation...")
+            images = await image_gen.generate_images(
+                prompt=image_prompt,
+                model="gpt-image-1",
+                number_of_images=1
+            )
+            
+            if images and len(images) > 0:
+                logging.info(f"[RECIPE] gpt-image-1 image generated successfully")
+                
+                # Compress the image before encoding to base64
+                try:
+                    original_size = len(images[0])
+                    image = Image.open(io.BytesIO(images[0]))
+                    
+                    # Convert to RGB if needed
+                    if image.mode in ('RGBA', 'LA', 'P'):
+                        background = Image.new('RGB', image.size, (255, 255, 255))
+                        if image.mode == 'P':
+                            image = image.convert('RGBA')
+                        background.paste(image, mask=image.split()[-1] if image.mode == 'RGBA' else None)
+                        image = background
+                    
+                    # Resize to 800x800 (smaller than original)
+                    image.thumbnail((800, 800), Image.Resampling.LANCZOS)
+                    
+                    # Convert to base64 with JPEG compression
+                    buffer = io.BytesIO()
+                    image.save(buffer, format='JPEG', quality=85)
+                    image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+                    compressed_size = len(image_base64)
+                    compression_ratio = (1 - compressed_size / original_size) * 100
+                    logging.info(f"[RECIPE] Image compressed: {original_size} → {compressed_size} bytes ({compression_ratio:.1f}% reduction)")
+                except Exception as compress_error:
+                    logging.error(f"[RECIPE] Error compressing image: {str(compress_error)}")
+                    # Fallback to uncompressed
+                    image_base64 = base64.b64encode(images[0]).decode('utf-8')
+                    logging.info(f"[RECIPE] Image encoded (uncompressed). Size: {len(image_base64)} chars")
+            else:
+                logging.error(f"[RECIPE] No image was generated")
+                image_base64 = None
         except Exception as img_error:
             logging.error(f"[RECIPE] Error generating image: {str(img_error)}", exc_info=True)
             image_base64 = None
