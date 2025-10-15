@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { ChefHat, BookOpen, Calendar } from 'lucide-react';
+import { ChefHat, Calendar } from 'lucide-react';
 import Recipes from './Recipes';
-import RecipeBrowser from './RecipeBrowser';
 import WeeklyMenuBuilder from './WeeklyMenuBuilder';
 
 const RecipesPage = ({ athleteId }) => {
