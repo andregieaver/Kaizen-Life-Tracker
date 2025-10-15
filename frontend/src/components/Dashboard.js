@@ -681,7 +681,6 @@ const Dashboard = ({ athleteId }) => {
               {/* Body Score Card - Full Width on Mobile, 2 Cols on Desktop */}
               <div className="lg:col-span-2">
                 <Card className="border-0 shadow-md bg-white overflow-hidden">
-                  <div className="h-2 bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5]"></div>
                   <CardHeader className="pb-3">
                     <CardTitle className="text-lg font-display text-gray-800">Body Score</CardTitle>
                     <CardDescription className="text-gray-600">Overall health and recovery status</CardDescription>
