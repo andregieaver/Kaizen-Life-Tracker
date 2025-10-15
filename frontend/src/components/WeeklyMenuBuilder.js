@@ -708,7 +708,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                   
                   const filteredEntries = nutritionEntries.filter(entry => {
                     if (!searchTerm) return true;
-                    const description = entry.meal_description || '';
+                    const description = entry.description || '';
                     return description.toLowerCase().includes(searchTerm.toLowerCase());
                   });
                   
