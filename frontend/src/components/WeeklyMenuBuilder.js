@@ -476,14 +476,24 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                         const dayMeals = menu.meals.filter(m => m.day_of_week === day && m.recipe_id);
                         if (dayMeals.length === 0) return null;
 
-                        // Calculate daily nutrition totals
+                        // Calculate daily nutrition totals from both recipes and nutrition entries
                         const dailyNutrition = dayMeals.reduce((acc, meal) => {
-                          const recipe = recipes.find(r => r.id === meal.recipe_id);
-                          if (recipe && recipe.nutrition_info) {
-                            acc.calories += recipe.nutrition_info.calories || 0;
-                            acc.protein += recipe.nutrition_info.protein || 0;
-                            acc.carbs += recipe.nutrition_info.carbs || 0;
-                            acc.fat += recipe.nutrition_info.fat || 0;
+                          if (meal.recipe_id) {
+                            const recipe = recipes.find(r => r.id === meal.recipe_id);
+                            if (recipe && recipe.nutrition_info) {
+                              acc.calories += recipe.nutrition_info.calories || 0;
+                              acc.protein += recipe.nutrition_info.protein || 0;
+                              acc.carbs += recipe.nutrition_info.carbs || 0;
+                              acc.fat += recipe.nutrition_info.fat || 0;
+                            }
+                          } else if (meal.nutrition_entry_id) {
+                            const entry = nutritionEntries.find(e => e.id === meal.nutrition_entry_id);
+                            if (entry) {
+                              acc.calories += entry.calories || 0;
+                              acc.protein += entry.protein || 0;
+                              acc.carbs += entry.carbs || 0;
+                              acc.fat += entry.fat || 0;
+                            }
                           }
                           return acc;
                         }, { calories: 0, protein: 0, carbs: 0, fat: 0 });
