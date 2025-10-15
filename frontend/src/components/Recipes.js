@@ -26,7 +26,7 @@ const Recipes = ({ athleteId }) => {
     const fetchRecipes = async () => {
       try {
         const response = await axios.get(`${API}/recipes/${athleteId}`, {
-          timeout: 5000
+          timeout: 30000 // 30 seconds timeout for large response with images
         });
         setRecipes(response.data.recipes || []);
       } catch (error) {
