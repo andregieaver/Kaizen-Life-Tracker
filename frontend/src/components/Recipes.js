@@ -391,7 +391,7 @@ const Recipes = ({ athleteId }) => {
               {selectedRecipe.image_base64 && (
                 <div className="h-64 md:h-80 overflow-hidden">
                   <img
-                    src={`data:image/png;base64,${selectedRecipe.image_base64}`}
+                    src={`data:image/jpeg;base64,${selectedRecipe.image_base64}`}
                     alt={selectedRecipe.recipe_name}
                     className="w-full h-full object-cover"
                   />
