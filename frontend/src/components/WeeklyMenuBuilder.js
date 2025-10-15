@@ -20,6 +20,8 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
   const [menuDescription, setMenuDescription] = useState('');
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [showRecipePicker, setShowRecipePicker] = useState(false);
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [adjustedServings, setAdjustedServings] = useState(1);
 
   useEffect(() => {
     if (athleteId) {
