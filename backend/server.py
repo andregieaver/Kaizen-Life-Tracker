@@ -4233,7 +4233,7 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
                 model="dall-e-3",
                 prompt=image_prompt,
                 size="1024x1024",
-                quality="standard",
+                quality="hd",
                 n=1,
             )
             logging.info(f"[RECIPE] DALL-E image generated successfully")
