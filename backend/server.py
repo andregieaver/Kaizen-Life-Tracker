@@ -4319,6 +4319,16 @@ async def get_recipes(athlete_id: str, week_start_date: Optional[str] = None, in
     recipes = await db.recipes.find(query, projection).sort("day_of_week", 1).to_list(length=None)
     return {"recipes": [parse_from_mongo(recipe) for recipe in recipes]}
 
+@api_router.get("/recipe/{recipe_id}")
+async def get_recipe(recipe_id: str):
+    """Get a single recipe by ID with full details including image"""
+    recipe = await db.recipes.find_one({"id": recipe_id}, {"_id": 0})
+    
+    if not recipe:
+        raise HTTPException(status_code=404, detail="Recipe not found")
+    
+    return parse_from_mongo(recipe)
+
 @api_router.put("/recipes/{recipe_id}/rating")
 async def rate_recipe(recipe_id: str, rating: dict):
     """Update recipe rating"""
