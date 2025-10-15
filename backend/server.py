@@ -4233,10 +4233,12 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
             image_prompt = f"Hyper-realistic professional food photography of {recipe_data['recipe_name']}, shot with high-end camera, studio lighting, perfectly plated on elegant dishware, appetizing presentation, shallow depth of field, food magazine quality, 8K resolution, photorealistic"
             
             # Use AsyncOpenAI client for DALL-E 3
+            logging.info(f"[RECIPE] Step 2: Importing httpx")
             import httpx
+            logging.info(f"[RECIPE] Step 3: Creating AsyncOpenAI client")
             dalle_client = openai.AsyncOpenAI(api_key=openai_key)
             
-            logging.info(f"[RECIPE] Calling DALL-E 3 for image generation...")
+            logging.info(f"[RECIPE] Step 4: Calling DALL-E 3 for image generation...")
             image_response = await dalle_client.images.generate(
                 model="dall-e-3",
                 prompt=image_prompt,
