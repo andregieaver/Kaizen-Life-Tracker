@@ -332,7 +332,7 @@ const Recipes = ({ athleteId }) => {
                           </div>
                         </div>
 
-                        {/* Rating */}
+                        {/* Rating and Actions */}
                         <div className="flex items-center justify-between pt-2 border-t">
                           <div className="flex gap-1">
                             {[1, 2, 3, 4, 5].map(star => (
@@ -351,14 +351,27 @@ const Recipes = ({ athleteId }) => {
                               </button>
                             ))}
                           </div>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => openRecipeDetail(recipe)}
-                            className="text-purple-600 hover:text-purple-700"
-                          >
-                            View Recipe
-                          </Button>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => openRecipeDetail(recipe)}
+                              className="text-purple-600 hover:text-purple-700"
+                            >
+                              View Recipe
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                deleteRecipe(recipe.id);
+                              }}
+                              className="text-red-600 hover:text-red-700"
+                            >
+                              Delete
+                            </Button>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
