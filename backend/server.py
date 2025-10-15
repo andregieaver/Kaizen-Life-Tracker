@@ -4299,13 +4299,24 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         raise HTTPException(status_code=500, detail=f"Recipe generation failed: {str(e)}")
 
 @api_router.get("/recipes/{athlete_id}")
-async def get_recipes(athlete_id: str, week_start_date: Optional[str] = None):
-    """Get recipes for an athlete, optionally filtered by week"""
+async def get_recipes(athlete_id: str, week_start_date: Optional[str] = None, include_images: bool = False):
+    """Get recipes for an athlete, optionally filtered by week
+    
+    Args:
+        athlete_id: The athlete's ID
+        week_start_date: Optional filter by week
+        include_images: Whether to include base64 images (default False for performance)
+    """
     query = {"athlete_id": athlete_id}
     if week_start_date:
         query["week_start_date"] = week_start_date
     
-    recipes = await db.recipes.find(query, {"_id": 0}).sort("day_of_week", 1).to_list(length=None)
+    # Exclude image_base64 by default to reduce response size
+    projection = {"_id": 0}
+    if not include_images:
+        projection["image_base64"] = 0
+    
+    recipes = await db.recipes.find(query, projection).sort("day_of_week", 1).to_list(length=None)
     return {"recipes": [parse_from_mongo(recipe) for recipe in recipes]}
 
 @api_router.put("/recipes/{recipe_id}/rating")
