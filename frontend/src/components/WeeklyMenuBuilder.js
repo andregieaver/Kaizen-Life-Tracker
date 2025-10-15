@@ -92,17 +92,19 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
 
     try {
       const menuData = {
-        ...editingMenu,
+        athlete_id: athleteId,
         menu_name: menuName,
         description: menuDescription,
-        athlete_id: athleteId
+        meals: editingMenu.meals,
+        is_active: editingMenu.is_active || false
       };
 
       if (editingMenu.id) {
-        // Update existing menu
+        // Update existing menu - include id
+        menuData.id = editingMenu.id;
         await axios.put(`${API}/weekly-menus/${editingMenu.id}`, menuData);
       } else {
-        // Create new menu
+        // Create new menu - don't include id, backend will generate it
         await axios.post(`${API}/weekly-menus`, menuData);
       }
 
@@ -112,7 +114,8 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
       setMenuDescription('');
     } catch (error) {
       console.error('Error saving menu:', error);
-      alert('Failed to save menu');
+      console.error('Error details:', error.response?.data || error.message);
+      alert(`Failed to save menu: ${error.response?.data?.detail || error.message}`);
     }
   };
 
