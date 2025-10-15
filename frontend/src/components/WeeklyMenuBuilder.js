@@ -200,6 +200,39 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
     dinner: recipes.filter(r => r.meal_type === 'dinner')
   };
 
+  const openRecipeDetail = (recipe) => {
+    setSelectedRecipe(recipe);
+    setAdjustedServings(recipe.servings);
+  };
+
+  const closeRecipeDetail = () => {
+    setSelectedRecipe(null);
+  };
+
+  const getScaledIngredients = () => {
+    if (!selectedRecipe) return [];
+    const scale = adjustedServings / selectedRecipe.servings;
+    return selectedRecipe.ingredients.map(ingredient => {
+      const match = ingredient.match(/^([\d./]+)\s*(.+)/);
+      if (match) {
+        const amount = eval(match[1]) * scale;
+        return `${amount.toFixed(1)} ${match[2]}`;
+      }
+      return ingredient;
+    });
+  };
+
+  const getScaledNutrition = () => {
+    if (!selectedRecipe) return {};
+    const scale = adjustedServings / selectedRecipe.servings;
+    return {
+      calories: Math.round(selectedRecipe.nutrition_info.calories * scale),
+      protein: Math.round(selectedRecipe.nutrition_info.protein * scale),
+      carbs: Math.round(selectedRecipe.nutrition_info.carbs * scale),
+      fat: Math.round(selectedRecipe.nutrition_info.fat * scale)
+    };
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
