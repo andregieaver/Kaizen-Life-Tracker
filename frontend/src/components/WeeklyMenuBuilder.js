@@ -710,21 +710,23 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
           </div>
 
           {/* Instructions */}
-          <div>
-            <h3 className="text-2xl font-display font-bold text-gray-900 mb-4">Instructions</h3>
-            <div className="bg-gray-50 rounded-lg p-6">
-              <ol className="space-y-4">
-                {recipe.instructions.map((instruction, index) => (
-                  <li key={index} className="flex gap-4">
-                    <span className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
-                      {index + 1}
-                    </span>
-                    <p className="text-gray-700 pt-1">{instruction}</p>
-                  </li>
-                ))}
-              </ol>
+          {recipe.instructions && Array.isArray(recipe.instructions) && (
+            <div>
+              <h3 className="text-2xl font-display font-bold text-gray-900 mb-4">Instructions</h3>
+              <div className="bg-gray-50 rounded-lg p-6">
+                <ol className="space-y-4">
+                  {recipe.instructions.map((instruction, index) => (
+                    <li key={index} className="flex gap-4">
+                      <span className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
+                        {index + 1}
+                      </span>
+                      <p className="text-gray-700 pt-1">{instruction}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Close Button */}
           <div className="flex justify-end pt-6 border-t">
