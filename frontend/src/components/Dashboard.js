@@ -642,7 +642,7 @@ const Dashboard = ({ athleteId }) => {
               {/* Log Supplement */}
               <Card 
                 className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#9B7EBD] to-[#8B6FAD] hover:scale-105 transform"
-                onClick={() => navigate('/dashboard/supplements?action=add')}
+                onClick={() => navigate('/dashboard/supplements', { state: { openAddModal: true } })}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
