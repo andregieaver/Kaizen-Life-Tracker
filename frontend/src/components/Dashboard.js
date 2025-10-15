@@ -820,26 +820,6 @@ const Dashboard = ({ athleteId }) => {
                 </Card>
               </div>
               
-              {/* Quick Stats */}
-              <Card className="border-0 shadow-md bg-white overflow-hidden">
-                <div className="h-2 bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5]"></div>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg font-display text-gray-800">{t('dashboard.quickStats')}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Running (YTD)</span>
-                    <span className="font-semibold text-[#62D2C4]">
-                      {ytdDistance.toFixed(1)} {
-                        (athlete?.measurement_system === 'metric' || 
-                         athlete?.distance_unit === 'kilometers' || 
-                         athlete?.distance_unit === 'km') ? 'km' : 'mi'
-                      }
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-
               {/* Merits - Personal Records */}
               <Merits athleteId={athleteId} />
 
@@ -851,6 +831,18 @@ const Dashboard = ({ athleteId }) => {
                   <CardDescription className="text-gray-600">Latest test results and performance metrics</CardDescription>
                 </CardHeader>
                 <CardContent>
+                  {/* Running YTD */}
+                  <div className="flex justify-between items-center mb-4 pb-4 border-b">
+                    <span className="text-sm text-gray-600">Running (YTD)</span>
+                    <span className="font-semibold text-[#62D2C4]">
+                      {ytdDistance.toFixed(1)} {
+                        (athlete?.measurement_system === 'metric' || 
+                         athlete?.distance_unit === 'kilometers' || 
+                         athlete?.distance_unit === 'km') ? 'km' : 'mi'
+                      }
+                    </span>
+                  </div>
+                  
                   {testResults.length > 0 ? (
                     <div className="space-y-3">
                       {testResults.map((test) => (
