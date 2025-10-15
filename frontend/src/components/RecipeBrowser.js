@@ -27,18 +27,25 @@ const RecipeBrowser = ({ athleteId }) => {
 
   const fetchRecipes = async () => {
     if (!athleteId) {
+      console.log('[RecipeBrowser] No athleteId provided, setting loading to false');
       setIsLoading(false);
       return;
     }
     
+    console.log('[RecipeBrowser] Fetching recipes for athleteId:', athleteId);
+    console.log('[RecipeBrowser] API URL:', `${API}/recipes/${athleteId}`);
+    
     try {
       setIsLoading(true);
       const response = await axios.get(`${API}/recipes/${athleteId}`);
+      console.log('[RecipeBrowser] Recipes loaded successfully:', response.data.recipes?.length || 0);
       setRecipes(response.data.recipes || []);
     } catch (error) {
-      console.error('Error loading recipes:', error);
+      console.error('[RecipeBrowser] Error loading recipes:', error);
+      console.error('[RecipeBrowser] Error details:', error.response || error.message);
       setRecipes([]);
     } finally {
+      console.log('[RecipeBrowser] Setting loading to false');
       setIsLoading(false);
     }
   };
