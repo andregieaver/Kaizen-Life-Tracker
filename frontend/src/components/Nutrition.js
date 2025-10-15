@@ -1103,14 +1103,8 @@ const Nutrition = ({ athleteId }) => {
                 ? weekStats.daysInWeek > 0 
                 : dayStats.totals.calories > 0 || dayStats.totals.protein > 0 || dayStats.totals.carbs > 0 || dayStats.totals.fat > 0;
               
-              if (!hasEntries) {
-                return (
-                  <div className="text-center py-8 text-gray-500">
-                    <p className="text-lg font-medium">No entries for this {viewType === 'week' ? 'week' : 'day'}</p>
-                    <p className="text-sm mt-2">Add a nutrition entry to see your stats</p>
-                  </div>
-                );
-              }
+              // Don't show anything if no entries - message is shown in entries section below
+              if (!hasEntries) return null;
               
               return (
                 <>
