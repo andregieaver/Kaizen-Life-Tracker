@@ -585,43 +585,25 @@ const Dashboard = ({ athleteId }) => {
                 </CardContent>
               </Card>
 
-              {/* Voice Journal Entry */}
+              {/* Weekly Menu */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#C1E1C1] to-[#a8d5a8] hover:scale-105 transform"
-                onClick={() => navigate('/dashboard/journal?action=voice')}
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#FFB347] to-[#FFA500] hover:scale-105 transform"
+                onClick={() => navigate('/dashboard/recipes')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
-                      <Mic className="w-6 h-6 text-white" />
+                      <ChefHat className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-white">Voice Journal</h3>
-                      <p className="text-sm text-white/80">Record your thoughts</p>
+                      <h3 className="font-semibold text-white">Weekly Menu</h3>
+                      <p className="text-sm text-white/80">View meal plans</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Voice AI Coach */}
-              <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] hover:scale-105 transform"
-                onClick={() => navigate('/dashboard/coach?action=voice')}
-              >
-                <CardContent className="p-4 md:p-6">
-                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-[#62D2C4] rounded-xl shadow-sm">
-                      <MessageCircle className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-gray-800">Talk to Coach</h3>
-                      <p className="text-sm text-gray-600">Voice AI assistance</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Add Nutrition Entry */}
+              {/* Log Meal */}
               <Card 
                 className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#FF7F7F] to-[#ff6666] hover:scale-105 transform"
                 onClick={() => navigate('/dashboard/nutrition?action=add')}
@@ -657,19 +639,37 @@ const Dashboard = ({ athleteId }) => {
                 </CardContent>
               </Card>
 
-              {/* Weekly Menu */}
+              {/* Talk to Coach */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#FFB347] to-[#FFA500] hover:scale-105 transform"
-                onClick={() => navigate('/dashboard/recipes')}
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] hover:scale-105 transform"
+                onClick={() => navigate('/dashboard/coach?action=voice')}
+              >
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
+                    <div className="p-3 bg-[#62D2C4] rounded-xl shadow-sm">
+                      <MessageCircle className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="text-center md:text-left">
+                      <h3 className="font-semibold text-gray-800">Talk to Coach</h3>
+                      <p className="text-sm text-gray-600">Voice AI assistance</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Voice Journal */}
+              <Card 
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#C1E1C1] to-[#a8d5a8] hover:scale-105 transform"
+                onClick={() => navigate('/dashboard/journal?action=voice')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
-                      <ChefHat className="w-6 h-6 text-white" />
+                      <Mic className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-white">Weekly Menu</h3>
-                      <p className="text-sm text-white/80">View meal plans</p>
+                      <h3 className="font-semibold text-white">Voice Journal</h3>
+                      <p className="text-sm text-white/80">Record your thoughts</p>
                     </div>
                   </div>
                 </CardContent>
