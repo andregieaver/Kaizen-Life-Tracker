@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/card';
 import { Button } from './ui/button';
@@ -12,6 +13,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001'
 const API = `${BACKEND_URL}/api`;
 
 const Supplements = ({ athleteId }) => {
+  const location = useLocation();
   const [supplements, setSupplements] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -33,6 +35,15 @@ const Supplements = ({ athleteId }) => {
     loadSupplements();
     loadAthleteData();
   }, [athleteId]);
+
+  // Check for openAddModal in location state
+  useEffect(() => {
+    if (location.state?.openAddModal) {
+      openNewSupplementModal();
+      // Clear the state so it doesn't reopen on subsequent renders
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   const loadAthleteData = async () => {
     try {
