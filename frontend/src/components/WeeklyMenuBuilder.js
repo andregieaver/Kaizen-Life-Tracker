@@ -55,7 +55,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
       console.log('[WeeklyMenuBuilder] Nutrition Entries:', nutritionRes.data?.length || 0);
       
       const loadedRecipes = recipesRes.data.recipes || [];
-      const loadedNutrition = nutritionRes.data || [];
+      const loadedNutrition = nutritionRes.data.entries || [];
       
       console.log('[WeeklyMenuBuilder] Setting state with:', {
         menus: menusRes.data.menus?.length || 0,
