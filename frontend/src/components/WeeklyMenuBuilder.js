@@ -482,13 +482,13 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                 <CardContent>
                   <div className="space-y-4">
                     <div className="text-sm text-gray-600 mb-4">
-                      {menu.meals.filter(m => m.recipe_id).length} of 21 meals assigned
+                      {menu.meals.filter(m => m.recipe_id || m.nutrition_entry_id).length} of 21 meals assigned
                     </div>
 
                     {/* Weekly Overview */}
                     <div className="space-y-3">
                       {DAYS.map(day => {
-                        const dayMeals = menu.meals.filter(m => m.day_of_week === day && m.recipe_id);
+                        const dayMeals = menu.meals.filter(m => m.day_of_week === day && (m.recipe_id || m.nutrition_entry_id));
                         if (dayMeals.length === 0) return null;
 
                         // Calculate daily nutrition totals from both recipes and nutrition entries
