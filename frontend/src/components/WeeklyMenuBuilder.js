@@ -449,7 +449,11 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                                 if (!meal) return null;
                                 
                                 return (
-                                  <div key={mealType} className="bg-white rounded-lg overflow-hidden shadow-sm">
+                                  <div 
+                                    key={mealType} 
+                                    onClick={() => recipe && openRecipeDetail(recipe)}
+                                    className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                                  >
                                     {/* Meal Image */}
                                     {recipe?.image_base64 && (
                                       <div className="h-32 overflow-hidden">
@@ -466,24 +470,24 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                                       <div className="text-xs font-semibold text-gray-500 uppercase mb-1">
                                         {mealIcon} {mealType}
                                       </div>
-                                      <div className="font-medium text-gray-900 text-sm line-clamp-2">
+                                      <div className="font-medium text-gray-900 text-sm line-clamp-2 mb-2">
                                         {meal.recipe_name}
                                       </div>
                                       
                                       {/* Individual meal nutrition */}
                                       {recipe?.nutrition_info && (
-                                        <div className="grid grid-cols-2 gap-1 mt-2 text-xs">
+                                        <div className="grid grid-cols-2 gap-1.5 mt-2 text-xs">
                                           <div className="bg-blue-50 px-2 py-1 rounded">
                                             <span className="text-gray-600">{recipe.nutrition_info.calories} cal</span>
                                           </div>
                                           <div className="bg-green-50 px-2 py-1 rounded">
-                                            <span className="text-gray-600">{recipe.nutrition_info.protein}g P</span>
+                                            <span className="text-gray-600">{recipe.nutrition_info.protein}g Protein</span>
                                           </div>
                                           <div className="bg-yellow-50 px-2 py-1 rounded">
-                                            <span className="text-gray-600">{recipe.nutrition_info.carbs}g C</span>
+                                            <span className="text-gray-600">{recipe.nutrition_info.carbs}g Carbs</span>
                                           </div>
                                           <div className="bg-red-50 px-2 py-1 rounded">
-                                            <span className="text-gray-600">{recipe.nutrition_info.fat}g F</span>
+                                            <span className="text-gray-600">{recipe.nutrition_info.fat}g Fat</span>
                                           </div>
                                         </div>
                                       )}
