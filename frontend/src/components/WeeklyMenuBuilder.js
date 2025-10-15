@@ -604,6 +604,138 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
           </div>
         </div>
       )}
+
+      {/* Recipe Detail Modal */}
+      {selectedRecipe && (
+        <RecipeDetailModal
+          recipe={selectedRecipe}
+          adjustedServings={adjustedServings}
+          setAdjustedServings={setAdjustedServings}
+          getScaledIngredients={getScaledIngredients}
+          getScaledNutrition={getScaledNutrition}
+          onClose={closeRecipeDetail}
+        />
+      )}
+    </div>
+  );
+};
+
+// Recipe Detail Modal Component (reused from RecipeBrowser)
+const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getScaledIngredients, getScaledNutrition, onClose }) => {
+  const { Star, Clock, Users, X } = require('lucide-react');
+  
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+        {recipe.image_base64 && (
+          <div className="relative h-64 md:h-80 overflow-hidden">
+            <img
+              src={`data:image/jpeg;base64,${recipe.image_base64}`}
+              alt={recipe.recipe_name}
+              className="w-full h-full object-cover"
+            />
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
+            >
+              <X className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+        )}
+        <div className="p-6 md:p-8 space-y-6">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900">
+            {recipe.recipe_name}
+          </h2>
+          
+          {/* Servings Adjuster */}
+          <div className="bg-purple-50 rounded-lg p-6 border-2 border-purple-200">
+            <div className="flex items-center justify-between mb-4">
+              <label className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                <Users className="w-5 h-5 text-purple-600" />
+                Servings
+              </label>
+              <span className="text-2xl font-bold text-purple-600">{adjustedServings}</span>
+            </div>
+            <input
+              type="range"
+              min="1"
+              max="12"
+              value={adjustedServings}
+              onChange={(e) => setAdjustedServings(parseInt(e.target.value))}
+              className="w-full h-2 bg-purple-200 rounded-lg appearance-none cursor-pointer slider-purple"
+            />
+          </div>
+
+          {/* Time and Servings Info */}
+          <div className="flex gap-4 text-gray-600">
+            <div className="flex items-center gap-2">
+              <Clock className="w-5 h-5" />
+              <span>{recipe.prep_time + recipe.cook_time} minutes</span>
+            </div>
+          </div>
+
+          {/* Scaled Nutrition */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-blue-50 rounded-lg p-4 text-center">
+              <p className="text-sm text-gray-600 mb-1">Calories</p>
+              <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().calories}</p>
+            </div>
+            <div className="bg-green-50 rounded-lg p-4 text-center">
+              <p className="text-sm text-gray-600 mb-1">Protein</p>
+              <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().protein}g</p>
+            </div>
+            <div className="bg-yellow-50 rounded-lg p-4 text-center">
+              <p className="text-sm text-gray-600 mb-1">Carbs</p>
+              <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().carbs}g</p>
+            </div>
+            <div className="bg-red-50 rounded-lg p-4 text-center">
+              <p className="text-sm text-gray-600 mb-1">Fat</p>
+              <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().fat}g</p>
+            </div>
+          </div>
+
+          {/* Ingredients */}
+          <div>
+            <h3 className="text-2xl font-display font-bold text-gray-900 mb-4">Ingredients</h3>
+            <div className="bg-gray-50 rounded-lg p-6">
+              <ul className="space-y-3">
+                {getScaledIngredients().map((ingredient, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <span className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
+                      {index + 1}
+                    </span>
+                    <span className="text-gray-700">{ingredient}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Instructions */}
+          <div>
+            <h3 className="text-2xl font-display font-bold text-gray-900 mb-4">Instructions</h3>
+            <div className="bg-gray-50 rounded-lg p-6">
+              <ol className="space-y-4">
+                {recipe.instructions.map((instruction, index) => (
+                  <li key={index} className="flex gap-4">
+                    <span className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
+                      {index + 1}
+                    </span>
+                    <p className="text-gray-700 pt-1">{instruction}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+
+          {/* Close Button */}
+          <div className="flex justify-end pt-6 border-t">
+            <Button onClick={onClose} className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
+              Close
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
