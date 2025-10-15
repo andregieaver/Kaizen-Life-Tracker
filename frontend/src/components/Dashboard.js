@@ -352,7 +352,7 @@ const Dashboard = ({ athleteId }) => {
         <>
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity"
+            className="fixed inset-0 bg-black bg-opacity-40 z-50 transition-opacity"
             onClick={() => setIsMenuOpen(false)}
           />
           
@@ -375,28 +375,28 @@ const Dashboard = ({ athleteId }) => {
                     className="w-10 h-10 rounded-full object-cover border-2 border-gray-200"
                   />
                 ) : (
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-[#1A2A40] rounded-full flex items-center justify-center">
                     <span className="text-white font-bold text-lg">
                       {athlete?.name?.charAt(0).toUpperCase() || 'U'}
                     </span>
                   </div>
                 )}
                 <div>
-                  <p className="font-semibold text-gray-900">{athlete?.name || 'User'}</p>
+                  <p className="font-semibold text-[#1A2A40]">{athlete?.name || 'User'}</p>
                 </div>
               </button>
               <button 
                 onClick={() => setIsMenuOpen(false)}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
                 aria-label="Close menu"
               >
-                <X className="w-5 h-5 text-gray-700" />
+                <X className="w-5 h-5 text-gray-600" />
               </button>
             </div>
 
             {/* Menu Content */}
             <div className="flex-1 p-4">
-              <nav className="space-y-2">
+              <nav className="space-y-1">
                 <button
                   onClick={() => {
                     navigate('/dashboard/journal');
@@ -404,7 +404,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'journal'
-                      ? 'bg-blue-50 text-blue-600'
+                      ? 'bg-[#1A2A40] text-white'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -418,7 +418,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'nutrition'
-                      ? 'bg-blue-50 text-blue-600'
+                      ? 'bg-[#1A2A40] text-white'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -432,7 +432,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'recipes'
-                      ? 'bg-blue-50 text-blue-600'
+                      ? 'bg-[#1A2A40] text-white'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -446,7 +446,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'supplements'
-                      ? 'bg-blue-50 text-blue-600'
+                      ? 'bg-[#1A2A40] text-white'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -460,7 +460,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'files'
-                      ? 'bg-blue-50 text-blue-600'
+                      ? 'bg-[#1A2A40] text-white'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -474,7 +474,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'memories'
-                      ? 'bg-blue-50 text-blue-600'
+                      ? 'bg-[#1A2A40] text-white'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -488,7 +488,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'calendar'
-                      ? 'bg-blue-50 text-blue-600'
+                      ? 'bg-[#1A2A40] text-white'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
