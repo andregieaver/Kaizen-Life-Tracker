@@ -4238,15 +4238,21 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
             image_response = await image_client.images.generate(
                 model="gpt-image-1",
                 prompt=image_prompt,
-                size="1024x1024",
-                response_format="b64_json"  # Get base64 directly instead of URL
+                size="1024x1024"
             )
             logging.info(f"[RECIPE] gpt-image-1 image generated successfully")
             
-            # Get base64 data directly from response
-            b64_data = image_response.data[0].b64_json
-            img_bytes = base64.b64decode(b64_data)
-            logging.info(f"[RECIPE] Decoded image, size: {len(img_bytes)} bytes")
+            # Download image from URL
+            import httpx
+            image_url = image_response.data[0].url
+            logging.info(f"[RECIPE] Downloading image from: {image_url}")
+            
+            async with httpx.AsyncClient() as http_client:
+                img_response = await http_client.get(image_url)
+                if img_response.status_code != 200:
+                    raise Exception(f"Failed to download image. Status: {img_response.status_code}")
+                img_bytes = img_response.content
+                logging.info(f"[RECIPE] Downloaded image, size: {len(img_bytes)} bytes")
             
             # Compress the image before storing
             try:
