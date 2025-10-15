@@ -1250,15 +1250,15 @@ const Nutrition = ({ athleteId }) => {
               weekEnd.setDate(weekEnd.getDate() + 6);
               const weekSupplements = (supplementLogs || []).filter(log => {
                 const logDate = new Date(log.log_date);
-                return logDate >= weekStart && logDate <= weekEnd;
+                return logDate >= weekStart && logDate <= weekEnd && log.supplements && log.supplements.length > 0;
               });
               return weekSupplements.length > 0;
             })()) ||
              (viewType === 'day' && (() => {
-              const daySuppLogs = supplementLogs.filter(log => {
+              const daySuppLogs = (supplementLogs || []).filter(log => {
                 const logDateStr = new Date(log.log_date).toDateString();
                 const selectedDateStr = selectedDay.toDateString();
-                return logDateStr === selectedDateStr;
+                return logDateStr === selectedDateStr && log.supplements && log.supplements.length > 0;
               });
               return daySuppLogs.length > 0;
             })())) && (
@@ -1276,32 +1276,36 @@ const Nutrition = ({ athleteId }) => {
                       weekEnd.setDate(weekEnd.getDate() + 6);
                       filteredSupplementLogs = (supplementLogs || []).filter(log => {
                         const logDate = new Date(log.log_date);
-                        return logDate >= weekStart && logDate <= weekEnd;
+                        return logDate >= weekStart && logDate <= weekEnd && log.supplements && log.supplements.length > 0;
                       });
                     } else {
-                      filteredSupplementLogs = supplementLogs.filter(log => {
+                      filteredSupplementLogs = (supplementLogs || []).filter(log => {
                         const logDateStr = new Date(log.log_date).toDateString();
                         const selectedDateStr = selectedDay.toDateString();
-                        return logDateStr === selectedDateStr;
+                        return logDateStr === selectedDateStr && log.supplements && log.supplements.length > 0;
                       });
                     }
                     
                     // Group supplements by supplement name
                     const supplementSummary = {};
                     filteredSupplementLogs.forEach(log => {
-                      log.supplements.forEach(supp => {
-                        const suppName = supp.supplement_name;
-                        if (!supplementSummary[suppName]) {
-                          supplementSummary[suppName] = {
-                            name: suppName,
-                            totalDosage: 0,
-                            unit: supp.unit,
-                            count: 0
-                          };
-                        }
-                        supplementSummary[suppName].totalDosage += parseFloat(supp.dosage) || 0;
-                        supplementSummary[suppName].count += 1;
-                      });
+                      if (log.supplements && Array.isArray(log.supplements)) {
+                        log.supplements.forEach(supp => {
+                          if (supp && supp.supplement_name) {
+                            const suppName = supp.supplement_name;
+                            if (!supplementSummary[suppName]) {
+                              supplementSummary[suppName] = {
+                                name: suppName,
+                                totalDosage: 0,
+                                unit: supp.unit || '',
+                                count: 0
+                              };
+                            }
+                            supplementSummary[suppName].totalDosage += parseFloat(supp.dosage) || 0;
+                            supplementSummary[suppName].count += 1;
+                          }
+                        });
+                      }
                     });
                     
                     return Object.values(supplementSummary).map((supp, idx) => (
