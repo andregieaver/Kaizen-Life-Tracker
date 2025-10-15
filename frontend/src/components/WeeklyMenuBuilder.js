@@ -735,13 +735,13 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                             {entry.image_base64 && (
                               <img
                                 src={`data:image/jpeg;base64,${entry.image_base64}`}
-                                alt={entry.meal_description}
+                                alt={entry.description}
                                 className="w-20 h-20 object-cover rounded"
                               />
                             )}
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
-                                <h3 className="font-semibold text-gray-900">{entry.meal_description || 'Meal Entry'}</h3>
+                                <h3 className="font-semibold text-gray-900">{entry.description || 'Meal Entry'}</h3>
                                 <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs">Logged</span>
                               </div>
                               <p className="text-sm text-gray-600">
