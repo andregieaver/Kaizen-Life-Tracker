@@ -226,25 +226,25 @@ const Dashboard = ({ athleteId }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center">
+      <div className="min-h-screen bg-[#e8e8e8] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-gray-300 border-t-[#1A2A40] rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-lg text-gray-600">{t('common.loading')}</p>
+          <div className="w-12 h-12 border-4 border-gray-400 border-t-[#1A2A40] rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-lg text-gray-700">{t('common.loading')}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f5f5] flex flex-col">
+    <div className="min-h-screen bg-[#e8e8e8] flex flex-col">
       {/* Desktop Header */}
-      <header className={`hidden md:block bg-white border-b border-gray-200 shadow-sm fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
+      <header className={`hidden md:block bg-[#1A2A40] border-b border-[#2a3a50] shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
         isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
       }`}>
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="font-display text-2xl font-bold text-[#1A2A40] mr-8 tracking-tight">
+              <h1 className="font-display text-2xl font-bold text-white mr-8 tracking-tight">
                 My Health Tracker
               </h1>
               <nav className="flex space-x-8">
@@ -252,8 +252,8 @@ const Dashboard = ({ athleteId }) => {
                   onClick={() => navigate('/dashboard')}
                   className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'overview'
-                      ? 'text-[#1A2A40] border-b-2 border-[#1A2A40]'
-                      : 'text-gray-500 hover:text-[#1A2A40]'
+                      ? 'text-white border-b-2 border-white'
+                      : 'text-gray-400 hover:text-white'
                   }`}
                   data-testid="overview-tab"
                 >
@@ -263,8 +263,8 @@ const Dashboard = ({ athleteId }) => {
                   onClick={() => navigate('/dashboard/coach')}
                   className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'coach'
-                      ? 'text-[#1A2A40] border-b-2 border-[#1A2A40]'
-                      : 'text-gray-500 hover:text-[#1A2A40]'
+                      ? 'text-white border-b-2 border-white'
+                      : 'text-gray-400 hover:text-white'
                   }`}
                   data-testid="coach-tab"
                 >
@@ -274,8 +274,8 @@ const Dashboard = ({ athleteId }) => {
                   onClick={() => navigate('/dashboard/reports')}
                   className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'reports'
-                      ? 'text-[#1A2A40] border-b-2 border-[#1A2A40]'
-                      : 'text-gray-500 hover:text-[#1A2A40]'
+                      ? 'text-white border-b-2 border-white'
+                      : 'text-gray-400 hover:text-white'
                   }`}
                   data-testid="reports-tab"
                 >
@@ -285,8 +285,8 @@ const Dashboard = ({ athleteId }) => {
                   onClick={() => navigate('/dashboard/calendar')}
                   className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'calendar'
-                      ? 'text-[#1A2A40] border-b-2 border-[#1A2A40]'
-                      : 'text-gray-500 hover:text-[#1A2A40]'
+                      ? 'text-white border-b-2 border-white'
+                      : 'text-gray-400 hover:text-white'
                   }`}
                   data-testid="calendar-tab"
                 >
@@ -296,8 +296,8 @@ const Dashboard = ({ athleteId }) => {
                   onClick={() => navigate('/dashboard/history')}
                   className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'history'
-                      ? 'text-[#1A2A40] border-b-2 border-[#1A2A40]'
-                      : 'text-gray-500 hover:text-[#1A2A40]'
+                      ? 'text-white border-b-2 border-white'
+                      : 'text-gray-400 hover:text-white'
                   }`}
                   data-testid="history-tab"
                 >
@@ -307,8 +307,8 @@ const Dashboard = ({ athleteId }) => {
                   onClick={() => navigate('/dashboard/account')}
                   className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'account'
-                      ? 'text-[#1A2A40] border-b-2 border-[#1A2A40]'
-                      : 'text-gray-500 hover:text-[#1A2A40]'
+                      ? 'text-white border-b-2 border-white'
+                      : 'text-gray-400 hover:text-white'
                   }`}
                   data-testid="account-tab"
                 >
@@ -318,30 +318,30 @@ const Dashboard = ({ athleteId }) => {
             </div>
             <button 
               onClick={() => setIsMenuOpen(true)}
-              className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
+              className="p-2 hover:bg-[#2a3a50] rounded-lg transition-colors"
               aria-label="Open menu"
             >
-              <Menu className="w-6 h-6 text-gray-600" />
+              <Menu className="w-6 h-6 text-gray-300" />
             </button>
           </div>
         </div>
       </header>
 
       {/* Mobile Header */}
-      <header className={`md:hidden bg-white border-b border-gray-200 shadow-sm fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
+      <header className={`md:hidden bg-[#1A2A40] border-b border-[#2a3a50] shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
         isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
       }`}>
         <div className="px-4 py-3">
           <div className="flex justify-between items-center">
-            <h1 className="font-display text-xl font-bold text-[#1A2A40] tracking-tight">
+            <h1 className="font-display text-xl font-bold text-white tracking-tight">
               My Health Tracker
             </h1>
             <button 
               onClick={() => setIsMenuOpen(true)}
-              className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
+              className="p-2 hover:bg-[#2a3a50] rounded-lg transition-colors"
               aria-label="Open menu"
             >
-              <Menu className="w-6 h-6 text-gray-600" />
+              <Menu className="w-6 h-6 text-gray-300" />
             </button>
           </div>
         </div>
