@@ -263,31 +263,6 @@ const Nutrition = ({ athleteId }) => {
   };
 
   // Get supplements logged on the same day as a meal entry
-  const getSupplementsForDay = (entryDate) => {
-    const entryDay = new Date(entryDate);
-    entryDay.setHours(0, 0, 0, 0);
-    const entryDayEnd = new Date(entryDate);
-    entryDayEnd.setHours(23, 59, 59, 999);
-
-    const daySuppLogs = supplementLogs.filter(log => {
-      const logDate = new Date(log.log_date);
-      return logDate >= entryDay && logDate <= entryDayEnd;
-    });
-
-    // Get the supplement details for each logged supplement
-    const supplementDetails = [];
-    daySuppLogs.forEach(log => {
-      log.supplement_ids.forEach(suppId => {
-        const supplement = supplements.find(s => s.id === suppId);
-        if (supplement && !supplementDetails.find(s => s.id === supplement.id)) {
-          supplementDetails.push(supplement);
-        }
-      });
-    });
-
-    return supplementDetails;
-  };
-
   const compressImage = (file) => {
     return new Promise((resolve, reject) => {
       // Validate file type
