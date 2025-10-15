@@ -551,12 +551,23 @@ const Recipes = ({ athleteId }) => {
                     ))}
                   </div>
                 </div>
-                <Button
-                  onClick={closeRecipeDetail}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
-                >
-                  Close
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => {
+                      deleteRecipe(selectedRecipe.id);
+                      closeRecipeDetail();
+                    }}
+                    className="bg-red-600 hover:bg-red-700 text-white"
+                  >
+                    Delete Recipe
+                  </Button>
+                  <Button
+                    onClick={closeRecipeDetail}
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                  >
+                    Close
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
