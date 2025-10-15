@@ -739,12 +739,11 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "Enhanced Instructions Display in Weekly Menu Recipe Modal"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
-  completed_tests: ["Recipe Detail Page with Servings Adjuster"]
+  completed_tests: ["Recipe Detail Page with Servings Adjuster", "Enhanced Instructions Display in Weekly Menu Recipe Modal"]
 
 agent_communication:
   - agent: "main"
