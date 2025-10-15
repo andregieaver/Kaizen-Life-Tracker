@@ -4287,7 +4287,9 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
                     logging.error(f"[RECIPE] Failed to download image. Status: {img_response.status_code}")
                     image_base64 = None
         except Exception as img_error:
+            logging.error(f"[RECIPE] === IMAGE GENERATION FAILED ===")
             logging.error(f"[RECIPE] Error generating image: {str(img_error)}", exc_info=True)
+            logging.error(f"[RECIPE] Error type: {type(img_error).__name__}")
             image_base64 = None
         
         # Create recipe document
