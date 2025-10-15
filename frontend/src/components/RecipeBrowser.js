@@ -289,12 +289,12 @@ const RecipeBrowser = ({ athleteId }) => {
 };
 
 // Recipe Card Component
-const RecipeCard = ({ recipe, onView, onRate }) => (
+const RecipeCard = ({ recipe, onView, onRate, onDelete }) => (
   <Card className="hover:shadow-lg transition-shadow">
     {recipe.image_base64 && (
       <div className="relative h-48 overflow-hidden rounded-t-lg">
         <img
-          src={`data:image/png;base64,${recipe.image_base64}`}
+          src={`data:image/jpeg;base64,${recipe.image_base64}`}
           alt={recipe.recipe_name}
           className="w-full h-full object-cover"
         />
@@ -342,14 +342,27 @@ const RecipeCard = ({ recipe, onView, onRate }) => (
             </button>
           ))}
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => onView(recipe)}
-          className="text-purple-600 hover:text-purple-700"
-        >
-          View Recipe
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onView(recipe)}
+            className="text-purple-600 hover:text-purple-700"
+          >
+            View Recipe
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(recipe.id);
+            }}
+            className="text-red-600 hover:text-red-700"
+          >
+            Delete
+          </Button>
+        </div>
       </div>
     </CardContent>
   </Card>
