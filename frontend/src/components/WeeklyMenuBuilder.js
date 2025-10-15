@@ -278,7 +278,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#62D2C4] mx-auto mb-4"></div>
           <p className="text-gray-600">Loading menus...</p>
         </div>
       </div>
@@ -295,7 +295,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
         {!editingMenu && (
           <Button
             onClick={createNewMenu}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+            className="bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] hover:from-[#4fc4b5] hover:to-[#62D2C4] text-white shadow-md"
           >
             <Plus className="w-4 h-4 mr-2" />
             New Menu
@@ -320,7 +320,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                   value={menuName}
                   onChange={(e) => setMenuName(e.target.value)}
                   placeholder="e.g., High Protein Week, Recovery Week"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4]"
                 />
               </div>
               <div>
@@ -332,11 +332,11 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                   onChange={(e) => setMenuDescription(e.target.value)}
                   placeholder="Optional description..."
                   rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4]"
                 />
               </div>
               <div className="flex gap-3">
-                <Button onClick={saveMenu} className="bg-green-600 hover:bg-green-700 text-white">
+                <Button onClick={saveMenu} className="bg-gradient-to-r from-[#C1E1C1] to-[#a8d5a8] hover:from-[#a8d5a8] hover:to-[#C1E1C1] text-white shadow-md">
                   <Save className="w-4 h-4 mr-2" />
                   Save Menu
                 </Button>
