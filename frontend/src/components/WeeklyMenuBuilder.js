@@ -514,10 +514,15 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                               {MEALS.map(mealType => {
                                 const meal = dayMeals.find(m => m.meal_type === mealType);
-                                const recipe = meal ? recipes.find(r => r.id === meal.recipe_id) : null;
+                                if (!meal) return null;
+                                
+                                const recipe = meal.recipe_id ? recipes.find(r => r.id === meal.recipe_id) : null;
+                                const nutritionEntry = meal.nutrition_entry_id ? nutritionEntries.find(e => e.id === meal.nutrition_entry_id) : null;
                                 const mealIcon = mealType === 'breakfast' ? '🍳' : mealType === 'lunch' ? '🥗' : '🍽️';
                                 
-                                if (!meal) return null;
+                                // Get nutrition info from either recipe or nutrition entry
+                                const nutritionInfo = recipe?.nutrition_info || nutritionEntry;
+                                const mealImage = recipe?.image_base64 || nutritionEntry?.image_base64;
                                 
                                 return (
                                   <div 
@@ -526,10 +531,10 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                                     className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                                   >
                                     {/* Meal Image */}
-                                    {recipe?.image_base64 && (
+                                    {mealImage && (
                                       <div className="h-32 overflow-hidden">
                                         <img
-                                          src={`data:image/jpeg;base64,${recipe.image_base64}`}
+                                          src={`data:image/jpeg;base64,${mealImage}`}
                                           alt={meal.recipe_name}
                                           className="w-full h-full object-cover"
                                         />
@@ -538,27 +543,28 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                                     
                                     {/* Meal Info */}
                                     <div className="p-3">
-                                      <div className="text-xs font-semibold text-gray-500 uppercase mb-1">
+                                      <div className="text-xs font-semibold text-gray-500 uppercase mb-1 flex items-center gap-1">
                                         {mealIcon} {mealType}
+                                        {nutritionEntry && <span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-xs">Logged</span>}
                                       </div>
                                       <div className="font-medium text-gray-900 text-sm line-clamp-2 mb-2">
                                         {meal.recipe_name}
                                       </div>
                                       
                                       {/* Individual meal nutrition */}
-                                      {recipe?.nutrition_info && (
+                                      {nutritionInfo && (
                                         <div className="grid grid-cols-2 gap-1.5 mt-2 text-xs">
                                           <div className="bg-blue-50 px-2 py-1 rounded">
-                                            <span className="text-gray-600">{recipe.nutrition_info.calories} cal</span>
+                                            <span className="text-gray-600">{nutritionInfo.calories} cal</span>
                                           </div>
                                           <div className="bg-green-50 px-2 py-1 rounded">
-                                            <span className="text-gray-600">{recipe.nutrition_info.protein}g Protein</span>
+                                            <span className="text-gray-600">{nutritionInfo.protein}g Protein</span>
                                           </div>
                                           <div className="bg-yellow-50 px-2 py-1 rounded">
-                                            <span className="text-gray-600">{recipe.nutrition_info.carbs}g Carbs</span>
+                                            <span className="text-gray-600">{nutritionInfo.carbs}g Carbs</span>
                                           </div>
                                           <div className="bg-red-50 px-2 py-1 rounded">
-                                            <span className="text-gray-600">{recipe.nutrition_info.fat}g Fat</span>
+                                            <span className="text-gray-600">{nutritionInfo.fat}g Fat</span>
                                           </div>
                                         </div>
                                       )}
