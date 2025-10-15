@@ -537,7 +537,10 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                                 
                                 // Get nutrition info from either recipe or nutrition entry
                                 const nutritionInfo = recipe?.nutrition_info || nutritionEntry;
-                                const mealImage = recipe?.image_base64 || nutritionEntry?.image_base64;
+                                const mealImage = recipe?.image_base64 || nutritionEntry?.image_data;
+                                
+                                // Get display name from nutrition entry or recipe
+                                const mealName = nutritionEntry?.description || meal.recipe_name;
                                 
                                 return (
                                   <div 
