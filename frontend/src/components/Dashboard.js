@@ -569,17 +569,17 @@ const Dashboard = ({ athleteId }) => {
             <div className="grid grid-cols-2 gap-4">
               {/* Today Overview */}
               <Card 
-                className="border border-[#d0d0d0] shadow hover:shadow-md transition-all cursor-pointer bg-[#f8f8f8] hover:bg-white"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#62D2C4] to-[#4fc4b5] hover:scale-105 transform"
                 onClick={() => navigate('/dashboard/today')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-[#1A2A40] rounded-sm">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
                       <Calendar className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#1A2A40]">Today</h3>
-                      <p className="text-sm text-gray-600">Daily overview</p>
+                      <h3 className="font-semibold text-white">Today</h3>
+                      <p className="text-sm text-white/80">Daily overview</p>
                     </div>
                   </div>
                 </CardContent>
@@ -587,17 +587,17 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Voice Journal Entry */}
               <Card 
-                className="border border-[#d0d0d0] shadow hover:shadow-md transition-all cursor-pointer bg-[#f8f8f8] hover:bg-white"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#C1E1C1] to-[#a8d5a8] hover:scale-105 transform"
                 onClick={() => navigate('/dashboard/journal?action=voice')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-[#808080] rounded-sm">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
                       <Mic className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#1A2A40]">Voice Journal</h3>
-                      <p className="text-sm text-gray-600">Record your thoughts</p>
+                      <h3 className="font-semibold text-white">Voice Journal</h3>
+                      <p className="text-sm text-white/80">Record your thoughts</p>
                     </div>
                   </div>
                 </CardContent>
@@ -605,16 +605,16 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Voice AI Coach */}
               <Card 
-                className="border border-[#d0d0d0] shadow hover:shadow-md transition-all cursor-pointer bg-[#f8f8f8] hover:bg-white"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] hover:scale-105 transform"
                 onClick={() => navigate('/dashboard/coach?action=voice')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-[#556B2F] rounded-sm">
+                    <div className="p-3 bg-[#62D2C4] rounded-xl shadow-sm">
                       <MessageCircle className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#1A2A40]">Talk to Coach</h3>
+                      <h3 className="font-semibold text-gray-800">Talk to Coach</h3>
                       <p className="text-sm text-gray-600">Voice AI assistance</p>
                     </div>
                   </div>
@@ -623,17 +623,17 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Add Nutrition Entry */}
               <Card 
-                className="border border-[#d0d0d0] shadow hover:shadow-md transition-all cursor-pointer bg-[#f8f8f8] hover:bg-white"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#FF7F7F] to-[#ff6666] hover:scale-105 transform"
                 onClick={() => navigate('/dashboard/nutrition?action=add')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-[#1A2A40] rounded-sm">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
                       <Utensils className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#1A2A40]">Log Meal</h3>
-                      <p className="text-sm text-gray-600">Track nutrition</p>
+                      <h3 className="font-semibold text-white">Log Meal</h3>
+                      <p className="text-sm text-white/80">Track nutrition</p>
                     </div>
                   </div>
                 </CardContent>
