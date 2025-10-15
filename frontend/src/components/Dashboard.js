@@ -647,9 +647,9 @@ const Dashboard = ({ athleteId }) => {
               </div>
               
               {/* Quick Stats */}
-              <Card className="border-0 shadow-lg">
+              <Card className="border-0 shadow">
                 <CardHeader>
-                  <CardTitle className="text-lg font-display">{t('dashboard.quickStats')}</CardTitle>
+                  <CardTitle className="text-lg font-display text-[#1A2A40]">{t('dashboard.quickStats')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex justify-between items-center">
@@ -661,7 +661,7 @@ const Dashboard = ({ athleteId }) => {
                   <Separator />
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Running (YTD)</span>
-                    <span className="font-semibold">
+                    <span className="font-semibold text-[#1A2A40]">
                       {ytdDistance.toFixed(1)} {
                         (athlete?.measurement_system === 'metric' || 
                          athlete?.distance_unit === 'kilometers' || 
@@ -676,9 +676,9 @@ const Dashboard = ({ athleteId }) => {
               <Merits athleteId={athleteId} />
 
               {/* Progress - Test Results */}
-              <Card className="border-0 shadow-lg">
+              <Card className="border-0 shadow">
                 <CardHeader>
-                  <CardTitle className="text-lg font-display">Progress</CardTitle>
+                  <CardTitle className="text-lg font-display text-[#1A2A40]">Progress</CardTitle>
                   <CardDescription>Latest test results and performance metrics</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -687,15 +687,15 @@ const Dashboard = ({ athleteId }) => {
                       {testResults.map((test) => (
                         <div 
                           key={test.id} 
-                          className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover-lift cursor-pointer"
+                          className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors"
                           onClick={() => navigate('/dashboard/tests')}
                         >
                           <div className="flex items-center space-x-4">
-                            <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                              <LineChart className="w-5 h-5 text-purple-600" />
+                            <div className="w-10 h-10 bg-[#1A2A40] rounded-lg flex items-center justify-center">
+                              <LineChart className="w-5 h-5 text-white" />
                             </div>
                             <div>
-                              <p className="font-medium text-gray-900">
+                              <p className="font-medium text-[#1A2A40]">
                                 {test.test_name}
                               </p>
                               <p className="text-sm text-gray-500">
@@ -704,7 +704,7 @@ const Dashboard = ({ athleteId }) => {
                             </div>
                           </div>
                           <div className="text-right">
-                            <p className="font-semibold text-gray-900">
+                            <p className="font-semibold text-[#1A2A40]">
                               {test.result_value} {test.unit === 'repetitions' ? 'reps' : 
                                test.unit === 'time' ? 'min' : 
                                test.unit === 'distance' ? 'km' : 
@@ -725,7 +725,7 @@ const Dashboard = ({ athleteId }) => {
                       <p className="text-gray-500 mb-4">No test results yet</p>
                       <Button 
                         onClick={() => navigate('/dashboard/tests')}
-                        className="bg-purple-600 hover:bg-purple-700"
+                        className="bg-[#1A2A40] hover:bg-[#0f1a2a]"
                       >
                         Add Test Results
                       </Button>
