@@ -4325,19 +4325,19 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         raise HTTPException(status_code=500, detail=f"Recipe generation failed: {str(e)}")
 
 @api_router.get("/recipes/{athlete_id}")
-async def get_recipes(athlete_id: str, week_start_date: Optional[str] = None, include_images: bool = False):
+async def get_recipes(athlete_id: str, week_start_date: Optional[str] = None, include_images: bool = True):
     """Get recipes for an athlete, optionally filtered by week
     
     Args:
         athlete_id: The athlete's ID
         week_start_date: Optional filter by week
-        include_images: Whether to include base64 images (default False for performance)
+        include_images: Whether to include base64 images (default True, now compressed)
     """
     query = {"athlete_id": athlete_id}
     if week_start_date:
         query["week_start_date"] = week_start_date
     
-    # Exclude image_base64 by default to reduce response size
+    # Include compressed images by default (they're now small enough)
     projection = {"_id": 0}
     if not include_images:
         projection["image_base64"] = 0
