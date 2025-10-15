@@ -14,6 +14,7 @@ const MEALS = ['breakfast', 'lunch', 'dinner'];
 const WeeklyMenuBuilder = ({ athleteId }) => {
   const [menus, setMenus] = useState([]);
   const [recipes, setRecipes] = useState([]);
+  const [nutritionEntries, setNutritionEntries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editingMenu, setEditingMenu] = useState(null);
   const [menuName, setMenuName] = useState('');
