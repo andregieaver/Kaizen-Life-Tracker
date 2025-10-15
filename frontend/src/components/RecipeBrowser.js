@@ -281,6 +281,7 @@ const RecipeBrowser = ({ athleteId }) => {
           getScaledIngredients={getScaledIngredients}
           getScaledNutrition={getScaledNutrition}
           rateRecipe={rateRecipe}
+          onDelete={deleteRecipe}
           onClose={closeRecipeDetail}
         />
       )}
