@@ -12,9 +12,9 @@ const RecipesPage = ({ athleteId }) => {
   ];
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col bg-gradient-to-br from-[#f0fffe] to-[#e8f9f7]">
       {/* Tab Navigation */}
-      <div className="bg-white border-b sticky top-0 z-10">
+      <div className="bg-white border-b shadow-sm sticky top-0 z-10">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-8 overflow-x-auto">
             {tabs.map((tab) => {
@@ -25,8 +25,8 @@ const RecipesPage = ({ athleteId }) => {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
                     activeTab === tab.id
-                      ? 'border-purple-600 text-purple-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ? 'border-[#62D2C4] text-[#62D2C4]'
+                      : 'border-transparent text-gray-500 hover:text-[#62D2C4] hover:border-[#D4F0E9]'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
