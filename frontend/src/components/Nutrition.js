@@ -1259,7 +1259,7 @@ const Nutrition = ({ athleteId }) => {
                 weekEnd.setDate(weekEnd.getDate() + 6);
                 filteredSupplementLogs = (supplementLogs || []).filter(log => {
                   const logDate = new Date(log.log_date);
-                  const matches = logDate >= weekStart && logDate <= weekEnd && log.supplements && log.supplements.length > 0;
+                  const matches = logDate >= weekStart && logDate <= weekEnd && log.supplement_ids && log.supplement_ids.length > 0;
                   if (matches) console.log('[Supplements Summary] Matched log:', log);
                   return matches;
                 });
@@ -1269,7 +1269,7 @@ const Nutrition = ({ athleteId }) => {
                 filteredSupplementLogs = (supplementLogs || []).filter(log => {
                   const logDateStr = new Date(log.log_date).toDateString();
                   const selectedDateStr = selectedDay.toDateString();
-                  const matches = logDateStr === selectedDateStr && log.supplements && log.supplements.length > 0;
+                  const matches = logDateStr === selectedDateStr && log.supplement_ids && log.supplement_ids.length > 0;
                   if (matches) console.log('[Supplements Summary] Matched log:', log);
                   return matches;
                 });
@@ -1279,7 +1279,7 @@ const Nutrition = ({ athleteId }) => {
               
               console.log('[Supplements Summary] Has supplements:', hasSupplements);
               
-              // Show section if there are supplements OR if we want to show empty state
+              // Show section if there are supplements
               if (!hasSupplements) return null;
               
               return (
@@ -1293,10 +1293,12 @@ const Nutrition = ({ athleteId }) => {
                       // Group supplements by supplement name
                       const supplementSummary = {};
                       filteredSupplementLogs.forEach(log => {
-                        if (log.supplements && Array.isArray(log.supplements)) {
-                          log.supplements.forEach(supp => {
-                            if (supp && supp.supplement_name) {
-                              const suppName = supp.supplement_name;
+                        if (log.supplement_ids && Array.isArray(log.supplement_ids)) {
+                          // Join with supplements array to get details
+                          const logSupplements = supplements.filter(s => log.supplement_ids.includes(s.id));
+                          logSupplements.forEach(supp => {
+                            if (supp && supp.name) {
+                              const suppName = supp.name;
                               if (!supplementSummary[suppName]) {
                                 supplementSummary[suppName] = {
                                   name: suppName,
