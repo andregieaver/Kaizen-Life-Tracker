@@ -47,7 +47,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
       const [menusRes, recipesRes, nutritionRes] = await Promise.all([
         axios.get(`${API}/weekly-menus/${athleteId}`, { timeout: 30000 }),
         axios.get(`${API}/recipes/${athleteId}`, { timeout: 30000 }),
-        axios.get(`${API}/nutrition-entries/${athleteId}`, { timeout: 30000 })
+        axios.get(`${API}/nutrition/${athleteId}`, { timeout: 30000 })
       ]);
       console.log('[WeeklyMenuBuilder] Data loaded successfully');
       console.log('[WeeklyMenuBuilder] Menus:', menusRes.data.menus?.length || 0);
