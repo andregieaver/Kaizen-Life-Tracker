@@ -428,9 +428,9 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                         }, { calories: 0, protein: 0, carbs: 0, fat: 0 });
 
                         return (
-                          <div key={day} className="border rounded-lg p-3 bg-gray-50">
-                            <div className="flex items-center justify-between mb-2">
-                              <h4 className="font-semibold text-gray-900 capitalize">{day}</h4>
+                          <div key={day} className="border rounded-lg p-4 bg-gray-50">
+                            <div className="flex items-center justify-between mb-3">
+                              <h4 className="font-semibold text-gray-900 capitalize text-lg">{day}</h4>
                               <div className="flex gap-3 text-xs text-gray-600">
                                 <span className="bg-blue-100 px-2 py-1 rounded">{Math.round(dailyNutrition.calories)} cal</span>
                                 <span className="bg-green-100 px-2 py-1 rounded">{Math.round(dailyNutrition.protein)}g protein</span>
@@ -438,14 +438,56 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                                 <span className="bg-red-100 px-2 py-1 rounded">{Math.round(dailyNutrition.fat)}g fat</span>
                               </div>
                             </div>
-                            <div className="space-y-1 ml-2">
+                            
+                            {/* Three column layout for meals */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                               {MEALS.map(mealType => {
                                 const meal = dayMeals.find(m => m.meal_type === mealType);
-                                if (!meal) return null;
+                                const recipe = meal ? recipes.find(r => r.id === meal.recipe_id) : null;
                                 const mealIcon = mealType === 'breakfast' ? '🍳' : mealType === 'lunch' ? '🥗' : '🍽️';
+                                
+                                if (!meal) return null;
+                                
                                 return (
-                                  <div key={mealType} className="text-sm text-gray-700">
-                                    {mealIcon} <span className="capitalize">{mealType}:</span> <span className="font-medium">{meal.recipe_name}</span>
+                                  <div key={mealType} className="bg-white rounded-lg overflow-hidden shadow-sm">
+                                    {/* Meal Image */}
+                                    {recipe?.image_base64 && (
+                                      <div className="h-32 overflow-hidden">
+                                        <img
+                                          src={`data:image/jpeg;base64,${recipe.image_base64}`}
+                                          alt={meal.recipe_name}
+                                          className="w-full h-full object-cover"
+                                        />
+                                      </div>
+                                    )}
+                                    
+                                    {/* Meal Info */}
+                                    <div className="p-3">
+                                      <div className="text-xs font-semibold text-gray-500 uppercase mb-1">
+                                        {mealIcon} {mealType}
+                                      </div>
+                                      <div className="font-medium text-gray-900 text-sm line-clamp-2">
+                                        {meal.recipe_name}
+                                      </div>
+                                      
+                                      {/* Individual meal nutrition */}
+                                      {recipe?.nutrition_info && (
+                                        <div className="grid grid-cols-2 gap-1 mt-2 text-xs">
+                                          <div className="bg-blue-50 px-2 py-1 rounded">
+                                            <span className="text-gray-600">{recipe.nutrition_info.calories} cal</span>
+                                          </div>
+                                          <div className="bg-green-50 px-2 py-1 rounded">
+                                            <span className="text-gray-600">{recipe.nutrition_info.protein}g P</span>
+                                          </div>
+                                          <div className="bg-yellow-50 px-2 py-1 rounded">
+                                            <span className="text-gray-600">{recipe.nutrition_info.carbs}g C</span>
+                                          </div>
+                                          <div className="bg-red-50 px-2 py-1 rounded">
+                                            <span className="text-gray-600">{recipe.nutrition_info.fat}g F</span>
+                                          </div>
+                                        </div>
+                                      )}
+                                    </div>
                                   </div>
                                 );
                               })}
