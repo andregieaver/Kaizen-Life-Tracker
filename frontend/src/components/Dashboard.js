@@ -605,16 +605,16 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Voice AI Coach */}
               <Card 
-                className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100 hover:scale-105"
+                className="border-0 shadow hover:shadow-lg transition-all cursor-pointer bg-white hover:translate-y-[-2px]"
                 onClick={() => navigate('/dashboard/coach?action=voice')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-purple-600 rounded-full">
+                    <div className="p-3 bg-[#1A2A40] rounded-lg">
                       <MessageCircle className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-gray-900">Talk to Coach</h3>
+                      <h3 className="font-semibold text-[#1A2A40]">Talk to Coach</h3>
                       <p className="text-sm text-gray-600">Voice AI assistance</p>
                     </div>
                   </div>
@@ -623,16 +623,16 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Add Nutrition Entry */}
               <Card 
-                className="border-0 shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-green-50 to-green-100 hover:scale-105"
+                className="border-0 shadow hover:shadow-lg transition-all cursor-pointer bg-white hover:translate-y-[-2px]"
                 onClick={() => navigate('/dashboard/nutrition?action=add')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-green-600 rounded-full">
+                    <div className="p-3 bg-[#556B2F] rounded-lg">
                       <Utensils className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-gray-900">Log Meal</h3>
+                      <h3 className="font-semibold text-[#1A2A40]">Log Meal</h3>
                       <p className="text-sm text-gray-600">Track nutrition</p>
                     </div>
                   </div>
