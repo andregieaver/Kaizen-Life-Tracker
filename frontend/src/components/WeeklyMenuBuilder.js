@@ -52,7 +52,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
       console.log('[WeeklyMenuBuilder] Data loaded successfully');
       console.log('[WeeklyMenuBuilder] Menus:', menusRes.data.menus?.length || 0);
       console.log('[WeeklyMenuBuilder] Recipes:', recipesRes.data.recipes?.length || 0);
-      console.log('[WeeklyMenuBuilder] Nutrition Entries:', nutritionRes.data?.length || 0);
+      console.log('[WeeklyMenuBuilder] Nutrition Entries:', nutritionRes.data.entries?.length || 0);
       
       const loadedRecipes = recipesRes.data.recipes || [];
       const loadedNutrition = nutritionRes.data.entries || [];
