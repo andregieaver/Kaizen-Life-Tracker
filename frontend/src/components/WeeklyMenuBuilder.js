@@ -810,13 +810,13 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
           </h2>
           
           {/* Servings Adjuster */}
-          <div className="bg-purple-50 rounded-lg p-6 border-2 border-purple-200">
+          <div className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-6 border border-[#62D2C4]">
             <div className="flex items-center justify-between mb-4">
               <label className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                <Users className="w-5 h-5 text-purple-600" />
+                <Users className="w-5 h-5 text-[#62D2C4]" />
                 Servings
               </label>
-              <span className="text-2xl font-bold text-purple-600">{adjustedServings}</span>
+              <span className="text-2xl font-bold text-[#62D2C4]">{adjustedServings}</span>
             </div>
             <input
               type="range"
@@ -824,7 +824,7 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
               max="12"
               value={adjustedServings}
               onChange={(e) => setAdjustedServings(parseInt(e.target.value))}
-              className="w-full h-2 bg-purple-200 rounded-lg appearance-none cursor-pointer slider-purple"
+              className="w-full h-2 bg-[#62D2C4]/30 rounded-lg appearance-none cursor-pointer"
             />
           </div>
 
@@ -838,19 +838,19 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
 
           {/* Scaled Nutrition */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-blue-50 rounded-lg p-4 text-center">
+            <div className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-4 text-center">
               <p className="text-sm text-gray-600 mb-1">Calories</p>
               <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().calories}</p>
             </div>
-            <div className="bg-green-50 rounded-lg p-4 text-center">
+            <div className="bg-gradient-to-br from-[#C1E1C1] to-[#a8d5a8] rounded-lg p-4 text-center">
               <p className="text-sm text-gray-600 mb-1">Protein</p>
               <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().protein}g</p>
             </div>
-            <div className="bg-yellow-50 rounded-lg p-4 text-center">
+            <div className="bg-gradient-to-br from-[#FFE5B4] to-[#FFD89B] rounded-lg p-4 text-center">
               <p className="text-sm text-gray-600 mb-1">Carbs</p>
               <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().carbs}g</p>
             </div>
-            <div className="bg-red-50 rounded-lg p-4 text-center">
+            <div className="bg-gradient-to-br from-[#FFB6C1] to-[#FFA6B1] rounded-lg p-4 text-center">
               <p className="text-sm text-gray-600 mb-1">Fat</p>
               <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().fat}g</p>
             </div>
@@ -863,7 +863,7 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
               <ul className="space-y-3">
                 {getScaledIngredients().map((ingredient, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <span className="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
+                    <span className="w-6 h-6 bg-[#62D2C4] text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
                       {index + 1}
                     </span>
                     <span className="text-gray-700">{ingredient}</span>
@@ -873,15 +873,15 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
             </div>
           </div>
 
-          {/* Instructions */}
-          {recipe.instructions && Array.isArray(recipe.instructions) && (
+          {/* Preparation Instructions */}
+          {recipe.instructions && Array.isArray(recipe.instructions) && recipe.instructions.length > 0 && (
             <div>
-              <h3 className="text-2xl font-display font-bold text-gray-900 mb-4">Instructions</h3>
+              <h3 className="text-2xl font-display font-bold text-gray-900 mb-4">Preparation Instructions</h3>
               <div className="bg-gray-50 rounded-lg p-6">
                 <ol className="space-y-4">
                   {recipe.instructions.map((instruction, index) => (
                     <li key={index} className="flex gap-4">
-                      <span className="w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
+                      <span className="w-8 h-8 bg-[#62D2C4] text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
                         {index + 1}
                       </span>
                       <p className="text-gray-700 pt-1">{instruction}</p>
@@ -894,7 +894,7 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
 
           {/* Close Button */}
           <div className="flex justify-end pt-6 border-t">
-            <Button onClick={onClose} className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
+            <Button onClick={onClose} className="bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] hover:from-[#4fc4b5] hover:to-[#62D2C4] text-white">
               Close
             </Button>
           </div>
