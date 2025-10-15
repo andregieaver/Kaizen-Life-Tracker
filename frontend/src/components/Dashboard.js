@@ -352,16 +352,16 @@ const Dashboard = ({ athleteId }) => {
         <>
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 bg-black bg-opacity-40 z-50 transition-opacity"
+            className="fixed inset-0 bg-black bg-opacity-60 z-50 transition-opacity"
             onClick={() => setIsMenuOpen(false)}
           />
           
           {/* Menu Panel */}
-          <div className="fixed inset-y-0 left-0 w-80 bg-white shadow-2xl z-[60] transform transition-transform duration-300 ease-in-out flex flex-col">
+          <div className="fixed inset-y-0 left-0 w-80 bg-[#1A2A40] shadow-2xl z-[60] transform transition-transform duration-300 ease-in-out flex flex-col">
             {/* Menu Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+            <div className="flex items-center justify-between p-4 border-b border-[#2a3a50]">
               <button 
-                className="flex items-center space-x-3 w-full text-left hover:bg-gray-50 rounded-lg p-2 transition-colors"
+                className="flex items-center space-x-3 w-full text-left hover:bg-[#2a3a50] rounded-lg p-2 transition-colors"
                 onClick={() => {
                   navigate('/dashboard/account');
                   setIsMenuOpen(false);
@@ -372,25 +372,25 @@ const Dashboard = ({ athleteId }) => {
                   <img
                     src={athlete.profile_picture}
                     alt="Profile"
-                    className="w-10 h-10 rounded-full object-cover border-2 border-gray-200"
+                    className="w-10 h-10 rounded-full object-cover border-2 border-gray-500"
                   />
                 ) : (
-                  <div className="w-10 h-10 bg-[#1A2A40] rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-[#556B2F] rounded-full flex items-center justify-center">
                     <span className="text-white font-bold text-lg">
                       {athlete?.name?.charAt(0).toUpperCase() || 'U'}
                     </span>
                   </div>
                 )}
                 <div>
-                  <p className="font-semibold text-[#1A2A40]">{athlete?.name || 'User'}</p>
+                  <p className="font-semibold text-white">{athlete?.name || 'User'}</p>
                 </div>
               </button>
               <button 
                 onClick={() => setIsMenuOpen(false)}
-                className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
+                className="p-2 hover:bg-[#2a3a50] rounded-lg transition-colors"
                 aria-label="Close menu"
               >
-                <X className="w-5 h-5 text-gray-600" />
+                <X className="w-5 h-5 text-gray-300" />
               </button>
             </div>
 
@@ -404,8 +404,8 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'journal'
-                      ? 'bg-[#1A2A40] text-white'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-[#556B2F] text-white'
+                      : 'text-gray-300 hover:bg-[#2a3a50] hover:text-white'
                   }`}
                 >
                   <BookOpen className="w-5 h-5" />
@@ -418,8 +418,8 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'nutrition'
-                      ? 'bg-[#1A2A40] text-white'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-[#556B2F] text-white'
+                      : 'text-gray-300 hover:bg-[#2a3a50] hover:text-white'
                   }`}
                 >
                   <Utensils className="w-5 h-5" />
@@ -432,8 +432,8 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'recipes'
-                      ? 'bg-[#1A2A40] text-white'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-[#556B2F] text-white'
+                      : 'text-gray-300 hover:bg-[#2a3a50] hover:text-white'
                   }`}
                 >
                   <ChefHat className="w-5 h-5" />
@@ -446,8 +446,8 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'supplements'
-                      ? 'bg-[#1A2A40] text-white'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-[#556B2F] text-white'
+                      : 'text-gray-300 hover:bg-[#2a3a50] hover:text-white'
                   }`}
                 >
                   <Pill className="w-5 h-5" />
@@ -460,8 +460,8 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'files'
-                      ? 'bg-[#1A2A40] text-white'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-[#556B2F] text-white'
+                      : 'text-gray-300 hover:bg-[#2a3a50] hover:text-white'
                   }`}
                 >
                   <FileText className="w-5 h-5" />
@@ -474,8 +474,8 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'memories'
-                      ? 'bg-[#1A2A40] text-white'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-[#556B2F] text-white'
+                      : 'text-gray-300 hover:bg-[#2a3a50] hover:text-white'
                   }`}
                 >
                   <Brain className="w-5 h-5" />
@@ -488,8 +488,8 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'calendar'
-                      ? 'bg-[#1A2A40] text-white'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-[#556B2F] text-white'
+                      : 'text-gray-300 hover:bg-[#2a3a50] hover:text-white'
                   }`}
                 >
                   <Calendar className="w-5 h-5" />
