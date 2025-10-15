@@ -737,7 +737,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                           <div className="flex gap-4">
                             {entry.image_data && (
                               <img
-                                src={`data:image/jpeg;base64,${entry.image_data}`}
+                                src={entry.image_data.startsWith('data:') ? entry.image_data : `data:image/jpeg;base64,${entry.image_data}`}
                                 alt={entry.description}
                                 className="w-20 h-20 object-cover rounded"
                               />
