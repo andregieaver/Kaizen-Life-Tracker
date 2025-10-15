@@ -602,6 +602,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                   onClick={() => {
                     setShowRecipePicker(false);
                     setSelectedSlot(null);
+                    setSearchTerm('');
                   }}
                   className="text-gray-600 hover:text-gray-900"
                 >
