@@ -423,7 +423,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                 <p className="text-gray-600 mb-4">Create your first weekly menu template</p>
                 <Button
                   onClick={createNewMenu}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                  className="bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] hover:from-[#4fc4b5] hover:to-[#62D2C4] text-white shadow-md"
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   Create Menu
@@ -432,14 +432,14 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
             </Card>
           ) : (
             menus.map(menu => (
-              <Card key={menu.id} className={menu.is_active ? 'border-2 border-green-500' : ''}>
+              <Card key={menu.id} className={menu.is_active ? 'border-2 border-[#C1E1C1] shadow-md' : 'border shadow-sm'}>
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <CardTitle>{menu.menu_name}</CardTitle>
                         {menu.is_active && (
-                          <Badge className="bg-green-600">
+                          <Badge className="bg-gradient-to-r from-[#C1E1C1] to-[#a8d5a8] text-white">
                             <Check className="w-3 h-3 mr-1" />
                             Active
                           </Badge>
@@ -455,7 +455,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                           size="sm"
                           onClick={() => setActiveMenu(menu.id)}
                           variant="outline"
-                          className="text-green-600 hover:text-green-700"
+                          className="text-[#C1E1C1] hover:text-[#a8d5a8] border-[#C1E1C1]"
                         >
                           <Check className="w-4 h-4 mr-1" />
                           Set Active
@@ -465,6 +465,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                         size="sm"
                         onClick={() => editMenu(menu)}
                         variant="outline"
+                        className="hover:bg-[#D4F0E9]"
                       >
                         Edit
                       </Button>
@@ -472,7 +473,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                         size="sm"
                         onClick={() => deleteMenu(menu.id)}
                         variant="outline"
-                        className="text-red-600 hover:text-red-700"
+                        className="text-[#FF7F7F] hover:text-[#ff6666] border-[#FF7F7F]"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
