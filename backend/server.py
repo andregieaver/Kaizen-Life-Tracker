@@ -4245,8 +4245,34 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
             async with httpx.AsyncClient() as http_client:
                 img_response = await http_client.get(image_url)
                 if img_response.status_code == 200:
-                    image_base64 = base64.b64encode(img_response.content).decode('utf-8')
-                    logging.info(f"[RECIPE] Image downloaded and encoded. Size: {len(image_base64)} chars")
+                    # Compress the image before encoding to base64
+                    try:
+                        original_size = len(img_response.content)
+                        image = Image.open(io.BytesIO(img_response.content))
+                        
+                        # Convert to RGB if needed
+                        if image.mode in ('RGBA', 'LA', 'P'):
+                            background = Image.new('RGB', image.size, (255, 255, 255))
+                            if image.mode == 'P':
+                                image = image.convert('RGBA')
+                            background.paste(image, mask=image.split()[-1] if image.mode == 'RGBA' else None)
+                            image = background
+                        
+                        # Resize to 800x800 (smaller than original 1024x1024)
+                        image.thumbnail((800, 800), Image.Resampling.LANCZOS)
+                        
+                        # Convert to base64 with JPEG compression
+                        buffer = io.BytesIO()
+                        image.save(buffer, format='JPEG', quality=85)
+                        image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+                        compressed_size = len(image_base64)
+                        compression_ratio = (1 - compressed_size / original_size) * 100
+                        logging.info(f"[RECIPE] Image compressed: {original_size} → {compressed_size} bytes ({compression_ratio:.1f}% reduction)")
+                    except Exception as compress_error:
+                        logging.error(f"[RECIPE] Error compressing image: {str(compress_error)}")
+                        # Fallback to uncompressed
+                        image_base64 = base64.b64encode(img_response.content).decode('utf-8')
+                        logging.info(f"[RECIPE] Image downloaded and encoded (uncompressed). Size: {len(image_base64)} chars")
                 else:
                     logging.error(f"[RECIPE] Failed to download image. Status: {img_response.status_code}")
                     image_base64 = None
