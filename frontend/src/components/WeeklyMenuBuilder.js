@@ -201,7 +201,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
         return {
           ...meal,
           nutrition_entry_id: entry.id,
-          recipe_name: entry.meal_description || 'Nutrition Entry',
+          recipe_name: entry.description || 'Nutrition Entry',
           recipe_id: null  // Clear recipe if assigning nutrition entry
         };
       }
