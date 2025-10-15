@@ -647,9 +647,10 @@ const Dashboard = ({ athleteId }) => {
               </div>
               
               {/* Quick Stats */}
-              <Card className="border border-[#d0d0d0] shadow bg-white">
+              <Card className="border-0 shadow-md bg-white overflow-hidden">
+                <div className="h-2 bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5]"></div>
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-lg font-display text-[#1A2A40]">{t('dashboard.quickStats')}</CardTitle>
+                  <CardTitle className="text-lg font-display text-gray-800">{t('dashboard.quickStats')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex justify-between items-center">
@@ -658,10 +659,10 @@ const Dashboard = ({ athleteId }) => {
                       <span className="font-semibold text-gray-400">Coming Soon</span>
                     </div>
                   </div>
-                  <Separator className="bg-gray-200" />
+                  <Separator className="bg-gray-100" />
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Running (YTD)</span>
-                    <span className="font-semibold text-[#1A2A40]">
+                    <span className="font-semibold text-[#62D2C4]">
                       {ytdDistance.toFixed(1)} {
                         (athlete?.measurement_system === 'metric' || 
                          athlete?.distance_unit === 'kilometers' || 
@@ -676,9 +677,10 @@ const Dashboard = ({ athleteId }) => {
               <Merits athleteId={athleteId} />
 
               {/* Progress - Test Results */}
-              <Card className="border border-[#d0d0d0] shadow bg-white">
+              <Card className="border-0 shadow-md bg-white overflow-hidden">
+                <div className="h-2 bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5]"></div>
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-lg font-display text-[#1A2A40]">Progress</CardTitle>
+                  <CardTitle className="text-lg font-display text-gray-800">Progress</CardTitle>
                   <CardDescription className="text-gray-600">Latest test results and performance metrics</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -687,15 +689,15 @@ const Dashboard = ({ athleteId }) => {
                       {testResults.map((test) => (
                         <div 
                           key={test.id} 
-                          className="flex items-center justify-between p-4 bg-[#f8f8f8] border border-[#e0e0e0] rounded hover:bg-white cursor-pointer transition-colors"
+                          className="flex items-center justify-between p-4 bg-gradient-to-r from-[#D4F0E9]/30 to-transparent rounded-lg hover:from-[#D4F0E9]/50 cursor-pointer transition-all"
                           onClick={() => navigate('/dashboard/tests')}
                         >
                           <div className="flex items-center space-x-4">
-                            <div className="w-10 h-10 bg-[#1A2A40] rounded-sm flex items-center justify-center">
+                            <div className="w-10 h-10 bg-gradient-to-br from-[#62D2C4] to-[#4fc4b5] rounded-lg flex items-center justify-center shadow-sm">
                               <LineChart className="w-5 h-5 text-white" />
                             </div>
                             <div>
-                              <p className="font-medium text-[#1A2A40]">
+                              <p className="font-medium text-gray-800">
                                 {test.test_name}
                               </p>
                               <p className="text-sm text-gray-500">
@@ -704,7 +706,7 @@ const Dashboard = ({ athleteId }) => {
                             </div>
                           </div>
                           <div className="text-right">
-                            <p className="font-semibold text-[#1A2A40]">
+                            <p className="font-semibold text-[#62D2C4]">
                               {test.result_value} {test.unit === 'repetitions' ? 'reps' : 
                                test.unit === 'time' ? 'min' : 
                                test.unit === 'distance' ? 'km' : 
@@ -725,7 +727,7 @@ const Dashboard = ({ athleteId }) => {
                       <p className="text-gray-500 mb-4">No test results yet</p>
                       <Button 
                         onClick={() => navigate('/dashboard/tests')}
-                        className="bg-[#1A2A40] hover:bg-[#0f1a2a] text-white"
+                        className="bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] hover:from-[#4fc4b5] hover:to-[#62D2C4] text-white shadow-md"
                       >
                         Add Test Results
                       </Button>
