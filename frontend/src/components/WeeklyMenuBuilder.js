@@ -205,7 +205,8 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
         return {
           ...meal,
           recipe_id: null,
-          recipe_name: null
+          recipe_name: null,
+          nutrition_entry_id: null
         };
       }
       return meal;
