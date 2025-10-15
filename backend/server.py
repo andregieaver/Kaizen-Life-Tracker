@@ -4231,16 +4231,17 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
             # Generate food image using gpt-image-1 (latest model)
             image_prompt = f"Hyper-realistic professional food photography of {recipe_data['recipe_name']}, shot with high-end camera, studio lighting, perfectly plated on elegant dishware, appetizing presentation, shallow depth of field, food magazine quality, 8K resolution, photorealistic"
             
-            logging.info(f"[RECIPE] Creating OpenAI client for gpt-image-1...")
+            logging.info(f"[RECIPE] Creating OpenAI client for DALL-E 3...")
             image_client = openai.AsyncOpenAI(api_key=openai_key)
             
-            logging.info(f"[RECIPE] Calling gpt-image-1 for image generation...")
+            logging.info(f"[RECIPE] Calling DALL-E 3 for image generation...")
             image_response = await image_client.images.generate(
-                model="gpt-image-1",
+                model="dall-e-3",
                 prompt=image_prompt,
-                size="1024x1024"
+                size="1024x1024",
+                quality="hd"
             )
-            logging.info(f"[RECIPE] gpt-image-1 image generated successfully")
+            logging.info(f"[RECIPE] DALL-E 3 image generated successfully")
             
             # Download image from URL
             import httpx
