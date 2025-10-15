@@ -566,7 +566,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                                         {nutritionEntry && <span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-xs">Logged</span>}
                                       </div>
                                       <div className="font-medium text-gray-900 text-sm line-clamp-2 mb-2">
-                                        {meal.recipe_name}
+                                        {mealName}
                                       </div>
                                       
                                       {/* Individual meal nutrition */}
