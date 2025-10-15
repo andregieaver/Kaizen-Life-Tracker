@@ -1097,45 +1097,65 @@ const Nutrition = ({ athleteId }) => {
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            {/* Calories */}
-            <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-4">
-              <div className="text-sm text-gray-600 mb-1">Calories</div>
-              <div className="text-3xl font-bold text-blue-600">
-                {viewType === 'week' ? weekStats.dailyAverage.calories : dayStats.totals.calories}
-              </div>
-              <div className="text-xs text-gray-500">{viewType === 'week' ? 'per day' : 'total'}</div>
-            </div>
+            {/* Only show Calories and Macros if there are entries for the period */}
+            {(() => {
+              const hasEntries = viewType === 'week' 
+                ? weekStats.daysInWeek > 0 
+                : dayStats.totals.calories > 0 || dayStats.totals.protein > 0 || dayStats.totals.carbs > 0 || dayStats.totals.fat > 0;
+              
+              if (!hasEntries) {
+                return (
+                  <div className="text-center py-8 text-gray-500">
+                    <p className="text-lg font-medium">No entries for this {viewType === 'week' ? 'week' : 'day'}</p>
+                    <p className="text-sm mt-2">Add a nutrition entry to see your stats</p>
+                  </div>
+                );
+              }
+              
+              return (
+                <>
+                  {/* Calories */}
+                  <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-4">
+                    <div className="text-sm text-gray-600 mb-1">Calories</div>
+                    <div className="text-3xl font-bold text-blue-600">
+                      {viewType === 'week' ? weekStats.dailyAverage.calories : dayStats.totals.calories}
+                    </div>
+                    <div className="text-xs text-gray-500">{viewType === 'week' ? 'per day' : 'total'}</div>
+                  </div>
 
-            {/* Macronutrients */}
-            <div>
-              <h4 className="text-sm font-semibold text-gray-700 mb-3">Macronutrients</h4>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div className="bg-orange-50 rounded-lg p-3 text-center">
-                  <div className="text-xs text-gray-600 mb-1">Protein</div>
-                  <div className="text-2xl font-bold text-orange-600">
-                    {viewType === 'week' ? weekStats.dailyAverage.protein : dayStats.totals.protein}g
+                  {/* Macronutrients */}
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-700 mb-3">Macronutrients</h4>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      <div className="bg-orange-50 rounded-lg p-3 text-center">
+                        <div className="text-xs text-gray-600 mb-1">Protein</div>
+                        <div className="text-2xl font-bold text-orange-600">
+                          {viewType === 'week' ? weekStats.dailyAverage.protein : dayStats.totals.protein}g
+                        </div>
+                      </div>
+                      <div className="bg-green-50 rounded-lg p-3 text-center">
+                        <div className="text-xs text-gray-600 mb-1">Carbs</div>
+                        <div className="text-2xl font-bold text-green-600">
+                          {viewType === 'week' ? weekStats.dailyAverage.carbs : dayStats.totals.carbs}g
+                        </div>
+                      </div>
+                      <div className="bg-purple-50 rounded-lg p-3 text-center">
+                        <div className="text-xs text-gray-600 mb-1">Fat</div>
+                        <div className="text-2xl font-bold text-purple-600">
+                          {viewType === 'week' ? weekStats.dailyAverage.fat : dayStats.totals.fat}g
+                        </div>
+                      </div>
+                      <div className="bg-amber-50 rounded-lg p-3 text-center">
+                        <div className="text-xs text-gray-600 mb-1">Fiber</div>
+                        <div className="text-2xl font-bold text-amber-600">
+                          {viewType === 'week' ? weekStats.dailyAverage.fiber : dayStats.totals.fiber}g
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="bg-green-50 rounded-lg p-3 text-center">
-                  <div className="text-xs text-gray-600 mb-1">Carbs</div>
-                  <div className="text-2xl font-bold text-green-600">
-                    {viewType === 'week' ? weekStats.dailyAverage.carbs : dayStats.totals.carbs}g
-                  </div>
-                </div>
-                <div className="bg-purple-50 rounded-lg p-3 text-center">
-                  <div className="text-xs text-gray-600 mb-1">Fat</div>
-                  <div className="text-2xl font-bold text-purple-600">
-                    {viewType === 'week' ? weekStats.dailyAverage.fat : dayStats.totals.fat}g
-                  </div>
-                </div>
-                <div className="bg-amber-50 rounded-lg p-3 text-center">
-                  <div className="text-xs text-gray-600 mb-1">Fiber</div>
-                  <div className="text-2xl font-bold text-amber-600">
-                    {viewType === 'week' ? weekStats.dailyAverage.fiber : dayStats.totals.fiber}g
-                  </div>
-                </div>
-              </div>
-            </div>
+                </>
+              );
+            })()}
 
             {/* Micronutrients */}
             {((viewType === 'week' && (weekStats.dailyAverage.sodium > 0 || weekStats.dailyAverage.sugar > 0 || 
