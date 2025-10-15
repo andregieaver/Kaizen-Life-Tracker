@@ -226,9 +226,9 @@ const Dashboard = ({ athleteId }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#f5f5f5] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-gray-300 border-t-[#1A2A40] rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-lg text-gray-600">{t('common.loading')}</p>
         </div>
       </div>
@@ -236,7 +236,7 @@ const Dashboard = ({ athleteId }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex flex-col">
+    <div className="min-h-screen bg-[#f5f5f5] flex flex-col">
       {/* Desktop Header */}
       <header className={`hidden md:block bg-white border-b border-gray-200 shadow-sm fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
         isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
@@ -244,16 +244,16 @@ const Dashboard = ({ athleteId }) => {
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="font-display text-2xl font-bold text-gray-900 mr-8">
+              <h1 className="font-display text-2xl font-bold text-[#1A2A40] mr-8 tracking-tight">
                 My Health Tracker
               </h1>
               <nav className="flex space-x-8">
                 <button
                   onClick={() => navigate('/dashboard')}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'overview'
-                      ? 'text-blue-600 border-b-2 border-blue-600'
-                      : 'text-gray-500 hover:text-gray-700'
+                      ? 'text-[#1A2A40] border-b-2 border-[#1A2A40]'
+                      : 'text-gray-500 hover:text-[#1A2A40]'
                   }`}
                   data-testid="overview-tab"
                 >
@@ -261,10 +261,10 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/coach')}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'coach'
-                      ? 'text-blue-600 border-b-2 border-blue-600'
-                      : 'text-gray-500 hover:text-gray-700'
+                      ? 'text-[#1A2A40] border-b-2 border-[#1A2A40]'
+                      : 'text-gray-500 hover:text-[#1A2A40]'
                   }`}
                   data-testid="coach-tab"
                 >
@@ -272,10 +272,10 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/reports')}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'reports'
-                      ? 'text-blue-600 border-b-2 border-blue-600'
-                      : 'text-gray-500 hover:text-gray-700'
+                      ? 'text-[#1A2A40] border-b-2 border-[#1A2A40]'
+                      : 'text-gray-500 hover:text-[#1A2A40]'
                   }`}
                   data-testid="reports-tab"
                 >
@@ -283,10 +283,10 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/calendar')}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'calendar'
-                      ? 'text-blue-600 border-b-2 border-blue-600'
-                      : 'text-gray-500 hover:text-gray-700'
+                      ? 'text-[#1A2A40] border-b-2 border-[#1A2A40]'
+                      : 'text-gray-500 hover:text-[#1A2A40]'
                   }`}
                   data-testid="calendar-tab"
                 >
@@ -294,10 +294,10 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/history')}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'history'
-                      ? 'text-blue-600 border-b-2 border-blue-600'
-                      : 'text-gray-500 hover:text-gray-700'
+                      ? 'text-[#1A2A40] border-b-2 border-[#1A2A40]'
+                      : 'text-gray-500 hover:text-[#1A2A40]'
                   }`}
                   data-testid="history-tab"
                 >
@@ -305,10 +305,10 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/account')}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'account'
-                      ? 'text-blue-600 border-b-2 border-blue-600'
-                      : 'text-gray-500 hover:text-gray-700'
+                      ? 'text-[#1A2A40] border-b-2 border-[#1A2A40]'
+                      : 'text-gray-500 hover:text-[#1A2A40]'
                   }`}
                   data-testid="account-tab"
                 >
@@ -318,10 +318,10 @@ const Dashboard = ({ athleteId }) => {
             </div>
             <button 
               onClick={() => setIsMenuOpen(true)}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
               aria-label="Open menu"
             >
-              <Menu className="w-6 h-6 text-gray-700" />
+              <Menu className="w-6 h-6 text-gray-600" />
             </button>
           </div>
         </div>
@@ -333,15 +333,15 @@ const Dashboard = ({ athleteId }) => {
       }`}>
         <div className="px-4 py-3">
           <div className="flex justify-between items-center">
-            <h1 className="font-display text-xl font-bold text-gray-900">
+            <h1 className="font-display text-xl font-bold text-[#1A2A40] tracking-tight">
               My Health Tracker
             </h1>
             <button 
               onClick={() => setIsMenuOpen(true)}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
               aria-label="Open menu"
             >
-              <Menu className="w-6 h-6 text-gray-700" />
+              <Menu className="w-6 h-6 text-gray-600" />
             </button>
           </div>
         </div>
