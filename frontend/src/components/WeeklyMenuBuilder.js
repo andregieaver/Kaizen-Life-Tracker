@@ -644,12 +644,19 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                 </h3>
                 {(() => {
                   // Filter recipes by meal type and search term
+                  console.log('[Modal] Total recipes available:', recipes.length);
+                  console.log('[Modal] Selected meal type:', selectedSlot.mealType);
+                  console.log('[Modal] Search term:', searchTerm);
+                  
                   const filteredRecipes = recipes.filter(r => {
                     const matchesMealType = r.meal_type === selectedSlot.mealType;
                     const matchesSearch = !searchTerm || 
                       r.recipe_name.toLowerCase().includes(searchTerm.toLowerCase());
+                    console.log(`[Modal] Recipe "${r.recipe_name}" (${r.meal_type}): mealType=${matchesMealType}, search=${matchesSearch}`);
                     return matchesMealType && matchesSearch;
                   });
+                  
+                  console.log('[Modal] Filtered recipes count:', filteredRecipes.length);
 
                   return filteredRecipes.length === 0 ? (
                     <div className="text-center py-8 bg-gray-50 rounded-lg">
