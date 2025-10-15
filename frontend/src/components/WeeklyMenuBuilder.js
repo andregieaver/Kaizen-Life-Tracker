@@ -704,11 +704,15 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                 </h3>
                 {(() => {
                   // Filter nutrition entries by search term
+                  console.log('[Modal] Total nutrition entries available:', nutritionEntries.length);
+                  
                   const filteredEntries = nutritionEntries.filter(entry => {
                     if (!searchTerm) return true;
                     const description = entry.meal_description || '';
                     return description.toLowerCase().includes(searchTerm.toLowerCase());
                   });
+                  
+                  console.log('[Modal] Filtered nutrition entries count:', filteredEntries.length);
 
                   return filteredEntries.length === 0 ? (
                     <div className="text-center py-8 bg-gray-50 rounded-lg">
