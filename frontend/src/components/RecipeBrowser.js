@@ -375,7 +375,7 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
       {recipe.image_base64 && (
         <div className="relative h-64 md:h-80 overflow-hidden">
           <img
-            src={`data:image/png;base64,${recipe.image_base64}`}
+            src={`data:image/jpeg;base64,${recipe.image_base64}`}
             alt={recipe.recipe_name}
             className="w-full h-full object-cover"
           />
