@@ -472,7 +472,7 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
           </div>
         </div>
 
-        {/* Rating */}
+        {/* Rating and Actions */}
         <div className="flex items-center justify-between pt-6 border-t">
           <div className="flex gap-1">
             {[1, 2, 3, 4, 5].map(star => (
@@ -491,9 +491,20 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
               </button>
             ))}
           </div>
-          <Button onClick={onClose} className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
-            Close
-          </Button>
+          <div className="flex gap-2">
+            <Button 
+              onClick={() => {
+                onDelete(recipe.id);
+                onClose();
+              }} 
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              Delete Recipe
+            </Button>
+            <Button onClick={onClose} className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
+              Close
+            </Button>
+          </div>
         </div>
       </div>
     </div>
