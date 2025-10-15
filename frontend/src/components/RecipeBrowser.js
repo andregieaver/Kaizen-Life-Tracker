@@ -370,7 +370,7 @@ const RecipeCard = ({ recipe, onView, onRate, onDelete }) => (
 );
 
 // Recipe Detail Modal Component
-const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getScaledIngredients, getScaledNutrition, rateRecipe, onClose }) => (
+const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getScaledIngredients, getScaledNutrition, rateRecipe, onDelete, onClose }) => (
   <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 overflow-y-auto">
     <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
       {recipe.image_base64 && (
