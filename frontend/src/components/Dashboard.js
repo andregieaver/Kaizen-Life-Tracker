@@ -226,9 +226,9 @@ const Dashboard = ({ athleteId }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#e8e8e8] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#f0fffe] to-[#e8f9f7] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-gray-400 border-t-[#1A2A40] rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-[#D4F0E9] border-t-[#62D2C4] rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-lg text-gray-700">{t('common.loading')}</p>
         </div>
       </div>
@@ -236,9 +236,9 @@ const Dashboard = ({ athleteId }) => {
   }
 
   return (
-    <div className="min-h-screen bg-[#e8e8e8] flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-[#f0fffe] to-[#e8f9f7] flex flex-col">
       {/* Desktop Header */}
-      <header className={`hidden md:block bg-[#1A2A40] border-b border-[#2a3a50] shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
+      <header className={`hidden md:block bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
         isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
       }`}>
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -253,7 +253,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'overview'
                       ? 'text-white border-b-2 border-white'
-                      : 'text-gray-400 hover:text-white'
+                      : 'text-white/80 hover:text-white'
                   }`}
                   data-testid="overview-tab"
                 >
@@ -264,7 +264,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'coach'
                       ? 'text-white border-b-2 border-white'
-                      : 'text-gray-400 hover:text-white'
+                      : 'text-white/80 hover:text-white'
                   }`}
                   data-testid="coach-tab"
                 >
@@ -275,7 +275,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'reports'
                       ? 'text-white border-b-2 border-white'
-                      : 'text-gray-400 hover:text-white'
+                      : 'text-white/80 hover:text-white'
                   }`}
                   data-testid="reports-tab"
                 >
@@ -286,7 +286,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'calendar'
                       ? 'text-white border-b-2 border-white'
-                      : 'text-gray-400 hover:text-white'
+                      : 'text-white/80 hover:text-white'
                   }`}
                   data-testid="calendar-tab"
                 >
@@ -297,7 +297,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'history'
                       ? 'text-white border-b-2 border-white'
-                      : 'text-gray-400 hover:text-white'
+                      : 'text-white/80 hover:text-white'
                   }`}
                   data-testid="history-tab"
                 >
@@ -308,7 +308,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'account'
                       ? 'text-white border-b-2 border-white'
-                      : 'text-gray-400 hover:text-white'
+                      : 'text-white/80 hover:text-white'
                   }`}
                   data-testid="account-tab"
                 >
@@ -318,17 +318,17 @@ const Dashboard = ({ athleteId }) => {
             </div>
             <button 
               onClick={() => setIsMenuOpen(true)}
-              className="p-2 hover:bg-[#2a3a50] rounded-lg transition-colors"
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
               aria-label="Open menu"
             >
-              <Menu className="w-6 h-6 text-gray-300" />
+              <Menu className="w-6 h-6 text-white" />
             </button>
           </div>
         </div>
       </header>
 
       {/* Mobile Header */}
-      <header className={`md:hidden bg-[#1A2A40] border-b border-[#2a3a50] shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
+      <header className={`md:hidden bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
         isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
       }`}>
         <div className="px-4 py-3">
@@ -338,10 +338,10 @@ const Dashboard = ({ athleteId }) => {
             </h1>
             <button 
               onClick={() => setIsMenuOpen(true)}
-              className="p-2 hover:bg-[#2a3a50] rounded-lg transition-colors"
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
               aria-label="Open menu"
             >
-              <Menu className="w-6 h-6 text-gray-300" />
+              <Menu className="w-6 h-6 text-white" />
             </button>
           </div>
         </div>
