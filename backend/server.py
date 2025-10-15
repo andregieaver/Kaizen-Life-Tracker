@@ -685,6 +685,7 @@ class WeeklyMenuMeal(BaseModel):
     """Individual meal slot in a weekly menu"""
     recipe_id: Optional[str] = None  # ID of the recipe assigned to this slot
     recipe_name: Optional[str] = None  # Cached recipe name for quick display
+    nutrition_entry_id: Optional[str] = None  # ID of nutrition entry assigned to this slot
     meal_type: str  # 'breakfast', 'lunch', 'dinner'
     day_of_week: str  # 'monday', 'tuesday', etc.
 
