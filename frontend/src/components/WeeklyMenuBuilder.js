@@ -52,10 +52,22 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
       console.log('[WeeklyMenuBuilder] Data loaded successfully');
       console.log('[WeeklyMenuBuilder] Menus:', menusRes.data.menus?.length || 0);
       console.log('[WeeklyMenuBuilder] Recipes:', recipesRes.data.recipes?.length || 0);
-      console.log('[WeeklyMenuBuilder] Nutrition Entries:', nutritionRes.data.length || 0);
+      console.log('[WeeklyMenuBuilder] Nutrition Entries:', nutritionRes.data?.length || 0);
+      
+      const loadedRecipes = recipesRes.data.recipes || [];
+      const loadedNutrition = nutritionRes.data || [];
+      
+      console.log('[WeeklyMenuBuilder] Setting state with:', {
+        menus: menusRes.data.menus?.length || 0,
+        recipes: loadedRecipes.length,
+        nutrition: loadedNutrition.length
+      });
+      
       setMenus(menusRes.data.menus || []);
-      setRecipes(recipesRes.data.recipes || []);
-      setNutritionEntries(nutritionRes.data || []);
+      setRecipes(loadedRecipes);
+      setNutritionEntries(loadedNutrition);
+      
+      console.log('[WeeklyMenuBuilder] State set complete');
     } catch (error) {
       console.error('[WeeklyMenuBuilder] Error loading data:', error);
       console.error('[WeeklyMenuBuilder] Error details:', error.response || error.message);
