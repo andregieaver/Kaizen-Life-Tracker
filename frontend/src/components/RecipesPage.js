@@ -41,9 +41,8 @@ const RecipesPage = ({ athleteId }) => {
 
       {/* Tab Content */}
       <div className="flex-1 overflow-y-auto">
-        {activeTab === 'generator' && <Recipes athleteId={athleteId} />}
-        {activeTab === 'collection' && <RecipeBrowser athleteId={athleteId} />}
         {activeTab === 'menus' && <WeeklyMenuBuilder athleteId={athleteId} />}
+        {activeTab === 'generator' && <Recipes athleteId={athleteId} />}
       </div>
     </div>
   );
