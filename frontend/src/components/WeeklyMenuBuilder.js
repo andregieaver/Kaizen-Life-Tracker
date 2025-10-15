@@ -178,6 +178,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
     setEditingMenu({ ...editingMenu, meals: updatedMeals });
     setShowRecipePicker(false);
     setSelectedSlot(null);
+    setSearchTerm('');
   };
 
   const assignNutritionEntry = (entry) => {
@@ -198,6 +199,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
     setEditingMenu({ ...editingMenu, meals: updatedMeals });
     setShowRecipePicker(false);
     setSelectedSlot(null);
+    setSearchTerm('');
   };
 
   const removeRecipeFromSlot = (day, mealType) => {
