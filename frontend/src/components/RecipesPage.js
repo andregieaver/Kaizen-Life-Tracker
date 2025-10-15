@@ -5,12 +5,11 @@ import RecipeBrowser from './RecipeBrowser';
 import WeeklyMenuBuilder from './WeeklyMenuBuilder';
 
 const RecipesPage = ({ athleteId }) => {
-  const [activeTab, setActiveTab] = useState('generator');
+  const [activeTab, setActiveTab] = useState('menus');
 
   const tabs = [
-    { id: 'generator', label: 'Generator', icon: ChefHat },
-    { id: 'collection', label: 'Collection', icon: BookOpen },
-    { id: 'menus', label: 'Weekly Menus', icon: Calendar }
+    { id: 'menus', label: 'Weekly Menus', icon: Calendar },
+    { id: 'generator', label: 'Generator', icon: ChefHat }
   ];
 
   return (
