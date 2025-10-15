@@ -43,15 +43,18 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
     
     try {
       setIsLoading(true);
-      const [menusRes, recipesRes] = await Promise.all([
+      const [menusRes, recipesRes, nutritionRes] = await Promise.all([
         axios.get(`${API}/weekly-menus/${athleteId}`, { timeout: 30000 }),
-        axios.get(`${API}/recipes/${athleteId}`, { timeout: 30000 })
+        axios.get(`${API}/recipes/${athleteId}`, { timeout: 30000 }),
+        axios.get(`${API}/nutrition-entries/${athleteId}`, { timeout: 30000 })
       ]);
       console.log('[WeeklyMenuBuilder] Data loaded successfully');
       console.log('[WeeklyMenuBuilder] Menus:', menusRes.data.menus?.length || 0);
       console.log('[WeeklyMenuBuilder] Recipes:', recipesRes.data.recipes?.length || 0);
+      console.log('[WeeklyMenuBuilder] Nutrition Entries:', nutritionRes.data.length || 0);
       setMenus(menusRes.data.menus || []);
       setRecipes(recipesRes.data.recipes || []);
+      setNutritionEntries(nutritionRes.data || []);
     } catch (error) {
       console.error('[WeeklyMenuBuilder] Error loading data:', error);
       console.error('[WeeklyMenuBuilder] Error details:', error.response || error.message);
