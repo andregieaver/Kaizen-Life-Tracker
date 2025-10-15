@@ -65,25 +65,9 @@ const RecipeBrowser = ({ athleteId }) => {
     }
   };
 
-  const openRecipeDetail = async (recipe) => {
-    // Fetch full recipe details including image if not already loaded
-    if (!recipe.image_base64) {
-      try {
-        const response = await axios.get(`${API}/recipe/${recipe.id}`, {
-          timeout: 30000
-        });
-        setSelectedRecipe(response.data);
-        setAdjustedServings(response.data.servings);
-      } catch (error) {
-        console.error('[RecipeBrowser] Error loading recipe details:', error);
-        // Fallback to recipe without image
-        setSelectedRecipe(recipe);
-        setAdjustedServings(recipe.servings);
-      }
-    } else {
-      setSelectedRecipe(recipe);
-      setAdjustedServings(recipe.servings);
-    }
+  const openRecipeDetail = (recipe) => {
+    setSelectedRecipe(recipe);
+    setAdjustedServings(recipe.servings);
   };
 
   const closeRecipeDetail = () => {
