@@ -102,7 +102,20 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the new Weekly Menu Builder API endpoints - CRUD operations for weekly menu templates with 21 meal slots (7 days × 3 meals per day) and activation logic."
+user_problem_statement: "Test the nutrition entries API endpoint to verify it returns data in the correct format for the Weekly Menu Builder feature."
+
+backend:
+  - task: "Nutrition Entries API Endpoint Testing"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ NUTRITION ENTRIES API ENDPOINT FULLY FUNCTIONAL - Comprehensive testing completed with 100% success rate (8/8 tests passed). VERIFIED ALL REVIEW REQUEST REQUIREMENTS using athlete andre@example.com (athlete_id: 3e4ee10d-105d-4564-8b7a-1e7223acb706): 1) ENDPOINT ACCESSIBILITY ✓ - GET /api/nutrition/{athlete_id} returns 200 OK status, endpoint is accessible and responding correctly. 2) RESPONSE FORMAT VERIFICATION ✓ - Response correctly wrapped in {'entries': [...]} format (NOT direct array), frontend bug fix confirmed working - backend returns proper structure. 3) ENTRIES ARRAY TYPE ✓ - 'entries' field contains array with 2 nutrition entries, proper data type for frontend consumption. 4) ENTRY STRUCTURE VALIDATION ✓ - All required fields present: id, description (alternative to meal_description), calories, protein, carbs, fat, entry_date, entry_time, entries have proper structure for Weekly Menu Builder. 5) SORTING VERIFICATION ✓ - Entries correctly sorted by most recent first (entry_date and entry_time descending), verified Entry 0 (2025-10-12 19:32) >= Entry 1 (2025-10-11 23:17). 6) FRONTEND COMPATIBILITY ✓ - Frontend can successfully access nutritionRes.data.entries (array with 2 items), Weekly Menu Builder can now fetch nutrition entries using correct format. 7) CACHE-BUSTING SUPPORT ✓ - API works correctly with cache-busting parameters (?_t=timestamp), supports common frontend patterns. 8) ERROR HANDLING ✓ - Invalid athlete ID returns empty entries array (graceful handling), proper error responses for edge cases. CRITICAL SUCCESS CRITERIA MET: Response format is {'entries': [...]} not direct array, frontend can access nutritionRes.data.entries, entries have all required fields for Weekly Menu Builder, entries sorted by most recent first, Weekly Menu Builder feature can now properly fetch and display nutrition entries alongside recipes. NUTRITION ENTRIES API IS PRODUCTION-READY AND FULLY FUNCTIONAL FOR WEEKLY MENU BUILDER INTEGRATION."
 
 backend:
   - task: "Weekly Menu Builder API Endpoints"
