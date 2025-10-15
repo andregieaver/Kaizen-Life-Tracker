@@ -167,7 +167,28 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
         return {
           ...meal,
           recipe_id: recipe.id,
-          recipe_name: recipe.recipe_name
+          recipe_name: recipe.recipe_name,
+          nutrition_entry_id: null  // Clear nutrition entry if assigning recipe
+        };
+      }
+      return meal;
+    });
+
+    setEditingMenu({ ...editingMenu, meals: updatedMeals });
+    setShowRecipePicker(false);
+    setSelectedSlot(null);
+  };
+
+  const assignNutritionEntry = (entry) => {
+    if (!selectedSlot || !editingMenu) return;
+
+    const updatedMeals = editingMenu.meals.map(meal => {
+      if (meal.day_of_week === selectedSlot.day && meal.meal_type === selectedSlot.mealType) {
+        return {
+          ...meal,
+          nutrition_entry_id: entry.id,
+          recipe_name: entry.meal_description || 'Nutrition Entry',
+          recipe_id: null  // Clear recipe if assigning nutrition entry
         };
       }
       return meal;
