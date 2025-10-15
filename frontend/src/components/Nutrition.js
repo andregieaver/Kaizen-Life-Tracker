@@ -1244,93 +1244,85 @@ const Nutrition = ({ athleteId }) => {
             )}
             
             {/* Supplements Summary */}
-            {((viewType === 'week' && (() => {
-              const weekStart = new Date(selectedWeekStart);
-              const weekEnd = new Date(weekStart);
-              weekEnd.setDate(weekEnd.getDate() + 6);
-              const weekSupplements = (supplementLogs || []).filter(log => {
-                const logDate = new Date(log.log_date);
-                return logDate >= weekStart && logDate <= weekEnd && log.supplements && log.supplements.length > 0;
-              });
-              return weekSupplements.length > 0;
-            })()) ||
-             (viewType === 'day' && (() => {
-              const daySuppLogs = (supplementLogs || []).filter(log => {
-                const logDateStr = new Date(log.log_date).toDateString();
-                const selectedDateStr = selectedDay.toDateString();
-                return logDateStr === selectedDateStr && log.supplements && log.supplements.length > 0;
-              });
-              return daySuppLogs.length > 0;
-            })())) && (
-              <div className="border-t pt-4 mt-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <Pill className="w-5 h-5 text-[#62D2C4]" />
-                  <h4 className="text-sm font-semibold text-gray-700">Supplements Taken</h4>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {(() => {
-                    let filteredSupplementLogs = [];
-                    if (viewType === 'week') {
-                      const weekStart = new Date(selectedWeekStart);
-                      const weekEnd = new Date(weekStart);
-                      weekEnd.setDate(weekEnd.getDate() + 6);
-                      filteredSupplementLogs = (supplementLogs || []).filter(log => {
-                        const logDate = new Date(log.log_date);
-                        return logDate >= weekStart && logDate <= weekEnd && log.supplements && log.supplements.length > 0;
-                      });
-                    } else {
-                      filteredSupplementLogs = (supplementLogs || []).filter(log => {
-                        const logDateStr = new Date(log.log_date).toDateString();
-                        const selectedDateStr = selectedDay.toDateString();
-                        return logDateStr === selectedDateStr && log.supplements && log.supplements.length > 0;
-                      });
-                    }
-                    
-                    // Group supplements by supplement name
-                    const supplementSummary = {};
-                    filteredSupplementLogs.forEach(log => {
-                      if (log.supplements && Array.isArray(log.supplements)) {
-                        log.supplements.forEach(supp => {
-                          if (supp && supp.supplement_name) {
-                            const suppName = supp.supplement_name;
-                            if (!supplementSummary[suppName]) {
-                              supplementSummary[suppName] = {
-                                name: suppName,
-                                totalDosage: 0,
-                                unit: supp.unit || '',
-                                count: 0
-                              };
+            {(() => {
+              let filteredSupplementLogs = [];
+              let hasSupplements = false;
+              
+              if (viewType === 'week') {
+                const weekStart = new Date(selectedWeekStart);
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekEnd.getDate() + 6);
+                filteredSupplementLogs = (supplementLogs || []).filter(log => {
+                  const logDate = new Date(log.log_date);
+                  return logDate >= weekStart && logDate <= weekEnd && log.supplements && log.supplements.length > 0;
+                });
+                hasSupplements = filteredSupplementLogs.length > 0;
+              } else if (viewType === 'day' && selectedDay) {
+                filteredSupplementLogs = (supplementLogs || []).filter(log => {
+                  const logDateStr = new Date(log.log_date).toDateString();
+                  const selectedDateStr = selectedDay.toDateString();
+                  return logDateStr === selectedDateStr && log.supplements && log.supplements.length > 0;
+                });
+                hasSupplements = filteredSupplementLogs.length > 0;
+              }
+              
+              // Show section if there are supplements OR if we want to show empty state
+              if (!hasSupplements) return null;
+              
+              return (
+                <div className="border-t pt-4 mt-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Pill className="w-5 h-5 text-[#62D2C4]" />
+                    <h4 className="text-sm font-semibold text-gray-700">Supplements Taken</h4>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {(() => {
+                      // Group supplements by supplement name
+                      const supplementSummary = {};
+                      filteredSupplementLogs.forEach(log => {
+                        if (log.supplements && Array.isArray(log.supplements)) {
+                          log.supplements.forEach(supp => {
+                            if (supp && supp.supplement_name) {
+                              const suppName = supp.supplement_name;
+                              if (!supplementSummary[suppName]) {
+                                supplementSummary[suppName] = {
+                                  name: suppName,
+                                  totalDosage: 0,
+                                  unit: supp.unit || '',
+                                  count: 0
+                                };
+                              }
+                              supplementSummary[suppName].totalDosage += parseFloat(supp.dosage) || 0;
+                              supplementSummary[suppName].count += 1;
                             }
-                            supplementSummary[suppName].totalDosage += parseFloat(supp.dosage) || 0;
-                            supplementSummary[suppName].count += 1;
-                          }
-                        });
-                      }
-                    });
-                    
-                    return Object.values(supplementSummary).map((supp, idx) => (
-                      <div key={idx} className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-3 border border-[#62D2C4]/20">
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <div className="font-medium text-gray-900 text-sm">{supp.name}</div>
-                            <div className="text-xs text-gray-600 mt-1">
-                              {viewType === 'week' && `${supp.count} time${supp.count > 1 ? 's' : ''} this week`}
-                              {viewType === 'day' && `${supp.count} time${supp.count > 1 ? 's' : ''} today`}
+                          });
+                        }
+                      });
+                      
+                      return Object.values(supplementSummary).map((supp, idx) => (
+                        <div key={idx} className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-3 border border-[#62D2C4]/20">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="font-medium text-gray-900 text-sm">{supp.name}</div>
+                              <div className="text-xs text-gray-600 mt-1">
+                                {viewType === 'week' && `${supp.count} time${supp.count > 1 ? 's' : ''} this week`}
+                                {viewType === 'day' && `${supp.count} time${supp.count > 1 ? 's' : ''} today`}
+                              </div>
                             </div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-lg font-semibold text-[#62D2C4]">
-                              {supp.totalDosage.toFixed(1)}
+                            <div className="text-right">
+                              <div className="text-lg font-semibold text-[#62D2C4]">
+                                {supp.totalDosage.toFixed(1)}
+                              </div>
+                              <div className="text-xs text-gray-600">{supp.unit}</div>
                             </div>
-                            <div className="text-xs text-gray-600">{supp.unit}</div>
                           </div>
                         </div>
-                      </div>
-                    ));
-                  })()}
+                      ));
+                    })()}
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
           </CardContent>
         </Card>
       )}
