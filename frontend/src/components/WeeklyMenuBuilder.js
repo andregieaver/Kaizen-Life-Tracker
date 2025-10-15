@@ -31,9 +31,12 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
 
   const fetchData = async () => {
     if (!athleteId) {
+      console.log('[WeeklyMenuBuilder] No athleteId provided, setting loading to false');
       setIsLoading(false);
       return;
     }
+    
+    console.log('[WeeklyMenuBuilder] Fetching data for athleteId:', athleteId);
     
     try {
       setIsLoading(true);
@@ -41,11 +44,16 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
         axios.get(`${API}/weekly-menus/${athleteId}`),
         axios.get(`${API}/recipes/${athleteId}`)
       ]);
+      console.log('[WeeklyMenuBuilder] Data loaded successfully');
+      console.log('[WeeklyMenuBuilder] Menus:', menusRes.data.menus?.length || 0);
+      console.log('[WeeklyMenuBuilder] Recipes:', recipesRes.data.recipes?.length || 0);
       setMenus(menusRes.data.menus || []);
       setRecipes(recipesRes.data.recipes || []);
     } catch (error) {
-      console.error('Error loading data:', error);
+      console.error('[WeeklyMenuBuilder] Error loading data:', error);
+      console.error('[WeeklyMenuBuilder] Error details:', error.response || error.message);
     } finally {
+      console.log('[WeeklyMenuBuilder] Setting loading to false');
       setIsLoading(false);
     }
   };
