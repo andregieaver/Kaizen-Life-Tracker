@@ -65,6 +65,25 @@ const RecipeBrowser = ({ athleteId }) => {
     }
   };
 
+  const deleteRecipe = async (recipeId) => {
+    if (!window.confirm('Are you sure you want to delete this recipe?')) {
+      return;
+    }
+
+    try {
+      await axios.delete(`${API}/recipes/${recipeId}`);
+      setRecipes(recipes.filter(r => r.id !== recipeId));
+      
+      // Close detail modal if the deleted recipe was open
+      if (selectedRecipe && selectedRecipe.id === recipeId) {
+        setSelectedRecipe(null);
+      }
+    } catch (error) {
+      console.error('Error deleting recipe:', error);
+      alert('Failed to delete recipe. Please try again.');
+    }
+  };
+
   const openRecipeDetail = (recipe) => {
     setSelectedRecipe(recipe);
     setAdjustedServings(recipe.servings);
