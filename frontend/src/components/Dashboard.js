@@ -638,6 +638,42 @@ const Dashboard = ({ athleteId }) => {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Log Supplement */}
+              <Card 
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#9B7EBD] to-[#8B6FAD] hover:scale-105 transform"
+                onClick={() => navigate('/dashboard/supplements?action=add')}
+              >
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                      <Pill className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="text-center md:text-left">
+                      <h3 className="font-semibold text-white">Log Supplement</h3>
+                      <p className="text-sm text-white/80">Track supplements</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Weekly Menu */}
+              <Card 
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#FFB347] to-[#FFA500] hover:scale-105 transform"
+                onClick={() => navigate('/dashboard/recipes')}
+              >
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                      <ChefHat className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="text-center md:text-left">
+                      <h3 className="font-semibold text-white">Weekly Menu</h3>
+                      <p className="text-sm text-white/80">View meal plans</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Readiness Section */}
