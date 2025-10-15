@@ -1248,23 +1248,36 @@ const Nutrition = ({ athleteId }) => {
               let filteredSupplementLogs = [];
               let hasSupplements = false;
               
+              console.log('[Supplements Summary] Total supplement logs:', supplementLogs?.length || 0);
+              console.log('[Supplements Summary] View type:', viewType);
+              console.log('[Supplements Summary] Selected week start:', selectedWeekStart);
+              console.log('[Supplements Summary] Selected day:', selectedDay);
+              
               if (viewType === 'week') {
                 const weekStart = new Date(selectedWeekStart);
                 const weekEnd = new Date(weekStart);
                 weekEnd.setDate(weekEnd.getDate() + 6);
                 filteredSupplementLogs = (supplementLogs || []).filter(log => {
                   const logDate = new Date(log.log_date);
-                  return logDate >= weekStart && logDate <= weekEnd && log.supplements && log.supplements.length > 0;
+                  const matches = logDate >= weekStart && logDate <= weekEnd && log.supplements && log.supplements.length > 0;
+                  if (matches) console.log('[Supplements Summary] Matched log:', log);
+                  return matches;
                 });
                 hasSupplements = filteredSupplementLogs.length > 0;
+                console.log('[Supplements Summary] Filtered supplements for week:', filteredSupplementLogs.length);
               } else if (viewType === 'day' && selectedDay) {
                 filteredSupplementLogs = (supplementLogs || []).filter(log => {
                   const logDateStr = new Date(log.log_date).toDateString();
                   const selectedDateStr = selectedDay.toDateString();
-                  return logDateStr === selectedDateStr && log.supplements && log.supplements.length > 0;
+                  const matches = logDateStr === selectedDateStr && log.supplements && log.supplements.length > 0;
+                  if (matches) console.log('[Supplements Summary] Matched log:', log);
+                  return matches;
                 });
                 hasSupplements = filteredSupplementLogs.length > 0;
+                console.log('[Supplements Summary] Filtered supplements for day:', filteredSupplementLogs.length);
               }
+              
+              console.log('[Supplements Summary] Has supplements:', hasSupplements);
               
               // Show section if there are supplements OR if we want to show empty state
               if (!hasSupplements) return null;
@@ -1298,6 +1311,8 @@ const Nutrition = ({ athleteId }) => {
                           });
                         }
                       });
+                      
+                      console.log('[Supplements Summary] Summary:', supplementSummary);
                       
                       return Object.values(supplementSummary).map((supp, idx) => (
                         <div key={idx} className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-3 border border-[#62D2C4]/20">
