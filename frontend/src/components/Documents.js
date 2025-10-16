@@ -79,6 +79,8 @@ const Documents = ({ athleteId }) => {
   
   const filteredDocuments = getFilteredDocuments();
 
+  console.log('🔄 Documents component rendering, showModal:', showModal, 'filePreview:', !!filePreview, 'fileName:', fileName);
+
   const loadDocuments = async () => {
     try {
       setIsLoadingDocs(true);
