@@ -565,17 +565,17 @@ const Documents = ({ athleteId }) => {
                   setShowModal(false);
                   resetForm();
                 }}
-                disabled={isLoading}
+                disabled={isUploading}
               >
                 Cancel
               </Button>
               <Button
                 type="button"
                 onClick={handleSubmit}
-                disabled={!fileData || !title || isLoading}
+                disabled={!fileData || !title || isUploading}
                 className="flex-1 bg-blue-600 hover:bg-blue-700"
               >
-                {isLoading ? (
+                {isUploading ? (
                   <>
                     <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
                     Uploading...
