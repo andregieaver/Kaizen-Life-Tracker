@@ -36,11 +36,28 @@ def test_ai_enhanced_nutrition_entries():
         # Step 1: Try to login as andre@example.com or create test athlete
         print("   Step 1: Try to login as andre@example.com or create test athlete")
         
-        # First try to login with existing credentials
-        login_data = {
-            "email": "andre@example.com",
-            "password": "test123"
-        }
+        # Try different known credentials from review request
+        test_credentials = [
+            {"email": "andre@example.com", "password": "test123"},
+            {"email": "andre@example.com", "password": "password123"},
+            {"email": "andre@humanweb.no", "password": "test123"},
+            {"email": "andre@humanweb.no", "password": "password123"}
+        ]
+        
+        login_data = None
+        for creds in test_credentials:
+            test_response = requests.post(
+                f"{BACKEND_URL}/auth/login",
+                json=creds,
+                headers={"Content-Type": "application/json"}
+            )
+            if test_response.status_code == 200:
+                login_data = creds
+                login_response = test_response
+                break
+        
+        if not login_data:
+            login_data = {"email": "andre@example.com", "password": "test123"}
         
         login_response = requests.post(
             f"{BACKEND_URL}/auth/login",
