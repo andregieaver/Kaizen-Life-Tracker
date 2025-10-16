@@ -341,6 +341,7 @@ const Documents = ({ athleteId }) => {
                 size="sm"
                 onClick={() => {
                   setShowModal(false);
+                  // Reset form
                   setTitle('');
                   setCategory('medical');
                   setDescription('');
@@ -350,6 +351,7 @@ const Documents = ({ athleteId }) => {
                   setFileType('');
                   setFileSize(0);
                   setSaveStatus({ type: '', message: '' });
+                  if (fileInputRef.current) fileInputRef.current.value = '';
                 }}
               >
                 <X className="w-5 h-5" />
