@@ -116,8 +116,8 @@ const CalculatorModal = ({ calculatorId, calculators, athletePreferences, onClos
 
   return (
     <div className="fixed inset-0 bg-white z-50 flex flex-col">
-      {/* Header */}
-      <div className={`bg-gradient-to-r ${calculator.color} text-white pt-safe pt-12 pb-4 md:py-6 px-4 md:px-8 shadow-lg flex-shrink-0 z-50`}>
+      {/* Header with clear bottom border */}
+      <div className={`bg-gradient-to-r ${calculator.color} text-white pt-safe pt-12 pb-4 md:py-6 px-4 md:px-8 shadow-xl flex-shrink-0 z-50 border-b-4 border-white/20`}>
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <div className="w-10 h-10 md:w-12 md:h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm flex-shrink-0">
@@ -137,8 +137,8 @@ const CalculatorModal = ({ calculatorId, calculators, athletePreferences, onClos
         </div>
       </div>
 
-      {/* Calculator Content Area - Scrollable */}
-      <div className="flex-1 overflow-y-auto">
+      {/* Calculator Content Area - Scrollable with clear separation */}
+      <div className="flex-1 overflow-y-auto bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 md:py-8">
           {calculatorId === 'running-pace' && (
             <PaceCalculator athletePreferences={athletePreferences} />
