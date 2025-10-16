@@ -201,24 +201,34 @@ const Documents = ({ athleteId }) => {
     }
   };
   const handleCameraCapture = async (event) => {
+    console.log('📷 handleCameraCapture called');
     const file = event.target.files[0];
-    if (!file) return;
+    if (!file) {
+      console.log('🔴 No file captured');
+      return;
+    }
+    
+    console.log('✅ Photo captured:', file.name, file.type);
+    console.log('📊 Modal state before processing:', showModal);
     
     if (!title) {
       setTitle(file.name);
     }
     
     try {
+      console.log('📸 Processing captured image...');
       setSaveStatus({ type: '', message: 'Processing image...' });
       const compressedImage = await compressImage(file);
+      console.log('✅ Image compressed, size:', compressedImage.length);
       setFileData(compressedImage);
       setFilePreview(compressedImage);
       setFileName(file.name);
       setFileType('image/jpeg');
       setFileSize(Math.round(compressedImage.length * 0.75));
       setSaveStatus({ type: 'success', message: '✓ Image ready' });
+      console.log('✅ Image state updated');
     } catch (error) {
-      console.error('Error processing image:', error);
+      console.error('❌ Error processing image:', error);
       setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
     }
   };
