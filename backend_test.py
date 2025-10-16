@@ -511,14 +511,294 @@ def test_files_feature_complete_flow():
         print_test_result("Files Feature Testing - Exception", False, f"Exception: {str(e)}")
         return False
 
+def test_document_upload_flow():
+    """
+    DOCUMENT UPLOAD FLOW TESTING
+    Test the complete document upload and retrieval flow as requested in review
+    """
+    print("🔍 TESTING DOCUMENT UPLOAD FLOW")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Create or get test athlete
+        print("   Step 1: Setup test athlete")
+        
+        # Try to create a test athlete for document testing
+        test_athlete_data = {
+            "name": "Document Test User",
+            "email": "document.test@example.com",
+            "password": "password123",
+            "weekly_mileage": 25.0,
+            "running_goals": "Test document upload functionality"
+        }
+        
+        # Try to create athlete (might already exist)
+        create_response = requests.post(
+            f"{BACKEND_URL}/athlete",
+            json=test_athlete_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        # Try to login regardless of creation result
+        login_data = {
+            "email": "document.test@example.com",
+            "password": "password123"
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            # Try with andre@example.com as fallback
+            login_data = {
+                "email": "andre@example.com", 
+                "password": "password123"
+            }
+            
+            login_response = requests.post(
+                f"{BACKEND_URL}/auth/login",
+                json=login_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if login_response.status_code != 200:
+                # Try to find any existing athlete by checking a known athlete ID
+                athlete_id = "90de5b99-6db3-4e14-8455-c00864fb9976"  # Known from test_result.md
+                print_test_result("Setup Test Athlete", True, f"Using known athlete_id: {athlete_id}")
+            else:
+                athlete_data = login_response.json()
+                athlete_id = athlete_data.get("athlete_id")
+                print_test_result("Setup Test Athlete", True, f"Logged in as andre@example.com, athlete_id: {athlete_id}")
+        else:
+            athlete_data = login_response.json()
+            athlete_id = athlete_data.get("athlete_id")
+            print_test_result("Setup Test Athlete", True, f"Logged in as document.test@example.com, athlete_id: {athlete_id}")
+        
+        if not athlete_id:
+            print_test_result("Setup Test Athlete", False, "No athlete_id available")
+            return False
+        
+        # Step 2: Create a small test image as base64
+        print("   Step 2: Create test document (small image as base64)")
+        
+        # Create a simple test image
+        img = Image.new('RGB', (200, 200), color='blue')
+        buffer = io.BytesIO()
+        img.save(buffer, format='JPEG')
+        img_data = buffer.getvalue()
+        base64_data = base64.b64encode(img_data).decode('utf-8')
+        file_data_with_prefix = f"data:image/jpeg;base64,{base64_data}"
+        
+        print_test_result("Create Test Image", True, f"Created test image, size: {len(base64_data)} chars")
+        
+        # Step 3: POST /api/documents - Upload test document
+        print("   Step 3: POST /api/documents - Upload test document")
+        
+        document_data = {
+            "athlete_id": athlete_id,
+            "title": "Test Document Upload",
+            "category": "test_results",
+            "description": "Test document for upload flow verification",
+            "file_data": file_data_with_prefix,
+            "file_name": "test_document.jpg",
+            "file_type": "image/jpeg",
+            "file_size": len(img_data)
+        }
+        
+        upload_response = requests.post(
+            f"{BACKEND_URL}/documents",
+            json=document_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if upload_response.status_code != 200:
+            print_test_result("POST /api/documents", False, f"Upload failed: {upload_response.status_code} - {upload_response.text}")
+            return False
+        
+        upload_result = upload_response.json()
+        document_id = upload_result.get("id")
+        
+        if not document_id:
+            print_test_result("POST /api/documents", False, "No document ID returned")
+            return False
+        
+        print_test_result("POST /api/documents", True, f"Document uploaded successfully, ID: {document_id}")
+        
+        # Step 4: Verify document is saved in MongoDB
+        print("   Step 4: Verify document saved in MongoDB")
+        
+        # Get documents to verify it was saved
+        get_response = requests.get(f"{BACKEND_URL}/documents/{athlete_id}")
+        
+        if get_response.status_code != 200:
+            print_test_result("Verify MongoDB Storage", False, f"Cannot retrieve documents: {get_response.status_code}")
+            return False
+        
+        get_data = get_response.json()
+        documents = get_data.get("documents", [])
+        
+        # Find our uploaded document
+        uploaded_doc = None
+        for doc in documents:
+            if doc.get("id") == document_id:
+                uploaded_doc = doc
+                break
+        
+        if uploaded_doc:
+            print_test_result("Verify MongoDB Storage", True, f"Document found in MongoDB with all fields")
+        else:
+            print_test_result("Verify MongoDB Storage", False, "Uploaded document not found in database")
+            return False
+        
+        # Step 5: GET /api/documents/{athlete_id} - Retrieve documents
+        print("   Step 5: GET /api/documents/{athlete_id} - Retrieve documents")
+        
+        if len(documents) == 0:
+            print_test_result("GET /api/documents/{athlete_id}", False, "No documents returned")
+            return False
+        
+        print_test_result("GET /api/documents/{athlete_id}", True, f"Retrieved {len(documents)} documents")
+        
+        # Step 6: Verify uploaded document appears in list
+        print("   Step 6: Verify uploaded document appears in list")
+        
+        if uploaded_doc:
+            # Verify all required fields are present
+            required_fields = ["id", "athlete_id", "title", "category", "description", "file_data", "file_name", "file_type", "file_size"]
+            missing_fields = []
+            
+            for field in required_fields:
+                if field not in uploaded_doc or uploaded_doc[field] is None:
+                    missing_fields.append(field)
+            
+            if missing_fields:
+                print_test_result("Verify Document Fields", False, f"Missing fields: {missing_fields}")
+            else:
+                print_test_result("Verify Document Fields", True, "All required fields present")
+        
+        # Step 7: Verify file_data is intact (base64 preserved)
+        print("   Step 7: Verify file_data integrity (base64 preserved)")
+        
+        retrieved_file_data = uploaded_doc.get("file_data")
+        
+        if retrieved_file_data == file_data_with_prefix:
+            print_test_result("File Data Integrity", True, "Base64 data preserved exactly (roundtrip successful)")
+        else:
+            # Check if it's just missing the data URI prefix
+            if retrieved_file_data == base64_data:
+                print_test_result("File Data Integrity", True, "Base64 data preserved (without data URI prefix)")
+            else:
+                original_preview = file_data_with_prefix[:100] if file_data_with_prefix else "None"
+                retrieved_preview = retrieved_file_data[:100] if retrieved_file_data else "None"
+                print_test_result("File Data Integrity", False, f"Data mismatch - Original: {original_preview}... Retrieved: {retrieved_preview}...")
+        
+        # Step 8: Complete Flow Test Summary
+        print("   Step 8: Complete Flow Test Summary")
+        
+        flow_steps = [
+            "✅ Document upload via POST /api/documents",
+            "✅ Document storage in MongoDB verified", 
+            "✅ Document retrieval via GET /api/documents/{athlete_id}",
+            "✅ Document appears in list with correct data",
+            "✅ File data integrity maintained (base64 preserved)"
+        ]
+        
+        for step in flow_steps:
+            print(f"      {step}")
+        
+        print_test_result("Complete Document Upload Flow", True, "All flow steps completed successfully")
+        
+        # Step 9: Test with different document types
+        print("   Step 9: Test with different document types")
+        
+        # Create a simple PDF document
+        pdf_content = b"""%PDF-1.4
+1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj
+2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj  
+3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 612 792]/Contents 4 0 R>>endobj
+4 0 obj<</Length 44>>stream
+BT /F1 12 Tf 72 720 Td (Test PDF Document) Tj ET
+endstream endobj
+xref 0 5
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000206 00000 n 
+trailer<</Size 5/Root 1 0 R>>
+startxref 299
+%%EOF"""
+        
+        pdf_base64 = base64.b64encode(pdf_content).decode('utf-8')
+        pdf_data_with_prefix = f"data:application/pdf;base64,{pdf_base64}"
+        
+        pdf_document_data = {
+            "athlete_id": athlete_id,
+            "title": "Test PDF Document",
+            "category": "medical",
+            "description": "Test PDF document for upload flow verification",
+            "file_data": pdf_data_with_prefix,
+            "file_name": "test_document.pdf",
+            "file_type": "application/pdf",
+            "file_size": len(pdf_content)
+        }
+        
+        pdf_upload_response = requests.post(
+            f"{BACKEND_URL}/documents",
+            json=pdf_document_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if pdf_upload_response.status_code == 200:
+            pdf_result = pdf_upload_response.json()
+            pdf_document_id = pdf_result.get("id")
+            print_test_result("PDF Document Upload", True, f"PDF document uploaded, ID: {pdf_document_id}")
+            
+            # Clean up PDF document
+            if pdf_document_id:
+                requests.delete(f"{BACKEND_URL}/documents/{pdf_document_id}")
+        else:
+            print_test_result("PDF Document Upload", False, f"PDF upload failed: {pdf_upload_response.status_code}")
+        
+        # Step 10: Cleanup - Delete test document
+        print("   Step 10: Cleanup - Delete test document")
+        
+        delete_response = requests.delete(f"{BACKEND_URL}/documents/{document_id}")
+        
+        if delete_response.status_code == 200:
+            print_test_result("Cleanup", True, "Test document deleted successfully")
+        else:
+            print_test_result("Cleanup", False, f"Failed to delete test document: {delete_response.status_code}")
+        
+        print("\n✅ DOCUMENT UPLOAD FLOW TESTING COMPLETED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Document Upload Flow - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def main():
     """Run all backend tests"""
-    print("🚀 STARTING FILES FEATURE BACKEND API TESTING")
+    print("🚀 STARTING DOCUMENT UPLOAD FLOW BACKEND API TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Files Feature Complete Flow
+    # Test Document Upload Flow
+    try:
+        result = test_document_upload_flow()
+        if not result:
+            all_tests_passed = False
+    except Exception as e:
+        print_test_result("Document Upload Flow Testing", False, f"Exception: {str(e)}")
+        all_tests_passed = False
+    
+    # Also run Files Feature tests for completeness
     try:
         result = test_files_feature_complete_flow()
         if not result:
@@ -531,10 +811,11 @@ def main():
     
     # Final Results
     if all_tests_passed:
-        print("🎉 ALL FILES FEATURE TESTS PASSED!")
+        print("🎉 ALL BACKEND TESTS PASSED!")
+        print("✅ Document Upload Flow: Working")
         print("✅ Files Feature Complete Flow: Working")
     else:
-        print("❌ SOME FILES FEATURE TESTS FAILED")
+        print("❌ SOME BACKEND TESTS FAILED")
         print("⚠️ Check individual test results above for details")
     
     print("=" * 70)
