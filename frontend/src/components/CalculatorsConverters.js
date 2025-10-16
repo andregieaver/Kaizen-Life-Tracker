@@ -633,4 +633,244 @@ const RacePredictorCalculator = ({ athletePreferences }) => {
   );
 };
 
+// Finishing Percentage Calculator Component
+const FinishingPercentageCalculator = () => {
+  const [totalParticipants, setTotalParticipants] = useState('');
+  const [placement, setPlacement] = useState('');
+  const [result, setResult] = useState(null);
+
+  const calculatePercentage = () => {
+    const total = parseInt(totalParticipants);
+    const position = parseInt(placement);
+
+    if (!total || !position || total <= 0 || position <= 0 || position > total) {
+      return;
+    }
+
+    // Calculate percentages
+    const percentileFromTop = (position / total) * 100;
+    const percentileFromBottom = ((total - position + 1) / total) * 100;
+    
+    // Determine performance category
+    let category = '';
+    let categoryColor = '';
+    let categoryDescription = '';
+    
+    if (percentileFromTop <= 1) {
+      category = 'Elite';
+      categoryColor = 'from-yellow-400 to-yellow-600';
+      categoryDescription = 'Outstanding! You finished in the top 1%';
+    } else if (percentileFromTop <= 5) {
+      category = 'Excellent';
+      categoryColor = 'from-green-400 to-green-600';
+      categoryDescription = 'Excellent performance! Top 5%';
+    } else if (percentileFromTop <= 10) {
+      category = 'Very Good';
+      categoryColor = 'from-blue-400 to-blue-600';
+      categoryDescription = 'Very good finish! Top 10%';
+    } else if (percentileFromTop <= 25) {
+      category = 'Good';
+      categoryColor = 'from-teal-400 to-teal-600';
+      categoryDescription = 'Good performance! Top quarter';
+    } else if (percentileFromTop <= 50) {
+      category = 'Above Average';
+      categoryColor = 'from-indigo-400 to-indigo-600';
+      categoryDescription = 'Above average finish! Top half';
+    } else if (percentileFromTop <= 75) {
+      category = 'Average';
+      categoryColor = 'from-purple-400 to-purple-600';
+      categoryDescription = 'Average performance';
+    } else {
+      category = 'Participation';
+      categoryColor = 'from-gray-400 to-gray-600';
+      categoryDescription = 'Great effort! Completing is winning!';
+    }
+
+    // Calculate how many people finished ahead and behind
+    const peopleAhead = position - 1;
+    const peopleBehind = total - position;
+
+    setResult({
+      total,
+      position,
+      percentileFromTop: percentileFromTop.toFixed(2),
+      percentileFromBottom: percentileFromBottom.toFixed(2),
+      peopleAhead,
+      peopleBehind,
+      category,
+      categoryColor,
+      categoryDescription,
+    });
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      calculatePercentage();
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Input Card */}
+      <Card className="border-0 shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-xl font-display">Enter Race Information</CardTitle>
+          <CardDescription>Calculate your finishing percentile in the race</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            {/* Total Participants */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Total Number of Participants
+              </label>
+              <input
+                type="number"
+                value={totalParticipants}
+                onChange={(e) => setTotalParticipants(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="e.g., 500"
+                min="1"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+              />
+            </div>
+
+            {/* Placement */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Your Placement (Finishing Position)
+              </label>
+              <input
+                type="number"
+                value={placement}
+                onChange={(e) => setPlacement(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="e.g., 42"
+                min="1"
+                max={totalParticipants || undefined}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+              />
+              {totalParticipants && (
+                <p className="text-xs text-gray-500 mt-1">
+                  Must be between 1 and {totalParticipants}
+                </p>
+              )}
+            </div>
+
+            {/* Calculate Button */}
+            <Button
+              onClick={calculatePercentage}
+              disabled={!totalParticipants || !placement}
+              className="w-full bg-gradient-to-r from-blue-400 to-blue-600 hover:opacity-90 text-white text-lg py-6"
+            >
+              Calculate Percentile
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Results */}
+      {result && (
+        <Card className="border-0 shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-xl font-display">Your Race Performance</CardTitle>
+            <CardDescription>
+              Position {result.position} out of {result.total} participants
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Performance Category Badge */}
+            <div className="text-center">
+              <div className={`inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r ${result.categoryColor} text-white rounded-xl shadow-lg mb-4`}>
+                <span className="text-3xl font-bold">{result.category}</span>
+              </div>
+              <p className="text-lg text-gray-700 font-medium">{result.categoryDescription}</p>
+            </div>
+
+            {/* Main Statistics */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Top Percentile */}
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
+                <div className="text-sm text-gray-600 mb-2">Top Percentile</div>
+                <div className="text-4xl font-bold text-blue-600 mb-1">
+                  {result.percentileFromTop}%
+                </div>
+                <div className="text-sm text-gray-700">
+                  You finished in the top {result.percentileFromTop}% of all participants
+                </div>
+              </div>
+
+              {/* Bottom Percentile */}
+              <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200">
+                <div className="text-sm text-gray-600 mb-2">From Bottom</div>
+                <div className="text-4xl font-bold text-purple-600 mb-1">
+                  {result.percentileFromBottom}%
+                </div>
+                <div className="text-sm text-gray-700">
+                  Better than {result.percentileFromBottom}% of participants
+                </div>
+              </div>
+            </div>
+
+            {/* Detailed Breakdown */}
+            <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border border-gray-200">
+              <h3 className="font-semibold text-gray-900 mb-4">Detailed Breakdown</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-700">People who finished ahead of you:</span>
+                  <span className="font-bold text-gray-900 text-lg">{result.peopleAhead}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-700">People you finished ahead of:</span>
+                  <span className="font-bold text-gray-900 text-lg">{result.peopleBehind}</span>
+                </div>
+                <div className="flex justify-between items-center pt-3 border-t border-gray-300">
+                  <span className="text-gray-700 font-medium">Your placement:</span>
+                  <span className="font-bold text-blue-600 text-xl">
+                    #{result.position} / {result.total}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Visual Progress Bar */}
+            <div className="bg-white rounded-xl p-6 border border-gray-200">
+              <h3 className="font-semibold text-gray-900 mb-4">Visual Representation</h3>
+              <div className="relative h-12 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  className="absolute top-0 left-0 h-full bg-gradient-to-r from-green-400 to-blue-500 transition-all duration-500"
+                  style={{ width: `${result.percentileFromTop}%` }}
+                ></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-sm font-bold text-gray-700 drop-shadow-lg">
+                    Top {result.percentileFromTop}%
+                  </span>
+                </div>
+              </div>
+              <div className="flex justify-between text-xs text-gray-500 mt-2">
+                <span>1st Place</span>
+                <span>Your Position</span>
+                <span>Last Place</span>
+              </div>
+            </div>
+
+            {/* Performance Tips */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <p className="text-sm text-blue-800">
+                <strong>💡 Tip:</strong> {
+                  result.percentileFromTop <= 25 
+                    ? "You're performing at a competitive level! Keep pushing for improvement."
+                    : result.percentileFromTop <= 50
+                    ? "Great progress! Focus on consistency and gradual improvements."
+                    : "Every finish is an achievement! Set small goals to improve each race."
+                }
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+};
+
 export default CalculatorsConverters;
