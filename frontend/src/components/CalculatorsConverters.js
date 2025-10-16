@@ -322,7 +322,7 @@ const PaceCalculator = ({ athletePreferences }) => {
                   <tr 
                     key={index}
                     className={`border-b border-gray-100 hover:bg-gradient-to-r hover:from-[#D4F0E9]/30 hover:to-transparent transition-colors ${
-                      ['100m', '200m', '800m', '1 mile', 'Half Marathon', 'Marathon', '50 miles'].includes(distance.label)
+                      ['100m', '200m', '400m', '800m', '1 mile', 'Half Marathon', 'Marathon', '50 miles', '100 miles'].includes(distance.label)
                         ? 'bg-gradient-to-r from-blue-50/50 to-transparent font-medium'
                         : ''
                     }`}
