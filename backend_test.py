@@ -16,7 +16,88 @@ from PIL import Image
 # Backend URL from environment
 BACKEND_URL = "https://running-coach-ai-1.preview.emergentagent.com/api"
 
-def test_schedule_active_checkbox_state_saving():
+def print_test_result(test_name, success, details=""):
+    """Print formatted test result"""
+    status = "✅ PASS" if success else "❌ FAIL"
+    print(f"   {status}: {test_name}")
+    if details:
+        print(f"      Details: {details}")
+
+def create_test_image_base64():
+    """Create a small test image in base64 format"""
+    # Create a simple 100x100 red image
+    img = Image.new('RGB', (100, 100), color='red')
+    buffer = io.BytesIO()
+    img.save(buffer, format='JPEG')
+    img_data = buffer.getvalue()
+    base64_data = base64.b64encode(img_data).decode('utf-8')
+    return f"data:image/jpeg;base64,{base64_data}"
+
+def create_test_pdf_base64():
+    """Create a simple test PDF in base64 format"""
+    # Simple PDF content (minimal PDF structure)
+    pdf_content = b"""%PDF-1.4
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+2 0 obj
+<<
+/Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
+3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612 792]
+/Contents 4 0 R
+>>
+endobj
+4 0 obj
+<<
+/Length 44
+>>
+stream
+BT
+/F1 12 Tf
+72 720 Td
+(Test PDF) Tj
+ET
+endstream
+endobj
+xref
+0 5
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000206 00000 n 
+trailer
+<<
+/Size 5
+/Root 1 0 R
+>>
+startxref
+299
+%%EOF"""
+    base64_data = base64.b64encode(pdf_content).decode('utf-8')
+    return f"data:application/pdf;base64,{base64_data}"
+
+def create_large_file_base64(size_mb):
+    """Create a large file in base64 format for size testing"""
+    # Create data that will result in approximately size_mb when base64 encoded
+    # Base64 encoding increases size by ~33%, so we need size_mb * 0.75 of raw data
+    target_bytes = int(size_mb * 1024 * 1024 * 0.75)
+    data = b'A' * target_bytes
+    base64_data = base64.b64encode(data).decode('utf-8')
+    return f"data:application/octet-stream;base64,{base64_data}"
+
+def test_files_feature_complete_flow():
     """
     PRIORITY 1: Test Schedule Active Checkbox State Saving
     Test the following schedule CRUD operations with active field
