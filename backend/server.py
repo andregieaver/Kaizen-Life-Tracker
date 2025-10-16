@@ -755,6 +755,8 @@ class AthleteUpdate(BaseModel):
     estimated_calorie_need: Optional[int] = None
     weight_goal: Optional[str] = None
     health_goals: Optional[list] = None
+    allergies: Optional[list] = None
+    dietary_preferences: Optional[list] = None
     
     # Preferences
     distance_unit: Optional[str] = None
