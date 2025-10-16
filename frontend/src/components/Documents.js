@@ -28,6 +28,7 @@ const Documents = ({ athleteId }) => {
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
   
   const fileInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
 
   const resetForm = () => {
     setTitle('');
