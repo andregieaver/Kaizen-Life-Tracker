@@ -13,7 +13,8 @@ const Documents = ({ athleteId }) => {
   const [documents, setDocuments] = useState([]);
   const [filteredDocuments, setFilteredDocuments] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingDocs, setIsLoadingDocs] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   
   // Form fields
