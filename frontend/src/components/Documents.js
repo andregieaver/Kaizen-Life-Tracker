@@ -50,8 +50,10 @@ const Documents = ({ athleteId }) => {
   };
 
   const openUploadModal = () => {
+    addLog('🚀 openUploadModal called');
     resetForm();
     setShowModal(true);
+    addLog('✅ Modal opened');
   };
 
   const categories = [
