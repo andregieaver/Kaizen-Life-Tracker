@@ -175,15 +175,15 @@ const Documents = ({ athleteId }) => {
   };
 
   const handleFileUpload = async (event) => {
-    console.log('🔵 handleFileUpload called');
+    addLog('🔵 handleFileUpload called');
     const file = event.target.files[0];
     if (!file) {
-      console.log('🔴 No file selected');
+      addLog('🔴 No file selected');
       return;
     }
     
-    console.log('✅ File selected:', file.name, file.type);
-    console.log('📊 Modal state before processing:', showModal);
+    addLog(`✅ File selected: ${file.name}, ${file.type}`);
+    addLog(`📊 Modal state: ${showModal}`);
     
     if (!title) {
       setTitle(file.name);
@@ -193,23 +193,23 @@ const Documents = ({ athleteId }) => {
     
     if (isImage) {
       try {
-        console.log('🖼️ Processing image...');
+        addLog('🖼️ Processing image...');
         setSaveStatus({ type: '', message: 'Compressing image...' });
         const compressedImage = await compressImage(file);
-        console.log('✅ Image compressed, size:', compressedImage.length);
+        addLog(`✅ Image compressed, size: ${compressedImage.length}`);
         setFileData(compressedImage);
         setFilePreview(compressedImage);
         setFileName(file.name);
         setFileType('image/jpeg');
         setFileSize(Math.round(compressedImage.length * 0.75));
         setSaveStatus({ type: 'success', message: '✓ Image ready' });
-        console.log('✅ Image state updated');
+        addLog('✅ Image state updated');
       } catch (error) {
-        console.error('❌ Error processing image:', error);
+        addLog(`❌ Error: ${error.message}`);
         setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
       }
     } else {
-      console.log('📄 Processing non-image file...');
+      addLog('📄 Processing non-image file...');
       processNonImageFile(file);
     }
   };
