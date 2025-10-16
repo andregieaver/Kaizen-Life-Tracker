@@ -82,17 +82,25 @@ const Documents = ({ athleteId }) => {
   
   const filteredDocuments = getFilteredDocuments();
 
-  const addLog = (message) => {
+  const addLog = React.useCallback((message) => {
     const timestamp = new Date().toLocaleTimeString();
     const logEntry = `[${timestamp}] ${message}`;
     console.log(logEntry);
     setDebugLogs(prev => [...prev.slice(-20), logEntry]); // Keep last 20 logs
-  };
+  }, []);
 
-  // Log component render (only when key state changes)
+  // Log key state changes only
   React.useEffect(() => {
-    addLog(`🔄 Render: modal=${showModal}, preview=${!!filePreview}, file=${fileName}`);
-  }, [showModal, filePreview, fileName]);
+    if (showModal) {
+      addLog(`✅ Modal is OPEN`);
+    }
+  }, [showModal, addLog]);
+
+  React.useEffect(() => {
+    if (filePreview) {
+      addLog(`🖼️ File preview available: ${fileName}`);
+    }
+  }, [filePreview, fileName, addLog]);
 
   const loadDocuments = async () => {
     try {
