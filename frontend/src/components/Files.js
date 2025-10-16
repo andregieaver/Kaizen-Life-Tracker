@@ -186,22 +186,29 @@ const Files = ({ athleteId }) => {
   const processNonImageFile = (file) => {
     if (file.size > 10 * 1024 * 1024) {
       setSaveStatus({ type: 'error', message: 'File must be less than 10MB' });
+      setShowUploadForm(true);
       return;
     }
 
+    console.log('Processing non-image file...');
     setSaveStatus({ type: '', message: 'Loading file...' });
+    setShowUploadForm(true); // Keep modal open
     
     const reader = new FileReader();
     
     reader.onload = (e) => {
+      console.log('File loaded successfully');
       setFileData(e.target.result);
       setFilePreview(null);
       setFileName(file.name);
       setSaveStatus({ type: 'success', message: '✓ File ready' });
+      setShowUploadForm(true); // Ensure modal stays open
     };
     
     reader.onerror = () => {
+      console.error('File reading error');
       setSaveStatus({ type: 'error', message: 'Failed to read file' });
+      setShowUploadForm(true); // Keep modal open even on error
     };
     
     reader.readAsDataURL(file);
