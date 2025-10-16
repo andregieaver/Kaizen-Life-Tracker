@@ -877,12 +877,15 @@ const BodyFatCalculator = ({ athletePreferences }) => {
   const [waist, setWaist] = useState('');
   const [hip, setHip] = useState('');
   
-  // 3-Site Caliper measurements (Jackson-Pollock)
+  // Caliper measurements
+  const [caliperSites, setCaliperSites] = useState('3'); // '3' or '7' sites
   const [chest, setChest] = useState('');
   const [abdomen, setAbdomen] = useState('');
   const [thigh, setThigh] = useState('');
   const [tricep, setTricep] = useState('');
   const [suprailiac, setSuprailiac] = useState('');
+  const [subscapular, setSubscapular] = useState('');
+  const [midaxillary, setMidaxillary] = useState('');
   
   const [result, setResult] = useState(null);
 
