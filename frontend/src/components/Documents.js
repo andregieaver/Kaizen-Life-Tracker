@@ -94,15 +94,6 @@ const Documents = ({ athleteId }) => {
     }
   };
 
-  const filterDocuments = () => {
-    const docsArray = Array.isArray(documents) ? documents : [];
-    if (selectedCategory === 'all') {
-      setFilteredDocuments(docsArray);
-    } else {
-      setFilteredDocuments(docsArray.filter(doc => doc.category === selectedCategory));
-    }
-  };
-
   const compressImage = (file) => {
     return new Promise((resolve, reject) => {
       if (!file.type.startsWith('image/')) {
