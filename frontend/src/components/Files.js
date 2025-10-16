@@ -658,7 +658,7 @@ const Files = ({ athleteId }) => {
               </Button>
             </div>
           </CardHeader>
-          <CardContent className="space-y-4 pt-6">
+          <CardContent className="space-y-4 pt-6" onClick={(e) => e.stopPropagation()}>
             {viewMode ? (
               <>
                 {viewingEntry?.file_data && (
