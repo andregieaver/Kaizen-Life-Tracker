@@ -983,7 +983,14 @@ const BodyFatCalculator = ({ athletePreferences }) => {
         if (!height || !neck || !waist || (gender === 'female' && !hip)) return;
         bodyFatPercentage = calculateNavyMethod();
       } else if (method === 'caliper') {
-        if (!age || (gender === 'male' ? (!chest || !abdomen || !thigh) : (!tricep || !suprailiac || !thigh))) return;
+        if (!age) return;
+        // Check required fields based on sites and gender
+        if (caliperSites === '3') {
+          if (gender === 'male' ? (!chest || !abdomen || !thigh) : (!tricep || !suprailiac || !thigh)) return;
+        } else {
+          // 7-site requires all 7 measurements
+          if (!chest || !abdomen || !thigh || !tricep || !subscapular || !suprailiac || !midaxillary) return;
+        }
         bodyFatPercentage = calculateCaliperMethod();
       } else if (method === 'bmi') {
         if (!age || !weight || !height) return;
