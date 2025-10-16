@@ -676,153 +676,157 @@ const Dashboard = ({ athleteId }) => {
               </Card>
             </div>
 
-            {/* Body Score Section */}
+            {/* Body Score, Metrics, and Progress - Three Equal Columns on Desktop */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Body Score Card - Full Width on Mobile, 2 Cols on Desktop */}
-              <div className="lg:col-span-2">
-                <Card className="border-0 shadow-md bg-white overflow-hidden">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg font-display text-gray-800">Body Score</CardTitle>
-                    <CardDescription className="text-gray-600">Overall health and recovery status</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    {/* Main Body Score - Large Circular */}
-                    <div className="flex justify-center">
-                      <div className="relative w-40 h-40">
-                        <svg className="transform -rotate-90 w-40 h-40">
+              {/* Column 1: Body Score */}
+              <Card className="border-0 shadow-md bg-white overflow-hidden">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg font-display text-gray-800">Body Score</CardTitle>
+                  <CardDescription className="text-gray-600">Overall health and recovery status</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Main Body Score - Large Circular */}
+                  <div className="flex justify-center">
+                    <div className="relative w-40 h-40">
+                      <svg className="transform -rotate-90 w-40 h-40">
+                        <circle
+                          cx="80"
+                          cy="80"
+                          r="70"
+                          stroke="#e5e7eb"
+                          strokeWidth="12"
+                          fill="none"
+                        />
+                        <circle
+                          cx="80"
+                          cy="80"
+                          r="70"
+                          stroke="url(#bodyScoreGradient)"
+                          strokeWidth="12"
+                          fill="none"
+                          strokeDasharray={`${2 * Math.PI * 70}`}
+                          strokeDashoffset={`${2 * Math.PI * 70 * (1 - 0.87)}`}
+                          strokeLinecap="round"
+                        />
+                        <defs>
+                          <linearGradient id="bodyScoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#62D2C4" />
+                            <stop offset="100%" stopColor="#4fc4b5" />
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <span className="text-4xl font-bold text-gray-800">87</span>
+                        <span className="text-sm text-gray-500">Body Score</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Three Inline Scores */}
+                  <div className="grid grid-cols-3 gap-4">
+                    {/* Readiness */}
+                    <div className="flex flex-col items-center">
+                      <div className="relative w-20 h-20">
+                        <svg className="transform -rotate-90 w-20 h-20">
+                          <circle cx="40" cy="40" r="35" stroke="#e5e7eb" strokeWidth="6" fill="none" />
                           <circle
-                            cx="80"
-                            cy="80"
-                            r="70"
-                            stroke="#e5e7eb"
-                            strokeWidth="12"
-                            fill="none"
-                          />
-                          <circle
-                            cx="80"
-                            cy="80"
-                            r="70"
-                            stroke="url(#bodyScoreGradient)"
-                            strokeWidth="12"
-                            fill="none"
-                            strokeDasharray={`${2 * Math.PI * 70}`}
-                            strokeDashoffset={`${2 * Math.PI * 70 * (1 - 0.87)}`}
+                            cx="40" cy="40" r="35"
+                            stroke="#C1E1C1"
+                            strokeWidth="6" fill="none"
+                            strokeDasharray={`${2 * Math.PI * 35}`}
+                            strokeDashoffset={`${2 * Math.PI * 35 * (1 - 0.82)}`}
                             strokeLinecap="round"
                           />
-                          <defs>
-                            <linearGradient id="bodyScoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                              <stop offset="0%" stopColor="#62D2C4" />
-                              <stop offset="100%" stopColor="#4fc4b5" />
-                            </linearGradient>
-                          </defs>
                         </svg>
-                        <div className="absolute inset-0 flex flex-col items-center justify-center">
-                          <span className="text-4xl font-bold text-gray-800">87</span>
-                          <span className="text-sm text-gray-500">Body Score</span>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-lg font-bold text-gray-800">82</span>
                         </div>
                       </div>
+                      <span className="text-xs text-gray-600 mt-2">Readiness</span>
                     </div>
 
-                    {/* Three Inline Scores */}
-                    <div className="grid grid-cols-3 gap-4">
-                      {/* Readiness */}
-                      <div className="flex flex-col items-center">
-                        <div className="relative w-20 h-20">
-                          <svg className="transform -rotate-90 w-20 h-20">
-                            <circle cx="40" cy="40" r="35" stroke="#e5e7eb" strokeWidth="6" fill="none" />
-                            <circle
-                              cx="40" cy="40" r="35"
-                              stroke="#C1E1C1"
-                              strokeWidth="6" fill="none"
-                              strokeDasharray={`${2 * Math.PI * 35}`}
-                              strokeDashoffset={`${2 * Math.PI * 35 * (1 - 0.82)}`}
-                              strokeLinecap="round"
-                            />
-                          </svg>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <span className="text-lg font-bold text-gray-800">82</span>
-                          </div>
+                    {/* Sleep */}
+                    <div className="flex flex-col items-center">
+                      <div className="relative w-20 h-20">
+                        <svg className="transform -rotate-90 w-20 h-20">
+                          <circle cx="40" cy="40" r="35" stroke="#e5e7eb" strokeWidth="6" fill="none" />
+                          <circle
+                            cx="40" cy="40" r="35"
+                            stroke="#9B7EBD"
+                            strokeWidth="6" fill="none"
+                            strokeDasharray={`${2 * Math.PI * 35}`}
+                            strokeDashoffset={`${2 * Math.PI * 35 * (1 - 0.78)}`}
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-lg font-bold text-gray-800">78</span>
                         </div>
-                        <span className="text-xs text-gray-600 mt-2">Readiness</span>
                       </div>
-
-                      {/* Sleep */}
-                      <div className="flex flex-col items-center">
-                        <div className="relative w-20 h-20">
-                          <svg className="transform -rotate-90 w-20 h-20">
-                            <circle cx="40" cy="40" r="35" stroke="#e5e7eb" strokeWidth="6" fill="none" />
-                            <circle
-                              cx="40" cy="40" r="35"
-                              stroke="#9B7EBD"
-                              strokeWidth="6" fill="none"
-                              strokeDasharray={`${2 * Math.PI * 35}`}
-                              strokeDashoffset={`${2 * Math.PI * 35 * (1 - 0.78)}`}
-                              strokeLinecap="round"
-                            />
-                          </svg>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <span className="text-lg font-bold text-gray-800">78</span>
-                          </div>
-                        </div>
-                        <span className="text-xs text-gray-600 mt-2">Sleep</span>
-                      </div>
-
-                      {/* Activity */}
-                      <div className="flex flex-col items-center">
-                        <div className="relative w-20 h-20">
-                          <svg className="transform -rotate-90 w-20 h-20">
-                            <circle cx="40" cy="40" r="35" stroke="#e5e7eb" strokeWidth="6" fill="none" />
-                            <circle
-                              cx="40" cy="40" r="35"
-                              stroke="#FFB347"
-                              strokeWidth="6" fill="none"
-                              strokeDasharray={`${2 * Math.PI * 35}`}
-                              strokeDashoffset={`${2 * Math.PI * 35 * (1 - 0.91)}`}
-                              strokeLinecap="round"
-                            />
-                          </svg>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <span className="text-lg font-bold text-gray-800">91</span>
-                          </div>
-                        </div>
-                        <span className="text-xs text-gray-600 mt-2">Activity</span>
-                      </div>
+                      <span className="text-xs text-gray-600 mt-2">Sleep</span>
                     </div>
 
-                    {/* 2x2 Grid of Metrics */}
-                    <div className="grid grid-cols-2 gap-4 pt-4 border-t">
-                      {/* Sleep Amount */}
-                      <div className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-4">
-                        <div className="text-xs text-gray-600 mb-1">Sleep Amount</div>
-                        <div className="text-2xl font-bold text-gray-800">7h 23m</div>
+                    {/* Activity */}
+                    <div className="flex flex-col items-center">
+                      <div className="relative w-20 h-20">
+                        <svg className="transform -rotate-90 w-20 h-20">
+                          <circle cx="40" cy="40" r="35" stroke="#e5e7eb" strokeWidth="6" fill="none" />
+                          <circle
+                            cx="40" cy="40" r="35"
+                            stroke="#FFB347"
+                            strokeWidth="6" fill="none"
+                            strokeDasharray={`${2 * Math.PI * 35}`}
+                            strokeDashoffset={`${2 * Math.PI * 35 * (1 - 0.91)}`}
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-lg font-bold text-gray-800">91</span>
+                        </div>
                       </div>
-
-                      {/* Sleep Quality */}
-                      <div className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-4">
-                        <div className="text-xs text-gray-600 mb-1">Sleep Quality</div>
-                        <div className="text-2xl font-bold text-gray-800">85%</div>
-                      </div>
-
-                      {/* HRV */}
-                      <div className="bg-gradient-to-br from-[#FFE5B4] to-[#FFD89B] rounded-lg p-4">
-                        <div className="text-xs text-gray-600 mb-1">HRV</div>
-                        <div className="text-2xl font-bold text-gray-800">68 ms</div>
-                      </div>
-
-                      {/* Resting Heart Rate */}
-                      <div className="bg-gradient-to-br from-[#FFE5B4] to-[#FFD89B] rounded-lg p-4">
-                        <div className="text-xs text-gray-600 mb-1">Resting HR</div>
-                        <div className="text-2xl font-bold text-gray-800">52 bpm</div>
-                      </div>
+                      <span className="text-xs text-gray-600 mt-2">Activity</span>
                     </div>
-                  </CardContent>
-                </Card>
-              </div>
+                  </div>
+                </CardContent>
+              </Card>
               
-              {/* Merits - Personal Records */}
-              <Merits athleteId={athleteId} />
+              {/* Column 2: Metrics (2x2 Grid) */}
+              <Card className="border-0 shadow-md bg-white overflow-hidden">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg font-display text-gray-800">Metrics</CardTitle>
+                  <CardDescription className="text-gray-600">Key health indicators</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {/* 2x2 Grid of Metrics */}
+                  <div className="grid grid-cols-2 gap-4">
+                    {/* Sleep Amount */}
+                    <div className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-4">
+                      <div className="text-xs text-gray-600 mb-1">Sleep Amount</div>
+                      <div className="text-2xl font-bold text-gray-800">7h 23m</div>
+                    </div>
 
-              {/* Progress - Test Results */}
+                    {/* Sleep Quality */}
+                    <div className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-4">
+                      <div className="text-xs text-gray-600 mb-1">Sleep Quality</div>
+                      <div className="text-2xl font-bold text-gray-800">85%</div>
+                    </div>
+
+                    {/* HRV */}
+                    <div className="bg-gradient-to-br from-[#FFE5B4] to-[#FFD89B] rounded-lg p-4">
+                      <div className="text-xs text-gray-600 mb-1">HRV</div>
+                      <div className="text-2xl font-bold text-gray-800">68 ms</div>
+                    </div>
+
+                    {/* Resting Heart Rate */}
+                    <div className="bg-gradient-to-br from-[#FFE5B4] to-[#FFD89B] rounded-lg p-4">
+                      <div className="text-xs text-gray-600 mb-1">Resting HR</div>
+                      <div className="text-2xl font-bold text-gray-800">52 bpm</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Column 3: Progress - Test Results */}
               <Card className="border-0 shadow-md bg-white overflow-hidden">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg font-display text-gray-800">Progress</CardTitle>
