@@ -677,110 +677,92 @@ const Files = ({ athleteId }) => {
               <>
                   {/* File Upload */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Upload Method
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Select File
                     </label>
-                    <div className="flex gap-2">
-                      <Button
-                        type="button"
-                        variant={captureMethod === 'upload' ? 'default' : 'outline'}
-                        onClick={() => setCaptureMethod('upload')}
-                        className="flex-1"
-                      >
-                        <Upload className="w-4 h-4 mr-2" />
-                        Upload
-                      </Button>
-                      <Button
-                        type="button"
-                        variant={captureMethod === 'camera' ? 'default' : 'outline'}
-                        onClick={() => setCaptureMethod('camera')}
-                        className="flex-1"
-                      >
-                        <Camera className="w-4 h-4 mr-2" />
-                        Camera
-                      </Button>
-                    </div>
+                    
+                    {!filePreview && !fileName ? (
+                      <div>
+                        <input
+                          ref={fileInputRef}
+                          id="file-upload-input"
+                          type="file"
+                          accept="image/*,.pdf,.doc,.docx,.txt"
+                          onChange={handleFileUpload}
+                          className="hidden"
+                        />
+                        
+                        <label 
+                          htmlFor="file-upload-input"
+                          className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 active:bg-blue-100 transition-all"
+                        >
+                          <Upload className="w-12 h-12 mb-3 text-gray-400" />
+                          <span className="text-base font-medium text-gray-700 mb-1">
+                            Tap to Choose File
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            Images, PDF, Documents
+                          </span>
+                          <span className="text-xs text-gray-400 mt-1">
+                            Max 12MB
+                          </span>
+                        </label>
+                      </div>
+                    ) : filePreview ? (
+                      <div className="space-y-3">
+                        <div className="relative">
+                          <img src={filePreview} alt="Preview" className="w-full h-48 object-cover rounded-lg border-2 border-gray-300" />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFileData(null);
+                              setFilePreview(null);
+                              setFileName('');
+                              if (fileInputRef.current) {
+                                fileInputRef.current.value = '';
+                              }
+                            }}
+                            className="absolute top-2 right-2 p-2 bg-red-600 text-white rounded-full hover:bg-red-700 shadow-lg"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                        <label htmlFor="file-upload-input" className="block">
+                          <span className="text-xs text-blue-600 hover:text-blue-700 cursor-pointer underline">
+                            Choose a different file
+                          </span>
+                        </label>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-300">
+                          <div className="flex items-center gap-3">
+                            <FileText className="w-8 h-8 text-blue-600" />
+                            <p className="text-sm font-medium text-gray-900">{fileName}</p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFileData(null);
+                              setFilePreview(null);
+                              setFileName('');
+                              if (fileInputRef.current) {
+                                fileInputRef.current.value = '';
+                              }
+                            }}
+                            className="p-2 text-red-600 hover:bg-red-100 rounded-lg"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                        <label htmlFor="file-upload-input" className="block">
+                          <span className="text-xs text-blue-600 hover:text-blue-700 cursor-pointer underline">
+                            Choose a different file
+                          </span>
+                        </label>
+                      </div>
+                    )}
                   </div>
-
-                  {!filePreview && !fileName ? (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="w-full h-32 border-2 border-dashed"
-                      onClick={() => {
-                        if (captureMethod === 'camera') {
-                          cameraInputRef.current?.click();
-                        } else {
-                          fileInputRef.current?.click();
-                        }
-                      }}
-                    >
-                      <div className="text-center">
-                        {captureMethod === 'camera' ? (
-                          <Camera className="w-8 h-8 mx-auto mb-2 text-gray-400" />
-                        ) : (
-                          <Upload className="w-8 h-8 mx-auto mb-2 text-gray-400" />
-                        )}
-                        <div className="text-sm">
-                          {captureMethod === 'camera' ? 'Take Photo' : 'Choose File'}
-                        </div>
-                      </div>
-                    </Button>
-                  ) : filePreview ? (
-                    <div className="relative">
-                      <img src={filePreview} alt="Preview" className="w-full rounded-lg" />
-                      <Button
-                        type="button"
-                        variant="destructive"
-                        size="sm"
-                        className="absolute top-2 right-2"
-                        onClick={() => {
-                          setFileData(null);
-                          setFilePreview(null);
-                          setFileName('');
-                        }}
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div className="flex items-center space-x-3">
-                        <FileText className="w-8 h-8 text-blue-600" />
-                        <div>
-                          <p className="text-sm font-medium">{fileName}</p>
-                        </div>
-                      </div>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => {
-                          setFileData(null);
-                          setFilePreview(null);
-                          setFileName('');
-                        }}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  )}
-
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="*/*"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
-                  <input
-                    ref={cameraInputRef}
-                    type="file"
-                    accept="image/*"
-                    capture="environment"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
 
                   {/* File Type */}
                   <div>
