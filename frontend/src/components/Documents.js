@@ -350,28 +350,28 @@ const Documents = ({ athleteId }) => {
         </div>
       )}
 
-      {/* Inline Upload Form */}
+      {/* Document Upload Modal - Full Screen */}
       {showModal && (
-        <Card className="border-2 border-blue-200 shadow-lg">
-          <CardHeader className="bg-blue-50">
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="text-lg">Upload Document</CardTitle>
-                <CardDescription>Upload medical records, test results, and other important documents</CardDescription>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
+          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle>Upload Document</CardTitle>
+                <button
+                  onClick={() => {
+                    setShowModal(false);
+                    resetForm();
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setShowModal(false);
-                  resetForm();
-                }}
-              >
-                <X className="w-5 h-5" />
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4 pt-6">
+              <CardDescription>
+                Upload medical records, test results, and other important documents
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
             {/* File Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
