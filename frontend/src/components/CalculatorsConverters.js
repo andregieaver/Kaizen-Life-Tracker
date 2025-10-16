@@ -198,10 +198,11 @@ const PaceCalculator = ({ athletePreferences }) => {
   const [unit, setUnit] = useState(getDefaultUnit());
 
   // Update unit when preferences load
-  useEffect(() => {
+  React.useEffect(() => {
     if (athletePreferences) {
       setUnit(getDefaultUnit());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [athletePreferences]);
 
   // Calculate time for a given distance
