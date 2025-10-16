@@ -4110,19 +4110,17 @@ async def create_file_entry(athlete_id: str, file_entry: FileEntry):
         
     except HTTPException:
         raise
+    except DocumentTooLarge as e:
+        raise HTTPException(
+            status_code=400,
+            detail="File size exceeds MongoDB limit (16MB)."
+        )
     except Exception as e:
-        error_msg = str(e)
-        if 'document too large' in error_msg.lower():
-            raise HTTPException(
-                status_code=400,
-                detail="File size exceeds MongoDB limit (16MB)."
-            )
-        else:
-            logging.error(f"Error creating file entry: {e}")
-            raise HTTPException(
-                status_code=500,
-                detail=f"Failed to upload file: {str(e)}"
-            )
+        logging.error(f"Error creating file entry: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to upload file: {str(e)}"
+        )
 
 @api_router.get("/files/{athlete_id}")
 async def get_file_entries(athlete_id: str):
