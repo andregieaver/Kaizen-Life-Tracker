@@ -801,6 +801,14 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
           onClose={closeRecipeDetail}
         />
       )}
+
+      {/* Nutrition Entry Detail Modal */}
+      {selectedNutritionEntry && (
+        <NutritionEntryDetailModal
+          entry={selectedNutritionEntry}
+          onClose={closeNutritionEntryDetail}
+        />
+      )}
     </div>
   );
 };
