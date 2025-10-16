@@ -140,54 +140,50 @@ const Documents = ({ athleteId }) => {
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
-    if (file) {
-      try {
-        // Ensure modal stays open during file processing (important for mobile)
-        setShowModal(true);
-        
-        const isImage = file.type.startsWith('image/');
-        
-        if (isImage) {
-          setSaveStatus({ type: '', message: 'Compressing image...' });
-          const compressedImage = await compressImage(file);
-          setFileData(compressedImage);
-          setFilePreview(compressedImage);
-          setFileName(file.name);
-          setFileType('image/jpeg');
-          setFileSize(Math.round(compressedImage.length * 0.75));
-          setSaveStatus({ type: 'success', message: 'Image ready!' });
-        } else {
-          if (file.size > 10 * 1024 * 1024) {
-            setSaveStatus({ type: 'error', message: 'File size must be less than 10MB' });
-            return;
-          }
+    if (!file) {
+      // User cancelled file selection - keep modal open
+      return;
+    }
+    
+    try {
+      const isImage = file.type.startsWith('image/');
+      
+      if (isImage) {
+        setSaveStatus({ type: '', message: 'Compressing image...' });
+        const compressedImage = await compressImage(file);
+        setFileData(compressedImage);
+        setFilePreview(compressedImage);
+        setFileName(file.name);
+        setFileType('image/jpeg');
+        setFileSize(Math.round(compressedImage.length * 0.75));
+        setSaveStatus({ type: 'success', message: 'Image ready!' });
+      } else {
+        if (file.size > 10 * 1024 * 1024) {
+          setSaveStatus({ type: 'error', message: 'File size must be less than 10MB' });
+          return;
+        }
 
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            setFileData(e.target.result);
-            setFilePreview(null);
-            setFileName(file.name);
-            setFileType(file.type);
-            setFileSize(file.size);
-          };
-          reader.onerror = () => {
-            setSaveStatus({ type: 'error', message: 'Failed to read file' });
-          };
-          reader.readAsDataURL(file);
-        }
-        
-        if (!title) {
-          setTitle(file.name);
-        }
-        
-        // Ensure modal stays visible after file processing
-        setShowModal(true);
-      } catch (error) {
-        console.error('Error processing file:', error);
-        setSaveStatus({ type: 'error', message: error.message });
-        // Keep modal open even on error
-        setShowModal(true);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setFileData(e.target.result);
+          setFilePreview(null);
+          setFileName(file.name);
+          setFileType(file.type);
+          setFileSize(file.size);
+          setSaveStatus({ type: 'success', message: 'File ready!' });
+        };
+        reader.onerror = () => {
+          setSaveStatus({ type: 'error', message: 'Failed to read file' });
+        };
+        reader.readAsDataURL(file);
       }
+      
+      if (!title) {
+        setTitle(file.name);
+      }
+    } catch (error) {
+      console.error('Error processing file:', error);
+      setSaveStatus({ type: 'error', message: error.message });
     }
   };
 
