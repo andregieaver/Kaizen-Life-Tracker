@@ -1233,81 +1233,215 @@ const BodyFatCalculator = ({ athletePreferences }) => {
 
             {/* Caliper Method Inputs */}
             {method === 'caliper' && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {gender === 'male' ? (
-                  <>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Chest (mm)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={chest}
-                        onChange={(e) => setChest(e.target.value)}
-                        placeholder="10"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Abdomen (mm)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={abdomen}
-                        onChange={(e) => setAbdomen(e.target.value)}
-                        placeholder="15"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Thigh (mm)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={thigh}
-                        onChange={(e) => setThigh(e.target.value)}
-                        placeholder="12"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      />
-                    </div>
-                  </>
+              <>
+                {/* Site Selection */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Number of Measurement Sites
+                  </label>
+                  <select
+                    value={caliperSites}
+                    onChange={(e) => setCaliperSites(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  >
+                    <option value="3">3-Site Method (Standard)</option>
+                    <option value="7">7-Site Method (Most Accurate)</option>
+                  </select>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {caliperSites === '3' 
+                      ? 'Quick and accurate for most people' 
+                      : 'Most comprehensive - requires all 7 measurements'}
+                  </p>
+                </div>
+
+                {caliperSites === '3' ? (
+                  // 3-Site Method
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {gender === 'male' ? (
+                      <>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Chest (mm)</label>
+                          <input
+                            type="number"
+                            step="0.1"
+                            value={chest}
+                            onChange={(e) => setChest(e.target.value)}
+                            placeholder="10"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Abdomen (mm)</label>
+                          <input
+                            type="number"
+                            step="0.1"
+                            value={abdomen}
+                            onChange={(e) => setAbdomen(e.target.value)}
+                            placeholder="15"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Thigh (mm)</label>
+                          <input
+                            type="number"
+                            step="0.1"
+                            value={thigh}
+                            onChange={(e) => setThigh(e.target.value)}
+                            placeholder="12"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Tricep (mm)</label>
+                          <input
+                            type="number"
+                            step="0.1"
+                            value={tricep}
+                            onChange={(e) => setTricep(e.target.value)}
+                            placeholder="15"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Suprailiac (mm)</label>
+                          <input
+                            type="number"
+                            step="0.1"
+                            value={suprailiac}
+                            onChange={(e) => setSuprailiac(e.target.value)}
+                            placeholder="18"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Thigh (mm)</label>
+                          <input
+                            type="number"
+                            step="0.1"
+                            value={thigh}
+                            onChange={(e) => setThigh(e.target.value)}
+                            placeholder="20"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                          />
+                        </div>
+                      </>
+                    )}
+                  </div>
                 ) : (
+                  // 7-Site Method - All measurements for both genders
                   <>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Tricep (mm)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={tricep}
-                        onChange={(e) => setTricep(e.target.value)}
-                        placeholder="15"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      />
+                    <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-4">
+                      <p className="text-sm text-purple-800">
+                        <strong>7-Site Method:</strong> Measure all 7 skinfold sites for maximum accuracy. This method is used by fitness professionals and provides the most precise body fat estimation.
+                      </p>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Suprailiac (mm)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={suprailiac}
-                        onChange={(e) => setSuprailiac(e.target.value)}
-                        placeholder="18"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Thigh (mm)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={thigh}
-                        onChange={(e) => setThigh(e.target.value)}
-                        placeholder="20"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                      />
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Chest (mm)
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={chest}
+                          onChange={(e) => setChest(e.target.value)}
+                          placeholder="10"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Diagonal fold, midpoint between armpit and nipple</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Abdomen (mm)
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={abdomen}
+                          onChange={(e) => setAbdomen(e.target.value)}
+                          placeholder="15"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Vertical fold, 2cm beside navel</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Thigh (mm)
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={thigh}
+                          onChange={(e) => setThigh(e.target.value)}
+                          placeholder="12"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Vertical fold, front of thigh, midway between knee and hip</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Tricep (mm)
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={tricep}
+                          onChange={(e) => setTricep(e.target.value)}
+                          placeholder="13"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Vertical fold, back of upper arm, midpoint</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Subscapular (mm)
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={subscapular}
+                          onChange={(e) => setSubscapular(e.target.value)}
+                          placeholder="14"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Diagonal fold, just below shoulder blade</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Suprailiac (mm)
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={suprailiac}
+                          onChange={(e) => setSuprailiac(e.target.value)}
+                          placeholder="16"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Diagonal fold, above hip bone on side</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Midaxillary (mm)
+                        </label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={midaxillary}
+                          onChange={(e) => setMidaxillary(e.target.value)}
+                          placeholder="11"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">Horizontal fold, on side below armpit</p>
+                      </div>
                     </div>
                   </>
                 )}
-              </div>
+              </>
             )}
 
             {/* BMI Method Inputs */}
