@@ -110,7 +110,7 @@ def test_files_feature_complete_flow():
         print("   Step 1: Login to get athlete_id")
         
         login_data = {
-            "email": "andre@example.com",
+            "email": "test.files@example.com",
             "password": "password123"
         }
         
