@@ -944,6 +944,38 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
 
 // Nutrition Entry Detail Modal Component
 const NutritionEntryDetailModal = ({ entry, onClose }) => {
+  const [isReanalyzing, setIsReanalyzing] = React.useState(false);
+  const [reanalyzedData, setReanalyzedData] = React.useState(null);
+  const [reanalyzeError, setReanalyzeError] = React.useState(null);
+
+  const handleReanalyze = async () => {
+    setIsReanalyzing(true);
+    setReanalyzeError(null);
+    
+    try {
+      const API_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await axios.post(`${API_URL}/api/nutrition/entry/${entry.id}/reanalyze`);
+      
+      if (response.data.success) {
+        setReanalyzedData({
+          ingredients: response.data.ingredients,
+          instructions: response.data.instructions
+        });
+      }
+    } catch (error) {
+      console.error('Error reanalyzing entry:', error);
+      setReanalyzeError(error.response?.data?.detail || 'Failed to analyze meal. Please try again.');
+    } finally {
+      setIsReanalyzing(false);
+    }
+  };
+
+  // Use reanalyzed data if available, otherwise use entry data
+  const displayIngredients = reanalyzedData?.ingredients || entry.ingredients;
+  const displayInstructions = reanalyzedData?.instructions || entry.instructions;
+  const hasAIData = (displayIngredients && displayIngredients.length > 0) || 
+                    (displayInstructions && displayInstructions.length > 0);
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
