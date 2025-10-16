@@ -92,7 +92,9 @@ def create_large_file_base64(size_mb):
     """Create a large file in base64 format for size testing"""
     # Create data that will result in approximately size_mb when base64 encoded
     # Base64 encoding increases size by ~33%, so we need size_mb * 0.75 of raw data
-    target_bytes = int(size_mb * 1024 * 1024 * 0.75)
+    # But we want the final base64 to be size_mb, so we need size_mb * 0.75 of raw data
+    # For a file that will be rejected, we want > 12MB base64, so > 9MB raw data
+    target_bytes = int(size_mb * 1024 * 1024)  # Create raw data of size_mb
     data = b'A' * target_bytes
     base64_data = base64.b64encode(data).decode('utf-8')
     return f"data:application/octet-stream;base64,{base64_data}"
