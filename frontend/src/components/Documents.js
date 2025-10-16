@@ -185,6 +185,28 @@ const Documents = ({ athleteId }) => {
       processNonImageFile(file);
     }
   };
+  const handleCameraCapture = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    if (!title) {
+      setTitle(file.name);
+    }
+    
+    try {
+      setSaveStatus({ type: '', message: 'Processing image...' });
+      const compressedImage = await compressImage(file);
+      setFileData(compressedImage);
+      setFilePreview(compressedImage);
+      setFileName(file.name);
+      setFileType('image/jpeg');
+      setFileSize(Math.round(compressedImage.length * 0.75));
+      setSaveStatus({ type: 'success', message: '✓ Image ready' });
+    } catch (error) {
+      console.error('Error processing image:', error);
+      setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
+    }
+  };
 
   const processImage = async (file) => {
     try {
