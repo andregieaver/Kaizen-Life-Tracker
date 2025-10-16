@@ -38,7 +38,7 @@ def test_ai_enhanced_nutrition_entries():
         
         login_data = {
             "email": "andre@example.com",
-            "password": "password123"
+            "password": "test123"
         }
         
         login_response = requests.post(
