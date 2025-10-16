@@ -3505,6 +3505,63 @@ async def get_nutrition_entry(entry_id: str):
         raise HTTPException(status_code=404, detail="Nutrition entry not found")
     return entry
 
+@api_router.post("/nutrition/entry/{entry_id}/reanalyze")
+async def reanalyze_nutrition_entry(entry_id: str):
+    """Re-analyze an existing nutrition entry to generate ingredients and instructions with AI"""
+    try:
+        # Fetch the existing entry
+        entry = await db.nutrition_entries.find_one({"id": entry_id}, {"_id": 0})
+        if not entry:
+            raise HTTPException(status_code=404, detail="Nutrition entry not found")
+        
+        # Check if entry has image and description
+        if not entry.get("description") or not entry.get("image_data"):
+            raise HTTPException(status_code=400, detail="Entry must have both description and image for AI analysis")
+        
+        # Get OpenAI key from integrations
+        athlete_id = entry.get("athlete_id")
+        openai_integration = await db.integrations.find_one(
+            {"athlete_id": athlete_id, "integration_type": "openai"},
+            {"_id": 0}
+        )
+        
+        if not openai_integration or not openai_integration.get('credentials', {}).get('api_key'):
+            raise HTTPException(status_code=400, detail="OpenAI API key not configured. Please add your OpenAI API key in Account Settings → Apps tab.")
+        
+        openai_key = openai_integration['credentials']['api_key']
+        logging.info(f"[NUTRITION REANALYZE] Re-analyzing entry {entry_id}")
+        
+        # Generate ingredients and instructions
+        ai_details = await generate_meal_details_with_ai(
+            entry["description"], 
+            entry["image_data"], 
+            openai_key
+        )
+        
+        # Update the entry with AI-generated data
+        await db.nutrition_entries.update_one(
+            {"id": entry_id},
+            {"$set": {
+                "ingredients": ai_details["ingredients"],
+                "instructions": ai_details["instructions"],
+                "updated_at": datetime.now(timezone.utc).isoformat()
+            }}
+        )
+        
+        logging.info(f"[NUTRITION REANALYZE] Successfully generated {len(ai_details['ingredients'])} ingredients and {len(ai_details['instructions'])} instructions for entry {entry_id}")
+        
+        return {
+            "success": True,
+            "ingredients": ai_details["ingredients"],
+            "instructions": ai_details["instructions"]
+        }
+        
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        logging.error(f"[NUTRITION REANALYZE] Failed to reanalyze entry: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to reanalyze entry: {str(e)}")
+
 @api_router.put("/nutrition/{entry_id}")
 async def update_nutrition_entry(entry_id: str, data: dict):
     """Update a nutrition entry"""
