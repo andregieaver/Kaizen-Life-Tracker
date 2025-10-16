@@ -218,6 +218,7 @@ const PaceCalculator = ({ athletePreferences }) => {
   const distances = [
     { label: '100m', value: unit === 'km' ? 0.1 : 0.062137 },
     { label: '200m', value: unit === 'km' ? 0.2 : 0.124274 },
+    { label: '400m', value: unit === 'km' ? 0.4 : 0.248548 },
     { label: '800m', value: unit === 'km' ? 0.8 : 0.497097 },
     { label: '1 mile', value: unit === 'km' ? 1.60934 : 1 },
     ...Array.from({ length: 100 }, (_, i) => ({
@@ -227,6 +228,7 @@ const PaceCalculator = ({ athletePreferences }) => {
     { label: 'Half Marathon', value: unit === 'km' ? 21.0975 : 13.1094 },
     { label: 'Marathon', value: unit === 'km' ? 42.195 : 26.2188 },
     { label: '50 miles', value: unit === 'km' ? 80.4672 : 50 },
+    { label: '100 miles', value: unit === 'km' ? 160.934 : 100 },
   ];
 
   return (
