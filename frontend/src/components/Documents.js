@@ -466,7 +466,15 @@ const Documents = ({ athleteId }) => {
                       type="button"
                       variant="outline"
                       className="flex-1"
-                      onClick={() => fileInputRef.current?.click()}
+                      onClick={() => {
+                        addLog('📁 Upload File button clicked');
+                        if (fileInputRef.current) {
+                          addLog('✅ fileInputRef exists, triggering click');
+                          fileInputRef.current.click();
+                        } else {
+                          addLog('❌ fileInputRef is null!');
+                        }
+                      }}
                     >
                       <Upload className="w-4 h-4 mr-2" />
                       Upload File
@@ -475,7 +483,15 @@ const Documents = ({ athleteId }) => {
                       type="button"
                       variant="outline"
                       className="flex-1"
-                      onClick={() => cameraInputRef.current?.click()}
+                      onClick={() => {
+                        addLog('📷 Take Photo button clicked');
+                        if (cameraInputRef.current) {
+                          addLog('✅ cameraInputRef exists, triggering click');
+                          cameraInputRef.current.click();
+                        } else {
+                          addLog('❌ cameraInputRef is null!');
+                        }
+                      }}
                     >
                       <Camera className="w-4 h-4 mr-2" />
                       Take Photo
