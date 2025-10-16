@@ -201,21 +201,21 @@ const Documents = ({ athleteId }) => {
   };
 
   const handleSubmit = async () => {
+    // Validate
     if (!title.trim()) {
       setSaveStatus({ type: 'error', message: 'Please enter a title' });
       return;
     }
-
     if (!fileData) {
       setSaveStatus({ type: 'error', message: 'Please select a file' });
       return;
     }
 
+    setIsLoading(true);
+    setSaveStatus({ type: '', message: 'Uploading...' });
+
     try {
-      setIsLoading(true);
-      setSaveStatus({ type: '', message: 'Uploading document...' });
-      
-      const newDocument = {
+      const response = await axios.post(`${API}/api/documents`, {
         id: Math.random().toString(36).substring(7),
         athlete_id: athleteId,
         title: title.trim(),
@@ -226,41 +226,37 @@ const Documents = ({ athleteId }) => {
         file_type: fileType,
         file_size: fileSize,
         created_at: new Date().toISOString()
-      };
-
-      const response = await axios.post(`${API}/api/documents`, newDocument, {
-        timeout: 30000
-      });
+      }, { timeout: 30000 });
       
-      if (response.data.success) {
-        setSaveStatus({ type: 'success', message: 'Document uploaded successfully!' });
-        
-        setTitle('');
-        setCategory('medical');
-        setDescription('');
-        setFileData(null);
-        setFilePreview(null);
-        setFileName('');
-        setFileType('');
-        setFileSize(0);
-        
-        await loadDocuments();
-        
-        setTimeout(() => {
-          setShowModal(false);
-          setSaveStatus({ type: '', message: '' });
-        }, 1500);
-      } else {
-        throw new Error('Upload failed');
-      }
+      // Success
+      setSaveStatus({ type: 'success', message: '✓ Uploaded successfully!' });
+      
+      // Reset form
+      setTitle('');
+      setCategory('medical');
+      setDescription('');
+      setFileData(null);
+      setFilePreview(null);
+      setFileName('');
+      setFileType('');
+      setFileSize(0);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      
+      // Reload and close
+      await loadDocuments();
+      setTimeout(() => {
+        setShowModal(false);
+        setSaveStatus({ type: '', message: '' });
+      }, 1500);
+      
     } catch (error) {
-      console.error('Error uploading document:', error);
-      let errorMessage = 'Failed to upload document';
+      console.error('Upload error:', error);
       
+      let errorMessage = 'Upload failed';
       if (error.code === 'ECONNABORTED') {
-        errorMessage = 'Upload timed out. File may be too large.';
+        errorMessage = 'Upload timed out - file too large';
       } else if (error.response?.status === 413) {
-        errorMessage = 'File is too large.';
+        errorMessage = 'File too large';
       } else if (error.response?.data?.detail) {
         errorMessage = error.response.data.detail;
       }
