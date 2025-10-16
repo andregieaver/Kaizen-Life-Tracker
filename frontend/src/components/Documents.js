@@ -395,13 +395,13 @@ const Documents = ({ athleteId }) => {
                   </label>
                 </div>
               ) : (
-                <div>
+                <div className="space-y-3">
                   {filePreview ? (
-                    <div className="relative rounded-lg overflow-hidden border-2 border-gray-200">
+                    <div className="relative">
                       <img
                         src={filePreview}
                         alt="Preview"
-                        className="w-full h-64 object-cover"
+                        className="w-full h-48 object-cover rounded-lg border-2 border-gray-300"
                       />
                       <button
                         type="button"
@@ -412,16 +412,17 @@ const Documents = ({ athleteId }) => {
                           setFileType('');
                           setFileSize(0);
                           if (fileInputRef.current) fileInputRef.current.value = '';
+                          setSaveStatus({ type: '', message: '' });
                         }}
-                        className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-600 shadow-lg"
+                        className="absolute top-2 right-2 p-2 bg-red-600 text-white rounded-full hover:bg-red-700 shadow-lg"
                       >
                         <X className="w-4 h-4" />
                       </button>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
-                      <div className="flex items-center space-x-3">
-                        <FileText className="w-8 h-8 text-blue-600" />
+                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-300">
+                      <div className="flex items-center gap-3">
+                        <File className="w-8 h-8 text-blue-600" />
                         <div>
                           <p className="text-sm font-medium text-gray-900">{fileName}</p>
                           <p className="text-xs text-gray-500">{formatFileSize(fileSize)}</p>
@@ -436,13 +437,20 @@ const Documents = ({ athleteId }) => {
                           setFileType('');
                           setFileSize(0);
                           if (fileInputRef.current) fileInputRef.current.value = '';
+                          setSaveStatus({ type: '', message: '' });
                         }}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                        className="p-2 text-red-600 hover:bg-red-100 rounded-lg"
                       >
-                        <Trash2 className="w-5 h-5" />
+                        <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   )}
+                  
+                  <label htmlFor="file-upload-input" className="block">
+                    <span className="text-xs text-blue-600 hover:text-blue-700 cursor-pointer underline">
+                      Choose a different file
+                    </span>
+                  </label>
                 </div>
               )}
             </div>
