@@ -29,6 +29,21 @@ const Documents = ({ athleteId }) => {
   
   const fileInputRef = useRef(null);
 
+  const resetForm = () => {
+    setTitle('');
+    setCategory('medical');
+    setDescription('');
+    setFileData(null);
+    setFilePreview(null);
+    setFileName('');
+    setFileType('');
+    setFileSize(0);
+    setSaveStatus({ type: '', message: '' });
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const categories = [
     { value: 'medical', label: 'Medical Records', icon: Activity, color: 'bg-red-100 text-red-800' },
     { value: 'test_results', label: 'Test Results', icon: FlaskConical, color: 'bg-blue-100 text-blue-800' },
