@@ -392,35 +392,49 @@ const Documents = ({ athleteId }) => {
             {/* File Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Select File *
+                Add File
               </label>
               
               {!filePreview && !fileName ? (
-                <div>
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <Upload className="w-4 h-4 mr-2" />
+                      Upload File
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => cameraInputRef.current?.click()}
+                    >
+                      <Camera className="w-4 h-4 mr-2" />
+                      Take Photo
+                    </Button>
+                  </div>
                   <input
                     ref={fileInputRef}
-                    id="file-upload-input"
                     type="file"
                     accept="image/*,.pdf,.doc,.docx,.txt"
                     onChange={handleFileUpload}
                     className="hidden"
                   />
-                  
-                  <label 
-                    htmlFor="file-upload-input"
-                    className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 active:bg-blue-100 transition-all"
-                  >
-                    <Upload className="w-12 h-12 mb-3 text-gray-400" />
-                    <span className="text-base font-medium text-gray-700 mb-1">
-                      Tap to Choose File
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      Images, PDF, Word, Text
-                    </span>
-                    <span className="text-xs text-gray-400 mt-1">
-                      Max 12MB
-                    </span>
-                  </label>
+                  <input
+                    ref={cameraInputRef}
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    onChange={handleCameraCapture}
+                    className="hidden"
+                  />
+                  <p className="text-xs text-gray-500 text-center">
+                    Images auto-compressed • PDF, Word, Text accepted
+                  </p>
                 </div>
               ) : (
                 <div className="space-y-3">
