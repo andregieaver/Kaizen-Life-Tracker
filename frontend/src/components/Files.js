@@ -126,8 +126,10 @@ const Files = ({ athleteId }) => {
     setFileName('');
     setEntryDate('');
     setEntryTime('');
-    setCaptureMethod('upload');
     setSaveStatus({ type: '', message: '' });
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleFileUpload = (event) => {
