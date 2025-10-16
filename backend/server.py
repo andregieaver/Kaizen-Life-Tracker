@@ -588,6 +588,8 @@ class NutritionEntry(BaseModel):
     iron: Optional[float] = None  # Milligrams
     potassium: Optional[float] = None  # Milligrams
     ai_analysis: Optional[str] = None  # AI-generated description/notes
+    ingredients: Optional[List[str]] = None  # AI-generated ingredients list
+    instructions: Optional[List[str]] = None  # AI-generated preparation instructions
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
