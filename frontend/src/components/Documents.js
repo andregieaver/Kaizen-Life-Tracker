@@ -367,6 +367,28 @@ const Documents = ({ athleteId }) => {
 
   return (
     <div className="space-y-6">
+      {/* Debug Log Panel */}
+      <div className="bg-black text-green-400 p-4 rounded-lg font-mono text-xs max-h-64 overflow-y-auto">
+        <div className="flex items-center justify-between mb-2">
+          <span className="font-bold text-white">📊 DEBUG LOGS</span>
+          <button 
+            onClick={() => setDebugLogs([])}
+            className="text-red-400 hover:text-red-300 text-xs"
+          >
+            Clear
+          </button>
+        </div>
+        {debugLogs.length === 0 ? (
+          <div className="text-gray-500">No logs yet...</div>
+        ) : (
+          debugLogs.map((log, i) => (
+            <div key={i} className="py-1 border-b border-gray-800">
+              {log}
+            </div>
+          ))
+        )}
+      </div>
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">Documents</h2>
