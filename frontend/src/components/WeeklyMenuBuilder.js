@@ -1096,14 +1096,14 @@ const NutritionEntryDetailModal = ({ entry, onClose }) => {
               <h3 className="text-2xl font-display font-bold bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] bg-clip-text text-transparent mb-6">Instructions</h3>
               <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-6 shadow-inner border border-teal-100">
                 <ol className="space-y-5">
-                  {entry.instructions.map((instruction, index) => (
+                  {displayInstructions.map((instruction, index) => (
                     <li key={index} className="group relative">
                       <div className="flex gap-4">
                         <div className="relative flex-shrink-0">
                           <span className="w-10 h-10 bg-gradient-to-br from-[#62D2C4] to-[#4fc4b5] text-white rounded-full flex items-center justify-center text-base font-bold shadow-md group-hover:scale-110 transition-transform duration-200">
                             {index + 1}
                           </span>
-                          {index < entry.instructions.length - 1 && (
+                          {index < displayInstructions.length - 1 && (
                             <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-0.5 h-5 bg-gradient-to-b from-[#62D2C4] to-transparent"></div>
                           )}
                         </div>
