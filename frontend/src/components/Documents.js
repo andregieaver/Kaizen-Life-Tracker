@@ -576,6 +576,7 @@ const Documents = ({ athleteId }) => {
             </div>
           </CardContent>
         </Card>
+        </div>
       )}
 
       {/* Category Filter */}
