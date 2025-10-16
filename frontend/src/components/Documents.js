@@ -138,53 +138,66 @@ const Documents = ({ athleteId }) => {
     });
   };
 
-  const handleFileUpload = async (event) => {
+  const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    if (!file) {
-      // User cancelled file selection - keep modal open
-      return;
+    if (!file) return;
+    
+    // Set title if empty
+    if (!title) {
+      setTitle(file.name);
     }
     
-    try {
-      const isImage = file.type.startsWith('image/');
-      
-      if (isImage) {
-        setSaveStatus({ type: '', message: 'Compressing image...' });
-        const compressedImage = await compressImage(file);
-        setFileData(compressedImage);
-        setFilePreview(compressedImage);
-        setFileName(file.name);
-        setFileType('image/jpeg');
-        setFileSize(Math.round(compressedImage.length * 0.75));
-        setSaveStatus({ type: 'success', message: 'Image ready!' });
-      } else {
-        if (file.size > 10 * 1024 * 1024) {
-          setSaveStatus({ type: 'error', message: 'File size must be less than 10MB' });
-          return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setFileData(e.target.result);
-          setFilePreview(null);
-          setFileName(file.name);
-          setFileType(file.type);
-          setFileSize(file.size);
-          setSaveStatus({ type: 'success', message: 'File ready!' });
-        };
-        reader.onerror = () => {
-          setSaveStatus({ type: 'error', message: 'Failed to read file' });
-        };
-        reader.readAsDataURL(file);
-      }
-      
-      if (!title) {
-        setTitle(file.name);
-      }
-    } catch (error) {
-      console.error('Error processing file:', error);
-      setSaveStatus({ type: 'error', message: error.message });
+    // Check if image
+    const isImage = file.type.startsWith('image/');
+    
+    if (isImage) {
+      processImage(file);
+    } else {
+      processNonImageFile(file);
     }
+  };
+
+  const processImage = async (file) => {
+    try {
+      setSaveStatus({ type: '', message: 'Processing image...' });
+      const compressedImage = await compressImage(file);
+      
+      setFileData(compressedImage);
+      setFilePreview(compressedImage);
+      setFileName(file.name);
+      setFileType('image/jpeg');
+      setFileSize(Math.round(compressedImage.length * 0.75));
+      setSaveStatus({ type: 'success', message: '✓ Image ready' });
+    } catch (error) {
+      console.error('Image processing error:', error);
+      setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
+    }
+  };
+
+  const processNonImageFile = (file) => {
+    if (file.size > 10 * 1024 * 1024) {
+      setSaveStatus({ type: 'error', message: 'File must be less than 10MB' });
+      return;
+    }
+
+    setSaveStatus({ type: '', message: 'Loading file...' });
+    
+    const reader = new FileReader();
+    
+    reader.onload = (e) => {
+      setFileData(e.target.result);
+      setFilePreview(null);
+      setFileName(file.name);
+      setFileType(file.type);
+      setFileSize(file.size);
+      setSaveStatus({ type: 'success', message: '✓ File ready' });
+    };
+    
+    reader.onerror = () => {
+      setSaveStatus({ type: 'error', message: 'Failed to read file' });
+    };
+    
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async () => {
