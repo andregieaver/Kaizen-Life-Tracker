@@ -251,7 +251,7 @@ const Documents = ({ athleteId }) => {
       return;
     }
 
-    setIsLoading(true);
+    setIsUploading(true);
     setSaveStatus({ type: '', message: 'Uploading...' });
 
     try {
@@ -292,7 +292,7 @@ const Documents = ({ athleteId }) => {
       
       setSaveStatus({ type: 'error', message: errorMessage });
     } finally {
-      setIsLoading(false);
+      setIsUploading(false);
     }
   };
 
