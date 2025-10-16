@@ -725,18 +725,20 @@ const Files = ({ athleteId }) => {
                     </label>
                     
                     {!filePreview && !fileName ? (
-                      <div>
+                      <div onClick={(e) => e.stopPropagation()}>
                         <input
                           ref={fileInputRef}
                           id="file-upload-input"
                           type="file"
                           accept="image/*,.pdf,.doc,.docx,.txt"
                           onChange={handleFileUpload}
+                          onClick={(e) => e.stopPropagation()}
                           className="hidden"
                         />
                         
                         <label 
                           htmlFor="file-upload-input"
+                          onClick={(e) => e.stopPropagation()}
                           className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 active:bg-blue-100 transition-all"
                         >
                           <Upload className="w-12 h-12 mb-3 text-gray-400" />
