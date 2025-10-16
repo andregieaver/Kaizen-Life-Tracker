@@ -251,6 +251,20 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
     setSelectedRecipe(null);
   };
 
+  const openNutritionEntryDetail = async (entryId) => {
+    try {
+      const API_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await axios.get(`${API_URL}/api/nutrition/entry/${entryId}`);
+      setSelectedNutritionEntry(response.data);
+    } catch (error) {
+      console.error('Error fetching nutrition entry:', error);
+    }
+  };
+
+  const closeNutritionEntryDetail = () => {
+    setSelectedNutritionEntry(null);
+  };
+
   const getScaledIngredients = () => {
     if (!selectedRecipe) return [];
     const scale = adjustedServings / selectedRecipe.servings;
