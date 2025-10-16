@@ -897,6 +897,11 @@ const Dashboard = ({ athleteId }) => {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Merits Section - Full Width Below */}
+            <div className="mt-6">
+              <Merits athleteId={athleteId} />
+            </div>
           </div>
         )}
 
