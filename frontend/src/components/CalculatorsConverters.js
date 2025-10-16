@@ -101,6 +101,7 @@ const CalculatorsConverters = ({ athleteId }) => {
         <CalculatorModal
           calculatorId={selectedCalculator}
           calculators={calculators}
+          athletePreferences={athletePreferences}
           onClose={closeCalculator}
         />
       )}
