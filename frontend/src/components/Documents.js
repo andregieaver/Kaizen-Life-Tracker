@@ -11,7 +11,6 @@ const API = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
 const Documents = ({ athleteId }) => {
   const [documents, setDocuments] = useState([]);
-  const [filteredDocuments, setFilteredDocuments] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isLoadingDocs, setIsLoadingDocs] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
