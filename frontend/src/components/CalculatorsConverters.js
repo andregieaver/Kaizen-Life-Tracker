@@ -115,72 +115,64 @@ const CalculatorModal = ({ calculatorId, calculators, athletePreferences, onClos
   const IconComponent = calculator.icon;
 
   return (
-    <div className="calculator-modal-container fixed inset-0 bg-white z-50 flex flex-col">
-      {/* Header with clear bottom border */}
-      <div className={`calculator-modal-header bg-gradient-to-r ${calculator.color} text-white pt-safe pt-12 pb-4 md:py-6 px-4 md:px-8 shadow-xl flex-shrink-0 z-50 border-b-4 border-white/20`}>
-        <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 flex-1 min-w-0">
-            <div className="w-10 h-10 md:w-12 md:h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm flex-shrink-0">
-              <IconComponent className="w-5 h-5 md:w-6 md:h-6 text-white" />
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
+      <Card className="w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+        <CardHeader className={`sticky top-0 bg-gradient-to-r ${calculator.color} text-white z-10`}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                <IconComponent className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <CardTitle className="text-white text-xl">{calculator.title}</CardTitle>
+                <CardDescription className="text-white/90">
+                  {calculator.description}
+                </CardDescription>
+              </div>
             </div>
-            <div className="min-w-0 flex-1">
-              <h2 className="text-lg md:text-2xl font-display font-bold truncate">{calculator.title}</h2>
-              <p className="text-white/90 text-xs md:text-sm hidden sm:block">{calculator.description}</p>
-            </div>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+            >
+              <X className="w-5 h-5 text-white" />
+            </button>
           </div>
-          <Button
-            onClick={onClose}
-            className="bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm border-0 flex-shrink-0"
-          >
-            <X className="w-5 h-5" />
-          </Button>
-        </div>
-      </div>
-
-      {/* Calculator Content Area - Scrollable with clear separation */}
-      <div className="calculator-modal-content flex-1 overflow-y-auto bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 md:py-8">
+        </CardHeader>
+        
+        <CardContent className="p-6">
           {calculatorId === 'running-pace' && (
             <PaceCalculator athletePreferences={athletePreferences} />
           )}
           
           {calculatorId === 'finishing-percentage' && (
-            <Card className="border-0 shadow-lg">
-              <CardContent className="p-8">
-                <div className="text-center py-12">
-                  <div className={`w-20 h-20 bg-gradient-to-br ${calculator.color} rounded-full flex items-center justify-center mx-auto mb-6`}>
-                    <IconComponent className="w-10 h-10 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-display font-bold text-gray-800 mb-4">
-                    Calculator Coming Soon
-                  </h3>
-                  <p className="text-gray-600 max-w-md mx-auto mb-8">
-                    The {calculator.title.toLowerCase()} functionality will be implemented here.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="text-center py-12">
+              <div className={`w-20 h-20 bg-gradient-to-br ${calculator.color} rounded-full flex items-center justify-center mx-auto mb-6`}>
+                <IconComponent className="w-10 h-10 text-white" />
+              </div>
+              <h3 className="text-2xl font-display font-bold text-gray-800 mb-4">
+                Calculator Coming Soon
+              </h3>
+              <p className="text-gray-600 max-w-md mx-auto">
+                The {calculator.title.toLowerCase()} functionality will be implemented here.
+              </p>
+            </div>
           )}
           
           {calculatorId === 'body-fat' && (
-            <Card className="border-0 shadow-lg">
-              <CardContent className="p-8">
-                <div className="text-center py-12">
-                  <div className={`w-20 h-20 bg-gradient-to-br ${calculator.color} rounded-full flex items-center justify-center mx-auto mb-6`}>
-                    <IconComponent className="w-10 h-10 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-display font-bold text-gray-800 mb-4">
-                    Calculator Coming Soon
-                  </h3>
-                  <p className="text-gray-600 max-w-md mx-auto mb-8">
-                    The {calculator.title.toLowerCase()} functionality will be implemented here.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="text-center py-12">
+              <div className={`w-20 h-20 bg-gradient-to-br ${calculator.color} rounded-full flex items-center justify-center mx-auto mb-6`}>
+                <IconComponent className="w-10 h-10 text-white" />
+              </div>
+              <h3 className="text-2xl font-display font-bold text-gray-800 mb-4">
+                Calculator Coming Soon
+              </h3>
+              <p className="text-gray-600 max-w-md mx-auto">
+                The {calculator.title.toLowerCase()} functionality will be implemented here.
+              </p>
+            </div>
           )}
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
