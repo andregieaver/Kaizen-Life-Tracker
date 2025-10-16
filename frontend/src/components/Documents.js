@@ -336,11 +336,11 @@ const Documents = ({ athleteId }) => {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">Documents</h2>
         <Button 
-          onClick={() => setShowModal(!showModal)} 
+          onClick={openUploadModal} 
           className="bg-blue-600 hover:bg-blue-700"
         >
           <Plus className="w-4 h-4 mr-2" />
-          {showModal ? 'Cancel' : 'Upload Document'}
+          Upload Document
         </Button>
       </div>
 
