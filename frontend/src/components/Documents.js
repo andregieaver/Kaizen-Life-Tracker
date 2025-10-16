@@ -403,8 +403,10 @@ const Documents = ({ athleteId }) => {
                           setFileName('');
                           setFileType('');
                           setFileSize(0);
-                          if (fileInputRef.current) fileInputRef.current.value = '';
                           setSaveStatus({ type: '', message: '' });
+                          if (fileInputRef.current) {
+                            fileInputRef.current.value = '';
+                          }
                         }}
                         className="absolute top-2 right-2 p-2 bg-red-600 text-white rounded-full hover:bg-red-700 shadow-lg"
                       >
@@ -428,8 +430,10 @@ const Documents = ({ athleteId }) => {
                           setFileName('');
                           setFileType('');
                           setFileSize(0);
-                          if (fileInputRef.current) fileInputRef.current.value = '';
                           setSaveStatus({ type: '', message: '' });
+                          if (fileInputRef.current) {
+                            fileInputRef.current.value = '';
+                          }
                         }}
                         className="p-2 text-red-600 hover:bg-red-100 rounded-lg"
                       >
