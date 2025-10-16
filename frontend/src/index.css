@@ -25,7 +25,7 @@ code {
   .modal,
   [class*="modal"],
   [class*="Modal"],
-  .fixed.inset-0 > div:not([class*="backdrop"]):not([class*="bg-black"]) {
+  .fixed.inset-0 > div:not([class*="backdrop"]):not([class*="bg-black"]):not([class*="calculator-modal-header"]):not([class*="calculator-modal-content"]) {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
