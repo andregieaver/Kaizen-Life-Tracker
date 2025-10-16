@@ -456,6 +456,20 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => {
+                    navigate('/dashboard/calculators');
+                    setIsMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    activeTab === 'calculators'
+                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <Calculator className="w-5 h-5" />
+                  <span className="font-medium">Calculators</span>
+                </button>
+                <button
+                  onClick={() => {
                     navigate('/dashboard/files');
                     setIsMenuOpen(false);
                   }}
