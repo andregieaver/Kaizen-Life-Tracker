@@ -115,69 +115,71 @@ const CalculatorModal = ({ calculatorId, calculators, athletePreferences, onClos
   const IconComponent = calculator.icon;
 
   return (
-    <div className="fixed inset-0 bg-white z-50 overflow-y-auto">
+    <div className="fixed inset-0 bg-white z-50 flex flex-col">
       {/* Header */}
-      <div className={`bg-gradient-to-r ${calculator.color} text-white py-6 px-4 md:px-8 shadow-lg sticky top-0 z-10`}>
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
-              <IconComponent className="w-6 h-6 text-white" />
+      <div className={`bg-gradient-to-r ${calculator.color} text-white py-4 md:py-6 px-4 md:px-8 shadow-lg flex-shrink-0`}>
+        <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm flex-shrink-0">
+              <IconComponent className="w-5 h-5 md:w-6 md:h-6 text-white" />
             </div>
-            <div>
-              <h2 className="text-2xl font-display font-bold">{calculator.title}</h2>
-              <p className="text-white/90 text-sm">{calculator.description}</p>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-lg md:text-2xl font-display font-bold truncate">{calculator.title}</h2>
+              <p className="text-white/90 text-xs md:text-sm hidden sm:block">{calculator.description}</p>
             </div>
           </div>
           <Button
             onClick={onClose}
-            className="bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm border-0"
+            className="bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm border-0 flex-shrink-0"
           >
             <X className="w-5 h-5" />
           </Button>
         </div>
       </div>
 
-      {/* Calculator Content Area */}
-      <div className="max-w-4xl mx-auto px-4 md:px-8 py-8">
-        {calculatorId === 'running-pace' && (
-          <PaceCalculator athletePreferences={athletePreferences} />
-        )}
-        
-        {calculatorId === 'finishing-percentage' && (
-          <Card className="border-0 shadow-lg">
-            <CardContent className="p-8">
-              <div className="text-center py-12">
-                <div className={`w-20 h-20 bg-gradient-to-br ${calculator.color} rounded-full flex items-center justify-center mx-auto mb-6`}>
-                  <IconComponent className="w-10 h-10 text-white" />
+      {/* Calculator Content Area - Scrollable */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 md:py-8">
+          {calculatorId === 'running-pace' && (
+            <PaceCalculator athletePreferences={athletePreferences} />
+          )}
+          
+          {calculatorId === 'finishing-percentage' && (
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-8">
+                <div className="text-center py-12">
+                  <div className={`w-20 h-20 bg-gradient-to-br ${calculator.color} rounded-full flex items-center justify-center mx-auto mb-6`}>
+                    <IconComponent className="w-10 h-10 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-display font-bold text-gray-800 mb-4">
+                    Calculator Coming Soon
+                  </h3>
+                  <p className="text-gray-600 max-w-md mx-auto mb-8">
+                    The {calculator.title.toLowerCase()} functionality will be implemented here.
+                  </p>
                 </div>
-                <h3 className="text-2xl font-display font-bold text-gray-800 mb-4">
-                  Calculator Coming Soon
-                </h3>
-                <p className="text-gray-600 max-w-md mx-auto mb-8">
-                  The {calculator.title.toLowerCase()} functionality will be implemented here.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-        
-        {calculatorId === 'body-fat' && (
-          <Card className="border-0 shadow-lg">
-            <CardContent className="p-8">
-              <div className="text-center py-12">
-                <div className={`w-20 h-20 bg-gradient-to-br ${calculator.color} rounded-full flex items-center justify-center mx-auto mb-6`}>
-                  <IconComponent className="w-10 h-10 text-white" />
+              </CardContent>
+            </Card>
+          )}
+          
+          {calculatorId === 'body-fat' && (
+            <Card className="border-0 shadow-lg">
+              <CardContent className="p-8">
+                <div className="text-center py-12">
+                  <div className={`w-20 h-20 bg-gradient-to-br ${calculator.color} rounded-full flex items-center justify-center mx-auto mb-6`}>
+                    <IconComponent className="w-10 h-10 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-display font-bold text-gray-800 mb-4">
+                    Calculator Coming Soon
+                  </h3>
+                  <p className="text-gray-600 max-w-md mx-auto mb-8">
+                    The {calculator.title.toLowerCase()} functionality will be implemented here.
+                  </p>
                 </div>
-                <h3 className="text-2xl font-display font-bold text-gray-800 mb-4">
-                  Calculator Coming Soon
-                </h3>
-                <p className="text-gray-600 max-w-md mx-auto mb-8">
-                  The {calculator.title.toLowerCase()} functionality will be implemented here.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+              </CardContent>
+            </Card>
+          )}
+        </div>
       </div>
     </div>
   );
