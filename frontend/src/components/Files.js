@@ -24,7 +24,6 @@ const Files = ({ athleteId }) => {
   const [fileName, setFileName] = useState('');
   const [entryDate, setEntryDate] = useState('');
   const [entryTime, setEntryTime] = useState('');
-  const [captureMethod, setCaptureMethod] = useState('upload');
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
