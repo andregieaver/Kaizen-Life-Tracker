@@ -134,7 +134,19 @@ const Files = ({ athleteId }) => {
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    if (!file) return;
+    
+    // Critical: Prevent event propagation that might close the modal
+    event.stopPropagation();
+    
+    if (!file) {
+      console.log('No file selected');
+      return;
+    }
+    
+    console.log('File selected:', file.name, file.type, file.size);
+    
+    // Ensure modal stays open
+    setShowUploadForm(true);
     
     // Set description if empty
     if (!description) {
