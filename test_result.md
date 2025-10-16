@@ -1215,6 +1215,20 @@ agent_communication:
 
   - task: "AI-Enhanced Nutrition Entries with Clickable Weekly Menu Display"
     implemented: true
+
+
+  - task: "New Calculators & Converters Page"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/CalculatorsConverters.js, /app/frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "CALCULATORS & CONVERTERS PAGE IMPLEMENTATION COMPLETE: Created a brand new page for health and fitness calculators and converters. COMPONENT CREATION: 1) NEW PAGE COMPONENT ✓ - Created CalculatorsConverters.js with full page structure, grid layout for calculator cards (responsive: 1 col mobile, 2 cols tablet, 3 cols desktop), consistent Teal/Cyan color scheme matching the app. 2) CALCULATOR CARDS ✓ - Three initial calculators: Calculate Running Pace (Activity icon, Teal/Cyan gradient), Calculate Finishing Percentage (Target icon, Blue gradient), Calculate Body Fat Percentage (Ruler icon, Purple gradient). Each card includes: gradient icon background, title and description, hover effects (shadow and icon scale), 'Open Calculator' button with gradient. 3) FULL-PAGE MODAL SYSTEM ✓ - CalculatorModal component with sticky header (gradient background matching calculator color), calculator details, close button (X icon), placeholder content ('Calculator Coming Soon' message), close functionality. NAVIGATION INTEGRATION: 1) SIDEBAR MENU ✓ - Added 'Calculators' menu item with Calculator icon, positioned after Supplements in navigation, active state with Teal/Cyan gradient, proper routing to /dashboard/calculators. 2) ROUTING ✓ - Added route handler for 'calculators' tab, renders CalculatorsConverters component with athleteId prop. DESIGN FEATURES: Beautiful gradient icon backgrounds for each calculator, hover animations and transitions, mobile responsive grid layout, full-page modal opens when calculator is clicked, consistent color scheme and design language. READY FOR: Calculator logic implementation (not built yet as per user request). Ready for testing to verify navigation, modal opening/closing, and responsive design."
+
     working: "NA"
     file: "/app/backend/server.py, /app/frontend/src/components/WeeklyMenuBuilder.js"
     stuck_count: 0
