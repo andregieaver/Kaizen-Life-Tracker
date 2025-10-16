@@ -132,43 +132,61 @@ const Files = ({ athleteId }) => {
     setSaveStatus({ type: '', message: '' });
   };
 
-  const handleFileUpload = async (event) => {
+  const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      try {
-        const isImage = file.type.startsWith('image/');
-        
-        if (isImage) {
-          setSaveStatus({ type: '', message: 'Processing image...' });
-          const compressedImage = await compressImage(file);
-          setFileData(compressedImage);
-          setFilePreview(compressedImage);
-          setFileName(file.name);
-        } else {
-          if (file.size > 10 * 1024 * 1024) {
-            setSaveStatus({ type: 'error', message: 'File size must be less than 10MB' });
-            return;
-          }
-
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            setFileData(e.target.result);
-            setFilePreview(null);
-            setFileName(file.name);
-          };
-          reader.readAsDataURL(file);
-        }
-        
-        if (!description) {
-          setDescription(file.name);
-        }
-        
-        setSaveStatus({ type: 'success', message: 'File ready!' });
-      } catch (error) {
-        console.error('Error processing file:', error);
-        setSaveStatus({ type: 'error', message: error.message });
-      }
+    if (!file) return;
+    
+    // Set description if empty
+    if (!description) {
+      setDescription(file.name);
     }
+    
+    const isImage = file.type.startsWith('image/');
+    
+    if (isImage) {
+      processImage(file);
+    } else {
+      processNonImageFile(file);
+    }
+  };
+
+  const processImage = async (file) => {
+    try {
+      setSaveStatus({ type: '', message: 'Processing image...' });
+      const compressedImage = await compressImage(file);
+      
+      setFileData(compressedImage);
+      setFilePreview(compressedImage);
+      setFileName(file.name);
+      setSaveStatus({ type: 'success', message: '✓ Image ready' });
+    } catch (error) {
+      console.error('Image processing error:', error);
+      setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
+    }
+  };
+
+  const processNonImageFile = (file) => {
+    if (file.size > 10 * 1024 * 1024) {
+      setSaveStatus({ type: 'error', message: 'File must be less than 10MB' });
+      return;
+    }
+
+    setSaveStatus({ type: '', message: 'Loading file...' });
+    
+    const reader = new FileReader();
+    
+    reader.onload = (e) => {
+      setFileData(e.target.result);
+      setFilePreview(null);
+      setFileName(file.name);
+      setSaveStatus({ type: 'success', message: '✓ File ready' });
+    };
+    
+    reader.onerror = () => {
+      setSaveStatus({ type: 'error', message: 'Failed to read file' });
+    };
+    
+    reader.readAsDataURL(file);
   };
 
   const compressImage = (file) => {
