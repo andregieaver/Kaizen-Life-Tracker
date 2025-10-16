@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Comprehensive Backend API Testing
-Tests the running coach application's backend functionality after translation implementation
+Files Feature Backend API Testing
+Tests the complete file upload and retrieval flow for the Files feature
 """
 
 import requests
@@ -15,13 +15,6 @@ from PIL import Image
 
 # Backend URL from environment
 BACKEND_URL = "https://running-coach-ai-1.preview.emergentagent.com/api"
-
-# Test data
-TEST_ATHLETE_ID = str(uuid.uuid4())
-TEST_SCHEDULE_ID = str(uuid.uuid4())
-TEST_EMAIL = f"test.runner.{int(datetime.now().timestamp())}@example.com"
-TEST_PASSWORD = "SecureRunning123!"
-TEST_NAME = "Alex Runner"
 
 def test_schedule_active_checkbox_state_saving():
     """
