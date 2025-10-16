@@ -89,10 +89,10 @@ const Documents = ({ athleteId }) => {
     setDebugLogs(prev => [...prev.slice(-20), logEntry]); // Keep last 20 logs
   };
 
-  // Log component render
+  // Log component render (only when key state changes)
   React.useEffect(() => {
     addLog(`🔄 Render: modal=${showModal}, preview=${!!filePreview}, file=${fileName}`);
-  });
+  }, [showModal, filePreview, fileName]);
 
   const loadDocuments = async () => {
     try {
