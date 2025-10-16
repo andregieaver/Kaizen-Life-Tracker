@@ -475,11 +475,23 @@ const Documents = ({ athleteId }) => {
                     </div>
                   )}
                   
-                  <label htmlFor="file-upload-input" className="block">
-                    <span className="text-xs text-blue-600 hover:text-blue-700 cursor-pointer underline">
-                      Choose a different file
-                    </span>
-                  </label>
+                  <div className="flex gap-2 justify-center">
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="text-xs text-blue-600 hover:text-blue-700 underline"
+                    >
+                      Choose different file
+                    </button>
+                    <span className="text-xs text-gray-400">•</span>
+                    <button
+                      type="button"
+                      onClick={() => cameraInputRef.current?.click()}
+                      className="text-xs text-blue-600 hover:text-blue-700 underline"
+                    >
+                      Take new photo
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
