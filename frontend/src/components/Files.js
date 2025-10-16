@@ -33,7 +33,6 @@ const Files = ({ athleteId }) => {
   const [selectedDay, setSelectedDay] = useState(null);
   
   const fileInputRef = useRef(null);
-  const cameraInputRef = useRef(null);
 
   const fileTypes = [
     { value: 'document', label: 'Document', icon: FileText },
