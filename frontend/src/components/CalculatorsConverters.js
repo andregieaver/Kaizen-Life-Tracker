@@ -1064,6 +1064,7 @@ const BodyFatCalculator = ({ athletePreferences }) => {
         healthRange,
         gender,
         method,
+        caliperSites: method === 'caliper' ? caliperSites : null,
       });
     } catch (error) {
       console.error('Calculation error:', error);
