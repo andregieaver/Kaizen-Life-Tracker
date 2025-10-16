@@ -3385,10 +3385,116 @@ async def get_nutrition_entries(athlete_id: str):
     
     return {"entries": parsed_entries}
 
+async def generate_meal_details_with_ai(description: str, image_data: str, openai_key: str) -> dict:
+    """
+    Use OpenAI Vision API to analyze meal image and description
+    Returns: dict with 'ingredients' (list) and 'instructions' (list)
+    """
+    try:
+        # Prepare the prompt
+        prompt = f"""Analyze this meal: "{description}"
+
+Based on the image and description, provide:
+1. A detailed list of ingredients with quantities needed to recreate this meal
+2. Step-by-step preparation instructions
+
+Return your response in this exact JSON format:
+{{
+  "ingredients": ["ingredient 1 with quantity", "ingredient 2 with quantity", ...],
+  "instructions": ["step 1", "step 2", ...]
+}}
+
+Be specific with quantities (e.g., "200g chicken breast", "1 cup rice", "2 tbsp olive oil").
+Make instructions clear and easy to follow."""
+
+        # Call OpenAI Vision API
+        client = openai.AsyncOpenAI(api_key=openai_key)
+        response = await client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt},
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": image_data  # Already in data:image format
+                            }
+                        }
+                    ]
+                }
+            ],
+            temperature=0.7
+        )
+        
+        # Parse response
+        content = response.choices[0].message.content
+        
+        # Clean and parse JSON
+        import re
+        cleaned_text = content.strip()
+        if cleaned_text.startswith('```'):
+            cleaned_text = re.sub(r'^```(?:json)?\n', '', cleaned_text)
+            cleaned_text = re.sub(r'\n```$', '', cleaned_text)
+        
+        # Try to find JSON object
+        json_match = re.search(r'\{.*\}', cleaned_text, re.DOTALL)
+        if json_match:
+            result = json.loads(json_match.group(0))
+        else:
+            result = json.loads(cleaned_text)
+        
+        return {
+            "ingredients": result.get("ingredients", []),
+            "instructions": result.get("instructions", [])
+        }
+        
+    except Exception as e:
+        logging.error(f"[NUTRITION AI] Failed to generate meal details: {str(e)}")
+        return {"ingredients": [], "instructions": []}
+
 @api_router.post("/nutrition")
 async def create_nutrition_entry(entry: NutritionEntry):
-    """Create a new nutrition entry"""
+    """Create a new nutrition entry with AI-generated ingredients and instructions"""
     entry_dict = prepare_for_mongo(entry.model_dump())
+    await db.nutrition_entries.insert_one(entry_dict)
+    
+    # Generate ingredients and instructions with AI if image and description are provided
+    if entry.description and entry.image_data:
+        try:
+            # Get OpenAI key from integrations
+            openai_integration = await db.integrations.find_one(
+                {"athlete_id": entry.athlete_id, "integration_type": "openai"},
+                {"_id": 0}
+            )
+            
+            if openai_integration and openai_integration.get('credentials', {}).get('api_key'):
+                openai_key = openai_integration['credentials']['api_key']
+                logging.info(f"[NUTRITION AI] Generating meal details for entry {entry.id}")
+                
+                # Generate ingredients and instructions
+                ai_details = await generate_meal_details_with_ai(
+                    entry.description, 
+                    entry.image_data, 
+                    openai_key
+                )
+                
+                # Update the entry with AI-generated data
+                await db.nutrition_entries.update_one(
+                    {"id": entry.id},
+                    {"$set": {
+                        "ingredients": ai_details["ingredients"],
+                        "instructions": ai_details["instructions"]
+                    }}
+                )
+                logging.info(f"[NUTRITION AI] Successfully generated {len(ai_details['ingredients'])} ingredients and {len(ai_details['instructions'])} instructions")
+            else:
+                logging.info(f"[NUTRITION AI] No OpenAI key found for athlete {entry.athlete_id}, skipping AI generation")
+        except Exception as e:
+            logging.error(f"[NUTRITION AI] Failed to generate meal details: {str(e)}")
+            # Don't fail the entire request if AI generation fails
+    
     await db.nutrition_entries.insert_one(entry_dict)
     return {"success": True, "id": entry.id}
 
