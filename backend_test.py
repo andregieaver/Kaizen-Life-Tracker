@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Files Feature Backend API Testing
-Tests the complete file upload and retrieval flow for the Files feature
+Document Upload Flow Backend API Testing
+Tests the complete document upload and retrieval flow as requested
 """
 
 import requests
