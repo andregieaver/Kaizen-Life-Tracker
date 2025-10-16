@@ -157,20 +157,30 @@ const Documents = ({ athleteId }) => {
     });
   };
 
-  const handleFileUpload = (event) => {
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
     
-    // Set title if empty
     if (!title) {
       setTitle(file.name);
     }
     
-    // Check if image
     const isImage = file.type.startsWith('image/');
     
     if (isImage) {
-      processImage(file);
+      try {
+        setSaveStatus({ type: '', message: 'Compressing image...' });
+        const compressedImage = await compressImage(file);
+        setFileData(compressedImage);
+        setFilePreview(compressedImage);
+        setFileName(file.name);
+        setFileType('image/jpeg');
+        setFileSize(Math.round(compressedImage.length * 0.75));
+        setSaveStatus({ type: 'success', message: '✓ Image ready' });
+      } catch (error) {
+        console.error('Error processing image:', error);
+        setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
+      }
     } else {
       processNonImageFile(file);
     }
