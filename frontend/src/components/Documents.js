@@ -208,23 +208,6 @@ const Documents = ({ athleteId }) => {
     }
   };
 
-  const processImage = async (file) => {
-    try {
-      setSaveStatus({ type: '', message: 'Processing image...' });
-      const compressedImage = await compressImage(file);
-      
-      setFileData(compressedImage);
-      setFilePreview(compressedImage);
-      setFileName(file.name);
-      setFileType('image/jpeg');
-      setFileSize(Math.round(compressedImage.length * 0.75));
-      setSaveStatus({ type: 'success', message: '✓ Image ready' });
-    } catch (error) {
-      console.error('Image processing error:', error);
-      setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
-    }
-  };
-
   const processNonImageFile = (file) => {
     if (file.size > 10 * 1024 * 1024) {
       setSaveStatus({ type: 'error', message: 'File must be less than 10MB' });
