@@ -819,9 +819,6 @@ const Dashboard = ({ athleteId }) => {
                   </div>
                 </CardContent>
               </Card>
-              
-              {/* Column 2: Merits - Running Distance Personal Records */}
-              <Merits athleteId={athleteId} />
 
               {/* Column 3: Progress - Test Results */}
               <Card className="border-0 shadow-md bg-white overflow-hidden">
