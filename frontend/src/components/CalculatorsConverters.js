@@ -31,6 +31,13 @@ const CalculatorsConverters = ({ athleteId }) => {
       color: 'from-[#62D2C4] to-[#4fc4b5]',
     },
     {
+      id: 'race-predictor',
+      title: 'Race Time Predictor',
+      description: 'Predict your finish times for other race distances based on a recent result',
+      icon: Target,
+      color: 'from-orange-400 to-orange-600',
+    },
+    {
       id: 'finishing-percentage',
       title: 'Calculate Finishing Percentage',
       description: 'Estimate your race finishing position based on your time',
