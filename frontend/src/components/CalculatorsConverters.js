@@ -353,4 +353,294 @@ const PaceCalculator = ({ athletePreferences }) => {
   );
 };
 
+// Race Predictor Calculator Component
+const RacePredictorCalculator = ({ athletePreferences }) => {
+  // Determine default unit from athlete preferences
+  const getDefaultUnit = () => {
+    if (!athletePreferences) return 'km';
+    const distanceUnit = athletePreferences.distance_unit;
+    if (distanceUnit === 'miles' || distanceUnit === 'mi') return 'miles';
+    return 'km';
+  };
+
+  const [inputDistance, setInputDistance] = useState('');
+  const [customDistance, setCustomDistance] = useState('');
+  const [timeHours, setTimeHours] = useState('');
+  const [timeMinutes, setTimeMinutes] = useState('');
+  const [timeSeconds, setTimeSeconds] = useState('');
+  const [unit, setUnit] = useState(getDefaultUnit());
+  const [predictions, setPredictions] = useState(null);
+
+  // Update unit when preferences load
+  React.useEffect(() => {
+    if (athletePreferences) {
+      const defaultUnit = athletePreferences.distance_unit === 'miles' || athletePreferences.distance_unit === 'mi' ? 'miles' : 'km';
+      setUnit(defaultUnit);
+    }
+  }, [athletePreferences]);
+
+  // All official race distances (in kilometers)
+  const raceDistances = [
+    // Track distances
+    { label: '100m', km: 0.1, category: 'Track' },
+    { label: '200m', km: 0.2, category: 'Track' },
+    { label: '400m', km: 0.4, category: 'Track' },
+    { label: '800m', km: 0.8, category: 'Track' },
+    { label: '1500m', km: 1.5, category: 'Track' },
+    { label: '1 Mile', km: 1.60934, category: 'Track' },
+    { label: '3000m', km: 3, category: 'Track' },
+    { label: '5000m', km: 5, category: 'Track' },
+    { label: '10,000m', km: 10, category: 'Track' },
+    // Road/Trail distances
+    { label: '5K', km: 5, category: 'Road/Trail' },
+    { label: '10K', km: 10, category: 'Road/Trail' },
+    { label: '15K', km: 15, category: 'Road/Trail' },
+    { label: '10 Miles', km: 16.0934, category: 'Road/Trail' },
+    { label: 'Half Marathon', km: 21.0975, category: 'Road/Trail' },
+    { label: '25K', km: 25, category: 'Road/Trail' },
+    { label: '30K', km: 30, category: 'Road/Trail' },
+    { label: 'Marathon', km: 42.195, category: 'Road/Trail' },
+    { label: '50K', km: 50, category: 'Ultra' },
+    { label: '50 Miles', km: 80.4672, category: 'Ultra' },
+    { label: '100K', km: 100, category: 'Ultra' },
+    { label: '100 Miles', km: 160.934, category: 'Ultra' },
+  ];
+
+  // Riegel's formula: T2 = T1 * (D2/D1)^1.06
+  // More accurate for similar distances, uses fatigue factor
+  const predictTime = (baseDistanceKm, baseTimeSeconds, targetDistanceKm) => {
+    const fatigueFactor = 1.06; // Riegel's exponent
+    const predictedSeconds = baseTimeSeconds * Math.pow(targetDistanceKm / baseDistanceKm, fatigueFactor);
+    return predictedSeconds;
+  };
+
+  const formatPredictedTime = (totalSeconds) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = Math.floor(totalSeconds % 60);
+    
+    if (hours > 0) {
+      return `${hours}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const calculatePredictions = () => {
+    // Get input distance in km
+    let distanceKm;
+    if (inputDistance === 'custom') {
+      distanceKm = unit === 'km' ? parseFloat(customDistance) : parseFloat(customDistance) * 1.60934;
+    } else {
+      const selectedRace = raceDistances.find(d => d.label === inputDistance);
+      distanceKm = selectedRace.km;
+    }
+
+    // Calculate total time in seconds
+    const hours = parseInt(timeHours) || 0;
+    const minutes = parseInt(timeMinutes) || 0;
+    const seconds = parseInt(timeSeconds) || 0;
+    const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+    if (!distanceKm || distanceKm <= 0 || totalSeconds <= 0) {
+      return;
+    }
+
+    // Calculate pace
+    const pacePerKm = totalSeconds / distanceKm;
+    const paceMinutes = Math.floor(pacePerKm / 60);
+    const paceSeconds = Math.floor(pacePerKm % 60);
+
+    // Generate predictions for all distances
+    const predictedTimes = raceDistances
+      .filter(race => race.km !== distanceKm) // Exclude input distance
+      .map(race => ({
+        ...race,
+        predictedTime: predictTime(distanceKm, totalSeconds, race.km),
+      }));
+
+    setPredictions({
+      inputDistance: distanceKm,
+      inputTime: totalSeconds,
+      pace: `${paceMinutes}:${paceSeconds.toString().padStart(2, '0')}`,
+      predictedTimes,
+    });
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Input Card */}
+      <Card className="border-0 shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-xl font-display">Enter Your Race Result</CardTitle>
+          <CardDescription>Input your recent race time to predict other distances</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            {/* Distance Selection */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Race Distance
+              </label>
+              <select
+                value={inputDistance}
+                onChange={(e) => setInputDistance(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+              >
+                <option value="">Select a distance...</option>
+                <optgroup label="Track">
+                  {raceDistances.filter(d => d.category === 'Track').map(d => (
+                    <option key={d.label} value={d.label}>{d.label}</option>
+                  ))}
+                </optgroup>
+                <optgroup label="Road/Trail">
+                  {raceDistances.filter(d => d.category === 'Road/Trail').map(d => (
+                    <option key={d.label} value={d.label}>{d.label}</option>
+                  ))}
+                </optgroup>
+                <optgroup label="Ultra">
+                  {raceDistances.filter(d => d.category === 'Ultra').map(d => (
+                    <option key={d.label} value={d.label}>{d.label}</option>
+                  ))}
+                </optgroup>
+                <option value="custom">Custom Distance</option>
+              </select>
+            </div>
+
+            {/* Custom Distance Input */}
+            {inputDistance === 'custom' && (
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Distance
+                  </label>
+                  <input
+                    type="number"
+                    value={customDistance}
+                    onChange={(e) => setCustomDistance(e.target.value)}
+                    placeholder="Enter distance"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Unit
+                  </label>
+                  <select
+                    value={unit}
+                    onChange={(e) => setUnit(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                  >
+                    <option value="km">Kilometers</option>
+                    <option value="miles">Miles</option>
+                  </select>
+                </div>
+              </div>
+            )}
+
+            {/* Time Input */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Your Finish Time
+              </label>
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <input
+                    type="number"
+                    value={timeHours}
+                    onChange={(e) => setTimeHours(e.target.value)}
+                    placeholder="Hours"
+                    min="0"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                  />
+                  <p className="text-xs text-gray-500 mt-1 text-center">Hours</p>
+                </div>
+                <div>
+                  <input
+                    type="number"
+                    value={timeMinutes}
+                    onChange={(e) => setTimeMinutes(e.target.value)}
+                    placeholder="Minutes"
+                    min="0"
+                    max="59"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                  />
+                  <p className="text-xs text-gray-500 mt-1 text-center">Minutes</p>
+                </div>
+                <div>
+                  <input
+                    type="number"
+                    value={timeSeconds}
+                    onChange={(e) => setTimeSeconds(e.target.value)}
+                    placeholder="Seconds"
+                    min="0"
+                    max="59"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                  />
+                  <p className="text-xs text-gray-500 mt-1 text-center">Seconds</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Calculate Button */}
+            <Button
+              onClick={calculatePredictions}
+              disabled={!inputDistance || (inputDistance === 'custom' && !customDistance) || (!timeHours && !timeMinutes && !timeSeconds)}
+              className="w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:opacity-90 text-white text-lg py-6"
+            >
+              Calculate Predictions
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Predictions Results */}
+      {predictions && (
+        <Card className="border-0 shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-xl font-display">Predicted Race Times</CardTitle>
+            <CardDescription>
+              Based on your pace of {predictions.pace} per km (using Riegel's Formula)
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b-2 border-gray-200">
+                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Distance</th>
+                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Category</th>
+                    <th className="text-right py-3 px-4 font-semibold text-gray-700">Predicted Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {predictions.predictedTimes.map((race, index) => (
+                    <tr 
+                      key={index}
+                      className="border-b border-gray-100 hover:bg-gradient-to-r hover:from-orange-50/50 hover:to-transparent transition-colors"
+                    >
+                      <td className="py-3 px-4 text-gray-800 font-medium">{race.label}</td>
+                      <td className="py-3 px-4 text-gray-600 text-sm">{race.category}</td>
+                      <td className="py-3 px-4 text-right font-mono text-lg text-gray-900 font-semibold">
+                        {formatPredictedTime(race.predictedTime)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            
+            {/* Info note */}
+            <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <p className="text-sm text-blue-800">
+                <strong>Note:</strong> Predictions use Riegel's Formula, widely used in running for race time predictions. 
+                Actual performance may vary based on training, terrain, weather, and race conditions.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+};
+
 export default CalculatorsConverters;
