@@ -151,6 +151,10 @@ const CalculatorModal = ({ calculatorId, calculators, athletePreferences, onClos
             <PaceCalculator athletePreferences={athletePreferences} />
           )}
           
+          {calculatorId === 'race-predictor' && (
+            <RacePredictorCalculator athletePreferences={athletePreferences} />
+          )}
+          
           {calculatorId === 'finishing-percentage' && (
             <div className="text-center py-12">
               <div className={`w-20 h-20 bg-gradient-to-br ${calculator.color} rounded-full flex items-center justify-center mx-auto mb-6`}>
