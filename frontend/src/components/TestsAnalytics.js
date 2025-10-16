@@ -80,6 +80,7 @@ const SortableTestCard = ({ testName, children }) => {
 
 const TestsAnalytics = ({ athleteId }) => {
   const { t } = useTranslation();
+  const location = useLocation();
   const [testResults, setTestResults] = useState([]);
   const [testNames, setTestNames] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -118,6 +119,18 @@ const TestsAnalytics = ({ athleteId }) => {
     loadSubscriptionStatus();
     loadTestOrder();
   }, [athleteId]);
+
+  // Handle opening add entry modal when navigated from Dashboard
+  useEffect(() => {
+    if (location.state?.addEntryToTest && location.state?.testUnit) {
+      // Wait for data to load first
+      if (!isLoading && testResults.length > 0) {
+        handleAddEntryToTest(location.state.addEntryToTest, location.state.testUnit);
+        // Clear the state so it doesn't reopen on refresh
+        window.history.replaceState({}, document.title);
+      }
+    }
+  }, [location.state, isLoading, testResults]);
 
   const loadTestOrder = () => {
     try {
