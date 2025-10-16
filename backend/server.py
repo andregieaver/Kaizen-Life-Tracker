@@ -4111,7 +4111,7 @@ async def create_file_entry(athlete_id: str, file_entry: FileEntry):
         raise
     except Exception as e:
         error_msg = str(e)
-        if 'document is too large' in error_msg.lower():
+        if 'document too large' in error_msg.lower():
             raise HTTPException(
                 status_code=400,
                 detail="File size exceeds MongoDB limit (16MB)."
