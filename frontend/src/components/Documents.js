@@ -359,17 +359,26 @@ const Documents = ({ athleteId }) => {
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-full h-32 border-2 border-dashed border-gray-300 hover:border-blue-400"
+                    className="w-full h-32 border-2 border-dashed border-gray-300 hover:border-blue-400 active:bg-blue-50"
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      fileInputRef.current?.click();
+                      if (fileInputRef.current) {
+                        fileInputRef.current.click();
+                      }
+                    }}
+                    onTouchEnd={(e) => {
+                      // Mobile-specific: prevent default touch behavior
+                      e.preventDefault();
+                      if (fileInputRef.current) {
+                        fileInputRef.current.click();
+                      }
                     }}
                   >
-                    <div className="text-center">
+                    <div className="text-center pointer-events-none">
                       <Upload className="w-8 h-8 mx-auto mb-2 text-gray-400" />
-                      <div className="text-sm font-medium text-gray-700">Choose File</div>
-                      <div className="text-xs text-gray-500 mt-1">or drag and drop</div>
+                      <div className="text-sm font-medium text-gray-700">Choose File or Take Photo</div>
+                      <div className="text-xs text-gray-500 mt-1">PDF, Word, Images • Max 12MB</div>
                     </div>
                   </Button>
                   <input
