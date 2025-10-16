@@ -2619,8 +2619,11 @@ async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
     if not athlete:
         raise HTTPException(status_code=404, detail="Athlete not found")
     
-    # Update only provided fields
-    update_data = {k: v for k, v in updates.model_dump().items() if v is not None}
+    # Update only provided fields (include empty lists, exclude None)
+    update_data = {}
+    for k, v in updates.model_dump(exclude_unset=True).items():
+        if v is not None or k in ['allergies', 'dietary_preferences', 'health_goals']:
+            update_data[k] = v if v is not None else []
     
     # If date_of_birth is being updated, calculate and set age
     if 'date_of_birth' in update_data and update_data['date_of_birth']:
