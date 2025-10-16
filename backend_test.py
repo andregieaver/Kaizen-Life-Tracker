@@ -99,10 +99,10 @@ def create_large_file_base64(size_mb):
 
 def test_files_feature_complete_flow():
     """
-    PRIORITY 1: Test Schedule Active Checkbox State Saving
-    Test the following schedule CRUD operations with active field
+    COMPREHENSIVE FILES FEATURE TESTING
+    Test the complete file upload and retrieval flow for the Files feature
     """
-    print("🔍 TESTING SCHEDULE ACTIVE CHECKBOX STATE SAVING")
+    print("🔍 TESTING COMPLETE FILES FEATURE FLOW")
     print("=" * 70)
     
     try:
