@@ -43,6 +43,9 @@ const Documents = ({ athleteId }) => {
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+    if (cameraInputRef.current) {
+      cameraInputRef.current.value = '';
+    }
   };
 
   const categories = [
