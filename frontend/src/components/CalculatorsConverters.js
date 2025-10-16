@@ -115,7 +115,7 @@ const CalculatorModal = ({ calculatorId, calculators, athletePreferences, onClos
   const IconComponent = calculator.icon;
 
   return (
-    <div className="fixed inset-0 bg-white z-50 flex flex-col">
+    <div className="calculator-modal-container fixed inset-0 bg-white z-50 flex flex-col">
       {/* Header with clear bottom border */}
       <div className={`calculator-modal-header bg-gradient-to-r ${calculator.color} text-white pt-safe pt-12 pb-4 md:py-6 px-4 md:px-8 shadow-xl flex-shrink-0 z-50 border-b-4 border-white/20`}>
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
