@@ -511,17 +511,7 @@ const Documents = ({ athleteId }) => {
                 className="flex-1"
                 onClick={() => {
                   setShowModal(false);
-                  // Reset form
-                  setTitle('');
-                  setCategory('medical');
-                  setDescription('');
-                  setFileData(null);
-                  setFilePreview(null);
-                  setFileName('');
-                  setFileType('');
-                  setFileSize(0);
-                  setSaveStatus({ type: '', message: '' });
-                  if (fileInputRef.current) fileInputRef.current.value = '';
+                  resetForm();
                 }}
                 disabled={isLoading}
               >
