@@ -561,7 +561,13 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                                 return (
                                   <div 
                                     key={mealType} 
-                                    onClick={() => recipe && openRecipeDetail(recipe)}
+                                    onClick={() => {
+                                      if (recipe) {
+                                        openRecipeDetail(recipe);
+                                      } else if (nutritionEntry) {
+                                        openNutritionEntryDetail(meal.nutrition_entry_id);
+                                      }
+                                    }}
                                     className="bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-all border border-gray-100 cursor-pointer"
                                   >
                                     {/* Meal Image */}
