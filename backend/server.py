@@ -3495,7 +3495,7 @@ async def create_nutrition_entry(entry: NutritionEntry):
             logging.error(f"[NUTRITION AI] Failed to generate meal details: {str(e)}")
             # Don't fail the entire request if AI generation fails
     
-    await db.nutrition_entries.insert_one(entry_dict)
+    return {"success": True, "id": entry.id}
     return {"success": True, "id": entry.id}
 
 @api_router.put("/nutrition/{entry_id}")
