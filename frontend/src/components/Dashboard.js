@@ -676,12 +676,9 @@ const Dashboard = ({ athleteId }) => {
               </Card>
             </div>
 
-            {/* Merits, Body Score, and Progress - Three Equal Columns on Desktop */}
+            {/* Body Score, Progress, and Merits - Three Equal Columns on Desktop */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Column 1: Merits - Running Distance Personal Records */}
-              <Merits athleteId={athleteId} />
-              
-              {/* Column 2: Body Score */}
+              {/* Column 1: Body Score */}
               <Card className="border-0 shadow-md bg-white overflow-hidden">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg font-display text-gray-800">Body Score</CardTitle>
