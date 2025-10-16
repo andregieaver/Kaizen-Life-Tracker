@@ -364,12 +364,11 @@ const Documents = ({ athleteId }) => {
             {/* File Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Document File *
+                Select File *
               </label>
               
               {!filePreview && !fileName ? (
-                <div className="space-y-3">
-                  {/* Main file input */}
+                <div>
                   <input
                     ref={fileInputRef}
                     id="file-upload-input"
@@ -379,21 +378,21 @@ const Documents = ({ athleteId }) => {
                     className="hidden"
                   />
                   
-                  {/* Primary upload button */}
                   <label 
                     htmlFor="file-upload-input"
-                    className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 active:bg-blue-50 bg-white transition-colors"
+                    className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 active:bg-blue-100 transition-all"
                   >
-                    <div className="text-center pointer-events-none">
-                      <Upload className="w-8 h-8 mx-auto mb-2 text-gray-400" />
-                      <div className="text-sm font-medium text-gray-700">Choose File or Take Photo</div>
-                      <div className="text-xs text-gray-500 mt-1">PDF, Word, Images • Max 12MB</div>
-                    </div>
+                    <Upload className="w-12 h-12 mb-3 text-gray-400" />
+                    <span className="text-base font-medium text-gray-700 mb-1">
+                      Tap to Choose File
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      Images, PDF, Word, Text
+                    </span>
+                    <span className="text-xs text-gray-400 mt-1">
+                      Max 12MB
+                    </span>
                   </label>
-                  
-                  <p className="text-xs text-gray-500 text-center">
-                    Images are automatically compressed for faster uploads
-                  </p>
                 </div>
               ) : (
                 <div>
