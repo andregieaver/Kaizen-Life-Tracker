@@ -922,18 +922,32 @@ const BodyFatCalculator = ({ athletePreferences }) => {
     return Math.max(0, Math.min(100, bodyFat));
   };
 
-  // 3-Site Caliper Method (Jackson-Pollock)
+  // Caliper Method (Jackson-Pollock 3-site or 7-site)
   const calculateCaliperMethod = () => {
     const ageNum = parseInt(age);
     let sumOfSkinfolds;
     let bodyDensity;
 
-    if (gender === 'male') {
-      sumOfSkinfolds = parseFloat(chest) + parseFloat(abdomen) + parseFloat(thigh);
-      bodyDensity = 1.10938 - (0.0008267 * sumOfSkinfolds) + (0.0000016 * sumOfSkinfolds * sumOfSkinfolds) - (0.0002574 * ageNum);
+    if (caliperSites === '7') {
+      // 7-Site Method (Most Accurate)
+      sumOfSkinfolds = parseFloat(chest || 0) + parseFloat(abdomen || 0) + parseFloat(thigh || 0) + 
+                       parseFloat(tricep || 0) + parseFloat(subscapular || 0) + parseFloat(suprailiac || 0) + 
+                       parseFloat(midaxillary || 0);
+      
+      if (gender === 'male') {
+        bodyDensity = 1.112 - (0.00043499 * sumOfSkinfolds) + (0.00000055 * sumOfSkinfolds * sumOfSkinfolds) - (0.00028826 * ageNum);
+      } else {
+        bodyDensity = 1.097 - (0.00046971 * sumOfSkinfolds) + (0.00000056 * sumOfSkinfolds * sumOfSkinfolds) - (0.00012828 * ageNum);
+      }
     } else {
-      sumOfSkinfolds = parseFloat(tricep) + parseFloat(suprailiac) + parseFloat(thigh);
-      bodyDensity = 1.0994921 - (0.0009929 * sumOfSkinfolds) + (0.0000023 * sumOfSkinfolds * sumOfSkinfolds) - (0.0001392 * ageNum);
+      // 3-Site Method
+      if (gender === 'male') {
+        sumOfSkinfolds = parseFloat(chest) + parseFloat(abdomen) + parseFloat(thigh);
+        bodyDensity = 1.10938 - (0.0008267 * sumOfSkinfolds) + (0.0000016 * sumOfSkinfolds * sumOfSkinfolds) - (0.0002574 * ageNum);
+      } else {
+        sumOfSkinfolds = parseFloat(tricep) + parseFloat(suprailiac) + parseFloat(thigh);
+        bodyDensity = 1.0994921 - (0.0009929 * sumOfSkinfolds) + (0.0000023 * sumOfSkinfolds * sumOfSkinfolds) - (0.0001392 * ageNum);
+      }
     }
 
     // Siri Equation
