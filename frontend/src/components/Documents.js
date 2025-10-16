@@ -162,8 +162,15 @@ const Documents = ({ athleteId }) => {
   };
 
   const handleFileUpload = async (event) => {
+    console.log('🔵 handleFileUpload called');
     const file = event.target.files[0];
-    if (!file) return;
+    if (!file) {
+      console.log('🔴 No file selected');
+      return;
+    }
+    
+    console.log('✅ File selected:', file.name, file.type);
+    console.log('📊 Modal state before processing:', showModal);
     
     if (!title) {
       setTitle(file.name);
@@ -173,19 +180,23 @@ const Documents = ({ athleteId }) => {
     
     if (isImage) {
       try {
+        console.log('🖼️ Processing image...');
         setSaveStatus({ type: '', message: 'Compressing image...' });
         const compressedImage = await compressImage(file);
+        console.log('✅ Image compressed, size:', compressedImage.length);
         setFileData(compressedImage);
         setFilePreview(compressedImage);
         setFileName(file.name);
         setFileType('image/jpeg');
         setFileSize(Math.round(compressedImage.length * 0.75));
         setSaveStatus({ type: 'success', message: '✓ Image ready' });
+        console.log('✅ Image state updated');
       } catch (error) {
-        console.error('Error processing image:', error);
+        console.error('❌ Error processing image:', error);
         setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
       }
     } else {
+      console.log('📄 Processing non-image file...');
       processNonImageFile(file);
     }
   };
