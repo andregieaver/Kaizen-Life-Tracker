@@ -245,24 +245,13 @@ const Documents = ({ athleteId }) => {
       
       // Success
       setSaveStatus({ type: 'success', message: '✓ Uploaded successfully!' });
-      
-      // Reset form
-      setTitle('');
-      setCategory('medical');
-      setDescription('');
-      setFileData(null);
-      setFilePreview(null);
-      setFileName('');
-      setFileType('');
-      setFileSize(0);
-      if (fileInputRef.current) fileInputRef.current.value = '';
+      resetForm();
       
       // Reload and close
       await loadDocuments();
       setTimeout(() => {
         setShowModal(false);
-        setSaveStatus({ type: '', message: '' });
-      }, 1500);
+      }, 1000);
       
     } catch (error) {
       console.error('Upload error:', error);
