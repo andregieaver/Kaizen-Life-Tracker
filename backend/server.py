@@ -3496,7 +3496,14 @@ async def create_nutrition_entry(entry: NutritionEntry):
             # Don't fail the entire request if AI generation fails
     
     return {"success": True, "id": entry.id}
-    return {"success": True, "id": entry.id}
+
+@api_router.get("/nutrition/entry/{entry_id}")
+async def get_nutrition_entry(entry_id: str):
+    """Get a single nutrition entry by ID"""
+    entry = await db.nutrition_entries.find_one({"id": entry_id}, {"_id": 0})
+    if not entry:
+        raise HTTPException(status_code=404, detail="Nutrition entry not found")
+    return entry
 
 @api_router.put("/nutrition/{entry_id}")
 async def update_nutrition_entry(entry_id: str, data: dict):
