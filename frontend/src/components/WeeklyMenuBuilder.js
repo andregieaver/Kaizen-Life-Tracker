@@ -942,4 +942,135 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
   );
 };
 
+// Nutrition Entry Detail Modal Component
+const NutritionEntryDetailModal = ({ entry, onClose }) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+        {entry.image_data && (
+          <div className="relative h-64 md:h-80 overflow-hidden">
+            <img
+              src={entry.image_data.startsWith('data:') ? entry.image_data : `data:image/jpeg;base64,${entry.image_data}`}
+              alt={entry.description}
+              className="w-full h-full object-cover"
+            />
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
+            >
+              <X className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+        )}
+        <div className="p-6 md:p-8 space-y-6">
+          <div className="flex items-center gap-3">
+            <span className="bg-[#62D2C4] text-white px-3 py-1.5 rounded-lg text-sm font-semibold">Logged Meal</span>
+            <span className="text-lg font-semibold text-gray-600">
+              {entry.meal_type ? entry.meal_type.charAt(0).toUpperCase() + entry.meal_type.slice(1) : ''}
+            </span>
+          </div>
+          
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900">
+            {entry.description}
+          </h2>
+          
+          {/* Nutrition Information */}
+          <div className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-6 border border-[#62D2C4]">
+            <h3 className="text-xl font-display font-bold text-gray-900 mb-4">Nutrition Information</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {entry.calories && (
+                <div className="bg-white/80 rounded-lg p-3">
+                  <div className="text-sm text-gray-600">Calories</div>
+                  <div className="text-2xl font-bold text-[#62D2C4]">{entry.calories}</div>
+                </div>
+              )}
+              {entry.protein && (
+                <div className="bg-white/80 rounded-lg p-3">
+                  <div className="text-sm text-gray-600">Protein</div>
+                  <div className="text-2xl font-bold text-[#62D2C4]">{entry.protein}g</div>
+                </div>
+              )}
+              {entry.carbs && (
+                <div className="bg-white/80 rounded-lg p-3">
+                  <div className="text-sm text-gray-600">Carbs</div>
+                  <div className="text-2xl font-bold text-[#62D2C4]">{entry.carbs}g</div>
+                </div>
+              )}
+              {entry.fat && (
+                <div className="bg-white/80 rounded-lg p-3">
+                  <div className="text-sm text-gray-600">Fat</div>
+                  <div className="text-2xl font-bold text-[#62D2C4]">{entry.fat}g</div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Ingredients (AI-generated) */}
+          {entry.ingredients && entry.ingredients.length > 0 && (
+            <div>
+              <h3 className="text-2xl font-display font-bold bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] bg-clip-text text-transparent mb-4">Ingredients</h3>
+              <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-6 shadow-inner border border-teal-100">
+                <ul className="space-y-2">
+                  {entry.ingredients.map((ingredient, index) => (
+                    <li key={index} className="flex items-start gap-3 text-gray-800">
+                      <span className="text-[#62D2C4] font-bold mt-0.5">•</span>
+                      <span className="flex-1 leading-relaxed">{ingredient}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Instructions (AI-generated) */}
+          {entry.instructions && entry.instructions.length > 0 && (
+            <div>
+              <h3 className="text-2xl font-display font-bold bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] bg-clip-text text-transparent mb-6">Instructions</h3>
+              <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-6 shadow-inner border border-teal-100">
+                <ol className="space-y-5">
+                  {entry.instructions.map((instruction, index) => (
+                    <li key={index} className="group relative">
+                      <div className="flex gap-4">
+                        <div className="relative flex-shrink-0">
+                          <span className="w-10 h-10 bg-gradient-to-br from-[#62D2C4] to-[#4fc4b5] text-white rounded-full flex items-center justify-center text-base font-bold shadow-md group-hover:scale-110 transition-transform duration-200">
+                            {index + 1}
+                          </span>
+                          {index < entry.instructions.length - 1 && (
+                            <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-0.5 h-5 bg-gradient-to-b from-[#62D2C4] to-transparent"></div>
+                          )}
+                        </div>
+                        <div className="flex-1 pt-1.5">
+                          <p className="text-gray-800 leading-relaxed font-medium">{instruction}</p>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          )}
+
+          {/* Entry Details */}
+          {(entry.entry_date || entry.entry_time) && (
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Entry Details</h3>
+              <div className="text-sm text-gray-600">
+                {entry.entry_date && <p>Date: {entry.entry_date}</p>}
+                {entry.entry_time && <p>Time: {entry.entry_time}</p>}
+              </div>
+            </div>
+          )}
+
+          {/* Close Button */}
+          <div className="flex justify-end pt-6 border-t">
+            <Button onClick={onClose} className="bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] hover:from-[#4fc4b5] hover:to-[#62D2C4] text-white">
+              Close
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default WeeklyMenuBuilder;
