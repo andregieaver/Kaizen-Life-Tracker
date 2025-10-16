@@ -222,7 +222,7 @@ def test_files_feature_complete_flow():
         # Step 5: Test File Size Validation (12MB limit)
         print("   Step 5: Test File Size Validation (12MB limit)")
         
-        # Create a file slightly over 12MB (13MB raw data = ~17MB base64 = ~13MB estimated)
+        # Create a file that will hit MongoDB 16MB limit (13MB raw data = ~17MB base64)
         large_file_base64 = create_large_file_base64(13)  # 13MB raw data
         
         large_file_entry = {
