@@ -22,6 +22,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [showRecipePicker, setShowRecipePicker] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [selectedNutritionEntry, setSelectedNutritionEntry] = useState(null);
   const [adjustedServings, setAdjustedServings] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
 
