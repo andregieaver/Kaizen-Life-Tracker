@@ -642,7 +642,7 @@ const Files = ({ athleteId }) => {
 
       {/* Inline Upload/Edit Form */}
       {showUploadForm && (
-        <Card className="border-2 border-blue-200 shadow-lg">
+        <Card className="border-2 border-blue-200 shadow-lg" onClick={(e) => e.stopPropagation()}>
           <CardHeader className="bg-blue-50">
             <div className="flex items-center justify-between">
               <div>
