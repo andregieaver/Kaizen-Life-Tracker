@@ -80,7 +80,17 @@ const Documents = ({ athleteId }) => {
   
   const filteredDocuments = getFilteredDocuments();
 
-  console.log('🔄 Documents component rendering, showModal:', showModal, 'filePreview:', !!filePreview, 'fileName:', fileName);
+  const addLog = (message) => {
+    const timestamp = new Date().toLocaleTimeString();
+    const logEntry = `[${timestamp}] ${message}`;
+    console.log(logEntry);
+    setDebugLogs(prev => [...prev.slice(-20), logEntry]); // Keep last 20 logs
+  };
+
+  // Log component render
+  React.useEffect(() => {
+    addLog(`🔄 Render: modal=${showModal}, preview=${!!filePreview}, file=${fileName}`);
+  });
 
   const loadDocuments = async () => {
     try {
