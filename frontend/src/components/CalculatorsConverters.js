@@ -156,17 +156,7 @@ const CalculatorModal = ({ calculatorId, calculators, athletePreferences, onClos
           )}
           
           {calculatorId === 'finishing-percentage' && (
-            <div className="text-center py-12">
-              <div className={`w-20 h-20 bg-gradient-to-br ${calculator.color} rounded-full flex items-center justify-center mx-auto mb-6`}>
-                <IconComponent className="w-10 h-10 text-white" />
-              </div>
-              <h3 className="text-2xl font-display font-bold text-gray-800 mb-4">
-                Calculator Coming Soon
-              </h3>
-              <p className="text-gray-600 max-w-md mx-auto">
-                The {calculator.title.toLowerCase()} functionality will be implemented here.
-              </p>
-            </div>
+            <FinishingPercentageCalculator />
           )}
           
           {calculatorId === 'body-fat' && (
