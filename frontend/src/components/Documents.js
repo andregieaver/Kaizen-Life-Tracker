@@ -379,7 +379,8 @@ const Documents = ({ athleteId }) => {
                   <input
                     ref={fileInputRef}
                     type="file"
-                    accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,image/*"
+                    accept="image/*,.pdf,.doc,.docx,.txt"
+                    capture="environment"
                     onChange={handleFileUpload}
                     className="hidden"
                     style={{ display: 'none' }}
