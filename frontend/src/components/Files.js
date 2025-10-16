@@ -164,16 +164,22 @@ const Files = ({ athleteId }) => {
 
   const processImage = async (file) => {
     try {
+      console.log('Processing image...');
       setSaveStatus({ type: '', message: 'Processing image...' });
+      setShowUploadForm(true); // Keep modal open
+      
       const compressedImage = await compressImage(file);
       
+      console.log('Image compressed successfully');
       setFileData(compressedImage);
       setFilePreview(compressedImage);
       setFileName(file.name);
       setSaveStatus({ type: 'success', message: '✓ Image ready' });
+      setShowUploadForm(true); // Ensure modal stays open
     } catch (error) {
       console.error('Image processing error:', error);
       setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
+      setShowUploadForm(true); // Keep modal open even on error
     }
   };
 
