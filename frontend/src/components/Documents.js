@@ -67,9 +67,17 @@ const Documents = ({ athleteId }) => {
     }
   }, [athleteId]);
 
-  useEffect(() => {
-    filterDocuments();
-  }, [documents, selectedCategory]);
+  // Filter documents in-line during render (no useEffect)
+  const getFilteredDocuments = () => {
+    const docsArray = Array.isArray(documents) ? documents : [];
+    if (selectedCategory === 'all') {
+      return docsArray;
+    } else {
+      return docsArray.filter(doc => doc.category === selectedCategory);
+    }
+  };
+  
+  const filteredDocuments = getFilteredDocuments();
 
   const loadDocuments = async () => {
     try {
