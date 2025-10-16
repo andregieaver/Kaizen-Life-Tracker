@@ -1037,13 +1037,49 @@ const NutritionEntryDetailModal = ({ entry, onClose }) => {
             </div>
           </div>
 
+          {/* Re-analyze Button (show if no AI data or on error) */}
+          {!hasAIData && (
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Get AI-Generated Recipe Details</h3>
+                  <p className="text-sm text-gray-600">
+                    Let AI analyze your meal image to generate ingredients list and preparation instructions.
+                  </p>
+                </div>
+                <Button
+                  onClick={handleReanalyze}
+                  disabled={isReanalyzing}
+                  className="ml-4 bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] hover:from-[#4fc4b5] hover:to-[#62D2C4] text-white"
+                >
+                  {isReanalyzing ? (
+                    <>
+                      <span className="animate-spin mr-2">⏳</span>
+                      Analyzing...
+                    </>
+                  ) : (
+                    <>
+                      <ChefHat className="w-4 h-4 mr-2" />
+                      Analyze with AI
+                    </>
+                  )}
+                </Button>
+              </div>
+              {reanalyzeError && (
+                <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-sm text-red-600">{reanalyzeError}</p>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Ingredients (AI-generated) */}
-          {entry.ingredients && entry.ingredients.length > 0 && (
+          {displayIngredients && displayIngredients.length > 0 && (
             <div>
               <h3 className="text-2xl font-display font-bold bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] bg-clip-text text-transparent mb-4">Ingredients</h3>
               <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-6 shadow-inner border border-teal-100">
                 <ul className="space-y-2">
-                  {entry.ingredients.map((ingredient, index) => (
+                  {displayIngredients.map((ingredient, index) => (
                     <li key={index} className="flex items-start gap-3 text-gray-800">
                       <span className="text-[#62D2C4] font-bold mt-0.5">•</span>
                       <span className="flex-1 leading-relaxed">{ingredient}</span>
@@ -1055,7 +1091,7 @@ const NutritionEntryDetailModal = ({ entry, onClose }) => {
           )}
 
           {/* Instructions (AI-generated) */}
-          {entry.instructions && entry.instructions.length > 0 && (
+          {displayInstructions && displayInstructions.length > 0 && (
             <div>
               <h3 className="text-2xl font-display font-bold bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] bg-clip-text text-transparent mb-6">Instructions</h3>
               <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-6 shadow-inner border border-teal-100">
