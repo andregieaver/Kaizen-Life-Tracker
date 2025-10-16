@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Calculator, Activity, Target, Ruler, X } from 'lucide-react';
 
 const CalculatorsConverters = ({ athleteId }) => {
   const [selectedCalculator, setSelectedCalculator] = useState(null);
+  const [athletePreferences, setAthletePreferences] = useState(null);
+
+  useEffect(() => {
+    loadAthletePreferences();
+  }, [athleteId]);
+
+  const loadAthletePreferences = async () => {
+    try {
+      const API_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await axios.get(`${API_URL}/api/athletes/${athleteId}`);
+      setAthletePreferences(response.data);
+    } catch (error) {
+      console.error('Error loading athlete preferences:', error);
+    }
+  };
 
   const calculators = [
     {
