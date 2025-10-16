@@ -355,16 +355,18 @@ const Documents = ({ athleteId }) => {
               </label>
               
               {!filePreview && !fileName ? (
-                <div className="space-y-2">
+                <div className="space-y-3">
+                  {/* Main file input */}
                   <input
                     ref={fileInputRef}
                     id="file-upload-input"
                     type="file"
                     accept="image/*,.pdf,.doc,.docx,.txt"
-                    capture="environment"
                     onChange={handleFileUpload}
                     className="hidden"
                   />
+                  
+                  {/* Primary upload button */}
                   <label 
                     htmlFor="file-upload-input"
                     className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 active:bg-blue-50 bg-white transition-colors"
@@ -375,8 +377,9 @@ const Documents = ({ athleteId }) => {
                       <div className="text-xs text-gray-500 mt-1">PDF, Word, Images • Max 12MB</div>
                     </div>
                   </label>
+                  
                   <p className="text-xs text-gray-500 text-center">
-                    Tap to select from gallery or camera • Auto-compressed for faster uploads
+                    Images are automatically compressed for faster uploads
                   </p>
                 </div>
               ) : (
