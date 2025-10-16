@@ -59,11 +59,13 @@ def test_ai_enhanced_nutrition_entries():
         if not login_data:
             login_data = {"email": "andre@example.com", "password": "test123"}
         
-        login_response = requests.post(
-            f"{BACKEND_URL}/auth/login",
-            json=login_data,
-            headers={"Content-Type": "application/json"}
-        )
+        if not login_data:
+            # If no credentials worked, try the last one
+            login_response = requests.post(
+                f"{BACKEND_URL}/auth/login",
+                json={"email": "andre@example.com", "password": "test123"},
+                headers={"Content-Type": "application/json"}
+            )
         
         athlete_id = None
         
