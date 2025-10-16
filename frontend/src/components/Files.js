@@ -732,7 +732,18 @@ const Files = ({ athleteId }) => {
                           type="file"
                           accept="image/*,.pdf,.doc,.docx,.txt"
                           onChange={handleFileUpload}
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            console.log('File input clicked');
+                          }}
+                          onFocus={() => {
+                            console.log('File input focused - keeping modal open');
+                            setShowUploadForm(true);
+                          }}
+                          onBlur={() => {
+                            console.log('File input blurred - but keeping modal open');
+                            // Don't close the modal on blur
+                          }}
                           className="hidden"
                         />
                         
