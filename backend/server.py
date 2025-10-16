@@ -2619,11 +2619,19 @@ async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
     if not athlete:
         raise HTTPException(status_code=404, detail="Athlete not found")
     
+    # Log incoming data for debugging
+    logging.info(f"[ATHLETE UPDATE] Updating athlete {athlete_id}")
+    logging.info(f"[ATHLETE UPDATE] Raw updates: {updates.model_dump()}")
+    logging.info(f"[ATHLETE UPDATE] Allergies: {updates.allergies}")
+    logging.info(f"[ATHLETE UPDATE] Dietary preferences: {updates.dietary_preferences}")
+    
     # Update only provided fields (include empty lists, exclude None)
     update_data = {}
     for k, v in updates.model_dump(exclude_unset=True).items():
         if v is not None or k in ['allergies', 'dietary_preferences', 'health_goals']:
             update_data[k] = v if v is not None else []
+    
+    logging.info(f"[ATHLETE UPDATE] Final update_data: {update_data}")
     
     # If date_of_birth is being updated, calculate and set age
     if 'date_of_birth' in update_data and update_data['date_of_birth']:
@@ -2634,6 +2642,7 @@ async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
     # Convert date objects to ISO strings for MongoDB storage
     if update_data:
         prepared_data = prepare_for_mongo(update_data)
+        logging.info(f"[ATHLETE UPDATE] Prepared data for MongoDB: {prepared_data}")
         await db.athlete_profiles.update_one(
             {"id": athlete_id},
             {"$set": prepared_data}
@@ -2641,6 +2650,8 @@ async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
     
     # Return updated athlete
     updated_athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    logging.info(f"[ATHLETE UPDATE] Updated allergies: {updated_athlete.get('allergies')}")
+    logging.info(f"[ATHLETE UPDATE] Updated dietary_preferences: {updated_athlete.get('dietary_preferences')}")
     return parse_from_mongo(updated_athlete)
 
 @api_router.post("/athlete/{athlete_id}/profile-picture")
