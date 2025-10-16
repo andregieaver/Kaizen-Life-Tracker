@@ -1545,7 +1545,9 @@ const BodyFatCalculator = ({ athletePreferences }) => {
                   result.method === 'navy' 
                     ? 'The Navy method is accurate and requires only a tape measure. Best for general fitness tracking.'
                     : result.method === 'caliper'
-                    ? 'The caliper method (Jackson-Pollock) is highly accurate when performed correctly. Requires calipers and proper technique.'
+                    ? result.caliperSites === '7'
+                      ? 'The 7-site caliper method (Jackson-Pollock) is the gold standard for body fat measurement. Provides the highest accuracy when performed correctly by a trained professional.'
+                      : 'The 3-site caliper method (Jackson-Pollock) is highly accurate when performed correctly. Requires calipers and proper technique.'
                     : 'The BMI method provides an estimate based on height and weight. Less accurate than other methods but easy to perform.'
                 }
               </p>
