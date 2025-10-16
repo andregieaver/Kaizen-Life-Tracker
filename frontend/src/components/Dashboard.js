@@ -950,6 +950,10 @@ const Dashboard = ({ athleteId }) => {
           <Supplements athleteId={athleteId} />
         )}
 
+        {activeTab === 'calculators' && (
+          <CalculatorsConverters athleteId={athleteId} />
+        )}
+
         {activeTab === 'documents' && (
           <Documents athleteId={athleteId} />
         )}
