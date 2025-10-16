@@ -863,4 +863,539 @@ const FinishingPercentageCalculator = () => {
   );
 };
 
+// Body Fat Percentage Calculator Component
+const BodyFatCalculator = ({ athletePreferences }) => {
+  const [method, setMethod] = useState('navy');
+  const [gender, setGender] = useState('male');
+  const [age, setAge] = useState('');
+  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+  const [unit, setUnit] = useState('metric');
+  
+  // Navy Method measurements
+  const [neck, setNeck] = useState('');
+  const [waist, setWaist] = useState('');
+  const [hip, setHip] = useState('');
+  
+  // 3-Site Caliper measurements (Jackson-Pollock)
+  const [chest, setChest] = useState('');
+  const [abdomen, setAbdomen] = useState('');
+  const [thigh, setThigh] = useState('');
+  const [tricep, setTricep] = useState('');
+  const [suprailiac, setSuprailiac] = useState('');
+  
+  const [result, setResult] = useState(null);
+
+  // Update unit based on preferences
+  React.useEffect(() => {
+    if (athletePreferences) {
+      setUnit(athletePreferences.measurement_system === 'imperial' ? 'imperial' : 'metric');
+    }
+  }, [athletePreferences]);
+
+  // Navy Method Calculation
+  const calculateNavyMethod = () => {
+    let heightCm, waistCm, neckCm, hipCm;
+    
+    if (unit === 'imperial') {
+      heightCm = parseFloat(height) * 2.54;
+      waistCm = parseFloat(waist) * 2.54;
+      neckCm = parseFloat(neck) * 2.54;
+      if (gender === 'female') hipCm = parseFloat(hip) * 2.54;
+    } else {
+      heightCm = parseFloat(height);
+      waistCm = parseFloat(waist);
+      neckCm = parseFloat(neck);
+      if (gender === 'female') hipCm = parseFloat(hip);
+    }
+
+    let bodyFat;
+    if (gender === 'male') {
+      bodyFat = 495 / (1.0324 - 0.19077 * Math.log10(waistCm - neckCm) + 0.15456 * Math.log10(heightCm)) - 450;
+    } else {
+      bodyFat = 495 / (1.29579 - 0.35004 * Math.log10(waistCm + hipCm - neckCm) + 0.22100 * Math.log10(heightCm)) - 450;
+    }
+
+    return Math.max(0, Math.min(100, bodyFat));
+  };
+
+  // 3-Site Caliper Method (Jackson-Pollock)
+  const calculateCaliperMethod = () => {
+    const ageNum = parseInt(age);
+    let sumOfSkinfolds;
+    let bodyDensity;
+
+    if (gender === 'male') {
+      sumOfSkinfolds = parseFloat(chest) + parseFloat(abdomen) + parseFloat(thigh);
+      bodyDensity = 1.10938 - (0.0008267 * sumOfSkinfolds) + (0.0000016 * sumOfSkinfolds * sumOfSkinfolds) - (0.0002574 * ageNum);
+    } else {
+      sumOfSkinfolds = parseFloat(tricep) + parseFloat(suprailiac) + parseFloat(thigh);
+      bodyDensity = 1.0994921 - (0.0009929 * sumOfSkinfolds) + (0.0000023 * sumOfSkinfolds * sumOfSkinfolds) - (0.0001392 * ageNum);
+    }
+
+    // Siri Equation
+    const bodyFat = ((4.95 / bodyDensity) - 4.50) * 100;
+    return Math.max(0, Math.min(100, bodyFat));
+  };
+
+  // BMI-based estimation (Deurenberg formula)
+  const calculateBMIMethod = () => {
+    let weightKg, heightM;
+    
+    if (unit === 'imperial') {
+      weightKg = parseFloat(weight) * 0.453592;
+      heightM = parseFloat(height) * 0.0254;
+    } else {
+      weightKg = parseFloat(weight);
+      heightM = parseFloat(height) / 100;
+    }
+
+    const bmi = weightKg / (heightM * heightM);
+    const ageNum = parseInt(age);
+    const genderFactor = gender === 'male' ? 1 : 0;
+    
+    const bodyFat = (1.20 * bmi) + (0.23 * ageNum) - (10.8 * genderFactor) - 5.4;
+    return Math.max(0, Math.min(100, bodyFat));
+  };
+
+  const calculate = () => {
+    let bodyFatPercentage;
+
+    try {
+      if (method === 'navy') {
+        if (!height || !neck || !waist || (gender === 'female' && !hip)) return;
+        bodyFatPercentage = calculateNavyMethod();
+      } else if (method === 'caliper') {
+        if (!age || (gender === 'male' ? (!chest || !abdomen || !thigh) : (!tricep || !suprailiac || !thigh))) return;
+        bodyFatPercentage = calculateCaliperMethod();
+      } else if (method === 'bmi') {
+        if (!age || !weight || !height) return;
+        bodyFatPercentage = calculateBMIMethod();
+      }
+
+      // Categorize body fat percentage
+      let category, categoryColor, categoryDescription, healthRange;
+      
+      if (gender === 'male') {
+        if (bodyFatPercentage < 6) {
+          category = 'Essential Fat';
+          categoryColor = 'from-red-400 to-red-600';
+          categoryDescription = 'Below essential fat levels - Not recommended';
+          healthRange = '2-5%';
+        } else if (bodyFatPercentage < 14) {
+          category = 'Athletes';
+          categoryColor = 'from-blue-400 to-blue-600';
+          categoryDescription = 'Athletic body composition';
+          healthRange = '6-13%';
+        } else if (bodyFatPercentage < 18) {
+          category = 'Fitness';
+          categoryColor = 'from-green-400 to-green-600';
+          categoryDescription = 'Fit and healthy range';
+          healthRange = '14-17%';
+        } else if (bodyFatPercentage < 25) {
+          category = 'Average';
+          categoryColor = 'from-yellow-400 to-yellow-600';
+          categoryDescription = 'Average body composition';
+          healthRange = '18-24%';
+        } else {
+          category = 'Above Average';
+          categoryColor = 'from-orange-400 to-orange-600';
+          categoryDescription = 'Consider healthy lifestyle changes';
+          healthRange = '25%+';
+        }
+      } else {
+        if (bodyFatPercentage < 14) {
+          category = 'Essential Fat';
+          categoryColor = 'from-red-400 to-red-600';
+          categoryDescription = 'Below essential fat levels - Not recommended';
+          healthRange = '10-13%';
+        } else if (bodyFatPercentage < 21) {
+          category = 'Athletes';
+          categoryColor = 'from-blue-400 to-blue-600';
+          categoryDescription = 'Athletic body composition';
+          healthRange = '14-20%';
+        } else if (bodyFatPercentage < 25) {
+          category = 'Fitness';
+          categoryColor = 'from-green-400 to-green-600';
+          categoryDescription = 'Fit and healthy range';
+          healthRange = '21-24%';
+        } else if (bodyFatPercentage < 32) {
+          category = 'Average';
+          categoryColor = 'from-yellow-400 to-yellow-600';
+          categoryDescription = 'Average body composition';
+          healthRange = '25-31%';
+        } else {
+          category = 'Above Average';
+          categoryColor = 'from-orange-400 to-orange-600';
+          categoryDescription = 'Consider healthy lifestyle changes';
+          healthRange = '32%+';
+        }
+      }
+
+      setResult({
+        bodyFatPercentage: bodyFatPercentage.toFixed(1),
+        category,
+        categoryColor,
+        categoryDescription,
+        healthRange,
+        gender,
+        method,
+      });
+    } catch (error) {
+      console.error('Calculation error:', error);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Method Selection */}
+      <Card className="border-0 shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-xl font-display">Select Calculation Method</CardTitle>
+          <CardDescription>Choose your preferred measurement method</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button
+              onClick={() => setMethod('navy')}
+              className={`p-4 rounded-lg border-2 transition-all ${
+                method === 'navy'
+                  ? 'border-purple-500 bg-purple-50'
+                  : 'border-gray-200 hover:border-purple-300'
+              }`}
+            >
+              <div className="font-semibold text-gray-900">Navy Method</div>
+              <div className="text-sm text-gray-600 mt-1">Uses circumference measurements</div>
+            </button>
+            <button
+              onClick={() => setMethod('caliper')}
+              className={`p-4 rounded-lg border-2 transition-all ${
+                method === 'caliper'
+                  ? 'border-purple-500 bg-purple-50'
+                  : 'border-gray-200 hover:border-purple-300'
+              }`}
+            >
+              <div className="font-semibold text-gray-900">Caliper Method</div>
+              <div className="text-sm text-gray-600 mt-1">Uses skinfold measurements</div>
+            </button>
+            <button
+              onClick={() => setMethod('bmi')}
+              className={`p-4 rounded-lg border-2 transition-all ${
+                method === 'bmi'
+                  ? 'border-purple-500 bg-purple-50'
+                  : 'border-gray-200 hover:border-purple-300'
+              }`}
+            >
+              <div className="font-semibold text-gray-900">BMI Method</div>
+              <div className="text-sm text-gray-600 mt-1">Uses height and weight</div>
+            </button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Input Form */}
+      <Card className="border-0 shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-xl font-display">Enter Your Measurements</CardTitle>
+          <CardDescription>
+            {method === 'navy' && 'Measure circumferences at specified body points'}
+            {method === 'caliper' && 'Measure skinfold thickness with calipers'}
+            {method === 'bmi' && 'Basic height and weight measurements'}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            {/* Gender and Unit Selection */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                <select
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                >
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Unit System</label>
+                <select
+                  value={unit}
+                  onChange={(e) => setUnit(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                >
+                  <option value="metric">Metric (cm, kg)</option>
+                  <option value="imperial">Imperial (in, lbs)</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Age (for caliper and BMI methods) */}
+            {(method === 'caliper' || method === 'bmi') && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Age (years)</label>
+                <input
+                  type="number"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  placeholder="e.g., 30"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                />
+              </div>
+            )}
+
+            {/* Navy Method Inputs */}
+            {method === 'navy' && (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Height ({unit === 'metric' ? 'cm' : 'inches'})
+                    </label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      value={height}
+                      onChange={(e) => setHeight(e.target.value)}
+                      placeholder={unit === 'metric' ? '175' : '69'}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Neck ({unit === 'metric' ? 'cm' : 'inches'})
+                    </label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      value={neck}
+                      onChange={(e) => setNeck(e.target.value)}
+                      placeholder={unit === 'metric' ? '38' : '15'}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Waist ({unit === 'metric' ? 'cm' : 'inches'})
+                    </label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      value={waist}
+                      onChange={(e) => setWaist(e.target.value)}
+                      placeholder={unit === 'metric' ? '85' : '33'}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+                {gender === 'female' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Hip ({unit === 'metric' ? 'cm' : 'inches'})
+                    </label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      value={hip}
+                      onChange={(e) => setHip(e.target.value)}
+                      placeholder={unit === 'metric' ? '95' : '37'}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    />
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Caliper Method Inputs */}
+            {method === 'caliper' && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {gender === 'male' ? (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Chest (mm)</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        value={chest}
+                        onChange={(e) => setChest(e.target.value)}
+                        placeholder="10"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Abdomen (mm)</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        value={abdomen}
+                        onChange={(e) => setAbdomen(e.target.value)}
+                        placeholder="15"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Thigh (mm)</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        value={thigh}
+                        onChange={(e) => setThigh(e.target.value)}
+                        placeholder="12"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Tricep (mm)</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        value={tricep}
+                        onChange={(e) => setTricep(e.target.value)}
+                        placeholder="15"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Suprailiac (mm)</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        value={suprailiac}
+                        onChange={(e) => setSuprailiac(e.target.value)}
+                        placeholder="18"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Thigh (mm)</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        value={thigh}
+                        onChange={(e) => setThigh(e.target.value)}
+                        placeholder="20"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
+            {/* BMI Method Inputs */}
+            {method === 'bmi' && (
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Weight ({unit === 'metric' ? 'kg' : 'lbs'})
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
+                    placeholder={unit === 'metric' ? '75' : '165'}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Height ({unit === 'metric' ? 'cm' : 'inches'})
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={height}
+                    onChange={(e) => setHeight(e.target.value)}
+                    placeholder={unit === 'metric' ? '175' : '69'}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Calculate Button */}
+            <Button
+              onClick={calculate}
+              className="w-full bg-gradient-to-r from-purple-400 to-purple-600 hover:opacity-90 text-white text-lg py-6"
+            >
+              Calculate Body Fat %
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Results */}
+      {result && (
+        <Card className="border-0 shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-xl font-display">Your Body Fat Percentage</CardTitle>
+            <CardDescription>
+              Based on {result.method === 'navy' ? 'Navy' : result.method === 'caliper' ? 'Caliper (Jackson-Pollock)' : 'BMI'} method
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Main Result */}
+            <div className="text-center">
+              <div className="text-6xl font-bold text-purple-600 mb-2">
+                {result.bodyFatPercentage}%
+              </div>
+              <div className={`inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r ${result.categoryColor} text-white rounded-xl shadow-lg mb-4`}>
+                <span className="text-xl font-bold">{result.category}</span>
+              </div>
+              <p className="text-lg text-gray-700">{result.categoryDescription}</p>
+            </div>
+
+            {/* Body Fat Ranges */}
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200">
+              <h3 className="font-semibold text-gray-900 mb-4">
+                Healthy Range for {result.gender === 'male' ? 'Men' : 'Women'}
+              </h3>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-gray-700">Essential Fat:</span>
+                  <span className="font-medium">{result.gender === 'male' ? '2-5%' : '10-13%'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-700">Athletes:</span>
+                  <span className="font-medium">{result.gender === 'male' ? '6-13%' : '14-20%'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-700">Fitness:</span>
+                  <span className="font-medium">{result.gender === 'male' ? '14-17%' : '21-24%'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-700">Average:</span>
+                  <span className="font-medium">{result.gender === 'male' ? '18-24%' : '25-31%'}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-700">Obese:</span>
+                  <span className="font-medium">{result.gender === 'male' ? '25%+' : '32%+'}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Method Info */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <p className="text-sm text-blue-800">
+                <strong>💡 Note:</strong> {
+                  result.method === 'navy' 
+                    ? 'The Navy method is accurate and requires only a tape measure. Best for general fitness tracking.'
+                    : result.method === 'caliper'
+                    ? 'The caliper method (Jackson-Pollock) is highly accurate when performed correctly. Requires calipers and proper technique.'
+                    : 'The BMI method provides an estimate based on height and weight. Less accurate than other methods but easy to perform.'
+                }
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+};
+
 export default CalculatorsConverters;
