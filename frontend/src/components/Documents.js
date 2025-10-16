@@ -506,6 +506,7 @@ const Documents = ({ athleteId }) => {
                 className="flex-1"
                 onClick={() => {
                   setShowModal(false);
+                  // Reset form
                   setTitle('');
                   setCategory('medical');
                   setDescription('');
@@ -515,7 +516,9 @@ const Documents = ({ athleteId }) => {
                   setFileType('');
                   setFileSize(0);
                   setSaveStatus({ type: '', message: '' });
+                  if (fileInputRef.current) fileInputRef.current.value = '';
                 }}
+                disabled={isLoading}
               >
                 Cancel
               </Button>
