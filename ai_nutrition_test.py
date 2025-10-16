@@ -33,9 +33,10 @@ def test_ai_enhanced_nutrition_entries():
     print("=" * 70)
     
     try:
-        # Step 1: Login as andre@example.com (has OpenAI API key configured)
-        print("   Step 1: Login as andre@example.com (has OpenAI API key configured)")
+        # Step 1: Try to login as andre@example.com or create test athlete
+        print("   Step 1: Try to login as andre@example.com or create test athlete")
         
+        # First try to login with existing credentials
         login_data = {
             "email": "andre@example.com",
             "password": "test123"
@@ -47,18 +48,56 @@ def test_ai_enhanced_nutrition_entries():
             headers={"Content-Type": "application/json"}
         )
         
-        if login_response.status_code != 200:
-            print_test_result("AI Nutrition Testing - Login", False, f"Login failed: {login_response.status_code}")
-            return False
+        athlete_id = None
         
-        athlete_data = login_response.json()
-        athlete_id = athlete_data.get("athlete_id")
+        if login_response.status_code == 200:
+            athlete_data = login_response.json()
+            athlete_id = athlete_data.get("athlete_id")
+            print(f"      ✅ Login successful with existing account, athlete_id: {athlete_id}")
+        else:
+            # Try to create a test athlete with OpenAI integration
+            print("      Login failed, creating test athlete...")
+            
+            test_athlete_data = {
+                "name": "Andre Test",
+                "email": "andre@example.com",
+                "password": "test123",
+                "weekly_mileage": 30.0,
+                "running_goals": "Test AI nutrition functionality"
+            }
+            
+            create_response = requests.post(
+                f"{BACKEND_URL}/athlete",
+                json=test_athlete_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if create_response.status_code == 200:
+                created_athlete = create_response.json()
+                athlete_id = created_athlete.get("id")
+                print(f"      ✅ Test athlete created, athlete_id: {athlete_id}")
+                
+                # Now login with the created athlete
+                login_response = requests.post(
+                    f"{BACKEND_URL}/auth/login",
+                    json=login_data,
+                    headers={"Content-Type": "application/json"}
+                )
+                
+                if login_response.status_code == 200:
+                    athlete_data = login_response.json()
+                    athlete_id = athlete_data.get("athlete_id")
+                    print(f"      ✅ Login successful with created account, athlete_id: {athlete_id}")
+                else:
+                    print_test_result("AI Nutrition Testing - Login After Create", False, f"Login failed after create: {login_response.status_code}")
+                    return False
+            else:
+                print_test_result("AI Nutrition Testing - Create Athlete", False, f"Create athlete failed: {create_response.status_code} - {create_response.text}")
+                return False
         
         if not athlete_id:
-            print_test_result("AI Nutrition Testing - Login", False, "No athlete_id returned")
+            print_test_result("AI Nutrition Testing - Authentication", False, "No athlete_id obtained")
             return False
-        
-        print(f"      ✅ Login successful, athlete_id: {athlete_id}")
         
         # Step 2: Verify athlete has OpenAI API key configured
         print("   Step 2: Verify athlete has OpenAI API key configured")
