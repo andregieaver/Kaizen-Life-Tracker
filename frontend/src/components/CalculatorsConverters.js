@@ -1493,7 +1493,7 @@ const BodyFatCalculator = ({ athletePreferences }) => {
           <CardHeader>
             <CardTitle className="text-xl font-display">Your Body Fat Percentage</CardTitle>
             <CardDescription>
-              Based on {result.method === 'navy' ? 'Navy' : result.method === 'caliper' ? 'Caliper (Jackson-Pollock)' : 'BMI'} method
+              Based on {result.method === 'navy' ? 'Navy' : result.method === 'caliper' ? `Caliper - ${result.caliperSites}-Site (Jackson-Pollock)` : 'BMI'} method
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
