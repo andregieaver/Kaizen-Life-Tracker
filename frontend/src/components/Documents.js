@@ -14,6 +14,7 @@ const Documents = ({ athleteId }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isLoadingDocs, setIsLoadingDocs] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [debugLogs, setDebugLogs] = useState([]);
   const [showModal, setShowModal] = useState(false);
   
   // Form fields
