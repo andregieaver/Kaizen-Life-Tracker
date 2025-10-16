@@ -676,7 +676,7 @@ const Dashboard = ({ athleteId }) => {
               </Card>
             </div>
 
-            {/* Body Score, Metrics, and Progress - Three Equal Columns on Desktop */}
+            {/* Body Score, Merits, and Progress - Three Equal Columns on Desktop */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Column 1: Body Score */}
               <Card className="border-0 shadow-md bg-white overflow-hidden">
@@ -787,18 +787,9 @@ const Dashboard = ({ athleteId }) => {
                       <span className="text-xs text-gray-600 mt-2">Activity</span>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-              
-              {/* Column 2: Metrics (2x2 Grid) */}
-              <Card className="border-0 shadow-md bg-white overflow-hidden">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg font-display text-gray-800">Metrics</CardTitle>
-                  <CardDescription className="text-gray-600">Key health indicators</CardDescription>
-                </CardHeader>
-                <CardContent>
+
                   {/* 2x2 Grid of Metrics */}
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4 pt-4 border-t">
                     {/* Sleep Amount */}
                     <div className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-4">
                       <div className="text-xs text-gray-600 mb-1">Sleep Amount</div>
@@ -825,6 +816,9 @@ const Dashboard = ({ athleteId }) => {
                   </div>
                 </CardContent>
               </Card>
+              
+              {/* Column 2: Merits - Running Distance Personal Records */}
+              <Merits athleteId={athleteId} />
 
               {/* Column 3: Progress - Test Results */}
               <Card className="border-0 shadow-md bg-white overflow-hidden">
