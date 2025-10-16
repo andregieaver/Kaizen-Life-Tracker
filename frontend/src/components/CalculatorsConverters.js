@@ -200,9 +200,9 @@ const PaceCalculator = ({ athletePreferences }) => {
   // Update unit when preferences load
   React.useEffect(() => {
     if (athletePreferences) {
-      setUnit(getDefaultUnit());
+      const defaultUnit = athletePreferences.distance_unit === 'miles' || athletePreferences.distance_unit === 'mi' ? 'miles' : 'km';
+      setUnit(defaultUnit);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [athletePreferences]);
 
   // Calculate time for a given distance
