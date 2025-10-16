@@ -845,7 +845,12 @@ const Dashboard = ({ athleteId }) => {
                         <div 
                           key={test.id} 
                           className="flex items-center justify-between p-4 bg-gradient-to-r from-[#D4F0E9]/30 to-transparent rounded-lg hover:from-[#D4F0E9]/50 cursor-pointer transition-all"
-                          onClick={() => navigate('/dashboard/tests')}
+                          onClick={() => navigate('/dashboard/tests', { 
+                            state: { 
+                              addEntryToTest: test.test_name,
+                              testUnit: test.unit 
+                            } 
+                          })}
                         >
                           <div className="flex items-center space-x-4">
                             <div className="w-10 h-10 bg-gradient-to-br from-[#62D2C4] to-[#4fc4b5] rounded-lg flex items-center justify-center shadow-sm">
