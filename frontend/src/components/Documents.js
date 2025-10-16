@@ -356,42 +356,27 @@ const Documents = ({ athleteId }) => {
               
               {!filePreview && !fileName ? (
                 <div className="space-y-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="w-full h-32 border-2 border-dashed border-gray-300 hover:border-blue-400 active:bg-blue-50"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      if (fileInputRef.current) {
-                        fileInputRef.current.click();
-                      }
-                    }}
-                    onTouchEnd={(e) => {
-                      // Mobile-specific: prevent default touch behavior
-                      e.preventDefault();
-                      if (fileInputRef.current) {
-                        fileInputRef.current.click();
-                      }
-                    }}
+                  <input
+                    ref={fileInputRef}
+                    id="file-upload-input"
+                    type="file"
+                    accept="image/*,.pdf,.doc,.docx,.txt"
+                    capture="environment"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                  <label 
+                    htmlFor="file-upload-input"
+                    className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 active:bg-blue-50 bg-white transition-colors"
                   >
                     <div className="text-center pointer-events-none">
                       <Upload className="w-8 h-8 mx-auto mb-2 text-gray-400" />
                       <div className="text-sm font-medium text-gray-700">Choose File or Take Photo</div>
                       <div className="text-xs text-gray-500 mt-1">PDF, Word, Images • Max 12MB</div>
                     </div>
-                  </Button>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*,.pdf,.doc,.docx,.txt"
-                    capture="environment"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                    style={{ display: 'none' }}
-                  />
+                  </label>
                   <p className="text-xs text-gray-500 text-center">
-                    Accepted formats: PDF, Word, Text, Images • Max size: 12MB • Images auto-compressed
+                    Tap to select from gallery or camera • Auto-compressed for faster uploads
                   </p>
                 </div>
               ) : (
