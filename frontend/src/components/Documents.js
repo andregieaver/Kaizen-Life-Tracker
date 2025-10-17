@@ -312,10 +312,23 @@ const Documents = ({ athleteId }) => {
       
       // Success
       setSaveStatus({ type: 'success', message: '✓ Uploaded successfully!' });
-      resetForm();
       
-      // Reload and close
-      await loadDocuments();
+      // Add the new document to the list immediately (no reload)
+      const newDoc = {
+        id: response.data.document_id || Math.random().toString(36).substring(7),
+        athlete_id: athleteId,
+        title: title.trim(),
+        category,
+        description: description.trim(),
+        file_data: fileData,
+        file_name: fileName,
+        file_type: fileType,
+        file_size: fileSize,
+        created_at: new Date().toISOString()
+      };
+      setDocuments(prev => [newDoc, ...prev]);
+      
+      resetForm();
       setTimeout(() => {
         setShowModal(false);
       }, 1000);
