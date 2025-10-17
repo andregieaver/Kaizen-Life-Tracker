@@ -156,6 +156,16 @@ function App() {
             path="/auth/coros/callback" 
             element={<CorosCallback />} 
           />
+          <Route 
+            path="/habits" 
+            element={
+              athleteId ? (
+                <HabitTracker athleteId={athleteId} />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            } 
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
