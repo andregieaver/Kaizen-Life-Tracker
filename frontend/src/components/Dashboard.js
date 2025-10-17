@@ -412,7 +412,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'journal'
-                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
+                      ? 'bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -433,7 +433,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'nutrition'
-                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
+                      ? 'bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -447,7 +447,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'supplements'
-                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
+                      ? 'bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -461,7 +461,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'recipes'
-                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
+                      ? 'bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -475,7 +475,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'calendar'
-                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
+                      ? 'bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -489,7 +489,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'habits'
-                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
+                      ? 'bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -510,7 +510,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'tests'
-                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
+                      ? 'bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -524,7 +524,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'calculators'
-                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
+                      ? 'bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -545,7 +545,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'documents'
-                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
+                      ? 'bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -559,7 +559,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'memories'
-                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
+                      ? 'bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
