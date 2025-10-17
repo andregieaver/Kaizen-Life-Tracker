@@ -991,6 +991,10 @@ const Dashboard = ({ athleteId }) => {
           <TestsAnalytics athleteId={athleteId} />
         )}
 
+        {activeTab === 'habits' && (
+          <HabitTracker athleteId={athleteId} />
+        )}
+
         {activeTab === 'schedules' && (
           <Schedules athleteId={athleteId} />
         )}
