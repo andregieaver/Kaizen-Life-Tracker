@@ -789,15 +789,25 @@ const TestsAnalytics = ({ athleteId }) => {
                             let formattedValue;
                             
                             if (unit === 'time') {
-                              formattedValue = formatValue(rawValue, 'time', timeDisplayUnit);
-                              if (timeDisplayUnit !== 'seconds') {
-                                formattedValue += ' ' + getTimeDisplayLabel(timeDisplayUnit);
+                              // For time-based tests, format with display unit
+                              if (timeDisplayUnit === 'hours') {
+                                formattedValue = (rawValue / 3600).toFixed(3) + ' hrs';
+                              } else if (timeDisplayUnit === 'minutes') {
+                                formattedValue = (rawValue / 60).toFixed(2) + ' min';
+                              } else {
+                                // For seconds, show as MM:SS
+                                const minutes = Math.floor(rawValue / 60);
+                                const seconds = Math.floor(rawValue % 60);
+                                formattedValue = `${minutes}:${seconds.toString().padStart(2, '0')}`;
                               }
                             } else {
                               formattedValue = formatValue(value, isDistanceTest ? 'time' : unit, timeDisplayUnit);
+                              if (!isDistanceTest && unit !== 'percentage') {
+                                formattedValue += ' ' + getUnitLabel(unit);
+                              }
                             }
                             
-                            return [formattedValue, yAxisLabel];
+                            return [formattedValue, testName];
                           }}
                         />
                         <Legend 
