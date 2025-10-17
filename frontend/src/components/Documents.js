@@ -253,9 +253,9 @@ const Documents = ({ athleteId }) => {
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      if (!title) {
-        setTitle(file.name);
-      }
+      const newTitle = title || file.name;
+      setTitle(newTitle);
+      sessionStorage.setItem('documents_title', newTitle);
       
       const isImage = file.type.startsWith('image/');
       
@@ -263,11 +263,24 @@ const Documents = ({ athleteId }) => {
         try {
           setSaveStatus({ type: '', message: 'Compressing image...' });
           const compressedImage = await compressImage(file);
+          
+          // Save to state AND sessionStorage immediately
           setFileData(compressedImage);
+          sessionStorage.setItem('documents_fileData', compressedImage);
+          
           setFilePreview(compressedImage);
+          sessionStorage.setItem('documents_filePreview', compressedImage);
+          
           setFileName(file.name);
+          sessionStorage.setItem('documents_fileName', file.name);
+          
           setFileType('image/jpeg');
-          setFileSize(Math.round(compressedImage.length * 0.75));
+          sessionStorage.setItem('documents_fileType', 'image/jpeg');
+          
+          const size = Math.round(compressedImage.length * 0.75);
+          setFileSize(size);
+          sessionStorage.setItem('documents_fileSize', size.toString());
+          
           setSaveStatus({ type: 'success', message: '✓ Image ready' });
         } catch (error) {
           console.error('Error processing image:', error);
