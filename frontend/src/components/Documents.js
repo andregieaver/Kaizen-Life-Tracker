@@ -543,35 +543,17 @@ const Documents = ({ athleteId }) => {
                 <div className="space-y-2">
                   <div className="flex gap-2">
                     <Button
-                      type="button"
                       variant="outline"
                       className="flex-1"
-                      onClick={() => {
-                        addLog('📁 Upload File button clicked');
-                        if (fileInputRef.current) {
-                          addLog('✅ fileInputRef exists, triggering click');
-                          fileInputRef.current.click();
-                        } else {
-                          addLog('❌ fileInputRef is null!');
-                        }
-                      }}
+                      onClick={() => fileInputRef.current?.click()}
                     >
                       <Upload className="w-4 h-4 mr-2" />
                       Upload File
                     </Button>
                     <Button
-                      type="button"
                       variant="outline"
                       className="flex-1"
-                      onClick={() => {
-                        addLog('📷 Take Photo button clicked');
-                        if (cameraInputRef.current) {
-                          addLog('✅ cameraInputRef exists, triggering click');
-                          cameraInputRef.current.click();
-                        } else {
-                          addLog('❌ cameraInputRef is null!');
-                        }
-                      }}
+                      onClick={() => cameraInputRef.current?.click()}
                     >
                       <Camera className="w-4 h-4 mr-2" />
                       Take Photo
