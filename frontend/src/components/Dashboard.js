@@ -703,8 +703,8 @@ const Dashboard = ({ athleteId }) => {
                       <Mic className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem' }}>Voice Journal</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem' }}>Record your thoughts</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: '0px 2px 4px #000000' }}>Voice Journal</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: '0px 2px 4px #000000' }}>Record your thoughts</p>
                     </div>
                   </div>
                 </CardContent>
