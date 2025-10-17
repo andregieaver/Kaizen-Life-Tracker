@@ -338,11 +338,24 @@ const Documents = ({ athleteId }) => {
     const reader = new FileReader();
     
     reader.onload = (e) => {
-      setFileData(e.target.result);
+      const data = e.target.result;
+      
+      // Save to state AND sessionStorage immediately
+      setFileData(data);
+      sessionStorage.setItem('documents_fileData', data);
+      
       setFilePreview(null);
+      sessionStorage.removeItem('documents_filePreview');
+      
       setFileName(file.name);
+      sessionStorage.setItem('documents_fileName', file.name);
+      
       setFileType(file.type);
+      sessionStorage.setItem('documents_fileType', file.type);
+      
       setFileSize(file.size);
+      sessionStorage.setItem('documents_fileSize', file.size.toString());
+      
       setSaveStatus({ type: 'success', message: '✓ File ready' });
     };
     
