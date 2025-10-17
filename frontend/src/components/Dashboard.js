@@ -923,7 +923,7 @@ const Dashboard = ({ athleteId }) => {
                           })}
                         >
                           <div className="flex items-center space-x-4">
-                            <div className="w-10 h-10 bg-gradient-to-br from-[#62D2C4] to-[#4fc4b5] rounded-lg flex items-center justify-center shadow-sm">
+                            <div className="w-10 h-10 bg-gradient-to-br from-[#61a59c] to-[#e9f0c7] rounded-lg flex items-center justify-center shadow-sm">
                               <LineChart className="w-5 h-5 text-white" />
                             </div>
                             <div>
