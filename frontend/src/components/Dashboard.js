@@ -722,8 +722,8 @@ const Dashboard = ({ athleteId }) => {
                       <Check className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: '0px 2px 4px #000000' }}>Habit Tracker</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: '0px 2px 4px #000000' }}>Track daily habits</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Habit Tracker</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Track daily habits</p>
                     </div>
                   </div>
                 </CardContent>
