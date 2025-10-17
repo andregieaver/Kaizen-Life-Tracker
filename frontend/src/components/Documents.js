@@ -274,60 +274,31 @@ const Documents = ({ athleteId }) => {
   };
 
   const handleFileUpload = async (event) => {
-    // Prevent any default behavior that might cause page refresh
-    event.preventDefault();
-    event.stopPropagation();
-    
-    addLog('🔵 handleFileUpload called');
-    
-    // CRITICAL: Keep modal open
-    setShowModal(true);
-    sessionStorage.setItem('documents_modal_open', 'true');
-    
     const file = event.target.files[0];
-    if (!file) {
-      addLog('🔴 No file selected');
-      setShowModal(true); // Keep modal open even if cancelled
-      return;
-    }
-    
-    addLog(`✅ File selected: ${file.name}, ${file.type}`);
-    addLog(`📊 Modal state: ${showModal}`);
-    
-    // Keep modal open during processing
-    setShowModal(true);
-    
-    if (!title) {
-      setTitle(file.name);
-    }
-    
-    const isImage = file.type.startsWith('image/');
-    
-    if (isImage) {
-      try {
-        addLog('🖼️ Processing image...');
-        setSaveStatus({ type: '', message: 'Compressing image...' });
-        setShowModal(true); // Keep modal open
-        
-        const compressedImage = await compressImage(file);
-        addLog(`✅ Image compressed, size: ${compressedImage.length}`);
-        
-        setFileData(compressedImage);
-        setFilePreview(compressedImage);
-        setFileName(file.name);
-        setFileType('image/jpeg');
-        setFileSize(Math.round(compressedImage.length * 0.75));
-        setSaveStatus({ type: 'success', message: '✓ Image ready' });
-        setShowModal(true); // Ensure modal stays open
-        addLog('✅ Image state updated');
-      } catch (error) {
-        addLog(`❌ Error: ${error.message}`);
-        setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
-        setShowModal(true); // Keep modal open on error
+    if (file) {
+      if (!title) {
+        setTitle(file.name);
       }
-    } else {
-      addLog('📄 Processing non-image file...');
-      processNonImageFile(file);
+      
+      const isImage = file.type.startsWith('image/');
+      
+      if (isImage) {
+        try {
+          setSaveStatus({ type: '', message: 'Compressing image...' });
+          const compressedImage = await compressImage(file);
+          setFileData(compressedImage);
+          setFilePreview(compressedImage);
+          setFileName(file.name);
+          setFileType('image/jpeg');
+          setFileSize(Math.round(compressedImage.length * 0.75));
+          setSaveStatus({ type: 'success', message: '✓ Image ready' });
+        } catch (error) {
+          console.error('Error processing image:', error);
+          setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
+        }
+      } else {
+        processNonImageFile(file);
+      }
     }
   };
   const handleCameraCapture = async (event) => {
