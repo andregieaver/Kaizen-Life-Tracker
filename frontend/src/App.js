@@ -15,6 +15,7 @@ import StravaCallback from './components/StravaCallback';
 import OuraCallback from './components/OuraCallback';
 import CorosCallback from './components/CorosCallback';
 import LandingPage from './components/LandingPage';
+import HabitTracker from './components/HabitTracker';
 import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
