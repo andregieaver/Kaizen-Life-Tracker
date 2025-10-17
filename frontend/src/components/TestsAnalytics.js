@@ -805,6 +805,16 @@ const TestsAnalytics = ({ athleteId }) => {
                             fontWeight: '500'
                           }}
                         />
+                        {/* Gradient Area Fill */}
+                        <Area
+                          type="monotone"
+                          dataKey="value"
+                          stroke="none"
+                          fill={`url(#areaGradient-${testName})`}
+                          animationDuration={1500}
+                          animationEasing="ease-in-out"
+                        />
+                        {/* Line with gradient stroke */}
                         <Line 
                           type="monotone" 
                           dataKey="value" 
@@ -827,6 +837,7 @@ const TestsAnalytics = ({ athleteId }) => {
                           }}
                           animationDuration={1500}
                           animationEasing="ease-in-out"
+                          connectNulls={true}
                         />
                       </LineChart>
                     </ResponsiveContainer>
