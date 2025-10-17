@@ -700,7 +700,9 @@ const TestsAnalytics = ({ athleteId }) => {
                       )}
                       <Badge className="bg-gradient-to-r from-blue-500 to-purple-500 text-white border-0 shadow-md">
                         Latest: {
-                          isDistanceTest && latestResult.time_to_completion
+                          unit === 'time' && latestResult.time_to_completion
+                            ? formatValue(latestResult.time_to_completion, 'time', timeDisplayUnit)
+                            : isDistanceTest && latestResult.time_to_completion
                             ? formatValue(latestResult.time_to_completion, 'time')
                             : formatValue(latestResult.result_value, unit)
                         }
