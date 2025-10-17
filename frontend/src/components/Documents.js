@@ -77,11 +77,9 @@ const Documents = ({ athleteId }) => {
   };
 
   const openUploadModal = () => {
-    addLog('🚀 openUploadModal called');
     resetForm();
     setShowModal(true);
     sessionStorage.setItem('documents_modal_open', 'true');
-    addLog('✅ Modal opened');
   };
 
   const categories = [
