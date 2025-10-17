@@ -644,12 +644,14 @@ const TestsAnalytics = ({ athleteId }) => {
 
             return (
               <SortableTestCard key={testName} testName={testName}>
-                <Card className="w-full">
-                <CardHeader>
+                <Card className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 border-0 bg-gradient-to-br from-white to-slate-50">
+                <CardHeader className="pb-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                      <CardTitle className="text-xl">{testName}</CardTitle>
-                      <CardDescription>
+                      <CardTitle className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        {testName}
+                      </CardTitle>
+                      <CardDescription className="text-slate-600 font-medium">
                         {sortedResults.length} test{sortedResults.length !== 1 ? 's' : ''} recorded
                       </CardDescription>
                     </div>
