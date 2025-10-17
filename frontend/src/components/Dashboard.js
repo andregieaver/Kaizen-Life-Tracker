@@ -608,8 +608,8 @@ const Dashboard = ({ athleteId }) => {
                       <Calendar className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem' }}>Today</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem' }}>Daily overview</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: '0px 2px 4px #000000' }}>Today</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: '0px 2px 4px #000000' }}>Daily overview</p>
                     </div>
                   </div>
                 </CardContent>
