@@ -626,11 +626,11 @@ frontend:
 
   - task: "Documents Page Upload Modal Mobile Fix"
     implemented: true
-    working: true
+    working: "NA"
     file: "/app/frontend/src/components/Documents.js"
-    stuck_count: 2
+    stuck_count: 3
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "user"
@@ -677,6 +677,12 @@ frontend:
       - working: true
         agent: "main"
         comment: "✅ ROOT CAUSE FOUND AND FIXED! Debug panel revealed handleFileUpload never called. ISSUE: Using Button onClick={() => fileInputRef.current?.click()} doesn't work on mobile browsers due to security restrictions. FIX: Replaced Button with proper HTML <label htmlFor='file-upload-input'> element. This is the standard, mobile-friendly way to trigger file inputs that works on all browsers without JavaScript. VERIFICATION: User screenshot shows successful upload - Modal OPEN, File selected (IMG_20230904_125509.jpg), File Preview YES, File Data 1139.0KB, handleFileUpload called and completed successfully with image compression. Upload now works perfectly on mobile!"
+      - working: false
+        agent: "user"
+        comment: "Now the modal stays open, but the chosen file fails to be added."
+      - working: "NA"
+        agent: "main"
+        comment: "✅ SESSIONSTORAGE PERSISTENCE IMPLEMENTED - Extended sessionStorage to persist file data across component remounts. ROOT CAUSE: Modal state was persisted to sessionStorage (modal open/closed), but file data (fileData, filePreview, fileName, fileType, fileSize) and form fields (title, description, category) were being lost when the component remounted. This is because the Dashboard component uses URL parameters for activeTab, which can trigger remounts. FIX APPLIED: 1) INITIALIZATION - Updated state initialization to properly restore from sessionStorage, checking for 'null' strings and handling parseInt correctly (lines 30-43). 2) PERSISTENCE - Added 8 useEffect hooks to save each state field to sessionStorage whenever it changes: title, category, description, fileData, filePreview, fileName, fileType, fileSize (lines 124-179). 3) CLEANUP - Updated resetForm to clear all 9 sessionStorage keys (modal_open + 8 form fields) on successful upload or cancel (lines 61-69). TECHNICAL DETAILS: File data (base64 images up to ~12MB) persisted to sessionStorage during upload flow. Form fields restored on component mount if modal should be open. All data cleared after successful upload or explicit cancel. Works across page navigation and component remounts. READY FOR TESTING: File selection should now persist across component remounts. Modal should stay open with file preview and all form data intact."
 
   - task: "Dashboard Quick Stats Update"
     implemented: true
