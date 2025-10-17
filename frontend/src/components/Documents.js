@@ -592,7 +592,10 @@ const Documents = ({ athleteId }) => {
               </label>
               <Input
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                  sessionStorage.setItem('documents_title', e.target.value);
+                }}
                 placeholder="e.g., Blood Test Results - January 2024"
                 className="w-full"
               />
