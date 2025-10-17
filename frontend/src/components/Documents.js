@@ -238,14 +238,22 @@ const Documents = ({ athleteId }) => {
   };
   const handleCameraCapture = async (event) => {
     addLog('📷 handleCameraCapture called');
+    
+    // CRITICAL: Keep modal open
+    setShowModal(true);
+    
     const file = event.target.files[0];
     if (!file) {
       addLog('🔴 No file captured');
+      setShowModal(true); // Keep modal open even if cancelled
       return;
     }
     
     addLog(`✅ Photo captured: ${file.name}, ${file.type}`);
     addLog(`📊 Modal state: ${showModal}`);
+    
+    // Keep modal open during processing
+    setShowModal(true);
     
     if (!title) {
       setTitle(file.name);
@@ -254,18 +262,23 @@ const Documents = ({ athleteId }) => {
     try {
       addLog('📸 Processing captured image...');
       setSaveStatus({ type: '', message: 'Processing image...' });
+      setShowModal(true); // Keep modal open
+      
       const compressedImage = await compressImage(file);
       addLog(`✅ Image compressed, size: ${compressedImage.length}`);
+      
       setFileData(compressedImage);
       setFilePreview(compressedImage);
       setFileName(file.name);
       setFileType('image/jpeg');
       setFileSize(Math.round(compressedImage.length * 0.75));
       setSaveStatus({ type: 'success', message: '✓ Image ready' });
+      setShowModal(true); // Ensure modal stays open
       addLog('✅ Image state updated');
     } catch (error) {
       addLog(`❌ Error: ${error.message}`);
       setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
+      setShowModal(true); // Keep modal open on error
     }
   };
 
