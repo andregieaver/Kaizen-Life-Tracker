@@ -227,7 +227,7 @@ const Dashboard = ({ athleteId }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#f0fffe] to-[#e8f9f7] flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#272727] to-[#4b7d81] flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-[#D4F0E9] border-t-[#62D2C4] rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-lg text-gray-700">{t('common.loading')}</p>
