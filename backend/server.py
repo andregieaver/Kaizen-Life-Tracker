@@ -6927,7 +6927,7 @@ async def get_habit_completions(athlete_id: str, start_date: Optional[str] = Non
         elif end_date:
             query["date"] = {"$lte": end_date}
         
-        completions = await db.habit_completions.find(query).to_list(length=None)
+        completions = await db.habit_completions.find(query, {"_id": 0}).to_list(length=None)
         return {"completions": completions}
     except Exception as e:
         logging.error(f"Error fetching habit completions: {e}")
