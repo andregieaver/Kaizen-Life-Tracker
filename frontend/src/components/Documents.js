@@ -358,7 +358,8 @@ const Documents = ({ athleteId }) => {
 
     try {
       await axios.delete(`${API}/api/documents/${docId}`);
-      await loadDocuments();
+      // Remove document from state immediately (no reload)
+      setDocuments(prev => prev.filter(doc => doc.id !== docId));
     } catch (error) {
       console.error('Error deleting document:', error);
       setSaveStatus({ type: 'error', message: 'Failed to delete document' });
