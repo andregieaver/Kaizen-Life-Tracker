@@ -23,14 +23,18 @@ const Documents = ({ athleteId }) => {
   });
   
   // Form fields
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('medical');
-  const [description, setDescription] = useState('');
-  const [fileData, setFileData] = useState(null);
-  const [filePreview, setFilePreview] = useState(null);
-  const [fileName, setFileName] = useState('');
-  const [fileType, setFileType] = useState('');
-  const [fileSize, setFileSize] = useState(0);
+  // Persist form state across remounts
+  const [title, setTitle] = useState(() => sessionStorage.getItem('documents_title') || '');
+  const [category, setCategory] = useState(() => sessionStorage.getItem('documents_category') || 'medical');
+  const [description, setDescription] = useState(() => sessionStorage.getItem('documents_description') || '');
+  const [fileData, setFileData] = useState(() => sessionStorage.getItem('documents_fileData') || null);
+  const [filePreview, setFilePreview] = useState(() => sessionStorage.getItem('documents_filePreview') || null);
+  const [fileName, setFileName] = useState(() => sessionStorage.getItem('documents_fileName') || '');
+  const [fileType, setFileType] = useState(() => sessionStorage.getItem('documents_fileType') || '');
+  const [fileSize, setFileSize] = useState(() => {
+    const saved = sessionStorage.getItem('documents_fileSize');
+    return saved ? parseInt(saved) : 0;
+  });
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
   
   const fileInputRef = useRef(null);
