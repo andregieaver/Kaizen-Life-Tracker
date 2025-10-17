@@ -398,6 +398,7 @@ const Dashboard = ({ athleteId }) => {
             {/* Menu Content */}
             <div className="flex-1 p-4">
               <nav className="space-y-1">
+                {/* Journal */}
                 <button
                   onClick={() => {
                     navigate('/dashboard/journal');
@@ -412,6 +413,13 @@ const Dashboard = ({ athleteId }) => {
                   <BookOpen className="w-5 h-5" />
                   <span className="font-medium">Journal</span>
                 </button>
+
+                {/* Separator */}
+                <div className="py-2">
+                  <div className="h-px bg-gray-200"></div>
+                </div>
+
+                {/* Nutrition Section */}
                 <button
                   onClick={() => {
                     navigate('/dashboard/nutrition');
@@ -425,20 +433,6 @@ const Dashboard = ({ athleteId }) => {
                 >
                   <Utensils className="w-5 h-5" />
                   <span className="font-medium">Nutrition</span>
-                </button>
-                <button
-                  onClick={() => {
-                    navigate('/dashboard/recipes');
-                    setIsMenuOpen(false);
-                  }}
-                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                    activeTab === 'recipes'
-                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  <ChefHat className="w-5 h-5" />
-                  <span className="font-medium">Recipes</span>
                 </button>
                 <button
                   onClick={() => {
@@ -456,31 +450,17 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => {
-                    navigate('/dashboard/calculators');
+                    navigate('/dashboard/recipes');
                     setIsMenuOpen(false);
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                    activeTab === 'calculators'
+                    activeTab === 'recipes'
                       ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
-                  <Calculator className="w-5 h-5" />
-                  <span className="font-medium">Calculators</span>
-                </button>
-                <button
-                  onClick={() => {
-                    navigate('/dashboard/memories');
-                    setIsMenuOpen(false);
-                  }}
-                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                    activeTab === 'memories'
-                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  <Brain className="w-5 h-5" />
-                  <span className="font-medium">Memories</span>
+                  <ChefHat className="w-5 h-5" />
+                  <span className="font-medium">Recipes</span>
                 </button>
                 <button
                   onClick={() => {
@@ -498,18 +478,25 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => {
-                    navigate('/dashboard/documents');
+                    navigate('/dashboard/habits');
                     setIsMenuOpen(false);
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                    activeTab === 'documents'
-                      ? 'bg-blue-50 text-blue-600'
+                    activeTab === 'habits'
+                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
-                  <FileText className="w-5 h-5" />
-                  <span className="font-medium">Documents</span>
+                  <Check className="w-5 h-5" />
+                  <span className="font-medium">Habit Tracker</span>
                 </button>
+
+                {/* Separator */}
+                <div className="py-2">
+                  <div className="h-px bg-gray-200"></div>
+                </div>
+
+                {/* Analytics Section */}
                 <button
                   onClick={() => {
                     navigate('/dashboard/tests');
@@ -517,7 +504,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'tests'
-                      ? 'bg-blue-50 text-blue-600'
+                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -526,31 +513,52 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => {
-                    navigate('/dashboard/habits');
+                    navigate('/dashboard/calculators');
                     setIsMenuOpen(false);
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                    activeTab === 'habits'
-                      ? 'bg-blue-50 text-blue-600'
+                    activeTab === 'calculators'
+                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
-                  <Check className="w-5 h-5" />
-                  <span className="font-medium">Habit Tracker</span>
+                  <Calculator className="w-5 h-5" />
+                  <span className="font-medium">Calculators</span>
+                </button>
+
+                {/* Separator */}
+                <div className="py-2">
+                  <div className="h-px bg-gray-200"></div>
+                </div>
+
+                {/* Documents Section */}
+                <button
+                  onClick={() => {
+                    navigate('/dashboard/documents');
+                    setIsMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    activeTab === 'documents'
+                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <FileText className="w-5 h-5" />
+                  <span className="font-medium">Documents</span>
                 </button>
                 <button
                   onClick={() => {
-                    navigate('/dashboard/schedules');
+                    navigate('/dashboard/memories');
                     setIsMenuOpen(false);
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                    activeTab === 'schedules'
-                      ? 'bg-blue-50 text-blue-600'
+                    activeTab === 'memories'
+                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
                       : 'text-gray-700 hover:bg-gray-50'
                   }`}
                 >
-                  <Calendar className="w-5 h-5" />
-                  <span className="font-medium">Schedules</span>
+                  <Brain className="w-5 h-5" />
+                  <span className="font-medium">Memories</span>
                 </button>
               </nav>
             </div>
