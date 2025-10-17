@@ -721,6 +721,24 @@ const Dashboard = ({ athleteId }) => {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Training Calendar */}
+              <Card 
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#7B68EE] to-[#6A5ACD] hover:scale-105 transform"
+                onClick={() => navigate('/dashboard/calendar')}
+              >
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                      <Calendar className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="text-center md:text-left">
+                      <h3 className="font-semibold text-white">Training Calendar</h3>
+                      <p className="text-sm text-white/80">View your schedule</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Body Score, Progress, and Merits - Three Equal Columns on Desktop */}
