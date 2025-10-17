@@ -627,8 +627,8 @@ const Dashboard = ({ athleteId }) => {
                       <ChefHat className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: '0px 2px 4px #000000' }}>Weekly Menu</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: '0px 2px 4px #000000' }}>View meal plans</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Weekly Menu</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>View meal plans</p>
                     </div>
                   </div>
                 </CardContent>
