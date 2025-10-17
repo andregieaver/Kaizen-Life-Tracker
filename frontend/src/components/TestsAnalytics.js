@@ -652,10 +652,11 @@ const TestsAnalytics = ({ athleteId }) => {
             const firstResult = sortedResults[0];
             
             // Calculate improvement based on what's being plotted
-            const latestValue = isDistanceTest && latestResult.time_to_completion 
+            // For time-based tests, use time_to_completion; for others use result_value
+            const latestValue = (unit === 'time' || isDistanceTest) && latestResult.time_to_completion 
               ? latestResult.time_to_completion 
               : latestResult.result_value;
-            const firstValue = isDistanceTest && firstResult.time_to_completion 
+            const firstValue = (unit === 'time' || isDistanceTest) && firstResult.time_to_completion 
               ? firstResult.time_to_completion 
               : firstResult.result_value;
             
@@ -663,7 +664,7 @@ const TestsAnalytics = ({ athleteId }) => {
             
             // For time-based metrics (including distance tests), lower is better
             const isLowerBetter = isDistanceTest || unit === 'time';
-            const improvementPercent = sortedResults.length > 1 
+            const improvementPercent = sortedResults.length > 1 && firstValue > 0
               ? ((improvement / firstValue) * 100).toFixed(1) 
               : 0;
 
