@@ -973,6 +973,27 @@ const TestsAnalytics = ({ athleteId }) => {
                   )}
                 </div>
 
+                {/* Time Display Unit - Only for time-based tests */}
+                {(formData.unit === 'time' || formData.unit === 'duration') && (
+                  <div className="space-y-2">
+                    <Label htmlFor="time_display_unit">Display Time As *</Label>
+                    <Select
+                      value={formData.time_display_unit}
+                      onValueChange={(value) => setFormData(prev => ({...prev, time_display_unit: value}))}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="seconds">Seconds (e.g., 90s)</SelectItem>
+                        <SelectItem value="minutes">Minutes (e.g., 1.5 min)</SelectItem>
+                        <SelectItem value="hours">Hours (e.g., 0.025 hrs)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <p className="text-xs text-gray-500">Choose how time will be displayed in the chart axis</p>
+                  </div>
+                )}
+
                 {/* Test Date */}
                 <div className="space-y-2">
                   <Label htmlFor="test_date">Test Date *</Label>
