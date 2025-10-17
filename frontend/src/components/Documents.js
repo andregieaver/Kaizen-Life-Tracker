@@ -171,19 +171,6 @@ const Documents = ({ athleteId }) => {
     }
   }, [fileSize]);
 
-  // Log key state changes only
-  React.useEffect(() => {
-    if (showModal) {
-      addLog(`✅ Modal is OPEN`);
-    }
-  }, [showModal, addLog]);
-
-  React.useEffect(() => {
-    if (filePreview) {
-      addLog(`🖼️ File preview available: ${fileName}`);
-    }
-  }, [filePreview, fileName, addLog]);
-
   // Filter documents in-line during render (no useEffect)
   const getFilteredDocuments = () => {
     const docsArray = Array.isArray(documents) ? documents : [];
