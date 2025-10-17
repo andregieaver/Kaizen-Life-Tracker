@@ -302,53 +302,25 @@ const Documents = ({ athleteId }) => {
     }
   };
   const handleCameraCapture = async (event) => {
-    // Prevent any default behavior that might cause page refresh
-    event.preventDefault();
-    event.stopPropagation();
-    
-    addLog('📷 handleCameraCapture called');
-    
-    // CRITICAL: Keep modal open
-    setShowModal(true);
-    sessionStorage.setItem('documents_modal_open', 'true');
-    
     const file = event.target.files[0];
-    if (!file) {
-      addLog('🔴 No file captured');
-      setShowModal(true); // Keep modal open even if cancelled
-      return;
-    }
-    
-    addLog(`✅ Photo captured: ${file.name}, ${file.type}`);
-    addLog(`📊 Modal state: ${showModal}`);
-    
-    // Keep modal open during processing
-    setShowModal(true);
-    
-    if (!title) {
-      setTitle(file.name);
-    }
-    
-    try {
-      addLog('📸 Processing captured image...');
-      setSaveStatus({ type: '', message: 'Processing image...' });
-      setShowModal(true); // Keep modal open
+    if (file) {
+      if (!title) {
+        setTitle(file.name);
+      }
       
-      const compressedImage = await compressImage(file);
-      addLog(`✅ Image compressed, size: ${compressedImage.length}`);
-      
-      setFileData(compressedImage);
-      setFilePreview(compressedImage);
-      setFileName(file.name);
-      setFileType('image/jpeg');
-      setFileSize(Math.round(compressedImage.length * 0.75));
-      setSaveStatus({ type: 'success', message: '✓ Image ready' });
-      setShowModal(true); // Ensure modal stays open
-      addLog('✅ Image state updated');
-    } catch (error) {
-      addLog(`❌ Error: ${error.message}`);
-      setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
-      setShowModal(true); // Keep modal open on error
+      try {
+        setSaveStatus({ type: '', message: 'Processing image...' });
+        const compressedImage = await compressImage(file);
+        setFileData(compressedImage);
+        setFilePreview(compressedImage);
+        setFileName(file.name);
+        setFileType('image/jpeg');
+        setFileSize(Math.round(compressedImage.length * 0.75));
+        setSaveStatus({ type: 'success', message: '✓ Image ready' });
+      } catch (error) {
+        console.error('Error processing image:', error);
+        setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
+      }
     }
   };
 
