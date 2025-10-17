@@ -716,7 +716,7 @@ const TestsAnalytics = ({ athleteId }) => {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  {/* Line Chart - Enhanced Styling */}
+                  {/* Chart.js Line Chart with Gradient Fill */}
                   <div className="mb-6 p-4 bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl shadow-inner focus:outline-none" style={{ outline: 'none' }}>
                     <div style={{ height: '350px', position: 'relative' }}>
                       <ChartLine
@@ -726,7 +726,13 @@ const TestsAnalytics = ({ athleteId }) => {
                             label: testName,
                             data: chartData.map(item => item.value),
                             borderColor: '#3b82f6',
-                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            backgroundColor: (context) => {
+                              const ctx = context.chart.ctx;
+                              const gradient = ctx.createLinearGradient(0, 0, 0, 350);
+                              gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
+                              gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+                              return gradient;
+                            },
                             borderWidth: 3,
                             fill: true,
                             tension: 0.4,
@@ -757,16 +763,20 @@ const TestsAnalytics = ({ athleteId }) => {
                                   size: 13,
                                   weight: '500'
                                 },
-                                padding: 20
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
                               }
                             },
                             tooltip: {
                               backgroundColor: 'rgba(255, 255, 255, 0.98)',
                               titleColor: '#1e293b',
                               bodyColor: '#3b82f6',
-                              borderColor: 'transparent',
+                              borderColor: '#e5e7eb',
+                              borderWidth: 1,
                               borderRadius: 12,
                               padding: 16,
+                              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
                               titleFont: {
                                 size: 13,
                                 weight: '600'
@@ -781,13 +791,11 @@ const TestsAnalytics = ({ athleteId }) => {
                                   let formattedValue;
                                   
                                   if (unit === 'time') {
-                                    // For time-based tests, format with display unit
                                     if (timeDisplayUnit === 'hours') {
                                       formattedValue = (rawValue / 3600).toFixed(3) + ' hrs';
                                     } else if (timeDisplayUnit === 'minutes') {
                                       formattedValue = (rawValue / 60).toFixed(2) + ' min';
                                     } else {
-                                      // For seconds, show as MM:SS
                                       const minutes = Math.floor(rawValue / 60);
                                       const seconds = Math.floor(rawValue % 60);
                                       formattedValue = `${minutes}:${seconds.toString().padStart(2, '0')}`;
@@ -806,27 +814,12 @@ const TestsAnalytics = ({ athleteId }) => {
                           },
                           scales: {
                             x: {
-                              display: true,
-                              grid: {
-                                display: false
-                              },
-                              ticks: {
-                                color: '#64748b',
-                                font: {
-                                  size: 12,
-                                  weight: '500'
-                                }
-                              },
-                              border: {
-                                color: '#cbd5e1',
-                                width: 2
-                              }
-                            },
-                            y: {
-                              display: true,
                               grid: {
                                 color: 'rgba(203, 213, 225, 0.3)',
-                                borderDash: [3, 3]
+                                drawTicks: false,
+                                drawBorder: true,
+                                borderColor: '#cbd5e1',
+                                borderWidth: 2
                               },
                               ticks: {
                                 color: '#64748b',
@@ -834,16 +827,30 @@ const TestsAnalytics = ({ athleteId }) => {
                                   size: 12,
                                   weight: '500'
                                 },
+                                padding: 8
+                              }
+                            },
+                            y: {
+                              grid: {
+                                color: 'rgba(203, 213, 225, 0.3)',
+                                drawTicks: false,
+                                drawBorder: true,
+                                borderColor: '#cbd5e1',
+                                borderWidth: 2
+                              },
+                              ticks: {
+                                color: '#64748b',
+                                font: {
+                                  size: 12,
+                                  weight: '500'
+                                },
+                                padding: 8,
                                 callback: function(value) {
                                   if (unit === 'time' && timeDisplayUnit !== 'seconds') {
                                     return value.toFixed(timeDisplayUnit === 'hours' ? 3 : 2);
                                   }
                                   return value;
                                 }
-                              },
-                              border: {
-                                color: '#cbd5e1',
-                                width: 2
                               },
                               title: {
                                 display: true,
@@ -852,18 +859,10 @@ const TestsAnalytics = ({ athleteId }) => {
                                 font: {
                                   size: 13,
                                   weight: '600'
-                                }
+                                },
+                                padding: 12
                               }
                             }
-                          },
-                          elements: {
-                            line: {
-                              borderJoinStyle: 'round'
-                            }
-                          },
-                          animation: {
-                            duration: 1500,
-                            easing: 'easeInOutQuart'
                           }
                         }}
                       />
