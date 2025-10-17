@@ -598,17 +598,18 @@ const Dashboard = ({ athleteId }) => {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Today Overview */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#62D2C4] to-[#4fc4b5] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#e9f0c7] to-[#39a9b9] hover:scale-105 transform"
+                style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/today')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <Calendar className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-white">Today</h3>
-                      <p className="text-sm text-white/80">Daily overview</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem' }}>Today</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem' }}>Daily overview</p>
                     </div>
                   </div>
                 </CardContent>
@@ -616,17 +617,18 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Weekly Menu */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#FFB347] to-[#FFA500] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#e9f0c7] to-[#39a9b9] hover:scale-105 transform"
+                style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/recipes')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <ChefHat className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-white">Weekly Menu</h3>
-                      <p className="text-sm text-white/80">View meal plans</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem' }}>Weekly Menu</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem' }}>View meal plans</p>
                     </div>
                   </div>
                 </CardContent>
@@ -634,17 +636,18 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Log Meal */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#FF7F7F] to-[#ff6666] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#e9f0c7] to-[#39a9b9] hover:scale-105 transform"
+                style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/nutrition?action=add')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <Utensils className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-white">Log Meal</h3>
-                      <p className="text-sm text-white/80">Track nutrition</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem' }}>Log Meal</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem' }}>Track nutrition</p>
                     </div>
                   </div>
                 </CardContent>
@@ -652,17 +655,18 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Log Supplement */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#9B7EBD] to-[#8B6FAD] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#e9f0c7] to-[#39a9b9] hover:scale-105 transform"
+                style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/supplements', { state: { openAddModal: true } })}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <Pill className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-white">Log Supplement</h3>
-                      <p className="text-sm text-white/80">Track supplements</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem' }}>Log Supplement</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem' }}>Track supplements</p>
                     </div>
                   </div>
                 </CardContent>
@@ -670,17 +674,18 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Talk to Coach */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#e9f0c7] to-[#39a9b9] hover:scale-105 transform"
+                style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/coach?action=voice')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-[#62D2C4] rounded-xl shadow-sm">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <MessageCircle className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-gray-800">Talk to Coach</h3>
-                      <p className="text-sm text-gray-600">Voice AI assistance</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem' }}>Talk to Coach</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem' }}>Voice AI assistance</p>
                     </div>
                   </div>
                 </CardContent>
@@ -688,17 +693,18 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Voice Journal */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#C1E1C1] to-[#a8d5a8] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#e9f0c7] to-[#39a9b9] hover:scale-105 transform"
+                style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/journal?action=voice')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <Mic className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-white">Voice Journal</h3>
-                      <p className="text-sm text-white/80">Record your thoughts</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem' }}>Voice Journal</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem' }}>Record your thoughts</p>
                     </div>
                   </div>
                 </CardContent>
@@ -706,17 +712,18 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Habit Tracker */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#FFB84D] to-[#FF9A1F] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#e9f0c7] to-[#39a9b9] hover:scale-105 transform"
+                style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/habits')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <Check className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-white">Habit Tracker</h3>
-                      <p className="text-sm text-white/80">Track daily habits</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem' }}>Habit Tracker</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem' }}>Track daily habits</p>
                     </div>
                   </div>
                 </CardContent>
@@ -724,17 +731,18 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Training Calendar */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#7B68EE] to-[#6A5ACD] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#e9f0c7] to-[#39a9b9] hover:scale-105 transform"
+                style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/calendar')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <Calendar className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-white">Training Calendar</h3>
-                      <p className="text-sm text-white/80">View your schedule</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem' }}>Training Calendar</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem' }}>View your schedule</p>
                     </div>
                   </div>
                 </CardContent>
