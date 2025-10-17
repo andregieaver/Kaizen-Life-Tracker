@@ -689,24 +689,68 @@ const TestsAnalytics = ({ athleteId }) => {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  {/* Line Chart */}
-                  <div className="mb-6">
-                    <ResponsiveContainer width="100%" height={300}>
-                      <LineChart data={chartData}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  {/* Line Chart - Enhanced Styling */}
+                  <div className="mb-6 p-4 bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl shadow-inner">
+                    <ResponsiveContainer width="100%" height={350}>
+                      <LineChart 
+                        data={chartData}
+                        margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+                      >
+                        {/* Define gradient for the line */}
+                        <defs>
+                          <linearGradient id={`colorGradient-${testName}`} x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
+                            <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.3}/>
+                          </linearGradient>
+                          <linearGradient id={`areaGradient-${testName}`} x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
+                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.05}/>
+                          </linearGradient>
+                          {/* Glow filter */}
+                          <filter id={`glow-${testName}`}>
+                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                            <feMerge>
+                              <feMergeNode in="coloredBlur"/>
+                              <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                          </filter>
+                        </defs>
+                        
+                        <CartesianGrid 
+                          strokeDasharray="3 3" 
+                          stroke="#cbd5e1" 
+                          strokeOpacity={0.3}
+                          vertical={false}
+                        />
                         <XAxis 
                           dataKey="date" 
-                          stroke="#6b7280"
-                          style={{ fontSize: '12px' }}
+                          stroke="#64748b"
+                          style={{ 
+                            fontSize: '12px',
+                            fontWeight: '500',
+                            fill: '#475569'
+                          }}
+                          tick={{ fill: '#64748b' }}
+                          axisLine={{ stroke: '#cbd5e1', strokeWidth: 2 }}
                         />
                         <YAxis 
-                          stroke="#6b7280"
-                          style={{ fontSize: '12px' }}
+                          stroke="#64748b"
+                          style={{ 
+                            fontSize: '12px',
+                            fontWeight: '500',
+                            fill: '#475569'
+                          }}
+                          tick={{ fill: '#64748b' }}
+                          axisLine={{ stroke: '#cbd5e1', strokeWidth: 2 }}
                           label={{ 
                             value: yAxisLabel, 
                             angle: -90, 
                             position: 'insideLeft',
-                            style: { fontSize: '12px' }
+                            style: { 
+                              fontSize: '13px',
+                              fontWeight: '600',
+                              fill: '#475569'
+                            }
                           }}
                           tickFormatter={(value) => {
                             if (unit === 'time' && timeDisplayUnit !== 'seconds') {
@@ -717,10 +761,25 @@ const TestsAnalytics = ({ athleteId }) => {
                         />
                         <Tooltip 
                           contentStyle={{ 
-                            backgroundColor: 'white', 
-                            border: '1px solid #e5e7eb',
-                            borderRadius: '6px'
+                            backgroundColor: 'rgba(255, 255, 255, 0.98)', 
+                            border: 'none',
+                            borderRadius: '12px',
+                            boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
+                            padding: '12px 16px',
+                            backdropFilter: 'blur(10px)'
                           }}
+                          labelStyle={{
+                            color: '#1e293b',
+                            fontWeight: '600',
+                            fontSize: '13px',
+                            marginBottom: '4px'
+                          }}
+                          itemStyle={{
+                            color: '#3b82f6',
+                            fontWeight: '500',
+                            fontSize: '14px'
+                          }}
+                          cursor={{ stroke: '#3b82f6', strokeWidth: 2, strokeDasharray: '5 5' }}
                           formatter={(value, name, props) => {
                             const rawValue = props.payload.rawValue;
                             let formattedValue;
@@ -737,15 +796,35 @@ const TestsAnalytics = ({ athleteId }) => {
                             return [formattedValue, yAxisLabel];
                           }}
                         />
-                        <Legend />
+                        <Legend 
+                          wrapperStyle={{
+                            paddingTop: '20px',
+                            fontSize: '13px',
+                            fontWeight: '500'
+                          }}
+                        />
                         <Line 
                           type="monotone" 
                           dataKey="value" 
-                          stroke="#3b82f6" 
-                          strokeWidth={2}
-                          dot={{ fill: '#3b82f6', r: 4 }}
+                          stroke="url(#colorGradient-${testName})"
+                          strokeWidth={3}
+                          dot={{ 
+                            fill: '#3b82f6', 
+                            r: 5,
+                            strokeWidth: 3,
+                            stroke: '#fff',
+                            filter: `url(#glow-${testName})`
+                          }}
                           name={testName}
-                          activeDot={{ r: 6 }}
+                          activeDot={{ 
+                            r: 8,
+                            fill: '#3b82f6',
+                            stroke: '#fff',
+                            strokeWidth: 3,
+                            filter: `url(#glow-${testName})`
+                          }}
+                          animationDuration={1500}
+                          animationEasing="ease-in-out"
                         />
                       </LineChart>
                     </ResponsiveContainer>
