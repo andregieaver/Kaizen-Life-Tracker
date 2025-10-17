@@ -626,10 +626,10 @@ frontend:
 
   - task: "Documents Page Upload Modal Mobile Fix"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/frontend/src/components/Documents.js"
-    stuck_count: 3
-    priority: "high"
+    stuck_count: 4
+    priority: "critical"
     needs_retesting: true
     status_history:
       - working: "NA"
