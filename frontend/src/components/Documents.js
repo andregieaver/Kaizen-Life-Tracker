@@ -103,6 +103,67 @@ const Documents = ({ athleteId }) => {
     loadInitialDocuments();
   }, [athleteId]); // Only runs when athleteId changes (on mount)
 
+  // Persist form fields to sessionStorage whenever they change
+  useEffect(() => {
+    if (title) {
+      sessionStorage.setItem('documents_title', title);
+    } else {
+      sessionStorage.removeItem('documents_title');
+    }
+  }, [title]);
+
+  useEffect(() => {
+    sessionStorage.setItem('documents_category', category);
+  }, [category]);
+
+  useEffect(() => {
+    if (description) {
+      sessionStorage.setItem('documents_description', description);
+    } else {
+      sessionStorage.removeItem('documents_description');
+    }
+  }, [description]);
+
+  useEffect(() => {
+    if (fileData) {
+      sessionStorage.setItem('documents_fileData', fileData);
+    } else {
+      sessionStorage.removeItem('documents_fileData');
+    }
+  }, [fileData]);
+
+  useEffect(() => {
+    if (filePreview) {
+      sessionStorage.setItem('documents_filePreview', filePreview);
+    } else {
+      sessionStorage.removeItem('documents_filePreview');
+    }
+  }, [filePreview]);
+
+  useEffect(() => {
+    if (fileName) {
+      sessionStorage.setItem('documents_fileName', fileName);
+    } else {
+      sessionStorage.removeItem('documents_fileName');
+    }
+  }, [fileName]);
+
+  useEffect(() => {
+    if (fileType) {
+      sessionStorage.setItem('documents_fileType', fileType);
+    } else {
+      sessionStorage.removeItem('documents_fileType');
+    }
+  }, [fileType]);
+
+  useEffect(() => {
+    if (fileSize) {
+      sessionStorage.setItem('documents_fileSize', fileSize.toString());
+    } else {
+      sessionStorage.removeItem('documents_fileSize');
+    }
+  }, [fileSize]);
+
   // Log key state changes only
   React.useEffect(() => {
     if (showModal) {
