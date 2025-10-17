@@ -185,6 +185,10 @@ const Documents = ({ athleteId }) => {
   };
 
   const handleFileUpload = async (event) => {
+    // Prevent any default behavior that might cause page refresh
+    event.preventDefault();
+    event.stopPropagation();
+    
     addLog('🔵 handleFileUpload called');
     
     // CRITICAL: Keep modal open
