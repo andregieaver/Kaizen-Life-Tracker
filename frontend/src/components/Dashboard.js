@@ -602,7 +602,7 @@ const Dashboard = ({ athleteId }) => {
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/today')}
               >
-                <CardContent className="p-4 md:p-6">
+                <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <Calendar className="w-6 h-6 text-white" />
@@ -621,7 +621,7 @@ const Dashboard = ({ athleteId }) => {
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/recipes')}
               >
-                <CardContent className="p-4 md:p-6">
+                <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <ChefHat className="w-6 h-6 text-white" />
@@ -640,7 +640,7 @@ const Dashboard = ({ athleteId }) => {
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/nutrition?action=add')}
               >
-                <CardContent className="p-4 md:p-6">
+                <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <Utensils className="w-6 h-6 text-white" />
@@ -659,7 +659,7 @@ const Dashboard = ({ athleteId }) => {
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/supplements', { state: { openAddModal: true } })}
               >
-                <CardContent className="p-4 md:p-6">
+                <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <Pill className="w-6 h-6 text-white" />
@@ -678,7 +678,7 @@ const Dashboard = ({ athleteId }) => {
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/coach?action=voice')}
               >
-                <CardContent className="p-4 md:p-6">
+                <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <MessageCircle className="w-6 h-6 text-white" />
@@ -697,7 +697,7 @@ const Dashboard = ({ athleteId }) => {
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/journal?action=voice')}
               >
-                <CardContent className="p-4 md:p-6">
+                <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <Mic className="w-6 h-6 text-white" />
@@ -716,7 +716,7 @@ const Dashboard = ({ athleteId }) => {
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/habits')}
               >
-                <CardContent className="p-4 md:p-6">
+                <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <Check className="w-6 h-6 text-white" />
@@ -735,7 +735,7 @@ const Dashboard = ({ athleteId }) => {
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/calendar')}
               >
-                <CardContent className="p-4 md:p-6">
+                <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
                       <Calendar className="w-6 h-6 text-white" />
