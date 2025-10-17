@@ -14,8 +14,7 @@ const Documents = ({ athleteId }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isLoadingDocs, setIsLoadingDocs] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const [debugLogs, setDebugLogs] = useState([]);
-  const [componentId] = useState(() => Math.random().toString(36).substring(7));
+  
   // Persist modal state across remounts using sessionStorage
   const [showModal, setShowModal] = useState(() => {
     const saved = sessionStorage.getItem('documents_modal_open');
