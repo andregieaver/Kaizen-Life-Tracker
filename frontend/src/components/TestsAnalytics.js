@@ -887,23 +887,27 @@ const TestsAnalytics = ({ athleteId }) => {
                   )}
                 </div>
 
-                {/* Result Value */}
-                <div className="space-y-2">
-                  <Label htmlFor="result_value">Result Value *</Label>
-                  <Input
-                    id="result_value"
-                    type="number"
-                    step="0.01"
-                    value={formData.result_value}
-                    onChange={(e) => setFormData(prev => ({...prev, result_value: e.target.value}))}
-                    placeholder="e.g., 20 (for 20 pull-ups)"
-                    required
-                  />
-                </div>
+                {/* Result Value - Hidden for time-based tests */}
+                {formData.unit !== 'time' && (
+                  <div className="space-y-2">
+                    <Label htmlFor="result_value">Result Value *</Label>
+                    <Input
+                      id="result_value"
+                      type="number"
+                      step="0.01"
+                      value={formData.result_value}
+                      onChange={(e) => setFormData(prev => ({...prev, result_value: e.target.value}))}
+                      placeholder="e.g., 20 (for 20 pull-ups)"
+                      required
+                    />
+                  </div>
+                )}
 
                 {/* Time to Completion */}
                 <div className="space-y-2">
-                  <Label>Time to Completion - Optional</Label>
+                  <Label>
+                    Time to Completion {formData.unit === 'time' ? '*' : '- Optional'}
+                  </Label>
                   <div className="grid grid-cols-3 gap-3">
                     <div className="space-y-1">
                       <Input
@@ -913,6 +917,7 @@ const TestsAnalytics = ({ athleteId }) => {
                         value={formData.time_hours}
                         onChange={(e) => setFormData(prev => ({...prev, time_hours: e.target.value}))}
                         placeholder="HH"
+                        required={formData.unit === 'time'}
                       />
                       <p className="text-xs text-gray-500 text-center">Hours</p>
                     </div>
@@ -925,6 +930,7 @@ const TestsAnalytics = ({ athleteId }) => {
                         value={formData.time_minutes}
                         onChange={(e) => setFormData(prev => ({...prev, time_minutes: e.target.value}))}
                         placeholder="MM"
+                        required={formData.unit === 'time'}
                       />
                       <p className="text-xs text-gray-500 text-center">Minutes</p>
                     </div>
@@ -937,11 +943,16 @@ const TestsAnalytics = ({ athleteId }) => {
                         value={formData.time_seconds}
                         onChange={(e) => setFormData(prev => ({...prev, time_seconds: e.target.value}))}
                         placeholder="SS"
+                        required={formData.unit === 'time'}
                       />
                       <p className="text-xs text-gray-500 text-center">Seconds</p>
                     </div>
                   </div>
-                  <p className="text-xs text-gray-500">Leave empty if not applicable</p>
+                  {formData.unit === 'time' ? (
+                    <p className="text-xs text-blue-600 font-medium">Enter the time result for this test</p>
+                  ) : (
+                    <p className="text-xs text-gray-500">Leave empty if not applicable</p>
+                  )}
                 </div>
 
                 {/* Test Date */}
