@@ -17,7 +17,6 @@ import Journal from './Journal';
 import Nutrition from './Nutrition';
 import Supplements from './Supplements';
 import Schedules from './Schedules';
-import Files from './Files';
 import HabitTracker from './HabitTracker';
 import Memories from './Memories';
 import Today from './Today';
