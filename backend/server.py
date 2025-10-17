@@ -6806,7 +6806,7 @@ async def create_habit(habit: Habit):
 async def get_habits(athlete_id: str):
     """Get all habits for an athlete"""
     try:
-        habits = await db.habits.find({"athlete_id": athlete_id}).to_list(length=None)
+        habits = await db.habits.find({"athlete_id": athlete_id}, {"_id": 0}).to_list(length=None)
         return {"habits": habits}
     except Exception as e:
         logging.error(f"Error fetching habits: {e}")
