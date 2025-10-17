@@ -449,16 +449,30 @@ const TestsAnalytics = ({ athleteId }) => {
     });
   };
 
-  const formatValue = (value, unit) => {
+  const formatValue = (value, unit, timeDisplayUnit = 'seconds') => {
     if (unit === 'time') {
-      const minutes = Math.floor(value / 60);
-      const seconds = Math.floor(value % 60);
-      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      // Convert seconds to the desired display unit
+      if (timeDisplayUnit === 'hours') {
+        return (value / 3600).toFixed(3);
+      } else if (timeDisplayUnit === 'minutes') {
+        return (value / 60).toFixed(2);
+      } else {
+        // Default to seconds or MM:SS format
+        const minutes = Math.floor(value / 60);
+        const seconds = Math.floor(value % 60);
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      }
     }
     if (unit === 'percentage') {
       return `${value}%`;
     }
     return value.toString();
+  };
+
+  const getTimeDisplayLabel = (timeDisplayUnit) => {
+    if (timeDisplayUnit === 'hours') return 'hrs';
+    if (timeDisplayUnit === 'minutes') return 'min';
+    return ''; // For seconds, we use MM:SS format
   };
 
   const getUnitLabel = (unit) => {
