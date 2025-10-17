@@ -325,17 +325,12 @@ const Documents = ({ athleteId }) => {
   };
 
   const processNonImageFile = (file) => {
-    // Keep modal open during processing
-    setShowModal(true);
-    
     if (file.size > 10 * 1024 * 1024) {
       setSaveStatus({ type: 'error', message: 'File must be less than 10MB' });
-      setShowModal(true);
       return;
     }
 
     setSaveStatus({ type: '', message: 'Loading file...' });
-    setShowModal(true);
     
     const reader = new FileReader();
     
@@ -346,12 +341,10 @@ const Documents = ({ athleteId }) => {
       setFileType(file.type);
       setFileSize(file.size);
       setSaveStatus({ type: 'success', message: '✓ File ready' });
-      setShowModal(true); // Ensure modal stays open
     };
     
     reader.onerror = () => {
       setSaveStatus({ type: 'error', message: 'Failed to read file' });
-      setShowModal(true); // Keep modal open on error
     };
     
     reader.readAsDataURL(file);
