@@ -818,14 +818,17 @@ const TestsAnalytics = ({ athleteId }) => {
                             fontWeight: '500'
                           }}
                         />
-                        {/* Gradient Area Fill */}
+                        {/* Gradient Area Fill - fills space between line and X-axis */}
                         <Area
                           type="monotone"
                           dataKey="value"
                           stroke="none"
+                          strokeWidth={0}
                           fill={`url(#areaGradient-${testName})`}
+                          fillOpacity={1}
                           animationDuration={1500}
                           animationEasing="ease-in-out"
+                          isAnimationActive={true}
                         />
                         {/* Line with gradient stroke */}
                         <Line 
