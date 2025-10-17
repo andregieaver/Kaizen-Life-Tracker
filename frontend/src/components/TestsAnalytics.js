@@ -715,10 +715,21 @@ const TestsAnalytics = ({ athleteId }) => {
                             border: '1px solid #e5e7eb',
                             borderRadius: '6px'
                           }}
-                          formatter={(value) => [
-                            formatValue(value, isDistanceTest ? 'time' : unit), 
-                            yAxisLabel
-                          ]}
+                          formatter={(value, name, props) => {
+                            const rawValue = props.payload.rawValue;
+                            let formattedValue;
+                            
+                            if (unit === 'time') {
+                              formattedValue = formatValue(rawValue, 'time', timeDisplayUnit);
+                              if (timeDisplayUnit !== 'seconds') {
+                                formattedValue += ' ' + getTimeDisplayLabel(timeDisplayUnit);
+                              }
+                            } else {
+                              formattedValue = formatValue(value, isDistanceTest ? 'time' : unit, timeDisplayUnit);
+                            }
+                            
+                            return [formattedValue, yAxisLabel];
+                          }}
                         />
                         <Legend />
                         <Line 
