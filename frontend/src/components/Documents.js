@@ -16,7 +16,11 @@ const Documents = ({ athleteId }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [debugLogs, setDebugLogs] = useState([]);
   const [componentId] = useState(() => Math.random().toString(36).substring(7));
-  const [showModal, setShowModal] = useState(false);
+  // Persist modal state across remounts using sessionStorage
+  const [showModal, setShowModal] = useState(() => {
+    const saved = sessionStorage.getItem('documents_modal_open');
+    return saved === 'true';
+  });
   
   // Form fields
   const [title, setTitle] = useState('');
