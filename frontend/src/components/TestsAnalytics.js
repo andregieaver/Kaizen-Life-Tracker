@@ -700,11 +700,17 @@ const TestsAnalytics = ({ athleteId }) => {
                       )}
                       <Badge className="bg-gradient-to-r from-blue-500 to-purple-500 text-white border-0 shadow-md">
                         Latest: {
-                          unit === 'time' && latestResult.time_to_completion
-                            ? formatValue(latestResult.time_to_completion, 'time', timeDisplayUnit)
-                            : isDistanceTest && latestResult.time_to_completion
-                            ? formatValue(latestResult.time_to_completion, 'time')
-                            : formatValue(latestResult.result_value, unit)
+                          (() => {
+                            if (unit === 'time' && latestResult.time_to_completion) {
+                              const formattedTime = formatValue(latestResult.time_to_completion, 'time', timeDisplayUnit);
+                              const label = getTimeDisplayLabel(timeDisplayUnit);
+                              return label ? `${formattedTime} ${label}` : formattedTime;
+                            } else if (isDistanceTest && latestResult.time_to_completion) {
+                              return formatValue(latestResult.time_to_completion, 'time');
+                            } else {
+                              return formatValue(latestResult.result_value, unit);
+                            }
+                          })()
                         }
                       </Badge>
                       <Button
