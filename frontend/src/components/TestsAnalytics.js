@@ -820,7 +820,7 @@ const TestsAnalytics = ({ athleteId }) => {
                         <Line 
                           type="monotone" 
                           dataKey="value" 
-                          stroke="url(#colorGradient-${testName})"
+                          stroke={`url(#colorGradient-${testName})`}
                           strokeWidth={3}
                           dot={{ 
                             fill: '#3b82f6', 
