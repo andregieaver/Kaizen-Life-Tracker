@@ -58,6 +58,7 @@ const Documents = ({ athleteId }) => {
     addLog('🚀 openUploadModal called');
     resetForm();
     setShowModal(true);
+    sessionStorage.setItem('documents_modal_open', 'true');
     addLog('✅ Modal opened');
   };
 
