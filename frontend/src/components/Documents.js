@@ -15,6 +15,7 @@ const Documents = ({ athleteId }) => {
   const [isLoadingDocs, setIsLoadingDocs] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [debugLogs, setDebugLogs] = useState([]);
+  const [componentId] = useState(() => Math.random().toString(36).substring(7));
   const [showModal, setShowModal] = useState(false);
   
   // Form fields
