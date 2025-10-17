@@ -89,13 +89,6 @@ const Documents = ({ athleteId }) => {
     { value: 'other', label: 'Other', icon: FolderOpen, color: 'bg-gray-100 text-gray-800' }
   ];
 
-  const addLog = React.useCallback((message) => {
-    const timestamp = new Date().toLocaleTimeString();
-    const logEntry = `[${timestamp}] ${message}`;
-    console.log(logEntry);
-    setDebugLogs(prev => [...prev.slice(-20), logEntry]); // Keep last 20 logs
-  }, []);
-
   // Load documents ONLY on component mount
   useEffect(() => {
     const loadInitialDocuments = async () => {
