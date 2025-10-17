@@ -584,21 +584,44 @@ const TestsAnalytics = ({ athleteId }) => {
             );
 
             const unit = results[0].unit;
+            const timeDisplayUnit = results[0].time_display_unit || 'seconds'; // Get from first result
             
             // For distance-based tests, plot time_to_completion instead of distance
             const isDistanceTest = unit === 'distance';
             
             // Determine Y-axis label based on what's being plotted
-            const yAxisLabel = isDistanceTest ? 'Time' : getUnitLabel(unit);
+            let yAxisLabel = isDistanceTest ? 'Time' : getUnitLabel(unit);
             
-            // Prepare chart data
-            const chartData = sortedResults.map(result => ({
-              date: formatDate(result.test_date),
-              value: isDistanceTest && result.time_to_completion 
-                ? result.time_to_completion 
-                : result.result_value,
-              fullDate: result.test_date
-            }));
+            // For time-based tests, add the display unit label
+            if (unit === 'time' && timeDisplayUnit !== 'seconds') {
+              yAxisLabel = `Time (${getTimeDisplayLabel(timeDisplayUnit)})`;
+            }
+            
+            // Prepare chart data - convert time values based on display preference
+            const chartData = sortedResults.map(result => {
+              let displayValue;
+              if (isDistanceTest && result.time_to_completion) {
+                displayValue = result.time_to_completion;
+              } else if (unit === 'time' && result.time_to_completion) {
+                // For time-based tests, convert to display unit
+                if (timeDisplayUnit === 'hours') {
+                  displayValue = result.time_to_completion / 3600;
+                } else if (timeDisplayUnit === 'minutes') {
+                  displayValue = result.time_to_completion / 60;
+                } else {
+                  displayValue = result.time_to_completion; // Keep as seconds
+                }
+              } else {
+                displayValue = result.result_value;
+              }
+              
+              return {
+                date: formatDate(result.test_date),
+                value: displayValue,
+                fullDate: result.test_date,
+                rawValue: result.time_to_completion || result.result_value // Keep raw for tooltip
+              };
+            });
 
             const latestResult = sortedResults[sortedResults.length - 1];
             const firstResult = sortedResults[0];
