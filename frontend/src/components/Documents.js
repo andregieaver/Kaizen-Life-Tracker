@@ -434,7 +434,7 @@ const Documents = ({ athleteId }) => {
       {/* Debug Log Panel */}
       <div className="bg-black text-green-400 p-4 rounded-lg font-mono text-xs max-h-64 overflow-y-auto">
         <div className="flex items-center justify-between mb-2">
-          <span className="font-bold text-white">📊 DEBUG LOGS</span>
+          <span className="font-bold text-white">📊 DEBUG LOGS (ID: {componentId})</span>
           <button 
             onClick={() => setDebugLogs([])}
             className="text-red-400 hover:text-red-300 text-xs"
