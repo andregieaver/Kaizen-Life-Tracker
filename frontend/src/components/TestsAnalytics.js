@@ -658,11 +658,11 @@ const TestsAnalytics = ({ athleteId }) => {
                     <div className="flex flex-wrap items-center gap-2">
                       {sortedResults.length > 1 && (
                         <Badge 
-                          className={
+                          className={`shadow-md ${
                             isLowerBetter 
-                              ? (improvement <= 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800')
-                              : (improvement >= 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800')
-                          }
+                              ? (improvement <= 0 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white border-0' : 'bg-gradient-to-r from-red-400 to-rose-500 text-white border-0')
+                              : (improvement >= 0 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white border-0' : 'bg-gradient-to-r from-red-400 to-rose-500 text-white border-0')
+                          }`}
                         >
                           <TrendingUp className="w-3 h-3 mr-1" />
                           {isLowerBetter 
@@ -672,7 +672,7 @@ const TestsAnalytics = ({ athleteId }) => {
                           {improvementPercent}%
                         </Badge>
                       )}
-                      <Badge className="bg-blue-100 text-blue-800">
+                      <Badge className="bg-gradient-to-r from-blue-500 to-purple-500 text-white border-0 shadow-md">
                         Latest: {
                           isDistanceTest && latestResult.time_to_completion
                             ? formatValue(latestResult.time_to_completion, 'time')
@@ -682,7 +682,7 @@ const TestsAnalytics = ({ athleteId }) => {
                       <Button
                         size="sm"
                         onClick={() => handleAddEntryToTest(testName, unit)}
-                        className="bg-green-600 hover:bg-green-700 text-white"
+                        className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-md"
                       >
                         <Plus className="w-4 h-4 mr-1" />
                         Add Entry
