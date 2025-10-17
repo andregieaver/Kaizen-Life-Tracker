@@ -337,7 +337,10 @@ const Dashboard = ({ athleteId }) => {
       }`}>
         <div className="px-4 py-3">
           <div className="flex justify-between items-center">
-            <h1 className="font-display text-xl font-bold text-white tracking-tight">
+            <h1 
+              className="font-display text-xl font-bold text-white tracking-tight cursor-pointer active:opacity-80 transition-opacity"
+              onClick={() => navigate('/dashboard')}
+            >
               My Health Tracker
             </h1>
             <button 
