@@ -15,7 +15,7 @@ import json
 from datetime import datetime
 
 # Configuration
-BASE_URL = "https://running-coach-ai-1.preview.emergentagent.com/api"
+BASE_URL = "https://smart-fitness-app-14.preview.emergentagent.com/api"
 TEST_EMAIL = "test_recipe@trainsmart.ai"
 TEST_PASSWORD = "TestPassword123!"
 TEST_NAME = "Recipe Test Athlete"
