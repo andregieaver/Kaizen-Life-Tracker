@@ -698,17 +698,19 @@ const TestsAnalytics = ({ athleteId }) => {
                         data={chartData}
                         margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
                       >
-                        {/* Define gradient for the line */}
+                        {/* Define gradients and filters */}
                         <defs>
+                          {/* Line gradient - blue to purple */}
                           <linearGradient id={`colorGradient-${testName}`} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
-                            <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.3}/>
+                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={1}/>
+                            <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.8}/>
                           </linearGradient>
+                          {/* Area gradient - 30% opacity at top to 0% at bottom */}
                           <linearGradient id={`areaGradient-${testName}`} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
-                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.05}/>
+                            <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                            <stop offset="100%" stopColor="#3b82f6" stopOpacity={0}/>
                           </linearGradient>
-                          {/* Glow filter */}
+                          {/* Glow filter for data points */}
                           <filter id={`glow-${testName}`}>
                             <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
                             <feMerge>
