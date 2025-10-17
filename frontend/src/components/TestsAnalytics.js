@@ -718,170 +718,156 @@ const TestsAnalytics = ({ athleteId }) => {
                 <CardContent>
                   {/* Line Chart - Enhanced Styling */}
                   <div className="mb-6 p-4 bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl shadow-inner focus:outline-none" style={{ outline: 'none' }}>
-                    <ResponsiveContainer width="100%" height={350}>
-                      <LineChart 
-                        data={chartData}
-                        margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-                        style={{ outline: 'none' }}
-                      >
-                        {/* Define gradients and filters */}
-                        <defs>
-                          {/* Line gradient - blue to purple */}
-                          <linearGradient id={`colorGradient-${testName}`} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={1}/>
-                            <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.8}/>
-                          </linearGradient>
-                          {/* Area gradient - fills from line down to X-axis */}
-                          <linearGradient id={`areaGradient-${testName}`} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.35}/>
-                            <stop offset="100%" stopColor="#3b82f6" stopOpacity={0}/>
-                          </linearGradient>
-                          {/* Glow filter for data points */}
-                          <filter id={`glow-${testName}`}>
-                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                            <feMerge>
-                              <feMergeNode in="coloredBlur"/>
-                              <feMergeNode in="SourceGraphic"/>
-                            </feMerge>
-                          </filter>
-                        </defs>
-                        
-                        <CartesianGrid 
-                          strokeDasharray="3 3" 
-                          stroke="#cbd5e1" 
-                          strokeOpacity={0.3}
-                          vertical={false}
-                        />
-                        <XAxis 
-                          dataKey="date" 
-                          stroke="#64748b"
-                          style={{ 
-                            fontSize: '12px',
-                            fontWeight: '500',
-                            fill: '#475569'
-                          }}
-                          tick={{ fill: '#64748b' }}
-                          axisLine={{ stroke: '#cbd5e1', strokeWidth: 2 }}
-                        />
-                        <YAxis 
-                          stroke="#64748b"
-                          style={{ 
-                            fontSize: '12px',
-                            fontWeight: '500',
-                            fill: '#475569'
-                          }}
-                          tick={{ fill: '#64748b' }}
-                          axisLine={{ stroke: '#cbd5e1', strokeWidth: 2 }}
-                          label={{ 
-                            value: yAxisLabel, 
-                            angle: -90, 
-                            position: 'insideLeft',
-                            style: { 
-                              fontSize: '13px',
-                              fontWeight: '600',
-                              fill: '#475569'
-                            }
-                          }}
-                          tickFormatter={(value) => {
-                            if (unit === 'time' && timeDisplayUnit !== 'seconds') {
-                              return value.toFixed(timeDisplayUnit === 'hours' ? 3 : 2);
-                            }
-                            return value;
-                          }}
-                        />
-                        <Tooltip 
-                          contentStyle={{ 
-                            backgroundColor: 'rgba(255, 255, 255, 0.98)', 
-                            border: 'none',
-                            borderRadius: '12px',
-                            boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-                            padding: '12px 16px',
-                            backdropFilter: 'blur(10px)'
-                          }}
-                          labelStyle={{
-                            color: '#1e293b',
-                            fontWeight: '600',
-                            fontSize: '13px',
-                            marginBottom: '4px'
-                          }}
-                          itemStyle={{
-                            color: '#3b82f6',
-                            fontWeight: '500',
-                            fontSize: '14px'
-                          }}
-                          cursor={{ stroke: '#3b82f6', strokeWidth: 2, strokeDasharray: '5 5' }}
-                          formatter={(value, name, props) => {
-                            const rawValue = props.payload.rawValue;
-                            let formattedValue;
-                            
-                            if (unit === 'time') {
-                              // For time-based tests, format with display unit
-                              if (timeDisplayUnit === 'hours') {
-                                formattedValue = (rawValue / 3600).toFixed(3) + ' hrs';
-                              } else if (timeDisplayUnit === 'minutes') {
-                                formattedValue = (rawValue / 60).toFixed(2) + ' min';
-                              } else {
-                                // For seconds, show as MM:SS
-                                const minutes = Math.floor(rawValue / 60);
-                                const seconds = Math.floor(rawValue % 60);
-                                formattedValue = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                    <div style={{ height: '350px', position: 'relative' }}>
+                      <ChartLine
+                        data={{
+                          labels: chartData.map(item => item.date),
+                          datasets: [{
+                            label: testName,
+                            data: chartData.map(item => item.value),
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#3b82f6',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 3,
+                            pointRadius: 5,
+                            pointHoverRadius: 8,
+                            pointHoverBackgroundColor: '#3b82f6',
+                            pointHoverBorderColor: '#fff',
+                            pointHoverBorderWidth: 3,
+                          }]
+                        }}
+                        options={{
+                          responsive: true,
+                          maintainAspectRatio: false,
+                          interaction: {
+                            intersect: false,
+                            mode: 'index',
+                          },
+                          plugins: {
+                            legend: {
+                              display: true,
+                              position: 'bottom',
+                              labels: {
+                                color: '#475569',
+                                font: {
+                                  size: 13,
+                                  weight: '500'
+                                },
+                                padding: 20
                               }
-                            } else {
-                              formattedValue = formatValue(value, isDistanceTest ? 'time' : unit, timeDisplayUnit);
-                              if (!isDistanceTest && unit !== 'percentage') {
-                                formattedValue += ' ' + getUnitLabel(unit);
+                            },
+                            tooltip: {
+                              backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                              titleColor: '#1e293b',
+                              bodyColor: '#3b82f6',
+                              borderColor: 'transparent',
+                              borderRadius: 12,
+                              padding: 16,
+                              titleFont: {
+                                size: 13,
+                                weight: '600'
+                              },
+                              bodyFont: {
+                                size: 14,
+                                weight: '500'
+                              },
+                              callbacks: {
+                                label: function(context) {
+                                  const rawValue = chartData[context.dataIndex].rawValue;
+                                  let formattedValue;
+                                  
+                                  if (unit === 'time') {
+                                    // For time-based tests, format with display unit
+                                    if (timeDisplayUnit === 'hours') {
+                                      formattedValue = (rawValue / 3600).toFixed(3) + ' hrs';
+                                    } else if (timeDisplayUnit === 'minutes') {
+                                      formattedValue = (rawValue / 60).toFixed(2) + ' min';
+                                    } else {
+                                      // For seconds, show as MM:SS
+                                      const minutes = Math.floor(rawValue / 60);
+                                      const seconds = Math.floor(rawValue % 60);
+                                      formattedValue = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                                    }
+                                  } else {
+                                    formattedValue = formatValue(context.parsed.y, isDistanceTest ? 'time' : unit, timeDisplayUnit);
+                                    if (!isDistanceTest && unit !== 'percentage') {
+                                      formattedValue += ' ' + getUnitLabel(unit);
+                                    }
+                                  }
+                                  
+                                  return `${testName}: ${formattedValue}`;
+                                }
                               }
                             }
-                            
-                            return [formattedValue, testName];
-                          }}
-                        />
-                        <Legend 
-                          wrapperStyle={{
-                            paddingTop: '20px',
-                            fontSize: '13px',
-                            fontWeight: '500'
-                          }}
-                        />
-                        {/* Gradient Area Fill - fills space between line and X-axis */}
-                        <Area
-                          type="monotone"
-                          dataKey="value"
-                          stroke="none"
-                          strokeWidth={0}
-                          fill={`url(#areaGradient-${testName})`}
-                          fillOpacity={1}
-                          animationDuration={1500}
-                          animationEasing="ease-in-out"
-                          isAnimationActive={true}
-                        />
-                        {/* Line with gradient stroke */}
-                        <Line 
-                          type="monotone" 
-                          dataKey="value" 
-                          stroke={`url(#colorGradient-${testName})`}
-                          strokeWidth={3}
-                          dot={{ 
-                            fill: '#3b82f6', 
-                            r: 5,
-                            strokeWidth: 3,
-                            stroke: '#fff',
-                            filter: `url(#glow-${testName})`
-                          }}
-                          name={testName}
-                          activeDot={{ 
-                            r: 8,
-                            fill: '#3b82f6',
-                            stroke: '#fff',
-                            strokeWidth: 3,
-                            filter: `url(#glow-${testName})`
-                          }}
-                          animationDuration={1500}
-                          animationEasing="ease-in-out"
-                          connectNulls={true}
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
+                          },
+                          scales: {
+                            x: {
+                              display: true,
+                              grid: {
+                                display: false
+                              },
+                              ticks: {
+                                color: '#64748b',
+                                font: {
+                                  size: 12,
+                                  weight: '500'
+                                }
+                              },
+                              border: {
+                                color: '#cbd5e1',
+                                width: 2
+                              }
+                            },
+                            y: {
+                              display: true,
+                              grid: {
+                                color: 'rgba(203, 213, 225, 0.3)',
+                                borderDash: [3, 3]
+                              },
+                              ticks: {
+                                color: '#64748b',
+                                font: {
+                                  size: 12,
+                                  weight: '500'
+                                },
+                                callback: function(value) {
+                                  if (unit === 'time' && timeDisplayUnit !== 'seconds') {
+                                    return value.toFixed(timeDisplayUnit === 'hours' ? 3 : 2);
+                                  }
+                                  return value;
+                                }
+                              },
+                              border: {
+                                color: '#cbd5e1',
+                                width: 2
+                              },
+                              title: {
+                                display: true,
+                                text: yAxisLabel,
+                                color: '#475569',
+                                font: {
+                                  size: 13,
+                                  weight: '600'
+                                }
+                              }
+                            }
+                          },
+                          elements: {
+                            line: {
+                              borderJoinStyle: 'round'
+                            }
+                          },
+                          animation: {
+                            duration: 1500,
+                            easing: 'easeInOutQuart'
+                          }
+                        }}
+                      />
+                    </div>
                   </div>
 
                   {/* Individual Test Results List */}
