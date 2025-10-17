@@ -692,11 +692,12 @@ const TestsAnalytics = ({ athleteId }) => {
                 </CardHeader>
                 <CardContent>
                   {/* Line Chart - Enhanced Styling */}
-                  <div className="mb-6 p-4 bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl shadow-inner">
+                  <div className="mb-6 p-4 bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl shadow-inner focus:outline-none" style={{ outline: 'none' }}>
                     <ResponsiveContainer width="100%" height={350}>
                       <LineChart 
                         data={chartData}
                         margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+                        style={{ outline: 'none' }}
                       >
                         {/* Define gradients and filters */}
                         <defs>
