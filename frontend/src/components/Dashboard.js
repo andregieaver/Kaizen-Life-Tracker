@@ -540,6 +540,16 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => {
+                    navigate('/habits');
+                    setIsMenuOpen(false);
+                  }}
+                  className="w-full flex items-center space-x-3 p-3 rounded-lg transition-colors text-gray-700 hover:bg-gray-50"
+                >
+                  <Check className="w-5 h-5" />
+                  <span className="font-medium">Habit Tracker</span>
+                </button>
+                <button
+                  onClick={() => {
                     navigate('/dashboard/schedules');
                     setIsMenuOpen(false);
                   }}
