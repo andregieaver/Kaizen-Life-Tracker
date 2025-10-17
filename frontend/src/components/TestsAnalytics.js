@@ -708,6 +708,12 @@ const TestsAnalytics = ({ athleteId }) => {
                             position: 'insideLeft',
                             style: { fontSize: '12px' }
                           }}
+                          tickFormatter={(value) => {
+                            if (unit === 'time' && timeDisplayUnit !== 'seconds') {
+                              return value.toFixed(timeDisplayUnit === 'hours' ? 3 : 2);
+                            }
+                            return value;
+                          }}
                         />
                         <Tooltip 
                           contentStyle={{ 
