@@ -200,6 +200,7 @@ const Documents = ({ athleteId }) => {
     
     // CRITICAL: Keep modal open
     setShowModal(true);
+    sessionStorage.setItem('documents_modal_open', 'true');
     
     const file = event.target.files[0];
     if (!file) {
@@ -256,6 +257,7 @@ const Documents = ({ athleteId }) => {
     
     // CRITICAL: Keep modal open
     setShowModal(true);
+    sessionStorage.setItem('documents_modal_open', 'true');
     
     const file = event.target.files[0];
     if (!file) {
