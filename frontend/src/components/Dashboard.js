@@ -689,6 +689,24 @@ const Dashboard = ({ athleteId }) => {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Habit Tracker */}
+              <Card 
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#FFB84D] to-[#FF9A1F] hover:scale-105 transform"
+                onClick={() => navigate('/habits')}
+              >
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
+                    <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl">
+                      <Check className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="text-center md:text-left">
+                      <h3 className="font-semibold text-white">Habit Tracker</h3>
+                      <p className="text-sm text-white/80">Track daily habits</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Body Score, Progress, and Merits - Three Equal Columns on Desktop */}
