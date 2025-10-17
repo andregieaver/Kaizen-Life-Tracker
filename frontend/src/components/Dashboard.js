@@ -665,8 +665,8 @@ const Dashboard = ({ athleteId }) => {
                       <Pill className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem' }}>Log Supplement</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem' }}>Track supplements</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: '0px 2px 4px #000000' }}>Log Supplement</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: '0px 2px 4px #000000' }}>Track supplements</p>
                     </div>
                   </div>
                 </CardContent>
