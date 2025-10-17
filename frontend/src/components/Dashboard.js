@@ -684,8 +684,8 @@ const Dashboard = ({ athleteId }) => {
                       <MessageCircle className="w-6 h-6 text-white" />
                     </div>
                     <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem' }}>Talk to Coach</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem' }}>Voice AI assistance</p>
+                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: '0px 2px 4px #000000' }}>Talk to Coach</h3>
+                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: '0px 2px 4px #000000' }}>Voice AI assistance</p>
                     </div>
                   </div>
                 </CardContent>
