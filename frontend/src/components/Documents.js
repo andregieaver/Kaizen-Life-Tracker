@@ -64,30 +64,33 @@ const Documents = ({ athleteId }) => {
     { value: 'other', label: 'Other', icon: FolderOpen, color: 'bg-gray-100 text-gray-800' }
   ];
 
-  useEffect(() => {
-    if (athleteId) {
-      loadDocuments();
-    }
-  }, [athleteId]);
-
-  // Filter documents in-line during render (no useEffect)
-  const getFilteredDocuments = () => {
-    const docsArray = Array.isArray(documents) ? documents : [];
-    if (selectedCategory === 'all') {
-      return docsArray;
-    } else {
-      return docsArray.filter(doc => doc.category === selectedCategory);
-    }
-  };
-  
-  const filteredDocuments = getFilteredDocuments();
-
   const addLog = React.useCallback((message) => {
     const timestamp = new Date().toLocaleTimeString();
     const logEntry = `[${timestamp}] ${message}`;
     console.log(logEntry);
     setDebugLogs(prev => [...prev.slice(-20), logEntry]); // Keep last 20 logs
   }, []);
+
+  // Load documents ONLY on component mount
+  useEffect(() => {
+    const loadInitialDocuments = async () => {
+      if (!athleteId) return;
+      
+      try {
+        setIsLoadingDocs(true);
+        const response = await axios.get(`${API}/api/documents/${athleteId}`);
+        const docs = response.data || [];
+        setDocuments(Array.isArray(docs) ? docs : []);
+      } catch (error) {
+        console.error('Error loading documents:', error);
+        setDocuments([]);
+      } finally {
+        setIsLoadingDocs(false);
+      }
+    };
+
+    loadInitialDocuments();
+  }, [athleteId]); // Only runs when athleteId changes (on mount)
 
   // Log key state changes only
   React.useEffect(() => {
@@ -102,20 +105,17 @@ const Documents = ({ athleteId }) => {
     }
   }, [filePreview, fileName, addLog]);
 
-  const loadDocuments = async () => {
-    try {
-      setIsLoadingDocs(true);
-      const response = await axios.get(`${API}/api/documents/${athleteId}`);
-      const docs = response.data || [];
-      setDocuments(Array.isArray(docs) ? docs : []);
-    } catch (error) {
-      console.error('Error loading documents:', error);
-      setDocuments([]);
-      setSaveStatus({ type: 'error', message: 'Failed to load documents' });
-    } finally {
-      setIsLoadingDocs(false);
+  // Filter documents in-line during render (no useEffect)
+  const getFilteredDocuments = () => {
+    const docsArray = Array.isArray(documents) ? documents : [];
+    if (selectedCategory === 'all') {
+      return docsArray;
+    } else {
+      return docsArray.filter(doc => doc.category === selectedCategory);
     }
   };
+  
+  const filteredDocuments = getFilteredDocuments();
 
   const compressImage = (file) => {
     return new Promise((resolve, reject) => {
