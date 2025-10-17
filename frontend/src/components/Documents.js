@@ -241,6 +241,10 @@ const Documents = ({ athleteId }) => {
     }
   };
   const handleCameraCapture = async (event) => {
+    // Prevent any default behavior that might cause page refresh
+    event.preventDefault();
+    event.stopPropagation();
+    
     addLog('📷 handleCameraCapture called');
     
     // CRITICAL: Keep modal open
