@@ -957,7 +957,7 @@ const Dashboard = ({ athleteId }) => {
                       <p className="text-gray-500 mb-4">No test results yet</p>
                       <Button 
                         onClick={() => navigate('/dashboard/tests')}
-                        className="bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] hover:from-[#4fc4b5] hover:to-[#62D2C4] text-white shadow-md"
+                        className="bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] hover:from-[#e9f0c7] hover:to-[#61a59c] text-white shadow-md"
                       >
                         Add Test Results
                       </Button>
