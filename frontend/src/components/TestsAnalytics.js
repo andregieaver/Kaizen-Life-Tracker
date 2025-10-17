@@ -731,13 +731,27 @@ const TestsAnalytics = ({ athleteId }) => {
                                   <CalendarIcon className="w-4 h-4 mr-1" />
                                   <span className="text-sm font-medium">{formatDate(result.test_date)}</span>
                                 </div>
-                                <div className="font-semibold text-gray-900">
-                                  {formatValue(result.result_value, unit)} {getUnitLabel(unit)}
-                                </div>
-                                {result.time_to_completion && (
-                                  <div className="text-sm text-gray-600">
-                                    Time: {formatValue(result.time_to_completion, 'time')}
-                                  </div>
+                                {unit === 'time' ? (
+                                  // For time-based tests, show time prominently
+                                  result.time_to_completion ? (
+                                    <div className="font-semibold text-lg text-blue-600">
+                                      {formatValue(result.time_to_completion, 'time')}
+                                    </div>
+                                  ) : (
+                                    <div className="text-sm text-gray-500 italic">No time recorded</div>
+                                  )
+                                ) : (
+                                  // For non-time tests, show result value prominently
+                                  <>
+                                    <div className="font-semibold text-gray-900">
+                                      {formatValue(result.result_value, unit)} {getUnitLabel(unit)}
+                                    </div>
+                                    {result.time_to_completion && (
+                                      <div className="text-sm text-gray-600">
+                                        Time: {formatValue(result.time_to_completion, 'time')}
+                                      </div>
+                                    )}
+                                  </>
                                 )}
                               </div>
                               {result.notes && (
