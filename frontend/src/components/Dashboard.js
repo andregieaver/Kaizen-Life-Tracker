@@ -708,7 +708,7 @@ const Dashboard = ({ athleteId }) => {
               {/* Habit Tracker */}
               <Card 
                 className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#FFB84D] to-[#FF9A1F] hover:scale-105 transform"
-                onClick={() => navigate('/habits')}
+                onClick={() => navigate('/dashboard/habits')}
               >
                 <CardContent className="p-4 md:p-6">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
