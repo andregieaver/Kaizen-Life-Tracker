@@ -706,9 +706,9 @@ const TestsAnalytics = ({ athleteId }) => {
                             <stop offset="5%" stopColor="#3b82f6" stopOpacity={1}/>
                             <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.8}/>
                           </linearGradient>
-                          {/* Area gradient - 30% opacity at line to 0% at X-axis (bottom) */}
+                          {/* Area gradient - fills from line down to X-axis */}
                           <linearGradient id={`areaGradient-${testName}`} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                            <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.35}/>
                             <stop offset="100%" stopColor="#3b82f6" stopOpacity={0}/>
                           </linearGradient>
                           {/* Glow filter for data points */}
