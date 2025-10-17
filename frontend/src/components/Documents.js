@@ -27,13 +27,19 @@ const Documents = ({ athleteId }) => {
   const [title, setTitle] = useState(() => sessionStorage.getItem('documents_title') || '');
   const [category, setCategory] = useState(() => sessionStorage.getItem('documents_category') || 'medical');
   const [description, setDescription] = useState(() => sessionStorage.getItem('documents_description') || '');
-  const [fileData, setFileData] = useState(() => sessionStorage.getItem('documents_fileData') || null);
-  const [filePreview, setFilePreview] = useState(() => sessionStorage.getItem('documents_filePreview') || null);
+  const [fileData, setFileData] = useState(() => {
+    const saved = sessionStorage.getItem('documents_fileData');
+    return saved && saved !== 'null' ? saved : null;
+  });
+  const [filePreview, setFilePreview] = useState(() => {
+    const saved = sessionStorage.getItem('documents_filePreview');
+    return saved && saved !== 'null' ? saved : null;
+  });
   const [fileName, setFileName] = useState(() => sessionStorage.getItem('documents_fileName') || '');
   const [fileType, setFileType] = useState(() => sessionStorage.getItem('documents_fileType') || '');
   const [fileSize, setFileSize] = useState(() => {
     const saved = sessionStorage.getItem('documents_fileSize');
-    return saved ? parseInt(saved) : 0;
+    return saved && saved !== 'null' ? parseInt(saved) : 0;
   });
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
   
