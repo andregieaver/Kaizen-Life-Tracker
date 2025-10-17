@@ -10,7 +10,20 @@ import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Badge } from './ui/badge';
 import { Plus, Edit, Trash2, LineChart as LineChartIcon, X, TrendingUp, Calendar as CalendarIcon, Crown, Check, ChevronDown, ChevronUp, GripVertical } from 'lucide-react';
-import { LineChart, Line, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { 
+  Line as ChartLine
+} from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from 'chart.js';
 import {
   DndContext,
   closestCenter,
