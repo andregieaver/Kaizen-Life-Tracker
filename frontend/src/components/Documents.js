@@ -475,10 +475,8 @@ const Documents = ({ athleteId }) => {
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4"
           onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              setShowModal(false);
-              resetForm();
-            }
+            // Prevent backdrop click from closing modal during file upload
+            e.stopPropagation();
           }}
         >
           <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
