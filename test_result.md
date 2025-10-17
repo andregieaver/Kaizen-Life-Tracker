@@ -683,6 +683,30 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "✅ SYNCHRONOUS SESSIONSTORAGE PERSISTENCE - Fixed race condition where component remounted before sessionStorage could save. ROOT CAUSE IDENTIFIED: The previous implementation used useEffect hooks to save to sessionStorage asynchronously. On mobile, when a file is selected, the Dashboard component remounts almost immediately (likely due to URL-based tab navigation). This remount happened BEFORE the useEffect hooks could execute, so the file data was never saved to sessionStorage. CRITICAL FIX - SYNCHRONOUS SAVING: 1) REMOVED USEEFFECT HOOKS - Deleted all 8 useEffect hooks that were saving to sessionStorage asynchronously. 2) DIRECT SESSIONSTORAGE WRITES - Now save to sessionStorage IMMEDIATELY in the same function that updates state: handleFileUpload: saves title, fileData, filePreview, fileName, fileType, fileSize directly after setState. handleCameraCapture: same synchronous saving pattern. processNonImageFile: saves in reader.onload callback immediately. 3) FORM INPUT HANDLERS - Updated onChange handlers to save synchronously: setTitle → also sessionStorage.setItem('documents_title'). setCategory → also sessionStorage.setItem('documents_category'). setDescription → also sessionStorage.setItem('documents_description'). TECHNICAL DETAILS: All sessionStorage writes happen synchronously in the same execution context as setState calls. No race conditions - data is saved BEFORE any potential remount. File data (base64) written to sessionStorage immediately after compression completes. Form field updates persist on every keystroke. VERIFICATION: Frontend compiled successfully (bundle 27B smaller). No async timing issues. All file data should persist even if component remounts immediately. READY FOR TESTING: File selection should now persist correctly across component remounts."
+      - working: false
+        agent: "user"
+        comment: "User reports still failing. When selecting a file, returns to upload modal without the file. Need comprehensive testing of the complete workflow."
+      - working: "NA"
+        agent: "main"
+        comment: "COMPREHENSIVE TESTING INITIATED - Delegating to frontend testing agent to simulate complete document upload workflow including: 1) Login, 2) Navigate to Documents page, 3) Open upload modal, 4) Select file (both upload and camera), 5) Verify file preview appears, 6) Fill form fields, 7) Upload document, 8) Verify document appears in list. Testing will identify exact failure point."
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: true
+
+test_plan:
+  current_focus:
+    - "Documents Page Upload Modal Mobile Fix"
+  stuck_tasks:
+    - "Documents Page Upload Modal Mobile Fix"
+  test_all: false
+  test_priority: "stuck_first"
+
+agent_communication:
+  - agent: "main"
+    message: "After 4 failed attempts to fix Documents page upload, delegating to frontend testing agent for comprehensive workflow testing. Need to identify exact failure point: modal state, file selection, file compression, sessionStorage persistence, or form submission. Testing should cover both desktop and mobile scenarios."
 
   - task: "Dashboard Quick Stats Update"
     implemented: true
