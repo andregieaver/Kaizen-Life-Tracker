@@ -629,7 +629,10 @@ const Documents = ({ athleteId }) => {
               </label>
               <textarea
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                  sessionStorage.setItem('documents_description', e.target.value);
+                }}
                 placeholder="Add any notes or details about this document..."
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                 rows={3}
