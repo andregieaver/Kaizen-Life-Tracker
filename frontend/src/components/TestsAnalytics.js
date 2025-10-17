@@ -272,6 +272,7 @@ const TestsAnalytics = ({ athleteId }) => {
         time_hours: '',
         time_minutes: '',
         time_seconds: '',
+        time_display_unit: 'seconds',
         notes: '',
         test_date: new Date().toISOString().split('T')[0],
         use_existing_test: false
