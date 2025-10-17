@@ -245,7 +245,10 @@ const Dashboard = ({ athleteId }) => {
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="font-display text-2xl font-bold text-white mr-8 tracking-tight">
+              <h1 
+                className="font-display text-2xl font-bold text-white mr-8 tracking-tight cursor-pointer hover:opacity-90 transition-opacity"
+                onClick={() => navigate('/dashboard')}
+              >
                 My Health Tracker
               </h1>
               <nav className="flex space-x-8">
