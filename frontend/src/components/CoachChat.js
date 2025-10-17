@@ -653,41 +653,49 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
 
       {/* Voice Mode Overlay - Full Screen */}
       {isVoiceActive && (
-        <div className="fixed inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 z-[70] flex flex-col items-center justify-center">
-          {/* Animated Circle */}
-          <div className="relative">
-            {/* Outer pulsing rings */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-64 h-64 rounded-full bg-blue-500 opacity-20 animate-ping"></div>
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-56 h-56 rounded-full bg-purple-500 opacity-30 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-            </div>
-            
-            {/* Main circle */}
-            <div className="relative w-48 h-48 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 shadow-2xl flex items-center justify-center animate-pulse">
-              <div className="w-40 h-40 rounded-full bg-gradient-to-br from-blue-300 to-purple-400 flex items-center justify-center">
-                <Mic className="w-16 h-16 text-white" />
+        <div className="fixed inset-0 bg-gradient-to-br from-[#272727] to-[#4b7d81] z-[70] flex flex-col">
+          {/* Header Section */}
+          <div className="bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] p-6 shadow-lg">
+            <h2 className="text-2xl md:text-3xl font-bold text-white text-center">Voice Mode Active</h2>
+          </div>
+
+          {/* Main Content - Centered */}
+          <div className="flex-1 flex flex-col items-center justify-center px-4">
+            {/* Animated Circle */}
+            <div className="relative mb-12">
+              {/* Outer pulsing rings */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-64 h-64 rounded-full bg-[#61a59c] opacity-20 animate-ping"></div>
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-56 h-56 rounded-full bg-[#e9f0c7] opacity-30 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+              </div>
+              
+              {/* Main circle */}
+              <div className="relative w-48 h-48 rounded-full bg-gradient-to-br from-[#61a59c] to-[#e9f0c7] shadow-2xl flex items-center justify-center animate-pulse">
+                <div className="w-40 h-40 rounded-full bg-gradient-to-br from-[#e9f0c7] to-[#61a59c] flex items-center justify-center">
+                  <Mic className="w-16 h-16 text-white" />
+                </div>
+              </div>
+              
+              {/* Radiating circles */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-52 h-52 rounded-full border-4 border-[#61a59c] opacity-50 animate-ping" style={{ animationDuration: '2s' }}></div>
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-60 h-60 rounded-full border-2 border-[#e9f0c7] opacity-30 animate-ping" style={{ animationDuration: '3s', animationDelay: '1s' }}></div>
               </div>
             </div>
-            
-            {/* Radiating circles */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-52 h-52 rounded-full border-4 border-blue-400 opacity-50 animate-ping" style={{ animationDuration: '2s' }}></div>
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-60 h-60 rounded-full border-2 border-purple-400 opacity-30 animate-ping" style={{ animationDuration: '3s', animationDelay: '1s' }}></div>
+
+            {/* Status Text */}
+            <div className="text-center">
+              <p className="text-white text-xl md:text-2xl font-medium mb-2">Listening...</p>
+              <p className="text-[#e9f0c7] text-lg">Speak to your AI coach</p>
             </div>
           </div>
 
-          {/* Status Text */}
-          <div className="mt-12 text-center">
-            <h2 className="text-3xl font-bold text-white mb-2">Voice Mode Active</h2>
-            <p className="text-blue-200 text-lg">Listening... speak to your AI coach</p>
-          </div>
-
-          {/* End Voice Mode Button */}
-          <div className="absolute bottom-12">
+          {/* End Voice Mode Button - Fixed at Bottom */}
+          <div className="p-6 flex justify-center">
             <Button
               onClick={async () => {
                 console.log('End voice mode clicked');
