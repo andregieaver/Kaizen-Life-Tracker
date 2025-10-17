@@ -213,9 +213,21 @@ const TestsAnalytics = ({ athleteId }) => {
       return;
     }
 
-    if (!formData.result_value) {
-      setSaveStatus({ type: 'error', message: 'Please enter a result value' });
-      return;
+    // For time-based tests, require time completion instead of result value
+    const isTimeBasedTest = formData.unit === 'time';
+    
+    if (isTimeBasedTest) {
+      // Require at least one time field to be filled
+      if (!formData.time_hours && !formData.time_minutes && !formData.time_seconds) {
+        setSaveStatus({ type: 'error', message: 'Please enter time to completion' });
+        return;
+      }
+    } else {
+      // For non-time tests, require result value
+      if (!formData.result_value) {
+        setSaveStatus({ type: 'error', message: 'Please enter a result value' });
+        return;
+      }
     }
 
     try {
