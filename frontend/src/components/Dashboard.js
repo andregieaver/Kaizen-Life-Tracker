@@ -471,20 +471,6 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => {
-                    navigate('/dashboard/files');
-                    setIsMenuOpen(false);
-                  }}
-                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                    activeTab === 'files'
-                      ? 'bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  <FileText className="w-5 h-5" />
-                  <span className="font-medium">Files</span>
-                </button>
-                <button
-                  onClick={() => {
                     navigate('/dashboard/memories');
                     setIsMenuOpen(false);
                   }}
