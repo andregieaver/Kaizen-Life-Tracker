@@ -50,7 +50,18 @@ const Documents = ({ athleteId }) => {
     setFileType('');
     setFileSize(0);
     setSaveStatus({ type: '', message: '' });
+    
+    // Clear all sessionStorage keys
     sessionStorage.removeItem('documents_modal_open');
+    sessionStorage.removeItem('documents_title');
+    sessionStorage.removeItem('documents_category');
+    sessionStorage.removeItem('documents_description');
+    sessionStorage.removeItem('documents_fileData');
+    sessionStorage.removeItem('documents_filePreview');
+    sessionStorage.removeItem('documents_fileName');
+    sessionStorage.removeItem('documents_fileType');
+    sessionStorage.removeItem('documents_fileSize');
+    
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
