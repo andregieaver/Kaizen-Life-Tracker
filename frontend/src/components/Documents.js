@@ -46,6 +46,7 @@ const Documents = ({ athleteId }) => {
     setFileType('');
     setFileSize(0);
     setSaveStatus({ type: '', message: '' });
+    sessionStorage.removeItem('documents_modal_open');
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
