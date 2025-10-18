@@ -719,14 +719,13 @@ const TestsAnalytics = ({ athleteId }) => {
                           })()
                         }
                       </Badge>
-                      <Button
-                        size="sm"
+                      <button
                         onClick={() => handleAddEntryToTest(testName, unit)}
-                        className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white border-0 shadow-md"
+                        className="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
+                        title="Add Entry"
                       >
-                        <Plus className="w-4 h-4 mr-1" />
-                        Add Entry
-                      </Button>
+                        <Plus className="w-5 h-5" />
+                      </button>
                     </div>
                   </div>
                 </CardHeader>
