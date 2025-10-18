@@ -499,6 +499,20 @@ const Dashboard = ({ athleteId }) => {
                   <Check className="w-5 h-5" />
                   <span className="font-medium">Habit Tracker</span>
                 </button>
+                <button
+                  onClick={() => {
+                    navigate('/dashboard/history');
+                    setIsMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    activeTab === 'history'
+                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
+                      : 'text-white hover:bg-gray-700'
+                  }`}
+                >
+                  <Activity className="w-5 h-5" />
+                  <span className="font-medium">History</span>
+                </button>
 
                 {/* Separator */}
                 <div className="py-2">
