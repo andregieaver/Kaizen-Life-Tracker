@@ -712,7 +712,7 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Habit Tracker */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#e9f0c7] to-[#39a9b9] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] hover:scale-105 transform"
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/habits')}
               >
@@ -731,7 +731,7 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Training Calendar */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-[#e9f0c7] to-[#39a9b9] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] hover:scale-105 transform"
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/calendar')}
               >
