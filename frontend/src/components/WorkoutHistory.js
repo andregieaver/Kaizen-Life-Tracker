@@ -39,29 +39,29 @@ const WorkoutHistory = ({ athleteId }) => {
 
   const getWorkoutTypeColor = (type) => {
     const colors = {
-      'easy': 'bg-green-100 text-green-800',
-      'tempo': 'bg-orange-100 text-orange-800',
-      'intervals': 'bg-red-100 text-red-800',
-      'long_run': 'bg-blue-100 text-blue-800',
-      'recovery': 'bg-gray-100 text-gray-800',
-      'fartlek': 'bg-purple-100 text-purple-800',
-      'hill_repeats': 'bg-yellow-100 text-yellow-800',
-      'race': 'bg-pink-100 text-pink-800'
+      'easy': 'bg-green-700 text-green-200 border border-green-600',
+      'tempo': 'bg-orange-700 text-orange-200 border border-orange-600',
+      'intervals': 'bg-red-700 text-red-200 border border-red-600',
+      'long_run': 'bg-blue-700 text-blue-200 border border-blue-600',
+      'recovery': 'bg-gray-600 text-gray-200 border border-gray-500',
+      'fartlek': 'bg-purple-700 text-purple-200 border border-purple-600',
+      'hill_repeats': 'bg-yellow-700 text-yellow-200 border border-yellow-600',
+      'race': 'bg-pink-700 text-pink-200 border border-pink-600'
     };
-    return colors[type] || 'bg-gray-100 text-gray-800';
+    return colors[type] || 'bg-gray-600 text-gray-200 border border-gray-500';
   };
 
   const getEffortColor = (effort) => {
-    if (effort >= 8) return 'text-red-600';
-    if (effort >= 6) return 'text-orange-600';
-    if (effort >= 4) return 'text-yellow-600';
-    return 'text-green-600';
+    if (effort >= 8) return 'text-red-400';
+    if (effort >= 6) return 'text-orange-400';
+    if (effort >= 4) return 'text-yellow-400';
+    return 'text-green-400';
   };
 
   const getSleepQualityColor = (quality) => {
-    if (quality >= 8) return 'text-green-600';
-    if (quality >= 6) return 'text-yellow-600';
-    return 'text-red-600';
+    if (quality >= 8) return 'text-green-400';
+    if (quality >= 6) return 'text-yellow-400';
+    return 'text-red-400';
   };
 
   if (isLoading) {
