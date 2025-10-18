@@ -149,28 +149,35 @@ const Pricing = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-b from-gray-800 to-gray-900">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm">
+      <header className="bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 shadow-sm">
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => navigate('/')}
-                className="text-gray-600 hover:text-gray-900 transition-colors flex items-center"
+                className="text-white hover:text-gray-200 transition-colors flex items-center"
               >
                 <ArrowLeft className="w-5 h-5 mr-2" />
                 Back
               </button>
-              <h1 className="font-display text-2xl font-bold text-gray-900">
+              <h1 className="font-display text-2xl font-bold text-white">
                 My Health Tracker
               </h1>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="outline" onClick={() => navigate('/login')}>
+              <Button 
+                variant="outline" 
+                onClick={() => navigate('/login')}
+                className="border-white text-white hover:bg-white hover:text-teal-600"
+              >
                 Log In
               </Button>
-              <Button onClick={() => navigate('/onboarding')}>
+              <Button 
+                onClick={() => navigate('/onboarding')}
+                className="bg-white text-teal-600 hover:bg-gray-100"
+              >
                 Sign Up
               </Button>
             </div>
