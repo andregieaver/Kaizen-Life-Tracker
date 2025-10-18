@@ -953,7 +953,7 @@ const TestsAnalytics = ({ athleteId }) => {
                                 size="sm"
                                 variant="outline"
                                 onClick={() => handleEdit(result)}
-                                className="text-blue-400 hover:text-blue-300 hover:bg-blue-950 border-blue-800"
+                                className="bg-black text-white hover:bg-gray-900 border-0"
                               >
                                 <Edit className="w-4 h-4" />
                               </Button>
@@ -961,7 +961,7 @@ const TestsAnalytics = ({ athleteId }) => {
                                 size="sm"
                                 variant="outline"
                                 onClick={() => handleDelete(result.id)}
-                                className="text-red-400 hover:text-red-300 hover:bg-red-950 border-red-800"
+                                className="bg-black text-white hover:bg-gray-900 border-0"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </Button>
