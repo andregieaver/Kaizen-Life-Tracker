@@ -397,18 +397,18 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
 
             {/* Archived Conversations Slideup */}
             {showArchivedList && (
-              <div className="absolute inset-0 bg-white z-10 flex flex-col">
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-900 to-gray-800 z-10 flex flex-col">
                 {/* Header */}
-                <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+                <div className="p-4 border-b border-gray-700 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Archive className="w-5 h-5 text-gray-600" />
-                    <h3 className="text-lg font-semibold text-gray-900">Archived</h3>
+                    <Archive className="w-5 h-5 text-gray-400" />
+                    <h3 className="text-lg font-semibold text-white">Archived</h3>
                   </div>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={() => setShowArchivedList(false)}
-                    className="h-8 w-8 p-0"
+                    className="h-8 w-8 p-0 text-white hover:bg-gray-700"
                   >
                     <X className="w-4 h-4" />
                   </Button>
@@ -417,7 +417,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                 {/* Archived List */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-2">
                   {archivedConversations.length === 0 ? (
-                    <p className="text-sm text-gray-500 text-center py-8">No archived conversations</p>
+                    <p className="text-sm text-gray-400 text-center py-8">No archived conversations</p>
                   ) : (
                     archivedConversations.map((conv, index) => (
                       <div
@@ -429,18 +429,18 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                             loadConversation(conv.session_id);
                             setShowArchivedList(false);
                           }}
-                          className="w-full text-left p-3 rounded-lg hover:bg-gray-50 border border-gray-200 transition-colors"
+                          className="w-full text-left p-3 rounded-lg hover:bg-gray-700 border border-gray-700 transition-colors"
                         >
                           <div className="flex items-start justify-between mb-1">
-                            <p className="text-sm font-medium text-gray-900 truncate flex-1 pr-8">
+                            <p className="text-sm font-medium text-white truncate flex-1 pr-8">
                               {conv.preview || 'Conversation'}
                             </p>
-                            <span className="text-xs text-gray-500 ml-2">
+                            <span className="text-xs text-gray-400 ml-2">
                               {new Date(conv.last_message).toLocaleDateString()}
                             </span>
                           </div>
                           <div className="flex items-center justify-between">
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs text-gray-400">
                               {conv.message_count} {t('coach.messages')}
                             </p>
                             <div className="flex items-center gap-1">
@@ -448,7 +448,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                                 variant="ghost"
                                 size="sm"
                                 onClick={(e) => unarchiveConversation(conv.session_id, e)}
-                                className="h-7 w-7 p-0 text-blue-500 hover:text-blue-700 hover:bg-blue-50"
+                                className="h-7 w-7 p-0 text-blue-400 hover:text-blue-300 hover:bg-blue-900/30"
                                 title="Unarchive conversation"
                               >
                                 <ArchiveRestore className="w-3.5 h-3.5" />
@@ -457,7 +457,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                                 variant="ghost"
                                 size="sm"
                                 onClick={(e) => deleteConversation(conv.session_id, e, true)}
-                                className="h-7 w-7 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                                className="h-7 w-7 p-0 text-red-400 hover:text-red-300 hover:bg-red-900/30"
                                 title="Delete conversation"
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
