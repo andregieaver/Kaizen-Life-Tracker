@@ -365,15 +365,15 @@ const HabitTracker = ({ athleteId }) => {
       {/* All Habits Section */}
       {habits.length > todayHabits.length && (
         <div>
-          <h3 className="text-lg font-semibold mb-3">Other Habits</h3>
+          <h3 className="text-lg font-semibold mb-3 text-white">Other Habits</h3>
           <div className="space-y-2">
             {habits.filter(h => !h.days_of_week.includes(todayDayName)).map(habit => (
-              <Card key={habit.id} className="bg-gray-50">
+              <Card key={habit.id} className="bg-gradient-to-br from-gray-600 to-gray-800 border-0">
                 <CardContent className="p-3">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="font-medium">{habit.title}</div>
-                      <div className="text-sm text-gray-600">
+                      <div className="font-medium text-white">{habit.title}</div>
+                      <div className="text-sm text-gray-300">
                         {habit.times_per_day}x per day • {habit.days_of_week.map(d => 
                           DAYS_OF_WEEK.find(day => day.value === d)?.label
                         ).join(', ')}
