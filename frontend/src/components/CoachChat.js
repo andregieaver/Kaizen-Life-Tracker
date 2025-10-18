@@ -323,7 +323,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
             {/* Conversations List */}
             <div className="flex-1 overflow-y-auto p-4 space-y-2 pb-16">
               {conversations.length === 0 ? (
-                <p className="text-sm text-gray-500 text-center py-8">{t('coach.noPastConversations')}</p>
+                <p className="text-sm text-gray-400 text-center py-8">{t('coach.noPastConversations')}</p>
               ) : (
                 conversations.map((conv, index) => (
                   <div
@@ -332,18 +332,18 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                   >
                     <button
                       onClick={() => loadConversation(conv.session_id)}
-                      className="w-full text-left p-3 rounded-lg hover:bg-gray-50 border border-gray-200 transition-colors"
+                      className="w-full text-left p-3 rounded-lg hover:bg-gray-700 border border-gray-700 transition-colors"
                     >
                       <div className="flex items-start justify-between mb-1">
-                        <p className="text-sm font-medium text-gray-900 truncate flex-1 pr-8">
+                        <p className="text-sm font-medium text-white truncate flex-1 pr-8">
                           {conv.preview || 'Conversation'}
                         </p>
-                        <span className="text-xs text-gray-500 ml-2">
+                        <span className="text-xs text-gray-400 ml-2">
                           {new Date(conv.last_message).toLocaleDateString()}
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-gray-400">
                           {conv.message_count} {t('coach.messages')}
                         </p>
                         <div className="flex items-center gap-1">
@@ -351,7 +351,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                             variant="ghost"
                             size="sm"
                             onClick={(e) => archiveConversation(conv.session_id, e)}
-                            className="h-7 w-7 p-0 text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+                            className="h-7 w-7 p-0 text-gray-400 hover:text-white hover:bg-gray-600"
                             title="Archive conversation"
                           >
                             <Archive className="w-3.5 h-3.5" />
@@ -360,7 +360,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                             variant="ghost"
                             size="sm"
                             onClick={(e) => deleteConversation(conv.session_id, e)}
-                            className="h-7 w-7 p-0 text-red-500 hover:text-red-700 hover:bg-red-50"
+                            className="h-7 w-7 p-0 text-red-400 hover:text-red-300 hover:bg-red-900/30"
                             title="Delete conversation"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
