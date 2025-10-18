@@ -270,26 +270,26 @@ const Today = ({ athleteId }) => {
 
       {/* Meals Detail */}
       {todayData.meals.length > 0 && (
-        <Card>
+        <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
           <CardHeader>
-            <CardTitle className="text-lg font-display">Today's Meals</CardTitle>
+            <CardTitle className="text-lg font-display text-white">Today's Meals</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {todayData.meals.map((meal, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-3 bg-gray-600 rounded-lg border border-gray-500">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-green-100 rounded-full">
-                      <Utensils className="w-4 h-4 text-green-600" />
+                    <div className="p-2 bg-teal-700 rounded-full">
+                      <Utensils className="w-4 h-4 text-teal-200" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium capitalize">{meal.meal_type}</p>
-                      <p className="text-xs text-gray-600">{meal.description}</p>
+                      <p className="text-sm font-medium capitalize text-white">{meal.meal_type}</p>
+                      <p className="text-xs text-gray-300">{meal.description}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-gray-900">{meal.calories || 0}</p>
-                    <p className="text-xs text-gray-500">cal</p>
+                    <p className="text-sm font-bold text-white">{meal.calories || 0}</p>
+                    <p className="text-xs text-gray-400">cal</p>
                   </div>
                 </div>
               ))}
