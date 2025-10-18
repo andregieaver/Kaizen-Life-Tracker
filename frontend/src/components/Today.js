@@ -98,7 +98,7 @@ const Today = ({ athleteId }) => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
       </div>
     );
   }
@@ -107,11 +107,11 @@ const Today = ({ athleteId }) => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl md:text-3xl font-display font-bold text-gray-900 flex items-center gap-2">
-          <Calendar className="w-8 h-8 text-orange-600" />
+        <h1 className="text-2xl md:text-3xl font-display font-bold text-white flex items-center gap-2">
+          <Calendar className="w-8 h-8 text-teal-400" />
           Today
         </h1>
-        <p className="text-sm text-gray-600 mt-1">{formatDate()}</p>
+        <p className="text-sm text-gray-300 mt-1">{formatDate()}</p>
       </div>
 
       {/* Main Overview Cards */}
