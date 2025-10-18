@@ -270,22 +270,22 @@ const HabitTracker = ({ athleteId }) => {
               const streak = calculateStreak(habit);
               
               return (
-                <Card key={habit.id} className={`transition-all ${isComplete ? 'bg-green-50 border-green-200' : ''}`}>
+                <Card key={habit.id} className={`transition-all bg-gradient-to-br from-gray-600 to-gray-800 border-0 ${isComplete ? 'ring-2 ring-green-400' : ''}`}>
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between gap-4">
                       {/* Main Content */}
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <h4 className="text-lg font-semibold">{habit.title}</h4>
+                          <h4 className="text-lg font-semibold text-white">{habit.title}</h4>
                           {isComplete && (
-                            <span className="flex items-center gap-1 text-green-600 text-sm font-medium">
+                            <span className="flex items-center gap-1 text-green-400 text-sm font-medium">
                               <Check className="w-4 h-4" />
                               Complete!
                             </span>
                           )}
                         </div>
                         
-                        <div className="text-sm text-gray-600 mb-3">
+                        <div className="text-sm text-gray-300 mb-3">
                           Goal: {habit.times_per_day}x today
                           <span className="mx-2">•</span>
                           {habit.days_of_week.length} days/week
@@ -299,7 +299,7 @@ const HabitTracker = ({ athleteId }) => {
                               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
                                 i < todayCount
                                   ? 'bg-green-500 text-white'
-                                  : 'bg-gray-200 text-gray-500'
+                                  : 'bg-gray-700 text-gray-400'
                               }`}
                             >
                               {i < todayCount ? '✓' : i + 1}
@@ -309,7 +309,7 @@ const HabitTracker = ({ athleteId }) => {
 
                         {/* Streak */}
                         {streak > 0 && (
-                          <div className="flex items-center gap-2 text-orange-600">
+                          <div className="flex items-center gap-2 text-orange-400">
                             <Flame className="w-4 h-4" />
                             <span className="text-sm font-medium">{streak} day streak</span>
                           </div>
@@ -321,7 +321,7 @@ const HabitTracker = ({ athleteId }) => {
                         {!isComplete ? (
                           <Button
                             onClick={() => handleComplete(habit.id)}
-                            className="bg-green-600 hover:bg-green-700 min-w-[100px]"
+                            className="bg-green-600 hover:bg-green-700 min-w-[100px] border-0"
                             size="lg"
                           >
                             <Plus className="w-5 h-5 mr-1" />
@@ -330,8 +330,7 @@ const HabitTracker = ({ athleteId }) => {
                         ) : (
                           <Button
                             onClick={() => handleUncomplete(habit.id)}
-                            variant="outline"
-                            className="min-w-[100px]"
+                            className="min-w-[100px] bg-gray-700 text-white border-0 hover:bg-gray-600"
                           >
                             Undo
                           </Button>
@@ -340,16 +339,15 @@ const HabitTracker = ({ athleteId }) => {
                         <div className="flex gap-1">
                           <Button
                             onClick={() => openEditModal(habit)}
-                            variant="ghost"
+                            className="bg-transparent hover:bg-gray-700 text-white"
                             size="sm"
                           >
                             <Edit3 className="w-4 h-4" />
                           </Button>
                           <Button
                             onClick={() => handleDelete(habit.id)}
-                            variant="ghost"
+                            className="bg-transparent hover:bg-red-900/30 text-red-400"
                             size="sm"
-                            className="text-red-600 hover:text-red-700"
                           >
                             <Trash2 className="w-4 h-4" />
                           </Button>
