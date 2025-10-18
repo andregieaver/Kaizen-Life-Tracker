@@ -1637,7 +1637,7 @@ const Nutrition = ({ athleteId }) => {
               // Render supplement log card
               const logSupplements = supplements.filter(s => entry.supplement_ids.includes(s.id));
               return (
-                <Card key={entry.id} className="hover:shadow-lg transition-shadow">
+                <Card key={entry.id} className="hover:shadow-lg transition-shadow bg-gradient-to-br from-gray-600 to-gray-800 border-0">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
@@ -1647,7 +1647,7 @@ const Nutrition = ({ athleteId }) => {
                             Supplements
                           </Badge>
                         </div>
-                        <CardTitle className="text-base">
+                        <CardTitle className="text-base text-white">
                           {new Date(`${entry.log_date}T${entry.log_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </CardTitle>
                       </div>
@@ -1662,7 +1662,7 @@ const Nutrition = ({ athleteId }) => {
                               .catch(err => console.error('Error deleting log:', err));
                           }
                         }}
-                        className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
+                        className="p-2 hover:bg-red-900/30 rounded-lg transition-colors text-red-400"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -1671,14 +1671,14 @@ const Nutrition = ({ athleteId }) => {
                   <CardContent>
                     <div className="space-y-2">
                       {logSupplements.map(supp => (
-                        <div key={supp.id} className="flex items-center gap-2 text-sm">
-                          <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
+                        <div key={supp.id} className="flex items-center gap-2 text-sm text-white">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
                           <span className="font-medium">{supp.name}</span>
-                          <span className="text-gray-500">({supp.dosage} {supp.unit})</span>
+                          <span className="text-gray-300">({supp.dosage} {supp.unit})</span>
                         </div>
                       ))}
                       {entry.notes && (
-                        <p className="text-sm text-gray-600 mt-2 pt-2 border-t">{entry.notes}</p>
+                        <p className="text-sm text-gray-300 mt-2 pt-2 border-t border-gray-700">{entry.notes}</p>
                       )}
                     </div>
                   </CardContent>
