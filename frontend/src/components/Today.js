@@ -118,13 +118,13 @@ const Today = ({ athleteId }) => {
       {/* Main Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Nutrition Overview */}
-        <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-teal-600 border-2">
-          <CardHeader className="bg-gradient-to-br from-teal-700 to-teal-800">
+        <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-teal-600 border-2 overflow-hidden">
+          <CardHeader className="bg-gradient-to-r from-gray-900 to-gray-800">
             <CardTitle className="flex items-center gap-2 text-lg text-white">
-              <Utensils className="w-5 h-5 text-teal-200" />
+              <Utensils className="w-5 h-5 text-teal-400" />
               Nutrition
             </CardTitle>
-            <CardDescription className="text-teal-100">Daily calorie tracking</CardDescription>
+            <CardDescription className="text-gray-300">Daily calorie tracking</CardDescription>
           </CardHeader>
           <CardContent className="pt-6 space-y-4">
             {/* Calorie Need */}
