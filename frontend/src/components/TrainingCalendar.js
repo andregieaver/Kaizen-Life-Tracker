@@ -199,12 +199,12 @@ const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athlete
 
           {/* Workout List */}
           {week.blocks.length > 0 && (
-            <div className="mt-2 pt-2 border-t border-gray-200">
+            <div className="mt-2 pt-2 border-t border-gray-700">
               <div className="space-y-1">
                 {week.blocks.slice(0, 3).map((block, blockIndex) => (
                   <div key={blockIndex} className="flex items-center justify-between text-xs">
-                    <span className="text-gray-600 truncate">{block.title}</span>
-                    <div className="flex items-center gap-1 text-gray-500">
+                    <span className="text-gray-300 truncate">{block.title}</span>
+                    <div className="flex items-center gap-1 text-gray-400">
                       {block.distance && (
                         <span>{block.distance}{getDistanceUnitLabel(distanceUnit)}</span>
                       )}
@@ -215,7 +215,7 @@ const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athlete
                   </div>
                 ))}
                 {week.blocks.length > 3 && (
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-gray-400">
                     +{week.blocks.length - 3} more
                   </div>
                 )}
