@@ -107,31 +107,31 @@ const OnboardingForm = ({ onAthleteCreated }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="font-display text-4xl font-bold text-gray-900 mb-2">
+          <h1 className="font-display text-4xl font-bold text-white mb-2">
             My Health Tracker
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-300">
             {t('auth.createYourProfile')}
           </p>
           <Link 
             to="/pricing" 
-            className="inline-block mt-3 text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+            className="inline-block mt-3 text-sm text-teal-400 hover:text-teal-300 font-medium transition-colors"
           >
             View Pricing Plans →
           </Link>
         </div>
 
         {/* Form Card */}
-        <Card className="glass border-0 shadow-xl">
+        <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 shadow-xl">
           <CardHeader className="text-center pb-4">
-            <CardTitle className="text-2xl font-display font-semibold text-gray-900">
+            <CardTitle className="text-2xl font-display font-semibold text-white">
               {t('onboarding.title')}
             </CardTitle>
-            <CardDescription className="text-gray-600">
+            <CardDescription className="text-gray-300">
               {t('onboarding.description')}
             </CardDescription>
           </CardHeader>
