@@ -846,14 +846,14 @@ const TestsAnalytics = ({ athleteId }) => {
                             },
                             y: {
                               grid: {
-                                color: 'rgba(203, 213, 225, 0.3)',
+                                color: 'rgba(255, 255, 255, 0.1)',
                                 drawTicks: false,
                                 drawBorder: true,
-                                borderColor: '#cbd5e1',
+                                borderColor: 'rgba(255, 255, 255, 0.3)',
                                 borderWidth: 2
                               },
                               ticks: {
-                                color: '#64748b',
+                                color: '#ffffff',
                                 font: {
                                   size: 12,
                                   weight: '500'
@@ -869,7 +869,7 @@ const TestsAnalytics = ({ athleteId }) => {
                               title: {
                                 display: true,
                                 text: yAxisLabel,
-                                color: '#475569',
+                                color: '#ffffff',
                                 font: {
                                   size: 13,
                                   weight: '600'
