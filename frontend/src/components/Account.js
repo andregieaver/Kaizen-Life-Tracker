@@ -90,7 +90,7 @@ const IntegrationCard = ({
           <h4 className="font-semibold text-white">{name}</h4>
           <p className="text-sm text-gray-300">{description}</p>
           {connected && connectionInfo && (
-            <div className="flex items-center gap-4 mt-1 text-xs text-gray-500">
+            <div className="flex items-center gap-4 mt-1 text-xs text-gray-400">
               {connectionInfo.athlete_name && (
                 <span>Connected as: {connectionInfo.athlete_name}</span>
               )}
