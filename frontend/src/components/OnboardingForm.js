@@ -126,20 +126,22 @@ const OnboardingForm = ({ onAthleteCreated }) => {
     
     try {
       const { confirmPassword, ...athleteDataWithoutConfirm } = formData;
-      const athleteData = {
-        ...athleteDataWithoutConfirm,
-        age: parseInt(formData.age),
-        weekly_mileage: parseFloat(formData.weekly_mileage)
-      };
       
-      const response = await axios.post(`${API}/athlete`, athleteData);
-      onAthleteCreated(response.data.id);
+      const response = await axios.post(`${API}/athlete`, athleteDataWithoutConfirm);
+      localStorage.setItem('athleteId', response.data.id);
+      // Redirect to account settings for new registrations
+      navigate('/account');
     } catch (error) {
       console.error('Error creating athlete profile:', error);
       setErrors({ submit: t('validation.submitError') });
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleGoogleLogin = () => {
+    const redirectUrl = `${window.location.origin}/onboarding`;
+    window.location.href = `https://auth.emergentagent.com/?redirect=${encodeURIComponent(redirectUrl)}`;
   };
 
   return (
