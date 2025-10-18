@@ -1542,7 +1542,7 @@ const Nutrition = ({ athleteId }) => {
                           {/* Micronutrients - Expandable */}
                           {(entry.sugar > 0 || entry.sodium > 0 || entry.vitamin_a > 0 || entry.vitamin_c > 0 || 
                             entry.vitamin_d > 0 || entry.calcium > 0 || entry.iron > 0 || entry.potassium > 0) && (
-                            <div className="border-t pt-2 mt-2">
+                            <div className="border-t border-gray-700 pt-2 mt-2">
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -1551,9 +1551,9 @@ const Nutrition = ({ athleteId }) => {
                                     [entry.id]: !prev[entry.id]
                                   }));
                                 }}
-                                className="w-full flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors"
+                                className="w-full flex items-center justify-between p-2 hover:bg-gray-700 rounded-lg transition-colors"
                               >
-                                <span className="text-sm font-semibold text-gray-700">Micronutrients</span>
+                                <span className="text-sm font-semibold text-white">Micronutrients</span>
                                 {expandedMicros[entry.id] ? (
                                   <ChevronUp className="w-4 h-4 text-gray-400" />
                                 ) : (
@@ -1563,57 +1563,57 @@ const Nutrition = ({ athleteId }) => {
                               {expandedMicros[entry.id] && (
                                 <div className="grid grid-cols-2 gap-2 mt-2">
                                   {entry.fiber > 0 && (
-                                    <div className="bg-gray-50 rounded-lg p-2">
-                                      <div className="text-xs text-gray-500">Fiber</div>
-                                      <div className="text-sm font-semibold text-gray-900">{entry.fiber}g</div>
+                                    <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
+                                      <div className="text-xs text-gray-300">Fiber</div>
+                                      <div className="text-sm font-semibold text-white">{entry.fiber}g</div>
                                     </div>
                                   )}
                                   {entry.sugar > 0 && (
-                                    <div className="bg-gray-50 rounded-lg p-2">
-                                      <div className="text-xs text-gray-500">Sugar</div>
-                                      <div className="text-sm font-semibold text-gray-900">{entry.sugar}g</div>
+                                    <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
+                                      <div className="text-xs text-gray-300">Sugar</div>
+                                      <div className="text-sm font-semibold text-white">{entry.sugar}g</div>
                                     </div>
                                   )}
                                   {entry.sodium > 0 && (
-                                    <div className="bg-gray-50 rounded-lg p-2">
-                                      <div className="text-xs text-gray-500">Sodium</div>
-                                      <div className="text-sm font-semibold text-gray-900">{entry.sodium}mg</div>
+                                    <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
+                                      <div className="text-xs text-gray-300">Sodium</div>
+                                      <div className="text-sm font-semibold text-white">{entry.sodium}mg</div>
                                     </div>
                                   )}
                                   {entry.vitamin_a > 0 && (
-                                    <div className="bg-gray-50 rounded-lg p-2">
-                                      <div className="text-xs text-gray-500">Vitamin A</div>
-                                      <div className="text-sm font-semibold text-gray-900">{entry.vitamin_a}μg</div>
+                                    <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
+                                      <div className="text-xs text-gray-300">Vitamin A</div>
+                                      <div className="text-sm font-semibold text-white">{entry.vitamin_a}μg</div>
                                     </div>
                                   )}
                                   {entry.vitamin_c > 0 && (
-                                    <div className="bg-gray-50 rounded-lg p-2">
-                                      <div className="text-xs text-gray-500">Vitamin C</div>
-                                      <div className="text-sm font-semibold text-gray-900">{entry.vitamin_c}mg</div>
+                                    <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
+                                      <div className="text-xs text-gray-300">Vitamin C</div>
+                                      <div className="text-sm font-semibold text-white">{entry.vitamin_c}mg</div>
                                     </div>
                                   )}
                                   {entry.vitamin_d > 0 && (
-                                    <div className="bg-gray-50 rounded-lg p-2">
-                                      <div className="text-xs text-gray-500">Vitamin D</div>
-                                      <div className="text-sm font-semibold text-gray-900">{entry.vitamin_d}μg</div>
+                                    <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
+                                      <div className="text-xs text-gray-300">Vitamin D</div>
+                                      <div className="text-sm font-semibold text-white">{entry.vitamin_d}μg</div>
                                     </div>
                                   )}
                                   {entry.calcium > 0 && (
-                                    <div className="bg-gray-50 rounded-lg p-2">
-                                      <div className="text-xs text-gray-500">Calcium</div>
-                                      <div className="text-sm font-semibold text-gray-900">{entry.calcium}mg</div>
+                                    <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
+                                      <div className="text-xs text-gray-300">Calcium</div>
+                                      <div className="text-sm font-semibold text-white">{entry.calcium}mg</div>
                                     </div>
                                   )}
                                   {entry.iron > 0 && (
-                                    <div className="bg-gray-50 rounded-lg p-2">
-                                      <div className="text-xs text-gray-500">Iron</div>
-                                      <div className="text-sm font-semibold text-gray-900">{entry.iron}mg</div>
+                                    <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
+                                      <div className="text-xs text-gray-300">Iron</div>
+                                      <div className="text-sm font-semibold text-white">{entry.iron}mg</div>
                                     </div>
                                   )}
                                   {entry.potassium > 0 && (
-                                    <div className="bg-gray-50 rounded-lg p-2">
-                                      <div className="text-xs text-gray-500">Potassium</div>
-                                      <div className="text-sm font-semibold text-gray-900">{entry.potassium}mg</div>
+                                    <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
+                                      <div className="text-xs text-gray-300">Potassium</div>
+                                      <div className="text-sm font-semibold text-white">{entry.potassium}mg</div>
                                     </div>
                                   )}
                                 </div>
