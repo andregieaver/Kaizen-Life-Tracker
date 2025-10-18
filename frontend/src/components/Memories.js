@@ -344,10 +344,10 @@ const Memories = ({ athleteId }) => {
                     </div>
 
                     {/* Content */}
-                    <p className="text-gray-900">{memory.content}</p>
+                    <p className="text-white">{memory.content}</p>
 
                     {/* Metadata */}
-                    <div className="flex items-center gap-4 text-xs text-gray-500">
+                    <div className="flex items-center gap-4 text-xs text-gray-400">
                       <span className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
                         {formatDate(memory.created_at)}
@@ -361,17 +361,16 @@ const Memories = ({ athleteId }) => {
                   {/* Actions */}
                   <div className="flex items-center gap-2">
                     <Button
-                      variant="outline"
                       size="sm"
                       onClick={() => handleEditMemory(memory)}
+                      className="bg-gray-700 text-white border-0 hover:bg-gray-600"
                     >
                       <Edit3 className="w-4 h-4" />
                     </Button>
                     <Button
-                      variant="outline"
                       size="sm"
                       onClick={() => handleDeleteMemory(memory.id)}
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      className="bg-red-900/30 text-red-400 border-0 hover:bg-red-900/50"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
