@@ -414,10 +414,13 @@ const Documents = ({ athleteId }) => {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Documents</h2>
+        <h2 className="text-2xl font-bold text-white">Documents</h2>
         <Button 
           onClick={openUploadModal}
-          className="bg-blue-600 hover:bg-blue-700"
+          className="text-white border-0"
+          style={{ backgroundColor: '#00C2A8' }}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
         >
           <Plus className="w-4 h-4 mr-2" />
           Upload Document
@@ -428,8 +431,8 @@ const Documents = ({ athleteId }) => {
       {saveStatus.message && (
         <div className={`p-4 rounded-lg ${
           saveStatus.type === 'success' 
-            ? 'bg-green-50 text-green-800 border border-green-200' 
-            : 'bg-red-50 text-red-800 border border-red-200'
+            ? 'bg-green-900/30 text-green-400 border border-green-700' 
+            : 'bg-red-900/30 text-red-400 border border-red-700'
         }`}>
           {saveStatus.message}
         </div>
