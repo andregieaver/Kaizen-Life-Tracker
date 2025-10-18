@@ -374,7 +374,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
             </div>
 
             {/* Fixed Bottom Navigation */}
-            <div className="border-t border-gray-200 bg-white">
+            <div className="border-t border-gray-700 bg-gradient-to-r from-gray-900 to-gray-800">
               <Button
                 variant="ghost"
                 onClick={() => {
@@ -383,13 +383,13 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                     loadArchivedConversations();
                   }
                 }}
-                className="w-full flex items-center justify-between p-4 hover:bg-gray-50"
+                className="w-full flex items-center justify-between p-4 hover:bg-gray-700"
               >
                 <div className="flex items-center gap-2">
-                  <Archive className="w-4 h-4 text-gray-600" />
-                  <span className="text-sm font-medium text-gray-700">Archived</span>
+                  <Archive className="w-4 h-4 text-gray-400" />
+                  <span className="text-sm font-medium text-white">Archived</span>
                 </div>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-gray-400">
                   {archivedConversations.length}
                 </span>
               </Button>
