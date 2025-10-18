@@ -2525,6 +2525,60 @@ async def login_athlete(login_data: LoginRequest):
         "email": athlete["email"]
     }
 
+@api_router.post("/auth/google-login")
+async def google_login(google_data: GoogleLoginRequest):
+    """Handle Google OAuth login/registration"""
+    email = google_data.email.lower().strip()
+    
+    # Check if user already exists
+    existing_athlete = await db.athlete_profiles.find_one(
+        {"email": email},
+        {"_id": 0}
+    )
+    
+    is_new_user = False
+    
+    if existing_athlete:
+        # Existing user - update Google ID if not set
+        athlete_id = existing_athlete["id"]
+        if not existing_athlete.get("google_id"):
+            await db.athlete_profiles.update_one(
+                {"id": athlete_id},
+                {"$set": {"google_id": google_data.google_id, "picture": google_data.picture}}
+            )
+    else:
+        # New user - create profile
+        is_new_user = True
+        athlete_id = str(uuid.uuid4())
+        new_athlete = {
+            "id": athlete_id,
+            "email": email,
+            "name": google_data.name,
+            "google_id": google_data.google_id,
+            "picture": google_data.picture,
+            "password": "",  # No password for Google users
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.athlete_profiles.insert_one(new_athlete)
+    
+    # Store session token in database
+    session_expires = datetime.now(timezone.utc) + timedelta(days=7)
+    session_data = {
+        "id": str(uuid.uuid4()),
+        "athlete_id": athlete_id,
+        "session_token": google_data.session_token,
+        "expires_at": session_expires.isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
+    await db.auth_sessions.insert_one(session_data)
+    
+    return {
+        "athlete_id": athlete_id,
+        "is_new_user": is_new_user,
+        "name": google_data.name,
+        "email": email
+    }
+
 @api_router.post("/auth/forgot-password")
 async def forgot_password(request: PasswordResetRequest):
     """Initiate password reset process"""
