@@ -103,14 +103,14 @@ const Login = ({ onAthleteLogin }) => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">{t('auth.email')}</Label>
+                <Label htmlFor="email" className="text-white">{t('auth.email')}</Label>
                 <Input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t('auth.emailPlaceholder')}
-                  className="input-focus"
+                  className="input-focus bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                   disabled={isLoading}
                   autoFocus
                   data-testid="login-email-input"
@@ -118,7 +118,7 @@ const Login = ({ onAthleteLogin }) => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">{t('auth.password')}</Label>
+                <Label htmlFor="password" className="text-white">{t('auth.password')}</Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -126,14 +126,15 @@ const Login = ({ onAthleteLogin }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder={t('auth.passwordPlaceholder')}
-                    className="input-focus pr-10"
+                    className="input-focus pr-10 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                     disabled={isLoading}
                     data-testid="login-password-input"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 rounded"
+                    style={{ '--tw-ring-color': '#00C2A8' }}
                     disabled={isLoading}
                     aria-label={showPassword ? "Hide password" : "Show password"}
                     data-testid="toggle-password-visibility"
@@ -148,14 +149,17 @@ const Login = ({ onAthleteLogin }) => {
               </div>
 
               {error && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+                <div className="p-3 bg-red-900/30 border border-red-700 rounded-lg text-sm text-red-400">
                   {error}
                 </div>
               )}
 
               <Button 
                 type="submit" 
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 btn-transition"
+                className="w-full text-white font-medium py-3 btn-transition border-0"
+                style={{ backgroundColor: '#00C2A8' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
                 disabled={isLoading}
                 data-testid="login-submit-btn"
               >
