@@ -1052,7 +1052,7 @@ const Dashboard = ({ athleteId }) => {
       </main>
 
       {/* Mobile Bottom Navigation */}
-      <nav className={`md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 transition-transform duration-300 ease-in-out ${
+      <nav className={`md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-gray-800 border-t border-gray-700 shadow-lg z-50 transition-transform duration-300 ease-in-out ${
         scrollDirection === 'down' ? 'translate-y-full' : 'translate-y-0'
       }`}>
         <div className="grid grid-cols-4 h-16">
@@ -1060,8 +1060,8 @@ const Dashboard = ({ athleteId }) => {
             onClick={() => navigate('/dashboard')}
             className={`flex flex-col items-center justify-center transition-colors ${
               activeTab === 'overview'
-                ? 'text-blue-600 bg-blue-50'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                ? 'text-white bg-gray-700'
+                : 'text-gray-400 hover:text-white hover:bg-gray-700'
             }`}
             data-testid="mobile-overview-tab"
           >
@@ -1073,8 +1073,8 @@ const Dashboard = ({ athleteId }) => {
             onClick={() => navigate('/dashboard/coach')}
             className={`flex flex-col items-center justify-center transition-colors ${
               activeTab === 'coach'
-                ? 'text-blue-600 bg-blue-50'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                ? 'text-white bg-gray-700'
+                : 'text-gray-400 hover:text-white hover:bg-gray-700'
             }`}
             data-testid="mobile-coach-tab"
           >
@@ -1086,8 +1086,8 @@ const Dashboard = ({ athleteId }) => {
             onClick={() => navigate('/dashboard/reports')}
             className={`flex flex-col items-center justify-center transition-colors ${
               activeTab === 'reports'
-                ? 'text-blue-600 bg-blue-50'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                ? 'text-white bg-gray-700'
+                : 'text-gray-400 hover:text-white hover:bg-gray-700'
             }`}
             data-testid="mobile-reports-tab"
           >
