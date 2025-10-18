@@ -1073,6 +1073,19 @@ const Dashboard = ({ athleteId }) => {
       }`}>
         <div className="grid grid-cols-4 h-16">
           <button
+            onClick={() => navigate('/dashboard/today')}
+            className={`flex flex-col items-center justify-center transition-colors ${
+              activeTab === 'today'
+                ? 'text-white bg-gray-700'
+                : 'text-gray-400 hover:text-white hover:bg-gray-700'
+            }`}
+            data-testid="mobile-today-tab"
+          >
+            <Calendar className="w-5 h-5 mb-1" />
+            <span className="text-xs font-medium">Today</span>
+          </button>
+          
+          <button
             onClick={() => navigate('/dashboard')}
             className={`flex flex-col items-center justify-center transition-colors ${
               activeTab === 'overview'
@@ -1109,19 +1122,6 @@ const Dashboard = ({ athleteId }) => {
           >
             <PlusCircle className="w-5 h-5 mb-1" />
             <span className="text-xs font-medium">{t('nav.reports')}</span>
-          </button>
-          
-          <button
-            onClick={() => navigate('/dashboard/history')}
-            className={`flex flex-col items-center justify-center transition-colors ${
-              activeTab === 'history'
-                ? 'text-white bg-gray-700'
-                : 'text-gray-400 hover:text-white hover:bg-gray-700'
-            }`}
-            data-testid="mobile-history-tab"
-          >
-            <BarChart3 className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">{t('nav.history')}</span>
           </button>
         </div>
       </nav>
