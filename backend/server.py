@@ -793,6 +793,13 @@ class LoginRequest(BaseModel):
     email: str
     password: str
 
+class GoogleLoginRequest(BaseModel):
+    google_id: str
+    email: str
+    name: str
+    picture: Optional[str] = None
+    session_token: str
+
 class PasswordResetRequest(BaseModel):
     email: str
 
