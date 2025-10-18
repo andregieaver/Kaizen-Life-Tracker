@@ -676,7 +676,7 @@ const TestsAnalytics = ({ athleteId }) => {
 
             return (
               <SortableTestCard key={testName} testName={testName}>
-                <Card className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 border-0 bg-gradient-to-br from-gray-800 to-gray-600">
+                <Card className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 border-0 bg-gradient-to-br from-gray-600 to-gray-800">
                 {/* Add Entry Icon - Positioned below drag handler */}
                 <button
                   onClick={() => handleAddEntryToTest(testName, unit)}
