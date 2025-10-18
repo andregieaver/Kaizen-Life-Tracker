@@ -1011,10 +1011,10 @@ const Nutrition = ({ athleteId }) => {
             <div className="flex flex-col gap-4">
               {/* Title and Description */}
               <div className="flex-1">
-                <CardTitle className="text-lg">
+                <CardTitle className="text-lg text-white">
                   {viewType === 'week' ? 'Daily Average' : 'Day Total'}
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-gray-300">
                   {viewType === 'week' 
                     ? (weekStats.daysInWeek > 0 
                         ? `${weekStats.daysInWeek} day${weekStats.daysInWeek > 1 ? 's' : ''} tracked`
