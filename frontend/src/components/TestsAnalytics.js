@@ -730,9 +730,9 @@ const TestsAnalytics = ({ athleteId }) => {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-0">
                   {/* Chart.js Line Chart with Gradient Fill */}
-                  <div className="mb-6 p-4 bg-transparent rounded-xl focus:outline-none" style={{ outline: 'none' }}>
+                  <div className="mb-0 bg-transparent focus:outline-none" style={{ outline: 'none' }}>
                     <div style={{ height: '350px', position: 'relative' }}>
                       <ChartLine
                         data={{
