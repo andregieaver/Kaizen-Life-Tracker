@@ -153,17 +153,17 @@ const Recommendations = ({ athleteId }) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl md:text-3xl font-display font-bold text-gray-900">
+          <h1 className="text-2xl md:text-3xl font-display font-bold text-white">
             {t('reports.title')}
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-300 mt-1">
             {t('reports.description')}
           </p>
         </div>
         <Button 
           onClick={loadRecommendations}
           variant="outline"
-          className="btn-transition"
+          className="btn-transition text-white border-gray-600 hover:bg-gray-700"
           data-testid="refresh-recommendations-btn"
         >
           <RefreshCw className="w-4 h-4 mr-2" />
