@@ -422,7 +422,7 @@ const Dashboard = ({ athleteId }) => {
 
                 {/* Separator */}
                 <div className="py-2">
-                  <div className="h-px bg-gray-200"></div>
+                  <div className="h-px bg-white opacity-10"></div>
                 </div>
 
                 {/* Nutrition Section */}
@@ -499,7 +499,7 @@ const Dashboard = ({ athleteId }) => {
 
                 {/* Separator */}
                 <div className="py-2">
-                  <div className="h-px bg-gray-200"></div>
+                  <div className="h-px bg-white opacity-10"></div>
                 </div>
 
                 {/* Analytics Section */}
@@ -534,7 +534,7 @@ const Dashboard = ({ athleteId }) => {
 
                 {/* Separator */}
                 <div className="py-2">
-                  <div className="h-px bg-gray-200"></div>
+                  <div className="h-px bg-white opacity-10"></div>
                 </div>
 
                 {/* Documents Section */}
