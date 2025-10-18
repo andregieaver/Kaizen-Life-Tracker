@@ -1406,12 +1406,10 @@ const Nutrition = ({ athleteId }) => {
           {Object.keys(entriesByDay).sort((a, b) => new Date(b) - new Date(a)).map(date => (
             <div key={date}>
               {/* Day Separator */}
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex-1 h-px bg-gray-300"></div>
-                <div className="text-sm font-semibold text-gray-600">
+              <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-lg p-3 mb-4">
+                <div className="text-sm font-semibold text-white text-center">
                   {new Date(date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
                 </div>
-                <div className="flex-1 h-px bg-gray-300"></div>
               </div>
               
               {/* Entries for this day */}
