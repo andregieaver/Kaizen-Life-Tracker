@@ -188,26 +188,26 @@ const Pricing = () => {
       <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <Badge variant="secondary" className="mb-4">
+          <Badge variant="secondary" className="mb-4 bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 text-white border-0">
             <Zap className="w-3 h-3 mr-1" />
             Subscription Plans
           </Badge>
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
             Choose Your Perfect Plan
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
             Get personalized AI coaching, advanced analytics, and seamless integrations
             to optimize your training and reach your goals.
           </p>
 
           {/* Billing Cycle Toggle */}
-          <div className="flex items-center justify-center space-x-4 bg-white rounded-full p-2 shadow-md inline-flex">
+          <div className="flex items-center justify-center space-x-4 bg-gradient-to-b from-gray-700 to-gray-800 rounded-full p-2 shadow-md inline-flex">
             <button
               onClick={() => setBillingCycle('monthly')}
               className={`px-6 py-2 rounded-full font-medium transition-all ${
                 billingCycle === 'monthly'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-teal-600 text-white shadow-md'
+                  : 'text-gray-300 hover:text-white'
               }`}
             >
               Monthly
@@ -216,8 +216,8 @@ const Pricing = () => {
               onClick={() => setBillingCycle('annual')}
               className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
                 billingCycle === 'annual'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-teal-600 text-white shadow-md'
+                  : 'text-gray-300 hover:text-white'
               }`}
             >
               Annual
