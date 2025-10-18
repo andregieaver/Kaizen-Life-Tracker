@@ -1179,6 +1179,28 @@ const TestsAnalytics = ({ athleteId }) => {
                   </div>
                 )}
 
+                {/* Goal Direction - Whether higher or lower is better */}
+                <div className="space-y-2">
+                  <Label htmlFor="goal_direction">Goal Direction *</Label>
+                  <Select
+                    value={formData.goal_direction}
+                    onValueChange={(value) => setFormData(prev => ({...prev, goal_direction: value}))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="higher">Higher is Better (e.g., Pull-ups, Hang-bar)</SelectItem>
+                      <SelectItem value="lower">Lower is Better (e.g., Run time, Body fat)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-gray-500">
+                    {formData.goal_direction === 'higher' 
+                      ? 'Increases will show green, decreases red' 
+                      : 'Decreases will show green, increases red'}
+                  </p>
+                </div>
+
                 {/* Test Date */}
                 <div className="space-y-2">
                   <Label htmlFor="test_date">Test Date *</Label>
