@@ -705,14 +705,14 @@ const TestsAnalytics = ({ athleteId }) => {
                         <Badge 
                           className={`shadow-md ${
                             isLowerBetter 
-                              ? (improvement <= 0 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white border-0' : 'bg-gradient-to-r from-red-400 to-rose-500 text-white border-0')
-                              : (improvement >= 0 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white border-0' : 'bg-gradient-to-r from-red-400 to-rose-500 text-white border-0')
+                              ? (improvement < 0 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white border-0' : 'bg-gradient-to-r from-red-400 to-rose-500 text-white border-0')
+                              : (improvement > 0 ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white border-0' : 'bg-gradient-to-r from-red-400 to-rose-500 text-white border-0')
                           }`}
                         >
                           <TrendingUp className="w-3 h-3 mr-1" />
                           {isLowerBetter 
-                            ? (improvement <= 0 ? '' : '+')
-                            : (improvement >= 0 ? '+' : '')
+                            ? (improvement < 0 ? '' : '+')
+                            : (improvement > 0 ? '+' : '')
                           }
                           {improvementPercent}%
                         </Badge>
