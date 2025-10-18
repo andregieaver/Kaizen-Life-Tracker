@@ -1005,7 +1005,7 @@ const Nutrition = ({ athleteId }) => {
 
       {/* Nutrition Statistics - Day/Week View */}
       {entries.length > 0 && (
-        <Card>
+        <Card className="bg-gradient-to-br from-gray-600 to-gray-800 border-0">
           <CardHeader>
             {/* View Type Toggle and Navigation */}
             <div className="flex flex-col gap-4">
