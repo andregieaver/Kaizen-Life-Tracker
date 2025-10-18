@@ -607,7 +607,7 @@ const Dashboard = ({ athleteId }) => {
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <Calendar className="w-6 h-6 text-white" />
+                      <Calendar className="w-6 h-6" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Today</h3>
@@ -626,7 +626,7 @@ const Dashboard = ({ athleteId }) => {
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <ChefHat className="w-6 h-6 text-white" />
+                      <ChefHat className="w-6 h-6" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Weekly Menu</h3>
@@ -645,7 +645,7 @@ const Dashboard = ({ athleteId }) => {
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <Utensils className="w-6 h-6 text-white" />
+                      <Utensils className="w-6 h-6" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Log Meal</h3>
@@ -664,7 +664,7 @@ const Dashboard = ({ athleteId }) => {
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <Pill className="w-6 h-6 text-white" />
+                      <Pill className="w-6 h-6" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Log Supplement</h3>
@@ -683,7 +683,7 @@ const Dashboard = ({ athleteId }) => {
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <MessageCircle className="w-6 h-6 text-white" />
+                      <MessageCircle className="w-6 h-6" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Talk to Coach</h3>
@@ -702,7 +702,7 @@ const Dashboard = ({ athleteId }) => {
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <Mic className="w-6 h-6 text-white" />
+                      <Mic className="w-6 h-6" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Voice Journal</h3>
@@ -721,7 +721,7 @@ const Dashboard = ({ athleteId }) => {
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <Check className="w-6 h-6 text-white" />
+                      <Check className="w-6 h-6" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Habit Tracker</h3>
@@ -740,7 +740,7 @@ const Dashboard = ({ athleteId }) => {
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <Calendar className="w-6 h-6 text-white" />
+                      <Calendar className="w-6 h-6" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Training Calendar</h3>
