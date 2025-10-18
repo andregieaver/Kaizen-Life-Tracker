@@ -325,7 +325,7 @@ const Dashboard = ({ athleteId }) => {
               className="p-2 hover:bg-white/10 rounded-lg transition-colors"
               aria-label="Open menu"
             >
-              <Menu className="w-6 h-6 text-white" />
+              <Menu className="w-6 h-6" style={{ color: '#00C2A8' }} />
             </button>
           </div>
         </div>
@@ -348,7 +348,7 @@ const Dashboard = ({ athleteId }) => {
               className="p-2 hover:bg-white/10 rounded-lg transition-colors"
               aria-label="Open menu"
             >
-              <Menu className="w-6 h-6 text-white" />
+              <Menu className="w-6 h-6" style={{ color: '#00C2A8' }} />
             </button>
           </div>
         </div>
