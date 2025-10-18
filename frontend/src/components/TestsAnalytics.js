@@ -666,8 +666,10 @@ const TestsAnalytics = ({ athleteId }) => {
             
             const improvement = latestValue - firstValue;
             
-            // For time-based metrics (including distance tests), lower is better
-            const isLowerBetter = isDistanceTest || unit === 'time';
+            // Use goal_direction from the test result, defaulting to 'higher' if not set
+            const goalDirection = latestResult.goal_direction || 'higher';
+            const isLowerBetter = goalDirection === 'lower';
+            
             const improvementPercent = sortedResults.length > 1 && firstValue > 0
               ? ((improvement / firstValue) * 100).toFixed(1) 
               : 0;
