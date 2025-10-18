@@ -1099,8 +1099,8 @@ const Dashboard = ({ athleteId }) => {
             onClick={() => navigate('/dashboard/history')}
             className={`flex flex-col items-center justify-center transition-colors ${
               activeTab === 'history'
-                ? 'text-blue-600 bg-blue-50'
-                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                ? 'text-white bg-gray-700'
+                : 'text-gray-400 hover:text-white hover:bg-gray-700'
             }`}
             data-testid="mobile-history-tab"
           >
