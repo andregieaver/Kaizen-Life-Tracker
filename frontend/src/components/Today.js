@@ -36,22 +36,23 @@ const Today = ({ athleteId }) => {
       setIsLoading(true);
       const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
 
-      // Load athlete profile for calorie need
-      const profileRes = await axios.get(`${API}/athlete/${athleteId}`);
+      // Load all data in parallel for better performance
+      const [profileRes, nutritionRes, workoutsRes] = await Promise.all([
+        axios.get(`${API}/athlete/${athleteId}`),
+        axios.get(`${API}/nutrition/${athleteId}?date=${today}`),
+        axios.get(`${API}/workouts/${athleteId}?date=${today}&limit=50`)
+      ]);
+
+      // Process profile data
       setAthleteProfile(profileRes.data);
       const calorieNeed = profileRes.data.estimated_calorie_need || 2000; // Default to 2000 if not set
 
-      // Load today's nutrition entries
-      const nutritionRes = await axios.get(`${API}/nutrition/${athleteId}`);
-      const todayMeals = nutritionRes.data.entries.filter(entry => entry.entry_date === today);
+      // Process nutrition data - already filtered by backend
+      const todayMeals = nutritionRes.data.entries;
       const caloriesConsumed = todayMeals.reduce((sum, meal) => sum + (meal.calories || 0), 0);
 
-      // Load today's workouts
-      const workoutsRes = await axios.get(`${API}/workouts/${athleteId}`);
-      const todayWorkouts = workoutsRes.data.filter(workout => {
-        const workoutDate = new Date(workout.start_date).toISOString().split('T')[0];
-        return workoutDate === today;
-      });
+      // Process workouts - already filtered by backend
+      const todayWorkouts = workoutsRes.data;
 
       // Calculate training load (sum of workout durations or distances)
       const trainingLoad = todayWorkouts.reduce((sum, workout) => {
