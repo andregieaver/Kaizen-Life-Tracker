@@ -732,7 +732,7 @@ const TestsAnalytics = ({ athleteId }) => {
                 </CardHeader>
                 <CardContent>
                   {/* Chart.js Line Chart with Gradient Fill */}
-                  <div className="mb-6 p-4 bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl shadow-inner focus:outline-none" style={{ outline: 'none' }}>
+                  <div className="mb-6 p-4 bg-transparent rounded-xl focus:outline-none" style={{ outline: 'none' }}>
                     <div style={{ height: '350px', position: 'relative' }}>
                       <ChartLine
                         data={{
@@ -773,7 +773,7 @@ const TestsAnalytics = ({ athleteId }) => {
                               display: true,
                               position: 'bottom',
                               labels: {
-                                color: '#475569',
+                                color: '#ffffff',
                                 font: {
                                   size: 13,
                                   weight: '500'
@@ -784,14 +784,13 @@ const TestsAnalytics = ({ athleteId }) => {
                               }
                             },
                             tooltip: {
-                              backgroundColor: 'rgba(255, 255, 255, 0.98)',
-                              titleColor: '#1e293b',
+                              backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                              titleColor: '#ffffff',
                               bodyColor: '#3b82f6',
-                              borderColor: '#e5e7eb',
+                              borderColor: '#3b82f6',
                               borderWidth: 1,
                               borderRadius: 12,
                               padding: 16,
-                              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
                               titleFont: {
                                 size: 13,
                                 weight: '600'
@@ -830,14 +829,14 @@ const TestsAnalytics = ({ athleteId }) => {
                           scales: {
                             x: {
                               grid: {
-                                color: 'rgba(203, 213, 225, 0.3)',
+                                color: 'rgba(255, 255, 255, 0.1)',
                                 drawTicks: false,
                                 drawBorder: true,
-                                borderColor: '#cbd5e1',
+                                borderColor: 'rgba(255, 255, 255, 0.3)',
                                 borderWidth: 2
                               },
                               ticks: {
-                                color: '#64748b',
+                                color: '#ffffff',
                                 font: {
                                   size: 12,
                                   weight: '500'
