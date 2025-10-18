@@ -913,9 +913,9 @@ const TestsAnalytics = ({ athleteId }) => {
                         {sortedResults.map((result) => (
                           <div
                             key={result.id}
-                            className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:from-gray-500 hover:to-gray-700 transition-all"
+                            className="flex items-center justify-between gap-2 p-3 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:from-gray-500 hover:to-gray-700 transition-all"
                           >
-                            <div className="flex-1">
+                            <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-3 flex-wrap">
                                 <div className="flex items-center text-gray-300">
                                   <CalendarIcon className="w-4 h-4 mr-1" />
@@ -948,7 +948,7 @@ const TestsAnalytics = ({ athleteId }) => {
                                 <p className="text-sm text-gray-300 mt-1 truncate">{result.notes}</p>
                               )}
                             </div>
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 flex-shrink-0">
                               <Button
                                 size="sm"
                                 variant="outline"
