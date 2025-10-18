@@ -275,6 +275,7 @@ const TestsAnalytics = ({ athleteId }) => {
         result_value: parseFloat(formData.result_value) || 0,
         time_to_completion: timeToCompletion,
         time_display_unit: formData.unit === 'time' || formData.unit === 'duration' ? formData.time_display_unit : null,
+        goal_direction: formData.goal_direction,
         notes: formData.notes.trim() || null,
         test_date: formData.test_date,
         created_at: editingResult?.created_at || new Date().toISOString()
