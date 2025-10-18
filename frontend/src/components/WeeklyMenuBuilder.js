@@ -310,7 +310,10 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
         {!editingMenu && (
           <Button
             onClick={createNewMenu}
-            className="bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] hover:from-[#4fc4b5] hover:to-[#62D2C4] text-white shadow-md"
+            className="text-white border-0 shadow-md"
+            style={{ backgroundColor: '#00C2A8' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
           >
             <Plus className="w-4 h-4 mr-2" />
             New Menu
