@@ -92,8 +92,13 @@ const SortableTestCard = ({ testName, children }) => {
       <div
         {...attributes}
         {...listeners}
-        className="absolute right-2 top-2 z-20 drag-handle p-2 hover:bg-gray-700 hover:bg-opacity-20 bg-gray-700 bg-opacity-10 rounded-lg transition-colors cursor-grab active:cursor-grabbing"
-        style={{ touchAction: 'none' }}
+        className="absolute right-2 top-2 z-20 drag-handle p-2 rounded-lg transition-colors cursor-grab active:cursor-grabbing"
+        style={{ 
+          touchAction: 'none',
+          backgroundColor: 'rgba(55, 65, 81, 0.1)'
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(55, 65, 81, 0.2)'}
+        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(55, 65, 81, 0.1)'}
         title="Drag to reorder"
       >
         <GripVertical className="w-5 h-5 text-gray-300 hover:text-white" />
