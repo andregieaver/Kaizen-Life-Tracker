@@ -503,22 +503,22 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       </div>
 
       {/* Mobile Header with icons */}
-      <div className="flex md:hidden px-4 py-3 items-center justify-between border-b border-gray-200 bg-white">
+      <div className="flex md:hidden px-4 py-3 items-center justify-between border-b border-gray-700 bg-gradient-to-r from-gray-900 to-gray-800">
         <Button
           variant="ghost"
           size="sm"
           onClick={toggleArchive}
-          className="h-9 w-9 p-0"
+          className="h-9 w-9 p-0 text-white hover:bg-gray-700"
           data-testid="archive-btn-mobile"
         >
           <Archive className="w-5 h-5" />
         </Button>
-        <h2 className="text-lg font-display font-bold text-gray-900">{t('nav.coach')}</h2>
+        <h2 className="text-lg font-display font-bold text-white">{t('nav.coach')}</h2>
         <Button
           variant="ghost"
           size="sm"
           onClick={startNewConversation}
-          className="h-9 w-9 p-0"
+          className="h-9 w-9 p-0 text-white hover:bg-gray-700"
           data-testid="new-chat-btn-mobile"
         >
           <Plus className="w-5 h-5" />
