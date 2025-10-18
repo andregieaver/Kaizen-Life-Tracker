@@ -1388,7 +1388,7 @@ const Nutrition = ({ athleteId }) => {
                     // Render supplement log card
                     const logSupplements = supplements.filter(s => entry.supplement_ids.includes(s.id));
                     return (
-                      <Card key={entry.id} className="hover:shadow-lg transition-shadow">
+                      <Card key={entry.id} className="hover:shadow-lg transition-shadow bg-gradient-to-br from-gray-600 to-gray-800 border-0">
                         <CardHeader>
                           <div className="flex items-start justify-between">
                             <div className="flex-1">
