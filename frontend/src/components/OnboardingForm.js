@@ -111,18 +111,6 @@ const OnboardingForm = ({ onAthleteCreated }) => {
       newErrors.confirmPassword = t('validation.passwordsDoNotMatch');
     }
     
-    if (!formData.age || formData.age < 16 || formData.age > 80) {
-      newErrors.age = t('onboarding.ageValidation');
-    }
-    
-    if (!formData.weekly_mileage || formData.weekly_mileage < 5 || formData.weekly_mileage > 200) {
-      newErrors.weekly_mileage = t('onboarding.mileageValidation');
-    }
-    
-    if (!formData.running_goals.trim()) {
-      newErrors.running_goals = t('onboarding.runningGoalsValidation');
-    }
-    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
