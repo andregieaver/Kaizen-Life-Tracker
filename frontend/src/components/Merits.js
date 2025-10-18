@@ -54,17 +54,17 @@ const Merits = ({ athleteId }) => {
 
   if (isLoading) {
     return (
-      <Card className="border-0 shadow-lg">
+      <Card className="border-0 shadow-md bg-gradient-to-br from-gray-600 to-gray-800">
         <CardHeader>
-          <CardTitle className="flex items-center">
-            <Trophy className="w-5 h-5 mr-2 text-yellow-600" />
+          <CardTitle className="flex items-center text-white">
+            <Trophy className="w-5 h-5 mr-2 text-yellow-400" />
             Merits
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="animate-pulse space-y-3">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-8 bg-gray-200 rounded"></div>
+              <div key={i} className="h-8 bg-gray-700 rounded"></div>
             ))}
           </div>
         </CardContent>
@@ -73,10 +73,10 @@ const Merits = ({ athleteId }) => {
   }
 
   return (
-    <Card className="border-0 shadow-lg">
+    <Card className="border-0 shadow-md bg-gradient-to-br from-gray-600 to-gray-800">
       <CardHeader>
-        <CardTitle className="flex items-center">
-          <Trophy className="w-5 h-5 mr-2 text-yellow-600" />
+        <CardTitle className="flex items-center text-white">
+          <Trophy className="w-5 h-5 mr-2 text-yellow-400" />
           {t('merits.title')}
         </CardTitle>
       </CardHeader>
