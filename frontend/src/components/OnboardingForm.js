@@ -139,7 +139,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+                <Label htmlFor="name" className="text-sm font-medium text-gray-200">
                   {t('auth.fullName')}
                 </Label>
                 <Input
@@ -147,17 +147,17 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`input-focus ${errors.name ? 'border-red-300' : ''}`}
+                  className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-teal-500 focus:ring-teal-500 ${errors.name ? 'border-red-400' : ''}`}
                   placeholder={t('auth.fullNamePlaceholder')}
                   data-testid="name-input"
                 />
                 {errors.name && (
-                  <p className="text-sm text-red-600" data-testid="name-error">{errors.name}</p>
+                  <p className="text-sm text-red-400" data-testid="name-error">{errors.name}</p>
                 )}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                <Label htmlFor="email" className="text-sm font-medium text-gray-200">
                   {t('auth.email')}
                 </Label>
                 <Input
@@ -166,18 +166,18 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`input-focus ${errors.email ? 'border-red-300' : ''}`}
+                  className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-teal-500 focus:ring-teal-500 ${errors.email ? 'border-red-400' : ''}`}
                   placeholder={t('auth.emailPlaceholder')}
                   data-testid="email-input"
                 />
                 {errors.email && (
-                  <p className="text-sm text-red-600" data-testid="email-error">{errors.email}</p>
+                  <p className="text-sm text-red-400" data-testid="email-error">{errors.email}</p>
                 )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                  <Label htmlFor="password" className="text-sm font-medium text-gray-200">
                     {t('auth.password')}
                   </Label>
                   <Input
@@ -186,17 +186,17 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                     type="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className={`input-focus ${errors.password ? 'border-red-300' : ''}`}
+                    className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-teal-500 focus:ring-teal-500 ${errors.password ? 'border-red-400' : ''}`}
                     placeholder={t('auth.passwordPlaceholder')}
                     data-testid="password-input"
                   />
                   {errors.password && (
-                    <p className="text-sm text-red-600" data-testid="password-error">{errors.password}</p>
+                    <p className="text-sm text-red-400" data-testid="password-error">{errors.password}</p>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">
+                  <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-200">
                     {t('auth.confirmPassword')}
                   </Label>
                   <Input
@@ -205,19 +205,19 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                     type="password"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className={`input-focus ${errors.confirmPassword ? 'border-red-300' : ''}`}
+                    className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-teal-500 focus:ring-teal-500 ${errors.confirmPassword ? 'border-red-400' : ''}`}
                     placeholder={t('auth.confirmPasswordPlaceholder')}
                     data-testid="confirm-password-input"
                   />
                   {errors.confirmPassword && (
-                    <p className="text-sm text-red-600" data-testid="confirm-password-error">{errors.confirmPassword}</p>
+                    <p className="text-sm text-red-400" data-testid="confirm-password-error">{errors.confirmPassword}</p>
                   )}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="age" className="text-sm font-medium text-gray-700">
+                  <Label htmlFor="age" className="text-sm font-medium text-gray-200">
                     {t('onboarding.age')}
                   </Label>
                   <Input
@@ -226,19 +226,19 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                     type="number"
                     value={formData.age}
                     onChange={handleChange}
-                    className={`input-focus ${errors.age ? 'border-red-300' : ''}`}
+                    className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-teal-500 focus:ring-teal-500 ${errors.age ? 'border-red-400' : ''}`}
                     placeholder="25"
                     min="16"
                     max="80"
                     data-testid="age-input"
                   />
                   {errors.age && (
-                    <p className="text-sm text-red-600" data-testid="age-error">{errors.age}</p>
+                    <p className="text-sm text-red-400" data-testid="age-error">{errors.age}</p>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="weekly_mileage" className="text-sm font-medium text-gray-700">
+                  <Label htmlFor="weekly_mileage" className="text-sm font-medium text-gray-200">
                     {t('onboarding.weeklyMileage')}
                   </Label>
                   <Input
@@ -248,20 +248,20 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                     step="0.5"
                     value={formData.weekly_mileage}
                     onChange={handleChange}
-                    className={`input-focus ${errors.weekly_mileage ? 'border-red-300' : ''}`}
+                    className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-teal-500 focus:ring-teal-500 ${errors.weekly_mileage ? 'border-red-400' : ''}`}
                     placeholder="30"
                     min="5"
                     max="200"
                     data-testid="mileage-input"
                   />
                   {errors.weekly_mileage && (
-                    <p className="text-sm text-red-600" data-testid="mileage-error">{errors.weekly_mileage}</p>
+                    <p className="text-sm text-red-400" data-testid="mileage-error">{errors.weekly_mileage}</p>
                   )}
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="recent_race_time" className="text-sm font-medium text-gray-700">
+                <Label htmlFor="recent_race_time" className="text-sm font-medium text-gray-200">
                   {t('onboarding.recentRaceTime')} <span className="text-gray-400">(optional)</span>
                 </Label>
                 <Input
@@ -269,14 +269,14 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                   name="recent_race_time"
                   value={formData.recent_race_time}
                   onChange={handleChange}
-                  className="input-focus"
+                  className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-teal-500 focus:ring-teal-500"
                   placeholder={t('onboarding.raceTimeOptional')}
                   data-testid="race-time-input"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="running_goals" className="text-sm font-medium text-gray-700">
+                <Label htmlFor="running_goals" className="text-sm font-medium text-gray-200">
                   {t('onboarding.runningGoals')}
                 </Label>
                 <Textarea
@@ -284,25 +284,25 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                   name="running_goals"
                   value={formData.running_goals}
                   onChange={handleChange}
-                  className={`input-focus min-h-20 resize-none ${errors.running_goals ? 'border-red-300' : ''}`}
+                  className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-teal-500 focus:ring-teal-500 min-h-20 resize-none ${errors.running_goals ? 'border-red-400' : ''}`}
                   placeholder={t('onboarding.runningGoalsPlaceholder')}
                   data-testid="goals-textarea"
                 />
                 {errors.running_goals && (
-                  <p className="text-sm text-red-600" data-testid="goals-error">{errors.running_goals}</p>
+                  <p className="text-sm text-red-400" data-testid="goals-error">{errors.running_goals}</p>
                 )}
               </div>
 
               {errors.submit && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-md">
-                  <p className="text-sm text-red-600" data-testid="submit-error">{errors.submit}</p>
+                <div className="p-3 bg-red-900 border border-red-700 rounded-md">
+                  <p className="text-sm text-red-200" data-testid="submit-error">{errors.submit}</p>
                 </div>
               )}
 
               <Button 
                 type="submit" 
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-medium py-3 rounded-lg btn-transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 data-testid="create-profile-btn"
               >
                 {isLoading ? (
