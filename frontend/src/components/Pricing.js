@@ -300,35 +300,35 @@ const Pricing = () => {
         </div>
 
         {/* Feature Comparison */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-16">
-          <h2 className="text-3xl font-display font-bold text-center mb-8">
+        <div className="bg-gradient-to-b from-gray-700 to-gray-800 rounded-2xl shadow-lg p-8 mb-16">
+          <h2 className="text-3xl font-display font-bold text-center mb-8 text-white">
             Why Choose My Health Tracker?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <Users className="w-8 h-8 text-blue-600" />
+              <div className="mx-auto w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mb-4">
+                <Users className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">AI-Powered Coaching</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-2 text-white">AI-Powered Coaching</h3>
+              <p className="text-gray-300">
                 Get personalized insights and recommendations powered by advanced AI
               </p>
             </div>
             <div className="text-center">
-              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <TrendingUp className="w-8 h-8 text-green-600" />
+              <div className="mx-auto w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mb-4">
+                <TrendingUp className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Comprehensive Analytics</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-2 text-white">Comprehensive Analytics</h3>
+              <p className="text-gray-300">
                 Track your progress with detailed analytics and beautiful visualizations
               </p>
             </div>
             <div className="text-center">
-              <div className="mx-auto w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                <Clock className="w-8 h-8 text-purple-600" />
+              <div className="mx-auto w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mb-4">
+                <Clock className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Seamless Integrations</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-semibold mb-2 text-white">Seamless Integrations</h3>
+              <p className="text-gray-300">
                 Connect your favorite fitness devices and apps in one place
               </p>
             </div>
