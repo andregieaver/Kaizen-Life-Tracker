@@ -119,32 +119,31 @@ const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athlete
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-sm text-gray-500">Loading...</div>
+        <div className="text-sm text-gray-300">Loading...</div>
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      <h3 className="font-semibold text-gray-900 text-sm">Weekly Summary</h3>
+      <h3 className="font-semibold text-white text-sm">Weekly Summary</h3>
       
       {weeklyData.map((week, index) => (
         <div 
           key={index}
-          className={`p-3 rounded-lg border ${
+          className={`p-3 rounded-lg border-0 ${
             week.isCurrentWeek 
-              ? 'bg-blue-50 border-blue-200' 
-              : 'bg-white border-gray-200'
+              ? 'bg-gradient-to-r from-gray-700 to-gray-800' 
+              : 'bg-gradient-to-r from-gray-700 to-gray-800'
           }`}
+          style={week.isCurrentWeek ? { boxShadow: '0 0 0 2px #00C2A8' } : {}}
         >
           <div className="flex items-center justify-between mb-2">
-            <h4 className={`text-xs font-medium ${
-              week.isCurrentWeek ? 'text-blue-900' : 'text-gray-700'
-            }`}>
+            <h4 className="text-xs font-medium text-white">
               {week.label}
             </h4>
             {week.isCurrentWeek && (
-              <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800">
+              <Badge className="text-xs bg-gray-700 text-white border-0">
                 Current
               </Badge>
             )}
@@ -155,9 +154,9 @@ const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athlete
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
                 <MapPin className="w-3 h-3 text-gray-400" />
-                <span className="text-gray-600">Distance</span>
+                <span className="text-gray-300">Distance</span>
               </div>
-              <span className="font-medium text-gray-900">
+              <span className="font-medium text-white">
                 {formatDistance(week.totalDistance, distanceUnit)}
               </span>
             </div>
@@ -166,9 +165,9 @@ const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athlete
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
                 <Clock className="w-3 h-3 text-gray-400" />
-                <span className="text-gray-600">Time</span>
+                <span className="text-gray-300">Time</span>
               </div>
-              <span className="font-medium text-gray-900">
+              <span className="font-medium text-white">
                 {week.totalDuration > 0 ? formatDuration(week.totalDuration) : '0m'}
               </span>
             </div>
@@ -177,9 +176,9 @@ const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athlete
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
                 <Dumbbell className="w-3 h-3 text-gray-400" />
-                <span className="text-gray-600">Workouts</span>
+                <span className="text-gray-300">Workouts</span>
               </div>
-              <span className="font-medium text-gray-900">
+              <span className="font-medium text-white">
                 {week.workoutCount}
               </span>
             </div>
@@ -189,9 +188,9 @@ const WeeklySummaryColumn = ({ currentDate, currentView, trainingBlocks, athlete
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1">
                   <Timer className="w-3 h-3 text-gray-400" />
-                  <span className="text-gray-600">Avg Pace</span>
+                  <span className="text-gray-300">Avg Pace</span>
                 </div>
-                <span className="font-medium text-gray-900">
+                <span className="font-medium text-white">
                   {formatPace(week.totalDuration, week.totalDistance, distanceUnit)}
                 </span>
               </div>
