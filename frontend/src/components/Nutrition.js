@@ -1031,18 +1031,46 @@ const Nutrition = ({ athleteId }) => {
                 {/* Day/Week Toggle */}
                 <div className="flex items-center gap-2">
                   <Button
-                    variant={viewType === 'day' ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => setViewType('day')}
-                    className="h-8 px-3 text-xs"
+                    className={`h-8 px-3 text-xs border-0 ${
+                      viewType === 'day' 
+                        ? 'text-white' 
+                        : 'bg-gray-700 text-white hover:bg-gray-600'
+                    }`}
+                    style={viewType === 'day' ? { backgroundColor: '#00C2A8' } : {}}
+                    onMouseEnter={(e) => {
+                      if (viewType === 'day') {
+                        e.currentTarget.style.backgroundColor = '#009688';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (viewType === 'day') {
+                        e.currentTarget.style.backgroundColor = '#00C2A8';
+                      }
+                    }}
                   >
                     Day
                   </Button>
                   <Button
-                    variant={viewType === 'week' ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => setViewType('week')}
-                    className="h-8 px-3 text-xs"
+                    className={`h-8 px-3 text-xs border-0 ${
+                      viewType === 'week' 
+                        ? 'text-white' 
+                        : 'bg-gray-700 text-white hover:bg-gray-600'
+                    }`}
+                    style={viewType === 'week' ? { backgroundColor: '#00C2A8' } : {}}
+                    onMouseEnter={(e) => {
+                      if (viewType === 'week') {
+                        e.currentTarget.style.backgroundColor = '#009688';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (viewType === 'week') {
+                        e.currentTarget.style.backgroundColor = '#00C2A8';
+                      }
+                    }}
                   >
                     Week
                   </Button>
@@ -1051,10 +1079,9 @@ const Nutrition = ({ athleteId }) => {
                 {/* Navigation Controls */}
                 <div className="flex items-center gap-2">
                   <Button
-                    variant="outline"
                     size="sm"
                     onClick={viewType === 'week' ? goToPreviousWeek : goToPreviousDay}
-                    className="h-8 w-8 p-0"
+                    className="h-8 w-8 p-0 bg-gray-700 text-white border-0 hover:bg-gray-600"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
@@ -1062,10 +1089,9 @@ const Nutrition = ({ athleteId }) => {
                   {viewType === 'week' ? (
                     !isCurrentWeek(currentWeekStart) && (
                       <Button
-                        variant="outline"
                         size="sm"
                         onClick={goToCurrentWeek}
-                        className="h-8 px-2 text-xs"
+                        className="h-8 px-2 text-xs bg-gray-700 text-white border-0 hover:bg-gray-600"
                       >
                         Today
                       </Button>
@@ -1073,10 +1099,9 @@ const Nutrition = ({ athleteId }) => {
                   ) : (
                     !isToday(currentDay) && (
                       <Button
-                        variant="outline"
                         size="sm"
                         onClick={goToToday}
-                        className="h-8 px-2 text-xs"
+                        className="h-8 px-2 text-xs bg-gray-700 text-white border-0 hover:bg-gray-600"
                       >
                         Today
                       </Button>
@@ -1084,10 +1109,9 @@ const Nutrition = ({ athleteId }) => {
                   )}
                   
                   <Button
-                    variant="outline"
                     size="sm"
                     onClick={viewType === 'week' ? goToNextWeek : goToNextDay}
-                    className="h-8 w-8 p-0"
+                    className="h-8 w-8 p-0 bg-gray-700 text-white border-0 hover:bg-gray-600"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </Button>
