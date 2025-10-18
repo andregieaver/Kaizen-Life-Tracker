@@ -600,7 +600,7 @@ const Dashboard = ({ athleteId }) => {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Today Overview */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/today')}
               >
@@ -619,7 +619,7 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Weekly Menu */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/recipes')}
               >
@@ -638,7 +638,7 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Log Meal */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/nutrition?action=add')}
               >
@@ -657,7 +657,7 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Log Supplement */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/supplements', { state: { openAddModal: true } })}
               >
@@ -676,7 +676,7 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Talk to Coach */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/coach?action=voice')}
               >
@@ -695,7 +695,7 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Voice Journal */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/journal?action=voice')}
               >
@@ -714,7 +714,7 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Habit Tracker */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/habits')}
               >
@@ -733,7 +733,7 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Training Calendar */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] hover:scale-105 transform"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
                 style={{ borderRadius: '0.3rem' }}
                 onClick={() => navigate('/dashboard/calendar')}
               >
