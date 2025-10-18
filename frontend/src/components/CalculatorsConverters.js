@@ -65,10 +65,10 @@ const CalculatorsConverters = ({ athleteId }) => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-display font-bold bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] bg-clip-text text-transparent mb-2">
+        <h1 className="text-3xl font-display font-bold text-white mb-2">
           Calculators & Converters
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-300">
           Useful tools to help you track and optimize your fitness journey
         </p>
       </div>
@@ -80,20 +80,25 @@ const CalculatorsConverters = ({ athleteId }) => {
           return (
             <Card
               key={calc.id}
-              className="border-0 shadow-md hover:shadow-lg transition-all cursor-pointer group"
+              className="border-0 shadow-md hover:shadow-lg transition-all cursor-pointer group bg-gradient-to-br from-gray-600 to-gray-800"
               onClick={() => openCalculator(calc.id)}
             >
               <CardHeader>
                 <div className={`w-16 h-16 bg-gradient-to-br ${calc.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-md`}>
                   <IconComponent className="w-8 h-8 text-white" />
                 </div>
-                <CardTitle className="text-xl font-display">{calc.title}</CardTitle>
-                <CardDescription className="text-gray-600 mt-2">
+                <CardTitle className="text-xl font-display text-white">{calc.title}</CardTitle>
+                <CardDescription className="text-gray-300 mt-2">
                   {calc.description}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button className={`w-full bg-gradient-to-r ${calc.color} hover:opacity-90 text-white`}>
+                <Button 
+                  className="w-full text-white border-0"
+                  style={{ backgroundColor: '#00C2A8' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+                >
                   <Calculator className="w-4 h-4 mr-2" />
                   Open Calculator
                 </Button>
