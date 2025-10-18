@@ -212,11 +212,11 @@ const Recommendations = ({ athleteId }) => {
       {/* Recommendations List */}
       <div className="space-y-4">
         {recommendations.length === 0 ? (
-          <Card className="border-0 shadow-lg">
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-600 to-gray-800">
             <CardContent className="text-center py-12">
-              <Brain className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 mb-4">{t('reports.noReports')}</p>
-              <p className="text-sm text-gray-400">
+              <Brain className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-200 mb-4">{t('reports.noReports')}</p>
+              <p className="text-sm text-gray-300">
                 {t('reports.setupSchedules')}
               </p>
             </CardContent>
@@ -225,9 +225,9 @@ const Recommendations = ({ athleteId }) => {
           recommendations.map((recommendation) => (
             <Card 
               key={recommendation.id} 
-              className={`border-0 shadow-lg hover-lift cursor-pointer transition-all ${
+              className={`border-0 shadow-lg hover-lift cursor-pointer transition-all bg-gradient-to-br from-gray-600 to-gray-800 ${
                 !recommendation.read 
-                  ? 'ring-2 ring-blue-400 bg-white' 
+                  ? 'ring-2 ring-blue-400' 
                   : 'hover:shadow-xl'
               }`}
               onClick={() => handleCardClick(recommendation)}
@@ -235,19 +235,19 @@ const Recommendations = ({ athleteId }) => {
               <CardContent className="p-6">
                 <div className="flex items-start justify-between">
                   <div className="flex items-start space-x-3 flex-1">
-                    <div className="mt-1">
+                    <div className="mt-1 text-white">
                       {getTypeIcon(recommendation.type)}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <h3 className="font-semibold text-gray-900">
+                        <h3 className="font-semibold text-white">
                           {recommendation.title}
                         </h3>
                         {!recommendation.read && (
-                          <span className="inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
+                          <span className="inline-flex h-2 w-2 rounded-full bg-blue-400"></span>
                         )}
                       </div>
-                      <div className="flex items-center space-x-4 text-sm text-gray-500">
+                      <div className="flex items-center space-x-4 text-sm text-gray-300">
                         <div className="flex items-center">
                           <Clock className="w-4 h-4 mr-1" />
                           {formatTimeAgo(recommendation.generated_at)}
@@ -265,7 +265,7 @@ const Recommendations = ({ athleteId }) => {
                       variant="ghost"
                       size="sm"
                       onClick={(e) => deleteRecommendation(recommendation.id, e)}
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      className="text-red-400 hover:text-red-300 hover:bg-red-900/30"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -278,7 +278,7 @@ const Recommendations = ({ athleteId }) => {
                     {recommendation.tags.map((tag, index) => (
                       <span 
                         key={index}
-                        className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full"
+                        className="px-2 py-1 bg-gray-700 text-gray-200 text-xs rounded-full"
                       >
                         #{tag}
                       </span>
