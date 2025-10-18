@@ -117,22 +117,22 @@ const Today = ({ athleteId }) => {
       {/* Main Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Nutrition Overview */}
-        <Card className="border-2 border-green-200">
-          <CardHeader className="bg-green-50">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Utensils className="w-5 h-5 text-green-600" />
+        <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-teal-600 border-2">
+          <CardHeader className="bg-gradient-to-br from-teal-700 to-teal-800">
+            <CardTitle className="flex items-center gap-2 text-lg text-white">
+              <Utensils className="w-5 h-5 text-teal-200" />
               Nutrition
             </CardTitle>
-            <CardDescription>Daily calorie tracking</CardDescription>
+            <CardDescription className="text-teal-100">Daily calorie tracking</CardDescription>
           </CardHeader>
           <CardContent className="pt-6 space-y-4">
             {/* Calorie Need */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-600">Daily Need</span>
-                <span className="text-2xl font-bold text-gray-900">{todayData.calorieNeed}</span>
+                <span className="text-sm text-gray-300">Daily Need</span>
+                <span className="text-2xl font-bold text-white">{todayData.calorieNeed}</span>
               </div>
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-gray-400">
                 {athleteProfile?.estimated_calorie_need 
                   ? 'Based on your profile settings' 
                   : 'Default value (update in Account Settings)'}
@@ -142,26 +142,38 @@ const Today = ({ athleteId }) => {
             {/* Calories Consumed */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-600">Consumed</span>
-                <span className="text-2xl font-bold text-green-600">{todayData.caloriesConsumed}</span>
+                <span className="text-sm text-gray-300">Consumed</span>
+                <span className="text-2xl font-bold text-teal-400">{todayData.caloriesConsumed}</span>
               </div>
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-gray-400">
                 From {todayData.meals.length} meal{todayData.meals.length !== 1 ? 's' : ''}
               </div>
             </div>
 
             {/* Calories Remaining */}
-            <div className={`p-4 rounded-lg ${calorieStatus.bg}`}>
+            <div className={`p-4 rounded-lg ${
+              todayData.caloriesRemaining > 500 ? 'bg-blue-900/30 border border-blue-700' :
+              todayData.caloriesRemaining < -500 ? 'bg-red-900/30 border border-red-700' :
+              'bg-green-900/30 border border-green-700'
+            }`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <StatusIcon className={`w-5 h-5 ${calorieStatus.color}`} />
-                  <span className="text-sm font-medium">Remaining</span>
+                  <StatusIcon className={`w-5 h-5 ${
+                    todayData.caloriesRemaining > 500 ? 'text-blue-400' :
+                    todayData.caloriesRemaining < -500 ? 'text-red-400' :
+                    'text-green-400'
+                  }`} />
+                  <span className="text-sm font-medium text-gray-200">Remaining</span>
                 </div>
-                <span className={`text-2xl font-bold ${calorieStatus.color}`}>
+                <span className={`text-2xl font-bold ${
+                  todayData.caloriesRemaining > 500 ? 'text-blue-400' :
+                  todayData.caloriesRemaining < -500 ? 'text-red-400' :
+                  'text-green-400'
+                }`}>
                   {todayData.caloriesRemaining > 0 ? '+' : ''}{todayData.caloriesRemaining}
                 </span>
               </div>
-              <div className="mt-2 text-xs text-gray-600">
+              <div className="mt-2 text-xs text-gray-400">
                 {todayData.caloriesRemaining > 500 && 'You need more calories today'}
                 {todayData.caloriesRemaining >= -500 && todayData.caloriesRemaining <= 500 && 'You\'re on track!'}
                 {todayData.caloriesRemaining < -500 && 'You\'ve exceeded your daily goal'}
@@ -170,16 +182,16 @@ const Today = ({ athleteId }) => {
 
             {/* Progress Bar */}
             <div>
-              <div className="flex items-center justify-between mb-2 text-xs text-gray-600">
+              <div className="flex items-center justify-between mb-2 text-xs text-gray-300">
                 <span>Progress</span>
                 <span>{Math.round((todayData.caloriesConsumed / todayData.calorieNeed) * 100)}%</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-3">
+              <div className="w-full bg-gray-600 rounded-full h-3">
                 <div 
                   className={`h-3 rounded-full transition-all ${
                     todayData.caloriesConsumed > todayData.calorieNeed 
                       ? 'bg-red-500' 
-                      : 'bg-green-500'
+                      : 'bg-teal-500'
                   }`}
                   style={{ 
                     width: `${Math.min((todayData.caloriesConsumed / todayData.calorieNeed) * 100, 100)}%` 
