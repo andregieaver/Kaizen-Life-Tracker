@@ -683,9 +683,24 @@ const Documents = ({ athleteId }) => {
       {/* Category Filter */}
       <div className="flex gap-2 flex-wrap">
         <Button
-          variant={selectedCategory === 'all' ? 'default' : 'outline'}
           onClick={() => setSelectedCategory('all')}
           size="sm"
+          className={`border-0 ${
+            selectedCategory === 'all' 
+              ? 'text-white' 
+              : 'bg-gray-700 text-white hover:bg-gray-600'
+          }`}
+          style={selectedCategory === 'all' ? { backgroundColor: '#00C2A8' } : {}}
+          onMouseEnter={(e) => {
+            if (selectedCategory === 'all') {
+              e.currentTarget.style.backgroundColor = '#009688';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (selectedCategory === 'all') {
+              e.currentTarget.style.backgroundColor = '#00C2A8';
+            }
+          }}
         >
           All ({Array.isArray(documents) ? documents.length : 0})
         </Button>
@@ -694,9 +709,24 @@ const Documents = ({ athleteId }) => {
           return (
             <Button
               key={cat.value}
-              variant={selectedCategory === cat.value ? 'default' : 'outline'}
               onClick={() => setSelectedCategory(cat.value)}
               size="sm"
+              className={`border-0 ${
+                selectedCategory === cat.value 
+                  ? 'text-white' 
+                  : 'bg-gray-700 text-white hover:bg-gray-600'
+              }`}
+              style={selectedCategory === cat.value ? { backgroundColor: '#00C2A8' } : {}}
+              onMouseEnter={(e) => {
+                if (selectedCategory === cat.value) {
+                  e.currentTarget.style.backgroundColor = '#009688';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (selectedCategory === cat.value) {
+                  e.currentTarget.style.backgroundColor = '#00C2A8';
+                }
+              }}
             >
               <cat.icon className="w-4 h-4 mr-2" />
               {cat.label} ({count})
