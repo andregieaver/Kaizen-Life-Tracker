@@ -550,14 +550,14 @@ const TestsAnalytics = ({ athleteId }) => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Tests & Analytics</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-2xl font-bold text-white">Tests & Analytics</h1>
+          <p className="text-white mt-1">
             Track your fitness test results and visualize progress over time
           </p>
         </div>
         <Button 
           onClick={handleAddTestClick}
-          className="bg-blue-600 hover:bg-blue-700 btn-transition"
+          className="bg-black hover:bg-gray-900 text-white btn-transition"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add New Test ({testNames.length}/{getTestLimit(subscriptionStatus.tier) === Infinity ? '∞' : getTestLimit(subscriptionStatus.tier)})
