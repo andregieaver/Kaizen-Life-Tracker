@@ -305,11 +305,11 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
             onClick={() => setShowArchive(false)}
           />
           
-          {/* Sidebar - Full viewport height on desktop with white background */}
-          <div className="fixed left-0 top-0 bottom-0 w-80 bg-white shadow-2xl z-[60] md:fixed md:inset-y-0 md:h-screen flex flex-col">
+          {/* Sidebar - Full viewport height on desktop with dark background */}
+          <div className="fixed left-0 top-0 bottom-0 w-80 bg-gradient-to-r from-gray-900 to-gray-800 shadow-2xl z-[60] md:fixed md:inset-y-0 md:h-screen flex flex-col">
             {/* Header */}
-            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">{t('coach.pastConversations')}</h3>
+            <div className="p-4 border-b border-gray-700 flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-white">{t('coach.pastConversations')}</h3>
               <Button
                 variant="ghost"
                 size="sm"
