@@ -235,25 +235,25 @@ const Supplements = ({ athleteId }) => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {supplements.map((supplement) => (
-            <Card key={supplement.id} className="hover:shadow-lg transition-shadow">
+            <Card key={supplement.id} className="hover:shadow-lg transition-shadow bg-gradient-to-br from-gray-600 to-gray-800 border-0">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <CardTitle className="text-lg">{supplement.name}</CardTitle>
-                    <CardDescription className="mt-1">
+                    <CardTitle className="text-lg text-white">{supplement.name}</CardTitle>
+                    <CardDescription className="mt-1 text-gray-300">
                       {supplement.dosage} {supplement.unit}
                     </CardDescription>
                   </div>
                   <div className="flex gap-1">
                     <button
                       onClick={() => handleEditSupplement(supplement)}
-                      className="p-2 hover:bg-blue-50 rounded-lg transition-colors text-blue-600"
+                      className="p-2 hover:bg-blue-900/30 rounded-lg transition-colors text-blue-400"
                     >
                       <Edit3 className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleDeleteSupplement(supplement.id)}
-                      className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
+                      className="p-2 hover:bg-red-900/30 rounded-lg transition-colors text-red-400"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -263,17 +263,17 @@ const Supplements = ({ athleteId }) => {
               <CardContent>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                    <Badge variant="outline" className="bg-gradient-to-r from-gray-700 to-gray-800 text-white border-gray-600">
                       {getFrequencyLabel(supplement.frequency)}
                     </Badge>
                     {supplement.time_of_day && (
-                      <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
+                      <Badge variant="outline" className="bg-gradient-to-r from-gray-700 to-gray-800 text-white border-gray-600">
                         {getTimeOfDayLabel(supplement.time_of_day)}
                       </Badge>
                     )}
                   </div>
                   {supplement.notes && (
-                    <p className="text-sm text-gray-600 mt-2">{supplement.notes}</p>
+                    <p className="text-sm text-gray-300 mt-2">{supplement.notes}</p>
                   )}
                 </div>
               </CardContent>
