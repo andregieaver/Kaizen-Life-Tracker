@@ -5050,9 +5050,17 @@ async def log_workout(workout: Workout):
     return workout
 
 @api_router.get("/workouts/{athlete_id}", response_model=List[Workout])
-async def get_workouts(athlete_id: str, limit: int = 20):
+async def get_workouts(athlete_id: str, limit: int = 20, date: Optional[str] = None):
+    """Get workouts for an athlete, optionally filtered by date"""
+    query = {"athlete_id": athlete_id}
+    
+    # Add date filter if provided
+    if date:
+        # Match workouts where start_date contains the date string
+        query["start_date"] = {"$regex": f"^{date}"}
+    
     workouts = await db.workouts.find(
-        {"athlete_id": athlete_id}, 
+        query, 
         {"_id": 0}
     ).sort("date", -1).limit(limit).to_list(length=None)
     return [parse_from_mongo(w) for w in workouts]
