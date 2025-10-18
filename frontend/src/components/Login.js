@@ -61,12 +61,12 @@ const Login = ({ onAthleteLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Back to Home Link */}
         <Link 
           to="/" 
-          className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+          className="inline-flex items-center text-sm text-gray-300 hover:text-white mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t('auth.backToHome')}
@@ -74,26 +74,29 @@ const Login = ({ onAthleteLogin }) => {
 
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-display font-bold text-gray-900 mb-2">
+          <h1 className="text-4xl font-display font-bold text-white mb-2">
             My Health Tracker
           </h1>
-          <p className="text-gray-600">{t('auth.welcomeBack')}</p>
+          <p className="text-gray-300">{t('auth.welcomeBack')}</p>
           <Link 
             to="/pricing" 
-            className="inline-block mt-3 text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+            className="inline-block mt-3 text-sm font-medium transition-colors"
+            style={{ color: '#00C2A8' }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#009688'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#00C2A8'}
           >
             View Pricing Plans →
           </Link>
         </div>
 
         {/* Login Form */}
-        <Card className="border-0 shadow-xl">
+        <Card className="border-0 shadow-xl bg-gradient-to-br from-gray-600 to-gray-800">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl flex items-center justify-center">
-              <LogIn className="w-6 h-6 mr-2 text-blue-600" />
+            <CardTitle className="text-2xl flex items-center justify-center text-white">
+              <LogIn className="w-6 h-6 mr-2" style={{ color: '#00C2A8' }} />
               {t('auth.login')}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-300">
               {t('auth.enterEmailPassword')}
             </CardDescription>
           </CardHeader>
