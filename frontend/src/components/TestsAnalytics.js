@@ -300,6 +300,7 @@ const TestsAnalytics = ({ athleteId }) => {
         time_minutes: '',
         time_seconds: '',
         time_display_unit: 'seconds',
+        goal_direction: 'higher',
         notes: '',
         test_date: new Date().toISOString().split('T')[0],
         use_existing_test: false
