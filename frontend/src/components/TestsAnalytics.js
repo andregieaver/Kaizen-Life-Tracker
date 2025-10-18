@@ -340,6 +340,7 @@ const TestsAnalytics = ({ athleteId }) => {
       time_minutes: minutes,
       time_seconds: seconds,
       time_display_unit: result.time_display_unit || 'seconds',
+      goal_direction: result.goal_direction || 'higher',
       notes: result.notes || '',
       test_date: result.test_date,
       use_existing_test: false
