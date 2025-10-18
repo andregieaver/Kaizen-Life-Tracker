@@ -901,7 +901,7 @@ const TestsAnalytics = ({ athleteId }) => {
                         size="sm"
                         variant="outline"
                         onClick={() => handleDeleteAllTests(testName)}
-                        className="text-red-400 hover:text-red-300 hover:bg-red-950 border-red-800"
+                        className="bg-black text-white hover:bg-gray-900 border-0"
                       >
                         <Trash2 className="w-4 h-4 mr-1" />
                         Delete All
