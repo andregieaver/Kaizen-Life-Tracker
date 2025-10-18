@@ -126,6 +126,7 @@ const TestsAnalytics = ({ athleteId }) => {
     time_minutes: '',
     time_seconds: '',
     time_display_unit: 'seconds', // Default to seconds for time-based tests
+    goal_direction: 'higher', // Default: higher is better
     notes: '',
     test_date: new Date().toISOString().split('T')[0],
     use_existing_test: false
