@@ -227,10 +227,10 @@ const Recommendations = ({ athleteId }) => {
               key={recommendation.id} 
               className={`border-0 shadow-lg hover-lift cursor-pointer transition-all bg-gradient-to-br from-gray-600 to-gray-800 ${
                 !recommendation.read 
-                  ? 'ring-2' 
+                  ? '' 
                   : 'hover:shadow-xl'
               }`}
-              style={!recommendation.read ? { borderColor: '#00C2A8', '--tw-ring-color': '#00C2A8' } : {}}
+              style={!recommendation.read ? { boxShadow: '0 0 0 2px #00C2A8' } : {}}
               onClick={() => handleCardClick(recommendation)}
             >
               <CardContent className="p-6">
