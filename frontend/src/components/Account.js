@@ -1227,10 +1227,10 @@ const Account = ({ athleteId }) => {
     <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-display font-bold text-gray-900 mb-2">
+        <h1 className="text-3xl font-display font-bold text-white mb-2">
           {t('account.title')}
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-300">
           {t('account.manageProfile')}
         </p>
       </div>
@@ -1239,8 +1239,8 @@ const Account = ({ athleteId }) => {
       {saveStatus.message && (
         <div className={`mb-6 p-4 rounded-lg border ${
           saveStatus.type === 'success' 
-            ? 'bg-green-50 border-green-200 text-green-700'
-            : 'bg-red-50 border-red-200 text-red-700'
+            ? 'bg-green-900/30 border-green-700 text-green-400'
+            : 'bg-red-900/30 border-red-700 text-red-400'
         }`}>
           <div className="flex items-center">
             {saveStatus.type === 'success' ? (
