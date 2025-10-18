@@ -708,42 +708,42 @@ const Documents = ({ athleteId }) => {
       {/* Documents List */}
       {isLoadingDocs && filteredDocuments.length === 0 ? (
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading documents...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto" style={{ borderColor: '#00C2A8' }}></div>
+          <p className="mt-4 text-gray-300">Loading documents...</p>
         </div>
       ) : filteredDocuments.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 rounded-lg">
+        <div className="text-center py-12 bg-gradient-to-r from-gray-900 to-gray-800 rounded-lg">
           <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-600 mb-2">No documents yet</p>
-          <p className="text-sm text-gray-500">Upload your first document to get started</p>
+          <p className="text-gray-300 mb-2">No documents yet</p>
+          <p className="text-sm text-gray-400">Upload your first document to get started</p>
         </div>
       ) : (
         <div className="grid gap-4">
           {filteredDocuments.map((doc) => {
             const CategoryIcon = getCategoryIcon(doc.category);
             return (
-              <Card key={doc.id} className="hover:shadow-md transition-shadow">
+              <Card key={doc.id} className="hover:shadow-md transition-shadow bg-gradient-to-br from-gray-600 to-gray-800 border-0">
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-3 flex-1">
-                      <div className="p-2 bg-gray-100 rounded-lg">
-                        <CategoryIcon className="w-6 h-6 text-gray-600" />
+                      <div className="p-2 bg-gray-700 rounded-lg">
+                        <CategoryIcon className="w-6 h-6 text-gray-300" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-gray-900 mb-1">{doc.title}</h3>
+                        <h3 className="font-semibold text-white mb-1">{doc.title}</h3>
                         <div className="flex items-center gap-2 flex-wrap mb-2">
-                          <Badge className={getCategoryColor(doc.category)}>
+                          <Badge className="bg-gray-700 text-white border-0">
                             {getCategoryLabel(doc.category)}
                           </Badge>
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-gray-400">
                             {formatFileSize(doc.file_size)}
                           </span>
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs text-gray-400">
                             {new Date(doc.created_at).toLocaleDateString()}
                           </span>
                         </div>
                         {doc.description && (
-                          <p className="text-sm text-gray-600 line-clamp-2">{doc.description}</p>
+                          <p className="text-sm text-gray-300 line-clamp-2">{doc.description}</p>
                         )}
                       </div>
                     </div>
