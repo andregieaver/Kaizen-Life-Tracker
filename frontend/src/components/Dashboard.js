@@ -332,7 +332,7 @@ const Dashboard = ({ athleteId }) => {
       </header>
 
       {/* Mobile Header */}
-      <header className={`md:hidden bg-gradient-to-r from-[#3d756e] to-[#b8c99a] shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
+      <header className={`md:hidden bg-gradient-to-r from-[#4FFBDF] to-[#00C2A8] shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
         isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
       }`}>
         <div className="px-4 py-3">
