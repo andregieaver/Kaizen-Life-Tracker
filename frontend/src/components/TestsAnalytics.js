@@ -676,22 +676,22 @@ const TestsAnalytics = ({ athleteId }) => {
 
             return (
               <SortableTestCard key={testName} testName={testName}>
-                <Card className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 border-0 bg-gradient-to-br from-white to-slate-50">
+                <Card className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 border-0 bg-gradient-to-br from-gray-900 to-black">
                 {/* Add Entry Icon - Positioned below drag handler */}
                 <button
                   onClick={() => handleAddEntryToTest(testName, unit)}
-                  className="absolute right-2 top-14 z-10 p-1 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="absolute right-2 top-14 z-10 p-1 hover:bg-gray-800 rounded-lg transition-colors"
                   title="Add Entry"
                 >
-                  <Plus className="w-6 h-6 text-gray-700 hover:text-gray-900" />
+                  <Plus className="w-6 h-6 text-gray-300 hover:text-white" />
                 </button>
                 <CardHeader className="pb-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                      <CardTitle className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                      <CardTitle className="text-xl font-bold text-white">
                         {testName}
                       </CardTitle>
-                      <CardDescription className="text-slate-600 font-medium">
+                      <CardDescription className="text-gray-300 font-medium">
                         {sortedResults.length} test{sortedResults.length !== 1 ? 's' : ''} recorded
                       </CardDescription>
                     </div>
@@ -712,7 +712,7 @@ const TestsAnalytics = ({ athleteId }) => {
                           {improvementPercent}%
                         </Badge>
                       )}
-                      <Badge className="bg-gradient-to-r from-blue-500 to-purple-500 text-white border-0 shadow-md">
+                      <Badge className="bg-black text-white border border-gray-700 shadow-md">
                         Latest: {
                           (() => {
                             if (unit === 'time' && latestResult.time_to_completion) {
