@@ -789,8 +789,8 @@ const Dashboard = ({ athleteId }) => {
                         </defs>
                       </svg>
                       <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-4xl font-bold text-gray-800">87</span>
-                        <span className="text-sm text-gray-500">Body Score</span>
+                        <span className="text-4xl font-bold text-white">87</span>
+                        <span className="text-sm text-gray-300">Body Score</span>
                       </div>
                     </div>
                   </div>
@@ -801,7 +801,7 @@ const Dashboard = ({ athleteId }) => {
                     <div className="flex flex-col items-center">
                       <div className="relative w-20 h-20">
                         <svg className="transform -rotate-90 w-20 h-20">
-                          <circle cx="40" cy="40" r="35" stroke="#e5e7eb" strokeWidth="6" fill="none" />
+                          <circle cx="40" cy="40" r="35" stroke="#4a5568" strokeWidth="6" fill="none" />
                           <circle
                             cx="40" cy="40" r="35"
                             stroke="#C1E1C1"
@@ -812,17 +812,17 @@ const Dashboard = ({ athleteId }) => {
                           />
                         </svg>
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-lg font-bold text-gray-800">82</span>
+                          <span className="text-lg font-bold text-white">82</span>
                         </div>
                       </div>
-                      <span className="text-xs text-gray-600 mt-2">Readiness</span>
+                      <span className="text-xs text-gray-300 mt-2">Readiness</span>
                     </div>
 
                     {/* Sleep */}
                     <div className="flex flex-col items-center">
                       <div className="relative w-20 h-20">
                         <svg className="transform -rotate-90 w-20 h-20">
-                          <circle cx="40" cy="40" r="35" stroke="#e5e7eb" strokeWidth="6" fill="none" />
+                          <circle cx="40" cy="40" r="35" stroke="#4a5568" strokeWidth="6" fill="none" />
                           <circle
                             cx="40" cy="40" r="35"
                             stroke="#9B7EBD"
@@ -833,17 +833,17 @@ const Dashboard = ({ athleteId }) => {
                           />
                         </svg>
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-lg font-bold text-gray-800">78</span>
+                          <span className="text-lg font-bold text-white">78</span>
                         </div>
                       </div>
-                      <span className="text-xs text-gray-600 mt-2">Sleep</span>
+                      <span className="text-xs text-gray-300 mt-2">Sleep</span>
                     </div>
 
                     {/* Activity */}
                     <div className="flex flex-col items-center">
                       <div className="relative w-20 h-20">
                         <svg className="transform -rotate-90 w-20 h-20">
-                          <circle cx="40" cy="40" r="35" stroke="#e5e7eb" strokeWidth="6" fill="none" />
+                          <circle cx="40" cy="40" r="35" stroke="#4a5568" strokeWidth="6" fill="none" />
                           <circle
                             cx="40" cy="40" r="35"
                             stroke="#FFB347"
@@ -854,15 +854,15 @@ const Dashboard = ({ athleteId }) => {
                           />
                         </svg>
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-lg font-bold text-gray-800">91</span>
+                          <span className="text-lg font-bold text-white">91</span>
                         </div>
                       </div>
-                      <span className="text-xs text-gray-600 mt-2">Activity</span>
+                      <span className="text-xs text-gray-300 mt-2">Activity</span>
                     </div>
                   </div>
 
                   {/* 2x2 Grid of Metrics */}
-                  <div className="grid grid-cols-2 gap-4 pt-4 border-t">
+                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-700">
                     {/* Sleep Amount */}
                     <div className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-4">
                       <div className="text-xs text-gray-600 mb-1">Sleep Amount</div>
