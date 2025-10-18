@@ -884,11 +884,11 @@ const TestsAnalytics = ({ athleteId }) => {
                   </div>
 
                   {/* Individual Test Results List */}
-                  <div className="border-t pt-4">
+                  <div className="border-t border-gray-700 pt-4 px-4 pb-4">
                     <div className="flex items-center justify-between mb-3">
                       <button
                         onClick={() => toggleTestHistory(testName)}
-                        className="flex items-center gap-2 font-semibold text-gray-900 hover:text-blue-600 transition-colors"
+                        className="flex items-center gap-2 font-semibold text-white hover:text-blue-400 transition-colors"
                       >
                         <span>Test History</span>
                         {expandedTests[testName] ? (
@@ -901,7 +901,7 @@ const TestsAnalytics = ({ athleteId }) => {
                         size="sm"
                         variant="outline"
                         onClick={() => handleDeleteAllTests(testName)}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-300"
+                        className="text-red-400 hover:text-red-300 hover:bg-red-950 border-red-800"
                       >
                         <Trash2 className="w-4 h-4 mr-1" />
                         Delete All
@@ -913,31 +913,31 @@ const TestsAnalytics = ({ athleteId }) => {
                         {sortedResults.map((result) => (
                           <div
                             key={result.id}
-                            className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                            className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:from-gray-500 hover:to-gray-700 transition-all"
                           >
                             <div className="flex-1">
                               <div className="flex items-center gap-3 flex-wrap">
-                                <div className="flex items-center text-gray-600">
+                                <div className="flex items-center text-gray-300">
                                   <CalendarIcon className="w-4 h-4 mr-1" />
                                   <span className="text-sm font-medium">{formatDate(result.test_date)}</span>
                                 </div>
                                 {unit === 'time' ? (
                                   // For time-based tests, show time prominently
                                   result.time_to_completion ? (
-                                    <div className="font-semibold text-lg text-blue-600">
+                                    <div className="font-semibold text-lg text-blue-400">
                                       {formatValue(result.time_to_completion, 'time')}
                                     </div>
                                   ) : (
-                                    <div className="text-sm text-gray-500 italic">No time recorded</div>
+                                    <div className="text-sm text-gray-400 italic">No time recorded</div>
                                   )
                                 ) : (
                                   // For non-time tests, show result value prominently
                                   <>
-                                    <div className="font-semibold text-gray-900">
+                                    <div className="font-semibold text-white">
                                       {formatValue(result.result_value, unit)} {getUnitLabel(unit)}
                                     </div>
                                     {result.time_to_completion && (
-                                      <div className="text-sm text-gray-600">
+                                      <div className="text-sm text-gray-300">
                                         Time: {formatValue(result.time_to_completion, 'time')}
                                       </div>
                                     )}
@@ -945,7 +945,7 @@ const TestsAnalytics = ({ athleteId }) => {
                                 )}
                               </div>
                               {result.notes && (
-                                <p className="text-sm text-gray-600 mt-1 truncate">{result.notes}</p>
+                                <p className="text-sm text-gray-300 mt-1 truncate">{result.notes}</p>
                               )}
                             </div>
                             <div className="flex gap-2">
