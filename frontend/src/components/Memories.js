@@ -290,24 +290,30 @@ const Memories = ({ athleteId }) => {
       {/* Memories List */}
       {isLoading ? (
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading memories...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto" style={{ borderColor: '#00C2A8' }}></div>
+          <p className="mt-4 text-gray-300">Loading memories...</p>
         </div>
       ) : filteredMemories.length === 0 ? (
-        <Card>
+        <Card className="bg-gradient-to-r from-gray-900 to-gray-800 border-0">
           <CardContent className="py-12 text-center">
-            <Brain className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-            <h3 className="text-lg font-display font-medium text-gray-900 mb-2">
+            <Brain className="w-16 h-16 mx-auto text-gray-400 mb-4" />
+            <h3 className="text-lg font-display font-medium text-white mb-2">
               {searchTerm || selectedCategory !== 'all' ? 'No memories found' : 'No memories yet'}
             </h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-300 mb-4">
               {searchTerm || selectedCategory !== 'all' 
                 ? 'Try adjusting your filters'
                 : 'Your AI coach will remember important details from your conversations'
               }
             </p>
             {!searchTerm && selectedCategory === 'all' && (
-              <Button onClick={handleCreateMemory} variant="outline">
+              <Button 
+                onClick={handleCreateMemory}
+                className="text-white border-0"
+                style={{ backgroundColor: '#00C2A8' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Your First Memory
               </Button>
@@ -317,13 +323,13 @@ const Memories = ({ athleteId }) => {
       ) : (
         <div className="space-y-3">
           {filteredMemories.map((memory) => (
-            <Card key={memory.id} className="hover:shadow-md transition-shadow">
+            <Card key={memory.id} className="hover:shadow-md transition-shadow bg-gradient-to-br from-gray-600 to-gray-800 border-0">
               <CardContent className="p-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 space-y-2">
                     {/* Category and Importance */}
                     <div className="flex items-center gap-2 flex-wrap">
-                      <Badge className={getCategoryColor(memory.category)}>
+                      <Badge className="bg-gray-700 text-white border-0">
                         <Tag className="w-3 h-3 mr-1" />
                         {getCategoryLabel(memory.category)}
                       </Badge>
