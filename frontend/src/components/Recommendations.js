@@ -173,38 +173,38 @@ const Recommendations = ({ athleteId }) => {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="border-0 shadow-sm">
+        <Card className="border-0 shadow-sm bg-gradient-to-br from-gray-600 to-gray-800">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-blue-600">
+            <div className="text-2xl font-bold text-blue-400">
               {recommendations.length}
             </div>
-            <div className="text-sm text-gray-600">{t('reports.totalReports')}</div>
+            <div className="text-sm text-gray-200">{t('reports.totalReports')}</div>
           </CardContent>
         </Card>
-        <Card className="border-0 shadow-sm">
+        <Card className="border-0 shadow-sm bg-gradient-to-br from-gray-600 to-gray-800">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-orange-600">
+            <div className="text-2xl font-bold text-orange-400">
               {recommendations.filter(r => !r.read).length}
             </div>
-            <div className="text-sm text-gray-600">Unread</div>
+            <div className="text-sm text-gray-200">Unread</div>
           </CardContent>
         </Card>
-        <Card className="border-0 shadow-sm">
+        <Card className="border-0 shadow-sm bg-gradient-to-br from-gray-600 to-gray-800">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-green-600">
+            <div className="text-2xl font-bold text-green-400">
               {recommendations.filter(r => 
                 new Date(r.generated_at) > new Date(Date.now() - 24 * 60 * 60 * 1000)
               ).length}
             </div>
-            <div className="text-sm text-gray-600">{t('reports.today')}</div>
+            <div className="text-sm text-gray-200">{t('reports.today')}</div>
           </CardContent>
         </Card>
-        <Card className="border-0 shadow-sm">
+        <Card className="border-0 shadow-sm bg-gradient-to-br from-gray-600 to-gray-800">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-purple-600">
+            <div className="text-2xl font-bold text-purple-400">
               {new Set(recommendations.flatMap(r => r.tags || [])).size}
             </div>
-            <div className="text-sm text-gray-600">{t('reports.topics')}</div>
+            <div className="text-sm text-gray-200">{t('reports.topics')}</div>
           </CardContent>
         </Card>
       </div>
