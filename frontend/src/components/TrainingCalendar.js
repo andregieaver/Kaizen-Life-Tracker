@@ -476,18 +476,18 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-white">
             Enhanced Training Calendar
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-gray-300 mt-1">
             Plan and track your workouts with detailed metrics
           </p>
         </div>
         <div className="flex gap-2">
           {weeklySummary && (
-            <div className="bg-blue-50 p-3 rounded-lg text-sm">
-              <div className="font-medium text-blue-900">Weekly Summary</div>
-              <div className="text-blue-700">
+            <div className="bg-gradient-to-r from-gray-700 to-gray-800 p-3 rounded-lg text-sm">
+              <div className="font-medium text-white">Weekly Summary</div>
+              <div className="text-gray-300">
                 {weeklySummary.total_distance > 0 && (
                   <span>{formatDistance(weeklySummary.total_distance, distanceUnit)} • </span>
                 )}
@@ -502,7 +502,10 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
             <DialogTrigger asChild>
               <Button 
                 onClick={() => handleCreateBlock()}
-                className="bg-blue-600 hover:bg-blue-700"
+                className="text-white border-0"
+                style={{ backgroundColor: '#00C2A8' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Workout
