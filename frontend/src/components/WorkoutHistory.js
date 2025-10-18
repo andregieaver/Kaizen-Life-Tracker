@@ -77,18 +77,22 @@ const WorkoutHistory = ({ athleteId }) => {
   return (
     <div className="w-full max-w-[1600px] mx-auto space-y-6">
       {/* Header with view switcher */}
-      <Card className="border-0 shadow-lg">
-        <CardHeader>
+      <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-gray-900 to-gray-800">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <CardTitle className="text-xl font-display">{t('history.title')}</CardTitle>
-              <CardDescription>{t('history.description')}</CardDescription>
+              <CardTitle className="text-xl font-display text-white">{t('history.title')}</CardTitle>
+              <CardDescription className="text-gray-300">{t('history.description')}</CardDescription>
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
               <Button
                 variant={activeView === 'workouts' ? 'default' : 'outline'}
                 onClick={() => setActiveView('workouts')}
-                className="btn-transition w-full sm:w-auto"
+                className={`btn-transition w-full sm:w-auto ${
+                  activeView === 'workouts' 
+                    ? 'bg-teal-600 hover:bg-teal-700 text-white border-0' 
+                    : 'bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600 hover:text-white'
+                }`}
                 data-testid="workouts-view-btn"
               >
                 {t('history.workouts')} ({workouts.length})
@@ -96,7 +100,11 @@ const WorkoutHistory = ({ athleteId }) => {
               <Button
                 variant={activeView === 'sleep' ? 'default' : 'outline'}
                 onClick={() => setActiveView('sleep')}
-                className="btn-transition w-full sm:w-auto"
+                className={`btn-transition w-full sm:w-auto ${
+                  activeView === 'sleep' 
+                    ? 'bg-teal-600 hover:bg-teal-700 text-white border-0' 
+                    : 'bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600 hover:text-white'
+                }`}
                 data-testid="sleep-view-btn"
               >
                 {t('history.sleep')} ({sleepData.length})
