@@ -182,16 +182,22 @@ const Login = ({ onAthleteLogin }) => {
               <div>
                 <Link 
                   to="/forgot-password"
-                  className="text-sm text-blue-600 hover:text-blue-700 font-medium hover:underline"
+                  className="text-sm font-medium hover:underline"
+                  style={{ color: '#00C2A8' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#009688'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#00C2A8'}
                 >
                   {t('auth.forgotPassword')}
                 </Link>
               </div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-300">
                 {t('auth.dontHaveAccount')}{' '}
                 <Link 
                   to="/" 
-                  className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
+                  className="font-medium hover:underline"
+                  style={{ color: '#00C2A8' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#009688'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#00C2A8'}
                 >
                   {t('auth.signupHere')}
                 </Link>
