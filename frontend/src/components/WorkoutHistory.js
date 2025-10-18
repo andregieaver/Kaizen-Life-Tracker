@@ -211,19 +211,19 @@ const WorkoutHistory = ({ athleteId }) => {
       {activeView === 'sleep' && (
         <div className="space-y-4">
           {sleepData.length === 0 ? (
-            <Card className="border-0 shadow-lg">
+            <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
               <CardContent className="text-center py-12">
-                <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500">{t('history.noSleep')}</p>
+                <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-300">{t('history.noSleep')}</p>
               </CardContent>
             </Card>
           ) : (
             sleepData.map((sleep) => (
-              <Card key={sleep.id} className="border-0 shadow-lg hover-lift">
+              <Card key={sleep.id} className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 hover:border-teal-600 transition-colors">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-4">
-                      <div className="flex items-center text-sm text-gray-500">
+                      <div className="flex items-center text-sm text-gray-400">
                         <Calendar className="w-4 h-4 mr-1" />
                         {new Date(sleep.date).toLocaleDateString('en-US', {
                           weekday: 'short',
@@ -233,7 +233,7 @@ const WorkoutHistory = ({ athleteId }) => {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-lg font-semibold text-gray-900">
+                      <div className="text-lg font-semibold text-white">
                         {sleep.total_sleep_hours}h
                       </div>
                       <div className={`text-sm font-medium ${getSleepQualityColor(sleep.sleep_quality)}`}>
@@ -244,21 +244,21 @@ const WorkoutHistory = ({ athleteId }) => {
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
-                      <p className="text-sm text-gray-600">Efficiency</p>
-                      <p className="font-medium">{sleep.sleep_efficiency}%</p>
+                      <p className="text-sm text-gray-400">Efficiency</p>
+                      <p className="font-medium text-white">{sleep.sleep_efficiency}%</p>
                     </div>
                     
                     {sleep.hrv_score && (
                       <div>
-                        <p className="text-sm text-gray-600">HRV</p>
-                        <p className="font-medium">{sleep.hrv_score}ms</p>
+                        <p className="text-sm text-gray-400">HRV</p>
+                        <p className="font-medium text-white">{sleep.hrv_score}ms</p>
                       </div>
                     )}
                     
                     {sleep.resting_hr && (
                       <div>
-                        <p className="text-sm text-gray-600">Resting HR</p>
-                        <p className="font-medium">{sleep.resting_hr} bpm</p>
+                        <p className="text-sm text-gray-400">Resting HR</p>
+                        <p className="font-medium text-white">{sleep.resting_hr} bpm</p>
                       </div>
                     )}
                   </div>
