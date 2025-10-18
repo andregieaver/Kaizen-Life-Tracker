@@ -1192,8 +1192,9 @@ const TestsAnalytics = ({ athleteId }) => {
                   <Select
                     value={formData.goal_direction}
                     onValueChange={(value) => setFormData(prev => ({...prev, goal_direction: value}))}
+                    disabled={addingEntryToTest !== null}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className={addingEntryToTest ? "bg-gray-100 cursor-not-allowed" : ""}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -1201,11 +1202,15 @@ const TestsAnalytics = ({ athleteId }) => {
                       <SelectItem value="lower">Lower is Better (e.g., Run time, Body fat)</SelectItem>
                     </SelectContent>
                   </Select>
-                  <p className="text-xs text-gray-500">
-                    {formData.goal_direction === 'higher' 
-                      ? 'Increases will show green, decreases red' 
-                      : 'Decreases will show green, increases red'}
-                  </p>
+                  {addingEntryToTest ? (
+                    <p className="text-xs text-gray-500">Goal direction is fixed for this test</p>
+                  ) : (
+                    <p className="text-xs text-gray-500">
+                      {formData.goal_direction === 'higher' 
+                        ? 'Increases will show green, decreases red' 
+                        : 'Decreases will show green, increases red'}
+                    </p>
+                  )}
                 </div>
 
                 {/* Test Date */}
