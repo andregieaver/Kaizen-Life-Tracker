@@ -791,8 +791,8 @@ const TestsAnalytics = ({ athleteId }) => {
                             tooltip: {
                               backgroundColor: 'rgba(0, 0, 0, 0.9)',
                               titleColor: '#ffffff',
-                              bodyColor: '#3b82f6',
-                              borderColor: '#3b82f6',
+                              bodyColor: '#00C2A8',
+                              borderColor: '#00C2A8',
                               borderWidth: 1,
                               borderRadius: 12,
                               padding: 16,
