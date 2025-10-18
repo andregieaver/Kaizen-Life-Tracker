@@ -212,15 +212,21 @@ const Supplements = ({ athleteId }) => {
       {/* Supplements List */}
       {isLoading ? (
         <div className="text-center py-8">
-          <p className="text-gray-500">Loading supplements...</p>
+          <p className="text-gray-300">Loading supplements...</p>
         </div>
       ) : supplements.length === 0 ? (
-        <Card>
+        <Card className="bg-gradient-to-r from-gray-900 to-gray-800 border-0">
           <CardContent className="text-center py-12">
             <Pill className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No supplements yet</h3>
-            <p className="text-gray-600 mb-4">Start tracking your supplements and vitamins</p>
-            <Button onClick={openNewSupplementModal}>
+            <h3 className="text-lg font-semibold text-white mb-2">No supplements yet</h3>
+            <p className="text-gray-300 mb-4">Start tracking your supplements and vitamins</p>
+            <Button 
+              onClick={openNewSupplementModal}
+              className="text-white border-0"
+              style={{ backgroundColor: '#00C2A8' }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+            >
               <Plus className="w-4 h-4 mr-2" />
               Add First Supplement
             </Button>
