@@ -293,8 +293,8 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#62D2C4] mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading menus...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: '#00C2A8' }}></div>
+          <p className="text-gray-300">Loading menus...</p>
         </div>
       </div>
     );
@@ -304,8 +304,8 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
     <div className="space-y-6 p-4 sm:p-6 lg:p-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-display font-bold text-gray-900">Weekly Menu Builder</h1>
-          <p className="text-gray-600 mt-1">Create and manage weekly meal plan templates</p>
+          <h1 className="text-3xl font-display font-bold text-white">Weekly Menu Builder</h1>
+          <p className="text-gray-300 mt-1">Create and manage weekly meal plan templates</p>
         </div>
         {!editingMenu && (
           <Button
