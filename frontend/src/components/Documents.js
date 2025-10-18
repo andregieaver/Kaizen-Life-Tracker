@@ -749,7 +749,6 @@ const Documents = ({ athleteId }) => {
                     </div>
                     <div className="flex items-center gap-2 ml-4">
                       <Button
-                        variant="outline"
                         size="sm"
                         onClick={() => {
                           const link = document.createElement('a');
@@ -757,14 +756,14 @@ const Documents = ({ athleteId }) => {
                           link.download = doc.file_name;
                           link.click();
                         }}
+                        className="bg-gray-700 text-white border-0 hover:bg-gray-600"
                       >
                         <Download className="w-4 h-4" />
                       </Button>
                       <Button
-                        variant="outline"
                         size="sm"
                         onClick={() => handleDelete(doc.id)}
-                        className="text-red-600 hover:text-red-700"
+                        className="bg-red-900/30 text-red-400 border-0 hover:bg-red-900/50"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
