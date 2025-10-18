@@ -1167,8 +1167,9 @@ const TestsAnalytics = ({ athleteId }) => {
                     <Select
                       value={formData.time_display_unit}
                       onValueChange={(value) => setFormData(prev => ({...prev, time_display_unit: value}))}
+                      disabled={addingEntryToTest !== null}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className={addingEntryToTest ? "bg-gray-100 cursor-not-allowed" : ""}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1177,7 +1178,11 @@ const TestsAnalytics = ({ athleteId }) => {
                         <SelectItem value="hours">Hours (e.g., 0.025 hrs)</SelectItem>
                       </SelectContent>
                     </Select>
-                    <p className="text-xs text-gray-500">Choose how time will be displayed in the chart axis</p>
+                    {addingEntryToTest ? (
+                      <p className="text-xs text-gray-500">Display format is fixed for this test</p>
+                    ) : (
+                      <p className="text-xs text-gray-500">Choose how time will be displayed in the chart axis</p>
+                    )}
                   </div>
                 )}
 
