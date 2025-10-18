@@ -392,16 +392,16 @@ const Pricing = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="mt-16 text-center bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-12 text-white">
+        <div className="mt-16 text-center bg-gradient-to-br from-teal-600 to-cyan-700 rounded-2xl p-12 text-white">
           <h2 className="text-3xl font-display font-bold mb-4">
             Ready to Transform Your Training?
           </h2>
-          <p className="text-xl mb-8 text-blue-100">
+          <p className="text-xl mb-8 text-teal-100">
             Join thousands of athletes optimizing their performance with My Health Tracker
           </p>
           <Button
             size="lg"
-            className="bg-white text-blue-600 hover:bg-blue-50"
+            className="bg-white text-teal-600 hover:bg-gray-100"
             onClick={() => navigate('/onboarding')}
           >
             Start Your Free Trial Today
@@ -410,8 +410,8 @@ const Pricing = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-8">
-        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+      <footer className="bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 py-8">
+        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-200">
           <p>&copy; 2024 My Health Tracker. All rights reserved.</p>
         </div>
       </footer>
