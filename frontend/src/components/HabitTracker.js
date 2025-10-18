@@ -382,16 +382,15 @@ const HabitTracker = ({ athleteId }) => {
                     <div className="flex gap-1">
                       <Button
                         onClick={() => openEditModal(habit)}
-                        variant="ghost"
+                        className="bg-transparent hover:bg-gray-700 text-white"
                         size="sm"
                       >
                         <Edit3 className="w-4 h-4" />
                       </Button>
                       <Button
                         onClick={() => handleDelete(habit.id)}
-                        variant="ghost"
+                        className="bg-transparent hover:bg-red-900/30 text-red-400"
                         size="sm"
-                        className="text-red-600"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
