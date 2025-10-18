@@ -223,8 +223,14 @@ const HabitTracker = ({ athleteId }) => {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Habit Tracker</h2>
-        <Button onClick={openAddModal} className="bg-blue-600 hover:bg-blue-700">
+        <h2 className="text-2xl font-bold text-white">Habit Tracker</h2>
+        <Button 
+          onClick={openAddModal} 
+          className="text-white border-0"
+          style={{ backgroundColor: '#00C2A8' }}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+        >
           <Plus className="w-4 h-4 mr-2" />
           Add Habit
         </Button>
@@ -232,13 +238,13 @@ const HabitTracker = ({ athleteId }) => {
 
       {/* Longest Streak Banner */}
       {longestStreak > 0 && (
-        <Card className="bg-gradient-to-r from-orange-50 to-red-50 border-orange-200">
+        <Card className="bg-gradient-to-r from-gray-700 to-gray-800 border-0">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <Flame className="w-8 h-8 text-orange-500" />
+              <Flame className="w-8 h-8 text-orange-400" />
               <div>
-                <div className="text-sm text-gray-600">Longest Streak</div>
-                <div className="text-2xl font-bold text-orange-600">{longestStreak} days</div>
+                <div className="text-sm text-gray-300">Longest Streak</div>
+                <div className="text-2xl font-bold text-orange-400">{longestStreak} days</div>
               </div>
             </div>
           </CardContent>
