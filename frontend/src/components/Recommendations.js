@@ -340,7 +340,7 @@ const Recommendations = ({ athleteId }) => {
                   {selectedRecommendation.tags.map((tag, index) => (
                     <span 
                       key={index}
-                      className="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full"
+                      className="px-3 py-1 bg-gray-700 text-gray-200 text-sm rounded-full"
                     >
                       #{tag}
                     </span>
