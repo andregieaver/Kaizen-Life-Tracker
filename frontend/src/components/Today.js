@@ -203,27 +203,27 @@ const Today = ({ athleteId }) => {
         </Card>
 
         {/* Training Load */}
-        <Card className="border-2 border-blue-200">
-          <CardHeader className="bg-blue-50">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Activity className="w-5 h-5 text-blue-600" />
+        <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-teal-600 border-2">
+          <CardHeader className="bg-gradient-to-br from-teal-700 to-teal-800">
+            <CardTitle className="flex items-center gap-2 text-lg text-white">
+              <Activity className="w-5 h-5 text-teal-200" />
               Training Load
             </CardTitle>
-            <CardDescription>Today's activity summary</CardDescription>
+            <CardDescription className="text-teal-100">Today's activity summary</CardDescription>
           </CardHeader>
           <CardContent className="pt-6 space-y-4">
             {/* Training Load Value */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-600">Total Load</span>
-                <span className="text-2xl font-bold text-blue-600">
+                <span className="text-sm text-gray-300">Total Load</span>
+                <span className="text-2xl font-bold text-teal-400">
                   {todayData.trainingLoad}
-                  <span className="text-sm text-gray-500 ml-1">
+                  <span className="text-sm text-gray-400 ml-1">
                     {todayData.workouts.length > 0 && todayData.workouts[0].distance ? 'km' : 'min'}
                   </span>
                 </span>
               </div>
-              <div className="text-xs text-gray-500">
+              <div className="text-xs text-gray-400">
                 From {todayData.workouts.length} workout{todayData.workouts.length !== 1 ? 's' : ''}
               </div>
             </div>
@@ -231,19 +231,19 @@ const Today = ({ athleteId }) => {
             {/* Workout List */}
             {todayData.workouts.length > 0 ? (
               <div className="space-y-2">
-                <h4 className="text-sm font-medium text-gray-700">Today's Workouts</h4>
+                <h4 className="text-sm font-medium text-gray-200">Today's Workouts</h4>
                 {todayData.workouts.map((workout, index) => (
-                  <div key={index} className="p-3 bg-blue-50 rounded-lg">
+                  <div key={index} className="p-3 bg-gray-600 rounded-lg border border-gray-500">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Flame className="w-4 h-4 text-orange-500" />
-                        <span className="text-sm font-medium">{workout.name || 'Workout'}</span>
+                        <Flame className="w-4 h-4 text-orange-400" />
+                        <span className="text-sm font-medium text-white">{workout.name || 'Workout'}</span>
                       </div>
-                      <Badge variant="outline" className="text-xs">
+                      <Badge variant="outline" className="text-xs border-teal-600 text-teal-400">
                         {workout.sport_type || workout.type || 'Run'}
                       </Badge>
                     </div>
-                    <div className="mt-2 flex items-center gap-4 text-xs text-gray-600">
+                    <div className="mt-2 flex items-center gap-4 text-xs text-gray-300">
                       {workout.distance && (
                         <span>{(workout.distance / 1000).toFixed(2)} km</span>
                       )}
@@ -258,10 +258,10 @@ const Today = ({ athleteId }) => {
                 ))}
               </div>
             ) : (
-              <div className="p-6 text-center bg-gray-50 rounded-lg">
-                <Activity className="w-12 h-12 text-gray-300 mx-auto mb-2" />
-                <p className="text-sm text-gray-600">No workouts recorded today</p>
-                <p className="text-xs text-gray-500 mt-1">Connect Strava or log manually</p>
+              <div className="p-6 text-center bg-gray-600 rounded-lg border border-gray-500">
+                <Activity className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-300">No workouts recorded today</p>
+                <p className="text-xs text-gray-400 mt-1">Connect Strava or log manually</p>
               </div>
             )}
           </CardContent>
