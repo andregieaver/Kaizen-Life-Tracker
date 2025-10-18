@@ -81,14 +81,14 @@ const IntegrationCard = ({
   };
 
   return (
-    <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors">
+    <div className="flex items-center justify-between p-4 border-0 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:shadow-lg transition-colors">
       <div className="flex items-center gap-4">
         <div className="flex-shrink-0">
           {icon}
         </div>
         <div>
-          <h4 className="font-semibold text-gray-900">{name}</h4>
-          <p className="text-sm text-gray-600">{description}</p>
+          <h4 className="font-semibold text-white">{name}</h4>
+          <p className="text-sm text-gray-300">{description}</p>
           {connected && connectionInfo && (
             <div className="flex items-center gap-4 mt-1 text-xs text-gray-500">
               {connectionInfo.athlete_name && (
