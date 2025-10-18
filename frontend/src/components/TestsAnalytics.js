@@ -745,23 +745,23 @@ const TestsAnalytics = ({ athleteId }) => {
                           datasets: [{
                             label: testName,
                             data: chartData.map(item => item.value),
-                            borderColor: '#3b82f6',
+                            borderColor: '#00C2A8',
                             backgroundColor: (context) => {
                               const ctx = context.chart.ctx;
                               const gradient = ctx.createLinearGradient(0, 0, 0, 350);
-                              gradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
-                              gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+                              gradient.addColorStop(0, 'rgba(0, 194, 168, 0.4)');
+                              gradient.addColorStop(1, 'rgba(0, 194, 168, 0)');
                               return gradient;
                             },
                             borderWidth: 3,
                             fill: true,
                             tension: 0.4,
-                            pointBackgroundColor: '#3b82f6',
+                            pointBackgroundColor: '#00C2A8',
                             pointBorderColor: '#fff',
                             pointBorderWidth: 3,
                             pointRadius: 5,
                             pointHoverRadius: 8,
-                            pointHoverBackgroundColor: '#3b82f6',
+                            pointHoverBackgroundColor: '#00C2A8',
                             pointHoverBorderColor: '#fff',
                             pointHoverBorderWidth: 3,
                           }]
