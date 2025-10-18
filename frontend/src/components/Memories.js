@@ -208,17 +208,20 @@ const Memories = ({ athleteId }) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-display font-bold text-gray-900 flex items-center gap-2">
-            <Brain className="w-7 h-7 text-blue-600" />
+          <h2 className="text-2xl font-display font-bold text-white flex items-center gap-2">
+            <Brain className="w-7 h-7" style={{ color: '#00C2A8' }} />
             AI Coach Memories
           </h2>
-          <p className="text-sm text-gray-600 mt-1">
+          <p className="text-sm text-gray-300 mt-1">
             Manage what your AI coach remembers about you
           </p>
         </div>
         <Button 
           onClick={handleCreateMemory}
-          className="bg-blue-600 hover:bg-blue-700"
+          className="text-white border-0"
+          style={{ backgroundColor: '#00C2A8' }}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Memory
@@ -229,8 +232,8 @@ const Memories = ({ athleteId }) => {
       {saveStatus.message && (
         <div className={`p-4 rounded-lg flex items-center gap-2 ${
           saveStatus.type === 'success' 
-            ? 'bg-green-50 text-green-800 border border-green-200' 
-            : 'bg-red-50 text-red-800 border border-red-200'
+            ? 'bg-green-900/30 text-green-400 border border-green-700' 
+            : 'bg-red-900/30 text-red-400 border border-red-700'
         }`}>
           {saveStatus.type === 'success' ? (
             <CheckCircle className="w-5 h-5" />
@@ -242,7 +245,7 @@ const Memories = ({ athleteId }) => {
       )}
 
       {/* Filters */}
-      <Card>
+      <Card className="bg-gradient-to-br from-gray-600 to-gray-800 border-0">
         <CardContent className="pt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Search */}
