@@ -677,6 +677,14 @@ const TestsAnalytics = ({ athleteId }) => {
             return (
               <SortableTestCard key={testName} testName={testName}>
                 <Card className="w-full shadow-lg hover:shadow-xl transition-shadow duration-300 border-0 bg-gradient-to-br from-white to-slate-50">
+                {/* Add Entry Icon - Positioned below drag handler */}
+                <button
+                  onClick={() => handleAddEntryToTest(testName, unit)}
+                  className="absolute right-2 top-14 z-10 p-1 hover:bg-gray-100 rounded-lg transition-colors"
+                  title="Add Entry"
+                >
+                  <Plus className="w-6 h-6 text-gray-700 hover:text-gray-900" />
+                </button>
                 <CardHeader className="pb-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
@@ -719,13 +727,6 @@ const TestsAnalytics = ({ athleteId }) => {
                           })()
                         }
                       </Badge>
-                      <button
-                        onClick={() => handleAddEntryToTest(testName, unit)}
-                        className="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
-                        title="Add Entry"
-                      >
-                        <Plus className="w-5 h-5" />
-                      </button>
                     </div>
                   </div>
                 </CardHeader>
