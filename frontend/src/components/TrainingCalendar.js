@@ -791,13 +791,13 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
       </div>
 
       {/* Calendar */}
-      <Card>
+      <Card className="bg-gradient-to-br from-gray-600 to-gray-800 border-0">
         <CardHeader>
-          <CardTitle className="flex items-center">
+          <CardTitle className="flex items-center text-white">
             <CalendarIcon className="w-5 h-5 mr-2" />
             Training Calendar
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-gray-300">
             Click and drag to create new workouts. Click on existing workouts to edit them.
           </CardDescription>
         </CardHeader>
