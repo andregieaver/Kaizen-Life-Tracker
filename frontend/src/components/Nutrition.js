@@ -1529,9 +1529,9 @@ const Nutrition = ({ athleteId }) => {
                                     </div>
                                   )}
                                   {entry.fiber > 0 && (
-                                    <div className="bg-amber-50 rounded-lg p-2">
-                                      <div className="text-xs text-gray-500">Fiber</div>
-                                      <div className="text-lg font-semibold text-amber-600">{entry.fiber}g</div>
+                                    <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
+                                      <div className="text-xs text-gray-300">Fiber</div>
+                                      <div className="text-lg font-semibold text-white">{entry.fiber}g</div>
                                     </div>
                                   )}
                                 </div>
