@@ -1439,10 +1439,10 @@ const Nutrition = ({ athleteId }) => {
                     // Render meal card
                     const MealIcon = getMealIcon(entry.meal_type);
                     return (
-                      <Card key={entry.id} className="hover:shadow-lg transition-shadow overflow-hidden cursor-pointer">
+                      <Card key={entry.id} className="hover:shadow-lg transition-shadow overflow-hidden cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 border-0">
                         {entry.image_data && (
                           <div 
-                            className="relative h-48 bg-gray-100"
+                            className="relative h-48 bg-gray-700"
                             onClick={() => handleViewEntry(entry)}
                           >
                             <img
@@ -1461,10 +1461,10 @@ const Nutrition = ({ athleteId }) => {
                                   {entry.meal_type.charAt(0).toUpperCase() + entry.meal_type.slice(1)}
                                 </Badge>
                               </div>
-                              <CardTitle className="text-base line-clamp-2">
+                              <CardTitle className="text-base line-clamp-2 text-white">
                                 {entry.description || 'No description'}
                               </CardTitle>
-                              <CardDescription>
+                              <CardDescription className="text-gray-300">
                                 {formatDateTime(entry.entry_date || entry.created_at, entry.entry_time)}
                               </CardDescription>
                             </div>
@@ -1473,7 +1473,7 @@ const Nutrition = ({ athleteId }) => {
                                 e.stopPropagation();
                                 handleDeleteEntry(entry.id);
                               }}
-                              className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
+                              className="p-2 hover:bg-red-900/30 rounded-lg transition-colors text-red-400"
                             >
                               <Trash2 className="w-4 h-4" />
                             </button>
