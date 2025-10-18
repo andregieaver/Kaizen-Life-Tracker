@@ -749,7 +749,6 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
               {hasOpenAIKey && (
                 <Button
                   type="button"
-                  variant="outline"
                   onClick={async () => {
                     console.log('=== MIC BUTTON CLICKED ===');
                     console.log('hasOpenAIKey:', hasOpenAIKey);
@@ -780,7 +779,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                       setIsVoiceActive(false);
                     }
                   }}
-                  className={`${isVoiceActive ? 'bg-red-50 border-red-500 text-red-600' : 'bg-gray-700 text-white border-gray-600 hover:bg-gray-600'}`}
+                  className={`border-0 ${isVoiceActive ? 'bg-red-500 text-white' : 'bg-gray-700 text-white hover:bg-gray-600'}`}
                   title={isVoiceActive ? 'Stop Voice Chat' : 'Start Voice Chat'}
                 >
                   <Mic className="w-4 h-4" />
@@ -791,8 +790,8 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
               <Button 
                 type="submit" 
                 disabled={!newMessage.trim() || isLoading}
-                className="text-white btn-transition"
-                style={{ backgroundColor: '#00C2A8' }}
+                className="text-white btn-transition border-0"
+                style={{ backgroundColor: '#00C2A8', color: 'white' }}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
                 data-testid="send-message-btn"
