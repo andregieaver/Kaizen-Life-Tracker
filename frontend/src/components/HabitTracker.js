@@ -253,11 +253,11 @@ const HabitTracker = ({ athleteId }) => {
 
       {/* Today's Habits */}
       <div>
-        <h3 className="text-lg font-semibold mb-3">Today - {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</h3>
+        <h3 className="text-lg font-semibold mb-3 text-white">Today - {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</h3>
         
         {todayHabits.length === 0 ? (
-          <Card>
-            <CardContent className="p-8 text-center text-gray-500">
+          <Card className="bg-gradient-to-r from-gray-900 to-gray-800 border-0">
+            <CardContent className="p-8 text-center text-gray-300">
               <p>No habits scheduled for today</p>
               <p className="text-sm mt-2">Add a habit to get started!</p>
             </CardContent>
