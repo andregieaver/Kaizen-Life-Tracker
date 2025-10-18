@@ -658,6 +658,7 @@ class TestResult(BaseModel):
     result_value: float  # The actual test result (e.g., 20 for pull-ups, 1500 for 5km in seconds)
     time_to_completion: Optional[float] = None  # Optional time taken (in seconds)
     time_display_unit: Optional[str] = None  # For time-based tests: 'hours', 'minutes', 'seconds'
+    goal_direction: Optional[str] = None  # 'higher' or 'lower' - whether higher/lower values are better
     notes: Optional[str] = None
     test_date: str  # ISO date string when test was performed
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
