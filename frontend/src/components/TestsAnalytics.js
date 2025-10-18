@@ -553,7 +553,7 @@ const TestsAnalytics = ({ athleteId }) => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-xl shadow-lg">
         <div>
           <h1 className="text-2xl font-bold text-white">Tests & Analytics</h1>
           <p className="text-white mt-1">
