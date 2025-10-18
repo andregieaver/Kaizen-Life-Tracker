@@ -1119,14 +1119,14 @@ const Nutrition = ({ athleteId }) => {
               </div>
             
               {/* Date Range Display */}
-              <div className="mt-2">
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium flex-wrap">
+              <div className="mt-2 -mx-6 px-6">
+                <div className="flex items-center justify-between px-4 py-2 bg-gradient-to-r from-gray-900 to-gray-800 text-white text-sm font-medium rounded-lg">
                   <span>{viewType === 'week' ? formatWeekRange(currentWeekStart) : formatDayDisplay(currentDay)}</span>
                   {viewType === 'week' && isCurrentWeek(currentWeekStart) && (
-                    <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">Current Week</span>
+                    <span className="text-xs bg-gray-700 text-white px-2 py-0.5 rounded-full">Current Week</span>
                   )}
                   {viewType === 'day' && isToday(currentDay) && (
-                    <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">Today</span>
+                    <span className="text-xs bg-gray-700 text-white px-2 py-0.5 rounded-full">Today</span>
                   )}
                 </div>
               </div>
