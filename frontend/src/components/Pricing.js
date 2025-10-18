@@ -337,52 +337,52 @@ const Pricing = () => {
 
         {/* FAQ Section */}
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-display font-bold text-center mb-8">
+          <h2 className="text-3xl font-display font-bold text-center mb-8 text-white">
             Frequently Asked Questions
           </h2>
           <div className="space-y-6">
-            <Card>
+            <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
               <CardHeader>
-                <CardTitle className="text-lg">Can I switch plans anytime?</CardTitle>
+                <CardTitle className="text-lg text-white">Can I switch plans anytime?</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-gray-300">
                   Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately,
                   and we'll prorate any differences in billing.
                 </p>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
               <CardHeader>
-                <CardTitle className="text-lg">What payment methods do you accept?</CardTitle>
+                <CardTitle className="text-lg text-white">What payment methods do you accept?</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-gray-300">
                   We accept all major credit cards (Visa, Mastercard, American Express) and support
                   secure payment processing through Stripe.
                 </p>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
               <CardHeader>
-                <CardTitle className="text-lg">Is there a free trial?</CardTitle>
+                <CardTitle className="text-lg text-white">Is there a free trial?</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-gray-300">
                   Yes! Pro and Premium plans come with a 7-day free trial. No credit card required
                   for the Free plan, and you can cancel anytime during the trial period.
                 </p>
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
               <CardHeader>
-                <CardTitle className="text-lg">Can I cancel my subscription?</CardTitle>
+                <CardTitle className="text-lg text-white">Can I cancel my subscription?</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-gray-300">
                   Absolutely. You can cancel your subscription at any time from your account settings.
                   You'll continue to have access until the end of your current billing period.
                 </p>
