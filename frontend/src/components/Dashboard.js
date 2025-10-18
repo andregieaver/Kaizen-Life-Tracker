@@ -355,16 +355,19 @@ const Dashboard = ({ athleteId }) => {
       </header>
 
       {/* Slideout Menu */}
-      {isMenuOpen && (
-        <>
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-40 z-50 transition-opacity"
-            onClick={() => setIsMenuOpen(false)}
-          />
-          
-          {/* Menu Panel */}
-          <div className="fixed inset-y-0 left-0 w-80 bg-gradient-to-br from-gray-900 to-gray-800 shadow-2xl z-[60] transform transition-transform duration-300 ease-in-out flex flex-col">
+      <>
+        {/* Backdrop */}
+        <div 
+          className={`fixed inset-0 bg-black z-50 transition-opacity duration-300 ${
+            isMenuOpen ? 'bg-opacity-40 pointer-events-auto' : 'bg-opacity-0 pointer-events-none'
+          }`}
+          onClick={() => setIsMenuOpen(false)}
+        />
+        
+        {/* Menu Panel */}
+        <div className={`fixed inset-y-0 left-0 w-80 bg-gradient-to-br from-gray-900 to-gray-800 shadow-2xl z-[60] transform transition-transform duration-300 ease-in-out flex flex-col ${
+          isMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}>
             {/* Menu Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-gradient-to-r from-gray-900 to-gray-800">
               <button 
