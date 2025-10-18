@@ -13,18 +13,66 @@ const API = `${BACKEND_URL}/api`;
 
 const OnboardingForm = ({ onAthleteCreated }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    confirmPassword: '',
-    age: '',
-    weekly_mileage: '',
-    recent_race_time: '',
-    running_goals: ''
+    confirmPassword: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
+
+  // Check for Google OAuth session_id in URL fragment
+  useEffect(() => {
+    const handleGoogleAuth = async () => {
+      const hash = window.location.hash;
+      if (hash.includes('session_id=')) {
+        setIsLoading(true);
+        const sessionId = hash.split('session_id=')[1].split('&')[0];
+        
+        try {
+          // Get session data from Emergent auth
+          const response = await axios.get(
+            'https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data',
+            { headers: { 'X-Session-ID': sessionId } }
+          );
+
+          const { id, email, name, picture, session_token } = response.data;
+
+          // Send to backend to create/check user and store session
+          const backendResponse = await axios.post(`${API}/auth/google-login`, {
+            google_id: id,
+            email,
+            name,
+            picture,
+            session_token
+          });
+
+          // Clear URL fragment
+          window.history.replaceState(null, '', window.location.pathname);
+
+          // Redirect based on if user is new or existing
+          if (backendResponse.data.is_new_user) {
+            localStorage.setItem('athleteId', backendResponse.data.athlete_id);
+            navigate('/account');
+          } else {
+            localStorage.setItem('athleteId', backendResponse.data.athlete_id);
+            onAthleteCreated(backendResponse.data.athlete_id);
+            navigate('/dashboard');
+          }
+        } catch (error) {
+          console.error('Google auth error:', error);
+          setErrors({ submit: 'Google authentication failed. Please try again.' });
+          setIsLoading(false);
+        }
+      }
+    };
+
+    handleGoogleAuth();
+  }, [navigate, onAthleteCreated]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
