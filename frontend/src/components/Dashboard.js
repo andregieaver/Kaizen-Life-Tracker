@@ -891,15 +891,15 @@ const Dashboard = ({ athleteId }) => {
               </Card>
 
               {/* Column 2: Progress - Test Results */}
-              <Card className="border-0 shadow-md bg-white overflow-hidden">
+              <Card className="border-0 shadow-md bg-gradient-to-br from-gray-600 to-gray-800 overflow-hidden">
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-lg font-display text-gray-800">Progress</CardTitle>
-                  <CardDescription className="text-gray-600">Latest test results and performance metrics</CardDescription>
+                  <CardTitle className="text-lg font-display text-white">Progress</CardTitle>
+                  <CardDescription className="text-gray-300">Latest test results and performance metrics</CardDescription>
                 </CardHeader>
                 <CardContent>
                   {/* Running YTD */}
-                  <div className="flex justify-between items-center mb-4 pb-4 border-b">
-                    <span className="text-sm text-gray-600">Running (YTD)</span>
+                  <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-700">
+                    <span className="text-sm text-gray-300">Running (YTD)</span>
                     <span className="font-semibold text-[#62D2C4]">
                       {ytdDistance.toFixed(1)} {
                         (athlete?.measurement_system === 'metric' || 
