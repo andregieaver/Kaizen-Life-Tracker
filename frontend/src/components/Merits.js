@@ -84,16 +84,16 @@ const Merits = ({ athleteId }) => {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-200">
-                <th className="text-left py-2 px-2 font-semibold text-gray-700">{t('merits.distance')}</th>
-                <th className="text-left py-2 px-2 font-semibold text-gray-700">
+              <tr className="border-b border-gray-700">
+                <th className="text-left py-2 px-2 font-semibold text-gray-200">{t('merits.distance')}</th>
+                <th className="text-left py-2 px-2 font-semibold text-gray-200">
                   <div className="flex items-center">
-                    <TrendingUp className="w-4 h-4 mr-1 text-blue-600" />
+                    <TrendingUp className="w-4 h-4 mr-1 text-blue-400" />
                     {t('merits.last12Months')}
                   </div>
                 </th>
-                <th className="text-left py-2 px-2 font-semibold text-gray-700">
-                  <Trophy className="w-4 h-4 inline mr-1 text-yellow-600" />
+                <th className="text-left py-2 px-2 font-semibold text-gray-200">
+                  <Trophy className="w-4 h-4 inline mr-1 text-yellow-400" />
                   {t('merits.allTimeBest')}
                 </th>
               </tr>
@@ -106,25 +106,25 @@ const Merits = ({ athleteId }) => {
                 const isPersonalBest = hasRecent && hasAllTime && merit.recent_best === merit.all_time_best;
 
                 return (
-                  <tr key={distance.key} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="py-3 px-2 font-medium text-gray-900">{distance.label}</td>
+                  <tr key={distance.key} className="border-b border-gray-700 hover:bg-gray-700/30">
+                    <td className="py-3 px-2 font-medium text-white">{distance.label}</td>
                     <td className="py-3 px-2">
                       {hasRecent ? (
-                        <span className={`font-mono ${isPersonalBest ? 'text-blue-600 font-semibold' : 'text-gray-700'}`}>
+                        <span className={`font-mono ${isPersonalBest ? 'text-blue-400 font-semibold' : 'text-gray-300'}`}>
                           {formatTime(merit.recent_best)}
                           {isPersonalBest && (
-                            <span className="ml-2 text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">{t('merits.personalBest')}</span>
+                            <span className="ml-2 text-xs bg-blue-900/50 text-blue-300 px-2 py-0.5 rounded-full">{t('merits.personalBest')}</span>
                           )}
                         </span>
                       ) : (
-                        <span className="text-gray-400 text-xs">{t('merits.noData')}</span>
+                        <span className="text-gray-500 text-xs">{t('merits.noData')}</span>
                       )}
                     </td>
                     <td className="py-3 px-2">
                       {hasAllTime ? (
-                        <span className="font-mono text-gray-900 font-semibold">{formatTime(merit.all_time_best)}</span>
+                        <span className="font-mono text-white font-semibold">{formatTime(merit.all_time_best)}</span>
                       ) : (
-                        <span className="text-gray-400 text-xs">{t('merits.noData')}</span>
+                        <span className="text-gray-500 text-xs">{t('merits.noData')}</span>
                       )}
                     </td>
                   </tr>
@@ -136,8 +136,8 @@ const Merits = ({ athleteId }) => {
 
         {merits.length === 0 && (
           <div className="text-center py-8">
-            <Trophy className="w-12 h-12 text-gray-300 mx-auto mb-2" />
-            <p className="text-gray-500 text-sm">{t('merits.noRecords')}</p>
+            <Trophy className="w-12 h-12 text-gray-500 mx-auto mb-2" />
+            <p className="text-gray-300 text-sm">{t('merits.noRecords')}</p>
             <p className="text-gray-400 text-xs mt-1">{t('merits.completeWorkouts')}</p>
           </div>
         )}
