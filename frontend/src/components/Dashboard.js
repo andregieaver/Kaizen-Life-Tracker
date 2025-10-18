@@ -366,7 +366,7 @@ const Dashboard = ({ athleteId }) => {
           {/* Menu Panel */}
           <div className="fixed inset-y-0 left-0 w-80 bg-white shadow-2xl z-[60] transform transition-transform duration-300 ease-in-out flex flex-col">
             {/* Menu Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gradient-to-r from-[#61a59c] to-[#e9f0c7]">
+            <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF]">
               <button 
                 className="flex items-center space-x-3 w-full text-left hover:bg-white/10 rounded-lg p-2 transition-colors"
                 onClick={() => {
