@@ -238,38 +238,38 @@ const Pricing = () => {
             return (
               <Card
                 key={plan.id}
-                className={`relative ${
+                className={`relative bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 ${
                   plan.popular
-                    ? 'border-blue-500 border-2 shadow-xl scale-105 z-10'
-                    : 'border-gray-200 hover:shadow-lg transition-shadow'
+                    ? 'border-teal-500 border-2 shadow-xl scale-105 z-10'
+                    : 'hover:shadow-lg transition-shadow'
                 }`}
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-blue-600 text-white px-4 py-1">
+                    <Badge className="bg-teal-600 text-white px-4 py-1 border-0">
                       Most Popular
                     </Badge>
                   </div>
                 )}
 
                 <CardHeader className="text-center pb-8 pt-8">
-                  <div className="mx-auto w-12 h-12 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl flex items-center justify-center mb-4">
-                    <Icon className="w-6 h-6 text-blue-600" />
+                  <div className="mx-auto w-12 h-12 bg-gradient-to-br from-teal-600 to-teal-700 rounded-xl flex items-center justify-center mb-4">
+                    <Icon className="w-6 h-6 text-white" />
                   </div>
-                  <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
-                  <CardDescription className="text-base">
+                  <CardTitle className="text-2xl mb-2 text-white">{plan.name}</CardTitle>
+                  <CardDescription className="text-base text-gray-300">
                     {plan.description}
                   </CardDescription>
                   
                   <div className="mt-6">
                     <div className="flex items-baseline justify-center">
-                      <span className="text-5xl font-bold text-gray-900">
+                      <span className="text-5xl font-bold text-white">
                         €{price.amount}
                       </span>
-                      <span className="text-gray-500 ml-2">{price.period}</span>
+                      <span className="text-gray-300 ml-2">{price.period}</span>
                     </div>
                     {billingCycle === 'annual' && plan.monthlyPrice > 0 && (
-                      <p className="text-sm text-green-600 mt-2 font-medium">
+                      <p className="text-sm text-green-400 mt-2 font-medium">
                         Save {savings}% compared to monthly
                       </p>
                     )}
@@ -280,16 +280,15 @@ const Pricing = () => {
                   <ul className="space-y-3 mb-8">
                     {plan.features.map((feature, index) => (
                       <li key={index} className="flex items-start">
-                        <Check className="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-700">{feature}</span>
+                        <Check className="w-5 h-5 text-teal-400 mr-3 flex-shrink-0 mt-0.5" />
+                        <span className="text-gray-200">{feature}</span>
                       </li>
                     ))}
                   </ul>
 
                   <Button
-                    className="w-full"
+                    className={`w-full ${plan.ctaVariant === 'outline' ? 'bg-transparent border-teal-600 text-teal-400 hover:bg-teal-600 hover:text-white' : 'bg-teal-600 text-white hover:bg-teal-700'}`}
                     size="lg"
-                    variant={plan.ctaVariant}
                     onClick={() => handleSelectPlan(plan.id)}
                   >
                     {plan.cta}
