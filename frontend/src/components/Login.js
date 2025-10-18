@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +19,55 @@ const Login = ({ onAthleteLogin }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  // Check for Google OAuth session_id in URL fragment
+  useEffect(() => {
+    const handleGoogleAuth = async () => {
+      const hash = window.location.hash;
+      if (hash.includes('session_id=')) {
+        setIsLoading(true);
+        const sessionId = hash.split('session_id=')[1].split('&')[0];
+        
+        try {
+          // Get session data from Emergent auth
+          const response = await axios.get(
+            'https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data',
+            { headers: { 'X-Session-ID': sessionId } }
+          );
+
+          const { id, email, name, picture, session_token } = response.data;
+
+          // Send to backend to create/check user and store session
+          const backendResponse = await axios.post(`${API}/auth/google-login`, {
+            google_id: id,
+            email,
+            name,
+            picture,
+            session_token
+          });
+
+          // Clear URL fragment
+          window.history.replaceState(null, '', window.location.pathname);
+
+          // Redirect based on if user is new or existing
+          if (backendResponse.data.is_new_user) {
+            localStorage.setItem('athleteId', backendResponse.data.athlete_id);
+            navigate('/account');
+          } else {
+            localStorage.setItem('athleteId', backendResponse.data.athlete_id);
+            onAthleteLogin(backendResponse.data.athlete_id);
+            navigate('/dashboard');
+          }
+        } catch (error) {
+          console.error('Google auth error:', error);
+          setError('Google authentication failed. Please try again.');
+          setIsLoading(false);
+        }
+      }
+    };
+
+    handleGoogleAuth();
+  }, [navigate, onAthleteLogin]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
