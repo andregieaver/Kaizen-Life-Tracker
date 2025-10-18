@@ -967,15 +967,27 @@ const Nutrition = ({ athleteId }) => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Nutrition Log</h1>
-          <p className="text-gray-600 mt-1">Track what you eat and drink</p>
+          <h1 className="text-2xl font-bold text-white">Nutrition Log</h1>
+          <p className="text-gray-300 mt-1">Track what you eat and drink</p>
         </div>
         <div className="flex gap-2 flex-wrap">
-          <Button onClick={openSupplementModal} variant="outline" className="flex-1 sm:flex-none">
+          <Button 
+            onClick={openSupplementModal} 
+            className="flex-1 sm:flex-none text-white border-0"
+            style={{ backgroundColor: '#00C2A8' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+          >
             <Pill className="w-4 h-4 mr-2" />
             <span className="hidden sm:inline">Log </span>Supplements
           </Button>
-          <Button onClick={openNewEntryModal} className="flex-1 sm:flex-none">
+          <Button 
+            onClick={openNewEntryModal} 
+            className="flex-1 sm:flex-none text-white border-0"
+            style={{ backgroundColor: '#00C2A8' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+          >
             <Plus className="w-4 h-4 mr-2" />
             <span className="hidden sm:inline">Log </span>Meal
           </Button>
