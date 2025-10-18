@@ -434,14 +434,17 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
         /* Menu List */
         <div className="space-y-4">
           {menus.length === 0 ? (
-            <Card className="border-2 border-dashed">
+            <Card className="border-0 bg-gradient-to-r from-gray-900 to-gray-800">
               <CardContent className="text-center py-12">
                 <Calendar className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No Menus Yet</h3>
-                <p className="text-gray-600 mb-4">Create your first weekly menu template</p>
+                <h3 className="text-xl font-semibold text-white mb-2">No Menus Yet</h3>
+                <p className="text-gray-300 mb-4">Create your first weekly menu template</p>
                 <Button
                   onClick={createNewMenu}
-                  className="bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] hover:from-[#4fc4b5] hover:to-[#62D2C4] text-white shadow-md"
+                  className="text-white border-0 shadow-md"
+                  style={{ backgroundColor: '#00C2A8' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   Create Menu
