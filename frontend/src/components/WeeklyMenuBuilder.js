@@ -453,21 +453,21 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
             </Card>
           ) : (
             menus.map(menu => (
-              <Card key={menu.id} className={menu.is_active ? 'border-2 border-[#C1E1C1] shadow-md' : 'border shadow-sm'}>
+              <Card key={menu.id} className={menu.is_active ? 'bg-gradient-to-br from-gray-600 to-gray-800 border-0 shadow-md' : 'bg-gradient-to-br from-gray-600 to-gray-800 border-0 shadow-sm'} style={menu.is_active ? { boxShadow: '0 0 0 2px #00C2A8' } : {}}>
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <CardTitle>{menu.menu_name}</CardTitle>
+                        <CardTitle className="text-white">{menu.menu_name}</CardTitle>
                         {menu.is_active && (
-                          <Badge className="bg-gradient-to-r from-[#C1E1C1] to-[#a8d5a8] text-white">
+                          <Badge className="bg-gray-700 text-white border-0">
                             <Check className="w-3 h-3 mr-1" />
                             Active
                           </Badge>
                         )}
                       </div>
                       {menu.description && (
-                        <p className="text-sm text-gray-600 mt-1">{menu.description}</p>
+                        <p className="text-sm text-gray-300 mt-1">{menu.description}</p>
                       )}
                     </div>
                     <div className="flex gap-2">
@@ -475,8 +475,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                         <Button
                           size="sm"
                           onClick={() => setActiveMenu(menu.id)}
-                          variant="outline"
-                          className="text-[#C1E1C1] hover:text-[#a8d5a8] border-[#C1E1C1]"
+                          className="bg-gray-700 text-white border-0 hover:bg-gray-600"
                         >
                           <Check className="w-4 h-4 mr-1" />
                           Set Active
@@ -485,16 +484,14 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                       <Button
                         size="sm"
                         onClick={() => editMenu(menu)}
-                        variant="outline"
-                        className="hover:bg-[#D4F0E9]"
+                        className="bg-gray-700 text-white border-0 hover:bg-gray-600"
                       >
                         Edit
                       </Button>
                       <Button
                         size="sm"
                         onClick={() => deleteMenu(menu.id)}
-                        variant="outline"
-                        className="text-[#FF7F7F] hover:text-[#ff6666] border-[#FF7F7F]"
+                        className="bg-red-900/30 text-red-400 border-0 hover:bg-red-900/50"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -503,7 +500,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="text-sm text-gray-600 mb-4">
+                    <div className="text-sm text-gray-300 mb-4">
                       {menu.meals.filter(m => m.recipe_id || m.nutrition_entry_id).length} of 21 meals assigned
                     </div>
 
