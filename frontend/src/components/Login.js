@@ -109,6 +109,11 @@ const Login = ({ onAthleteLogin }) => {
     }
   };
 
+  const handleGoogleLogin = () => {
+    const redirectUrl = `${window.location.origin}/login`;
+    window.location.href = `https://auth.emergentagent.com/?redirect=${encodeURIComponent(redirectUrl)}`;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
