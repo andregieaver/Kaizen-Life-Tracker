@@ -914,7 +914,7 @@ const Dashboard = ({ athleteId }) => {
                       {testResults.map((test) => (
                         <div 
                           key={test.id} 
-                          className="flex items-center justify-between p-4 bg-gradient-to-r from-[#D4F0E9]/30 to-transparent rounded-lg hover:from-[#D4F0E9]/50 cursor-pointer transition-all"
+                          className="flex items-center justify-between p-4 bg-gradient-to-r from-[#D4F0E9]/20 to-transparent rounded-lg hover:from-[#D4F0E9]/30 cursor-pointer transition-all"
                           onClick={() => navigate('/dashboard/tests', { 
                             state: { 
                               addEntryToTest: test.test_name,
@@ -927,10 +927,10 @@ const Dashboard = ({ athleteId }) => {
                               <LineChart className="w-5 h-5 text-white" />
                             </div>
                             <div>
-                              <p className="font-medium text-gray-800">
+                              <p className="font-medium text-white">
                                 {test.test_name}
                               </p>
-                              <p className="text-sm text-gray-500">
+                              <p className="text-sm text-gray-400">
                                 {new Date(test.test_date).toLocaleDateString()}
                               </p>
                             </div>
@@ -944,7 +944,7 @@ const Dashboard = ({ athleteId }) => {
                                test.unit === 'percentage' ? '%' : test.unit}
                             </p>
                             {test.time_to_completion && (
-                              <p className="text-sm text-gray-500">
+                              <p className="text-sm text-gray-400">
                                 {test.time_to_completion} min
                               </p>
                             )}
@@ -954,7 +954,7 @@ const Dashboard = ({ athleteId }) => {
                     </div>
                   ) : (
                     <div className="text-center py-8">
-                      <p className="text-gray-500 mb-4">No test results yet</p>
+                      <p className="text-gray-300 mb-4">No test results yet</p>
                       <Button 
                         onClick={() => navigate('/dashboard/tests')}
                         className="bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] hover:from-[#e9f0c7] hover:to-[#61a59c] text-white shadow-md"
