@@ -211,20 +211,10 @@ const Journal = ({ athleteId }) => {
       {/* Journal Entries List */}
       {isLoading ? (
         <div className="text-center py-8">
-          <p className="text-gray-500">Loading entries...</p>
+          <p className="text-gray-300">Loading entries...</p>
         </div>
       ) : entries.length === 0 ? (
-        <Card>
-          <CardContent className="text-center py-12">
-            <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No journal entries yet</h3>
-            <p className="text-gray-600 mb-4">Start documenting your journey by creating your first entry</p>
-            <Button onClick={() => setShowModal(true)}>
-              <Plus className="w-4 h-4 mr-2" />
-              Create First Entry
-            </Button>
-          </CardContent>
-        </Card>
+        null
       ) : (
         <div className="space-y-4">
           {entries.map((entry) => (
