@@ -413,7 +413,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'journal'
                       ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      : 'text-white hover:bg-gray-700'
                   }`}
                 >
                   <BookOpen className="w-5 h-5" />
@@ -434,7 +434,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'nutrition'
                       ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      : 'text-white hover:bg-gray-700'
                   }`}
                 >
                   <Utensils className="w-5 h-5" />
@@ -448,7 +448,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'supplements'
                       ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      : 'text-white hover:bg-gray-700'
                   }`}
                 >
                   <Pill className="w-5 h-5" />
@@ -462,7 +462,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'recipes'
                       ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      : 'text-white hover:bg-gray-700'
                   }`}
                 >
                   <ChefHat className="w-5 h-5" />
@@ -476,7 +476,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'calendar'
                       ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      : 'text-white hover:bg-gray-700'
                   }`}
                 >
                   <Calendar className="w-5 h-5" />
@@ -490,7 +490,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'habits'
                       ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      : 'text-white hover:bg-gray-700'
                   }`}
                 >
                   <Check className="w-5 h-5" />
@@ -511,7 +511,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'tests'
                       ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      : 'text-white hover:bg-gray-700'
                   }`}
                 >
                   <LineChart className="w-5 h-5" />
@@ -525,7 +525,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'calculators'
                       ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      : 'text-white hover:bg-gray-700'
                   }`}
                 >
                   <Calculator className="w-5 h-5" />
@@ -546,7 +546,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'documents'
                       ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      : 'text-white hover:bg-gray-700'
                   }`}
                 >
                   <FileText className="w-5 h-5" />
@@ -560,7 +560,7 @@ const Dashboard = ({ athleteId }) => {
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'memories'
                       ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      : 'text-white hover:bg-gray-700'
                   }`}
                 >
                   <Brain className="w-5 h-5" />
