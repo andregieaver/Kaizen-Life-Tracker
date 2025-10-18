@@ -118,15 +118,15 @@ const WorkoutHistory = ({ athleteId }) => {
       {activeView === 'workouts' && (
         <div className="space-y-4">
           {workouts.length === 0 ? (
-            <Card className="border-0 shadow-lg">
+            <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
               <CardContent className="text-center py-12">
-                <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500">{t('history.noWorkouts')}</p>
+                <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-300">{t('history.noWorkouts')}</p>
               </CardContent>
             </Card>
           ) : (
             workouts.map((workout) => (
-              <Card key={workout.id} className="border-0 shadow-lg hover-lift">
+              <Card key={workout.id} className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 hover:border-teal-600 transition-colors">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-4">
@@ -136,7 +136,7 @@ const WorkoutHistory = ({ athleteId }) => {
                       >
                         {workout.workout_type.replace('_', ' ').toUpperCase()}
                       </Badge>
-                      <div className="flex items-center text-sm text-gray-500">
+                      <div className="flex items-center text-sm text-gray-400">
                         <Calendar className="w-4 h-4 mr-1" />
                         {new Date(workout.date).toLocaleDateString('en-US', {
                           weekday: 'short',
@@ -146,10 +146,10 @@ const WorkoutHistory = ({ athleteId }) => {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-lg font-semibold text-gray-900">
+                      <div className="text-lg font-semibold text-white">
                         {workout.distance_miles} mi
                       </div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-gray-400">
                         {Math.round(workout.duration_minutes / workout.distance_miles * 10) / 10} min/mi avg
                       </div>
                     </div>
@@ -159,15 +159,15 @@ const WorkoutHistory = ({ athleteId }) => {
                     <div className="flex items-center">
                       <Clock className="w-4 h-4 mr-2 text-gray-400" />
                       <div>
-                        <p className="text-sm text-gray-600">{t('history.duration')}</p>
-                        <p className="font-medium">{workout.duration_minutes} min</p>
+                        <p className="text-sm text-gray-400">{t('history.duration')}</p>
+                        <p className="font-medium text-white">{workout.duration_minutes} min</p>
                       </div>
                     </div>
                     
                     <div className="flex items-center">
                       <Zap className={`w-4 h-4 mr-2 ${getEffortColor(workout.perceived_effort)}`} />
                       <div>
-                        <p className="text-sm text-gray-600">{t('history.type')}</p>
+                        <p className="text-sm text-gray-400">{t('history.type')}</p>
                         <p className={`font-medium ${getEffortColor(workout.perceived_effort)}`}>
                           {workout.perceived_effort}/10
                         </p>
@@ -178,26 +178,26 @@ const WorkoutHistory = ({ athleteId }) => {
                       <div className="flex items-center">
                         <Heart className="w-4 h-4 mr-2 text-red-400" />
                         <div>
-                          <p className="text-sm text-gray-600">{t('history.avgHR')}</p>
-                          <p className="font-medium">{workout.avg_hr} bpm</p>
+                          <p className="text-sm text-gray-400">{t('history.avgHR')}</p>
+                          <p className="font-medium text-white">{workout.avg_hr} bpm</p>
                         </div>
                       </div>
                     )}
                     
                     {workout.max_hr && (
                       <div className="flex items-center">
-                        <Heart className="w-4 h-4 mr-2 text-red-600" />
+                        <Heart className="w-4 h-4 mr-2 text-red-500" />
                         <div>
-                          <p className="text-sm text-gray-600">Max HR</p>
-                          <p className="font-medium">{workout.max_hr} bpm</p>
+                          <p className="text-sm text-gray-400">Max HR</p>
+                          <p className="font-medium text-white">{workout.max_hr} bpm</p>
                         </div>
                       </div>
                     )}
                   </div>
 
                   {workout.notes && (
-                    <div className="pt-4 border-t border-gray-100">
-                      <p className="text-sm text-gray-700 italic">"{workout.notes}"</p>
+                    <div className="pt-4 border-t border-gray-600">
+                      <p className="text-sm text-gray-300 italic">"{workout.notes}"</p>
                     </div>
                   )}
                 </CardContent>
