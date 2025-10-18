@@ -3423,10 +3423,16 @@ async def transcribe_audio(athlete_id: str, audio: UploadFile = File(...)):
 
 # Nutrition routes
 @api_router.get("/nutrition/{athlete_id}")
-async def get_nutrition_entries(athlete_id: str):
-    """Get all nutrition entries for an athlete"""
+async def get_nutrition_entries(athlete_id: str, date: Optional[str] = None):
+    """Get nutrition entries for an athlete, optionally filtered by date"""
+    query = {"athlete_id": athlete_id}
+    
+    # Add date filter if provided
+    if date:
+        query["entry_date"] = date
+    
     entries = await db.nutrition_entries.find(
-        {"athlete_id": athlete_id},
+        query,
         {"_id": 0}
     ).to_list(length=None)
     
