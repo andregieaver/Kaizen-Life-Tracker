@@ -206,17 +206,23 @@ const Community = ({ athleteId }) => {
     }
   }, [activeTab]); // Only depend on activeTab, not the loaded flags
 
-  // Persist modal states
+  // Persist modal states (only IDs, not full data to avoid quota issues)
   useEffect(() => {
     const modalState = {
       showProfile: showProfile && profileData ? true : false,
-      profileData: showProfile ? profileData : null,
+      profileAthleteId: showProfile && profileData ? profileData.id : null,
       showEventDetail: showEventDetail && eventDetailData ? true : false,
-      eventDetailData: showEventDetail ? eventDetailData : null,
-      selectedGroup: selectedGroup,
+      eventDetailId: showEventDetail && eventDetailData ? eventDetailData.id : null,
+      selectedGroupId: selectedGroup ? selectedGroup.id : null,
       showNotifications: showNotifications
     };
-    localStorage.setItem('communityModalState', JSON.stringify(modalState));
+    
+    try {
+      localStorage.setItem('communityModalState', JSON.stringify(modalState));
+    } catch (e) {
+      // Quota exceeded, clear old state
+      localStorage.removeItem('communityModalState');
+    }
   }, [showProfile, profileData, showEventDetail, eventDetailData, selectedGroup, showNotifications]);
 
   const loadPosts = async (forceReload = false) => {
