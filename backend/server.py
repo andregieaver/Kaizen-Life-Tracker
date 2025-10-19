@@ -7094,8 +7094,10 @@ async def create_community_post(post_data: dict, athlete_id: str = Query(...)):
             "is_edited": False
         }
         
-        await db.community_posts.insert_one(post)
-        return {"success": True, "post": post}
+        # Prepare for MongoDB and insert
+        post_for_mongo = prepare_for_mongo(post.copy())
+        await db.community_posts.insert_one(post_for_mongo)
+        return post  # Return original post without MongoDB _id
     except Exception as e:
         logging.error(f"Error creating community post: {e}")
         raise HTTPException(status_code=500, detail=str(e))
