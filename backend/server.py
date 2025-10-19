@@ -7255,6 +7255,26 @@ async def create_community_post(post_data: dict, athlete_id: str = Query(...)):
         logging.error(f"Error creating community post: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.get("/community/posts/{post_id}")
+async def get_single_post(post_id: str, athlete_id: str = Query(...)):
+    """Get a single post by ID with liked status"""
+    try:
+        post = await db.community_posts.find_one({"id": post_id}, {"_id": 0})
+        if not post:
+            raise HTTPException(status_code=404, detail="Post not found")
+        
+        # Check if user has liked it
+        like = await db.community_likes.find_one({
+            "post_id": post_id,
+            "athlete_id": athlete_id
+        })
+        post["liked_by_user"] = like is not None
+        
+        return post
+    except Exception as e:
+        logging.error(f"Error fetching post: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.get("/community/posts/{athlete_id}")
 async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int = Query(0), exclude_images: bool = Query(False)):
     """Get community posts feed (all posts, sorted by newest first) - Optimized with pagination and optional image exclusion"""
