@@ -1117,6 +1117,313 @@ def test_group_edit_endpoint_failure():
         traceback.print_exc()
         return False
 
+def test_optimized_community_endpoints():
+    """
+    TEST OPTIMIZED COMMUNITY API ENDPOINTS
+    Test the performance-optimized Community API endpoints with aggregation pipelines
+    Focus on: Community Feed, All Groups, My Groups, Events with pagination and performance
+    """
+    print("🔍 TESTING OPTIMIZED COMMUNITY API ENDPOINTS")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Use known athlete IDs from test_result.md
+        print("   Step 1: Setup test athletes")
+        
+        # Use athlete IDs mentioned in review request
+        test_athlete_id = "44111b4a-b61f-4a94-9c29-439434e67e19"  # test.files@example.com
+        andre_athlete_id = "90de5b99-6db3-4e14-8455-c00864fb9976"  # andre@example.com
+        
+        print_test_result("Setup Athletes", True, f"Using test athlete: {test_athlete_id}, andre: {andre_athlete_id}")
+        
+        # Step 2: Test Community Feed (GET /api/community/posts/{athlete_id})
+        print("   Step 2: Test Community Feed with Aggregation Pipeline")
+        
+        # Test basic feed
+        feed_response = requests.get(f"{BACKEND_URL}/community/posts/{test_athlete_id}")
+        
+        if feed_response.status_code != 200:
+            print_test_result("Community Feed - Basic", False, f"Failed: {feed_response.status_code} - {feed_response.text}")
+            return False
+        
+        feed_data = feed_response.json()
+        posts = feed_data.get("posts", [])
+        
+        # Verify posts structure and liked_by_user flag
+        if posts:
+            first_post = posts[0]
+            required_fields = ["id", "athlete_id", "athlete_name", "content", "likes_count", "comments_count", "shares_count", "created_at", "liked_by_user"]
+            missing_fields = [field for field in required_fields if field not in first_post]
+            
+            if not missing_fields:
+                print_test_result("Community Feed - Structure", True, f"Feed returned {len(posts)} posts with all required fields")
+            else:
+                print_test_result("Community Feed - Structure", False, f"Missing fields: {missing_fields}")
+                return False
+            
+            # Verify liked_by_user flag is boolean
+            liked_by_user = first_post.get("liked_by_user")
+            if isinstance(liked_by_user, bool):
+                print_test_result("Community Feed - liked_by_user Flag", True, f"liked_by_user flag is boolean: {liked_by_user}")
+            else:
+                print_test_result("Community Feed - liked_by_user Flag", False, f"liked_by_user should be boolean, got: {type(liked_by_user)}")
+                return False
+            
+            # Verify sorting (newest first)
+            if len(posts) >= 2:
+                first_time = posts[0].get("created_at")
+                second_time = posts[1].get("created_at")
+                if first_time >= second_time:
+                    print_test_result("Community Feed - Sorting", True, "Posts sorted by created_at descending (newest first)")
+                else:
+                    print_test_result("Community Feed - Sorting", False, f"Incorrect sorting: {first_time} < {second_time}")
+                    return False
+        else:
+            print_test_result("Community Feed - Basic", True, "Feed endpoint accessible (no posts found)")
+        
+        # Step 3: Test Community Feed Pagination
+        print("   Step 3: Test Community Feed Pagination")
+        
+        # Test with limit and skip parameters
+        paginated_response = requests.get(f"{BACKEND_URL}/community/posts/{test_athlete_id}?limit=10&skip=0")
+        
+        if paginated_response.status_code != 200:
+            print_test_result("Community Feed - Pagination", False, f"Pagination failed: {paginated_response.status_code}")
+            return False
+        
+        paginated_data = paginated_response.json()
+        paginated_posts = paginated_data.get("posts", [])
+        
+        # Test second page
+        second_page_response = requests.get(f"{BACKEND_URL}/community/posts/{test_athlete_id}?limit=10&skip=10")
+        
+        if second_page_response.status_code == 200:
+            print_test_result("Community Feed - Pagination", True, f"Pagination working: first page {len(paginated_posts)} posts, second page accessible")
+        else:
+            print_test_result("Community Feed - Pagination", False, f"Second page failed: {second_page_response.status_code}")
+            return False
+        
+        # Step 4: Test All Groups (GET /api/community/groups?athlete_id={id})
+        print("   Step 4: Test All Groups with Membership Info")
+        
+        groups_response = requests.get(f"{BACKEND_URL}/community/groups?athlete_id={test_athlete_id}")
+        
+        if groups_response.status_code != 200:
+            print_test_result("All Groups - Basic", False, f"Failed: {groups_response.status_code} - {groups_response.text}")
+            return False
+        
+        groups_data = groups_response.json()
+        groups = groups_data.get("groups", [])
+        
+        if groups:
+            first_group = groups[0]
+            required_group_fields = ["id", "name", "description", "privacy", "members_count", "created_at", "is_member", "member_role"]
+            missing_group_fields = [field for field in required_group_fields if field not in first_group]
+            
+            if not missing_group_fields:
+                print_test_result("All Groups - Structure", True, f"Groups returned {len(groups)} groups with membership info")
+            else:
+                print_test_result("All Groups - Structure", False, f"Missing group fields: {missing_group_fields}")
+                return False
+            
+            # Verify is_member and member_role fields
+            is_member = first_group.get("is_member")
+            member_role = first_group.get("member_role")
+            
+            if isinstance(is_member, bool):
+                print_test_result("All Groups - is_member Field", True, f"is_member field is boolean: {is_member}")
+            else:
+                print_test_result("All Groups - is_member Field", False, f"is_member should be boolean, got: {type(is_member)}")
+                return False
+            
+            # member_role should be string or None
+            if member_role is None or isinstance(member_role, str):
+                print_test_result("All Groups - member_role Field", True, f"member_role field correct: {member_role}")
+            else:
+                print_test_result("All Groups - member_role Field", False, f"member_role should be string or None, got: {type(member_role)}")
+                return False
+        else:
+            print_test_result("All Groups - Basic", True, "Groups endpoint accessible (no groups found)")
+        
+        # Step 5: Test All Groups Pagination
+        print("   Step 5: Test All Groups Pagination")
+        
+        groups_paginated_response = requests.get(f"{BACKEND_URL}/community/groups?athlete_id={test_athlete_id}&limit=5&skip=0")
+        
+        if groups_paginated_response.status_code == 200:
+            groups_paginated_data = groups_paginated_response.json()
+            groups_paginated = groups_paginated_data.get("groups", [])
+            print_test_result("All Groups - Pagination", True, f"Groups pagination working: {len(groups_paginated)} groups returned")
+        else:
+            print_test_result("All Groups - Pagination", False, f"Groups pagination failed: {groups_paginated_response.status_code}")
+            return False
+        
+        # Step 6: Test My Groups (GET /api/community/groups/my/{athlete_id})
+        print("   Step 6: Test My Groups (Approved Memberships Only)")
+        
+        my_groups_response = requests.get(f"{BACKEND_URL}/community/groups/my/{test_athlete_id}")
+        
+        if my_groups_response.status_code != 200:
+            print_test_result("My Groups - Basic", False, f"Failed: {my_groups_response.status_code} - {my_groups_response.text}")
+            return False
+        
+        my_groups_data = my_groups_response.json()
+        my_groups = my_groups_data.get("groups", [])
+        
+        if my_groups:
+            first_my_group = my_groups[0]
+            required_my_group_fields = ["id", "name", "description", "privacy", "members_count", "created_at", "member_role"]
+            missing_my_group_fields = [field for field in required_my_group_fields if field not in first_my_group]
+            
+            if not missing_my_group_fields:
+                print_test_result("My Groups - Structure", True, f"My Groups returned {len(my_groups)} groups with member_role")
+            else:
+                print_test_result("My Groups - Structure", False, f"Missing my group fields: {missing_my_group_fields}")
+                return False
+            
+            # Verify member_role is included (should not be None for my groups)
+            member_role = first_my_group.get("member_role")
+            if member_role and isinstance(member_role, str):
+                print_test_result("My Groups - member_role Field", True, f"member_role included: {member_role}")
+            else:
+                print_test_result("My Groups - member_role Field", False, f"member_role should be string for my groups, got: {member_role}")
+                return False
+        else:
+            print_test_result("My Groups - Basic", True, "My Groups endpoint accessible (no groups found)")
+        
+        # Step 7: Test My Groups Pagination
+        print("   Step 7: Test My Groups Pagination")
+        
+        my_groups_paginated_response = requests.get(f"{BACKEND_URL}/community/groups/my/{test_athlete_id}?limit=5&skip=0")
+        
+        if my_groups_paginated_response.status_code == 200:
+            print_test_result("My Groups - Pagination", True, "My Groups pagination working")
+        else:
+            print_test_result("My Groups - Pagination", False, f"My Groups pagination failed: {my_groups_paginated_response.status_code}")
+            return False
+        
+        # Step 8: Test Events (GET /api/community/events?athlete_id={id})
+        print("   Step 8: Test Events with User Status")
+        
+        events_response = requests.get(f"{BACKEND_URL}/community/events?athlete_id={test_athlete_id}")
+        
+        if events_response.status_code != 200:
+            print_test_result("Events - Basic", False, f"Failed: {events_response.status_code} - {events_response.text}")
+            return False
+        
+        events_data = events_response.json()
+        events = events_data.get("events", [])
+        
+        if events:
+            first_event = events[0]
+            required_event_fields = ["id", "name", "description", "visibility", "event_date", "event_time", "creator_id", "interested_count", "going_count", "created_at", "user_status"]
+            missing_event_fields = [field for field in required_event_fields if field not in first_event]
+            
+            if not missing_event_fields:
+                print_test_result("Events - Structure", True, f"Events returned {len(events)} events with user_status")
+            else:
+                print_test_result("Events - Structure", False, f"Missing event fields: {missing_event_fields}")
+                return False
+            
+            # Verify user_status field
+            user_status = first_event.get("user_status")
+            valid_statuses = ["interested", "going", "not_going", None]
+            
+            if user_status in valid_statuses:
+                print_test_result("Events - user_status Field", True, f"user_status field correct: {user_status}")
+            else:
+                print_test_result("Events - user_status Field", False, f"user_status should be one of {valid_statuses}, got: {user_status}")
+                return False
+        else:
+            print_test_result("Events - Basic", True, "Events endpoint accessible (no events found)")
+        
+        # Step 9: Test Events with Group Filter
+        print("   Step 9: Test Events with Group Filter")
+        
+        # Test with group_id parameter (use first group if available)
+        if groups:
+            first_group_id = groups[0].get("id")
+            group_events_response = requests.get(f"{BACKEND_URL}/community/events?athlete_id={test_athlete_id}&group_id={first_group_id}")
+            
+            if group_events_response.status_code == 200:
+                group_events_data = group_events_response.json()
+                group_events = group_events_data.get("events", [])
+                print_test_result("Events - Group Filter", True, f"Group events filter working: {len(group_events)} events")
+            else:
+                print_test_result("Events - Group Filter", False, f"Group events filter failed: {group_events_response.status_code}")
+                return False
+        else:
+            print_test_result("Events - Group Filter", True, "Group filter test skipped (no groups available)")
+        
+        # Step 10: Test Events Pagination
+        print("   Step 10: Test Events Pagination")
+        
+        events_paginated_response = requests.get(f"{BACKEND_URL}/community/events?athlete_id={test_athlete_id}&limit=5&skip=0")
+        
+        if events_paginated_response.status_code == 200:
+            print_test_result("Events - Pagination", True, "Events pagination working")
+        else:
+            print_test_result("Events - Pagination", False, f"Events pagination failed: {events_paginated_response.status_code}")
+            return False
+        
+        # Step 11: Performance Check - Response Times
+        print("   Step 11: Performance Check - Response Times")
+        
+        import time
+        
+        # Test Community Feed performance
+        start_time = time.time()
+        perf_feed_response = requests.get(f"{BACKEND_URL}/community/posts/{test_athlete_id}?limit=20")
+        feed_time = time.time() - start_time
+        
+        # Test Groups performance
+        start_time = time.time()
+        perf_groups_response = requests.get(f"{BACKEND_URL}/community/groups?athlete_id={test_athlete_id}&limit=20")
+        groups_time = time.time() - start_time
+        
+        # Test Events performance
+        start_time = time.time()
+        perf_events_response = requests.get(f"{BACKEND_URL}/community/events?athlete_id={test_athlete_id}&limit=20")
+        events_time = time.time() - start_time
+        
+        # Performance should be under 2 seconds for optimized endpoints
+        performance_threshold = 2.0
+        
+        if feed_time < performance_threshold and groups_time < performance_threshold and events_time < performance_threshold:
+            print_test_result("Performance Check", True, f"All endpoints under {performance_threshold}s: Feed={feed_time:.2f}s, Groups={groups_time:.2f}s, Events={events_time:.2f}s")
+        else:
+            print_test_result("Performance Check", False, f"Some endpoints slow: Feed={feed_time:.2f}s, Groups={groups_time:.2f}s, Events={events_time:.2f}s")
+        
+        # Step 12: Test with Andre's athlete ID for comparison
+        print("   Step 12: Test with Andre's athlete ID")
+        
+        andre_feed_response = requests.get(f"{BACKEND_URL}/community/posts/{andre_athlete_id}")
+        andre_groups_response = requests.get(f"{BACKEND_URL}/community/groups?athlete_id={andre_athlete_id}")
+        andre_my_groups_response = requests.get(f"{BACKEND_URL}/community/groups/my/{andre_athlete_id}")
+        andre_events_response = requests.get(f"{BACKEND_URL}/community/events?athlete_id={andre_athlete_id}")
+        
+        andre_success = all(resp.status_code == 200 for resp in [andre_feed_response, andre_groups_response, andre_my_groups_response, andre_events_response])
+        
+        if andre_success:
+            andre_feed_data = andre_feed_response.json()
+            andre_groups_data = andre_groups_response.json()
+            andre_my_groups_data = andre_my_groups_response.json()
+            andre_events_data = andre_events_response.json()
+            
+            print_test_result("Andre's Data Test", True, f"Andre's endpoints working: {len(andre_feed_data.get('posts', []))} posts, {len(andre_groups_data.get('groups', []))} groups, {len(andre_my_groups_data.get('groups', []))} my groups, {len(andre_events_data.get('events', []))} events")
+        else:
+            print_test_result("Andre's Data Test", False, "Some of Andre's endpoints failed")
+            return False
+        
+        print("\n✅ OPTIMIZED COMMUNITY ENDPOINTS TESTING COMPLETED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Optimized Community Endpoints - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_community_feature_backend():
     """
     COMPREHENSIVE COMMUNITY FEATURE BACKEND API TESTING
