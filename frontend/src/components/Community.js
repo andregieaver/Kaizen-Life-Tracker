@@ -1192,7 +1192,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                 </div>
                 
                 <div className="flex space-x-2">
-                  <Button
+                  <button
                     onClick={async () => {
                       try {
                         await axios.put(`${API}/community/groups/${group.id}/members/${member.id}?athlete_id=${athleteId}`, {
@@ -1204,11 +1204,12 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                         alert('Failed to approve member');
                       }
                     }}
-                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white text-sm px-4 py-2"
+                    className="p-2 bg-[#00C2A8] hover:bg-[#00a890] rounded-lg transition-colors"
+                    title="Approve"
                   >
-                    Approve
-                  </Button>
-                  <Button
+                    <ThumbsUp className="w-5 h-5 text-white" />
+                  </button>
+                  <button
                     onClick={async () => {
                       try {
                         await axios.put(`${API}/community/groups/${group.id}/members/${member.id}?athlete_id=${athleteId}`, {
@@ -1220,10 +1221,11 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                         alert('Failed to reject member');
                       }
                     }}
-                    className="bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2"
+                    className="p-2 bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
+                    title="Reject"
                   >
-                    Reject
-                  </Button>
+                    <ThumbsDown className="w-5 h-5 text-white" />
+                  </button>
                 </div>
               </div>
             ))}
