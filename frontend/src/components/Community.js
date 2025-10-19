@@ -2389,8 +2389,8 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick }) => (
               </div>
             )}
             <div className="flex items-center space-x-3 text-sm">
-              <span className="text-gray-400">{event.interested_count} interested</span>
-              <span className="text-gray-400">{event.going_count} going</span>
+              <span className="text-gray-400">{event.interested_count || 0} interested</span>
+              <span className="text-gray-400">{event.going_count || 0} going</span>
             </div>
           </div>
         </div>
