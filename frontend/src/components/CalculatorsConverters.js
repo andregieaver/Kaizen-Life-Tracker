@@ -454,22 +454,22 @@ const RacePredictorCalculator = ({ athletePreferences }) => {
   return (
     <div className="space-y-6">
       {/* Input Card */}
-      <Card className="border-0 shadow-lg">
+      <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
         <CardHeader>
-          <CardTitle className="text-xl font-display">Enter Your Race Result</CardTitle>
-          <CardDescription>Input your recent race time to predict other distances</CardDescription>
+          <CardTitle className="text-xl font-display text-white">Enter Your Race Result</CardTitle>
+          <CardDescription className="text-gray-300">Input your recent race time to predict other distances</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
             {/* Distance Selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Race Distance
               </label>
               <select
                 value={inputDistance}
                 onChange={(e) => setInputDistance(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                className="w-full px-4 py-3 bg-gray-600 border border-gray-500 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
               >
                 <option value="">Select a distance...</option>
                 <optgroup label="Track">
@@ -495,7 +495,7 @@ const RacePredictorCalculator = ({ athletePreferences }) => {
             {inputDistance === 'custom' && (
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     Distance
                   </label>
                   <input
@@ -503,17 +503,17 @@ const RacePredictorCalculator = ({ athletePreferences }) => {
                     value={customDistance}
                     onChange={(e) => setCustomDistance(e.target.value)}
                     placeholder="Enter distance"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                    className="w-full px-4 py-3 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-white mb-2">
                     Unit
                   </label>
                   <select
                     value={unit}
                     onChange={(e) => setUnit(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                    className="w-full px-4 py-3 bg-gray-600 border border-gray-500 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
                   >
                     <option value="km">Kilometers</option>
                     <option value="miles">Miles</option>
@@ -524,7 +524,7 @@ const RacePredictorCalculator = ({ athletePreferences }) => {
 
             {/* Time Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Your Finish Time
               </label>
               <div className="grid grid-cols-3 gap-4">
@@ -535,9 +535,9 @@ const RacePredictorCalculator = ({ athletePreferences }) => {
                     onChange={(e) => setTimeHours(e.target.value)}
                     placeholder="Hours"
                     min="0"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                    className="w-full px-4 py-3 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
                   />
-                  <p className="text-xs text-gray-500 mt-1 text-center">Hours</p>
+                  <p className="text-xs text-gray-400 mt-1 text-center">Hours</p>
                 </div>
                 <div>
                   <input
@@ -547,7 +547,7 @@ const RacePredictorCalculator = ({ athletePreferences }) => {
                     placeholder="Minutes"
                     min="0"
                     max="59"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                    className="w-full px-4 py-3 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
                   />
                   <p className="text-xs text-gray-500 mt-1 text-center">Minutes</p>
                 </div>
