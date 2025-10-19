@@ -430,7 +430,12 @@ const Community = ({ athleteId }) => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6 py-6">
+    <div 
+      className="max-w-5xl mx-auto space-y-6 py-6"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       {/* Header with Tabs and Notifications */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex space-x-2">
