@@ -2429,18 +2429,18 @@ const Nutrition = ({ athleteId }) => {
       {/* Supplement Log Modal */}
       {showSupplementModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50">
+          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50 bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>Log Supplements</CardTitle>
+                <CardTitle className="text-white">Log Supplements</CardTitle>
                 <button
                   onClick={() => setShowSupplementModal(false)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <CardDescription>
+              <CardDescription className="text-gray-300">
                 Select the supplements you took
               </CardDescription>
             </CardHeader>
@@ -2448,50 +2448,50 @@ const Nutrition = ({ athleteId }) => {
               {/* Date and Time */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Date</label>
+                  <label className="text-sm font-medium text-white">Date</label>
                   <input
                     type="date"
                     value={supplementLogDate}
                     onChange={(e) => setSupplementLogDate(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full p-2 bg-gray-600 border border-gray-500 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Time</label>
+                  <label className="text-sm font-medium text-white">Time</label>
                   <input
                     type="time"
                     value={supplementLogTime}
                     onChange={(e) => setSupplementLogTime(e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full p-2 bg-gray-600 border border-gray-500 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                   />
                 </div>
               </div>
 
               {/* Supplements List */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Select Supplements</label>
+                <label className="text-sm font-medium text-white">Select Supplements</label>
                 {supplements.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="text-center py-8 text-gray-400">
                     <Pill className="w-8 h-8 mx-auto mb-2 opacity-50" />
                     <p className="text-sm">No supplements registered</p>
                     <p className="text-xs mt-1">Add supplements in the Supplements page first</p>
                   </div>
                 ) : (
-                  <div className="space-y-2 max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-3">
+                  <div className="space-y-2 max-h-64 overflow-y-auto border border-gray-600 rounded-lg p-3 bg-gray-700">
                     {supplements.map((supplement) => (
                       <label
                         key={supplement.id}
-                        className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer"
+                        className="flex items-start gap-3 p-2 hover:bg-gray-600 rounded-lg cursor-pointer"
                       >
                         <input
                           type="checkbox"
                           checked={selectedSupplements.includes(supplement.id)}
                           onChange={() => handleSupplementToggle(supplement.id)}
-                          className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                          className="mt-1 h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-500 rounded"
                         />
                         <div className="flex-1">
-                          <div className="font-medium text-gray-900">{supplement.name}</div>
-                          <div className="text-sm text-gray-500">
+                          <div className="font-medium text-white">{supplement.name}</div>
+                          <div className="text-sm text-gray-400">
                             {supplement.dosage} {supplement.unit}
                           </div>
                         </div>
@@ -2503,12 +2503,12 @@ const Nutrition = ({ athleteId }) => {
 
               {/* Notes */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Notes (Optional)</label>
+                <label className="text-sm font-medium text-white">Notes (Optional)</label>
                 <textarea
                   value={supplementNotes}
                   onChange={(e) => setSupplementNotes(e.target.value)}
                   placeholder="Any additional notes..."
-                  className="w-full h-20 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  className="w-full h-20 p-3 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
                 />
               </div>
 
@@ -2516,13 +2516,13 @@ const Nutrition = ({ athleteId }) => {
               <div className="flex gap-2 pt-4">
                 <Button
                   variant="outline"
-                  className="flex-1"
+                  className="flex-1 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                   onClick={() => setShowSupplementModal(false)}
                 >
                   Cancel
                 </Button>
                 <Button
-                  className="flex-1"
+                  className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
                   onClick={handleSaveSupplementLog}
                   disabled={selectedSupplements.length === 0}
                 >
