@@ -1284,18 +1284,54 @@ def test_image_exclusion_performance_feature():
         else:
             print_test_result("All Groups - Image Exclusion", True, "Groups endpoint accessible with image exclusion (no groups found)")
         
-        # Step 5: Test All Groups Pagination
-        print("   Step 5: Test All Groups Pagination")
+        # Step 5: Test My Groups WITH image exclusion (GET /api/community/groups/my/{athlete_id}?exclude_images=true&limit=30)
+        print("   Step 5: Test My Groups WITH image exclusion")
         
-        groups_paginated_response = requests.get(f"{BACKEND_URL}/community/groups?athlete_id={test_athlete_id}&limit=5&skip=0")
+        my_groups_excluded_response = requests.get(f"{BACKEND_URL}/community/groups/my/{test_athlete_id}?exclude_images=true&limit=30")
         
-        if groups_paginated_response.status_code == 200:
-            groups_paginated_data = groups_paginated_response.json()
-            groups_paginated = groups_paginated_data.get("groups", [])
-            print_test_result("All Groups - Pagination", True, f"Groups pagination working: {len(groups_paginated)} groups returned")
-        else:
-            print_test_result("All Groups - Pagination", False, f"Groups pagination failed: {groups_paginated_response.status_code}")
+        if my_groups_excluded_response.status_code != 200:
+            print_test_result("My Groups - Image Exclusion", False, f"Failed: {my_groups_excluded_response.status_code} - {my_groups_excluded_response.text}")
             return False
+        
+        my_groups_excluded_data = my_groups_excluded_response.json()
+        my_groups_excluded = my_groups_excluded_data.get("groups", [])
+        
+        # Verify groups returned WITHOUT profile_image and cover_photo
+        if my_groups_excluded:
+            first_my_group_excluded = my_groups_excluded[0]
+            required_my_group_fields = ["id", "name", "description", "privacy", "members_count", "created_at", "member_role"]
+            excluded_fields = ["profile_image", "cover_photo"]
+            
+            # Check required fields are present
+            missing_my_group_fields = [field for field in required_my_group_fields if field not in first_my_group_excluded]
+            if missing_my_group_fields:
+                print_test_result("My Groups - Image Exclusion Structure", False, f"Missing required fields: {missing_my_group_fields}")
+                return False
+            
+            # Check image fields are excluded
+            image_fields_present = [field for field in excluded_fields if field in first_my_group_excluded]
+            if image_fields_present:
+                print_test_result("My Groups - Image Exclusion", False, f"Image fields should be excluded but are present: {image_fields_present}")
+                return False
+            
+            # Verify member_role is still included
+            member_role = first_my_group_excluded.get("member_role")
+            if member_role and isinstance(member_role, str):
+                print_test_result("My Groups - member_role Field (excluded)", True, f"member_role still included: {member_role}")
+            else:
+                print_test_result("My Groups - member_role Field (excluded)", False, f"member_role should be string for my groups, got: {member_role}")
+                return False
+            
+            # Verify limit=30 returns maximum 30 groups
+            if len(my_groups_excluded) <= 30:
+                print_test_result("My Groups - Limit 30", True, f"Returned {len(my_groups_excluded)} groups (≤30)")
+            else:
+                print_test_result("My Groups - Limit 30", False, f"Returned {len(my_groups_excluded)} groups (>30)")
+                return False
+            
+            print_test_result("My Groups - Image Exclusion", True, f"My Groups returned WITHOUT profile_image and cover_photo, {len(my_groups_excluded)} groups")
+        else:
+            print_test_result("My Groups - Image Exclusion", True, "My Groups endpoint accessible with image exclusion (no groups found)")
         
         # Step 6: Test My Groups (GET /api/community/groups/my/{athlete_id})
         print("   Step 6: Test My Groups (Approved Memberships Only)")
