@@ -236,7 +236,7 @@ const Supplements = ({ athleteId }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {supplements.map((supplement) => (
             <Card key={supplement.id} className="hover:shadow-lg transition-shadow bg-gradient-to-br from-gray-600 to-gray-800 border-0">
-              <CardHeader>
+              <CardHeader className="pb-2">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <CardTitle className="text-lg text-white">{supplement.name}</CardTitle>
@@ -260,22 +260,10 @@ const Supplements = ({ athleteId }) => {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="bg-gradient-to-r from-gray-700 to-gray-800 text-white border-gray-600">
-                      {getFrequencyLabel(supplement.frequency)}
-                    </Badge>
-                    {supplement.time_of_day && (
-                      <Badge variant="outline" className="bg-gradient-to-r from-gray-700 to-gray-800 text-white border-gray-600">
-                        {getTimeOfDayLabel(supplement.time_of_day)}
-                      </Badge>
-                    )}
-                  </div>
-                  {supplement.notes && (
-                    <p className="text-sm text-gray-300 mt-2">{supplement.notes}</p>
-                  )}
-                </div>
+              <CardContent className="pt-0 pb-4">
+                {supplement.notes && (
+                  <p className="text-sm text-gray-300">{supplement.notes}</p>
+                )}
               </CardContent>
             </Card>
           ))}
