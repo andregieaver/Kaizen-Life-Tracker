@@ -131,6 +131,45 @@ const Community = ({ athleteId }) => {
     }
   };
 
+
+  const loadAthletes = async (searchQuery = '') => {
+    setAthletesLoading(true);
+    try {
+      const response = await axios.get(`${API}/community/athletes?viewer_athlete_id=${athleteId}&search=${searchQuery}`);
+      setAthletes(response.data.athletes);
+    } catch (error) {
+      console.error('Error loading athletes:', error);
+    } finally {
+      setAthletesLoading(false);
+    }
+  };
+
+  const handleAthletesFollowToggle = async (targetAthleteId) => {
+    try {
+      const response = await axios.post(`${API}/community/follow/${targetAthleteId}?athlete_id=${athleteId}`);
+      // Update the athlete in the list
+      setAthletes(athletes.map(athlete =>
+        athlete.id === targetAthleteId
+          ? { ...athlete, is_following: response.data.following, followers_count: response.data.followers_count }
+          : athlete
+      ));
+    } catch (error) {
+      console.error('Error toggling follow:', error);
+    }
+  };
+
+  const handleOpenAthletes = () => {
+    setShowAthletes(true);
+    loadAthletes('');
+  };
+
+  const handleAthletesSearch = (e) => {
+    const query = e.target.value;
+    setAthletesSearch(query);
+    loadAthletes(query);
+  };
+
+
   const handleImageSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
