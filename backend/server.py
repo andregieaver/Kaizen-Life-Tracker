@@ -6845,9 +6845,6 @@ async def health_check():
     """Health check endpoint"""
     return {"status": "healthy", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-# Include the router in the main app
-app.include_router(api_router)
-
 # Register OpenAI Realtime router for voice chat
 try:
     # Create a separate router for realtime endpoints
