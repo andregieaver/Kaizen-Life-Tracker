@@ -1091,8 +1091,20 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+    <div 
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      onClick={(e) => {
+        // Prevent closing when clicking on backdrop (only close with Cancel button)
+        e.stopPropagation();
+      }}
+    >
+      <div 
+        className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => {
+          // Prevent backdrop click from propagating
+          e.stopPropagation();
+        }}
+      >
         <h2 className="text-2xl font-bold text-white mb-4">Create Group</h2>
         
         <div className="space-y-4">
