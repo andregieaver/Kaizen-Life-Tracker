@@ -7838,16 +7838,16 @@ async def get_group_details(group_id: str, athlete_id: str = Query(...)):
 
 @api_router.put("/community/groups/{group_id}")
 async def edit_group(group_id: str, group_data: dict, athlete_id: str = Query(...)):
-    """Edit group (admin only)"""
+    """Edit group (admin/manager only)"""
     try:
-        # Verify admin
+        # Verify admin/manager
         membership = await db.community_group_memberships.find_one({
             "group_id": group_id,
             "athlete_id": athlete_id,
-            "role": "admin"
+            "role": {"$in": ["admin", "manager"]}
         })
         if not membership:
-            raise HTTPException(status_code=403, detail="Only admins can edit groups")
+            raise HTTPException(status_code=403, detail="Only admins/managers can edit groups")
         
         # Update group
         update_data = {
