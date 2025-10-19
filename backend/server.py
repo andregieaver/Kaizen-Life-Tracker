@@ -7527,11 +7527,6 @@ async def add_comment(post_id: str, comment_data: dict, athlete_id: str = Query(
         logging.error(f"Error adding comment: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@api_router.get("/community/posts/{post_id}/comments")
-async def get_comments(post_id: str):
-    """Get all comments for a post"""
-    try:
-
 @api_router.get("/community/athletes/search")
 async def search_athletes_for_mention(q: str = Query(..., min_length=1)):
     """Search athletes for @mention - returns name and id"""
