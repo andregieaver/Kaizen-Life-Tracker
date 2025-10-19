@@ -7856,6 +7856,7 @@ async def edit_group(group_id: str, group_data: dict, athlete_id: str = Query(..
             "privacy": group_data.get("privacy"),
             "profile_image": group_data.get("profile_image"),
             "cover_photo": group_data.get("cover_photo"),
+            "rules": group_data.get("rules"),
             "updated_at": datetime.now(timezone.utc).isoformat()
         }
         
