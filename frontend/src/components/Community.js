@@ -126,12 +126,18 @@ const Community = ({ athleteId }) => {
       } else if (activeTab === 'groups') {
         setActiveTab('mygroups');
         setSelectedGroup(null);
+      } else if (activeTab === 'mygroups') {
+        setActiveTab('events');
+        setSelectedGroup(null);
       }
     }
     
     if (isRightSwipe) {
       // Swipe right - go to previous tab
-      if (activeTab === 'mygroups') {
+      if (activeTab === 'events') {
+        setActiveTab('mygroups');
+        setSelectedGroup(null);
+      } else if (activeTab === 'mygroups') {
         setActiveTab('groups');
         setSelectedGroup(null);
       } else if (activeTab === 'groups') {
