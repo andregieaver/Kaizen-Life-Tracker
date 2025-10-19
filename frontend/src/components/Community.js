@@ -428,6 +428,8 @@ const Community = ({ athleteId }) => {
       await axios.post(`${API}/community/groups?athlete_id=${athleteId}`, newGroupData);
       setShowCreateGroup(false);
       setNewGroupData({ name: '', description: '', privacy: 'public', profile_image: null, cover_photo: null, rules: '' });
+      setMyGroupsLoaded(false); // Reset cache
+      setGroupsLoaded(false); // Reset cache
       loadMyGroups();
     } catch (error) {
       console.error('Error creating group:', error);
