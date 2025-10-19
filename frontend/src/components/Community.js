@@ -220,8 +220,8 @@ const Community = ({ athleteId }) => {
 
   const loadAllGroups = async () => {
     try {
-      // RADICAL: Load only 10 groups without images
-      const response = await axios.get(`${API}/community/groups?athlete_id=${athleteId}&limit=10&exclude_images=true`);
+      // Load 15 groups WITH compressed images
+      const response = await axios.get(`${API}/community/groups?athlete_id=${athleteId}&limit=15`);
       setGroups(response.data.groups);
       setGroupsLoaded(true);
       setIsLoading(false);
@@ -233,8 +233,8 @@ const Community = ({ athleteId }) => {
 
   const loadMyGroups = async () => {
     try {
-      // RADICAL: Load only 10 groups without images
-      const response = await axios.get(`${API}/community/groups/my/${athleteId}?limit=10&exclude_images=true`);
+      // Load 15 groups WITH compressed images
+      const response = await axios.get(`${API}/community/groups/my/${athleteId}?limit=15`);
       setMyGroups(response.data.groups);
       setMyGroupsLoaded(true);
       setIsLoading(false);
