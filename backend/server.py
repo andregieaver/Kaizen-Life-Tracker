@@ -7461,6 +7461,13 @@ async def add_comment(post_id: str, comment_data: dict, athlete_id: str = Query(
         if not athlete:
             raise HTTPException(status_code=404, detail="Athlete not found")
         
+        content = comment_data.get("content", "")
+        
+        # Extract mentions from content
+        import re
+        mention_pattern = r'@\[([^:]+):([^\]]+)\]'
+        mentions = re.findall(mention_pattern, content)
+        
         # Create comment
         comment = {
             "id": str(uuid.uuid4()),
@@ -7468,7 +7475,7 @@ async def add_comment(post_id: str, comment_data: dict, athlete_id: str = Query(
             "athlete_id": athlete_id,
             "athlete_name": athlete.get("name", "Unknown"),
             "athlete_profile_picture": athlete.get("profile_picture"),
-            "content": comment_data.get("content", ""),
+            "content": content,
             "created_at": datetime.now(timezone.utc).isoformat()
         }
         
@@ -7492,6 +7499,22 @@ async def add_comment(post_id: str, comment_data: dict, athlete_id: str = Query(
                 "created_at": datetime.now(timezone.utc).isoformat()
             }
             await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
+        
+        # Create notifications for mentioned users
+        for user_id, user_name in mentions:
+            if user_id != athlete_id and user_id != post["athlete_id"]:  # Don't notify self or post owner (already notified)
+                notification = {
+                    "id": str(uuid.uuid4()),
+                    "athlete_id": user_id,
+                    "type": "mention",
+                    "message": f"{athlete.get('name', 'Someone')} mentioned you in a comment",
+                    "from_athlete_id": athlete_id,
+                    "from_athlete_name": athlete.get('name', 'Unknown'),
+                    "post_id": post_id,
+                    "read": False,
+                    "created_at": datetime.now(timezone.utc).isoformat()
+                }
+                await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
         
         # Get updated comment count
         updated_post = await db.community_posts.find_one({"id": post_id}, {"_id": 0})
