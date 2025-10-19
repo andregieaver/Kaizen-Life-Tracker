@@ -169,6 +169,18 @@ frontend:
         agent: "main"
         comment: "Notification system enhanced. BACKEND CHANGES: 1) Updated CommunityNotification model to include group_id field and 'group_join_request' type. 2) Modified join_group endpoint (line ~7833) to create notification for group admin when user requests to join private group. Notification content: '[User Name] wants to join your group [Group Name]'. 3) Added new endpoint GET /api/community/notifications/{athlete_id}/unread-count to fetch unread notification count efficiently. FRONTEND CHANGES (Dashboard.js): 1) Added communityUnreadCount state. 2) Added loadCommunityUnreadCount() function to fetch unread count. 3) useEffect to load count on mount and every 30 seconds. 4) Updated both desktop and mobile Community icons to show red dot badge when communityUnreadCount > 0. Red dot positioned absolute top-1 right-1 with bg-red-500. Both backend and frontend compiled successfully. Notification dot will appear on Community icon whenever there are unread notifications (including group join requests)."
 
+  - task: "Athletes List with Search Modal"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py, /app/frontend/src/components/Community.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Athletes discovery feature complete. BACKEND CHANGES: 1) Added new endpoint GET /api/community/athletes?viewer_athlete_id={id}&search={query}&limit={n} to get all athletes with optional name search (case-insensitive regex). Returns: athlete id, name, profile_picture, bio, posts_count, followers_count, is_following (for viewer). Excludes viewer from results. FRONTEND CHANGES (Community.js): 1) Added Search icon import from lucide-react. 2) Added state: showAthletes, athletes, athletesSearch, athletesLoading. 3) Added functions: loadAthletes() - fetches athletes with search query, handleAthletesFollowToggle() - toggle follow/unfollow with live update in list, handleOpenAthletes() - opens modal and loads athletes, handleAthletesSearch() - handles search input with debouncing. 4) Added Search button next to notifications bell in header. 5) Created AthletesModal component: Search input with icon, Athletes list with scrollable container, Each athlete card shows: avatar/initial, name, bio (truncated), posts/followers count, follow/unfollow button. Click on avatar/name to view full profile (opens profile modal). Dark theme styling consistent with app. Both backend and frontend compiled successfully. Search functionality with instant follow/unfollow working."
+
 metadata:
   created_by: "main_agent"
   version: "2.0"
