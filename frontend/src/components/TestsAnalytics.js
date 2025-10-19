@@ -989,10 +989,10 @@ const TestsAnalytics = ({ athleteId }) => {
       {/* Add/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-gradient-to-r from-gray-900 to-gray-800 border border-gray-700 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-2xl font-bold text-white">
                   {editingResult 
                     ? 'Edit Test Result' 
                     : addingEntryToTest 
@@ -1006,6 +1006,7 @@ const TestsAnalytics = ({ athleteId }) => {
                     setShowModal(false);
                     setAddingEntryToTest(null);
                   }}
+                  className="text-white hover:bg-gray-700"
                 >
                   <X className="w-5 h-5" />
                 </Button>
@@ -1014,7 +1015,7 @@ const TestsAnalytics = ({ athleteId }) => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Test Name Selection */}
                 <div className="space-y-2">
-                  <Label htmlFor="test_name">Test Name *</Label>
+                  <Label htmlFor="test_name" className="text-white">Test Name *</Label>
                   <div className="space-y-2">
                     {/* Show checkbox only when not editing and not adding entry to specific test */}
                     {testNames.length > 0 && !editingResult && !addingEntryToTest && (
@@ -1030,7 +1031,7 @@ const TestsAnalytics = ({ athleteId }) => {
                           }))}
                           className="rounded"
                         />
-                        <label htmlFor="use_existing" className="text-sm text-gray-600">
+                        <label htmlFor="use_existing" className="text-sm text-gray-300">
                           Use existing test
                         </label>
                       </div>
@@ -1042,19 +1043,19 @@ const TestsAnalytics = ({ athleteId }) => {
                         id="test_name"
                         value={formData.test_name}
                         disabled
-                        className="bg-gray-100 cursor-not-allowed"
+                        className="bg-gray-600 border-gray-500 text-gray-400 cursor-not-allowed"
                       />
                     ) : formData.use_existing_test ? (
                       <Select 
                         value={formData.test_name} 
                         onValueChange={(value) => setFormData(prev => ({...prev, test_name: value}))}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-gray-600 border-gray-500 text-white">
                           <SelectValue placeholder="Select a test" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="bg-gray-800 border-gray-700">
                           {testNames.map((name) => (
-                            <SelectItem key={name} value={name}>{name}</SelectItem>
+                            <SelectItem key={name} value={name} className="text-white">{name}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
@@ -1066,7 +1067,7 @@ const TestsAnalytics = ({ athleteId }) => {
                         placeholder="e.g., Pull-ups, 5km Run, Plank Hold"
                         required
                         disabled={editingResult !== null}
-                        className={editingResult ? "bg-gray-100 cursor-not-allowed" : ""}
+                        className={editingResult ? "bg-gray-600 border-gray-500 text-gray-400 cursor-not-allowed" : "bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"}
                       />
                     )}
                   </div>
@@ -1074,7 +1075,7 @@ const TestsAnalytics = ({ athleteId }) => {
 
                 {/* Unit */}
                 <div className="space-y-2">
-                  <Label htmlFor="unit">Unit *</Label>
+                  <Label htmlFor="unit" className="text-white">Unit *</Label>
                   <Select 
                     value={formData.unit} 
                     onValueChange={(value) => setFormData(prev => ({...prev, unit: value}))}
