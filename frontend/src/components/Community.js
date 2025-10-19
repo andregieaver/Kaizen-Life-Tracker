@@ -698,7 +698,11 @@ const Community = ({ athleteId }) => {
     try {
       const response = await axios.post(`${API}/community/events/${eventId}/rsvp?athlete_id=${athleteId}`, { status });
       
-      console.log('RSVP Response:', response.data); // Debug log
+      addDebugLog('RSVP Response', {
+        interested_count: response.data.interested_count,
+        going_count: response.data.going_count,
+        status: status
+      });
       
       // Update event list with new counts from server
       const updatedEvents = events.map(event =>
@@ -712,7 +716,14 @@ const Community = ({ athleteId }) => {
           : event
       );
       
-      console.log('Updated Events:', updatedEvents); // Debug log
+      const updatedEvent = updatedEvents.find(e => e.id === eventId);
+      addDebugLog('Updated Event', {
+        name: updatedEvent?.name,
+        interested_count: updatedEvent?.interested_count,
+        going_count: updatedEvent?.going_count,
+        user_status: updatedEvent?.user_status
+      });
+      
       setEvents(updatedEvents);
       
       // If detail modal is open for this event, refresh it to show updated participant list
@@ -721,6 +732,7 @@ const Community = ({ athleteId }) => {
       }
     } catch (error) {
       console.error('Error RSVP:', error);
+      addDebugLog('RSVP Error', error.message);
       alert('Failed to RSVP');
     }
   };
