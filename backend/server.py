@@ -7231,9 +7231,20 @@ async def create_community_post(post_data: dict, athlete_id: str = Query(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/community/posts/{athlete_id}")
-async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int = Query(0)):
-    """Get community posts feed (all posts, sorted by newest first) - Optimized with pagination"""
+async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int = Query(0), exclude_images: bool = Query(False)):
+    """Get community posts feed (all posts, sorted by newest first) - Optimized with pagination and optional image exclusion"""
     try:
+        # Build projection to exclude image_data if requested
+        projection_stage = {
+            "$project": {
+                "_id": 0,
+                "user_like": 0
+            }
+        }
+        
+        if exclude_images:
+            projection_stage["$project"]["image_data"] = 0
+        
         # Use aggregation pipeline to fetch posts with like status in single query
         pipeline = [
             {"$sort": {"created_at": -1}},
@@ -7260,15 +7271,11 @@ async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int 
             },
             {
                 "$addFields": {
-                    "liked_by_user": {"$gt": [{"$size": "$user_like"}, 0]}
+                    "liked_by_user": {"$gt": [{"$size": "$user_like"}, 0]},
+                    "has_image": {"$cond": [{"$ifNull": ["$image_data", False]}, True, False]}
                 }
             },
-            {
-                "$project": {
-                    "_id": 0,
-                    "user_like": 0
-                }
-            }
+            projection_stage
         ]
         
         posts = await db.community_posts.aggregate(pipeline).to_list(length=None)
