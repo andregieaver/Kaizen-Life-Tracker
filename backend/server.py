@@ -7364,7 +7364,7 @@ async def share_post(post_id: str, athlete_id: str = Query(...)):
                 "read": False,
                 "created_at": datetime.now(timezone.utc).isoformat()
             }
-            await db.community_notifications.insert_one(notification)
+            await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
         
         # Get updated share count
         updated_post = await db.community_posts.find_one({"id": post_id}, {"_id": 0})
