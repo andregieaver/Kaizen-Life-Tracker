@@ -157,9 +157,18 @@ const Community = ({ athleteId }) => {
     if (!notificationsLoaded) {
       loadNotifications();
     }
-  }, [athleteId]);
+    
+    // Load saved tab from localStorage
+    const savedTab = localStorage.getItem('communityActiveTab');
+    if (savedTab && ['feed', 'groups', 'mygroups', 'events'].includes(savedTab)) {
+      setActiveTab(savedTab);
+    }
+  }, [athleteId, notificationsLoaded]);
 
   useEffect(() => {
+    // Save tab to localStorage when it changes
+    localStorage.setItem('communityActiveTab', activeTab);
+    
     // Load data based on active tab with caching
     if (activeTab === 'feed' && !postsLoaded) {
       loadPosts();
@@ -170,7 +179,7 @@ const Community = ({ athleteId }) => {
     } else if (activeTab === 'events' && !eventsLoaded) {
       loadEvents();
     }
-  }, [athleteId, activeTab, postsLoaded, groupsLoaded, myGroupsLoaded, eventsLoaded]);
+  }, [activeTab]); // Only depend on activeTab, not the loaded flags
 
   const loadPosts = async () => {
     try {
