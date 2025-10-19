@@ -412,14 +412,44 @@ const Community = ({ athleteId }) => {
   };
 
 
-  const handleJoinGroup = async (groupId) => {
+  const handleJoinGroup = async (groupId, groupRules = null) => {
+    // If group has rules, show rules modal first
+    if (groupRules) {
+      setJoiningGroup(groupId);
+      setShowRulesModal(true);
+      return;
+    }
+
     try {
-      const response = await axios.post(`${API}/community/groups/${groupId}/join?athlete_id=${athleteId}`);
+      const response = await axios.post(`${API}/community/groups/${groupId}/join?athlete_id=${athleteId}`, {
+        rules_accepted: false
+      });
       alert(response.data.message);
       loadAllGroups();
     } catch (error) {
       console.error('Error joining group:', error);
-      alert('Failed to join group');
+      alert(error.response?.data?.detail || 'Failed to join group');
+    }
+  };
+
+  const confirmJoinGroup = async () => {
+    if (!rulesAccepted) {
+      alert('You must accept the group rules to join');
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${API}/community/groups/${joiningGroup}/join?athlete_id=${athleteId}`, {
+        rules_accepted: true
+      });
+      alert(response.data.message);
+      setShowRulesModal(false);
+      setRulesAccepted(false);
+      setJoiningGroup(null);
+      loadAllGroups();
+    } catch (error) {
+      console.error('Error joining group:', error);
+      alert(error.response?.data?.detail || 'Failed to join group');
     }
   };
 
