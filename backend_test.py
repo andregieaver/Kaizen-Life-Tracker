@@ -2358,33 +2358,34 @@ def test_group_join_request_notifications():
         return False
 
 def main():
-    """Run optimized Community API endpoint tests"""
-    print("🚀 STARTING OPTIMIZED COMMUNITY API ENDPOINTS TESTING")
+    """Run image exclusion performance feature tests"""
+    print("🚀 STARTING IMAGE EXCLUSION PERFORMANCE FEATURE TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Optimized Community Endpoints (main focus)
+    # Test Image Exclusion Performance Feature (main focus)
     try:
-        result = test_optimized_community_endpoints()
+        result = test_image_exclusion_performance_feature()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Optimized Community Endpoints", False, f"Exception: {str(e)}")
+        print_test_result("Image Exclusion Performance Feature", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 OPTIMIZED COMMUNITY API ENDPOINTS TESTING COMPLETED!")
-        print("✅ Community Feed: Performance Optimized")
-        print("✅ All Groups: Aggregation Pipeline Working")
-        print("✅ My Groups: Approved Memberships Only")
-        print("✅ Events: User Status Populated")
-        print("✅ Pagination: Working on All Endpoints")
+        print("🎉 IMAGE EXCLUSION PERFORMANCE FEATURE TESTING COMPLETED!")
+        print("✅ Community Feed: exclude_images=true excludes image_data, includes has_image")
+        print("✅ All Groups: exclude_images=true excludes profile_image and cover_photo")
+        print("✅ My Groups: exclude_images=true excludes images, preserves member_role")
+        print("✅ Backward Compatibility: Works without exclude_images parameter")
+        print("✅ Pagination: Limits work correctly with image exclusion")
+        print("✅ Payload Reduction: Dramatically reduced response sizes")
     else:
-        print("❌ OPTIMIZED COMMUNITY API ENDPOINTS FOUND ISSUES")
+        print("❌ IMAGE EXCLUSION PERFORMANCE FEATURE FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
     
     print("=" * 70)
