@@ -1182,39 +1182,39 @@ const TestsAnalytics = ({ athleteId }) => {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="bg-gray-800 border-gray-700">
-                        <SelectItem value="seconds">Seconds (e.g., 90s)</SelectItem>
-                        <SelectItem value="minutes">Minutes (e.g., 1.5 min)</SelectItem>
-                        <SelectItem value="hours">Hours (e.g., 0.025 hrs)</SelectItem>
+                        <SelectItem value="seconds" className="text-white">Seconds (e.g., 90s)</SelectItem>
+                        <SelectItem value="minutes" className="text-white">Minutes (e.g., 1.5 min)</SelectItem>
+                        <SelectItem value="hours" className="text-white">Hours (e.g., 0.025 hrs)</SelectItem>
                       </SelectContent>
                     </Select>
                     {addingEntryToTest ? (
-                      <p className="text-xs text-gray-500">Display format is fixed for this test</p>
+                      <p className="text-xs text-gray-400">Display format is fixed for this test</p>
                     ) : (
-                      <p className="text-xs text-gray-500">Choose how time will be displayed in the chart axis</p>
+                      <p className="text-xs text-gray-400">Choose how time will be displayed in the chart axis</p>
                     )}
                   </div>
                 )}
 
                 {/* Goal Direction - Whether higher or lower is better */}
                 <div className="space-y-2">
-                  <Label htmlFor="goal_direction">Goal Direction *</Label>
+                  <Label htmlFor="goal_direction" className="text-white">Goal Direction *</Label>
                   <Select
                     value={formData.goal_direction}
                     onValueChange={(value) => setFormData(prev => ({...prev, goal_direction: value}))}
                     disabled={addingEntryToTest !== null}
                   >
-                    <SelectTrigger className={addingEntryToTest ? "bg-gray-100 cursor-not-allowed" : ""}>
+                    <SelectTrigger className={addingEntryToTest ? "bg-gray-600 border-gray-500 text-gray-400 cursor-not-allowed" : "bg-gray-600 border-gray-500 text-white"}>
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="higher">Higher is Better (e.g., Pull-ups, Hang-bar)</SelectItem>
-                      <SelectItem value="lower">Lower is Better (e.g., Run time, Body fat)</SelectItem>
+                    <SelectContent className="bg-gray-800 border-gray-700">
+                      <SelectItem value="higher" className="text-white">Higher is Better (e.g., Pull-ups, Hang-bar)</SelectItem>
+                      <SelectItem value="lower" className="text-white">Lower is Better (e.g., Run time, Body fat)</SelectItem>
                     </SelectContent>
                   </Select>
                   {addingEntryToTest ? (
-                    <p className="text-xs text-gray-500">Goal direction is fixed for this test</p>
+                    <p className="text-xs text-gray-400">Goal direction is fixed for this test</p>
                   ) : (
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-400">
                       {formData.goal_direction === 'higher' 
                         ? 'Increases will show green, decreases red' 
                         : 'Decreases will show green, increases red'}
@@ -1224,24 +1224,26 @@ const TestsAnalytics = ({ athleteId }) => {
 
                 {/* Test Date */}
                 <div className="space-y-2">
-                  <Label htmlFor="test_date">Test Date *</Label>
+                  <Label htmlFor="test_date" className="text-white">Test Date *</Label>
                   <Input
                     id="test_date"
                     type="date"
                     value={formData.test_date}
                     onChange={(e) => setFormData(prev => ({...prev, test_date: e.target.value}))}
+                    className="bg-gray-600 border-gray-500 text-white"
                     required
                   />
                 </div>
 
                 {/* Notes */}
                 <div className="space-y-2">
-                  <Label htmlFor="notes">Notes (Optional)</Label>
+                  <Label htmlFor="notes" className="text-white">Notes (Optional)</Label>
                   <Textarea
                     id="notes"
                     value={formData.notes}
                     onChange={(e) => setFormData(prev => ({...prev, notes: e.target.value}))}
                     placeholder="Add any notes about this test..."
+                    className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                     rows={3}
                   />
                 </div>
@@ -1255,7 +1257,7 @@ const TestsAnalytics = ({ athleteId }) => {
                       setShowModal(false);
                       setAddingEntryToTest(null);
                     }}
-                    className="flex-1"
+                    className="flex-1 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                   >
                     Cancel
                   </Button>
