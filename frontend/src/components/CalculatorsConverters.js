@@ -707,16 +707,16 @@ const FinishingPercentageCalculator = () => {
   return (
     <div className="space-y-6">
       {/* Input Card */}
-      <Card className="border-0 shadow-lg">
+      <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
         <CardHeader>
-          <CardTitle className="text-xl font-display">Enter Race Information</CardTitle>
-          <CardDescription>Calculate your finishing percentile in the race</CardDescription>
+          <CardTitle className="text-xl font-display text-white">Enter Race Information</CardTitle>
+          <CardDescription className="text-gray-300">Calculate your finishing percentile in the race</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
             {/* Total Participants */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Total Number of Participants
               </label>
               <input
