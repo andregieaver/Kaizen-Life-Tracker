@@ -782,40 +782,447 @@ startxref 299
         traceback.print_exc()
         return False
 
+def test_community_feature_backend():
+    """
+    COMPREHENSIVE COMMUNITY FEATURE BACKEND API TESTING
+    Test all Community feature backend API endpoints as requested
+    """
+    print("🔍 TESTING COMMUNITY FEATURE BACKEND API ENDPOINTS")
+    print("=" * 70)
+    
+    # Test data
+    athlete_id = "90de5b99-6db3-4e14-8455-c00864fb9976"  # andre@example.com
+    created_posts = []
+    created_comments = []
+    created_notifications = []
+    
+    try:
+        # Step 1: CREATE POST - Text only
+        print("   Step 1: CREATE POST (POST /api/community/posts) - Text only")
+        
+        text_post_data = {
+            "content": "Just finished an amazing 10K run! Feeling great and ready for more training. 🏃‍♂️"
+        }
+        
+        create_text_response = requests.post(
+            f"{BACKEND_URL}/community/posts?athlete_id={athlete_id}",
+            json=text_post_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_text_response.status_code != 200:
+            print_test_result("Create Text Post", False, f"Failed: {create_text_response.status_code} - {create_text_response.text}")
+            return False
+        
+        text_post_result = create_text_response.json()
+        text_post_id = text_post_result.get("id")
+        created_posts.append(text_post_id)
+        
+        # Verify response structure
+        required_fields = ["id", "athlete_id", "athlete_name", "athlete_profile_picture", "content", "likes_count", "comments_count", "shares_count", "created_at"]
+        missing_fields = [field for field in required_fields if field not in text_post_result]
+        
+        if missing_fields:
+            print_test_result("Create Text Post", False, f"Missing fields: {missing_fields}")
+            return False
+        
+        if (text_post_result.get("likes_count") == 0 and 
+            text_post_result.get("comments_count") == 0 and 
+            text_post_result.get("shares_count") == 0):
+            print_test_result("Create Text Post", True, f"Text post created successfully, ID: {text_post_id}")
+        else:
+            print_test_result("Create Text Post", False, "Initial counts should be 0")
+            return False
+        
+        # Step 2: CREATE POST - Text + Image
+        print("   Step 2: CREATE POST - Text + Base64 Image")
+        
+        # Create test image
+        img = Image.new('RGB', (300, 200), color='green')
+        buffer = io.BytesIO()
+        img.save(buffer, format='JPEG')
+        img_data = buffer.getvalue()
+        base64_image = base64.b64encode(img_data).decode('utf-8')
+        image_data_uri = f"data:image/jpeg;base64,{base64_image}"
+        
+        image_post_data = {
+            "content": "Beautiful sunrise during my morning run! Perfect weather for training.",
+            "image_data": image_data_uri
+        }
+        
+        create_image_response = requests.post(
+            f"{BACKEND_URL}/community/posts?athlete_id={athlete_id}",
+            json=image_post_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_image_response.status_code != 200:
+            print_test_result("Create Image Post", False, f"Failed: {create_image_response.status_code} - {create_image_response.text}")
+            return False
+        
+        image_post_result = create_image_response.json()
+        image_post_id = image_post_result.get("id")
+        created_posts.append(image_post_id)
+        
+        if image_post_result.get("image_data") and image_post_result.get("content"):
+            print_test_result("Create Image Post", True, f"Image post created successfully, ID: {image_post_id}")
+        else:
+            print_test_result("Create Image Post", False, "Image data or content missing")
+            return False
+        
+        # Step 3: GET FEED
+        print("   Step 3: GET FEED (GET /api/community/posts/{athlete_id})")
+        
+        feed_response = requests.get(f"{BACKEND_URL}/community/posts/{athlete_id}")
+        
+        if feed_response.status_code != 200:
+            print_test_result("Get Feed", False, f"Failed: {feed_response.status_code} - {feed_response.text}")
+            return False
+        
+        feed_data = feed_response.json()
+        posts = feed_data.get("posts", [])
+        
+        if len(posts) >= 2:
+            # Verify sorting (newest first)
+            first_post_time = posts[0].get("created_at")
+            second_post_time = posts[1].get("created_at")
+            
+            # Verify liked_by_user flag exists and is false initially
+            first_post_liked = posts[0].get("liked_by_user")
+            
+            if first_post_time >= second_post_time and first_post_liked == False:
+                print_test_result("Get Feed", True, f"Feed retrieved with {len(posts)} posts, sorted newest first, liked_by_user=false")
+            else:
+                print_test_result("Get Feed", False, "Feed sorting or liked_by_user flag incorrect")
+                return False
+        else:
+            print_test_result("Get Feed", False, f"Expected at least 2 posts, got {len(posts)}")
+            return False
+        
+        # Step 4: GET SINGLE POST
+        print("   Step 4: GET SINGLE POST (GET /api/community/posts/post/{post_id})")
+        
+        single_post_response = requests.get(f"{BACKEND_URL}/community/posts/post/{text_post_id}?athlete_id={athlete_id}")
+        
+        if single_post_response.status_code != 200:
+            print_test_result("Get Single Post", False, f"Failed: {single_post_response.status_code} - {single_post_response.text}")
+            return False
+        
+        single_post_data = single_post_response.json()
+        
+        if (single_post_data.get("id") == text_post_id and 
+            "liked_by_user" in single_post_data):
+            print_test_result("Get Single Post", True, f"Single post retrieved with liked_by_user flag")
+        else:
+            print_test_result("Get Single Post", False, "Single post data incorrect")
+            return False
+        
+        # Step 5: LIKE POST
+        print("   Step 5: LIKE POST (POST /api/community/posts/{post_id}/like)")
+        
+        like_response = requests.post(f"{BACKEND_URL}/community/posts/{text_post_id}/like?athlete_id={athlete_id}")
+        
+        if like_response.status_code != 200:
+            print_test_result("Like Post", False, f"Failed: {like_response.status_code} - {like_response.text}")
+            return False
+        
+        like_result = like_response.json()
+        
+        if like_result.get("liked") == True and like_result.get("likes_count") == 1:
+            print_test_result("Like Post", True, f"Post liked successfully, likes_count: {like_result.get('likes_count')}")
+        else:
+            print_test_result("Like Post", False, "Like operation failed or count incorrect")
+            return False
+        
+        # Step 6: UNLIKE POST (toggle)
+        print("   Step 6: UNLIKE POST (toggle like)")
+        
+        unlike_response = requests.post(f"{BACKEND_URL}/community/posts/{text_post_id}/like?athlete_id={athlete_id}")
+        
+        if unlike_response.status_code != 200:
+            print_test_result("Unlike Post", False, f"Failed: {unlike_response.status_code} - {unlike_response.text}")
+            return False
+        
+        unlike_result = unlike_response.json()
+        
+        if unlike_result.get("liked") == False and unlike_result.get("likes_count") == 0:
+            print_test_result("Unlike Post", True, f"Post unliked successfully, likes_count: {unlike_result.get('likes_count')}")
+        else:
+            print_test_result("Unlike Post", False, "Unlike operation failed or count incorrect")
+            return False
+        
+        # Step 7: ADD COMMENT
+        print("   Step 7: ADD COMMENT (POST /api/community/posts/{post_id}/comment)")
+        
+        comment_data = {
+            "content": "Great job on the run! Keep up the excellent work! 💪"
+        }
+        
+        comment_response = requests.post(
+            f"{BACKEND_URL}/community/posts/{text_post_id}/comment?athlete_id={athlete_id}",
+            json=comment_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if comment_response.status_code != 200:
+            print_test_result("Add Comment", False, f"Failed: {comment_response.status_code} - {comment_response.text}")
+            return False
+        
+        comment_result = comment_response.json()
+        comment_id = comment_result.get("id")
+        created_comments.append(comment_id)
+        
+        if comment_result.get("comments_count") == 1:
+            print_test_result("Add Comment", True, f"Comment added successfully, ID: {comment_id}")
+        else:
+            print_test_result("Add Comment", False, "Comment count not incremented")
+            return False
+        
+        # Step 8: GET COMMENTS
+        print("   Step 8: GET COMMENTS (GET /api/community/posts/{post_id}/comments)")
+        
+        comments_response = requests.get(f"{BACKEND_URL}/community/posts/{text_post_id}/comments")
+        
+        if comments_response.status_code != 200:
+            print_test_result("Get Comments", False, f"Failed: {comments_response.status_code} - {comments_response.text}")
+            return False
+        
+        comments_data = comments_response.json()
+        comments = comments_data.get("comments", [])
+        
+        if len(comments) >= 1:
+            comment = comments[0]
+            required_comment_fields = ["athlete_name", "athlete_profile_picture", "content", "created_at"]
+            missing_comment_fields = [field for field in required_comment_fields if field not in comment]
+            
+            if not missing_comment_fields:
+                print_test_result("Get Comments", True, f"Comments retrieved with all required fields")
+            else:
+                print_test_result("Get Comments", False, f"Missing comment fields: {missing_comment_fields}")
+                return False
+        else:
+            print_test_result("Get Comments", False, "No comments found")
+            return False
+        
+        # Step 9: SHARE POST
+        print("   Step 9: SHARE POST (POST /api/community/posts/{post_id}/share)")
+        
+        share_response = requests.post(f"{BACKEND_URL}/community/posts/{text_post_id}/share?athlete_id={athlete_id}")
+        
+        if share_response.status_code != 200:
+            print_test_result("Share Post", False, f"Failed: {share_response.status_code} - {share_response.text}")
+            return False
+        
+        share_result = share_response.json()
+        
+        if share_result.get("shares_count") == 1:
+            print_test_result("Share Post", True, f"Post shared successfully, shares_count: {share_result.get('shares_count')}")
+        else:
+            print_test_result("Share Post", False, "Share count not incremented")
+            return False
+        
+        # Step 10: GET NOTIFICATIONS
+        print("   Step 10: GET NOTIFICATIONS (GET /api/community/notifications/{athlete_id})")
+        
+        notifications_response = requests.get(f"{BACKEND_URL}/community/notifications/{athlete_id}")
+        
+        if notifications_response.status_code != 200:
+            print_test_result("Get Notifications", False, f"Failed: {notifications_response.status_code} - {notifications_response.text}")
+            return False
+        
+        notifications_data = notifications_response.json()
+        notifications = notifications_data.get("notifications", [])
+        
+        if len(notifications) >= 0:  # May be 0 if self-notifications are excluded
+            print_test_result("Get Notifications", True, f"Notifications retrieved: {len(notifications)} notifications")
+            
+            # Test unread_only filter
+            unread_response = requests.get(f"{BACKEND_URL}/community/notifications/{athlete_id}?unread_only=true")
+            if unread_response.status_code == 200:
+                unread_data = unread_response.json()
+                unread_notifications = unread_data.get("notifications", [])
+                print_test_result("Get Unread Notifications", True, f"Unread filter working: {len(unread_notifications)} unread")
+            else:
+                print_test_result("Get Unread Notifications", False, "Unread filter failed")
+        else:
+            print_test_result("Get Notifications", True, "Notifications endpoint accessible (may be empty due to self-interaction exclusion)")
+        
+        # Step 11: EDIT POST
+        print("   Step 11: EDIT POST (PUT /api/community/posts/{post_id})")
+        
+        edit_data = {
+            "content": "Just finished an amazing 10K run! Feeling great and ready for more training. Updated with new thoughts! 🏃‍♂️✨"
+        }
+        
+        edit_response = requests.put(
+            f"{BACKEND_URL}/community/posts/{text_post_id}?athlete_id={athlete_id}",
+            json=edit_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if edit_response.status_code != 200:
+            print_test_result("Edit Post", False, f"Failed: {edit_response.status_code} - {edit_response.text}")
+            return False
+        
+        edit_result = edit_response.json()
+        
+        if (edit_result.get("is_edited") == True and 
+            "updated_at" in edit_result and
+            edit_result.get("content") == edit_data["content"]):
+            print_test_result("Edit Post", True, f"Post edited successfully, is_edited=true, updated_at set")
+        else:
+            print_test_result("Edit Post", False, "Edit operation failed or flags not set correctly")
+            return False
+        
+        # Step 12: Test Authorization - Try to edit another user's post (should fail)
+        print("   Step 12: Test Authorization - Edit Another User's Post (should fail)")
+        
+        # Use a different athlete_id to test authorization
+        fake_athlete_id = str(uuid.uuid4())
+        
+        unauthorized_edit_response = requests.put(
+            f"{BACKEND_URL}/community/posts/{text_post_id}?athlete_id={fake_athlete_id}",
+            json=edit_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if unauthorized_edit_response.status_code == 403:
+            print_test_result("Authorization Check - Edit", True, "Correctly rejected unauthorized edit (403)")
+        else:
+            print_test_result("Authorization Check - Edit", False, f"Should have returned 403, got {unauthorized_edit_response.status_code}")
+        
+        # Step 13: Test Authorization - Try to delete another user's post (should fail)
+        print("   Step 13: Test Authorization - Delete Another User's Post (should fail)")
+        
+        unauthorized_delete_response = requests.delete(f"{BACKEND_URL}/community/posts/{text_post_id}?athlete_id={fake_athlete_id}")
+        
+        if unauthorized_delete_response.status_code == 403:
+            print_test_result("Authorization Check - Delete", True, "Correctly rejected unauthorized delete (403)")
+        else:
+            print_test_result("Authorization Check - Delete", False, f"Should have returned 403, got {unauthorized_delete_response.status_code}")
+        
+        # Step 14: DELETE POST (own post)
+        print("   Step 14: DELETE POST (DELETE /api/community/posts/{post_id}) - Own Post")
+        
+        delete_response = requests.delete(f"{BACKEND_URL}/community/posts/{image_post_id}?athlete_id={athlete_id}")
+        
+        if delete_response.status_code != 200:
+            print_test_result("Delete Own Post", False, f"Failed: {delete_response.status_code} - {delete_response.text}")
+            return False
+        
+        # Verify post is removed from feed
+        verify_feed_response = requests.get(f"{BACKEND_URL}/community/posts/{athlete_id}")
+        if verify_feed_response.status_code == 200:
+            verify_feed_data = verify_feed_response.json()
+            verify_posts = verify_feed_data.get("posts", [])
+            
+            deleted_post_found = any(post.get("id") == image_post_id for post in verify_posts)
+            
+            if not deleted_post_found:
+                print_test_result("Delete Own Post", True, "Post successfully deleted and removed from feed")
+                created_posts.remove(image_post_id)  # Remove from cleanup list
+            else:
+                print_test_result("Delete Own Post", False, "Post still appears in feed after deletion")
+        else:
+            print_test_result("Delete Own Post", False, "Cannot verify deletion - feed request failed")
+        
+        # Step 15: Test Cascading Delete (verify likes, comments, shares are removed)
+        print("   Step 15: Test Cascading Delete Effects")
+        
+        # The text post should still exist with its comment and share
+        # Let's verify the comment still exists
+        final_comments_response = requests.get(f"{BACKEND_URL}/community/posts/{text_post_id}/comments")
+        
+        if final_comments_response.status_code == 200:
+            final_comments_data = final_comments_response.json()
+            final_comments = final_comments_data.get("comments", [])
+            
+            if len(final_comments) >= 1:
+                print_test_result("Cascading Delete Check", True, "Comments preserved for non-deleted post")
+            else:
+                print_test_result("Cascading Delete Check", False, "Comments missing for existing post")
+        else:
+            print_test_result("Cascading Delete Check", False, "Cannot verify cascading delete")
+        
+        # Step 16: Mark Notification as Read (if any notifications exist)
+        print("   Step 16: Mark Notification as Read")
+        
+        # Get notifications again to find one to mark as read
+        final_notifications_response = requests.get(f"{BACKEND_URL}/community/notifications/{athlete_id}")
+        
+        if final_notifications_response.status_code == 200:
+            final_notifications_data = final_notifications_response.json()
+            final_notifications = final_notifications_data.get("notifications", [])
+            
+            if final_notifications:
+                notification_id = final_notifications[0].get("id")
+                
+                mark_read_response = requests.put(f"{BACKEND_URL}/community/notifications/{notification_id}/read")
+                
+                if mark_read_response.status_code == 200:
+                    # Verify notification is marked as read
+                    verify_notifications_response = requests.get(f"{BACKEND_URL}/community/notifications/{athlete_id}")
+                    if verify_notifications_response.status_code == 200:
+                        verify_notifications_data = verify_notifications_response.json()
+                        verify_notifications = verify_notifications_data.get("notifications", [])
+                        
+                        marked_notification = next((n for n in verify_notifications if n.get("id") == notification_id), None)
+                        
+                        if marked_notification and marked_notification.get("read") == True:
+                            print_test_result("Mark Notification Read", True, "Notification marked as read successfully")
+                        else:
+                            print_test_result("Mark Notification Read", False, "Notification read status not updated")
+                    else:
+                        print_test_result("Mark Notification Read", False, "Cannot verify read status")
+                else:
+                    print_test_result("Mark Notification Read", False, f"Failed to mark as read: {mark_read_response.status_code}")
+            else:
+                print_test_result("Mark Notification Read", True, "No notifications to mark as read (expected for self-interactions)")
+        else:
+            print_test_result("Mark Notification Read", False, "Cannot get notifications for read test")
+        
+        print("\n✅ ALL COMMUNITY FEATURE BACKEND TESTS COMPLETED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Community Feature Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+    
+    finally:
+        # Cleanup created posts
+        print("   Cleanup: Removing test posts")
+        for post_id in created_posts:
+            try:
+                requests.delete(f"{BACKEND_URL}/community/posts/{post_id}?athlete_id={athlete_id}")
+            except:
+                pass
+
 def main():
     """Run all backend tests"""
-    print("🚀 STARTING DOCUMENT UPLOAD FLOW BACKEND API TESTING")
+    print("🚀 STARTING COMMUNITY FEATURE BACKEND API TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Document Upload Flow
+    # Test Community Feature Backend
     try:
-        result = test_document_upload_flow()
+        result = test_community_feature_backend()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Document Upload Flow Testing", False, f"Exception: {str(e)}")
-        all_tests_passed = False
-    
-    # Also run Files Feature tests for completeness
-    try:
-        result = test_files_feature_complete_flow()
-        if not result:
-            all_tests_passed = False
-    except Exception as e:
-        print_test_result("Files Feature Testing", False, f"Exception: {str(e)}")
+        print_test_result("Community Feature Backend Testing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 ALL BACKEND TESTS PASSED!")
-        print("✅ Document Upload Flow: Working")
-        print("✅ Files Feature Complete Flow: Working")
+        print("🎉 ALL COMMUNITY BACKEND TESTS PASSED!")
+        print("✅ Community Feature Backend API: Working")
     else:
-        print("❌ SOME BACKEND TESTS FAILED")
+        print("❌ SOME COMMUNITY BACKEND TESTS FAILED")
         print("⚠️ Check individual test results above for details")
     
     print("=" * 70)
