@@ -7900,7 +7900,7 @@ async def delete_group(group_id: str, athlete_id: str = Query(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.post("/community/groups/{group_id}/join")
-async def join_group(group_id: str, athlete_id: str = Query(...)):
+async def join_group(group_id: str, join_data: dict, athlete_id: str = Query(...)):
     """Join a group"""
     try:
         # Check if already a member
@@ -7917,6 +7917,10 @@ async def join_group(group_id: str, athlete_id: str = Query(...)):
         if not group:
             raise HTTPException(status_code=404, detail="Group not found")
         
+        # Check if rules exist and were accepted
+        if group.get("rules") and not join_data.get("rules_accepted"):
+            raise HTTPException(status_code=400, detail="You must accept the group rules to join")
+        
         # Create membership
         membership = {
             "id": str(uuid.uuid4()),
@@ -7924,6 +7928,7 @@ async def join_group(group_id: str, athlete_id: str = Query(...)):
             "athlete_id": athlete_id,
             "role": "member",
             "status": "approved" if group["privacy"] == "public" else "pending",
+            "rules_accepted": join_data.get("rules_accepted", False),
             "joined_at": datetime.now(timezone.utc).isoformat()
         }
         await db.community_group_memberships.insert_one(prepare_for_mongo(membership.copy()))
