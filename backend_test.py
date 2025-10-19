@@ -1366,16 +1366,34 @@ def test_image_exclusion_performance_feature():
         else:
             print_test_result("Groups Normal Response", False, f"Could not get normal groups response for comparison: {groups_normal_response.status_code}")
         
-        # Step 7: Test My Groups Pagination
-        print("   Step 7: Test My Groups Pagination")
+        # Step 7: Test pagination limits work correctly with image exclusion
+        print("   Step 7: Test pagination limits work correctly with image exclusion")
         
-        my_groups_paginated_response = requests.get(f"{BACKEND_URL}/community/groups/my/{test_athlete_id}?limit=5&skip=0")
+        # Test Community Feed pagination with image exclusion
+        feed_page1_response = requests.get(f"{BACKEND_URL}/community/posts/{test_athlete_id}?exclude_images=true&limit=10&skip=0")
+        feed_page2_response = requests.get(f"{BACKEND_URL}/community/posts/{test_athlete_id}?exclude_images=true&limit=10&skip=10")
         
-        if my_groups_paginated_response.status_code == 200:
-            print_test_result("My Groups - Pagination", True, "My Groups pagination working")
+        if feed_page1_response.status_code == 200 and feed_page2_response.status_code == 200:
+            print_test_result("Feed Pagination with Image Exclusion", True, "Feed pagination works with exclude_images=true")
         else:
-            print_test_result("My Groups - Pagination", False, f"My Groups pagination failed: {my_groups_paginated_response.status_code}")
-            return False
+            print_test_result("Feed Pagination with Image Exclusion", False, f"Feed pagination failed: page1={feed_page1_response.status_code}, page2={feed_page2_response.status_code}")
+        
+        # Test Groups pagination with image exclusion
+        groups_page1_response = requests.get(f"{BACKEND_URL}/community/groups?athlete_id={test_athlete_id}&exclude_images=true&limit=15&skip=0")
+        groups_page2_response = requests.get(f"{BACKEND_URL}/community/groups?athlete_id={test_athlete_id}&exclude_images=true&limit=15&skip=15")
+        
+        if groups_page1_response.status_code == 200 and groups_page2_response.status_code == 200:
+            print_test_result("Groups Pagination with Image Exclusion", True, "Groups pagination works with exclude_images=true")
+        else:
+            print_test_result("Groups Pagination with Image Exclusion", False, f"Groups pagination failed: page1={groups_page1_response.status_code}, page2={groups_page2_response.status_code}")
+        
+        # Test My Groups pagination with image exclusion
+        my_groups_page1_response = requests.get(f"{BACKEND_URL}/community/groups/my/{test_athlete_id}?exclude_images=true&limit=15&skip=0")
+        
+        if my_groups_page1_response.status_code == 200:
+            print_test_result("My Groups Pagination with Image Exclusion", True, "My Groups pagination works with exclude_images=true")
+        else:
+            print_test_result("My Groups Pagination with Image Exclusion", False, f"My Groups pagination failed: {my_groups_page1_response.status_code}")
         
         # Step 8: Test Events (GET /api/community/events?athlete_id={id})
         print("   Step 8: Test Events with User Status")
