@@ -1368,11 +1368,11 @@ def test_group_join_request_notifications():
                 print_test_result("Create Requester Test User", False, f"Create failed: {requester_create_response.status_code}")
                 return False
         
-        # Step 2: Find the group where andre@humanweb.no is admin
-        print("   Step 2: Find private group where andre@humanweb.no is admin")
+        # Step 2: Find the group where admin is the admin
+        print("   Step 2: Find private group where admin is the admin")
         
         # Get all groups to find one where admin is the admin
-        groups_response = requests.get(f"{BACKEND_URL}/community/groups")
+        groups_response = requests.get(f"{BACKEND_URL}/community/groups?athlete_id={admin_athlete_id}")
         
         if groups_response.status_code != 200:
             print_test_result("Get Groups", False, f"Failed: {groups_response.status_code}")
