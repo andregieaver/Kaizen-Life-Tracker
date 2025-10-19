@@ -1104,7 +1104,7 @@ const Community = ({ athleteId }) => {
                     className={`p-4 border-b border-gray-700 hover:bg-gray-700 cursor-pointer ${
                       !notification.read ? 'bg-gray-700/50' : ''
                     }`}
-                    onClick={() => markNotificationRead(notification.id)}
+                    onClick={() => handleNotificationClick(notification)}
                   >
                     <p className="text-white text-sm">{notification.content}</p>
                     <p className="text-gray-400 text-xs mt-1">
