@@ -2779,47 +2779,38 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId }) => {
         className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Cover Photo */}
-        {eventData.cover_photo && (
-          <div className="relative h-48">
-            <img src={eventData.cover_photo} alt={eventData.name} className="w-full h-full object-cover rounded-t-lg" />
-          </div>
-        )}
-
         <div className="p-6">
-          {/* Header with Profile Image and Title */}
-          <div className="flex items-start space-x-4 mb-6">
-            {eventData.profile_image ? (
-              <img src={eventData.profile_image} alt={eventData.name} className="w-20 h-20 rounded-full object-cover flex-shrink-0" />
-            ) : (
-              <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
-                <Calendar className="w-10 h-10 text-gray-400" />
+          {/* Header with Title and Close Button */}
+          <div className="flex items-start justify-between mb-6">
+            <div className="flex items-center space-x-4 flex-1">
+              <div className="w-16 h-16 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                <Calendar className="w-8 h-8 text-white" />
               </div>
-            )}
-            
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold text-white mb-2">{eventData.name}</h2>
-              <div className="space-y-1">
-                <div className="flex items-center text-gray-300">
-                  <Clock className="w-4 h-4 mr-2" />
-                  {new Date(eventData.event_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {eventData.event_time}
-                </div>
-                {eventData.location && (
-                  <div className="flex items-center text-gray-300">
-                    <MapPin className="w-4 h-4 mr-2" />
-                    {eventData.location}
+              
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold text-white mb-2">{eventData.name}</h2>
+                <div className="space-y-1">
+                  <div className="flex items-center text-gray-300 text-sm">
+                    <Clock className="w-4 h-4 mr-2" />
+                    {new Date(eventData.event_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {eventData.event_time}
                   </div>
-                )}
-                <div className="flex items-center space-x-4 text-sm mt-2">
-                  <span className="text-[#00C2A8] font-semibold">{eventData.going_count || 0} Going</span>
-                  <span className="text-yellow-400 font-semibold">{eventData.interested_count || 0} Interested</span>
+                  {eventData.location && (
+                    <div className="flex items-center text-gray-300 text-sm">
+                      <MapPin className="w-4 h-4 mr-2" />
+                      {eventData.location}
+                    </div>
+                  )}
+                  <div className="flex items-center space-x-4 text-sm mt-2">
+                    <span className="text-[#00C2A8] font-semibold">{eventData.going_count || 0} Going</span>
+                    <span className="text-yellow-400 font-semibold">{eventData.interested_count || 0} Interested</span>
+                  </div>
                 </div>
               </div>
             </div>
 
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-600 rounded-full transition-colors"
+              className="p-2 hover:bg-gray-600 rounded-full transition-colors ml-4"
             >
               <X className="w-6 h-6 text-white" />
             </button>
