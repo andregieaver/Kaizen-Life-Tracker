@@ -620,8 +620,8 @@ const Community = ({ athleteId }) => {
   // Events functions
   const loadEvents = async () => {
     try {
-      // RADICAL: Load only 5 events without images
-      const response = await axios.get(`${API}/community/events?athlete_id=${athleteId}&limit=5&exclude_images=true`);
+      // Load 10 events WITH compressed images
+      const response = await axios.get(`${API}/community/events?athlete_id=${athleteId}&limit=10`);
       setEvents(response.data.events);
       setEventsLoaded(true);
       setIsLoading(false);
