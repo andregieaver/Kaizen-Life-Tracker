@@ -8485,10 +8485,16 @@ async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(Non
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/community/events/{event_id}")
-async def get_event_details(event_id: str, athlete_id: str = Query(...)):
+async def get_event_details(event_id: str, athlete_id: str = Query(...), exclude_images: bool = Query(False)):
     """Get event details with participant information - optimized"""
     try:
-        event = await db.community_events.find_one({"id": event_id}, {"_id": 0})
+        # Exclude images from event data if requested
+        projection = {"_id": 0}
+        if exclude_images:
+            projection["profile_image"] = 0
+            projection["cover_photo"] = 0
+        
+        event = await db.community_events.find_one({"id": event_id}, projection)
         if not event:
             raise HTTPException(status_code=404, detail="Event not found")
         
@@ -8499,7 +8505,7 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...)):
         })
         event["user_status"] = attendance.get("status") if attendance else None
         
-        # Get attendees with their details using aggregation - exclude profile pictures for speed
+        # Get attendees with their details - only names, no profile pictures
         interested_pipeline = [
             {"$match": {"event_id": event_id, "status": "interested"}},
             {
@@ -8515,8 +8521,7 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...)):
                 "$project": {
                     "_id": 0,
                     "athlete_id": 1,
-                    "athlete_name": "$athlete_info.name",
-                    # Exclude profile_picture for faster loading
+                    "athlete_name": "$athlete_info.name"
                 }
             }
         ]
@@ -8536,8 +8541,7 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...)):
                 "$project": {
                     "_id": 0,
                     "athlete_id": 1,
-                    "athlete_name": "$athlete_info.name",
-                    # Exclude profile_picture for faster loading
+                    "athlete_name": "$athlete_info.name"
                 }
             }
         ]
