@@ -679,11 +679,18 @@ const Community = ({ athleteId }) => {
   const handleRSVP = async (eventId, status) => {
     try {
       const response = await axios.post(`${API}/community/events/${eventId}/rsvp?athlete_id=${athleteId}`, { status });
+      
+      // Update event list with new counts
       setEvents(events.map(event =>
         event.id === eventId
           ? { ...event, user_status: status === 'not_going' ? null : status, interested_count: response.data.interested_count, going_count: response.data.going_count }
           : event
       ));
+      
+      // If detail modal is open for this event, refresh it
+      if (showEventDetail && eventDetailData && eventDetailData.id === eventId) {
+        await handleOpenEventDetail(eventId);
+      }
     } catch (error) {
       console.error('Error RSVP:', error);
       alert('Failed to RSVP');
