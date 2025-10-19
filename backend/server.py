@@ -7895,9 +7895,16 @@ async def get_all_groups(athlete_id: str = Query(...), limit: int = Query(50), s
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/community/groups/my/{athlete_id}")
-async def get_my_groups(athlete_id: str, limit: int = Query(50), skip: int = Query(0)):
-    """Get groups where user is a member - Optimized"""
+async def get_my_groups(athlete_id: str, limit: int = Query(50), skip: int = Query(0), exclude_images: bool = Query(False)):
+    """Get groups where user is a member - Optimized with optional image exclusion"""
     try:
+        # Build projection
+        projection_stage = {"$project": {"_id": 0}}
+        
+        if exclude_images:
+            projection_stage["$project"]["profile_image"] = 0
+            projection_stage["$project"]["cover_photo"] = 0
+        
         # Use aggregation pipeline to join memberships with groups in single query
         pipeline = [
             {
@@ -7929,11 +7936,7 @@ async def get_my_groups(athlete_id: str, limit: int = Query(50), skip: int = Que
                     }
                 }
             },
-            {
-                "$project": {
-                    "_id": 0
-                }
-            }
+            projection_stage
         ]
         
         groups = await db.community_group_memberships.aggregate(pipeline).to_list(length=None)
