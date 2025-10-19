@@ -822,7 +822,45 @@ def test_group_edit_endpoint_failure():
                 break
         
         if not athlete_id:
-            print_test_result("Find User", False, "Could not find andre@humanweb.no or fallback users")
+            # Try to create andre@humanweb.no user
+            print("   Creating andre@humanweb.no user for testing...")
+            
+            create_user_data = {
+                "name": "André Giæver",
+                "email": "andre@humanweb.no",
+                "password": "password123",
+                "weekly_mileage": 50.0,
+                "running_goals": "Marathon training and group management"
+            }
+            
+            create_response = requests.post(
+                f"{BACKEND_URL}/athlete",
+                json=create_user_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if create_response.status_code == 200:
+                # Try to login with new user
+                login_response = requests.post(
+                    f"{BACKEND_URL}/auth/login",
+                    json={"email": "andre@humanweb.no", "password": "password123"},
+                    headers={"Content-Type": "application/json"}
+                )
+                
+                if login_response.status_code == 200:
+                    athlete_data = login_response.json()
+                    athlete_id = athlete_data.get("athlete_id")
+                    user_email = "andre@humanweb.no"
+                    print_test_result("Create andre@humanweb.no", True, f"Created and logged in, athlete_id: {athlete_id}")
+                else:
+                    print_test_result("Create andre@humanweb.no", False, f"Login after create failed: {login_response.status_code}")
+                    return False
+            else:
+                print_test_result("Create andre@humanweb.no", False, f"Create failed: {create_response.status_code} - {create_response.text}")
+                return False
+        
+        if not athlete_id:
+            print_test_result("Find User", False, "Could not find or create andre@humanweb.no")
             return False
         
         # Step 2: Find a group where this user is admin
