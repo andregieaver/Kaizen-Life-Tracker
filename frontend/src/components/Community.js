@@ -57,6 +57,47 @@ const Community = ({ athleteId }) => {
     cover_photo: null
   });
 
+
+  // Swipe handlers
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe) {
+      // Swipe left - go to next tab
+      if (activeTab === 'feed') {
+        setActiveTab('groups');
+        setSelectedGroup(null);
+      } else if (activeTab === 'groups') {
+        setActiveTab('mygroups');
+        setSelectedGroup(null);
+      }
+    }
+    
+    if (isRightSwipe) {
+      // Swipe right - go to previous tab
+      if (activeTab === 'mygroups') {
+        setActiveTab('groups');
+        setSelectedGroup(null);
+      } else if (activeTab === 'groups') {
+        setActiveTab('feed');
+        setSelectedGroup(null);
+      }
+    }
+  };
+
   useEffect(() => {
     if (activeTab === 'feed') {
       loadPosts();
