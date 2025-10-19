@@ -1296,7 +1296,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
 
   return (
     <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
       onClick={(e) => {
         // Prevent closing when clicking on backdrop (only close with Cancel button)
         e.stopPropagation();
@@ -1452,7 +1452,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
 
   return (
     <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
       onClick={(e) => {
         // Prevent closing when clicking on backdrop (only close with Cancel button)
         e.stopPropagation();
@@ -1595,7 +1595,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
 
 // AthleteProfileModal Component
 const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading }) => (
-  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
     <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
       {loading ? (
         <div className="flex justify-center py-12">
@@ -2024,7 +2024,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
 
 // AthletesModal Component
 const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose, onFollowToggle, onViewProfile }) => (
-  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
     <div className="bg-gray-800 rounded-lg p-6 max-w-2xl w-full max-h-[80vh] flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-bold text-white">Find Athletes</h2>
@@ -2157,7 +2157,7 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
 
   if (loading) {
     return (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
         <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
           <div className="flex justify-center py-12">
             <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
@@ -2168,7 +2168,7 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
       <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
         <h2 className="text-2xl font-bold text-white mb-4">Group Rules</h2>
         
@@ -2323,7 +2323,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
 
   return (
     <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
       onClick={(e) => e.stopPropagation()}
     >
       <div 
@@ -2487,7 +2487,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
 
   return (
     <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
       onClick={(e) => e.stopPropagation()}
     >
       <div 
