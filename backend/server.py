@@ -1022,6 +1022,63 @@ class SubscriptionWebhookData(BaseModel):
     subscription_status: Optional[str] = None  # 'active', 'canceled', 'past_due', etc.
     subscription_current_period_end: Optional[str] = None
 
+# Community Models
+class CommunityPost(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    athlete_name: str  # Cached for display
+    athlete_profile_picture: Optional[str] = None  # Cached for display
+    content: str  # Post text content
+    image_data: Optional[str] = None  # Base64 encoded image (optional)
+    likes_count: int = 0
+    comments_count: int = 0
+    shares_count: int = 0
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+    is_edited: bool = False
+
+class CommunityComment(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    post_id: str
+    athlete_id: str
+    athlete_name: str  # Cached for display
+    athlete_profile_picture: Optional[str] = None  # Cached for display
+    content: str
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class CommunityLike(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    post_id: str
+    athlete_id: str
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class CommunityShare(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    post_id: str
+    athlete_id: str  # User who shared
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class CommunityNotification(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str  # Recipient of notification
+    type: str  # 'like', 'comment', 'share', 'mention'
+    content: str  # Notification message
+    post_id: Optional[str] = None
+    from_athlete_id: Optional[str] = None
+    from_athlete_name: Optional[str] = None
+    read: bool = False
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 # AI Coach Service
 class AICoachService:
     def __init__(self):
