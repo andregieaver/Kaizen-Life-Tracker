@@ -679,9 +679,17 @@ const Community = ({ athleteId }) => {
     try {
       // Load event details without images for speed
       const response = await axios.get(`${API}/community/events/${eventId}?athlete_id=${athleteId}&exclude_images=true`);
+      addDebugLog('Event Detail Response', {
+        name: response.data.name,
+        interested_count: response.data.interested_count,
+        going_count: response.data.going_count,
+        interested_users_length: response.data.interested_users?.length || 0,
+        going_users_length: response.data.going_users?.length || 0
+      });
       setEventDetailData(response.data);
     } catch (error) {
       console.error('Error loading event details:', error);
+      addDebugLog('Event Detail Error', error.message);
       alert('Failed to load event details');
       setShowEventDetail(false);
     } finally {
