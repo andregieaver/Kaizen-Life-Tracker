@@ -6956,10 +6956,53 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+async def create_community_indexes():
+    """Create MongoDB indexes for community collections to improve query performance"""
+    try:
+        # Community posts indexes
+        await db.community_posts.create_index([("created_at", -1)])
+        await db.community_posts.create_index([("athlete_id", 1)])
+        await db.community_posts.create_index([("id", 1)])
+        
+        # Community likes indexes
+        await db.community_likes.create_index([("post_id", 1), ("athlete_id", 1)], unique=True)
+        await db.community_likes.create_index([("post_id", 1)])
+        
+        # Community groups indexes
+        await db.community_groups.create_index([("created_at", -1)])
+        await db.community_groups.create_index([("id", 1)])
+        await db.community_groups.create_index([("admin_id", 1)])
+        
+        # Community group memberships indexes
+        await db.community_group_memberships.create_index([("group_id", 1), ("athlete_id", 1)], unique=True)
+        await db.community_group_memberships.create_index([("athlete_id", 1), ("status", 1)])
+        await db.community_group_memberships.create_index([("group_id", 1), ("status", 1)])
+        
+        # Community events indexes
+        await db.community_events.create_index([("created_at", -1)])
+        await db.community_events.create_index([("event_date", 1)])
+        await db.community_events.create_index([("id", 1)])
+        await db.community_events.create_index([("organizer_id", 1)])
+        
+        # Community event RSVPs indexes
+        await db.community_event_rsvps.create_index([("event_id", 1), ("athlete_id", 1)], unique=True)
+        await db.community_event_rsvps.create_index([("event_id", 1)])
+        
+        # Community notifications indexes
+        await db.community_notifications.create_index([("athlete_id", 1), ("read", 1)])
+        await db.community_notifications.create_index([("created_at", -1)])
+        
+        logging.info("Community collection indexes created successfully")
+    except Exception as e:
+        logging.error(f"Error creating community indexes: {e}")
+
 @app.on_event("startup")
 async def startup_scheduler():
     """Start the scheduler on app startup"""
     try:
+        # Create community indexes for better performance
+        await create_community_indexes()
+        
         # Add job to check schedules every minute
         scheduler.add_job(
             check_and_execute_schedules,
