@@ -8354,16 +8354,55 @@ async def create_event(event_data: dict, athlete_id: str = Query(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/community/events")
-async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(None)):
-    """Get all events (open events + group events where user is member)"""
+async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(None), limit: int = Query(50), skip: int = Query(0)):
+    """Get all events (open events + group events where user is member) - Optimized with pagination"""
     try:
-        query = {}
-        
         if group_id:
-            # Get events for specific group
-            query["group_id"] = group_id
+            # Get events for specific group using aggregation
+            pipeline = [
+                {"$match": {"group_id": group_id}},
+                {"$sort": {"event_date": 1}},
+                {"$skip": skip},
+                {"$limit": limit},
+                {
+                    "$lookup": {
+                        "from": "community_event_attendance",
+                        "let": {"event_id": "$id"},
+                        "pipeline": [
+                            {
+                                "$match": {
+                                    "$expr": {
+                                        "$and": [
+                                            {"$eq": ["$event_id", "$$event_id"]},
+                                            {"$eq": ["$athlete_id", athlete_id]}
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "as": "user_attendance"
+                    }
+                },
+                {
+                    "$addFields": {
+                        "user_status": {
+                            "$cond": {
+                                "if": {"$gt": [{"$size": "$user_attendance"}, 0]},
+                                "then": {"$arrayElemAt": ["$user_attendance.status", 0]},
+                                "else": None
+                            }
+                        }
+                    }
+                },
+                {
+                    "$project": {
+                        "_id": 0,
+                        "user_attendance": 0
+                    }
+                }
+            ]
         else:
-            # Get open events + events from user's groups
+            # Get open events + events from user's groups using aggregation
             user_groups = await db.community_group_memberships.find({
                 "athlete_id": athlete_id,
                 "status": "approved"
@@ -8371,26 +8410,57 @@ async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(Non
             
             group_ids = [m["group_id"] for m in user_groups]
             
-            # Get open events OR events from user's groups
-            query = {
-                "$or": [
-                    {"visibility": "open"},
-                    {"group_id": {"$in": group_ids}}
-                ]
-            }
+            pipeline = [
+                {
+                    "$match": {
+                        "$or": [
+                            {"visibility": "open"},
+                            {"group_id": {"$in": group_ids}}
+                        ]
+                    }
+                },
+                {"$sort": {"event_date": 1}},
+                {"$skip": skip},
+                {"$limit": limit},
+                {
+                    "$lookup": {
+                        "from": "community_event_attendance",
+                        "let": {"event_id": "$id"},
+                        "pipeline": [
+                            {
+                                "$match": {
+                                    "$expr": {
+                                        "$and": [
+                                            {"$eq": ["$event_id", "$$event_id"]},
+                                            {"$eq": ["$athlete_id", athlete_id]}
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "as": "user_attendance"
+                    }
+                },
+                {
+                    "$addFields": {
+                        "user_status": {
+                            "$cond": {
+                                "if": {"$gt": [{"$size": "$user_attendance"}, 0]},
+                                "then": {"$arrayElemAt": ["$user_attendance.status", 0]},
+                                "else": None
+                            }
+                        }
+                    }
+                },
+                {
+                    "$project": {
+                        "_id": 0,
+                        "user_attendance": 0
+                    }
+                }
+            ]
         
-        events = await db.community_events.find(
-            query,
-            {"_id": 0}
-        ).sort("event_date", 1).to_list(length=None)
-        
-        # For each event, check user's RSVP status
-        for event in events:
-            attendance = await db.community_event_attendance.find_one({
-                "event_id": event["id"],
-                "athlete_id": athlete_id
-            })
-            event["user_status"] = attendance.get("status") if attendance else None
+        events = await db.community_events.aggregate(pipeline).to_list(length=None)
         
         return {"events": events}
     except Exception as e:
