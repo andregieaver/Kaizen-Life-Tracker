@@ -7067,6 +7067,348 @@ async def get_habit_completions(athlete_id: str, start_date: Optional[str] = Non
         logging.error(f"Error fetching habit completions: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+# ==========================================
+# COMMUNITY ENDPOINTS
+# ==========================================
+
+@api_router.post("/community/posts")
+async def create_community_post(post_data: dict, athlete_id: str = Query(...)):
+    """Create a new community post"""
+    try:
+        # Get athlete info for caching
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="Athlete not found")
+        
+        # Create post
+        post = {
+            "id": str(uuid.uuid4()),
+            "athlete_id": athlete_id,
+            "athlete_name": athlete.get("name", "Unknown"),
+            "athlete_profile_picture": athlete.get("profile_picture"),
+            "content": post_data.get("content", ""),
+            "image_data": post_data.get("image_data"),
+            "likes_count": 0,
+            "comments_count": 0,
+            "shares_count": 0,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": None,
+            "is_edited": False
+        }
+        
+        await db.community_posts.insert_one(post)
+        return {"success": True, "post": post}
+    except Exception as e:
+        logging.error(f"Error creating community post: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/posts/{athlete_id}")
+async def get_community_feed(athlete_id: str, limit: int = Query(50)):
+    """Get community posts feed (all posts, sorted by newest first)"""
+    try:
+        # Get all posts sorted by creation date
+        posts = await db.community_posts.find(
+            {},
+            {"_id": 0}
+        ).sort("created_at", -1).limit(limit).to_list(length=None)
+        
+        # For each post, check if current user has liked it
+        for post in posts:
+            like = await db.community_likes.find_one({
+                "post_id": post["id"],
+                "athlete_id": athlete_id
+            })
+            post["liked_by_user"] = like is not None
+        
+        return {"posts": posts}
+    except Exception as e:
+        logging.error(f"Error fetching community feed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/posts/post/{post_id}")
+async def get_single_post(post_id: str, athlete_id: str = Query(...)):
+    """Get a single post by ID"""
+    try:
+        post = await db.community_posts.find_one({"id": post_id}, {"_id": 0})
+        if not post:
+            raise HTTPException(status_code=404, detail="Post not found")
+        
+        # Check if current user has liked it
+        like = await db.community_likes.find_one({
+            "post_id": post_id,
+            "athlete_id": athlete_id
+        })
+        post["liked_by_user"] = like is not None
+        
+        return post
+    except Exception as e:
+        logging.error(f"Error fetching post: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/community/posts/{post_id}")
+async def edit_community_post(post_id: str, post_data: dict, athlete_id: str = Query(...)):
+    """Edit a community post"""
+    try:
+        # Verify ownership
+        post = await db.community_posts.find_one({"id": post_id})
+        if not post:
+            raise HTTPException(status_code=404, detail="Post not found")
+        if post["athlete_id"] != athlete_id:
+            raise HTTPException(status_code=403, detail="Not authorized to edit this post")
+        
+        # Update post
+        update_data = {
+            "content": post_data.get("content", post["content"]),
+            "image_data": post_data.get("image_data", post.get("image_data")),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "is_edited": True
+        }
+        
+        await db.community_posts.update_one(
+            {"id": post_id},
+            {"$set": update_data}
+        )
+        
+        updated_post = await db.community_posts.find_one({"id": post_id}, {"_id": 0})
+        return {"success": True, "post": updated_post}
+    except Exception as e:
+        logging.error(f"Error editing post: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/community/posts/{post_id}")
+async def delete_community_post(post_id: str, athlete_id: str = Query(...)):
+    """Delete a community post"""
+    try:
+        # Verify ownership
+        post = await db.community_posts.find_one({"id": post_id})
+        if not post:
+            raise HTTPException(status_code=404, detail="Post not found")
+        if post["athlete_id"] != athlete_id:
+            raise HTTPException(status_code=403, detail="Not authorized to delete this post")
+        
+        # Delete post and associated data (likes, comments, shares)
+        await db.community_posts.delete_one({"id": post_id})
+        await db.community_likes.delete_many({"post_id": post_id})
+        await db.community_comments.delete_many({"post_id": post_id})
+        await db.community_shares.delete_many({"post_id": post_id})
+        
+        return {"success": True, "message": "Post deleted"}
+    except Exception as e:
+        logging.error(f"Error deleting post: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/community/posts/{post_id}/like")
+async def toggle_post_like(post_id: str, athlete_id: str = Query(...)):
+    """Like or unlike a post"""
+    try:
+        # Check if post exists
+        post = await db.community_posts.find_one({"id": post_id})
+        if not post:
+            raise HTTPException(status_code=404, detail="Post not found")
+        
+        # Check if already liked
+        existing_like = await db.community_likes.find_one({
+            "post_id": post_id,
+            "athlete_id": athlete_id
+        })
+        
+        if existing_like:
+            # Unlike
+            await db.community_likes.delete_one({"id": existing_like["id"]})
+            await db.community_posts.update_one(
+                {"id": post_id},
+                {"$inc": {"likes_count": -1}}
+            )
+            liked = False
+        else:
+            # Like
+            like = {
+                "id": str(uuid.uuid4()),
+                "post_id": post_id,
+                "athlete_id": athlete_id,
+                "created_at": datetime.now(timezone.utc).isoformat()
+            }
+            await db.community_likes.insert_one(like)
+            await db.community_posts.update_one(
+                {"id": post_id},
+                {"$inc": {"likes_count": 1}}
+            )
+            liked = True
+            
+            # Create notification for post owner (if not liking own post)
+            if post["athlete_id"] != athlete_id:
+                athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+                notification = {
+                    "id": str(uuid.uuid4()),
+                    "athlete_id": post["athlete_id"],
+                    "type": "like",
+                    "content": f"{athlete.get('name', 'Someone')} liked your post",
+                    "post_id": post_id,
+                    "from_athlete_id": athlete_id,
+                    "from_athlete_name": athlete.get("name", "Unknown"),
+                    "read": False,
+                    "created_at": datetime.now(timezone.utc).isoformat()
+                }
+                await db.community_notifications.insert_one(notification)
+        
+        # Get updated like count
+        updated_post = await db.community_posts.find_one({"id": post_id}, {"_id": 0})
+        return {
+            "success": True,
+            "liked": liked,
+            "likes_count": updated_post["likes_count"]
+        }
+    except Exception as e:
+        logging.error(f"Error toggling like: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/community/posts/{post_id}/comment")
+async def add_comment(post_id: str, comment_data: dict, athlete_id: str = Query(...)):
+    """Add a comment to a post"""
+    try:
+        # Check if post exists
+        post = await db.community_posts.find_one({"id": post_id})
+        if not post:
+            raise HTTPException(status_code=404, detail="Post not found")
+        
+        # Get athlete info
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="Athlete not found")
+        
+        # Create comment
+        comment = {
+            "id": str(uuid.uuid4()),
+            "post_id": post_id,
+            "athlete_id": athlete_id,
+            "athlete_name": athlete.get("name", "Unknown"),
+            "athlete_profile_picture": athlete.get("profile_picture"),
+            "content": comment_data.get("content", ""),
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        await db.community_comments.insert_one(comment)
+        await db.community_posts.update_one(
+            {"id": post_id},
+            {"$inc": {"comments_count": 1}}
+        )
+        
+        # Create notification for post owner (if not commenting on own post)
+        if post["athlete_id"] != athlete_id:
+            notification = {
+                "id": str(uuid.uuid4()),
+                "athlete_id": post["athlete_id"],
+                "type": "comment",
+                "content": f"{athlete.get('name', 'Someone')} commented on your post",
+                "post_id": post_id,
+                "from_athlete_id": athlete_id,
+                "from_athlete_name": athlete.get("name", "Unknown"),
+                "read": False,
+                "created_at": datetime.now(timezone.utc).isoformat()
+            }
+            await db.community_notifications.insert_one(notification)
+        
+        return {"success": True, "comment": comment}
+    except Exception as e:
+        logging.error(f"Error adding comment: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/posts/{post_id}/comments")
+async def get_comments(post_id: str):
+    """Get all comments for a post"""
+    try:
+        comments = await db.community_comments.find(
+            {"post_id": post_id},
+            {"_id": 0}
+        ).sort("created_at", 1).to_list(length=None)
+        
+        return {"comments": comments}
+    except Exception as e:
+        logging.error(f"Error fetching comments: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/community/posts/{post_id}/share")
+async def share_post(post_id: str, athlete_id: str = Query(...)):
+    """Share a post"""
+    try:
+        # Check if post exists
+        post = await db.community_posts.find_one({"id": post_id})
+        if not post:
+            raise HTTPException(status_code=404, detail="Post not found")
+        
+        # Create share record
+        share = {
+            "id": str(uuid.uuid4()),
+            "post_id": post_id,
+            "athlete_id": athlete_id,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        await db.community_shares.insert_one(share)
+        await db.community_posts.update_one(
+            {"id": post_id},
+            {"$inc": {"shares_count": 1}}
+        )
+        
+        # Create notification for post owner (if not sharing own post)
+        if post["athlete_id"] != athlete_id:
+            athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+            notification = {
+                "id": str(uuid.uuid4()),
+                "athlete_id": post["athlete_id"],
+                "type": "share",
+                "content": f"{athlete.get('name', 'Someone')} shared your post",
+                "post_id": post_id,
+                "from_athlete_id": athlete_id,
+                "from_athlete_name": athlete.get("name", "Unknown"),
+                "read": False,
+                "created_at": datetime.now(timezone.utc).isoformat()
+            }
+            await db.community_notifications.insert_one(notification)
+        
+        # Get updated share count
+        updated_post = await db.community_posts.find_one({"id": post_id}, {"_id": 0})
+        return {
+            "success": True,
+            "shares_count": updated_post["shares_count"]
+        }
+    except Exception as e:
+        logging.error(f"Error sharing post: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/notifications/{athlete_id}")
+async def get_notifications(athlete_id: str, unread_only: bool = Query(False)):
+    """Get notifications for an athlete"""
+    try:
+        query = {"athlete_id": athlete_id}
+        if unread_only:
+            query["read"] = False
+        
+        notifications = await db.community_notifications.find(
+            query,
+            {"_id": 0}
+        ).sort("created_at", -1).limit(50).to_list(length=None)
+        
+        return {"notifications": notifications}
+    except Exception as e:
+        logging.error(f"Error fetching notifications: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/community/notifications/{notification_id}/read")
+async def mark_notification_read(notification_id: str):
+    """Mark a notification as read"""
+    try:
+        await db.community_notifications.update_one(
+            {"id": notification_id},
+            {"$set": {"read": True}}
+        )
+        return {"success": True}
+    except Exception as e:
+        logging.error(f"Error marking notification as read: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
