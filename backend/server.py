@@ -8486,7 +8486,7 @@ async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(Non
 
 @api_router.get("/community/events/{event_id}")
 async def get_event_details(event_id: str, athlete_id: str = Query(...)):
-    """Get event details with participant information"""
+    """Get event details with participant information - optimized"""
     try:
         event = await db.community_events.find_one({"id": event_id}, {"_id": 0})
         if not event:
@@ -8499,7 +8499,7 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...)):
         })
         event["user_status"] = attendance.get("status") if attendance else None
         
-        # Get attendees with their details using aggregation
+        # Get attendees with their details using aggregation - exclude profile pictures for speed
         interested_pipeline = [
             {"$match": {"event_id": event_id, "status": "interested"}},
             {
@@ -8516,7 +8516,7 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...)):
                     "_id": 0,
                     "athlete_id": 1,
                     "athlete_name": "$athlete_info.name",
-                    "athlete_profile_picture": "$athlete_info.profile_picture"
+                    # Exclude profile_picture for faster loading
                 }
             }
         ]
@@ -8537,7 +8537,7 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...)):
                     "_id": 0,
                     "athlete_id": 1,
                     "athlete_name": "$athlete_info.name",
-                    "athlete_profile_picture": "$athlete_info.profile_picture"
+                    # Exclude profile_picture for faster loading
                 }
             }
         ]
