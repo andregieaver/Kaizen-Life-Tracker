@@ -258,10 +258,10 @@ const Journal = ({ athleteId }) => {
       {/* New Entry Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
-          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>New Journal Entry</CardTitle>
+                <CardTitle className="text-white">New Journal Entry</CardTitle>
                 <button
                   onClick={() => {
                     setShowModal(false);
@@ -269,16 +269,16 @@ const Journal = ({ athleteId }) => {
                     setEntryType('text');
                     stopRecording();
                   }}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <CardDescription>Choose text or voice input</CardDescription>
+              <CardDescription className="text-gray-300">Choose text or voice input</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Entry Type Toggle */}
-              <div className="flex items-center space-x-4 bg-gray-100 rounded-lg p-2">
+              <div className="flex items-center space-x-4 bg-gray-700 rounded-lg p-2">
                 <button
                   onClick={() => {
                     setEntryType('text');
@@ -286,8 +286,8 @@ const Journal = ({ athleteId }) => {
                   }}
                   className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
                     entryType === 'text'
-                      ? 'bg-white text-blue-600 shadow-md'
-                      : 'text-gray-600 hover:text-gray-900'
+                      ? 'bg-teal-600 text-white shadow-md'
+                      : 'text-gray-300 hover:text-white'
                   }`}
                 >
                   <FileText className="w-4 h-4 inline mr-2" />
@@ -297,8 +297,8 @@ const Journal = ({ athleteId }) => {
                   onClick={() => setEntryType('voice')}
                   className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
                     entryType === 'voice'
-                      ? 'bg-white text-blue-600 shadow-md'
-                      : 'text-gray-600 hover:text-gray-900'
+                      ? 'bg-teal-600 text-white shadow-md'
+                      : 'text-gray-300 hover:text-white'
                   }`}
                 >
                   <Mic className="w-4 h-4 inline mr-2" />
@@ -313,7 +313,7 @@ const Journal = ({ athleteId }) => {
                     value={textContent}
                     onChange={(e) => setTextContent(e.target.value)}
                     placeholder="Write your thoughts here..."
-                    className="w-full h-64 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    className="w-full h-64 p-4 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
                   />
                 </div>
               )}
@@ -321,17 +321,17 @@ const Journal = ({ athleteId }) => {
               {/* Voice Input */}
               {entryType === 'voice' && (
                 <div className="space-y-4">
-                  <div className="flex flex-col items-center justify-center py-8 bg-gray-50 rounded-lg">
+                  <div className="flex flex-col items-center justify-center py-8 bg-gray-700 rounded-lg border border-gray-600">
                     {isRecording ? (
                       <>
                         <div className="w-20 h-20 bg-red-500 rounded-full flex items-center justify-center mb-4 animate-pulse">
                           <Mic className="w-10 h-10 text-white" />
                         </div>
-                        <p className="text-lg font-semibold text-gray-900 mb-2">Recording...</p>
-                        <p className="text-3xl font-mono text-red-600">{recordingTime}s</p>
+                        <p className="text-lg font-semibold text-white mb-2">Recording...</p>
+                        <p className="text-3xl font-mono text-red-400">{recordingTime}s</p>
                         <Button
                           onClick={stopRecording}
-                          className="mt-4"
+                          className="mt-4 bg-red-600 hover:bg-red-700 text-white"
                           variant="destructive"
                         >
                           <MicOff className="w-4 h-4 mr-2" />
