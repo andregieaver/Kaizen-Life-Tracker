@@ -31,6 +31,12 @@ const Community = ({ athleteId }) => {
   const [profileData, setProfileData] = useState(null);
   const [profileLoading, setProfileLoading] = useState(false);
   
+  // Athletes modal state
+  const [showAthletes, setShowAthletes] = useState(false);
+  const [athletes, setAthletes] = useState([]);
+  const [athletesSearch, setAthletesSearch] = useState('');
+  const [athletesLoading, setAthletesLoading] = useState(false);
+  
   // Groups state
   const [groups, setGroups] = useState([]);
   const [myGroups, setMyGroups] = useState([]);
