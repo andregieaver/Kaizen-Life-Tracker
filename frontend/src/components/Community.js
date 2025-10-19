@@ -970,6 +970,30 @@ const Community = ({ athleteId }) => {
         />
       )}
 
+
+      {/* Create Event Modal */}
+      {showCreateEvent && (
+        <CreateEventModal
+          eventData={newEventData}
+          setEventData={setNewEventData}
+          onClose={() => setShowCreateEvent(false)}
+          onCreate={handleCreateEvent}
+          myGroups={myGroups}
+        />
+      )}
+
+      {/* Edit Event Modal */}
+      {showEditEvent && (
+        <EditEventModal
+          eventData={editEventData}
+          setEventData={setEditEventData}
+          onClose={() => setShowEditEvent(false)}
+          onSave={handleEditEvent}
+          myGroups={myGroups}
+        />
+      )}
+
+
       {/* Athlete Profile Modal */}
       {showProfile && profileData && (
         <AthleteProfileModal
