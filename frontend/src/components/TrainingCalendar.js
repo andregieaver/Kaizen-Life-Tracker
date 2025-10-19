@@ -510,53 +510,54 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                 Add Workout
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
               <DialogHeader>
-                <DialogTitle>
+                <DialogTitle className="text-white">
                   {editingBlock ? 'Edit Workout' : 'Create Workout'}
                 </DialogTitle>
-                <DialogDescription>
+                <DialogDescription className="text-gray-300">
                   {editingBlock ? 'Update your workout details' : 'Plan your workout with specific metrics and goals'}
                 </DialogDescription>
               </DialogHeader>
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <Tabs defaultValue="basic" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="basic">Basic Details</TabsTrigger>
-                    <TabsTrigger value="workout">Workout Metrics</TabsTrigger>
+                  <TabsList className="grid w-full grid-cols-2 bg-gray-700">
+                    <TabsTrigger value="basic" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-gray-300">Basic Details</TabsTrigger>
+                    <TabsTrigger value="workout" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-gray-300">Workout Metrics</TabsTrigger>
                   </TabsList>
                   
                   <TabsContent value="basic" className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="title">Workout Title</Label>
+                      <Label htmlFor="title" className="text-white">Workout Title</Label>
                       <Input
                         id="title"
                         value={formData.title}
                         onChange={(e) => setFormData(prev => ({...prev, title: e.target.value}))}
                         placeholder="e.g., Morning Run, Track Workout"
+                        className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                         required
                       />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="block_type">Block Type</Label>
+                        <Label htmlFor="block_type" className="text-white">Block Type</Label>
                         <Select 
                           value={formData.block_type} 
                           onValueChange={(value) => setFormData(prev => ({...prev, block_type: value}))}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="bg-gray-600 border-gray-500 text-white">
                             <SelectValue />
                           </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="training">
+                          <SelectContent className="bg-gray-800 border-gray-700">
+                            <SelectItem value="training" className="text-white">
                               <div className="flex items-center">
                                 <Dumbbell className="w-4 h-4 mr-2" />
                                 Training
                               </div>
                             </SelectItem>
-                            <SelectItem value="recovery">
+                            <SelectItem value="recovery" className="text-white">
                               <div className="flex items-center">
                                 <Heart className="w-4 h-4 mr-2" />
                                 Recovery
@@ -567,21 +568,21 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="workout_type">Workout Type</Label>
+                        <Label htmlFor="workout_type" className="text-white">Workout Type</Label>
                         <Select 
                           value={formData.workout_type} 
                           onValueChange={(value) => setFormData(prev => ({...prev, workout_type: value}))}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="bg-gray-600 border-gray-500 text-white">
                             <SelectValue />
                           </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="run">Easy Run</SelectItem>
-                            <SelectItem value="tempo">Tempo Run</SelectItem>
-                            <SelectItem value="intervals">Intervals</SelectItem>
-                            <SelectItem value="long_run">Long Run</SelectItem>
-                            <SelectItem value="recovery">Recovery Run</SelectItem>
-                            <SelectItem value="cross_training">Cross Training</SelectItem>
+                          <SelectContent className="bg-gray-800 border-gray-700">
+                            <SelectItem value="run" className="text-white">Easy Run</SelectItem>
+                            <SelectItem value="tempo" className="text-white">Tempo Run</SelectItem>
+                            <SelectItem value="intervals" className="text-white">Intervals</SelectItem>
+                            <SelectItem value="long_run" className="text-white">Long Run</SelectItem>
+                            <SelectItem value="recovery" className="text-white">Recovery Run</SelectItem>
+                            <SelectItem value="cross_training" className="text-white">Cross Training</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -589,12 +590,13 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="start_date">Start Date</Label>
+                        <Label htmlFor="start_date" className="text-white">Start Date</Label>
                         <Input
                           id="start_date"
                           type="date"
                           value={formData.start_date}
                           onChange={(e) => setFormData(prev => ({...prev, start_date: e.target.value}))}
+                          className="bg-gray-600 border-gray-500 text-white"
                           required
                         />
                       </div>
