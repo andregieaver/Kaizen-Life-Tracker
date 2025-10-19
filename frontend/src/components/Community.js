@@ -387,7 +387,11 @@ const Community = ({ athleteId }) => {
       loadGroupDetails(selectedGroup.id); // Reload group to show updates
     } catch (error) {
       console.error('Error editing group:', error);
-      alert('Failed to edit group');
+      if (error.response?.status === 403) {
+        alert('Only group admins can edit groups');
+      } else {
+        alert(error.response?.data?.detail || 'Failed to edit group');
+      }
     }
   };
 
