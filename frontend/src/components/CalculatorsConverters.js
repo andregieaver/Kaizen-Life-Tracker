@@ -128,25 +128,25 @@ const CalculatorModal = ({ calculatorId, calculators, athletePreferences, onClos
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-        <CardHeader className={`sticky top-0 bg-gradient-to-r ${calculator.color} text-white z-10`}>
+      <Card className="w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
+        <CardHeader className="sticky top-0 bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-700 z-10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                <IconComponent className="w-6 h-6 text-white" />
+                <IconComponent className="w-6 h-6 text-teal-400" />
               </div>
               <div>
                 <CardTitle className="text-white text-xl">{calculator.title}</CardTitle>
-                <CardDescription className="text-white/90">
+                <CardDescription className="text-gray-300">
                   {calculator.description}
                 </CardDescription>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
             >
-              <X className="w-5 h-5 text-white" />
+              <X className="w-5 h-5" />
             </button>
           </div>
         </CardHeader>
