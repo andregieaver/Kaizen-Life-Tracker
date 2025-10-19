@@ -3299,5 +3299,109 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId }) => {
   );
 };
 
+// CommentsModal Component
+const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentText, commentRef, athleteId, formatMentions }) => {
+  if (!post) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-white">Comments</h2>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-gray-600 rounded-full transition-colors"
+            >
+              <X className="w-6 h-6 text-white" />
+            </button>
+          </div>
+
+          {/* Post Preview */}
+          <div className="mb-6 p-4 bg-gray-800/50 rounded-lg">
+            <div className="flex items-center space-x-3 mb-3">
+              {post.athlete_profile_picture ? (
+                <img
+                  src={post.athlete_profile_picture}
+                  alt={post.athlete_name}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold">
+                    {post.athlete_name?.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              )}
+              <div>
+                <p className="text-white font-semibold">{post.athlete_name}</p>
+                <p className="text-gray-400 text-xs">
+                  {new Date(post.created_at).toLocaleString()}
+                </p>
+              </div>
+            </div>
+            <p className="text-white whitespace-pre-wrap">{formatMentions(post.content)}</p>
+            {post.image_data && (
+              <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-64 object-cover mt-3" />
+            )}
+          </div>
+
+          {/* Comments List */}
+          <div className="space-y-4 mb-6 max-h-96 overflow-y-auto">
+            {post.comments && post.comments.length > 0 ? (
+              post.comments.map(comment => (
+                <div key={comment.id} className="flex items-start space-x-3">
+                  <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-white font-bold text-xs">
+                      {comment.athlete_name?.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="flex-1 bg-gray-600 rounded-lg p-3">
+                    <p className="text-white font-semibold text-sm">{comment.athlete_name}</p>
+                    <p className="text-gray-300 text-sm mt-1">{formatMentions(comment.content)}</p>
+                    <p className="text-gray-400 text-xs mt-1">
+                      {new Date(comment.created_at).toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-400 text-center py-4">No comments yet. Be the first to comment!</p>
+            )}
+          </div>
+
+          {/* Add Comment Input */}
+          <div className="border-t border-gray-600 pt-4">
+            <div className="flex items-center space-x-2">
+              <input
+                ref={commentRef}
+                type="text"
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                placeholder="Write a comment... (Type @ to mention)"
+                className="flex-1 bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                onKeyPress={(e) => e.key === 'Enter' && onAddComment()}
+              />
+              <Button
+                onClick={onAddComment}
+                className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+              >
+                <Send className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 export default Community;
