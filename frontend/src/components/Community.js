@@ -584,6 +584,7 @@ const Community = ({ athleteId }) => {
         name: '', description: '', visibility: 'open', event_date: '', event_time: '',
         location: '', profile_image: null, cover_photo: null, group_id: null
       });
+      setEventsLoaded(false); // Reset cache
       loadEvents();
     } catch (error) {
       console.error('Error creating event:', error);
@@ -600,6 +601,7 @@ const Community = ({ athleteId }) => {
     try {
       await axios.put(`${API}/community/events/${selectedEvent.id}?athlete_id=${athleteId}`, editEventData);
       setShowEditEvent(false);
+      setEventsLoaded(false); // Reset cache
       loadEvents();
       setSelectedEvent(null);
     } catch (error) {
@@ -613,6 +615,7 @@ const Community = ({ athleteId }) => {
 
     try {
       await axios.delete(`${API}/community/events/${eventId}?athlete_id=${athleteId}`);
+      setEventsLoaded(false); // Reset cache
       loadEvents();
     } catch (error) {
       console.error('Error deleting event:', error);
