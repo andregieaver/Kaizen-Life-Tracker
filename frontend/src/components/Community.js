@@ -8,7 +8,11 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Community = ({ athleteId }) => {
-  const [activeTab, setActiveTab] = useState('feed'); // 'feed', 'groups', 'mygroups', 'events'
+  // Initialize activeTab from localStorage or default to 'feed'
+  const [activeTab, setActiveTab] = useState(() => {
+    const savedTab = localStorage.getItem('communityActiveTab');
+    return (savedTab && ['feed', 'groups', 'mygroups', 'events'].includes(savedTab)) ? savedTab : 'feed';
+  });
   
   // Swipe state
   const [touchStart, setTouchStart] = useState(null);
