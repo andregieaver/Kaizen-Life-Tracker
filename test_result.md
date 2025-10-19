@@ -231,7 +231,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Optimized Community API Endpoints Performance Testing"
+    - "Image Exclusion Performance Feature Testing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
