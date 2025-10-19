@@ -230,7 +230,6 @@ const Community = ({ athleteId }) => {
       // Also load open events to show in main feed
       const eventsResponse = await axios.get(`${API}/community/events?athlete_id=${athleteId}`);
       const openEvents = eventsResponse.data.events.filter(e => e.visibility === 'open');
-      addDebugLog('Open Events for Feed', openEvents.length);
       setEvents(eventsResponse.data.events); // Store all events for Events tab
       
       // Create a combined feed with posts and open events
@@ -242,7 +241,6 @@ const Community = ({ athleteId }) => {
       setPosts(combinedFeed);
     } catch (error) {
       console.error('Error loading posts:', error);
-      addDebugLog('Error loading posts', error.message);
       setIsLoading(false);
     }
   };
