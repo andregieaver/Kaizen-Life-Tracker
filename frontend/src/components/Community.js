@@ -1596,6 +1596,81 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
       </Card>
     )}
 
+    {/* Members List (admin/manager only) */}
+    {group.members && group.member_role && ['admin', 'manager'].includes(group.member_role) && (
+      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+        <CardContent className="p-6">
+          <h3 className="text-xl font-bold text-white mb-4">Group Members</h3>
+          <div className="space-y-3">
+            {group.members.map(member => (
+              <div key={member.id} className="flex items-center justify-between bg-gray-600 rounded-lg p-4">
+                <div 
+                  className="flex items-center space-x-3 cursor-pointer flex-1"
+                  onClick={() => loadAthleteProfile(member.id)}
+                >
+                  {member.profile_picture ? (
+                    <img
+                      src={member.profile_picture}
+                      alt={member.name}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-lg">
+                        {member.name?.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <p className="text-white font-semibold hover:underline">{member.name}</p>
+                    <div className="flex items-center space-x-2">
+                      <span className={`text-xs font-semibold ${
+                        member.role === 'admin' ? 'text-yellow-400' :
+                        member.role === 'manager' ? 'text-blue-400' :
+                        member.role === 'moderator' ? 'text-purple-400' :
+                        'text-gray-400'
+                      }`}>
+                        {member.role === 'admin' && <Crown className="w-3 h-3 inline mr-1" />}
+                        {member.role === 'manager' && <Shield className="w-3 h-3 inline mr-1" />}
+                        {member.role === 'moderator' && <Shield className="w-3 h-3 inline mr-1" />}
+                        {member.role.toUpperCase()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                {member.id !== athleteId && member.role !== 'admin' && (
+                  <div className="relative group">
+                    <select
+                      value={member.role}
+                      onChange={async (e) => {
+                        try {
+                          await axios.put(`${API}/community/groups/${group.id}/members/${member.id}?athlete_id=${athleteId}`, {
+                            action: 'change_role',
+                            role: e.target.value
+                          });
+                          window.location.reload();
+                        } catch (error) {
+                          console.error('Error changing role:', error);
+                          alert(error.response?.data?.detail || 'Failed to change role');
+                        }
+                      }}
+                      className="bg-gray-700 text-white text-sm rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                    >
+                      <option value="member">Member</option>
+                      <option value="moderator">Moderator</option>
+                      <option value="manager">Manager</option>
+                      {group.member_role === 'admin' && <option value="admin">Admin</option>}
+                    </select>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    )}
+
     {/* Create Post (if member) */}
     {group.is_member && (
       <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
