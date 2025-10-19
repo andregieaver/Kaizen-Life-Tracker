@@ -7693,6 +7693,7 @@ async def create_group(group_data: dict, athlete_id: str = Query(...)):
             "name": group_data.get("name", ""),
             "description": group_data.get("description", ""),
             "privacy": group_data.get("privacy", "public"),
+            "profile_image": group_data.get("profile_image"),
             "cover_photo": group_data.get("cover_photo"),
             "admin_id": athlete_id,
             "members_count": 1,
