@@ -973,25 +973,183 @@ const Community = ({ athleteId }) => {
             </CardContent>
           </Card>
 
-          {/* Posts Feed */}
-          <PostsList 
-            posts={posts}
-            athleteId={athleteId}
-            editingPost={editingPost}
-            editContent={editContent}
-            showComments={showComments}
-            commentText={commentText}
-            setEditingPost={setEditingPost}
-            setEditContent={setEditContent}
-            setCommentText={setCommentText}
-            handleEditPost={handleEditPost}
-            handleDeletePost={handleDeletePost}
-            handleToggleLike={handleToggleLike}
-            toggleComments={toggleComments}
-            handleAddComment={handleAddComment}
-            handleSharePost={handleSharePost}
-            loadAthleteProfile={loadAthleteProfile}
-          />
+          {/* Posts and Events Feed */}
+          <div className="space-y-6">
+            {posts.map(item => {
+              if (item.type === 'event') {
+                // Render event card
+                return (
+                  <EventCard
+                    key={item.id}
+                    event={item}
+                    athleteId={athleteId}
+                    onRSVP={handleRSVP}
+                    onEdit={handleOpenEditEvent}
+                    onDelete={handleDeleteEvent}
+                    onClick={handleOpenEventDetail}
+                  />
+                );
+              } else {
+                // Render post (original PostsList logic for single post)
+                const post = item;
+                return (
+                  <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between">
+                        <div 
+                          className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
+                          onClick={() => loadAthleteProfile(post.athlete_id)}
+                        >
+                          {post.athlete_profile_picture ? (
+                            <img
+                              src={post.athlete_profile_picture}
+                              alt={post.athlete_name}
+                              className="w-10 h-10 rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                              <span className="text-white font-bold">
+                                {post.athlete_name?.charAt(0).toUpperCase()}
+                              </span>
+                            </div>
+                          )}
+                          <div>
+                            <p className="text-white font-semibold hover:underline">{post.athlete_name}</p>
+                            <p className="text-gray-400 text-xs">
+                              {new Date(post.created_at).toLocaleString()}
+                              {post.is_edited && ' (edited)'}
+                            </p>
+                          </div>
+                        </div>
+                        
+                        {post.athlete_id === athleteId && (
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => {
+                                setEditingPost(post.id);
+                                setEditContent(post.content);
+                              }}
+                              className="p-2 hover:bg-gray-600 rounded-full transition-colors"
+                            >
+                              <Edit2 className="w-4 h-4 text-blue-400" />
+                            </button>
+                            <button
+                              onClick={() => handleDeletePost(post.id)}
+                              className="p-2 hover:bg-gray-600 rounded-full transition-colors"
+                            >
+                              <Trash2 className="w-4 h-4 text-red-400" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </CardHeader>
+
+                    <CardContent>
+                      {editingPost === post.id ? (
+                        <div className="space-y-3">
+                          <textarea
+                            value={editContent}
+                            onChange={(e) => setEditContent(e.target.value)}
+                            className="w-full bg-gray-600 text-white rounded-lg p-3 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+                            rows="3"
+                          />
+                          <div className="flex space-x-2">
+                            <Button
+                              onClick={() => handleEditPost(post.id)}
+                              className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                            >
+                              Save
+                            </Button>
+                            <Button
+                              onClick={() => {
+                                setEditingPost(null);
+                                setEditContent('');
+                              }}
+                              className="bg-gray-600 hover:bg-gray-500 text-white"
+                            >
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <p className="text-white whitespace-pre-wrap mb-4">{post.content}</p>
+                          {post.image_data && (
+                            <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-96 object-cover mb-4" />
+                          )}
+                        </>
+                      )}
+
+                      <div className="flex items-center justify-between pt-4 border-t border-gray-600">
+                        <button
+                          onClick={() => handleToggleLike(post.id, post.liked_by_user)}
+                          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                            post.liked_by_user ? 'text-red-400' : 'text-gray-400 hover:text-red-400'
+                          }`}
+                        >
+                          <Heart className={`w-5 h-5 ${post.liked_by_user ? 'fill-current' : ''}`} />
+                          <span className="text-sm">{post.likes_count || 0}</span>
+                        </button>
+
+                        <button
+                          onClick={() => toggleComments(post.id)}
+                          className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
+                        >
+                          <MessageCircle className="w-5 h-5" />
+                          <span className="text-sm">{post.comments?.length || 0}</span>
+                        </button>
+
+                        <button
+                          onClick={() => handleSharePost(post.id)}
+                          className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
+                        >
+                          <Share2 className="w-5 h-5" />
+                        </button>
+                      </div>
+
+                      {showComments[post.id] && (
+                        <div className="mt-4 space-y-4 pt-4 border-t border-gray-600">
+                          {post.comments?.map(comment => (
+                            <div key={comment.id} className="flex items-start space-x-3">
+                              <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                                <span className="text-white font-bold text-xs">
+                                  {comment.athlete_name?.charAt(0).toUpperCase()}
+                                </span>
+                              </div>
+                              <div className="flex-1 bg-gray-600 rounded-lg p-3">
+                                <p className="text-white font-semibold text-sm">{comment.athlete_name}</p>
+                                <p className="text-gray-300 text-sm mt-1">{comment.content}</p>
+                                <p className="text-gray-400 text-xs mt-1">
+                                  {new Date(comment.created_at).toLocaleString()}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+
+                          <div className="flex items-center space-x-2">
+                            <input
+                              type="text"
+                              value={commentText[post.id] || ''}
+                              onChange={(e) => setCommentText({ ...commentText, [post.id]: e.target.value })}
+                              placeholder="Write a comment..."
+                              className="flex-1 bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                              onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
+                            />
+                            <Button
+                              onClick={() => handleAddComment(post.id)}
+                              className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                            >
+                              <Send className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                );
+              }
+            })}
+          </div>
         </>
       )}
 
