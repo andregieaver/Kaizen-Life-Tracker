@@ -647,7 +647,7 @@ const Documents = ({ athleteId }) => {
               <Button
                 type="button"
                 variant="outline"
-                className="flex-1"
+                className="flex-1 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                 onClick={() => {
                   setShowModal(false);
                   resetForm();
@@ -660,7 +660,7 @@ const Documents = ({ athleteId }) => {
                 type="button"
                 onClick={handleSubmit}
                 disabled={!fileData || !title || isUploading}
-                className="flex-1 bg-blue-600 hover:bg-blue-700"
+                className="flex-1 bg-teal-600 hover:bg-teal-700 text-white disabled:opacity-50"
               >
                 {isUploading ? (
                   <>
