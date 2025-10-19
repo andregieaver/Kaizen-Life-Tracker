@@ -1071,14 +1071,16 @@ class CommunityNotification(BaseModel):
     
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     athlete_id: str  # Recipient of notification
-    type: str  # 'like', 'comment', 'share', 'mention', 'follow', 'group_join_request'
+    type: str  # 'like', 'comment', 'share', 'mention', 'follow', 'group_join_request', 'event_invite'
     content: str  # Notification message
     post_id: Optional[str] = None
     group_id: Optional[str] = None
+    event_id: Optional[str] = None
     from_athlete_id: Optional[str] = None
     from_athlete_name: Optional[str] = None
     read: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 
 class Follow(BaseModel):
     model_config = ConfigDict(extra="ignore")
