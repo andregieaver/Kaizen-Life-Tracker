@@ -102,6 +102,52 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
+user_problem_statement: "Implement a Community feature - a simplified Facebook-like component where users can create posts with text and images, like posts, comment, share, edit/delete their own posts, and receive notifications. The feature should be accessible via an icon in the header (left of hamburger menu) and follow the app's dark theme."
+
+backend:
+  - task: "Community Backend Models and API Endpoints"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Community feature implementation complete. BACKEND CHANGES: 1) PYDANTIC MODELS ADDED (lines 1027-1083) ✓ - CommunityPost model with athlete info, content, image_data, likes/comments/shares counts, edit tracking. CommunityComment model with post_id, athlete info, content, timestamp. CommunityLike model for tracking likes. CommunityShare model for tracking shares. CommunityNotification model for user notifications (like, comment, share, mention). 2) API ENDPOINTS IMPLEMENTED (lines 7070-7400) ✓ - POST /api/community/posts - Create new post with text + optional image. GET /api/community/posts/{athlete_id} - Get feed (all posts, sorted newest first, includes liked_by_user flag). GET /api/community/posts/post/{post_id} - Get single post. PUT /api/community/posts/{post_id} - Edit post (ownership verified). DELETE /api/community/posts/{post_id} - Delete post + cascade delete likes/comments/shares. POST /api/community/posts/{post_id}/like - Toggle like/unlike (updates count, creates notification). POST /api/community/posts/{post_id}/comment - Add comment (updates count, creates notification). GET /api/community/posts/{post_id}/comments - Get all comments for post. POST /api/community/posts/{post_id}/share - Share post (updates count, creates notification). GET /api/community/notifications/{athlete_id} - Get notifications (with unread_only filter). PUT /api/community/notifications/{notification_id}/read - Mark notification as read. 3) DATA CACHING ✓ - Posts cache athlete_name and profile_picture for display. Comments cache athlete info. Notifications include from_athlete info. 4) NOTIFICATIONS SYSTEM ✓ - Automatic notification creation for likes, comments, shares (excludes self-notifications). 5) AUTHORIZATION ✓ - Edit/delete endpoints verify post ownership before allowing actions. Backend compiled and restarted successfully. Ready for comprehensive testing."
+
+frontend:
+  - task: "Community Frontend Component and Navigation"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Community.js, /app/frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Community frontend implementation complete. FRONTEND CHANGES: 1) COMMUNITY COMPONENT CREATED (/app/frontend/src/components/Community.js) ✓ - Dark theme UI (bg-gradient-to-br from-gray-700 to-gray-800, text-white). Create post card with textarea, image upload via camera icon, post preview, remove image option. Posts feed with infinite scroll-ready structure. Post cards showing: user avatar/initial, name, timestamp, edit indicator. Like button (heart icon, red when liked, shows count, toggleable). Comment button (shows count, expands comment section). Share button (shows count, triggers share). Edit/Delete buttons (only for own posts). Edit mode with textarea, Save/Cancel buttons. Comments section: existing comments display (avatar, name, content, timestamp), add comment input with send button. Notifications dropdown: bell icon with unread count badge, dropdown panel showing notifications, click to mark as read. Image upload with preview and remove functionality. 2) DASHBOARD NAVIGATION UPDATES (/app/frontend/src/components/Dashboard.js) ✓ - Added Users icon import from lucide-react. Added Community import. Desktop header: Community icon added left of hamburger menu (Users icon, teal color #00C2A8). Mobile header: Community icon added left of hamburger menu. Community route rendering: {activeTab === 'community' && <Community athleteId={athleteId} />}. 3) UI/UX FEATURES ✓ - Consistent teal accent color (#00C2A8) for buttons and icons. Dark theme gradients matching app aesthetic. Hover states and transitions on all interactive elements. Responsive design for mobile and desktop. Profile pictures or initials displayed for users. Timestamps formatted with toLocaleString(). Frontend compiled successfully with no errors. Ready for end-to-end testing."
+
+metadata:
+  created_by: "main_agent"
+  version: "2.0"
+  test_sequence: 1
+  run_ui: true
+
+test_plan:
+  current_focus:
+    - "Community Backend API Endpoints"
+    - "Community Frontend UI/UX"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "Community feature backend and frontend implementation complete. Backend: 5 Pydantic models created (Post, Comment, Like, Share, Notification) and 11 API endpoints implemented (CRUD for posts, like/unlike, comment, share, notifications). Frontend: Community.js component created with full UI (create post, feed, likes, comments, shares, notifications), dark theme styling, and navigation integration in Dashboard. Backend restarted successfully, frontend compiled with no errors. Ready for comprehensive backend API testing followed by frontend E2E testing. Test focus: 1) Backend - verify all CRUD operations, like/unlike toggle, comment creation, share functionality, notification creation, authorization checks. 2) Frontend - verify post creation with text/image, like/comment/share interactions, edit/delete functionality, notifications dropdown, responsive design."
+
 user_problem_statement: "Test the nutrition entries API endpoint to verify it returns data in the correct format for the Weekly Menu Builder feature."
 
 backend:
