@@ -34,6 +34,8 @@ const Community = ({ athleteId }) => {
   const [commentText, setCommentText] = useState({});
   const [editingPost, setEditingPost] = useState(null);
   const [editContent, setEditContent] = useState('');
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
+  const [selectedPostForComments, setSelectedPostForComments] = useState(null);
   
   // Mention state
   const [showMentionDropdown, setShowMentionDropdown] = useState(false);
