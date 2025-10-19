@@ -7808,8 +7808,8 @@ async def get_group_details(group_id: str, athlete_id: str = Query(...)):
         
         group["members"] = members
         
-        # Get pending members if user is admin/moderator
-        if membership and membership.get("role") in ["admin", "moderator"]:
+        # Get pending members if user is admin/manager/moderator
+        if membership and membership.get("role") in ["admin", "manager", "moderator"]:
             pending_memberships = await db.community_group_memberships.find({
                 "group_id": group_id,
                 "status": "pending"
