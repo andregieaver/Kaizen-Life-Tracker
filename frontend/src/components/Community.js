@@ -1001,64 +1001,137 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onClick }) => (
 );
 
 // CreateGroupModal Component
-const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => (
-  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-    <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
-      <h2 className="text-2xl font-bold text-white mb-4">Create Group</h2>
-      
-      <div className="space-y-4">
-        <div>
-          <label className="text-white text-sm font-semibold mb-2 block">Group Name</label>
-          <input
-            type="text"
-            value={groupData.name}
-            onChange={(e) => setGroupData({ ...groupData, name: e.target.value })}
-            placeholder="Enter group name"
-            className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
-          />
+const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
+  const handleImageUpload = (e, type) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setGroupData({ ...groupData, [type]: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+      <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <h2 className="text-2xl font-bold text-white mb-4">Create Group</h2>
+        
+        <div className="space-y-4">
+          {/* Profile Image */}
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Group Profile Image</label>
+            <div className="flex items-center space-x-4">
+              {groupData.profile_image ? (
+                <img src={groupData.profile_image} alt="Profile" className="w-20 h-20 rounded-full object-cover" />
+              ) : (
+                <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center">
+                  <UsersIcon className="w-10 h-10 text-gray-400" />
+                </div>
+              )}
+              <label className="cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, 'profile_image')}
+                  className="hidden"
+                />
+                <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
+                  {groupData.profile_image ? 'Change Image' : 'Upload Image'}
+                </div>
+              </label>
+              {groupData.profile_image && (
+                <button
+                  onClick={() => setGroupData({ ...groupData, profile_image: null })}
+                  className="p-2 bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
+                >
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Banner Image */}
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Banner Image</label>
+            {groupData.cover_photo && (
+              <div className="relative mb-2">
+                <img src={groupData.cover_photo} alt="Banner" className="w-full h-32 object-cover rounded-lg" />
+                <button
+                  onClick={() => setGroupData({ ...groupData, cover_photo: null })}
+                  className="absolute top-2 right-2 p-1 bg-red-500 hover:bg-red-600 rounded-full transition-colors"
+                >
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            )}
+            <label className="cursor-pointer">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageUpload(e, 'cover_photo')}
+                className="hidden"
+              />
+              <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm inline-block">
+                {groupData.cover_photo ? 'Change Banner' : 'Upload Banner'}
+              </div>
+            </label>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Group Name</label>
+            <input
+              type="text"
+              value={groupData.name}
+              onChange={(e) => setGroupData({ ...groupData, name: e.target.value })}
+              placeholder="Enter group name"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            />
+          </div>
+          
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Description</label>
+            <textarea
+              value={groupData.description}
+              onChange={(e) => setGroupData({ ...groupData, description: e.target.value })}
+              placeholder="Describe your group"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+              rows="3"
+            />
+          </div>
+          
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Privacy</label>
+            <select
+              value={groupData.privacy}
+              onChange={(e) => setGroupData({ ...groupData, privacy: e.target.value })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            >
+              <option value="public">Public - Anyone can join</option>
+              <option value="private">Private - Requires approval</option>
+            </select>
+          </div>
         </div>
         
-        <div>
-          <label className="text-white text-sm font-semibold mb-2 block">Description</label>
-          <textarea
-            value={groupData.description}
-            onChange={(e) => setGroupData({ ...groupData, description: e.target.value })}
-            placeholder="Describe your group"
-            className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
-            rows="3"
-          />
-        </div>
-        
-        <div>
-          <label className="text-white text-sm font-semibold mb-2 block">Privacy</label>
-          <select
-            value={groupData.privacy}
-            onChange={(e) => setGroupData({ ...groupData, privacy: e.target.value })}
-            className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+        <div className="flex space-x-3 mt-6">
+          <Button
+            onClick={onCreate}
+            className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
           >
-            <option value="public">Public - Anyone can join</option>
-            <option value="private">Private - Requires approval</option>
-          </select>
+            Create Group
+          </Button>
+          <Button
+            onClick={onClose}
+            className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
+          >
+            Cancel
+          </Button>
         </div>
-      </div>
-      
-      <div className="flex space-x-3 mt-6">
-        <Button
-          onClick={onCreate}
-          className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
-        >
-          Create Group
-        </Button>
-        <Button
-          onClick={onClose}
-          className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
-        >
-          Cancel
-        </Button>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // AthleteProfileModal Component
 const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading }) => (
