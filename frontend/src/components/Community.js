@@ -812,6 +812,20 @@ const Community = ({ athleteId }) => {
           onViewProfile={loadAthleteProfile}
         />
       )}
+      {/* Group Rules Modal */}
+      {showRulesModal && joiningGroup && (
+        <GroupRulesModal
+          groupId={joiningGroup}
+          onAccept={confirmJoinGroup}
+          onCancel={() => {
+            setShowRulesModal(false);
+            setRulesAccepted(false);
+            setJoiningGroup(null);
+          }}
+          rulesAccepted={rulesAccepted}
+          setRulesAccepted={setRulesAccepted}
+        />
+      )}
     </div>
   );
 };
