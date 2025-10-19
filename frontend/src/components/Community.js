@@ -176,6 +176,7 @@ const Community = ({ athleteId }) => {
     try {
       const response = await axios.get(`${API}/community/posts/${athleteId}`);
       setPosts(response.data.posts);
+      setPostsLoaded(true);
       setIsLoading(false);
     } catch (error) {
       console.error('Error loading posts:', error);
@@ -187,6 +188,7 @@ const Community = ({ athleteId }) => {
     try {
       const response = await axios.get(`${API}/community/groups?athlete_id=${athleteId}`);
       setGroups(response.data.groups);
+      setGroupsLoaded(true);
       setIsLoading(false);
     } catch (error) {
       console.error('Error loading groups:', error);
@@ -198,6 +200,7 @@ const Community = ({ athleteId }) => {
     try {
       const response = await axios.get(`${API}/community/groups/my/${athleteId}`);
       setMyGroups(response.data.groups);
+      setMyGroupsLoaded(true);
       setIsLoading(false);
     } catch (error) {
       console.error('Error loading my groups:', error);
@@ -210,6 +213,7 @@ const Community = ({ athleteId }) => {
       const response = await axios.get(`${API}/community/notifications/${athleteId}`);
       setNotifications(response.data.notifications);
       setUnreadCount(response.data.notifications.filter(n => !n.read).length);
+      setNotificationsLoaded(true);
     } catch (error) {
       console.error('Error loading notifications:', error);
     }
