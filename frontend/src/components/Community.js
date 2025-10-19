@@ -1081,6 +1081,16 @@ const Community = ({ athleteId }) => {
         />
       )}
 
+      {/* Event Detail Modal */}
+      {showEventDetail && (
+        <EventDetailModal
+          eventData={eventDetailData}
+          loading={eventDetailLoading}
+          onClose={handleCloseEventDetail}
+          athleteId={athleteId}
+        />
+      )}
+
 
       {/* Athlete Profile Modal */}
       {showProfile && profileData && (
