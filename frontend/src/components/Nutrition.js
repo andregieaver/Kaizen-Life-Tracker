@@ -1968,38 +1968,38 @@ const Nutrition = ({ athleteId }) => {
                   
                   {/* Date and Time */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Date & Time</label>
-                    <p className="text-gray-900">{formatDateTime(viewingEntry.entry_date || viewingEntry.created_at, viewingEntry.entry_time)}</p>
+                    <label className="block text-sm font-medium text-gray-300 mb-1">Date & Time</label>
+                    <p className="text-white">{formatDateTime(viewingEntry.entry_date || viewingEntry.created_at, viewingEntry.entry_time)}</p>
                   </div>
                   
                   {/* Description */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                    <p className="text-gray-900 whitespace-pre-wrap">{viewingEntry.description}</p>
+                    <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
+                    <p className="text-white whitespace-pre-wrap">{viewingEntry.description}</p>
                   </div>
                   
                   {/* Nutritional Information */}
                   {viewingEntry.calories > 0 && (
-                    <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4">
-                      <h4 className="font-semibold text-gray-900 mb-3">Nutritional Information</h4>
+                    <div className="bg-gray-700 border border-gray-600 rounded-lg p-4">
+                      <h4 className="font-semibold text-white mb-3">Nutritional Information</h4>
                       
                       {/* Macronutrients */}
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
-                        <div className="bg-white rounded-lg p-3 text-center shadow-sm">
-                          <div className="text-xs text-gray-600 mb-1">Calories</div>
-                          <div className="text-xl font-bold text-blue-600">{viewingEntry.calories}</div>
+                        <div className="bg-gray-800 rounded-lg p-3 text-center border border-gray-600">
+                          <div className="text-xs text-gray-400 mb-1">Calories</div>
+                          <div className="text-xl font-bold text-blue-400">{viewingEntry.calories}</div>
                         </div>
-                        <div className="bg-white rounded-lg p-3 text-center shadow-sm">
-                          <div className="text-xs text-gray-600 mb-1">Protein</div>
-                          <div className="text-xl font-bold text-green-600">{viewingEntry.protein}g</div>
+                        <div className="bg-gray-800 rounded-lg p-3 text-center border border-gray-600">
+                          <div className="text-xs text-gray-400 mb-1">Protein</div>
+                          <div className="text-xl font-bold text-green-400">{viewingEntry.protein}g</div>
                         </div>
-                        <div className="bg-white rounded-lg p-3 text-center shadow-sm">
-                          <div className="text-xs text-gray-600 mb-1">Carbs</div>
-                          <div className="text-xl font-bold text-orange-600">{viewingEntry.carbs}g</div>
+                        <div className="bg-gray-800 rounded-lg p-3 text-center border border-gray-600">
+                          <div className="text-xs text-gray-400 mb-1">Carbs</div>
+                          <div className="text-xl font-bold text-orange-400">{viewingEntry.carbs}g</div>
                         </div>
-                        <div className="bg-white rounded-lg p-3 text-center shadow-sm">
-                          <div className="text-xs text-gray-600 mb-1">Fat</div>
-                          <div className="text-xl font-bold text-purple-600">{viewingEntry.fat}g</div>
+                        <div className="bg-gray-800 rounded-lg p-3 text-center border border-gray-600">
+                          <div className="text-xs text-gray-400 mb-1">Fat</div>
+                          <div className="text-xl font-bold text-purple-400">{viewingEntry.fat}g</div>
                         </div>
                       </div>
                       
@@ -2007,44 +2007,44 @@ const Nutrition = ({ athleteId }) => {
                       {(viewingEntry.fiber > 0 || viewingEntry.sodium > 0 || viewingEntry.sugar > 0 || 
                         viewingEntry.vitamin_a > 0 || viewingEntry.vitamin_c > 0 || viewingEntry.vitamin_d > 0 || 
                         viewingEntry.calcium > 0 || viewingEntry.iron > 0 || viewingEntry.potassium > 0) && (
-                        <div className="pt-3 border-t border-blue-200">
-                          <h5 className="text-sm font-semibold text-gray-800 mb-2">Micronutrients</h5>
-                          <div className="bg-white rounded-lg p-3 shadow-sm">
+                        <div className="pt-3 border-t border-gray-600">
+                          <h5 className="text-sm font-semibold text-gray-300 mb-2">Micronutrients</h5>
+                          <div className="bg-gray-800 rounded-lg p-3 border border-gray-600">
                             <ul className="space-y-1 text-sm">
                               {viewingEntry.fiber > 0 && (
                                 <li className="flex justify-between">
-                                  <span className="text-gray-600">Fiber:</span>
-                                  <span className="font-medium text-gray-900">{viewingEntry.fiber}g</span>
+                                  <span className="text-gray-400">Fiber:</span>
+                                  <span className="font-medium text-white">{viewingEntry.fiber}g</span>
                                 </li>
                               )}
                               {viewingEntry.sugar > 0 && (
                                 <li className="flex justify-between">
-                                  <span className="text-gray-600">Sugar:</span>
-                                  <span className="font-medium text-gray-900">{viewingEntry.sugar}g</span>
+                                  <span className="text-gray-400">Sugar:</span>
+                                  <span className="font-medium text-white">{viewingEntry.sugar}g</span>
                                 </li>
                               )}
                               {viewingEntry.sodium > 0 && (
                                 <li className="flex justify-between">
-                                  <span className="text-gray-600">Sodium:</span>
-                                  <span className="font-medium text-gray-900">{viewingEntry.sodium}mg</span>
+                                  <span className="text-gray-400">Sodium:</span>
+                                  <span className="font-medium text-white">{viewingEntry.sodium}mg</span>
                                 </li>
                               )}
                               {viewingEntry.vitamin_a > 0 && (
                                 <li className="flex justify-between">
-                                  <span className="text-gray-600">Vitamin A:</span>
-                                  <span className="font-medium text-gray-900">{viewingEntry.vitamin_a}μg</span>
+                                  <span className="text-gray-400">Vitamin A:</span>
+                                  <span className="font-medium text-white">{viewingEntry.vitamin_a}μg</span>
                                 </li>
                               )}
                               {viewingEntry.vitamin_c > 0 && (
                                 <li className="flex justify-between">
-                                  <span className="text-gray-600">Vitamin C:</span>
-                                  <span className="font-medium text-gray-900">{viewingEntry.vitamin_c}mg</span>
+                                  <span className="text-gray-400">Vitamin C:</span>
+                                  <span className="font-medium text-white">{viewingEntry.vitamin_c}mg</span>
                                 </li>
                               )}
                               {viewingEntry.vitamin_d > 0 && (
                                 <li className="flex justify-between">
-                                  <span className="text-gray-600">Vitamin D:</span>
-                                  <span className="font-medium text-gray-900">{viewingEntry.vitamin_d}μg</span>
+                                  <span className="text-gray-400">Vitamin D:</span>
+                                  <span className="font-medium text-white">{viewingEntry.vitamin_d}μg</span>
                                 </li>
                               )}
                               {viewingEntry.calcium > 0 && (
