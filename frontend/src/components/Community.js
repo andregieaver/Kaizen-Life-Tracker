@@ -184,8 +184,8 @@ const Community = ({ athleteId }) => {
 
   const loadPosts = async (forceReload = false) => {
     try {
-      // Load without images first for speed
-      const response = await axios.get(`${API}/community/posts/${athleteId}?exclude_images=true&limit=20`);
+      // Load with limited posts for initial speed, images included for display
+      const response = await axios.get(`${API}/community/posts/${athleteId}?limit=20`);
       setPosts(response.data.posts);
       setPostsLoaded(true);
       setIsLoading(false);
@@ -197,8 +197,8 @@ const Community = ({ athleteId }) => {
 
   const loadAllGroups = async () => {
     try {
-      // Load without images first for speed
-      const response = await axios.get(`${API}/community/groups?athlete_id=${athleteId}&exclude_images=true&limit=30`);
+      // Load with limited groups for initial speed, images included for display
+      const response = await axios.get(`${API}/community/groups?athlete_id=${athleteId}&limit=30`);
       setGroups(response.data.groups);
       setGroupsLoaded(true);
       setIsLoading(false);
@@ -210,8 +210,8 @@ const Community = ({ athleteId }) => {
 
   const loadMyGroups = async () => {
     try {
-      // Load without images first for speed
-      const response = await axios.get(`${API}/community/groups/my/${athleteId}?exclude_images=true&limit=30`);
+      // Load with limited groups for initial speed, images included for display
+      const response = await axios.get(`${API}/community/groups/my/${athleteId}?limit=30`);
       setMyGroups(response.data.groups);
       setMyGroupsLoaded(true);
       setIsLoading(false);
