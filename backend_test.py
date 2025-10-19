@@ -1924,28 +1924,28 @@ def test_group_join_request_notifications():
 
 def main():
     """Run all backend tests"""
-    print("🚀 STARTING COMMUNITY FEATURE BACKEND API TESTING")
+    print("🚀 STARTING GROUP EDIT ENDPOINT DEBUG TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Group Join Request Notifications (specific user case)
+    # Test Group Edit Endpoint Failure (specific debug case)
     try:
-        result = test_group_join_request_notifications()
+        result = test_group_edit_endpoint_failure()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Group Join Request Notification Testing", False, f"Exception: {str(e)}")
+        print_test_result("Group Edit Endpoint Debug", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 ALL GROUP JOIN REQUEST NOTIFICATION TESTS PASSED!")
-        print("✅ Group Join Request Notification System: Working")
+        print("🎉 GROUP EDIT ENDPOINT DEBUG COMPLETED!")
+        print("✅ Group Edit Functionality: Analyzed")
     else:
-        print("❌ SOME GROUP JOIN REQUEST NOTIFICATION TESTS FAILED")
+        print("❌ GROUP EDIT ENDPOINT DEBUG FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
     
     print("=" * 70)
