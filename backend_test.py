@@ -1395,40 +1395,40 @@ def test_image_exclusion_performance_feature():
         else:
             print_test_result("My Groups Pagination with Image Exclusion", False, f"My Groups pagination failed: {my_groups_page1_response.status_code}")
         
-        # Step 8: Test Events (GET /api/community/events?athlete_id={id})
-        print("   Step 8: Test Events with User Status")
+        # Step 8: Test backward compatibility (works without exclude_images parameter)
+        print("   Step 8: Test backward compatibility (works without exclude_images parameter)")
         
-        events_response = requests.get(f"{BACKEND_URL}/community/events?athlete_id={test_athlete_id}")
+        # Test that all endpoints work without exclude_images parameter (default behavior unchanged)
+        feed_default_response = requests.get(f"{BACKEND_URL}/community/posts/{test_athlete_id}")
+        groups_default_response = requests.get(f"{BACKEND_URL}/community/groups?athlete_id={test_athlete_id}")
+        my_groups_default_response = requests.get(f"{BACKEND_URL}/community/groups/my/{test_athlete_id}")
         
-        if events_response.status_code != 200:
-            print_test_result("Events - Basic", False, f"Failed: {events_response.status_code} - {events_response.text}")
-            return False
+        backward_compatibility_success = all([
+            feed_default_response.status_code == 200,
+            groups_default_response.status_code == 200,
+            my_groups_default_response.status_code == 200
+        ])
         
-        events_data = events_response.json()
-        events = events_data.get("events", [])
-        
-        if events:
-            first_event = events[0]
-            required_event_fields = ["id", "name", "description", "visibility", "event_date", "event_time", "creator_id", "interested_count", "going_count", "created_at", "user_status"]
-            missing_event_fields = [field for field in required_event_fields if field not in first_event]
+        if backward_compatibility_success:
+            # Verify that image fields are included by default
+            feed_default_data = feed_default_response.json()
+            groups_default_data = groups_default_response.json()
             
-            if not missing_event_fields:
-                print_test_result("Events - Structure", True, f"Events returned {len(events)} events with user_status")
+            posts_default = feed_default_data.get("posts", [])
+            groups_default = groups_default_data.get("groups", [])
+            
+            image_fields_included = True
+            if posts_default and "image_data" not in posts_default[0]:
+                image_fields_included = False
+            if groups_default and ("profile_image" not in groups_default[0] and "cover_photo" not in groups_default[0]):
+                image_fields_included = False
+            
+            if image_fields_included:
+                print_test_result("Backward Compatibility", True, "All endpoints work without exclude_images parameter, image fields included by default")
             else:
-                print_test_result("Events - Structure", False, f"Missing event fields: {missing_event_fields}")
-                return False
-            
-            # Verify user_status field
-            user_status = first_event.get("user_status")
-            valid_statuses = ["interested", "going", "not_going", None]
-            
-            if user_status in valid_statuses:
-                print_test_result("Events - user_status Field", True, f"user_status field correct: {user_status}")
-            else:
-                print_test_result("Events - user_status Field", False, f"user_status should be one of {valid_statuses}, got: {user_status}")
-                return False
+                print_test_result("Backward Compatibility", False, "Image fields not included by default")
         else:
-            print_test_result("Events - Basic", True, "Events endpoint accessible (no events found)")
+            print_test_result("Backward Compatibility", False, f"Some endpoints failed: feed={feed_default_response.status_code}, groups={groups_default_response.status_code}, my_groups={my_groups_default_response.status_code}")
         
         # Step 9: Test Events with Group Filter
         print("   Step 9: Test Events with Group Filter")
