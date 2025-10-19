@@ -7836,6 +7836,21 @@ async def join_group(group_id: str, athlete_id: str = Query(...)):
                 {"id": group_id},
                 {"$inc": {"members_count": 1}}
             )
+        else:
+            # Send notification to group admin for pending request
+            athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+            notification = {
+                "id": str(uuid.uuid4()),
+                "athlete_id": group["admin_id"],
+                "type": "group_join_request",
+                "content": f"{athlete.get('name', 'Someone')} wants to join your group '{group['name']}'",
+                "from_athlete_id": athlete_id,
+                "from_athlete_name": athlete.get("name", "Unknown"),
+                "read": False,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "group_id": group_id
+            }
+            await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
         
         return {
             "success": True,
