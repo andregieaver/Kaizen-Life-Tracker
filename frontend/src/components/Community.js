@@ -341,15 +341,18 @@ const Community = ({ athleteId }) => {
   };
 
 
-  const handleImageSelect = (e) => {
+  const handleImageSelect = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setNewPostImage(reader.result);
-        setNewPostImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
+      try {
+        // Compress image to WebP format
+        const compressed = await compressPostImage(file);
+        setNewPostImage(compressed);
+        setNewPostImagePreview(compressed);
+      } catch (error) {
+        console.error('Error compressing image:', error);
+        alert('Failed to process image');
+      }
     }
   };
 
