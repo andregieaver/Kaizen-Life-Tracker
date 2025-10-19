@@ -2203,85 +2203,127 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
 };
 
 // AthleteProfileModal Component
-const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading }) => (
-  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
-    <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
-      {loading ? (
-        <div className="flex justify-center py-12">
-          <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
-        </div>
-      ) : (
-        <>
-          <div className="flex items-center space-x-4 mb-6">
-            {profile.profile_picture ? (
-              <img
-                src={profile.profile_picture}
-                alt={profile.name}
-                className="w-20 h-20 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-20 h-20 bg-[#00C2A8] rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-2xl">
-                  {profile.name?.charAt(0).toUpperCase()}
-                </span>
+const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading }) => {
+  // Calculate age from date of birth
+  const calculateAge = (dob) => {
+    if (!dob) return null;
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  const age = profile?.date_of_birth ? calculateAge(profile.date_of_birth) : null;
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
+      <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          <>
+            <div className="flex items-center space-x-4 mb-6">
+              {profile.profile_picture ? (
+                <img
+                  src={profile.profile_picture}
+                  alt={profile.name}
+                  className="w-20 h-20 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-20 h-20 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-2xl">
+                    {profile.name?.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              )}
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold text-white">{profile.name}</h2>
+                {age && <p className="text-gray-400 text-sm">{age} years old</p>}
+              </div>
+            </div>
+            
+            {/* Bio Section */}
+            {profile.bio && (
+              <div className="mb-6 p-4 bg-gray-700/50 rounded-lg">
+                <h3 className="text-white font-semibold mb-2">About</h3>
+                <p className="text-gray-300 text-sm">{profile.bio}</p>
               </div>
             )}
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold text-white">{profile.name}</h2>
-              {profile.bio && <p className="text-gray-400 text-sm mt-1">{profile.bio}</p>}
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-3 gap-4 mb-6">
-            <div className="text-center">
-              <p className="text-2xl font-bold text-[#00C2A8]">{profile.posts_count}</p>
-              <p className="text-gray-400 text-sm">Posts</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-[#00C2A8]">{profile.followers_count}</p>
-              <p className="text-gray-400 text-sm">Followers</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-[#00C2A8]">{profile.following_count}</p>
-              <p className="text-gray-400 text-sm">Following</p>
-            </div>
-          </div>
-          
-          <div className="flex space-x-3">
-            {!profile.is_own_profile && (
-              <Button
-                onClick={onFollowToggle}
-                className={`flex-1 ${
-                  profile.is_following
-                    ? 'bg-gray-700 hover:bg-gray-600'
-                    : 'bg-[#00C2A8] hover:bg-[#00a890]'
-                } text-white`}
-              >
-                {profile.is_following ? (
-                  <>
-                    <UserMinus className="w-4 h-4 mr-2" />
-                    Unfollow
-                  </>
-                ) : (
-                  <>
-                    <UserPlus className="w-4 h-4 mr-2" />
-                    Follow
-                  </>
-                )}
-              </Button>
+
+            {/* Interests Section */}
+            {profile.interests && profile.interests.length > 0 && (
+              <div className="mb-6">
+                <h3 className="text-white font-semibold mb-2">Interests</h3>
+                <div className="flex flex-wrap gap-2">
+                  {profile.interests.map((interest, idx) => (
+                    <span
+                      key={idx}
+                      className="px-3 py-1 bg-[#00C2A8]/20 text-[#00C2A8] rounded-full text-sm"
+                    >
+                      {interest}
+                    </span>
+                  ))}
+                </div>
+              </div>
             )}
-            <Button
-              onClick={onClose}
-              className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
-            >
-              Close
-            </Button>
-          </div>
-        </>
-      )}
+            
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="text-center">
+                <p className="text-2xl font-bold text-[#00C2A8]">{profile.posts_count || 0}</p>
+                <p className="text-gray-400 text-sm">Posts</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl font-bold text-[#00C2A8]">{profile.followers_count || 0}</p>
+                <p className="text-gray-400 text-sm">Followers</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl font-bold text-[#00C2A8]">{profile.following_count || 0}</p>
+                <p className="text-gray-400 text-sm">Following</p>
+              </div>
+            </div>
+            
+            <div className="flex space-x-3">
+              {!profile.is_own_profile && (
+                <Button
+                  onClick={onFollowToggle}
+                  className={`flex-1 ${
+                    profile.is_following
+                      ? 'bg-gray-700 hover:bg-gray-600'
+                      : 'bg-[#00C2A8] hover:bg-[#00a890]'
+                  } text-white`}
+                >
+                  {profile.is_following ? (
+                    <>
+                      <UserMinus className="w-4 h-4 mr-2" />
+                      Unfollow
+                    </>
+                  ) : (
+                    <>
+                      <UserPlus className="w-4 h-4 mr-2" />
+                      Follow
+                    </>
+                  )}
+                </Button>
+              )}
+              <Button
+                onClick={onClose}
+                className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
+              >
+                Close
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // GroupDetailView Component  
 const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage, newPostImagePreview,
