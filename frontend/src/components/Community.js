@@ -539,18 +539,42 @@ const Community = ({ athleteId }) => {
   };
 
   const handleAddComment = async (postId) => {
-    const content = commentText[postId];
-    if (!content?.trim()) return;
+    // Use modal's post if no postId provided
+    const targetPostId = postId || selectedPostForComments?.id;
+    if (!targetPostId) return;
+    
+    const content = commentText[targetPostId];
+    if (!content || !content.trim()) return;
 
     try {
-      await axios.post(`${API}/community/posts/${postId}/comment?athlete_id=${athleteId}`, {
+      const response = await axios.post(`${API}/community/posts/${targetPostId}/comment?athlete_id=${athleteId}`, {
         content: content
       });
-      setCommentText({ ...commentText, [postId]: '' });
-      loadComments(postId);
-      loadPosts();
+
+      // Reload comments
+      const commentsResponse = await axios.get(`${API}/community/posts/${targetPostId}/comments`);
+      
+      // Update posts with new comments and count
+      setPosts(posts.map(post =>
+        post.id === targetPostId
+          ? { ...post, comments: commentsResponse.data.comments, comments_count: response.data.comments_count }
+          : post
+      ));
+
+      // Update selected post if modal is open
+      if (selectedPostForComments && selectedPostForComments.id === targetPostId) {
+        setSelectedPostForComments({
+          ...selectedPostForComments,
+          comments: commentsResponse.data.comments,
+          comments_count: response.data.comments_count
+        });
+      }
+
+      // Clear comment text
+      setCommentText({ ...commentText, [targetPostId]: '' });
     } catch (error) {
       console.error('Error adding comment:', error);
+      alert('Failed to add comment');
     }
   };
 
