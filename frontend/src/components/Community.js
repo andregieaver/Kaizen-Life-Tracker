@@ -154,21 +154,23 @@ const Community = ({ athleteId }) => {
 
   useEffect(() => {
     // Load notifications only once on mount
-    loadNotifications();
+    if (!notificationsLoaded) {
+      loadNotifications();
+    }
   }, [athleteId]);
 
   useEffect(() => {
-    // Load data based on active tab
-    if (activeTab === 'feed') {
+    // Load data based on active tab with caching
+    if (activeTab === 'feed' && !postsLoaded) {
       loadPosts();
-    } else if (activeTab === 'groups') {
+    } else if (activeTab === 'groups' && !groupsLoaded) {
       loadAllGroups();
-    } else if (activeTab === 'mygroups') {
+    } else if (activeTab === 'mygroups' && !myGroupsLoaded) {
       loadMyGroups();
-    } else if (activeTab === 'events') {
+    } else if (activeTab === 'events' && !eventsLoaded) {
       loadEvents();
     }
-  }, [athleteId, activeTab]);
+  }, [athleteId, activeTab, postsLoaded, groupsLoaded, myGroupsLoaded, eventsLoaded]);
 
   const loadPosts = async () => {
     try {
