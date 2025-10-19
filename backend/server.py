@@ -7287,7 +7287,7 @@ async def add_comment(post_id: str, comment_data: dict, athlete_id: str = Query(
             "created_at": datetime.now(timezone.utc).isoformat()
         }
         
-        await db.community_comments.insert_one(comment)
+        await db.community_comments.insert_one(prepare_for_mongo(comment.copy()))
         await db.community_posts.update_one(
             {"id": post_id},
             {"$inc": {"comments_count": 1}}
