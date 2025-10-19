@@ -677,10 +677,12 @@ const Community = ({ athleteId }) => {
     setEventDetailLoading(true);
     setShowEventDetail(true);
     try {
-      // Load event details without images for speed
-      const response = await axios.get(`${API}/community/events/${eventId}?athlete_id=${athleteId}&exclude_images=true`);
+      // Load event details WITH images for modal display
+      const response = await axios.get(`${API}/community/events/${eventId}?athlete_id=${athleteId}`);
       addDebugLog('Event Detail Response', {
         name: response.data.name,
+        has_cover_photo: !!response.data.cover_photo,
+        has_profile_image: !!response.data.profile_image,
         interested_count: response.data.interested_count,
         going_count: response.data.going_count,
         interested_users_length: response.data.interested_users?.length || 0,
