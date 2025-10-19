@@ -230,22 +230,22 @@ const PaceCalculator = ({ athletePreferences }) => {
   return (
     <div className="space-y-6">
       {/* Input Card */}
-      <Card className="border-0 shadow-lg">
+      <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
         <CardHeader>
-          <CardTitle className="text-xl font-display">Enter Your Pace</CardTitle>
-          <CardDescription>Select your pace per {unit === 'km' ? 'kilometer' : 'mile'}</CardDescription>
+          <CardTitle className="text-xl font-display text-white">Enter Your Pace</CardTitle>
+          <CardDescription className="text-gray-300">Select your pace per {unit === 'km' ? 'kilometer' : 'mile'}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Minutes Selector */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Minutes
               </label>
               <select
                 value={minutes}
                 onChange={(e) => setMinutes(parseInt(e.target.value))}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                className="w-full px-4 py-3 bg-gray-600 border border-gray-500 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
               >
                 {Array.from({ length: 21 }, (_, i) => (
                   <option key={i} value={i}>{i}</option>
@@ -255,13 +255,13 @@ const PaceCalculator = ({ athletePreferences }) => {
 
             {/* Seconds Selector */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Seconds
               </label>
               <select
                 value={seconds}
                 onChange={(e) => setSeconds(parseInt(e.target.value))}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                className="w-full px-4 py-3 bg-gray-600 border border-gray-500 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
               >
                 {Array.from({ length: 60 }, (_, i) => (
                   <option key={i} value={i}>{i}</option>
@@ -271,13 +271,13 @@ const PaceCalculator = ({ athletePreferences }) => {
 
             {/* Unit Selector */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Per
               </label>
               <select
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                className="w-full px-4 py-3 bg-gray-600 border border-gray-500 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
               >
                 <option value="km">Kilometer (km)</option>
                 <option value="miles">Mile (mi)</option>
