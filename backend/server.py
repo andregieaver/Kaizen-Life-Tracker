@@ -7461,6 +7461,21 @@ async def mark_notification_read(notification_id: str):
         logging.error(f"Error marking notification as read: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+@api_router.get("/community/notifications/{athlete_id}/unread-count")
+async def get_unread_count(athlete_id: str):
+    """Get count of unread notifications"""
+    try:
+        count = await db.community_notifications.count_documents({
+            "athlete_id": athlete_id,
+            "read": False
+        })
+        return {"unread_count": count}
+    except Exception as e:
+        logging.error(f"Error fetching unread count: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # ==========================================
 # FOLLOW/UNFOLLOW ENDPOINTS
 # ==========================================
