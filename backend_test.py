@@ -1266,32 +1266,45 @@ def test_group_join_request_notifications():
     print("=" * 70)
     
     try:
-        # Step 1: Identify athlete_id for both users (create if needed)
+        # Step 1: Identify athlete_id for both users (use existing or create test users)
         print("   Step 1: Identify athlete_id for both users")
         
-        # Try to login as andre@humanweb.no (the admin)
-        admin_login_data = {
-            "email": "andre@humanweb.no",
-            "password": "password123"
-        }
-        
-        admin_login_response = requests.post(
-            f"{BACKEND_URL}/auth/login",
-            json=admin_login_data,
-            headers={"Content-Type": "application/json"}
-        )
-        
+        # Try to use existing users first, then create test users with different emails
         admin_athlete_id = None
-        if admin_login_response.status_code == 200:
-            admin_data = admin_login_response.json()
-            admin_athlete_id = admin_data.get("athlete_id")
-            print_test_result("Admin Login (andre@humanweb.no)", True, f"athlete_id: {admin_athlete_id}")
-        else:
-            # Create admin user
-            print("   Creating admin user andre@humanweb.no...")
+        requester_athlete_id = None
+        
+        # Try existing users first
+        existing_users = [
+            {"email": "andre@example.com", "password": "password123"},
+            {"email": "test.files@example.com", "password": "password123"},
+            {"email": "document.test@example.com", "password": "password123"}
+        ]
+        
+        for i, user_data in enumerate(existing_users):
+            login_response = requests.post(
+                f"{BACKEND_URL}/auth/login",
+                json=user_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if login_response.status_code == 200:
+                athlete_data = login_response.json()
+                athlete_id = athlete_data.get("athlete_id")
+                
+                if i == 0 and not admin_athlete_id:
+                    admin_athlete_id = athlete_id
+                    print_test_result(f"Admin User ({user_data['email']})", True, f"athlete_id: {admin_athlete_id}")
+                elif i >= 1 and not requester_athlete_id and athlete_id != admin_athlete_id:
+                    requester_athlete_id = athlete_id
+                    print_test_result(f"Requester User ({user_data['email']})", True, f"athlete_id: {requester_athlete_id}")
+                    break
+        
+        # If we don't have both users, create test users
+        if not admin_athlete_id:
+            print("   Creating admin test user...")
             admin_create_data = {
-                "name": "Andre Admin",
-                "email": "andre@humanweb.no",
+                "name": "Admin Test User",
+                "email": f"admin.test.{uuid.uuid4().hex[:8]}@example.com",
                 "password": "password123",
                 "weekly_mileage": 30.0,
                 "running_goals": "Group admin for testing"
@@ -1304,47 +1317,28 @@ def test_group_join_request_notifications():
             )
             
             if admin_create_response.status_code == 200:
-                # Try login again
                 admin_login_response = requests.post(
                     f"{BACKEND_URL}/auth/login",
-                    json=admin_login_data,
+                    json={"email": admin_create_data["email"], "password": "password123"},
                     headers={"Content-Type": "application/json"}
                 )
                 
                 if admin_login_response.status_code == 200:
                     admin_data = admin_login_response.json()
                     admin_athlete_id = admin_data.get("athlete_id")
-                    print_test_result("Create and Login Admin (andre@humanweb.no)", True, f"athlete_id: {admin_athlete_id}")
+                    print_test_result("Create Admin Test User", True, f"athlete_id: {admin_athlete_id}")
                 else:
-                    print_test_result("Create and Login Admin (andre@humanweb.no)", False, f"Login after create failed: {admin_login_response.status_code}")
+                    print_test_result("Create Admin Test User", False, "Login after create failed")
                     return False
             else:
-                print_test_result("Create Admin User (andre@humanweb.no)", False, f"Create failed: {admin_create_response.status_code}")
+                print_test_result("Create Admin Test User", False, f"Create failed: {admin_create_response.status_code}")
                 return False
         
-        # Try to login as andre@humanweb.ai (the requester)
-        requester_login_data = {
-            "email": "andre@humanweb.ai",
-            "password": "password123"
-        }
-        
-        requester_login_response = requests.post(
-            f"{BACKEND_URL}/auth/login",
-            json=requester_login_data,
-            headers={"Content-Type": "application/json"}
-        )
-        
-        requester_athlete_id = None
-        if requester_login_response.status_code == 200:
-            requester_data = requester_login_response.json()
-            requester_athlete_id = requester_data.get("athlete_id")
-            print_test_result("Requester Login (andre@humanweb.ai)", True, f"athlete_id: {requester_athlete_id}")
-        else:
-            # Create requester user
-            print("   Creating requester user andre@humanweb.ai...")
+        if not requester_athlete_id:
+            print("   Creating requester test user...")
             requester_create_data = {
-                "name": "Andre Requester",
-                "email": "andre@humanweb.ai",
+                "name": "Requester Test User",
+                "email": f"requester.test.{uuid.uuid4().hex[:8]}@example.com",
                 "password": "password123",
                 "weekly_mileage": 25.0,
                 "running_goals": "Join groups for testing"
@@ -1357,22 +1351,21 @@ def test_group_join_request_notifications():
             )
             
             if requester_create_response.status_code == 200:
-                # Try login again
                 requester_login_response = requests.post(
                     f"{BACKEND_URL}/auth/login",
-                    json=requester_login_data,
+                    json={"email": requester_create_data["email"], "password": "password123"},
                     headers={"Content-Type": "application/json"}
                 )
                 
                 if requester_login_response.status_code == 200:
                     requester_data = requester_login_response.json()
                     requester_athlete_id = requester_data.get("athlete_id")
-                    print_test_result("Create and Login Requester (andre@humanweb.ai)", True, f"athlete_id: {requester_athlete_id}")
+                    print_test_result("Create Requester Test User", True, f"athlete_id: {requester_athlete_id}")
                 else:
-                    print_test_result("Create and Login Requester (andre@humanweb.ai)", False, f"Login after create failed: {requester_login_response.status_code}")
+                    print_test_result("Create Requester Test User", False, "Login after create failed")
                     return False
             else:
-                print_test_result("Create Requester User (andre@humanweb.ai)", False, f"Create failed: {requester_create_response.status_code}")
+                print_test_result("Create Requester Test User", False, f"Create failed: {requester_create_response.status_code}")
                 return False
         
         # Step 2: Find the group where andre@humanweb.no is admin
