@@ -7344,7 +7344,7 @@ async def share_post(post_id: str, athlete_id: str = Query(...)):
             "created_at": datetime.now(timezone.utc).isoformat()
         }
         
-        await db.community_shares.insert_one(share)
+        await db.community_shares.insert_one(prepare_for_mongo(share.copy()))
         await db.community_posts.update_one(
             {"id": post_id},
             {"$inc": {"shares_count": 1}}
