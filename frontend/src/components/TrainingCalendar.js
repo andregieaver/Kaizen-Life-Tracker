@@ -706,24 +706,26 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                         value={formData.pace_per_unit}
                         onChange={(e) => setFormData(prev => ({...prev, pace_per_unit: e.target.value}))}
                         placeholder="7:30 (minutes:seconds)"
+                        className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                       />
                     </div>
 
                     {formData.workout_type === 'intervals' && (
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="intervals">Number of Intervals</Label>
+                          <Label htmlFor="intervals" className="text-white">Number of Intervals</Label>
                           <Input
                             id="intervals"
                             type="number"
                             value={formData.intervals}
                             onChange={(e) => setFormData(prev => ({...prev, intervals: e.target.value}))}
                             placeholder="8"
+                            className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                           />
                         </div>
 
                         <div className="space-y-2">
-                          <Label htmlFor="interval_distance">Interval Distance</Label>
+                          <Label htmlFor="interval_distance" className="text-white">Interval Distance</Label>
                           <Input
                             id="interval_distance"
                             type="number"
@@ -731,27 +733,30 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                             value={formData.interval_distance}
                             onChange={(e) => setFormData(prev => ({...prev, interval_distance: e.target.value}))}
                             placeholder="0.25"
+                            className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                           />
                         </div>
 
                         <div className="space-y-2">
-                          <Label htmlFor="interval_pace">Interval Pace</Label>
+                          <Label htmlFor="interval_pace" className="text-white">Interval Pace</Label>
                           <Input
                             id="interval_pace"
                             value={formData.interval_pace}
                             onChange={(e) => setFormData(prev => ({...prev, interval_pace: e.target.value}))}
                             placeholder="6:00"
+                            className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                           />
                         </div>
 
                         <div className="space-y-2">
-                          <Label htmlFor="rest_duration">Rest Duration (sec)</Label>
+                          <Label htmlFor="rest_duration" className="text-white">Rest Duration (sec)</Label>
                           <Input
                             id="rest_duration"
                             type="number"
                             value={formData.rest_duration}
                             onChange={(e) => setFormData(prev => ({...prev, rest_duration: e.target.value}))}
                             placeholder="90"
+                            className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                           />
                         </div>
                       </div>
@@ -759,7 +764,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                   </TabsContent>
                 </Tabs>
 
-                <div className="flex justify-between pt-4 border-t">
+                <div className="flex justify-between pt-4 border-t border-gray-600">
                   <div>
                     {editingBlock && (
                       <Button 
@@ -783,10 +788,11 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                       type="button" 
                       variant="outline" 
                       onClick={() => setIsDialogOpen(false)}
+                      className="bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                     >
                       Cancel
                     </Button>
-                    <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+                    <Button type="submit" className="bg-teal-600 hover:bg-teal-700 text-white">
                       {editingBlock ? 'Update Workout' : 'Create Workout'}
                     </Button>
                   </div>
