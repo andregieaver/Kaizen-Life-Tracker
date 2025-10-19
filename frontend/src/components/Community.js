@@ -595,6 +595,7 @@ const Community = ({ athleteId }) => {
   const loadEvents = async () => {
     try {
       const response = await axios.get(`${API}/community/events?athlete_id=${athleteId}`);
+      console.log('Loaded Events:', response.data.events); // Debug log
       setEvents(response.data.events);
       setEventsLoaded(true);
       setIsLoading(false);
