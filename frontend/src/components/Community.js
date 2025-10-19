@@ -1067,6 +1067,7 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onClick }) => (
         {group.member_role && (
           <span className="text-[#00C2A8] text-sm font-semibold flex items-center">
             {group.member_role === 'admin' && <Crown className="w-4 h-4 mr-1" />}
+            {group.member_role === 'manager' && <Shield className="w-4 h-4 mr-1" />}
             {group.member_role === 'moderator' && <Shield className="w-4 h-4 mr-1" />}
             {group.member_role}
           </span>
