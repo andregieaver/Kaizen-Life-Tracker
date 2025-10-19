@@ -148,6 +148,8 @@ const Community = ({ athleteId }) => {
       loadAllGroups();
     } else if (activeTab === 'mygroups') {
       loadMyGroups();
+    } else if (activeTab === 'events') {
+      loadEvents();
     }
     loadNotifications();
   }, [athleteId, activeTab]);
