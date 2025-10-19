@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
-import { Heart, MessageCircle, Share2, Send, Edit2, Trash2, Camera, X, Bell } from 'lucide-react';
+import { Heart, MessageCircle, Share2, Send, Edit2, Trash2, Camera, X, Bell, UserPlus, UserMinus, Users as UsersIcon, Lock, Globe, Crown, Shield } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Community = ({ athleteId }) => {
+  const [activeTab, setActiveTab] = useState('feed'); // 'feed', 'groups', 'mygroups'
+  
+  // Posts state
   const [posts, setPosts] = useState([]);
   const [newPostContent, setNewPostContent] = useState('');
   const [newPostImage, setNewPostImage] = useState(null);
@@ -17,14 +20,40 @@ const Community = ({ athleteId }) => {
   const [commentText, setCommentText] = useState({});
   const [editingPost, setEditingPost] = useState(null);
   const [editContent, setEditContent] = useState('');
+  
+  // Notifications state
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  
+  // Profile state
+  const [showProfile, setShowProfile] = useState(false);
+  const [profileData, setProfileData] = useState(null);
+  const [profileLoading, setProfileLoading] = useState(false);
+  
+  // Groups state
+  const [groups, setGroups] = useState([]);
+  const [myGroups, setMyGroups] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [groupPosts, setGroupPosts] = useState([]);
+  const [showCreateGroup, setShowCreateGroup] = useState(false);
+  const [newGroupData, setNewGroupData] = useState({
+    name: '',
+    description: '',
+    privacy: 'public',
+    cover_photo: null
+  });
 
   useEffect(() => {
-    loadPosts();
+    if (activeTab === 'feed') {
+      loadPosts();
+    } else if (activeTab === 'groups') {
+      loadAllGroups();
+    } else if (activeTab === 'mygroups') {
+      loadMyGroups();
+    }
     loadNotifications();
-  }, [athleteId]);
+  }, [athleteId, activeTab]);
 
   const loadPosts = async () => {
     try {
@@ -37,6 +66,28 @@ const Community = ({ athleteId }) => {
     }
   };
 
+  const loadAllGroups = async () => {
+    try {
+      const response = await axios.get(`${API}/community/groups?athlete_id=${athleteId}`);
+      setGroups(response.data.groups);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error loading groups:', error);
+      setIsLoading(false);
+    }
+  };
+
+  const loadMyGroups = async () => {
+    try {
+      const response = await axios.get(`${API}/community/groups/my/${athleteId}`);
+      setMyGroups(response.data.groups);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error loading my groups:', error);
+      setIsLoading(false);
+    }
+  };
+
   const loadNotifications = async () => {
     try {
       const response = await axios.get(`${API}/community/notifications/${athleteId}`);
@@ -44,6 +95,33 @@ const Community = ({ athleteId }) => {
       setUnreadCount(response.data.notifications.filter(n => !n.read).length);
     } catch (error) {
       console.error('Error loading notifications:', error);
+    }
+  };
+
+  const loadAthleteProfile = async (targetAthleteId) => {
+    setProfileLoading(true);
+    try {
+      const response = await axios.get(`${API}/community/profile/${targetAthleteId}?viewer_athlete_id=${athleteId}`);
+      setProfileData(response.data);
+      setShowProfile(true);
+    } catch (error) {
+      console.error('Error loading profile:', error);
+      alert('Failed to load profile');
+    } finally {
+      setProfileLoading(false);
+    }
+  };
+
+  const handleFollowToggle = async () => {
+    try {
+      const response = await axios.post(`${API}/community/follow/${profileData.id}?athlete_id=${athleteId}`);
+      setProfileData({
+        ...profileData,
+        is_following: response.data.following,
+        followers_count: response.data.followers_count
+      });
+    } catch (error) {
+      console.error('Error toggling follow:', error);
     }
   };
 
@@ -130,7 +208,7 @@ const Community = ({ athleteId }) => {
       });
       setCommentText({ ...commentText, [postId]: '' });
       loadComments(postId);
-      loadPosts(); // Refresh to update comment count
+      loadPosts();
     } catch (error) {
       console.error('Error adding comment:', error);
     }
@@ -152,7 +230,7 @@ const Community = ({ athleteId }) => {
   const handleSharePost = async (postId) => {
     try {
       await axios.post(`${API}/community/posts/${postId}/share?athlete_id=${athleteId}`);
-      loadPosts(); // Refresh to update share count
+      loadPosts();
       alert('Post shared successfully!');
     } catch (error) {
       console.error('Error sharing post:', error);
@@ -176,6 +254,80 @@ const Community = ({ athleteId }) => {
     }
   };
 
+  // Groups functions
+  const handleCreateGroup = async () => {
+    if (!newGroupData.name.trim()) {
+      alert('Group name is required');
+      return;
+    }
+
+    try {
+      await axios.post(`${API}/community/groups?athlete_id=${athleteId}`, newGroupData);
+      setShowCreateGroup(false);
+      setNewGroupData({ name: '', description: '', privacy: 'public', cover_photo: null });
+      loadMyGroups();
+    } catch (error) {
+      console.error('Error creating group:', error);
+      alert('Failed to create group');
+    }
+  };
+
+  const handleJoinGroup = async (groupId) => {
+    try {
+      const response = await axios.post(`${API}/community/groups/${groupId}/join?athlete_id=${athleteId}`);
+      alert(response.data.message);
+      loadAllGroups();
+    } catch (error) {
+      console.error('Error joining group:', error);
+      alert('Failed to join group');
+    }
+  };
+
+  const handleLeaveGroup = async (groupId) => {
+    if (!window.confirm('Are you sure you want to leave this group?')) return;
+
+    try {
+      await axios.post(`${API}/community/groups/${groupId}/leave?athlete_id=${athleteId}`);
+      setSelectedGroup(null);
+      loadMyGroups();
+    } catch (error) {
+      console.error('Error leaving group:', error);
+      alert(error.response?.data?.message || 'Failed to leave group');
+    }
+  };
+
+  const loadGroupDetails = async (groupId) => {
+    try {
+      const [groupResponse, postsResponse] = await Promise.all([
+        axios.get(`${API}/community/groups/${groupId}?athlete_id=${athleteId}`),
+        axios.get(`${API}/community/groups/${groupId}/posts?athlete_id=${athleteId}`)
+      ]);
+      setSelectedGroup(groupResponse.data);
+      setGroupPosts(postsResponse.data.posts);
+    } catch (error) {
+      console.error('Error loading group details:', error);
+      alert('Failed to load group');
+    }
+  };
+
+  const handleCreateGroupPost = async () => {
+    if (!newPostContent.trim() || !selectedGroup) return;
+
+    try {
+      await axios.post(`${API}/community/groups/${selectedGroup.id}/posts?athlete_id=${athleteId}`, {
+        content: newPostContent,
+        image_data: newPostImage
+      });
+      setNewPostContent('');
+      setNewPostImage(null);
+      setNewPostImagePreview(null);
+      loadGroupDetails(selectedGroup.id);
+    } catch (error) {
+      console.error('Error creating group post:', error);
+      alert('Failed to create post');
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -185,10 +337,51 @@ const Community = ({ athleteId }) => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6 py-6">
-      {/* Header with Notifications */}
+    <div className="max-w-5xl mx-auto space-y-6 py-6">
+      {/* Header with Tabs and Notifications */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold text-white">Community</h1>
+        <div className="flex space-x-4">
+          <button
+            onClick={() => {
+              setActiveTab('feed');
+              setSelectedGroup(null);
+            }}
+            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
+              activeTab === 'feed'
+                ? 'bg-[#00C2A8] text-white'
+                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+            }`}
+          >
+            Feed
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab('groups');
+              setSelectedGroup(null);
+            }}
+            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
+              activeTab === 'groups'
+                ? 'bg-[#00C2A8] text-white'
+                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+            }`}
+          >
+            Groups
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab('mygroups');
+              setSelectedGroup(null);
+            }}
+            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
+              activeTab === 'mygroups'
+                ? 'bg-[#00C2A8] text-white'
+                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+            }`}
+          >
+            My Groups
+          </button>
+        </div>
+
         <div className="relative">
           <button
             onClick={() => setShowNotifications(!showNotifications)}
@@ -233,13 +426,622 @@ const Community = ({ athleteId }) => {
         </div>
       </div>
 
-      {/* Create Post Card */}
+      {/* Feed Tab */}
+      {activeTab === 'feed' && !selectedGroup && (
+        <>
+          {/* Create Post Card */}
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+            <CardContent className="p-6">
+              <textarea
+                value={newPostContent}
+                onChange={(e) => setNewPostContent(e.target.value)}
+                placeholder="What's on your mind?"
+                className="w-full bg-gray-600 text-white rounded-lg p-4 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+                rows="3"
+              />
+              
+              {newPostImagePreview && (
+                <div className="mt-4 relative">
+                  <img src={newPostImagePreview} alt="Preview" className="w-full rounded-lg max-h-96 object-cover" />
+                  <button
+                    onClick={() => {
+                      setNewPostImage(null);
+                      setNewPostImagePreview(null);
+                    }}
+                    className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 rounded-full p-2 transition-colors"
+                  >
+                    <X className="w-4 h-4 text-white" />
+                  </button>
+                </div>
+              )}
+
+              <div className="flex justify-between items-center mt-4">
+                <label className="cursor-pointer">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageSelect}
+                    className="hidden"
+                  />
+                  <div className="flex items-center space-x-2 px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg transition-colors">
+                    <Camera className="w-5 h-5 text-[#00C2A8]" />
+                    <span className="text-white text-sm">Add Photo</span>
+                  </div>
+                </label>
+                
+                <Button
+                  onClick={handleCreatePost}
+                  disabled={!newPostContent.trim()}
+                  className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-6 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Send className="w-4 h-4 mr-2" />
+                  Post
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Posts Feed */}
+          <PostsList 
+            posts={posts}
+            athleteId={athleteId}
+            editingPost={editingPost}
+            editContent={editContent}
+            showComments={showComments}
+            commentText={commentText}
+            setEditingPost={setEditingPost}
+            setEditContent={setEditContent}
+            setCommentText={setCommentText}
+            handleEditPost={handleEditPost}
+            handleDeletePost={handleDeletePost}
+            handleToggleLike={handleToggleLike}
+            toggleComments={toggleComments}
+            handleAddComment={handleAddComment}
+            handleSharePost={handleSharePost}
+            loadAthleteProfile={loadAthleteProfile}
+          />
+        </>
+      )}
+
+      {/* Groups Tab */}
+      {activeTab === 'groups' && !selectedGroup && (
+        <div className="space-y-6">
+          <Button
+            onClick={() => setShowCreateGroup(true)}
+            className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+          >
+            <UsersIcon className="w-4 h-4 mr-2" />
+            Create Group
+          </Button>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {groups.map(group => (
+              <GroupCard
+                key={group.id}
+                group={group}
+                athleteId={athleteId}
+                onJoin={handleJoinGroup}
+                onClick={() => loadGroupDetails(group.id)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* My Groups Tab */}
+      {activeTab === 'mygroups' && !selectedGroup && (
+        <div className="space-y-6">
+          <Button
+            onClick={() => setShowCreateGroup(true)}
+            className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+          >
+            <UsersIcon className="w-4 h-4 mr-2" />
+            Create Group
+          </Button>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {myGroups.map(group => (
+              <GroupCard
+                key={group.id}
+                group={group}
+                athleteId={athleteId}
+                isMember={true}
+                onClick={() => loadGroupDetails(group.id)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Group Detail View */}
+      {selectedGroup && (
+        <GroupDetailView
+          group={selectedGroup}
+          posts={groupPosts}
+          athleteId={athleteId}
+          newPostContent={newPostContent}
+          newPostImage={newPostImage}
+          newPostImagePreview={newPostImagePreview}
+          editingPost={editingPost}
+          editContent={editContent}
+          showComments={showComments}
+          commentText={commentText}
+          setNewPostContent={setNewPostContent}
+          setNewPostImage={setNewPostImage}
+          setNewPostImagePreview={setNewPostImagePreview}
+          setEditingPost={setEditingPost}
+          setEditContent={setEditContent}
+          setCommentText={setCommentText}
+          handleCreateGroupPost={handleCreateGroupPost}
+          handleImageSelect={handleImageSelect}
+          onBack={() => setSelectedGroup(null)}
+          onLeave={handleLeaveGroup}
+          loadAthleteProfile={loadAthleteProfile}
+        />
+      )}
+
+      {/* Create Group Modal */}
+      {showCreateGroup && (
+        <CreateGroupModal
+          groupData={newGroupData}
+          setGroupData={setNewGroupData}
+          onClose={() => setShowCreateGroup(false)}
+          onCreate={handleCreateGroup}
+        />
+      )}
+
+      {/* Athlete Profile Modal */}
+      {showProfile && profileData && (
+        <AthleteProfileModal
+          profile={profileData}
+          onClose={() => setShowProfile(false)}
+          onFollowToggle={handleFollowToggle}
+          loading={profileLoading}
+        />
+      )}
+    </div>
+  );
+};
+
+// PostsList Component
+const PostsList = ({ posts, athleteId, editingPost, editContent, showComments, commentText,
+  setEditingPost, setEditContent, setCommentText, handleEditPost, handleDeletePost,
+  handleToggleLike, toggleComments, handleAddComment, handleSharePost, loadAthleteProfile }) => (
+  <div className="space-y-6">
+    {posts.map(post => (
+      <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <div 
+              className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
+              onClick={() => loadAthleteProfile(post.athlete_id)}
+            >
+              {post.athlete_profile_picture ? (
+                <img
+                  src={post.athlete_profile_picture}
+                  alt={post.athlete_name}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold">
+                    {post.athlete_name?.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              )}
+              <div>
+                <p className="text-white font-semibold hover:underline">{post.athlete_name}</p>
+                <p className="text-gray-400 text-xs">
+                  {new Date(post.created_at).toLocaleString()}
+                  {post.is_edited && ' (edited)'}
+                </p>
+              </div>
+            </div>
+            
+            {post.athlete_id === athleteId && (
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => {
+                    setEditingPost(post.id);
+                    setEditContent(post.content);
+                  }}
+                  className="p-2 hover:bg-gray-600 rounded-full transition-colors"
+                >
+                  <Edit2 className="w-4 h-4 text-blue-400" />
+                </button>
+                <button
+                  onClick={() => handleDeletePost(post.id)}
+                  className="p-2 hover:bg-gray-600 rounded-full transition-colors"
+                >
+                  <Trash2 className="w-4 h-4 text-red-400" />
+                </button>
+              </div>
+            )}
+          </div>
+        </CardHeader>
+        
+        <CardContent>
+          {editingPost === post.id ? (
+            <div className="space-y-3">
+              <textarea
+                value={editContent}
+                onChange={(e) => setEditContent(e.target.value)}
+                className="w-full bg-gray-600 text-white rounded-lg p-3 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+                rows="3"
+              />
+              <div className="flex space-x-2">
+                <Button
+                  onClick={() => handleEditPost(post.id)}
+                  className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg"
+                >
+                  Save
+                </Button>
+                <Button
+                  onClick={() => {
+                    setEditingPost(null);
+                    setEditContent('');
+                  }}
+                  className="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded-lg"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <p className="text-white mb-4">{post.content}</p>
+              
+              {post.image_data && (
+                <img src={post.image_data} alt="Post" className="w-full rounded-lg mb-4" />
+              )}
+              
+              <div className="flex items-center justify-between border-t border-gray-600 pt-3 mt-3">
+                <button
+                  onClick={() => handleToggleLike(post.id)}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                    post.liked_by_user
+                      ? 'bg-red-500/20 text-red-400'
+                      : 'hover:bg-gray-600 text-gray-400'
+                  }`}
+                >
+                  <Heart className={`w-5 h-5 ${post.liked_by_user ? 'fill-current' : ''}`} />
+                  <span>{post.likes_count}</span>
+                </button>
+                
+                <button
+                  onClick={() => toggleComments(post.id)}
+                  className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-600 rounded-lg transition-colors text-gray-400"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  <span>{post.comments_count}</span>
+                </button>
+                
+                <button
+                  onClick={() => handleSharePost(post.id)}
+                  className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-600 rounded-lg transition-colors text-gray-400"
+                >
+                  <Share2 className="w-5 h-5" />
+                  <span>{post.shares_count}</span>
+                </button>
+              </div>
+              
+              {showComments[post.id] && (
+                <div className="mt-4 border-t border-gray-600 pt-4 space-y-4">
+                  {post.comments?.map(comment => (
+                    <div key={comment.id} className="flex space-x-3">
+                      <div 
+                        className="cursor-pointer"
+                        onClick={() => loadAthleteProfile(comment.athlete_id)}
+                      >
+                        {comment.athlete_profile_picture ? (
+                          <img
+                            src={comment.athlete_profile_picture}
+                            alt={comment.athlete_name}
+                            className="w-8 h-8 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                            <span className="text-white text-sm font-bold">
+                              {comment.athlete_name?.charAt(0).toUpperCase()}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1 bg-gray-600 rounded-lg p-3">
+                        <p 
+                          className="text-white font-semibold text-sm cursor-pointer hover:underline"
+                          onClick={() => loadAthleteProfile(comment.athlete_id)}
+                        >
+                          {comment.athlete_name}
+                        </p>
+                        <p className="text-gray-300 text-sm mt-1">{comment.content}</p>
+                        <p className="text-gray-400 text-xs mt-1">
+                          {new Date(comment.created_at).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  <div className="flex space-x-2">
+                    <input
+                      type="text"
+                      value={commentText[post.id] || ''}
+                      onChange={(e) => setCommentText({ ...commentText, [post.id]: e.target.value })}
+                      onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
+                      placeholder="Write a comment..."
+                      className="flex-1 bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                    />
+                    <Button
+                      onClick={() => handleAddComment(post.id)}
+                      disabled={!commentText[post.id]?.trim()}
+                      className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Send className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </CardContent>
+      </Card>
+    ))}
+
+    {posts.length === 0 && (
+      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+        <CardContent className="p-12 text-center">
+          <p className="text-gray-400 text-lg">No posts yet. Be the first to share something!</p>
+        </CardContent>
+      </Card>
+    )}
+  </div>
+);
+
+// GroupCard Component
+const GroupCard = ({ group, athleteId, isMember, onJoin, onClick }) => (
+  <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-all" onClick={onClick}>
+    <CardContent className="p-6">
+      {group.cover_photo && (
+        <img src={group.cover_photo} alt={group.name} className="w-full h-32 object-cover rounded-lg mb-4" />
+      )}
+      <div className="flex items-start justify-between mb-2">
+        <h3 className="text-xl font-bold text-white">{group.name}</h3>
+        {group.privacy === 'private' ? (
+          <Lock className="w-5 h-5 text-gray-400" />
+        ) : (
+          <Globe className="w-5 h-5 text-gray-400" />
+        )}
+      </div>
+      <p className="text-gray-300 text-sm mb-4 line-clamp-2">{group.description}</p>
+      <div className="flex items-center justify-between">
+        <span className="text-gray-400 text-sm">{group.members_count} members</span>
+        {!isMember && !group.is_member && (
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              onJoin(group.id);
+            }}
+            className="bg-[#00C2A8] hover:bg-[#00a890] text-white text-sm px-4 py-1"
+          >
+            Join
+          </Button>
+        )}
+        {group.member_role && (
+          <span className="text-[#00C2A8] text-sm font-semibold flex items-center">
+            {group.member_role === 'admin' && <Crown className="w-4 h-4 mr-1" />}
+            {group.member_role === 'moderator' && <Shield className="w-4 h-4 mr-1" />}
+            {group.member_role}
+          </span>
+        )}
+      </div>
+    </CardContent>
+  </Card>
+);
+
+// CreateGroupModal Component
+const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
+      <h2 className="text-2xl font-bold text-white mb-4">Create Group</h2>
+      
+      <div className="space-y-4">
+        <div>
+          <label className="text-white text-sm font-semibold mb-2 block">Group Name</label>
+          <input
+            type="text"
+            value={groupData.name}
+            onChange={(e) => setGroupData({ ...groupData, name: e.target.value })}
+            placeholder="Enter group name"
+            className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+          />
+        </div>
+        
+        <div>
+          <label className="text-white text-sm font-semibold mb-2 block">Description</label>
+          <textarea
+            value={groupData.description}
+            onChange={(e) => setGroupData({ ...groupData, description: e.target.value })}
+            placeholder="Describe your group"
+            className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+            rows="3"
+          />
+        </div>
+        
+        <div>
+          <label className="text-white text-sm font-semibold mb-2 block">Privacy</label>
+          <select
+            value={groupData.privacy}
+            onChange={(e) => setGroupData({ ...groupData, privacy: e.target.value })}
+            className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+          >
+            <option value="public">Public - Anyone can join</option>
+            <option value="private">Private - Requires approval</option>
+          </select>
+        </div>
+      </div>
+      
+      <div className="flex space-x-3 mt-6">
+        <Button
+          onClick={onCreate}
+          className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+        >
+          Create Group
+        </Button>
+        <Button
+          onClick={onClose}
+          className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
+        >
+          Cancel
+        </Button>
+      </div>
+    </div>
+  </div>
+);
+
+// AthleteProfileModal Component
+const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading }) => (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      ) : (
+        <>
+          <div className="flex items-center space-x-4 mb-6">
+            {profile.profile_picture ? (
+              <img
+                src={profile.profile_picture}
+                alt={profile.name}
+                className="w-20 h-20 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-20 h-20 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-2xl">
+                  {profile.name?.charAt(0).toUpperCase()}
+                </span>
+              </div>
+            )}
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold text-white">{profile.name}</h2>
+              {profile.bio && <p className="text-gray-400 text-sm mt-1">{profile.bio}</p>}
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="text-center">
+              <p className="text-2xl font-bold text-[#00C2A8]">{profile.posts_count}</p>
+              <p className="text-gray-400 text-sm">Posts</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-[#00C2A8]">{profile.followers_count}</p>
+              <p className="text-gray-400 text-sm">Followers</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-[#00C2A8]">{profile.following_count}</p>
+              <p className="text-gray-400 text-sm">Following</p>
+            </div>
+          </div>
+          
+          <div className="flex space-x-3">
+            {!profile.is_own_profile && (
+              <Button
+                onClick={onFollowToggle}
+                className={`flex-1 ${
+                  profile.is_following
+                    ? 'bg-gray-700 hover:bg-gray-600'
+                    : 'bg-[#00C2A8] hover:bg-[#00a890]'
+                } text-white`}
+              >
+                {profile.is_following ? (
+                  <>
+                    <UserMinus className="w-4 h-4 mr-2" />
+                    Unfollow
+                  </>
+                ) : (
+                  <>
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    Follow
+                  </>
+                )}
+              </Button>
+            )}
+            <Button
+              onClick={onClose}
+              className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
+            >
+              Close
+            </Button>
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+);
+
+// GroupDetailView Component  
+const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage, newPostImagePreview,
+  editingPost, editContent, showComments, commentText, setNewPostContent, setNewPostImage, 
+  setNewPostImagePreview, setEditingPost, setEditContent, setCommentText,
+  handleCreateGroupPost, handleImageSelect, onBack, onLeave, loadAthleteProfile }) => (
+  <div className="space-y-6">
+    {/* Group Header */}
+    <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+      <CardContent className="p-6">
+        <button
+          onClick={onBack}
+          className="text-[#00C2A8] hover:underline mb-4 flex items-center"
+        >
+          ← Back to Groups
+        </button>
+        
+        {group.cover_photo && (
+          <img src={group.cover_photo} alt={group.name} className="w-full h-48 object-cover rounded-lg mb-4" />
+        )}
+        
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <div className="flex items-center space-x-2 mb-2">
+              <h2 className="text-3xl font-bold text-white">{group.name}</h2>
+              {group.privacy === 'private' ? (
+                <Lock className="w-6 h-6 text-gray-400" />
+              ) : (
+                <Globe className="w-6 h-6 text-gray-400" />
+              )}
+            </div>
+            <p className="text-gray-300 mb-4">{group.description}</p>
+            <div className="flex items-center space-x-4 text-sm">
+              <span className="text-gray-400">{group.members_count} members</span>
+              {group.member_role && (
+                <span className="text-[#00C2A8] font-semibold flex items-center">
+                  {group.member_role === 'admin' && <Crown className="w-4 h-4 mr-1" />}
+                  {group.member_role === 'moderator' && <Shield className="w-4 h-4 mr-1" />}
+                  {group.member_role}
+                </span>
+              )}
+            </div>
+          </div>
+          
+          {group.is_member && group.member_role !== 'admin' && (
+            <Button
+              onClick={() => onLeave(group.id)}
+              className="bg-red-500 hover:bg-red-600 text-white"
+            >
+              Leave Group
+            </Button>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+
+    {/* Create Post (if member) */}
+    {group.is_member && (
       <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
         <CardContent className="p-6">
           <textarea
             value={newPostContent}
             onChange={(e) => setNewPostContent(e.target.value)}
-            placeholder="What's on your mind?"
+            placeholder="Share something with the group..."
             className="w-full bg-gray-600 text-white rounded-lg p-4 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
             rows="3"
           />
@@ -274,7 +1076,7 @@ const Community = ({ athleteId }) => {
             </label>
             
             <Button
-              onClick={handleCreatePost}
+              onClick={handleCreateGroupPost}
               disabled={!newPostContent.trim()}
               className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-6 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -284,190 +1086,74 @@ const Community = ({ athleteId }) => {
           </div>
         </CardContent>
       </Card>
+    )}
 
-      {/* Posts Feed */}
-      <div className="space-y-6">
-        {posts.map(post => (
-          <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  {post.athlete_profile_picture ? (
-                    <img
-                      src={post.athlete_profile_picture}
-                      alt={post.athlete_name}
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
-                      <span className="text-white font-bold">
-                        {post.athlete_name?.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                  )}
-                  <div>
-                    <p className="text-white font-semibold">{post.athlete_name}</p>
-                    <p className="text-gray-400 text-xs">
-                      {new Date(post.created_at).toLocaleString()}
-                      {post.is_edited && ' (edited)'}
-                    </p>
-                  </div>
-                </div>
-                
-                {/* Edit/Delete buttons for own posts */}
-                {post.athlete_id === athleteId && (
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => {
-                        setEditingPost(post.id);
-                        setEditContent(post.content);
-                      }}
-                      className="p-2 hover:bg-gray-600 rounded-full transition-colors"
-                    >
-                      <Edit2 className="w-4 h-4 text-blue-400" />
-                    </button>
-                    <button
-                      onClick={() => handleDeletePost(post.id)}
-                      className="p-2 hover:bg-gray-600 rounded-full transition-colors"
-                    >
-                      <Trash2 className="w-4 h-4 text-red-400" />
-                    </button>
+    {/* Group Posts - Reuse PostsList but without edit/delete for non-members */}
+    <div className="space-y-6">
+      {posts.map(post => (
+        <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+          <CardHeader className="pb-3">
+            <div className="flex items-center justify-between">
+              <div 
+                className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
+                onClick={() => loadAthleteProfile(post.athlete_id)}
+              >
+                {post.athlete_profile_picture ? (
+                  <img
+                    src={post.athlete_profile_picture}
+                    alt={post.athlete_name}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold">
+                      {post.athlete_name?.charAt(0).toUpperCase()}
+                    </span>
                   </div>
                 )}
-              </div>
-            </CardHeader>
-            
-            <CardContent>
-              {editingPost === post.id ? (
-                <div className="space-y-3">
-                  <textarea
-                    value={editContent}
-                    onChange={(e) => setEditContent(e.target.value)}
-                    className="w-full bg-gray-600 text-white rounded-lg p-3 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
-                    rows="3"
-                  />
-                  <div className="flex space-x-2">
-                    <Button
-                      onClick={() => handleEditPost(post.id)}
-                      className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg"
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setEditingPost(null);
-                        setEditContent('');
-                      }}
-                      className="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded-lg"
-                    >
-                      Cancel
-                    </Button>
-                  </div>
+                <div>
+                  <p className="text-white font-semibold hover:underline">{post.athlete_name}</p>
+                  <p className="text-gray-400 text-xs">
+                    {new Date(post.created_at).toLocaleString()}
+                  </p>
                 </div>
-              ) : (
-                <>
-                  <p className="text-white mb-4">{post.content}</p>
-                  
-                  {post.image_data && (
-                    <img src={post.image_data} alt="Post" className="w-full rounded-lg mb-4" />
-                  )}
-                  
-                  {/* Interaction Buttons */}
-                  <div className="flex items-center justify-between border-t border-gray-600 pt-3 mt-3">
-                    <button
-                      onClick={() => handleToggleLike(post.id)}
-                      className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-                        post.liked_by_user
-                          ? 'bg-red-500/20 text-red-400'
-                          : 'hover:bg-gray-600 text-gray-400'
-                      }`}
-                    >
-                      <Heart className={`w-5 h-5 ${post.liked_by_user ? 'fill-current' : ''}`} />
-                      <span>{post.likes_count}</span>
-                    </button>
-                    
-                    <button
-                      onClick={() => toggleComments(post.id)}
-                      className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-600 rounded-lg transition-colors text-gray-400"
-                    >
-                      <MessageCircle className="w-5 h-5" />
-                      <span>{post.comments_count}</span>
-                    </button>
-                    
-                    <button
-                      onClick={() => handleSharePost(post.id)}
-                      className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-600 rounded-lg transition-colors text-gray-400"
-                    >
-                      <Share2 className="w-5 h-5" />
-                      <span>{post.shares_count}</span>
-                    </button>
-                  </div>
-                  
-                  {/* Comments Section */}
-                  {showComments[post.id] && (
-                    <div className="mt-4 border-t border-gray-600 pt-4 space-y-4">
-                      {/* Existing Comments */}
-                      {post.comments?.map(comment => (
-                        <div key={comment.id} className="flex space-x-3">
-                          {comment.athlete_profile_picture ? (
-                            <img
-                              src={comment.athlete_profile_picture}
-                              alt={comment.athlete_name}
-                              className="w-8 h-8 rounded-full object-cover"
-                            />
-                          ) : (
-                            <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
-                              <span className="text-white text-sm font-bold">
-                                {comment.athlete_name?.charAt(0).toUpperCase()}
-                              </span>
-                            </div>
-                          )}
-                          <div className="flex-1 bg-gray-600 rounded-lg p-3">
-                            <p className="text-white font-semibold text-sm">{comment.athlete_name}</p>
-                            <p className="text-gray-300 text-sm mt-1">{comment.content}</p>
-                            <p className="text-gray-400 text-xs mt-1">
-                              {new Date(comment.created_at).toLocaleString()}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                      
-                      {/* Add Comment */}
-                      <div className="flex space-x-2">
-                        <input
-                          type="text"
-                          value={commentText[post.id] || ''}
-                          onChange={(e) => setCommentText({ ...commentText, [post.id]: e.target.value })}
-                          onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
-                          placeholder="Write a comment..."
-                          className="flex-1 bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
-                        />
-                        <Button
-                          onClick={() => handleAddComment(post.id)}
-                          disabled={!commentText[post.id]?.trim()}
-                          className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          <Send className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+              </div>
+            </div>
+          </CardHeader>
+          
+          <CardContent>
+            <p className="text-white mb-4">{post.content}</p>
+            {post.image_data && (
+              <img src={post.image_data} alt="Post" className="w-full rounded-lg mb-4" />
+            )}
+            
+            <div className="flex items-center space-x-4 border-t border-gray-600 pt-3 mt-3">
+              <div className="flex items-center space-x-2 text-gray-400">
+                <Heart className="w-5 h-5" />
+                <span>{post.likes_count}</span>
+              </div>
+              <div className="flex items-center space-x-2 text-gray-400">
+                <MessageCircle className="w-5 h-5" />
+                <span>{post.comments_count}</span>
+              </div>
+              <div className="flex items-center space-x-2 text-gray-400">
+                <Share2 className="w-5 h-5" />
+                <span>{post.shares_count}</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
 
       {posts.length === 0 && (
         <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
           <CardContent className="p-12 text-center">
-            <p className="text-gray-400 text-lg">No posts yet. Be the first to share something!</p>
+            <p className="text-gray-400 text-lg">No posts in this group yet.</p>
           </CardContent>
         </Card>
       )}
     </div>
-  );
-};
+  </div>
+);
 
 export default Community;
