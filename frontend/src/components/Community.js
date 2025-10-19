@@ -148,6 +148,12 @@ const Community = ({ athleteId }) => {
   };
 
   useEffect(() => {
+    // Load notifications only once on mount
+    loadNotifications();
+  }, [athleteId]);
+
+  useEffect(() => {
+    // Load data based on active tab
     if (activeTab === 'feed') {
       loadPosts();
     } else if (activeTab === 'groups') {
@@ -157,7 +163,6 @@ const Community = ({ athleteId }) => {
     } else if (activeTab === 'events') {
       loadEvents();
     }
-    loadNotifications();
   }, [athleteId, activeTab]);
 
   const loadPosts = async () => {
