@@ -7206,13 +7206,20 @@ async def create_community_post(post_data: dict, athlete_id: str = Query(...)):
         if not athlete:
             raise HTTPException(status_code=404, detail="Athlete not found")
         
+        content = post_data.get("content", "")
+        
+        # Extract mentions from content (@[user_id:username])
+        import re
+        mention_pattern = r'@\[([^:]+):([^\]]+)\]'
+        mentions = re.findall(mention_pattern, content)
+        
         # Create post
         post = {
             "id": str(uuid.uuid4()),
             "athlete_id": athlete_id,
             "athlete_name": athlete.get("name", "Unknown"),
             "athlete_profile_picture": athlete.get("profile_picture"),
-            "content": post_data.get("content", ""),
+            "content": content,
             "image_data": post_data.get("image_data"),
             "likes_count": 0,
             "comments_count": 0,
@@ -7225,6 +7232,24 @@ async def create_community_post(post_data: dict, athlete_id: str = Query(...)):
         # Prepare for MongoDB and insert
         post_for_mongo = prepare_for_mongo(post.copy())
         await db.community_posts.insert_one(post_for_mongo)
+        
+        # Create notifications for mentioned users
+        for user_id, user_name in mentions:
+            if user_id != athlete_id:  # Don't notify self
+                notification = {
+                    "id": str(uuid.uuid4()),
+                    "athlete_id": user_id,
+                    "type": "mention",
+                    "message": f"{athlete.get('name', 'Someone')} mentioned you in a post",
+                    "from_athlete_id": athlete_id,
+                    "from_athlete_name": athlete.get('name', 'Unknown'),
+                    "post_id": post["id"],
+                    "read": False,
+                    "created_at": datetime.now(timezone.utc).isoformat()
+                }
+                notification_for_mongo = prepare_for_mongo(notification.copy())
+                await db.community_notifications.insert_one(notification_for_mongo)
+        
         return post  # Return original post without MongoDB _id
     except Exception as e:
         logging.error(f"Error creating community post: {e}")
