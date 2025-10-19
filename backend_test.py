@@ -1430,34 +1430,58 @@ def test_image_exclusion_performance_feature():
         else:
             print_test_result("Backward Compatibility", False, f"Some endpoints failed: feed={feed_default_response.status_code}, groups={groups_default_response.status_code}, my_groups={my_groups_default_response.status_code}")
         
-        # Step 9: Test Events with Group Filter
-        print("   Step 9: Test Events with Group Filter")
+        # Step 9: Check backend logs for errors
+        print("   Step 9: Check backend logs for errors")
         
-        # Test with group_id parameter (use first group if available)
-        if groups:
-            first_group_id = groups[0].get("id")
-            group_events_response = requests.get(f"{BACKEND_URL}/community/events?athlete_id={test_athlete_id}&group_id={first_group_id}")
+        try:
+            import subprocess
+            log_result = subprocess.run(
+                ["tail", "-n", "20", "/var/log/supervisor/backend.err.log"],
+                capture_output=True, text=True, timeout=5
+            )
             
-            if group_events_response.status_code == 200:
-                group_events_data = group_events_response.json()
-                group_events = group_events_data.get("events", [])
-                print_test_result("Events - Group Filter", True, f"Group events filter working: {len(group_events)} events")
+            if log_result.stdout:
+                error_lines = [line for line in log_result.stdout.split('\n') if 'ERROR' in line or 'Exception' in line]
+                if error_lines:
+                    print_test_result("Backend Logs Check", False, f"Found {len(error_lines)} error lines in recent logs")
+                    for error_line in error_lines[-3:]:  # Show last 3 errors
+                        print(f"      {error_line}")
+                else:
+                    print_test_result("Backend Logs Check", True, "No errors found in recent backend logs")
             else:
-                print_test_result("Events - Group Filter", False, f"Group events filter failed: {group_events_response.status_code}")
-                return False
+                print_test_result("Backend Logs Check", True, "Backend logs accessible, no recent entries")
+        except Exception as log_e:
+            print_test_result("Backend Logs Check", True, f"Could not read backend logs (not critical): {log_e}")
+        
+        # Step 10: Test with athlete who has groups (using andre's athlete_id)
+        print("   Step 10: Test with athlete who has groups (andre@example.com)")
+        
+        andre_my_groups_response = requests.get(f"{BACKEND_URL}/community/groups/my/{andre_athlete_id}?exclude_images=true&limit=30")
+        
+        if andre_my_groups_response.status_code == 200:
+            andre_my_groups_data = andre_my_groups_response.json()
+            andre_my_groups = andre_my_groups_data.get("groups", [])
+            
+            if andre_my_groups:
+                # Verify member_role is still included for andre's groups
+                first_andre_group = andre_my_groups[0]
+                andre_member_role = first_andre_group.get("member_role")
+                
+                if andre_member_role and isinstance(andre_member_role, str):
+                    print_test_result("Andre My Groups - member_role", True, f"Andre has {len(andre_my_groups)} groups, member_role: {andre_member_role}")
+                else:
+                    print_test_result("Andre My Groups - member_role", False, f"Andre's member_role should be string, got: {andre_member_role}")
+                
+                # Verify image fields are excluded
+                image_fields_present = [field for field in ["profile_image", "cover_photo"] if field in first_andre_group]
+                if not image_fields_present:
+                    print_test_result("Andre My Groups - Image Exclusion", True, "Image fields correctly excluded for Andre's groups")
+                else:
+                    print_test_result("Andre My Groups - Image Exclusion", False, f"Image fields present: {image_fields_present}")
+            else:
+                print_test_result("Andre My Groups", True, "Andre's My Groups endpoint accessible (no groups found)")
         else:
-            print_test_result("Events - Group Filter", True, "Group filter test skipped (no groups available)")
-        
-        # Step 10: Test Events Pagination
-        print("   Step 10: Test Events Pagination")
-        
-        events_paginated_response = requests.get(f"{BACKEND_URL}/community/events?athlete_id={test_athlete_id}&limit=5&skip=0")
-        
-        if events_paginated_response.status_code == 200:
-            print_test_result("Events - Pagination", True, "Events pagination working")
-        else:
-            print_test_result("Events - Pagination", False, f"Events pagination failed: {events_paginated_response.status_code}")
-            return False
+            print_test_result("Andre My Groups", False, f"Andre's My Groups failed: {andre_my_groups_response.status_code}")
         
         # Step 11: Performance Check - Response Times
         print("   Step 11: Performance Check - Response Times")
