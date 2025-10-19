@@ -681,14 +681,19 @@ const Community = ({ athleteId }) => {
     try {
       const response = await axios.post(`${API}/community/events/${eventId}/rsvp?athlete_id=${athleteId}`, { status });
       
-      // Update event list with new counts
+      // Update event list with new counts from server
       setEvents(events.map(event =>
         event.id === eventId
-          ? { ...event, user_status: status === 'not_going' ? null : status, interested_count: response.data.interested_count, going_count: response.data.going_count }
+          ? { 
+              ...event, 
+              user_status: status === 'not_going' ? null : status, 
+              interested_count: response.data.interested_count || 0, 
+              going_count: response.data.going_count || 0 
+            }
           : event
       ));
       
-      // If detail modal is open for this event, refresh it
+      // If detail modal is open for this event, refresh it to show updated participant list
       if (showEventDetail && eventDetailData && eventDetailData.id === eventId) {
         await handleOpenEventDetail(eventId);
       }
