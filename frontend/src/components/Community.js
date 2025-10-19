@@ -660,7 +660,8 @@ const Community = ({ athleteId }) => {
     setEventDetailLoading(true);
     setShowEventDetail(true);
     try {
-      const response = await axios.get(`${API}/community/events/${eventId}?athlete_id=${athleteId}`);
+      // Load event details without images for speed
+      const response = await axios.get(`${API}/community/events/${eventId}?athlete_id=${athleteId}&exclude_images=true`);
       setEventDetailData(response.data);
     } catch (error) {
       console.error('Error loading event details:', error);
