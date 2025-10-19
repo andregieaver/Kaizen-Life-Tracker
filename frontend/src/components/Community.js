@@ -365,6 +365,113 @@ const Community = ({ athleteId }) => {
     }
   };
 
+  // Mention handling functions
+  const searchAthletes = async (searchText) => {
+    if (!searchText || searchText.length < 1) {
+      setMentionResults([]);
+      return;
+    }
+    
+    try {
+      const response = await axios.get(`${API}/community/athletes/search?q=${searchText}`);
+      setMentionResults(response.data.athletes || []);
+    } catch (error) {
+      console.error('Error searching athletes:', error);
+      setMentionResults([]);
+    }
+  };
+
+  const handlePostContentChange = (e) => {
+    const text = e.target.value;
+    const cursorPosition = e.target.selectionStart;
+    
+    setNewPostContent(text);
+    
+    // Check for mention trigger
+    const mentionTrigger = findMentionTrigger(text, cursorPosition);
+    
+    if (mentionTrigger.triggered) {
+      setShowMentionDropdown(true);
+      setMentionSearchText(mentionTrigger.searchText);
+      searchAthletes(mentionTrigger.searchText);
+      
+      // Calculate dropdown position
+      const textarea = e.target;
+      const rect = textarea.getBoundingClientRect();
+      setMentionPosition({
+        top: rect.bottom,
+        left: rect.left
+      });
+    } else {
+      setShowMentionDropdown(false);
+      setMentionResults([]);
+    }
+  };
+
+  const handleSelectMention = (athlete) => {
+    const textarea = newPostRef.current;
+    const cursorPosition = textarea.selectionStart;
+    
+    const result = insertMention(newPostContent, cursorPosition, athlete.id, athlete.name);
+    setNewPostContent(result.text);
+    setShowMentionDropdown(false);
+    setMentionResults([]);
+    
+    // Set cursor position after mention
+    setTimeout(() => {
+      textarea.focus();
+      textarea.selectionStart = result.cursorPosition;
+      textarea.selectionEnd = result.cursorPosition;
+    }, 0);
+  };
+
+  const handleCommentContentChange = (postId, e) => {
+    const text = e.target.value;
+    const cursorPosition = e.target.selectionStart;
+    
+    setCommentText({ ...commentText, [postId]: text });
+    
+    // Check for mention trigger
+    const mentionTrigger = findMentionTrigger(text, cursorPosition);
+    
+    if (mentionTrigger.triggered) {
+      setShowMentionDropdown(postId); // Use postId to track which comment box
+      setMentionSearchText(mentionTrigger.searchText);
+      searchAthletes(mentionTrigger.searchText);
+      
+      // Calculate dropdown position
+      const textarea = e.target;
+      const rect = textarea.getBoundingClientRect();
+      setMentionPosition({
+        top: rect.bottom,
+        left: rect.left
+      });
+    } else {
+      if (showMentionDropdown === postId) {
+        setShowMentionDropdown(false);
+        setMentionResults([]);
+      }
+    }
+  };
+
+  const handleSelectCommentMention = (postId, athlete) => {
+    const textarea = commentRefs.current[postId];
+    const cursorPosition = textarea.selectionStart;
+    const currentText = commentText[postId] || '';
+    
+    const result = insertMention(currentText, cursorPosition, athlete.id, athlete.name);
+    setCommentText({ ...commentText, [postId]: result.text });
+    setShowMentionDropdown(false);
+    setMentionResults([]);
+    
+    // Set cursor position after mention
+    setTimeout(() => {
+      textarea.focus();
+      textarea.selectionStart = result.cursorPosition;
+      textarea.selectionEnd = result.cursorPosition;
+    }, 0);
+  };
+
   const handleCreatePost = async () => {
     if (!newPostContent.trim()) return;
 
