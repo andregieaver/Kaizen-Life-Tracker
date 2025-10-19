@@ -8486,7 +8486,7 @@ async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(Non
 
 @api_router.get("/community/events/{event_id}")
 async def get_event_details(event_id: str, athlete_id: str = Query(...)):
-    """Get event details"""
+    """Get event details with participant information"""
     try:
         event = await db.community_events.find_one({"id": event_id}, {"_id": 0})
         if not event:
@@ -8499,19 +8499,56 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...)):
         })
         event["user_status"] = attendance.get("status") if attendance else None
         
-        # Get attendees
-        interested = await db.community_event_attendance.find({
-            "event_id": event_id,
-            "status": "interested"
-        }, {"_id": 0}).to_list(length=None)
+        # Get attendees with their details using aggregation
+        interested_pipeline = [
+            {"$match": {"event_id": event_id, "status": "interested"}},
+            {
+                "$lookup": {
+                    "from": "athletes",
+                    "localField": "athlete_id",
+                    "foreignField": "id",
+                    "as": "athlete_info"
+                }
+            },
+            {"$unwind": "$athlete_info"},
+            {
+                "$project": {
+                    "_id": 0,
+                    "athlete_id": 1,
+                    "athlete_name": "$athlete_info.name",
+                    "athlete_profile_picture": "$athlete_info.profile_picture"
+                }
+            }
+        ]
         
-        going = await db.community_event_attendance.find({
-            "event_id": event_id,
-            "status": "going"
-        }, {"_id": 0}).to_list(length=None)
+        going_pipeline = [
+            {"$match": {"event_id": event_id, "status": "going"}},
+            {
+                "$lookup": {
+                    "from": "athletes",
+                    "localField": "athlete_id",
+                    "foreignField": "id",
+                    "as": "athlete_info"
+                }
+            },
+            {"$unwind": "$athlete_info"},
+            {
+                "$project": {
+                    "_id": 0,
+                    "athlete_id": 1,
+                    "athlete_name": "$athlete_info.name",
+                    "athlete_profile_picture": "$athlete_info.profile_picture"
+                }
+            }
+        ]
         
-        event["interested_users"] = [a["athlete_id"] for a in interested]
-        event["going_users"] = [a["athlete_id"] for a in going]
+        interested = await db.community_event_attendance.aggregate(interested_pipeline).to_list(length=None)
+        going = await db.community_event_attendance.aggregate(going_pipeline).to_list(length=None)
+        
+        event["interested_users"] = interested
+        event["going_users"] = going
+        event["interested_count"] = len(interested)
+        event["going_count"] = len(going)
         
         return event
     except Exception as e:
