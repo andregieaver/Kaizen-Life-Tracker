@@ -371,7 +371,7 @@ const Community = ({ athleteId }) => {
     try {
       await axios.post(`${API}/community/groups?athlete_id=${athleteId}`, newGroupData);
       setShowCreateGroup(false);
-      setNewGroupData({ name: '', description: '', privacy: 'public', profile_image: null, cover_photo: null });
+      setNewGroupData({ name: '', description: '', privacy: 'public', profile_image: null, cover_photo: null, rules: '' });
       loadMyGroups();
     } catch (error) {
       console.error('Error creating group:', error);
