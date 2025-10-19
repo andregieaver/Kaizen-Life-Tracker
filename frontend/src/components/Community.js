@@ -1350,23 +1350,6 @@ const Community = ({ athleteId }) => {
         />
       )}
 
-      {/* Debug Panel */}
-      {showDebug && (
-        <div className="fixed bottom-0 left-0 right-0 bg-black/95 text-white p-4 max-h-64 overflow-y-auto z-[70] text-xs">
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="font-bold">Debug Logs</h3>
-            <button onClick={() => setShowDebug(false)} className="text-red-400">Close</button>
-          </div>
-          {debugLogs.map((log, idx) => (
-            <div key={idx} className="mb-2 border-b border-gray-700 pb-2">
-              <div className="text-gray-400">{log.timestamp}</div>
-              <div className="font-semibold text-yellow-400">{log.message}</div>
-              <pre className="text-green-400 whitespace-pre-wrap">{JSON.stringify(log.data, null, 2)}</pre>
-            </div>
-          ))}
-        </div>
-      )}
-
       {/* Group Rules Modal */}
       {showRulesModal && joiningGroup && (
         <GroupRulesModal
