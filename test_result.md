@@ -219,8 +219,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Community Backend API Endpoints"
-    - "Community Frontend UI/UX"
+    - "Optimized Community API Endpoints Performance Testing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
