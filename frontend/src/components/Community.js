@@ -653,6 +653,19 @@ const Community = ({ athleteId }) => {
           loading={profileLoading}
         />
       )}
+
+      {/* Athletes List Modal */}
+      {showAthletes && (
+        <AthletesModal
+          athletes={athletes}
+          loading={athletesLoading}
+          searchQuery={athletesSearch}
+          onSearchChange={handleAthletesSearch}
+          onClose={() => setShowAthletes(false)}
+          onFollowToggle={handleAthletesFollowToggle}
+          onViewProfile={loadAthleteProfile}
+        />
+      )}
     </div>
   );
 };
