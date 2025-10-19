@@ -206,6 +206,19 @@ const Community = ({ athleteId }) => {
     }
   }, [activeTab]); // Only depend on activeTab, not the loaded flags
 
+  // Persist modal states
+  useEffect(() => {
+    const modalState = {
+      showProfile: showProfile && profileData ? true : false,
+      profileData: showProfile ? profileData : null,
+      showEventDetail: showEventDetail && eventDetailData ? true : false,
+      eventDetailData: showEventDetail ? eventDetailData : null,
+      selectedGroup: selectedGroup,
+      showNotifications: showNotifications
+    };
+    localStorage.setItem('communityModalState', JSON.stringify(modalState));
+  }, [showProfile, profileData, showEventDetail, eventDetailData, selectedGroup, showNotifications]);
+
   const loadPosts = async (forceReload = false) => {
     try {
       // Load with limited posts for initial speed, images included for display
