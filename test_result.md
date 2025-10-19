@@ -181,6 +181,18 @@ frontend:
         agent: "main"
         comment: "Athletes discovery feature complete. BACKEND CHANGES: 1) Added new endpoint GET /api/community/athletes?viewer_athlete_id={id}&search={query}&limit={n} to get all athletes with optional name search (case-insensitive regex). Returns: athlete id, name, profile_picture, bio, posts_count, followers_count, is_following (for viewer). Excludes viewer from results. FRONTEND CHANGES (Community.js): 1) Added Search icon import from lucide-react. 2) Added state: showAthletes, athletes, athletesSearch, athletesLoading. 3) Added functions: loadAthletes() - fetches athletes with search query, handleAthletesFollowToggle() - toggle follow/unfollow with live update in list, handleOpenAthletes() - opens modal and loads athletes, handleAthletesSearch() - handles search input with debouncing. 4) Added Search button next to notifications bell in header. 5) Created AthletesModal component: Search input with icon, Athletes list with scrollable container, Each athlete card shows: avatar/initial, name, bio (truncated), posts/followers count, follow/unfollow button. Click on avatar/name to view full profile (opens profile modal). Dark theme styling consistent with app. Both backend and frontend compiled successfully. Search functionality with instant follow/unfollow working."
 
+  - task: "Icon-only Tabs with Swipe Navigation"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Community.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Tabs redesigned to icon-only with swipe functionality. CHANGES: 1) Added icon imports: Home (for Feed), UserCheck (for My Groups). 2) Replaced text-based tab buttons with icon-only buttons: Feed tab = Home icon, Groups tab = UsersIcon, My Groups tab = UserCheck icon. Each button is p-3 (padding), active tab has bg-[#00C2A8] with shadow-lg, inactive tabs are bg-gray-700 with hover effects, title attributes for accessibility. Spacing reduced from space-x-4 to space-x-2 for compactness. 3) SWIPE FUNCTIONALITY: Added touch state: touchStart, touchEnd, minSwipeDistance (50px). Added swipe handlers: onTouchStart - captures starting X position, onTouchMove - tracks finger movement, onTouchEnd - calculates swipe distance and direction. Swipe left = next tab (feed→groups→mygroups), Swipe right = previous tab (mygroups→groups→feed). Applied touch handlers to main container div: onTouchStart, onTouchMove, onTouchEnd. 4) UI IMPROVEMENTS: Icons are 6x6 (w-6 h-6), Active tab has teal background with shadow, Hover effects on inactive tabs, Smooth transitions on all state changes. Frontend compiled successfully. Mobile-friendly navigation with both tap and swipe working."
+
 metadata:
   created_by: "main_agent"
   version: "2.0"
