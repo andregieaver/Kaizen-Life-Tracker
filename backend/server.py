@@ -7996,16 +7996,16 @@ async def leave_group(group_id: str, athlete_id: str = Query(...)):
 
 @api_router.put("/community/groups/{group_id}/members/{target_athlete_id}")
 async def manage_group_member(group_id: str, target_athlete_id: str, action_data: dict, athlete_id: str = Query(...)):
-    """Approve/reject membership or change role (admin/moderator only)"""
+    """Approve/reject membership or change role (admin/manager only)"""
     try:
-        # Verify admin/moderator
+        # Verify admin/manager/moderator
         requester_membership = await db.community_group_memberships.find_one({
             "group_id": group_id,
             "athlete_id": athlete_id,
-            "role": {"$in": ["admin", "moderator"]}
+            "role": {"$in": ["admin", "manager", "moderator"]}
         })
         if not requester_membership:
-            raise HTTPException(status_code=403, detail="Admin/moderator access required")
+            raise HTTPException(status_code=403, detail="Admin/manager/moderator access required")
         
         # Get target membership
         target_membership = await db.community_group_memberships.find_one({
@@ -8033,12 +8033,12 @@ async def manage_group_member(group_id: str, target_athlete_id: str, action_data
             return {"success": True, "message": "Member rejected"}
         
         elif action == "change_role":
-            # Only admin can change roles
-            if requester_membership["role"] != "admin":
-                raise HTTPException(status_code=403, detail="Only admins can change roles")
+            # Only admin/manager can change roles
+            if requester_membership["role"] not in ["admin", "manager"]:
+                raise HTTPException(status_code=403, detail="Only admins/managers can change roles")
             
             new_role = action_data.get("role")
-            if new_role not in ["admin", "moderator", "member"]:
+            if new_role not in ["admin", "manager", "moderator", "member"]:
                 raise HTTPException(status_code=400, detail="Invalid role")
             
             await db.community_group_memberships.update_one(
