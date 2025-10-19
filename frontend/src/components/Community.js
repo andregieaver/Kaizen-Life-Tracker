@@ -406,7 +406,8 @@ const Community = ({ athleteId }) => {
       description: selectedGroup.description,
       privacy: selectedGroup.privacy,
       profile_image: selectedGroup.profile_image,
-      cover_photo: selectedGroup.cover_photo
+      cover_photo: selectedGroup.cover_photo,
+      rules: selectedGroup.rules || ''
     });
     setShowEditGroup(true);
   };
