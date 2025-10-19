@@ -447,28 +447,28 @@ const Documents = ({ athleteId }) => {
             e.stopPropagation();
           }}
         >
-          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700" onClick={(e) => e.stopPropagation()}>
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>Upload Document</CardTitle>
+                <CardTitle className="text-white">Upload Document</CardTitle>
                 <button
                   onClick={() => {
                     setShowModal(false);
                     resetForm();
                   }}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <CardDescription>
+              <CardDescription className="text-gray-300">
                 Upload medical records, test results, and other important documents
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
             {/* File Upload */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Add File
               </label>
               
@@ -477,7 +477,7 @@ const Documents = ({ athleteId }) => {
                   <div className="flex gap-2">
                     <Button
                       variant="outline"
-                      className="flex-1"
+                      className="flex-1 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                       onClick={() => fileInputRef.current?.click()}
                     >
                       <Upload className="w-4 h-4 mr-2" />
@@ -485,7 +485,7 @@ const Documents = ({ athleteId }) => {
                     </Button>
                     <Button
                       variant="outline"
-                      className="flex-1"
+                      className="flex-1 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                       onClick={() => cameraInputRef.current?.click()}
                     >
                       <Camera className="w-4 h-4 mr-2" />
@@ -507,7 +507,7 @@ const Documents = ({ athleteId }) => {
                     onChange={handleCameraCapture}
                     className="hidden"
                   />
-                  <p className="text-xs text-gray-500 text-center">
+                  <p className="text-xs text-gray-400 text-center">
                     Images auto-compressed • PDF, Word, Text accepted
                   </p>
                 </div>
@@ -518,7 +518,7 @@ const Documents = ({ athleteId }) => {
                       <img
                         src={filePreview}
                         alt="Preview"
-                        className="w-full h-48 object-cover rounded-lg border-2 border-gray-300"
+                        className="w-full h-48 object-cover rounded-lg border-2 border-gray-600"
                       />
                       <button
                         type="button"
