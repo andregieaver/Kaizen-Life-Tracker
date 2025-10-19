@@ -340,11 +340,11 @@ const Journal = ({ athleteId }) => {
                       </>
                     ) : (
                       <>
-                        <div className="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center mb-4">
+                        <div className="w-20 h-20 bg-teal-600 rounded-full flex items-center justify-center mb-4">
                           <Mic className="w-10 h-10 text-white" />
                         </div>
-                        <p className="text-gray-600 mb-4">Click to start recording</p>
-                        <Button onClick={startRecording}>
+                        <p className="text-gray-300 mb-4">Click to start recording</p>
+                        <Button onClick={startRecording} className="bg-teal-600 hover:bg-teal-700 text-white">
                           <Mic className="w-4 h-4 mr-2" />
                           Start Recording
                         </Button>
@@ -354,13 +354,13 @@ const Journal = ({ athleteId }) => {
                   
                   {textContent && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-white mb-2">
                         Transcription Preview
                       </label>
                       <textarea
                         value={textContent}
                         onChange={(e) => setTextContent(e.target.value)}
-                        className="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                        className="w-full h-32 p-4 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
                       />
                     </div>
                   )}
@@ -371,7 +371,7 @@ const Journal = ({ athleteId }) => {
               <div className="flex gap-2 pt-4">
                 <Button
                   variant="outline"
-                  className="flex-1"
+                  className="flex-1 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                   onClick={() => {
                     setShowModal(false);
                     setTextContent('');
@@ -382,7 +382,7 @@ const Journal = ({ athleteId }) => {
                   Cancel
                 </Button>
                 <Button
-                  className="flex-1"
+                  className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
                   onClick={handleSaveEntry}
                   disabled={!textContent.trim()}
                 >
