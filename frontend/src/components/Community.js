@@ -56,15 +56,20 @@ const Community = ({ athleteId }) => {
     description: '',
     privacy: 'public',
     profile_image: null,
-    cover_photo: null
+    cover_photo: null,
+    rules: ''
   });
   const [editGroupData, setEditGroupData] = useState({
     name: '',
     description: '',
     privacy: 'public',
     profile_image: null,
-    cover_photo: null
+    cover_photo: null,
+    rules: ''
   });
+  const [showRulesModal, setShowRulesModal] = useState(false);
+  const [rulesAccepted, setRulesAccepted] = useState(false);
+  const [joiningGroup, setJoiningGroup] = useState(null);
 
 
   // Swipe handlers
