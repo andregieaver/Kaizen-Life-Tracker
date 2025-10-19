@@ -790,13 +790,69 @@ def test_community_feature_backend():
     print("🔍 TESTING COMMUNITY FEATURE BACKEND API ENDPOINTS")
     print("=" * 70)
     
-    # Test data
-    athlete_id = "90de5b99-6db3-4e14-8455-c00864fb9976"  # andre@example.com
+    # Test data - First try to login to get valid athlete_id
     created_posts = []
     created_comments = []
     created_notifications = []
     
     try:
+        # Step 0: Login to get valid athlete_id
+        print("   Step 0: Login to get valid athlete_id")
+        
+        # Try different known credentials
+        login_attempts = [
+            {"email": "andre@example.com", "password": "password123"},
+            {"email": "andre@humanweb.no", "password": "password123"},
+            {"email": "test.files@example.com", "password": "password123"},
+            {"email": "document.test@example.com", "password": "password123"}
+        ]
+        
+        athlete_id = None
+        for login_data in login_attempts:
+            login_response = requests.post(
+                f"{BACKEND_URL}/auth/login",
+                json=login_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if login_response.status_code == 200:
+                athlete_data = login_response.json()
+                athlete_id = athlete_data.get("athlete_id")
+                print_test_result("Login", True, f"Logged in as {login_data['email']}, athlete_id: {athlete_id}")
+                break
+        
+        if not athlete_id:
+            # Try to create a test athlete
+            test_athlete_data = {
+                "name": "Community Test User",
+                "email": "community.test@example.com",
+                "password": "password123",
+                "weekly_mileage": 25.0,
+                "running_goals": "Test community functionality"
+            }
+            
+            create_response = requests.post(
+                f"{BACKEND_URL}/athlete",
+                json=test_athlete_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if create_response.status_code == 200:
+                # Try to login with new athlete
+                login_response = requests.post(
+                    f"{BACKEND_URL}/auth/login",
+                    json={"email": "community.test@example.com", "password": "password123"},
+                    headers={"Content-Type": "application/json"}
+                )
+                
+                if login_response.status_code == 200:
+                    athlete_data = login_response.json()
+                    athlete_id = athlete_data.get("athlete_id")
+                    print_test_result("Create and Login", True, f"Created and logged in as community.test@example.com, athlete_id: {athlete_id}")
+        
+        if not athlete_id:
+            print_test_result("Authentication", False, "Could not authenticate or create test athlete")
+            return False
         # Step 1: CREATE POST - Text only
         print("   Step 1: CREATE POST (POST /api/community/posts) - Text only")
         
