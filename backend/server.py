@@ -7881,26 +7881,48 @@ async def get_all_groups(athlete_id: str = Query(...), limit: int = Query(50), s
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/community/groups/my/{athlete_id}")
-async def get_my_groups(athlete_id: str):
-    """Get groups where user is a member"""
+async def get_my_groups(athlete_id: str, limit: int = Query(50), skip: int = Query(0)):
+    """Get groups where user is a member - Optimized"""
     try:
-        # Get memberships
-        memberships = await db.community_group_memberships.find({
-            "athlete_id": athlete_id,
-            "status": "approved"
-        }, {"_id": 0}).to_list(length=None)
+        # Use aggregation pipeline to join memberships with groups in single query
+        pipeline = [
+            {
+                "$match": {
+                    "athlete_id": athlete_id,
+                    "status": "approved"
+                }
+            },
+            {"$skip": skip},
+            {"$limit": limit},
+            {
+                "$lookup": {
+                    "from": "community_groups",
+                    "localField": "group_id",
+                    "foreignField": "id",
+                    "as": "group_data"
+                }
+            },
+            {
+                "$unwind": "$group_data"
+            },
+            {
+                "$replaceRoot": {
+                    "newRoot": {
+                        "$mergeObjects": [
+                            "$group_data",
+                            {"member_role": "$role"}
+                        ]
+                    }
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0
+                }
+            }
+        ]
         
-        group_ids = [m["group_id"] for m in memberships]
-        
-        # Get groups
-        groups = []
-        for group_id in group_ids:
-            group = await db.community_groups.find_one({"id": group_id}, {"_id": 0})
-            if group:
-                # Add role info
-                membership = next((m for m in memberships if m["group_id"] == group_id), None)
-                group["member_role"] = membership.get("role") if membership else None
-                groups.append(group)
+        groups = await db.community_group_memberships.aggregate(pipeline).to_list(length=None)
         
         return {"groups": groups}
     except Exception as e:
