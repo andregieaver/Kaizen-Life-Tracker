@@ -7306,7 +7306,7 @@ async def add_comment(post_id: str, comment_data: dict, athlete_id: str = Query(
                 "read": False,
                 "created_at": datetime.now(timezone.utc).isoformat()
             }
-            await db.community_notifications.insert_one(notification)
+            await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
         
         return {"success": True, "comment": comment}
     except Exception as e:
