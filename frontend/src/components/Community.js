@@ -2311,8 +2311,11 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
 
 
 // EventCard Component
-const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete }) => (
-  <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick }) => (
+  <Card 
+    className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-shadow"
+    onClick={() => onClick(event.id)}
+  >
     <CardContent className="p-6">
       {event.cover_photo && (
         <img src={event.cover_photo} alt={event.name} className="w-full h-32 object-cover rounded-lg mb-4" />
@@ -2333,13 +2336,19 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete }) => (
             {event.creator_id === athleteId && (
               <div className="flex space-x-1 ml-2">
                 <button
-                  onClick={() => onEdit(event)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEdit(event);
+                  }}
                   className="p-1 hover:bg-gray-600 rounded-full transition-colors"
                 >
                   <Edit2 className="w-4 h-4 text-blue-400" />
                 </button>
                 <button
-                  onClick={() => onDelete(event.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete(event.id);
+                  }}
                   className="p-1 hover:bg-gray-600 rounded-full transition-colors"
                 >
                   <Trash2 className="w-4 h-4 text-red-400" />
@@ -2370,7 +2379,10 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete }) => (
       
       <div className="flex space-x-2 mt-4">
         <button
-          onClick={() => onRSVP(event.id, event.user_status === 'interested' ? 'not_going' : 'interested')}
+          onClick={(e) => {
+            e.stopPropagation();
+            onRSVP(event.id, event.user_status === 'interested' ? 'not_going' : 'interested');
+          }}
           className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
             event.user_status === 'interested'
               ? 'bg-yellow-500 text-white'
@@ -2381,7 +2393,10 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete }) => (
           Interested
         </button>
         <button
-          onClick={() => onRSVP(event.id, event.user_status === 'going' ? 'not_going' : 'going')}
+          onClick={(e) => {
+            e.stopPropagation();
+            onRSVP(event.id, event.user_status === 'going' ? 'not_going' : 'going');
+          }}
           className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
             event.user_status === 'going'
               ? 'bg-[#00C2A8] text-white'
