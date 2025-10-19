@@ -7832,9 +7832,21 @@ async def create_group(group_data: dict, athlete_id: str = Query(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/community/groups")
-async def get_all_groups(athlete_id: str = Query(...), limit: int = Query(50), skip: int = Query(0)):
-    """Get all groups - Optimized with pagination"""
+async def get_all_groups(athlete_id: str = Query(...), limit: int = Query(50), skip: int = Query(0), exclude_images: bool = Query(False)):
+    """Get all groups - Optimized with pagination and optional image exclusion"""
     try:
+        # Build projection
+        projection_stage = {
+            "$project": {
+                "_id": 0,
+                "membership": 0
+            }
+        }
+        
+        if exclude_images:
+            projection_stage["$project"]["profile_image"] = 0
+            projection_stage["$project"]["cover_photo"] = 0
+        
         # Use aggregation pipeline to fetch groups with membership status in single query
         pipeline = [
             {"$sort": {"created_at": -1}},
@@ -7872,12 +7884,7 @@ async def get_all_groups(athlete_id: str = Query(...), limit: int = Query(50), s
                     }
                 }
             },
-            {
-                "$project": {
-                    "_id": 0,
-                    "membership": 0
-                }
-            }
+            projection_stage
         ]
         
         groups = await db.community_groups.aggregate(pipeline).to_list(length=None)
