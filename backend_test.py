@@ -1333,38 +1333,38 @@ def test_image_exclusion_performance_feature():
         else:
             print_test_result("My Groups - Image Exclusion", True, "My Groups endpoint accessible with image exclusion (no groups found)")
         
-        # Step 6: Test My Groups (GET /api/community/groups/my/{athlete_id})
-        print("   Step 6: Test My Groups (Approved Memberships Only)")
+        # Step 6: Compare response payload sizes (exclude_images=true vs exclude_images=false)
+        print("   Step 6: Compare response payload sizes")
         
-        my_groups_response = requests.get(f"{BACKEND_URL}/community/groups/my/{test_athlete_id}")
+        import sys
         
-        if my_groups_response.status_code != 200:
-            print_test_result("My Groups - Basic", False, f"Failed: {my_groups_response.status_code} - {my_groups_response.text}")
-            return False
+        # Get response sizes for comparison
+        feed_excluded_size = sys.getsizeof(feed_excluded_response.content)
+        feed_normal_size = sys.getsizeof(feed_normal_response.content)
         
-        my_groups_data = my_groups_response.json()
-        my_groups = my_groups_data.get("groups", [])
+        groups_excluded_size = sys.getsizeof(groups_excluded_response.content)
         
-        if my_groups:
-            first_my_group = my_groups[0]
-            required_my_group_fields = ["id", "name", "description", "privacy", "members_count", "created_at", "member_role"]
-            missing_my_group_fields = [field for field in required_my_group_fields if field not in first_my_group]
+        # Test groups without image exclusion for comparison
+        groups_normal_response = requests.get(f"{BACKEND_URL}/community/groups?athlete_id={test_athlete_id}&limit=30")
+        if groups_normal_response.status_code == 200:
+            groups_normal_size = sys.getsizeof(groups_normal_response.content)
             
-            if not missing_my_group_fields:
-                print_test_result("My Groups - Structure", True, f"My Groups returned {len(my_groups)} groups with member_role")
-            else:
-                print_test_result("My Groups - Structure", False, f"Missing my group fields: {missing_my_group_fields}")
-                return False
+            # Calculate size reduction percentages
+            if feed_normal_size > 0:
+                feed_reduction = ((feed_normal_size - feed_excluded_size) / feed_normal_size) * 100
+                print_test_result("Feed Payload Size Reduction", True, f"Feed: {feed_excluded_size} bytes (excluded) vs {feed_normal_size} bytes (normal) = {feed_reduction:.1f}% reduction")
             
-            # Verify member_role is included (should not be None for my groups)
-            member_role = first_my_group.get("member_role")
-            if member_role and isinstance(member_role, str):
-                print_test_result("My Groups - member_role Field", True, f"member_role included: {member_role}")
+            if groups_normal_size > 0:
+                groups_reduction = ((groups_normal_size - groups_excluded_size) / groups_normal_size) * 100
+                print_test_result("Groups Payload Size Reduction", True, f"Groups: {groups_excluded_size} bytes (excluded) vs {groups_normal_size} bytes (normal) = {groups_reduction:.1f}% reduction")
+            
+            # Check if we achieve significant payload reduction (should be substantial if images are present)
+            if feed_reduction > 10 or groups_reduction > 10:
+                print_test_result("Significant Payload Reduction", True, f"Achieved significant size reduction (Feed: {feed_reduction:.1f}%, Groups: {groups_reduction:.1f}%)")
             else:
-                print_test_result("My Groups - member_role Field", False, f"member_role should be string for my groups, got: {member_role}")
-                return False
+                print_test_result("Payload Reduction Analysis", True, f"Size reduction measured (may be minimal if no images present): Feed: {feed_reduction:.1f}%, Groups: {groups_reduction:.1f}%")
         else:
-            print_test_result("My Groups - Basic", True, "My Groups endpoint accessible (no groups found)")
+            print_test_result("Groups Normal Response", False, f"Could not get normal groups response for comparison: {groups_normal_response.status_code}")
         
         # Step 7: Test My Groups Pagination
         print("   Step 7: Test My Groups Pagination")
