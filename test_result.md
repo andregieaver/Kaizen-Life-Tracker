@@ -218,7 +218,7 @@ agent_communication:
   - agent: "testing"
     message: "✅ GROUP JOIN REQUEST NOTIFICATION SYSTEM VERIFIED - Comprehensive testing of the specific user case completed with 95% success rate (9/10 tests passed). TESTED SCENARIO: Group admin should receive notification when user requests to join private group. VERIFIED FUNCTIONALITY: 1) User authentication and identification working, 2) Private group creation and management working, 3) Join request creation for private groups creates pending membership, 4) Notification automatically created for group admin with correct content format '[User Name] wants to join your group [Group Name]', 5) Notification endpoints (get notifications, unread count) working correctly, 6) Notification read/unread functionality working, 7) Admin approval process functional. ROOT CAUSE ANALYSIS: The notification system is working correctly. If users report missing notifications, check: 1) Group privacy is set to 'private' (public groups auto-approve), 2) prepare_for_mongo() is called when creating notifications, 3) Backend logs for any errors during join request processing. RECOMMENDATION: Group join request notification system is production-ready and fully functional. No issues found with the notification creation or delivery mechanism."
 
-user_problem_statement: "Test the nutrition entries API endpoint to verify it returns data in the correct format for the Weekly Menu Builder feature."
+user_problem_statement: "Debug the edit group endpoint failure. User is trying to edit a group and getting 'Failed to edit group' error message."
 
 backend:
   - task: "Nutrition Entries API Endpoint Testing"
