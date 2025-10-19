@@ -321,13 +321,22 @@ const Dashboard = ({ athleteId }) => {
                 </button>
               </nav>
             </div>
-            <button 
-              onClick={() => setIsMenuOpen(true)}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-              aria-label="Open menu"
-            >
-              <Menu className="w-6 h-6" style={{ color: '#00C2A8' }} />
-            </button>
+            <div className="flex items-center space-x-4">
+              <button 
+                onClick={() => navigate('/dashboard/community')}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                aria-label="Community"
+              >
+                <Users className="w-6 h-6" style={{ color: '#00C2A8' }} />
+              </button>
+              <button 
+                onClick={() => setIsMenuOpen(true)}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                aria-label="Open menu"
+              >
+                <Menu className="w-6 h-6" style={{ color: '#00C2A8' }} />
+              </button>
+            </div>
           </div>
         </div>
       </header>
