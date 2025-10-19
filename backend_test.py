@@ -2270,29 +2270,33 @@ def test_group_join_request_notifications():
         return False
 
 def main():
-    """Run all backend tests"""
-    print("🚀 STARTING GROUP EDIT ENDPOINT DEBUG TESTING")
+    """Run optimized Community API endpoint tests"""
+    print("🚀 STARTING OPTIMIZED COMMUNITY API ENDPOINTS TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Group Edit Endpoint Failure (specific debug case)
+    # Test Optimized Community Endpoints (main focus)
     try:
-        result = test_group_edit_endpoint_failure()
+        result = test_optimized_community_endpoints()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Group Edit Endpoint Debug", False, f"Exception: {str(e)}")
+        print_test_result("Optimized Community Endpoints", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 GROUP EDIT ENDPOINT DEBUG COMPLETED!")
-        print("✅ Group Edit Functionality: Analyzed")
+        print("🎉 OPTIMIZED COMMUNITY API ENDPOINTS TESTING COMPLETED!")
+        print("✅ Community Feed: Performance Optimized")
+        print("✅ All Groups: Aggregation Pipeline Working")
+        print("✅ My Groups: Approved Memberships Only")
+        print("✅ Events: User Status Populated")
+        print("✅ Pagination: Working on All Endpoints")
     else:
-        print("❌ GROUP EDIT ENDPOINT DEBUG FOUND ISSUES")
+        print("❌ OPTIMIZED COMMUNITY API ENDPOINTS FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
     
     print("=" * 70)
