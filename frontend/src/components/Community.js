@@ -886,6 +886,42 @@ const Community = ({ athleteId }) => {
         </div>
       )}
 
+
+      {/* Events Tab */}
+      {activeTab === 'events' && (
+        <div className="space-y-6">
+          <Button
+            onClick={() => setShowCreateEvent(true)}
+            className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+          >
+            <Calendar className="w-4 h-4 mr-2" />
+            Create Event
+          </Button>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {events.map(event => (
+              <EventCard
+                key={event.id}
+                event={event}
+                athleteId={athleteId}
+                onRSVP={handleRSVP}
+                onEdit={handleOpenEditEvent}
+                onDelete={handleDeleteEvent}
+              />
+            ))}
+          </div>
+
+          {events.length === 0 && (
+            <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+              <CardContent className="p-12 text-center">
+                <p className="text-gray-400 text-lg">No events yet. Create the first event!</p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
+
+
       {/* Group Detail View */}
       {selectedGroup && (
         <GroupDetailView
