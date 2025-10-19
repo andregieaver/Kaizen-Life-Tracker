@@ -161,13 +161,7 @@ const Community = ({ athleteId }) => {
     if (!notificationsLoaded) {
       loadNotifications();
     }
-    
-    // Load saved tab from localStorage
-    const savedTab = localStorage.getItem('communityActiveTab');
-    if (savedTab && ['feed', 'groups', 'mygroups', 'events'].includes(savedTab)) {
-      setActiveTab(savedTab);
-    }
-  }, [athleteId, notificationsLoaded]);
+  }, [notificationsLoaded]);
 
   useEffect(() => {
     // Save tab to localStorage when it changes
