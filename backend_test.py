@@ -1117,6 +1117,344 @@ def test_group_edit_endpoint_failure():
         traceback.print_exc()
         return False
 
+def test_event_rsvp_and_listing_functionality():
+    """
+    TEST EVENT RSVP AND EVENT LISTING FUNCTIONALITY
+    Test event cards display, RSVP counts update, and open events display as requested in review
+    Focus on: GET /api/community/events, POST /api/community/events/{event_id}/rsvp, GET /api/community/events/{event_id}
+    """
+    print("🔍 TESTING EVENT RSVP AND EVENT LISTING FUNCTIONALITY")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Use athlete test.files@example.com (ID: 44111b4a-b61f-4a94-9c29-439434e67e19) as specified in review request
+        print("   Step 1: Setup test athlete")
+        
+        test_athlete_id = "44111b4a-b61f-4a94-9c29-439434e67e19"  # test.files@example.com
+        print_test_result("Setup Test Athlete", True, f"Using athlete: {test_athlete_id}")
+        
+        # Step 2: Test GET /api/community/events?athlete_id={id} - Get All Events
+        print("   Step 2: Test GET /api/community/events - Get All Events")
+        
+        events_response = requests.get(f"{BACKEND_URL}/community/events?athlete_id={test_athlete_id}")
+        
+        if events_response.status_code != 200:
+            print_test_result("Get All Events", False, f"Failed: {events_response.status_code} - {events_response.text}")
+            return False
+        
+        events_data = events_response.json()
+        events = events_data.get("events", [])
+        
+        print_test_result("Get All Events", True, f"Retrieved {len(events)} events")
+        
+        # Step 3: Verify events have all required fields for event cards
+        print("   Step 3: Verify events have all required fields for event cards")
+        
+        if events:
+            first_event = events[0]
+            required_event_fields = [
+                "id", "name", "description", "visibility", "event_date", "event_time", 
+                "creator_id", "interested_count", "going_count", "user_status"
+            ]
+            optional_fields = ["cover_photo", "profile_image", "location", "group_id"]
+            
+            # Check required fields
+            missing_fields = [field for field in required_event_fields if field not in first_event]
+            if missing_fields:
+                print_test_result("Event Structure - Required Fields", False, f"Missing required fields: {missing_fields}")
+                return False
+            else:
+                print_test_result("Event Structure - Required Fields", True, "All required fields present")
+            
+            # Check optional fields (should be present even if null)
+            optional_present = [field for field in optional_fields if field in first_event]
+            print_test_result("Event Structure - Optional Fields", True, f"Optional fields present: {optional_present}")
+            
+            # Verify user_status field (should be 'interested', 'going', 'not_going', or null)
+            user_status = first_event.get("user_status")
+            valid_statuses = ["interested", "going", "not_going", None]
+            if user_status in valid_statuses:
+                print_test_result("Event user_status Field", True, f"user_status is valid: {user_status}")
+            else:
+                print_test_result("Event user_status Field", False, f"Invalid user_status: {user_status}")
+                return False
+            
+            # Verify counts are integers
+            interested_count = first_event.get("interested_count", 0)
+            going_count = first_event.get("going_count", 0)
+            
+            if isinstance(interested_count, int) and isinstance(going_count, int):
+                print_test_result("Event Counts", True, f"Counts are integers: interested={interested_count}, going={going_count}")
+            else:
+                print_test_result("Event Counts", False, f"Counts should be integers: interested={type(interested_count)}, going={type(going_count)}")
+                return False
+        else:
+            print_test_result("Event Structure", True, "No events found - will create test event")
+        
+        # Step 4: Verify open events are included in response
+        print("   Step 4: Verify open events are included in response")
+        
+        open_events = [event for event in events if event.get("visibility") == "open"]
+        if open_events:
+            print_test_result("Open Events Included", True, f"Found {len(open_events)} open events in feed")
+        else:
+            print_test_result("Open Events Included", True, "No open events found - will create test event")
+        
+        # Step 5: Create a test event if needed for RSVP testing
+        print("   Step 5: Create test event for RSVP testing")
+        
+        test_event_data = {
+            "name": "Test Event for RSVP Testing",
+            "description": "Test event to verify RSVP functionality and count updates",
+            "visibility": "open",
+            "event_date": "2024-12-31",
+            "event_time": "18:00",
+            "location": "Test Location"
+        }
+        
+        create_event_response = requests.post(
+            f"{BACKEND_URL}/community/events?athlete_id={test_athlete_id}",
+            json=test_event_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_event_response.status_code != 200:
+            print_test_result("Create Test Event", False, f"Failed: {create_event_response.status_code} - {create_event_response.text}")
+            return False
+        
+        create_result = create_event_response.json()
+        test_event = create_result.get("event", {})
+        test_event_id = test_event.get("id")
+        
+        if not test_event_id:
+            print_test_result("Create Test Event", False, "No event ID returned")
+            return False
+        
+        print_test_result("Create Test Event", True, f"Created test event: {test_event_id}")
+        
+        # Step 6: Test Event RSVP - POST /api/community/events/{event_id}/rsvp with "interested"
+        print("   Step 6: Test Event RSVP - Set status to 'interested'")
+        
+        rsvp_interested_data = {"status": "interested"}
+        
+        rsvp_interested_response = requests.post(
+            f"{BACKEND_URL}/community/events/{test_event_id}/rsvp?athlete_id={test_athlete_id}",
+            json=rsvp_interested_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if rsvp_interested_response.status_code != 200:
+            print_test_result("RSVP Interested", False, f"Failed: {rsvp_interested_response.status_code} - {rsvp_interested_response.text}")
+            return False
+        
+        rsvp_interested_result = rsvp_interested_response.json()
+        
+        # Verify response includes updated counts
+        if "interested_count" in rsvp_interested_result and "going_count" in rsvp_interested_result:
+            interested_count_after = rsvp_interested_result.get("interested_count", 0)
+            going_count_after = rsvp_interested_result.get("going_count", 0)
+            print_test_result("RSVP Interested - Response Counts", True, f"Response includes counts: interested={interested_count_after}, going={going_count_after}")
+            
+            # Verify interested count incremented
+            if interested_count_after >= 1:
+                print_test_result("RSVP Interested - Count Increment", True, f"Interested count incremented to {interested_count_after}")
+            else:
+                print_test_result("RSVP Interested - Count Increment", False, f"Interested count should be ≥1, got {interested_count_after}")
+                return False
+        else:
+            print_test_result("RSVP Interested - Response Counts", False, "Response missing count fields")
+            return False
+        
+        # Step 7: Test Event RSVP - Change status to 'going'
+        print("   Step 7: Test Event RSVP - Change status to 'going'")
+        
+        rsvp_going_data = {"status": "going"}
+        
+        rsvp_going_response = requests.post(
+            f"{BACKEND_URL}/community/events/{test_event_id}/rsvp?athlete_id={test_athlete_id}",
+            json=rsvp_going_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if rsvp_going_response.status_code != 200:
+            print_test_result("RSVP Going", False, f"Failed: {rsvp_going_response.status_code} - {rsvp_going_response.text}")
+            return False
+        
+        rsvp_going_result = rsvp_going_response.json()
+        
+        # Verify counts updated correctly (interested should decrease, going should increase)
+        if "interested_count" in rsvp_going_result and "going_count" in rsvp_going_result:
+            interested_count_going = rsvp_going_result.get("interested_count", 0)
+            going_count_going = rsvp_going_result.get("going_count", 0)
+            
+            # After changing from interested to going, interested should be 0 and going should be 1
+            if interested_count_going == 0 and going_count_going >= 1:
+                print_test_result("RSVP Going - Count Update", True, f"Counts updated correctly: interested={interested_count_going}, going={going_count_going}")
+            else:
+                print_test_result("RSVP Going - Count Update", False, f"Counts not updated correctly: interested={interested_count_going}, going={going_count_going}")
+                return False
+        else:
+            print_test_result("RSVP Going - Response Counts", False, "Response missing count fields")
+            return False
+        
+        # Step 8: Test Event RSVP - Change status to 'not_going'
+        print("   Step 8: Test Event RSVP - Change status to 'not_going'")
+        
+        rsvp_not_going_data = {"status": "not_going"}
+        
+        rsvp_not_going_response = requests.post(
+            f"{BACKEND_URL}/community/events/{test_event_id}/rsvp?athlete_id={test_athlete_id}",
+            json=rsvp_not_going_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if rsvp_not_going_response.status_code != 200:
+            print_test_result("RSVP Not Going", False, f"Failed: {rsvp_not_going_response.status_code} - {rsvp_not_going_response.text}")
+            return False
+        
+        rsvp_not_going_result = rsvp_not_going_response.json()
+        
+        # Verify counts decremented (both should be 0 now)
+        if "interested_count" in rsvp_not_going_result and "going_count" in rsvp_not_going_result:
+            interested_count_not_going = rsvp_not_going_result.get("interested_count", 0)
+            going_count_not_going = rsvp_not_going_result.get("going_count", 0)
+            
+            if interested_count_not_going == 0 and going_count_not_going == 0:
+                print_test_result("RSVP Not Going - Count Decrement", True, f"Counts decremented correctly: interested={interested_count_not_going}, going={going_count_not_going}")
+            else:
+                print_test_result("RSVP Not Going - Count Decrement", False, f"Counts not decremented correctly: interested={interested_count_not_going}, going={going_count_not_going}")
+                return False
+        else:
+            print_test_result("RSVP Not Going - Response Counts", False, "Response missing count fields")
+            return False
+        
+        # Step 9: Test Event Details - GET /api/community/events/{event_id}?athlete_id={id}&exclude_images=true
+        print("   Step 9: Test Event Details endpoint")
+        
+        event_details_response = requests.get(f"{BACKEND_URL}/community/events/{test_event_id}?athlete_id={test_athlete_id}&exclude_images=true")
+        
+        if event_details_response.status_code != 200:
+            print_test_result("Event Details", False, f"Failed: {event_details_response.status_code} - {event_details_response.text}")
+            return False
+        
+        event_details = event_details_response.json()
+        
+        # Verify event details include participant lists
+        required_detail_fields = ["interested_users", "going_users", "interested_count", "going_count"]
+        missing_detail_fields = [field for field in required_detail_fields if field not in event_details]
+        
+        if missing_detail_fields:
+            print_test_result("Event Details - Participant Lists", False, f"Missing fields: {missing_detail_fields}")
+            return False
+        else:
+            print_test_result("Event Details - Participant Lists", True, "All participant list fields present")
+        
+        # Verify counts match array lengths
+        interested_users = event_details.get("interested_users", [])
+        going_users = event_details.get("going_users", [])
+        interested_count_details = event_details.get("interested_count", 0)
+        going_count_details = event_details.get("going_count", 0)
+        
+        if len(interested_users) == interested_count_details and len(going_users) == going_count_details:
+            print_test_result("Event Details - Count Consistency", True, f"Counts match arrays: interested={len(interested_users)}, going={len(going_users)}")
+        else:
+            print_test_result("Event Details - Count Consistency", False, f"Count mismatch: arrays({len(interested_users)}, {len(going_users)}) vs counts({interested_count_details}, {going_count_details})")
+            return False
+        
+        # Step 10: Verify open events appear in main feed after creation
+        print("   Step 10: Verify open events appear in main feed")
+        
+        # Get events again to verify our test event appears
+        updated_events_response = requests.get(f"{BACKEND_URL}/community/events?athlete_id={test_athlete_id}")
+        
+        if updated_events_response.status_code != 200:
+            print_test_result("Updated Events Feed", False, f"Failed: {updated_events_response.status_code}")
+            return False
+        
+        updated_events_data = updated_events_response.json()
+        updated_events = updated_events_data.get("events", [])
+        
+        # Find our test event in the feed
+        test_event_in_feed = None
+        for event in updated_events:
+            if event.get("id") == test_event_id:
+                test_event_in_feed = event
+                break
+        
+        if test_event_in_feed:
+            # Verify it has the correct visibility and appears in feed
+            if test_event_in_feed.get("visibility") == "open":
+                print_test_result("Open Event in Feed", True, f"Open test event appears in main feed with correct visibility")
+            else:
+                print_test_result("Open Event in Feed", False, f"Test event visibility incorrect: {test_event_in_feed.get('visibility')}")
+                return False
+        else:
+            print_test_result("Open Event in Feed", False, "Test event not found in main events feed")
+            return False
+        
+        # Step 11: Test RSVP again to verify counts update in feed
+        print("   Step 11: Test RSVP again and verify counts update in feed")
+        
+        # RSVP as interested again
+        rsvp_final_response = requests.post(
+            f"{BACKEND_URL}/community/events/{test_event_id}/rsvp?athlete_id={test_athlete_id}",
+            json={"status": "interested"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if rsvp_final_response.status_code != 200:
+            print_test_result("Final RSVP Test", False, f"Failed: {rsvp_final_response.status_code}")
+            return False
+        
+        # Get events feed again to verify counts updated
+        final_events_response = requests.get(f"{BACKEND_URL}/community/events?athlete_id={test_athlete_id}")
+        
+        if final_events_response.status_code == 200:
+            final_events_data = final_events_response.json()
+            final_events = final_events_data.get("events", [])
+            
+            # Find our test event and verify counts
+            final_test_event = None
+            for event in final_events:
+                if event.get("id") == test_event_id:
+                    final_test_event = event
+                    break
+            
+            if final_test_event:
+                final_interested_count = final_test_event.get("interested_count", 0)
+                final_user_status = final_test_event.get("user_status")
+                
+                if final_interested_count >= 1 and final_user_status == "interested":
+                    print_test_result("RSVP Count Update in Feed", True, f"Counts updated in feed: interested={final_interested_count}, user_status={final_user_status}")
+                else:
+                    print_test_result("RSVP Count Update in Feed", False, f"Counts not updated in feed: interested={final_interested_count}, user_status={final_user_status}")
+                    return False
+            else:
+                print_test_result("RSVP Count Update in Feed", False, "Test event not found in final feed")
+                return False
+        else:
+            print_test_result("Final Events Feed", False, f"Failed to get final events: {final_events_response.status_code}")
+            return False
+        
+        # Step 12: Cleanup - Delete test event
+        print("   Step 12: Cleanup - Delete test event")
+        
+        delete_response = requests.delete(f"{BACKEND_URL}/community/events/{test_event_id}?athlete_id={test_athlete_id}")
+        
+        if delete_response.status_code == 200:
+            print_test_result("Cleanup", True, "Test event deleted successfully")
+        else:
+            print_test_result("Cleanup", False, f"Failed to delete test event: {delete_response.status_code}")
+        
+        print("\n✅ EVENT RSVP AND LISTING FUNCTIONALITY TESTING COMPLETED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Event RSVP Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_image_exclusion_performance_feature():
     """
     TEST IMAGE EXCLUSION PERFORMANCE FEATURE
