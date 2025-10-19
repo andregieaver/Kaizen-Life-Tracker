@@ -273,10 +273,10 @@ const Supplements = ({ athleteId }) => {
       {/* Add/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50">
+          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50 bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>
+                <CardTitle className="text-white">
                   {editingSupplement ? 'Edit Supplement' : 'Add Supplement'}
                 </CardTitle>
                 <button
@@ -284,68 +284,70 @@ const Supplements = ({ athleteId }) => {
                     setShowModal(false);
                     setEditingSupplement(null);
                   }}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <CardDescription>
+              <CardDescription className="text-gray-300">
                 {editingSupplement ? 'Update supplement details' : 'Add a new supplement to your routine'}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Supplement Name */}
               <div className="space-y-2">
-                <Label>Supplement Name *</Label>
+                <Label className="text-white">Supplement Name *</Label>
                 <Input
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                   placeholder="e.g., Vitamin D3, Omega-3, Magnesium"
+                  className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
                 />
               </div>
 
               {/* Dosage and Unit */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Dosage *</Label>
+                  <Label className="text-white">Dosage *</Label>
                   <Input
                     type="number"
                     step="0.01"
                     value={formData.dosage}
                     onChange={(e) => setFormData(prev => ({ ...prev, dosage: e.target.value }))}
                     placeholder="100"
+                    className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Unit</Label>
+                  <Label className="text-white">Unit</Label>
                   <Select
                     value={formData.unit}
                     onValueChange={(value) => setFormData(prev => ({ ...prev, unit: value }))}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="z-[100]">
-                      <SelectItem value="mg">mg (milligrams)</SelectItem>
-                      <SelectItem value="g">g (grams)</SelectItem>
-                      <SelectItem value="mcg">mcg (micrograms)</SelectItem>
-                      <SelectItem value="IU">IU (International Units)</SelectItem>
+                    <SelectContent className="z-[100] bg-gray-800 border-gray-700">
+                      <SelectItem value="mg" className="text-white">mg (milligrams)</SelectItem>
+                      <SelectItem value="g" className="text-white">g (grams)</SelectItem>
+                      <SelectItem value="mcg" className="text-white">mcg (micrograms)</SelectItem>
+                      <SelectItem value="IU" className="text-white">IU (International Units)</SelectItem>
                       {athlete?.fluid_unit === 'ml' ? (
                         <>
-                          <SelectItem value="ml">ml (milliliters)</SelectItem>
-                          <SelectItem value="L">L (liters)</SelectItem>
+                          <SelectItem value="ml" className="text-white">ml (milliliters)</SelectItem>
+                          <SelectItem value="L" className="text-white">L (liters)</SelectItem>
                         </>
                       ) : (
                         <>
-                          <SelectItem value="fl oz">fl oz (fluid ounces)</SelectItem>
-                          <SelectItem value="tsp">tsp (teaspoons)</SelectItem>
-                          <SelectItem value="tbsp">tbsp (tablespoons)</SelectItem>
+                          <SelectItem value="fl oz" className="text-white">fl oz (fluid ounces)</SelectItem>
+                          <SelectItem value="tsp" className="text-white">tsp (teaspoons)</SelectItem>
+                          <SelectItem value="tbsp" className="text-white">tbsp (tablespoons)</SelectItem>
                         </>
                       )}
-                      <SelectItem value="capsules">capsules</SelectItem>
-                      <SelectItem value="tablets">tablets</SelectItem>
-                      <SelectItem value="drops">drops</SelectItem>
-                      <SelectItem value="other">other</SelectItem>
+                      <SelectItem value="capsules" className="text-white">capsules</SelectItem>
+                      <SelectItem value="tablets" className="text-white">tablets</SelectItem>
+                      <SelectItem value="drops" className="text-white">drops</SelectItem>
+                      <SelectItem value="other" className="text-white">other</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -353,52 +355,52 @@ const Supplements = ({ athleteId }) => {
 
               {/* Frequency */}
               <div className="space-y-2">
-                <Label>Frequency</Label>
+                <Label className="text-white">Frequency</Label>
                 <Select
                   value={formData.frequency}
                   onValueChange={(value) => setFormData(prev => ({ ...prev, frequency: value }))}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="z-[100]">
-                    <SelectItem value="daily">Daily</SelectItem>
-                    <SelectItem value="twice_daily">Twice Daily</SelectItem>
-                    <SelectItem value="weekly">Weekly</SelectItem>
-                    <SelectItem value="as_needed">As Needed</SelectItem>
+                  <SelectContent className="z-[100] bg-gray-800 border-gray-700">
+                    <SelectItem value="daily" className="text-white">Daily</SelectItem>
+                    <SelectItem value="twice_daily" className="text-white">Twice Daily</SelectItem>
+                    <SelectItem value="weekly" className="text-white">Weekly</SelectItem>
+                    <SelectItem value="as_needed" className="text-white">As Needed</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               {/* Time of Day */}
               <div className="space-y-2">
-                <Label>Time of Day</Label>
+                <Label className="text-white">Time of Day</Label>
                 <Select
                   value={formData.time_of_day}
                   onValueChange={(value) => setFormData(prev => ({ ...prev, time_of_day: value }))}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="z-[100]">
-                    <SelectItem value="morning">Morning</SelectItem>
-                    <SelectItem value="afternoon">Afternoon</SelectItem>
-                    <SelectItem value="evening">Evening</SelectItem>
-                    <SelectItem value="night">Night</SelectItem>
-                    <SelectItem value="with_meals">With Meals</SelectItem>
-                    <SelectItem value="any">Any Time</SelectItem>
+                  <SelectContent className="z-[100] bg-gray-800 border-gray-700">
+                    <SelectItem value="morning" className="text-white">Morning</SelectItem>
+                    <SelectItem value="afternoon" className="text-white">Afternoon</SelectItem>
+                    <SelectItem value="evening" className="text-white">Evening</SelectItem>
+                    <SelectItem value="night" className="text-white">Night</SelectItem>
+                    <SelectItem value="with_meals" className="text-white">With Meals</SelectItem>
+                    <SelectItem value="any" className="text-white">Any Time</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               {/* Notes */}
               <div className="space-y-2">
-                <Label>Notes (Optional)</Label>
+                <Label className="text-white">Notes (Optional)</Label>
                 <textarea
                   value={formData.notes}
                   onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
                   placeholder="Additional notes about this supplement..."
-                  className="w-full h-20 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  className="w-full h-20 p-3 bg-gray-700 border border-gray-600 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
                 />
               </div>
 
@@ -406,7 +408,7 @@ const Supplements = ({ athleteId }) => {
               <div className="flex gap-2 pt-4">
                 <Button
                   variant="outline"
-                  className="flex-1"
+                  className="flex-1 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                   onClick={() => {
                     setShowModal(false);
                     setEditingSupplement(null);
@@ -415,7 +417,7 @@ const Supplements = ({ athleteId }) => {
                   Cancel
                 </Button>
                 <Button
-                  className="flex-1"
+                  className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
                   onClick={handleSaveSupplement}
                   disabled={!formData.name.trim() || !formData.dosage}
                 >
