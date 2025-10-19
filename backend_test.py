@@ -1226,47 +1226,63 @@ def test_image_exclusion_performance_feature():
         else:
             print_test_result("Community Feed - Normal (no exclusion)", True, "Feed endpoint accessible without exclusion (no posts found)")
         
-        # Step 4: Test All Groups (GET /api/community/groups?athlete_id={id})
-        print("   Step 4: Test All Groups with Membership Info")
+        # Step 4: Test All Groups WITH image exclusion (GET /api/community/groups?athlete_id={id}&exclude_images=true&limit=30)
+        print("   Step 4: Test All Groups WITH image exclusion")
         
-        groups_response = requests.get(f"{BACKEND_URL}/community/groups?athlete_id={test_athlete_id}")
+        groups_excluded_response = requests.get(f"{BACKEND_URL}/community/groups?athlete_id={test_athlete_id}&exclude_images=true&limit=30")
         
-        if groups_response.status_code != 200:
-            print_test_result("All Groups - Basic", False, f"Failed: {groups_response.status_code} - {groups_response.text}")
+        if groups_excluded_response.status_code != 200:
+            print_test_result("All Groups - Image Exclusion", False, f"Failed: {groups_excluded_response.status_code} - {groups_excluded_response.text}")
             return False
         
-        groups_data = groups_response.json()
-        groups = groups_data.get("groups", [])
+        groups_excluded_data = groups_excluded_response.json()
+        groups_excluded = groups_excluded_data.get("groups", [])
         
-        if groups:
-            first_group = groups[0]
+        # Verify groups returned WITHOUT profile_image and cover_photo fields
+        if groups_excluded:
+            first_group_excluded = groups_excluded[0]
             required_group_fields = ["id", "name", "description", "privacy", "members_count", "created_at", "is_member", "member_role"]
-            missing_group_fields = [field for field in required_group_fields if field not in first_group]
+            excluded_fields = ["profile_image", "cover_photo"]
             
-            if not missing_group_fields:
-                print_test_result("All Groups - Structure", True, f"Groups returned {len(groups)} groups with membership info")
-            else:
-                print_test_result("All Groups - Structure", False, f"Missing group fields: {missing_group_fields}")
+            # Check required fields are present
+            missing_group_fields = [field for field in required_group_fields if field not in first_group_excluded]
+            if missing_group_fields:
+                print_test_result("All Groups - Image Exclusion Structure", False, f"Missing required fields: {missing_group_fields}")
                 return False
             
-            # Verify is_member and member_role fields
-            is_member = first_group.get("is_member")
-            member_role = first_group.get("member_role")
+            # Check image fields are excluded
+            image_fields_present = [field for field in excluded_fields if field in first_group_excluded]
+            if image_fields_present:
+                print_test_result("All Groups - Image Exclusion", False, f"Image fields should be excluded but are present: {image_fields_present}")
+                return False
+            
+            # Verify is_member and member_role still work correctly
+            is_member = first_group_excluded.get("is_member")
+            member_role = first_group_excluded.get("member_role")
             
             if isinstance(is_member, bool):
-                print_test_result("All Groups - is_member Field", True, f"is_member field is boolean: {is_member}")
+                print_test_result("All Groups - is_member Field (excluded)", True, f"is_member field still works: {is_member}")
             else:
-                print_test_result("All Groups - is_member Field", False, f"is_member should be boolean, got: {type(is_member)}")
+                print_test_result("All Groups - is_member Field (excluded)", False, f"is_member should be boolean, got: {type(is_member)}")
                 return False
             
             # member_role should be string or None
             if member_role is None or isinstance(member_role, str):
-                print_test_result("All Groups - member_role Field", True, f"member_role field correct: {member_role}")
+                print_test_result("All Groups - member_role Field (excluded)", True, f"member_role field still works: {member_role}")
             else:
-                print_test_result("All Groups - member_role Field", False, f"member_role should be string or None, got: {type(member_role)}")
+                print_test_result("All Groups - member_role Field (excluded)", False, f"member_role should be string or None, got: {type(member_role)}")
                 return False
+            
+            # Verify limit=30 returns maximum 30 groups
+            if len(groups_excluded) <= 30:
+                print_test_result("All Groups - Limit 30", True, f"Returned {len(groups_excluded)} groups (≤30)")
+            else:
+                print_test_result("All Groups - Limit 30", False, f"Returned {len(groups_excluded)} groups (>30)")
+                return False
+            
+            print_test_result("All Groups - Image Exclusion", True, f"Groups returned WITHOUT profile_image and cover_photo, {len(groups_excluded)} groups")
         else:
-            print_test_result("All Groups - Basic", True, "Groups endpoint accessible (no groups found)")
+            print_test_result("All Groups - Image Exclusion", True, "Groups endpoint accessible with image exclusion (no groups found)")
         
         # Step 5: Test All Groups Pagination
         print("   Step 5: Test All Groups Pagination")
