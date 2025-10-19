@@ -170,22 +170,37 @@ const Community = ({ athleteId }) => {
     if (savedModalState) {
       try {
         const modalState = JSON.parse(savedModalState);
-        if (modalState.showProfile) {
-          setShowProfile(true);
-          setProfileData(modalState.profileData);
+        
+        // Restore profile modal
+        if (modalState.showProfile && modalState.profileAthleteId) {
+          loadAthleteProfile(modalState.profileAthleteId);
         }
-        if (modalState.showEventDetail) {
-          setShowEventDetail(true);
-          setEventDetailData(modalState.eventDetailData);
+        
+        // Restore event detail modal
+        if (modalState.showEventDetail && modalState.eventDetailId) {
+          handleOpenEventDetail(modalState.eventDetailId);
         }
-        if (modalState.selectedGroup) {
-          setSelectedGroup(modalState.selectedGroup);
+        
+        // Restore selected group
+        if (modalState.selectedGroupId) {
+          // Find group in loaded data or fetch it
+          const findAndSetGroup = async () => {
+            const group = myGroups.find(g => g.id === modalState.selectedGroupId) || 
+                         groups.find(g => g.id === modalState.selectedGroupId);
+            if (group) {
+              setSelectedGroup(group);
+            }
+          };
+          findAndSetGroup();
         }
+        
+        // Restore notifications panel
         if (modalState.showNotifications) {
           setShowNotifications(true);
         }
       } catch (e) {
-        // Invalid state, ignore
+        // Invalid state, clear it
+        localStorage.removeItem('communityModalState');
       }
     }
   }, [notificationsLoaded]);
