@@ -41,6 +41,7 @@ const Dashboard = ({ athleteId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [testResults, setTestResults] = useState([]);
+  const [communityUnreadCount, setCommunityUnreadCount] = useState(0);
   
   // Scroll animation state
   const [scrollDirection, setScrollDirection] = useState('none'); // 'none' on initial load to show elements
@@ -52,7 +53,26 @@ const Dashboard = ({ athleteId }) => {
 
   useEffect(() => {
     loadDashboardData();
+    loadCommunityUnreadCount();
   }, [athleteId]);
+
+  // Reload community unread count periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      loadCommunityUnreadCount();
+    }, 30000); // Every 30 seconds
+
+    return () => clearInterval(interval);
+  }, [athleteId]);
+
+  const loadCommunityUnreadCount = async () => {
+    try {
+      const response = await axios.get(`${API}/community/notifications/${athleteId}/unread-count`);
+      setCommunityUnreadCount(response.data.unread_count);
+    } catch (error) {
+      console.error('Error loading community unread count:', error);
+    }
+  };
 
   // No longer needed - removed forced reload timer
 
