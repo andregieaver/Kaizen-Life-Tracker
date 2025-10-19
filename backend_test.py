@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Document Upload Flow Backend API Testing
-Tests the complete document upload and retrieval flow as requested
+Community Feature Backend API Testing
+Tests the complete Community feature backend API endpoints as requested
 """
 
 import requests
