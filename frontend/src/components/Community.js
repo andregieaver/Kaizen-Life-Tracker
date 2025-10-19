@@ -19,6 +19,7 @@ const Community = ({ athleteId }) => {
   
   // Posts state
   const [posts, setPosts] = useState([]);
+  const [postsLoaded, setPostsLoaded] = useState(false);
   const [newPostContent, setNewPostContent] = useState('');
   const [newPostImage, setNewPostImage] = useState(null);
   const [newPostImagePreview, setNewPostImagePreview] = useState(null);
@@ -30,6 +31,7 @@ const Community = ({ athleteId }) => {
   
   // Notifications state
   const [notifications, setNotifications] = useState([]);
+  const [notificationsLoaded, setNotificationsLoaded] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   
@@ -46,7 +48,9 @@ const Community = ({ athleteId }) => {
   
   // Groups state
   const [groups, setGroups] = useState([]);
+  const [groupsLoaded, setGroupsLoaded] = useState(false);
   const [myGroups, setMyGroups] = useState([]);
+  const [myGroupsLoaded, setMyGroupsLoaded] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [groupPosts, setGroupPosts] = useState([]);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
@@ -74,6 +78,7 @@ const Community = ({ athleteId }) => {
 
   // Events state
   const [events, setEvents] = useState([]);
+  const [eventsLoaded, setEventsLoaded] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showCreateEvent, setShowCreateEvent] = useState(false);
   const [showEditEvent, setShowEditEvent] = useState(false);
