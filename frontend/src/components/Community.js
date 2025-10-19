@@ -578,11 +578,24 @@ const Community = ({ athleteId }) => {
     }
   };
 
-  const toggleComments = (postId) => {
-    if (!showComments[postId]) {
-      loadComments(postId);
+  const toggleComments = async (postId) => {
+    const post = posts.find(p => p.id === postId);
+    if (!post) return;
+    
+    // Load comments for this post
+    if (!post.comments) {
+      try {
+        const response = await axios.get(`${API}/community/posts/${postId}/comments`);
+        // Update the post with comments
+        setPosts(posts.map(p => p.id === postId ? { ...p, comments: response.data.comments } : p));
+        post.comments = response.data.comments;
+      } catch (error) {
+        console.error('Error loading comments:', error);
+      }
     }
-    setShowComments({ ...showComments, [postId]: !showComments[postId] });
+    
+    setSelectedPostForComments(post);
+    setShowCommentsModal(true);
   };
 
   const markNotificationRead = async (notificationId) => {
