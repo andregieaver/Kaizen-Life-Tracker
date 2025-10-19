@@ -7825,20 +7825,55 @@ async def create_group(group_data: dict, athlete_id: str = Query(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/community/groups")
-async def get_all_groups(athlete_id: str = Query(...)):
-    """Get all groups"""
+async def get_all_groups(athlete_id: str = Query(...), limit: int = Query(50), skip: int = Query(0)):
+    """Get all groups - Optimized with pagination"""
     try:
-        groups = await db.community_groups.find({}, {"_id": 0}).sort("created_at", -1).to_list(length=None)
+        # Use aggregation pipeline to fetch groups with membership status in single query
+        pipeline = [
+            {"$sort": {"created_at": -1}},
+            {"$skip": skip},
+            {"$limit": limit},
+            {
+                "$lookup": {
+                    "from": "community_group_memberships",
+                    "let": {"group_id": "$id"},
+                    "pipeline": [
+                        {
+                            "$match": {
+                                "$expr": {
+                                    "$and": [
+                                        {"$eq": ["$group_id", "$$group_id"]},
+                                        {"$eq": ["$athlete_id", athlete_id]},
+                                        {"$eq": ["$status", "approved"]}
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "as": "membership"
+                }
+            },
+            {
+                "$addFields": {
+                    "is_member": {"$gt": [{"$size": "$membership"}, 0]},
+                    "member_role": {
+                        "$cond": {
+                            "if": {"$gt": [{"$size": "$membership"}, 0]},
+                            "then": {"$arrayElemAt": ["$membership.role", 0]},
+                            "else": None
+                        }
+                    }
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "membership": 0
+                }
+            }
+        ]
         
-        # For each group, check if user is a member
-        for group in groups:
-            membership = await db.community_group_memberships.find_one({
-                "group_id": group["id"],
-                "athlete_id": athlete_id,
-                "status": "approved"
-            })
-            group["is_member"] = membership is not None
-            group["member_role"] = membership.get("role") if membership else None
+        groups = await db.community_groups.aggregate(pipeline).to_list(length=None)
         
         return {"groups": groups}
     except Exception as e:
