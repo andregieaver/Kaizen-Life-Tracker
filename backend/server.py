@@ -7405,6 +7405,8 @@ async def mark_notification_read(notification_id: str):
         logging.error(f"Error marking notification as read: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Include the router in the main app (after all endpoints are defined)
+app.include_router(api_router)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
