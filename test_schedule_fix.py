@@ -7,7 +7,7 @@ import requests
 import json
 
 # Backend URL from environment
-BACKEND_URL = "https://trainsmart-dark-1.preview.emergentagent.com/api"
+BACKEND_URL = "https://social-training.preview.emergentagent.com/api"
 
 def test_schedule_creation_with_pro_tier():
     """Test what would happen if the user had pro tier"""
