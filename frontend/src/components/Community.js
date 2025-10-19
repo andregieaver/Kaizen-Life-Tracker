@@ -8,7 +8,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Community = ({ athleteId }) => {
-  const [activeTab, setActiveTab] = useState('feed'); // 'feed', 'groups', 'mygroups'
+  const [activeTab, setActiveTab] = useState('feed'); // 'feed', 'groups', 'mygroups', 'events'
   
   // Swipe state
   const [touchStart, setTouchStart] = useState(null);
