@@ -146,16 +146,28 @@ frontend:
         comment: "Athlete Profile and Groups backend implementation complete. BACKEND ADDITIONS: 1) NEW PYDANTIC MODELS (lines 1082-1142) ✓ - Follow model (follower_id, following_id, created_at). Group model (name, description, privacy [public/private], cover_photo, admin_id, members_count). GroupMembership model (group_id, athlete_id, role [admin/moderator/member], status [pending/approved]). GroupPost model (similar to CommunityPost but with group_id). 2) FOLLOW/UNFOLLOW ENDPOINTS (lines 7465-7600) ✓ - POST /api/community/follow/{target_athlete_id} - Toggle follow/unfollow with notification creation. GET /api/community/profile/{target_athlete_id} - Get profile with stats (posts_count, likes_received, followers_count, following_count, is_following). GET /api/community/followers/{athlete_id} - Get followers list. GET /api/community/following/{athlete_id} - Get following list. 3) GROUPS CRUD ENDPOINTS (lines 7602-7900) ✓ - POST /api/community/groups - Create group (name, description, privacy, cover_photo). GET /api/community/groups - Get all groups with membership status. GET /api/community/groups/my/{athlete_id} - Get user's groups. GET /api/community/groups/{group_id} - Get group details with members list. PUT /api/community/groups/{group_id} - Edit group (admin only). DELETE /api/community/groups/{group_id} - Delete group with cascade (admin only). POST /api/community/groups/{group_id}/join - Join group (instant for public, pending for private). POST /api/community/groups/{group_id}/leave - Leave group. PUT /api/community/groups/{group_id}/members/{athlete_id} - Manage members (approve/reject/change role, admin/mod only). 4) GROUP POSTS ENDPOINTS (lines 7902-8000) ✓ - POST /api/community/groups/{group_id}/posts - Create post in group (members only). GET /api/community/groups/{group_id}/posts - Get group feed (privacy checks for private groups, includes liked_by_user flag). 5) FEATURES IMPLEMENTED ✓ - Auto-approval for public groups, pending for private. Admin/moderator/member roles with proper permissions. Cascade delete on group deletion. Notification creation for follows. Membership verification for group actions. Backend restarted successfully. Ready for comprehensive testing."
 
   - task: "Athlete Profile and Groups Features - Frontend"
-    implemented: false
+    implemented: true
     working: "NA"
-    file: "/app/frontend/src/components/"
+    file: "/app/frontend/src/components/Community.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Frontend implementation pending. PLAN: 1) Update Community.js to add tabs (Feed | Groups | My Groups). 2) Create AthleteProfile modal component. 3) Create Groups components (GroupsList, GroupDetail, CreateGroupModal). 4) Add Follow/Unfollow button to profiles and posts. 5) Make names/avatars clickable to open profile modals. Implementation will begin after backend testing is complete."
+        comment: "Frontend implementation COMPLETE ✓. Community.js fully rewritten with all new features. 1) TABS NAVIGATION: Feed | Groups | My Groups tabs with active state styling. 2) ATHLETE PROFILE MODAL: Opens on click of any name/avatar. Shows profile picture/initial, name, bio. Displays stats: posts count, likes received, followers/following counts. Follow/Unfollow button with live count updates. Close button. 3) GROUPS FEATURES: Groups list view (all groups) with join buttons. My Groups view (user's groups). Group cards showing: cover photo, name, description, privacy icon (Lock/Globe), member count, admin/moderator badges (Crown/Shield), join button for non-members. Group detail view: back button, group header with cover photo, name, description, privacy, member count, role badge, leave button. Create post in group (textarea + image upload). Group posts feed (isolated from main feed). Create Group modal: name, description, privacy selector (public/private), create/cancel buttons. 4) CLICKABLE PROFILES: All user names and avatars in posts/comments are clickable and open profile modal. Hover effects on clickable elements. 5) UI/UX: Consistent dark theme (bg-gradient-to-br from-gray-700 to-gray-800). Teal accent color (#00C2A8) throughout. Role badges with icons (Crown for admin, Shield for moderator). Privacy indicators (Lock for private, Globe for public). Smooth transitions and hover states. Frontend compiled successfully."
+
+  - task: "Group Join Request Notifications and Header Badge"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py, /app/frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Notification system enhanced. BACKEND CHANGES: 1) Updated CommunityNotification model to include group_id field and 'group_join_request' type. 2) Modified join_group endpoint (line ~7833) to create notification for group admin when user requests to join private group. Notification content: '[User Name] wants to join your group [Group Name]'. 3) Added new endpoint GET /api/community/notifications/{athlete_id}/unread-count to fetch unread notification count efficiently. FRONTEND CHANGES (Dashboard.js): 1) Added communityUnreadCount state. 2) Added loadCommunityUnreadCount() function to fetch unread count. 3) useEffect to load count on mount and every 30 seconds. 4) Updated both desktop and mobile Community icons to show red dot badge when communityUnreadCount > 0. Red dot positioned absolute top-1 right-1 with bg-red-500. Both backend and frontend compiled successfully. Notification dot will appear on Community icon whenever there are unread notifications (including group join requests)."
 
 metadata:
   created_by: "main_agent"
