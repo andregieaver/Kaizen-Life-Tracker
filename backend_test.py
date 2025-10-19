@@ -1256,6 +1256,323 @@ def test_community_feature_backend():
             except:
                 pass
 
+def test_group_join_request_notifications():
+    """
+    COMPREHENSIVE GROUP JOIN REQUEST NOTIFICATION TESTING
+    Test the specific user case: andre@humanweb.no (admin) should receive notification 
+    when andre@humanweb.ai requests to join a private group
+    """
+    print("🔍 TESTING GROUP JOIN REQUEST NOTIFICATION SYSTEM")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Identify athlete_id for both users
+        print("   Step 1: Identify athlete_id for both users")
+        
+        # Get athlete_id for andre@humanweb.no (the admin)
+        admin_login_data = {
+            "email": "andre@humanweb.no",
+            "password": "password123"
+        }
+        
+        admin_login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=admin_login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        admin_athlete_id = None
+        if admin_login_response.status_code == 200:
+            admin_data = admin_login_response.json()
+            admin_athlete_id = admin_data.get("athlete_id")
+            print_test_result("Admin Login (andre@humanweb.no)", True, f"athlete_id: {admin_athlete_id}")
+        else:
+            print_test_result("Admin Login (andre@humanweb.no)", False, f"Login failed: {admin_login_response.status_code}")
+            return False
+        
+        # Get athlete_id for andre@humanweb.ai (the requester)
+        requester_login_data = {
+            "email": "andre@humanweb.ai",
+            "password": "password123"
+        }
+        
+        requester_login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=requester_login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        requester_athlete_id = None
+        if requester_login_response.status_code == 200:
+            requester_data = requester_login_response.json()
+            requester_athlete_id = requester_data.get("athlete_id")
+            print_test_result("Requester Login (andre@humanweb.ai)", True, f"athlete_id: {requester_athlete_id}")
+        else:
+            print_test_result("Requester Login (andre@humanweb.ai)", False, f"Login failed: {requester_login_response.status_code}")
+            return False
+        
+        # Step 2: Find the group where andre@humanweb.no is admin
+        print("   Step 2: Find private group where andre@humanweb.no is admin")
+        
+        # Get all groups to find one where admin is the admin
+        groups_response = requests.get(f"{BACKEND_URL}/community/groups")
+        
+        if groups_response.status_code != 200:
+            print_test_result("Get Groups", False, f"Failed: {groups_response.status_code}")
+            return False
+        
+        groups_data = groups_response.json()
+        groups = groups_data.get("groups", [])
+        
+        admin_private_group = None
+        for group in groups:
+            if (group.get("admin_id") == admin_athlete_id and 
+                group.get("privacy") == "private"):
+                admin_private_group = group
+                break
+        
+        if admin_private_group:
+            group_id = admin_private_group.get("id")
+            group_name = admin_private_group.get("name")
+            print_test_result("Find Admin Private Group", True, f"Found group: {group_name} (ID: {group_id})")
+        else:
+            # Create a private group for testing
+            print("   Creating test private group for admin...")
+            
+            create_group_data = {
+                "name": "Test Private Group for Notifications",
+                "description": "Test group for notification testing",
+                "privacy": "private"
+            }
+            
+            create_group_response = requests.post(
+                f"{BACKEND_URL}/community/groups?athlete_id={admin_athlete_id}",
+                json=create_group_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if create_group_response.status_code == 200:
+                group_result = create_group_response.json()
+                admin_private_group = group_result.get("group", {})
+                group_id = admin_private_group.get("id")
+                group_name = admin_private_group.get("name")
+                print_test_result("Create Test Private Group", True, f"Created group: {group_name} (ID: {group_id})")
+            else:
+                print_test_result("Create Test Private Group", False, f"Failed: {create_group_response.status_code}")
+                return False
+        
+        # Step 3: Check if join request already exists
+        print("   Step 3: Check existing join request status")
+        
+        # Get group details to check membership
+        group_details_response = requests.get(f"{BACKEND_URL}/community/groups/{group_id}?athlete_id={admin_athlete_id}")
+        
+        if group_details_response.status_code == 200:
+            group_details = group_details_response.json()
+            members = group_details.get("group", {}).get("members", [])
+            
+            existing_membership = None
+            for member in members:
+                if member.get("athlete_id") == requester_athlete_id:
+                    existing_membership = member
+                    break
+            
+            if existing_membership:
+                status = existing_membership.get("status")
+                print_test_result("Check Existing Membership", True, f"Found existing membership with status: {status}")
+            else:
+                print_test_result("Check Existing Membership", True, "No existing membership found")
+        else:
+            print_test_result("Check Existing Membership", False, f"Cannot get group details: {group_details_response.status_code}")
+        
+        # Step 4: Have andre@humanweb.ai request to join the private group
+        print("   Step 4: Request to join private group")
+        
+        join_request_response = requests.post(f"{BACKEND_URL}/community/groups/{group_id}/join?athlete_id={requester_athlete_id}")
+        
+        if join_request_response.status_code == 200:
+            join_result = join_request_response.json()
+            print_test_result("Join Request", True, f"Join request submitted: {join_result.get('message', 'Success')}")
+        else:
+            print_test_result("Join Request", False, f"Failed: {join_request_response.status_code} - {join_request_response.text}")
+            return False
+        
+        # Step 5: Verify join request exists with "pending" status
+        print("   Step 5: Verify join request has pending status")
+        
+        # Get group details again to check membership status
+        verify_group_response = requests.get(f"{BACKEND_URL}/community/groups/{group_id}?athlete_id={admin_athlete_id}")
+        
+        if verify_group_response.status_code == 200:
+            verify_group_data = verify_group_response.json()
+            verify_members = verify_group_data.get("group", {}).get("members", [])
+            
+            pending_membership = None
+            for member in verify_members:
+                if (member.get("athlete_id") == requester_athlete_id and 
+                    member.get("status") == "pending"):
+                    pending_membership = member
+                    break
+            
+            if pending_membership:
+                print_test_result("Verify Pending Membership", True, f"Join request found with status: pending")
+            else:
+                print_test_result("Verify Pending Membership", False, "No pending membership found")
+                return False
+        else:
+            print_test_result("Verify Pending Membership", False, f"Cannot verify membership: {verify_group_response.status_code}")
+            return False
+        
+        # Step 6: Check if notification was created for admin
+        print("   Step 6: Check if notification was created for admin")
+        
+        notifications_response = requests.get(f"{BACKEND_URL}/community/notifications/{admin_athlete_id}")
+        
+        if notifications_response.status_code != 200:
+            print_test_result("Get Admin Notifications", False, f"Failed: {notifications_response.status_code}")
+            return False
+        
+        notifications_data = notifications_response.json()
+        notifications = notifications_data.get("notifications", [])
+        
+        # Look for group_join_request notification
+        join_request_notification = None
+        for notification in notifications:
+            if (notification.get("type") == "group_join_request" and 
+                notification.get("group_id") == group_id and
+                notification.get("from_athlete_id") == requester_athlete_id):
+                join_request_notification = notification
+                break
+        
+        if join_request_notification:
+            content = join_request_notification.get("content", "")
+            expected_content_parts = ["wants to join your group", group_name]
+            content_correct = all(part in content for part in expected_content_parts)
+            
+            if content_correct:
+                print_test_result("Notification Created", True, f"Notification found with correct content: '{content}'")
+            else:
+                print_test_result("Notification Created", False, f"Notification content incorrect: '{content}'")
+                return False
+        else:
+            print_test_result("Notification Created", False, "No group_join_request notification found for admin")
+            
+            # Debug: Show all notifications for admin
+            print("      DEBUG: All notifications for admin:")
+            for i, notif in enumerate(notifications):
+                print(f"        {i+1}. Type: {notif.get('type')}, Content: {notif.get('content', '')[:100]}")
+            
+            return False
+        
+        # Step 7: Test notification endpoint with unread count
+        print("   Step 7: Test notification unread count endpoint")
+        
+        unread_count_response = requests.get(f"{BACKEND_URL}/community/notifications/{admin_athlete_id}/unread-count")
+        
+        if unread_count_response.status_code == 200:
+            unread_data = unread_count_response.json()
+            unread_count = unread_data.get("unread_count", 0)
+            
+            if unread_count > 0:
+                print_test_result("Unread Count Endpoint", True, f"Unread count: {unread_count}")
+            else:
+                print_test_result("Unread Count Endpoint", False, f"Expected unread count > 0, got: {unread_count}")
+        else:
+            print_test_result("Unread Count Endpoint", False, f"Failed: {unread_count_response.status_code}")
+        
+        # Step 8: Test marking notification as read
+        print("   Step 8: Test marking notification as read")
+        
+        notification_id = join_request_notification.get("id")
+        
+        mark_read_response = requests.put(f"{BACKEND_URL}/community/notifications/{notification_id}/read")
+        
+        if mark_read_response.status_code == 200:
+            print_test_result("Mark Notification Read", True, "Notification marked as read successfully")
+            
+            # Verify read status
+            verify_notifications_response = requests.get(f"{BACKEND_URL}/community/notifications/{admin_athlete_id}")
+            if verify_notifications_response.status_code == 200:
+                verify_notifications_data = verify_notifications_response.json()
+                verify_notifications = verify_notifications_data.get("notifications", [])
+                
+                updated_notification = None
+                for notif in verify_notifications:
+                    if notif.get("id") == notification_id:
+                        updated_notification = notif
+                        break
+                
+                if updated_notification and updated_notification.get("read") == True:
+                    print_test_result("Verify Read Status", True, "Notification read status updated correctly")
+                else:
+                    print_test_result("Verify Read Status", False, "Notification read status not updated")
+            else:
+                print_test_result("Verify Read Status", False, "Cannot verify read status")
+        else:
+            print_test_result("Mark Notification Read", False, f"Failed: {mark_read_response.status_code}")
+        
+        # Step 9: Test admin approving the join request
+        print("   Step 9: Test admin approving join request")
+        
+        approve_response = requests.put(
+            f"{BACKEND_URL}/community/groups/{group_id}/members/{requester_athlete_id}?athlete_id={admin_athlete_id}",
+            json={"action": "approve"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if approve_response.status_code == 200:
+            print_test_result("Approve Join Request", True, "Join request approved successfully")
+            
+            # Verify membership status changed to approved
+            final_group_response = requests.get(f"{BACKEND_URL}/community/groups/{group_id}?athlete_id={admin_athlete_id}")
+            if final_group_response.status_code == 200:
+                final_group_data = final_group_response.json()
+                final_members = final_group_data.get("group", {}).get("members", [])
+                
+                approved_member = None
+                for member in final_members:
+                    if member.get("athlete_id") == requester_athlete_id:
+                        approved_member = member
+                        break
+                
+                if approved_member and approved_member.get("status") == "approved":
+                    print_test_result("Verify Approval", True, "Member status changed to approved")
+                else:
+                    print_test_result("Verify Approval", False, f"Member status not updated correctly")
+            else:
+                print_test_result("Verify Approval", False, "Cannot verify approval")
+        else:
+            print_test_result("Approve Join Request", False, f"Failed: {approve_response.status_code}")
+        
+        # Step 10: Cleanup - Remove test member and group if created
+        print("   Step 10: Cleanup test data")
+        
+        # Remove member from group
+        leave_response = requests.post(f"{BACKEND_URL}/community/groups/{group_id}/leave?athlete_id={requester_athlete_id}")
+        
+        if leave_response.status_code == 200:
+            print_test_result("Cleanup - Remove Member", True, "Test member removed from group")
+        else:
+            print_test_result("Cleanup - Remove Member", False, f"Failed to remove member: {leave_response.status_code}")
+        
+        # If we created a test group, delete it
+        if admin_private_group.get("name") == "Test Private Group for Notifications":
+            delete_group_response = requests.delete(f"{BACKEND_URL}/community/groups/{group_id}?athlete_id={admin_athlete_id}")
+            
+            if delete_group_response.status_code == 200:
+                print_test_result("Cleanup - Delete Test Group", True, "Test group deleted successfully")
+            else:
+                print_test_result("Cleanup - Delete Test Group", False, f"Failed to delete group: {delete_group_response.status_code}")
+        
+        print("\n✅ GROUP JOIN REQUEST NOTIFICATION TESTING COMPLETED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Group Join Request Notification Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def main():
     """Run all backend tests"""
     print("🚀 STARTING COMMUNITY FEATURE BACKEND API TESTING")
@@ -1263,23 +1580,23 @@ def main():
     
     all_tests_passed = True
     
-    # Test Community Feature Backend
+    # Test Group Join Request Notifications (specific user case)
     try:
-        result = test_community_feature_backend()
+        result = test_group_join_request_notifications()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Community Feature Backend Testing", False, f"Exception: {str(e)}")
+        print_test_result("Group Join Request Notification Testing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 ALL COMMUNITY BACKEND TESTS PASSED!")
-        print("✅ Community Feature Backend API: Working")
+        print("🎉 ALL GROUP JOIN REQUEST NOTIFICATION TESTS PASSED!")
+        print("✅ Group Join Request Notification System: Working")
     else:
-        print("❌ SOME COMMUNITY BACKEND TESTS FAILED")
+        print("❌ SOME GROUP JOIN REQUEST NOTIFICATION TESTS FAILED")
         print("⚠️ Check individual test results above for details")
     
     print("=" * 70)
