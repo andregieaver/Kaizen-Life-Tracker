@@ -7760,6 +7760,8 @@ async def get_athlete_profile(target_athlete_id: str, viewer_athlete_id: str = Q
             "name": athlete.get("name", "Unknown"),
             "profile_picture": athlete.get("profile_picture"),
             "bio": athlete.get("bio", ""),
+            "date_of_birth": athlete.get("date_of_birth"),
+            "interests": athlete.get("interests", []),
             "posts_count": posts_count,
             "likes_received": likes_received,
             "followers_count": followers_count,
