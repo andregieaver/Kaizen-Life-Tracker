@@ -35,6 +35,14 @@ const Community = ({ athleteId }) => {
   const [editingPost, setEditingPost] = useState(null);
   const [editContent, setEditContent] = useState('');
   
+  // Mention state
+  const [showMentionDropdown, setShowMentionDropdown] = useState(false);
+  const [mentionResults, setMentionResults] = useState([]);
+  const [mentionSearchText, setMentionSearchText] = useState('');
+  const [mentionPosition, setMentionPosition] = useState({ top: 0, left: 0 });
+  const newPostRef = useRef(null);
+  const commentRefs = useRef({});
+  
   // Notifications state
   const [notifications, setNotifications] = useState([]);
   const [notificationsLoaded, setNotificationsLoaded] = useState(false);
