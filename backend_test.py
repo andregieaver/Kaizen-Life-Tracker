@@ -1117,13 +1117,13 @@ def test_group_edit_endpoint_failure():
         traceback.print_exc()
         return False
 
-def test_optimized_community_endpoints():
+def test_image_exclusion_performance_feature():
     """
-    TEST OPTIMIZED COMMUNITY API ENDPOINTS
-    Test the performance-optimized Community API endpoints with aggregation pipelines
-    Focus on: Community Feed, All Groups, My Groups, Events with pagination and performance
+    TEST IMAGE EXCLUSION PERFORMANCE FEATURE
+    Test the newly added exclude_images parameter to dramatically reduce payload size for initial loads
+    Focus on: Community Feed, All Groups, My Groups with image exclusion functionality
     """
-    print("🔍 TESTING OPTIMIZED COMMUNITY API ENDPOINTS")
+    print("🔍 TESTING IMAGE EXCLUSION PERFORMANCE FEATURE")
     print("=" * 70)
     
     try:
