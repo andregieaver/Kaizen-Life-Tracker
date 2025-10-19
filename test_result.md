@@ -403,6 +403,19 @@ backend:
     status_history:
       - working: false
         agent: "testing"
+
+  - task: "Community Pages Performance Optimization"
+    implemented: false
+    working: "NA"
+    file: "/app/backend/server.py, /app/frontend/src/components/Community.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "PERFORMANCE INVESTIGATION COMPLETE - Identified critical bottlenecks: BACKEND ISSUES: 1) N+1 Query Problem - get_community_feed makes 1 query for posts + N queries to check likes (1 per post), get_all_groups makes 1 query for groups + N queries for membership checks, get_my_groups makes 1 query for memberships + N separate queries for each group. 2) No MongoDB indexes on frequently queried fields (post_id, athlete_id, group_id). 3) Large data payloads with full base64 images in every response. FRONTEND ISSUES: 1) loadNotifications() called on every tab switch. 2) No caching - every tab switch reloads all data. 3) No pagination/lazy loading for posts/groups. 4) No image lazy loading. OPTIMIZATION PLAN: Phase 1 (Backend): Add MongoDB indexes, fix N+1 queries using aggregation pipelines, add pagination support. Phase 2 (Frontend): Implement caching, add pagination/infinite scroll, optimize notification loading, lazy load images. Starting implementation with backend optimizations."
+
         comment: "❌ CRITICAL SCHEDULE EXECUTION ISSUES IDENTIFIED - Comprehensive investigation revealed multiple blocking issues preventing schedule execution. DETAILED FINDINGS: 1) NO 'TEST' SCHEDULE FOUND ❌ - No schedules found at 23:00 for athlete andre@example.com (ID: 90de5b99-6db3-4e14-8455-c00864fb9976), indicating the 'Test' schedule mentioned in logs may have been deleted or never existed. 2) OPENAI API KEY MISSING ❌ - OpenAI integration found and active=True, but credentials contain NO API KEY (empty), this explains why schedules cannot execute as they require valid OpenAI API key for AI-generated recommendations. 3) SCHEDULE LIMIT REACHED ❌ - Cannot create new test schedule due to subscription limit: 'Schedule limit reached for free plan. Current: 4, Limit: 1', athlete has 4 schedules but free plan only allows 1, this prevents creating new schedules for testing. ROOT CAUSE ANALYSIS: The schedule execution failure is caused by MISSING OPENAI API KEY, not last_executed date issues. Even if the 'Test' schedule existed and had correct timing, it would fail to execute because: - OpenAI integration has empty credentials (no API key configured), - execute_scheduled_prompt() function requires valid OpenAI API key to generate recommendations, - Without API key, scheduler cannot create AI-generated content. ADDITIONAL ISSUES: Schedule limit enforcement is working correctly but prevents testing on free plan accounts. SOLUTIONS REQUIRED: 1) User must configure valid OpenAI API key in Account Settings → Apps → OpenAI API Key, 2) Verify schedule exists and is active, 3) Consider upgrading subscription plan if more than 1 schedule needed. SCHEDULER INFRASTRUCTURE: Working correctly - issue is configuration, not code."
 
   - task: "Schedule Update Last_Executed Reset Logic"
