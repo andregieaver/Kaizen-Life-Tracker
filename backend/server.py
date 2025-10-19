@@ -7228,7 +7228,7 @@ async def toggle_post_like(post_id: str, athlete_id: str = Query(...)):
                 "athlete_id": athlete_id,
                 "created_at": datetime.now(timezone.utc).isoformat()
             }
-            await db.community_likes.insert_one(like)
+            await db.community_likes.insert_one(prepare_for_mongo(like.copy()))
             await db.community_posts.update_one(
                 {"id": post_id},
                 {"$inc": {"likes_count": 1}}
