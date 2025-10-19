@@ -602,12 +602,13 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="end_date">End Date</Label>
+                        <Label htmlFor="end_date" className="text-white">End Date</Label>
                         <Input
                           id="end_date"
                           type="date"
                           value={formData.end_date}
                           onChange={(e) => setFormData(prev => ({...prev, end_date: e.target.value}))}
+                          className="bg-gray-600 border-gray-500 text-white"
                           required
                         />
                       </div>
@@ -615,38 +616,41 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="start_time">Start Time (Optional)</Label>
+                        <Label htmlFor="start_time" className="text-white">Start Time (Optional)</Label>
                         <Input
                           id="start_time"
                           type="time"
                           value={formData.start_time || ''}
                           onChange={(e) => setFormData(prev => ({...prev, start_time: e.target.value}))}
                           placeholder="06:00"
+                          className="bg-gray-600 border-gray-500 text-white"
                         />
-                        <p className="text-xs text-gray-500">Leave empty for all-day workout</p>
+                        <p className="text-xs text-gray-400">Leave empty for all-day workout</p>
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="end_time">End Time (Optional)</Label>
+                        <Label htmlFor="end_time" className="text-white">End Time (Optional)</Label>
                         <Input
                           id="end_time"
                           type="time"
                           value={formData.end_time || ''}
                           onChange={(e) => setFormData(prev => ({...prev, end_time: e.target.value}))}
                           placeholder="07:30"
+                          className="bg-gray-600 border-gray-500 text-white"
                         />
-                        <p className="text-xs text-gray-500">Calculated from duration if empty</p>
+                        <p className="text-xs text-gray-400">Calculated from duration if empty</p>
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="description">Description</Label>
+                      <Label htmlFor="description" className="text-white">Description</Label>
                       <Textarea
                         id="description"
                         value={formData.description}
                         onChange={(e) => setFormData(prev => ({...prev, description: e.target.value}))}
                         placeholder="Add notes about your workout goals, route, weather conditions..."
                         rows={3}
+                        className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                       />
                     </div>
                   </TabsContent>
@@ -654,7 +658,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                   <TabsContent value="workout" className="space-y-4">
                     <div className="grid grid-cols-3 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="distance">Distance ({getDistanceUnitLabel(formData.unit_system)})</Label>
+                        <Label htmlFor="distance" className="text-white">Distance ({getDistanceUnitLabel(formData.unit_system)})</Label>
                         <Input
                           id="distance"
                           type="number"
@@ -662,39 +666,41 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
                           value={formData.distance}
                           onChange={(e) => setFormData(prev => ({...prev, distance: e.target.value}))}
                           placeholder="5.0"
+                          className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                         />
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="duration_minutes">Duration (min)</Label>
+                        <Label htmlFor="duration_minutes" className="text-white">Duration (min)</Label>
                         <Input
                           id="duration_minutes"
                           type="number"
                           value={formData.duration_minutes}
                           onChange={(e) => setFormData(prev => ({...prev, duration_minutes: e.target.value}))}
                           placeholder="30"
+                          className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                         />
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="unit_system">Unit System</Label>
+                        <Label htmlFor="unit_system" className="text-white">Unit System</Label>
                         <Select 
                           value={formData.unit_system} 
                           onValueChange={(value) => setFormData(prev => ({...prev, unit_system: value}))}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="bg-gray-600 border-gray-500 text-white">
                             <SelectValue />
                           </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="miles">Miles</SelectItem>
-                            <SelectItem value="km">Kilometers</SelectItem>
+                          <SelectContent className="bg-gray-800 border-gray-700">
+                            <SelectItem value="miles" className="text-white">Miles</SelectItem>
+                            <SelectItem value="km" className="text-white">Kilometers</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="pace_per_unit">Pace (per {formData.unit_system === 'miles' ? 'mile' : 'km'})</Label>
+                      <Label htmlFor="pace_per_unit" className="text-white">Pace (per {formData.unit_system === 'miles' ? 'mile' : 'km'})</Label>
                       <Input
                         id="pace_per_unit"
                         value={formData.pace_per_unit}
