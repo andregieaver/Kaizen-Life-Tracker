@@ -1127,10 +1127,10 @@ def test_image_exclusion_performance_feature():
     print("=" * 70)
     
     try:
-        # Step 1: Use known athlete IDs from test_result.md
+        # Step 1: Use known athlete IDs from review request
         print("   Step 1: Setup test athletes")
         
-        # Use athlete IDs mentioned in review request
+        # Use athlete test.files@example.com (ID: 44111b4a-b61f-4a94-9c29-439434e67e19) as specified in review request
         test_athlete_id = "44111b4a-b61f-4a94-9c29-439434e67e19"  # test.files@example.com
         andre_athlete_id = "90de5b99-6db3-4e14-8455-c00864fb9976"  # andre@example.com
         
