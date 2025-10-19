@@ -539,12 +539,12 @@ const Documents = ({ athleteId }) => {
                       </button>
                     </div>
                   ) : (
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-300">
+                    <div className="flex items-center justify-between p-4 bg-gray-600 rounded-lg border border-gray-500">
                       <div className="flex items-center gap-3">
-                        <File className="w-8 h-8 text-blue-600" />
+                        <File className="w-8 h-8 text-teal-400" />
                         <div>
-                          <p className="text-sm font-medium text-gray-900">{fileName}</p>
-                          <p className="text-xs text-gray-500">{formatFileSize(fileSize)}</p>
+                          <p className="text-sm font-medium text-white">{fileName}</p>
+                          <p className="text-xs text-gray-400">{formatFileSize(fileSize)}</p>
                         </div>
                       </div>
                       <button
@@ -560,7 +560,7 @@ const Documents = ({ athleteId }) => {
                             fileInputRef.current.value = '';
                           }
                         }}
-                        className="p-2 text-red-600 hover:bg-red-100 rounded-lg"
+                        className="p-2 text-red-400 hover:bg-red-900/30 rounded-lg"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -571,15 +571,15 @@ const Documents = ({ athleteId }) => {
                     <button
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
-                      className="text-xs text-blue-600 hover:text-blue-700 underline"
+                      className="text-xs text-teal-400 hover:text-teal-300 underline"
                     >
                       Choose different file
                     </button>
-                    <span className="text-xs text-gray-400">•</span>
+                    <span className="text-xs text-gray-500">•</span>
                     <button
                       type="button"
                       onClick={() => cameraInputRef.current?.click()}
-                      className="text-xs text-blue-600 hover:text-blue-700 underline"
+                      className="text-xs text-teal-400 hover:text-teal-300 underline"
                     >
                       Take new photo
                     </button>
@@ -590,7 +590,7 @@ const Documents = ({ athleteId }) => {
 
             {/* Title */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Document Title *
               </label>
               <Input
@@ -600,13 +600,13 @@ const Documents = ({ athleteId }) => {
                   sessionStorage.setItem('documents_title', e.target.value);
                 }}
                 placeholder="e.g., Blood Test Results - January 2024"
-                className="w-full"
+                className="w-full bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
               />
             </div>
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Category *
               </label>
               <select
@@ -615,7 +615,7 @@ const Documents = ({ athleteId }) => {
                   setCategory(e.target.value);
                   sessionStorage.setItem('documents_category', e.target.value);
                 }}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full p-2 bg-gray-600 border border-gray-500 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
               >
                 {categories.map((cat) => (
                   <option key={cat.value} value={cat.value}>
@@ -627,7 +627,7 @@ const Documents = ({ athleteId }) => {
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Description (optional)
               </label>
               <textarea
@@ -637,7 +637,7 @@ const Documents = ({ athleteId }) => {
                   sessionStorage.setItem('documents_description', e.target.value);
                 }}
                 placeholder="Add any notes or details about this document..."
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                className="w-full p-3 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
                 rows={3}
               />
             </div>
