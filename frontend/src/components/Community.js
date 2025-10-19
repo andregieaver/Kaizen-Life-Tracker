@@ -1548,6 +1548,70 @@ const Community = ({ athleteId }) => {
           setRulesAccepted={setRulesAccepted}
         />
       )}
+
+      {/* Comments Modal */}
+      {showCommentsModal && selectedPostForComments && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-gray-800 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-hidden">
+            <div className="flex items-center justify-between p-4 border-b border-gray-700">
+              <h3 className="text-white font-semibold">Comments</h3>
+              <button
+                onClick={() => {
+                  setShowCommentsModal(false);
+                  setSelectedPostForComments(null);
+                }}
+                className="text-gray-400 hover:text-white"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            
+            <div className="p-4 max-h-96 overflow-y-auto">
+              {selectedPostForComments.comments?.length > 0 ? (
+                <div className="space-y-4">
+                  {selectedPostForComments.comments.map(comment => (
+                    <div key={comment.id} className="flex items-start space-x-3">
+                      <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-white font-bold text-xs">
+                          {comment.athlete_name?.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <div className="flex-1 bg-gray-700 rounded-lg p-3">
+                        <p className="text-white font-semibold text-sm">{comment.athlete_name}</p>
+                        <p className="text-gray-300 text-sm mt-1">{comment.content}</p>
+                        <p className="text-gray-400 text-xs mt-1">
+                          {new Date(comment.created_at).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-400 text-center py-8">No comments yet</p>
+              )}
+            </div>
+            
+            <div className="p-4 border-t border-gray-700">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="text"
+                  value={commentText[selectedPostForComments.id] || ''}
+                  onChange={(e) => setCommentText({ ...commentText, [selectedPostForComments.id]: e.target.value })}
+                  placeholder="Write a comment..."
+                  className="flex-1 bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                  onKeyPress={(e) => e.key === 'Enter' && handleAddComment()}
+                />
+                <Button
+                  onClick={() => handleAddComment()}
+                  className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                >
+                  <Send className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
