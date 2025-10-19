@@ -165,44 +165,8 @@ const Community = ({ athleteId }) => {
       loadNotifications();
     }
     
-    // Restore any persisted modal state
-    const savedModalState = localStorage.getItem('communityModalState');
-    if (savedModalState) {
-      try {
-        const modalState = JSON.parse(savedModalState);
-        
-        // Restore profile modal
-        if (modalState.showProfile && modalState.profileAthleteId) {
-          loadAthleteProfile(modalState.profileAthleteId);
-        }
-        
-        // Restore event detail modal
-        if (modalState.showEventDetail && modalState.eventDetailId) {
-          handleOpenEventDetail(modalState.eventDetailId);
-        }
-        
-        // Restore selected group
-        if (modalState.selectedGroupId) {
-          // Find group in loaded data or fetch it
-          const findAndSetGroup = async () => {
-            const group = myGroups.find(g => g.id === modalState.selectedGroupId) || 
-                         groups.find(g => g.id === modalState.selectedGroupId);
-            if (group) {
-              setSelectedGroup(group);
-            }
-          };
-          findAndSetGroup();
-        }
-        
-        // Restore notifications panel
-        if (modalState.showNotifications) {
-          setShowNotifications(true);
-        }
-      } catch (e) {
-        // Invalid state, clear it
-        localStorage.removeItem('communityModalState');
-      }
-    }
+    // DISABLED: Modal restoration triggers extra API calls, slowing down initial load
+    // Users can reopen modals manually if needed
   }, [notificationsLoaded]);
 
   useEffect(() => {
