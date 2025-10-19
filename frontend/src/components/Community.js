@@ -72,6 +72,35 @@ const Community = ({ athleteId }) => {
   const [joiningGroup, setJoiningGroup] = useState(null);
 
 
+  // Events state
+  const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [showCreateEvent, setShowCreateEvent] = useState(false);
+  const [showEditEvent, setShowEditEvent] = useState(false);
+  const [newEventData, setNewEventData] = useState({
+    name: '',
+    description: '',
+    visibility: 'open',
+    event_date: '',
+    event_time: '',
+    location: '',
+    profile_image: null,
+    cover_photo: null,
+    group_id: null
+  });
+  const [editEventData, setEditEventData] = useState({
+    name: '',
+    description: '',
+    visibility: 'open',
+    event_date: '',
+    event_time: '',
+    location: '',
+    profile_image: null,
+    cover_photo: null,
+    group_id: null
+  });
+
+
   // Swipe handlers
   const onTouchStart = (e) => {
     setTouchEnd(null);
