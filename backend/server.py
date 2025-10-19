@@ -8168,6 +8168,289 @@ async def get_group_posts(group_id: str, athlete_id: str = Query(...), limit: in
 
 
 
+# ==========================================
+# EVENTS ENDPOINTS
+# ==========================================
+
+@api_router.post("/community/events")
+async def create_event(event_data: dict, athlete_id: str = Query(...)):
+    """Create a new event"""
+    try:
+        # Create event
+        event = {
+            "id": str(uuid.uuid4()),
+            "name": event_data.get("name", ""),
+            "description": event_data.get("description", ""),
+            "visibility": event_data.get("visibility", "open"),
+            "event_date": event_data.get("event_date", ""),
+            "event_time": event_data.get("event_time", ""),
+            "location": event_data.get("location"),
+            "profile_image": event_data.get("profile_image"),
+            "cover_photo": event_data.get("cover_photo"),
+            "group_id": event_data.get("group_id"),
+            "creator_id": athlete_id,
+            "interested_count": 0,
+            "going_count": 0,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": None
+        }
+        
+        await db.community_events.insert_one(prepare_for_mongo(event.copy()))
+        
+        # If connected to a group, notify all group members
+        if event.get("group_id"):
+            group_memberships = await db.community_group_memberships.find({
+                "group_id": event["group_id"],
+                "status": "approved"
+            }, {"_id": 0}).to_list(length=None)
+            
+            creator = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+            
+            for membership in group_memberships:
+                if membership["athlete_id"] != athlete_id:  # Don't notify creator
+                    notification = {
+                        "id": str(uuid.uuid4()),
+                        "athlete_id": membership["athlete_id"],
+                        "type": "event_invite",
+                        "content": f"{creator.get('name', 'Someone')} created an event: {event['name']}",
+                        "from_athlete_id": athlete_id,
+                        "from_athlete_name": creator.get("name", "Unknown"),
+                        "read": False,
+                        "created_at": datetime.now(timezone.utc).isoformat(),
+                        "event_id": event["id"]
+                    }
+                    await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
+        
+        return {"success": True, "event": event}
+    except Exception as e:
+        logging.error(f"Error creating event: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/events")
+async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(None)):
+    """Get all events (open events + group events where user is member)"""
+    try:
+        query = {}
+        
+        if group_id:
+            # Get events for specific group
+            query["group_id"] = group_id
+        else:
+            # Get open events + events from user's groups
+            user_groups = await db.community_group_memberships.find({
+                "athlete_id": athlete_id,
+                "status": "approved"
+            }, {"_id": 0, "group_id": 1}).to_list(length=None)
+            
+            group_ids = [m["group_id"] for m in user_groups]
+            
+            # Get open events OR events from user's groups
+            query = {
+                "$or": [
+                    {"visibility": "open"},
+                    {"group_id": {"$in": group_ids}}
+                ]
+            }
+        
+        events = await db.community_events.find(
+            query,
+            {"_id": 0}
+        ).sort("event_date", 1).to_list(length=None)
+        
+        # For each event, check user's RSVP status
+        for event in events:
+            attendance = await db.community_event_attendance.find_one({
+                "event_id": event["id"],
+                "athlete_id": athlete_id
+            })
+            event["user_status"] = attendance.get("status") if attendance else None
+        
+        return {"events": events}
+    except Exception as e:
+        logging.error(f"Error fetching events: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/events/{event_id}")
+async def get_event_details(event_id: str, athlete_id: str = Query(...)):
+    """Get event details"""
+    try:
+        event = await db.community_events.find_one({"id": event_id}, {"_id": 0})
+        if not event:
+            raise HTTPException(status_code=404, detail="Event not found")
+        
+        # Check user's RSVP status
+        attendance = await db.community_event_attendance.find_one({
+            "event_id": event_id,
+            "athlete_id": athlete_id
+        })
+        event["user_status"] = attendance.get("status") if attendance else None
+        
+        # Get attendees
+        interested = await db.community_event_attendance.find({
+            "event_id": event_id,
+            "status": "interested"
+        }, {"_id": 0}).to_list(length=None)
+        
+        going = await db.community_event_attendance.find({
+            "event_id": event_id,
+            "status": "going"
+        }, {"_id": 0}).to_list(length=None)
+        
+        event["interested_users"] = [a["athlete_id"] for a in interested]
+        event["going_users"] = [a["athlete_id"] for a in going]
+        
+        return event
+    except Exception as e:
+        logging.error(f"Error fetching event details: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/community/events/{event_id}")
+async def edit_event(event_id: str, event_data: dict, athlete_id: str = Query(...)):
+    """Edit event (creator only)"""
+    try:
+        # Verify creator
+        event = await db.community_events.find_one({"id": event_id})
+        if not event:
+            raise HTTPException(status_code=404, detail="Event not found")
+        if event["creator_id"] != athlete_id:
+            raise HTTPException(status_code=403, detail="Only event creator can edit")
+        
+        # Update event
+        update_data = {
+            "name": event_data.get("name"),
+            "description": event_data.get("description"),
+            "visibility": event_data.get("visibility"),
+            "event_date": event_data.get("event_date"),
+            "event_time": event_data.get("event_time"),
+            "location": event_data.get("location"),
+            "profile_image": event_data.get("profile_image"),
+            "cover_photo": event_data.get("cover_photo"),
+            "group_id": event_data.get("group_id"),
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        # Remove None values
+        update_data = {k: v for k, v in update_data.items() if v is not None}
+        
+        await db.community_events.update_one(
+            {"id": event_id},
+            {"$set": update_data}
+        )
+        
+        updated_event = await db.community_events.find_one({"id": event_id}, {"_id": 0})
+        return {"success": True, "event": updated_event}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error editing event: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/community/events/{event_id}")
+async def delete_event(event_id: str, athlete_id: str = Query(...)):
+    """Delete event (creator only)"""
+    try:
+        # Verify creator
+        event = await db.community_events.find_one({"id": event_id})
+        if not event:
+            raise HTTPException(status_code=404, detail="Event not found")
+        if event["creator_id"] != athlete_id:
+            raise HTTPException(status_code=403, detail="Only event creator can delete")
+        
+        # Delete event and attendance
+        await db.community_events.delete_one({"id": event_id})
+        await db.community_event_attendance.delete_many({"event_id": event_id})
+        
+        return {"success": True, "message": "Event deleted"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error deleting event: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/community/events/{event_id}/rsvp")
+async def rsvp_event(event_id: str, rsvp_data: dict, athlete_id: str = Query(...)):
+    """RSVP to an event (interested/going)"""
+    try:
+        # Check if event exists
+        event = await db.community_events.find_one({"id": event_id})
+        if not event:
+            raise HTTPException(status_code=404, detail="Event not found")
+        
+        status = rsvp_data.get("status")  # 'interested', 'going', 'not_going'
+        
+        if status not in ["interested", "going", "not_going"]:
+            raise HTTPException(status_code=400, detail="Invalid RSVP status")
+        
+        # Check existing RSVP
+        existing_rsvp = await db.community_event_attendance.find_one({
+            "event_id": event_id,
+            "athlete_id": athlete_id
+        })
+        
+        if status == "not_going":
+            # Remove RSVP
+            if existing_rsvp:
+                old_status = existing_rsvp.get("status")
+                await db.community_event_attendance.delete_one({"id": existing_rsvp["id"]})
+                
+                # Update counts
+                if old_status == "interested":
+                    await db.community_events.update_one({"id": event_id}, {"$inc": {"interested_count": -1}})
+                elif old_status == "going":
+                    await db.community_events.update_one({"id": event_id}, {"$inc": {"going_count": -1}})
+        else:
+            if existing_rsvp:
+                # Update existing RSVP
+                old_status = existing_rsvp.get("status")
+                await db.community_event_attendance.update_one(
+                    {"id": existing_rsvp["id"]},
+                    {"$set": {"status": status}}
+                )
+                
+                # Update counts
+                if old_status == "interested":
+                    await db.community_events.update_one({"id": event_id}, {"$inc": {"interested_count": -1}})
+                elif old_status == "going":
+                    await db.community_events.update_one({"id": event_id}, {"$inc": {"going_count": -1}})
+                
+                if status == "interested":
+                    await db.community_events.update_one({"id": event_id}, {"$inc": {"interested_count": 1}})
+                elif status == "going":
+                    await db.community_events.update_one({"id": event_id}, {"$inc": {"going_count": 1}})
+            else:
+                # Create new RSVP
+                rsvp = {
+                    "id": str(uuid.uuid4()),
+                    "event_id": event_id,
+                    "athlete_id": athlete_id,
+                    "status": status,
+                    "created_at": datetime.now(timezone.utc).isoformat()
+                }
+                await db.community_event_attendance.insert_one(prepare_for_mongo(rsvp.copy()))
+                
+                # Update counts
+                if status == "interested":
+                    await db.community_events.update_one({"id": event_id}, {"$inc": {"interested_count": 1}})
+                elif status == "going":
+                    await db.community_events.update_one({"id": event_id}, {"$inc": {"going_count": 1}})
+        
+        # Get updated event
+        updated_event = await db.community_events.find_one({"id": event_id}, {"_id": 0})
+        return {
+            "success": True,
+            "status": status,
+            "interested_count": updated_event["interested_count"],
+            "going_count": updated_event["going_count"]
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error RSVP event: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
+
 # Include the router in the main app (after all endpoints are defined)
 app.include_router(api_router)
 
