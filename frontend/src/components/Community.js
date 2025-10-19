@@ -242,24 +242,11 @@ const Community = ({ athleteId }) => {
 
   const loadPosts = async (forceReload = false) => {
     try {
-      // Load with limited posts for initial speed, images included for display
-      const response = await axios.get(`${API}/community/posts/${athleteId}?limit=20`);
-      setPosts(response.data.posts);
+      // RADICAL: Load only 5 posts without images for instant load
+      const response = await axios.get(`${API}/community/posts/${athleteId}?limit=5&exclude_images=true`);
+      setPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
       setPostsLoaded(true);
       setIsLoading(false);
-      
-      // Also load open events to show in main feed
-      const eventsResponse = await axios.get(`${API}/community/events?athlete_id=${athleteId}`);
-      const openEvents = eventsResponse.data.events.filter(e => e.visibility === 'open');
-      setEvents(eventsResponse.data.events); // Store all events for Events tab
-      
-      // Create a combined feed with posts and open events
-      const combinedFeed = [
-        ...response.data.posts.map(p => ({ ...p, type: 'post' })),
-        ...openEvents.map(e => ({ ...e, type: 'event' }))
-      ].sort((a, b) => new Date(b.created_at || b.event_date) - new Date(a.created_at || a.event_date));
-      
-      setPosts(combinedFeed);
     } catch (error) {
       console.error('Error loading posts:', error);
       setIsLoading(false);
