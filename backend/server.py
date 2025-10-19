@@ -1071,13 +1071,61 @@ class CommunityNotification(BaseModel):
     
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     athlete_id: str  # Recipient of notification
-    type: str  # 'like', 'comment', 'share', 'mention'
+    type: str  # 'like', 'comment', 'share', 'mention', 'follow'
     content: str  # Notification message
     post_id: Optional[str] = None
     from_athlete_id: Optional[str] = None
     from_athlete_name: Optional[str] = None
     read: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class Follow(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    follower_id: str  # User who is following
+    following_id: str  # User being followed
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class Group(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    description: str
+    privacy: str  # 'public' or 'private'
+    cover_photo: Optional[str] = None  # Base64 encoded image
+    admin_id: str  # Creator/admin of the group
+    members_count: int = 1  # Starts with admin
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
+class GroupMembership(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    group_id: str
+    athlete_id: str
+    role: str  # 'admin', 'moderator', 'member'
+    status: str  # 'pending', 'approved'
+    joined_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class GroupPost(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    group_id: str
+    athlete_id: str
+    athlete_name: str  # Cached for display
+    athlete_profile_picture: Optional[str] = None  # Cached for display
+    content: str  # Post text content
+    image_data: Optional[str] = None  # Base64 encoded image (optional)
+    likes_count: int = 0
+    comments_count: int = 0
+    shares_count: int = 0
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+    is_edited: bool = False
 
 # AI Coach Service
 class AICoachService:
