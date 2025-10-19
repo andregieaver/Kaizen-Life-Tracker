@@ -477,6 +477,7 @@ const Community = ({ athleteId }) => {
               )}
             </div>
           )}
+          </div>
         </div>
       </div>
 
