@@ -438,6 +438,18 @@ backend:
       - working: false
         agent: "testing"
 
+  - task: "Event RSVP and Listing Functionality Testing"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ EVENT RSVP AND LISTING FUNCTIONALITY FULLY FUNCTIONAL - Comprehensive testing completed with 100% success rate (17/17 tests passed). VERIFIED ALL REVIEW REQUEST REQUIREMENTS using athlete test.files@example.com (ID: 44111b4a-b61f-4a94-9c29-439434e67e19): 1) GET ALL EVENTS ✓ - GET /api/community/events?athlete_id={id} returns events with all required fields (cover_photo, profile_image, interested_count, going_count, user_status), open events (visibility: 'open') are included in response, event structure contains all necessary fields for event cards. 2) EVENT RSVP FUNCTIONALITY ✓ - POST /api/community/events/{event_id}/rsvp?athlete_id={id} with {'status': 'interested'} successfully increments interested_count, POST with {'status': 'going'} correctly updates counts (interested decreases, going increases), POST with {'status': 'not_going'} properly decrements counts, RSVP response includes updated interested_count and going_count fields. 3) EVENT DETAILS ✓ - GET /api/community/events/{event_id}?athlete_id={id}&exclude_images=true returns participant lists (interested_users, going_users arrays), counts match array lengths (interested_count = len(interested_users), going_count = len(going_users)), endpoint works correctly with exclude_images parameter. 4) OPEN EVENTS DISPLAY ✓ - Open events are properly included in main events feed, created test event appears in feed with correct visibility='open', RSVP counts update correctly in main feed after RSVP actions. 5) COUNT CONSISTENCY ✓ - All count updates persist correctly across endpoints, user_status field correctly reflects user's RSVP status, counts increment/decrement properly with status changes. CRITICAL SUCCESS CRITERIA MET: Event cards display all necessary fields for frontend, RSVP counts update immediately after clicking buttons, open events appear in main events feed, no errors in backend logs, all endpoints return proper JSON responses. EVENT RSVP AND LISTING FUNCTIONALITY IS PRODUCTION-READY AND FULLY FUNCTIONAL."
+
   - task: "Community Pages Performance Optimization"
     implemented: true
     working: "NA"
