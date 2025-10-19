@@ -7308,7 +7308,13 @@ async def add_comment(post_id: str, comment_data: dict, athlete_id: str = Query(
             }
             await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
         
-        return {"success": True, "comment": comment}
+        # Get updated comment count
+        updated_post = await db.community_posts.find_one({"id": post_id}, {"_id": 0})
+        return {
+            "success": True,
+            "id": comment["id"],
+            "comments_count": updated_post["comments_count"]
+        }
     except Exception as e:
         logging.error(f"Error adding comment: {e}")
         raise HTTPException(status_code=500, detail=str(e))
