@@ -10,6 +10,13 @@ const API = `${BACKEND_URL}/api`;
 const Community = ({ athleteId }) => {
   const [activeTab, setActiveTab] = useState('feed'); // 'feed', 'groups', 'mygroups'
   
+  // Swipe state
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50;
+  
   // Posts state
   const [posts, setPosts] = useState([]);
   const [newPostContent, setNewPostContent] = useState('');
