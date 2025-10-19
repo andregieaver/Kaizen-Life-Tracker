@@ -1022,13 +1022,39 @@ const Community = ({ athleteId }) => {
           {/* Create Post Card */}
           <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
             <CardContent className="p-6">
-              <textarea
-                value={newPostContent}
-                onChange={(e) => setNewPostContent(e.target.value)}
-                placeholder="What's on your mind?"
-                className="w-full bg-gray-600 text-white rounded-lg p-4 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
-                rows="3"
-              />
+              <div className="relative">
+                <textarea
+                  ref={newPostRef}
+                  value={newPostContent}
+                  onChange={handlePostContentChange}
+                  placeholder="What's on your mind? (Type @ to mention someone)"
+                  className="w-full bg-gray-600 text-white rounded-lg p-4 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+                  rows="3"
+                />
+                
+                {/* Mention Dropdown */}
+                {showMentionDropdown === true && mentionResults.length > 0 && (
+                  <div 
+                    className="absolute z-50 bg-gray-800 border border-gray-600 rounded-lg shadow-lg mt-1 max-h-48 overflow-y-auto"
+                    style={{ width: '300px' }}
+                  >
+                    {mentionResults.map((athlete) => (
+                      <div
+                        key={athlete.id}
+                        onClick={() => handleSelectMention(athlete)}
+                        className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-white flex items-center space-x-2"
+                      >
+                        <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                          <span className="text-white font-semibold text-sm">
+                            {athlete.name?.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                        <span>{athlete.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
               
               {newPostImagePreview && (
                 <div className="mt-4 relative">
