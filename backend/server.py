@@ -7231,22 +7231,47 @@ async def create_community_post(post_data: dict, athlete_id: str = Query(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/community/posts/{athlete_id}")
-async def get_community_feed(athlete_id: str, limit: int = Query(50)):
-    """Get community posts feed (all posts, sorted by newest first)"""
+async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int = Query(0)):
+    """Get community posts feed (all posts, sorted by newest first) - Optimized with pagination"""
     try:
-        # Get all posts sorted by creation date
-        posts = await db.community_posts.find(
-            {},
-            {"_id": 0}
-        ).sort("created_at", -1).limit(limit).to_list(length=None)
+        # Use aggregation pipeline to fetch posts with like status in single query
+        pipeline = [
+            {"$sort": {"created_at": -1}},
+            {"$skip": skip},
+            {"$limit": limit},
+            {
+                "$lookup": {
+                    "from": "community_likes",
+                    "let": {"post_id": "$id"},
+                    "pipeline": [
+                        {
+                            "$match": {
+                                "$expr": {
+                                    "$and": [
+                                        {"$eq": ["$post_id", "$$post_id"]},
+                                        {"$eq": ["$athlete_id", athlete_id]}
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "as": "user_like"
+                }
+            },
+            {
+                "$addFields": {
+                    "liked_by_user": {"$gt": [{"$size": "$user_like"}, 0]}
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "user_like": 0
+                }
+            }
+        ]
         
-        # For each post, check if current user has liked it
-        for post in posts:
-            like = await db.community_likes.find_one({
-                "post_id": post["id"],
-                "athlete_id": athlete_id
-            })
-            post["liked_by_user"] = like is not None
+        posts = await db.community_posts.aggregate(pipeline).to_list(length=None)
         
         return {"posts": posts}
     except Exception as e:
