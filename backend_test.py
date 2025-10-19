@@ -1193,27 +1193,38 @@ def test_image_exclusion_performance_feature():
         else:
             print_test_result("Community Feed - Image Exclusion", True, "Feed endpoint accessible with image exclusion (no posts found)")
         
-        # Step 3: Test Community Feed Pagination
-        print("   Step 3: Test Community Feed Pagination")
+        # Step 3: Test Community Feed WITHOUT image exclusion (GET /api/community/posts/{athlete_id}?limit=5)
+        print("   Step 3: Test Community Feed WITHOUT image exclusion (backward compatibility)")
         
-        # Test with limit and skip parameters
-        paginated_response = requests.get(f"{BACKEND_URL}/community/posts/{test_athlete_id}?limit=10&skip=0")
+        # Test feed without exclude_images parameter (default behavior)
+        feed_normal_response = requests.get(f"{BACKEND_URL}/community/posts/{test_athlete_id}?limit=5")
         
-        if paginated_response.status_code != 200:
-            print_test_result("Community Feed - Pagination", False, f"Pagination failed: {paginated_response.status_code}")
+        if feed_normal_response.status_code != 200:
+            print_test_result("Community Feed - Normal (no exclusion)", False, f"Failed: {feed_normal_response.status_code}")
             return False
         
-        paginated_data = paginated_response.json()
-        paginated_posts = paginated_data.get("posts", [])
+        feed_normal_data = feed_normal_response.json()
+        posts_normal = feed_normal_data.get("posts", [])
         
-        # Test second page
-        second_page_response = requests.get(f"{BACKEND_URL}/community/posts/{test_athlete_id}?limit=10&skip=10")
-        
-        if second_page_response.status_code == 200:
-            print_test_result("Community Feed - Pagination", True, f"Pagination working: first page {len(paginated_posts)} posts, second page accessible")
+        # Verify image_data field IS included when exclude_images is not specified
+        if posts_normal:
+            first_post_normal = posts_normal[0]
+            
+            # Check if image_data field is present (it should be, even if null)
+            if "image_data" in first_post_normal:
+                print_test_result("Community Feed - Backward Compatibility", True, "image_data field IS included when exclude_images not specified")
+            else:
+                print_test_result("Community Feed - Backward Compatibility", False, "image_data field missing in normal mode")
+                return False
+            
+            # Verify limit=5 returns maximum 5 posts
+            if len(posts_normal) <= 5:
+                print_test_result("Community Feed - Limit 5", True, f"Returned {len(posts_normal)} posts (≤5)")
+            else:
+                print_test_result("Community Feed - Limit 5", False, f"Returned {len(posts_normal)} posts (>5)")
+                return False
         else:
-            print_test_result("Community Feed - Pagination", False, f"Second page failed: {second_page_response.status_code}")
-            return False
+            print_test_result("Community Feed - Normal (no exclusion)", True, "Feed endpoint accessible without exclusion (no posts found)")
         
         # Step 4: Test All Groups (GET /api/community/groups?athlete_id={id})
         print("   Step 4: Test All Groups with Membership Info")
