@@ -1079,10 +1079,10 @@ const BodyFatCalculator = ({ athletePreferences }) => {
   return (
     <div className="space-y-6">
       {/* Method Selection */}
-      <Card className="border-0 shadow-lg">
+      <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
         <CardHeader>
-          <CardTitle className="text-xl font-display">Select Calculation Method</CardTitle>
-          <CardDescription>Choose your preferred measurement method</CardDescription>
+          <CardTitle className="text-xl font-display text-white">Select Calculation Method</CardTitle>
+          <CardDescription className="text-gray-300">Choose your preferred measurement method</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1090,12 +1090,12 @@ const BodyFatCalculator = ({ athletePreferences }) => {
               onClick={() => setMethod('navy')}
               className={`p-4 rounded-lg border-2 transition-all ${
                 method === 'navy'
-                  ? 'border-purple-500 bg-purple-50'
-                  : 'border-gray-200 hover:border-purple-300'
+                  ? 'border-teal-500 bg-teal-700'
+                  : 'border-gray-500 bg-gray-600 hover:border-teal-400'
               }`}
             >
-              <div className="font-semibold text-gray-900">Navy Method</div>
-              <div className="text-sm text-gray-600 mt-1">Uses circumference measurements</div>
+              <div className="font-semibold text-white">Navy Method</div>
+              <div className="text-sm text-gray-300 mt-1">Uses circumference measurements</div>
             </button>
             <button
               onClick={() => setMethod('caliper')}
