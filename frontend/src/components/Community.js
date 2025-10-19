@@ -164,6 +164,30 @@ const Community = ({ athleteId }) => {
     if (!notificationsLoaded) {
       loadNotifications();
     }
+    
+    // Restore any persisted modal state
+    const savedModalState = localStorage.getItem('communityModalState');
+    if (savedModalState) {
+      try {
+        const modalState = JSON.parse(savedModalState);
+        if (modalState.showProfile) {
+          setShowProfile(true);
+          setProfileData(modalState.profileData);
+        }
+        if (modalState.showEventDetail) {
+          setShowEventDetail(true);
+          setEventDetailData(modalState.eventDetailData);
+        }
+        if (modalState.selectedGroup) {
+          setSelectedGroup(modalState.selectedGroup);
+        }
+        if (modalState.showNotifications) {
+          setShowNotifications(true);
+        }
+      } catch (e) {
+        // Invalid state, ignore
+      }
+    }
   }, [notificationsLoaded]);
 
   useEffect(() => {
