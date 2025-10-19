@@ -231,7 +231,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Image Exclusion Performance Feature Testing"
+    - "Event RSVP and Listing Functionality Testing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
