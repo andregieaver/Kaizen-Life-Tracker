@@ -739,6 +739,16 @@ const Community = ({ athleteId }) => {
         />
       )}
 
+      {/* Edit Group Modal */}
+      {showEditGroup && (
+        <EditGroupModal
+          groupData={editGroupData}
+          setGroupData={setEditGroupData}
+          onClose={() => setShowEditGroup(false)}
+          onSave={handleEditGroup}
+        />
+      )}
+
       {/* Athlete Profile Modal */}
       {showProfile && profileData && (
         <AthleteProfileModal
