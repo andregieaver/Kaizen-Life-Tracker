@@ -427,18 +427,27 @@ const Community = ({ athleteId }) => {
           </button>
         </div>
 
-        <div className="relative">
+        <div className="flex items-center space-x-3">
           <button
-            onClick={() => setShowNotifications(!showNotifications)}
-            className="relative p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
+            onClick={handleOpenAthletes}
+            className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
+            aria-label="Find Athletes"
           >
-            <Bell className="w-6 h-6 text-white" />
-            {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                {unreadCount}
-              </span>
-            )}
+            <Search className="w-6 h-6 text-white" />
           </button>
+          
+          <div className="relative">
+            <button
+              onClick={() => setShowNotifications(!showNotifications)}
+              className="relative p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
+            >
+              <Bell className="w-6 h-6 text-white" />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
 
           {/* Notifications Dropdown */}
           {showNotifications && (
