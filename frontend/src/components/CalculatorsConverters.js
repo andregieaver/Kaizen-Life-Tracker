@@ -1101,33 +1101,33 @@ const BodyFatCalculator = ({ athletePreferences }) => {
               onClick={() => setMethod('caliper')}
               className={`p-4 rounded-lg border-2 transition-all ${
                 method === 'caliper'
-                  ? 'border-purple-500 bg-purple-50'
-                  : 'border-gray-200 hover:border-purple-300'
+                  ? 'border-teal-500 bg-teal-700'
+                  : 'border-gray-500 bg-gray-600 hover:border-teal-400'
               }`}
             >
-              <div className="font-semibold text-gray-900">Caliper Method</div>
-              <div className="text-sm text-gray-600 mt-1">Uses skinfold measurements</div>
+              <div className="font-semibold text-white">Caliper Method</div>
+              <div className="text-sm text-gray-300 mt-1">Uses skinfold measurements</div>
             </button>
             <button
               onClick={() => setMethod('bmi')}
               className={`p-4 rounded-lg border-2 transition-all ${
                 method === 'bmi'
-                  ? 'border-purple-500 bg-purple-50'
-                  : 'border-gray-200 hover:border-purple-300'
+                  ? 'border-teal-500 bg-teal-700'
+                  : 'border-gray-500 bg-gray-600 hover:border-teal-400'
               }`}
             >
-              <div className="font-semibold text-gray-900">BMI Method</div>
-              <div className="text-sm text-gray-600 mt-1">Uses height and weight</div>
+              <div className="font-semibold text-white">BMI Method</div>
+              <div className="text-sm text-gray-300 mt-1">Uses height and weight</div>
             </button>
           </div>
         </CardContent>
       </Card>
 
       {/* Input Form */}
-      <Card className="border-0 shadow-lg">
+      <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
         <CardHeader>
-          <CardTitle className="text-xl font-display">Enter Your Measurements</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-xl font-display text-white">Enter Your Measurements</CardTitle>
+          <CardDescription className="text-gray-300">
             {method === 'navy' && 'Measure circumferences at specified body points'}
             {method === 'caliper' && 'Measure skinfold thickness with calipers'}
             {method === 'bmi' && 'Basic height and weight measurements'}
