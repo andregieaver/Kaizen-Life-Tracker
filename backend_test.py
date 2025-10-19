@@ -798,6 +798,8 @@ def test_group_edit_endpoint_failure():
         # Try to login as andre@humanweb.no
         login_attempts = [
             {"email": "andre@humanweb.no", "password": "password123"},
+            {"email": "andre@humanweb.no", "password": "password"},
+            {"email": "andre@humanweb.no", "password": "123456"},
             {"email": "andre@example.com", "password": "password123"},  # Fallback
             {"email": "test.files@example.com", "password": "password123"}  # Another fallback
         ]
