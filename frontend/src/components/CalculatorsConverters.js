@@ -549,7 +549,7 @@ const RacePredictorCalculator = ({ athletePreferences }) => {
                     max="59"
                     className="w-full px-4 py-3 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
                   />
-                  <p className="text-xs text-gray-500 mt-1 text-center">Minutes</p>
+                  <p className="text-xs text-gray-400 mt-1 text-center">Minutes</p>
                 </div>
                 <div>
                   <input
@@ -559,9 +559,9 @@ const RacePredictorCalculator = ({ athletePreferences }) => {
                     placeholder="Seconds"
                     min="0"
                     max="59"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4] focus:border-transparent text-lg"
+                    className="w-full px-4 py-3 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
                   />
-                  <p className="text-xs text-gray-500 mt-1 text-center">Seconds</p>
+                  <p className="text-xs text-gray-400 mt-1 text-center">Seconds</p>
                 </div>
               </div>
             </div>
@@ -570,7 +570,7 @@ const RacePredictorCalculator = ({ athletePreferences }) => {
             <Button
               onClick={calculatePredictions}
               disabled={!inputDistance || (inputDistance === 'custom' && !customDistance) || (!timeHours && !timeMinutes && !timeSeconds)}
-              className="w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:opacity-90 text-white text-lg py-6"
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white text-lg py-6 disabled:opacity-50"
             >
               Calculate Predictions
             </Button>
@@ -580,10 +580,10 @@ const RacePredictorCalculator = ({ athletePreferences }) => {
 
       {/* Predictions Results */}
       {predictions && (
-        <Card className="border-0 shadow-lg">
+        <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
           <CardHeader>
-            <CardTitle className="text-xl font-display">Predicted Race Times</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-xl font-display text-white">Predicted Race Times</CardTitle>
+            <CardDescription className="text-gray-300">
               Based on your pace of {predictions.pace} per km (using Riegel's Formula)
             </CardDescription>
           </CardHeader>
@@ -591,21 +591,21 @@ const RacePredictorCalculator = ({ athletePreferences }) => {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b-2 border-gray-200">
-                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Distance</th>
-                    <th className="text-left py-3 px-4 font-semibold text-gray-700">Category</th>
-                    <th className="text-right py-3 px-4 font-semibold text-gray-700">Predicted Time</th>
+                  <tr className="border-b-2 border-gray-600">
+                    <th className="text-left py-3 px-4 font-semibold text-white">Distance</th>
+                    <th className="text-left py-3 px-4 font-semibold text-white">Category</th>
+                    <th className="text-right py-3 px-4 font-semibold text-white">Predicted Time</th>
                   </tr>
                 </thead>
                 <tbody>
                   {predictions.predictedTimes.map((race, index) => (
                     <tr 
                       key={index}
-                      className="border-b border-gray-100 hover:bg-gradient-to-r hover:from-orange-50/50 hover:to-transparent transition-colors"
+                      className="border-b border-gray-600 hover:bg-gray-600 transition-colors"
                     >
-                      <td className="py-3 px-4 text-gray-800 font-medium">{race.label}</td>
-                      <td className="py-3 px-4 text-gray-600 text-sm">{race.category}</td>
-                      <td className="py-3 px-4 text-right font-mono text-lg text-gray-900 font-semibold">
+                      <td className="py-3 px-4 text-gray-200 font-medium">{race.label}</td>
+                      <td className="py-3 px-4 text-gray-400 text-sm">{race.category}</td>
+                      <td className="py-3 px-4 text-right font-mono text-lg text-white font-semibold">
                         {formatPredictedTime(race.predictedTime)}
                       </td>
                     </tr>
@@ -615,9 +615,9 @@ const RacePredictorCalculator = ({ athletePreferences }) => {
             </div>
             
             {/* Info note */}
-            <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <p className="text-sm text-blue-800">
-                <strong>Note:</strong> Predictions use Riegel's Formula, widely used in running for race time predictions. 
+            <div className="mt-6 bg-gray-600 border border-gray-500 rounded-lg p-4">
+              <p className="text-sm text-gray-300">
+                <strong className="text-white">Note:</strong> Predictions use Riegel's Formula, widely used in running for race time predictions. 
                 Actual performance may vary based on training, terrain, weather, and race conditions.
               </p>
             </div>
