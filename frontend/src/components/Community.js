@@ -594,15 +594,29 @@ const Community = ({ athleteId }) => {
 
 
   // Events functions
+  const addDebugLog = (message, data) => {
+    const timestamp = new Date().toLocaleTimeString();
+    setDebugLogs(prev => [...prev.slice(-10), { timestamp, message, data }]);
+  };
+
   const loadEvents = async () => {
     try {
       const response = await axios.get(`${API}/community/events?athlete_id=${athleteId}`);
-      console.log('Loaded Events:', response.data.events); // Debug log
+      addDebugLog('Loaded Events Count', response.data.events.length);
+      addDebugLog('First Event Sample', response.data.events[0] ? {
+        name: response.data.events[0].name,
+        has_cover_photo: !!response.data.events[0].cover_photo,
+        has_profile_image: !!response.data.events[0].profile_image,
+        interested_count: response.data.events[0].interested_count,
+        going_count: response.data.events[0].going_count,
+        visibility: response.data.events[0].visibility
+      } : 'No events');
       setEvents(response.data.events);
       setEventsLoaded(true);
       setIsLoading(false);
     } catch (error) {
       console.error('Error loading events:', error);
+      addDebugLog('Error loading events', error.message);
       setIsLoading(false);
     }
   };
