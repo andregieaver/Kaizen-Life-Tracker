@@ -1909,10 +1909,10 @@ const Nutrition = ({ athleteId }) => {
       {/* Nutrition Entry Modal - View or Edit Mode */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
-          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>
+                <CardTitle className="text-white">
                   {viewMode ? 'Meal Details' : (editingEntry ? 'Edit Meal or Drink' : 'Log Meal or Drink')}
                 </CardTitle>
                 <button
@@ -1927,12 +1927,12 @@ const Nutrition = ({ athleteId }) => {
                     setEntryTime('');
                     removeImage();
                   }}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <CardDescription>
+              <CardDescription className="text-gray-300">
                 {viewMode ? 'View your meal or drink details' : (editingEntry ? 'Update your meal or drink entry' : 'Add what you ate or drank')}
               </CardDescription>
             </CardHeader>
