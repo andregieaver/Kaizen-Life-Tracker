@@ -1121,13 +1121,14 @@ def test_community_feature_backend():
             return False
         
         edit_result = edit_response.json()
+        post_data = edit_result.get("post", {})
         
-        if (edit_result.get("is_edited") == True and 
-            "updated_at" in edit_result and
-            edit_result.get("content") == edit_data["content"]):
+        if (post_data.get("is_edited") == True and 
+            "updated_at" in post_data and
+            post_data.get("content") == edit_data["content"]):
             print_test_result("Edit Post", True, f"Post edited successfully, is_edited=true, updated_at set")
         else:
-            print_test_result("Edit Post", False, "Edit operation failed or flags not set correctly")
+            print_test_result("Edit Post", False, f"Edit operation failed or flags not set correctly. Response: {edit_result}")
             return False
         
         # Step 12: Test Authorization - Try to edit another user's post (should fail)
