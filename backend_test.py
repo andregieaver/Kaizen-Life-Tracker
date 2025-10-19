@@ -2696,34 +2696,35 @@ def test_group_join_request_notifications():
         return False
 
 def main():
-    """Run image exclusion performance feature tests"""
-    print("🚀 STARTING IMAGE EXCLUSION PERFORMANCE FEATURE TESTING")
+    """Run event RSVP and listing functionality tests"""
+    print("🚀 STARTING EVENT RSVP AND LISTING FUNCTIONALITY TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Image Exclusion Performance Feature (main focus)
+    # Test Event RSVP and Listing Functionality (main focus)
     try:
-        result = test_image_exclusion_performance_feature()
+        result = test_event_rsvp_and_listing_functionality()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Image Exclusion Performance Feature", False, f"Exception: {str(e)}")
+        print_test_result("Event RSVP and Listing Functionality", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 IMAGE EXCLUSION PERFORMANCE FEATURE TESTING COMPLETED!")
-        print("✅ Community Feed: exclude_images=true excludes image_data, includes has_image")
-        print("✅ All Groups: exclude_images=true excludes profile_image and cover_photo")
-        print("✅ My Groups: exclude_images=true excludes images, preserves member_role")
-        print("✅ Backward Compatibility: Works without exclude_images parameter")
-        print("✅ Pagination: Limits work correctly with image exclusion")
-        print("✅ Payload Reduction: Dramatically reduced response sizes")
+        print("🎉 EVENT RSVP AND LISTING FUNCTIONALITY TESTING COMPLETED!")
+        print("✅ Event Listing: GET /api/community/events returns events with all required fields")
+        print("✅ Event Structure: Events include cover_photo, profile_image, counts, user_status")
+        print("✅ Open Events: Open events (visibility: 'open') are included in response")
+        print("✅ RSVP Functionality: POST /api/community/events/{id}/rsvp updates counts correctly")
+        print("✅ Count Updates: interested_count and going_count increment/decrement properly")
+        print("✅ Event Details: GET /api/community/events/{id} returns participant lists")
+        print("✅ Count Consistency: Counts match array lengths in event details")
     else:
-        print("❌ IMAGE EXCLUSION PERFORMANCE FEATURE FOUND ISSUES")
+        print("❌ EVENT RSVP AND LISTING FUNCTIONALITY FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
     
     print("=" * 70)
