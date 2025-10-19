@@ -2221,4 +2221,415 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
     </div>
   );
 };
+
+
+// EventCard Component
+const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete }) => (
+  <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+    <CardContent className="p-6">
+      {event.cover_photo && (
+        <img src={event.cover_photo} alt={event.name} className="w-full h-32 object-cover rounded-lg mb-4" />
+      )}
+      
+      <div className="flex items-start space-x-3 mb-3">
+        {event.profile_image ? (
+          <img src={event.profile_image} alt={event.name} className="w-16 h-16 rounded-full object-cover flex-shrink-0" />
+        ) : (
+          <div className="w-16 h-16 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+            <Calendar className="w-8 h-8 text-gray-400" />
+          </div>
+        )}
+        
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between mb-1">
+            <h3 className="text-xl font-bold text-white truncate">{event.name}</h3>
+            {event.creator_id === athleteId && (
+              <div className="flex space-x-1 ml-2">
+                <button
+                  onClick={() => onEdit(event)}
+                  className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                >
+                  <Edit2 className="w-4 h-4 text-blue-400" />
+                </button>
+                <button
+                  onClick={() => onDelete(event.id)}
+                  className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                >
+                  <Trash2 className="w-4 h-4 text-red-400" />
+                </button>
+              </div>
+            )}
+          </div>
+          <p className="text-gray-300 text-sm line-clamp-2 mb-2">{event.description}</p>
+          
+          <div className="space-y-1">
+            <div className="flex items-center text-gray-400 text-sm">
+              <Clock className="w-4 h-4 mr-2" />
+              {new Date(event.event_date).toLocaleDateString()} at {event.event_time}
+            </div>
+            {event.location && (
+              <div className="flex items-center text-gray-400 text-sm">
+                <MapPin className="w-4 h-4 mr-2" />
+                {event.location}
+              </div>
+            )}
+            <div className="flex items-center space-x-3 text-sm">
+              <span className="text-gray-400">{event.interested_count} interested</span>
+              <span className="text-gray-400">{event.going_count} going</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div className="flex space-x-2 mt-4">
+        <button
+          onClick={() => onRSVP(event.id, event.user_status === 'interested' ? 'not_going' : 'interested')}
+          className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+            event.user_status === 'interested'
+              ? 'bg-yellow-500 text-white'
+              : 'bg-gray-600 hover:bg-gray-500 text-white'
+          }`}
+        >
+          <Star className={`w-4 h-4 inline mr-2 ${event.user_status === 'interested' ? 'fill-current' : ''}`} />
+          Interested
+        </button>
+        <button
+          onClick={() => onRSVP(event.id, event.user_status === 'going' ? 'not_going' : 'going')}
+          className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+            event.user_status === 'going'
+              ? 'bg-[#00C2A8] text-white'
+              : 'bg-gray-600 hover:bg-gray-500 text-white'
+          }`}
+        >
+          I'm Going!
+        </button>
+      </div>
+    </CardContent>
+  </Card>
+);
+
+// CreateEventModal Component
+const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups }) => {
+  const handleImageUpload = (e, type) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEventData({ ...eventData, [type]: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div 
+        className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-2xl font-bold text-white mb-4">Create Event</h2>
+        
+        <div className="space-y-4">
+          {/* Profile Image */}
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Event Icon</label>
+            <div className="flex items-center space-x-4">
+              {eventData.profile_image ? (
+                <img src={eventData.profile_image} alt="Icon" className="w-20 h-20 rounded-full object-cover" />
+              ) : (
+                <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center">
+                  <Calendar className="w-10 h-10 text-gray-400" />
+                </div>
+              )}
+              <label className="cursor-pointer">
+                <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'profile_image')} className="hidden" />
+                <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
+                  {eventData.profile_image ? 'Change' : 'Upload'}
+                </div>
+              </label>
+              {eventData.profile_image && (
+                <button onClick={() => setEventData({ ...eventData, profile_image: null })} className="p-2 bg-red-500 hover:bg-red-600 rounded-lg">
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Banner */}
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Banner</label>
+            {eventData.cover_photo && (
+              <div className="relative mb-2">
+                <img src={eventData.cover_photo} alt="Banner" className="w-full h-32 object-cover rounded-lg" />
+                <button onClick={() => setEventData({ ...eventData, cover_photo: null })} className="absolute top-2 right-2 p-1 bg-red-500 rounded-full">
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            )}
+            <label className="cursor-pointer">
+              <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'cover_photo')} className="hidden" />
+              <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm inline-block">
+                {eventData.cover_photo ? 'Change' : 'Upload'}
+              </div>
+            </label>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Event Name</label>
+            <input
+              type="text"
+              value={eventData.name}
+              onChange={(e) => setEventData({ ...eventData, name: e.target.value })}
+              placeholder="Enter event name"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            />
+          </div>
+          
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Description</label>
+            <textarea
+              value={eventData.description}
+              onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
+              placeholder="Describe the event"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+              rows="3"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-white text-sm font-semibold mb-2 block">Date</label>
+              <input
+                type="date"
+                value={eventData.event_date}
+                onChange={(e) => setEventData({ ...eventData, event_date: e.target.value })}
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              />
+            </div>
+            <div>
+              <label className="text-white text-sm font-semibold mb-2 block">Time</label>
+              <input
+                type="time"
+                value={eventData.event_time}
+                onChange={(e) => setEventData({ ...eventData, event_time: e.target.value })}
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Location (Optional)</label>
+            <input
+              type="text"
+              value={eventData.location}
+              onChange={(e) => setEventData({ ...eventData, location: e.target.value })}
+              placeholder="Event location"
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            />
+          </div>
+          
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Visibility</label>
+            <select
+              value={eventData.visibility}
+              onChange={(e) => setEventData({ ...eventData, visibility: e.target.value })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            >
+              <option value="open">Open - Appears in main feed</option>
+              <option value="private">Private - Only in connected group</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Connect to Group (Optional)</label>
+            <select
+              value={eventData.group_id || ''}
+              onChange={(e) => setEventData({ ...eventData, group_id: e.target.value || null })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            >
+              <option value="">No group</option>
+              {myGroups.map(group => (
+                <option key={group.id} value={group.id}>{group.name}</option>
+              ))}
+            </select>
+            <p className="text-gray-400 text-xs mt-1">If connected, all group members will be notified</p>
+          </div>
+        </div>
+        
+        <div className="flex space-x-3 mt-6">
+          <Button onClick={onCreate} className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white">
+            Create Event
+          </Button>
+          <Button onClick={onClose} className="flex-1 bg-gray-700 hover:bg-gray-600 text-white">
+            Cancel
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// EditEventModal Component (similar to Create but for editing)
+const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) => {
+  const handleImageUpload = (e, type) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEventData({ ...eventData, [type]: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div 
+        className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-2xl font-bold text-white mb-4">Edit Event</h2>
+        
+        <div className="space-y-4">
+          {/* Same fields as CreateEventModal */}
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Event Icon</label>
+            <div className="flex items-center space-x-4">
+              {eventData.profile_image ? (
+                <img src={eventData.profile_image} alt="Icon" className="w-20 h-20 rounded-full object-cover" />
+              ) : (
+                <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center">
+                  <Calendar className="w-10 h-10 text-gray-400" />
+                </div>
+              )}
+              <label className="cursor-pointer">
+                <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'profile_image')} className="hidden" />
+                <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
+                  {eventData.profile_image ? 'Change' : 'Upload'}
+                </div>
+              </label>
+              {eventData.profile_image && (
+                <button onClick={() => setEventData({ ...eventData, profile_image: null })} className="p-2 bg-red-500 hover:bg-red-600 rounded-lg">
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Banner</label>
+            {eventData.cover_photo && (
+              <div className="relative mb-2">
+                <img src={eventData.cover_photo} alt="Banner" className="w-full h-32 object-cover rounded-lg" />
+                <button onClick={() => setEventData({ ...eventData, cover_photo: null })} className="absolute top-2 right-2 p-1 bg-red-500 rounded-full">
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            )}
+            <label className="cursor-pointer">
+              <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'cover_photo')} className="hidden" />
+              <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm inline-block">
+                {eventData.cover_photo ? 'Change' : 'Upload'}
+              </div>
+            </label>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Event Name</label>
+            <input
+              type="text"
+              value={eventData.name}
+              onChange={(e) => setEventData({ ...eventData, name: e.target.value })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            />
+          </div>
+          
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Description</label>
+            <textarea
+              value={eventData.description}
+              onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+              rows="3"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-white text-sm font-semibold mb-2 block">Date</label>
+              <input
+                type="date"
+                value={eventData.event_date}
+                onChange={(e) => setEventData({ ...eventData, event_date: e.target.value })}
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              />
+            </div>
+            <div>
+              <label className="text-white text-sm font-semibold mb-2 block">Time</label>
+              <input
+                type="time"
+                value={eventData.event_time}
+                onChange={(e) => setEventData({ ...eventData, event_time: e.target.value })}
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Location</label>
+            <input
+              type="text"
+              value={eventData.location}
+              onChange={(e) => setEventData({ ...eventData, location: e.target.value })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            />
+          </div>
+          
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Visibility</label>
+            <select
+              value={eventData.visibility}
+              onChange={(e) => setEventData({ ...eventData, visibility: e.target.value })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            >
+              <option value="open">Open</option>
+              <option value="private">Private</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Connected Group</label>
+            <select
+              value={eventData.group_id || ''}
+              onChange={(e) => setEventData({ ...eventData, group_id: e.target.value || null })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            >
+              <option value="">No group</option>
+              {myGroups.map(group => (
+                <option key={group.id} value={group.id}>{group.name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+        
+        <div className="flex space-x-3 mt-6">
+          <Button onClick={onSave} className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white">
+            Save Changes
+          </Button>
+          <Button onClick={onClose} className="flex-1 bg-gray-700 hover:bg-gray-600 text-white">
+            Cancel
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 export default Community;
