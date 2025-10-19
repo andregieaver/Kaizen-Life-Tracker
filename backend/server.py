@@ -7802,6 +7802,29 @@ async def get_group_details(group_id: str, athlete_id: str = Query(...)):
         
         group["members"] = members
         
+        # Get pending members if user is admin/moderator
+        if membership and membership.get("role") in ["admin", "moderator"]:
+            pending_memberships = await db.community_group_memberships.find({
+                "group_id": group_id,
+                "status": "pending"
+            }, {"_id": 0}).to_list(length=None)
+            
+            pending_members = []
+            for m in pending_memberships:
+                athlete = await db.athlete_profiles.find_one({"id": m["athlete_id"]}, {"_id": 0})
+                if athlete:
+                    pending_members.append({
+                        "id": athlete["id"],
+                        "membership_id": m["id"],
+                        "name": athlete.get("name", "Unknown"),
+                        "profile_picture": athlete.get("profile_picture"),
+                        "requested_at": m.get("joined_at")
+                    })
+            
+            group["pending_members"] = pending_members
+        else:
+            group["pending_members"] = []
+        
         return group
     except Exception as e:
         logging.error(f"Error fetching group details: {e}")
