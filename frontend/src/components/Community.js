@@ -1057,7 +1057,7 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onClick }) => (
           <Button
             onClick={(e) => {
               e.stopPropagation();
-              onJoin(group.id);
+              onJoin(group.id, group.rules);
             }}
             className="bg-[#00C2A8] hover:bg-[#00a890] text-white text-sm px-4 py-1"
           >
