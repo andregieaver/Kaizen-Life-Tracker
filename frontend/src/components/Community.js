@@ -50,10 +50,19 @@ const Community = ({ athleteId }) => {
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [groupPosts, setGroupPosts] = useState([]);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
+  const [showEditGroup, setShowEditGroup] = useState(false);
   const [newGroupData, setNewGroupData] = useState({
     name: '',
     description: '',
     privacy: 'public',
+    profile_image: null,
+    cover_photo: null
+  });
+  const [editGroupData, setEditGroupData] = useState({
+    name: '',
+    description: '',
+    privacy: 'public',
+    profile_image: null,
     cover_photo: null
   });
 
