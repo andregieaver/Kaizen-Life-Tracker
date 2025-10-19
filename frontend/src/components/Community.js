@@ -2733,5 +2733,135 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
   );
 };
 
+// EventDetailModal Component
+const EventDetailModal = ({ eventData, loading, onClose, athleteId }) => {
+  if (loading || !eventData) {
+    return (
+      <div 
+        className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
+        onClick={onClose}
+      >
+        <div className="bg-gray-800 rounded-lg p-8 text-white">
+          <p>Loading event details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Cover Photo */}
+        {eventData.cover_photo && (
+          <div className="relative h-48">
+            <img src={eventData.cover_photo} alt={eventData.name} className="w-full h-full object-cover rounded-t-lg" />
+          </div>
+        )}
+
+        <div className="p-6">
+          {/* Header with Profile Image and Title */}
+          <div className="flex items-start space-x-4 mb-6">
+            {eventData.profile_image ? (
+              <img src={eventData.profile_image} alt={eventData.name} className="w-20 h-20 rounded-full object-cover flex-shrink-0" />
+            ) : (
+              <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+                <Calendar className="w-10 h-10 text-gray-400" />
+              </div>
+            )}
+            
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold text-white mb-2">{eventData.name}</h2>
+              <div className="space-y-1">
+                <div className="flex items-center text-gray-300">
+                  <Clock className="w-4 h-4 mr-2" />
+                  {new Date(eventData.event_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {eventData.event_time}
+                </div>
+                {eventData.location && (
+                  <div className="flex items-center text-gray-300">
+                    <MapPin className="w-4 h-4 mr-2" />
+                    {eventData.location}
+                  </div>
+                )}
+                <div className="flex items-center space-x-4 text-sm mt-2">
+                  <span className="text-[#00C2A8] font-semibold">{eventData.going_count} Going</span>
+                  <span className="text-yellow-400 font-semibold">{eventData.interested_count} Interested</span>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-gray-600 rounded-full transition-colors"
+            >
+              <X className="w-6 h-6 text-white" />
+            </button>
+          </div>
+
+          {/* Description */}
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-white mb-2">About This Event</h3>
+            <p className="text-gray-300 whitespace-pre-wrap">{eventData.description}</p>
+          </div>
+
+          {/* Participants Going */}
+          {eventData.going_users && eventData.going_users.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-white mb-3">Going ({eventData.going_count})</h3>
+              <div className="space-y-2">
+                {eventData.going_users.map((user) => (
+                  <div key={user.athlete_id} className="flex items-center space-x-3 p-2 bg-gray-700/50 rounded-lg">
+                    {user.athlete_profile_picture ? (
+                      <img src={user.athlete_profile_picture} alt={user.athlete_name} className="w-10 h-10 rounded-full object-cover" />
+                    ) : (
+                      <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">
+                        <span className="text-white font-semibold">{user.athlete_name?.charAt(0) || '?'}</span>
+                      </div>
+                    )}
+                    <span className="text-white font-medium">{user.athlete_name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Participants Interested */}
+          {eventData.interested_users && eventData.interested_users.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-white mb-3">Interested ({eventData.interested_count})</h3>
+              <div className="space-y-2">
+                {eventData.interested_users.map((user) => (
+                  <div key={user.athlete_id} className="flex items-center space-x-3 p-2 bg-gray-700/50 rounded-lg">
+                    {user.athlete_profile_picture ? (
+                      <img src={user.athlete_profile_picture} alt={user.athlete_name} className="w-10 h-10 rounded-full object-cover" />
+                    ) : (
+                      <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">
+                        <span className="text-white font-semibold">{user.athlete_name?.charAt(0) || '?'}</span>
+                      </div>
+                    )}
+                    <span className="text-white font-medium">{user.athlete_name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Close Button */}
+          <div className="mt-6">
+            <Button onClick={onClose} className="w-full bg-gray-700 hover:bg-gray-600 text-white">
+              Close
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 export default Community;
