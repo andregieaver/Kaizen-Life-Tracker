@@ -1594,14 +1594,19 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onClick }) => (
 
 // CreateGroupModal Component
 const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
-  const handleImageUpload = (e, type) => {
+  const handleImageUpload = async (e, type) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setGroupData({ ...groupData, [type]: reader.result });
-      };
-      reader.readAsDataURL(file);
+      try {
+        // Compress image based on type
+        const compressed = type === 'profile_image' 
+          ? await compressThumbnail(file)
+          : await compressBannerImage(file);
+        setGroupData({ ...groupData, [type]: compressed });
+      } catch (error) {
+        console.error('Error compressing image:', error);
+        alert('Failed to process image');
+      }
     }
   };
 
