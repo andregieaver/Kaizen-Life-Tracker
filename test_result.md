@@ -133,6 +133,30 @@ frontend:
         agent: "main"
         comment: "Community frontend implementation complete. FRONTEND CHANGES: 1) COMMUNITY COMPONENT CREATED (/app/frontend/src/components/Community.js) ✓ - Dark theme UI (bg-gradient-to-br from-gray-700 to-gray-800, text-white). Create post card with textarea, image upload via camera icon, post preview, remove image option. Posts feed with infinite scroll-ready structure. Post cards showing: user avatar/initial, name, timestamp, edit indicator. Like button (heart icon, red when liked, shows count, toggleable). Comment button (shows count, expands comment section). Share button (shows count, triggers share). Edit/Delete buttons (only for own posts). Edit mode with textarea, Save/Cancel buttons. Comments section: existing comments display (avatar, name, content, timestamp), add comment input with send button. Notifications dropdown: bell icon with unread count badge, dropdown panel showing notifications, click to mark as read. Image upload with preview and remove functionality. 2) DASHBOARD NAVIGATION UPDATES (/app/frontend/src/components/Dashboard.js) ✓ - Added Users icon import from lucide-react. Added Community import. Desktop header: Community icon added left of hamburger menu (Users icon, teal color #00C2A8). Mobile header: Community icon added left of hamburger menu. Community route rendering: {activeTab === 'community' && <Community athleteId={athleteId} />}. 3) UI/UX FEATURES ✓ - Consistent teal accent color (#00C2A8) for buttons and icons. Dark theme gradients matching app aesthetic. Hover states and transitions on all interactive elements. Responsive design for mobile and desktop. Profile pictures or initials displayed for users. Timestamps formatted with toLocaleString(). Frontend compiled successfully with no errors. Ready for end-to-end testing."
 
+  - task: "Athlete Profile and Groups Features - Backend"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Athlete Profile and Groups backend implementation complete. BACKEND ADDITIONS: 1) NEW PYDANTIC MODELS (lines 1082-1142) ✓ - Follow model (follower_id, following_id, created_at). Group model (name, description, privacy [public/private], cover_photo, admin_id, members_count). GroupMembership model (group_id, athlete_id, role [admin/moderator/member], status [pending/approved]). GroupPost model (similar to CommunityPost but with group_id). 2) FOLLOW/UNFOLLOW ENDPOINTS (lines 7465-7600) ✓ - POST /api/community/follow/{target_athlete_id} - Toggle follow/unfollow with notification creation. GET /api/community/profile/{target_athlete_id} - Get profile with stats (posts_count, likes_received, followers_count, following_count, is_following). GET /api/community/followers/{athlete_id} - Get followers list. GET /api/community/following/{athlete_id} - Get following list. 3) GROUPS CRUD ENDPOINTS (lines 7602-7900) ✓ - POST /api/community/groups - Create group (name, description, privacy, cover_photo). GET /api/community/groups - Get all groups with membership status. GET /api/community/groups/my/{athlete_id} - Get user's groups. GET /api/community/groups/{group_id} - Get group details with members list. PUT /api/community/groups/{group_id} - Edit group (admin only). DELETE /api/community/groups/{group_id} - Delete group with cascade (admin only). POST /api/community/groups/{group_id}/join - Join group (instant for public, pending for private). POST /api/community/groups/{group_id}/leave - Leave group. PUT /api/community/groups/{group_id}/members/{athlete_id} - Manage members (approve/reject/change role, admin/mod only). 4) GROUP POSTS ENDPOINTS (lines 7902-8000) ✓ - POST /api/community/groups/{group_id}/posts - Create post in group (members only). GET /api/community/groups/{group_id}/posts - Get group feed (privacy checks for private groups, includes liked_by_user flag). 5) FEATURES IMPLEMENTED ✓ - Auto-approval for public groups, pending for private. Admin/moderator/member roles with proper permissions. Cascade delete on group deletion. Notification creation for follows. Membership verification for group actions. Backend restarted successfully. Ready for comprehensive testing."
+
+  - task: "Athlete Profile and Groups Features - Frontend"
+    implemented: false
+    working: "NA"
+    file: "/app/frontend/src/components/"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Frontend implementation pending. PLAN: 1) Update Community.js to add tabs (Feed | Groups | My Groups). 2) Create AthleteProfile modal component. 3) Create Groups components (GroupsList, GroupDetail, CreateGroupModal). 4) Add Follow/Unfollow button to profiles and posts. 5) Make names/avatars clickable to open profile modals. Implementation will begin after backend testing is complete."
+
 metadata:
   created_by: "main_agent"
   version: "2.0"
