@@ -2760,7 +2760,10 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId }) => {
         onClick={onClose}
       >
         <div className="bg-gray-800 rounded-lg p-8 text-white">
-          <p>Loading event details...</p>
+          <div className="flex items-center space-x-3">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#00C2A8]"></div>
+            <p>Loading event details...</p>
+          </div>
         </div>
       </div>
     );
@@ -2807,8 +2810,8 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId }) => {
                   </div>
                 )}
                 <div className="flex items-center space-x-4 text-sm mt-2">
-                  <span className="text-[#00C2A8] font-semibold">{eventData.going_count} Going</span>
-                  <span className="text-yellow-400 font-semibold">{eventData.interested_count} Interested</span>
+                  <span className="text-[#00C2A8] font-semibold">{eventData.going_count || 0} Going</span>
+                  <span className="text-yellow-400 font-semibold">{eventData.interested_count || 0} Interested</span>
                 </div>
               </div>
             </div>
@@ -2830,18 +2833,16 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId }) => {
           {/* Participants Going */}
           {eventData.going_users && eventData.going_users.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-white mb-3">Going ({eventData.going_count})</h3>
-              <div className="space-y-2">
+              <h3 className="text-lg font-semibold text-white mb-3">Going ({eventData.going_count || 0})</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {eventData.going_users.map((user) => (
                   <div key={user.athlete_id} className="flex items-center space-x-3 p-2 bg-gray-700/50 rounded-lg">
-                    {user.athlete_profile_picture ? (
-                      <img src={user.athlete_profile_picture} alt={user.athlete_name} className="w-10 h-10 rounded-full object-cover" />
-                    ) : (
-                      <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">
-                        <span className="text-white font-semibold">{user.athlete_name?.charAt(0) || '?'}</span>
-                      </div>
-                    )}
-                    <span className="text-white font-medium">{user.athlete_name}</span>
+                    <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-semibold text-sm">
+                        {user.athlete_name?.split(' ').map(n => n[0]).join('').toUpperCase() || '?'}
+                      </span>
+                    </div>
+                    <span className="text-white font-medium truncate">{user.athlete_name || 'Unknown'}</span>
                   </div>
                 ))}
               </div>
@@ -2851,21 +2852,27 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId }) => {
           {/* Participants Interested */}
           {eventData.interested_users && eventData.interested_users.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-white mb-3">Interested ({eventData.interested_count})</h3>
-              <div className="space-y-2">
+              <h3 className="text-lg font-semibold text-white mb-3">Interested ({eventData.interested_count || 0})</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {eventData.interested_users.map((user) => (
                   <div key={user.athlete_id} className="flex items-center space-x-3 p-2 bg-gray-700/50 rounded-lg">
-                    {user.athlete_profile_picture ? (
-                      <img src={user.athlete_profile_picture} alt={user.athlete_name} className="w-10 h-10 rounded-full object-cover" />
-                    ) : (
-                      <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">
-                        <span className="text-white font-semibold">{user.athlete_name?.charAt(0) || '?'}</span>
-                      </div>
-                    )}
-                    <span className="text-white font-medium">{user.athlete_name}</span>
+                    <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-semibold text-sm">
+                        {user.athlete_name?.split(' ').map(n => n[0]).join('').toUpperCase() || '?'}
+                      </span>
+                    </div>
+                    <span className="text-white font-medium truncate">{user.athlete_name || 'Unknown'}</span>
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Empty state if no participants */}
+          {(!eventData.going_users || eventData.going_users.length === 0) && 
+           (!eventData.interested_users || eventData.interested_users.length === 0) && (
+            <div className="text-center py-6">
+              <p className="text-gray-400">No participants yet. Be the first to RSVP!</p>
             </div>
           )}
 
