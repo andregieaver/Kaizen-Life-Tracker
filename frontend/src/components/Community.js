@@ -1158,6 +1158,80 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
       </CardContent>
     </Card>
 
+    {/* Pending Requests (admin/moderator only) */}
+    {group.pending_members && group.pending_members.length > 0 && (
+      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+        <CardContent className="p-6">
+          <h3 className="text-xl font-bold text-white mb-4">Pending Join Requests</h3>
+          <div className="space-y-3">
+            {group.pending_members.map(member => (
+              <div key={member.id} className="flex items-center justify-between bg-gray-600 rounded-lg p-4">
+                <div 
+                  className="flex items-center space-x-3 cursor-pointer"
+                  onClick={() => loadAthleteProfile(member.id)}
+                >
+                  {member.profile_picture ? (
+                    <img
+                      src={member.profile_picture}
+                      alt={member.name}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-lg">
+                        {member.name?.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-white font-semibold hover:underline">{member.name}</p>
+                    <p className="text-gray-400 text-xs">
+                      Requested {new Date(member.requested_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex space-x-2">
+                  <Button
+                    onClick={async () => {
+                      try {
+                        await axios.put(`${API}/community/groups/${group.id}/members/${member.id}?athlete_id=${athleteId}`, {
+                          action: 'approve'
+                        });
+                        window.location.reload(); // Reload to show updated member list
+                      } catch (error) {
+                        console.error('Error approving member:', error);
+                        alert('Failed to approve member');
+                      }
+                    }}
+                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white text-sm px-4 py-2"
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    onClick={async () => {
+                      try {
+                        await axios.put(`${API}/community/groups/${group.id}/members/${member.id}?athlete_id=${athleteId}`, {
+                          action: 'reject'
+                        });
+                        window.location.reload(); // Reload to show updated list
+                      } catch (error) {
+                        console.error('Error rejecting member:', error);
+                        alert('Failed to reject member');
+                      }
+                    }}
+                    className="bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2"
+                  >
+                    Reject
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    )}
+
     {/* Create Post (if member) */}
     {group.is_member && (
       <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
