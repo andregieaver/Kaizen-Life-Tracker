@@ -310,6 +310,7 @@ const Community = ({ athleteId }) => {
       setNewPostContent('');
       setNewPostImage(null);
       setNewPostImagePreview(null);
+      setPostsLoaded(false); // Reset cache to reload posts
       loadPosts();
     } catch (error) {
       console.error('Error creating post:', error);
@@ -326,6 +327,7 @@ const Community = ({ athleteId }) => {
       await axios.put(`${API}/community/posts/${postId}?athlete_id=${athleteId}`, postData);
       setEditingPost(null);
       setEditContent('');
+      setPostsLoaded(false); // Reset cache to reload posts
       loadPosts();
     } catch (error) {
       console.error('Error editing post:', error);
@@ -338,6 +340,7 @@ const Community = ({ athleteId }) => {
 
     try {
       await axios.delete(`${API}/community/posts/${postId}?athlete_id=${athleteId}`);
+      setPostsLoaded(false); // Reset cache to reload posts
       loadPosts();
     } catch (error) {
       console.error('Error deleting post:', error);
