@@ -1081,26 +1081,26 @@ const TestsAnalytics = ({ athleteId }) => {
                     onValueChange={(value) => setFormData(prev => ({...prev, unit: value}))}
                     disabled={addingEntryToTest !== null}
                   >
-                    <SelectTrigger className={addingEntryToTest ? "bg-gray-100 cursor-not-allowed" : ""}>
+                    <SelectTrigger className={addingEntryToTest ? "bg-gray-600 border-gray-500 text-gray-400 cursor-not-allowed" : "bg-gray-600 border-gray-500 text-white"}>
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-gray-800 border-gray-700">
                       {units.map((unit) => (
-                        <SelectItem key={unit.value} value={unit.value}>
+                        <SelectItem key={unit.value} value={unit.value} className="text-white">
                           {unit.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                   {addingEntryToTest && (
-                    <p className="text-xs text-gray-500">Unit is fixed for this test</p>
+                    <p className="text-xs text-gray-400">Unit is fixed for this test</p>
                   )}
                 </div>
 
                 {/* Result Value - Hidden for time-based tests */}
                 {formData.unit !== 'time' && (
                   <div className="space-y-2">
-                    <Label htmlFor="result_value">Result Value *</Label>
+                    <Label htmlFor="result_value" className="text-white">Result Value *</Label>
                     <Input
                       id="result_value"
                       type="number"
@@ -1108,6 +1108,7 @@ const TestsAnalytics = ({ athleteId }) => {
                       value={formData.result_value}
                       onChange={(e) => setFormData(prev => ({...prev, result_value: e.target.value}))}
                       placeholder="e.g., 20 (for 20 pull-ups)"
+                      className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                       required
                     />
                   </div>
@@ -1115,7 +1116,7 @@ const TestsAnalytics = ({ athleteId }) => {
 
                 {/* Time to Completion */}
                 <div className="space-y-2">
-                  <Label>
+                  <Label className="text-white">
                     Time to Completion {formData.unit === 'time' ? '*' : '- Optional'}
                   </Label>
                   <div className="grid grid-cols-3 gap-3">
@@ -1127,9 +1128,10 @@ const TestsAnalytics = ({ athleteId }) => {
                         value={formData.time_hours}
                         onChange={(e) => setFormData(prev => ({...prev, time_hours: e.target.value}))}
                         placeholder="HH"
+                        className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                         required={formData.unit === 'time'}
                       />
-                      <p className="text-xs text-gray-500 text-center">Hours</p>
+                      <p className="text-xs text-gray-400 text-center">Hours</p>
                     </div>
                     <div className="space-y-1">
                       <Input
@@ -1140,9 +1142,10 @@ const TestsAnalytics = ({ athleteId }) => {
                         value={formData.time_minutes}
                         onChange={(e) => setFormData(prev => ({...prev, time_minutes: e.target.value}))}
                         placeholder="MM"
+                        className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                         required={formData.unit === 'time'}
                       />
-                      <p className="text-xs text-gray-500 text-center">Minutes</p>
+                      <p className="text-xs text-gray-400 text-center">Minutes</p>
                     </div>
                     <div className="space-y-1">
                       <Input
@@ -1153,31 +1156,32 @@ const TestsAnalytics = ({ athleteId }) => {
                         value={formData.time_seconds}
                         onChange={(e) => setFormData(prev => ({...prev, time_seconds: e.target.value}))}
                         placeholder="SS"
+                        className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400"
                         required={formData.unit === 'time'}
                       />
-                      <p className="text-xs text-gray-500 text-center">Seconds</p>
+                      <p className="text-xs text-gray-400 text-center">Seconds</p>
                     </div>
                   </div>
                   {formData.unit === 'time' ? (
-                    <p className="text-xs text-blue-600 font-medium">Enter the time result for this test</p>
+                    <p className="text-xs text-teal-400 font-medium">Enter the time result for this test</p>
                   ) : (
-                    <p className="text-xs text-gray-500">Leave empty if not applicable</p>
+                    <p className="text-xs text-gray-400">Leave empty if not applicable</p>
                   )}
                 </div>
 
                 {/* Time Display Unit - Only for time-based tests */}
                 {(formData.unit === 'time' || formData.unit === 'duration') && (
                   <div className="space-y-2">
-                    <Label htmlFor="time_display_unit">Display Time As *</Label>
+                    <Label htmlFor="time_display_unit" className="text-white">Display Time As *</Label>
                     <Select
                       value={formData.time_display_unit}
                       onValueChange={(value) => setFormData(prev => ({...prev, time_display_unit: value}))}
                       disabled={addingEntryToTest !== null}
                     >
-                      <SelectTrigger className={addingEntryToTest ? "bg-gray-100 cursor-not-allowed" : ""}>
+                      <SelectTrigger className={addingEntryToTest ? "bg-gray-600 border-gray-500 text-gray-400 cursor-not-allowed" : "bg-gray-600 border-gray-500 text-white"}>
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-gray-800 border-gray-700">
                         <SelectItem value="seconds">Seconds (e.g., 90s)</SelectItem>
                         <SelectItem value="minutes">Minutes (e.g., 1.5 min)</SelectItem>
                         <SelectItem value="hours">Hours (e.g., 0.025 hrs)</SelectItem>
