@@ -726,13 +726,13 @@ const FinishingPercentageCalculator = () => {
                 onKeyPress={handleKeyPress}
                 placeholder="e.g., 500"
                 min="1"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                className="w-full px-4 py-3 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
               />
             </div>
 
             {/* Placement */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Your Placement (Finishing Position)
               </label>
               <input
@@ -743,10 +743,10 @@ const FinishingPercentageCalculator = () => {
                 placeholder="e.g., 42"
                 min="1"
                 max={totalParticipants || undefined}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                className="w-full px-4 py-3 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
               />
               {totalParticipants && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-400 mt-1">
                   Must be between 1 and {totalParticipants}
                 </p>
               )}
@@ -756,7 +756,7 @@ const FinishingPercentageCalculator = () => {
             <Button
               onClick={calculatePercentage}
               disabled={!totalParticipants || !placement}
-              className="w-full bg-gradient-to-r from-blue-400 to-blue-600 hover:opacity-90 text-white text-lg py-6"
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white text-lg py-6 disabled:opacity-50"
             >
               Calculate Percentile
             </Button>
@@ -766,10 +766,10 @@ const FinishingPercentageCalculator = () => {
 
       {/* Results */}
       {result && (
-        <Card className="border-0 shadow-lg">
+        <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
           <CardHeader>
-            <CardTitle className="text-xl font-display">Your Race Performance</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-xl font-display text-white">Your Race Performance</CardTitle>
+            <CardDescription className="text-gray-300">
               Position {result.position} out of {result.total} participants
             </CardDescription>
           </CardHeader>
@@ -779,15 +779,15 @@ const FinishingPercentageCalculator = () => {
               <div className={`inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r ${result.categoryColor} text-white rounded-xl shadow-lg mb-4`}>
                 <span className="text-3xl font-bold">{result.category}</span>
               </div>
-              <p className="text-lg text-gray-700 font-medium">{result.categoryDescription}</p>
+              <p className="text-lg text-white font-medium">{result.categoryDescription}</p>
             </div>
 
             {/* Main Statistics */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Top Percentile */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
-                <div className="text-sm text-gray-600 mb-2">Top Percentile</div>
-                <div className="text-4xl font-bold text-blue-600 mb-1">
+              <div className="bg-gray-600 rounded-xl p-6 border border-gray-500">
+                <div className="text-sm text-gray-300 mb-2">Top Percentile</div>
+                <div className="text-4xl font-bold text-teal-400 mb-1">
                   {result.percentileFromTop}%
                 </div>
                 <div className="text-sm text-gray-700">
