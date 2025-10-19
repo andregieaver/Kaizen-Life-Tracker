@@ -1250,15 +1250,41 @@ const Community = ({ athleteId }) => {
                             </div>
                           ))}
 
-                          <div className="flex items-center space-x-2">
-                            <input
-                              type="text"
-                              value={commentText[post.id] || ''}
-                              onChange={(e) => setCommentText({ ...commentText, [post.id]: e.target.value })}
-                              placeholder="Write a comment..."
-                              className="flex-1 bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
-                              onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
-                            />
+                          <div className="relative flex items-center space-x-2">
+                            <div className="relative flex-1">
+                              <input
+                                ref={(el) => commentRefs.current[post.id] = el}
+                                type="text"
+                                value={commentText[post.id] || ''}
+                                onChange={(e) => handleCommentContentChange(post.id, e)}
+                                placeholder="Write a comment... (Type @ to mention)"
+                                className="w-full bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                                onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
+                              />
+                              
+                              {/* Mention Dropdown for Comments */}
+                              {showMentionDropdown === post.id && mentionResults.length > 0 && (
+                                <div 
+                                  className="absolute z-50 bg-gray-800 border border-gray-600 rounded-lg shadow-lg bottom-full mb-1 max-h-48 overflow-y-auto"
+                                  style={{ width: '300px' }}
+                                >
+                                  {mentionResults.map((athlete) => (
+                                    <div
+                                      key={athlete.id}
+                                      onClick={() => handleSelectCommentMention(post.id, athlete)}
+                                      className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-white flex items-center space-x-2"
+                                    >
+                                      <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                                        <span className="text-white font-semibold text-sm">
+                                          {athlete.name?.charAt(0).toUpperCase()}
+                                        </span>
+                                      </div>
+                                      <span>{athlete.name}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
                             <Button
                               onClick={() => handleAddComment(post.id)}
                               className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
