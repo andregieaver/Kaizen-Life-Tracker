@@ -207,8 +207,8 @@ const Community = ({ athleteId }) => {
 
   const loadPosts = async (forceReload = false) => {
     try {
-      // RADICAL: Load only 5 posts without images for instant load
-      const response = await axios.get(`${API}/community/posts/${athleteId}?limit=5&exclude_images=true`);
+      // Load 10 posts WITH compressed images
+      const response = await axios.get(`${API}/community/posts/${athleteId}?limit=10`);
       setPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
       setPostsLoaded(true);
       setIsLoading(false);
