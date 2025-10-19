@@ -374,6 +374,35 @@ const Community = ({ athleteId }) => {
     }
   };
 
+
+  const handleEditGroup = async () => {
+    if (!editGroupData.name.trim()) {
+      alert('Group name is required');
+      return;
+    }
+
+    try {
+      await axios.put(`${API}/community/groups/${selectedGroup.id}?athlete_id=${athleteId}`, editGroupData);
+      setShowEditGroup(false);
+      loadGroupDetails(selectedGroup.id); // Reload group to show updates
+    } catch (error) {
+      console.error('Error editing group:', error);
+      alert('Failed to edit group');
+    }
+  };
+
+  const handleOpenEditGroup = () => {
+    setEditGroupData({
+      name: selectedGroup.name,
+      description: selectedGroup.description,
+      privacy: selectedGroup.privacy,
+      profile_image: selectedGroup.profile_image,
+      cover_photo: selectedGroup.cover_photo
+    });
+    setShowEditGroup(true);
+  };
+
+
   const handleJoinGroup = async (groupId) => {
     try {
       const response = await axios.post(`${API}/community/groups/${groupId}/join?athlete_id=${athleteId}`);
