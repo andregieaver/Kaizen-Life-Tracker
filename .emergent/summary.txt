@@ -4,71 +4,74 @@ The AI engineer's work primarily focused on extensive UI/UX refinement across th
 
 <product_requirements>
 The TrainSmart application, an AI-powered running coach, requires continuous development focusing on core features and user experience. Key requirements addressed include:
-1.  **Dashboard**: Global styling to a greyscale background, specific cyan/teal gradients for header, nav bars, slideout menu, and quick links. Body Score, Progress, and Merits sections need gradient backgrounds.
-2.  **Documents Page**: Robust mobile file upload with camera capture, full-screen modal, and  persistence.
-3.  **Tests & Analytics Page**: Support for time-based tests, selectable graph axis units (hours/minutes/seconds), goal direction for performance badges,  integration for gradient fills, and general dark theme UI/UX.
-4.  **Global UI/UX**: A consistent dark aesthetic across the application including slide animations for menus, standardized button colors, white text on dark gradients for various components, and full-page mobile modals.
-5.  **Page-specific Styling**: Implement a unified dark theme for CoachChat, Reports (Recommendations), Journal, Nutrition, Supplements, Recipes, Training Calendar, Habit Tracker, Calculators & Converters, Documents, Memories, Account Settings, and Login pages. This includes specific background gradients, text/icon colors, and button styling.
+1.  **Dashboard**: Global styling to a greyscale background, specific cyan/teal gradients for header, nav bars, slideout menu, and quick links. Body Score, Progress, and Merits sections need gradient backgrounds. Quick link icons design applied to progress icons.
+2.  **Documents Page**: Robust mobile file upload with camera capture, full-screen modal, and  persistence. The upload document modal received dark theme styling.
+3.  **Tests & Analytics Page**: Support for time-based tests, selectable graph axis units (hours/minutes/seconds), goal direction for performance badges,  integration for gradient fills, and general dark theme UI/UX. Chart line and gradient colors updated to match the header's hamburger icon. The add test modal received dark theme styling.
+4.  **Global UI/UX**: A consistent dark aesthetic across the application including slide animations for menus, standardized button colors, white text on dark gradients for various components, and full-page mobile modals. This includes implementing the same design for various modals (add supplement, nutrition entry, habit entry, calculator, create workout, upload document, add test, new journal entry, log supplement) by setting mobile nav bar background color and white text.
+5.  **Page-specific Styling**: Implement a unified dark theme for CoachChat, Reports (Recommendations), Journal, Nutrition, Supplements, Recipes, Training Calendar, Habit Tracker, Calculators & Converters, Documents, Memories, Account Settings, Login, Pricing, Today, and Workout History pages. This includes specific background gradients, text/icon colors, and button styling.
+6.  **Authentication/Registration Flow**: Simplify the registration page to only Name, Email, Password, and Confirm Password fields. Implement a show/hide password toggle for both register and login pages. Integrate Login with Google on both register and login pages using Emergent-based Google social login. After registration, redirect to account settings; after login, redirect to the dashboard.
+7.  **Performance Optimization**: Fix the Today page's slow loading by optimizing backend API calls with date filters and parallel frontend requests.
+8.  **Navigation**: Add History below Habit Tracker in the slideout menu. Remove History from the mobile nav bar and add Today as the first item.
+9.  **New Feature**: Add a Community component, a simplified version of Facebook, accessible via an icon in the header (left of the hamburger icon).
 </product_requirements>
 
 <key_technical_concepts>
 -   **Full-stack Development**: React.js (Frontend), FastAPI (Backend), MongoDB (Database).
 -   **State Management & Persistence**: React /, .
--   **UI/UX Frameworks**: Tailwind CSS, Shadcn UI,  (replacing ).
--   **Data Models**: Pydantic for FastAPI backend data validation.
--   **Styling**: Extensive use of CSS gradients and utility classes for dark theme application.
+-   **UI/UX Frameworks**: Tailwind CSS, Shadcn UI, .
+-   **Backend**: Pydantic for data validation, UUIDs for IDs.
+-   **Styling**: Extensive use of CSS gradients, utility classes, and custom CSS for dark theme.
+-   **API Integration**: Google OAuth (via Emergentintegrations).
+-   **Performance**: Parallel API calls (Promise.all) and server-side filtering.
 </key_technical_concepts>
 
 <code_architecture>
 
 -   :
     -   **Importance**: Main FastAPI application.
-    -   **Changes**:  model updated for  and  for tests.
+    -   **Changes**:  model updated for  and . New Google Login models and endpoints were added. Existing data fetching endpoints (e.g., , ) were modified to accept date filters for performance optimization of the Today page. Backend models and endpoints for a new Community feature have been initiated.
 -   :
     -   **Importance**: Core application layout, navigation, quick links, and summary sections.
-    -   **Changes**: Global background and header gradients updated. Quick links (e.g., Habit Tracker, Training Calendar) updated with reversed header gradient. Body Score, Progress, and Merits sections updated with reversed page gradient. Slideout menu received slide-in/out animations. Quick link icons updated to match hamburger icon color.
+    -   **Changes**: Quick link and progress icons styled to  with rounded full and teal icons. Slideout menu updated to include History below Habit Tracker. Mobile navigation bar updated to replace History with Today as the first item. Mobile nav bar gradient  used as reference for other components.
 -   :
     -   **Importance**: Handles document uploads and display.
-    -   **Changes**: Refactored for mobile file upload reliability using . Updated to a dark theme with gradients, white text, and consistent button styles.
+    -   **Changes**: Refactored for mobile file upload reliability using . Updated to a dark theme. The upload document modal () was updated with dark theme, white text for fields, and teal accent colors for buttons/messages.
 -   :
     -   **Importance**: Manages test data visualization and entry.
-    -   **Changes**: Conditional fields for time-based tests, time display unit selection,  integration for gradients, goal direction settings, field locking, and extensive dark theme UI/UX refinements.
+    -   **Changes**: Conditional fields for time-based tests, time display unit selection,  integration for gradients, goal direction settings, field locking, and extensive dark theme UI/UX refinements.  line and gradient colors updated to teal () to match the hamburger icon/app theme. The add new test modal () was updated with a dark theme and teal accents.
 -   :
     -   **Importance**: Manages nutrition entries and displays.
-    -   **Changes**: Used as a reference for  upload. Updated to dark theme: daily average box, meal entry boxes, micronutrients, navigation buttons, date bar, and current badge all received consistent dark gradients and white text.
--   :
-    -   **Importance**: User-coach chat interface.
-    -   **Changes**: White backgrounds replaced with  (mobile nav bar color). Send button background matched hamburger icon color, voice mode button matched active nav bar item background, send button text white, voice mode button border removed.
--    (Reports Page):
-    -   **Importance**: Displays AI-generated recommendations/reports.
-    -   **Changes**: All white backgrounds changed to reversed page gradient (), text/icons set to white. Summary numbers and unread box border set to teal (#00C2A8).
--   :
-    -   **Importance**: Manages user journal entries.
-    -   **Changes**: No journal entries yet box removed. Page header and description text set to white. New entry button background set to teal (#00C2A8).
--   :
-    -   **Importance**: Manages supplement tracking.
-    -   **Changes**: Applied dark theme with dark gradient cards, white text, and teal buttons.
--    and :
-    -   **Importance**: Manage recipe browsing and weekly meal planning.
-    -   **Changes**: Applied dark theme with dark gradient backgrounds/cards, white text, and teal buttons.
--   :
-    -   **Importance**: Displays and manages training schedules.
-    -   **Changes**: Applied dark theme with dark gradient backgrounds/cards, white/gray text.
--   :
-    -   **Importance**: Manages user habits.
-    -   **Changes**: Applied dark theme with dark gradient backgrounds/cards, white text, and teal buttons/icons.
--   :
-    -   **Importance**: Provides various fitness calculators.
-    -   **Changes**: Applied dark theme with dark gradient cards, white text.
--   :
-    -   **Importance**: Manages user memories/milestones.
-    -   **Changes**: Applied dark theme with dark gradient backgrounds/cards, white text, and yellow stars for importance.
--   :
-    -   **Importance**: User account settings.
-    -   **Changes**: Applied dark theme with dark gradient sections, white/gray text, and teal buttons/icons.
+    -   **Changes**: Used as a reference for  upload. Updated to dark theme. The nutrition entry modal and Log Supplements modal were updated with dark theme (mobile nav bar gradient background and white text for fields and headers).
 -   :
     -   **Importance**: User authentication.
-    -   **Changes**: Applied dark theme with dark background, white text, dark gradient form, and teal login button.
+    -   **Changes**: Applied dark theme. A Login with Google button was added, and password toggle functionality was implemented.
+-   :
+    -   **Importance**: User registration page.
+    -   **Changes**: Applied dark theme. The page was simplified to only Name, Email, Password, Confirm Password fields. Show/hide password toggle was implemented. A Login with Google button was added.
+-   :
+    -   **Importance**: Displays pricing plans.
+    -   **Changes**: Full dark theme application with consistent gradients, white text, and teal accent colors.
+-   :
+    -   **Importance**: Displays daily summaries.
+    -   **Changes**: Full dark theme application. Performance significantly improved by using parallel API calls and date filtering. Box headers updated to match mobile nav bar background gradient, and green borders were removed.
+-   :
+    -   **Importance**: Manages supplement tracking.
+    -   **Changes**: Applied dark theme. Supplement items were simplified by removing badges and reducing padding. The add supplement modal was updated with dark theme (mobile nav bar background and white text).
+-   :
+    -   **Importance**: Provides various fitness calculators.
+    -   **Changes**: Applied dark theme. All calculator modals (Pace, Race Predictor, Body Fat, Finishing Percentage) and their entry forms/result boxes were updated with dark theme, mobile nav bar gradient, and teal accents.
+-   :
+    -   **Importance**: Displays and manages training schedules.
+    -   **Changes**: Applied dark theme. The weekly summary column was updated to dark theme ( changed). The create workout modal was updated with dark theme, white text, and teal buttons.
+-   :
+    -   **Importance**: Displays workout history.
+    -   **Changes**: Full dark theme application, matching the overall aesthetic.
+-   :
+    -   **Importance**: Manages user journal entries.
+    -   **Changes**: No journal entries yet box removed. Page header and description text set to white. New entry button background set to teal (#00C2A8). The new journal entry modal was updated with a dark theme.
+-   :
+    -   **Importance**: Custom CSS for the training calendar.
+    -   **Changes**: Updated to incorporate dark theme styling for calendar elements.
 </code_architecture>
 
 <pending_tasks>
@@ -78,13 +81,14 @@ The TrainSmart application, an AI-powered running coach, requires continuous dev
 -   Add delete functionality for nutrition entries.
 -   Investigate persistent profile picture upload failures.
 -   Build the actual logic for the Race Predictor calculator.
--   Apply the same design and color scheme to the pricing page.
+-   Complete the implementation of the Community component (currently only backend models/endpoints initiated).
 </pending_tasks>
 
 <current_work>
-Immediately before this summary, the AI engineer was systematically applying a consistent dark theme and color scheme across various pages of the application. The most recent completed tasks involved applying a dark theme to the Account Settings and Login pages, including dark gradient backgrounds, white text, and teal accent colors for buttons. The very last explicit instruction received was to apply the same design and color scheme to the pricing page. This indicates a continuation of the global UI/UX unification effort, specifically extending the established dark theme to another core application page. This will involve updating background colors, text colors, and button styling to match the consistent aesthetic developed throughout the trajectory.
+Immediately before this summary request, the AI engineer was in the process of implementing a new Community feature. The user requested to add a community component to the application, described as a simplified version of Facebook, accessible via an icon in the header to the left of the hamburger icon. The AI engineer's current action involves starting the backend implementation for this new feature. Specifically, the AI engineer has begun creating the necessary backend models and API endpoints within the  file, identifying the location to insert these new Pydantic models for community posts and user interactions. This foundational backend work is a prerequisite for developing the frontend UI for the community component.
 </current_work>
 
 <optional_next_step>
-Apply the same design and color scheme to the pricing page.
+Continue creating the backend models and API endpoints for the new Community feature in .
 </optional_next_step>
+
