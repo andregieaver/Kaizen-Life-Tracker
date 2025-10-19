@@ -8510,7 +8510,7 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...), exclude
             {"$match": {"event_id": event_id, "status": "interested"}},
             {
                 "$lookup": {
-                    "from": "athletes",
+                    "from": "athlete_profiles",
                     "localField": "athlete_id",
                     "foreignField": "id",
                     "as": "athlete_info"
@@ -8530,7 +8530,7 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...), exclude
             {"$match": {"event_id": event_id, "status": "going"}},
             {
                 "$lookup": {
-                    "from": "athletes",
+                    "from": "athlete_profiles",
                     "localField": "athlete_id",
                     "foreignField": "id",
                     "as": "athlete_info"
