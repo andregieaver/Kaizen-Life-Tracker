@@ -2049,20 +2049,20 @@ const Nutrition = ({ athleteId }) => {
                               )}
                               {viewingEntry.calcium > 0 && (
                                 <li className="flex justify-between">
-                                  <span className="text-gray-600">Calcium:</span>
-                                  <span className="font-medium text-gray-900">{viewingEntry.calcium}mg</span>
+                                  <span className="text-gray-400">Calcium:</span>
+                                  <span className="font-medium text-white">{viewingEntry.calcium}mg</span>
                                 </li>
                               )}
                               {viewingEntry.iron > 0 && (
                                 <li className="flex justify-between">
-                                  <span className="text-gray-600">Iron:</span>
-                                  <span className="font-medium text-gray-900">{viewingEntry.iron}mg</span>
+                                  <span className="text-gray-400">Iron:</span>
+                                  <span className="font-medium text-white">{viewingEntry.iron}mg</span>
                                 </li>
                               )}
                               {viewingEntry.potassium > 0 && (
                                 <li className="flex justify-between">
-                                  <span className="text-gray-600">Potassium:</span>
-                                  <span className="font-medium text-gray-900">{viewingEntry.potassium}mg</span>
+                                  <span className="text-gray-400">Potassium:</span>
+                                  <span className="font-medium text-white">{viewingEntry.potassium}mg</span>
                                 </li>
                               )}
                             </ul>
@@ -2072,7 +2072,7 @@ const Nutrition = ({ athleteId }) => {
                       
                       {/* AI Analysis */}
                       {viewingEntry.ai_analysis && (
-                        <p className="text-xs text-gray-500 italic mt-3">AI: {viewingEntry.ai_analysis}</p>
+                        <p className="text-xs text-gray-400 italic mt-3">AI: {viewingEntry.ai_analysis}</p>
                       )}
                     </div>
                   )}
@@ -2081,7 +2081,7 @@ const Nutrition = ({ athleteId }) => {
                   <div className="flex gap-2 pt-4">
                     <Button
                       variant="outline"
-                      className="flex-1"
+                      className="flex-1 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                       onClick={() => {
                         setShowModal(false);
                         setViewMode(false);
@@ -2092,7 +2092,7 @@ const Nutrition = ({ athleteId }) => {
                     </Button>
                     <Button
                       variant="outline"
-                      className="flex-1"
+                      className="flex-1 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                       onClick={switchToEditMode}
                     >
                       <Edit3 className="w-4 h-4 mr-2" />
