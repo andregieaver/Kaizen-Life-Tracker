@@ -656,6 +656,26 @@ const Community = ({ athleteId }) => {
     }
   };
 
+  const handleOpenEventDetail = async (eventId) => {
+    setEventDetailLoading(true);
+    setShowEventDetail(true);
+    try {
+      const response = await axios.get(`${API}/community/events/${eventId}?athlete_id=${athleteId}`);
+      setEventDetailData(response.data);
+    } catch (error) {
+      console.error('Error loading event details:', error);
+      alert('Failed to load event details');
+      setShowEventDetail(false);
+    } finally {
+      setEventDetailLoading(false);
+    }
+  };
+
+  const handleCloseEventDetail = () => {
+    setShowEventDetail(false);
+    setEventDetailData(null);
+  };
+
   const handleRSVP = async (eventId, status) => {
     try {
       const response = await axios.post(`${API}/community/events/${eventId}/rsvp?athlete_id=${athleteId}`, { status });
