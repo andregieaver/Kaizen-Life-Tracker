@@ -1136,50 +1136,62 @@ def test_image_exclusion_performance_feature():
         
         print_test_result("Setup Athletes", True, f"Using test athlete: {test_athlete_id}, andre: {andre_athlete_id}")
         
-        # Step 2: Test Community Feed (GET /api/community/posts/{athlete_id})
-        print("   Step 2: Test Community Feed with Aggregation Pipeline")
+        # Step 2: Test Community Feed WITH image exclusion (GET /api/community/posts/{athlete_id}?exclude_images=true&limit=20)
+        print("   Step 2: Test Community Feed WITH image exclusion")
         
-        # Test basic feed
-        feed_response = requests.get(f"{BACKEND_URL}/community/posts/{test_athlete_id}")
+        # Test feed with exclude_images=true
+        feed_excluded_response = requests.get(f"{BACKEND_URL}/community/posts/{test_athlete_id}?exclude_images=true&limit=20")
         
-        if feed_response.status_code != 200:
-            print_test_result("Community Feed - Basic", False, f"Failed: {feed_response.status_code} - {feed_response.text}")
+        if feed_excluded_response.status_code != 200:
+            print_test_result("Community Feed - Image Exclusion", False, f"Failed: {feed_excluded_response.status_code} - {feed_excluded_response.text}")
             return False
         
-        feed_data = feed_response.json()
-        posts = feed_data.get("posts", [])
+        feed_excluded_data = feed_excluded_response.json()
+        posts_excluded = feed_excluded_data.get("posts", [])
         
-        # Verify posts structure and liked_by_user flag
-        if posts:
-            first_post = posts[0]
-            required_fields = ["id", "athlete_id", "athlete_name", "content", "likes_count", "comments_count", "shares_count", "created_at", "liked_by_user"]
-            missing_fields = [field for field in required_fields if field not in first_post]
+        # Verify posts are returned with all fields EXCEPT image_data
+        if posts_excluded:
+            first_post_excluded = posts_excluded[0]
+            required_fields = ["id", "athlete_id", "athlete_name", "content", "likes_count", "comments_count", "shares_count", "created_at", "liked_by_user", "has_image"]
+            excluded_fields = ["image_data"]
             
-            if not missing_fields:
-                print_test_result("Community Feed - Structure", True, f"Feed returned {len(posts)} posts with all required fields")
-            else:
-                print_test_result("Community Feed - Structure", False, f"Missing fields: {missing_fields}")
+            # Check required fields are present
+            missing_fields = [field for field in required_fields if field not in first_post_excluded]
+            if missing_fields:
+                print_test_result("Community Feed - Image Exclusion Structure", False, f"Missing required fields: {missing_fields}")
                 return False
             
-            # Verify liked_by_user flag is boolean
-            liked_by_user = first_post.get("liked_by_user")
+            # Check image_data is excluded
+            if "image_data" in first_post_excluded:
+                print_test_result("Community Feed - Image Exclusion", False, "image_data field should be excluded but is present")
+                return False
+            
+            # Verify has_image field is present and correctly indicates if post has image
+            has_image = first_post_excluded.get("has_image")
+            if isinstance(has_image, bool):
+                print_test_result("Community Feed - has_image Field", True, f"has_image field is boolean: {has_image}")
+            else:
+                print_test_result("Community Feed - has_image Field", False, f"has_image should be boolean, got: {type(has_image)}")
+                return False
+            
+            # Verify liked_by_user flag still works
+            liked_by_user = first_post_excluded.get("liked_by_user")
             if isinstance(liked_by_user, bool):
-                print_test_result("Community Feed - liked_by_user Flag", True, f"liked_by_user flag is boolean: {liked_by_user}")
+                print_test_result("Community Feed - liked_by_user Flag (excluded)", True, f"liked_by_user flag still works: {liked_by_user}")
             else:
-                print_test_result("Community Feed - liked_by_user Flag", False, f"liked_by_user should be boolean, got: {type(liked_by_user)}")
+                print_test_result("Community Feed - liked_by_user Flag (excluded)", False, f"liked_by_user should be boolean, got: {type(liked_by_user)}")
                 return False
             
-            # Verify sorting (newest first)
-            if len(posts) >= 2:
-                first_time = posts[0].get("created_at")
-                second_time = posts[1].get("created_at")
-                if first_time >= second_time:
-                    print_test_result("Community Feed - Sorting", True, "Posts sorted by created_at descending (newest first)")
-                else:
-                    print_test_result("Community Feed - Sorting", False, f"Incorrect sorting: {first_time} < {second_time}")
-                    return False
+            # Verify limit=20 returns maximum 20 posts
+            if len(posts_excluded) <= 20:
+                print_test_result("Community Feed - Limit 20", True, f"Returned {len(posts_excluded)} posts (≤20)")
+            else:
+                print_test_result("Community Feed - Limit 20", False, f"Returned {len(posts_excluded)} posts (>20)")
+                return False
+            
+            print_test_result("Community Feed - Image Exclusion", True, f"Posts returned WITHOUT image_data, WITH has_image field, {len(posts_excluded)} posts")
         else:
-            print_test_result("Community Feed - Basic", True, "Feed endpoint accessible (no posts found)")
+            print_test_result("Community Feed - Image Exclusion", True, "Feed endpoint accessible with image exclusion (no posts found)")
         
         # Step 3: Test Community Feed Pagination
         print("   Step 3: Test Community Feed Pagination")
