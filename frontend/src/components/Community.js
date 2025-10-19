@@ -976,15 +976,26 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onClick }) => (
       {group.cover_photo && (
         <img src={group.cover_photo} alt={group.name} className="w-full h-32 object-cover rounded-lg mb-4" />
       )}
-      <div className="flex items-start justify-between mb-2">
-        <h3 className="text-xl font-bold text-white">{group.name}</h3>
-        {group.privacy === 'private' ? (
-          <Lock className="w-5 h-5 text-gray-400" />
+      <div className="flex items-start space-x-3 mb-3">
+        {group.profile_image ? (
+          <img src={group.profile_image} alt={group.name} className="w-16 h-16 rounded-full object-cover flex-shrink-0" />
         ) : (
-          <Globe className="w-5 h-5 text-gray-400" />
+          <div className="w-16 h-16 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+            <UsersIcon className="w-8 h-8 text-gray-400" />
+          </div>
         )}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between mb-1">
+            <h3 className="text-xl font-bold text-white truncate">{group.name}</h3>
+            {group.privacy === 'private' ? (
+              <Lock className="w-5 h-5 text-gray-400 flex-shrink-0 ml-2" />
+            ) : (
+              <Globe className="w-5 h-5 text-gray-400 flex-shrink-0 ml-2" />
+            )}
+          </div>
+          <p className="text-gray-300 text-sm line-clamp-2">{group.description}</p>
+        </div>
       </div>
-      <p className="text-gray-300 text-sm mb-4 line-clamp-2">{group.description}</p>
       <div className="flex items-center justify-between">
         <span className="text-gray-400 text-sm">{group.members_count} members</span>
         {!isMember && !group.is_member && (
