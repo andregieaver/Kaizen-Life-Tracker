@@ -994,6 +994,7 @@ const Community = ({ athleteId }) => {
                 onRSVP={handleRSVP}
                 onEdit={handleOpenEditEvent}
                 onDelete={handleDeleteEvent}
+                onClick={handleOpenEventDetail}
               />
             ))}
           </div>
