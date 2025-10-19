@@ -1423,13 +1423,13 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
           
           <div className="flex flex-col space-y-2">
             {group.member_role === 'admin' && (
-              <Button
+              <button
                 onClick={onEditGroup}
-                className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                className="p-2 bg-[#00C2A8] hover:bg-[#00a890] rounded-lg transition-colors"
+                title="Edit Group"
               >
-                <Edit2 className="w-4 h-4 mr-2" />
-                Edit Group
-              </Button>
+                <Edit2 className="w-5 h-5 text-white" />
+              </button>
             )}
             {group.is_member && group.member_role !== 'admin' && (
               <Button
