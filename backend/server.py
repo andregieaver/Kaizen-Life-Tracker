@@ -1095,7 +1095,8 @@ class Group(BaseModel):
     name: str
     description: str
     privacy: str  # 'public' or 'private'
-    cover_photo: Optional[str] = None  # Base64 encoded image
+    profile_image: Optional[str] = None  # Base64 encoded image (group avatar)
+    cover_photo: Optional[str] = None  # Base64 encoded image (banner)
     admin_id: str  # Creator/admin of the group
     members_count: int = 1  # Starts with admin
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
