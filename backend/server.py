@@ -8371,9 +8371,21 @@ async def create_event(event_data: dict, athlete_id: str = Query(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/community/events")
-async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(None), limit: int = Query(50), skip: int = Query(0)):
-    """Get all events (open events + group events where user is member) - Optimized with pagination"""
+async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(None), limit: int = Query(50), skip: int = Query(0), exclude_images: bool = Query(False)):
+    """Get all events (open events + group events where user is member) - Optimized with pagination and image exclusion"""
     try:
+        # Build projection to exclude images if requested
+        projection_stage = {
+            "$project": {
+                "_id": 0,
+                "user_attendance": 0
+            }
+        }
+        
+        if exclude_images:
+            projection_stage["$project"]["profile_image"] = 0
+            projection_stage["$project"]["cover_photo"] = 0
+        
         if group_id:
             # Get events for specific group using aggregation
             pipeline = [
@@ -8411,12 +8423,7 @@ async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(Non
                         }
                     }
                 },
-                {
-                    "$project": {
-                        "_id": 0,
-                        "user_attendance": 0
-                    }
-                }
+                projection_stage
             ]
         else:
             # Get open events + events from user's groups using aggregation
@@ -8469,12 +8476,7 @@ async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(Non
                         }
                     }
                 },
-                {
-                    "$project": {
-                        "_id": 0,
-                        "user_attendance": 0
-                    }
-                }
+                projection_stage
             ]
         
         events = await db.community_events.aggregate(pipeline).to_list(length=None)
