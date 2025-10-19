@@ -7461,6 +7461,564 @@ async def mark_notification_read(notification_id: str):
         logging.error(f"Error marking notification as read: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# ==========================================
+# FOLLOW/UNFOLLOW ENDPOINTS
+# ==========================================
+
+@api_router.post("/community/follow/{target_athlete_id}")
+async def toggle_follow(target_athlete_id: str, athlete_id: str = Query(...)):
+    """Follow or unfollow a user"""
+    try:
+        # Check if already following
+        existing_follow = await db.community_follows.find_one({
+            "follower_id": athlete_id,
+            "following_id": target_athlete_id
+        })
+        
+        if existing_follow:
+            # Unfollow
+            await db.community_follows.delete_one({"id": existing_follow["id"]})
+            following = False
+        else:
+            # Follow
+            follow = {
+                "id": str(uuid.uuid4()),
+                "follower_id": athlete_id,
+                "following_id": target_athlete_id,
+                "created_at": datetime.now(timezone.utc).isoformat()
+            }
+            await db.community_follows.insert_one(prepare_for_mongo(follow.copy()))
+            following = True
+            
+            # Create notification
+            if target_athlete_id != athlete_id:
+                athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+                notification = {
+                    "id": str(uuid.uuid4()),
+                    "athlete_id": target_athlete_id,
+                    "type": "follow",
+                    "content": f"{athlete.get('name', 'Someone')} started following you",
+                    "from_athlete_id": athlete_id,
+                    "from_athlete_name": athlete.get("name", "Unknown"),
+                    "read": False,
+                    "created_at": datetime.now(timezone.utc).isoformat()
+                }
+                await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
+        
+        # Get updated counts
+        followers_count = await db.community_follows.count_documents({"following_id": target_athlete_id})
+        following_count = await db.community_follows.count_documents({"follower_id": target_athlete_id})
+        
+        return {
+            "success": True,
+            "following": following,
+            "followers_count": followers_count,
+            "following_count": following_count
+        }
+    except Exception as e:
+        logging.error(f"Error toggling follow: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/profile/{target_athlete_id}")
+async def get_athlete_profile(target_athlete_id: str, viewer_athlete_id: str = Query(...)):
+    """Get athlete profile with stats"""
+    try:
+        # Get athlete info
+        athlete = await db.athlete_profiles.find_one({"id": target_athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="Athlete not found")
+        
+        # Get stats
+        posts_count = await db.community_posts.count_documents({"athlete_id": target_athlete_id})
+        
+        # Count likes received on all posts
+        posts = await db.community_posts.find({"athlete_id": target_athlete_id}, {"_id": 0, "likes_count": 1}).to_list(length=None)
+        likes_received = sum(post.get("likes_count", 0) for post in posts)
+        
+        # Get followers/following counts
+        followers_count = await db.community_follows.count_documents({"following_id": target_athlete_id})
+        following_count = await db.community_follows.count_documents({"follower_id": target_athlete_id})
+        
+        # Check if viewer is following this athlete
+        is_following = await db.community_follows.find_one({
+            "follower_id": viewer_athlete_id,
+            "following_id": target_athlete_id
+        }) is not None
+        
+        return {
+            "id": athlete["id"],
+            "name": athlete.get("name", "Unknown"),
+            "profile_picture": athlete.get("profile_picture"),
+            "bio": athlete.get("bio", ""),
+            "posts_count": posts_count,
+            "likes_received": likes_received,
+            "followers_count": followers_count,
+            "following_count": following_count,
+            "is_following": is_following,
+            "is_own_profile": target_athlete_id == viewer_athlete_id
+        }
+    except Exception as e:
+        logging.error(f"Error fetching athlete profile: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/followers/{athlete_id}")
+async def get_followers(athlete_id: str):
+    """Get list of followers"""
+    try:
+        follows = await db.community_follows.find(
+            {"following_id": athlete_id},
+            {"_id": 0}
+        ).to_list(length=None)
+        
+        # Get athlete info for each follower
+        follower_ids = [f["follower_id"] for f in follows]
+        followers = []
+        for follower_id in follower_ids:
+            athlete = await db.athlete_profiles.find_one({"id": follower_id}, {"_id": 0})
+            if athlete:
+                followers.append({
+                    "id": athlete["id"],
+                    "name": athlete.get("name", "Unknown"),
+                    "profile_picture": athlete.get("profile_picture")
+                })
+        
+        return {"followers": followers}
+    except Exception as e:
+        logging.error(f"Error fetching followers: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/following/{athlete_id}")
+async def get_following(athlete_id: str):
+    """Get list of users being followed"""
+    try:
+        follows = await db.community_follows.find(
+            {"follower_id": athlete_id},
+            {"_id": 0}
+        ).to_list(length=None)
+        
+        # Get athlete info for each following
+        following_ids = [f["following_id"] for f in follows]
+        following = []
+        for following_id in following_ids:
+            athlete = await db.athlete_profiles.find_one({"id": following_id}, {"_id": 0})
+            if athlete:
+                following.append({
+                    "id": athlete["id"],
+                    "name": athlete.get("name", "Unknown"),
+                    "profile_picture": athlete.get("profile_picture")
+                })
+        
+        return {"following": following}
+    except Exception as e:
+        logging.error(f"Error fetching following: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ==========================================
+# GROUPS ENDPOINTS
+# ==========================================
+
+@api_router.post("/community/groups")
+async def create_group(group_data: dict, athlete_id: str = Query(...)):
+    """Create a new group"""
+    try:
+        # Create group
+        group = {
+            "id": str(uuid.uuid4()),
+            "name": group_data.get("name", ""),
+            "description": group_data.get("description", ""),
+            "privacy": group_data.get("privacy", "public"),
+            "cover_photo": group_data.get("cover_photo"),
+            "admin_id": athlete_id,
+            "members_count": 1,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": None
+        }
+        
+        await db.community_groups.insert_one(prepare_for_mongo(group.copy()))
+        
+        # Add admin as member
+        membership = {
+            "id": str(uuid.uuid4()),
+            "group_id": group["id"],
+            "athlete_id": athlete_id,
+            "role": "admin",
+            "status": "approved",
+            "joined_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.community_group_memberships.insert_one(prepare_for_mongo(membership.copy()))
+        
+        return {"success": True, "group": group}
+    except Exception as e:
+        logging.error(f"Error creating group: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/groups")
+async def get_all_groups(athlete_id: str = Query(...)):
+    """Get all groups"""
+    try:
+        groups = await db.community_groups.find({}, {"_id": 0}).sort("created_at", -1).to_list(length=None)
+        
+        # For each group, check if user is a member
+        for group in groups:
+            membership = await db.community_group_memberships.find_one({
+                "group_id": group["id"],
+                "athlete_id": athlete_id,
+                "status": "approved"
+            })
+            group["is_member"] = membership is not None
+            group["member_role"] = membership.get("role") if membership else None
+        
+        return {"groups": groups}
+    except Exception as e:
+        logging.error(f"Error fetching groups: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/groups/my/{athlete_id}")
+async def get_my_groups(athlete_id: str):
+    """Get groups where user is a member"""
+    try:
+        # Get memberships
+        memberships = await db.community_group_memberships.find({
+            "athlete_id": athlete_id,
+            "status": "approved"
+        }, {"_id": 0}).to_list(length=None)
+        
+        group_ids = [m["group_id"] for m in memberships]
+        
+        # Get groups
+        groups = []
+        for group_id in group_ids:
+            group = await db.community_groups.find_one({"id": group_id}, {"_id": 0})
+            if group:
+                # Add role info
+                membership = next((m for m in memberships if m["group_id"] == group_id), None)
+                group["member_role"] = membership.get("role") if membership else None
+                groups.append(group)
+        
+        return {"groups": groups}
+    except Exception as e:
+        logging.error(f"Error fetching my groups: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/groups/{group_id}")
+async def get_group_details(group_id: str, athlete_id: str = Query(...)):
+    """Get group details"""
+    try:
+        group = await db.community_groups.find_one({"id": group_id}, {"_id": 0})
+        if not group:
+            raise HTTPException(status_code=404, detail="Group not found")
+        
+        # Check membership
+        membership = await db.community_group_memberships.find_one({
+            "group_id": group_id,
+            "athlete_id": athlete_id
+        })
+        
+        group["is_member"] = membership is not None and membership.get("status") == "approved"
+        group["member_role"] = membership.get("role") if membership else None
+        group["membership_status"] = membership.get("status") if membership else None
+        
+        # Get members list
+        memberships = await db.community_group_memberships.find({
+            "group_id": group_id,
+            "status": "approved"
+        }, {"_id": 0}).to_list(length=None)
+        
+        members = []
+        for m in memberships:
+            athlete = await db.athlete_profiles.find_one({"id": m["athlete_id"]}, {"_id": 0})
+            if athlete:
+                members.append({
+                    "id": athlete["id"],
+                    "name": athlete.get("name", "Unknown"),
+                    "profile_picture": athlete.get("profile_picture"),
+                    "role": m.get("role")
+                })
+        
+        group["members"] = members
+        
+        return group
+    except Exception as e:
+        logging.error(f"Error fetching group details: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/community/groups/{group_id}")
+async def edit_group(group_id: str, group_data: dict, athlete_id: str = Query(...)):
+    """Edit group (admin only)"""
+    try:
+        # Verify admin
+        membership = await db.community_group_memberships.find_one({
+            "group_id": group_id,
+            "athlete_id": athlete_id,
+            "role": "admin"
+        })
+        if not membership:
+            raise HTTPException(status_code=403, detail="Only admins can edit groups")
+        
+        # Update group
+        update_data = {
+            "name": group_data.get("name"),
+            "description": group_data.get("description"),
+            "privacy": group_data.get("privacy"),
+            "cover_photo": group_data.get("cover_photo"),
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        # Remove None values
+        update_data = {k: v for k, v in update_data.items() if v is not None}
+        
+        await db.community_groups.update_one(
+            {"id": group_id},
+            {"$set": update_data}
+        )
+        
+        updated_group = await db.community_groups.find_one({"id": group_id}, {"_id": 0})
+        return {"success": True, "group": updated_group}
+    except Exception as e:
+        logging.error(f"Error editing group: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/community/groups/{group_id}")
+async def delete_group(group_id: str, athlete_id: str = Query(...)):
+    """Delete group (admin only)"""
+    try:
+        # Verify admin
+        membership = await db.community_group_memberships.find_one({
+            "group_id": group_id,
+            "athlete_id": athlete_id,
+            "role": "admin"
+        })
+        if not membership:
+            raise HTTPException(status_code=403, detail="Only admins can delete groups")
+        
+        # Delete group and related data
+        await db.community_groups.delete_one({"id": group_id})
+        await db.community_group_memberships.delete_many({"group_id": group_id})
+        await db.community_group_posts.delete_many({"group_id": group_id})
+        
+        return {"success": True, "message": "Group deleted"}
+    except Exception as e:
+        logging.error(f"Error deleting group: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/community/groups/{group_id}/join")
+async def join_group(group_id: str, athlete_id: str = Query(...)):
+    """Join a group"""
+    try:
+        # Check if already a member
+        existing_membership = await db.community_group_memberships.find_one({
+            "group_id": group_id,
+            "athlete_id": athlete_id
+        })
+        
+        if existing_membership:
+            return {"success": False, "message": "Already a member or request pending"}
+        
+        # Get group
+        group = await db.community_groups.find_one({"id": group_id}, {"_id": 0})
+        if not group:
+            raise HTTPException(status_code=404, detail="Group not found")
+        
+        # Create membership
+        membership = {
+            "id": str(uuid.uuid4()),
+            "group_id": group_id,
+            "athlete_id": athlete_id,
+            "role": "member",
+            "status": "approved" if group["privacy"] == "public" else "pending",
+            "joined_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.community_group_memberships.insert_one(prepare_for_mongo(membership.copy()))
+        
+        # Update member count if approved
+        if membership["status"] == "approved":
+            await db.community_groups.update_one(
+                {"id": group_id},
+                {"$inc": {"members_count": 1}}
+            )
+        
+        return {
+            "success": True,
+            "status": membership["status"],
+            "message": "Joined successfully" if membership["status"] == "approved" else "Request pending approval"
+        }
+    except Exception as e:
+        logging.error(f"Error joining group: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/community/groups/{group_id}/leave")
+async def leave_group(group_id: str, athlete_id: str = Query(...)):
+    """Leave a group"""
+    try:
+        # Check if admin
+        membership = await db.community_group_memberships.find_one({
+            "group_id": group_id,
+            "athlete_id": athlete_id
+        })
+        
+        if not membership:
+            return {"success": False, "message": "Not a member"}
+        
+        if membership["role"] == "admin":
+            return {"success": False, "message": "Admin cannot leave group. Delete group instead."}
+        
+        # Remove membership
+        await db.community_group_memberships.delete_one({"id": membership["id"]})
+        
+        # Update member count
+        await db.community_groups.update_one(
+            {"id": group_id},
+            {"$inc": {"members_count": -1}}
+        )
+        
+        return {"success": True, "message": "Left group successfully"}
+    except Exception as e:
+        logging.error(f"Error leaving group: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/community/groups/{group_id}/members/{target_athlete_id}")
+async def manage_group_member(group_id: str, target_athlete_id: str, action_data: dict, athlete_id: str = Query(...)):
+    """Approve/reject membership or change role (admin/moderator only)"""
+    try:
+        # Verify admin/moderator
+        requester_membership = await db.community_group_memberships.find_one({
+            "group_id": group_id,
+            "athlete_id": athlete_id,
+            "role": {"$in": ["admin", "moderator"]}
+        })
+        if not requester_membership:
+            raise HTTPException(status_code=403, detail="Admin/moderator access required")
+        
+        # Get target membership
+        target_membership = await db.community_group_memberships.find_one({
+            "group_id": group_id,
+            "athlete_id": target_athlete_id
+        })
+        if not target_membership:
+            raise HTTPException(status_code=404, detail="Membership not found")
+        
+        action = action_data.get("action")  # 'approve', 'reject', 'change_role'
+        
+        if action == "approve":
+            await db.community_group_memberships.update_one(
+                {"id": target_membership["id"]},
+                {"$set": {"status": "approved"}}
+            )
+            await db.community_groups.update_one(
+                {"id": group_id},
+                {"$inc": {"members_count": 1}}
+            )
+            return {"success": True, "message": "Member approved"}
+        
+        elif action == "reject":
+            await db.community_group_memberships.delete_one({"id": target_membership["id"]})
+            return {"success": True, "message": "Member rejected"}
+        
+        elif action == "change_role":
+            # Only admin can change roles
+            if requester_membership["role"] != "admin":
+                raise HTTPException(status_code=403, detail="Only admins can change roles")
+            
+            new_role = action_data.get("role")
+            if new_role not in ["admin", "moderator", "member"]:
+                raise HTTPException(status_code=400, detail="Invalid role")
+            
+            await db.community_group_memberships.update_one(
+                {"id": target_membership["id"]},
+                {"$set": {"role": new_role}}
+            )
+            return {"success": True, "message": f"Role changed to {new_role}"}
+        
+        else:
+            raise HTTPException(status_code=400, detail="Invalid action")
+    except Exception as e:
+        logging.error(f"Error managing group member: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ==========================================
+# GROUP POSTS ENDPOINTS
+# ==========================================
+
+@api_router.post("/community/groups/{group_id}/posts")
+async def create_group_post(group_id: str, post_data: dict, athlete_id: str = Query(...)):
+    """Create a post in a group"""
+    try:
+        # Verify membership
+        membership = await db.community_group_memberships.find_one({
+            "group_id": group_id,
+            "athlete_id": athlete_id,
+            "status": "approved"
+        })
+        if not membership:
+            raise HTTPException(status_code=403, detail="Must be a group member to post")
+        
+        # Get athlete info
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="Athlete not found")
+        
+        # Create post
+        post = {
+            "id": str(uuid.uuid4()),
+            "group_id": group_id,
+            "athlete_id": athlete_id,
+            "athlete_name": athlete.get("name", "Unknown"),
+            "athlete_profile_picture": athlete.get("profile_picture"),
+            "content": post_data.get("content", ""),
+            "image_data": post_data.get("image_data"),
+            "likes_count": 0,
+            "comments_count": 0,
+            "shares_count": 0,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": None,
+            "is_edited": False
+        }
+        
+        await db.community_group_posts.insert_one(prepare_for_mongo(post.copy()))
+        return post
+    except Exception as e:
+        logging.error(f"Error creating group post: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/groups/{group_id}/posts")
+async def get_group_posts(group_id: str, athlete_id: str = Query(...), limit: int = Query(50)):
+    """Get posts from a group"""
+    try:
+        # Verify membership for private groups
+        group = await db.community_groups.find_one({"id": group_id}, {"_id": 0})
+        if not group:
+            raise HTTPException(status_code=404, detail="Group not found")
+        
+        if group["privacy"] == "private":
+            membership = await db.community_group_memberships.find_one({
+                "group_id": group_id,
+                "athlete_id": athlete_id,
+                "status": "approved"
+            })
+            if not membership:
+                raise HTTPException(status_code=403, detail="Must be a member to view posts")
+        
+        # Get posts
+        posts = await db.community_group_posts.find(
+            {"group_id": group_id},
+            {"_id": 0}
+        ).sort("created_at", -1).limit(limit).to_list(length=None)
+        
+        # For each post, check if current user has liked it
+        for post in posts:
+            like = await db.community_likes.find_one({
+                "post_id": post["id"],
+                "athlete_id": athlete_id
+            })
+            post["liked_by_user"] = like is not None
+        
+        return {"posts": posts}
+    except Exception as e:
+        logging.error(f"Error fetching group posts: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
 # Include the router in the main app (after all endpoints are defined)
 app.include_router(api_router)
 
