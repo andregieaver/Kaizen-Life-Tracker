@@ -433,45 +433,48 @@ const Community = ({ athleteId }) => {
     <div className="max-w-5xl mx-auto space-y-6 py-6">
       {/* Header with Tabs and Notifications */}
       <div className="flex justify-between items-center mb-6">
-        <div className="flex space-x-4">
+        <div className="flex space-x-2">
           <button
             onClick={() => {
               setActiveTab('feed');
               setSelectedGroup(null);
             }}
-            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
+            className={`p-3 rounded-lg transition-all ${
               activeTab === 'feed'
-                ? 'bg-[#00C2A8] text-white'
-                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                ? 'bg-[#00C2A8] text-white shadow-lg'
+                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
             }`}
+            title="Feed"
           >
-            Feed
+            <Home className="w-6 h-6" />
           </button>
           <button
             onClick={() => {
               setActiveTab('groups');
               setSelectedGroup(null);
             }}
-            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
+            className={`p-3 rounded-lg transition-all ${
               activeTab === 'groups'
-                ? 'bg-[#00C2A8] text-white'
-                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                ? 'bg-[#00C2A8] text-white shadow-lg'
+                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
             }`}
+            title="All Groups"
           >
-            Groups
+            <UsersIcon className="w-6 h-6" />
           </button>
           <button
             onClick={() => {
               setActiveTab('mygroups');
               setSelectedGroup(null);
             }}
-            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
+            className={`p-3 rounded-lg transition-all ${
               activeTab === 'mygroups'
-                ? 'bg-[#00C2A8] text-white'
-                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                ? 'bg-[#00C2A8] text-white shadow-lg'
+                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
             }`}
+            title="My Groups"
           >
-            My Groups
+            <UserCheck className="w-6 h-6" />
           </button>
         </div>
 
