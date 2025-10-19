@@ -1197,7 +1197,7 @@ const Community = ({ athleteId }) => {
                         </div>
                       ) : (
                         <>
-                          <p className="text-white whitespace-pre-wrap mb-4">{post.content}</p>
+                          <p className="text-white whitespace-pre-wrap mb-4">{formatMentions(post.content)}</p>
                           {post.image_data && (
                             <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-96 object-cover mb-4" />
                           )}
