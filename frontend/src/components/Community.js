@@ -219,6 +219,26 @@ const Community = ({ athleteId }) => {
     }
   };
 
+  const handleRefresh = () => {
+    // Reset all cache flags and reload current tab
+    if (activeTab === 'feed') {
+      setPostsLoaded(false);
+      loadPosts();
+    } else if (activeTab === 'groups') {
+      setGroupsLoaded(false);
+      loadAllGroups();
+    } else if (activeTab === 'mygroups') {
+      setMyGroupsLoaded(false);
+      loadMyGroups();
+    } else if (activeTab === 'events') {
+      setEventsLoaded(false);
+      loadEvents();
+    }
+    // Also refresh notifications
+    setNotificationsLoaded(false);
+    loadNotifications();
+  };
+
   const loadAthleteProfile = async (targetAthleteId) => {
     setProfileLoading(true);
     try {
