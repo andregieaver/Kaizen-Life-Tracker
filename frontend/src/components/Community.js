@@ -530,6 +530,99 @@ const Community = ({ athleteId }) => {
     }
   };
 
+
+  // Events functions
+  const loadEvents = async () => {
+    try {
+      const response = await axios.get(`${API}/community/events?athlete_id=${athleteId}`);
+      setEvents(response.data.events);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error loading events:', error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleCreateEvent = async () => {
+    if (!newEventData.name.trim()) {
+      alert('Event name is required');
+      return;
+    }
+
+    try {
+      await axios.post(`${API}/community/events?athlete_id=${athleteId}`, newEventData);
+      setShowCreateEvent(false);
+      setNewEventData({
+        name: '', description: '', visibility: 'open', event_date: '', event_time: '',
+        location: '', profile_image: null, cover_photo: null, group_id: null
+      });
+      loadEvents();
+    } catch (error) {
+      console.error('Error creating event:', error);
+      alert('Failed to create event');
+    }
+  };
+
+  const handleEditEvent = async () => {
+    if (!editEventData.name.trim()) {
+      alert('Event name is required');
+      return;
+    }
+
+    try {
+      await axios.put(`${API}/community/events/${selectedEvent.id}?athlete_id=${athleteId}`, editEventData);
+      setShowEditEvent(false);
+      loadEvents();
+      setSelectedEvent(null);
+    } catch (error) {
+      console.error('Error editing event:', error);
+      alert(error.response?.data?.detail || 'Failed to edit event');
+    }
+  };
+
+  const handleDeleteEvent = async (eventId) => {
+    if (!window.confirm('Are you sure you want to delete this event?')) return;
+
+    try {
+      await axios.delete(`${API}/community/events/${eventId}?athlete_id=${athleteId}`);
+      loadEvents();
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      alert('Failed to delete event');
+    }
+  };
+
+  const handleRSVP = async (eventId, status) => {
+    try {
+      const response = await axios.post(`${API}/community/events/${eventId}/rsvp?athlete_id=${athleteId}`, { status });
+      setEvents(events.map(event =>
+        event.id === eventId
+          ? { ...event, user_status: status === 'not_going' ? null : status, interested_count: response.data.interested_count, going_count: response.data.going_count }
+          : event
+      ));
+    } catch (error) {
+      console.error('Error RSVP:', error);
+      alert('Failed to RSVP');
+    }
+  };
+
+  const handleOpenEditEvent = (event) => {
+    setEditEventData({
+      name: event.name,
+      description: event.description,
+      visibility: event.visibility,
+      event_date: event.event_date,
+      event_time: event.event_time,
+      location: event.location || '',
+      profile_image: event.profile_image,
+      cover_photo: event.cover_photo,
+      group_id: event.group_id
+    });
+    setSelectedEvent(event);
+    setShowEditEvent(true);
+  };
+
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
