@@ -286,45 +286,45 @@ const PaceCalculator = ({ athletePreferences }) => {
           </div>
 
           {/* Current Pace Display */}
-          <div className="mt-6 bg-gradient-to-r from-[#D4F0E9] to-[#b8e6db] rounded-lg p-4">
+          <div className="mt-6 bg-gradient-to-r from-teal-700 to-teal-800 rounded-lg p-4 border border-teal-600">
             <p className="text-center text-lg">
-              <span className="text-gray-600">Your pace:</span>{' '}
-              <span className="font-bold text-2xl text-gray-800">
+              <span className="text-gray-300">Your pace:</span>{' '}
+              <span className="font-bold text-2xl text-white">
                 {minutes}:{seconds.toString().padStart(2, '0')}
               </span>
-              <span className="text-gray-600"> per {unit === 'km' ? 'km' : 'mile'}</span>
+              <span className="text-gray-300"> per {unit === 'km' ? 'km' : 'mile'}</span>
             </p>
           </div>
         </CardContent>
       </Card>
 
       {/* Results Table */}
-      <Card className="border-0 shadow-lg">
+      <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
         <CardHeader>
-          <CardTitle className="text-xl font-display">Finish Times</CardTitle>
-          <CardDescription>Estimated finish times for various distances</CardDescription>
+          <CardTitle className="text-xl font-display text-white">Finish Times</CardTitle>
+          <CardDescription className="text-gray-300">Estimated finish times for various distances</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b-2 border-gray-200">
-                  <th className="text-left py-3 px-4 font-semibold text-gray-700">Distance</th>
-                  <th className="text-right py-3 px-4 font-semibold text-gray-700">Time</th>
+                <tr className="border-b-2 border-gray-600">
+                  <th className="text-left py-3 px-4 font-semibold text-white">Distance</th>
+                  <th className="text-right py-3 px-4 font-semibold text-white">Time</th>
                 </tr>
               </thead>
               <tbody>
                 {distances.map((distance, index) => (
                   <tr 
                     key={index}
-                    className={`border-b border-gray-100 hover:bg-gradient-to-r hover:from-[#D4F0E9]/30 hover:to-transparent transition-colors ${
+                    className={`border-b border-gray-600 hover:bg-gray-600 transition-colors ${
                       ['100m', '200m', '400m', '800m', '1 mile', 'Half Marathon', 'Marathon', '50 miles', '100 miles'].includes(distance.label)
-                        ? 'bg-gradient-to-r from-blue-50/50 to-transparent font-medium'
+                        ? 'bg-gray-600/50 font-medium'
                         : ''
                     }`}
                   >
-                    <td className="py-3 px-4 text-gray-800">{distance.label}</td>
-                    <td className="py-3 px-4 text-right font-mono text-lg text-gray-900">
+                    <td className="py-3 px-4 text-gray-200">{distance.label}</td>
+                    <td className="py-3 px-4 text-right font-mono text-lg text-white">
                       {calculateTime(distance.value)}
                     </td>
                   </tr>
