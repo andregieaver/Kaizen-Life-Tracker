@@ -7865,6 +7865,8 @@ async def edit_group(group_id: str, group_data: dict, athlete_id: str = Query(..
         
         updated_group = await db.community_groups.find_one({"id": group_id}, {"_id": 0})
         return {"success": True, "group": updated_group}
+    except HTTPException:
+        raise
     except Exception as e:
         logging.error(f"Error editing group: {e}")
         raise HTTPException(status_code=500, detail=str(e))
