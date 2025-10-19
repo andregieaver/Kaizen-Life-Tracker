@@ -1071,6 +1071,10 @@ const Dashboard = ({ athleteId }) => {
           <Memories athleteId={athleteId} />
         )}
 
+        {activeTab === 'community' && (
+          <Community athleteId={athleteId} />
+        )}
+
         {activeTab === 'calendar' && (
           <TrainingCalendar 
             athleteId={athleteId} 
