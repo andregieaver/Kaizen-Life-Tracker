@@ -7629,6 +7629,55 @@ async def get_following(athlete_id: str):
         logging.error(f"Error fetching following: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+@api_router.get("/community/athletes")
+async def get_all_athletes(viewer_athlete_id: str = Query(...), search: str = Query(None), limit: int = Query(50)):
+    """Get all athletes with optional search"""
+    try:
+        # Build query
+        query = {}
+        if search:
+            # Search by name (case-insensitive)
+            query["name"] = {"$regex": search, "$options": "i"}
+        
+        # Get athletes
+        athletes = await db.athlete_profiles.find(
+            query,
+            {"_id": 0, "id": 1, "name": 1, "profile_picture": 1, "bio": 1}
+        ).limit(limit).to_list(length=None)
+        
+        # For each athlete, check if viewer is following them and get their stats
+        result = []
+        for athlete in athletes:
+            if athlete["id"] == viewer_athlete_id:
+                continue  # Skip self
+            
+            # Check if following
+            is_following = await db.community_follows.find_one({
+                "follower_id": viewer_athlete_id,
+                "following_id": athlete["id"]
+            }) is not None
+            
+            # Get stats
+            posts_count = await db.community_posts.count_documents({"athlete_id": athlete["id"]})
+            followers_count = await db.community_follows.count_documents({"following_id": athlete["id"]})
+            
+            result.append({
+                "id": athlete["id"],
+                "name": athlete.get("name", "Unknown"),
+                "profile_picture": athlete.get("profile_picture"),
+                "bio": athlete.get("bio", ""),
+                "posts_count": posts_count,
+                "followers_count": followers_count,
+                "is_following": is_following
+            })
+        
+        return {"athletes": result}
+    except Exception as e:
+        logging.error(f"Error fetching athletes: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # ==========================================
 # GROUPS ENDPOINTS
 # ==========================================
