@@ -1372,7 +1372,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading }) => (
 const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage, newPostImagePreview,
   editingPost, editContent, showComments, commentText, setNewPostContent, setNewPostImage, 
   setNewPostImagePreview, setEditingPost, setEditContent, setCommentText,
-  handleCreateGroupPost, handleImageSelect, onBack, onLeave, loadAthleteProfile }) => (
+  handleCreateGroupPost, handleImageSelect, onBack, onLeave, onEditGroup, loadAthleteProfile }) => (
   <div className="space-y-6">
     {/* Group Header */}
     <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
@@ -1388,7 +1388,16 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
           <img src={group.cover_photo} alt={group.name} className="w-full h-48 object-cover rounded-lg mb-4" />
         )}
         
-        <div className="flex items-start justify-between">
+        <div className="flex items-start space-x-4">
+          {/* Group Profile Image */}
+          {group.profile_image ? (
+            <img src={group.profile_image} alt={group.name} className="w-24 h-24 rounded-full object-cover flex-shrink-0" />
+          ) : (
+            <div className="w-24 h-24 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <UsersIcon className="w-12 h-12 text-gray-400" />
+            </div>
+          )}
+
           <div className="flex-1">
             <div className="flex items-center space-x-2 mb-2">
               <h2 className="text-3xl font-bold text-white">{group.name}</h2>
@@ -1411,14 +1420,25 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             </div>
           </div>
           
-          {group.is_member && group.member_role !== 'admin' && (
-            <Button
-              onClick={() => onLeave(group.id)}
-              className="bg-red-500 hover:bg-red-600 text-white"
-            >
-              Leave Group
-            </Button>
-          )}
+          <div className="flex flex-col space-y-2">
+            {group.member_role === 'admin' && (
+              <Button
+                onClick={onEditGroup}
+                className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+              >
+                <Edit2 className="w-4 h-4 mr-2" />
+                Edit Group
+              </Button>
+            )}
+            {group.is_member && group.member_role !== 'admin' && (
+              <Button
+                onClick={() => onLeave(group.id)}
+                className="bg-red-500 hover:bg-red-600 text-white"
+              >
+                Leave Group
+              </Button>
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>
