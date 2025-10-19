@@ -24,14 +24,15 @@ export const extractMentions = (text) => {
 
 /**
  * Format text for display - replace mentions with highlighted version
- * @[user_id:username] -> <span class="mention">@username</span>
+ * @[user_id:username] -> @username (styled)
  */
 export const formatMentions = (text) => {
   if (!text) return '';
   
+  // Replace mention format with just @username
   return text.replace(
     /@\[([^:]+):([^\]]+)\]/g,
-    '<span class="text-[#00C2A8] font-semibold cursor-pointer hover:underline" data-user-id="$1">@$2</span>'
+    '@$2'
   );
 };
 
