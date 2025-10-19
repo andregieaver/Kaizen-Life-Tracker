@@ -406,11 +406,11 @@ const HabitTracker = ({ athleteId }) => {
       {/* Add/Edit Habit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
-          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto">
+          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>{editingHabit ? 'Edit Habit' : 'Add New Habit'}</CardTitle>
-                <button onClick={closeModal} className="p-2 hover:bg-gray-100 rounded-lg">
+                <CardTitle className="text-white">{editingHabit ? 'Edit Habit' : 'Add New Habit'}</CardTitle>
+                <button onClick={closeModal} className="p-2 hover:bg-gray-700 rounded-lg text-white">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -418,19 +418,19 @@ const HabitTracker = ({ athleteId }) => {
             <CardContent className="space-y-4">
               {/* Title */}
               <div>
-                <Label htmlFor="title">Habit Name *</Label>
+                <Label htmlFor="title" className="text-white">Habit Name *</Label>
                 <Input
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g., Drink Water, Morning Run"
-                  className="mt-1"
+                  className="mt-1 bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
                 />
               </div>
 
               {/* Days of Week */}
               <div>
-                <Label>Active Days *</Label>
+                <Label className="text-white">Active Days *</Label>
                 <div className="grid grid-cols-7 gap-2 mt-2">
                   {DAYS_OF_WEEK.map(day => (
                     <button
@@ -439,8 +439,8 @@ const HabitTracker = ({ athleteId }) => {
                       onClick={() => toggleDay(day.value)}
                       className={`p-2 rounded-lg text-sm font-medium transition-colors ${
                         selectedDays.includes(day.value)
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                          ? 'bg-teal-600 text-white'
+                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                       }`}
                     >
                       {day.label}
@@ -451,7 +451,7 @@ const HabitTracker = ({ athleteId }) => {
 
               {/* Times Per Day */}
               <div>
-                <Label htmlFor="times">Times Per Day *</Label>
+                <Label htmlFor="times" className="text-white">Times Per Day *</Label>
                 <Input
                   id="times"
                   type="number"
@@ -459,7 +459,7 @@ const HabitTracker = ({ athleteId }) => {
                   max="20"
                   value={timesPerDay}
                   onChange={(e) => setTimesPerDay(parseInt(e.target.value) || 1)}
-                  className="mt-1"
+                  className="mt-1 bg-gray-700 border-gray-600 text-white"
                 />
               </div>
 
@@ -468,14 +468,14 @@ const HabitTracker = ({ athleteId }) => {
                 <Button
                   onClick={closeModal}
                   variant="outline"
-                  className="flex-1"
+                  className="flex-1 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                   disabled={isLoading}
                 >
                   Cancel
                 </Button>
                 <Button
                   onClick={handleSubmit}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700"
+                  className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
                   disabled={isLoading || !title.trim() || selectedDays.length === 0}
                 >
                   {isLoading ? 'Saving...' : (editingHabit ? 'Update' : 'Create')}
