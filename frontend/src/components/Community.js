@@ -191,8 +191,23 @@ const Community = ({ athleteId }) => {
       setPosts(response.data.posts);
       setPostsLoaded(true);
       setIsLoading(false);
+      
+      // Also load open events to show in main feed
+      const eventsResponse = await axios.get(`${API}/community/events?athlete_id=${athleteId}`);
+      const openEvents = eventsResponse.data.events.filter(e => e.visibility === 'open');
+      addDebugLog('Open Events for Feed', openEvents.length);
+      setEvents(eventsResponse.data.events); // Store all events for Events tab
+      
+      // Create a combined feed with posts and open events
+      const combinedFeed = [
+        ...response.data.posts.map(p => ({ ...p, type: 'post' })),
+        ...openEvents.map(e => ({ ...e, type: 'event' }))
+      ].sort((a, b) => new Date(b.created_at || b.event_date) - new Date(a.created_at || a.event_date));
+      
+      setPosts(combinedFeed);
     } catch (error) {
       console.error('Error loading posts:', error);
+      addDebugLog('Error loading posts', error.message);
       setIsLoading(false);
     }
   };
