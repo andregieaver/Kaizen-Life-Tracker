@@ -1242,7 +1242,7 @@ const Community = ({ athleteId }) => {
                               </div>
                               <div className="flex-1 bg-gray-600 rounded-lg p-3">
                                 <p className="text-white font-semibold text-sm">{comment.athlete_name}</p>
-                                <p className="text-gray-300 text-sm mt-1">{comment.content}</p>
+                                <p className="text-gray-300 text-sm mt-1">{formatMentions(comment.content)}</p>
                                 <p className="text-gray-400 text-xs mt-1">
                                   {new Date(comment.created_at).toLocaleString()}
                                 </p>
