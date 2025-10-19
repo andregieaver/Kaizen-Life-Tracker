@@ -712,19 +712,9 @@ const Community = ({ athleteId }) => {
     try {
       // Load event details WITH images for modal display
       const response = await axios.get(`${API}/community/events/${eventId}?athlete_id=${athleteId}`);
-      addDebugLog('Event Detail Response', {
-        name: response.data.name,
-        has_cover_photo: !!response.data.cover_photo,
-        has_profile_image: !!response.data.profile_image,
-        interested_count: response.data.interested_count,
-        going_count: response.data.going_count,
-        interested_users_length: response.data.interested_users?.length || 0,
-        going_users_length: response.data.going_users?.length || 0
-      });
       setEventDetailData(response.data);
     } catch (error) {
       console.error('Error loading event details:', error);
-      addDebugLog('Event Detail Error', error.message);
       alert('Failed to load event details');
       setShowEventDetail(false);
     } finally {
