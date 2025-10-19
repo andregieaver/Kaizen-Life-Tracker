@@ -625,9 +625,73 @@ const Community = ({ athleteId }) => {
   const markNotificationRead = async (notificationId) => {
     try {
       await axios.put(`${API}/community/notifications/${notificationId}/read`);
-      loadNotifications();
+      setNotifications(notifications.map(n =>
+        n.id === notificationId ? { ...n, read: true } : n
+      ));
+      setUnreadCount(Math.max(0, unreadCount - 1));
     } catch (error) {
       console.error('Error marking notification as read:', error);
+    }
+  };
+
+  const handleNotificationClick = async (notification) => {
+    // Mark as read
+    await markNotificationRead(notification.id);
+    
+    // Close notifications dropdown
+    setShowNotifications(false);
+    
+    // Handle different notification types
+    if (notification.type === 'mention' && notification.post_id) {
+      // Navigate to feed tab
+      setActiveTab('feed');
+      
+      // Load the specific post
+      try {
+        const response = await axios.get(`${API}/community/posts/${notification.post_id}?athlete_id=${athleteId}`);
+        const post = response.data;
+        
+        // Load comments for the post
+        const commentsResponse = await axios.get(`${API}/community/posts/${notification.post_id}/comments`);
+        post.comments = commentsResponse.data.comments;
+        
+        // Check if the mention is in a comment (check if notification has message about comment)
+        const isCommentMention = notification.message?.includes('comment');
+        
+        if (isCommentMention) {
+          // Open comments modal directly
+          setSelectedPostForComments(post);
+          setShowCommentsModal(true);
+        } else {
+          // Just ensure the post is visible in feed
+          // If post not in current feed, add it temporarily at the top
+          const postExists = posts.find(p => p.id === notification.post_id);
+          if (!postExists) {
+            setPosts([{ ...post, type: 'post' }, ...posts]);
+          }
+        }
+      } catch (error) {
+        console.error('Error loading post from notification:', error);
+        alert('Could not load the post');
+      }
+    } else if (notification.post_id) {
+      // For other notifications with post_id (comments, likes)
+      setActiveTab('feed');
+      
+      try {
+        const response = await axios.get(`${API}/community/posts/${notification.post_id}?athlete_id=${athleteId}`);
+        const post = response.data;
+        const commentsResponse = await axios.get(`${API}/community/posts/${notification.post_id}/comments`);
+        post.comments = commentsResponse.data.comments;
+        
+        // Ensure post is visible
+        const postExists = posts.find(p => p.id === notification.post_id);
+        if (!postExists) {
+          setPosts([{ ...post, type: 'post' }, ...posts]);
+        }
+      } catch (error) {
+        console.error('Error loading post:', error);
+      }
     }
   };
 
