@@ -7697,6 +7697,7 @@ async def create_group(group_data: dict, athlete_id: str = Query(...)):
             "privacy": group_data.get("privacy", "public"),
             "profile_image": group_data.get("profile_image"),
             "cover_photo": group_data.get("cover_photo"),
+            "rules": group_data.get("rules"),
             "admin_id": athlete_id,
             "members_count": 1,
             "created_at": datetime.now(timezone.utc).isoformat(),
@@ -7712,6 +7713,7 @@ async def create_group(group_data: dict, athlete_id: str = Query(...)):
             "athlete_id": athlete_id,
             "role": "admin",
             "status": "approved",
+            "rules_accepted": True,  # Admin auto-accepts rules
             "joined_at": datetime.now(timezone.utc).isoformat()
         }
         await db.community_group_memberships.insert_one(prepare_for_mongo(membership.copy()))
