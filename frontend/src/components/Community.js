@@ -558,6 +558,7 @@ const Community = ({ athleteId }) => {
     try {
       const response = await axios.get(`${API}/community/events?athlete_id=${athleteId}`);
       setEvents(response.data.events);
+      setEventsLoaded(true);
       setIsLoading(false);
     } catch (error) {
       console.error('Error loading events:', error);
