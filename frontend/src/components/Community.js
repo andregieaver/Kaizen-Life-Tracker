@@ -84,6 +84,9 @@ const Community = ({ athleteId }) => {
   const [events, setEvents] = useState([]);
   const [eventsLoaded, setEventsLoaded] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [showEventDetail, setShowEventDetail] = useState(false);
+  const [eventDetailData, setEventDetailData] = useState(null);
+  const [eventDetailLoading, setEventDetailLoading] = useState(false);
   const [showCreateEvent, setShowCreateEvent] = useState(false);
   const [showEditEvent, setShowEditEvent] = useState(false);
   const [newEventData, setNewEventData] = useState({
