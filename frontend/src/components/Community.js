@@ -1106,7 +1106,7 @@ const Community = ({ athleteId }) => {
                     }`}
                     onClick={() => handleNotificationClick(notification)}
                   >
-                    <p className="text-white text-sm">{notification.content}</p>
+                    <p className="text-white text-sm">{notification.message || notification.content}</p>
                     <p className="text-gray-400 text-xs mt-1">
                       {new Date(notification.created_at).toLocaleString()}
                     </p>
