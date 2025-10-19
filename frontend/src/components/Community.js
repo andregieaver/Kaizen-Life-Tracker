@@ -725,6 +725,7 @@ const Community = ({ athleteId }) => {
           handleImageSelect={handleImageSelect}
           onBack={() => setSelectedGroup(null)}
           onLeave={handleLeaveGroup}
+          onEditGroup={handleOpenEditGroup}
           loadAthleteProfile={loadAthleteProfile}
         />
       )}
