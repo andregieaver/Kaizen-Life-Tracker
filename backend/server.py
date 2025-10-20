@@ -3092,6 +3092,20 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
                             }
                         )
                         logging.info(f"Referral {request.referral_code} marked as converted for user {request.athlete_id}")
+                        
+                        # Create reward for referrer (20% discount on their renewal)
+                        referrer_id = referral_doc.get("referrer_id")
+                        if referrer_id:
+                            reward = {
+                                "athlete_id": referrer_id,
+                                "referral_code": request.referral_code,
+                                "discount_percentage": 20,
+                                "status": "pending",  # Will be applied on next renewal
+                                "created_at": datetime.now(timezone.utc).isoformat(),
+                                "expires_at": (datetime.now(timezone.utc) + timedelta(days=365)).isoformat()
+                            }
+                            await db.referral_rewards.insert_one(reward)
+                            logging.info(f"Created reward for referrer {referrer_id}: 20% discount")
                     except Exception as e:
                         logging.error(f"Failed to mark referral as converted: {e}")
                 except Exception as e:
