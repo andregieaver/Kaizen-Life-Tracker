@@ -1290,7 +1290,7 @@ const Account = ({ athleteId }) => {
 
         {/* Personal Information Tab */}
         <TabsContent value="personal">
-          <Card className="border-0 shadow-lg">
+          <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <User className="w-5 h-5 mr-2 text-blue-600" />
@@ -1749,7 +1749,7 @@ const Account = ({ athleteId }) => {
 
         {/* Preferences Tab */}
         <TabsContent value="preferences">
-          <Card className="border-0 shadow-lg">
+          <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Settings className="w-5 h-5 mr-2 text-blue-600" />
@@ -2078,7 +2078,7 @@ const Account = ({ athleteId }) => {
         <TabsContent value="subscriptions">
           <div className="space-y-6">
             {/* Current Plan */}
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
@@ -2228,7 +2228,7 @@ const Account = ({ athleteId }) => {
             </Card>
 
             {/* Available Plans */}
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
                 <CardTitle>Available Plans</CardTitle>
                 <CardDescription>
@@ -2426,7 +2426,7 @@ const Account = ({ athleteId }) => {
             </Card>
 
             {/* Billing Management */}
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <CreditCard className="w-5 h-5 mr-2 text-blue-600" />
@@ -2799,7 +2799,7 @@ const Account = ({ athleteId }) => {
         <TabsContent value="integrations">
           <div className="space-y-6">
             {/* OpenAI API Key */}
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Key className="w-5 h-5 mr-2 text-orange-600" />
@@ -2877,7 +2877,7 @@ const Account = ({ athleteId }) => {
             </Card>
 
             {/* Third-Party Integrations */}
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Zap className="w-5 h-5 mr-2 text-blue-600" />
@@ -3000,7 +3000,7 @@ const Account = ({ athleteId }) => {
             </Card>
 
             {/* Oura Integration */}
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Heart className="w-5 h-5 mr-2 text-purple-600" />
@@ -3072,7 +3072,7 @@ const Account = ({ athleteId }) => {
             </Card>
 
             {/* COROS Integration */}
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Activity className="w-5 h-5 mr-2 text-blue-600" />
