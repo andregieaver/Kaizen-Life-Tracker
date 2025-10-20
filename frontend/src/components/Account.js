@@ -257,6 +257,7 @@ const Account = ({ athleteId }) => {
   useEffect(() => {
     loadAccountData();
     loadSubscriptionStatus();
+    loadPlanSettings();
     
     // Check if returning from Stripe checkout
     const urlParams = new URLSearchParams(window.location.search);
