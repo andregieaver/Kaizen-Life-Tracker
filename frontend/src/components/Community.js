@@ -3197,13 +3197,18 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
           
           <div>
             <label className="text-white text-sm font-semibold mb-2 block">Description</label>
-            <textarea
-              value={eventData.description}
-              onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
-              placeholder="Describe the event"
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
-              rows="3"
-            />
+            <div className="relative">
+              <textarea
+                value={eventData.description}
+                onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
+                placeholder="Describe the event"
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+                rows="3"
+              />
+              <div className="absolute bottom-2 right-2">
+                <EmojiPickerButton onEmojiSelect={onEmojiSelect} />
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
