@@ -7344,7 +7344,12 @@ async def upload_images(
     files: List[UploadFile] = File(...),
     max_files: int = Query(5, description="Maximum number of files allowed")
 ):
-    """Upload multiple images and return their URLs"""
+    """
+    Upload multiple images with processing:
+    - Resize to max 1024x1024px (maintains aspect ratio)
+    - Convert to WebP format
+    - Compress with minimal quality loss
+    """
     try:
         if len(files) > max_files:
             raise HTTPException(status_code=400, detail=f"Maximum {max_files} images allowed")
@@ -7356,21 +7361,24 @@ async def upload_images(
             if not file.content_type.startswith('image/'):
                 raise HTTPException(status_code=400, detail=f"File {file.filename} is not an image")
             
-            # Generate unique filename
-            file_extension = Path(file.filename).suffix
-            unique_filename = f"{uuid.uuid4()}{file_extension}"
-            file_path = UPLOAD_DIR / unique_filename
+            # Read file bytes
+            file_bytes = await file.read()
             
-            # Save file
-            with open(file_path, "wb") as buffer:
-                shutil.copyfileobj(file.file, buffer)
+            # Process and save image using image_processor
+            # This will resize, convert to WebP, and compress
+            processed_filename = process_and_save_image(
+                file_data=file_bytes,
+                upload_dir=UPLOAD_DIR,
+                max_dimension=1024,
+                quality=85
+            )
             
             # Generate URL (will be served by FastAPI static files)
             backend_url = os.environ.get('REACT_APP_BACKEND_URL', 'http://localhost:8001')
-            image_url = f"{backend_url}/uploads/images/{unique_filename}"
+            image_url = f"{backend_url}/uploads/images/{processed_filename}"
             uploaded_urls.append(image_url)
             
-            logging.info(f"Uploaded image: {unique_filename}")
+            logging.info(f"Processed and uploaded image: {processed_filename}")
         
         return {"urls": uploaded_urls}
     
