@@ -7,6 +7,7 @@ import { compressPostImage, compressThumbnail, compressBannerImage } from '../ut
 import { findMentionTrigger, insertMention, formatMentions } from '../utils/mentionUtils';
 import EmojiPickerButton from './EmojiPickerButton';
 import ConfirmationModal from './ConfirmationModal';
+import ImageCarousel from './ImageCarousel';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
