@@ -2480,7 +2480,7 @@ const Account = ({ athleteId }) => {
                         {invoices.map((invoice) => (
                           <div 
                             key={invoice.id} 
-                            className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                            className="flex items-center justify-between p-3 bg-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
                           >
                             <div className="flex-1">
                               <div className="flex items-center space-x-2">
@@ -3138,7 +3138,7 @@ const Account = ({ athleteId }) => {
                         {t('account.connectToCoros')}
                       </Button>
                     </div>
-                    <div className="p-3 bg-gray-50 rounded border border-gray-200">
+                    <div className="p-3 bg-gray-700 rounded border border-gray-200">
                       <p className="text-xs text-gray-600 mb-2">
                         <strong>{t('common.note')}:</strong> {t('account.corosTerraNote')}
                       </p>
