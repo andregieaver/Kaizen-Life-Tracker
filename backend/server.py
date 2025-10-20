@@ -3057,11 +3057,11 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
     cancel_url = f"{origin_url}/pricing?canceled=true"
     
     try:
-        # Check for referral discount
+        # Check for referral discount (new subscriber)
         referral_discount = None
         discounts_list = []
         
-        # Check if referral code was provided in request
+        # Check if referral code was provided in request (new user signup)
         if request.referral_code:
             # Verify the referral code exists and is valid
             referral_doc = await db.referrals.find_one({
