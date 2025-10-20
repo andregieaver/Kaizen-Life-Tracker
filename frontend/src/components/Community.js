@@ -2475,6 +2475,20 @@ const Community = ({ athleteId }) => {
                       </span>
                     )}
                   </div>
+                  
+                  {/* Debug Info */}
+                  <div className="mb-2 p-2 bg-yellow-900/50 rounded text-xs text-yellow-200">
+                    <div>📷 Selected Files: {selectedImages.length}</div>
+                    <div>🔗 Uploaded URLs: {uploadedImageUrls.length}</div>
+                    {uploadedImageUrls.length > 0 && (
+                      <div className="mt-1 max-h-20 overflow-y-auto">
+                        {uploadedImageUrls.map((url, i) => (
+                          <div key={i} className="truncate">• {url}</div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {selectedImages.map((file, index) => (
                       <div key={index} className="relative aspect-square">
