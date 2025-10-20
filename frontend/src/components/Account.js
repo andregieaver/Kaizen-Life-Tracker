@@ -1557,7 +1557,7 @@ const Account = ({ athleteId }) => {
                             }}
                             className="rounded border-gray-700 text-blue-600 focus:ring-blue-500"
                           />
-                          <span className="text-sm text-gray-700">{interest}</span>
+                          <span className="text-sm text-gray-300">{interest}</span>
                         </label>
                       ))}
                     </div>
@@ -1637,7 +1637,7 @@ const Account = ({ athleteId }) => {
                             }}
                             className="mt-0.5 rounded border-gray-700 text-blue-600 focus:ring-blue-500"
                           />
-                          <span className="text-sm text-gray-700">{goal.label}</span>
+                          <span className="text-sm text-gray-300">{goal.label}</span>
                         </label>
                       ))}
                     </div>
@@ -1682,7 +1682,7 @@ const Account = ({ athleteId }) => {
                             }}
                             className="mt-0.5 rounded border-gray-700 text-blue-600 focus:ring-blue-500"
                           />
-                          <span className="text-sm text-gray-700">{allergy.label}</span>
+                          <span className="text-sm text-gray-300">{allergy.label}</span>
                         </label>
                       ))}
                     </div>
@@ -1716,7 +1716,7 @@ const Account = ({ athleteId }) => {
                             }}
                             className="mt-0.5 rounded border-gray-700 text-blue-600 focus:ring-blue-500"
                           />
-                          <span className="text-sm text-gray-700">{diet.label}</span>
+                          <span className="text-sm text-gray-300">{diet.label}</span>
                         </label>
                       ))}
                     </div>
@@ -2117,7 +2117,7 @@ const Account = ({ athleteId }) => {
                             Canceling
                           </Badge>
                         </div>
-                        <p className="text-gray-700 font-medium mb-2">
+                        <p className="text-gray-300 font-medium mb-2">
                           ⚠️ Your subscription will end on{' '}
                           {subscriptionStatus.current_period_end 
                             ? new Date(subscriptionStatus.current_period_end).toLocaleDateString('en-US', {
