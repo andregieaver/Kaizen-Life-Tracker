@@ -38,6 +38,7 @@ const Community = ({ athleteId }) => {
   const [commentText, setCommentText] = useState({});
   const [editingPost, setEditingPost] = useState(null);
   const [editContent, setEditContent] = useState('');
+  const [editVisibility, setEditVisibility] = useState('public');
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [selectedPostForComments, setSelectedPostForComments] = useState(null);
   const [selectedEventForComments, setSelectedEventForComments] = useState(null);
