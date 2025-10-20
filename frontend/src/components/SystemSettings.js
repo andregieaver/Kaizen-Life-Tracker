@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Settings, Upload, Save, ChevronDown, ChevronUp } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
@@ -6,8 +7,12 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
+
 const SystemSettings = ({ athleteId }) => {
   const [activeTab, setActiveTab] = useState('seo');
+  const [loading, setLoading] = useState(true);
   
   // SEO State
   const [seoSettings, setSeoSettings] = useState({
@@ -31,6 +36,43 @@ const SystemSettings = ({ athleteId }) => {
       expanded: true
     }
   });
+
+  // Load settings on mount
+  useEffect(() => {
+    loadSystemSettings();
+  }, [athleteId]);
+
+  const loadSystemSettings = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API}/system/settings?athlete_id=${athleteId}`);
+      
+      // Load module settings
+      if (response.data.modules) {
+        setModuleSettings(response.data.modules);
+      }
+      
+      // Load SEO settings
+      if (response.data.seo) {
+        setSeoSettings({
+          siteTitle: response.data.seo.siteTitle || '',
+          favicon: null,
+          metaTitle: response.data.seo.metaTitle || '',
+          metaDescription: response.data.seo.metaDescription || '',
+          focusKeyword: response.data.seo.focusKeyword || ''
+        });
+        
+        if (response.data.seo.faviconUrl) {
+          setFaviconPreview(response.data.seo.faviconUrl);
+        }
+      }
+      
+      setLoading(false);
+    } catch (error) {
+      console.error('Error loading system settings:', error);
+      setLoading(false);
+    }
+  };
 
   const handleTabChange = (value) => {
     setActiveTab(value);
