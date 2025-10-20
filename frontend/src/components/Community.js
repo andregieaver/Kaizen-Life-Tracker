@@ -3505,17 +3505,17 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
               <div className="flex-1">
                 <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">{eventData.name}</h2>
                 <div className="space-y-1">
-                  <div className="flex items-center text-gray-300 text-sm">
-                    <Clock className="w-4 h-4 mr-2" />
-                    {new Date(eventData.event_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {eventData.event_time}
+                  <div className="flex items-center text-gray-300 text-xs sm:text-sm">
+                    <Clock className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                    <span className="break-words">{new Date(eventData.event_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {eventData.event_time}</span>
                   </div>
                   {eventData.location && (
-                    <div className="flex items-center text-gray-300 text-sm">
-                      <MapPin className="w-4 h-4 mr-2" />
-                      {eventData.location}
+                    <div className="flex items-center text-gray-300 text-xs sm:text-sm">
+                      <MapPin className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                      <span className="break-words">{eventData.location}</span>
                     </div>
                   )}
-                  <div className="flex items-center space-x-4 text-sm mt-2">
+                  <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm mt-2">
                     <span className="text-[#00C2A8] font-semibold">{eventData.going_count || 0} Going</span>
                     <span className="text-yellow-400 font-semibold">{eventData.interested_count || 0} Interested</span>
                   </div>
@@ -3525,16 +3525,16 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
 
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-600 rounded-full transition-colors ml-4"
+              className="p-2 hover:bg-gray-600 rounded-full transition-colors ml-2 sm:ml-4"
             >
-              <X className="w-6 h-6 text-white" />
+              <X className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </button>
           </div>
 
           {/* Description */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-white mb-2">About This Event</h3>
-            <p className="text-gray-300 whitespace-pre-wrap">{eventData.description}</p>
+          <div className="mb-4 sm:mb-6">
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-2">About This Event</h3>
+            <p className="text-gray-300 text-sm sm:text-base whitespace-pre-wrap">{eventData.description}</p>
           </div>
 
           {/* Participants Going */}
