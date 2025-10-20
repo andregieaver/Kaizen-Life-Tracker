@@ -52,7 +52,7 @@ const Referrals = ({ athleteId }) => {
     }
   };
 
-  const shareOnTwitter = () => {
+  const shareOnX = () => {
     const text = encodeURIComponent(
       `Join me on TrainSmart and get 20% off your first month! ${stats.referralLink}`
     );
