@@ -638,7 +638,8 @@ const Community = ({ athleteId }) => {
     } catch (error) {
       console.error('Error adding comment:', error);
       alert('Failed to add comment');
-
+    }
+  };
 
   // Delete comment handlers
   const handleDeletePostComment = (postId, commentId) => {
