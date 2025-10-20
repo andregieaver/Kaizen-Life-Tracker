@@ -2426,7 +2426,7 @@ const Community = ({ athleteId }) => {
                 className="w-full bg-gray-700 text-white rounded-lg px-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[120px] resize-vertical"
               />
 
-              {/* Image Preview */}
+              {/* Image Preview - Old single image (kept for backward compatibility) */}
               {writePostImagePreview && (
                 <div className="relative">
                   <img
@@ -2443,6 +2443,37 @@ const Community = ({ athleteId }) => {
                   >
                     <X className="w-5 h-5 text-white" />
                   </button>
+                </div>
+              )}
+
+              {/* Multiple Images Preview */}
+              {selectedImages.length > 0 && (
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-white text-sm font-semibold">
+                      Selected Images ({selectedImages.length}/5)
+                    </span>
+                    {isUploadingImages && (
+                      <span className="text-[#00C2A8] text-sm">Uploading...</span>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-3 gap-2">
+                    {selectedImages.map((file, index) => (
+                      <div key={index} className="relative aspect-square">
+                        <img
+                          src={URL.createObjectURL(file)}
+                          alt={`Preview ${index + 1}`}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                        <button
+                          onClick={() => handleRemoveImage(index)}
+                          className="absolute top-1 right-1 p-1 bg-black/70 hover:bg-black/90 rounded-full transition-colors"
+                        >
+                          <X className="w-4 h-4 text-white" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
 
