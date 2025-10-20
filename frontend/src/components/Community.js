@@ -1885,6 +1885,7 @@ const Community = ({ athleteId }) => {
                             onClick={() => {
                               setEditingPost(post.id);
                               setEditContent(post.content);
+                              setEditVisibility(post.visibility || 'public');
                             }}
                             className="p-2 hover:bg-gray-600 rounded-full transition-colors"
                           >
