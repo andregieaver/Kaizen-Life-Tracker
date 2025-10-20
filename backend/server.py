@@ -2854,7 +2854,15 @@ async def get_athlete_profile(athlete_id: str):
     athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
     if not athlete:
         raise HTTPException(status_code=404, detail="Athlete not found")
-    return parse_from_mongo(athlete)
+    
+    # Debug logging
+    logging.info(f"[DEBUG] Loading athlete {athlete_id}")
+    logging.info(f"[DEBUG] is_super_admin from DB: {athlete.get('is_super_admin')}")
+    
+    parsed = parse_from_mongo(athlete)
+    logging.info(f"[DEBUG] is_super_admin after parse: {parsed.get('is_super_admin')}")
+    
+    return parsed
 
 @api_router.put("/athlete/{athlete_id}", response_model=AthleteProfile)
 async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
