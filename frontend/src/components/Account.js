@@ -2063,7 +2063,7 @@ const Account = ({ athleteId }) => {
                 {saveStatus.type && (
                   <div className={`p-3 rounded-lg text-sm ${
                     saveStatus.type === 'success' 
-                      ? 'bg-green-50 text-green-800 border border-green-200' 
+                      ? 'bg-green-900/30 text-green-400 border border-green-700' 
                       : 'bg-red-50 text-red-800 border border-red-200'
                   }`}>
                     {saveStatus.message}
