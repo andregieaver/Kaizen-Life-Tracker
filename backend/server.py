@@ -8701,7 +8701,8 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...), exclude
                 "$project": {
                     "_id": 0,
                     "athlete_id": 1,
-                    "athlete_name": "$athlete_info.name"
+                    "athlete_name": "$athlete_info.name",
+                    "athlete_profile_picture": "$athlete_info.profile_picture"
                 }
             }
         ]
@@ -8721,7 +8722,8 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...), exclude
                 "$project": {
                     "_id": 0,
                     "athlete_id": 1,
-                    "athlete_name": "$athlete_info.name"
+                    "athlete_name": "$athlete_info.name",
+                    "athlete_profile_picture": "$athlete_info.profile_picture"
                 }
             }
         ]
