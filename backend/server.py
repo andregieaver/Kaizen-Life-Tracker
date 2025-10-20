@@ -7717,6 +7717,76 @@ async def get_event_comments(event_id: str):
         logging.error(f"Error fetching event comments: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+
+@api_router.delete("/community/posts/{post_id}/comment/{comment_id}")
+async def delete_post_comment(post_id: str, comment_id: str, athlete_id: str = Query(...)):
+    """Delete a comment from a post (only by the comment author)"""
+    try:
+        # Check if comment exists and belongs to the athlete
+        comment = await db.community_comments.find_one({"id": comment_id, "post_id": post_id}, {"_id": 0})
+        if not comment:
+            raise HTTPException(status_code=404, detail="Comment not found")
+        
+        if comment.get("athlete_id") != athlete_id:
+            raise HTTPException(status_code=403, detail="You can only delete your own comments")
+        
+        # Delete the comment
+        await db.community_comments.delete_one({"id": comment_id})
+        
+        # Decrement comment count
+        await db.community_posts.update_one(
+            {"id": post_id},
+            {"$inc": {"comments_count": -1}}
+        )
+        
+        # Get updated count
+        post = await db.community_posts.find_one({"id": post_id}, {"_id": 0, "comments_count": 1})
+        
+        return {
+            "message": "Comment deleted successfully",
+            "comments_count": post.get("comments_count", 0) if post else 0
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error deleting post comment: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/community/events/{event_id}/comment/{comment_id}")
+async def delete_event_comment(event_id: str, comment_id: str, athlete_id: str = Query(...)):
+    """Delete a comment from an event (only by the comment author)"""
+    try:
+        # Check if comment exists and belongs to the athlete
+        comment = await db.community_event_comments.find_one({"id": comment_id, "event_id": event_id}, {"_id": 0})
+        if not comment:
+            raise HTTPException(status_code=404, detail="Comment not found")
+        
+        if comment.get("athlete_id") != athlete_id:
+            raise HTTPException(status_code=403, detail="You can only delete your own comments")
+        
+        # Delete the comment
+        await db.community_event_comments.delete_one({"id": comment_id})
+        
+        # Decrement comment count
+        await db.community_events.update_one(
+            {"id": event_id},
+            {"$inc": {"comments_count": -1}}
+        )
+        
+        # Get updated count
+        event = await db.community_events.find_one({"id": event_id}, {"_id": 0, "comments_count": 1})
+        
+        return {
+            "message": "Comment deleted successfully",
+            "comments_count": event.get("comments_count", 0) if event else 0
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error deleting event comment: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.get("/community/notifications/{athlete_id}")
 async def get_notifications(athlete_id: str, unread_only: bool = Query(False)):
     """Get notifications for an athlete"""
