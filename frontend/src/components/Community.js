@@ -2677,15 +2677,15 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             <div className="flex items-center space-x-4 border-t border-gray-600 pt-3 mt-3">
               <div className="flex items-center space-x-2 text-gray-400">
                 <Heart className="w-5 h-5" />
-                <span>{post.likes_count}</span>
+                <span>{post.likes_count || 0}</span>
               </div>
               <div className="flex items-center space-x-2 text-gray-400">
                 <MessageCircle className="w-5 h-5" />
-                <span>{post.comments_count}</span>
+                <span>{post.comments_count || 0}</span>
               </div>
               <div className="flex items-center space-x-2 text-gray-400">
                 <Share2 className="w-5 h-5" />
-                <span>{post.shares_count}</span>
+                <span>{post.shares_count || 0}</span>
               </div>
             </div>
           </CardContent>
