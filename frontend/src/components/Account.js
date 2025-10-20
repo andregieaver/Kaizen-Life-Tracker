@@ -2359,7 +2359,7 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   {/* Premium Plan */}
-                  <div className="border-2 border-purple-200 rounded-lg p-4 hover:border-purple-400 transition-colors">
+                  <div className="border-2 border-purple-700 rounded-lg p-4 hover:border-purple-600 transition-colors bg-purple-900/20">
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <h3 className="text-lg font-bold text-white">Premium</h3>
