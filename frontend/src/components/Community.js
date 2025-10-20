@@ -564,15 +564,20 @@ const Community = ({ athleteId }) => {
         content: content
       });
 
+      console.log('Comment added, backend response:', response.data);
+      console.log('Updated comments_count from backend:', response.data.comments_count);
+
       // Reload comments
       const commentsResponse = await axios.get(`${API}/community/posts/${targetPostId}/comments`);
       
       // Update posts with new comments and count
-      setPosts(posts.map(post =>
-        post.id === targetPostId
-          ? { ...post, comments: commentsResponse.data.comments, comments_count: response.data.comments_count }
-          : post
-      ));
+      setPosts(posts.map(post => {
+        if (post.id === targetPostId) {
+          console.log('Updating post in feed, old count:', post.comments_count, 'new count:', response.data.comments_count);
+          return { ...post, comments: commentsResponse.data.comments, comments_count: response.data.comments_count };
+        }
+        return post;
+      }));
 
       // Update selected post if modal is open
       if (selectedPostForComments && selectedPostForComments.id === targetPostId) {
