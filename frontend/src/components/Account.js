@@ -1845,7 +1845,7 @@ const Account = ({ athleteId }) => {
                           )}
                           <Label className="text-sm font-medium">Push Notifications</Label>
                           {pushSubscribed && (
-                            <Badge className="bg-green-100 text-green-800">Enabled</Badge>
+                            <Badge className="bg-green-900/30 text-green-400">Enabled</Badge>
                           )}
                         </div>
                         <p className="text-xs text-gray-400">
