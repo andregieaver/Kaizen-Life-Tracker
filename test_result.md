@@ -249,7 +249,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Comment Deletion Feature (Posts and Events)"
+    - "User Feed API Endpoint (Facebook Wall)"
+    - "Profile Modal UI Enhancement - X Icon Close Button"
+    - "User Feed Feature (Facebook Wall)"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
