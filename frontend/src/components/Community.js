@@ -1845,8 +1845,8 @@ const Community = ({ athleteId }) => {
           loading={profileLoading}
           athleteId={athleteId}
           loadAthleteProfile={loadAthleteProfile}
-          handleLike={handleLike}
-          handleShare={handleShare}
+          handleLike={handleToggleLike}
+          handleShare={handleSharePost}
         />
       )}
 
