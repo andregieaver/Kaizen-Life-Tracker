@@ -3580,7 +3580,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId }) => {
 };
 
 // CommentsModal Component
-const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentText, commentRef, athleteId, formatMentions, loadAthleteProfile }) => {
+const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentText, commentRef, athleteId, formatMentions, loadAthleteProfile, onEmojiSelect }) => {
   if (!post) return null;
 
   return (
