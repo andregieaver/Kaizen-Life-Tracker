@@ -284,12 +284,15 @@ const SystemSettings = ({ athleteId }) => {
 
         {/* System Settings Tabs */}
         <Tabs value={activeTab} onValueChange={handleTabChange}>
-          <TabsList className="grid w-full grid-cols-3 mb-8 bg-gray-800 border border-gray-700">
+          <TabsList className="grid w-full grid-cols-4 mb-8 bg-gray-800 border border-gray-700">
             <TabsTrigger value="seo" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
               <span>SEO</span>
             </TabsTrigger>
             <TabsTrigger value="modules" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
               <span>Modules</span>
+            </TabsTrigger>
+            <TabsTrigger value="plans" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
+              <span>Plan Editor</span>
             </TabsTrigger>
             <TabsTrigger value="statistics" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
               <span>Statistics</span>
