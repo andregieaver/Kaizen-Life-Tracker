@@ -12,10 +12,11 @@ load_dotenv()
 async def fix_comment_counts():
     # Connect to MongoDB
     mongo_url = os.environ.get('MONGO_URL')
+    db_name = os.environ.get('DB_NAME')
     client = AsyncIOMotorClient(mongo_url)
-    db = client.trainsmart
+    db = client[db_name]
     
-    print("Starting comment count fix...")
+    print(f"Starting comment count fix for database: {db_name}...")
     
     # Get all posts
     posts = await db.community_posts.find({}, {"_id": 0, "id": 1}).to_list(length=None)
