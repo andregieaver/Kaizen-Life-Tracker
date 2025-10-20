@@ -1024,6 +1024,16 @@ const Community = ({ athleteId }) => {
     try {
       // Load event details WITH images for modal display
       const response = await axios.get(`${API}/community/events/${eventId}?athlete_id=${athleteId}`);
+      
+      // Load comments for the event
+      try {
+        const commentsResponse = await axios.get(`${API}/community/events/${eventId}/comments`);
+        response.data.comments = commentsResponse.data.comments;
+      } catch (commentError) {
+        console.error('Error loading event comments:', commentError);
+        response.data.comments = []; // Set empty array if comments fail to load
+      }
+      
       setEventDetailData(response.data);
     } catch (error) {
       console.error('Error loading event details:', error);
