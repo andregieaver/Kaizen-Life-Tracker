@@ -1917,6 +1917,22 @@ const Community = ({ athleteId }) => {
           onDeleteComment={handleDeleteEventComment}
         />
       )}
+
+      {/* Confirmation Modal */}
+      {showConfirmModal && (
+        <ConfirmationModal
+          isOpen={showConfirmModal}
+          title={confirmModalConfig.title}
+          message={confirmModalConfig.message}
+          confirmText={confirmModalConfig.confirmText}
+          cancelText={confirmModalConfig.cancelText}
+          onConfirm={() => {
+            confirmModalConfig.onConfirm();
+            setShowConfirmModal(false);
+          }}
+          onCancel={() => setShowConfirmModal(false)}
+        />
+      )}
     </div>
   );
 };
