@@ -250,6 +250,18 @@ const Dashboard = ({ athleteId }) => {
     }
   };
 
+  const loadModuleSettings = async () => {
+    try {
+      const response = await axios.get(`${API}/system/settings?athlete_id=${athleteId}`);
+      if (response.data.modules) {
+        setModuleSettings(response.data.modules);
+      }
+    } catch (error) {
+      // If error (e.g., not super admin or endpoint not accessible), use defaults
+      console.log('Using default module settings');
+    }
+  };
+
   const handleDataLogged = () => {
     // Refresh dashboard data when new data is logged
     loadDashboardData();
