@@ -538,6 +538,9 @@ class AthleteProfile(BaseModel):
     distance_unit: str = Field(default="miles")  # 'miles' or 'km'
     measurement_system: str = Field(default="imperial")  # 'imperial' or 'metric'
     week_starts_on: str = Field(default="monday")  # 'sunday' or 'monday'
+    
+    # Admin Fields
+    is_super_admin: bool = Field(default=False)  # Super admin flag
     timezone: str = Field(default="UTC")  # Timezone string (e.g., "America/New_York")
     time_format: str = Field(default="12h")  # '12h' or '24h'
     date_format: str = Field(default="MM/DD/YYYY")  # Date format preference
