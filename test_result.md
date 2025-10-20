@@ -236,8 +236,7 @@ metadata:
   run_ui: true
 
 test_plan:
-  current_focus:
-    - "Community Feed 422 Error Fix Testing"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
