@@ -2940,36 +2940,37 @@ def test_group_join_request_notifications():
         return False
 
 def main():
-    """Run event RSVP and listing functionality tests"""
-    print("🚀 STARTING EVENT RSVP AND LISTING FUNCTIONALITY TESTING")
+    """Run Community Feed 422 Error Fix Testing"""
+    print("🚀 STARTING COMMUNITY FEED 422 ERROR FIX TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Event RSVP and Listing Functionality (main focus)
+    # Test Community Feed 422 Error Fix (CRITICAL PRIORITY)
     try:
-        result = test_event_rsvp_and_listing_functionality()
+        result = test_community_feed_422_error_fix()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Event RSVP and Listing Functionality", False, f"Exception: {str(e)}")
+        print_test_result("Community Feed 422 Error Fix", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 EVENT RSVP AND LISTING FUNCTIONALITY TESTING COMPLETED!")
-        print("✅ Event Listing: GET /api/community/events returns events with all required fields")
-        print("✅ Event Structure: Events include cover_photo, profile_image, counts, user_status")
-        print("✅ Open Events: Open events (visibility: 'open') are included in response")
-        print("✅ RSVP Functionality: POST /api/community/events/{id}/rsvp updates counts correctly")
-        print("✅ Count Updates: interested_count and going_count increment/decrement properly")
-        print("✅ Event Details: GET /api/community/events/{id} returns participant lists")
-        print("✅ Count Consistency: Counts match array lengths in event details")
+        print("🎉 COMMUNITY FEED 422 ERROR FIX TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ NEW Feed Endpoint: GET /api/community/feed/{athlete_id} returns 200 (NOT 422)")
+        print("✅ Feed Parameters: Works with limit, skip, exclude_images parameters")
+        print("✅ Single Post Endpoint: GET /api/community/posts/{post_id} still functional")
+        print("✅ No Routing Conflicts: No 422 errors detected in endpoint testing")
+        print("✅ Response Structure: Posts array and liked_by_user flag present")
+        print("✅ Performance: Feed endpoint responds in acceptable time")
+        print("🔧 FIX VERIFIED: Community feed 422 error has been resolved")
     else:
-        print("❌ EVENT RSVP AND LISTING FUNCTIONALITY FOUND ISSUES")
+        print("❌ COMMUNITY FEED 422 ERROR FIX TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
+        print("🚨 CRITICAL: 422 error may still be present - requires immediate attention")
     
     print("=" * 70)
 
