@@ -2527,7 +2527,7 @@ const Community = ({ athleteId }) => {
               </p>
 
               {/* Action Buttons */}
-              <div className="flex items-center justify-between pt-4 border-t border-gray-600">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-4 border-t border-gray-600">
                 <div className="flex items-center space-x-2">
                   {/* Multiple images input - with camera capture for mobile */}
                   <input
@@ -2562,17 +2562,22 @@ const Community = ({ athleteId }) => {
 
                 <div className="flex items-center space-x-3">
                   <Button
-                    onClick={() => setShowWritePostModal(false)}
-                    className="bg-gray-700 hover:bg-gray-600 text-white"
+                    onClick={() => {
+                      setShowWritePostModal(false);
+                      // Clear multi-image state when closing
+                      setSelectedImages([]);
+                      setUploadedImageUrls([]);
+                    }}
+                    className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-white"
                   >
                     Cancel
                   </Button>
                   <Button
                     onClick={handleWritePost}
-                    disabled={!writePostContent.trim()}
-                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={!writePostContent.trim() || isUploadingImages}
+                    className="flex-1 sm:flex-none bg-[#00C2A8] hover:bg-[#00a890] text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Post
+                    {isUploadingImages ? 'Uploading...' : 'Post'}
                   </Button>
                 </div>
               </div>
