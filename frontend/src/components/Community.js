@@ -27,7 +27,9 @@ const Community = ({ athleteId }) => {
   
   // Posts state
   const [posts, setPosts] = useState([]);
+  const [followingPosts, setFollowingPosts] = useState([]);
   const [postsLoaded, setPostsLoaded] = useState(false);
+  const [followingPostsLoaded, setFollowingPostsLoaded] = useState(false);
   const [newPostContent, setNewPostContent] = useState('');
   const [newPostImage, setNewPostImage] = useState(null);
   const [newPostImagePreview, setNewPostImagePreview] = useState(null);
