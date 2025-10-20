@@ -34,7 +34,7 @@ const Referrals = ({ athleteId }) => {
         pendingReferrals: 0,
         totalRewards: 0,
         availableRewards: [],
-        referralLink: `${window.location.origin}/signup?ref=${code}`
+        referralLink: `${window.location.origin}/?ref=${code}`
       });
       
       setLoading(false);
