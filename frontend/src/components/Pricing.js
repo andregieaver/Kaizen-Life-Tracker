@@ -101,11 +101,21 @@ const Pricing = () => {
   };
 
   const getDisplayPrice = (plan) => {
+    let baseAmount;
     if (billingCycle === 'monthly') {
-      return { amount: plan.monthlyPrice, period: '/month' };
+      baseAmount = plan.monthlyPrice;
     } else {
-      return { amount: plan.annualPrice, period: '/year' };
+      baseAmount = plan.annualPrice;
     }
+    
+    // Apply referral discount if available
+    const discountedAmount = discount > 0 ? baseAmount * (1 - discount / 100) : baseAmount;
+    
+    return { 
+      amount: discountedAmount, 
+      originalAmount: baseAmount,
+      period: billingCycle === 'monthly' ? '/month' : '/year' 
+    };
   };
 
   const handleSelectPlan = async (planId) => {
