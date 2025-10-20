@@ -7656,13 +7656,13 @@ async def add_event_comment(event_id: str, comment: dict, athlete_id: str = Quer
         )
         
         # Get updated count
-        event = await db.community_events.find_one({"id": event_id}, {"_id": 0, "comments_count": 1, "athlete_id": 1})
+        event = await db.community_events.find_one({"id": event_id}, {"_id": 0, "comments_count": 1, "creator_id": 1})
         
         # Send notification to event creator (if not commenting on own event)
-        if event and event["athlete_id"] != athlete_id:
+        if event and event.get("creator_id") and event["creator_id"] != athlete_id:
             notification = {
                 "id": str(uuid.uuid4()),
-                "athlete_id": event["athlete_id"],
+                "athlete_id": event["creator_id"],
                 "type": "event_comment",
                 "content": f"{athlete.get('name', 'Someone')} commented on your event",
                 "event_id": event_id,
