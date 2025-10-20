@@ -344,6 +344,14 @@ const Dashboard = ({ athleteId }) => {
             </div>
             <div className="flex items-center space-x-4">
               <button 
+                onClick={() => navigate('/dashboard/referrals')}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                aria-label="Referrals"
+                title="Referral Rewards"
+              >
+                <Gift className="w-6 h-6" style={{ color: '#00C2A8' }} />
+              </button>
+              <button 
                 onClick={() => navigate('/dashboard/community')}
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
                 aria-label="Community"
