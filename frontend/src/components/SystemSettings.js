@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Settings, Upload, Save } from 'lucide-react';
+import { Settings, Upload, Save, ChevronDown, ChevronUp } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 import { Button } from './ui/button';
@@ -19,6 +19,18 @@ const SystemSettings = ({ athleteId }) => {
   });
   const [faviconPreview, setFaviconPreview] = useState(null);
   const [saveStatus, setSaveStatus] = useState({ message: '', type: '' });
+
+  // Modules State
+  const [moduleSettings, setModuleSettings] = useState({
+    affiliateProgram: {
+      enabled: true,
+      expanded: true
+    },
+    community: {
+      enabled: true,
+      expanded: true
+    }
+  });
 
   const handleTabChange = (value) => {
     setActiveTab(value);
@@ -64,6 +76,49 @@ const SystemSettings = ({ athleteId }) => {
     } catch (error) {
       setSaveStatus({
         message: 'Failed to save SEO settings',
+        type: 'error'
+      });
+    }
+  };
+
+  const toggleModule = (moduleName) => {
+    setModuleSettings(prev => ({
+      ...prev,
+      [moduleName]: {
+        ...prev[moduleName],
+        enabled: !prev[moduleName].enabled,
+        expanded: !prev[moduleName].enabled // Auto-expand when enabling, collapse when disabling
+      }
+    }));
+    
+    // TODO: Save to backend and update global state
+    // This will control icon visibility in Dashboard header
+  };
+
+  const toggleModuleExpansion = (moduleName) => {
+    setModuleSettings(prev => ({
+      ...prev,
+      [moduleName]: {
+        ...prev[moduleName],
+        expanded: !prev[moduleName].expanded
+      }
+    }));
+  };
+
+  const handleSaveModuleSettings = async () => {
+    try {
+      // TODO: Implement API call to save module settings
+      setSaveStatus({
+        message: 'Module settings saved successfully!',
+        type: 'success'
+      });
+      
+      setTimeout(() => {
+        setSaveStatus({ message: '', type: '' });
+      }, 3000);
+    } catch (error) {
+      setSaveStatus({
+        message: 'Failed to save module settings',
         type: 'error'
       });
     }
