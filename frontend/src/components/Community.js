@@ -1637,6 +1637,20 @@ const Community = ({ athleteId }) => {
                 const post = item;
                 return (
                   <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+                    {/* Debug Info Banner */}
+                    <div className="bg-yellow-900/30 border-b border-yellow-700/50 px-4 py-2 text-xs text-yellow-200">
+                      <div>🔍 Post ID: {post.id?.substring(0, 8)}...</div>
+                      <div>📷 image_urls: {post.image_urls ? `[${post.image_urls.length} images]` : 'null/undefined'}</div>
+                      <div>🖼️ image_data: {post.image_data ? 'present' : 'null'}</div>
+                      {post.image_urls && post.image_urls.length > 0 && (
+                        <div className="mt-1 max-h-16 overflow-y-auto">
+                          {post.image_urls.map((url, i) => (
+                            <div key={i} className="truncate">• {url}</div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    
                     <CardHeader className="pb-3">
                       <div className="flex items-center justify-between">
                         <div 
