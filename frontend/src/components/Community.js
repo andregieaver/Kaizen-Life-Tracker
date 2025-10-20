@@ -3539,24 +3539,24 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
 
           {/* Participants Going */}
           {eventData.going_users && eventData.going_users.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-white mb-3">Going ({eventData.going_count || 0})</h3>
+            <div className="mb-4 sm:mb-6">
+              <h3 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3">Going ({eventData.going_count || 0})</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {eventData.going_users.map((user) => (
                   <div 
                     key={user.athlete_id} 
-                    className="flex items-center space-x-3 p-2 bg-gray-700/50 rounded-lg cursor-pointer hover:bg-gray-600/50 transition-colors"
+                    className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-gray-700/50 rounded-lg cursor-pointer hover:bg-gray-600/50 transition-colors"
                     onClick={() => {
                       onClose();
                       loadAthleteProfile(user.athlete_id);
                     }}
                   >
-                    <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-white font-semibold text-sm">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-semibold text-xs sm:text-sm">
                         {user.athlete_name?.split(' ').map(n => n[0]).join('').toUpperCase() || '?'}
                       </span>
                     </div>
-                    <span className="text-white font-medium truncate">{user.athlete_name || 'Unknown'}</span>
+                    <span className="text-white font-medium text-sm sm:text-base truncate">{user.athlete_name || 'Unknown'}</span>
                   </div>
                 ))}
               </div>
@@ -3565,8 +3565,8 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
 
           {/* Participants Interested */}
           {eventData.interested_users && eventData.interested_users.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-white mb-3">Interested ({eventData.interested_count || 0})</h3>
+            <div className="mb-4 sm:mb-6">
+              <h3 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3">Interested ({eventData.interested_count || 0})</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {eventData.interested_users.map((user) => (
                   <div 
