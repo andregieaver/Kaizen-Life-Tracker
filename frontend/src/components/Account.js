@@ -2606,7 +2606,7 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   {/* Pricing Display */}
-                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className="p-4 bg-blue-900/20 border border-blue-700 rounded-lg">
                     <div className="text-center">
                       <p className="text-3xl font-bold text-blue-900">
                         {upgradeTarget === 'pro' 
@@ -2687,7 +2687,7 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   {/* Pricing Display */}
-                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className="p-4 bg-blue-900/20 border border-blue-700 rounded-lg">
                     <div className="text-center mb-3">
                       <p className="text-3xl font-bold text-blue-900">
                         {downgradeTarget === 'pro' 
@@ -3125,7 +3125,7 @@ const Account = ({ athleteId }) => {
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="p-4 bg-blue-900/20 border border-blue-700 rounded-lg">
                       <p className="text-sm text-blue-800 mb-3">
                         {t('account.corosNote')}
                       </p>
