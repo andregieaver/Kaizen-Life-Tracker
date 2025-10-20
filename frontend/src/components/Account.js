@@ -2290,7 +2290,7 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   {/* Pro Plan */}
-                  <div className="border-2 border-blue-200 rounded-lg p-4 hover:border-blue-400 transition-colors">
+                  <div className="border-2 border-blue-700 rounded-lg p-4 hover:border-blue-600 transition-colors bg-blue-900/20">
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <h3 className="text-lg font-bold text-white">Pro</h3>
