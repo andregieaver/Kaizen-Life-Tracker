@@ -2606,12 +2606,6 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading }) => {
                   )}
                 </Button>
               )}
-              <Button
-                onClick={onClose}
-                className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
-              >
-                Close
-              </Button>
             </div>
           </>
         )}
