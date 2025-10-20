@@ -37,6 +37,7 @@ const Community = ({ athleteId }) => {
   const [editContent, setEditContent] = useState('');
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [selectedPostForComments, setSelectedPostForComments] = useState(null);
+  const [selectedEventForComments, setSelectedEventForComments] = useState(null);
   
   // Mention state
   const [showMentionDropdown, setShowMentionDropdown] = useState(false);
@@ -45,6 +46,7 @@ const Community = ({ athleteId }) => {
   const [mentionPosition, setMentionPosition] = useState({ top: 0, left: 0 });
   const newPostRef = useRef(null);
   const commentRefs = useRef({});
+  const newEventDescRef = useRef(null);
   
   // Notifications state
   const [notifications, setNotifications] = useState([]);
