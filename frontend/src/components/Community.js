@@ -621,9 +621,15 @@ const Community = ({ athleteId }) => {
     if (!post.comments) {
       try {
         const response = await axios.get(`${API}/community/posts/${postId}/comments`);
-        // Update the post with comments
-        setPosts(posts.map(p => p.id === postId ? { ...p, comments: response.data.comments } : p));
+        // Update the post with comments and comment count
+        const updatedPost = { 
+          ...post, 
+          comments: response.data.comments,
+          comments_count: response.data.comments.length
+        };
+        setPosts(posts.map(p => p.id === postId ? updatedPost : p));
         post.comments = response.data.comments;
+        post.comments_count = response.data.comments.length;
       } catch (error) {
         console.error('Error loading comments:', error);
       }
