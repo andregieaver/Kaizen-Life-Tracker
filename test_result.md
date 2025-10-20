@@ -234,7 +234,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Event RSVP and Listing Functionality Testing"
+    - "Community Feed 422 Error Fix Testing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
