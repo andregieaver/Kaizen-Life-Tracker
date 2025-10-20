@@ -1476,15 +1476,6 @@ const Community = ({ athleteId }) => {
           )}
           
           <button
-            onClick={handleRefresh}
-            className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
-            aria-label="Refresh"
-            title="Refresh content"
-          >
-            <RefreshCw className="w-6 h-6 text-white" />
-          </button>
-          
-          <button
             onClick={handleOpenAthletes}
             className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
             aria-label="Find Athletes"
