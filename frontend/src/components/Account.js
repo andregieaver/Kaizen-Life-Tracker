@@ -2928,7 +2928,7 @@ const Account = ({ athleteId }) => {
             </Card>
 
             {/* Legacy Strava Integration - Keep for backwards compatibility */}
-            <Card className="border-0 shadow-lg opacity-50">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700 opacity-50">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Activity className="w-5 h-5 mr-2 text-orange-500" />
