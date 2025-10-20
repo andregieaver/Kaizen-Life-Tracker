@@ -1315,7 +1315,7 @@ const Account = ({ athleteId }) => {
                             className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
                           />
                         ) : (
-                          <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300">
+                          <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-700">
                             <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
@@ -1432,7 +1432,7 @@ const Account = ({ athleteId }) => {
                     name="running_goals"
                     value={personalForm.running_goals}
                     onChange={handlePersonalFormChange}
-                    className="w-full min-h-24 p-3 border border-gray-300 rounded-md input-focus resize-none"
+                    className="w-full min-h-24 p-3 border border-gray-700 rounded-md input-focus resize-none"
                     placeholder={t('onboarding.runningGoalsPlaceholder')}
                     data-testid="goals-textarea"
                   />
@@ -1529,7 +1529,7 @@ const Account = ({ athleteId }) => {
                       name="bio"
                       value={personalForm.bio}
                       onChange={handlePersonalFormChange}
-                      className="w-full min-h-20 p-3 border border-gray-300 rounded-md input-focus resize-none"
+                      className="w-full min-h-20 p-3 border border-gray-700 rounded-md input-focus resize-none"
                       placeholder={t('account.bioPlaceholder')}
                       maxLength="500"
                     />
@@ -1555,7 +1555,7 @@ const Account = ({ athleteId }) => {
                                 : personalForm.interests.filter(i => i !== interest);
                               setPersonalForm(prev => ({...prev, interests: newInterests}));
                             }}
-                            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            className="rounded border-gray-700 text-blue-600 focus:ring-blue-500"
                           />
                           <span className="text-sm text-gray-700">{interest}</span>
                         </label>
@@ -1635,7 +1635,7 @@ const Account = ({ athleteId }) => {
                                 : personalForm.health_goals.filter(g => g !== goal.value);
                               setPersonalForm(prev => ({...prev, health_goals: newGoals}));
                             }}
-                            className="mt-0.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            className="mt-0.5 rounded border-gray-700 text-blue-600 focus:ring-blue-500"
                           />
                           <span className="text-sm text-gray-700">{goal.label}</span>
                         </label>
@@ -1680,7 +1680,7 @@ const Account = ({ athleteId }) => {
                                 : (personalForm.allergies || []).filter(a => a !== allergy.value);
                               setPersonalForm(prev => ({...prev, allergies: newAllergies}));
                             }}
-                            className="mt-0.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            className="mt-0.5 rounded border-gray-700 text-blue-600 focus:ring-blue-500"
                           />
                           <span className="text-sm text-gray-700">{allergy.label}</span>
                         </label>
@@ -1714,7 +1714,7 @@ const Account = ({ athleteId }) => {
                                 : (personalForm.dietary_preferences || []).filter(d => d !== diet.value);
                               setPersonalForm(prev => ({...prev, dietary_preferences: newPrefs}));
                             }}
-                            className="mt-0.5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            className="mt-0.5 rounded border-gray-700 text-blue-600 focus:ring-blue-500"
                           />
                           <span className="text-sm text-gray-700">{diet.label}</span>
                         </label>
