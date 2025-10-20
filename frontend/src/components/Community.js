@@ -1896,6 +1896,26 @@ const Community = ({ athleteId }) => {
           onDeleteComment={handleDeletePostComment}
         />
       )}
+
+      {/* Event Comments Modal */}
+      {showCommentsModal && selectedEventForComments && (
+        <CommentsModal
+          post={selectedEventForComments}
+          onClose={() => {
+            setShowCommentsModal(false);
+            setSelectedEventForComments(null);
+          }}
+          onAddComment={() => handleAddEventComment(selectedEventForComments.id)}
+          commentText={commentText[selectedEventForComments.id] || ''}
+          setCommentText={(text) => setCommentText({ ...commentText, [selectedEventForComments.id]: text })}
+          commentRef={(el) => commentRefs.current[selectedEventForComments.id] = el}
+          athleteId={athleteId}
+          formatMentions={formatMentions}
+          loadAthleteProfile={loadAthleteProfile}
+          onEmojiSelect={(emoji) => handleEmojiSelectForComment(emoji, selectedEventForComments.id)}
+          onDeleteComment={handleDeleteEventComment}
+        />
+      )}
     </div>
   );
 };
