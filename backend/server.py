@@ -7295,6 +7295,7 @@ async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int 
         
         # Use aggregation pipeline to fetch posts with like status in single query
         pipeline = [
+            {"$match": {"visibility": "public"}},  # Only public posts in main feed
             {"$sort": {"created_at": -1}},
             {"$skip": skip},
             {"$limit": limit},
