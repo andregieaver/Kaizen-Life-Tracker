@@ -3621,38 +3621,39 @@ def test_group_join_request_notifications():
         return False
 
 def main():
-    """Run Community Feed comments_count Field Testing"""
-    print("🚀 STARTING COMMUNITY FEED COMMENTS_COUNT FIELD TESTING")
+    """Run Event Comments Functionality Testing"""
+    print("🚀 STARTING EVENT COMMENTS FUNCTIONALITY TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Community Feed comments_count Field (CRITICAL PRIORITY)
+    # Test Event Comments Functionality (CRITICAL PRIORITY - FIX VERIFICATION)
     try:
-        result = test_community_feed_comments_count_field()
+        result = test_event_comments_functionality()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Community Feed comments_count Field", False, f"Exception: {str(e)}")
+        print_test_result("Event Comments Functionality", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 COMMUNITY FEED COMMENTS_COUNT FIELD TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ Feed Endpoint: GET /api/community/feed/{athlete_id} accessible and functional")
-        print("✅ comments_count Field: Present in all posts returned by feed endpoint")
-        print("✅ comments_count Value: Accurate count matching actual number of comments")
-        print("✅ Zero Comments: Correctly shows comments_count = 0 for posts without comments")
-        print("✅ Cross-User Verification: comments_count visible to all users viewing feed")
-        print("✅ Direct vs Feed Count: Feed count matches direct comment retrieval count")
-        print("🔧 VERIFIED: Community feed correctly returns comments_count field")
+        print("🎉 EVENT COMMENTS FUNCTIONALITY TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ Comment Creation: POST /api/community/events/{event_id}/comment returns 200 (NOT 500)")
+        print("✅ Response Structure: Includes comment object and updated comments_count")
+        print("✅ Comment Retrieval: GET /api/community/events/{event_id}/comments works correctly")
+        print("✅ Comment Data: All required fields present (athlete_name, profile_picture, content)")
+        print("✅ Count Increment: comments_count increments correctly with multiple comments")
+        print("✅ Data Persistence: Comments appear in comments list after creation")
+        print("🔧 VERIFIED: Event comments functionality fix is working correctly")
+        print("🔧 CONFIRMED: creator_id vs athlete_id issue has been resolved")
     else:
-        print("❌ COMMUNITY FEED COMMENTS_COUNT FIELD TESTING FOUND ISSUES")
+        print("❌ EVENT COMMENTS FUNCTIONALITY TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: comments_count field may be missing or incorrect - requires immediate attention")
-        print("💡 This explains why posts show 0 comments on page load but correct count when clicking comment icon")
+        print("🚨 CRITICAL: Event comments may still be failing - requires immediate attention")
+        print("💡 The creator_id vs athlete_id fix may not be working as expected")
     
     print("=" * 70)
 
