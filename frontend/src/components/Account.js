@@ -106,7 +106,7 @@ const IntegrationCard = ({
       <div className="flex items-center gap-2">
         {connected ? (
           <>
-            <Badge className="bg-green-100 text-green-800 border-green-200">
+            <Badge className="bg-green-900/30 text-green-400 border-green-700">
               <CheckCircle className="w-3 h-3 mr-1" />
               Connected
             </Badge>
