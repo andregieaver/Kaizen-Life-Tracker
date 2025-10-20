@@ -1122,6 +1122,9 @@ const Dashboard = ({ athleteId }) => {
           <Referrals athleteId={athleteId} />
         )}
 
+        {activeTab === 'system-settings' && (
+          <SystemSettings athleteId={athleteId} />
+        )}
 
         {activeTab === 'calendar' && (
           <TrainingCalendar 
