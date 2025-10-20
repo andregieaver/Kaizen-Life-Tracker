@@ -134,8 +134,8 @@ const Referrals = ({ athleteId }) => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card className="bg-gray-800 border-gray-700">
-            <CardContent className="p-6">
+          <Card className="bg-transparent border-none shadow-none">
+            <CardContent className="p-6 bg-gray-800 border border-gray-700 rounded-lg">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-1">Total Clicks</p>
@@ -146,8 +146,8 @@ const Referrals = ({ athleteId }) => {
             </CardContent>
           </Card>
 
-          <Card className="bg-gray-800 border-gray-700">
-            <CardContent className="p-6">
+          <Card className="bg-transparent border-none shadow-none">
+            <CardContent className="p-6 bg-gray-800 border border-gray-700 rounded-lg">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-1">Conversions</p>
@@ -158,8 +158,8 @@ const Referrals = ({ athleteId }) => {
             </CardContent>
           </Card>
 
-          <Card className="bg-gray-800 border-gray-700">
-            <CardContent className="p-6">
+          <Card className="bg-transparent border-none shadow-none">
+            <CardContent className="p-6 bg-gray-800 border border-gray-700 rounded-lg">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-1">Conversion Rate</p>
@@ -172,8 +172,8 @@ const Referrals = ({ athleteId }) => {
             </CardContent>
           </Card>
 
-          <Card className="bg-gray-800 border-gray-700">
-            <CardContent className="p-6">
+          <Card className="bg-transparent border-none shadow-none">
+            <CardContent className="p-6 bg-gray-800 border border-gray-700 rounded-lg">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-1">Available Discount</p>
