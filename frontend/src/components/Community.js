@@ -1253,6 +1253,20 @@ const Community = ({ athleteId }) => {
           </button>
           <button
             onClick={() => {
+              setActiveTab('following');
+              setSelectedGroup(null);
+            }}
+            className={`p-3 rounded-lg transition-all ${
+              activeTab === 'following'
+                ? 'bg-[#00C2A8] text-white shadow-lg'
+                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+            }`}
+            title="Following"
+          >
+            <UserPlus className="w-6 h-6" />
+          </button>
+          <button
+            onClick={() => {
               setActiveTab('groups');
               setSelectedGroup(null);
             }}
