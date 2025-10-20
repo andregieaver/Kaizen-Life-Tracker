@@ -14,6 +14,7 @@ const LandingPage = () => {
   const [scrollDirection, setScrollDirection] = useState('up');
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const [hasReferralCode, setHasReferralCode] = useState(false);
 
   // Capture referral code from URL
   useEffect(() => {
@@ -21,6 +22,7 @@ const LandingPage = () => {
     if (refCode) {
       // Store referral code in localStorage
       localStorage.setItem('referralCode', refCode);
+      setHasReferralCode(true);
       console.log('Referral code captured:', refCode);
     }
   }, [searchParams]);
