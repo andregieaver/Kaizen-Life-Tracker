@@ -1834,6 +1834,7 @@ const Community = ({ athleteId }) => {
           setCommentText={(text) => setCommentText({ ...commentText, [eventDetailData?.id]: text })}
           onEmojiSelect={(emoji) => handleEmojiSelectForComment(emoji, eventDetailData?.id)}
           formatMentions={formatMentions}
+          onDeleteComment={handleDeleteEventComment}
         />
       )}
 
