@@ -3074,11 +3074,11 @@ const Account = ({ athleteId }) => {
             {/* COROS Integration */}
             <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Activity className="w-5 h-5 mr-2 text-blue-600" />
+                <CardTitle className="flex items-center text-white">
+                  <Activity className="w-5 h-5 mr-2 text-[#00C2A8]" />
                   {t('account.corosIntegration')}
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-gray-400">
                   {t('account.corosDescription')}
                 </CardDescription>
               </CardHeader>
