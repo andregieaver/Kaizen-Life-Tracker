@@ -7350,17 +7350,18 @@ async def upload_images(
     - Convert to WebP format
     - Compress with minimal quality loss
     """
-    try:
-        if len(files) > max_files:
-            raise HTTPException(status_code=400, detail=f"Maximum {max_files} images allowed")
+    # Validate max files first (before try block to preserve 400 status)
+    if len(files) > max_files:
+        raise HTTPException(status_code=400, detail=f"Maximum {max_files} images allowed")
+    
+    uploaded_urls = []
+    
+    for file in files:
+        # Validate file type
+        if not file.content_type.startswith('image/'):
+            raise HTTPException(status_code=400, detail=f"File {file.filename} is not an image")
         
-        uploaded_urls = []
-        
-        for file in files:
-            # Validate file type
-            if not file.content_type.startswith('image/'):
-                raise HTTPException(status_code=400, detail=f"File {file.filename} is not an image")
-            
+        try:
             # Read file bytes
             file_bytes = await file.read()
             
@@ -7379,10 +7380,12 @@ async def upload_images(
             uploaded_urls.append(image_url)
             
             logging.info(f"Processed and uploaded image: {processed_filename}")
-        
-        return {"urls": uploaded_urls}
+            
+        except Exception as e:
+            logging.error(f"Error processing image {file.filename}: {e}")
+            raise HTTPException(status_code=500, detail=f"Failed to process image {file.filename}: {str(e)}")
     
-    except Exception as e:
+    return {"urls": uploaded_urls}
         logging.error(f"Error uploading images: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to upload images: {str(e)}")
 
