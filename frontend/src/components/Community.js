@@ -3570,11 +3570,19 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
                       loadAthleteProfile(user.athlete_id);
                     }}
                   >
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-white font-semibold text-xs sm:text-sm">
-                        {user.athlete_name?.split(' ').map(n => n[0]).join('').toUpperCase() || '?'}
-                      </span>
-                    </div>
+                    {user.athlete_profile_picture ? (
+                      <img
+                        src={user.athlete_profile_picture}
+                        alt={user.athlete_name}
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover flex-shrink-0"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-white font-semibold text-xs sm:text-sm">
+                          {user.athlete_name?.split(' ').map(n => n[0]).join('').toUpperCase() || '?'}
+                        </span>
+                      </div>
+                    )}
                     <span className="text-white font-medium text-sm sm:text-base truncate">{user.athlete_name || 'Unknown'}</span>
                   </div>
                 ))}
@@ -3596,11 +3604,19 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
                       loadAthleteProfile(user.athlete_id);
                     }}
                   >
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-white font-semibold text-xs sm:text-sm">
-                        {user.athlete_name?.split(' ').map(n => n[0]).join('').toUpperCase() || '?'}
-                      </span>
-                    </div>
+                    {user.athlete_profile_picture ? (
+                      <img
+                        src={user.athlete_profile_picture}
+                        alt={user.athlete_name}
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover flex-shrink-0"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-white font-semibold text-xs sm:text-sm">
+                          {user.athlete_name?.split(' ').map(n => n[0]).join('').toUpperCase() || '?'}
+                        </span>
+                      </div>
+                    )}
                     <span className="text-white font-medium text-sm sm:text-base truncate">{user.athlete_name || 'Unknown'}</span>
                   </div>
                 ))}
