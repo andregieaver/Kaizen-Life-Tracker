@@ -1755,6 +1755,7 @@ const Community = ({ athleteId }) => {
           commentRef={(el) => commentRefs.current[selectedPostForComments.id] = el}
           athleteId={athleteId}
           formatMentions={formatMentions}
+          loadAthleteProfile={loadAthleteProfile}
         />
       )}
     </div>
