@@ -2531,17 +2531,17 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
 
   // Load user posts when Posts tab is clicked
   useEffect(() => {
-    if (activeTab === 'posts' && profile?.athlete_id) {
+    if (activeTab === 'posts' && profile?.id) {
       loadUserPosts();
     }
-  }, [activeTab, profile?.athlete_id]);
+  }, [activeTab, profile?.id]);
 
   const loadUserPosts = async () => {
-    if (!profile?.athlete_id) return;
+    if (!profile?.id) return;
     
     setPostsLoading(true);
     try {
-      const response = await axios.get(`${API}/community/user/${profile.athlete_id}/posts?viewer_athlete_id=${athleteId}&limit=20`);
+      const response = await axios.get(`${API}/community/user/${profile.id}/posts?viewer_athlete_id=${athleteId}&limit=20`);
       setUserPosts(response.data.posts || []);
     } catch (error) {
       console.error('Error loading user posts:', error);
