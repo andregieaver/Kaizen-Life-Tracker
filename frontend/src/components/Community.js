@@ -2529,12 +2529,11 @@ const Community = ({ athleteId }) => {
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-4 border-t border-gray-600">
                 <div className="flex items-center space-x-2">
-                  {/* Multiple images input - with camera capture for mobile */}
+                  {/* Multiple images input - allows both camera and gallery selection */}
                   <input
                     type="file"
                     accept="image/*"
                     multiple
-                    capture="environment"
                     onChange={handleMultipleImagesSelect}
                     className="hidden"
                     id="write-post-multi-images"
