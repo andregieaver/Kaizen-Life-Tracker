@@ -166,6 +166,18 @@ backend:
         comment: "✅ COMMUNITY FEED COMMENTS_COUNT FIELD FULLY VERIFIED - Comprehensive testing completed with 100% success rate (12/13 tests passed). VERIFIED ALL REVIEW REQUEST REQUIREMENTS using athlete test.files@example.com (ID: 44111b4a-b61f-4a94-9c29-439434e67e19): 1) FEED ENDPOINT ACCESSIBILITY ✓ - GET /api/community/feed/{athlete_id}?limit=10 returns 200 status and proper posts array structure with 8 posts retrieved. 2) COMMENTS_COUNT FIELD PRESENT ✓ - comments_count field is present in ALL posts returned by feed endpoint (8/8 posts have the field). 3) COMMENTS_COUNT VALUE ACCURACY ✓ - Created test post with 3 comments, feed endpoint correctly returns comments_count: 3, direct comment retrieval also returns 3 comments (perfect match). 4) ZERO COMMENTS HANDLING ✓ - Posts with no comments correctly show comments_count: 0, verified with newly created post. 5) FIELD CONSISTENCY ✓ - All posts in feed have comments_count field with accurate values (ranging from 0 to 3 comments across different posts). 6) DIRECT VS FEED COUNT VERIFICATION ✓ - Feed comments_count matches direct comment endpoint count (GET /api/community/posts/{post_id}/comments), ensuring data consistency. CRITICAL SUCCESS CRITERIA MET: comments_count field is present in feed response, values are accurate and match actual comment counts, zero comments case handled correctly, all posts consistently include the field. ROOT CAUSE ANALYSIS: The backend IS correctly returning comments_count field in the feed response. If users report seeing 0 comments on page load but correct count when clicking comment icon, the issue is likely in FRONTEND rendering logic, not backend data. RECOMMENDATION: Community feed comments_count field is working correctly in backend. If issue persists, investigate frontend comment display logic in Community.js component."
 
 frontend:
+  - task: "Multi-Image Upload UI and ImageCarousel Integration"
+    implemented: false
+    working: "NA"
+    file: "/app/frontend/src/components/Community.js, /app/frontend/src/components/ImageCarousel.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Starting frontend implementation for multi-image upload. Tasks: 1) Update state management from single image to array of images (newPostImages, newPostImagePreviews arrays). 2) Create handleMultipleImageUpload function to handle file selection and upload to /api/upload/images. 3) Add UI for selecting multiple images (max 5 for posts, 3 for comments). 4) Integrate ImageCarousel component to display multiple images in posts. 5) Update post creation to send image_urls array instead of single image_data. ImageCarousel already imported."
+
   - task: "Community Frontend Component and Navigation"
     implemented: true
     working: "NA"
