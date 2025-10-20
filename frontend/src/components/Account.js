@@ -120,7 +120,7 @@ const IntegrationCard = ({
             </Button>
           </>
         ) : comingSoon ? (
-          <Badge variant="secondary" className="bg-gray-100 text-gray-600">
+          <Badge variant="secondary" className="bg-gray-800 text-gray-600">
             Coming Soon
           </Badge>
         ) : (
@@ -2480,7 +2480,7 @@ const Account = ({ athleteId }) => {
                         {invoices.map((invoice) => (
                           <div 
                             key={invoice.id} 
-                            className="flex items-center justify-between p-3 bg-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+                            className="flex items-center justify-between p-3 bg-gray-700 rounded-lg hover:bg-gray-800 transition-colors"
                           >
                             <div className="flex-1">
                               <div className="flex items-center space-x-2">
@@ -2579,7 +2579,7 @@ const Account = ({ athleteId }) => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {/* Billing Cycle Toggle */}
-                  <div className="flex items-center justify-center space-x-4 bg-gray-100 rounded-full p-2">
+                  <div className="flex items-center justify-center space-x-4 bg-gray-800 rounded-full p-2">
                     <button
                       onClick={() => setSelectedBillingCycle('monthly')}
                       className={`px-6 py-2 rounded-full font-medium transition-all ${
@@ -2660,7 +2660,7 @@ const Account = ({ athleteId }) => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {/* Billing Cycle Toggle */}
-                  <div className="flex items-center justify-center space-x-4 bg-gray-100 rounded-full p-2">
+                  <div className="flex items-center justify-center space-x-4 bg-gray-800 rounded-full p-2">
                     <button
                       onClick={() => setSelectedBillingCycle('monthly')}
                       className={`px-6 py-2 rounded-full font-medium transition-all ${
