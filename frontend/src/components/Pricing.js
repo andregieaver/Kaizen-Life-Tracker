@@ -304,12 +304,22 @@ const Pricing = () => {
                   </CardDescription>
                   
                   <div className="mt-6">
-                    <div className="flex items-baseline justify-center">
-                      <span className="text-5xl font-bold text-white">
-                        €{price.amount}
+                    <div className="flex items-baseline justify-center flex-wrap gap-2">
+                      {discount > 0 && price.originalAmount > 0 && (
+                        <span className="text-2xl font-bold text-gray-500 line-through">
+                          €{price.originalAmount.toFixed(2)}
+                        </span>
+                      )}
+                      <span className={`text-5xl font-bold ${discount > 0 && price.originalAmount > 0 ? 'text-green-400' : 'text-white'}`}>
+                        €{price.amount.toFixed(2)}
                       </span>
                       <span className="text-gray-300 ml-2">{price.period}</span>
                     </div>
+                    {discount > 0 && price.originalAmount > 0 && (
+                      <p className="text-sm text-green-400 mt-2 font-bold">
+                        🎉 {discount}% referral discount applied!
+                      </p>
+                    )}
                     {billingCycle === 'annual' && plan.monthlyPrice > 0 && (
                       <p className="text-sm text-green-400 mt-2 font-medium">
                         Save {savings}% compared to monthly
