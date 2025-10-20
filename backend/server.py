@@ -1038,7 +1038,7 @@ class CommunityPost(BaseModel):
     athlete_name: str  # Cached for display
     athlete_profile_picture: Optional[str] = None  # Cached for display
     content: str  # Post text content
-    image_data: Optional[str] = None  # Base64 encoded image (optional)
+    image_urls: Optional[List[str]] = []  # Array of image URLs (max 5)
     visibility: str = "public"  # "public" or "private" (private = following feed only)
     likes_count: int = 0
     comments_count: int = 0
@@ -1056,6 +1056,7 @@ class CommunityComment(BaseModel):
     athlete_name: str  # Cached for display
     athlete_profile_picture: Optional[str] = None  # Cached for display
     content: str
+    image_urls: Optional[List[str]] = []  # Array of image URLs (max 3 for comments)
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class CommunityLike(BaseModel):
