@@ -43,6 +43,9 @@ const Community = ({ athleteId }) => {
   const [selectedPostForComments, setSelectedPostForComments] = useState(null);
   const [selectedEventForComments, setSelectedEventForComments] = useState(null);
   
+  // Expanded posts state for "Show more/less"
+  const [expandedPosts, setExpandedPosts] = useState({});
+  
   // Mention state
   const [showMentionDropdown, setShowMentionDropdown] = useState(false);
   const [mentionResults, setMentionResults] = useState([]);
