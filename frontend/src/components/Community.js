@@ -2688,7 +2688,9 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               </div>
               <div className="flex items-center space-x-2 text-gray-400">
                 <MessageCircle className="w-5 h-5" />
-                <span>{post.comments_count || 0}</span>
+                <span key={`comment-count-${post.id}-${post.comments_count}`}>
+                  {console.log(`[Group Posts] Rendering comment count for post ${post.id}:`, post.comments_count) || (post.comments_count || 0)}
+                </span>
               </div>
               <div className="flex items-center space-x-2 text-gray-400">
                 <Share2 className="w-5 h-5" />
