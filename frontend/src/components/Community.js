@@ -647,6 +647,15 @@ const Community = ({ athleteId }) => {
         return event;
       }));
 
+      // Update event detail modal if open
+      if (eventDetailData && eventDetailData.id === targetEventId) {
+        setEventDetailData({
+          ...eventDetailData,
+          comments: commentsResponse.data.comments,
+          comments_count: response.data.comments_count
+        });
+      }
+
       // Update selected event if modal is open
       if (selectedEventForComments && selectedEventForComments.id === targetEventId) {
         setSelectedEventForComments({
