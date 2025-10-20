@@ -11,6 +11,7 @@ from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Optional, Dict, Any
 import uuid
+import shutil
 from datetime import datetime, timezone, date, time, timedelta
 import json
 import secrets
