@@ -248,7 +248,9 @@ metadata:
   run_ui: true
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Comment Deletion API Endpoints (Posts and Events)"
+    - "Comment Deletion Feature (Posts and Events)"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
