@@ -232,7 +232,11 @@ const Referrals = ({ athleteId }) => {
                   onClick={shareOnX}
                   className="w-full px-4 py-3 bg-black text-white rounded-lg hover:bg-gray-900 transition-colors flex items-center justify-center gap-2"
                 >
-                  <Twitter className="w-5 h-5" />
+                  <img 
+                    src="https://customer-assets.emergentagent.com/job_community-coach-1/artifacts/d75fcfph_x-social-media-white-icon.png" 
+                    alt="X" 
+                    className="w-5 h-5"
+                  />
                   Share on X
                 </Button>
                 <Button
