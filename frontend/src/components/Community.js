@@ -1702,6 +1702,158 @@ const Community = ({ athleteId }) => {
         </>
       )}
 
+
+      {/* Following Feed Tab */}
+      {activeTab === 'following' && !selectedGroup && (
+        <>
+          {/* Posts from people you follow */}
+          <div className="space-y-6">
+            {isLoading ? (
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+                <CardContent className="p-12 text-center">
+                  <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin mx-auto"></div>
+                  <p className="text-gray-400 mt-4">Loading posts from people you follow...</p>
+                </CardContent>
+              </Card>
+            ) : followingPosts.length === 0 ? (
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+                <CardContent className="p-12 text-center">
+                  <p className="text-gray-400 text-lg mb-2">No posts from people you follow</p>
+                  <p className="text-gray-500 text-sm">Follow other athletes to see their posts here!</p>
+                </CardContent>
+              </Card>
+            ) : (
+              followingPosts.map(post => (
+                <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between">
+                      <div 
+                        className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
+                        onClick={() => loadAthleteProfile(post.athlete_id)}
+                      >
+                        {post.athlete_profile_picture ? (
+                          <img
+                            src={post.athlete_profile_picture}
+                            alt={post.athlete_name}
+                            className="w-10 h-10 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                            <span className="text-white font-bold">
+                              {post.athlete_name?.charAt(0).toUpperCase()}
+                            </span>
+                          </div>
+                        )}
+                        <div>
+                          <p className="text-white font-semibold hover:underline">{post.athlete_name}</p>
+                          <p className="text-gray-400 text-xs">
+                            {new Date(post.created_at).toLocaleString()}
+                            {post.is_edited && ' (edited)'}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <p className="text-white mb-4 whitespace-pre-wrap">{formatMentions(post.content)}</p>
+                    {post.image_data && (
+                      <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-96 object-cover mb-4" />
+                    )}
+                    
+                    <div className="flex items-center space-x-6 text-gray-400">
+                      <button
+                        onClick={() => handleToggleLike(post.id)}
+                        className="flex items-center space-x-2 hover:text-red-500 transition-colors"
+                      >
+                        <Heart className={`w-5 h-5 ${post.liked_by_user ? 'fill-red-500 text-red-500' : ''}`} />
+                        <span className="text-sm">{post.likes_count || 0}</span>
+                      </button>
+                      <button
+                        onClick={() => toggleComments(post.id)}
+                        className="flex items-center space-x-2 hover:text-[#00C2A8] transition-colors"
+                      >
+                        <MessageCircle className="w-5 h-5" />
+                        <span className="text-sm">{post.comments_count || 0}</span>
+                      </button>
+                      <button
+                        onClick={() => handleSharePost(post.id)}
+                        className="flex items-center space-x-2 hover:text-[#00C2A8] transition-colors"
+                      >
+                        <Share2 className="w-5 h-5" />
+                        <span className="text-sm">{post.shares_count || 0}</span>
+                      </button>
+                    </div>
+
+                    {/* Comments Section */}
+                    {showComments[post.id] && (
+                      <div className="mt-4 space-y-4 border-t border-gray-600 pt-4">
+                        {post.comments && post.comments.length > 0 && (
+                          <div className="space-y-3">
+                            {post.comments.map(comment => (
+                              <div key={comment.id} className="flex items-start space-x-3">
+                                <div
+                                  className="cursor-pointer hover:opacity-80"
+                                  onClick={() => loadAthleteProfile(comment.athlete_id)}
+                                >
+                                  {comment.athlete_profile_picture ? (
+                                    <img
+                                      src={comment.athlete_profile_picture}
+                                      alt={comment.athlete_name}
+                                      className="w-8 h-8 rounded-full object-cover"
+                                    />
+                                  ) : (
+                                    <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                                      <span className="text-white font-bold text-xs">
+                                        {comment.athlete_name?.charAt(0).toUpperCase()}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="flex-1 bg-gray-600 rounded-lg p-3">
+                                  <p 
+                                    className="text-white font-semibold text-sm cursor-pointer hover:underline"
+                                    onClick={() => loadAthleteProfile(comment.athlete_id)}
+                                  >
+                                    {comment.athlete_name}
+                                  </p>
+                                  <p className="text-gray-300 text-sm mt-1">{formatMentions(comment.content)}</p>
+                                  <p className="text-gray-400 text-xs mt-1">
+                                    {new Date(comment.created_at).toLocaleString()}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        
+                        <div className="flex items-center space-x-2">
+                          <EmojiPickerButton onEmojiSelect={(emoji) => handleEmojiSelectForComment(emoji, post.id)} />
+                          <input
+                            ref={(el) => commentRefs.current[post.id] = el}
+                            type="text"
+                            value={commentText[post.id] || ''}
+                            onChange={(e) => setCommentText({ ...commentText, [post.id]: e.target.value })}
+                            placeholder="Write a comment... (Type @ to mention)"
+                            className="flex-1 bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                            onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
+                          />
+                          <Button
+                            onClick={() => handleAddComment(post.id)}
+                            className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4"
+                          >
+                            <Send className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))
+            )}
+          </div>
+        </>
+      )}
+
       {/* Groups Tab */}
       {activeTab === 'groups' && !selectedGroup && (
         <div className="space-y-6">
