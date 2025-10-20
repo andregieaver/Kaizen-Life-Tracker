@@ -921,8 +921,22 @@ const Community = ({ athleteId }) => {
 
   const handleSharePost = async (postId) => {
     try {
-      await axios.post(`${API}/community/posts/${postId}/share?athlete_id=${athleteId}`);
-      loadPosts();
+      const response = await axios.post(`${API}/community/posts/${postId}/share?athlete_id=${athleteId}`);
+      
+      // Update posts in feed
+      setPosts(posts.map(post => 
+        post.id === postId 
+          ? { ...post, shares_count: response.data.shares_count }
+          : post
+      ));
+      
+      // Update posts in following feed
+      setFollowingPosts(followingPosts.map(post => 
+        post.id === postId 
+          ? { ...post, shares_count: response.data.shares_count }
+          : post
+      ));
+      
       alert('Post shared successfully!');
     } catch (error) {
       console.error('Error sharing post:', error);
