@@ -127,8 +127,8 @@ const Pricing = () => {
     // Check if user is logged in
     const athleteId = localStorage.getItem('athleteId');
     if (!athleteId) {
-      alert('Please log in or sign up to subscribe');
-      navigate('/login');
+      // New user - redirect to onboarding/signup with referral code preserved
+      navigate('/onboarding');
       return;
     }
 
