@@ -2507,7 +2507,16 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
-      <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto relative">
+        {/* Close button - X icon in top-right */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 hover:bg-gray-700 rounded-full transition-colors z-10"
+          title="Close"
+        >
+          <X className="w-5 h-5 text-white" />
+        </button>
+
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
