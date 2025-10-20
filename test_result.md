@@ -249,9 +249,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "User Feed API Endpoint (Facebook Wall)"
-    - "Profile Modal UI Enhancement - X Icon Close Button"
-    - "User Feed Feature (Facebook Wall)"
+    - "Referral System Comprehensive Edge Case Testing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
