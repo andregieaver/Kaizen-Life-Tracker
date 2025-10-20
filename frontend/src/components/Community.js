@@ -2489,7 +2489,11 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
 };
 
 // AthleteProfileModal Component
-const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading }) => {
+const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athleteId, loadAthleteProfile, handleLike, handleShare }) => {
+  const [activeTab, setActiveTab] = useState('about'); // 'about' or 'posts'
+  const [userPosts, setUserPosts] = useState([]);
+  const [postsLoading, setPostsLoading] = useState(false);
+  
   // Calculate age from date of birth
   const calculateAge = (dob) => {
     if (!dob) return null;
@@ -2505,9 +2509,30 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading }) => {
 
   const age = profile?.date_of_birth ? calculateAge(profile.date_of_birth) : null;
 
+  // Load user posts when Posts tab is clicked
+  useEffect(() => {
+    if (activeTab === 'posts' && profile?.athlete_id) {
+      loadUserPosts();
+    }
+  }, [activeTab, profile?.athlete_id]);
+
+  const loadUserPosts = async () => {
+    if (!profile?.athlete_id) return;
+    
+    setPostsLoading(true);
+    try {
+      const response = await axios.get(`${API}/community/user/${profile.athlete_id}/posts?viewer_athlete_id=${athleteId}&limit=20`);
+      setUserPosts(response.data.posts || []);
+    } catch (error) {
+      console.error('Error loading user posts:', error);
+    } finally {
+      setPostsLoading(false);
+    }
+  };
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
-      <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto relative">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4" onClick={onClose}>
+      <div className="bg-gray-800 rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative" onClick={(e) => e.stopPropagation()}>
         {/* Close button - X icon in top-right */}
         <button
           onClick={onClose}
@@ -2543,47 +2568,149 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading }) => {
               </div>
             </div>
             
-            {/* Bio Section */}
-            {profile.bio && (
-              <div className="mb-6 p-4 bg-gray-700/50 rounded-lg">
-                <h3 className="text-white font-semibold mb-2">About</h3>
-                <p className="text-gray-300 text-sm">{profile.bio}</p>
-              </div>
+            {/* Tabs */}
+            <div className="flex space-x-2 mb-6 border-b border-gray-700">
+              <button
+                onClick={() => setActiveTab('about')}
+                className={`px-4 py-2 font-semibold transition-colors ${
+                  activeTab === 'about'
+                    ? 'text-[#00C2A8] border-b-2 border-[#00C2A8]'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                About
+              </button>
+              <button
+                onClick={() => setActiveTab('posts')}
+                className={`px-4 py-2 font-semibold transition-colors ${
+                  activeTab === 'posts'
+                    ? 'text-[#00C2A8] border-b-2 border-[#00C2A8]'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                Posts ({profile.posts_count || 0})
+              </button>
+            </div>
+
+            {/* About Tab Content */}
+            {activeTab === 'about' && (
+              <>
+                {/* Bio Section */}
+                {profile.bio && (
+                  <div className="mb-6 p-4 bg-gray-700/50 rounded-lg">
+                    <h3 className="text-white font-semibold mb-2">About</h3>
+                    <p className="text-gray-300 text-sm">{profile.bio}</p>
+                  </div>
+                )}
+
+                {/* Interests Section */}
+                {profile.interests && profile.interests.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="text-white font-semibold mb-2">Interests</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {profile.interests.map((interest, idx) => (
+                        <span
+                          key={idx}
+                          className="px-3 py-1 bg-[#00C2A8]/20 text-[#00C2A8] rounded-full text-sm"
+                        >
+                          {interest}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-[#00C2A8]">{profile.posts_count || 0}</p>
+                    <p className="text-gray-400 text-sm">Posts</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-[#00C2A8]">{profile.followers_count || 0}</p>
+                    <p className="text-gray-400 text-sm">Followers</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-[#00C2A8]">{profile.following_count || 0}</p>
+                    <p className="text-gray-400 text-sm">Following</p>
+                  </div>
+                </div>
+              </>
             )}
 
-            {/* Interests Section */}
-            {profile.interests && profile.interests.length > 0 && (
-              <div className="mb-6">
-                <h3 className="text-white font-semibold mb-2">Interests</h3>
-                <div className="flex flex-wrap gap-2">
-                  {profile.interests.map((interest, idx) => (
-                    <span
-                      key={idx}
-                      className="px-3 py-1 bg-[#00C2A8]/20 text-[#00C2A8] rounded-full text-sm"
-                    >
-                      {interest}
-                    </span>
-                  ))}
-                </div>
+            {/* Posts Tab Content */}
+            {activeTab === 'posts' && (
+              <div className="space-y-4">
+                {postsLoading ? (
+                  <div className="flex justify-center py-12">
+                    <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                ) : userPosts.length > 0 ? (
+                  userPosts.map(post => (
+                    <div key={post.id} className="bg-gray-700/50 rounded-lg p-4">
+                      {/* Post Header */}
+                      <div className="flex items-center space-x-3 mb-3">
+                        {post.athlete_profile_picture ? (
+                          <img
+                            src={post.athlete_profile_picture}
+                            alt={post.athlete_name}
+                            className="w-10 h-10 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                            <span className="text-white font-bold">
+                              {post.athlete_name?.charAt(0).toUpperCase()}
+                            </span>
+                          </div>
+                        )}
+                        <div>
+                          <p className="text-white font-semibold">{post.athlete_name}</p>
+                          <p className="text-gray-400 text-xs">
+                            {new Date(post.created_at).toLocaleString()}
+                            {post.is_edited && <span className="ml-2">(edited)</span>}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Post Content */}
+                      <p className="text-white whitespace-pre-wrap mb-3">{formatMentions(post.content)}</p>
+                      {post.image_data && (
+                        <img 
+                          src={post.image_data} 
+                          alt="Post" 
+                          className="w-full rounded-lg max-h-96 object-cover mb-3" 
+                        />
+                      )}
+
+                      {/* Post Actions */}
+                      <div className="flex items-center space-x-6 text-gray-400">
+                        <button
+                          onClick={() => handleLike(post.id)}
+                          className="flex items-center space-x-2 hover:text-red-500 transition-colors"
+                        >
+                          <Heart className={`w-5 h-5 ${post.liked_by_user ? 'fill-red-500 text-red-500' : ''}`} />
+                          <span className="text-sm">{post.likes_count || 0}</span>
+                        </button>
+                        <div className="flex items-center space-x-2">
+                          <MessageCircle className="w-5 h-5" />
+                          <span className="text-sm">{post.comments_count || 0}</span>
+                        </div>
+                        <button
+                          onClick={() => handleShare(post.id)}
+                          className="flex items-center space-x-2 hover:text-[#00C2A8] transition-colors"
+                        >
+                          <Share2 className="w-5 h-5" />
+                          <span className="text-sm">{post.shares_count || 0}</span>
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-400 text-center py-12">No posts yet</p>
+                )}
               </div>
             )}
             
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-[#00C2A8]">{profile.posts_count || 0}</p>
-                <p className="text-gray-400 text-sm">Posts</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-[#00C2A8]">{profile.followers_count || 0}</p>
-                <p className="text-gray-400 text-sm">Followers</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-[#00C2A8]">{profile.following_count || 0}</p>
-                <p className="text-gray-400 text-sm">Following</p>
-              </div>
-            </div>
-            
-            <div className="flex space-x-3">
+            <div className="flex space-x-3 mt-6">
               {!profile.is_own_profile && (
                 <Button
                   onClick={onFollowToggle}
