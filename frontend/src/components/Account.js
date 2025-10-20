@@ -2310,8 +2310,8 @@ const Account = ({ athleteId }) => {
                   <div className="border-2 border-blue-700 rounded-lg p-4 hover:border-blue-600 transition-colors bg-blue-900/20">
                     <div className="flex items-center justify-between mb-3">
                       <div>
-                        <h3 className="text-lg font-bold text-white">Pro</h3>
-                        <p className="text-sm text-gray-400">For serious athletes</p>
+                        <h3 className="text-lg font-bold text-white">{planSettings.pro.title}</h3>
+                        <p className="text-sm text-gray-400">{planSettings.pro.description}</p>
                       </div>
                       <Badge className="bg-blue-600">Popular</Badge>
                     </div>
@@ -2323,26 +2323,12 @@ const Account = ({ athleteId }) => {
                       <p className="text-sm text-green-600 mt-1">or €99/year (save 17%)</p>
                     </div>
                     <ul className="space-y-2 mb-4">
-                      <li className="flex items-start text-sm">
-                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                        <span>Unlimited AI Coach access</span>
-                      </li>
-                      <li className="flex items-start text-sm">
-                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                        <span>Up to 5 scheduled AI analyses</span>
-                      </li>
-                      <li className="flex items-start text-sm">
-                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                        <span>All integrations</span>
-                      </li>
-                      <li className="flex items-start text-sm">
-                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                        <span>Advanced analytics</span>
-                      </li>
-                      <li className="flex items-start text-sm">
-                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                        <span>Custom schedules</span>
-                      </li>
+                      {planSettings.pro.features.map((feature, index) => (
+                        <li key={index} className="flex items-start text-sm">
+                          <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
                     </ul>
                     {subscriptionStatus.tier === 'free' ? (
                       <Button 
