@@ -128,8 +128,55 @@ const OnboardingForm = ({ onAthleteCreated }) => {
       const { confirmPassword, ...athleteDataWithoutConfirm } = formData;
       
       const response = await axios.post(`${API}/athlete`, athleteDataWithoutConfirm);
-      localStorage.setItem('athleteId', response.data.id);
-      // Redirect to account settings for new registrations
+      const athleteId = response.data.id;
+      localStorage.setItem('athleteId', athleteId);
+      
+      // Check if user was selecting a plan (came from pricing page)
+      const selectedPlanStr = localStorage.getItem('selectedPlan');
+      const referralCode = localStorage.getItem('referralCode');
+      
+      if (selectedPlanStr) {
+        // User came from pricing page, redirect to Stripe checkout
+        const selectedPlan = JSON.parse(selectedPlanStr);
+        const plan_id = `${selectedPlan.planId}_${selectedPlan.billingCycle}`;
+        
+        try {
+          // Create Stripe checkout session
+          const originUrl = window.location.origin;
+          const checkoutResponse = await fetch(`${BACKEND_URL}/api/subscriptions/create-checkout-session`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              athlete_id: athleteId,
+              plan_id: plan_id,
+              success_url: `${originUrl}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
+              cancel_url: `${originUrl}/pricing`
+            })
+          });
+          
+          const checkoutData = await checkoutResponse.json();
+          
+          if (checkoutData.url) {
+            // Clear selected plan from localStorage
+            localStorage.removeItem('selectedPlan');
+            
+            // Convert referral if present
+            if (referralCode) {
+              await axios.post(`${API}/referrals/convert?athlete_id=${athleteId}&referral_code=${referralCode}`);
+              localStorage.removeItem('referralCode');
+            }
+            
+            // Redirect to Stripe
+            window.location.href = checkoutData.url;
+            return;
+          }
+        } catch (checkoutError) {
+          console.error('Error creating checkout session:', checkoutError);
+          // Fall through to default redirect
+        }
+      }
+      
+      // Default: Redirect to account settings for new registrations
       navigate('/account');
     } catch (error) {
       console.error('Error creating athlete profile:', error);
