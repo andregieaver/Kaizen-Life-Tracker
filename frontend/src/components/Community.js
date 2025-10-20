@@ -719,6 +719,14 @@ const Community = ({ athleteId }) => {
         }
         return post;
       }));
+      
+      // Also update following posts
+      setFollowingPosts(currentPosts => currentPosts.map(post => {
+        if (post.id === targetPostId) {
+          return { ...post, comments: commentsResponse.data.comments, comments_count: response.data.comments_count };
+        }
+        return post;
+      }));
 
       // Update selected post if modal is open
       if (selectedPostForComments && selectedPostForComments.id === targetPostId) {
