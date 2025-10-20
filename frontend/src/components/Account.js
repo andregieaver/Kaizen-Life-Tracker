@@ -1229,6 +1229,13 @@ const Account = ({ athleteId }) => {
     <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Header */}
       <div className="mb-8 relative">
+        {/* Debug Info - Remove after testing */}
+        {athlete && (
+          <div className="mb-4 p-3 bg-blue-900/30 border border-blue-700 rounded text-xs text-blue-300">
+            <strong>Debug:</strong> Email: {athlete.email} | Super Admin: {athlete.is_super_admin ? 'YES' : 'NO'} | ID: {athlete.id}
+          </div>
+        )}
+        
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <h1 className="text-3xl font-display font-bold text-white mb-2">
