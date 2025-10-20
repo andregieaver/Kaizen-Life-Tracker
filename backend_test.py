@@ -4660,41 +4660,42 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run User Feed API Endpoint Testing"""
-    print("🚀 STARTING USER FEED API ENDPOINT TESTING")
+    """Run Referral System Stripe Checkout Flow Testing"""
+    print("🚀 STARTING REFERRAL SYSTEM STRIPE CHECKOUT FLOW TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test User Feed API Endpoint (CRITICAL PRIORITY - NEW FEATURE TESTING)
+    # Test Referral System Stripe Checkout Flow (CRITICAL PRIORITY - BUG FIX VERIFICATION)
     try:
-        result = test_user_feed_api_endpoint()
+        result = test_referral_system_stripe_checkout_flow()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("User Feed API Endpoint", False, f"Exception: {str(e)}")
+        print_test_result("Referral System Stripe Checkout Flow", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 USER FEED API ENDPOINT TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ User Feed Endpoint: GET /api/community/user/{target_athlete_id}/posts works correctly")
-        print("✅ User Filtering: Returns only posts by target user")
-        print("✅ Pagination: limit and skip parameters work correctly")
-        print("✅ liked_by_user Flag: Correctly reflects viewer's likes")
-        print("✅ Sorting: Posts sorted newest first")
-        print("✅ exclude_images Parameter: Works correctly (excludes image_data, includes has_image)")
-        print("✅ Required Fields: All necessary fields present in response")
-        print("✅ Edge Cases: Non-existent users and different viewers handled correctly")
-        print("🔧 VERIFIED: User feed/wall functionality is working correctly")
-        print("🔧 CONFIRMED: Facebook-style wall feature is production-ready")
+        print("🎉 REFERRAL SYSTEM STRIPE CHECKOUT FLOW TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ Bug Fix Verified: Users with referral links now properly redirected to Stripe checkout")
+        print("✅ CheckoutRequest Model: Accepts optional referral_code parameter")
+        print("✅ Referral Code Processing: Backend processes referral_code from request body")
+        print("✅ Discount Application: 20% discount applied when valid referral code provided")
+        print("✅ Graceful Fallback: Invalid referral codes handled without breaking checkout")
+        print("✅ Atomic Conversion: Referral marked as converted during checkout creation")
+        print("✅ Race Condition Fix: No timing issues between frontend and backend")
+        print("✅ Error Handling: Proper error handling for edge cases")
+        print("🔧 VERIFIED: Referral system bug fix is working correctly")
+        print("🔧 CONFIRMED: Users with referral links will reach Stripe checkout successfully")
     else:
-        print("❌ USER FEED API ENDPOINT TESTING FOUND ISSUES")
+        print("❌ REFERRAL SYSTEM STRIPE CHECKOUT FLOW TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: User feed functionality may not be working correctly - requires immediate attention")
+        print("🚨 CRITICAL: Referral system bug fix may not be working correctly - requires immediate attention")
         print("💡 Check backend logs for specific error details")
+        print("💡 Verify Stripe configuration if checkout creation fails")
     
     print("=" * 70)
 
