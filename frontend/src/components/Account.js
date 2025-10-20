@@ -2272,8 +2272,8 @@ const Account = ({ athleteId }) => {
                   <div className="border-2 border-gray-700 rounded-lg p-4 hover:border-gray-600 transition-colors bg-gray-800/50">
                     <div className="flex items-center justify-between mb-3">
                       <div>
-                        <h3 className="text-lg font-bold text-white">Free</h3>
-                        <p className="text-sm text-gray-400">Basic features</p>
+                        <h3 className="text-lg font-bold text-white">{planSettings.free.title}</h3>
+                        <p className="text-sm text-gray-400">{planSettings.free.description}</p>
                       </div>
                       <Shield className="w-5 h-5 text-gray-400" />
                     </div>
@@ -2284,26 +2284,12 @@ const Account = ({ athleteId }) => {
                       </div>
                     </div>
                     <ul className="space-y-2 mb-4">
-                      <li className="flex items-start text-sm">
-                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                        <span>10 AI Coach questions/month</span>
-                      </li>
-                      <li className="flex items-start text-sm">
-                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                        <span>1 scheduled AI analysis</span>
-                      </li>
-                      <li className="flex items-start text-sm">
-                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                        <span>Basic features</span>
-                      </li>
-                      <li className="flex items-start text-sm">
-                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                        <span>30-day history</span>
-                      </li>
-                      <li className="flex items-start text-sm">
-                        <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                        <span>Email support</span>
-                      </li>
+                      {planSettings.free.features.map((feature, index) => (
+                        <li key={index} className="flex items-start text-sm">
+                          <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
                     </ul>
                     {subscriptionStatus.tier === 'free' ? (
                       <Button className="w-full" variant="outline" disabled>
