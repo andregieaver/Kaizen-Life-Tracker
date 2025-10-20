@@ -45,6 +45,12 @@ const Dashboard = ({ athleteId }) => {
   const [testResults, setTestResults] = useState([]);
   const [communityUnreadCount, setCommunityUnreadCount] = useState(0);
   
+  // Module settings state
+  const [moduleSettings, setModuleSettings] = useState({
+    affiliateProgram: { enabled: true },
+    community: { enabled: true }
+  });
+  
   // Scroll animation state
   const [scrollDirection, setScrollDirection] = useState('none'); // 'none' on initial load to show elements
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -56,6 +62,7 @@ const Dashboard = ({ athleteId }) => {
   useEffect(() => {
     loadDashboardData();
     loadCommunityUnreadCount();
+    loadModuleSettings();
   }, [athleteId]);
 
   // Reload community unread count periodically
