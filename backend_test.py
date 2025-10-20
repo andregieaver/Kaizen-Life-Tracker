@@ -5531,50 +5531,49 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Comprehensive Referral System Edge Case Testing"""
-    print("🚀 STARTING COMPREHENSIVE REFERRAL SYSTEM EDGE CASE TESTING")
+    """Run Image Upload Endpoint with Processing Testing"""
+    print("🚀 STARTING IMAGE UPLOAD ENDPOINT WITH PROCESSING TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Comprehensive Referral System Edge Cases
+    # Test Image Upload Endpoint with Processing
     try:
-        result = test_referral_system_comprehensive_edge_cases()
+        result = test_image_upload_endpoint_with_processing()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Comprehensive Referral System Edge Cases", False, f"Exception: {str(e)}")
+        print_test_result("Image Upload Endpoint with Processing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 COMPREHENSIVE REFERRAL SYSTEM EDGE CASE TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ EDGE CASE 1: Multiple renewals with reward accumulation verified")
-        print("✅ EDGE CASE 2: Zero rewards scenario handled correctly")
-        print("✅ EDGE CASE 3: Invalid referral codes handled gracefully")
-        print("✅ EDGE CASE 4: Self-referral prevention working")
-        print("✅ EDGE CASE 5: Boundary testing (4, 5, 6 rewards) verified")
-        print("✅ EDGE CASE 6: API endpoint stress testing completed")
-        print("✅ EDGE CASE 7: Performance testing under 2s response time")
-        print("✅ EDGE CASE 8: Database consistency checks passed")
-        print("✅ EDGE CASE 9: Error handling for edge cases verified")
-        print("✅ MONTHLY CAP RESET: 5 referral rewards cap behavior verified")
-        print("✅ REWARD EXPIRATION: 1-year expiration logic tested")
-        print("✅ DATABASE CONSISTENCY: No duplicate rewards, proper status transitions")
-        print("✅ API PERFORMANCE: All endpoints responding under 2s")
-        print("🔧 VERIFIED: Comprehensive referral system edge cases all handled correctly")
-        print("🔧 CONFIRMED: Monthly cap reset behavior working as specified")
+        print("🎉 IMAGE UPLOAD ENDPOINT WITH PROCESSING TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ SINGLE IMAGE UPLOAD: JPG uploaded and processed correctly")
+        print("✅ WEBP CONVERSION: All images converted to WebP format")
+        print("✅ IMAGE RESIZING: Large images resized to max 1024x1024px")
+        print("✅ ASPECT RATIO: Original aspect ratios maintained during resize")
+        print("✅ MULTIPLE IMAGES: Up to 5 images uploaded simultaneously")
+        print("✅ PNG TRANSPARENCY: PNG with transparency converted correctly")
+        print("✅ MAX FILES VALIDATION: Correctly rejects >5 images")
+        print("✅ CUSTOM MAX FILES: max_files query parameter working")
+        print("✅ FILE TYPE VALIDATION: Non-image files correctly rejected")
+        print("✅ IMAGE COMPRESSION: Quality=85 compression working")
+        print("✅ URL GENERATION: Correct URLs with backend domain")
+        print("✅ STATIC FILE SERVING: Images accessible via /uploads/images/")
+        print("🔧 VERIFIED: Image processing pipeline fully functional")
+        print("🔧 CONFIRMED: All image optimization features working as specified")
     else:
-        print("❌ COMPREHENSIVE REFERRAL SYSTEM EDGE CASE TESTING FOUND ISSUES")
+        print("❌ IMAGE UPLOAD ENDPOINT WITH PROCESSING TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Referral system edge cases may not be working correctly - requires immediate attention")
-        print("💡 Check backend logs for specific error details")
-        print("💡 Verify Stripe configuration if checkout creation fails")
-        print("💡 Check database collections: referrals, referral_rewards")
-        print("💡 Review monthly cap reset logic implementation")
-        print("💡 Verify reward expiration handling")
+        print("🚨 CRITICAL: Image upload and processing may not be working correctly")
+        print("💡 Check backend logs for image processing errors")
+        print("💡 Verify image_processor.py module is working")
+        print("💡 Check /app/backend/uploads/images/ directory permissions")
+        print("💡 Verify static file mounting at /uploads path")
+        print("💡 Check PIL/Pillow library installation")
     
     print("=" * 70)
 
