@@ -659,7 +659,13 @@ const Community = ({ athleteId }) => {
         image_urls: uploadedImageUrls.length > 0 ? uploadedImageUrls : [] // Use array of URLs if available
       };
 
-      await axios.post(`${API}/community/posts?athlete_id=${athleteId}`, postData);
+      console.log('📤 POSTING DATA:', JSON.stringify(postData, null, 2));
+      console.log('📷 Uploaded Image URLs:', uploadedImageUrls);
+      console.log('🖼️ Selected Images Count:', selectedImages.length);
+
+      const response = await axios.post(`${API}/community/posts?athlete_id=${athleteId}`, postData);
+      
+      console.log('✅ POST CREATED:', response.data);
       
       // Clear modal state
       setWritePostContent('');
@@ -671,6 +677,9 @@ const Community = ({ athleteId }) => {
       setSelectedImages([]);
       setUploadedImageUrls([]);
       
+      // Show success message with image count
+      alert(`Post created successfully! ${uploadedImageUrls.length} image(s) uploaded.`);
+      
       // Reload appropriate feed
       if (activeTab === 'feed') {
         setPostsLoaded(false);
@@ -680,8 +689,9 @@ const Community = ({ athleteId }) => {
         loadFollowingPosts();
       }
     } catch (error) {
-      console.error('Error creating post:', error);
-      alert('Failed to create post');
+      console.error('❌ Error creating post:', error);
+      console.error('Error response:', error.response?.data);
+      alert(`Failed to create post: ${error.response?.data?.detail || error.message}`);
     }
   };
 
