@@ -14,7 +14,7 @@ from datetime import datetime
 from PIL import Image
 
 # Backend URL from environment
-BACKEND_URL = "https://community-coach-1.preview.emergentagent.com/api"
+BACKEND_URL = "https://imager-carousel.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test results"""
