@@ -9119,20 +9119,6 @@ async def rsvp_event(event_id: str, rsvp_data: dict, athlete_id: str = Query(...
 
 
 # Include the router in the main app (after all endpoints are defined)
-app.include_router(api_router)
-
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    client.close()
-    scheduler.shutdown()
-    logging.info("Scheduler shutdown")
-
-@app.get("/api/schedules/debug/trigger")
-async def debug_trigger_schedules():
-    """Debug endpoint to manually trigger schedule checking"""
-    await check_and_execute_schedules()
-    return {"message": "Schedule check triggered"}
-
 # ==================== REFERRAL SYSTEM ENDPOINTS ====================
 
 @api_router.post("/referrals/generate")
@@ -9357,6 +9343,20 @@ async def apply_referral_discount(athlete_id: str = Query(...)):
     except Exception as e:
         logging.error(f"Error applying discount: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+app.include_router(api_router)
+
+@app.on_event("shutdown")
+async def shutdown_db_client():
+    client.close()
+    scheduler.shutdown()
+    logging.info("Scheduler shutdown")
+
+@app.get("/api/schedules/debug/trigger")
+async def debug_trigger_schedules():
+    """Debug endpoint to manually trigger schedule checking"""
+    await check_and_execute_schedules()
+    return {"message": "Schedule check triggered"}
 
 
 
