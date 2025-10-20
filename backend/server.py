@@ -1092,6 +1092,37 @@ class Follow(BaseModel):
     following_id: str  # User being followed
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+
+class Referral(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    referrer_id: str  # User who created the referral
+    referral_code: str  # Unique referral code (e.g., TRAIN3E4EE10D)
+    referred_user_id: Optional[str] = None  # User who signed up (null until conversion)
+    referred_user_email: Optional[str] = None  # Email of referred user
+    status: str = "pending"  # pending, converted, rewarded
+    click_count: int = 0  # Number of times link was clicked
+    ip_addresses: List[str] = []  # Track IPs for fraud detection
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    converted_at: Optional[datetime] = None  # When referred user signed up
+    rewarded_at: Optional[datetime] = None  # When referrer received reward
+
+class ReferralReward(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str  # User receiving the reward
+    referral_id: str  # Which referral earned this reward
+    discount_percentage: int = 20  # Percentage discount
+    stripe_coupon_id: Optional[str] = None  # Stripe coupon ID
+    stripe_promotion_code: Optional[str] = None  # User-facing code
+    status: str = "pending"  # pending, applied, expired
+    expires_at: Optional[datetime] = None  # When reward expires
+    applied_at: Optional[datetime] = None  # When reward was used
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
 class Group(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
