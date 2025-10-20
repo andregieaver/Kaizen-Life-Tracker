@@ -3156,7 +3156,7 @@ const Account = ({ athleteId }) => {
 
       {/* Logout Section */}
       <div className="mt-8 pt-6 border-t border-gray-200">
-        <Card className="border-0 shadow-lg bg-gray-50">
+        <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
           <CardContent className="p-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
