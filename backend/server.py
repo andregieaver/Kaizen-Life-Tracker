@@ -1033,6 +1033,7 @@ class CommunityPost(BaseModel):
     athlete_profile_picture: Optional[str] = None  # Cached for display
     content: str  # Post text content
     image_data: Optional[str] = None  # Base64 encoded image (optional)
+    visibility: str = "public"  # "public" or "private" (private = following feed only)
     likes_count: int = 0
     comments_count: int = 0
     shares_count: int = 0
