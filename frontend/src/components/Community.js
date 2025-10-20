@@ -443,6 +443,56 @@ const Community = ({ athleteId }) => {
     }
   };
 
+  // Handle multiple image selection
+  const handleMultipleImagesSelect = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+
+    // Check max limit (5 images)
+    const maxImages = 5;
+    const currentCount = selectedImages.length;
+    const newCount = currentCount + files.length;
+
+    if (newCount > maxImages) {
+      alert(`You can only upload a maximum of ${maxImages} images. You currently have ${currentCount} image(s).`);
+      return;
+    }
+
+    // Add files to selected images
+    setSelectedImages(prev => [...prev, ...files]);
+
+    // Upload images to backend
+    setIsUploadingImages(true);
+    try {
+      const formData = new FormData();
+      files.forEach(file => {
+        formData.append('files', file);
+      });
+
+      const response = await axios.post(`${API}/upload/images?max_files=${maxImages}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      // Add URLs to state
+      setUploadedImageUrls(prev => [...prev, ...response.data.urls]);
+    } catch (error) {
+      console.error('Error uploading images:', error);
+      alert('Failed to upload images. Please try again.');
+      // Remove the files that failed to upload
+      setSelectedImages(prev => prev.slice(0, currentCount));
+    } finally {
+      setIsUploadingImages(false);
+    }
+  };
+
+  // Remove image from selection
+  const handleRemoveImage = (index) => {
+    setSelectedImages(prev => prev.filter((_, i) => i !== index));
+    setUploadedImageUrls(prev => prev.filter((_, i) => i !== index));
+  };
+
   // Mention handling functions
   const searchAthletes = async (searchText) => {
     if (!searchText || searchText.length < 1) {
