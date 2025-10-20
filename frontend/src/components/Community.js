@@ -622,6 +622,73 @@ const Community = ({ athleteId }) => {
     }
   };
 
+
+  // Event comment handlers
+  const handleAddEventComment = async (eventId) => {
+    const targetEventId = eventId || selectedEventForComments?.id;
+    if (!targetEventId) return;
+    
+    const content = commentText[targetEventId];
+    if (!content || !content.trim()) return;
+
+    try {
+      const response = await axios.post(`${API}/community/events/${targetEventId}/comment?athlete_id=${athleteId}`, {
+        content: content
+      });
+
+      // Reload comments
+      const commentsResponse = await axios.get(`${API}/community/events/${targetEventId}/comments`);
+      
+      // Update events with new comments and count
+      setEvents(currentEvents => currentEvents.map(event => {
+        if (event.id === targetEventId) {
+          return { ...event, comments: commentsResponse.data.comments, comments_count: response.data.comments_count };
+        }
+        return event;
+      }));
+
+      // Update selected event if modal is open
+      if (selectedEventForComments && selectedEventForComments.id === targetEventId) {
+        setSelectedEventForComments({
+          ...selectedEventForComments,
+          comments: commentsResponse.data.comments,
+          comments_count: response.data.comments_count
+        });
+      }
+
+      // Clear comment text
+      setCommentText({ ...commentText, [targetEventId]: '' });
+    } catch (error) {
+      console.error('Error adding event comment:', error);
+      alert('Failed to add comment');
+    }
+  };
+
+  const toggleEventComments = async (eventId) => {
+    const event = events.find(e => e.id === eventId);
+    if (!event) return;
+    
+    // Load comments for this event
+    if (!event.comments) {
+      try {
+        const response = await axios.get(`${API}/community/events/${eventId}/comments`);
+        setEvents(currentEvents => currentEvents.map(e => 
+          e.id === eventId 
+            ? { ...e, comments: response.data.comments, comments_count: response.data.comments.length }
+            : e
+        ));
+        event.comments = response.data.comments;
+        event.comments_count = response.data.comments.length;
+      } catch (error) {
+        console.error('Error loading event comments:', error);
+      }
+    }
+    
+    setSelectedEventForComments(event);
+    setShowCommentsModal(true);
+  };
+
+
   const loadComments = async (postId) => {
     try {
       const response = await axios.get(`${API}/community/posts/${postId}/comments`);
