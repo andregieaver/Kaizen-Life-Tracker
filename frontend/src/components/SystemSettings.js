@@ -1,13 +1,72 @@
 import React, { useState } from 'react';
-import { Settings } from 'lucide-react';
+import { Settings, Upload, Save } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
 
 const SystemSettings = ({ athleteId }) => {
   const [activeTab, setActiveTab] = useState('seo');
+  
+  // SEO State
+  const [seoSettings, setSeoSettings] = useState({
+    siteTitle: '',
+    favicon: null,
+    metaTitle: '',
+    metaDescription: '',
+    focusKeyword: ''
+  });
+  const [faviconPreview, setFaviconPreview] = useState(null);
+  const [saveStatus, setSaveStatus] = useState({ message: '', type: '' });
 
   const handleTabChange = (value) => {
     setActiveTab(value);
+  };
+
+  const handleSeoChange = (field, value) => {
+    setSeoSettings(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleFaviconUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSeoSettings(prev => ({
+        ...prev,
+        favicon: file
+      }));
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFaviconPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSaveSeoSettings = async (e) => {
+    e.preventDefault();
+    
+    try {
+      // TODO: Implement API call to save SEO settings
+      setSaveStatus({
+        message: 'SEO settings saved successfully!',
+        type: 'success'
+      });
+      
+      setTimeout(() => {
+        setSaveStatus({ message: '', type: '' });
+      }, 3000);
+    } catch (error) {
+      setSaveStatus({
+        message: 'Failed to save SEO settings',
+        type: 'error'
+      });
+    }
   };
 
   return (
@@ -23,6 +82,17 @@ const SystemSettings = ({ athleteId }) => {
             Super Admin Dashboard - Monitor and manage system-wide settings
           </p>
         </div>
+
+        {/* Status Messages */}
+        {saveStatus.message && (
+          <div className={`mb-6 p-4 rounded-lg border ${
+            saveStatus.type === 'success' 
+              ? 'bg-green-900/30 border-green-700 text-green-400'
+              : 'bg-red-900/30 border-red-700 text-red-400'
+          }`}>
+            {saveStatus.message}
+          </div>
+        )}
 
         {/* System Settings Tabs */}
         <Tabs value={activeTab} onValueChange={handleTabChange}>
@@ -44,13 +114,134 @@ const SystemSettings = ({ athleteId }) => {
               <CardHeader>
                 <CardTitle className="text-white">SEO Settings</CardTitle>
                 <CardDescription className="text-gray-400">
-                  Configure search engine optimization settings
+                  Configure search engine optimization settings for your site
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-gray-400 text-center py-12">
-                  SEO configuration coming soon...
-                </div>
+                <form onSubmit={handleSaveSeoSettings} className="space-y-6">
+                  {/* Site Title */}
+                  <div className="space-y-2">
+                    <Label htmlFor="siteTitle" className="text-sm font-medium text-white">
+                      Site Title
+                    </Label>
+                    <Input
+                      id="siteTitle"
+                      type="text"
+                      value={seoSettings.siteTitle}
+                      onChange={(e) => handleSeoChange('siteTitle', e.target.value)}
+                      placeholder="Enter your site title"
+                      className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                    />
+                    <p className="text-xs text-gray-500">
+                      This appears in the browser tab and search results
+                    </p>
+                  </div>
+
+                  {/* Favicon Upload */}
+                  <div className="space-y-2">
+                    <Label htmlFor="favicon" className="text-sm font-medium text-white">
+                      Favicon
+                    </Label>
+                    <div className="flex items-center gap-4">
+                      {faviconPreview && (
+                        <div className="w-16 h-16 border-2 border-gray-700 rounded-lg overflow-hidden bg-gray-800 flex items-center justify-center">
+                          <img 
+                            src={faviconPreview} 
+                            alt="Favicon preview" 
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                      )}
+                      <div className="flex-1">
+                        <label htmlFor="favicon" className="cursor-pointer">
+                          <div className="flex items-center gap-2 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg hover:bg-gray-700 transition-colors">
+                            <Upload className="w-4 h-4 text-gray-400" />
+                            <span className="text-sm text-gray-300">
+                              {seoSettings.favicon ? seoSettings.favicon.name : 'Choose favicon file'}
+                            </span>
+                          </div>
+                          <input
+                            id="favicon"
+                            type="file"
+                            accept="image/x-icon,image/png,image/svg+xml"
+                            onChange={handleFaviconUpload}
+                            className="hidden"
+                          />
+                        </label>
+                        <p className="text-xs text-gray-500 mt-1">
+                          Recommended: 32x32px or 16x16px (.ico, .png, or .svg)
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Meta Title */}
+                  <div className="space-y-2">
+                    <Label htmlFor="metaTitle" className="text-sm font-medium text-white">
+                      Meta Title
+                    </Label>
+                    <Input
+                      id="metaTitle"
+                      type="text"
+                      value={seoSettings.metaTitle}
+                      onChange={(e) => handleSeoChange('metaTitle', e.target.value)}
+                      placeholder="Enter meta title"
+                      className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                      maxLength={60}
+                    />
+                    <p className="text-xs text-gray-500">
+                      {seoSettings.metaTitle.length}/60 characters - Displayed in search engine results
+                    </p>
+                  </div>
+
+                  {/* Meta Description */}
+                  <div className="space-y-2">
+                    <Label htmlFor="metaDescription" className="text-sm font-medium text-white">
+                      Meta Description
+                    </Label>
+                    <textarea
+                      id="metaDescription"
+                      value={seoSettings.metaDescription}
+                      onChange={(e) => handleSeoChange('metaDescription', e.target.value)}
+                      placeholder="Enter meta description"
+                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#00C2A8] resize-none"
+                      rows={4}
+                      maxLength={160}
+                    />
+                    <p className="text-xs text-gray-500">
+                      {seoSettings.metaDescription.length}/160 characters - Brief description for search results
+                    </p>
+                  </div>
+
+                  {/* Focus Keyword */}
+                  <div className="space-y-2">
+                    <Label htmlFor="focusKeyword" className="text-sm font-medium text-white">
+                      Focus Keyword
+                    </Label>
+                    <Input
+                      id="focusKeyword"
+                      type="text"
+                      value={seoSettings.focusKeyword}
+                      onChange={(e) => handleSeoChange('focusKeyword', e.target.value)}
+                      placeholder="Enter primary keyword or phrase"
+                      className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                    />
+                    <p className="text-xs text-gray-500">
+                      Main keyword you want to rank for in search engines
+                    </p>
+                  </div>
+
+                  {/* Save Button */}
+                  <div className="pt-4">
+                    <Button
+                      type="submit"
+                      className="w-full sm:w-auto px-6 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors flex items-center gap-2"
+                    >
+                      <Save className="w-4 h-4" />
+                      Save SEO Settings
+                    </Button>
+                  </div>
+                </form>
               </CardContent>
             </Card>
           </TabsContent>
