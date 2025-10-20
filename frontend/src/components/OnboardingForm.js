@@ -135,10 +135,15 @@ const OnboardingForm = ({ onAthleteCreated }) => {
       const selectedPlanStr = localStorage.getItem('selectedPlan');
       const referralCode = localStorage.getItem('referralCode');
       
+      console.log('After signup - selectedPlan:', selectedPlanStr);
+      console.log('After signup - referralCode:', referralCode);
+      
       if (selectedPlanStr) {
         // User came from pricing page, redirect to Stripe checkout
         const selectedPlan = JSON.parse(selectedPlanStr);
         const plan_id = `${selectedPlan.planId}_${selectedPlan.billingCycle}`;
+        
+        console.log('Creating checkout for plan:', plan_id);
         
         try {
           // Create Stripe checkout session
@@ -154,34 +159,54 @@ const OnboardingForm = ({ onAthleteCreated }) => {
             })
           });
           
+          if (!checkoutResponse.ok) {
+            const errorData = await checkoutResponse.json();
+            console.error('Checkout creation failed:', errorData);
+            throw new Error(`Checkout failed: ${errorData.detail || 'Unknown error'}`);
+          }
+          
           const checkoutData = await checkoutResponse.json();
+          console.log('Checkout session created:', checkoutData);
           
           if (checkoutData.url) {
-            // Clear selected plan from localStorage
-            localStorage.removeItem('selectedPlan');
-            
             // Convert referral if present
             if (referralCode) {
-              await axios.post(`${API}/referrals/convert?athlete_id=${athleteId}&referral_code=${referralCode}`);
+              console.log('Converting referral:', referralCode);
+              try {
+                await axios.post(`${API}/referrals/convert?athlete_id=${athleteId}&referral_code=${referralCode}`);
+                console.log('Referral converted successfully');
+              } catch (refError) {
+                console.error('Failed to convert referral:', refError);
+                // Continue anyway
+              }
               localStorage.removeItem('referralCode');
             }
             
+            // Clear selected plan from localStorage
+            localStorage.removeItem('selectedPlan');
+            
+            console.log('Redirecting to Stripe:', checkoutData.url);
+            
             // Redirect to Stripe
             window.location.href = checkoutData.url;
-            return;
+            return; // IMPORTANT: Stop execution here
+          } else {
+            console.error('No checkout URL received:', checkoutData);
           }
         } catch (checkoutError) {
           console.error('Error creating checkout session:', checkoutError);
-          // Fall through to default redirect
+          alert(`Failed to create checkout: ${checkoutError.message}`);
+          setIsLoading(false);
+          return; // Don't redirect to account on error
         }
       }
       
+      console.log('No selected plan, redirecting to account');
       // Default: Redirect to account settings for new registrations
       navigate('/account');
     } catch (error) {
       console.error('Error creating athlete profile:', error);
       setErrors({ submit: t('validation.submitError') });
-    } finally {
       setIsLoading(false);
     }
   };
