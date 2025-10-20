@@ -996,6 +996,14 @@ const Community = ({ athleteId }) => {
     setShowCommentsModal(true);
   };
 
+  const toggleExpandPost = (postId) => {
+    setExpandedPosts(prev => ({
+      ...prev,
+      [postId]: !prev[postId]
+    }));
+  };
+
+
   const markNotificationRead = async (notificationId) => {
     try {
       await axios.put(`${API}/community/notifications/${notificationId}/read`);
