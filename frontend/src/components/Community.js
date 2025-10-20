@@ -1304,6 +1304,8 @@ const Community = ({ athleteId }) => {
                   </div>
                 </label>
                 
+                <EmojiPickerButton onEmojiSelect={handleEmojiSelectForPost} />
+                
                 <Button
                   onClick={handleCreatePost}
                   disabled={!newPostContent.trim()}
