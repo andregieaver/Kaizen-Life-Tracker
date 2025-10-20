@@ -9402,7 +9402,7 @@ async def apply_referral_discount(athlete_id: str = Query(...)):
 
 async def verify_super_admin(athlete_id: str):
     """Verify if athlete is super admin"""
-    athlete = await db.athletes.find_one({"id": athlete_id}, {"_id": 0})
+    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
     if not athlete:
         raise HTTPException(status_code=404, detail="User not found")
     if not athlete.get("is_super_admin", False):
