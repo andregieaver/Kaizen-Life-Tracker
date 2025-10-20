@@ -1213,7 +1213,19 @@ const Community = ({ athleteId }) => {
 
           {/* Posts and Events Feed */}
           <div className="space-y-6">
-            {posts.map(item => {
+            {isLoading ? (
+              <div className="flex justify-center py-12">
+                <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            ) : posts.length === 0 ? (
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+                <CardContent className="p-12 text-center">
+                  <p className="text-gray-400 text-lg mb-2">No posts yet</p>
+                  <p className="text-gray-500 text-sm">Be the first to share something!</p>
+                </CardContent>
+              </Card>
+            ) : (
+              posts.map(item => {
               if (item.type === 'event') {
                 // Render event card
                 return (
