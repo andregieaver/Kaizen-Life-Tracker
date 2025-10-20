@@ -629,13 +629,17 @@ const Community = ({ athleteId }) => {
     try {
       const postData = {
         content: newPostContent,
-        image_data: newPostImage
+        image_data: newPostImage,
+        image_urls: uploadedImageUrls.length > 0 ? uploadedImageUrls : [] // Use array of URLs if available
       };
 
       await axios.post(`${API}/community/posts?athlete_id=${athleteId}`, postData);
       setNewPostContent('');
       setNewPostImage(null);
       setNewPostImagePreview(null);
+      // Clear multi-image state
+      setSelectedImages([]);
+      setUploadedImageUrls([]);
       setPostsLoaded(false); // Reset cache to reload posts
       loadPosts();
     } catch (error) {
@@ -651,7 +655,8 @@ const Community = ({ athleteId }) => {
       const postData = {
         content: writePostContent,
         image_data: writePostImage,
-        visibility: writePostVisibility
+        visibility: writePostVisibility,
+        image_urls: uploadedImageUrls.length > 0 ? uploadedImageUrls : [] // Use array of URLs if available
       };
 
       await axios.post(`${API}/community/posts?athlete_id=${athleteId}`, postData);
@@ -662,6 +667,9 @@ const Community = ({ athleteId }) => {
       setWritePostImagePreview(null);
       setWritePostVisibility('public');
       setShowWritePostModal(false);
+      // Clear multi-image state
+      setSelectedImages([]);
+      setUploadedImageUrls([]);
       
       // Reload appropriate feed
       if (activeTab === 'feed') {
