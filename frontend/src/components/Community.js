@@ -2183,6 +2183,137 @@ const Community = ({ athleteId }) => {
         />
       )}
 
+
+      {/* Write Post Modal */}
+      {showWritePostModal && (
+        <div 
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-[70] p-4"
+          onClick={() => setShowWritePostModal(false)}
+        >
+          <div 
+            className="bg-gray-800 rounded-lg max-w-2xl w-full p-6 shadow-2xl border border-gray-700"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-2xl font-bold text-white">Create Post</h3>
+              <button
+                onClick={() => setShowWritePostModal(false)}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="space-y-4">
+              {/* Textarea */}
+              <textarea
+                value={writePostContent}
+                onChange={(e) => setWritePostContent(e.target.value)}
+                placeholder="What's on your mind?"
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[120px] resize-vertical"
+              />
+
+              {/* Image Preview */}
+              {writePostImagePreview && (
+                <div className="relative">
+                  <img
+                    src={writePostImagePreview}
+                    alt="Preview"
+                    className="w-full rounded-lg max-h-64 object-cover"
+                  />
+                  <button
+                    onClick={() => {
+                      setWritePostImage(null);
+                      setWritePostImagePreview(null);
+                    }}
+                    className="absolute top-2 right-2 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
+                  >
+                    <X className="w-5 h-5 text-white" />
+                  </button>
+                </div>
+              )}
+
+              {/* Visibility Toggle */}
+              <div className="flex items-center space-x-4 p-4 bg-gray-700 rounded-lg">
+                <span className="text-white font-semibold">Visibility:</span>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => setWritePostVisibility('public')}
+                    className={`px-4 py-2 rounded-lg transition-colors ${
+                      writePostVisibility === 'public'
+                        ? 'bg-[#00C2A8] text-white'
+                        : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <Globe className="w-4 h-4" />
+                      <span>Public</span>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => setWritePostVisibility('private')}
+                    className={`px-4 py-2 rounded-lg transition-colors ${
+                      writePostVisibility === 'private'
+                        ? 'bg-[#00C2A8] text-white'
+                        : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <Lock className="w-4 h-4" />
+                      <span>Private</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              <p className="text-gray-400 text-sm">
+                {writePostVisibility === 'public' 
+                  ? '🌍 Public posts appear in everyone\'s main feed'
+                  : '🔒 Private posts only appear in your following feed and followers\' feeds'
+                }
+              </p>
+
+              {/* Action Buttons */}
+              <div className="flex items-center justify-between pt-4 border-t border-gray-600">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleWritePostImageSelect}
+                    className="hidden"
+                    id="write-post-image"
+                  />
+                  <label
+                    htmlFor="write-post-image"
+                    className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full cursor-pointer transition-colors"
+                  >
+                    <Camera className="w-5 h-5 text-white" />
+                  </label>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <Button
+                    onClick={() => setShowWritePostModal(false)}
+                    className="bg-gray-700 hover:bg-gray-600 text-white"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleWritePost}
+                    disabled={!writePostContent.trim()}
+                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Post
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Confirmation Modal */}
       {showConfirmModal && (
         <ConfirmationModal
