@@ -92,6 +92,11 @@ function App() {
             } 
           />
           <Route 
+            path="/signup" 
+            element={<SignupRedirect />} 
+          />
+
+          <Route 
             path="/onboarding" 
             element={
               athleteId ? (
