@@ -15,7 +15,7 @@ const Community = ({ athleteId }) => {
   // Initialize activeTab from localStorage or default to 'feed'
   const [activeTab, setActiveTab] = useState(() => {
     const savedTab = localStorage.getItem('communityActiveTab');
-    return (savedTab && ['feed', 'groups', 'mygroups', 'events'].includes(savedTab)) ? savedTab : 'feed';
+    return (savedTab && ['feed', 'following', 'groups', 'mygroups', 'events'].includes(savedTab)) ? savedTab : 'feed';
   });
   
   // Swipe state
