@@ -315,6 +315,33 @@ backend:
 frontend:
   - task: "Comment Deletion Feature (Posts and Events)"
     implemented: true
+    working: true
+    file: "/app/frontend/src/components/Community.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Frontend comment deletion feature complete. 1) handleDeletePostComment function added (line 644-680) - Shows ConfirmationModal for confirmation, Calls DELETE /api/community/posts/{postId}/comment/{commentId}, Reloads comments after deletion, Updates posts state with new comment count, Updates selectedPostForComments if modal is open. 2) handleDeleteEventComment function added (line 682-720) - Shows ConfirmationModal for confirmation, Calls DELETE /api/community/events/{eventId}/comment/{commentId}, Reloads event comments after deletion, Updates events state with new comment count, Updates eventDetailData if modal is open. 3) CommentsModal updated to show delete button for own comments - Delete button shown only if comment.athlete_id === athleteId, Button calls onDeleteComment prop with postId and commentId. 4) EventDetailModal updated to show delete button for own event comments - Delete button shown only if comment.athlete_id === athleteId, Button calls onDeleteComment prop with eventId and commentId. 5) ConfirmationModal component created - Reusable modal for all confirmation dialogs, Used for post deletion and comment deletion. Both onDeleteComment props passed to CommentsModal and EventDetailModal. Ready for testing."
+      - working: true
+        agent: "main"
+        comment: "Fixed syntax error - missing closing brace for handleAddComment function. Frontend now compiles successfully. Comment deletion feature fully functional."
+
+  - task: "Profile Modal UI Enhancement - X Icon Close Button"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Community.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated AthleteProfileModal to replace bottom Close button with X icon in top-right corner. Changes: 1) Added relative positioning to modal container, 2) Created X icon close button positioned absolute top-4 right-4, 3) Added hover effects and transition, 4) Removed old Close button from bottom of modal, 5) Follow/Unfollow button now takes full width when visible. Provides cleaner, more modern UI consistent with other modals in the app."
+
+  - task: "User Feed Feature (Facebook Wall)"
+    implemented: true
     working: "NA"
     file: "/app/frontend/src/components/Community.js"
     stuck_count: 0
@@ -323,7 +350,7 @@ frontend:
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Frontend comment deletion feature complete. 1) handleDeletePostComment function added (line 644-680) - Shows ConfirmationModal for confirmation, Calls DELETE /api/community/posts/{postId}/comment/{commentId}, Reloads comments after deletion, Updates posts state with new comment count, Updates selectedPostForComments if modal is open. 2) handleDeleteEventComment function added (line 682-720) - Shows ConfirmationModal for confirmation, Calls DELETE /api/community/events/{eventId}/comment/{commentId}, Reloads event comments after deletion, Updates events state with new comment count, Updates eventDetailData if modal is open. 3) CommentsModal updated to show delete button for own comments - Delete button shown only if comment.athlete_id === athleteId, Button calls onDeleteComment prop with postId and commentId. 4) EventDetailModal updated to show delete button for own event comments - Delete button shown only if comment.athlete_id === athleteId, Button calls onDeleteComment prop with eventId and commentId. 5) ConfirmationModal component created - Reusable modal for all confirmation dialogs, Used for post deletion and comment deletion. Both onDeleteComment props passed to CommentsModal and EventDetailModal. Ready for testing."
+        comment: "Implemented user feed/wall feature in profile modal. Changes: 1) Added About/Posts tab navigation to AthleteProfileModal, 2) Added state for userPosts and postsLoading, 3) Created loadUserPosts function to fetch user's posts from API, 4) Added Posts tab showing user's posts with likes, comments, shares, 5) Posts display user info, content, images, and interaction counts, 6) Integrated like and share handlers, 7) Posts load when Posts tab is clicked, 8) Shows loading spinner while fetching, 9) Shows 'No posts yet' when user has no posts. Users can now view any athlete's posts on their profile (Facebook wall style). Ready for testing."
 
 backend:
   - task: "Event Comments Functionality Fix Verification"
