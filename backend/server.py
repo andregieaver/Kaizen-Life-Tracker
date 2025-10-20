@@ -3058,24 +3058,43 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
         referral_discount = None
         discounts_list = []
         
-        # Get referral code from localStorage (passed via metadata)
-        referral_code = await db.referrals.find_one({
-            "referred_user_id": request.athlete_id,
-            "status": "converted"
-        })
-        
-        if referral_code:
-            # Create one-time 20% discount coupon for referred user
-            try:
-                coupon = stripe.Coupon.create(
-                    percent_off=20,
-                    duration="once",  # Only applies to first payment
-                    name=f"Referral Discount - {referral_code['referral_code']}"
-                )
-                discounts_list.append({"coupon": coupon.id})
-                logging.info(f"Applied 20% referral discount for user {request.athlete_id}")
-            except Exception as e:
-                logging.error(f"Failed to create referral coupon: {e}")
+        # Check if referral code was provided in request
+        if request.referral_code:
+            # Verify the referral code exists and is valid
+            referral_doc = await db.referrals.find_one({
+                "referral_code": request.referral_code
+            })
+            
+            if referral_doc:
+                # Create one-time 20% discount coupon for referred user
+                try:
+                    coupon = stripe.Coupon.create(
+                        percent_off=20,
+                        duration="once",  # Only applies to first payment
+                        name=f"Referral Discount - {request.referral_code}"
+                    )
+                    discounts_list.append({"coupon": coupon.id})
+                    logging.info(f"Applied 20% referral discount for user {request.athlete_id} with code {request.referral_code}")
+                    
+                    # Mark referral as converted (track the signup)
+                    try:
+                        await db.referrals.update_one(
+                            {"referral_code": request.referral_code},
+                            {
+                                "$set": {
+                                    "referred_user_id": request.athlete_id,
+                                    "status": "converted",
+                                    "converted_at": datetime.now(timezone.utc).isoformat()
+                                }
+                            }
+                        )
+                        logging.info(f"Referral {request.referral_code} marked as converted for user {request.athlete_id}")
+                    except Exception as e:
+                        logging.error(f"Failed to mark referral as converted: {e}")
+                except Exception as e:
+                    logging.error(f"Failed to create referral coupon: {e}")
+            else:
+                logging.warning(f"Referral code {request.referral_code} not found in database")
         
         # Create Stripe Checkout Session for subscription
         session_params = {
