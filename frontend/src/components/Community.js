@@ -564,16 +564,23 @@ const Community = ({ athleteId }) => {
   };
 
   const handleDeletePost = async (postId) => {
-    if (!window.confirm('Are you sure you want to delete this post?')) return;
-
-    try {
-      await axios.delete(`${API}/community/posts/${postId}?athlete_id=${athleteId}`);
-      setPostsLoaded(false); // Reset cache to reload posts
-      loadPosts();
-    } catch (error) {
-      console.error('Error deleting post:', error);
-      alert('Failed to delete post');
-    }
+    setConfirmModalConfig({
+      title: 'Delete Post',
+      message: 'Are you sure you want to delete this post? This action cannot be undone.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      onConfirm: async () => {
+        try {
+          await axios.delete(`${API}/community/posts/${postId}?athlete_id=${athleteId}`);
+          setPostsLoaded(false); // Reset cache to reload posts
+          loadPosts();
+        } catch (error) {
+          console.error('Error deleting post:', error);
+          alert('Failed to delete post');
+        }
+      }
+    });
+    setShowConfirmModal(true);
   };
 
   const handleToggleLike = async (postId) => {
