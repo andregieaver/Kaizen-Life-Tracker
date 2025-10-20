@@ -1410,9 +1410,9 @@ def test_referral_system_comprehensive_edge_cases():
                 if login_data["email"] == "test.files@example.com":
                     referrer_athlete_id = athlete_id
                     print_test_result("Setup Referrer User", True, f"test.files@example.com athlete_id: {referrer_athlete_id}")
-                elif login_data["email"] == "andre@example.com":
+                elif login_data["email"] == "document.test@example.com":
                     referred_athlete_id = athlete_id
-                    print_test_result("Setup Referred User", True, f"andre@example.com athlete_id: {referred_athlete_id}")
+                    print_test_result("Setup Referred User", True, f"document.test@example.com athlete_id: {referred_athlete_id}")
         
         if not referrer_athlete_id or not referred_athlete_id:
             print_test_result("Setup Test Users", False, "Could not find both test users")
