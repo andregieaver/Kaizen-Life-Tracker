@@ -637,12 +637,14 @@ const Community = ({ athleteId }) => {
   const handleEditPost = async (postId) => {
     try {
       const postData = {
-        content: editContent
+        content: editContent,
+        visibility: editVisibility
       };
 
       await axios.put(`${API}/community/posts/${postId}?athlete_id=${athleteId}`, postData);
       setEditingPost(null);
       setEditContent('');
+      setEditVisibility('public');
       
       // Reload both feeds
       setPostsLoaded(false);
