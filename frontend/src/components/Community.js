@@ -3653,21 +3653,37 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
             {post.comments && post.comments.length > 0 ? (
               post.comments.map(comment => (
                 <div key={comment.id} className="flex items-start space-x-3">
-                  {comment.athlete_profile_picture ? (
-                    <img
-                      src={comment.athlete_profile_picture}
-                      alt={comment.athlete_name}
-                      className="w-8 h-8 rounded-full object-cover flex-shrink-0"
-                    />
-                  ) : (
-                    <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-white font-bold text-xs">
-                        {comment.athlete_name?.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                  )}
+                  <div
+                    className="cursor-pointer hover:opacity-80"
+                    onClick={() => {
+                      onClose();
+                      loadAthleteProfile(comment.athlete_id);
+                    }}
+                  >
+                    {comment.athlete_profile_picture ? (
+                      <img
+                        src={comment.athlete_profile_picture}
+                        alt={comment.athlete_name}
+                        className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-white font-bold text-xs">
+                          {comment.athlete_name?.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                   <div className="flex-1 bg-gray-600 rounded-lg p-3">
-                    <p className="text-white font-semibold text-sm">{comment.athlete_name}</p>
+                    <p 
+                      className="text-white font-semibold text-sm cursor-pointer hover:underline"
+                      onClick={() => {
+                        onClose();
+                        loadAthleteProfile(comment.athlete_id);
+                      }}
+                    >
+                      {comment.athlete_name}
+                    </p>
                     <p className="text-gray-300 text-sm mt-1">{formatMentions(comment.content)}</p>
                     <p className="text-gray-400 text-xs mt-1">
                       {new Date(comment.created_at).toLocaleString()}
