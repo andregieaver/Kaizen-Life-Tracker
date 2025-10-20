@@ -638,6 +638,94 @@ const Community = ({ athleteId }) => {
     } catch (error) {
       console.error('Error adding comment:', error);
       alert('Failed to add comment');
+
+
+  // Delete comment handlers
+  const handleDeletePostComment = (postId, commentId) => {
+    setConfirmModalConfig({
+      title: 'Delete Comment',
+      message: 'Are you sure you want to delete this comment? This action cannot be undone.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      onConfirm: async () => {
+        try {
+          const response = await axios.delete(`${API}/community/posts/${postId}/comment/${commentId}?athlete_id=${athleteId}`);
+          
+          // Reload comments
+          const commentsResponse = await axios.get(`${API}/community/posts/${postId}/comments`);
+          
+          // Update posts with new comments and count
+          setPosts(currentPosts => currentPosts.map(post => {
+            if (post.id === postId) {
+              return { ...post, comments: commentsResponse.data.comments, comments_count: response.data.comments_count };
+            }
+            return post;
+          }));
+
+          // Update selected post if modal is open
+          if (selectedPostForComments && selectedPostForComments.id === postId) {
+            setSelectedPostForComments({
+              ...selectedPostForComments,
+              comments: commentsResponse.data.comments,
+              comments_count: response.data.comments_count
+            });
+          }
+        } catch (error) {
+          console.error('Error deleting comment:', error);
+          alert('Failed to delete comment');
+        }
+      }
+    });
+    setShowConfirmModal(true);
+  };
+
+  const handleDeleteEventComment = (eventId, commentId) => {
+    setConfirmModalConfig({
+      title: 'Delete Comment',
+      message: 'Are you sure you want to delete this comment? This action cannot be undone.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      onConfirm: async () => {
+        try {
+          const response = await axios.delete(`${API}/community/events/${eventId}/comment/${commentId}?athlete_id=${athleteId}`);
+          
+          // Reload comments
+          const commentsResponse = await axios.get(`${API}/community/events/${eventId}/comments`);
+          
+          // Update events with new comments and count
+          setEvents(currentEvents => currentEvents.map(event => {
+            if (event.id === eventId) {
+              return { ...event, comments: commentsResponse.data.comments, comments_count: response.data.comments_count };
+            }
+            return event;
+          }));
+
+          // Update event detail modal if open
+          if (eventDetailData && eventDetailData.id === eventId) {
+            setEventDetailData({
+              ...eventDetailData,
+              comments: commentsResponse.data.comments,
+              comments_count: response.data.comments_count
+            });
+          }
+
+          // Update selected event if modal is open
+          if (selectedEventForComments && selectedEventForComments.id === eventId) {
+            setSelectedEventForComments({
+              ...selectedEventForComments,
+              comments: commentsResponse.data.comments,
+              comments_count: response.data.comments_count
+            });
+          }
+        } catch (error) {
+          console.error('Error deleting event comment:', error);
+          alert('Failed to delete event comment');
+        }
+      }
+    });
+    setShowConfirmModal(true);
+  };
+
     }
   };
 
