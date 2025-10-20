@@ -1680,6 +1680,7 @@ const Community = ({ athleteId }) => {
           onClose={() => setShowCreateEvent(false)}
           onCreate={handleCreateEvent}
           myGroups={myGroups}
+          onEmojiSelect={(emoji) => setNewEventData({ ...newEventData, description: newEventData.description + emoji })}
         />
       )}
 
