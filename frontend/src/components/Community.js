@@ -570,8 +570,8 @@ const Community = ({ athleteId }) => {
       // Reload comments
       const commentsResponse = await axios.get(`${API}/community/posts/${targetPostId}/comments`);
       
-      // Update posts with new comments and count
-      setPosts(posts.map(post => {
+      // Update posts with new comments and count - USING FUNCTIONAL UPDATE
+      setPosts(currentPosts => currentPosts.map(post => {
         if (post.id === targetPostId) {
           console.log('Updating post in feed, old count:', post.comments_count, 'new count:', response.data.comments_count);
           return { ...post, comments: commentsResponse.data.comments, comments_count: response.data.comments_count };
