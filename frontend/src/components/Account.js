@@ -1229,12 +1229,24 @@ const Account = ({ athleteId }) => {
     <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Header */}
       <div className="mb-8 relative">
-        {/* Debug Info - Remove after testing */}
-        {athlete && (
-          <div className="mb-4 p-3 bg-blue-900/30 border border-blue-700 rounded text-xs text-blue-300">
-            <strong>Debug:</strong> Email: {athlete.email} | Super Admin: {athlete.is_super_admin ? 'YES' : 'NO'} | ID: {athlete.id}
-          </div>
-        )}
+        {/* Debug Info - PROMINENT */}
+        <div className="mb-4 p-4 bg-yellow-900/50 border-2 border-yellow-500 rounded-lg">
+          <h3 className="text-yellow-300 font-bold mb-2 text-lg">🔍 DEBUG INFORMATION</h3>
+          {athlete ? (
+            <div className="text-yellow-200 space-y-1 text-sm">
+              <div><strong>Email:</strong> {athlete.email}</div>
+              <div><strong>Name:</strong> {athlete.name}</div>
+              <div><strong>Athlete ID:</strong> {athlete.id}</div>
+              <div><strong>is_super_admin field exists:</strong> {athlete.hasOwnProperty('is_super_admin') ? 'YES' : 'NO'}</div>
+              <div><strong>is_super_admin value:</strong> {String(athlete.is_super_admin)}</div>
+              <div><strong>is_super_admin type:</strong> {typeof athlete.is_super_admin}</div>
+              <div><strong>Should show button:</strong> {athlete?.is_super_admin ? 'YES - BUTTON SHOULD APPEAR' : 'NO - BUTTON HIDDEN'}</div>
+              <div className="mt-2 text-xs"><strong>Full athlete object keys:</strong> {Object.keys(athlete).join(', ')}</div>
+            </div>
+          ) : (
+            <div className="text-yellow-200">Athlete data not loaded yet...</div>
+          )}
+        </div>
         
         <div className="flex items-start justify-between">
           <div className="flex-1">
