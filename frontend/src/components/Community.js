@@ -32,8 +32,8 @@ const Community = ({ athleteId }) => {
   const [postsLoaded, setPostsLoaded] = useState(false);
   const [followingPostsLoaded, setFollowingPostsLoaded] = useState(false);
   const [newPostContent, setNewPostContent] = useState('');
-  const [newPostImages, setNewPostImages] = useState([]); // Changed to array for multiple images
-  const [newPostImagePreviews, setNewPostImagePreviews] = useState([]); // Changed to array
+  const [newPostImage, setNewPostImage] = useState(null);
+  const [newPostImagePreview, setNewPostImagePreview] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showComments, setShowComments] = useState({});
   const [commentText, setCommentText] = useState({});
