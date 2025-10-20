@@ -1390,7 +1390,7 @@ def test_referral_system_comprehensive_edge_cases():
         
         test_users = [
             {"email": "test.files@example.com", "password": "password123"},
-            {"email": "andre@example.com", "password": "password123"}
+            {"email": "document.test@example.com", "password": "password123"}
         ]
         
         referrer_athlete_id = None
