@@ -7336,7 +7336,7 @@ async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int 
 
 @api_router.get("/community/following-feed/{athlete_id}")
 async def get_following_feed(athlete_id: str, limit: int = Query(50), skip: int = Query(0), exclude_images: bool = Query(False)):
-    """Get posts from people the user follows (personal/following feed)"""
+    """Get posts from people the user follows + own posts (personal/following feed)"""
     try:
         # Get list of users the athlete follows
         follows = await db.community_follows.find(
@@ -7345,10 +7345,8 @@ async def get_following_feed(athlete_id: str, limit: int = Query(50), skip: int 
         ).to_list(length=None)
         
         following_ids = [f["following_id"] for f in follows]
-        
-        # If not following anyone, return empty feed
-        if not following_ids:
-            return {"posts": []}
+        # Add user's own ID to see their own posts
+        following_ids.append(athlete_id)
         
         # Build projection to exclude image_data if requested
         projection_stage = {
@@ -7361,7 +7359,8 @@ async def get_following_feed(athlete_id: str, limit: int = Query(50), skip: int 
         if exclude_images:
             projection_stage["$project"]["image_data"] = 0
         
-        # Use aggregation pipeline to fetch posts from followed users with like status
+        # Use aggregation pipeline to fetch posts from followed users + own posts
+        # Show all posts (both public and private) for users you follow and yourself
         pipeline = [
             {"$match": {"athlete_id": {"$in": following_ids}}},
             {"$sort": {"created_at": -1}},
