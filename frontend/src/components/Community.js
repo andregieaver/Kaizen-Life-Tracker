@@ -205,6 +205,8 @@ const Community = ({ athleteId }) => {
     // Load data based on active tab with caching
     if (activeTab === 'feed' && !postsLoaded) {
       loadPosts();
+    } else if (activeTab === 'following' && !followingPostsLoaded) {
+      loadFollowingPosts();
     } else if (activeTab === 'groups' && !groupsLoaded) {
       loadAllGroups();
     } else if (activeTab === 'mygroups' && !myGroupsLoaded) {
