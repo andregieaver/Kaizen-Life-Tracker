@@ -1877,9 +1877,39 @@ const Community = ({ athleteId }) => {
                     </div>
                   </CardHeader>
                   <CardContent className="pt-0">
-                    <p className="text-white mb-4 whitespace-pre-wrap">{formatMentions(post.content)}</p>
-                    {post.image_data && (
-                      <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-96 object-cover mb-4" />
+                    {/* Edit Mode */}
+                    {editingPost === post.id ? (
+                      <div className="space-y-3">
+                        <textarea
+                          value={editContent}
+                          onChange={(e) => setEditContent(e.target.value)}
+                          className="w-full bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[100px]"
+                        />
+                        <div className="flex space-x-2">
+                          <Button
+                            onClick={() => handleEditPost(post.id)}
+                            className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                          >
+                            Save
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              setEditingPost(null);
+                              setEditContent('');
+                            }}
+                            className="bg-gray-600 hover:bg-gray-500 text-white"
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <p className="text-white mb-4 whitespace-pre-wrap">{formatMentions(post.content)}</p>
+                        {post.image_data && (
+                          <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-96 object-cover mb-4" />
+                        )}
+                      </>
                     )}
                     
                     <div className="flex items-center space-x-6 text-gray-400">
