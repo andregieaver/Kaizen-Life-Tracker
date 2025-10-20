@@ -7331,6 +7331,63 @@ async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int 
         logging.error(f"Error fetching community feed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.get("/community/user/{target_athlete_id}/posts")
+async def get_user_posts(target_athlete_id: str, viewer_athlete_id: str = Query(...), limit: int = Query(50), skip: int = Query(0), exclude_images: bool = Query(False)):
+    """Get posts created by a specific user (for their profile/wall)"""
+    try:
+        # Build projection to exclude image_data if requested
+        projection_stage = {
+            "$project": {
+                "_id": 0,
+                "user_like": 0
+            }
+        }
+        
+        if exclude_images:
+            projection_stage["$project"]["image_data"] = 0
+        
+        # Use aggregation pipeline to fetch user's posts with like status
+        pipeline = [
+            {"$match": {"athlete_id": target_athlete_id}},
+            {"$sort": {"created_at": -1}},
+            {"$skip": skip},
+            {"$limit": limit},
+            {
+                "$lookup": {
+                    "from": "community_likes",
+                    "let": {"post_id": "$id"},
+                    "pipeline": [
+                        {
+                            "$match": {
+                                "$expr": {
+                                    "$and": [
+                                        {"$eq": ["$post_id", "$$post_id"]},
+                                        {"$eq": ["$athlete_id", viewer_athlete_id]}
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "as": "user_like"
+                }
+            },
+            {
+                "$addFields": {
+                    "liked_by_user": {"$gt": [{"$size": "$user_like"}, 0]},
+                    "has_image": {"$cond": [{"$ifNull": ["$image_data", False]}, True, False]}
+                }
+            },
+            projection_stage
+        ]
+        
+        posts = await db.community_posts.aggregate(pipeline).to_list(length=None)
+        
+        return {"posts": posts}
+    except Exception as e:
+        logging.error(f"Error fetching user posts: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.get("/community/posts/post/{post_id}")
 async def get_single_post(post_id: str, athlete_id: str = Query(...)):
     """Get a single post by ID"""
