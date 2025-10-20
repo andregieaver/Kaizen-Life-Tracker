@@ -89,6 +89,11 @@ const SystemSettings = ({ athleteId }) => {
         applySeoSettings(response.data.seo);
       }
       
+      // Load plan settings
+      if (response.data.plans) {
+        setPlanSettings(response.data.plans);
+      }
+      
       setLoading(false);
     } catch (error) {
       console.error('Error loading system settings:', error);
