@@ -169,6 +169,26 @@ const LandingPage = () => {
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
         <div className="max-w-7xl mx-auto">
+          {/* Referral Banner */}
+          {hasReferralCode && (
+            <div className="mb-8 max-w-2xl mx-auto">
+              <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg p-6 shadow-lg text-center">
+                <div className="flex items-center justify-center mb-3">
+                  <Check className="w-8 h-8 text-white mr-2" />
+                  <h3 className="text-2xl font-bold text-white">You've Been Referred!</h3>
+                </div>
+                <p className="text-white text-lg mb-4">
+                  🎉 Get <span className="font-bold">20% OFF</span> your first month when you sign up now!
+                </p>
+                <Link to="/onboarding">
+                  <Button className="bg-white text-green-600 hover:bg-gray-100 font-bold px-8 py-3 text-lg">
+                    Claim Your Discount →
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          )}
+          
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-6">
               <Zap className="w-4 h-4" />
