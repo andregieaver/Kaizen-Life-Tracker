@@ -2535,7 +2535,7 @@ const Account = ({ athleteId }) => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <div className="p-4 bg-yellow-900/30 border border-yellow-700 rounded-lg">
                     <p className="text-sm text-yellow-900">
                       <strong>What happens next:</strong>
                     </p>
