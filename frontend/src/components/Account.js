@@ -2106,7 +2106,7 @@ const Account = ({ athleteId }) => {
               </CardHeader>
               <CardContent>
                 {subscriptionStatus.status === 'canceling' ? (
-                  <div className="p-4 bg-gradient-to-r from-orange-50 to-red-50 border-2 border-orange-200 rounded-lg mb-4">
+                  <div className="p-4 bg-gradient-to-r from-orange-900/30 to-red-900/30 border-2 border-orange-700 rounded-lg mb-4">
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-2">
