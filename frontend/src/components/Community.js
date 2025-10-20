@@ -3658,12 +3658,12 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
                 placeholder="Write a comment..."
-                className="flex-1 bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                className="flex-1 bg-gray-700 text-white rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
                 onKeyPress={(e) => e.key === 'Enter' && onAddComment()}
               />
               <Button
                 onClick={onAddComment}
-                className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                className="bg-[#00C2A8] hover:bg-[#00a890] text-white p-2 sm:px-4 sm:py-2"
               >
                 <Send className="w-4 h-4" />
               </Button>
@@ -3672,8 +3672,8 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
 
 
           {/* Close Button */}
-          <div className="mt-6">
-            <Button onClick={onClose} className="w-full bg-gray-700 hover:bg-gray-600 text-white">
+          <div className="mt-4 sm:mt-6">
+            <Button onClick={onClose} className="w-full bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base py-2 sm:py-3">
               Close
             </Button>
           </div>
