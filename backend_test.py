@@ -5189,19 +5189,19 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Complete Referral Discount Functionality Testing"""
-    print("🚀 STARTING COMPLETE REFERRAL DISCOUNT FUNCTIONALITY TESTING")
+    """Run Comprehensive Referral System Edge Case Testing"""
+    print("🚀 STARTING COMPREHENSIVE REFERRAL SYSTEM EDGE CASE TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Complete Referral Discount Functionality
+    # Test Comprehensive Referral System Edge Cases
     try:
-        result = test_referral_discount_functionality()
+        result = test_referral_system_comprehensive_edge_cases()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Complete Referral Discount Functionality", False, f"Exception: {str(e)}")
+        print_test_result("Comprehensive Referral System Edge Cases", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
