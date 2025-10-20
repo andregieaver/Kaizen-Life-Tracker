@@ -127,7 +127,16 @@ const Pricing = () => {
     // Check if user is logged in
     const athleteId = localStorage.getItem('athleteId');
     if (!athleteId) {
-      // New user - redirect to onboarding/signup with referral code preserved
+      // New user - Store selected plan for after signup
+      const planInfo = {
+        planId: planId,
+        billingCycle: billingCycle,
+        hasDiscount: discount > 0,
+        discountAmount: discount
+      };
+      localStorage.setItem('selectedPlan', JSON.stringify(planInfo));
+      
+      // Redirect to onboarding/signup
       navigate('/onboarding');
       return;
     }
