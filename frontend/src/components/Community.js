@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import { Heart, MessageCircle, Share2, Send, Edit2, Trash2, Camera, X, Bell, UserPlus, UserMinus, Users as UsersIcon, Lock, Globe, Crown, Shield, Search, Home, UserCheck, ThumbsUp, ThumbsDown, Calendar, Clock, MapPin, Star, RefreshCw } from 'lucide-react';
 import { compressPostImage, compressThumbnail, compressBannerImage } from '../utils/imageCompression';
 import { findMentionTrigger, insertMention, formatMentions } from '../utils/mentionUtils';
+import EmojiPickerButton from './EmojiPickerButton';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
