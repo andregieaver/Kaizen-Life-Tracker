@@ -1756,6 +1756,7 @@ const Community = ({ athleteId }) => {
           athleteId={athleteId}
           formatMentions={formatMentions}
           loadAthleteProfile={loadAthleteProfile}
+          onEmojiSelect={(emoji) => handleEmojiSelectForComment(emoji, selectedPostForComments.id)}
         />
       )}
     </div>
