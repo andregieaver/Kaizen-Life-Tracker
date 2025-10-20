@@ -2851,23 +2851,10 @@ async def change_password(request: ChangePasswordRequest):
 
 @api_router.get("/athlete/{athlete_id}")
 async def get_athlete_profile(athlete_id: str):
-    print(f"[DEBUG] Querying for athlete_id: {athlete_id}")
-    print(f"[DEBUG] Database name: {db.name}")
-    print(f"[DEBUG] Collection: athlete_profiles")
-    
     athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
-    
-    print(f"[DEBUG] Query returned: {athlete is not None}")
-    if athlete:
-        print(f"[DEBUG] Keys in athlete: {list(athlete.keys())}")
-        print(f"[DEBUG] is_super_admin key exists: {'is_super_admin' in athlete}")
-        print(f"[DEBUG] is_super_admin value: {athlete.get('is_super_admin')}")
-    
     if not athlete:
         raise HTTPException(status_code=404, detail="Athlete not found")
-    
-    parsed = parse_from_mongo(athlete)
-    return parsed
+    return parse_from_mongo(athlete)
 
 @api_router.put("/athlete/{athlete_id}", response_model=AthleteProfile)
 async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
