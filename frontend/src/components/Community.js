@@ -1853,6 +1853,27 @@ const Community = ({ athleteId }) => {
                           </p>
                         </div>
                       </div>
+                      
+                      {/* Edit/Delete buttons for own posts */}
+                      {post.athlete_id === athleteId && (
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => {
+                              setEditingPost(post.id);
+                              setEditContent(post.content);
+                            }}
+                            className="p-2 hover:bg-gray-600 rounded-full transition-colors"
+                          >
+                            <Edit2 className="w-4 h-4 text-blue-400" />
+                          </button>
+                          <button
+                            onClick={() => handleDeletePost(post.id)}
+                            className="p-2 hover:bg-gray-600 rounded-full transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4 text-red-400" />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </CardHeader>
                   <CardContent className="pt-0">
