@@ -673,7 +673,16 @@ const Community = ({ athleteId }) => {
   const handleToggleLike = async (postId) => {
     try {
       const response = await axios.post(`${API}/community/posts/${postId}/like?athlete_id=${athleteId}`);
+      
+      // Update posts in feed
       setPosts(posts.map(post => 
+        post.id === postId 
+          ? { ...post, liked_by_user: response.data.liked, likes_count: response.data.likes_count }
+          : post
+      ));
+      
+      // Update posts in following feed
+      setFollowingPosts(followingPosts.map(post => 
         post.id === postId 
           ? { ...post, liked_by_user: response.data.liked, likes_count: response.data.likes_count }
           : post
