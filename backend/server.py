@@ -7625,6 +7625,97 @@ async def share_post(post_id: str, athlete_id: str = Query(...)):
         logging.error(f"Error sharing post: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+
+# Event Comments Endpoints
+@api_router.post("/community/events/{event_id}/comment")
+async def add_event_comment(event_id: str, comment: dict, athlete_id: str = Query(...)):
+    """Add a comment to an event"""
+    try:
+        # Get athlete info
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="Athlete not found")
+        
+        # Create comment
+        new_comment = {
+            "id": str(uuid.uuid4()),
+            "event_id": event_id,
+            "athlete_id": athlete_id,
+            "athlete_name": athlete.get("name", "Unknown"),
+            "athlete_profile_picture": athlete.get("profile_picture"),
+            "content": comment.get("content", ""),
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        await db.community_event_comments.insert_one(prepare_for_mongo(new_comment.copy()))
+        
+        # Increment comment count
+        await db.community_events.update_one(
+            {"id": event_id},
+            {"$inc": {"comments_count": 1}}
+        )
+        
+        # Get updated count
+        event = await db.community_events.find_one({"id": event_id}, {"_id": 0, "comments_count": 1, "athlete_id": 1})
+        
+        # Send notification to event creator (if not commenting on own event)
+        if event and event["athlete_id"] != athlete_id:
+            notification = {
+                "id": str(uuid.uuid4()),
+                "athlete_id": event["athlete_id"],
+                "type": "event_comment",
+                "content": f"{athlete.get('name', 'Someone')} commented on your event",
+                "event_id": event_id,
+                "from_athlete_id": athlete_id,
+                "from_athlete_name": athlete.get("name", "Unknown"),
+                "read": False,
+                "created_at": datetime.now(timezone.utc).isoformat()
+            }
+            await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
+        
+        # Handle @mentions in comment
+        content = comment.get("content", "")
+        mention_pattern = r'@\[\[([^\]]+)::([^\]]+)\]\]'
+        mentions = re.findall(mention_pattern, content)
+        
+        for mentioned_id, mentioned_name in mentions:
+            if mentioned_id != athlete_id:  # Don't notify yourself
+                notification = {
+                    "id": str(uuid.uuid4()),
+                    "athlete_id": mentioned_id,
+                    "type": "mention",
+                    "content": f"{athlete.get('name', 'Someone')} mentioned you in an event comment",
+                    "event_id": event_id,
+                    "comment_id": new_comment["id"],
+                    "from_athlete_id": athlete_id,
+                    "from_athlete_name": athlete.get("name", "Unknown"),
+                    "read": False,
+                    "created_at": datetime.now(timezone.utc).isoformat()
+                }
+                await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
+        
+        return {
+            "comment": new_comment,
+            "comments_count": event.get("comments_count", 1)
+        }
+    except Exception as e:
+        logging.error(f"Error adding event comment: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/events/{event_id}/comments")
+async def get_event_comments(event_id: str):
+    """Get all comments for an event"""
+    try:
+        comments = await db.community_event_comments.find(
+            {"event_id": event_id},
+            {"_id": 0}
+        ).sort("created_at", 1).to_list(length=None)
+        
+        return {"comments": comments}
+    except Exception as e:
+        logging.error(f"Error fetching event comments: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.get("/community/notifications/{athlete_id}")
 async def get_notifications(athlete_id: str, unread_only: bool = Query(False)):
     """Get notifications for an athlete"""
