@@ -222,6 +222,7 @@ const Community = ({ athleteId }) => {
       // Load 10 posts WITH compressed images
       const response = await axios.get(`${API}/community/feed/${athleteId}?limit=10`);
       console.log('Posts loaded:', response.data);
+      console.log('First post comments_count:', response.data.posts?.[0]?.comments_count);
       
       if (response.data && response.data.posts) {
         setPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
