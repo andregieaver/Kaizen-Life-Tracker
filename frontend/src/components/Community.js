@@ -60,6 +60,17 @@ const Community = ({ athleteId }) => {
   const [profileData, setProfileData] = useState(null);
   const [profileLoading, setProfileLoading] = useState(false);
   
+
+  // Confirmation modal state
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [confirmModalConfig, setConfirmModalConfig] = useState({
+    title: '',
+    message: '',
+    onConfirm: () => {},
+    confirmText: 'Confirm',
+    cancelText: 'Cancel'
+  });
+  
   // Athletes modal state
   const [showAthletes, setShowAthletes] = useState(false);
   const [athletes, setAthletes] = useState([]);
