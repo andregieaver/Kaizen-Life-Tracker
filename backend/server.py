@@ -8511,6 +8511,7 @@ async def create_event(event_data: dict, athlete_id: str = Query(...)):
             "creator_id": athlete_id,
             "interested_count": 0,
             "going_count": 0,
+            "comments_count": 0,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "updated_at": None
         }
