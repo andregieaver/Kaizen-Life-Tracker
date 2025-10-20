@@ -1769,7 +1769,80 @@ def test_referral_discount_functionality():
         print_test_result("Referral Discount Testing - Exception", False, f"Exception: {str(e)}")
         import traceback
         traceback.print_exc()
-        return Falsemail": "test.files@example.com", "password": "password123"}
+        return False
+
+def test_referral_discount_functionality():
+    """
+    TEST COMPLETE REFERRAL DISCOUNT FUNCTIONALITY
+    
+    Test the complete referral system to ensure both the referred user and referrer get proper discounts.
+
+    CONTEXT:
+    The referral system should work as follows:
+    1. New subscriber (referred user) gets 20% off their first payment
+    2. Referrer gets 20% discount on their renewal for each successful signup (capped at 100% / 5 referrals)
+
+    TEST SCENARIOS:
+
+    Scenario 1: New User Signup with Referral Code
+    1. Generate a referral code for an existing user (e.g., test.files@example.com)
+    2. Create a checkout session with the referral code for a new user
+    3. Verify:
+       - 20% discount coupon is created and applied
+       - Referral is marked as "converted" in database
+       - A reward entry is created for the referrer with 20% discount and "pending" status
+
+    Scenario 2: Referrer Renewal with Pending Rewards
+    1. Get an athlete who has pending rewards (from Scenario 1)
+    2. Create a checkout session for that athlete (without referral code - simulating renewal)
+    3. Verify:
+       - Pending rewards are retrieved
+       - Discount is calculated correctly (20% per reward, capped at 100%)
+       - Discount coupon is created and applied
+       - Rewards are marked as "applied" in database
+
+    Scenario 3: Multiple Rewards Capping
+    1. Create 6 pending rewards for an athlete
+    2. Create checkout session
+    3. Verify:
+       - Only 5 rewards are applied (max 100% discount)
+       - Total discount is capped at 100%
+
+    Scenario 4: Get Available Discount
+    1. Test GET `/api/referrals/discount/{athlete_id}`
+    2. Verify it returns:
+       - total_discount (capped at 100%)
+       - rewards_count
+       - rewards_to_apply (max 5)
+       - capped flag if more than 5 rewards
+
+    ENDPOINTS TO TEST:
+    - POST `/api/subscriptions/create-checkout-session`
+    - GET `/api/referrals/discount/{athlete_id}`
+    - GET `/api/referrals/{athlete_id}/rewards`
+    - POST `/api/referrals/generate`
+
+    DATABASE COLLECTIONS TO VERIFY:
+    - referrals (status, converted_at, referred_user_id)
+    - referral_rewards (athlete_id, discount_percentage, status, applied_at)
+
+    IMPORTANT:
+    - Use existing test user: test.files@example.com
+    - Check Stripe coupon creation in logs
+    - Verify database state after each step
+    - Test both new signup and renewal flows
+    """
+    print("🔍 TESTING COMPLETE REFERRAL DISCOUNT FUNCTIONALITY")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Setup test users - Get existing athletes for referral testing
+        print("   Step 1: Setup test users for referral testing")
+        
+        # Try to login with known test users
+        test_users = [
+            {"email": "test.files@example.com", "password": "password123"},
+            {"email": "andre@example.com", "password": "password123"}
         ]
         
         available_users = []
