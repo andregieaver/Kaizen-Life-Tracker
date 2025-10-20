@@ -642,8 +642,12 @@ const Community = ({ athleteId }) => {
       await axios.put(`${API}/community/posts/${postId}?athlete_id=${athleteId}`, postData);
       setEditingPost(null);
       setEditContent('');
-      setPostsLoaded(false); // Reset cache to reload posts
+      
+      // Reload both feeds
+      setPostsLoaded(false);
+      setFollowingPostsLoaded(false);
       loadPosts();
+      loadFollowingPosts();
     } catch (error) {
       console.error('Error editing post:', error);
       alert('Failed to edit post');
@@ -659,8 +663,12 @@ const Community = ({ athleteId }) => {
       onConfirm: async () => {
         try {
           await axios.delete(`${API}/community/posts/${postId}?athlete_id=${athleteId}`);
-          setPostsLoaded(false); // Reset cache to reload posts
+          
+          // Reload both feeds
+          setPostsLoaded(false);
+          setFollowingPostsLoaded(false);
           loadPosts();
+          loadFollowingPosts();
         } catch (error) {
           console.error('Error deleting post:', error);
           alert('Failed to delete post');
