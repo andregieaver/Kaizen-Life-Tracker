@@ -270,6 +270,73 @@ const SystemSettings = ({ athleteId }) => {
     }
   };
 
+  const handlePlanChange = (planType, field, value) => {
+    setPlanSettings(prev => ({
+      ...prev,
+      [planType]: {
+        ...prev[planType],
+        [field]: value
+      }
+    }));
+  };
+
+  const handleAddFeature = (planType) => {
+    setPlanSettings(prev => ({
+      ...prev,
+      [planType]: {
+        ...prev[planType],
+        features: [...prev[planType].features, '']
+      }
+    }));
+  };
+
+  const handleRemoveFeature = (planType, index) => {
+    setPlanSettings(prev => ({
+      ...prev,
+      [planType]: {
+        ...prev[planType],
+        features: prev[planType].features.filter((_, i) => i !== index)
+      }
+    }));
+  };
+
+  const handleFeatureChange = (planType, index, value) => {
+    setPlanSettings(prev => {
+      const newFeatures = [...prev[planType].features];
+      newFeatures[index] = value;
+      return {
+        ...prev,
+        [planType]: {
+          ...prev[planType],
+          features: newFeatures
+        }
+      };
+    });
+  };
+
+  const handleSavePlanSettings = async () => {
+    try {
+      await axios.post(`${API}/system/settings?athlete_id=${athleteId}`, {
+        plans: planSettings
+      });
+      
+      setSaveStatus({
+        message: 'Plan settings saved successfully!',
+        type: 'success'
+      });
+      
+      setTimeout(() => {
+        setSaveStatus({ message: '', type: '' });
+      }, 3000);
+    } catch (error) {
+      console.error('Error saving plan settings:', error);
+      setSaveStatus({
+        message: 'Failed to save plan settings',
+        type: 'error'
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
