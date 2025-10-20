@@ -585,6 +585,54 @@ const Community = ({ athleteId }) => {
     }
   };
 
+  const handleWritePost = async () => {
+    if (!writePostContent.trim()) return;
+
+    try {
+      const postData = {
+        content: writePostContent,
+        image_data: writePostImage,
+        visibility: writePostVisibility
+      };
+
+      await axios.post(`${API}/community/posts?athlete_id=${athleteId}`, postData);
+      
+      // Clear modal state
+      setWritePostContent('');
+      setWritePostImage(null);
+      setWritePostImagePreview(null);
+      setWritePostVisibility('public');
+      setShowWritePostModal(false);
+      
+      // Reload appropriate feed
+      if (activeTab === 'feed') {
+        setPostsLoaded(false);
+        loadPosts();
+      } else if (activeTab === 'following') {
+        setFollowingPostsLoaded(false);
+        loadFollowingPosts();
+      }
+    } catch (error) {
+      console.error('Error creating post:', error);
+      alert('Failed to create post');
+    }
+  };
+
+  const handleWritePostImageSelect = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const compressed = await compressPostImage(file);
+      setWritePostImage(compressed);
+      setWritePostImagePreview(URL.createObjectURL(file));
+    } catch (error) {
+      console.error('Error processing image:', error);
+      alert('Failed to process image');
+    }
+  };
+
+
   const handleEditPost = async (postId) => {
     try {
       const postData = {
