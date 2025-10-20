@@ -65,6 +65,9 @@ const SystemSettings = ({ athleteId }) => {
         if (response.data.seo.faviconUrl) {
           setFaviconPreview(response.data.seo.faviconUrl);
         }
+        
+        // Apply SEO settings on load
+        applySeoSettings(response.data.seo);
       }
       
       setLoading(false);
