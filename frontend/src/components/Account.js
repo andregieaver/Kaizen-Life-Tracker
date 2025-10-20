@@ -120,7 +120,7 @@ const IntegrationCard = ({
             </Button>
           </>
         ) : comingSoon ? (
-          <Badge variant="secondary" className="bg-gray-800 text-gray-600">
+          <Badge variant="secondary" className="bg-gray-800 text-gray-400">
             Coming Soon
           </Badge>
         ) : (
@@ -1363,7 +1363,7 @@ const Account = ({ athleteId }) => {
                     <Label className="text-sm font-medium">{t('account.dateOfBirth')}</Label>
                     <div className="grid grid-cols-3 gap-2">
                       <div>
-                        <Label className="text-xs text-gray-600">{t('account.birthDay')}</Label>
+                        <Label className="text-xs text-gray-400">{t('account.birthDay')}</Label>
                         <Select
                           value={personalForm.birth_day}
                           onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_day: value}))}
@@ -1379,7 +1379,7 @@ const Account = ({ athleteId }) => {
                         </Select>
                       </div>
                       <div>
-                        <Label className="text-xs text-gray-600">{t('account.birthMonth')}</Label>
+                        <Label className="text-xs text-gray-400">{t('account.birthMonth')}</Label>
                         <Select
                           value={personalForm.birth_month}
                           onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_month: value}))}
@@ -1404,7 +1404,7 @@ const Account = ({ athleteId }) => {
                         </Select>
                       </div>
                       <div>
-                        <Label className="text-xs text-gray-600">{t('account.birthYear')}</Label>
+                        <Label className="text-xs text-gray-400">{t('account.birthYear')}</Label>
                         <Select
                           value={personalForm.birth_year}
                           onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_year: value}))}
@@ -1656,7 +1656,7 @@ const Account = ({ athleteId }) => {
                   {/* Allergies */}
                   <div>
                     <Label className="text-base font-medium mb-3 block">Allergies</Label>
-                    <p className="text-sm text-gray-600 mb-3">Select any food allergies (for recipe generation)</p>
+                    <p className="text-sm text-gray-400 mb-3">Select any food allergies (for recipe generation)</p>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {[
                         { value: 'dairy', label: 'Dairy' },
@@ -1691,7 +1691,7 @@ const Account = ({ athleteId }) => {
                   {/* Dietary Preferences */}
                   <div>
                     <Label className="text-base font-medium mb-3 block">Dietary Preferences</Label>
-                    <p className="text-sm text-gray-600 mb-3">Select your dietary preferences (for recipe generation)</p>
+                    <p className="text-sm text-gray-400 mb-3">Select your dietary preferences (for recipe generation)</p>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {[
                         { value: 'vegan', label: 'Vegan' },
@@ -1848,7 +1848,7 @@ const Account = ({ athleteId }) => {
                             <Badge className="bg-green-100 text-green-800">Enabled</Badge>
                           )}
                         </div>
-                        <p className="text-xs text-gray-600">
+                        <p className="text-xs text-gray-400">
                           {pushSupported 
                             ? 'Get instant alerts for new AI-generated reports and recommendations'
                             : 'Push notifications are not supported on this browser'
@@ -1868,7 +1868,7 @@ const Account = ({ athleteId }) => {
                       )}
                     </div>
                     {pushSupported && pushSubscribed && (
-                      <div className="text-xs text-gray-600 bg-gray-800 p-2 rounded border">
+                      <div className="text-xs text-gray-400 bg-gray-800 p-2 rounded border">
                         <div className="flex items-start gap-2">
                           <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
                           <div>
@@ -2127,7 +2127,7 @@ const Account = ({ athleteId }) => {
                               })
                             : 'the end of your billing period'}
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-400">
                           You can reactivate your subscription anytime before it ends to continue enjoying all features.
                         </p>
                       </div>
@@ -2144,7 +2144,7 @@ const Account = ({ athleteId }) => {
                           {subscriptionStatus.status}
                         </Badge>
                       </div>
-                      <p className="text-gray-600 mt-1">
+                      <p className="text-gray-400 mt-1">
                         {subscriptionStatus.tier === 'free' && '€0/month • Basic features'}
                         {subscriptionStatus.tier === 'pro' && (
                           <>
@@ -2242,9 +2242,9 @@ const Account = ({ athleteId }) => {
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <h3 className="text-lg font-bold text-white">Free</h3>
-                        <p className="text-sm text-gray-600">Basic features</p>
+                        <p className="text-sm text-gray-400">Basic features</p>
                       </div>
-                      <Shield className="w-5 h-5 text-gray-600" />
+                      <Shield className="w-5 h-5 text-gray-400" />
                     </div>
                     <div className="mb-4">
                       <div className="flex items-baseline">
@@ -2294,7 +2294,7 @@ const Account = ({ athleteId }) => {
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <h3 className="text-lg font-bold text-white">Pro</h3>
-                        <p className="text-sm text-gray-600">For serious athletes</p>
+                        <p className="text-sm text-gray-400">For serious athletes</p>
                       </div>
                       <Badge className="bg-blue-600">Popular</Badge>
                     </div>
@@ -2363,7 +2363,7 @@ const Account = ({ athleteId }) => {
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <h3 className="text-lg font-bold text-white">Premium</h3>
-                        <p className="text-sm text-gray-600">Maximum performance</p>
+                        <p className="text-sm text-gray-400">Maximum performance</p>
                       </div>
                       <Crown className="w-5 h-5 text-yellow-600" />
                     </div>
@@ -2441,14 +2441,14 @@ const Account = ({ athleteId }) => {
                   <div className="p-4 border rounded-lg">
                     <h4 className="font-semibold mb-2">Payment Method</h4>
                     {subscriptionStatus.tier === 'free' ? (
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-400">
                         No payment method on file (Free plan)
                       </p>
                     ) : (
                       <>
                         <div className="flex items-center space-x-2 mb-3">
                           <CreditCard className="w-4 h-4 text-green-600" />
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-gray-400">
                             Payment method active • Managed by Stripe
                           </p>
                         </div>
@@ -2468,11 +2468,11 @@ const Account = ({ athleteId }) => {
                   <div className="p-4 border rounded-lg">
                     <h4 className="font-semibold mb-2">Billing History</h4>
                     {subscriptionStatus.tier === 'free' ? (
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-400">
                         No invoices yet
                       </p>
                     ) : invoices.length === 0 ? (
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-400">
                         Loading invoices...
                       </p>
                     ) : (
@@ -2585,7 +2585,7 @@ const Account = ({ athleteId }) => {
                       className={`px-6 py-2 rounded-full font-medium transition-all ${
                         selectedBillingCycle === 'monthly'
                           ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-600 hover:text-white'
+                          : 'text-gray-400 hover:text-white'
                       }`}
                     >
                       Monthly
@@ -2595,7 +2595,7 @@ const Account = ({ athleteId }) => {
                       className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
                         selectedBillingCycle === 'annual'
                           ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-600 hover:text-white'
+                          : 'text-gray-400 hover:text-white'
                       }`}
                     >
                       Annual
@@ -2666,7 +2666,7 @@ const Account = ({ athleteId }) => {
                       className={`px-6 py-2 rounded-full font-medium transition-all ${
                         selectedBillingCycle === 'monthly'
                           ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-600 hover:text-white'
+                          : 'text-gray-400 hover:text-white'
                       }`}
                     >
                       Monthly
@@ -2676,7 +2676,7 @@ const Account = ({ athleteId }) => {
                       className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
                         selectedBillingCycle === 'annual'
                           ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-600 hover:text-white'
+                          : 'text-gray-400 hover:text-white'
                       }`}
                     >
                       Annual
@@ -3139,7 +3139,7 @@ const Account = ({ athleteId }) => {
                       </Button>
                     </div>
                     <div className="p-3 bg-gray-700 rounded border border-gray-200">
-                      <p className="text-xs text-gray-600 mb-2">
+                      <p className="text-xs text-gray-400 mb-2">
                         <strong>{t('common.note')}:</strong> {t('account.corosTerraNote')}
                       </p>
                       <p className="text-xs text-gray-500">
@@ -3163,7 +3163,7 @@ const Account = ({ athleteId }) => {
                 <h3 className="text-lg font-medium text-white mb-1">
                   {t('account.logoutTitle')}
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-400">
                   {t('account.logoutDescription')}
                 </p>
               </div>
