@@ -293,10 +293,14 @@ const Referrals = ({ athleteId }) => {
         </Card>
 
         {/* Rewards Section */}
-        {stats.availableRewards.length > 0 ? (
+        {stats.availableRewards && stats.availableRewards.length > 0 ? (
           <Card className="bg-gray-800 border-gray-700">
             <CardHeader>
               <CardTitle className="text-white text-xl">Your Available Rewards</CardTitle>
+              <p className="text-gray-400 text-sm mt-2">
+                You have <span className="font-bold text-[#00C2A8]">{stats.availableDiscount}%</span> discount available for your next renewal
+                {stats.availableDiscount >= 100 && <span className="text-yellow-400 ml-1">(Maximum reached! 🎉)</span>}
+              </p>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -307,27 +311,23 @@ const Referrals = ({ athleteId }) => {
                   >
                     <div>
                       <p className="font-semibold text-green-400">
-                        {reward.discount}% Discount Code
+                        {reward.discount}% Discount
                       </p>
                       <p className="text-sm text-gray-400">
                         Expires: {new Date(reward.expires_at).toLocaleDateString()}
                       </p>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <code className="px-3 py-1 bg-gray-900 border border-green-700 rounded font-mono text-sm text-green-400">
-                        {reward.code}
-                      </code>
-                      <Button
-                        onClick={() => {
-                          navigator.clipboard.writeText(reward.code);
-                        }}
-                        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
-                      >
-                        Copy Code
-                      </Button>
+                    <div className="text-right">
+                      <p className="text-xs text-gray-400 mb-1">Applied automatically</p>
+                      <Badge className="bg-green-600 text-white">Ready to use</Badge>
                     </div>
                   </div>
                 ))}
+              </div>
+              <div className="mt-4 p-4 bg-blue-900/20 border border-blue-700 rounded-lg">
+                <p className="text-sm text-blue-300">
+                  💡 <strong>How it works:</strong> Your {stats.availableDiscount}% discount will be automatically applied at checkout on your next subscription renewal (max 100%).
+                </p>
               </div>
             </CardContent>
           </Card>
