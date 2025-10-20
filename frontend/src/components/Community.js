@@ -1773,7 +1773,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, showComments, c
                   className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-600 rounded-lg transition-colors text-gray-400"
                 >
                   <MessageCircle className="w-5 h-5" />
-                  <span>{post.comments_count}</span>
+                  <span>{post.comments_count || 0}</span>
                 </button>
                 
                 <button
