@@ -122,7 +122,7 @@ const Referrals = ({ athleteId }) => {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-8 bg-transparent">
           <div className="flex items-center mb-2">
             <Gift className="w-8 h-8 text-[#00C2A8] mr-3" />
             <h1 className="text-3xl font-bold text-white">Referral Rewards</h1>
