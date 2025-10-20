@@ -3053,22 +3053,51 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
     cancel_url = f"{origin_url}/pricing?canceled=true"
     
     try:
+        # Check for referral discount
+        referral_discount = None
+        discounts_list = []
+        
+        # Get referral code from localStorage (passed via metadata)
+        referral_code = await db.referrals.find_one({
+            "referred_user_id": request.athlete_id,
+            "status": "converted"
+        })
+        
+        if referral_code:
+            # Create one-time 20% discount coupon for referred user
+            try:
+                coupon = stripe.Coupon.create(
+                    percent_off=20,
+                    duration="once",  # Only applies to first payment
+                    name=f"Referral Discount - {referral_code['referral_code']}"
+                )
+                discounts_list.append({"coupon": coupon.id})
+                logging.info(f"Applied 20% referral discount for user {request.athlete_id}")
+            except Exception as e:
+                logging.error(f"Failed to create referral coupon: {e}")
+        
         # Create Stripe Checkout Session for subscription
-        checkout_session = stripe.checkout.Session.create(
-            mode='subscription',  # IMPORTANT: subscription mode for recurring payments
-            line_items=[{
+        session_params = {
+            'mode': 'subscription',
+            'line_items': [{
                 'price': stripe_price_id,
                 'quantity': 1,
             }],
-            success_url=success_url,
-            cancel_url=cancel_url,
-            metadata={
+            'success_url': success_url,
+            'cancel_url': cancel_url,
+            'metadata': {
                 "plan_id": request.plan_id,
                 "tier": plan["tier"],
                 "interval": plan["interval"],
                 "athlete_id": request.athlete_id
             }
-        )
+        }
+        
+        # Add discounts if available
+        if discounts_list:
+            session_params['discounts'] = discounts_list
+        
+        checkout_session = stripe.checkout.Session.create(**session_params)
         
         # Create payment transaction record
         transaction = {
