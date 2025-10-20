@@ -9396,6 +9396,51 @@ async def apply_referral_discount(athlete_id: str = Query(...)):
         logging.error(f"Error applying discount: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# ===========================
+# System Settings (Super Admin Only)
+# ===========================
+
+async def verify_super_admin(athlete_id: str):
+    """Verify if athlete is super admin"""
+    athlete = await db.athletes.find_one({"id": athlete_id}, {"_id": 0})
+    if not athlete:
+        raise HTTPException(status_code=404, detail="User not found")
+    if not athlete.get("is_super_admin", False):
+        raise HTTPException(status_code=403, detail="Access denied. Super admin privileges required.")
+    return athlete
+
+@api_router.get("/system/stats")
+async def get_system_stats(athlete_id: str):
+    """Get system statistics (Super Admin only)"""
+    # Verify super admin
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Count total users
+        total_users = await db.athletes.count_documents({})
+        
+        # Count active sessions (placeholder - implement based on your session management)
+        active_sessions = 0  # TODO: Implement session counting
+        
+        # Get database size (approximate)
+        stats_result = await db.command("dbStats")
+        db_size_bytes = stats_result.get("dataSize", 0)
+        db_size_mb = round(db_size_bytes / (1024 * 1024), 2)
+        db_size = f"{db_size_mb} MB"
+        
+        # System health check (basic)
+        health = "Good"
+        
+        return {
+            "total_users": total_users,
+            "active_sessions": active_sessions,
+            "db_size": db_size,
+            "health": health
+        }
+    except Exception as e:
+        logging.error(f"Error getting system stats: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to retrieve system stats: {str(e)}")
+
 app.include_router(api_router)
 
 @app.on_event("shutdown")
