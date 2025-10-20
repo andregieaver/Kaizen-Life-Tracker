@@ -21,24 +21,35 @@ const Referrals = ({ athleteId }) => {
   const generateReferralCode = async () => {
     try {
       setLoading(true);
-      // For now, generate a simple code based on athlete ID
-      // In production, this would call backend API
-      const code = `TRAIN${athleteId.substring(0, 8).toUpperCase()}`;
+      
+      // Call backend to generate/get referral code
+      const codeResponse = await axios.post(`${API}/referrals/generate?athlete_id=${athleteId}`);
+      const code = codeResponse.data.referral_code;
       setReferralCode(code);
       
-      // Mock stats for MVP
+      // Get stats from backend
+      const statsResponse = await axios.get(`${API}/referrals/stats/${athleteId}`);
+      const data = statsResponse.data;
+      
       setStats({
-        totalClicks: 0,
-        totalConversions: 0,
-        conversionRate: 0,
-        pendingReferrals: 0,
-        totalRewards: 0,
-        availableRewards: [],
-        referralLink: `${window.location.origin}/?ref=${code}`
+        totalClicks: data.total_clicks,
+        totalConversions: data.total_conversions,
+        conversionRate: data.conversion_rate,
+        pendingReferrals: data.pending_referrals,
+        totalRewards: data.rewards.length,
+        availableDiscount: data.total_discount_available,
+        availableRewards: data.rewards.map(r => ({
+          id: r.id,
+          discount: r.discount_percentage,
+          expires_at: r.expires_at,
+          code: `SAVE${r.discount_percentage}`
+        })),
+        referralLink: codeResponse.data.referral_link
       });
       
       setLoading(false);
     } catch (err) {
+      console.error('Error generating referral code:', err);
       setError('Failed to generate referral code');
       setLoading(false);
     }
