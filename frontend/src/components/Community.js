@@ -73,6 +73,13 @@ const Community = ({ athleteId }) => {
     cancelText: 'Cancel'
   });
   
+  // Write post modal state
+  const [showWritePostModal, setShowWritePostModal] = useState(false);
+  const [writePostContent, setWritePostContent] = useState('');
+  const [writePostImage, setWritePostImage] = useState(null);
+  const [writePostImagePreview, setWritePostImagePreview] = useState(null);
+  const [writePostVisibility, setWritePostVisibility] = useState('public');
+  
   // Athletes modal state
   const [showAthletes, setShowAthletes] = useState(false);
   const [athletes, setAthletes] = useState([]);
