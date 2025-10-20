@@ -332,6 +332,17 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const loadPlanSettings = async () => {
+    try {
+      const response = await axios.get(`${API}/system/settings/public`);
+      if (response.data.plans) {
+        setPlanSettings(response.data.plans);
+      }
+    } catch (error) {
+      console.log('Using default plan settings');
+    }
+  };
+
   const pollPaymentStatus = async (sessionId, attempts = 0) => {
     const maxAttempts = 5;
     const pollInterval = 2000; // 2 seconds
