@@ -26,18 +26,25 @@ async def fix_comment_counts():
     for post in posts:
         post_id = post["id"]
         
+        # Get current count from post
+        post_data = await db.community_posts.find_one({"id": post_id}, {"_id": 0, "comments_count": 1})
+        current_count = post_data.get("comments_count", 0) if post_data else 0
+        
         # Count actual comments for this post
         actual_count = await db.community_comments.count_documents({"post_id": post_id})
         
-        # Update the post's comments_count
-        result = await db.community_posts.update_one(
-            {"id": post_id},
-            {"$set": {"comments_count": actual_count}}
-        )
+        print(f"Post {post_id}: current={current_count}, actual={actual_count}")
         
-        if result.modified_count > 0:
-            fixed_count += 1
-            print(f"Fixed post {post_id}: set comments_count to {actual_count}")
+        # Update the post's comments_count if different
+        if current_count != actual_count:
+            result = await db.community_posts.update_one(
+                {"id": post_id},
+                {"$set": {"comments_count": actual_count}}
+            )
+            
+            if result.modified_count > 0:
+                fixed_count += 1
+                print(f"  ✓ Fixed! Updated from {current_count} to {actual_count}")
     
     print(f"\nCompleted! Fixed {fixed_count} posts")
     client.close()
