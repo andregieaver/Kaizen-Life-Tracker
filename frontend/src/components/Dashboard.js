@@ -363,24 +363,28 @@ const Dashboard = ({ athleteId }) => {
               </nav>
             </div>
             <div className="flex items-center space-x-4">
-              <button 
-                onClick={() => navigate('/dashboard/referrals')}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                aria-label="Referrals"
-                title="Referral Rewards"
-              >
-                <Gift className="w-6 h-6" style={{ color: '#00C2A8' }} />
-              </button>
-              <button 
-                onClick={() => navigate('/dashboard/community')}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
-                aria-label="Community"
-              >
-                <Users className="w-6 h-6" style={{ color: '#00C2A8' }} />
-                {communityUnreadCount > 0 && (
-                  <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
-                )}
-              </button>
+              {moduleSettings.affiliateProgram.enabled && (
+                <button 
+                  onClick={() => navigate('/dashboard/referrals')}
+                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  aria-label="Referrals"
+                  title="Referral Rewards"
+                >
+                  <Gift className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                </button>
+              )}
+              {moduleSettings.community.enabled && (
+                <button 
+                  onClick={() => navigate('/dashboard/community')}
+                  className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
+                  aria-label="Community"
+                >
+                  <Users className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                  {communityUnreadCount > 0 && (
+                    <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+                  )}
+                </button>
+              )}
               <button 
                 onClick={() => setIsMenuOpen(true)}
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
