@@ -298,7 +298,19 @@ backend:
         comment: "Backend comment deletion endpoints implemented. 1) DELETE /api/community/posts/{post_id}/comment/{comment_id} endpoint created (line 7722-7751) - Verifies comment ownership (only author can delete), Deletes comment from community_comments collection, Updates post comments_count, Returns updated count in response. 2) DELETE /api/community/events/{event_id}/comment/{comment_id} endpoint created (line 7756-7787) - Verifies comment ownership (only author can delete), Deletes comment from community_event_comments collection, Updates event comments_count, Returns updated count in response. Both endpoints use Query parameter for athlete_id authentication. Authorization checks return 403 for unauthorized deletion attempts. Ready for testing."
       - working: true
         agent: "testing"
-        comment: "✅ COMMENT DELETION API ENDPOINTS FULLY FUNCTIONAL - Comprehensive testing completed with 100% success rate (12/12 tests passed). VERIFIED ALL REVIEW REQUEST REQUIREMENTS using athlete test.files@example.com (ID: 44111b4a-b61f-4a94-9c29-439434e67e19): 1) POST COMMENT DELETION ENDPOINT ✓ - DELETE /api/community/posts/{post_id}/comment/{comment_id}?athlete_id={id} successfully deletes comments by author, returns 200 status with updated comments_count, comment removed from database (verified via GET comments), comments_count decremented correctly (3 -> 2), other comments remain intact. 2) EVENT COMMENT DELETION ENDPOINT ✓ - DELETE /api/community/events/{event_id}/comment/{comment_id}?athlete_id={id} successfully deletes event comments by author, returns 200 status with updated comments_count, comment removed from database, event comments_count decremented correctly. 3) AUTHORIZATION CHECKS ✓ - 403 error correctly returned when non-author tries to delete comment (tested with different athlete_id), only comment authors can delete their own comments, ownership verification working correctly. 4) DATA INTEGRITY ✓ - Deleted comments completely removed from database, other comments remain intact after deletion, comments_count accurately reflects actual comment count, no data corruption or orphaned records. 5) ERROR HANDLING ✓ - 404 error returned for non-existent comment IDs, 404 error returned for non-existent post/event IDs, proper error responses for edge cases. 6) RESPONSE FORMAT ✓ - Response includes updated comments_count field, proper JSON structure returned, message confirms successful deletion. CRITICAL SUCCESS CRITERIA MET: Comment deletion by author works correctly, unauthorized deletion attempts blocked with 403, comments_count decremented accurately, deleted comments removed from database, other comments preserved, proper error handling for edge cases. COMMENT DELETION API ENDPOINTS ARE PRODUCTION-READY AND FULLY FUNCTIONAL."
+        comment: "✅ COMMENT DELETION API ENDPOINTS FULLY FUNCTIONAL - Comprehensive testing completed with 100% success rate (12/12 tests passed). Post and event comment deletion working perfectly with proper authorization, data integrity, and count updates."
+
+  - task: "User Feed API Endpoint (Facebook Wall)"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Backend user feed endpoint implemented. GET /api/community/user/{target_athlete_id}/posts endpoint created (line 7334-7387) - Fetches posts created by specific user (their wall/feed), Supports pagination (limit, skip), Optional image exclusion for performance, Includes liked_by_user flag for viewer, Returns posts sorted newest first. Uses aggregation pipeline for optimized performance. Ready for testing."
 
 frontend:
   - task: "Comment Deletion Feature (Posts and Events)"
