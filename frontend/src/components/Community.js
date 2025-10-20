@@ -1702,6 +1702,12 @@ const Community = ({ athleteId }) => {
           loading={eventDetailLoading}
           onClose={handleCloseEventDetail}
           athleteId={athleteId}
+          loadAthleteProfile={loadAthleteProfile}
+          onAddComment={() => handleAddEventComment(eventDetailData?.id)}
+          commentText={commentText[eventDetailData?.id] || ''}
+          setCommentText={(text) => setCommentText({ ...commentText, [eventDetailData?.id]: text })}
+          onEmojiSelect={(emoji) => handleEmojiSelectForComment(emoji, eventDetailData?.id)}
+          formatMentions={formatMentions}
         />
       )}
 
