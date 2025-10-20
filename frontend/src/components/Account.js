@@ -1228,9 +1228,9 @@ const Account = ({ athleteId }) => {
   return (
     <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div>
+      <div className="mb-8 relative">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
             <h1 className="text-3xl font-display font-bold text-white mb-2">
               {t('account.title')}
             </h1>
@@ -1241,11 +1241,11 @@ const Account = ({ athleteId }) => {
           {athlete?.is_super_admin && (
             <Button
               onClick={() => navigate('/dashboard/system-settings')}
-              className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-2"
-              title="System Settings"
+              className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0 ml-4"
+              title="System Settings (Super Admin)"
             >
               <Settings className="w-5 h-5" />
-              <span className="hidden sm:inline">System Settings</span>
+              <span className="hidden sm:inline font-semibold">System Settings</span>
             </Button>
           )}
         </div>
