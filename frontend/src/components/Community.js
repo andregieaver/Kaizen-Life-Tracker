@@ -2525,11 +2525,12 @@ const Community = ({ athleteId }) => {
               {/* Action Buttons */}
               <div className="flex items-center justify-between pt-4 border-t border-gray-600">
                 <div className="flex items-center space-x-2">
-                  {/* Multiple images input */}
+                  {/* Multiple images input - with camera capture for mobile */}
                   <input
                     type="file"
                     accept="image/*"
                     multiple
+                    capture="environment"
                     onChange={handleMultipleImagesSelect}
                     className="hidden"
                     id="write-post-multi-images"
@@ -2546,6 +2547,13 @@ const Community = ({ athleteId }) => {
                   >
                     <Camera className="w-5 h-5 text-white" />
                   </label>
+                  
+                  {/* Show image count on mobile */}
+                  {selectedImages.length > 0 && (
+                    <span className="text-sm text-white bg-[#00C2A8] px-2 py-1 rounded-full">
+                      {selectedImages.length}/5
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex items-center space-x-3">
