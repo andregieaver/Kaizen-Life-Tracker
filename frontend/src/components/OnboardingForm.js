@@ -144,19 +144,26 @@ const OnboardingForm = ({ onAthleteCreated }) => {
         const plan_id = `${selectedPlan.planId}_${selectedPlan.billingCycle}`;
         
         console.log('Creating checkout for plan:', plan_id);
+        console.log('With referral code:', referralCode);
         
         try {
           // Create Stripe checkout session
           const originUrl = window.location.origin;
+          const checkoutBody = {
+            athlete_id: athleteId,
+            plan_id: plan_id,
+            origin_url: originUrl
+          };
+          
+          // Add referral code if present
+          if (referralCode) {
+            checkoutBody.referral_code = referralCode;
+          }
+          
           const checkoutResponse = await fetch(`${BACKEND_URL}/api/subscriptions/create-checkout-session`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              athlete_id: athleteId,
-              plan_id: plan_id,
-              success_url: `${originUrl}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
-              cancel_url: `${originUrl}/pricing`
-            })
+            body: JSON.stringify(checkoutBody)
           });
           
           if (!checkoutResponse.ok) {
@@ -169,21 +176,9 @@ const OnboardingForm = ({ onAthleteCreated }) => {
           console.log('Checkout session created:', checkoutData);
           
           if (checkoutData.url) {
-            // Convert referral if present
-            if (referralCode) {
-              console.log('Converting referral:', referralCode);
-              try {
-                await axios.post(`${API}/referrals/convert?athlete_id=${athleteId}&referral_code=${referralCode}`);
-                console.log('Referral converted successfully');
-              } catch (refError) {
-                console.error('Failed to convert referral:', refError);
-                // Continue anyway
-              }
-              localStorage.removeItem('referralCode');
-            }
-            
-            // Clear selected plan from localStorage
+            // Clear localStorage items
             localStorage.removeItem('selectedPlan');
+            localStorage.removeItem('referralCode');
             
             console.log('Redirecting to Stripe:', checkoutData.url);
             
