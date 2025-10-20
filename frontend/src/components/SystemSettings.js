@@ -222,7 +222,7 @@ const SystemSettings = ({ athleteId }) => {
 
           {/* SEO Tab */}
           <TabsContent value="seo">
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
                 <CardTitle className="text-white">SEO Settings</CardTitle>
                 <CardDescription className="text-gray-400">
@@ -360,7 +360,7 @@ const SystemSettings = ({ athleteId }) => {
 
           {/* Modules Tab */}
           <TabsContent value="modules">
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
                 <CardTitle className="text-white">Module Management</CardTitle>
                 <CardDescription className="text-gray-400">
@@ -506,7 +506,7 @@ const SystemSettings = ({ athleteId }) => {
 
           {/* Statistics Tab */}
           <TabsContent value="statistics">
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
                 <CardTitle className="text-white">System Statistics</CardTitle>
                 <CardDescription className="text-gray-400">
