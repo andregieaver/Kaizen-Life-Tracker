@@ -10,7 +10,7 @@ import sys
 import uuid
 import io
 import base64
-from datetime import datetime
+from datetime import datetime, timedelta
 from PIL import Image
 
 # Backend URL from environment
