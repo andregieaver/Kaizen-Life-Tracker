@@ -176,8 +176,8 @@ const Referrals = ({ athleteId }) => {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm mb-1">Rewards Earned</p>
-                  <p className="text-3xl font-bold text-white">{stats.totalRewards}</p>
+                  <p className="text-gray-400 text-sm mb-1">Available Discount</p>
+                  <p className="text-3xl font-bold text-white">{stats.availableDiscount || 0}%</p>
                 </div>
                 <Award className="w-8 h-8 text-[#00C2A8] opacity-50" />
               </div>
