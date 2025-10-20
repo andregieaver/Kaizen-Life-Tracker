@@ -3700,6 +3700,7 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
           {/* Add Comment Input */}
           <div className="border-t border-gray-600 pt-4">
             <div className="flex items-center space-x-2">
+              <EmojiPickerButton onEmojiSelect={(emoji) => onEmojiSelect(emoji)} />
               <input
                 ref={commentRef}
                 type="text"
