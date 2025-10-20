@@ -1349,6 +1349,18 @@ const Community = ({ athleteId }) => {
         </div>
 
         <div className="flex items-center space-x-3">
+          {/* Write Post Button - Only on Feed and Following tabs */}
+          {(activeTab === 'feed' || activeTab === 'following') && (
+            <button
+              onClick={() => setShowWritePostModal(true)}
+              className="p-2 bg-[#00C2A8] hover:bg-[#00a890] rounded-full transition-colors"
+              aria-label="Write Post"
+              title="Write a post"
+            >
+              <Edit3 className="w-6 h-6 text-white" />
+            </button>
+          )}
+          
           <button
             onClick={handleRefresh}
             className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
