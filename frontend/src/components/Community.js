@@ -259,6 +259,31 @@ const Community = ({ athleteId }) => {
     }
   };
 
+  const loadFollowingPosts = async (forceReload = false) => {
+    try {
+      setIsLoading(true);
+      // Load posts from people the user follows
+      const response = await axios.get(`${API}/community/following-feed/${athleteId}?limit=10`);
+      console.log('Following posts loaded:', response.data);
+      
+      if (response.data && response.data.posts) {
+        setFollowingPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
+      } else {
+        console.error('No following posts in response:', response.data);
+        setFollowingPosts([]);
+      }
+      
+      setFollowingPostsLoaded(true);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error loading following posts:', error);
+      console.error('Error details:', error.response?.data);
+      setFollowingPosts([]);
+      setIsLoading(false);
+    }
+  };
+
+
   const loadAllGroups = async () => {
     try {
       // Load 15 groups WITH compressed images
