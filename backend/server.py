@@ -7331,6 +7331,75 @@ async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int 
         logging.error(f"Error fetching community feed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.get("/community/following-feed/{athlete_id}")
+async def get_following_feed(athlete_id: str, limit: int = Query(50), skip: int = Query(0), exclude_images: bool = Query(False)):
+    """Get posts from people the user follows (personal/following feed)"""
+    try:
+        # Get list of users the athlete follows
+        follows = await db.community_follows.find(
+            {"follower_id": athlete_id},
+            {"_id": 0, "following_id": 1}
+        ).to_list(length=None)
+        
+        following_ids = [f["following_id"] for f in follows]
+        
+        # If not following anyone, return empty feed
+        if not following_ids:
+            return {"posts": []}
+        
+        # Build projection to exclude image_data if requested
+        projection_stage = {
+            "$project": {
+                "_id": 0,
+                "user_like": 0
+            }
+        }
+        
+        if exclude_images:
+            projection_stage["$project"]["image_data"] = 0
+        
+        # Use aggregation pipeline to fetch posts from followed users with like status
+        pipeline = [
+            {"$match": {"athlete_id": {"$in": following_ids}}},
+            {"$sort": {"created_at": -1}},
+            {"$skip": skip},
+            {"$limit": limit},
+            {
+                "$lookup": {
+                    "from": "community_likes",
+                    "let": {"post_id": "$id"},
+                    "pipeline": [
+                        {
+                            "$match": {
+                                "$expr": {
+                                    "$and": [
+                                        {"$eq": ["$post_id", "$$post_id"]},
+                                        {"$eq": ["$athlete_id", athlete_id]}
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "as": "user_like"
+                }
+            },
+            {
+                "$addFields": {
+                    "liked_by_user": {"$gt": [{"$size": "$user_like"}, 0]},
+                    "has_image": {"$cond": [{"$ifNull": ["$image_data", False]}, True, False]}
+                }
+            },
+            projection_stage
+        ]
+        
+        posts = await db.community_posts.aggregate(pipeline).to_list(length=None)
+        
+        return {"posts": posts}
+    except Exception as e:
+        logging.error(f"Error fetching following feed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.get("/community/user/{target_athlete_id}/posts")
 async def get_user_posts(target_athlete_id: str, viewer_athlete_id: str = Query(...), limit: int = Query(50), skip: int = Query(0), exclude_images: bool = Query(False)):
     """Get posts created by a specific user (for their profile/wall)"""
