@@ -674,6 +674,222 @@ const SystemSettings = ({ athleteId }) => {
             </Card>
           </TabsContent>
 
+          {/* Plan Editor Tab */}
+          <TabsContent value="plans">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="text-white">Plan Editor</CardTitle>
+                <CardDescription className="text-gray-400">
+                  Configure subscription plan details and features
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-8">
+                {/* Free Plan */}
+                <div className="border border-gray-700 rounded-lg p-6">
+                  <h3 className="text-xl font-semibold text-white mb-4">Free Plan</h3>
+                  
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="free-title" className="text-sm font-medium text-white">
+                        Plan Title
+                      </Label>
+                      <Input
+                        id="free-title"
+                        type="text"
+                        value={planSettings.free.title}
+                        onChange={(e) => handlePlanChange('free', 'title', e.target.value)}
+                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="free-description" className="text-sm font-medium text-white">
+                        Plan Description
+                      </Label>
+                      <Input
+                        id="free-description"
+                        type="text"
+                        value={planSettings.free.description}
+                        onChange={(e) => handlePlanChange('free', 'description', e.target.value)}
+                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium text-white">
+                        Features
+                      </Label>
+                      {planSettings.free.features.map((feature, index) => (
+                        <div key={index} className="flex gap-2">
+                          <Input
+                            type="text"
+                            value={feature}
+                            onChange={(e) => handleFeatureChange('free', index, e.target.value)}
+                            placeholder="Enter feature"
+                            className="flex-1 bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                          />
+                          <Button
+                            type="button"
+                            onClick={() => handleRemoveFeature('free', index)}
+                            className="bg-red-600 hover:bg-red-700 text-white px-3"
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                      <Button
+                        type="button"
+                        onClick={() => handleAddFeature('free')}
+                        className="bg-gray-700 hover:bg-gray-600 text-white"
+                      >
+                        Add Feature
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Pro Plan */}
+                <div className="border border-gray-700 rounded-lg p-6">
+                  <h3 className="text-xl font-semibold text-white mb-4">Pro Plan</h3>
+                  
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="pro-title" className="text-sm font-medium text-white">
+                        Plan Title
+                      </Label>
+                      <Input
+                        id="pro-title"
+                        type="text"
+                        value={planSettings.pro.title}
+                        onChange={(e) => handlePlanChange('pro', 'title', e.target.value)}
+                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="pro-description" className="text-sm font-medium text-white">
+                        Plan Description
+                      </Label>
+                      <Input
+                        id="pro-description"
+                        type="text"
+                        value={planSettings.pro.description}
+                        onChange={(e) => handlePlanChange('pro', 'description', e.target.value)}
+                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium text-white">
+                        Features
+                      </Label>
+                      {planSettings.pro.features.map((feature, index) => (
+                        <div key={index} className="flex gap-2">
+                          <Input
+                            type="text"
+                            value={feature}
+                            onChange={(e) => handleFeatureChange('pro', index, e.target.value)}
+                            placeholder="Enter feature"
+                            className="flex-1 bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                          />
+                          <Button
+                            type="button"
+                            onClick={() => handleRemoveFeature('pro', index)}
+                            className="bg-red-600 hover:bg-red-700 text-white px-3"
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                      <Button
+                        type="button"
+                        onClick={() => handleAddFeature('pro')}
+                        className="bg-gray-700 hover:bg-gray-600 text-white"
+                      >
+                        Add Feature
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Premium Plan */}
+                <div className="border border-gray-700 rounded-lg p-6">
+                  <h3 className="text-xl font-semibold text-white mb-4">Premium Plan</h3>
+                  
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="premium-title" className="text-sm font-medium text-white">
+                        Plan Title
+                      </Label>
+                      <Input
+                        id="premium-title"
+                        type="text"
+                        value={planSettings.premium.title}
+                        onChange={(e) => handlePlanChange('premium', 'title', e.target.value)}
+                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="premium-description" className="text-sm font-medium text-white">
+                        Plan Description
+                      </Label>
+                      <Input
+                        id="premium-description"
+                        type="text"
+                        value={planSettings.premium.description}
+                        onChange={(e) => handlePlanChange('premium', 'description', e.target.value)}
+                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium text-white">
+                        Features
+                      </Label>
+                      {planSettings.premium.features.map((feature, index) => (
+                        <div key={index} className="flex gap-2">
+                          <Input
+                            type="text"
+                            value={feature}
+                            onChange={(e) => handleFeatureChange('premium', index, e.target.value)}
+                            placeholder="Enter feature"
+                            className="flex-1 bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                          />
+                          <Button
+                            type="button"
+                            onClick={() => handleRemoveFeature('premium', index)}
+                            className="bg-red-600 hover:bg-red-700 text-white px-3"
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                      <Button
+                        type="button"
+                        onClick={() => handleAddFeature('premium')}
+                        className="bg-gray-700 hover:bg-gray-600 text-white"
+                      >
+                        Add Feature
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Save Button */}
+                <div className="pt-4">
+                  <Button
+                    onClick={handleSavePlanSettings}
+                    className="w-full sm:w-auto px-6 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors flex items-center gap-2"
+                  >
+                    <Save className="w-4 h-4" />
+                    Save Plan Settings
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           {/* Statistics Tab */}
           <TabsContent value="statistics">
             <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
