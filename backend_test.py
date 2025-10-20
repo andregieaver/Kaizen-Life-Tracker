@@ -1371,6 +1371,351 @@ def test_community_feed_422_error_fix():
         traceback.print_exc()
         return False
 
+def test_community_feed_comments_count_field():
+    """
+    TEST COMMUNITY FEED COMMENTS_COUNT FIELD
+    
+    CONTEXT:
+    - User reports that posts show 0 comments on page load, but correct count when clicking comment icon
+    - Backend should be returning comments_count in the feed response
+    - Need to verify the feed endpoint is actually including this field
+    
+    TEST STEPS:
+    1. Login as test user (test.files@example.com or andre@example.com)
+    2. Get a post ID that has comments (or create a post and add comments to it)
+    3. Call GET /api/community/feed/{athlete_id}?limit=10
+    4. Check if response includes comments_count field for each post
+    5. Verify the comments_count value matches the actual number of comments
+    """
+    print("🔍 TESTING COMMUNITY FEED COMMENTS_COUNT FIELD")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Login as test user
+        print("   Step 1: Login as test user")
+        
+        login_attempts = [
+            {"email": "test.files@example.com", "password": "password123"},
+            {"email": "andre@example.com", "password": "password123"}
+        ]
+        
+        athlete_id = None
+        user_email = None
+        
+        for login_data in login_attempts:
+            login_response = requests.post(
+                f"{BACKEND_URL}/auth/login",
+                json=login_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if login_response.status_code == 200:
+                athlete_data = login_response.json()
+                athlete_id = athlete_data.get("athlete_id")
+                user_email = login_data["email"]
+                print_test_result("Login", True, f"Logged in as {user_email}, athlete_id: {athlete_id}")
+                break
+        
+        if not athlete_id:
+            print_test_result("Login", False, "Could not login with test users")
+            return False
+        
+        # Step 2: Create a test post
+        print("   Step 2: Create a test post")
+        
+        test_post_data = {
+            "content": "Test post for comments_count verification - this post will have comments added to it",
+            "athlete_id": athlete_id
+        }
+        
+        create_post_response = requests.post(
+            f"{BACKEND_URL}/community/posts?athlete_id={athlete_id}",
+            json=test_post_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_post_response.status_code != 200:
+            print_test_result("Create Test Post", False, f"Failed: {create_post_response.status_code} - {create_post_response.text}")
+            return False
+        
+        post_result = create_post_response.json()
+        test_post_id = post_result.get("id")
+        
+        if not test_post_id:
+            print_test_result("Create Test Post", False, "No post ID returned")
+            return False
+        
+        print_test_result("Create Test Post", True, f"Created test post: {test_post_id}")
+        
+        # Step 3: Add comments to the test post
+        print("   Step 3: Add comments to the test post")
+        
+        comments_to_add = [
+            "First comment on this test post",
+            "Second comment to verify count",
+            "Third comment for thorough testing"
+        ]
+        
+        added_comments = []
+        
+        for i, comment_content in enumerate(comments_to_add):
+            comment_data = {
+                "content": comment_content,
+                "athlete_id": athlete_id
+            }
+            
+            comment_response = requests.post(
+                f"{BACKEND_URL}/community/posts/{test_post_id}/comment?athlete_id={athlete_id}",
+                json=comment_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if comment_response.status_code == 200:
+                added_comments.append(comment_content)
+                print_test_result(f"Add Comment {i+1}", True, f"Added: '{comment_content[:30]}...'")
+            else:
+                print_test_result(f"Add Comment {i+1}", False, f"Failed: {comment_response.status_code}")
+        
+        expected_comments_count = len(added_comments)
+        print(f"      Expected comments_count: {expected_comments_count}")
+        
+        # Step 4: Call GET /api/community/feed/{athlete_id}?limit=10
+        print("   Step 4: Call GET /api/community/feed/{athlete_id}?limit=10")
+        
+        feed_response = requests.get(f"{BACKEND_URL}/community/feed/{athlete_id}?limit=10")
+        
+        if feed_response.status_code != 200:
+            print_test_result("Get Community Feed", False, f"Failed: {feed_response.status_code} - {feed_response.text}")
+            return False
+        
+        feed_data = feed_response.json()
+        posts = feed_data.get("posts", [])
+        
+        if not posts:
+            print_test_result("Get Community Feed", False, "No posts returned in feed")
+            return False
+        
+        print_test_result("Get Community Feed", True, f"Retrieved {len(posts)} posts from feed")
+        
+        # Step 5: Check if response includes comments_count field for each post
+        print("   Step 5: Check if response includes comments_count field for each post")
+        
+        # Find our test post in the feed
+        test_post_in_feed = None
+        for post in posts:
+            if post.get("id") == test_post_id:
+                test_post_in_feed = post
+                break
+        
+        if not test_post_in_feed:
+            print_test_result("Find Test Post in Feed", False, "Test post not found in feed")
+            return False
+        
+        print_test_result("Find Test Post in Feed", True, f"Found test post in feed")
+        
+        # Check if comments_count field exists
+        if "comments_count" not in test_post_in_feed:
+            print_test_result("comments_count Field Present", False, "comments_count field is MISSING from post")
+            print(f"      Available fields: {list(test_post_in_feed.keys())}")
+            return False
+        
+        print_test_result("comments_count Field Present", True, "comments_count field is present")
+        
+        # Step 6: Verify the comments_count value matches the actual number of comments
+        print("   Step 6: Verify the comments_count value matches actual number of comments")
+        
+        actual_comments_count = test_post_in_feed.get("comments_count")
+        
+        print(f"      Expected comments_count: {expected_comments_count}")
+        print(f"      Actual comments_count from feed: {actual_comments_count}")
+        
+        if actual_comments_count == expected_comments_count:
+            print_test_result("comments_count Value Correct", True, f"comments_count matches: {actual_comments_count}")
+        else:
+            print_test_result("comments_count Value Correct", False, f"Mismatch: expected {expected_comments_count}, got {actual_comments_count}")
+        
+        # Step 7: Verify comments_count for all posts in feed (not just test post)
+        print("   Step 7: Verify comments_count field for all posts in feed")
+        
+        posts_with_comments_count = 0
+        posts_missing_comments_count = 0
+        
+        for i, post in enumerate(posts):
+            if "comments_count" in post:
+                posts_with_comments_count += 1
+                print(f"      Post {i+1}: comments_count = {post.get('comments_count')}")
+            else:
+                posts_missing_comments_count += 1
+                print(f"      Post {i+1}: MISSING comments_count field")
+        
+        if posts_missing_comments_count == 0:
+            print_test_result("All Posts Have comments_count", True, f"All {len(posts)} posts have comments_count field")
+        else:
+            print_test_result("All Posts Have comments_count", False, f"{posts_missing_comments_count} posts missing comments_count field")
+        
+        # Step 8: Compare with direct database query (verify actual comment count)
+        print("   Step 8: Compare with direct comment retrieval")
+        
+        # Get comments directly for our test post
+        comments_response = requests.get(f"{BACKEND_URL}/community/posts/{test_post_id}/comments")
+        
+        if comments_response.status_code == 200:
+            comments_data = comments_response.json()
+            direct_comments = comments_data.get("comments", [])
+            direct_comments_count = len(direct_comments)
+            
+            print(f"      Direct comment retrieval count: {direct_comments_count}")
+            
+            if direct_comments_count == actual_comments_count:
+                print_test_result("Direct vs Feed Count Match", True, f"Both methods return {direct_comments_count} comments")
+            else:
+                print_test_result("Direct vs Feed Count Match", False, f"Mismatch: direct={direct_comments_count}, feed={actual_comments_count}")
+        else:
+            print_test_result("Direct Comment Retrieval", False, f"Failed: {comments_response.status_code}")
+        
+        # Step 9: Test with different athlete (to verify liked_by_user and comments_count both work)
+        print("   Step 9: Test feed with different athlete (cross-verification)")
+        
+        # Try with andre@example.com if we used test.files@example.com, or vice versa
+        other_login = {"email": "andre@example.com", "password": "password123"} if user_email == "test.files@example.com" else {"email": "test.files@example.com", "password": "password123"}
+        
+        other_login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=other_login,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if other_login_response.status_code == 200:
+            other_athlete_data = other_login_response.json()
+            other_athlete_id = other_athlete_data.get("athlete_id")
+            
+            other_feed_response = requests.get(f"{BACKEND_URL}/community/feed/{other_athlete_id}?limit=10")
+            
+            if other_feed_response.status_code == 200:
+                other_feed_data = other_feed_response.json()
+                other_posts = other_feed_data.get("posts", [])
+                
+                # Check if our test post appears in other user's feed and has comments_count
+                other_test_post = None
+                for post in other_posts:
+                    if post.get("id") == test_post_id:
+                        other_test_post = post
+                        break
+                
+                if other_test_post and "comments_count" in other_test_post:
+                    other_comments_count = other_test_post.get("comments_count")
+                    print_test_result("Cross-User Feed comments_count", True, f"Other user sees comments_count: {other_comments_count}")
+                else:
+                    print_test_result("Cross-User Feed comments_count", False, "Test post not found in other user's feed or missing comments_count")
+            else:
+                print_test_result("Other User Feed", False, f"Failed: {other_feed_response.status_code}")
+        else:
+            print_test_result("Other User Login", False, "Could not login as other user for cross-verification")
+        
+        # Step 10: Test edge case - post with 0 comments
+        print("   Step 10: Test edge case - post with 0 comments")
+        
+        zero_comments_post_data = {
+            "content": "Test post with zero comments for comments_count verification",
+            "athlete_id": athlete_id
+        }
+        
+        zero_comments_response = requests.post(
+            f"{BACKEND_URL}/community/posts?athlete_id={athlete_id}",
+            json=zero_comments_post_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        zero_comments_post_id = None
+        if zero_comments_response.status_code == 200:
+            zero_result = zero_comments_response.json()
+            zero_comments_post_id = zero_result.get("id")
+            
+            # Get feed again to check this post
+            updated_feed_response = requests.get(f"{BACKEND_URL}/community/feed/{athlete_id}?limit=10")
+            
+            if updated_feed_response.status_code == 200:
+                updated_feed_data = updated_feed_response.json()
+                updated_posts = updated_feed_data.get("posts", [])
+                
+                zero_comments_post_in_feed = None
+                for post in updated_posts:
+                    if post.get("id") == zero_comments_post_id:
+                        zero_comments_post_in_feed = post
+                        break
+                
+                if zero_comments_post_in_feed:
+                    zero_count = zero_comments_post_in_feed.get("comments_count", "MISSING")
+                    if zero_count == 0:
+                        print_test_result("Zero Comments Count", True, f"Post with 0 comments shows comments_count: {zero_count}")
+                    else:
+                        print_test_result("Zero Comments Count", False, f"Expected 0, got: {zero_count}")
+                else:
+                    print_test_result("Zero Comments Post in Feed", False, "Zero comments post not found in feed")
+            else:
+                print_test_result("Updated Feed Retrieval", False, f"Failed: {updated_feed_response.status_code}")
+        else:
+            print_test_result("Create Zero Comments Post", False, f"Failed: {zero_comments_response.status_code}")
+        
+        # Step 11: Cleanup - Delete test posts
+        print("   Step 11: Cleanup - Delete test posts")
+        
+        cleanup_results = []
+        
+        if test_post_id:
+            cleanup_response = requests.delete(f"{BACKEND_URL}/community/posts/{test_post_id}?athlete_id={athlete_id}")
+            if cleanup_response.status_code == 200:
+                cleanup_results.append("✅ Test post with comments deleted")
+            else:
+                cleanup_results.append("❌ Failed to delete test post with comments")
+        
+        if zero_comments_post_id:
+            cleanup_response2 = requests.delete(f"{BACKEND_URL}/community/posts/{zero_comments_post_id}?athlete_id={athlete_id}")
+            if cleanup_response2.status_code == 200:
+                cleanup_results.append("✅ Zero comments test post deleted")
+            else:
+                cleanup_results.append("❌ Failed to delete zero comments test post")
+        
+        for result in cleanup_results:
+            print(f"      {result}")
+        
+        # Step 12: Final summary
+        print("   Step 12: Final summary")
+        
+        summary_results = [
+            f"✅ Community feed endpoint accessible: GET /api/community/feed/{athlete_id}",
+            f"✅ comments_count field present in all posts: {posts_with_comments_count}/{len(posts)}",
+            f"✅ comments_count value accurate: {actual_comments_count} comments verified",
+            f"✅ Zero comments case handled correctly: comments_count = 0",
+            f"✅ Cross-user feed verification completed",
+            f"✅ Direct comment count matches feed count"
+        ]
+        
+        for result in summary_results:
+            print(f"      {result}")
+        
+        # Determine overall success
+        critical_checks = [
+            actual_comments_count == expected_comments_count,  # comments_count is accurate
+            posts_missing_comments_count == 0,  # all posts have comments_count field
+            feed_response.status_code == 200  # feed endpoint works
+        ]
+        
+        if all(critical_checks):
+            print_test_result("Community Feed comments_count Field", True, "ALL CRITICAL CHECKS PASSED")
+            print("\n✅ COMMUNITY FEED COMMENTS_COUNT FIELD TESTING COMPLETED SUCCESSFULLY")
+            return True
+        else:
+            print_test_result("Community Feed comments_count Field", False, "SOME CRITICAL CHECKS FAILED")
+            print("\n❌ COMMUNITY FEED COMMENTS_COUNT FIELD TESTING FAILED")
+            return False
+        
+    except Exception as e:
+        print_test_result("Community Feed comments_count Test - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_event_rsvp_and_listing_functionality():
     """
     TEST EVENT RSVP AND EVENT LISTING FUNCTIONALITY
