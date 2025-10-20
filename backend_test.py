@@ -4342,39 +4342,40 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Comment Deletion API Endpoints Testing"""
-    print("🚀 STARTING COMMENT DELETION API ENDPOINTS TESTING")
+    """Run User Feed API Endpoint Testing"""
+    print("🚀 STARTING USER FEED API ENDPOINT TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Comment Deletion Endpoints (CRITICAL PRIORITY - NEW FEATURE TESTING)
+    # Test User Feed API Endpoint (CRITICAL PRIORITY - NEW FEATURE TESTING)
     try:
-        result = test_comment_deletion_endpoints()
+        result = test_user_feed_api_endpoint()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Comment Deletion Endpoints", False, f"Exception: {str(e)}")
+        print_test_result("User Feed API Endpoint", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 COMMENT DELETION API ENDPOINTS TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ Post Comment Deletion: DELETE /api/community/posts/{post_id}/comment/{comment_id} works correctly")
-        print("✅ Event Comment Deletion: DELETE /api/community/events/{event_id}/comment/{comment_id} works correctly")
-        print("✅ Authorization: Only comment authors can delete their own comments (403 for others)")
-        print("✅ Data Integrity: Comments removed from database, counts decremented correctly")
-        print("✅ Other Comments: Remain intact after deletion")
-        print("✅ Error Handling: 404 for non-existent comments/posts")
-        print("✅ Response Format: Includes updated comments_count")
-        print("🔧 VERIFIED: Comment deletion functionality is working correctly")
-        print("🔧 CONFIRMED: Both post and event comment deletion endpoints functional")
+        print("🎉 USER FEED API ENDPOINT TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ User Feed Endpoint: GET /api/community/user/{target_athlete_id}/posts works correctly")
+        print("✅ User Filtering: Returns only posts by target user")
+        print("✅ Pagination: limit and skip parameters work correctly")
+        print("✅ liked_by_user Flag: Correctly reflects viewer's likes")
+        print("✅ Sorting: Posts sorted newest first")
+        print("✅ exclude_images Parameter: Works correctly (excludes image_data, includes has_image)")
+        print("✅ Required Fields: All necessary fields present in response")
+        print("✅ Edge Cases: Non-existent users and different viewers handled correctly")
+        print("🔧 VERIFIED: User feed/wall functionality is working correctly")
+        print("🔧 CONFIRMED: Facebook-style wall feature is production-ready")
     else:
-        print("❌ COMMENT DELETION API ENDPOINTS TESTING FOUND ISSUES")
+        print("❌ USER FEED API ENDPOINT TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Comment deletion may not be working correctly - requires immediate attention")
+        print("🚨 CRITICAL: User feed functionality may not be working correctly - requires immediate attention")
         print("💡 Check backend logs for specific error details")
     
     print("=" * 70)
