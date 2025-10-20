@@ -2491,7 +2491,7 @@ const Account = ({ athleteId }) => {
                                   invoice.status === 'paid' 
                                     ? 'bg-green-900/30 text-green-400' 
                                     : invoice.status === 'open'
-                                    ? 'bg-yellow-100 text-yellow-700'
+                                    ? 'bg-yellow-900/30 text-yellow-400'
                                     : 'bg-red-100 text-red-700'
                                 }`}>
                                   {invoice.status}
