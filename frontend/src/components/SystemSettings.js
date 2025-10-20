@@ -106,20 +106,93 @@ const SystemSettings = ({ athleteId }) => {
     e.preventDefault();
     
     try {
-      // TODO: Implement API call to save SEO settings
+      // Upload favicon if present
+      let faviconUrl = seoSettings.favicon ? faviconPreview : null;
+      
+      if (seoSettings.favicon && seoSettings.favicon instanceof File) {
+        // For now, store as base64 data URL
+        // In production, you'd upload to a file storage service
+        faviconUrl = faviconPreview;
+      }
+      
+      // Save SEO settings to backend
+      await axios.post(`${API}/system/settings?athlete_id=${athleteId}`, {
+        seo: {
+          siteTitle: seoSettings.siteTitle,
+          metaTitle: seoSettings.metaTitle,
+          metaDescription: seoSettings.metaDescription,
+          focusKeyword: seoSettings.focusKeyword,
+          faviconUrl: faviconUrl
+        }
+      });
+      
       setSaveStatus({
         message: 'SEO settings saved successfully!',
         type: 'success'
+      });
+      
+      // Apply SEO changes immediately
+      applySeoSettings({
+        siteTitle: seoSettings.siteTitle,
+        metaTitle: seoSettings.metaTitle,
+        metaDescription: seoSettings.metaDescription,
+        faviconUrl: faviconUrl
       });
       
       setTimeout(() => {
         setSaveStatus({ message: '', type: '' });
       }, 3000);
     } catch (error) {
+      console.error('Error saving SEO settings:', error);
       setSaveStatus({
         message: 'Failed to save SEO settings',
         type: 'error'
       });
+    }
+  };
+
+  const applySeoSettings = (seoData) => {
+    // Update document title
+    if (seoData.siteTitle) {
+      document.title = seoData.siteTitle;
+    }
+    
+    // Update meta title
+    let metaTitleTag = document.querySelector('meta[property="og:title"]');
+    if (!metaTitleTag) {
+      metaTitleTag = document.createElement('meta');
+      metaTitleTag.setAttribute('property', 'og:title');
+      document.head.appendChild(metaTitleTag);
+    }
+    metaTitleTag.setAttribute('content', seoData.metaTitle || seoData.siteTitle || '');
+    
+    // Update meta description
+    let metaDescTag = document.querySelector('meta[name="description"]');
+    if (!metaDescTag) {
+      metaDescTag = document.createElement('meta');
+      metaDescTag.setAttribute('name', 'description');
+      document.head.appendChild(metaDescTag);
+    }
+    metaDescTag.setAttribute('content', seoData.metaDescription || '');
+    
+    // Update OG description
+    let ogDescTag = document.querySelector('meta[property="og:description"]');
+    if (!ogDescTag) {
+      ogDescTag = document.createElement('meta');
+      ogDescTag.setAttribute('property', 'og:description');
+      document.head.appendChild(ogDescTag);
+    }
+    ogDescTag.setAttribute('content', seoData.metaDescription || '');
+    
+    // Update favicon
+    if (seoData.faviconUrl) {
+      let faviconLink = document.querySelector('link[rel="icon"]');
+      if (!faviconLink) {
+        faviconLink = document.createElement('link');
+        faviconLink.setAttribute('rel', 'icon');
+        document.head.appendChild(faviconLink);
+      }
+      faviconLink.setAttribute('href', seoData.faviconUrl);
     }
   };
 
