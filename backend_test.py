@@ -3295,37 +3295,38 @@ def test_group_join_request_notifications():
         return False
 
 def main():
-    """Run Community Feed 422 Error Fix Testing"""
-    print("🚀 STARTING COMMUNITY FEED 422 ERROR FIX TESTING")
+    """Run Community Feed comments_count Field Testing"""
+    print("🚀 STARTING COMMUNITY FEED COMMENTS_COUNT FIELD TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Community Feed 422 Error Fix (CRITICAL PRIORITY)
+    # Test Community Feed comments_count Field (CRITICAL PRIORITY)
     try:
-        result = test_community_feed_422_error_fix()
+        result = test_community_feed_comments_count_field()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Community Feed 422 Error Fix", False, f"Exception: {str(e)}")
+        print_test_result("Community Feed comments_count Field", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 COMMUNITY FEED 422 ERROR FIX TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ NEW Feed Endpoint: GET /api/community/feed/{athlete_id} returns 200 (NOT 422)")
-        print("✅ Feed Parameters: Works with limit, skip, exclude_images parameters")
-        print("✅ Single Post Endpoint: GET /api/community/posts/{post_id} still functional")
-        print("✅ No Routing Conflicts: No 422 errors detected in endpoint testing")
-        print("✅ Response Structure: Posts array and liked_by_user flag present")
-        print("✅ Performance: Feed endpoint responds in acceptable time")
-        print("🔧 FIX VERIFIED: Community feed 422 error has been resolved")
+        print("🎉 COMMUNITY FEED COMMENTS_COUNT FIELD TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ Feed Endpoint: GET /api/community/feed/{athlete_id} accessible and functional")
+        print("✅ comments_count Field: Present in all posts returned by feed endpoint")
+        print("✅ comments_count Value: Accurate count matching actual number of comments")
+        print("✅ Zero Comments: Correctly shows comments_count = 0 for posts without comments")
+        print("✅ Cross-User Verification: comments_count visible to all users viewing feed")
+        print("✅ Direct vs Feed Count: Feed count matches direct comment retrieval count")
+        print("🔧 VERIFIED: Community feed correctly returns comments_count field")
     else:
-        print("❌ COMMUNITY FEED 422 ERROR FIX TESTING FOUND ISSUES")
+        print("❌ COMMUNITY FEED COMMENTS_COUNT FIELD TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: 422 error may still be present - requires immediate attention")
+        print("🚨 CRITICAL: comments_count field may be missing or incorrect - requires immediate attention")
+        print("💡 This explains why posts show 0 comments on page load but correct count when clicking comment icon")
     
     print("=" * 70)
 
