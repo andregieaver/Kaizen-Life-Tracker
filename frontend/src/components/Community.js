@@ -3450,7 +3450,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
 };
 
 // EventDetailModal Component
-const EventDetailModal = ({ eventData, loading, onClose, athleteId }) => {
+const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteProfile, onAddComment, commentText, setCommentText, onEmojiSelect, formatMentions }) => {
   if (loading || !eventData) {
     return (
       <div 
