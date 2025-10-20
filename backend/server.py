@@ -9506,6 +9506,23 @@ async def get_system_settings(athlete_id: str):
                     "metaDescription": "",
                     "focusKeyword": "",
                     "faviconUrl": None
+                },
+                "plans": {
+                    "free": {
+                        "title": "Free",
+                        "description": "Get started with basic features",
+                        "features": ["Basic training plans", "30-day history", "Community access"]
+                    },
+                    "pro": {
+                        "title": "Pro",
+                        "description": "Advanced features for serious runners",
+                        "features": ["Everything in Free", "Unlimited history", "AI coach chat", "Advanced analytics"]
+                    },
+                    "premium": {
+                        "title": "Premium",
+                        "description": "Complete running coaching experience",
+                        "features": ["Everything in Pro", "Custom training plans", "Nutrition guidance", "Priority support"]
+                    }
                 }
             }
         
