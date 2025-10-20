@@ -9417,7 +9417,7 @@ async def get_system_stats(athlete_id: str):
     
     try:
         # Count total users
-        total_users = await db.athletes.count_documents({})
+        total_users = await db.athlete_profiles.count_documents({})
         
         # Count active sessions (placeholder - implement based on your session management)
         active_sessions = 0  # TODO: Implement session counting
@@ -9440,6 +9440,70 @@ async def get_system_stats(athlete_id: str):
     except Exception as e:
         logging.error(f"Error getting system stats: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to retrieve system stats: {str(e)}")
+
+@api_router.get("/system/settings")
+async def get_system_settings(athlete_id: str):
+    """Get system settings (Super Admin only)"""
+    # Verify super admin
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get settings from database
+        settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
+        
+        # Return default settings if none exist
+        if not settings:
+            return {
+                "modules": {
+                    "affiliateProgram": {
+                        "enabled": True,
+                        "expanded": True
+                    },
+                    "community": {
+                        "enabled": True,
+                        "expanded": True
+                    }
+                },
+                "seo": {
+                    "siteTitle": "",
+                    "metaTitle": "",
+                    "metaDescription": "",
+                    "focusKeyword": "",
+                    "faviconUrl": None
+                }
+            }
+        
+        return settings
+    except Exception as e:
+        logging.error(f"Error getting system settings: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to retrieve system settings: {str(e)}")
+
+@api_router.post("/system/settings")
+async def save_system_settings(athlete_id: str, settings: dict):
+    """Save system settings (Super Admin only)"""
+    # Verify super admin
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Update or insert settings
+        result = await db.system_settings.update_one(
+            {"setting_type": "global"},
+            {
+                "$set": {
+                    **settings,
+                    "setting_type": "global",
+                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_by": athlete_id
+                }
+            },
+            upsert=True
+        )
+        
+        logging.info(f"System settings saved by {athlete_id}")
+        return {"message": "Settings saved successfully", "modified": result.modified_count > 0}
+    except Exception as e:
+        logging.error(f"Error saving system settings: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to save system settings: {str(e)}")
 
 app.include_router(api_router)
 
