@@ -45,7 +45,68 @@ function App() {
     } else {
       setIsLoading(false);
     }
+    
+    // Load and apply SEO settings
+    loadSeoSettings();
   }, []);
+
+  const loadSeoSettings = async () => {
+    try {
+      // Try to load global SEO settings (no auth required)
+      const response = await axios.get(`${API}/system/settings/public`);
+      if (response.data.seo) {
+        applySeoSettings(response.data.seo);
+      }
+    } catch (error) {
+      // If endpoint doesn't exist or fails, use defaults
+      console.log('Using default SEO settings');
+    }
+  };
+
+  const applySeoSettings = (seoData) => {
+    // Update document title
+    if (seoData.siteTitle) {
+      document.title = seoData.siteTitle;
+    }
+    
+    // Update meta title
+    let metaTitleTag = document.querySelector('meta[property="og:title"]');
+    if (!metaTitleTag) {
+      metaTitleTag = document.createElement('meta');
+      metaTitleTag.setAttribute('property', 'og:title');
+      document.head.appendChild(metaTitleTag);
+    }
+    metaTitleTag.setAttribute('content', seoData.metaTitle || seoData.siteTitle || '');
+    
+    // Update meta description
+    let metaDescTag = document.querySelector('meta[name="description"]');
+    if (!metaDescTag) {
+      metaDescTag = document.createElement('meta');
+      metaDescTag.setAttribute('name', 'description');
+      document.head.appendChild(metaDescTag);
+    }
+    metaDescTag.setAttribute('content', seoData.metaDescription || '');
+    
+    // Update OG description
+    let ogDescTag = document.querySelector('meta[property="og:description"]');
+    if (!ogDescTag) {
+      ogDescTag = document.createElement('meta');
+      ogDescTag.setAttribute('property', 'og:description');
+      document.head.appendChild(ogDescTag);
+    }
+    ogDescTag.setAttribute('content', seoData.metaDescription || '');
+    
+    // Update favicon
+    if (seoData.faviconUrl) {
+      let faviconLink = document.querySelector('link[rel="icon"]');
+      if (!faviconLink) {
+        faviconLink = document.createElement('link');
+        faviconLink.setAttribute('rel', 'icon');
+        document.head.appendChild(faviconLink);
+      }
+      faviconLink.setAttribute('href', seoData.faviconUrl);
+    }
+  };
 
   const validateAthlete = async (id) => {
     try {
