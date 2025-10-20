@@ -1976,7 +1976,31 @@ const Community = ({ athleteId }) => {
                       </div>
                     ) : (
                       <>
-                        <p className="text-white mb-4 whitespace-pre-wrap">{formatMentions(post.content)}</p>
+                        {/* Post Content with Show More/Less */}
+                        <div className="mb-4">
+                          <p 
+                            className={`text-white whitespace-pre-wrap ${
+                              !expandedPosts[post.id] ? 'line-clamp-2' : ''
+                            }`}
+                            style={!expandedPosts[post.id] ? {
+                              display: '-webkit-box',
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: 'vertical',
+                              overflow: 'hidden'
+                            } : {}}
+                          >
+                            {formatMentions(post.content)}
+                          </p>
+                          {post.content && post.content.length > 100 && (
+                            <button
+                              onClick={() => toggleExpandPost(post.id)}
+                              className="text-[#00C2A8] hover:text-[#00a890] text-sm font-semibold mt-1"
+                            >
+                              {expandedPosts[post.id] ? 'Show less' : 'Show more'}
+                            </button>
+                          )}
+                        </div>
+                        
                         {post.image_data && (
                           <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-96 object-cover mb-4" />
                         )}
