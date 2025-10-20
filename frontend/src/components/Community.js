@@ -2459,10 +2459,13 @@ const Community = ({ athleteId }) => {
                       Selected Images ({selectedImages.length}/5)
                     </span>
                     {isUploadingImages && (
-                      <span className="text-[#00C2A8] text-sm">Uploading...</span>
+                      <span className="text-[#00C2A8] text-sm flex items-center gap-2">
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                        Uploading...
+                      </span>
                     )}
                   </div>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {selectedImages.map((file, index) => (
                       <div key={index} className="relative aspect-square">
                         <img
@@ -2472,7 +2475,8 @@ const Community = ({ athleteId }) => {
                         />
                         <button
                           onClick={() => handleRemoveImage(index)}
-                          className="absolute top-1 right-1 p-1 bg-black/70 hover:bg-black/90 rounded-full transition-colors"
+                          disabled={isUploadingImages}
+                          className="absolute top-1 right-1 p-1.5 bg-black/70 hover:bg-black/90 rounded-full transition-colors disabled:opacity-50"
                         >
                           <X className="w-4 h-4 text-white" />
                         </button>
