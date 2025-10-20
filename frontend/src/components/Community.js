@@ -220,7 +220,7 @@ const Community = ({ athleteId }) => {
     try {
       setIsLoading(true);
       // Load 10 posts WITH compressed images
-      const response = await axios.get(`${API}/community/posts/${athleteId}?limit=10`);
+      const response = await axios.get(`${API}/community/feed/${athleteId}?limit=10`);
       console.log('Posts loaded:', response.data);
       
       if (response.data && response.data.posts) {
