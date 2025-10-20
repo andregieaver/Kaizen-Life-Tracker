@@ -3480,30 +3480,30 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
       onClick={onClose}
     >
       <div 
-        className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Cover Photo Banner */}
         {eventData.cover_photo && (
-          <div className="relative h-48">
+          <div className="relative h-48 sm:h-64">
             <img src={eventData.cover_photo} alt={eventData.name} className="w-full h-full object-cover rounded-t-lg" />
           </div>
         )}
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Header with Title and Close Button */}
-          <div className="flex items-start justify-between mb-6">
-            <div className="flex items-center space-x-4 flex-1">
+          <div className="flex items-start justify-between mb-4 sm:mb-6">
+            <div className="flex items-center space-x-3 sm:space-x-4 flex-1">
               {eventData.profile_image ? (
-                <img src={eventData.profile_image} alt={eventData.name} className="w-16 h-16 rounded-full object-cover flex-shrink-0" />
+                <img src={eventData.profile_image} alt={eventData.name} className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover flex-shrink-0" />
               ) : (
-                <div className="w-16 h-16 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
-                  <Calendar className="w-8 h-8 text-white" />
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                  <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                 </div>
               )}
               
               <div className="flex-1">
-                <h2 className="text-2xl font-bold text-white mb-2">{eventData.name}</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">{eventData.name}</h2>
                 <div className="space-y-1">
                   <div className="flex items-center text-gray-300 text-sm">
                     <Clock className="w-4 h-4 mr-2" />
