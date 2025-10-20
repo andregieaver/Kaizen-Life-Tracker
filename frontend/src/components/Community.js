@@ -3590,6 +3590,80 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
             </div>
           )}
 
+
+          {/* Comments Section */}
+          <div className="border-t border-gray-600 pt-6">
+            <h3 className="text-lg font-semibold text-white mb-4">Comments ({eventData.comments_count || 0})</h3>
+            
+            {/* Comments List */}
+            <div className="space-y-4 mb-6 max-h-60 overflow-y-auto">
+              {eventData.comments && eventData.comments.length > 0 ? (
+                eventData.comments.map(comment => (
+                  <div key={comment.id} className="flex items-start space-x-3">
+                    <div
+                      className="cursor-pointer hover:opacity-80"
+                      onClick={() => {
+                        onClose();
+                        loadAthleteProfile(comment.athlete_id);
+                      }}
+                    >
+                      {comment.athlete_profile_picture ? (
+                        <img
+                          src={comment.athlete_profile_picture}
+                          alt={comment.athlete_name}
+                          className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                          <span className="text-white font-bold text-xs">
+                            {comment.athlete_name?.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 bg-gray-700 rounded-lg p-3">
+                      <p 
+                        className="text-white font-semibold text-sm cursor-pointer hover:underline"
+                        onClick={() => {
+                          onClose();
+                          loadAthleteProfile(comment.athlete_id);
+                        }}
+                      >
+                        {comment.athlete_name}
+                      </p>
+                      <p className="text-gray-300 text-sm mt-1">{formatMentions(comment.content)}</p>
+                      <p className="text-gray-400 text-xs mt-1">
+                        {new Date(comment.created_at).toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-400 text-center py-4">No comments yet. Be the first to comment!</p>
+              )}
+            </div>
+
+            {/* Add Comment Input */}
+            <div className="flex items-center space-x-2">
+              <EmojiPickerButton onEmojiSelect={(emoji) => onEmojiSelect(emoji)} />
+              <input
+                type="text"
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                placeholder="Write a comment..."
+                className="flex-1 bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                onKeyPress={(e) => e.key === 'Enter' && onAddComment()}
+              />
+              <Button
+                onClick={onAddComment}
+                className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+              >
+                <Send className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+
           {/* Close Button */}
           <div className="mt-6">
             <Button onClick={onClose} className="w-full bg-gray-700 hover:bg-gray-600 text-white">
