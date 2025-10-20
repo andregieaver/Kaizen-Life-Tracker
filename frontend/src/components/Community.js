@@ -727,10 +727,6 @@ const Community = ({ athleteId }) => {
     setShowConfirmModal(true);
   };
 
-    }
-  };
-
-
   // Event comment handlers
   const handleAddEventComment = async (eventId) => {
     const targetEventId = eventId || selectedEventForComments?.id;
