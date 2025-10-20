@@ -7275,7 +7275,7 @@ async def get_single_post(post_id: str, athlete_id: str = Query(...)):
         logging.error(f"Error fetching post: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@api_router.get("/community/posts/{athlete_id}")
+@api_router.get("/community/feed/{athlete_id}")
 async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int = Query(0), exclude_images: bool = Query(False)):
     """Get community posts feed (all posts, sorted by newest first) - Optimized with pagination and optional image exclusion"""
     try:
