@@ -945,19 +945,32 @@ const Community = ({ athleteId }) => {
   };
 
   const toggleComments = async (postId) => {
-    const post = posts.find(p => p.id === postId);
+    // Try to find post in either feed
+    let post = posts.find(p => p.id === postId);
+    if (!post) {
+      post = followingPosts.find(p => p.id === postId);
+    }
     if (!post) return;
     
     // Load comments for this post
     if (!post.comments) {
       try {
         const response = await axios.get(`${API}/community/posts/${postId}/comments`);
-        // Update the post with comments and comment count - USING FUNCTIONAL UPDATE
+        
+        // Update the post in main feed with comments
         setPosts(currentPosts => currentPosts.map(p => 
           p.id === postId 
             ? { ...p, comments: response.data.comments, comments_count: response.data.comments.length }
             : p
         ));
+        
+        // Also update in following feed
+        setFollowingPosts(currentPosts => currentPosts.map(p => 
+          p.id === postId 
+            ? { ...p, comments: response.data.comments, comments_count: response.data.comments.length }
+            : p
+        ));
+        
         post.comments = response.data.comments;
         post.comments_count = response.data.comments.length;
       } catch (error) {
