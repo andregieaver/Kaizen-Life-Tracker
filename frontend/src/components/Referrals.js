@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Gift, Copy, Check, Twitter, Facebook, Mail, ExternalLink, TrendingUp, Users as UsersIcon, Award } from 'lucide-react';
+import { Gift, Copy, Check, Facebook, Mail, ExternalLink, TrendingUp, Users as UsersIcon, Award } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 
