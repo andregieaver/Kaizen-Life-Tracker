@@ -218,13 +218,24 @@ const Community = ({ athleteId }) => {
 
   const loadPosts = async (forceReload = false) => {
     try {
+      setIsLoading(true);
       // Load 10 posts WITH compressed images
       const response = await axios.get(`${API}/community/posts/${athleteId}?limit=10`);
-      setPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
+      console.log('Posts loaded:', response.data);
+      
+      if (response.data && response.data.posts) {
+        setPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
+      } else {
+        console.error('No posts in response:', response.data);
+        setPosts([]);
+      }
+      
       setPostsLoaded(true);
       setIsLoading(false);
     } catch (error) {
       console.error('Error loading posts:', error);
+      console.error('Error details:', error.response?.data);
+      setPosts([]);
       setIsLoading(false);
     }
   };
