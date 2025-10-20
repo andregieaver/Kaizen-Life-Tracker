@@ -81,8 +81,8 @@ const Community = ({ athleteId }) => {
   // Write post modal state
   const [showWritePostModal, setShowWritePostModal] = useState(false);
   const [writePostContent, setWritePostContent] = useState('');
-  const [writePostImages, setWritePostImages] = useState([]); // Changed to array
-  const [writePostImagePreviews, setWritePostImagePreviews] = useState([]); // Changed to array
+  const [writePostImage, setWritePostImage] = useState(null);
+  const [writePostImagePreview, setWritePostImagePreview] = useState(null);
   const [writePostVisibility, setWritePostVisibility] = useState('public');
   
   // Athletes modal state
