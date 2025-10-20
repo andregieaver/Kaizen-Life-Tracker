@@ -2487,33 +2487,33 @@ const Community = ({ athleteId }) => {
               )}
 
               {/* Visibility Toggle */}
-              <div className="flex items-center space-x-4 p-4 bg-gray-700 rounded-lg">
-                <span className="text-white font-semibold">Visibility:</span>
+              <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 p-4 bg-gray-700 rounded-lg">
+                <span className="text-white font-semibold text-sm sm:text-base">Visibility:</span>
                 <div className="flex space-x-2">
                   <button
                     onClick={() => setWritePostVisibility('public')}
-                    className={`px-4 py-2 rounded-lg transition-colors ${
+                    className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg transition-colors ${
                       writePostVisibility === 'public'
                         ? 'bg-[#00C2A8] text-white'
                         : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
                     }`}
                   >
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center justify-center space-x-2">
                       <Globe className="w-4 h-4" />
-                      <span>Public</span>
+                      <span className="text-sm">Public</span>
                     </div>
                   </button>
                   <button
                     onClick={() => setWritePostVisibility('private')}
-                    className={`px-4 py-2 rounded-lg transition-colors ${
+                    className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg transition-colors ${
                       writePostVisibility === 'private'
                         ? 'bg-[#00C2A8] text-white'
                         : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
                     }`}
                   >
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center justify-center space-x-2">
                       <Lock className="w-4 h-4" />
-                      <span>Private</span>
+                      <span className="text-sm">Private</span>
                     </div>
                   </button>
                 </div>
