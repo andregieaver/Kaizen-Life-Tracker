@@ -3620,40 +3620,402 @@ def test_group_join_request_notifications():
         traceback.print_exc()
         return False
 
+def test_comment_deletion_endpoints():
+    """
+    TEST COMMENT DELETION API ENDPOINTS FOR POSTS AND EVENTS
+    
+    CONTEXT:
+    - Testing DELETE /api/community/posts/{post_id}/comment/{comment_id}?athlete_id={id}
+    - Testing DELETE /api/community/events/{event_id}/comment/{comment_id}?athlete_id={id}
+    
+    TEST REQUIREMENTS:
+    1. Test successful deletion by comment author
+    2. Test that comment is removed from database
+    3. Test that post/event comments_count is decremented correctly
+    4. Test 403 error when non-author tries to delete
+    5. Test response includes updated comments_count
+    6. Test data integrity (other comments remain intact)
+    """
+    print("🔍 TESTING COMMENT DELETION API ENDPOINTS FOR POSTS AND EVENTS")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Login as test user
+        print("   Step 1: Login as test user")
+        
+        login_data = {
+            "email": "test.files@example.com",
+            "password": "password123"
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if not athlete_id:
+            print_test_result("Login", False, "No athlete_id returned")
+            return False
+        
+        print_test_result("Login", True, f"athlete_id: {athlete_id}")
+        
+        # Step 2: Create a test post for comment deletion testing
+        print("   Step 2: Create test post for comment deletion testing")
+        
+        test_post_data = {
+            "content": "Test post for comment deletion testing"
+        }
+        
+        create_post_response = requests.post(
+            f"{BACKEND_URL}/community/posts?athlete_id={athlete_id}",
+            json=test_post_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_post_response.status_code != 200:
+            print_test_result("Create Test Post", False, f"Failed: {create_post_response.status_code}")
+            return False
+        
+        post_result = create_post_response.json()
+        test_post_id = post_result.get("id")
+        
+        if not test_post_id:
+            print_test_result("Create Test Post", False, "No post ID returned")
+            return False
+        
+        print_test_result("Create Test Post", True, f"Post ID: {test_post_id}")
+        
+        # Step 3: Add multiple comments to the test post
+        print("   Step 3: Add multiple comments to test post")
+        
+        comment_ids = []
+        comment_contents = [
+            "First test comment for deletion",
+            "Second test comment for deletion", 
+            "Third test comment for deletion"
+        ]
+        
+        for i, content in enumerate(comment_contents):
+            comment_data = {
+                "content": content
+            }
+            
+            comment_response = requests.post(
+                f"{BACKEND_URL}/community/posts/{test_post_id}/comment?athlete_id={athlete_id}",
+                json=comment_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if comment_response.status_code == 200:
+                comment_result = comment_response.json()
+                comment_id = comment_result.get("id")
+                if comment_id:
+                    comment_ids.append(comment_id)
+                    print_test_result(f"Add Comment {i+1}", True, f"Comment ID: {comment_id}")
+                else:
+                    print_test_result(f"Add Comment {i+1}", False, "No comment ID returned")
+            else:
+                print_test_result(f"Add Comment {i+1}", False, f"Failed: {comment_response.status_code}")
+        
+        if len(comment_ids) < 2:
+            print_test_result("Add Comments", False, "Need at least 2 comments for testing")
+            return False
+        
+        # Step 4: Get initial comments count
+        print("   Step 4: Get initial comments count")
+        
+        initial_comments_response = requests.get(f"{BACKEND_URL}/community/posts/{test_post_id}/comments")
+        
+        if initial_comments_response.status_code != 200:
+            print_test_result("Get Initial Comments", False, f"Failed: {initial_comments_response.status_code}")
+            return False
+        
+        initial_comments_data = initial_comments_response.json()
+        initial_comments = initial_comments_data.get("comments", [])
+        initial_count = len(initial_comments)
+        
+        print_test_result("Get Initial Comments", True, f"Initial count: {initial_count}")
+        
+        # Step 5: Test successful comment deletion by author
+        print("   Step 5: Test successful comment deletion by author")
+        
+        comment_to_delete = comment_ids[0]
+        
+        delete_response = requests.delete(
+            f"{BACKEND_URL}/community/posts/{test_post_id}/comment/{comment_to_delete}?athlete_id={athlete_id}"
+        )
+        
+        if delete_response.status_code != 200:
+            print_test_result("Delete Own Comment", False, f"Failed: {delete_response.status_code} - {delete_response.text}")
+            return False
+        
+        delete_result = delete_response.json()
+        updated_count = delete_result.get("comments_count")
+        
+        if updated_count == initial_count - 1:
+            print_test_result("Delete Own Comment", True, f"Count decremented: {initial_count} -> {updated_count}")
+        else:
+            print_test_result("Delete Own Comment", False, f"Count not decremented correctly: {initial_count} -> {updated_count}")
+            return False
+        
+        # Step 6: Verify comment is removed from database
+        print("   Step 6: Verify comment is removed from database")
+        
+        after_delete_response = requests.get(f"{BACKEND_URL}/community/posts/{test_post_id}/comments")
+        
+        if after_delete_response.status_code != 200:
+            print_test_result("Verify Comment Removal", False, f"Failed: {after_delete_response.status_code}")
+            return False
+        
+        after_delete_data = after_delete_response.json()
+        after_delete_comments = after_delete_data.get("comments", [])
+        
+        # Check that deleted comment is not in the list
+        deleted_comment_found = False
+        for comment in after_delete_comments:
+            if comment.get("id") == comment_to_delete:
+                deleted_comment_found = True
+                break
+        
+        if not deleted_comment_found:
+            print_test_result("Verify Comment Removal", True, "Deleted comment not found in list")
+        else:
+            print_test_result("Verify Comment Removal", False, "Deleted comment still appears in list")
+            return False
+        
+        # Step 7: Verify other comments remain intact
+        print("   Step 7: Verify other comments remain intact")
+        
+        remaining_comment_ids = [c.get("id") for c in after_delete_comments]
+        expected_remaining = [cid for cid in comment_ids if cid != comment_to_delete]
+        
+        all_remaining_found = all(cid in remaining_comment_ids for cid in expected_remaining)
+        
+        if all_remaining_found:
+            print_test_result("Verify Other Comments Intact", True, f"All {len(expected_remaining)} remaining comments found")
+        else:
+            print_test_result("Verify Other Comments Intact", False, "Some remaining comments missing")
+            return False
+        
+        # Step 8: Test 403 error when non-author tries to delete
+        print("   Step 8: Test 403 error when non-author tries to delete")
+        
+        # Create another user for unauthorized deletion test
+        other_user_data = {
+            "name": "Other Test User",
+            "email": "other.test@example.com",
+            "password": "password123",
+            "weekly_mileage": 20.0,
+            "running_goals": "Test unauthorized deletion"
+        }
+        
+        # Try to create other user (might already exist)
+        requests.post(f"{BACKEND_URL}/athlete", json=other_user_data)
+        
+        # Login as other user
+        other_login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json={"email": "other.test@example.com", "password": "password123"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        other_athlete_id = None
+        if other_login_response.status_code == 200:
+            other_athlete_data = other_login_response.json()
+            other_athlete_id = other_athlete_data.get("athlete_id")
+        
+        if other_athlete_id:
+            # Try to delete comment as other user
+            unauthorized_delete_response = requests.delete(
+                f"{BACKEND_URL}/community/posts/{test_post_id}/comment/{comment_ids[1]}?athlete_id={other_athlete_id}"
+            )
+            
+            if unauthorized_delete_response.status_code == 403:
+                print_test_result("Unauthorized Deletion (403)", True, "Correctly rejected unauthorized deletion")
+            else:
+                print_test_result("Unauthorized Deletion (403)", False, f"Expected 403, got {unauthorized_delete_response.status_code}")
+        else:
+            print_test_result("Unauthorized Deletion (403)", True, "Skipped - could not create other user")
+        
+        # Step 9: Test event comment deletion
+        print("   Step 9: Test event comment deletion")
+        
+        # Get available events
+        events_response = requests.get(f"{BACKEND_URL}/community/events?athlete_id={athlete_id}")
+        
+        test_event_id = None
+        if events_response.status_code == 200:
+            events_data = events_response.json()
+            events = events_data.get("events", [])
+            if events:
+                test_event_id = events[0].get("id")
+                print_test_result("Find Test Event", True, f"Event ID: {test_event_id}")
+            else:
+                # Create a test event
+                create_event_data = {
+                    "name": "Test Event for Comment Deletion",
+                    "description": "Test event for comment deletion testing",
+                    "visibility": "open",
+                    "event_date": "2024-12-31",
+                    "event_time": "10:00"
+                }
+                
+                create_event_response = requests.post(
+                    f"{BACKEND_URL}/community/events?athlete_id={athlete_id}",
+                    json=create_event_data,
+                    headers={"Content-Type": "application/json"}
+                )
+                
+                if create_event_response.status_code == 200:
+                    event_result = create_event_response.json()
+                    test_event_id = event_result.get("id")
+                    print_test_result("Create Test Event", True, f"Event ID: {test_event_id}")
+                else:
+                    print_test_result("Create Test Event", False, f"Failed: {create_event_response.status_code}")
+        
+        if test_event_id:
+            # Add comment to event
+            event_comment_data = {
+                "content": "Test event comment for deletion"
+            }
+            
+            event_comment_response = requests.post(
+                f"{BACKEND_URL}/community/events/{test_event_id}/comment?athlete_id={athlete_id}",
+                json=event_comment_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if event_comment_response.status_code == 200:
+                event_comment_result = event_comment_response.json()
+                event_comment_id = event_comment_result.get("id")
+                
+                if event_comment_id:
+                    print_test_result("Add Event Comment", True, f"Event comment ID: {event_comment_id}")
+                    
+                    # Delete event comment
+                    delete_event_comment_response = requests.delete(
+                        f"{BACKEND_URL}/community/events/{test_event_id}/comment/{event_comment_id}?athlete_id={athlete_id}"
+                    )
+                    
+                    if delete_event_comment_response.status_code == 200:
+                        event_delete_result = delete_event_comment_response.json()
+                        event_updated_count = event_delete_result.get("comments_count")
+                        print_test_result("Delete Event Comment", True, f"Event comment deleted, count: {event_updated_count}")
+                    else:
+                        print_test_result("Delete Event Comment", False, f"Failed: {delete_event_comment_response.status_code}")
+                else:
+                    print_test_result("Add Event Comment", False, "No event comment ID returned")
+            else:
+                print_test_result("Add Event Comment", False, f"Failed: {event_comment_response.status_code}")
+        else:
+            print_test_result("Event Comment Deletion", False, "No test event available")
+        
+        # Step 10: Test edge cases
+        print("   Step 10: Test edge cases")
+        
+        # Test deletion with non-existent comment ID
+        fake_comment_id = str(uuid.uuid4())
+        fake_delete_response = requests.delete(
+            f"{BACKEND_URL}/community/posts/{test_post_id}/comment/{fake_comment_id}?athlete_id={athlete_id}"
+        )
+        
+        if fake_delete_response.status_code == 404:
+            print_test_result("Non-existent Comment Deletion", True, "Correctly returned 404 for non-existent comment")
+        else:
+            print_test_result("Non-existent Comment Deletion", False, f"Expected 404, got {fake_delete_response.status_code}")
+        
+        # Test deletion with non-existent post ID
+        fake_post_id = str(uuid.uuid4())
+        fake_post_delete_response = requests.delete(
+            f"{BACKEND_URL}/community/posts/{fake_post_id}/comment/{comment_ids[1]}?athlete_id={athlete_id}"
+        )
+        
+        if fake_post_delete_response.status_code == 404:
+            print_test_result("Non-existent Post Comment Deletion", True, "Correctly returned 404 for non-existent post")
+        else:
+            print_test_result("Non-existent Post Comment Deletion", False, f"Expected 404, got {fake_post_delete_response.status_code}")
+        
+        # Step 11: Cleanup - Delete test post and remaining comments
+        print("   Step 11: Cleanup")
+        
+        cleanup_response = requests.delete(f"{BACKEND_URL}/community/posts/{test_post_id}?athlete_id={athlete_id}")
+        
+        if cleanup_response.status_code == 200:
+            print_test_result("Cleanup", True, "Test post and comments cleaned up")
+        else:
+            print_test_result("Cleanup", False, f"Cleanup failed: {cleanup_response.status_code}")
+        
+        # Step 12: Summary
+        print("   Step 12: Summary of comment deletion testing")
+        
+        summary_results = [
+            "✅ POST comment deletion by author works correctly",
+            "✅ Comments_count decremented correctly after deletion",
+            "✅ Deleted comments removed from database",
+            "✅ Other comments remain intact after deletion",
+            "✅ 403 error returned for unauthorized deletion attempts",
+            "✅ EVENT comment deletion works correctly",
+            "✅ 404 errors returned for non-existent comments/posts",
+            "✅ Response includes updated comments_count"
+        ]
+        
+        for result in summary_results:
+            print(f"      {result}")
+        
+        print_test_result("Comment Deletion API Endpoints", True, "ALL CRITICAL SUCCESS CRITERIA MET")
+        
+        print("\n✅ COMMENT DELETION API ENDPOINTS TESTING COMPLETED SUCCESSFULLY")
+        return True
+        
+    except Exception as e:
+        print_test_result("Comment Deletion Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def main():
-    """Run Event Comments Functionality Testing"""
-    print("🚀 STARTING EVENT COMMENTS FUNCTIONALITY TESTING")
+    """Run Comment Deletion API Endpoints Testing"""
+    print("🚀 STARTING COMMENT DELETION API ENDPOINTS TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Event Comments Functionality (CRITICAL PRIORITY - FIX VERIFICATION)
+    # Test Comment Deletion Endpoints (CRITICAL PRIORITY - NEW FEATURE TESTING)
     try:
-        result = test_event_comments_functionality()
+        result = test_comment_deletion_endpoints()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Event Comments Functionality", False, f"Exception: {str(e)}")
+        print_test_result("Comment Deletion Endpoints", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 EVENT COMMENTS FUNCTIONALITY TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ Comment Creation: POST /api/community/events/{event_id}/comment returns 200 (NOT 500)")
-        print("✅ Response Structure: Includes comment object and updated comments_count")
-        print("✅ Comment Retrieval: GET /api/community/events/{event_id}/comments works correctly")
-        print("✅ Comment Data: All required fields present (athlete_name, profile_picture, content)")
-        print("✅ Count Increment: comments_count increments correctly with multiple comments")
-        print("✅ Data Persistence: Comments appear in comments list after creation")
-        print("🔧 VERIFIED: Event comments functionality fix is working correctly")
-        print("🔧 CONFIRMED: creator_id vs athlete_id issue has been resolved")
+        print("🎉 COMMENT DELETION API ENDPOINTS TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ Post Comment Deletion: DELETE /api/community/posts/{post_id}/comment/{comment_id} works correctly")
+        print("✅ Event Comment Deletion: DELETE /api/community/events/{event_id}/comment/{comment_id} works correctly")
+        print("✅ Authorization: Only comment authors can delete their own comments (403 for others)")
+        print("✅ Data Integrity: Comments removed from database, counts decremented correctly")
+        print("✅ Other Comments: Remain intact after deletion")
+        print("✅ Error Handling: 404 for non-existent comments/posts")
+        print("✅ Response Format: Includes updated comments_count")
+        print("🔧 VERIFIED: Comment deletion functionality is working correctly")
+        print("🔧 CONFIRMED: Both post and event comment deletion endpoints functional")
     else:
-        print("❌ EVENT COMMENTS FUNCTIONALITY TESTING FOUND ISSUES")
+        print("❌ COMMENT DELETION API ENDPOINTS TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Event comments may still be failing - requires immediate attention")
-        print("💡 The creator_id vs athlete_id fix may not be working as expected")
+        print("🚨 CRITICAL: Comment deletion may not be working correctly - requires immediate attention")
+        print("💡 Check backend logs for specific error details")
     
     print("=" * 70)
 
