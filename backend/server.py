@@ -7341,6 +7341,7 @@ async def get_habit_completions(athlete_id: str, start_date: Optional[str] = Non
 
 @api_router.post("/upload/images")
 async def upload_images(
+    request: Request,
     files: List[UploadFile] = File(...),
     max_files: int = Query(5, description="Maximum number of files allowed")
 ):
@@ -7355,6 +7356,9 @@ async def upload_images(
         raise HTTPException(status_code=400, detail=f"Maximum {max_files} images allowed")
     
     uploaded_urls = []
+    
+    # Get base URL from request
+    base_url = str(request.base_url).rstrip('/')
     
     for file in files:
         # Validate file type
@@ -7374,12 +7378,11 @@ async def upload_images(
                 quality=85
             )
             
-            # Generate URL (will be served by FastAPI static files)
-            backend_url = os.environ.get('REACT_APP_BACKEND_URL', 'http://localhost:8001')
-            image_url = f"{backend_url}/uploads/images/{processed_filename}"
+            # Generate URL using request base URL
+            image_url = f"{base_url}/uploads/images/{processed_filename}"
             uploaded_urls.append(image_url)
             
-            logging.info(f"Processed and uploaded image: {processed_filename}")
+            logging.info(f"Processed and uploaded image: {processed_filename} -> {image_url}")
             
         except Exception as e:
             logging.error(f"Error processing image {file.filename}: {e}")
