@@ -1424,7 +1424,8 @@ const Community = ({ athleteId }) => {
                   </Card>
                 );
               }
-            })}
+            })
+            )}
           </div>
         </>
       )}
