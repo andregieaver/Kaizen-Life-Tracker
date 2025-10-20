@@ -328,6 +328,9 @@ const Community = ({ athleteId }) => {
     if (activeTab === 'feed') {
       setPostsLoaded(false);
       loadPosts();
+    } else if (activeTab === 'following') {
+      setFollowingPostsLoaded(false);
+      loadFollowingPosts();
     } else if (activeTab === 'groups') {
       setGroupsLoaded(false);
       loadAllGroups();
