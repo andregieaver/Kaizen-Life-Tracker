@@ -9367,10 +9367,10 @@ async def get_referral_stats(athlete_id: str):
             "total_discount_available": total_discount,
             "rewards": [
                 {
-                    "id": r["id"],
-                    "discount_percentage": r["discount_percentage"],
-                    "expires_at": r["expires_at"],
-                    "created_at": r["created_at"]
+                    "discount_percentage": r.get("discount_percentage", 0),
+                    "expires_at": r.get("expires_at", ""),
+                    "created_at": r.get("created_at", ""),
+                    "status": r.get("status", "pending")
                 }
                 for r in rewards
             ]
