@@ -1843,6 +1843,10 @@ const Community = ({ athleteId }) => {
           onClose={() => setShowProfile(false)}
           onFollowToggle={handleFollowToggle}
           loading={profileLoading}
+          athleteId={athleteId}
+          loadAthleteProfile={loadAthleteProfile}
+          handleLike={handleLike}
+          handleShare={handleShare}
         />
       )}
 
