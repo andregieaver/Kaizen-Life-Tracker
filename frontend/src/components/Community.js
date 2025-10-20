@@ -3571,18 +3571,18 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
                 {eventData.interested_users.map((user) => (
                   <div 
                     key={user.athlete_id} 
-                    className="flex items-center space-x-3 p-2 bg-gray-700/50 rounded-lg cursor-pointer hover:bg-gray-600/50 transition-colors"
+                    className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-gray-700/50 rounded-lg cursor-pointer hover:bg-gray-600/50 transition-colors"
                     onClick={() => {
                       onClose();
                       loadAthleteProfile(user.athlete_id);
                     }}
                   >
-                    <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-white font-semibold text-sm">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-white font-semibold text-xs sm:text-sm">
                         {user.athlete_name?.split(' ').map(n => n[0]).join('').toUpperCase() || '?'}
                       </span>
                     </div>
-                    <span className="text-white font-medium truncate">{user.athlete_name || 'Unknown'}</span>
+                    <span className="text-white font-medium text-sm sm:text-base truncate">{user.athlete_name || 'Unknown'}</span>
                   </div>
                 ))}
               </div>
@@ -3592,15 +3592,15 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
           {/* Empty state if no participants */}
           {(!eventData.going_users || eventData.going_users.length === 0) && 
            (!eventData.interested_users || eventData.interested_users.length === 0) && (
-            <div className="text-center py-6">
-              <p className="text-gray-400">No participants yet. Be the first to RSVP!</p>
+            <div className="text-center py-4 sm:py-6">
+              <p className="text-gray-400 text-sm sm:text-base">No participants yet. Be the first to RSVP!</p>
             </div>
           )}
 
 
           {/* Comments Section */}
-          <div className="border-t border-gray-600 pt-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Comments ({eventData.comments_count || 0})</h3>
+          <div className="border-t border-gray-600 pt-4 sm:pt-6">
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Comments ({eventData.comments_count || 0})</h3>
             
             {/* Comments List */}
             <div className="space-y-4 mb-6 max-h-60 overflow-y-auto">
