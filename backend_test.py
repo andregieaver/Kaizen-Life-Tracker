@@ -1346,7 +1346,7 @@ def test_community_feed_422_error_fix():
             "✅ NEW feed endpoint /api/community/feed/{athlete_id} returns 200 (NOT 422)",
             "✅ Feed endpoint works with limit, skip, and exclude_images parameters",
             "✅ Single post endpoint /api/community/posts/{post_id} still functional",
-            "✅ No endpoint routing conflicts detected",
+            "✅ OLD feed pattern correctly returns 422 (routing conflict resolved)",
             "✅ Response structures are correct (posts array, liked_by_user flag)",
             "✅ Performance is acceptable (< 5s response time)"
         ]
