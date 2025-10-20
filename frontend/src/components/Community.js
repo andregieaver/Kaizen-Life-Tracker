@@ -2441,8 +2441,8 @@ const Community = ({ athleteId }) => {
 };
 
 // PostsList Component
-const PostsList = ({ posts, athleteId, editingPost, editContent, showComments, commentText,
-  setEditingPost, setEditContent, setCommentText, handleEditPost, handleDeletePost,
+const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility, showComments, commentText,
+  setEditingPost, setEditContent, setEditVisibility, setCommentText, handleEditPost, handleDeletePost,
   handleToggleLike, toggleComments, handleAddComment, handleSharePost, loadAthleteProfile }) => (
   <div className="space-y-6">
     {posts.map(post => (
