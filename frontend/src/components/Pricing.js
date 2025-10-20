@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Check, ArrowLeft, Zap, TrendingUp, Crown, Shield, Users, Clock } from 'lucide-react';
+import { Check, ArrowLeft, Zap, TrendingUp, Crown, Shield, Users, Clock, Gift, Tag } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -10,6 +10,18 @@ const Pricing = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' or 'annual'
+  const [referralCode, setReferralCode] = useState(null);
+  const [discount, setDiscount] = useState(0);
+
+  // Check for referral code on component mount
+  useEffect(() => {
+    const storedRefCode = localStorage.getItem('referralCode');
+    if (storedRefCode) {
+      setReferralCode(storedRefCode);
+      setDiscount(20); // 20% discount for referrals
+      console.log('Referral discount applied:', storedRefCode);
+    }
+  }, []);
 
   const plans = [
     {
