@@ -206,21 +206,21 @@ const Referrals = ({ athleteId }) => {
                   type="text"
                   value={stats.referralLink}
                   readOnly
-                  className="flex-1 px-4 py-3 border border-gray-700 rounded-lg bg-gray-900 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#00C2A8]"
+                  className="flex-1 px-3 py-3 border border-gray-700 rounded-lg bg-gray-900 text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#00C2A8] min-w-0"
                 />
                 <Button
                   onClick={copyReferralLink}
-                  className="px-6 py-3 bg-[#00C2A8] text-white rounded-lg hover:bg-[#00a890] transition-colors flex items-center gap-2"
+                  className="px-3 sm:px-6 py-3 bg-[#00C2A8] text-white rounded-lg hover:bg-[#00a890] transition-colors flex items-center gap-1 sm:gap-2 flex-shrink-0"
                 >
                   {copySuccess ? (
                     <>
                       <Check className="w-5 h-5" />
-                      Copied!
+                      <span className="hidden sm:inline">Copied!</span>
                     </>
                   ) : (
                     <>
                       <Copy className="w-5 h-5" />
-                      Copy
+                      <span className="hidden sm:inline">Copy</span>
                     </>
                   )}
                 </Button>
