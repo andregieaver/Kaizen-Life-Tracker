@@ -535,8 +535,6 @@ const Account = ({ athleteId }) => {
     try {
       // Load athlete profile
       const athleteRes = await axios.get(`${API}/athlete/${athleteId}`);
-      console.log('Loaded athlete data:', athleteRes.data);
-      console.log('Is super admin?', athleteRes.data.is_super_admin);
       setAthlete(athleteRes.data);
       // Parse date of birth if available (avoid timezone issues)
       let birthDay = '', birthMonth = '', birthYear = '';
