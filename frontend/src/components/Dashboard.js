@@ -1117,6 +1117,11 @@ const Dashboard = ({ athleteId }) => {
           <Community athleteId={athleteId} />
         )}
 
+        {activeTab === 'referrals' && (
+          <Referrals athleteId={athleteId} />
+        )}
+
+
         {activeTab === 'calendar' && (
           <TrainingCalendar 
             athleteId={athleteId} 
