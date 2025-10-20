@@ -1312,7 +1312,7 @@ const Account = ({ athleteId }) => {
                           <img
                             src={profilePicturePreview}
                             alt="Profile"
-                            className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
+                            className="w-20 h-20 rounded-full object-cover border-2 border-gray-700"
                           />
                         ) : (
                           <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-700">
@@ -3138,7 +3138,7 @@ const Account = ({ athleteId }) => {
                         {t('account.connectToCoros')}
                       </Button>
                     </div>
-                    <div className="p-3 bg-gray-700 rounded border border-gray-200">
+                    <div className="p-3 bg-gray-700 rounded border border-gray-700">
                       <p className="text-xs text-gray-400 mb-2">
                         <strong>{t('common.note')}:</strong> {t('account.corosTerraNote')}
                       </p>
@@ -3155,7 +3155,7 @@ const Account = ({ athleteId }) => {
       </Tabs>
 
       {/* Logout Section */}
-      <div className="mt-8 pt-6 border-t border-gray-200">
+      <div className="mt-8 pt-6 border-t border-gray-700">
         <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
           <CardContent className="p-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
