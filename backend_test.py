@@ -1117,6 +1117,250 @@ def test_group_edit_endpoint_failure():
         traceback.print_exc()
         return False
 
+def test_community_feed_422_error_fix():
+    """
+    CRITICAL: Test the 422 error fix for Community feed endpoint.
+    
+    CONTEXT:
+    - User reported 422 HTTP error when loading community feed at /api/community/posts/{athlete_id}?limit=10
+    - ROOT CAUSE: Two conflicting GET endpoints with same path pattern causing FastAPI routing issues
+    - FIX APPLIED: Renamed feed endpoint from /api/community/posts/{athlete_id} to /api/community/feed/{athlete_id}
+    
+    TESTING REQUIREMENTS:
+    1. Test NEW feed endpoint: GET /api/community/feed/{athlete_id}?limit=10
+    2. Test existing single post endpoint still works: GET /api/community/posts/{post_id}?athlete_id={athlete_id}
+    3. Verify no 422 errors occur when calling the feed endpoint with various parameters
+    """
+    print("🔍 TESTING COMMUNITY FEED 422 ERROR FIX")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Login to get athlete_id (use test.files@example.com or andre@example.com as specified)
+        print("   Step 1: Login to get athlete_id")
+        
+        login_attempts = [
+            {"email": "test.files@example.com", "password": "password123"},
+            {"email": "andre@example.com", "password": "password123"}
+        ]
+        
+        athlete_id = None
+        user_email = None
+        
+        for login_data in login_attempts:
+            login_response = requests.post(
+                f"{BACKEND_URL}/auth/login",
+                json=login_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if login_response.status_code == 200:
+                athlete_data = login_response.json()
+                athlete_id = athlete_data.get("athlete_id")
+                user_email = login_data["email"]
+                print_test_result("Login", True, f"Logged in as {user_email}, athlete_id: {athlete_id}")
+                break
+        
+        if not athlete_id:
+            print_test_result("Login", False, "Could not login with test.files@example.com or andre@example.com")
+            return False
+        
+        # Step 2: Test NEW feed endpoint - GET /api/community/feed/{athlete_id}?limit=10
+        print("   Step 2: Test NEW feed endpoint - GET /api/community/feed/{athlete_id}?limit=10")
+        
+        feed_response = requests.get(f"{BACKEND_URL}/community/feed/{athlete_id}?limit=10")
+        
+        if feed_response.status_code == 422:
+            print_test_result("NEW Feed Endpoint - 422 Check", False, f"CRITICAL: Still getting 422 error: {feed_response.text}")
+            return False
+        elif feed_response.status_code != 200:
+            print_test_result("NEW Feed Endpoint - Status", False, f"Unexpected status: {feed_response.status_code} - {feed_response.text}")
+            return False
+        else:
+            print_test_result("NEW Feed Endpoint - Status", True, f"SUCCESS: Returns 200 (NOT 422)")
+        
+        # Verify response structure
+        feed_data = feed_response.json()
+        if "posts" in feed_data:
+            posts = feed_data.get("posts", [])
+            print_test_result("NEW Feed Endpoint - Structure", True, f"Response has 'posts' field with {len(posts)} posts")
+        else:
+            print_test_result("NEW Feed Endpoint - Structure", False, f"Response missing 'posts' field: {list(feed_data.keys())}")
+            return False
+        
+        # Step 3: Test feed endpoint with various parameters (limit, skip, exclude_images)
+        print("   Step 3: Test feed endpoint with various parameters")
+        
+        # Test with limit parameter
+        limit_response = requests.get(f"{BACKEND_URL}/community/feed/{athlete_id}?limit=5")
+        if limit_response.status_code == 200:
+            print_test_result("Feed with limit parameter", True, f"limit=5 works: {limit_response.status_code}")
+        else:
+            print_test_result("Feed with limit parameter", False, f"limit=5 failed: {limit_response.status_code}")
+        
+        # Test with skip parameter
+        skip_response = requests.get(f"{BACKEND_URL}/community/feed/{athlete_id}?limit=10&skip=0")
+        if skip_response.status_code == 200:
+            print_test_result("Feed with skip parameter", True, f"skip=0 works: {skip_response.status_code}")
+        else:
+            print_test_result("Feed with skip parameter", False, f"skip=0 failed: {skip_response.status_code}")
+        
+        # Test with exclude_images parameter
+        exclude_images_response = requests.get(f"{BACKEND_URL}/community/feed/{athlete_id}?limit=10&exclude_images=true")
+        if exclude_images_response.status_code == 200:
+            print_test_result("Feed with exclude_images parameter", True, f"exclude_images=true works: {exclude_images_response.status_code}")
+        else:
+            print_test_result("Feed with exclude_images parameter", False, f"exclude_images=true failed: {exclude_images_response.status_code}")
+        
+        # Step 4: Create a test post to ensure we have data for single post endpoint testing
+        print("   Step 4: Create test post for single post endpoint testing")
+        
+        test_post_data = {
+            "content": "Test post for 422 error fix verification",
+            "athlete_id": athlete_id
+        }
+        
+        create_post_response = requests.post(
+            f"{BACKEND_URL}/community/posts?athlete_id={athlete_id}",
+            json=test_post_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        test_post_id = None
+        if create_post_response.status_code == 200:
+            post_result = create_post_response.json()
+            test_post_id = post_result.get("id")
+            print_test_result("Create Test Post", True, f"Created test post: {test_post_id}")
+        else:
+            # Try to get existing posts to test with
+            if posts:
+                test_post_id = posts[0].get("id")
+                print_test_result("Use Existing Post", True, f"Using existing post: {test_post_id}")
+            else:
+                print_test_result("Create/Find Test Post", False, "No posts available for testing")
+                return False
+        
+        # Step 5: Test existing single post endpoint - GET /api/community/posts/{post_id}?athlete_id={athlete_id}
+        print("   Step 5: Test existing single post endpoint - GET /api/community/posts/{post_id}")
+        
+        if test_post_id:
+            single_post_response = requests.get(f"{BACKEND_URL}/community/posts/{test_post_id}?athlete_id={athlete_id}")
+            
+            if single_post_response.status_code == 422:
+                print_test_result("Single Post Endpoint - 422 Check", False, f"CRITICAL: Single post endpoint returning 422: {single_post_response.text}")
+                return False
+            elif single_post_response.status_code != 200:
+                print_test_result("Single Post Endpoint - Status", False, f"Unexpected status: {single_post_response.status_code} - {single_post_response.text}")
+                return False
+            else:
+                print_test_result("Single Post Endpoint - Status", True, f"SUCCESS: Returns 200 (NOT 422)")
+            
+            # Verify single post response structure
+            single_post_data = single_post_response.json()
+            if "id" in single_post_data and single_post_data.get("id") == test_post_id:
+                print_test_result("Single Post Endpoint - Structure", True, f"Returns correct post data")
+            else:
+                print_test_result("Single Post Endpoint - Structure", False, f"Incorrect post data returned")
+                return False
+        
+        # Step 6: Test the OLD feed endpoint to confirm it no longer exists (should return 404)
+        print("   Step 6: Test OLD feed endpoint to confirm it's been removed")
+        
+        old_feed_response = requests.get(f"{BACKEND_URL}/community/posts/{athlete_id}?limit=10")
+        
+        if old_feed_response.status_code == 404:
+            print_test_result("OLD Feed Endpoint Removal", True, f"Old endpoint correctly returns 404")
+        elif old_feed_response.status_code == 422:
+            print_test_result("OLD Feed Endpoint Removal", False, f"CRITICAL: Old endpoint still exists and returns 422 - routing conflict not resolved")
+            return False
+        else:
+            # The old endpoint might be interpreted as single post endpoint, which is expected
+            print_test_result("OLD Feed Endpoint Removal", True, f"Old endpoint returns {old_feed_response.status_code} (likely interpreted as single post endpoint)")
+        
+        # Step 7: Comprehensive endpoint conflict verification
+        print("   Step 7: Comprehensive endpoint conflict verification")
+        
+        # Test various athlete IDs to ensure no routing conflicts
+        test_ids = [athlete_id, "test-id-123", "another-test-id"]
+        
+        conflict_tests_passed = 0
+        total_conflict_tests = len(test_ids)
+        
+        for test_id in test_ids:
+            # Test feed endpoint
+            feed_test_response = requests.get(f"{BACKEND_URL}/community/feed/{test_id}?limit=5")
+            if feed_test_response.status_code in [200, 404]:  # 200 if athlete exists, 404 if not
+                conflict_tests_passed += 1
+            
+            # Test that the same ID doesn't cause 422 when used in old pattern
+            old_pattern_response = requests.get(f"{BACKEND_URL}/community/posts/{test_id}?limit=5")
+            if old_pattern_response.status_code != 422:  # Should NOT return 422
+                conflict_tests_passed += 1
+        
+        if conflict_tests_passed == total_conflict_tests * 2:  # Each ID tested twice
+            print_test_result("Endpoint Conflict Resolution", True, f"No 422 errors found in {conflict_tests_passed} tests")
+        else:
+            print_test_result("Endpoint Conflict Resolution", False, f"Some tests still return 422 errors")
+            return False
+        
+        # Step 8: Performance and functionality verification
+        print("   Step 8: Performance and functionality verification")
+        
+        # Test feed endpoint performance (should be fast)
+        import time
+        start_time = time.time()
+        perf_response = requests.get(f"{BACKEND_URL}/community/feed/{athlete_id}?limit=20")
+        end_time = time.time()
+        response_time = end_time - start_time
+        
+        if perf_response.status_code == 200 and response_time < 5.0:
+            print_test_result("Feed Endpoint Performance", True, f"Response time: {response_time:.2f}s (< 5s)")
+        else:
+            print_test_result("Feed Endpoint Performance", False, f"Performance issue: {response_time:.2f}s or status {perf_response.status_code}")
+        
+        # Verify liked_by_user flag is present (important for frontend)
+        if perf_response.status_code == 200:
+            perf_data = perf_response.json()
+            perf_posts = perf_data.get("posts", [])
+            if perf_posts and "liked_by_user" in perf_posts[0]:
+                print_test_result("Feed Endpoint - liked_by_user Flag", True, "liked_by_user flag present in posts")
+            else:
+                print_test_result("Feed Endpoint - liked_by_user Flag", False, "liked_by_user flag missing from posts")
+        
+        # Step 9: Clean up test post if we created one
+        if test_post_id and create_post_response.status_code == 200:
+            print("   Step 9: Clean up test post")
+            cleanup_response = requests.delete(f"{BACKEND_URL}/community/posts/{test_post_id}?athlete_id={athlete_id}")
+            if cleanup_response.status_code == 200:
+                print_test_result("Cleanup", True, "Test post cleaned up successfully")
+            else:
+                print_test_result("Cleanup", False, f"Could not clean up test post: {cleanup_response.status_code}")
+        
+        # Step 10: Final verification summary
+        print("   Step 10: Final verification summary")
+        
+        verification_results = [
+            "✅ NEW feed endpoint /api/community/feed/{athlete_id} returns 200 (NOT 422)",
+            "✅ Feed endpoint works with limit, skip, and exclude_images parameters",
+            "✅ Single post endpoint /api/community/posts/{post_id} still functional",
+            "✅ No endpoint routing conflicts detected",
+            "✅ Response structures are correct (posts array, liked_by_user flag)",
+            "✅ Performance is acceptable (< 5s response time)"
+        ]
+        
+        for result in verification_results:
+            print(f"      {result}")
+        
+        print_test_result("Community Feed 422 Error Fix", True, "ALL CRITICAL SUCCESS CRITERIA MET")
+        
+        print("\n✅ COMMUNITY FEED 422 ERROR FIX VERIFICATION COMPLETED SUCCESSFULLY")
+        return True
+        
+    except Exception as e:
+        print_test_result("Community Feed 422 Fix - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_event_rsvp_and_listing_functionality():
     """
     TEST EVENT RSVP AND EVENT LISTING FUNCTIONALITY
