@@ -1930,7 +1930,7 @@ const Community = ({ athleteId }) => {
             confirmModalConfig.onConfirm();
             setShowConfirmModal(false);
           }}
-          onCancel={() => setShowConfirmModal(false)}
+          onClose={() => setShowConfirmModal(false)}
         />
       )}
     </div>
