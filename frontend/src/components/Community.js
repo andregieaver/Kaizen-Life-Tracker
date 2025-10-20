@@ -490,6 +490,29 @@ const Community = ({ athleteId }) => {
     }, 0);
   };
 
+
+  // Emoji handlers
+  const handleEmojiSelectForPost = (emoji) => {
+    setNewPostContent(prev => prev + emoji);
+    if (newPostRef.current) {
+      newPostRef.current.focus();
+    }
+  };
+
+  const handleEmojiSelectForComment = (emoji, postOrEventId) => {
+    setCommentText(prev => ({
+      ...prev,
+      [postOrEventId]: (prev[postOrEventId] || '') + emoji
+    }));
+  };
+
+  const handleEmojiSelectForEventDesc = (emoji) => {
+    setNewEventDesc(prev => prev + emoji);
+    if (newEventDescRef.current) {
+      newEventDescRef.current.focus();
+    }
+  };
+
   const handleCreatePost = async () => {
     if (!newPostContent.trim()) return;
 
