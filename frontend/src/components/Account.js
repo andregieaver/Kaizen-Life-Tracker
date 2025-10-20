@@ -1567,7 +1567,7 @@ const Account = ({ athleteId }) => {
                 <Separator />
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-display font-semibold text-gray-900">Health & Nutrition Goals</h3>
+                  <h3 className="text-lg font-display font-semibold text-white">Health & Nutrition Goals</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Estimated Calorie Need */}
@@ -1762,7 +1762,7 @@ const Account = ({ athleteId }) => {
             <CardContent>
               <form onSubmit={handleSavePreferences} className="space-y-6">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Language & Region</h3>
+                  <h3 className="text-lg font-semibold text-white">Language & Region</h3>
                   <div className="space-y-2">
                     <Label htmlFor="language">Language</Label>
                     <LanguageSelector />
@@ -1797,7 +1797,7 @@ const Account = ({ athleteId }) => {
                 <Separator />
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Units & Measurements</h3>
+                  <h3 className="text-lg font-semibold text-white">Units & Measurements</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
@@ -1887,7 +1887,7 @@ const Account = ({ athleteId }) => {
                 <Separator />
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900">Calendar & Time</h3>
+                  <h3 className="text-lg font-semibold text-white">Calendar & Time</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
@@ -2110,7 +2110,7 @@ const Account = ({ athleteId }) => {
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-2">
-                          <h3 className="text-2xl font-bold text-gray-900 capitalize">
+                          <h3 className="text-2xl font-bold text-white capitalize">
                             {subscriptionStatus.tier} Plan
                           </h3>
                           <Badge variant="destructive">
@@ -2137,7 +2137,7 @@ const Account = ({ athleteId }) => {
                   <div className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg mb-4">
                     <div>
                       <div className="flex items-center space-x-2">
-                        <h3 className="text-2xl font-bold text-gray-900 capitalize">
+                        <h3 className="text-2xl font-bold text-white capitalize">
                           {subscriptionStatus.tier} Plan
                         </h3>
                         <Badge variant={subscriptionStatus.status === 'active' ? 'secondary' : 'destructive'}>
@@ -2160,7 +2160,7 @@ const Account = ({ athleteId }) => {
                     </div>
                     <div className="text-right">
                       <p className="text-sm text-gray-500">Next billing date</p>
-                      <p className="font-semibold text-gray-900">
+                      <p className="font-semibold text-white">
                         {subscriptionStatus.current_period_end 
                           ? new Date(subscriptionStatus.current_period_end).toLocaleDateString() 
                           : '-'}
@@ -2170,7 +2170,7 @@ const Account = ({ athleteId }) => {
                 )}
 
                 <div className="space-y-3 mb-6">
-                  <h4 className="font-semibold text-gray-900 mb-2">Current Features:</h4>
+                  <h4 className="font-semibold text-white mb-2">Current Features:</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     <div className="flex items-center text-sm">
                       <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
@@ -2241,14 +2241,14 @@ const Account = ({ athleteId }) => {
                   <div className="border-2 border-gray-200 rounded-lg p-4 hover:border-gray-400 transition-colors">
                     <div className="flex items-center justify-between mb-3">
                       <div>
-                        <h3 className="text-lg font-bold text-gray-900">Free</h3>
+                        <h3 className="text-lg font-bold text-white">Free</h3>
                         <p className="text-sm text-gray-600">Basic features</p>
                       </div>
                       <Shield className="w-5 h-5 text-gray-600" />
                     </div>
                     <div className="mb-4">
                       <div className="flex items-baseline">
-                        <span className="text-3xl font-bold text-gray-900">€0</span>
+                        <span className="text-3xl font-bold text-white">€0</span>
                         <span className="text-gray-500 ml-1">/month</span>
                       </div>
                     </div>
@@ -2293,14 +2293,14 @@ const Account = ({ athleteId }) => {
                   <div className="border-2 border-blue-200 rounded-lg p-4 hover:border-blue-400 transition-colors">
                     <div className="flex items-center justify-between mb-3">
                       <div>
-                        <h3 className="text-lg font-bold text-gray-900">Pro</h3>
+                        <h3 className="text-lg font-bold text-white">Pro</h3>
                         <p className="text-sm text-gray-600">For serious athletes</p>
                       </div>
                       <Badge className="bg-blue-600">Popular</Badge>
                     </div>
                     <div className="mb-4">
                       <div className="flex items-baseline">
-                        <span className="text-3xl font-bold text-gray-900">€9.99</span>
+                        <span className="text-3xl font-bold text-white">€9.99</span>
                         <span className="text-gray-500 ml-1">/month</span>
                       </div>
                       <p className="text-sm text-green-600 mt-1">or €99/year (save 17%)</p>
@@ -2362,14 +2362,14 @@ const Account = ({ athleteId }) => {
                   <div className="border-2 border-purple-200 rounded-lg p-4 hover:border-purple-400 transition-colors">
                     <div className="flex items-center justify-between mb-3">
                       <div>
-                        <h3 className="text-lg font-bold text-gray-900">Premium</h3>
+                        <h3 className="text-lg font-bold text-white">Premium</h3>
                         <p className="text-sm text-gray-600">Maximum performance</p>
                       </div>
                       <Crown className="w-5 h-5 text-yellow-600" />
                     </div>
                     <div className="mb-4">
                       <div className="flex items-baseline">
-                        <span className="text-3xl font-bold text-gray-900">€19.99</span>
+                        <span className="text-3xl font-bold text-white">€19.99</span>
                         <span className="text-gray-500 ml-1">/month</span>
                       </div>
                       <p className="text-sm text-green-600 mt-1">or €199/year (save 17%)</p>
@@ -2484,7 +2484,7 @@ const Account = ({ athleteId }) => {
                           >
                             <div className="flex-1">
                               <div className="flex items-center space-x-2">
-                                <p className="font-medium text-gray-900">
+                                <p className="font-medium text-white">
                                   €{invoice.amount.toFixed(2)}
                                 </p>
                                 <span className={`text-xs px-2 py-1 rounded ${
@@ -2585,7 +2585,7 @@ const Account = ({ athleteId }) => {
                       className={`px-6 py-2 rounded-full font-medium transition-all ${
                         selectedBillingCycle === 'monthly'
                           ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-600 hover:text-gray-900'
+                          : 'text-gray-600 hover:text-white'
                       }`}
                     >
                       Monthly
@@ -2595,7 +2595,7 @@ const Account = ({ athleteId }) => {
                       className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
                         selectedBillingCycle === 'annual'
                           ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-600 hover:text-gray-900'
+                          : 'text-gray-600 hover:text-white'
                       }`}
                     >
                       Annual
@@ -2666,7 +2666,7 @@ const Account = ({ athleteId }) => {
                       className={`px-6 py-2 rounded-full font-medium transition-all ${
                         selectedBillingCycle === 'monthly'
                           ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-600 hover:text-gray-900'
+                          : 'text-gray-600 hover:text-white'
                       }`}
                     >
                       Monthly
@@ -2676,7 +2676,7 @@ const Account = ({ athleteId }) => {
                       className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
                         selectedBillingCycle === 'annual'
                           ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-600 hover:text-gray-900'
+                          : 'text-gray-600 hover:text-white'
                       }`}
                     >
                       Annual
@@ -3160,7 +3160,7 @@ const Account = ({ athleteId }) => {
           <CardContent className="p-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-1">
+                <h3 className="text-lg font-medium text-white mb-1">
                   {t('account.logoutTitle')}
                 </h3>
                 <p className="text-sm text-gray-600">
