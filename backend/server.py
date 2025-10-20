@@ -7386,8 +7386,6 @@ async def upload_images(
             raise HTTPException(status_code=500, detail=f"Failed to process image {file.filename}: {str(e)}")
     
     return {"urls": uploaded_urls}
-        logging.error(f"Error uploading images: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to upload images: {str(e)}")
 
 # ==========================================
 # COMMUNITY ENDPOINTS
