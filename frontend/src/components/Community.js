@@ -1633,6 +1633,40 @@ const Community = ({ athleteId }) => {
                             className="w-full bg-gray-600 text-white rounded-lg p-3 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
                             rows="3"
                           />
+                          
+                          {/* Visibility Toggle in Edit Mode */}
+                          <div className="flex items-center space-x-4 p-3 bg-gray-700 rounded-lg">
+                            <span className="text-white text-sm font-semibold">Visibility:</span>
+                            <div className="flex space-x-2">
+                              <button
+                                onClick={() => setEditVisibility('public')}
+                                className={`px-3 py-1.5 rounded-lg transition-colors text-sm ${
+                                  editVisibility === 'public'
+                                    ? 'bg-[#00C2A8] text-white'
+                                    : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                                }`}
+                              >
+                                <div className="flex items-center space-x-1.5">
+                                  <Globe className="w-3.5 h-3.5" />
+                                  <span>Public</span>
+                                </div>
+                              </button>
+                              <button
+                                onClick={() => setEditVisibility('private')}
+                                className={`px-3 py-1.5 rounded-lg transition-colors text-sm ${
+                                  editVisibility === 'private'
+                                    ? 'bg-[#00C2A8] text-white'
+                                    : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                                }`}
+                              >
+                                <div className="flex items-center space-x-1.5">
+                                  <Lock className="w-3.5 h-3.5" />
+                                  <span>Private</span>
+                                </div>
+                              </button>
+                            </div>
+                          </div>
+                          
                           <div className="flex space-x-2">
                             <Button
                               onClick={() => handleEditPost(post.id)}
@@ -1644,6 +1678,7 @@ const Community = ({ athleteId }) => {
                               onClick={() => {
                                 setEditingPost(null);
                                 setEditContent('');
+                                setEditVisibility('public');
                               }}
                               className="bg-gray-600 hover:bg-gray-500 text-white"
                             >
@@ -1653,7 +1688,31 @@ const Community = ({ athleteId }) => {
                         </div>
                       ) : (
                         <>
-                          <p className="text-white whitespace-pre-wrap mb-4">{formatMentions(post.content)}</p>
+                          {/* Post Content with Show More/Less */}
+                          <div className="mb-4">
+                            <p 
+                              className={`text-white whitespace-pre-wrap ${
+                                !expandedPosts[post.id] ? 'line-clamp-2' : ''
+                              }`}
+                              style={!expandedPosts[post.id] ? {
+                                display: '-webkit-box',
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: 'vertical',
+                                overflow: 'hidden'
+                              } : {}}
+                            >
+                              {formatMentions(post.content)}
+                            </p>
+                            {post.content && post.content.length > 100 && (
+                              <button
+                                onClick={() => toggleExpandPost(post.id)}
+                                className="text-[#00C2A8] hover:text-[#00a890] text-sm font-semibold mt-1"
+                              >
+                                {expandedPosts[post.id] ? 'Show less' : 'Show more'}
+                              </button>
+                            )}
+                          </div>
+                          
                           {post.image_data && (
                             <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-96 object-cover mb-4" />
                           )}
