@@ -3603,10 +3603,10 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
             <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Comments ({eventData.comments_count || 0})</h3>
             
             {/* Comments List */}
-            <div className="space-y-4 mb-6 max-h-60 overflow-y-auto">
+            <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6 max-h-48 sm:max-h-60 overflow-y-auto">
               {eventData.comments && eventData.comments.length > 0 ? (
                 eventData.comments.map(comment => (
-                  <div key={comment.id} className="flex items-start space-x-3">
+                  <div key={comment.id} className="flex items-start space-x-2 sm:space-x-3">
                     <div
                       className="cursor-pointer hover:opacity-80"
                       onClick={() => {
@@ -3618,19 +3618,19 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
                         <img
                           src={comment.athlete_profile_picture}
                           alt={comment.athlete_name}
-                          className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover flex-shrink-0"
                         />
                       ) : (
-                        <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
                           <span className="text-white font-bold text-xs">
                             {comment.athlete_name?.charAt(0).toUpperCase()}
                           </span>
                         </div>
                       )}
                     </div>
-                    <div className="flex-1 bg-gray-700 rounded-lg p-3">
+                    <div className="flex-1 bg-gray-700 rounded-lg p-2 sm:p-3">
                       <p 
-                        className="text-white font-semibold text-sm cursor-pointer hover:underline"
+                        className="text-white font-semibold text-xs sm:text-sm cursor-pointer hover:underline"
                         onClick={() => {
                           onClose();
                           loadAthleteProfile(comment.athlete_id);
@@ -3638,7 +3638,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
                       >
                         {comment.athlete_name}
                       </p>
-                      <p className="text-gray-300 text-sm mt-1">{formatMentions(comment.content)}</p>
+                      <p className="text-gray-300 text-xs sm:text-sm mt-1">{formatMentions(comment.content)}</p>
                       <p className="text-gray-400 text-xs mt-1">
                         {new Date(comment.created_at).toLocaleString()}
                       </p>
@@ -3646,7 +3646,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, loadAthleteP
                   </div>
                 ))
               ) : (
-                <p className="text-gray-400 text-center py-4">No comments yet. Be the first to comment!</p>
+                <p className="text-gray-400 text-center py-3 sm:py-4 text-sm sm:text-base">No comments yet. Be the first to comment!</p>
               )}
             </div>
 
