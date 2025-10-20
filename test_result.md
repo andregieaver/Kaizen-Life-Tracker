@@ -294,6 +294,19 @@ backend:
         agent: "main"
         comment: "Backend comment deletion endpoints implemented. 1) DELETE /api/community/posts/{post_id}/comment/{comment_id} endpoint created (line 7722-7751) - Verifies comment ownership (only author can delete), Deletes comment from community_comments collection, Updates post comments_count, Returns updated count in response. 2) DELETE /api/community/events/{event_id}/comment/{comment_id} endpoint created (line 7756-7787) - Verifies comment ownership (only author can delete), Deletes comment from community_event_comments collection, Updates event comments_count, Returns updated count in response. Both endpoints use Query parameter for athlete_id authentication. Authorization checks return 403 for unauthorized deletion attempts. Ready for testing."
 
+frontend:
+  - task: "Comment Deletion Feature (Posts and Events)"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Community.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Frontend comment deletion feature complete. 1) handleDeletePostComment function added (line 644-680) - Shows ConfirmationModal for confirmation, Calls DELETE /api/community/posts/{postId}/comment/{commentId}, Reloads comments after deletion, Updates posts state with new comment count, Updates selectedPostForComments if modal is open. 2) handleDeleteEventComment function added (line 682-720) - Shows ConfirmationModal for confirmation, Calls DELETE /api/community/events/{eventId}/comment/{commentId}, Reloads event comments after deletion, Updates events state with new comment count, Updates eventDetailData if modal is open. 3) CommentsModal updated to show delete button for own comments - Delete button shown only if comment.athlete_id === athleteId, Button calls onDeleteComment prop with postId and commentId. 4) EventDetailModal updated to show delete button for own event comments - Delete button shown only if comment.athlete_id === athleteId, Button calls onDeleteComment prop with eventId and commentId. 5) ConfirmationModal component created - Reusable modal for all confirmation dialogs, Used for post deletion and comment deletion. Both onDeleteComment props passed to CommentsModal and EventDetailModal. Ready for testing."
+
 backend:
   - task: "Event Comments Functionality Fix Verification"
     implemented: true
