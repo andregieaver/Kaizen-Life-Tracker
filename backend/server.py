@@ -9441,6 +9441,42 @@ async def get_system_stats(athlete_id: str):
         logging.error(f"Error getting system stats: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to retrieve system stats: {str(e)}")
 
+@api_router.get("/system/settings/public")
+async def get_public_system_settings():
+    """Get public system settings (no auth required)"""
+    try:
+        # Get settings from database
+        settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
+        
+        # Return only SEO settings for public access
+        if settings and settings.get("seo"):
+            return {
+                "seo": settings["seo"]
+            }
+        
+        # Return defaults if none exist
+        return {
+            "seo": {
+                "siteTitle": "TrainSmart",
+                "metaTitle": "TrainSmart - AI-Powered Running Coach",
+                "metaDescription": "Your personal AI running coach for optimal training and performance",
+                "focusKeyword": "running coach",
+                "faviconUrl": None
+            }
+        }
+    except Exception as e:
+        logging.error(f"Error getting public system settings: {e}")
+        # Return defaults on error
+        return {
+            "seo": {
+                "siteTitle": "TrainSmart",
+                "metaTitle": "TrainSmart - AI-Powered Running Coach",
+                "metaDescription": "Your personal AI running coach for optimal training and performance",
+                "focusKeyword": "running coach",
+                "faviconUrl": None
+            }
+        }
+
 @api_router.get("/system/settings")
 async def get_system_settings(athlete_id: str):
     """Get system settings (Super Admin only)"""
