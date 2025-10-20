@@ -149,7 +149,10 @@ const SystemSettings = ({ athleteId }) => {
 
   const handleSaveModuleSettings = async () => {
     try {
-      // TODO: Implement API call to save module settings
+      await axios.post(`${API}/system/settings?athlete_id=${athleteId}`, {
+        modules: moduleSettings
+      });
+      
       setSaveStatus({
         message: 'Module settings saved successfully!',
         type: 'success'
@@ -159,12 +162,24 @@ const SystemSettings = ({ athleteId }) => {
         setSaveStatus({ message: '', type: '' });
       }, 3000);
     } catch (error) {
+      console.error('Error saving module settings:', error);
       setSaveStatus({
         message: 'Failed to save module settings',
         type: 'error'
       });
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading settings...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-8 px-4 sm:px-6 lg:px-8">
