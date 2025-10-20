@@ -3111,7 +3111,7 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick }) => (
 );
 
 // CreateEventModal Component
-const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups }) => {
+const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups, onEmojiSelect }) => {
   const handleImageUpload = async (e, type) => {
     const file = e.target.files[0];
     if (file) {
