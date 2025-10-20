@@ -1910,6 +1910,40 @@ const Community = ({ athleteId }) => {
                           onChange={(e) => setEditContent(e.target.value)}
                           className="w-full bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[100px]"
                         />
+                        
+                        {/* Visibility Toggle in Edit Mode */}
+                        <div className="flex items-center space-x-4 p-3 bg-gray-700 rounded-lg">
+                          <span className="text-white text-sm font-semibold">Visibility:</span>
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => setEditVisibility('public')}
+                              className={`px-3 py-1.5 rounded-lg transition-colors text-sm ${
+                                editVisibility === 'public'
+                                  ? 'bg-[#00C2A8] text-white'
+                                  : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                              }`}
+                            >
+                              <div className="flex items-center space-x-1.5">
+                                <Globe className="w-3.5 h-3.5" />
+                                <span>Public</span>
+                              </div>
+                            </button>
+                            <button
+                              onClick={() => setEditVisibility('private')}
+                              className={`px-3 py-1.5 rounded-lg transition-colors text-sm ${
+                                editVisibility === 'private'
+                                  ? 'bg-[#00C2A8] text-white'
+                                  : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                              }`}
+                            >
+                              <div className="flex items-center space-x-1.5">
+                                <Lock className="w-3.5 h-3.5" />
+                                <span>Private</span>
+                              </div>
+                            </button>
+                          </div>
+                        </div>
+                        
                         <div className="flex space-x-2">
                           <Button
                             onClick={() => handleEditPost(post.id)}
@@ -1921,6 +1955,7 @@ const Community = ({ athleteId }) => {
                             onClick={() => {
                               setEditingPost(null);
                               setEditContent('');
+                              setEditVisibility('public');
                             }}
                             className="bg-gray-600 hover:bg-gray-500 text-white"
                           >
