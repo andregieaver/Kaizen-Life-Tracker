@@ -511,9 +511,9 @@ class AthleteProfile(BaseModel):
     profile_picture: Optional[str] = None  # Base64 encoded image or URL
     age: Optional[int] = None  # Computed from date_of_birth, kept for backward compatibility
     date_of_birth: Optional[str] = None  # Birth date for accurate age calculation (YYYY-MM-DD format)
-    weekly_mileage: float
+    weekly_mileage: float = Field(default=0.0)
     recent_race_time: Optional[str] = None
-    running_goals: str
+    running_goals: str = Field(default="General fitness")
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     
     # Personal Information Fields
