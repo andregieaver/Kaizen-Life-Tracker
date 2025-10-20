@@ -279,7 +279,20 @@ agent_communication:
   - agent: "testing"
     message: "✅ EVENT COMMENTS FUNCTIONALITY FIX FULLY VERIFIED - Comprehensive testing completed with 100% success rate (17/17 tests passed). VERIFIED ALL REVIEW REQUEST REQUIREMENTS using athlete test.files@example.com (ID: 44111b4a-b61f-4a94-9c29-439434e67e19): 1) CRITICAL FIX VERIFICATION ✓ - Fixed backend event comment endpoint to use `creator_id` instead of `athlete_id`, event comments were failing before with error 'athlete_id', fix has been successfully applied and verified. 2) COMMENT CREATION ENDPOINT ✓ - POST /api/community/events/{event_id}/comment?athlete_id={id} with {'content': 'Test comment'} returns 200 status (NOT 500), response includes updated comments_count field, comment creation working correctly. 3) COMMENT RETRIEVAL ENDPOINT ✓ - GET /api/community/events/{event_id}/comments returns comments list correctly, comment appears in the comments list after creation, all required fields present in response. 4) COMMENT DATA INTEGRITY ✓ - Comment has correct athlete info (athlete_name, athlete_profile_picture field), comment content matches input exactly, athlete_id correctly associated with comment. 5) COMMENTS COUNT FUNCTIONALITY ✓ - comments_count increments correctly with multiple comments (verified increment from 4 to 5), count updates persist correctly across endpoints, response includes updated count after each comment. 6) MISSING IMPORT FIX ✓ - Fixed missing 're' module import that was causing 500 errors, backend now properly handles @mentions in comments, all regex operations working correctly. 7) EDGE CASES HANDLING ✓ - Empty content comment accepted gracefully, non-existent event_id returns appropriate error (500), non-existent athlete_id returns appropriate error (500), proper error handling for invalid inputs. CRITICAL SUCCESS CRITERIA MET: Comment creation returns 200 status (not 500), response includes updated comments_count, comment appears in comments list, comment has correct athlete info (name, profile_picture), all endpoints functional, creator_id vs athlete_id issue resolved. EVENT COMMENTS FUNCTIONALITY IS PRODUCTION-READY AND FULLY FUNCTIONAL."
 
-user_problem_statement: "Test the event comments functionality that was just fixed."
+user_problem_statement: "Complete the comment deletion feature (post and event comments) and test thoroughly. Then replace close button with X icon in top-right of user's community profile. Finally, implement user feed where users can post entries on their own feed (like Facebook wall)."
+
+backend:
+  - task: "Comment Deletion API Endpoints (Posts and Events)"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Backend comment deletion endpoints implemented. 1) DELETE /api/community/posts/{post_id}/comment/{comment_id} endpoint created (line 7722-7751) - Verifies comment ownership (only author can delete), Deletes comment from community_comments collection, Updates post comments_count, Returns updated count in response. 2) DELETE /api/community/events/{event_id}/comment/{comment_id} endpoint created (line 7756-7787) - Verifies comment ownership (only author can delete), Deletes comment from community_event_comments collection, Updates event comments_count, Returns updated count in response. Both endpoints use Query parameter for athlete_id authentication. Authorization checks return 403 for unauthorized deletion attempts. Ready for testing."
 
 backend:
   - task: "Event Comments Functionality Fix Verification"
