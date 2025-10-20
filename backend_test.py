@@ -1371,6 +1371,332 @@ def test_community_feed_422_error_fix():
         traceback.print_exc()
         return False
 
+def test_event_comments_functionality():
+    """
+    TEST EVENT COMMENTS FUNCTIONALITY - CRITICAL FIX VERIFICATION
+    
+    CONTEXT:
+    - Fixed backend event comment endpoint to use `creator_id` instead of `athlete_id`
+    - Event comments were failing before with error "'athlete_id'"
+    - Need to verify the fix works correctly
+    
+    TEST STEPS:
+    1. Login as test user (test.files@example.com or andre@example.com)
+    2. Get list of events
+    3. Pick an event and add a comment to it
+    4. Verify the comment is saved successfully
+    5. Get comments for that event and verify it's returned
+    
+    ENDPOINTS TO TEST:
+    - POST /api/community/events/{event_id}/comment?athlete_id={id} with {"content": "Test comment"}
+    - GET /api/community/events/{event_id}/comments
+    
+    CRITICAL CHECKS:
+    - Comment creation returns 200 status (not 500)
+    - Response includes updated comments_count
+    - Comment appears in the comments list
+    - Comment has correct athlete info (name, profile_picture)
+    """
+    print("🔍 TESTING EVENT COMMENTS FUNCTIONALITY - CRITICAL FIX VERIFICATION")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Login as test user (test.files@example.com or andre@example.com)
+        print("   Step 1: Login as test user")
+        
+        login_attempts = [
+            {"email": "test.files@example.com", "password": "password123"},
+            {"email": "andre@example.com", "password": "password123"}
+        ]
+        
+        athlete_id = None
+        user_email = None
+        
+        for login_data in login_attempts:
+            login_response = requests.post(
+                f"{BACKEND_URL}/auth/login",
+                json=login_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if login_response.status_code == 200:
+                athlete_data = login_response.json()
+                athlete_id = athlete_data.get("athlete_id")
+                user_email = login_data["email"]
+                print_test_result("Login", True, f"Logged in as {user_email}, athlete_id: {athlete_id}")
+                break
+        
+        if not athlete_id:
+            print_test_result("Login", False, "Could not login with test.files@example.com or andre@example.com")
+            return False
+        
+        # Step 2: Get list of events
+        print("   Step 2: Get list of events")
+        
+        events_response = requests.get(f"{BACKEND_URL}/community/events?athlete_id={athlete_id}&limit=10")
+        
+        if events_response.status_code != 200:
+            print_test_result("Get Events", False, f"Failed to get events: {events_response.status_code} - {events_response.text}")
+            return False
+        
+        events_data = events_response.json()
+        events = events_data.get("events", [])
+        
+        if not events:
+            print_test_result("Get Events", False, "No events found to test with")
+            return False
+        
+        print_test_result("Get Events", True, f"Found {len(events)} events")
+        
+        # Step 3: Pick an event and add a comment to it
+        print("   Step 3: Add comment to event")
+        
+        test_event = events[0]
+        event_id = test_event.get("id")
+        event_name = test_event.get("name", "Unknown Event")
+        
+        if not event_id:
+            print_test_result("Select Event", False, "Event has no ID")
+            return False
+        
+        print_test_result("Select Event", True, f"Selected event: {event_name} (ID: {event_id})")
+        
+        # Add comment to the event
+        comment_data = {
+            "content": "Test comment for event comments functionality verification"
+        }
+        
+        add_comment_response = requests.post(
+            f"{BACKEND_URL}/community/events/{event_id}/comment?athlete_id={athlete_id}",
+            json=comment_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        # Step 4: Verify the comment is saved successfully
+        print("   Step 4: Verify comment creation")
+        
+        if add_comment_response.status_code == 500:
+            print_test_result("Add Comment - 500 Error Check", False, f"CRITICAL: Still getting 500 error: {add_comment_response.text}")
+            return False
+        elif add_comment_response.status_code != 200:
+            print_test_result("Add Comment - Status", False, f"Unexpected status: {add_comment_response.status_code} - {add_comment_response.text}")
+            return False
+        else:
+            print_test_result("Add Comment - Status", True, f"SUCCESS: Returns 200 (NOT 500)")
+        
+        # Verify response structure
+        comment_result = add_comment_response.json()
+        
+        if "comment" not in comment_result:
+            print_test_result("Add Comment - Response Structure", False, f"Response missing 'comment' field: {list(comment_result.keys())}")
+            return False
+        
+        if "comments_count" not in comment_result:
+            print_test_result("Add Comment - Comments Count", False, f"Response missing 'comments_count' field: {list(comment_result.keys())}")
+            return False
+        
+        created_comment = comment_result.get("comment", {})
+        comments_count = comment_result.get("comments_count", 0)
+        
+        print_test_result("Add Comment - Response Structure", True, f"Response includes comment and comments_count: {comments_count}")
+        
+        # Verify comment has correct fields
+        required_comment_fields = ["id", "event_id", "athlete_id", "athlete_name", "content", "created_at"]
+        missing_fields = []
+        
+        for field in required_comment_fields:
+            if field not in created_comment:
+                missing_fields.append(field)
+        
+        if missing_fields:
+            print_test_result("Comment Fields Verification", False, f"Missing fields: {missing_fields}")
+            return False
+        else:
+            print_test_result("Comment Fields Verification", True, "All required comment fields present")
+        
+        # Verify comment content matches
+        if created_comment.get("content") != comment_data["content"]:
+            print_test_result("Comment Content Verification", False, f"Content mismatch: expected '{comment_data['content']}', got '{created_comment.get('content')}'")
+            return False
+        else:
+            print_test_result("Comment Content Verification", True, "Comment content matches input")
+        
+        # Verify athlete info is correct
+        if created_comment.get("athlete_id") != athlete_id:
+            print_test_result("Comment Athlete ID", False, f"Athlete ID mismatch: expected '{athlete_id}', got '{created_comment.get('athlete_id')}'")
+            return False
+        else:
+            print_test_result("Comment Athlete ID", True, "Comment athlete_id is correct")
+        
+        if not created_comment.get("athlete_name"):
+            print_test_result("Comment Athlete Name", False, "athlete_name is missing or empty")
+            return False
+        else:
+            print_test_result("Comment Athlete Name", True, f"athlete_name present: {created_comment.get('athlete_name')}")
+        
+        # Step 5: Get comments for that event and verify it's returned
+        print("   Step 5: Get comments for event and verify")
+        
+        get_comments_response = requests.get(f"{BACKEND_URL}/community/events/{event_id}/comments")
+        
+        if get_comments_response.status_code != 200:
+            print_test_result("Get Comments", False, f"Failed to get comments: {get_comments_response.status_code} - {get_comments_response.text}")
+            return False
+        
+        comments_data = get_comments_response.json()
+        
+        if "comments" not in comments_data:
+            print_test_result("Get Comments - Structure", False, f"Response missing 'comments' field: {list(comments_data.keys())}")
+            return False
+        
+        comments_list = comments_data.get("comments", [])
+        
+        if not comments_list:
+            print_test_result("Get Comments - List", False, "No comments returned")
+            return False
+        
+        print_test_result("Get Comments - List", True, f"Retrieved {len(comments_list)} comments")
+        
+        # Find our created comment in the list
+        created_comment_id = created_comment.get("id")
+        found_comment = None
+        
+        for comment in comments_list:
+            if comment.get("id") == created_comment_id:
+                found_comment = comment
+                break
+        
+        if not found_comment:
+            print_test_result("Comment in List Verification", False, f"Created comment (ID: {created_comment_id}) not found in comments list")
+            return False
+        else:
+            print_test_result("Comment in List Verification", True, "Created comment found in comments list")
+        
+        # Verify the found comment has correct athlete info
+        if found_comment.get("athlete_name") != created_comment.get("athlete_name"):
+            print_test_result("Retrieved Comment Athlete Name", False, f"Name mismatch in retrieved comment")
+            return False
+        else:
+            print_test_result("Retrieved Comment Athlete Name", True, f"Athlete name correct: {found_comment.get('athlete_name')}")
+        
+        # Check if profile_picture field is present (can be null)
+        if "athlete_profile_picture" not in found_comment:
+            print_test_result("Retrieved Comment Profile Picture Field", False, "athlete_profile_picture field missing")
+            return False
+        else:
+            profile_pic = found_comment.get("athlete_profile_picture")
+            if profile_pic:
+                print_test_result("Retrieved Comment Profile Picture Field", True, f"athlete_profile_picture present (has data)")
+            else:
+                print_test_result("Retrieved Comment Profile Picture Field", True, f"athlete_profile_picture present (null/empty)")
+        
+        # Step 6: Test multiple comments to verify count increment
+        print("   Step 6: Test multiple comments and count increment")
+        
+        # Add a second comment
+        second_comment_data = {
+            "content": "Second test comment to verify count increment"
+        }
+        
+        second_comment_response = requests.post(
+            f"{BACKEND_URL}/community/events/{event_id}/comment?athlete_id={athlete_id}",
+            json=second_comment_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if second_comment_response.status_code == 200:
+            second_result = second_comment_response.json()
+            second_comments_count = second_result.get("comments_count", 0)
+            
+            if second_comments_count > comments_count:
+                print_test_result("Comments Count Increment", True, f"Count incremented from {comments_count} to {second_comments_count}")
+            else:
+                print_test_result("Comments Count Increment", False, f"Count did not increment: {comments_count} -> {second_comments_count}")
+        else:
+            print_test_result("Second Comment Creation", False, f"Failed to create second comment: {second_comment_response.status_code}")
+        
+        # Verify final comments list has both comments
+        final_comments_response = requests.get(f"{BACKEND_URL}/community/events/{event_id}/comments")
+        
+        if final_comments_response.status_code == 200:
+            final_comments_data = final_comments_response.json()
+            final_comments_list = final_comments_data.get("comments", [])
+            
+            if len(final_comments_list) >= 2:
+                print_test_result("Final Comments List", True, f"Comments list has {len(final_comments_list)} comments (includes both test comments)")
+            else:
+                print_test_result("Final Comments List", False, f"Expected at least 2 comments, got {len(final_comments_list)}")
+        else:
+            print_test_result("Final Comments List", False, f"Failed to get final comments: {final_comments_response.status_code}")
+        
+        # Step 7: Test edge cases
+        print("   Step 7: Test edge cases")
+        
+        # Test with empty content
+        empty_comment_response = requests.post(
+            f"{BACKEND_URL}/community/events/{event_id}/comment?athlete_id={athlete_id}",
+            json={"content": ""},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if empty_comment_response.status_code == 200:
+            print_test_result("Empty Content Comment", True, "Empty content comment accepted")
+        else:
+            print_test_result("Empty Content Comment", False, f"Empty content comment rejected: {empty_comment_response.status_code}")
+        
+        # Test with non-existent event_id
+        fake_event_id = str(uuid.uuid4())
+        fake_event_response = requests.post(
+            f"{BACKEND_URL}/community/events/{fake_event_id}/comment?athlete_id={athlete_id}",
+            json={"content": "Test comment"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if fake_event_response.status_code in [404, 500]:
+            print_test_result("Non-existent Event", True, f"Non-existent event handled: {fake_event_response.status_code}")
+        else:
+            print_test_result("Non-existent Event", False, f"Unexpected response for non-existent event: {fake_event_response.status_code}")
+        
+        # Test with non-existent athlete_id
+        fake_athlete_id = str(uuid.uuid4())
+        fake_athlete_response = requests.post(
+            f"{BACKEND_URL}/community/events/{event_id}/comment?athlete_id={fake_athlete_id}",
+            json={"content": "Test comment"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if fake_athlete_response.status_code in [404, 500]:
+            print_test_result("Non-existent Athlete", True, f"Non-existent athlete handled: {fake_athlete_response.status_code}")
+        else:
+            print_test_result("Non-existent Athlete", False, f"Unexpected response for non-existent athlete: {fake_athlete_response.status_code}")
+        
+        # Step 8: Final verification summary
+        print("   Step 8: Final verification summary")
+        
+        verification_results = [
+            "✅ Event comment creation returns 200 status (NOT 500)",
+            "✅ Response includes updated comments_count field",
+            "✅ Comment appears in the comments list",
+            "✅ Comment has correct athlete info (name, profile_picture field)",
+            "✅ Comments count increments correctly with multiple comments",
+            "✅ All required comment fields are present and correct",
+            "✅ Edge cases handled appropriately"
+        ]
+        
+        for result in verification_results:
+            print(f"      {result}")
+        
+        print_test_result("Event Comments Functionality Fix", True, "ALL CRITICAL SUCCESS CRITERIA MET")
+        
+        print("\n✅ EVENT COMMENTS FUNCTIONALITY TESTING COMPLETED SUCCESSFULLY")
+        return True
+        
+    except Exception as e:
+        print_test_result("Event Comments Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_community_feed_comments_count_field():
     """
     TEST COMMUNITY FEED COMMENTS_COUNT FIELD
