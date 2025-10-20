@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import Dashboard from './components/Dashboard';
@@ -19,6 +19,18 @@ import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
+
+// Signup redirect component that preserves ref parameter
+const SignupRedirect = () => {
+  const [searchParams] = useSearchParams();
+  const ref = searchParams.get('ref');
+  
+  // Redirect to home with ref parameter if present
+  if (ref) {
+    return <Navigate to={`/?ref=${ref}`} replace />;
+  }
+  return <Navigate to="/" replace />;
+};
 
 function App() {
   const { t } = useTranslation();
