@@ -2520,16 +2520,24 @@ const Community = ({ athleteId }) => {
               {/* Action Buttons */}
               <div className="flex items-center justify-between pt-4 border-t border-gray-600">
                 <div className="flex items-center space-x-2">
+                  {/* Multiple images input */}
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={handleWritePostImageSelect}
+                    multiple
+                    onChange={handleMultipleImagesSelect}
                     className="hidden"
-                    id="write-post-image"
+                    id="write-post-multi-images"
+                    disabled={isUploadingImages || selectedImages.length >= 5}
                   />
                   <label
-                    htmlFor="write-post-image"
-                    className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full cursor-pointer transition-colors"
+                    htmlFor="write-post-multi-images"
+                    className={`p-2 rounded-full cursor-pointer transition-colors ${
+                      isUploadingImages || selectedImages.length >= 5
+                        ? 'bg-gray-600 cursor-not-allowed opacity-50'
+                        : 'bg-gray-700 hover:bg-gray-600'
+                    }`}
+                    title={selectedImages.length >= 5 ? 'Maximum 5 images allowed' : 'Add images (max 5)'}
                   >
                     <Camera className="w-5 h-5 text-white" />
                   </label>
