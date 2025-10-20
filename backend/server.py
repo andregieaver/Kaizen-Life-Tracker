@@ -7494,6 +7494,7 @@ async def edit_community_post(post_id: str, post_data: dict, athlete_id: str = Q
         update_data = {
             "content": post_data.get("content", post["content"]),
             "image_data": post_data.get("image_data", post.get("image_data")),
+            "visibility": post_data.get("visibility", post.get("visibility", "public")),
             "updated_at": datetime.now(timezone.utc).isoformat(),
             "is_edited": True
         }
