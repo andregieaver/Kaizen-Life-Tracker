@@ -37,6 +37,25 @@ const SystemSettings = ({ athleteId }) => {
     }
   });
 
+  // Plan Settings State
+  const [planSettings, setPlanSettings] = useState({
+    free: {
+      title: 'Free',
+      description: 'Get started with basic features',
+      features: ['Basic training plans', '30-day history', 'Community access']
+    },
+    pro: {
+      title: 'Pro',
+      description: 'Advanced features for serious runners',
+      features: ['Everything in Free', 'Unlimited history', 'AI coach chat', 'Advanced analytics']
+    },
+    premium: {
+      title: 'Premium',
+      description: 'Complete running coaching experience',
+      features: ['Everything in Pro', 'Custom training plans', 'Nutrition guidance', 'Priority support']
+    }
+  });
+
   // Load settings on mount
   useEffect(() => {
     loadSystemSettings();
