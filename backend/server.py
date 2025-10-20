@@ -3113,6 +3113,38 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
             else:
                 logging.warning(f"Referral code {request.referral_code} not found in database")
         
+        # Check for existing rewards (for returning/renewing customers)
+        if not request.referral_code:  # Only if not a new signup with referral
+            try:
+                rewards = await db.referral_rewards.find({
+                    "athlete_id": request.athlete_id,
+                    "status": "pending"
+                }).to_list(length=None)
+                
+                if rewards:
+                    # Calculate total discount (cap at 100%, max 5 rewards)
+                    total_discount = min(sum(r.get("discount_percentage", 0) for r in rewards[:5]), 100)
+                    
+                    if total_discount > 0:
+                        # Create one-time discount coupon
+                        coupon = stripe.Coupon.create(
+                            percent_off=total_discount,
+                            duration="once",
+                            name=f"Referral Rewards - {total_discount}% off"
+                        )
+                        discounts_list.append({"coupon": coupon.id})
+                        logging.info(f"Applied {total_discount}% referral rewards discount for user {request.athlete_id}")
+                        
+                        # Mark rewards as used (will be done after successful payment via webhook)
+                        # For now, we'll mark them here
+                        for reward in rewards[:5]:
+                            await db.referral_rewards.update_one(
+                                {"_id": reward["_id"]},
+                                {"$set": {"status": "applied", "applied_at": datetime.now(timezone.utc).isoformat()}}
+                            )
+            except Exception as e:
+                logging.error(f"Failed to apply referral rewards: {e}")
+        
         # Create Stripe Checkout Session for subscription
         session_params = {
             'mode': 'subscription',
