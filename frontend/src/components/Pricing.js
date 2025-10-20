@@ -208,6 +208,26 @@ const Pricing = () => {
       </header>
 
       <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        {/* Referral Discount Banner */}
+        {referralCode && discount > 0 && (
+          <div className="mb-8 mx-auto max-w-2xl">
+            <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg p-4 shadow-lg border-2 border-green-400">
+              <div className="flex items-center justify-center space-x-3">
+                <Gift className="w-6 h-6 text-white" />
+                <div className="text-center">
+                  <p className="text-white font-bold text-lg">
+                    🎉 Referral Discount Applied!
+                  </p>
+                  <p className="text-green-100 text-sm">
+                    You're getting <span className="font-bold">{discount}% OFF</span> with code: <span className="font-mono font-bold">{referralCode}</span>
+                  </p>
+                </div>
+                <Tag className="w-6 h-6 text-white" />
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Hero Section */}
         <div className="text-center mb-12">
           <Badge variant="secondary" className="mb-4 bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 text-white border-0">
