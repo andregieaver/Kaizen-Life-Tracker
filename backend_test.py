@@ -5030,42 +5030,46 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Referral System Stripe Checkout Flow Testing"""
-    print("🚀 STARTING REFERRAL SYSTEM STRIPE CHECKOUT FLOW TESTING")
+    """Run Complete Referral Discount Functionality Testing"""
+    print("🚀 STARTING COMPLETE REFERRAL DISCOUNT FUNCTIONALITY TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Referral System Stripe Checkout Flow (CRITICAL PRIORITY - BUG FIX VERIFICATION)
+    # Test Complete Referral Discount Functionality
     try:
-        result = test_referral_system_stripe_checkout_flow()
+        result = test_referral_discount_functionality()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Referral System Stripe Checkout Flow", False, f"Exception: {str(e)}")
+        print_test_result("Complete Referral Discount Functionality", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 REFERRAL SYSTEM STRIPE CHECKOUT FLOW TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ Bug Fix Verified: Users with referral links now properly redirected to Stripe checkout")
-        print("✅ CheckoutRequest Model: Accepts optional referral_code parameter")
-        print("✅ Referral Code Processing: Backend processes referral_code from request body")
-        print("✅ Discount Application: 20% discount applied when valid referral code provided")
-        print("✅ Graceful Fallback: Invalid referral codes handled without breaking checkout")
-        print("✅ Atomic Conversion: Referral marked as converted during checkout creation")
-        print("✅ Race Condition Fix: No timing issues between frontend and backend")
-        print("✅ Error Handling: Proper error handling for edge cases")
-        print("🔧 VERIFIED: Referral system bug fix is working correctly")
-        print("🔧 CONFIRMED: Users with referral links will reach Stripe checkout successfully")
+        print("🎉 COMPLETE REFERRAL DISCOUNT FUNCTIONALITY TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ Scenario 1 Verified: New user signup with referral code gets 20% discount")
+        print("✅ Referral Conversion: Referral marked as converted in database")
+        print("✅ Reward Creation: Reward entry created for referrer with pending status")
+        print("✅ Scenario 2 Verified: Referrer renewal applies pending rewards as discount")
+        print("✅ Reward Application: Rewards marked as applied after use")
+        print("✅ Scenario 3 Verified: Discount capping at 100% working")
+        print("✅ Reward Capping: Maximum 5 rewards applied working")
+        print("✅ Scenario 4 Verified: Get available discount API working")
+        print("✅ API Endpoints: All referral endpoints functional")
+        print("✅ Database Integrity: Referrals and rewards collections working correctly")
+        print("✅ Error Handling: Invalid referral codes handled gracefully")
+        print("🔧 VERIFIED: Complete referral discount system is working correctly")
+        print("🔧 CONFIRMED: Both referred users and referrers get proper discounts")
     else:
-        print("❌ REFERRAL SYSTEM STRIPE CHECKOUT FLOW TESTING FOUND ISSUES")
+        print("❌ REFERRAL DISCOUNT FUNCTIONALITY TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Referral system bug fix may not be working correctly - requires immediate attention")
+        print("🚨 CRITICAL: Referral discount system may not be working correctly - requires immediate attention")
         print("💡 Check backend logs for specific error details")
         print("💡 Verify Stripe configuration if checkout creation fails")
+        print("💡 Check database collections: referrals, referral_rewards")
     
     print("=" * 70)
 
