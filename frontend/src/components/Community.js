@@ -6,6 +6,7 @@ import { Heart, MessageCircle, Share2, Send, Edit2, Trash2, Camera, X, Bell, Use
 import { compressPostImage, compressThumbnail, compressBannerImage } from '../utils/imageCompression';
 import { findMentionTrigger, insertMention, formatMentions } from '../utils/mentionUtils';
 import EmojiPickerButton from './EmojiPickerButton';
+import ConfirmationModal from './ConfirmationModal';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
