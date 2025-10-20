@@ -1358,7 +1358,7 @@ const Community = ({ athleteId }) => {
                           className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
                         >
                           <MessageCircle className="w-5 h-5" />
-                          <span className="text-sm">{post.comments?.length || 0}</span>
+                          <span className="text-sm">{post.comments_count || 0}</span>
                         </button>
 
                         <button
