@@ -1,52 +1,57 @@
 <analysis>
-The AI engineer's work on the TrainSmart application focused on two main phases: initial debugging and feature expansion. The first phase addressed a critical  error in the  endpoint, which was identified as a routing conflict in FastAPI and resolved by renaming the feed endpoint to . This phase also involved extensive debugging of a persistent  display issue, which was ultimately traced to a frontend rendering error using  instead of  in two different rendering locations, coupled with React state closure problems.
-
-The second phase involved implementing three new features: clickable user profiles, extensive emoji support, and event commenting. This included creating new backend endpoints for event comments and comment deletion, integrating the  library, and systematically updating various frontend components (, , , ) to support these features. Several bugs were encountered and fixed during this phase, including backend errors related to missing  for event comments, mobile responsiveness of the event modal, and event comments not rendering initially, as well as participant profile pictures not displaying in the event detail modal. The trajectory ends with the implementation of a reusable  and backend endpoints for comment deletion, currently integrating these into the frontend.
+The AI engineer's work spanned several feature enhancements and bug fixes, primarily around the  module and introducing a . Initial work focused on fixing comment deletion, UI improvements like replacing modal close buttons with 'X' icons, and implementing user-specific posts (profile 'wall') and a 'Following' feed. A significant effort was made to introduce post visibility (public/private) and content truncation. The latter part of the trajectory was dedicated to building a comprehensive referral system, including backend API endpoints, frontend integration to capture and apply discounts on the pricing page and during Stripe checkout, and fixing multiple redirection issues. The trajectory ends with debugging a critical issue where, after successful signup via a referral link, users are not redirected to Stripe checkout but to the homepage.
 </analysis>
 
 <product_requirements>
-The TrainSmart application, an AI-powered running coach, requires continuous development of its Community module, aiming to build a social interaction platform.
-
-**Key Requirements & Implementation Status:**
-1.  **Community Feature (Implemented)**: Core posts, groups, and user interactions.
-2.  **Athlete Profiles & Groups (Implemented)**: Group management, follow/unfollow, with Feed, Groups, My Groups tabs. Profiles enhanced with age, bio, interests.
-3.  **Notifications (Implemented)**: Group admin join requests, unread count, @mention notifications.
-4.  **Athlete Browsing (Implemented)**: Modal for athlete search.
-5.  **UI/UX Enhancements (Implemented)**: Icon-only tabs, improved join request icons, group banners, event card images, modal z-index fixes.
-6.  **Group Management (Implemented)**: Manager roles, optional group rules.
-7.  **Events Feature (Implemented)**: Group-like functionality with date/time, RSVP, invites. Event detail modal added. Event cards now show banner images and comment counts.
-8.  **Bug Fixes (Implemented)**: JSX errors, improved group editing messages, modal closing, RSVP count, MongoDB collection names, main feed rendering (422 error fix), mention display. Persistent comment count display on feed fixed. Profile images in comments modal fixed. Event comments backend error fixed. Event comments rendering in modal fixed. Event participant profile pictures fixed.
-9.  **Performance (Implemented with ongoing issues)**: Backend indexing, N+1 query fixes, frontend caching, lazy image loading, parallel API calls, WebP compression. Still experiencing CORS issues (Posthog).
-10. **@Mentions (Implemented)**: Facebook-style mention logic, notifications.
-11. **Profile Enhancement (Implemented)**: User's community profile page now displays age, bio, and interests derived from account settings.
-12. **New Features (Partially Implemented)**: Profile images/names link to user profiles, extensive emoji support in post/comment entry, commenting on events, custom confirmation modal for deletions, user's own comment deletion.
+The TrainSmart application, an AI-powered running coach, aims to foster social interaction within its Community module and drive user acquisition through a referral program. Key requirements include:
+1.  **Enhanced Community Features**: Complete comment deletion (user's own comments on posts/events), improved user profiles with a personal wall for posts, and a Following feed displaying content from followed users and personal posts.
+2.  **Post Management**: Ability to create posts with public or private visibility, edit posts (including visibility), and delete own posts.
+3.  **UI/UX Improvements**: Consistent modal closing with 'X' icons, Show more/Show less for long posts to save screen space, removal of redundant inline post forms, and removal of unused icons.
+4.  **Referral/Reward System**: Implement a system where existing users can invite new users with a unique link. New users receive a 20% discount on their first payment, and referrers receive a 20% discount on their renewal for each successful signup, capped at 100% (5 signups). This system requires a dedicated frontend page, backend API, referral code tracking, and seamless integration with the Stripe subscription checkout, including direct redirection to payment after signup.
 </product_requirements>
 
 <key_technical_concepts>
 -   **Full-stack Development**: React.js (Frontend), FastAPI (Backend), MongoDB (Database).
--   **Performance Optimization**: MongoDB indexing, N+1 query aggregation, React state management, data caching, image lazy loading, WebP compression.
--   **UI/UX**: Tailwind CSS, Shadcn UI,  (icons), , modals.
--   **Backend**: Pydantic, UUIDs.
--   **Frontend**: , , , , functional state updates.
+-   **State Management**: ,  for React components.
+-   **API Integration**:  for client-server communication.
+-   **Stripe**: Payment processing for subscriptions and discount application.
+-   **Routing**:  on frontend,  on backend.
+-   **Pydantic**: Data validation for FastAPI models.
+-   **UI Components**: Modals, , Tailwind CSS.
 </key_technical_concepts>
 
 <code_architecture>
 
 -   :
-    -   **Importance**: Main FastAPI backend, all API logic and database interactions.
-    -   **Changes**: Renamed  to  to resolve routing conflict (line 7278). Added new endpoints for adding/deleting event comments () and deleting post comments (). Initialized  for new events. Fixed error in event comment creation endpoint, changing  to . Updated event detail aggregation pipelines to include  for  and .
+    -   **Importance**: Defines backend API routes, Pydantic models, and database interactions.
+    -   **Changes**: Added  and  Pydantic models. Implemented new endpoints for referral generation (), rewards tracking (), and signup tracking (). Ensured referral endpoints are registered correctly before . Added  field to  model and updated create/edit post endpoints. Modified  to make  and  optional. Updated  to handle referral discounts. Added  and  for user-specific and following feeds. Set  from  for referral link generation.
 -   :
-    -   **Importance**: Temporary script to fix data inconsistency.
-    -   **Changes**: Created to recalculate  for all posts based on actual comments. Updated to use the correct database name ().
+    -   **Importance**: Stores environment variables.
+    -   **Changes**: Added  variable.
 -   :
-    -   **Importance**: Central component for Community and Event features.
-    -   **Changes**: Updated API calls to . Fixed comment count display by changing  to  in multiple rendering locations (e.g., lines 1361, 2691). Implemented functional state updates for  in  and  to prevent stale closures. Imported  and . Added state variables for emoji pickers, event comments, and confirmation modal. Implemented , , , ,  functions. Passed , ,  props to , , and . Updated event cards to show . Updated  and  to correctly load and update event comments in . Implemented custom confirmation modal for deleting posts using .
+    -   **Importance**: Manages top-level application routing.
+    -   **Changes**: Added a new  route to preserve referral parameters and redirect to the home page for initial landing.
 -   :
-    -   **Importance**: Reusable component for displaying an emoji picker.
-    -   **Changes**: New file created to encapsulate  library functionality.
+    -   **Importance**: Primary component for community features.
+    -   **Changes**: Integrated  for deletions. Fixed  scope. Updated  with 'X' icon and integrated user-specific and following posts feeds, including state management and rendering. Added  and associated handlers for creating posts with visibility. Updated , ,  to affect both main and following feeds. Implemented Show more/Show less for post content truncation. Removed inline post entry form and the redundant refresh button.
 -   :
-    -   **Importance**: Reusable modal for user confirmations (e.g., delete actions).
-    -   **Changes**: New file created to replace  for confirmations.
+    -   **Importance**: Reusable confirmation dialog.
+    -   **Changes**: Corrected prop name from  to .
+-   :
+    -   **Importance**: Main user dashboard.
+    -   **Changes**: Integrated  component. Added 'Gift' icon and navigation link to the referrals page in the header.
+-   :
+    -   **Importance**: Handles new user registration.
+    -   **Changes**: Modified  to check  for  and  to redirect to Stripe checkout directly after successful signup, rather than . Added  statements for debugging.
+-   :
+    -   **Importance**: Displays subscription plans and manages referral discounts.
+    -   **Changes**: Extracts  parameter from URL and stores it. Displays referral discount banner. Stores selected plan in . Modified price display to show discounted rates.
+-    (New File):
+    -   **Importance**: New page for the referral system.
+    -   **Changes**: Created to display referral code, link, and rewards, using new backend API endpoints.
+-   :
+    -   **Importance**: Initial application landing page.
+    -   **Changes**: Captures  parameter from URL. Displays a referral banner if present. CTA buttons now direct to .
 </code_architecture>
 
 <pending_tasks>
@@ -57,29 +62,16 @@ The TrainSmart application, an AI-powered running coach, requires continuous dev
 -   Investigate persistent profile picture upload failures.
 -   Build the actual logic for the Race Predictor calculator.
 -   Address CORS policy issues observed for .
--   Complete passing  prop when rendering .
 </pending_tasks>
 
 <current_work>
-Immediately before this summary request, the AI engineer was implementing two user-requested features: replacing JavaScript alerts with a custom modal for deleting posts and enabling users to delete their own comments on posts and events.
+The AI engineer is currently addressing a critical bug in the referral system flow. When a new user signs up after clicking a referral link and selecting a pricing plan, the application is incorrectly redirecting them to the main homepage () instead of initiating the Stripe payment checkout for the discounted subscription plan.
 
-The work completed so far includes:
-1.  **Backend Changes**: New API endpoints were added in  for deleting post comments () and event comments ().
-2.  **Frontend Modal Component**: A reusable  component was created in  to handle user confirmations.
-3.  **Frontend Integration (Community.js)**:
-    *   The  was imported and state variables were added in  to control its visibility and manage the item to be deleted.
-    *   The existing  function was updated to utilize this  instead of a standard  for post deletion confirmation.
-    *   New  and  functions were added to handle the logic for deleting comments on both posts and events.
-    *   The  component was updated to display a delete button for a user's own comments, and this button is linked to the  prop. This prop is also passed to  from .
-    *   The  was updated to display a delete button for a user's own comments.
+The expected flow is: Referral Link → Pricing Page (select plan) → Onboarding/Signup → Direct redirect to Stripe Checkout (with discount).
 
-The very last action in the trajectory was the AI engineer summarizing the progress and stating the intention to pass the  prop to  when it is rendered in .
+The previous engineer's last action was to add  statements within the  function in . These logs are intended to trace the execution path and identify precisely why the Stripe checkout session is not being created or why the subsequent redirection to Stripe is not occurring after a successful user registration. The frontend service was restarted to apply these changes, and the next step is to examine the console output.
 </current_work>
 
 <optional_next_step>
-Pass the  prop to the  when it is rendered.
+Analyze the console logs to debug the Stripe checkout redirection issue in .
 </optional_next_step>
-
-<direct_quote_for_next_step>
-Now pass the onDeleteComment prop when rendering EventDetailModal:
-</direct_quote_for_next_step>
