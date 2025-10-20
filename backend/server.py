@@ -7806,6 +7806,7 @@ async def add_comment(post_id: str, comment_data: dict, athlete_id: str = Query(
             "athlete_name": athlete.get("name", "Unknown"),
             "athlete_profile_picture": athlete.get("profile_picture"),
             "content": content,
+            "image_urls": comment_data.get("image_urls", []),  # Array of image URLs (max 3)
             "created_at": datetime.now(timezone.utc).isoformat()
         }
         
