@@ -189,6 +189,25 @@ const Account = ({ athleteId }) => {
   const [apiKeyForm, setApiKeyForm] = useState({
     openai_api_key: ''
   });
+
+  // Plan settings from system settings
+  const [planSettings, setPlanSettings] = useState({
+    free: {
+      title: 'Free',
+      description: 'Basic features',
+      features: []
+    },
+    pro: {
+      title: 'Pro',
+      description: 'Advanced features',
+      features: []
+    },
+    premium: {
+      title: 'Premium',
+      description: 'Complete experience',
+      features: []
+    }
+  });
   
   const [activeTab, setActiveTab] = useState('personal');
   const location = window.location;
