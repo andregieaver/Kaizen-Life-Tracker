@@ -7332,6 +7332,49 @@ async def get_habit_completions(athlete_id: str, start_date: Optional[str] = Non
 
 
 # ==========================================
+# IMAGE UPLOAD ENDPOINTS
+# ==========================================
+
+@api_router.post("/upload/images")
+async def upload_images(
+    files: List[UploadFile] = File(...),
+    max_files: int = Query(5, description="Maximum number of files allowed")
+):
+    """Upload multiple images and return their URLs"""
+    try:
+        if len(files) > max_files:
+            raise HTTPException(status_code=400, detail=f"Maximum {max_files} images allowed")
+        
+        uploaded_urls = []
+        
+        for file in files:
+            # Validate file type
+            if not file.content_type.startswith('image/'):
+                raise HTTPException(status_code=400, detail=f"File {file.filename} is not an image")
+            
+            # Generate unique filename
+            file_extension = Path(file.filename).suffix
+            unique_filename = f"{uuid.uuid4()}{file_extension}"
+            file_path = UPLOAD_DIR / unique_filename
+            
+            # Save file
+            with open(file_path, "wb") as buffer:
+                shutil.copyfileobj(file.file, buffer)
+            
+            # Generate URL (will be served by FastAPI static files)
+            backend_url = os.environ.get('REACT_APP_BACKEND_URL', 'http://localhost:8001')
+            image_url = f"{backend_url}/uploads/images/{unique_filename}"
+            uploaded_urls.append(image_url)
+            
+            logging.info(f"Uploaded image: {unique_filename}")
+        
+        return {"urls": uploaded_urls}
+    
+    except Exception as e:
+        logging.error(f"Error uploading images: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to upload images: {str(e)}")
+
+# ==========================================
 # COMMUNITY ENDPOINTS
 # ==========================================
 
