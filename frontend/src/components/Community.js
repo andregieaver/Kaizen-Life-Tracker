@@ -3408,19 +3408,6 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
             {/* Posts Tab Content */}
             {activeTab === 'posts' && (
               <div className="space-y-4">
-                {/* Debug Banner */}
-                <div className="bg-purple-900/50 p-3 rounded text-purple-200 text-sm">
-                  <div>🔍 Personal Feed Debug</div>
-                  <div>📊 userPosts.length: {userPosts.length}</div>
-                  <div>⏳ postsLoading: {postsLoading ? 'true' : 'false'}</div>
-                  {userPosts.length > 0 && (
-                    <div className="mt-2 text-xs">
-                      <div>First post has image_urls: {userPosts[0]?.image_urls ? 'YES' : 'NO'}</div>
-                      <div>First post has image_data: {userPosts[0]?.image_data ? 'YES' : 'NO'}</div>
-                    </div>
-                  )}
-                </div>
-                
                 {postsLoading ? (
                   <div className="flex justify-center py-12">
                     <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
