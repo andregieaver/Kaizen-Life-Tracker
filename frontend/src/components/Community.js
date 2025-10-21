@@ -532,15 +532,33 @@ const Community = ({ athleteId }) => {
     setSelectedMedia(prev => prev.filter((_, i) => i !== index));
   };
 
-  // Handle drag end for reordering
-  const handleMediaDragEnd = (result) => {
-    if (!result.destination) return;
+  // Handle drag end for reordering (HTML5)
+  const [draggedIndex, setDraggedIndex] = useState(null);
+
+  const handleDragStart = (e, index) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDrop = (e, dropIndex) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === dropIndex) return;
 
     const items = Array.from(selectedMedia);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
+    const [draggedItem] = items.splice(draggedIndex, 1);
+    items.splice(dropIndex, 0, draggedItem);
 
     setSelectedMedia(items);
+    setDraggedIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
   };
 
   // Mention handling functions
