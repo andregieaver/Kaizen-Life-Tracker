@@ -108,7 +108,7 @@ const ChangePassword = ({ athleteId }) => {
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="currentPassword">{t('auth.currentPassword')}</Label>
+            <Label htmlFor="currentPassword" className="text-sm font-medium text-white">{t('auth.currentPassword')}</Label>
             <Input
               id="currentPassword"
               name="currentPassword"
@@ -116,14 +116,15 @@ const ChangePassword = ({ athleteId }) => {
               value={formData.currentPassword}
               onChange={handleInputChange}
               placeholder={t('auth.enterCurrentPassword')}
-              className="input-focus"
+              className="text-white placeholder:text-gray-500"
+              style={{ backgroundColor: '#111827', borderColor: '#374151' }}
               required
               disabled={isLoading}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="newPassword">{t('auth.newPassword')}</Label>
+            <Label htmlFor="newPassword" className="text-sm font-medium text-white">{t('auth.newPassword')}</Label>
             <Input
               id="newPassword"
               name="newPassword"
@@ -131,14 +132,15 @@ const ChangePassword = ({ athleteId }) => {
               value={formData.newPassword}
               onChange={handleInputChange}
               placeholder={t('auth.enterNewPassword')}
-              className="input-focus"
+              className="text-white placeholder:text-gray-500"
+              style={{ backgroundColor: '#111827', borderColor: '#374151' }}
               required
               disabled={isLoading}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">{t('auth.confirmNewPassword')}</Label>
+            <Label htmlFor="confirmPassword" className="text-sm font-medium text-white">{t('auth.confirmNewPassword')}</Label>
             <Input
               id="confirmPassword"
               name="confirmPassword"
@@ -146,7 +148,8 @@ const ChangePassword = ({ athleteId }) => {
               value={formData.confirmPassword}
               onChange={handleInputChange}
               placeholder={t('auth.confirmPasswordPlaceholder')}
-              className="input-focus"
+              className="text-white placeholder:text-gray-500"
+              style={{ backgroundColor: '#111827', borderColor: '#374151' }}
               required
               disabled={isLoading}
             />
