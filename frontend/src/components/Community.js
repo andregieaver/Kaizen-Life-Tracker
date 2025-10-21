@@ -1658,15 +1658,20 @@ const Community = ({ athleteId }) => {
   };
 
   const handleJoinChallenge = async (challengeId) => {
+    console.log('🔍 DEBUG: Joining challenge:', challengeId);
+    console.log('🔍 DEBUG: AthleteId:', athleteId);
     try {
-      await axios.post(`${API}/community/challenges/${challengeId}/join?athlete_id=${athleteId}`);
+      const response = await axios.post(`${API}/community/challenges/${challengeId}/join?athlete_id=${athleteId}`);
+      console.log('✅ DEBUG: Successfully joined challenge:', response.data);
+      alert('Successfully joined challenge!');
       setChallengesLoaded(false);
       loadChallenges(challengeFilter);
       if (showChallengeDetail && challengeDetailData?.id === challengeId) {
         handleOpenChallengeDetail(challengeId);
       }
     } catch (error) {
-      console.error('Error joining challenge:', error);
+      console.error('❌ DEBUG: Error joining challenge:', error);
+      console.error('❌ DEBUG: Error response:', error.response?.data);
       alert(error.response?.data?.detail || 'Failed to join challenge');
     }
   };
@@ -1674,15 +1679,20 @@ const Community = ({ athleteId }) => {
   const handleLeaveChallenge = async (challengeId) => {
     if (!window.confirm('Are you sure you want to leave this challenge?')) return;
 
+    console.log('🔍 DEBUG: Leaving challenge:', challengeId);
+    console.log('🔍 DEBUG: AthleteId:', athleteId);
     try {
-      await axios.post(`${API}/community/challenges/${challengeId}/leave?athlete_id=${athleteId}`);
+      const response = await axios.post(`${API}/community/challenges/${challengeId}/leave?athlete_id=${athleteId}`);
+      console.log('✅ DEBUG: Successfully left challenge:', response.data);
+      alert('Successfully left challenge!');
       setChallengesLoaded(false);
       loadChallenges(challengeFilter);
       if (showChallengeDetail && challengeDetailData?.id === challengeId) {
         handleOpenChallengeDetail(challengeId);
       }
     } catch (error) {
-      console.error('Error leaving challenge:', error);
+      console.error('❌ DEBUG: Error leaving challenge:', error);
+      console.error('❌ DEBUG: Error response:', error.response?.data);
       alert('Failed to leave challenge');
     }
   };
