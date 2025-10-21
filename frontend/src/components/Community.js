@@ -2555,74 +2555,60 @@ const Community = ({ athleteId }) => {
                     )}
                   </div>
                   
-                  <DragDropContext onDragEnd={handleMediaDragEnd}>
-                    <Droppable droppableId="media-list" direction="horizontal">
-                      {(provided) => (
-                        <div
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                          className="grid grid-cols-2 sm:grid-cols-3 gap-2"
-                        >
-                          {selectedMedia.map((item, index) => (
-                            <Draggable key={item.id} draggableId={item.id} index={index}>
-                              {(provided, snapshot) => (
-                                <div
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  className={`relative aspect-square ${snapshot.isDragging ? 'opacity-50' : ''}`}
-                                >
-                                  {/* Drag Handle */}
-                                  <div
-                                    {...provided.dragHandleProps}
-                                    className="absolute top-1 left-1 p-1 bg-black/70 rounded-full cursor-move z-10"
-                                  >
-                                    <GripVertical className="w-4 h-4 text-white" />
-                                  </div>
-
-                                  {/* Media Preview */}
-                                  {item.type === 'video' ? (
-                                    <div className="relative w-full h-full">
-                                      <video
-                                        src={item.preview}
-                                        className="w-full h-full object-cover rounded-lg"
-                                        muted
-                                      />
-                                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-lg">
-                                        <Video className="w-8 h-8 text-white" />
-                                      </div>
-                                    </div>
-                                  ) : (
-                                    <img
-                                      src={item.preview}
-                                      alt={`Preview ${index + 1}`}
-                                      className="w-full h-full object-cover rounded-lg"
-                                    />
-                                  )}
-
-                                  {/* Remove Button */}
-                                  <button
-                                    onClick={() => handleRemoveMedia(index)}
-                                    disabled={isUploadingMedia || item.uploading}
-                                    className="absolute top-1 right-1 p-1.5 bg-black/70 hover:bg-black/90 rounded-full transition-colors disabled:opacity-50 z-10"
-                                  >
-                                    <X className="w-4 h-4 text-white" />
-                                  </button>
-
-                                  {/* Uploading indicator */}
-                                  {item.uploading && (
-                                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg">
-                                      <RefreshCw className="w-6 h-6 text-white animate-spin" />
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                          {provided.placeholder}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {selectedMedia.map((item, index) => (
+                      <div
+                        key={item.id}
+                        draggable
+                        onDragStart={(e) => handleDragStart(e, index)}
+                        onDragOver={handleDragOver}
+                        onDrop={(e) => handleDrop(e, index)}
+                        onDragEnd={handleDragEnd}
+                        className={`relative aspect-square cursor-move ${draggedIndex === index ? 'opacity-50' : ''}`}
+                      >
+                        {/* Drag Handle */}
+                        <div className="absolute top-1 left-1 p-1 bg-black/70 rounded-full z-10">
+                          <GripVertical className="w-4 h-4 text-white" />
                         </div>
-                      )}
-                    </Droppable>
-                  </DragDropContext>
+
+                        {/* Media Preview */}
+                        {item.type === 'video' ? (
+                          <div className="relative w-full h-full">
+                            <video
+                              src={item.preview}
+                              className="w-full h-full object-cover rounded-lg"
+                              muted
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-lg">
+                              <Video className="w-8 h-8 text-white" />
+                            </div>
+                          </div>
+                        ) : (
+                          <img
+                            src={item.preview}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                        )}
+
+                        {/* Remove Button */}
+                        <button
+                          onClick={() => handleRemoveMedia(index)}
+                          disabled={isUploadingMedia || item.uploading}
+                          className="absolute top-1 right-1 p-1.5 bg-black/70 hover:bg-black/90 rounded-full transition-colors disabled:opacity-50 z-10"
+                        >
+                          <X className="w-4 h-4 text-white" />
+                        </button>
+
+                        {/* Uploading indicator */}
+                        {item.uploading && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg">
+                            <RefreshCw className="w-6 h-6 text-white animate-spin" />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
 
