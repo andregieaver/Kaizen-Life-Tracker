@@ -49,8 +49,6 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
     };
   }, [isFullscreen]);
 
-  if (!images || images.length === 0) return null;
-
   const nextImage = () => {
     setCurrentIndex((prev) => (prev + 1) % images.length);
   };
