@@ -3073,8 +3073,8 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
         />
       )}
 
-      {/* Fan Menu - Individual FABs */}
-      {/* Post Button */}
+      {/* Fan Menu - Individual FABs with Bigger Radius */}
+      {/* Post Button - Most horizontal */}
       <button
         onClick={() => {
           setShowWritePostModal(true);
@@ -3086,7 +3086,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
             : 'opacity-0 translate-x-8 translate-y-8 pointer-events-none'
         }`}
         style={{
-          transform: showCreateMenu ? 'translate(-70px, -10px)' : 'translate(0, 0)',
+          transform: showCreateMenu ? 'translate(-110px, -25px)' : 'translate(0, 0)',
           transitionDelay: showCreateMenu ? '50ms' : '0ms'
         }}
         title="Create Post"
@@ -3094,7 +3094,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
         <Edit3 className="w-5 h-5 text-white" />
       </button>
 
-      {/* Event Button */}
+      {/* Event Button - Diagonal middle-left */}
       <button
         onClick={() => {
           setShowCreateEvent(true);
@@ -3106,7 +3106,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
             : 'opacity-0 translate-x-8 translate-y-8 pointer-events-none'
         }`}
         style={{
-          transform: showCreateMenu ? 'translate(-50px, -60px)' : 'translate(0, 0)',
+          transform: showCreateMenu ? 'translate(-90px, -100px)' : 'translate(0, 0)',
           transitionDelay: showCreateMenu ? '100ms' : '0ms'
         }}
         title="Create Event"
@@ -3114,7 +3114,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
         <Calendar className="w-5 h-5 text-white" />
       </button>
 
-      {/* Group Button */}
+      {/* Group Button - More vertical, left side */}
       <button
         onClick={() => {
           setShowCreateGroup(true);
@@ -3126,7 +3126,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
             : 'opacity-0 translate-x-8 translate-y-8 pointer-events-none'
         }`}
         style={{
-          transform: showCreateMenu ? 'translate(-10px, -90px)' : 'translate(0, 0)',
+          transform: showCreateMenu ? 'translate(-40px, -150px)' : 'translate(0, 0)',
           transitionDelay: showCreateMenu ? '150ms' : '0ms'
         }}
         title="Create Group"
@@ -3134,7 +3134,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
         <UsersIcon className="w-5 h-5 text-white" />
       </button>
 
-      {/* Challenge Button */}
+      {/* Challenge Button - Most vertical, stays on screen */}
       <button
         onClick={() => {
           setShowCreateChallenge(true);
@@ -3146,7 +3146,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
             : 'opacity-0 translate-x-8 translate-y-8 pointer-events-none'
         }`}
         style={{
-          transform: showCreateMenu ? 'translate(30px, -85px)' : 'translate(0, 0)',
+          transform: showCreateMenu ? 'translate(15px, -145px)' : 'translate(0, 0)',
           transitionDelay: showCreateMenu ? '200ms' : '0ms'
         }}
         title="Create Challenge"
