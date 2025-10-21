@@ -1733,6 +1733,20 @@ const Community = ({ athleteId }) => {
           >
             <Calendar className="w-6 h-6" />
           </button>
+          <button
+            onClick={() => {
+              setActiveTab('challenges');
+              setSelectedGroup(null);
+            }}
+            className={`p-3 rounded-lg transition-all ${
+              activeTab === 'challenges'
+                ? 'bg-[#00C2A8] text-white shadow-lg'
+                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+            }`}
+            title="Challenges"
+          >
+            <Trophy className="w-6 h-6" />
+          </button>
         </div>
 
         <div className="flex items-center space-x-3">
