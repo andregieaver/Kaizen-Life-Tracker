@@ -9816,74 +9816,104 @@ async def save_system_settings(athlete_id: str, settings: dict):
         raise HTTPException(status_code=500, detail=f"Failed to save system settings: {str(e)}")
 
 @api_router.get("/system/subscriber-stats")
-async def get_subscriber_stats(athlete_id: str):
+async def get_subscriber_stats(
+    athlete_id: str, 
+    period: str = "90d",  # Options: 7d, 30d, 90d, 1y, all
+    compare: bool = False
+):
     """Get subscriber statistics over time (Super Admin only)"""
     # Verify super admin
     await verify_super_admin(athlete_id)
     
-    print(f"=== SUBSCRIBER STATS DEBUG ===", flush=True)
+    print(f"=== SUBSCRIBER STATS DEBUG: period={period}, compare={compare} ===", flush=True)
     
     try:
         from datetime import datetime, timedelta
         
-        # Direct count to verify database access
-        total_count = await db.athletes.count_documents({})
-        print(f"Direct count from db.athletes: {total_count}", flush=True)
+        # Define period ranges
+        period_days = {
+            "7d": 7,
+            "30d": 30,
+            "90d": 90,
+            "1y": 365,
+            "all": None
+        }
         
-        # Get all athletes with their creation dates and subscription tiers
+        days = period_days.get(period, 90)
+        
+        # Get all athletes
         athletes = await db.athletes.find(
             {},
             {"_id": 0, "created_at": 1, "subscription_tier": 1}
         ).to_list(length=None)
         
-        print(f"Found {len(athletes)} athletes in query results", flush=True)
+        print(f"Found {len(athletes)} total athletes", flush=True)
         
-        # Get current counts by tier
-        tier_counts = {
-            "free": 0,
-            "pro": 0,
-            "premium": 0
-        }
+        # Calculate date ranges
+        now = datetime.now()
+        if days:
+            current_period_start = now - timedelta(days=days)
+            previous_period_start = current_period_start - timedelta(days=days)
+        else:
+            # For "all", use earliest subscriber date
+            dates = [datetime.fromisoformat(a["created_at"].replace('Z', '+00:00')) 
+                    for a in athletes if a.get("created_at")]
+            if dates:
+                current_period_start = min(dates)
+                days = (now - current_period_start).days
+                previous_period_start = current_period_start - timedelta(days=days)
+            else:
+                current_period_start = now - timedelta(days=90)
+                previous_period_start = current_period_start - timedelta(days=90)
+                days = 90
         
+        # Current period data
+        current_period_athletes = []
+        previous_period_athletes = []
+        
+        for athlete in athletes:
+            if not athlete.get("created_at"):
+                continue
+            try:
+                created_date = datetime.fromisoformat(athlete["created_at"].replace('Z', '+00:00'))
+                if created_date >= current_period_start:
+                    current_period_athletes.append(athlete)
+                elif compare and created_date >= previous_period_start and created_date < current_period_start:
+                    previous_period_athletes.append(athlete)
+            except Exception:
+                continue
+        
+        # Current period counts
+        tier_counts = {"free": 0, "pro": 0, "premium": 0}
         for athlete in athletes:
             tier = athlete.get("subscription_tier", "free")
             tier_counts[tier] = tier_counts.get(tier, 0) + 1
         
-        print(f"Tier counts: {tier_counts}", flush=True)
-        
         total_subscribers = sum(tier_counts.values())
         paid_subscribers = tier_counts.get("pro", 0) + tier_counts.get("premium", 0)
         
-        # Calculate growth over last 30 days
-        thirty_days_ago = datetime.now() - timedelta(days=30)
-        recent_subscribers = [
-            a for a in athletes 
-            if a.get("created_at") and isinstance(a["created_at"], str)
-            and datetime.fromisoformat(a["created_at"].replace('Z', '+00:00')) > thirty_days_ago
-        ]
-        growth_count = len(recent_subscribers)
-        growth_percentage = (growth_count / max(total_subscribers - growth_count, 1)) * 100 if total_subscribers > growth_count else 0
+        # Growth in current period
+        growth_count = len(current_period_athletes)
+        base_count = total_subscribers - growth_count
+        growth_percentage = (growth_count / max(base_count, 1)) * 100 if base_count > 0 else 0
         
-        # Create time series data (last 90 days, grouped by day)
-        ninety_days_ago = datetime.now() - timedelta(days=90)
-        
-        # Group by date
+        # Create time series data for current period
         daily_counts = {}
         for athlete in athletes:
             created_at = athlete.get("created_at")
-            if created_at and isinstance(created_at, str):
+            if created_at:
                 try:
                     date_obj = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
-                    if date_obj > ninety_days_ago:
+                    if date_obj >= current_period_start:
                         date_key = date_obj.strftime('%Y-%m-%d')
                         daily_counts[date_key] = daily_counts.get(date_key, 0) + 1
                 except Exception:
                     continue
         
-        # Create cumulative counts for chart
+        # Create cumulative counts
         sorted_dates = sorted(daily_counts.keys())
         cumulative_data = []
-        cumulative_total = total_subscribers - sum(daily_counts.values())  # Start with existing users
+        cumulative_total = total_subscribers - sum(daily_counts.values())
         
         for date in sorted_dates:
             cumulative_total += daily_counts[date]
@@ -9892,26 +9922,40 @@ async def get_subscriber_stats(athlete_id: str):
                 "count": cumulative_total
             })
         
-        # If no data, provide some default points
+        # If no data, provide default points
         if not cumulative_data:
-            today = datetime.now()
-            for i in range(7, 0, -1):
-                date = (today - timedelta(days=i)).strftime('%Y-%m-%d')
+            for i in range(min(days, 7), 0, -1):
+                date = (now - timedelta(days=i)).strftime('%Y-%m-%d')
                 cumulative_data.append({
                     "date": date,
                     "count": total_subscribers
                 })
         
-        return {
+        result = {
             "total_subscribers": total_subscribers,
             "paid_subscribers": paid_subscribers,
             "free_subscribers": tier_counts.get("free", 0),
             "pro_subscribers": tier_counts.get("pro", 0),
             "premium_subscribers": tier_counts.get("premium", 0),
-            "growth_30_days": growth_count,
+            "growth_count": growth_count,
             "growth_percentage": round(growth_percentage, 1),
-            "time_series": cumulative_data
+            "time_series": cumulative_data,
+            "period": period
         }
+        
+        # Add comparison data if requested
+        if compare:
+            previous_growth_count = len(previous_period_athletes)
+            comparison_change = growth_count - previous_growth_count
+            comparison_percentage = ((comparison_change / max(previous_growth_count, 1)) * 100) if previous_growth_count > 0 else 0
+            
+            result["comparison"] = {
+                "previous_period_growth": previous_growth_count,
+                "change": comparison_change,
+                "change_percentage": round(comparison_percentage, 1)
+            }
+        
+        return result
     except Exception as e:
         logging.error(f"Error getting subscriber stats: {e}")
         import traceback
