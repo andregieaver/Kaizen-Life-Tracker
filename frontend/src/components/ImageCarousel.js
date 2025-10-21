@@ -40,15 +40,27 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
   }, [isFullscreen]);
 
   const nextImage = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
+    if (!isTransitioning) {
+      setIsTransitioning(true);
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+      setTimeout(() => setIsTransitioning(false), 300);
+    }
   };
 
   const prevImage = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    if (!isTransitioning) {
+      setIsTransitioning(true);
+      setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+      setTimeout(() => setIsTransitioning(false), 300);
+    }
   };
 
   const goToImage = (index) => {
-    setCurrentIndex(index);
+    if (!isTransitioning) {
+      setIsTransitioning(true);
+      setCurrentIndex(index);
+      setTimeout(() => setIsTransitioning(false), 300);
+    }
   };
 
   // Touch handlers for swipe
