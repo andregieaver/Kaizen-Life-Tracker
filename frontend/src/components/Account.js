@@ -1999,6 +1999,7 @@ const Account = ({ athleteId }) => {
                   <Button 
                     type="button" 
                     variant="outline"
+                    className="border-gray-600 text-white hover:bg-gray-700"
                     onClick={() => setPersonalForm({
                       ...athlete,
                       distance_unit: athlete?.distance_unit || 'miles',
@@ -2015,7 +2016,7 @@ const Account = ({ athleteId }) => {
                   </Button>
                   <Button 
                     type="submit" 
-                    className="bg-blue-600 hover:bg-blue-700"
+                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white font-medium px-6 py-2"
                     disabled={isLoading}
                   >
                     {isLoading ? 'Saving...' : 'Save Preferences'}
