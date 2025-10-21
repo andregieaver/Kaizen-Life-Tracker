@@ -2707,6 +2707,70 @@ const Community = ({ athleteId }) => {
         </div>
       )}
 
+      {/* Challenges Tab */}
+      {activeTab === 'challenges' && (
+        <div className="space-y-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <Button
+              onClick={() => setShowCreateChallenge(true)}
+              className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+            >
+              <Trophy className="w-4 h-4 mr-2" />
+              Create Challenge
+            </Button>
+
+            {/* Filter buttons */}
+            <div className="flex gap-2">
+              {['all', 'active', 'completed', 'joined'].map(filter => (
+                <button
+                  key={filter}
+                  onClick={() => {
+                    setChallengeFilter(filter);
+                    setChallengesLoaded(false);
+                    loadChallenges(filter);
+                  }}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    challengeFilter === filter
+                      ? 'bg-[#00C2A8] text-white'
+                      : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+                  }`}
+                >
+                  {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {challenges.map(challenge => (
+              <ChallengeCard
+                key={challenge.id}
+                challenge={challenge}
+                athleteId={athleteId}
+                onJoin={() => handleJoinChallenge(challenge.id)}
+                onLeave={() => handleLeaveChallenge(challenge.id)}
+                onDelete={() => handleDeleteChallenge(challenge.id)}
+                onClick={() => handleOpenChallengeDetail(challenge.id)}
+              />
+            ))}
+          </div>
+
+          {challenges.length === 0 && (
+            <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+              <CardContent className="p-12 text-center">
+                <Trophy className="w-16 h-16 mx-auto mb-4 text-gray-600" />
+                <p className="text-gray-400 text-lg">
+                  {challengeFilter === 'all' && 'No challenges yet. Create the first challenge!'}
+                  {challengeFilter === 'active' && 'No active challenges'}
+                  {challengeFilter === 'completed' && 'No completed challenges'}
+                  {challengeFilter === 'joined' && "You haven't joined any challenges yet"}
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      )}
+
 
       {/* Group Detail View */}
       {selectedGroup && (
