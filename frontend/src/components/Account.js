@@ -1421,7 +1421,8 @@ const Account = ({ athleteId }) => {
                         value={personalForm.height}
                         onChange={handlePersonalFormChange}
                         placeholder="175"
-                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                        className="text-white placeholder:text-gray-500"
+                        style={{ backgroundColor: '#111827', borderColor: '#111827' }}
                       />
                     </div>
                     
@@ -1434,7 +1435,8 @@ const Account = ({ athleteId }) => {
                         value={personalForm.weight}
                         onChange={handlePersonalFormChange}
                         placeholder="70"
-                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                        className="text-white placeholder:text-gray-500"
+                        style={{ backgroundColor: '#111827', borderColor: '#111827' }}
                       />
                     </div>
                     
@@ -1448,7 +1450,8 @@ const Account = ({ athleteId }) => {
                         value={personalForm.vo2_max}
                         onChange={handlePersonalFormChange}
                         placeholder="50.0"
-                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                        className="text-white placeholder:text-gray-500"
+                        style={{ backgroundColor: '#111827', borderColor: '#111827' }}
                       />
                     </div>
                   </div>
