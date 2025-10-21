@@ -135,7 +135,7 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
                 <div className="relative w-full h-full">
                   <video
                     src={item.url}
-                    poster={item.thumbnail}
+                    poster={item.thumbnail ? normalizeUrl(item.thumbnail) : undefined}
                     className={`${
                       inFullscreen 
                         ? 'max-w-full max-h-full object-contain mx-auto' 
