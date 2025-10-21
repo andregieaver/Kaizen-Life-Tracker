@@ -1999,23 +1999,11 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
         </div>
       </div>
 
-      {/* Notifications Dropdown - Hidden on desktop, moved to global header */}
-      <div className="hidden">
-        <div className="relative">
-          <button
-            onClick={() => setShowNotifications(!showNotifications)}
-            className="relative p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
-          >
-            <Bell className="w-6 h-6 text-white" />
-            {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                {unreadCount}
-              </span>
-            )}
-          </button>
-
-          {/* Notifications Dropdown */}
-          {showNotifications && (
+      {/* Notifications Dropdown - Controlled by global header on mobile */}
+      {effectiveShowNotifications && (
+        <div className="fixed top-16 right-4 z-50 sm:absolute sm:right-0 sm:mt-2">
+          <div className="relative">
+            {/* Notifications Dropdown */}
             <div className="absolute right-0 mt-2 w-80 bg-gray-800 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
               <div className="p-4 border-b border-gray-700">
                 <h3 className="text-white font-semibold">Notifications</h3>
