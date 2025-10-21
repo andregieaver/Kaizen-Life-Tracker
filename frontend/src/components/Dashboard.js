@@ -432,6 +432,20 @@ const Dashboard = ({ athleteId }) => {
                   )}
                 </button>
               )}
+              {moduleSettings.community.enabled && activeTab === 'community' && (
+                <button 
+                  onClick={() => setShowNotifications(!showNotifications)}
+                  className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
+                  aria-label="Notifications"
+                >
+                  <Bell className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                  {communityUnreadCount > 0 && (
+                    <span className="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                      {communityUnreadCount}
+                    </span>
+                  )}
+                </button>
+              )}
               <button 
                 onClick={() => setIsMenuOpen(true)}
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
