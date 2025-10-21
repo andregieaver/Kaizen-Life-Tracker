@@ -84,28 +84,31 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
       {/* Main Image */}
       <div className={`${inFullscreen ? 'max-w-[90vw] max-h-[90vh]' : 'w-full aspect-video'} overflow-hidden relative`}>
         <div 
-          className="flex transition-transform duration-500 ease-in-out"
+          className="flex transition-transform duration-500 ease-in-out h-full"
           style={{ 
             transform: `translateX(-${currentIndex * 100}%)`,
-            width: `${images.length * 100}%`
           }}
         >
           {images.map((image, index) => (
-            <img
+            <div
               key={index}
-              src={image}
-              alt={`${alt} ${index + 1}`}
-              className={`${
-                inFullscreen 
-                  ? 'max-w-full max-h-full object-contain' 
-                  : 'w-full h-full object-cover'
-              } rounded-lg flex-shrink-0`}
-              style={{ 
-                width: `${100 / images.length}%`,
-                cursor: inFullscreen ? 'default' : 'pointer'
-              }}
-              onClick={() => !inFullscreen && setIsFullscreen(true)}
-            />
+              className="w-full h-full flex-shrink-0"
+              style={{ minWidth: '100%' }}
+            >
+              <img
+                src={image}
+                alt={`${alt} ${index + 1}`}
+                className={`${
+                  inFullscreen 
+                    ? 'max-w-full max-h-full object-contain mx-auto' 
+                    : 'w-full h-full object-cover'
+                } rounded-lg`}
+                style={{ 
+                  cursor: inFullscreen ? 'default' : 'pointer'
+                }}
+                onClick={() => !inFullscreen && setIsFullscreen(true)}
+              />
+            </div>
           ))}
         </div>
       </div>
