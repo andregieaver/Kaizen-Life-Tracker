@@ -129,6 +129,30 @@ const SystemSettings = ({ athleteId }) => {
     }
   });
 
+  // Statistics State
+  const [statisticsData, setStatisticsData] = useState({
+    totalUsers: 1247,
+    activeUsers: 892,
+    totalWorkouts: 15634,
+    avgWorkoutsPerUser: 12.5,
+    userGrowth: [
+      { month: 'Jan', users: 850 },
+      { month: 'Feb', users: 920 },
+      { month: 'Mar', users: 1050 },
+      { month: 'Apr', users: 1150 },
+      { month: 'May', users: 1200 },
+      { month: 'Jun', users: 1247 }
+    ],
+    workoutTrends: [
+      { month: 'Jan', workouts: 2100 },
+      { month: 'Feb', workouts: 2350 },
+      { month: 'Mar', workouts: 2800 },
+      { month: 'Apr', workouts: 3200 },
+      { month: 'May', workouts: 3450 },
+      { month: 'Jun', workouts: 3734 }
+    ]
+  });
+
   // Load settings on mount
   useEffect(() => {
     loadSystemSettings();
