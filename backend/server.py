@@ -1259,6 +1259,19 @@ class ChallengeComment(BaseModel):
     content: str
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+class ChallengeAchievement(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    challenge_id: str
+    challenge_title: str
+    challenge_type: str
+    trophy_image: Optional[str] = None
+    athlete_id: str
+    athlete_name: str
+    completed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    final_value: float  # Final progress value achieved
+
 
 # AI Coach Service
 class AICoachService:
