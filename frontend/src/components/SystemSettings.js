@@ -364,11 +364,20 @@ const SystemSettings = ({ athleteId }) => {
   return (
     <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
+        {/* Header with Account Settings Button */}
         <div className="mb-8">
-          <div className="flex items-center mb-2">
-            <Settings className="w-8 h-8 text-[#00C2A8] mr-3" />
-            <h1 className="text-3xl font-display font-bold text-white">System Settings</h1>
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center">
+              <Settings className="w-8 h-8 text-[#00C2A8] mr-3" />
+              <h1 className="text-3xl font-display font-bold text-white">System Settings</h1>
+            </div>
+            <Button
+              onClick={() => navigate('/account')}
+              className="bg-gray-700 hover:bg-gray-600 text-white border-0"
+            >
+              <User className="w-4 h-4 mr-2" />
+              Account Settings
+            </Button>
           </div>
           <p className="text-gray-300">
             Super Admin Dashboard - Monitor and manage system-wide settings
