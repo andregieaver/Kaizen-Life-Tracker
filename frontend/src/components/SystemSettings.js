@@ -1124,19 +1124,239 @@ const SystemSettings = ({ athleteId }) => {
 
           {/* Statistics Tab */}
           <TabsContent value="statistics">
-            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-white">System Statistics</CardTitle>
-                <CardDescription className="text-gray-400">
-                  View system performance and usage statistics
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-gray-400 text-center py-12">
-                  Statistics dashboard coming soon...
-                </div>
-              </CardContent>
-            </Card>
+            <div className="space-y-6">
+              {/* Key Metrics Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Total Users */}
+                <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-400">Total Users</p>
+                        <p className="text-2xl font-bold text-white">{statisticsData.totalUsers.toLocaleString()}</p>
+                      </div>
+                      <div className="p-3 bg-blue-500/20 rounded-full">
+                        <Users className="w-6 h-6 text-blue-400" />
+                      </div>
+                    </div>
+                    <div className="flex items-center mt-4">
+                      <TrendingUp className="w-4 h-4 text-green-400 mr-1" />
+                      <span className="text-sm text-green-400">+12.5%</span>
+                      <span className="text-sm text-gray-400 ml-2">from last month</span>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Active Users */}
+                <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-400">Active Users</p>
+                        <p className="text-2xl font-bold text-white">{statisticsData.activeUsers.toLocaleString()}</p>
+                      </div>
+                      <div className="p-3 bg-green-500/20 rounded-full">
+                        <TrendingUp className="w-6 h-6 text-green-400" />
+                      </div>
+                    </div>
+                    <div className="flex items-center mt-4">
+                      <TrendingUp className="w-4 h-4 text-green-400 mr-1" />
+                      <span className="text-sm text-green-400">+8.2%</span>
+                      <span className="text-sm text-gray-400 ml-2">from last month</span>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Total Workouts */}
+                <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-400">Total Workouts</p>
+                        <p className="text-2xl font-bold text-white">{statisticsData.totalWorkouts.toLocaleString()}</p>
+                      </div>
+                      <div className="p-3 bg-purple-500/20 rounded-full">
+                        <TrendingUp className="w-6 h-6 text-purple-400" />
+                      </div>
+                    </div>
+                    <div className="flex items-center mt-4">
+                      <TrendingUp className="w-4 h-4 text-green-400 mr-1" />
+                      <span className="text-sm text-green-400">+15.3%</span>
+                      <span className="text-sm text-gray-400 ml-2">from last month</span>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Avg Workouts per User */}
+                <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-400">Avg Workouts/User</p>
+                        <p className="text-2xl font-bold text-white">{statisticsData.avgWorkoutsPerUser}</p>
+                      </div>
+                      <div className="p-3 bg-orange-500/20 rounded-full">
+                        <TrendingDown className="w-6 h-6 text-orange-400" />
+                      </div>
+                    </div>
+                    <div className="flex items-center mt-4">
+                      <TrendingDown className="w-4 h-4 text-red-400 mr-1" />
+                      <span className="text-sm text-red-400">-2.1%</span>
+                      <span className="text-sm text-gray-400 ml-2">from last month</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Charts */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* User Growth Chart */}
+                <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+                  <CardHeader>
+                    <CardTitle className="text-white">User Growth</CardTitle>
+                    <CardDescription className="text-gray-400">
+                      Monthly user registration trends
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-64">
+                      <ChartLine
+                        data={{
+                          labels: statisticsData.userGrowth.map(item => item.month),
+                          datasets: [
+                            {
+                              label: 'Total Users',
+                              data: statisticsData.userGrowth.map(item => item.users),
+                              borderColor: '#00C2A8',
+                              backgroundColor: 'rgba(0, 194, 168, 0.1)',
+                              fill: true,
+                              tension: 0.4,
+                              pointBackgroundColor: '#00C2A8',
+                              pointBorderColor: '#00C2A8',
+                              pointHoverBackgroundColor: '#00a890',
+                              pointHoverBorderColor: '#00a890',
+                            }
+                          ]
+                        }}
+                        options={{
+                          responsive: true,
+                          maintainAspectRatio: false,
+                          plugins: {
+                            legend: {
+                              display: false
+                            }
+                          },
+                          scales: {
+                            x: {
+                              grid: {
+                                color: 'rgba(75, 85, 99, 0.3)'
+                              },
+                              ticks: {
+                                color: '#9CA3AF'
+                              }
+                            },
+                            y: {
+                              grid: {
+                                color: 'rgba(75, 85, 99, 0.3)'
+                              },
+                              ticks: {
+                                color: '#9CA3AF'
+                              }
+                            }
+                          }
+                        }}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Workout Trends Chart */}
+                <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+                  <CardHeader>
+                    <CardTitle className="text-white">Workout Trends</CardTitle>
+                    <CardDescription className="text-gray-400">
+                      Monthly workout completion trends
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-64">
+                      <ChartLine
+                        data={{
+                          labels: statisticsData.workoutTrends.map(item => item.month),
+                          datasets: [
+                            {
+                              label: 'Workouts Completed',
+                              data: statisticsData.workoutTrends.map(item => item.workouts),
+                              borderColor: '#8B5CF6',
+                              backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                              fill: true,
+                              tension: 0.4,
+                              pointBackgroundColor: '#8B5CF6',
+                              pointBorderColor: '#8B5CF6',
+                              pointHoverBackgroundColor: '#7C3AED',
+                              pointHoverBorderColor: '#7C3AED',
+                            }
+                          ]
+                        }}
+                        options={{
+                          responsive: true,
+                          maintainAspectRatio: false,
+                          plugins: {
+                            legend: {
+                              display: false
+                            }
+                          },
+                          scales: {
+                            x: {
+                              grid: {
+                                color: 'rgba(75, 85, 99, 0.3)'
+                              },
+                              ticks: {
+                                color: '#9CA3AF'
+                              }
+                            },
+                            y: {
+                              grid: {
+                                color: 'rgba(75, 85, 99, 0.3)'
+                              },
+                              ticks: {
+                                color: '#9CA3AF'
+                              }
+                            }
+                          }
+                        }}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Additional Statistics */}
+              <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+                <CardHeader>
+                  <CardTitle className="text-white">System Health</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Current system status and performance metrics
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-green-400 mb-2">99.9%</div>
+                      <div className="text-sm text-gray-400">Uptime</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-blue-400 mb-2">45ms</div>
+                      <div className="text-sm text-gray-400">Avg Response Time</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-purple-400 mb-2">2.1GB</div>
+                      <div className="text-sm text-gray-400">Database Size</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           {/* Advanced Tab */}
