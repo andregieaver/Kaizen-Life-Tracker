@@ -5153,17 +5153,44 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
               )}
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-white mb-2">Cover Photo</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#00C2A8] file:text-white hover:file:bg-[#00a890]"
-              />
-              {challengeData.cover_photo && (
-                <img src={challengeData.cover_photo} alt="Cover preview" className="mt-2 w-full h-32 object-cover rounded-lg" />
-              )}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">Cover Photo</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#00C2A8] file:text-white hover:file:bg-[#00a890]"
+                />
+                {challengeData.cover_photo && (
+                  <img src={challengeData.cover_photo} alt="Cover preview" className="mt-2 w-full h-32 object-cover rounded-lg" />
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">Trophy Badge (Square)</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={async (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      try {
+                        const compressed = await compressBannerImage(file);
+                        setChallengeData({ ...challengeData, trophy_image: compressed });
+                      } catch (error) {
+                        console.error('Error compressing trophy image:', error);
+                        alert('Failed to process trophy image');
+                      }
+                    }
+                  }}
+                  className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-500 file:text-white hover:file:bg-yellow-600"
+                />
+                {challengeData.trophy_image && (
+                  <img src={challengeData.trophy_image} alt="Trophy preview" className="mt-2 w-32 h-32 object-cover rounded-lg mx-auto" />
+                )}
+                <p className="text-xs text-gray-400 mt-1">Awarded to users who complete this challenge</p>
+              </div>
             </div>
 
             <div className="flex justify-end space-x-3 pt-4">
