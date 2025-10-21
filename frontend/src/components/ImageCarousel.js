@@ -137,7 +137,7 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
                     inFullscreen 
                       ? 'max-w-full max-h-full object-contain mx-auto' 
                       : 'w-full h-full object-cover'
-                  } rounded-lg`}
+                  } rounded-none sm:rounded-lg`}
                   style={{ 
                     cursor: inFullscreen ? 'default' : 'pointer'
                   }}
