@@ -2574,20 +2574,20 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
                         
                         {/* Display media (images and videos) */}
                         {post.media && post.media.length > 0 ? (
-                          <div className="mb-4 -mx-3 sm:mx-0">
+                          <div className="mb-0 -mx-3 sm:mx-0">
                             <ImageCarousel media={post.media} alt="Post media" />
                           </div>
                         ) : post.image_urls && post.image_urls.length > 0 ? (
-                          <div className="mb-4 -mx-3 sm:mx-0">
+                          <div className="mb-0 -mx-3 sm:mx-0">
                             <ImageCarousel images={post.image_urls} alt="Post images" />
                           </div>
                         ) : post.image_data ? (
-                          <img src={post.image_data} alt="Post" className="w-full rounded-none sm:rounded-lg max-h-96 object-cover mb-4 -mx-3 sm:mx-0" />
+                          <img src={post.image_data} alt="Post" className="w-full rounded-none sm:rounded-lg max-h-96 object-cover mb-0 -mx-3 sm:mx-0" />
                         ) : null}
                       </>
                     )}
                     
-                    <div className="flex items-center space-x-6 text-gray-400">
+                    <div className="flex items-center space-x-6 text-gray-400 pt-4 border-t border-gray-600 -mx-3 sm:mx-0">
                       <button
                         onClick={() => handleToggleLike(post.id)}
                         className="flex items-center space-x-2 hover:text-red-500 transition-colors"
