@@ -3397,9 +3397,9 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
       {effectiveShowNotifications && (
         <>
           {/* Mobile: Fullscreen Modal */}
-          <div className="md:hidden fixed inset-0 bg-gradient-to-br from-gray-900 to-gray-800 z-[9999] flex flex-col">
+          <div className="md:hidden fixed top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-gray-900 to-gray-800 z-[9999] flex flex-col overflow-hidden">
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-700">
+            <div className="flex items-center justify-between p-4 border-b border-gray-700 flex-shrink-0">
               <h3 className="text-white font-semibold text-lg">Notifications</h3>
               <button
                 onClick={() => effectiveSetShowNotifications(false)}
