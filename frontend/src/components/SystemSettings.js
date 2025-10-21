@@ -1435,6 +1435,79 @@ const SystemSettings = ({ athleteId }) => {
                   )}
                 </CardContent>
               </Card>
+
+              {/* Business Metrics Card */}
+              <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center">
+                    <DollarSign className="w-6 h-6 mr-2 text-[#00C2A8]" />
+                    Business Metrics
+                  </CardTitle>
+                  <CardDescription className="text-gray-400 mt-2">
+                    Revenue and conversion analytics
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {/* Monthly Revenue */}
+                    <div className="p-4 rounded-lg bg-gray-900 border border-gray-700">
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-medium text-gray-400">Monthly Revenue</p>
+                        <DollarSign className="w-5 h-5 text-green-400" />
+                      </div>
+                      <p className="text-2xl font-bold text-white">$12,450</p>
+                      <div className="flex items-center mt-2">
+                        <TrendingUp className="w-4 h-4 text-green-400 mr-1" />
+                        <span className="text-sm text-green-400">+15.3%</span>
+                        <span className="text-sm text-gray-400 ml-2">vs last month</span>
+                      </div>
+                    </div>
+
+                    {/* Conversion Rate */}
+                    <div className="p-4 rounded-lg bg-gray-900 border border-gray-700">
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-medium text-gray-400">Conversion Rate</p>
+                        <Percent className="w-5 h-5 text-blue-400" />
+                      </div>
+                      <p className="text-2xl font-bold text-white">3.2%</p>
+                      <div className="flex items-center mt-2">
+                        <TrendingUp className="w-4 h-4 text-green-400 mr-1" />
+                        <span className="text-sm text-green-400">+0.8%</span>
+                        <span className="text-sm text-gray-400 ml-2">vs last month</span>
+                      </div>
+                    </div>
+
+                    {/* Average Revenue Per User */}
+                    <div className="p-4 rounded-lg bg-gray-900 border border-gray-700">
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm font-medium text-gray-400">Avg Revenue/User</p>
+                        <Zap className="w-5 h-5 text-yellow-400" />
+                      </div>
+                      <p className="text-2xl font-bold text-white">$24.80</p>
+                      <div className="flex items-center mt-2">
+                        <TrendingDown className="w-4 h-4 text-red-400 mr-1" />
+                        <span className="text-sm text-red-400">-2.1%</span>
+                        <span className="text-sm text-gray-400 ml-2">vs last month</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Revenue Breakdown */}
+                  <div className="mt-6 p-4 rounded-lg bg-gray-900 border border-gray-700">
+                    <h4 className="text-lg font-semibold text-white mb-4">Revenue Breakdown</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-400">Pro Subscriptions</span>
+                        <span className="text-white font-semibold">$8,200 (66%)</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-400">Premium Subscriptions</span>
+                        <span className="text-white font-semibold">$4,250 (34%)</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </TabsContent>
 
