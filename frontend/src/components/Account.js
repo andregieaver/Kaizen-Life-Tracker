@@ -2440,7 +2440,7 @@ const Account = ({ athleteId }) => {
                               href={invoice.invoice_pdf || invoice.hosted_invoice_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center"
+                              className="text-[#00C2A8] hover:text-[#00a890] text-sm font-medium flex items-center"
                             >
                               Download
                               <ExternalLink className="w-3 h-3 ml-1" />
