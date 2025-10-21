@@ -1792,7 +1792,7 @@ const Account = ({ athleteId }) => {
                         value={personalForm.measurement_system || 'imperial'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, measurement_system: value}))}
                       >
-                        <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                        <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#111827' }}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
