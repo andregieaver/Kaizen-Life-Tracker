@@ -255,6 +255,8 @@ const Community = ({ athleteId }) => {
       loadMyGroups();
     } else if (activeTab === 'events' && !eventsLoaded) {
       loadEvents();
+    } else if (activeTab === 'challenges' && !challengesLoaded) {
+      loadChallenges(challengeFilter);
     }
   }, [activeTab]); // Only depend on activeTab, not the loaded flags
 
