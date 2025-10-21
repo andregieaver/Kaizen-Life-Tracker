@@ -177,6 +177,7 @@ const ChangePassword = ({ athleteId }) => {
             <Button
               type="button"
               variant="outline"
+              className="flex-1 sm:flex-none border-gray-600 text-white hover:bg-gray-700"
               onClick={() => {
                 setFormData({
                   currentPassword: '',
@@ -186,7 +187,6 @@ const ChangePassword = ({ athleteId }) => {
                 setStatus({ type: '', message: '' });
               }}
               disabled={isLoading}
-              className="flex-1 sm:flex-none"
             >
               {t('common.cancel')}
             </Button>
