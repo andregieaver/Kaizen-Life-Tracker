@@ -43,6 +43,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
     // Users can click past conversations to load them
     checkOpenAIKey();
     loadConversations(); // Load conversations list on mount
+    checkSubscription(); // Check subscription tier
   }, [athleteId]);
 
   useEffect(() => {
