@@ -2273,7 +2273,7 @@ const Account = ({ athleteId }) => {
                     </ul>
                     {subscriptionStatus.tier === 'free' ? (
                       <Button 
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
+                        className="w-full text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg" 
                         variant="default"
                         onClick={() => {
                           setUpgradeTarget('pro');
