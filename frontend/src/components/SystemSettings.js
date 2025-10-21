@@ -22,6 +22,9 @@ const SystemSettings = ({ athleteId }) => {
   });
   const [loading, setLoading] = useState(true);
   
+  // Drag state for feature reordering
+  const [draggedFeature, setDraggedFeature] = useState({ plan: null, index: null });
+  
   // SEO State
   const [seoSettings, setSeoSettings] = useState({
     siteTitle: '',
