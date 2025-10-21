@@ -2155,7 +2155,7 @@ const Account = ({ athleteId }) => {
                       <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
                       <span>Basic readiness score</span>
                     </div>
-                    <div className="flex items-center text-sm">
+                    <div className="flex items-center text-sm text-gray-300">
                       <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
                       <span>30-day history</span>
                     </div>
@@ -2163,7 +2163,7 @@ const Account = ({ athleteId }) => {
                 </div>
 
                 {subscriptionStatus.tier === 'free' ? (
-                  <Button className="w-full" onClick={() => navigate('/pricing')}>
+                  <Button className="w-full bg-[#00C2A8] hover:bg-[#00a890] text-white" onClick={() => navigate('/pricing')}>
                     <TrendingUp className="w-4 h-4 mr-2" />
                     Upgrade Your Plan
                   </Button>
