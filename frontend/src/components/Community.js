@@ -3177,7 +3177,9 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
             : 'opacity-0 translate-x-8 translate-y-8 pointer-events-none'
         }`}
         style={{
-          transform: showCreateMenu ? 'translate(15px, -145px)' : 'translate(0, 0)',
+          transform: showCreateMenu 
+            ? `translate(15px, ${scrollDirection === 'down' ? '-17px' : '-145px'})` 
+            : 'translate(0, 0)',
           transitionDelay: showCreateMenu ? '200ms' : '0ms'
         }}
         title="Create Challenge"
