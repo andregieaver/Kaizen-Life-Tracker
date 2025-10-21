@@ -22,14 +22,15 @@ const LanguageSelector = () => {
 
   return (
     <div className="space-y-2">
-      <Label className="text-sm font-medium flex items-center text-gray-700">
+      <Label className="text-sm font-medium flex items-center text-white">
         <Globe className="w-4 h-4 mr-2" />
         {t('account.language')}
       </Label>
       <select
         value={i18n.language}
         onChange={(e) => changeLanguage(e.target.value)}
-        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+        className="w-full px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00C2A8] text-white"
+        style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}
         data-testid="language-selector"
       >
         {languages.map((lang) => (
