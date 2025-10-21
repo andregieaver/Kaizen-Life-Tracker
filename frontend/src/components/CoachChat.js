@@ -27,6 +27,13 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
   const [archivedConversations, setArchivedConversations] = useState([]);
   const [showArchivedList, setShowArchivedList] = useState(false);
   const [isVoiceActive, setIsVoiceActive] = useState(false);
+  
+  // Subscription check states
+  const [subscriptionTier, setSubscriptionTier] = useState(null);
+  const [showUpgradeDialog, setShowUpgradeDialog] = useState(false);
+  const [selectedBillingCycle, setSelectedBillingCycle] = useState('monthly');
+  const [upgradeTarget, setUpgradeTarget] = useState('pro');
+  
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const voiceChatRef = useRef(null);
