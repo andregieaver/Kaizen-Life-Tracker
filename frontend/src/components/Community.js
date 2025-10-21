@@ -1576,6 +1576,10 @@ const Community = ({ athleteId }) => {
   };
 
   const handleCreateChallenge = async () => {
+    console.log('🔍 DEBUG: handleCreateChallenge called');
+    console.log('🔍 DEBUG: athleteId:', athleteId);
+    console.log('🔍 DEBUG: newChallengeData:', JSON.stringify(newChallengeData, null, 2));
+    
     if (!newChallengeData.title.trim()) {
       alert('Challenge title is required');
       return;
@@ -1589,8 +1593,12 @@ const Community = ({ athleteId }) => {
       return;
     }
 
+    console.log('🔍 DEBUG: Validation passed, sending request to:', `${API}/community/challenges?athlete_id=${athleteId}`);
+    console.log('🔍 DEBUG: Request payload:', newChallengeData);
+
     try {
-      await axios.post(`${API}/community/challenges?athlete_id=${athleteId}`, newChallengeData);
+      const response = await axios.post(`${API}/community/challenges?athlete_id=${athleteId}`, newChallengeData);
+      console.log('✅ DEBUG: Challenge created successfully:', response.data);
       setShowCreateChallenge(false);
       setNewChallengeData({
         title: '', description: '', challenge_type: 'distance', goal_value: '', goal_unit: 'km',
@@ -1600,8 +1608,11 @@ const Community = ({ athleteId }) => {
       setChallengesLoaded(false);
       loadChallenges(challengeFilter);
     } catch (error) {
-      console.error('Error creating challenge:', error);
-      alert('Failed to create challenge');
+      console.error('❌ DEBUG: Error creating challenge:', error);
+      console.error('❌ DEBUG: Error response:', error.response?.data);
+      console.error('❌ DEBUG: Error status:', error.response?.status);
+      console.error('❌ DEBUG: Error headers:', error.response?.headers);
+      alert(`Failed to create challenge: ${error.response?.data?.detail || error.message}`);
     }
   };
 
