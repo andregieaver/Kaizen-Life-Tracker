@@ -1174,12 +1174,14 @@ const SystemSettings = ({ athleteId }) => {
                   ) : (
                     <div className="space-y-6">
                       {/* Filter Controls */}
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-gray-700">
+                      <div className="flex flex-col gap-4 pb-4 border-b border-gray-700">
                         {/* Period Selector */}
-                        <div className="flex items-center gap-2">
-                          <Calendar className="w-5 h-5 text-gray-400" />
-                          <Label className="text-sm font-medium text-white mr-2">Period:</Label>
-                          <div className="flex gap-2">
+                        <div className="flex flex-col gap-2">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-5 h-5 text-gray-400" />
+                            <Label className="text-sm font-medium text-white">Period:</Label>
+                          </div>
+                          <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-2">
                             {[
                               { value: '7d', label: '7 Days' },
                               { value: '30d', label: '30 Days' },
@@ -1192,7 +1194,7 @@ const SystemSettings = ({ athleteId }) => {
                                 onClick={() => handlePeriodChange(period.value)}
                                 variant="outline"
                                 size="sm"
-                                className={`${
+                                className={`text-xs sm:text-sm ${
                                   selectedPeriod === period.value
                                     ? 'bg-[#00C2A8] text-white border-[#00C2A8] hover:bg-[#00a890]'
                                     : 'border-gray-600 text-gray-300 hover:bg-gray-700'
@@ -1205,14 +1207,16 @@ const SystemSettings = ({ athleteId }) => {
                         </div>
 
                         {/* Compare Toggle */}
-                        <div className="flex items-center gap-2">
-                          <ArrowLeftRight className="w-5 h-5 text-gray-400" />
-                          <Label className="text-sm font-medium text-white mr-2">Compare:</Label>
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                          <div className="flex items-center gap-2">
+                            <ArrowLeftRight className="w-5 h-5 text-gray-400" />
+                            <Label className="text-sm font-medium text-white">Compare:</Label>
+                          </div>
                           <Button
                             onClick={handleCompareToggle}
                             variant="outline"
                             size="sm"
-                            className={`${
+                            className={`w-full sm:w-auto ${
                               compareEnabled
                                 ? 'bg-purple-600 text-white border-purple-600 hover:bg-purple-700'
                                 : 'border-gray-600 text-gray-300 hover:bg-gray-700'
