@@ -7529,14 +7529,9 @@ async def upload_video(
             max_duration=120  # 2 minutes
         )
         
-        # Generate URLs
-        base_url = str(request.base_url).rstrip('/')
-        # Force HTTPS for production
-        if 'preview.emergentagent.com' in base_url or 'emergentagent.com' in base_url:
-            base_url = base_url.replace('http://', 'https://')
-        
-        video_url = f"{base_url}/api/uploads/images/{video_filename}"
-        thumbnail_url = f"{base_url}/api/uploads/images/{thumbnail_filename}"
+        # Generate relative URLs with /api prefix
+        video_url = f"/api/uploads/images/{video_filename}"
+        thumbnail_url = f"/api/uploads/images/{thumbnail_filename}"
         
         logging.info(f"Processed video: {video_filename}, thumbnail: {thumbnail_filename}")
         
