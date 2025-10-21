@@ -8473,7 +8473,7 @@ async def edit_challenge(challenge_id: str, updates: dict, athlete_id: str = Que
         
         # Update challenge
         update_fields = {}
-        allowed_fields = ["title", "description", "cover_photo", "end_date", "visibility", "goal_value"]
+        allowed_fields = ["title", "description", "cover_photo", "trophy_image", "end_date", "visibility", "goal_value"]
         for field in allowed_fields:
             if field in updates:
                 update_fields[field] = updates[field]
