@@ -7086,10 +7086,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount static files for uploaded images
+# Mount static files for uploaded images - MUST be before including the router
 UPLOAD_DIR = Path("/app/backend/uploads/images")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
-app.mount("/uploads", StaticFiles(directory="/app/backend/uploads"), name="uploads")
+
+# Mount static files on the API router path so ingress can reach it
+app.mount("/api/uploads", StaticFiles(directory="/app/backend/uploads"), name="uploads")
 
 # Configure logging
 logging.basicConfig(
