@@ -8595,24 +8595,32 @@ async def join_challenge(challenge_id: str, athlete_id: str = Query(...)):
 async def leave_challenge(challenge_id: str, athlete_id: str = Query(...)):
     """Leave a challenge"""
     try:
+        print(f"🔍 DEBUG: leave_challenge called - challenge_id: {challenge_id}, athlete_id: {athlete_id}", flush=True)
+        
         # Check if participant exists
         participation = await db.community_challenge_participants.find_one(
             {"challenge_id": challenge_id, "athlete_id": athlete_id}
         )
         if not participation:
+            print(f"❌ DEBUG: Not participating in this challenge", flush=True)
             raise HTTPException(status_code=404, detail="Not participating in this challenge")
+        
+        print(f"✅ DEBUG: Participation found, proceeding with leave", flush=True)
         
         # Delete participation
         await db.community_challenge_participants.delete_one(
             {"challenge_id": challenge_id, "athlete_id": athlete_id}
         )
+        print(f"✅ DEBUG: Participation record deleted", flush=True)
         
         # Decrement participants count
         await db.community_challenges.update_one(
             {"id": challenge_id},
             {"$inc": {"participants_count": -1}}
         )
+        print(f"✅ DEBUG: Participants count decremented", flush=True)
         
+        print(f"✅ DEBUG: Successfully left challenge!", flush=True)
         return {"message": "Left challenge successfully"}
     except HTTPException:
         raise
