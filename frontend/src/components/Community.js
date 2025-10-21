@@ -1951,27 +1951,12 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
           >
             <Trophy className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
-        </div>
-
-        {/* Search Action - Mobile Only, full width */}
-        <div className="sm:hidden">
           <button
             onClick={handleOpenAthletes}
-            className="w-full p-2 bg-gray-700 hover:bg-gray-600 rounded-none transition-colors flex items-center justify-center"
-            aria-label="Find Athletes"
+            className="flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white"
+            title="Find Athletes"
           >
-            <Search className="w-6 h-6 text-white" />
-          </button>
-        </div>
-
-        {/* Desktop Actions - Right aligned */}
-        <div className="hidden sm:flex items-center justify-end space-x-3">
-          <button
-            onClick={handleOpenAthletes}
-            className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
-            aria-label="Find Athletes"
-          >
-            <Search className="w-6 h-6 text-white" />
+            <Search className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
         </div>
       </div>
