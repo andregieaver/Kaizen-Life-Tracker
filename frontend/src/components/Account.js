@@ -1853,12 +1853,12 @@ const Account = ({ athleteId }) => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label>Week Starts On</Label>
+                      <Label className="text-sm font-medium text-white">Week Starts On</Label>
                       <Select
                         value={personalForm.week_starts_on || 'monday'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, week_starts_on: value}))}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -1869,12 +1869,12 @@ const Account = ({ athleteId }) => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label>Time Format</Label>
+                      <Label className="text-sm font-medium text-white">Time Format</Label>
                       <Select
                         value={personalForm.time_format || '12h'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, time_format: value}))}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -1886,12 +1886,12 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Date Format</Label>
+                    <Label className="text-sm font-medium text-white">Date Format</Label>
                     <Select
                       value={personalForm.date_format || 'MM/DD/YYYY'}
                       onValueChange={(value) => setPersonalForm(prev => ({...prev, date_format: value}))}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1906,12 +1906,12 @@ const Account = ({ athleteId }) => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label>Weight Unit</Label>
+                      <Label className="text-sm font-medium text-white">Weight Unit</Label>
                       <Select
                         value={personalForm.weight_unit || 'lbs'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, weight_unit: value}))}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
