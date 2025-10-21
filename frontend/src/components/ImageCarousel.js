@@ -42,24 +42,30 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
   const nextImage = () => {
     if (!isTransitioning) {
       setIsTransitioning(true);
-      setCurrentIndex((prev) => (prev + 1) % images.length);
-      setTimeout(() => setIsTransitioning(false), 300);
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+        setTimeout(() => setIsTransitioning(false), 50);
+      }, 300);
     }
   };
 
   const prevImage = () => {
     if (!isTransitioning) {
       setIsTransitioning(true);
-      setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-      setTimeout(() => setIsTransitioning(false), 300);
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+        setTimeout(() => setIsTransitioning(false), 50);
+      }, 300);
     }
   };
 
   const goToImage = (index) => {
     if (!isTransitioning) {
       setIsTransitioning(true);
-      setCurrentIndex(index);
-      setTimeout(() => setIsTransitioning(false), 300);
+      setTimeout(() => {
+        setCurrentIndex(index);
+        setTimeout(() => setIsTransitioning(false), 50);
+      }, 300);
     }
   };
 
