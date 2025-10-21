@@ -1917,6 +1917,184 @@ const SystemSettings = ({ athleteId }) => {
                   </p>
                 </div>
 
+                {/* Stripe Configuration */}
+                <div className="space-y-4 pt-6 border-t border-gray-700">
+                  <div>
+                    <Label className="text-sm font-medium text-white">
+                      Stripe Configuration
+                    </Label>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Configure Stripe API keys and webhooks for payment processing
+                    </p>
+                  </div>
+
+                  {/* Live Mode */}
+                  <div className="space-y-3 p-4 bg-gray-900 rounded-lg border border-gray-700">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                      <Label className="text-sm font-semibold text-white">
+                        Live Mode
+                      </Label>
+                    </div>
+
+                    {/* Live API Key */}
+                    <div className="space-y-2">
+                      <Label className="text-xs font-medium text-gray-300">
+                        API Secret Key
+                      </Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type={advancedSettings.showStripeLiveKey ? 'text' : 'password'}
+                          value={advancedSettings.stripe.live.apiKey}
+                          onChange={(e) => setAdvancedSettings(prev => ({
+                            ...prev,
+                            stripe: {
+                              ...prev.stripe,
+                              live: {
+                                ...prev.stripe.live,
+                                apiKey: e.target.value
+                              }
+                            }
+                          }))}
+                          placeholder="sk_live_..."
+                          className="flex-1 bg-gray-800 border-gray-600 text-white placeholder:text-gray-500 text-sm"
+                        />
+                        <Button
+                          type="button"
+                          onClick={() => setAdvancedSettings(prev => ({
+                            ...prev,
+                            showStripeLiveKey: !prev.showStripeLiveKey
+                          }))}
+                          className="bg-gray-700 hover:bg-gray-600 text-white text-xs px-3"
+                        >
+                          {advancedSettings.showStripeLiveKey ? 'Hide' : 'Show'}
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Live Webhook Secret */}
+                    <div className="space-y-2">
+                      <Label className="text-xs font-medium text-gray-300">
+                        Webhook Signing Secret
+                      </Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type={advancedSettings.showStripeLiveWebhook ? 'text' : 'password'}
+                          value={advancedSettings.stripe.live.webhookSecret}
+                          onChange={(e) => setAdvancedSettings(prev => ({
+                            ...prev,
+                            stripe: {
+                              ...prev.stripe,
+                              live: {
+                                ...prev.stripe.live,
+                                webhookSecret: e.target.value
+                              }
+                            }
+                          }))}
+                          placeholder="whsec_..."
+                          className="flex-1 bg-gray-800 border-gray-600 text-white placeholder:text-gray-500 text-sm"
+                        />
+                        <Button
+                          type="button"
+                          onClick={() => setAdvancedSettings(prev => ({
+                            ...prev,
+                            showStripeLiveWebhook: !prev.showStripeLiveWebhook
+                          }))}
+                          className="bg-gray-700 hover:bg-gray-600 text-white text-xs px-3"
+                        >
+                          {advancedSettings.showStripeLiveWebhook ? 'Hide' : 'Show'}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Test/Sandbox Mode */}
+                  <div className="space-y-3 p-4 bg-gray-900 rounded-lg border border-gray-700">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                      <Label className="text-sm font-semibold text-white">
+                        Test Mode (Sandbox)
+                      </Label>
+                    </div>
+
+                    {/* Sandbox API Key */}
+                    <div className="space-y-2">
+                      <Label className="text-xs font-medium text-gray-300">
+                        API Secret Key
+                      </Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type={advancedSettings.showStripeSandboxKey ? 'text' : 'password'}
+                          value={advancedSettings.stripe.sandbox.apiKey}
+                          onChange={(e) => setAdvancedSettings(prev => ({
+                            ...prev,
+                            stripe: {
+                              ...prev.stripe,
+                              sandbox: {
+                                ...prev.stripe.sandbox,
+                                apiKey: e.target.value
+                              }
+                            }
+                          }))}
+                          placeholder="sk_test_..."
+                          className="flex-1 bg-gray-800 border-gray-600 text-white placeholder:text-gray-500 text-sm"
+                        />
+                        <Button
+                          type="button"
+                          onClick={() => setAdvancedSettings(prev => ({
+                            ...prev,
+                            showStripeSandboxKey: !prev.showStripeSandboxKey
+                          }))}
+                          className="bg-gray-700 hover:bg-gray-600 text-white text-xs px-3"
+                        >
+                          {advancedSettings.showStripeSandboxKey ? 'Hide' : 'Show'}
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Sandbox Webhook Secret */}
+                    <div className="space-y-2">
+                      <Label className="text-xs font-medium text-gray-300">
+                        Webhook Signing Secret
+                      </Label>
+                      <div className="flex gap-2">
+                        <Input
+                          type={advancedSettings.showStripeSandboxWebhook ? 'text' : 'password'}
+                          value={advancedSettings.stripe.sandbox.webhookSecret}
+                          onChange={(e) => setAdvancedSettings(prev => ({
+                            ...prev,
+                            stripe: {
+                              ...prev.stripe,
+                              sandbox: {
+                                ...prev.stripe.sandbox,
+                                webhookSecret: e.target.value
+                              }
+                            }
+                          }))}
+                          placeholder="whsec_..."
+                          className="flex-1 bg-gray-800 border-gray-600 text-white placeholder:text-gray-500 text-sm"
+                        />
+                        <Button
+                          type="button"
+                          onClick={() => setAdvancedSettings(prev => ({
+                            ...prev,
+                            showStripeSandboxWebhook: !prev.showStripeSandboxWebhook
+                          }))}
+                          className="bg-gray-700 hover:bg-gray-600 text-white text-xs px-3"
+                        >
+                          {advancedSettings.showStripeSandboxWebhook ? 'Hide' : 'Show'}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-gray-400">
+                    Get your Stripe API keys from <a href="https://dashboard.stripe.com/apikeys" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">Stripe Dashboard → Developers → API keys</a>
+                    <br />
+                    Configure webhooks at <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">Stripe Dashboard → Developers → Webhooks</a>
+                  </p>
+                </div>
+
                 {/* Save Button */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-700">
                   <div>
