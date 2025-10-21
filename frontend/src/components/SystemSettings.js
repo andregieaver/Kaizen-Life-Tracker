@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Settings, Upload, Save, ChevronDown, ChevronUp } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Settings, Upload, Save, ChevronDown, ChevronUp, User } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 import { Button } from './ui/button';
@@ -11,7 +12,14 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const SystemSettings = ({ athleteId }) => {
-  const [activeTab, setActiveTab] = useState('seo');
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Initialize active tab from URL hash or default to 'seo'
+  const [activeTab, setActiveTab] = useState(() => {
+    const hash = location.hash.replace('#', '');
+    return ['seo', 'modules', 'plan-editor', 'statistics'].includes(hash) ? hash : 'seo';
+  });
   const [loading, setLoading] = useState(true);
   
   // SEO State
