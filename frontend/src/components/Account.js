@@ -1935,7 +1935,7 @@ const Account = ({ athleteId }) => {
                         value={personalForm.fluid_unit || 'fl oz'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, fluid_unit: value}))}
                       >
-                        <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#111827' }}>
+                        <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
