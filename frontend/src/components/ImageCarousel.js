@@ -18,7 +18,11 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
   
   // Support both old images prop and new media prop, normalizing URLs
   const mediaItems = media.length > 0 
-    ? media.map(item => ({ ...item, url: normalizeUrl(item.url) }))
+    ? media.map(item => ({ 
+        ...item, 
+        url: normalizeUrl(item.url),
+        thumbnail: item.thumbnail ? normalizeUrl(item.thumbnail) : undefined
+      }))
     : images.map(url => ({ type: 'image', url: normalizeUrl(url) }));
   
   // Debug logging
