@@ -1013,62 +1013,6 @@ const Account = ({ athleteId }) => {
     }
   };
 
-  const handleSaveApiKey = async (e) => {
-    e.preventDefault();
-    
-    if (!apiKeyForm.openai_api_key.trim()) {
-      setSaveStatus({ type: 'error', message: 'Please enter an API key' });
-      return;
-    }
-    
-    try {
-      await axios.post(`${API}/integrations/openai/${athleteId}`, { 
-        api_key: apiKeyForm.openai_api_key 
-      });
-      
-      // Update UI to show masked key
-      setIntegrations(prev => ({
-        ...prev,
-        openai_api_key: '••••••••••••' + apiKeyForm.openai_api_key.slice(-8)
-      }));
-      
-      setApiKeyForm({ openai_api_key: '' });
-      setSaveStatus({ type: 'success', message: 'OpenAI API key saved successfully!' });
-      setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
-    } catch (error) {
-      console.error('Error saving API key:', error);
-      setSaveStatus({ 
-        type: 'error', 
-        message: error.response?.data?.detail || 'Failed to save API key' 
-      });
-    }
-  };
-
-  const handleDisconnectOpenAI = async () => {
-    if (!window.confirm('Are you sure you want to disconnect your OpenAI API key? Voice chat and AI features will stop working.')) {
-      return;
-    }
-
-    try {
-      await axios.delete(`${API}/integrations/${athleteId}/openai`);
-      
-      // Update UI to show disconnected state
-      setIntegrations(prev => ({
-        ...prev,
-        openai_api_key: ''
-      }));
-      
-      setApiKeyForm({ openai_api_key: '' });
-      setSaveStatus({ type: 'success', message: 'OpenAI API key disconnected successfully!' });
-      setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
-    } catch (error) {
-      console.error('Error disconnecting OpenAI API key:', error);
-      setSaveStatus({ 
-        type: 'error', 
-        message: error.response?.data?.detail || 'Failed to disconnect API key' 
-      });
-    }
-  };
 
   // Simple integration handlers using provider connector infrastructure
   const handleSimpleConnect = async (providerKey) => {
