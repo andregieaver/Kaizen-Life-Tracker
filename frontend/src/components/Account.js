@@ -3024,7 +3024,7 @@ const Account = ({ athleteId }) => {
               <Button 
                 onClick={handleLogout}
                 variant="outline"
-                className="border-red-300 text-red-600 hover:bg-red-50 hover:border-red-400 btn-transition w-full md:w-auto"
+                className="border-red-600 text-white hover:bg-red-600/10 hover:border-red-500 btn-transition w-full md:w-auto bg-gradient-to-r from-red-500 to-red-600"
                 data-testid="logout-btn"
               >
                 <LogOut className="w-4 h-4 mr-2" />
