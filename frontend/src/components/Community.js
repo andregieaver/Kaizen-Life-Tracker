@@ -1894,6 +1894,96 @@ const Community = ({ athleteId }) => {
                             rows="3"
                           />
                           
+                          {/* Edit Media Preview with Drag-and-Drop */}
+                          {editMedia.length > 0 && (
+                            <div>
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="text-white text-sm font-semibold">
+                                  Media ({editMedia.length}/5)
+                                </span>
+                                {isUploadingEditMedia && (
+                                  <span className="text-[#00C2A8] text-sm flex items-center gap-2">
+                                    <RefreshCw className="w-4 h-4 animate-spin" />
+                                    Uploading...
+                                  </span>
+                                )}
+                              </div>
+                              
+                              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                {editMedia.map((item, index) => (
+                                  <div
+                                    key={item.id}
+                                    draggable
+                                    onDragStart={(e) => handleDragStart(e, index)}
+                                    onDragOver={handleDragOver}
+                                    onDrop={(e) => {
+                                      e.preventDefault();
+                                      if (draggedIndex === null || draggedIndex === index) return;
+                                      const items = Array.from(editMedia);
+                                      const [draggedItem] = items.splice(draggedIndex, 1);
+                                      items.splice(index, 0, draggedItem);
+                                      setEditMedia(items);
+                                      setDraggedIndex(null);
+                                    }}
+                                    onDragEnd={handleDragEnd}
+                                    className={`relative aspect-square cursor-move ${draggedIndex === index ? 'opacity-50' : ''}`}
+                                  >
+                                    <div className="absolute top-1 left-1 p-1 bg-black/70 rounded-full z-10">
+                                      <GripVertical className="w-4 h-4 text-white" />
+                                    </div>
+
+                                    {item.type === 'video' ? (
+                                      <div className="relative w-full h-full">
+                                        <video src={item.preview} className="w-full h-full object-cover rounded-lg" muted />
+                                        <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-lg">
+                                          <Video className="w-8 h-8 text-white" />
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <img src={item.preview} alt={`Preview ${index + 1}`} className="w-full h-full object-cover rounded-lg" />
+                                    )}
+
+                                    <button
+                                      onClick={() => handleRemoveEditMedia(index)}
+                                      disabled={isUploadingEditMedia || item.uploading}
+                                      className="absolute top-1 right-1 p-1.5 bg-black/70 hover:bg-black/90 rounded-full transition-colors disabled:opacity-50 z-10"
+                                    >
+                                      <X className="w-4 h-4 text-white" />
+                                    </button>
+
+                                    {item.uploading && (
+                                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg">
+                                        <RefreshCw className="w-6 h-6 text-white animate-spin" />
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Add Media Button */}
+                          {editMedia.length < 5 && (
+                            <div>
+                              <input
+                                type="file"
+                                accept="image/*,video/*"
+                                multiple
+                                onChange={handleEditMediaSelect}
+                                className="hidden"
+                                id={`edit-media-${post.id}`}
+                                disabled={isUploadingEditMedia || editMedia.length >= 5}
+                              />
+                              <label
+                                htmlFor={`edit-media-${post.id}`}
+                                className="inline-flex items-center space-x-2 px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg cursor-pointer transition-colors text-white text-sm"
+                              >
+                                <Camera className="w-4 h-4" />
+                                <span>Add Media</span>
+                              </label>
+                            </div>
+                          )}
+                          
                           {/* Visibility Toggle in Edit Mode */}
                           <div className="flex items-center space-x-4 p-3 bg-gray-700 rounded-lg">
                             <span className="text-white text-sm font-semibold">Visibility:</span>
