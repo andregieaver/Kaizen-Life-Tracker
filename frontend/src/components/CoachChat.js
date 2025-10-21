@@ -671,16 +671,14 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       </div>
 
       {/* Hidden Voice Chat Component - Mounted but not visible */}
-      {hasOpenAIKey && (
-        <div style={{ display: 'none' }}>
-          <VoiceChat 
-            ref={voiceChatRef}
-            backendUrl={BACKEND_URL}
-            athleteId={athleteId}
-            onError={(error) => console.error('Voice chat error:', error)}
-          />
-        </div>
-      )}
+      <div style={{ display: 'none' }}>
+        <VoiceChat 
+          ref={voiceChatRef}
+          backendUrl={BACKEND_URL}
+          athleteId={athleteId}
+          onError={(error) => console.error('Voice chat error:', error)}
+        />
+      </div>
 
       {/* Voice Mode Overlay - Full Screen */}
       {isVoiceActive && (
