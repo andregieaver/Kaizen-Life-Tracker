@@ -86,7 +86,7 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Main Image */}
+      {/* Main Media */}
       <div className={`${inFullscreen ? 'max-w-[90vw] max-h-[90vh]' : 'w-full aspect-video'} overflow-hidden relative`}>
         <div 
           key={currentIndex}
@@ -95,32 +95,49 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
             transform: `translateX(-${currentIndex * 100}%)`,
           }}
         >
-          {images.map((image, index) => (
+          {mediaItems.map((item, index) => (
             <div
-              key={`img-${index}`}
+              key={`media-${index}`}
               className="w-full h-full flex-shrink-0"
               style={{ minWidth: '100%' }}
             >
-              <img
-                src={image}
-                alt={`${alt} ${index + 1}`}
-                className={`${
-                  inFullscreen 
-                    ? 'max-w-full max-h-full object-contain mx-auto' 
-                    : 'w-full h-full object-cover'
-                } rounded-lg`}
-                style={{ 
-                  cursor: inFullscreen ? 'default' : 'pointer'
-                }}
-                onClick={() => !inFullscreen && setIsFullscreen(true)}
-              />
+              {item.type === 'video' ? (
+                <div className="relative w-full h-full">
+                  <video
+                    src={item.url}
+                    poster={item.thumbnail}
+                    className={`${
+                      inFullscreen 
+                        ? 'max-w-full max-h-full object-contain mx-auto' 
+                        : 'w-full h-full object-cover'
+                    } rounded-lg`}
+                    controls
+                    playsInline
+                    preload="metadata"
+                  />
+                </div>
+              ) : (
+                <img
+                  src={item.url}
+                  alt={`${alt} ${index + 1}`}
+                  className={`${
+                    inFullscreen 
+                      ? 'max-w-full max-h-full object-contain mx-auto' 
+                      : 'w-full h-full object-cover'
+                  } rounded-lg`}
+                  style={{ 
+                    cursor: inFullscreen ? 'default' : 'pointer'
+                  }}
+                  onClick={() => !inFullscreen && setIsFullscreen(true)}
+                />
+              )}
             </div>
           ))}
         </div>
       </div>
 
-      {/* Navigation Arrows - Only show if more than 1 image */}
-      {images.length > 1 && (
+      {/* Navigation Arrows - Only show if more than 1 item */}
+      {mediaItems.length > 1 && (
         <>
           <button
             onClick={(e) => {
