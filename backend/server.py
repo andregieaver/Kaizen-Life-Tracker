@@ -2044,13 +2044,13 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
 """
         
         try:
-            # Check if user has their own OpenAI API key
-            user_openai_key = await self.get_user_openai_key(athlete_id)
+            # Check for OpenAI API key (personal or global)
+            openai_key = await self.get_openai_key(athlete_id)
             
-            if not user_openai_key:
+            if not openai_key:
                 print(f"❌ ERROR: No OpenAI API key found for athlete {athlete_id}")
                 logging.error(f"No OpenAI API key found for athlete {athlete_id}")
-                return "I need an OpenAI API key to function properly. Please add your OpenAI API key in Account Settings → Apps → OpenAI API Key to enable all features including calendar management, web search, and training plan creation."
+                return "I need an OpenAI API key to function properly. Please ask your administrator to add a global OpenAI API key in System Settings → Advanced tab to enable all features including calendar management, web search, and training plan creation."
             
             # Use user's personal OpenAI API key with function calling
             import openai
