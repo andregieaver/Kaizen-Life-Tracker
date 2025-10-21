@@ -2029,10 +2029,9 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
                 ))
               )}
             </div>
-          )}
           </div>
         </div>
-      </div>
+      )}
 
       {/* Feed Tab */}
       {activeTab === 'feed' && !selectedGroup && (
