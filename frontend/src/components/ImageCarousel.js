@@ -6,21 +6,11 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Debug logging
-  console.log('🎠 ImageCarousel rendered with:', { 
-    imageCount: images?.length, 
-    images: images,
-    firstImage: images?.[0]
-  });
-
-  // Early return with debug info if no images
+  // Early return with no message if no images
   if (!images || images.length === 0) {
-    return (
-      <div className="p-4 bg-red-900/30 rounded text-red-200 text-sm">
-        ⚠️ ImageCarousel: No images provided
-      </div>
-    );
+    return null;
   }
 
   // Handle keyboard navigation
