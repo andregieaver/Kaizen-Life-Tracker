@@ -711,11 +711,20 @@ const Community = ({ athleteId }) => {
     if (!writePostContent.trim()) return;
 
     try {
+      // Build media array from selectedMedia
+      const media = selectedMedia.map(item => ({
+        type: item.type,
+        url: item.url,
+        thumbnail: item.thumbnail
+      }));
+
       const postData = {
         content: writePostContent,
         image_data: writePostImage,
         visibility: writePostVisibility,
-        image_urls: uploadedImageUrls.length > 0 ? uploadedImageUrls : []
+        media: media.length > 0 ? media : [],
+        // Keep image_urls for backward compatibility
+        image_urls: selectedMedia.filter(m => m.type === 'image').map(m => m.url)
       };
 
       const response = await axios.post(`${API}/community/posts?athlete_id=${athleteId}`, postData);
@@ -726,9 +735,8 @@ const Community = ({ athleteId }) => {
       setWritePostImagePreview(null);
       setWritePostVisibility('public');
       setShowWritePostModal(false);
-      // Clear multi-image state
-      setSelectedImages([]);
-      setUploadedImageUrls([]);
+      // Clear media state
+      setSelectedMedia([]);
       
       // Reload appropriate feed
       if (activeTab === 'feed') {
