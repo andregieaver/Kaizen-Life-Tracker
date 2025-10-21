@@ -1794,11 +1794,19 @@ const Community = ({ athleteId }) => {
                           {/* Display images */}
                           {post.image_urls && post.image_urls.length > 0 ? (
                             <div className="mb-4">
+                              {/* Debug info */}
+                              <div className="mb-2 p-2 bg-blue-900/50 rounded text-xs text-blue-200">
+                                🎠 ImageCarousel called with {post.image_urls.length} image(s)
+                              </div>
                               <ImageCarousel images={post.image_urls} alt="Post images" />
                             </div>
                           ) : post.image_data ? (
                             <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-96 object-cover mb-4" />
-                          ) : null}
+                          ) : (
+                            <div className="mb-2 p-2 bg-red-900/50 rounded text-xs text-red-200">
+                              ⚠️ No images found (image_urls: {JSON.stringify(post.image_urls)}, image_data: {post.image_data ? 'present' : 'null'})
+                            </div>
+                          )}
                         </>
                       )}
 
