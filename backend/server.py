@@ -9830,6 +9830,8 @@ async def get_subscriber_stats(athlete_id: str):
             {"_id": 0, "created_at": 1, "subscription_tier": 1}
         ).to_list(length=None)
         
+        logging.info(f"Found {len(athletes)} athletes in database")
+        
         # Get current counts by tier
         tier_counts = {
             "free": 0,
@@ -9840,6 +9842,8 @@ async def get_subscriber_stats(athlete_id: str):
         for athlete in athletes:
             tier = athlete.get("subscription_tier", "free")
             tier_counts[tier] = tier_counts.get(tier, 0) + 1
+        
+        logging.info(f"Tier counts: {tier_counts}")
         
         total_subscribers = sum(tier_counts.values())
         paid_subscribers = tier_counts.get("pro", 0) + tier_counts.get("premium", 0)
