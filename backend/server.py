@@ -1042,7 +1042,8 @@ class CommunityPost(BaseModel):
     athlete_name: str  # Cached for display
     athlete_profile_picture: Optional[str] = None  # Cached for display
     content: str  # Post text content
-    image_urls: Optional[List[str]] = []  # Array of image URLs (max 5)
+    image_urls: Optional[List[str]] = []  # Array of image URLs (max 5) - DEPRECATED, use media
+    media: Optional[List[dict]] = []  # Array of media items: [{"type": "image/video", "url": "...", "thumbnail": "..."}]
     visibility: str = "public"  # "public" or "private" (private = following feed only)
     likes_count: int = 0
     comments_count: int = 0
