@@ -13,7 +13,9 @@ import {
   TrendingDown,
   Users,
   Eye,
-  EyeOff
+  EyeOff,
+  Calendar,
+  ArrowLeftRight
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
