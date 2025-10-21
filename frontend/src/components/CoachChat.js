@@ -73,6 +73,39 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Check subscription tier
+  const checkSubscription = async () => {
+    try {
+      const response = await axios.get(`${API}/subscription/status?athlete_id=${athleteId}`);
+      setSubscriptionTier(response.data.tier);
+      
+      // If free tier, show upgrade dialog immediately
+      if (response.data.tier === 'free') {
+        setShowUpgradeDialog(true);
+      }
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+    }
+  };
+
+  // Handle upgrade to paid plan
+  const handleUpgrade = async () => {
+    try {
+      const response = await axios.post(`${API}/create-checkout-session`, {
+        athlete_id: athleteId,
+        plan: upgradeTarget,
+        billing_cycle: selectedBillingCycle
+      });
+      
+      if (response.data.url) {
+        window.location.href = response.data.url;
+      }
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+      alert('Failed to start checkout. Please try again.');
+    }
+  };
+
   const loadChatHistory = async () => {
     try {
       const response = await axios.get(`${API}/coach/history/${athleteId}`);
