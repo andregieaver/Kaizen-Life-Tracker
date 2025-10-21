@@ -12,7 +12,7 @@ import ImageCarousel from './ImageCarousel';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-const Community = ({ athleteId }) => {
+const Community = ({ athleteId, showNotifications: externalShowNotifications, setShowNotifications: externalSetShowNotifications, setCommunityUnreadCount: externalSetCommunityUnreadCount }) => {
   // Initialize activeTab from localStorage or default to 'feed'
   const [activeTab, setActiveTab] = useState(() => {
     const savedTab = localStorage.getItem('communityActiveTab');
