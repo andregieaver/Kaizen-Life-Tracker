@@ -14,6 +14,15 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
     firstImage: images?.[0]
   });
 
+  // Early return with debug info if no images
+  if (!images || images.length === 0) {
+    return (
+      <div className="p-4 bg-red-900/30 rounded text-red-200 text-sm">
+        ⚠️ ImageCarousel: No images provided
+      </div>
+    );
+  }
+
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e) => {
