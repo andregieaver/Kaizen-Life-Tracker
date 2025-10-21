@@ -3443,15 +3443,8 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                       <p className="text-white whitespace-pre-wrap mb-3">{formatMentions(post.content)}</p>
                       
                       {/* Display images - support both image_urls and image_data */}
-                      <div className="mb-3 bg-blue-900/20 border border-blue-700/50 p-2 rounded text-xs text-blue-200">
-                        DEBUG: image_urls={post.image_urls ? `[${post.image_urls.length}]` : 'null'}, 
-                        image_data={post.image_data ? 'present' : 'null'}
-                      </div>
                       {post.image_urls && post.image_urls.length > 0 ? (
                         <div className="mb-3">
-                          <div className="bg-green-900/20 p-2 text-green-200 text-xs mb-2">
-                            Rendering ImageCarousel with {post.image_urls.length} images
-                          </div>
                           <ImageCarousel images={post.image_urls} alt="Post images" />
                         </div>
                       ) : post.image_data ? (
@@ -3460,9 +3453,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                           alt="Post" 
                           className="w-full rounded-lg max-h-96 object-cover mb-3" 
                         />
-                      ) : (
-                        <div className="mb-3 text-gray-400 text-xs">No images to display</div>
-                      )}
+                      ) : null}
 
                       {/* Post Actions */}
                       <div className="flex items-center space-x-6 text-gray-400">
