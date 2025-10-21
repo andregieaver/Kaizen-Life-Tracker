@@ -342,6 +342,12 @@ const SystemSettings = ({ athleteId }) => {
   const handleFeatureDragStart = (e, planType, index) => {
     setDraggedFeature({ plan: planType, index });
     e.dataTransfer.effectAllowed = 'move';
+    // Set drag image to prevent default ghost image horizontal movement
+    const dragImg = e.target.cloneNode(true);
+    dragImg.style.opacity = '0';
+    document.body.appendChild(dragImg);
+    e.dataTransfer.setDragImage(dragImg, 0, 0);
+    setTimeout(() => document.body.removeChild(dragImg), 0);
   };
 
   const handleFeatureDragOver = (e) => {
