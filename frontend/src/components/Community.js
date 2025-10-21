@@ -1953,20 +1953,8 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
           </button>
         </div>
 
-        {/* Secondary Actions Row - Search and Create Post (Mobile Only) */}
-        <div className="flex items-center justify-center space-x-3 sm:hidden">
-          {/* Write Post Button - Only on Feed and Following tabs */}
-          {(activeTab === 'feed' || activeTab === 'following') && (
-            <button
-              onClick={() => setShowWritePostModal(true)}
-              className="p-2 bg-[#00C2A8] hover:bg-[#00a890] rounded-full transition-colors"
-              aria-label="Write Post"
-              title="Write a post"
-            >
-              <Edit3 className="w-6 h-6 text-white" />
-            </button>
-          )}
-          
+        {/* Search Action - Mobile Only, centered */}
+        <div className="flex items-center justify-center sm:hidden">
           <button
             onClick={handleOpenAthletes}
             className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
@@ -1978,18 +1966,6 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
 
         {/* Desktop Actions - Right aligned */}
         <div className="hidden sm:flex items-center justify-end space-x-3">
-          {/* Write Post Button - Only on Feed and Following tabs */}
-          {(activeTab === 'feed' || activeTab === 'following') && (
-            <button
-              onClick={() => setShowWritePostModal(true)}
-              className="p-2 bg-[#00C2A8] hover:bg-[#00a890] rounded-full transition-colors"
-              aria-label="Write Post"
-              title="Write a post"
-            >
-              <Edit3 className="w-6 h-6 text-white" />
-            </button>
-          )}
-          
           <button
             onClick={handleOpenAthletes}
             className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
