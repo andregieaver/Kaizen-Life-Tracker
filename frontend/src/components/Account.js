@@ -617,24 +617,18 @@ const Account = ({ athleteId }) => {
       // Load integrations data from backend
       try {
         // Load from both old integrations and new user_connections
-        const [integrationsRes, stravaStatusRes, ouraStatusRes, connectionsRes] = await Promise.all([
-          axios.get(`${API}/integrations/${athleteId}`).catch(() => ({ data: { integrations: [] } })),
+        const [stravaStatusRes, ouraStatusRes, connectionsRes] = await Promise.all([
           axios.get(`${API}/integrations/strava/${athleteId}/status`).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/integrations/oura/${athleteId}/status`).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/me/connections?user_id=${athleteId}`).catch(() => ({ data: { connections: [] } }))
         ]);
         
-        const integrationsList = integrationsRes.data.integrations || [];
         const stravaStatus = stravaStatusRes.data;
         const ouraStatus = ouraStatusRes.data;
         const connectionsData = connectionsRes.data.connections || [];
         
-        // Find OpenAI integration
-        const openaiIntegration = integrationsList.find(i => i.integration_type === 'openai');
-        
         // Initialize integrations state with legacy data
         const integrationsState = {
-          openai_api_key: openaiIntegration ? '••••••••••••••••' : '',
           strava: { 
             connected: stravaStatus.connected,
             athlete_name: stravaStatus.connected ? `Athlete ${stravaStatus.strava_athlete_id}` : '',
