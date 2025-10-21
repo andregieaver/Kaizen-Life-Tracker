@@ -9780,6 +9780,19 @@ async def get_system_settings(athlete_id: str):
                         "description": "Complete running coaching experience",
                         "features": ["Everything in Pro", "Custom training plans", "Nutrition guidance", "Priority support"]
                     }
+                },
+                "advanced": {
+                    "openaiApiKey": "",
+                    "stripe": {
+                        "live": {
+                            "apiKey": "",
+                            "webhookSecret": ""
+                        },
+                        "sandbox": {
+                            "apiKey": "",
+                            "webhookSecret": ""
+                        }
+                    }
                 }
             }
         
