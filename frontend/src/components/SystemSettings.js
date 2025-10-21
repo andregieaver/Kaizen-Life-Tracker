@@ -128,6 +128,7 @@ const SystemSettings = ({ athleteId }) => {
   };
 
   const handleTabChange = (value) => {
+    console.log('📝 Saving tab to localStorage:', value);
     setActiveTab(value);
     // Update URL hash and localStorage immediately
     window.location.hash = value;
