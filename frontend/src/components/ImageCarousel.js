@@ -83,19 +83,31 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
     >
       {/* Main Image */}
       <div className={`${inFullscreen ? 'max-w-[90vw] max-h-[90vh]' : 'w-full aspect-video'} overflow-hidden relative`}>
-        <img
-          src={images[currentIndex]}
-          alt={`${alt} ${currentIndex + 1}`}
-          className={`${
-            inFullscreen 
-              ? 'max-w-full max-h-full object-contain' 
-              : 'w-full h-full object-cover'
-          } rounded-lg transition-all duration-300 ease-in-out ${
-            isTransitioning ? 'opacity-0 transform translate-x-4' : 'opacity-100 transform translate-x-0'
-          }`}
-          onClick={() => !inFullscreen && setIsFullscreen(true)}
-          style={{ cursor: inFullscreen ? 'default' : 'pointer' }}
-        />
+        <div 
+          className="flex transition-transform duration-500 ease-in-out"
+          style={{ 
+            transform: `translateX(-${currentIndex * 100}%)`,
+            width: `${images.length * 100}%`
+          }}
+        >
+          {images.map((image, index) => (
+            <img
+              key={index}
+              src={image}
+              alt={`${alt} ${index + 1}`}
+              className={`${
+                inFullscreen 
+                  ? 'max-w-full max-h-full object-contain' 
+                  : 'w-full h-full object-cover'
+              } rounded-lg flex-shrink-0`}
+              style={{ 
+                width: `${100 / images.length}%`,
+                cursor: inFullscreen ? 'default' : 'pointer'
+              }}
+              onClick={() => !inFullscreen && setIsFullscreen(true)}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Navigation Arrows - Only show if more than 1 image */}
