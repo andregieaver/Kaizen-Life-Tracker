@@ -109,6 +109,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
   const [groupPosts, setGroupPosts] = useState([]);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [showEditGroup, setShowEditGroup] = useState(false);
+  const [showCreateMenu, setShowCreateMenu] = useState(false);
   const [newGroupData, setNewGroupData] = useState({
     name: '',
     description: '',
