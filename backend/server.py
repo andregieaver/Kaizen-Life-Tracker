@@ -8520,17 +8520,25 @@ async def delete_challenge(challenge_id: str, athlete_id: str = Query(...)):
 async def join_challenge(challenge_id: str, athlete_id: str = Query(...)):
     """Join a challenge"""
     try:
+        print(f"🔍 DEBUG: join_challenge called - challenge_id: {challenge_id}, athlete_id: {athlete_id}", flush=True)
+        
         # Check if challenge exists
         challenge = await db.community_challenges.find_one({"id": challenge_id}, {"_id": 0})
         if not challenge:
+            print(f"❌ DEBUG: Challenge not found: {challenge_id}", flush=True)
             raise HTTPException(status_code=404, detail="Challenge not found")
+        
+        print(f"✅ DEBUG: Challenge found: {challenge.get('title')}", flush=True)
         
         # Check if already joined
         existing = await db.community_challenge_participants.find_one(
             {"challenge_id": challenge_id, "athlete_id": athlete_id}
         )
         if existing:
+            print(f"❌ DEBUG: Already joined this challenge", flush=True)
             raise HTTPException(status_code=400, detail="Already joined this challenge")
+        
+        print(f"✅ DEBUG: Not yet joined, proceeding with join", flush=True)
         
         # Get athlete info - try multiple field names
         athlete = await db.athletes.find_one(
