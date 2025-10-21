@@ -119,6 +119,9 @@ const SystemSettings = ({ athleteId }) => {
 
   const handleTabChange = (value) => {
     setActiveTab(value);
+    // Update URL hash and localStorage immediately
+    window.location.hash = value;
+    localStorage.setItem('systemSettings_activeTab', value);
   };
 
   const handleSeoChange = (field, value) => {
