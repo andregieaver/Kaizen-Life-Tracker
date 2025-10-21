@@ -1477,7 +1477,7 @@ const Account = ({ athleteId }) => {
                         value={personalForm.gender}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, gender: value}))}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
                           <SelectValue placeholder={`Select ${t('account.gender').toLowerCase()}`} />
                         </SelectTrigger>
                         <SelectContent>
