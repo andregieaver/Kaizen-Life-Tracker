@@ -1952,7 +1952,7 @@ const Account = ({ athleteId }) => {
                       value={personalForm.voice_preference || 'alloy'}
                       onValueChange={(value) => setPersonalForm(prev => ({...prev, voice_preference: value}))}
                     >
-                      <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#111827' }}>
+                      <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
