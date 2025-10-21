@@ -1744,7 +1744,7 @@ const Account = ({ athleteId }) => {
                       value={personalForm.timezone || 'UTC'}
                       onValueChange={(value) => setPersonalForm(prev => ({...prev, timezone: value}))}
                     >
-                      <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                      <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#111827' }}>
                         <SelectValue placeholder="Select timezone" />
                       </SelectTrigger>
                       <SelectContent>
