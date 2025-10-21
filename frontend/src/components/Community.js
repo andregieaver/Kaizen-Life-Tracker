@@ -2523,14 +2523,14 @@ const Community = ({ athleteId }) => {
                 </div>
               )}
 
-              {/* Multiple Images Preview */}
-              {selectedImages.length > 0 && (
+              {/* Mixed Media Preview with Drag-and-Drop */}
+              {selectedMedia.length > 0 && (
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-white text-sm font-semibold">
-                      Selected Images ({selectedImages.length}/5)
+                      Selected Media ({selectedMedia.length}/5) {selectedMedia.filter(m => m.type === 'video').length > 0 && '🎥'}
                     </span>
-                    {isUploadingImages && (
+                    {isUploadingMedia && (
                       <span className="text-[#00C2A8] text-sm flex items-center gap-2">
                         <RefreshCw className="w-4 h-4 animate-spin" />
                         Uploading...
@@ -2538,24 +2538,74 @@ const Community = ({ athleteId }) => {
                     )}
                   </div>
                   
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {selectedImages.map((file, index) => (
-                      <div key={index} className="relative aspect-square">
-                        <img
-                          src={URL.createObjectURL(file)}
-                          alt={`Preview ${index + 1}`}
-                          className="w-full h-full object-cover rounded-lg"
-                        />
-                        <button
-                          onClick={() => handleRemoveImage(index)}
-                          disabled={isUploadingImages}
-                          className="absolute top-1 right-1 p-1.5 bg-black/70 hover:bg-black/90 rounded-full transition-colors disabled:opacity-50"
+                  <DragDropContext onDragEnd={handleMediaDragEnd}>
+                    <Droppable droppableId="media-list" direction="horizontal">
+                      {(provided) => (
+                        <div
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          className="grid grid-cols-2 sm:grid-cols-3 gap-2"
                         >
-                          <X className="w-4 h-4 text-white" />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
+                          {selectedMedia.map((item, index) => (
+                            <Draggable key={item.id} draggableId={item.id} index={index}>
+                              {(provided, snapshot) => (
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  className={`relative aspect-square ${snapshot.isDragging ? 'opacity-50' : ''}`}
+                                >
+                                  {/* Drag Handle */}
+                                  <div
+                                    {...provided.dragHandleProps}
+                                    className="absolute top-1 left-1 p-1 bg-black/70 rounded-full cursor-move z-10"
+                                  >
+                                    <GripVertical className="w-4 h-4 text-white" />
+                                  </div>
+
+                                  {/* Media Preview */}
+                                  {item.type === 'video' ? (
+                                    <div className="relative w-full h-full">
+                                      <video
+                                        src={item.preview}
+                                        className="w-full h-full object-cover rounded-lg"
+                                        muted
+                                      />
+                                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-lg">
+                                        <Video className="w-8 h-8 text-white" />
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <img
+                                      src={item.preview}
+                                      alt={`Preview ${index + 1}`}
+                                      className="w-full h-full object-cover rounded-lg"
+                                    />
+                                  )}
+
+                                  {/* Remove Button */}
+                                  <button
+                                    onClick={() => handleRemoveMedia(index)}
+                                    disabled={isUploadingMedia || item.uploading}
+                                    className="absolute top-1 right-1 p-1.5 bg-black/70 hover:bg-black/90 rounded-full transition-colors disabled:opacity-50 z-10"
+                                  >
+                                    <X className="w-4 h-4 text-white" />
+                                  </button>
+
+                                  {/* Uploading indicator */}
+                                  {item.uploading && (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg">
+                                      <RefreshCw className="w-6 h-6 text-white animate-spin" />
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
                 </div>
               )}
 
