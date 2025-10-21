@@ -8418,7 +8418,10 @@ async def get_challenges(
             challenge["has_joined"] = participation is not None
             challenge["user_progress"] = participation.get("current_progress", 0) if participation else 0
             challenge["user_percentage"] = participation.get("percentage_complete", 0) if participation else 0
+            
+            print(f"🔍 DEBUG: Challenge '{challenge.get('title')}' - has_joined: {challenge['has_joined']}, creator_id: {challenge.get('creator_id')}, athlete_id: {athlete_id}", flush=True)
         
+        print(f"✅ DEBUG: Returning {len(challenges)} challenges", flush=True)
         return {"challenges": challenges}
     except Exception as e:
         logging.error(f"Error fetching challenges: {e}")
