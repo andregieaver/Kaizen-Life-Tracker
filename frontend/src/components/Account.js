@@ -2328,7 +2328,7 @@ const Account = ({ athleteId }) => {
                     </ul>
                     {subscriptionStatus.tier === 'free' || subscriptionStatus.tier === 'pro' ? (
                       <Button 
-                        className="w-full bg-purple-600 hover:bg-purple-700 text-white" 
+                        className="w-full text-white bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 shadow-lg" 
                         variant="default"
                         onClick={() => {
                           setUpgradeTarget('premium');
