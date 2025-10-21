@@ -64,8 +64,12 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
   // Notifications state
   const [notifications, setNotifications] = useState([]);
   const [notificationsLoaded, setNotificationsLoaded] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(externalShowNotifications !== undefined ? externalShowNotifications : false);
   const [unreadCount, setUnreadCount] = useState(0);
+  
+  // Use external controls if provided
+  const effectiveShowNotifications = externalShowNotifications !== undefined ? externalShowNotifications : showNotifications;
+  const effectiveSetShowNotifications = externalSetShowNotifications || setShowNotifications;
   
   // Profile state
   const [showProfile, setShowProfile] = useState(false);
