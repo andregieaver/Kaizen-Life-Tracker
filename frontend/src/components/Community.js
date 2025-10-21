@@ -1953,11 +1953,11 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
           </button>
         </div>
 
-        {/* Search Action - Mobile Only, centered */}
-        <div className="flex items-center justify-center sm:hidden">
+        {/* Search Action - Mobile Only, full width */}
+        <div className="sm:hidden">
           <button
             onClick={handleOpenAthletes}
-            className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
+            className="w-full p-2 bg-gray-700 hover:bg-gray-600 rounded-none transition-colors flex items-center justify-center"
             aria-label="Find Athletes"
           >
             <Search className="w-6 h-6 text-white" />
