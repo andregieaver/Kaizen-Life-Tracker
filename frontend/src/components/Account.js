@@ -1882,7 +1882,7 @@ const Account = ({ athleteId }) => {
                         value={personalForm.time_format || '12h'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, time_format: value}))}
                       >
-                        <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#111827' }}>
+                        <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
