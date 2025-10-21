@@ -2007,7 +2007,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
       {effectiveShowNotifications && (
         <>
           {/* Mobile: Fullscreen Modal */}
-          <div className="md:hidden fixed inset-0 bg-gradient-to-br from-gray-900 to-gray-800 z-50 flex flex-col">
+          <div className="md:hidden fixed inset-0 bg-gradient-to-br from-gray-900 to-gray-800 z-[9999] flex flex-col">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-700">
               <h3 className="text-white font-semibold text-lg">Notifications</h3>
