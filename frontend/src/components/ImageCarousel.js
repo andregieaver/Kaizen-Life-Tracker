@@ -51,7 +51,7 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
 
   const prevImage = () => {
     setSlideDirection('left');
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    setCurrentIndex((prev) => (prev - 1 + mediaItems.length) % mediaItems.length);
   };
 
   const goToImage = (index) => {
