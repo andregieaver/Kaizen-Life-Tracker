@@ -1726,17 +1726,17 @@ const Account = ({ athleteId }) => {
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-white">Language & Region</h3>
                   <div className="space-y-2">
-                    <Label htmlFor="language">Language</Label>
+                    <Label htmlFor="language" className="text-sm font-medium text-white">Language</Label>
                     <LanguageSelector />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="timezone">Timezone</Label>
+                    <Label htmlFor="timezone" className="text-sm font-medium text-white">Timezone</Label>
                     <Select
                       value={personalForm.timezone || 'UTC'}
                       onValueChange={(value) => setPersonalForm(prev => ({...prev, timezone: value}))}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                         <SelectValue placeholder="Select timezone" />
                       </SelectTrigger>
                       <SelectContent>
@@ -1763,12 +1763,12 @@ const Account = ({ athleteId }) => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label>Distance Unit</Label>
+                      <Label className="text-sm font-medium text-white">Distance Unit</Label>
                       <Select
                         value={personalForm.distance_unit || 'miles'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, distance_unit: value}))}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -1779,12 +1779,12 @@ const Account = ({ athleteId }) => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label>Measurement System</Label>
+                      <Label className="text-sm font-medium text-white">Measurement System</Label>
                       <Select
                         value={personalForm.measurement_system || 'imperial'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, measurement_system: value}))}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -1796,16 +1796,16 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   {/* Push Notifications */}
-                  <div className="space-y-4 p-4 border rounded-lg bg-blue-50">
+                  <div className="space-y-4 p-4 border border-gray-700 rounded-lg bg-gray-800/50">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
                           {pushSubscribed ? (
-                            <Bell className="w-5 h-5 text-blue-600" />
+                            <Bell className="w-5 h-5 text-[#00C2A8]" />
                           ) : (
                             <BellOff className="w-5 h-5 text-gray-400" />
                           )}
-                          <Label className="text-sm font-medium">Push Notifications</Label>
+                          <Label className="text-sm font-medium text-white">Push Notifications</Label>
                           {pushSubscribed && (
                             <Badge className="bg-green-900/30 text-green-400">Enabled</Badge>
                           )}
@@ -1823,18 +1823,18 @@ const Account = ({ athleteId }) => {
                           onClick={handleTogglePushNotifications}
                           disabled={pushLoading}
                           variant={pushSubscribed ? "outline" : "default"}
-                          className={pushSubscribed ? "" : "bg-blue-600 hover:bg-blue-700"}
+                          className={pushSubscribed ? "border-gray-600 text-white hover:bg-gray-700" : "bg-[#00C2A8] hover:bg-[#00a890] text-white"}
                         >
                           {pushLoading ? 'Loading...' : pushSubscribed ? 'Disable' : 'Enable'}
                         </Button>
                       )}
                     </div>
                     {pushSupported && pushSubscribed && (
-                      <div className="text-xs text-gray-400 bg-gray-800 p-2 rounded border">
+                      <div className="text-xs text-gray-400 bg-gray-900/50 p-2 rounded border border-gray-700">
                         <div className="flex items-start gap-2">
                           <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
                           <div>
-                            <p className="font-medium">You'll receive notifications for:</p>
+                            <p className="font-medium text-white">You'll receive notifications for:</p>
                             <ul className="mt-1 space-y-1 ml-2">
                               <li>• New AI-generated reports</li>
                               <li>• Scheduled analysis completions</li>
