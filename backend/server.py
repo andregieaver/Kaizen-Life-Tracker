@@ -9815,9 +9815,6 @@ async def save_system_settings(athlete_id: str, settings: dict):
         logging.error(f"Error saving system settings: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to save system settings: {str(e)}")
 
-app.include_router(api_router)
-
-
 @api_router.get("/system/subscriber-stats")
 async def get_subscriber_stats(athlete_id: str):
     """Get subscriber statistics over time (Super Admin only)"""
@@ -9910,6 +9907,8 @@ async def get_subscriber_stats(athlete_id: str):
         import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
+
+app.include_router(api_router)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
