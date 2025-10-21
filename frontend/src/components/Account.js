@@ -1422,7 +1422,7 @@ const Account = ({ athleteId }) => {
                         onChange={handlePersonalFormChange}
                         placeholder="175"
                         className="text-white placeholder:text-gray-500"
-                        style={{ backgroundColor: '#111827', borderColor: '#111827' }}
+                        style={{ backgroundColor: '#111827', borderColor: '#374151' }}
                       />
                     </div>
                     
@@ -1436,7 +1436,7 @@ const Account = ({ athleteId }) => {
                         onChange={handlePersonalFormChange}
                         placeholder="70"
                         className="text-white placeholder:text-gray-500"
-                        style={{ backgroundColor: '#111827', borderColor: '#111827' }}
+                        style={{ backgroundColor: '#111827', borderColor: '#374151' }}
                       />
                     </div>
                     
@@ -1451,7 +1451,7 @@ const Account = ({ athleteId }) => {
                         onChange={handlePersonalFormChange}
                         placeholder="50.0"
                         className="text-white placeholder:text-gray-500"
-                        style={{ backgroundColor: '#111827', borderColor: '#111827' }}
+                        style={{ backgroundColor: '#111827', borderColor: '#374151' }}
                       />
                     </div>
                   </div>
