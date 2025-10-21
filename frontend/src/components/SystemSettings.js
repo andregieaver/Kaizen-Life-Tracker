@@ -126,6 +126,14 @@ const SystemSettings = ({ athleteId }) => {
         setPlanSettings(response.data.plans);
       }
       
+      // Load advanced settings (OpenAI key)
+      if (response.data.advanced) {
+        setAdvancedSettings({
+          openaiApiKey: response.data.advanced.openaiApiKey || '',
+          showKey: false
+        });
+      }
+      
       setLoading(false);
     } catch (error) {
       console.error('Error loading system settings:', error);
