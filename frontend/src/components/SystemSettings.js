@@ -864,10 +864,25 @@ const SystemSettings = ({ athleteId }) => {
 
                     <div className="space-y-2">
                       <Label className="text-sm font-medium text-white">
-                        Features
+                        Features (drag to reorder)
                       </Label>
                       {planSettings.pro.features.map((feature, index) => (
-                        <div key={index} className="flex gap-2">
+                        <div 
+                          key={index}
+                          draggable
+                          onDragStart={(e) => handleFeatureDragStart(e, 'pro', index)}
+                          onDragOver={handleFeatureDragOver}
+                          onDrop={(e) => handleFeatureDrop(e, 'pro', index)}
+                          onDragEnd={handleFeatureDragEnd}
+                          className={`flex gap-2 items-center ${
+                            draggedFeature.plan === 'pro' && draggedFeature.index === index 
+                              ? 'opacity-50' 
+                              : ''
+                          }`}
+                        >
+                          <div className="cursor-move p-2 text-gray-400 hover:text-white">
+                            <GripVertical className="w-5 h-5" />
+                          </div>
                           <Input
                             type="text"
                             value={feature}
