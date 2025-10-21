@@ -145,7 +145,22 @@ const SystemSettings = ({ athleteId }) => {
   // Load settings on mount
   useEffect(() => {
     loadSystemSettings();
+    loadSubscriberStats();
   }, [athleteId]);
+
+  const loadSubscriberStats = async () => {
+    setLoadingStats(true);
+    try {
+      const response = await axios.get(`${API}/system/subscriber-stats`, {
+        params: { athlete_id: athleteId }
+      });
+      setSubscriberStats(response.data);
+    } catch (error) {
+      console.error('Error loading subscriber stats:', error);
+    } finally {
+      setLoadingStats(false);
+    }
+  };
 
   const loadSystemSettings = async () => {
     try {
