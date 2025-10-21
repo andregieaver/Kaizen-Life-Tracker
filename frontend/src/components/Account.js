@@ -1411,7 +1411,7 @@ const Account = ({ athleteId }) => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="height" className="text-sm font-medium">{t('account.height')}</Label>
+                      <Label htmlFor="height" className="text-sm font-medium text-white">{t('account.height')}</Label>
                       <Input
                         id="height"
                         name="height"
@@ -1419,12 +1419,12 @@ const Account = ({ athleteId }) => {
                         value={personalForm.height}
                         onChange={handlePersonalFormChange}
                         placeholder="175"
-                        className="input-focus"
+                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="weight" className="text-sm font-medium">{t('account.weight')}</Label>
+                      <Label htmlFor="weight" className="text-sm font-medium text-white">{t('account.weight')}</Label>
                       <Input
                         id="weight"
                         name="weight"
@@ -1432,12 +1432,12 @@ const Account = ({ athleteId }) => {
                         value={personalForm.weight}
                         onChange={handlePersonalFormChange}
                         placeholder="70"
-                        className="input-focus"
+                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="vo2_max" className="text-sm font-medium">{t('account.vo2Max')}</Label>
+                      <Label htmlFor="vo2_max" className="text-sm font-medium text-white">{t('account.vo2Max')}</Label>
                       <Input
                         id="vo2_max"
                         name="vo2_max"
@@ -1446,14 +1446,14 @@ const Account = ({ athleteId }) => {
                         value={personalForm.vo2_max}
                         onChange={handlePersonalFormChange}
                         placeholder="50.0"
-                        className="input-focus"
+                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="max_heart_rate" className="text-sm font-medium">{t('account.maxHeartRate')}</Label>
+                      <Label htmlFor="max_heart_rate" className="text-sm font-medium text-white">{t('account.maxHeartRate')}</Label>
                       <Input
                         id="max_heart_rate"
                         name="max_heart_rate"
@@ -1461,12 +1461,12 @@ const Account = ({ athleteId }) => {
                         value={personalForm.max_heart_rate}
                         onChange={handlePersonalFormChange}
                         placeholder="190"
-                        className="input-focus"
+                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="gender" className="text-sm font-medium">{t('account.gender')}</Label>
+                      <Label htmlFor="gender" className="text-sm font-medium text-white">{t('account.gender')}</Label>
                       <Select
                         value={personalForm.gender}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, gender: value}))}
