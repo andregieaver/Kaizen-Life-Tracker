@@ -9817,6 +9817,100 @@ async def save_system_settings(athlete_id: str, settings: dict):
 
 app.include_router(api_router)
 
+
+@api_router.get("/system/subscriber-stats")
+async def get_subscriber_stats(athlete_id: str):
+    """Get subscriber statistics over time (Super Admin only)"""
+    # Verify super admin
+    await verify_super_admin(athlete_id)
+    
+    try:
+        from datetime import datetime, timedelta
+        
+        # Get all athletes with their creation dates and subscription tiers
+        athletes = await db.athletes.find(
+            {},
+            {"_id": 0, "created_at": 1, "subscription_tier": 1}
+        ).to_list(length=None)
+        
+        # Get current counts by tier
+        tier_counts = {
+            "free": 0,
+            "pro": 0,
+            "premium": 0
+        }
+        
+        for athlete in athletes:
+            tier = athlete.get("subscription_tier", "free")
+            tier_counts[tier] = tier_counts.get(tier, 0) + 1
+        
+        total_subscribers = sum(tier_counts.values())
+        paid_subscribers = tier_counts.get("pro", 0) + tier_counts.get("premium", 0)
+        
+        # Calculate growth over last 30 days
+        thirty_days_ago = datetime.now() - timedelta(days=30)
+        recent_subscribers = [
+            a for a in athletes 
+            if a.get("created_at") and isinstance(a["created_at"], str)
+            and datetime.fromisoformat(a["created_at"].replace('Z', '+00:00')) > thirty_days_ago
+        ]
+        growth_count = len(recent_subscribers)
+        growth_percentage = (growth_count / max(total_subscribers - growth_count, 1)) * 100 if total_subscribers > growth_count else 0
+        
+        # Create time series data (last 90 days, grouped by day)
+        ninety_days_ago = datetime.now() - timedelta(days=90)
+        
+        # Group by date
+        daily_counts = {}
+        for athlete in athletes:
+            created_at = athlete.get("created_at")
+            if created_at and isinstance(created_at, str):
+                try:
+                    date_obj = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                    if date_obj > ninety_days_ago:
+                        date_key = date_obj.strftime('%Y-%m-%d')
+                        daily_counts[date_key] = daily_counts.get(date_key, 0) + 1
+                except Exception:
+                    continue
+        
+        # Create cumulative counts for chart
+        sorted_dates = sorted(daily_counts.keys())
+        cumulative_data = []
+        cumulative_total = total_subscribers - sum(daily_counts.values())  # Start with existing users
+        
+        for date in sorted_dates:
+            cumulative_total += daily_counts[date]
+            cumulative_data.append({
+                "date": date,
+                "count": cumulative_total
+            })
+        
+        # If no data, provide some default points
+        if not cumulative_data:
+            today = datetime.now()
+            for i in range(7, 0, -1):
+                date = (today - timedelta(days=i)).strftime('%Y-%m-%d')
+                cumulative_data.append({
+                    "date": date,
+                    "count": total_subscribers
+                })
+        
+        return {
+            "total_subscribers": total_subscribers,
+            "paid_subscribers": paid_subscribers,
+            "free_subscribers": tier_counts.get("free", 0),
+            "pro_subscribers": tier_counts.get("pro", 0),
+            "premium_subscribers": tier_counts.get("premium", 0),
+            "growth_30_days": growth_count,
+            "growth_percentage": round(growth_percentage, 1),
+            "time_series": cumulative_data
+        }
+    except Exception as e:
+        logging.error(f"Error getting subscriber stats: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
