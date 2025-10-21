@@ -2368,8 +2368,8 @@ const Account = ({ athleteId }) => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-semibold mb-2">Payment Method</h4>
+                  <div className="p-4 border border-gray-600 rounded-lg" style={{ backgroundColor: '#111827' }}>
+                    <h4 className="font-semibold text-white mb-2">Payment Method</h4>
                     {subscriptionStatus.tier === 'free' ? (
                       <p className="text-sm text-gray-400">
                         No payment method on file (Free plan)
@@ -2377,14 +2377,15 @@ const Account = ({ athleteId }) => {
                     ) : (
                       <>
                         <div className="flex items-center space-x-2 mb-3">
-                          <CreditCard className="w-4 h-4 text-green-600" />
-                          <p className="text-sm text-gray-400">
+                          <CreditCard className="w-4 h-4 text-green-500" />
+                          <p className="text-sm text-gray-300">
                             Payment method active • Managed by Stripe
                           </p>
                         </div>
                         <Button
                           variant="outline"
                           size="sm"
+                          className="border-gray-600 text-white hover:bg-gray-700"
                           onClick={handleManagePaymentMethod}
                           disabled={isLoading}
                         >
@@ -2395,8 +2396,8 @@ const Account = ({ athleteId }) => {
                     )}
                   </div>
 
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-semibold mb-2">Billing History</h4>
+                  <div className="p-4 border border-gray-600 rounded-lg" style={{ backgroundColor: '#111827' }}>
+                    <h4 className="font-semibold text-white mb-2">Billing History</h4>
                     {subscriptionStatus.tier === 'free' ? (
                       <p className="text-sm text-gray-400">
                         No invoices yet
@@ -2410,7 +2411,7 @@ const Account = ({ athleteId }) => {
                         {invoices.map((invoice) => (
                           <div 
                             key={invoice.id} 
-                            className="flex items-center justify-between p-3 bg-gray-700 rounded-lg hover:bg-gray-800 transition-colors"
+                            className="flex items-center justify-between p-3 bg-gray-700/50 rounded-lg hover:bg-gray-700 transition-colors"
                           >
                             <div className="flex-1">
                               <div className="flex items-center space-x-2">
@@ -2422,12 +2423,12 @@ const Account = ({ athleteId }) => {
                                     ? 'bg-green-900/30 text-green-400' 
                                     : invoice.status === 'open'
                                     ? 'bg-yellow-900/30 text-yellow-400'
-                                    : 'bg-red-100 text-red-700'
+                                    : 'bg-red-900/30 text-red-400'
                                 }`}>
                                   {invoice.status}
                                 </span>
                               </div>
-                              <p className="text-xs text-gray-500 mt-1">
+                              <p className="text-xs text-gray-400 mt-1">
                                 {new Date(invoice.created * 1000).toLocaleDateString('en-US', {
                                   year: 'numeric',
                                   month: 'long',
