@@ -1486,7 +1486,7 @@ Return only the JSON array, nothing else.
         )
     
     async def get_user_openai_key(self, athlete_id: str) -> Optional[str]:
-        """Get user's personal OpenAI API key if available"""
+        """Get user's personal OpenAI API key if available (legacy method for backwards compatibility)"""
         try:
             integration = await db.integrations.find_one({
                 "athlete_id": athlete_id, 
@@ -1515,6 +1515,49 @@ Return only the JSON array, nothing else.
         except Exception as e:
             logging.error(f"Error retrieving user OpenAI key for athlete {athlete_id}: {e}")
             return None
+    
+    async def get_global_openai_key(self) -> Optional[str]:
+        """Get global OpenAI API key from system settings"""
+        try:
+            settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
+            
+            if not settings:
+                logging.info("No system settings found")
+                return None
+            
+            api_key = settings.get("openaiApiKey")
+            
+            # Ensure we have a valid, non-empty API key
+            if not api_key or not api_key.strip():
+                logging.info("System settings exist but OpenAI API key is empty")
+                return None
+            
+            # Basic validation - OpenAI keys should start with sk-
+            if not api_key.startswith("sk-"):
+                logging.warning("Invalid OpenAI API key format in system settings")
+                return None
+            
+            return api_key.strip()
+        except Exception as e:
+            logging.error(f"Error retrieving global OpenAI key: {e}")
+            return None
+    
+    async def get_openai_key(self, athlete_id: str) -> Optional[str]:
+        """Get OpenAI API key - checks user's personal key first, then falls back to global key"""
+        # First try to get user's personal key (for backwards compatibility)
+        user_key = await self.get_user_openai_key(athlete_id)
+        if user_key:
+            logging.info(f"Using personal OpenAI key for athlete {athlete_id}")
+            return user_key
+        
+        # If no personal key, try global key from system settings
+        global_key = await self.get_global_openai_key()
+        if global_key:
+            logging.info(f"Using global OpenAI key for athlete {athlete_id}")
+            return global_key
+        
+        logging.info(f"No OpenAI key found (personal or global) for athlete {athlete_id}")
+        return None
     
     async def search_health_information(self, query: str, category: str = "general") -> Dict:
         """Search for health, nutrition, or training information using Tavily"""
