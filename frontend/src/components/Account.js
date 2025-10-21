@@ -1534,7 +1534,7 @@ const Account = ({ athleteId }) => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Estimated Calorie Need */}
                     <div className="space-y-2">
-                      <Label htmlFor="estimated_calorie_need" className="text-sm font-medium">
+                      <Label htmlFor="estimated_calorie_need" className="text-sm font-medium text-white">
                         Estimated Daily Calorie Need
                       </Label>
                       <Input
@@ -1544,7 +1544,7 @@ const Account = ({ athleteId }) => {
                         value={personalForm.estimated_calorie_need}
                         onChange={handlePersonalFormChange}
                         placeholder="e.g., 2500"
-                        className="input-focus"
+                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
                       />
                       <p className="text-xs text-gray-500">
                         Calories per day (based on age, gender, activity level)
@@ -1553,7 +1553,7 @@ const Account = ({ athleteId }) => {
 
                     {/* Weight Goal */}
                     <div className="space-y-2">
-                      <Label htmlFor="weight_goal" className="text-sm font-medium">
+                      <Label htmlFor="weight_goal" className="text-sm font-medium text-white">
                         Weight Goal
                       </Label>
                       <Select 
@@ -1574,7 +1574,7 @@ const Account = ({ athleteId }) => {
 
                   {/* Health Goals */}
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium">Health Goals</Label>
+                    <Label className="text-sm font-medium text-white">Health Goals</Label>
                     <p className="text-xs text-gray-500 mb-3">Select all that apply to your fitness journey</p>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {[
@@ -1597,7 +1597,7 @@ const Account = ({ athleteId }) => {
                                 : personalForm.health_goals.filter(g => g !== goal.value);
                               setPersonalForm(prev => ({...prev, health_goals: newGoals}));
                             }}
-                            className="mt-0.5 rounded border-gray-700 text-blue-600 focus:ring-blue-500"
+                            className="mt-0.5 rounded border-gray-700 text-[#00C2A8] focus:ring-[#00C2A8]"
                           />
                           <span className="text-sm text-gray-300">{goal.label}</span>
                         </label>
