@@ -9824,13 +9824,17 @@ async def get_subscriber_stats(athlete_id: str):
     try:
         from datetime import datetime, timedelta
         
+        # Direct count to verify database access
+        total_count = await db.athletes.count_documents({})
+        logging.info(f"Direct count from db.athletes: {total_count}")
+        
         # Get all athletes with their creation dates and subscription tiers
         athletes = await db.athletes.find(
             {},
             {"_id": 0, "created_at": 1, "subscription_tier": 1}
         ).to_list(length=None)
         
-        logging.info(f"Found {len(athletes)} athletes in database")
+        logging.info(f"Found {len(athletes)} athletes in query results")
         
         # Get current counts by tier
         tier_counts = {
