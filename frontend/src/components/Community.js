@@ -3133,7 +3133,9 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
             : 'opacity-0 translate-x-8 translate-y-8 pointer-events-none'
         }`}
         style={{
-          transform: showCreateMenu ? 'translate(-90px, -100px)' : 'translate(0, 0)',
+          transform: showCreateMenu 
+            ? `translate(-90px, ${scrollDirection === 'down' ? '28px' : '-100px'})` 
+            : 'translate(0, 0)',
           transitionDelay: showCreateMenu ? '100ms' : '0ms'
         }}
         title="Create Event"
