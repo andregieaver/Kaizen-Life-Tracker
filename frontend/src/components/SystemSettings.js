@@ -536,8 +536,8 @@ const SystemSettings = ({ athleteId }) => {
   }
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ width: '100vw', maxWidth: '100vw' }}>
+      <div className="w-full">
         {/* Header with Account Settings Button */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
