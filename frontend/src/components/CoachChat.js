@@ -491,10 +491,10 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
           <h2 className="text-2xl font-display font-bold text-white">{t('coach.title')}</h2>
         </div>
         <Button
-          variant="outline"
+          variant="ghost"
           size="sm"
           onClick={startNewConversation}
-          className="btn-transition"
+          className="bg-[#374151] text-white hover:bg-[#4B5563] border-0"
           data-testid="new-chat-btn"
         >
           <Plus className="w-4 h-4 mr-2" />
