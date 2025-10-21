@@ -1976,7 +1976,7 @@ const Account = ({ athleteId }) => {
                       value={personalForm.coach_language || 'en'}
                       onValueChange={(value) => setPersonalForm(prev => ({...prev, coach_language: value}))}
                     >
-                      <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                      <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#111827' }}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
