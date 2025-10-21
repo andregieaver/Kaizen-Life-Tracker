@@ -530,8 +530,8 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
         <div className="w-full max-w-[1600px] mx-auto space-y-4 py-4">
           {messages.length === 0 ? (
             <div className="text-center py-8">
-              <MessageCircle className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 mb-6">{t('coach.startConversation')}</p>
+              <MessageCircle className="w-12 h-12 text-white mx-auto mb-4" />
+              <p className="text-white mb-6">{t('coach.startConversation')}</p>
             </div>
           ) : (
             messages.map((message, index) => {
