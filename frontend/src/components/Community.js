@@ -1557,6 +1557,136 @@ const Community = ({ athleteId }) => {
     }
   };
 
+  // ============================================================================
+  // CHALLENGES FUNCTIONS
+  // ============================================================================
+
+  const loadChallenges = async (filter = 'all') => {
+    try {
+      const response = await axios.get(`${API}/community/challenges?athlete_id=${athleteId}&filter_type=${filter}&limit=20`);
+      setChallenges(response.data.challenges);
+      setChallengesLoaded(true);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error loading challenges:', error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleCreateChallenge = async () => {
+    if (!newChallengeData.title.trim()) {
+      alert('Challenge title is required');
+      return;
+    }
+    if (!newChallengeData.goal_value || parseFloat(newChallengeData.goal_value) <= 0) {
+      alert('Goal value must be greater than 0');
+      return;
+    }
+    if (!newChallengeData.start_date || !newChallengeData.end_date) {
+      alert('Start and end dates are required');
+      return;
+    }
+
+    try {
+      await axios.post(`${API}/community/challenges?athlete_id=${athleteId}`, newChallengeData);
+      setShowCreateChallenge(false);
+      setNewChallengeData({
+        title: '', description: '', challenge_type: 'distance', goal_value: '', goal_unit: 'km',
+        start_date: '', end_date: '', visibility: 'public', competition_type: 'individual',
+        cover_photo: null, is_recurring: false, recurrence_frequency: 'weekly', recurrence_count: 4
+      });
+      setChallengesLoaded(false);
+      loadChallenges(challengeFilter);
+    } catch (error) {
+      console.error('Error creating challenge:', error);
+      alert('Failed to create challenge');
+    }
+  };
+
+  const handleJoinChallenge = async (challengeId) => {
+    try {
+      await axios.post(`${API}/community/challenges/${challengeId}/join?athlete_id=${athleteId}`);
+      setChallengesLoaded(false);
+      loadChallenges(challengeFilter);
+      if (showChallengeDetail && challengeDetailData?.id === challengeId) {
+        handleOpenChallengeDetail(challengeId);
+      }
+    } catch (error) {
+      console.error('Error joining challenge:', error);
+      alert(error.response?.data?.detail || 'Failed to join challenge');
+    }
+  };
+
+  const handleLeaveChallenge = async (challengeId) => {
+    if (!window.confirm('Are you sure you want to leave this challenge?')) return;
+
+    try {
+      await axios.post(`${API}/community/challenges/${challengeId}/leave?athlete_id=${athleteId}`);
+      setChallengesLoaded(false);
+      loadChallenges(challengeFilter);
+      if (showChallengeDetail && challengeDetailData?.id === challengeId) {
+        handleOpenChallengeDetail(challengeId);
+      }
+    } catch (error) {
+      console.error('Error leaving challenge:', error);
+      alert('Failed to leave challenge');
+    }
+  };
+
+  const handleDeleteChallenge = async (challengeId) => {
+    if (!window.confirm('Are you sure you want to delete this challenge?')) return;
+
+    try {
+      await axios.delete(`${API}/community/challenges/${challengeId}?athlete_id=${athleteId}`);
+      setChallengesLoaded(false);
+      loadChallenges(challengeFilter);
+      setShowChallengeDetail(false);
+    } catch (error) {
+      console.error('Error deleting challenge:', error);
+      alert('Failed to delete challenge');
+    }
+  };
+
+  const handleOpenChallengeDetail = async (challengeId) => {
+    setChallengeDetailLoading(true);
+    setShowChallengeDetail(true);
+    try {
+      const response = await axios.get(`${API}/community/challenges/${challengeId}?athlete_id=${athleteId}`);
+      
+      // Load comments for the challenge
+      try {
+        const commentsResponse = await axios.get(`${API}/community/challenges/${challengeId}/comments`);
+        response.data.comments = commentsResponse.data.comments;
+      } catch (commentError) {
+        console.error('Error loading challenge comments:', commentError);
+        response.data.comments = [];
+      }
+      
+      setChallengeDetailData(response.data);
+    } catch (error) {
+      console.error('Error loading challenge details:', error);
+      alert('Failed to load challenge details');
+      setShowChallengeDetail(false);
+    } finally {
+      setChallengeDetailLoading(false);
+    }
+  };
+
+  const handleAddChallengeComment = async (challengeId, content) => {
+    if (!content.trim()) return;
+
+    try {
+      await axios.post(`${API}/community/challenges/${challengeId}/comments?athlete_id=${athleteId}`, {
+        content: content.trim()
+      });
+      // Reload challenge details to show new comment
+      handleOpenChallengeDetail(challengeId);
+    } catch (error) {
+      console.error('Error adding challenge comment:', error);
+      alert('Failed to add comment');
+    }
+  };
+
   const handleOpenEventDetail = async (eventId) => {
     setEventDetailLoading(true);
     setShowEventDetail(true);
