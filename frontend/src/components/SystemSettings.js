@@ -240,12 +240,27 @@ const SystemSettings = ({ athleteId }) => {
         setPlanSettings(response.data.plans);
       }
       
-      // Load advanced settings (OpenAI key)
+      // Load advanced settings (OpenAI key and Stripe)
       if (response.data.advanced) {
-        setAdvancedSettings({
+        setAdvancedSettings(prev => ({
+          ...prev,
           openaiApiKey: response.data.advanced.openaiApiKey || '',
-          showKey: false
-        });
+          showKey: false,
+          stripe: {
+            live: {
+              apiKey: response.data.advanced.stripe?.live?.apiKey || '',
+              webhookSecret: response.data.advanced.stripe?.live?.webhookSecret || ''
+            },
+            sandbox: {
+              apiKey: response.data.advanced.stripe?.sandbox?.apiKey || '',
+              webhookSecret: response.data.advanced.stripe?.sandbox?.webhookSecret || ''
+            }
+          },
+          showStripeLiveKey: false,
+          showStripeLiveWebhook: false,
+          showStripeSandboxKey: false,
+          showStripeSandboxWebhook: false
+        }));
       }
       
       setLoading(false);
