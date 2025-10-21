@@ -1904,8 +1904,8 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
       onTouchEnd={onTouchEnd}
     >
       {/* Header with Tabs and Notifications */}
-      <div className={`fixed top-14 md:top-0 left-0 right-0 z-30 md:z-40 bg-gradient-to-br from-gray-700 to-gray-800 space-y-0 sm:space-y-3 mb-0 sm:mb-6 transition-transform duration-300 ease-in-out ${
-        scrollDirection === 'down' ? '-translate-y-full' : 'translate-y-0'
+      <div className={`fixed left-0 right-0 z-30 md:z-40 bg-gradient-to-br from-gray-700 to-gray-800 space-y-0 sm:space-y-3 mb-0 sm:mb-6 transition-transform duration-300 ease-in-out ${
+        scrollDirection === 'down' ? '-top-14 md:top-0' : 'top-14 md:top-0'
       }`}>
         {/* Main Navigation Tabs - Full width with no gaps on mobile */}
         <div className="flex justify-between w-full gap-0 sm:gap-2">
