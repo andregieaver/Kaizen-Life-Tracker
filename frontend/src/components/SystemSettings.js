@@ -1173,6 +1173,86 @@ const SystemSettings = ({ athleteId }) => {
                     <div className="text-center text-gray-400 py-8">Loading statistics...</div>
                   ) : (
                     <div className="space-y-6">
+                      {/* Filter Controls */}
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-gray-700">
+                        {/* Period Selector */}
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-5 h-5 text-gray-400" />
+                          <Label className="text-sm font-medium text-white mr-2">Period:</Label>
+                          <div className="flex gap-2">
+                            {[
+                              { value: '7d', label: '7 Days' },
+                              { value: '30d', label: '30 Days' },
+                              { value: '90d', label: '90 Days' },
+                              { value: '1y', label: '1 Year' },
+                              { value: 'all', label: 'All Time' }
+                            ].map((period) => (
+                              <Button
+                                key={period.value}
+                                onClick={() => handlePeriodChange(period.value)}
+                                variant="outline"
+                                size="sm"
+                                className={`${
+                                  selectedPeriod === period.value
+                                    ? 'bg-[#00C2A8] text-white border-[#00C2A8] hover:bg-[#00a890]'
+                                    : 'border-gray-600 text-gray-300 hover:bg-gray-700'
+                                }`}
+                              >
+                                {period.label}
+                              </Button>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Compare Toggle */}
+                        <div className="flex items-center gap-2">
+                          <ArrowLeftRight className="w-5 h-5 text-gray-400" />
+                          <Label className="text-sm font-medium text-white mr-2">Compare:</Label>
+                          <Button
+                            onClick={handleCompareToggle}
+                            variant="outline"
+                            size="sm"
+                            className={`${
+                              compareEnabled
+                                ? 'bg-purple-600 text-white border-purple-600 hover:bg-purple-700'
+                                : 'border-gray-600 text-gray-300 hover:bg-gray-700'
+                            }`}
+                          >
+                            {compareEnabled ? 'Enabled' : 'Disabled'}
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Comparison Alert */}
+                      {compareEnabled && subscriberStats.comparison && (
+                        <div className="p-4 rounded-lg border" style={{ 
+                          backgroundColor: subscriberStats.comparison.change >= 0 ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                          borderColor: subscriberStats.comparison.change >= 0 ? '#22c55e' : '#ef4444'
+                        }}>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="text-sm font-medium text-white">Period Comparison</p>
+                              <p className="text-xs text-gray-400 mt-1">vs previous {selectedPeriod === '7d' ? '7 days' : selectedPeriod === '30d' ? '30 days' : selectedPeriod === '90d' ? '90 days' : selectedPeriod === '1y' ? 'year' : 'period'}</p>
+                            </div>
+                            <div className="text-right">
+                              <div className="flex items-center gap-2">
+                                {subscriberStats.comparison.change >= 0 ? (
+                                  <TrendingUp className="w-5 h-5 text-green-400" />
+                                ) : (
+                                  <TrendingDown className="w-5 h-5 text-red-400" />
+                                )}
+                                <span className={`text-2xl font-bold ${subscriberStats.comparison.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                  {subscriberStats.comparison.change >= 0 ? '+' : ''}{subscriberStats.comparison.change}
+                                </span>
+                              </div>
+                              <p className={`text-sm mt-1 ${subscriberStats.comparison.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                {subscriberStats.comparison.change_percentage >= 0 ? '+' : ''}{subscriberStats.comparison.change_percentage}% change
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
                       {/* Key Metrics */}
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {/* Total Subscribers */}
