@@ -80,13 +80,13 @@ const ChangePassword = ({ athleteId }) => {
   };
 
   return (
-    <Card className="border-0 shadow-lg">
+    <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
       <CardHeader>
-        <CardTitle className="flex items-center text-lg">
-          <Lock className="w-5 h-5 mr-2 text-gray-700" />
+        <CardTitle className="flex items-center text-lg text-white">
+          <Lock className="w-5 h-5 mr-2 text-[#00C2A8]" />
           {t('account.changePassword')}
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-gray-400">
           {t('account.changePasswordDescription')}
         </CardDescription>
       </CardHeader>
@@ -95,8 +95,8 @@ const ChangePassword = ({ athleteId }) => {
           {status.message && (
             <div className={`p-3 rounded-lg text-sm flex items-center ${
               status.type === 'success' 
-                ? 'bg-green-50 border border-green-200 text-green-600'
-                : 'bg-red-50 border border-red-200 text-red-600'
+                ? 'bg-green-900/30 border border-green-700 text-green-400'
+                : 'bg-red-900/30 border border-red-700 text-red-400'
             }`}>
               {status.type === 'success' ? (
                 <CheckCircle className="w-4 h-4 mr-2 flex-shrink-0" />
