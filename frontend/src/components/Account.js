@@ -1776,7 +1776,7 @@ const Account = ({ athleteId }) => {
                         value={personalForm.distance_unit || 'miles'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, distance_unit: value}))}
                       >
-                        <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                        <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#111827' }}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
