@@ -1858,15 +1858,15 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
 
   return (
     <div 
-      className="max-w-5xl mx-auto space-y-6 py-6"
+      className="max-w-5xl mx-auto space-y-0 sm:space-y-6 py-0 sm:py-6"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
       {/* Header with Tabs and Notifications */}
-      <div className="space-y-3 mb-6">
-        {/* Main Navigation Tabs - Full width with justify-between on mobile */}
-        <div className="flex justify-between w-full gap-1 sm:gap-2">
+      <div className="space-y-0 sm:space-y-3 mb-0 sm:mb-6">
+        {/* Main Navigation Tabs - Full width with no gaps on mobile */}
+        <div className="flex justify-between w-full gap-0 sm:gap-2">
           <button
             onClick={() => {
               setActiveTab('feed');
