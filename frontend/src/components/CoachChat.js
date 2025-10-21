@@ -774,46 +774,43 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
             
             {/* Button Row */}
             <div className="flex justify-end items-center gap-2">
-              {/* Voice Mode Button - Only show if OpenAI key exists */}
-              {hasOpenAIKey && (
-                <Button
-                  type="button"
-                  onClick={async () => {
-                    console.log('=== MIC BUTTON CLICKED ===');
-                    console.log('hasOpenAIKey:', hasOpenAIKey);
-                    console.log('voiceChatRef.current:', voiceChatRef.current);
-                    console.log('isVoiceActive:', isVoiceActive);
-                    
-                    if (!voiceChatRef.current) {
-                      console.error('❌ VoiceChat ref is null!');
-                      alert('Voice chat component not initialized. Please refresh the page.');
-                      return;
-                    }
-                    
-                    try {
-                      if (isVoiceActive) {
-                        console.log('🛑 Stopping voice chat...');
-                        await voiceChatRef.current.stopVoiceChat();
-                        setIsVoiceActive(false);
-                        console.log('✅ Voice chat stopped');
-                      } else {
-                        console.log('🎤 Starting voice chat...');
-                        await voiceChatRef.current.startVoiceChat();
-                        setIsVoiceActive(true);
-                        console.log('✅ Voice chat started');
-                      }
-                    } catch (error) {
-                      console.error('❌ Error toggling voice chat:', error);
-                      alert(`Voice chat error: ${error.message}`);
+              {/* Voice Mode Button */}
+              <Button
+                type="button"
+                onClick={async () => {
+                  console.log('=== MIC BUTTON CLICKED ===');
+                  console.log('voiceChatRef.current:', voiceChatRef.current);
+                  console.log('isVoiceActive:', isVoiceActive);
+                  
+                  if (!voiceChatRef.current) {
+                    console.error('❌ VoiceChat ref is null!');
+                    alert('Voice chat component not initialized. Please refresh the page.');
+                    return;
+                  }
+                  
+                  try {
+                    if (isVoiceActive) {
+                      console.log('🛑 Stopping voice chat...');
+                      await voiceChatRef.current.stopVoiceChat();
                       setIsVoiceActive(false);
+                      console.log('✅ Voice chat stopped');
+                    } else {
+                      console.log('🎤 Starting voice chat...');
+                      await voiceChatRef.current.startVoiceChat();
+                      setIsVoiceActive(true);
+                      console.log('✅ Voice chat started');
                     }
-                  }}
-                  className={`border-0 ${isVoiceActive ? 'bg-red-500 text-white' : 'bg-gray-700 text-white hover:bg-gray-600'}`}
-                  title={isVoiceActive ? 'Stop Voice Chat' : 'Start Voice Chat'}
-                >
-                  <Mic className="w-4 h-4" />
-                </Button>
-              )}
+                  } catch (error) {
+                    console.error('❌ Error toggling voice chat:', error);
+                    alert(`Voice chat error: ${error.message}`);
+                    setIsVoiceActive(false);
+                  }
+                }}
+                className={`border-0 ${isVoiceActive ? 'bg-red-500 text-white' : 'bg-gray-700 text-white hover:bg-gray-600'}`}
+                title={isVoiceActive ? 'Stop Voice Chat' : 'Start Voice Chat'}
+              >
+                <Mic className="w-4 h-4" />
+              </Button>
               
               {/* Send Button */}
               <Button 
