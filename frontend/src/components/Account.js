@@ -669,7 +669,6 @@ const Account = ({ athleteId }) => {
         console.error('Error loading integrations:', error);
         // Set default values if loading fails
         setIntegrations({
-          openai_api_key: '',
           strava: { connected: false, athlete_name: '', last_sync: null },
           oura: { connected: false, user_id: '', last_sync: null },
           coros: { connected: false, last_sync: null }
