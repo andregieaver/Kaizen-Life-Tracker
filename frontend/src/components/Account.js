@@ -2053,17 +2053,18 @@ const Account = ({ athleteId }) => {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle className="flex items-center">
-                      <Crown className="w-5 h-5 mr-2 text-yellow-600" />
+                    <CardTitle className="flex items-center text-white">
+                      <Crown className="w-5 h-5 mr-2 text-[#00C2A8]" />
                       Current Plan
                     </CardTitle>
-                    <CardDescription>
+                    <CardDescription className="text-gray-400">
                       Manage your subscription and billing
                     </CardDescription>
                   </div>
                   <Button 
                     variant="ghost" 
                     size="sm"
+                    className="text-gray-300 hover:text-white hover:bg-gray-700"
                     onClick={() => {
                       loadSubscriptionStatus();
                       setSaveStatus({ type: '', message: 'Refreshing...' });
