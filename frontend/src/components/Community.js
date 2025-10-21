@@ -2414,16 +2414,16 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
       {activeTab === 'following' && !selectedGroup && (
         <>
           {/* Posts from people you follow */}
-          <div className="space-y-6">
+          <div className="space-y-0 sm:space-y-6">
             {isLoading ? (
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg">
                 <CardContent className="p-12 text-center">
                   <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin mx-auto"></div>
                   <p className="text-gray-400 mt-4">Loading posts from people you follow...</p>
                 </CardContent>
               </Card>
             ) : followingPosts.length === 0 ? (
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg">
                 <CardContent className="p-12 text-center">
                   <p className="text-gray-400 text-lg mb-2">No posts from people you follow</p>
                   <p className="text-gray-500 text-sm">Follow other athletes to see their posts here!</p>
@@ -2431,8 +2431,8 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
               </Card>
             ) : (
               followingPosts.map(post => (
-                <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-                  <CardHeader className="pb-3">
+                <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg mx-0 sm:mx-auto">
+                  <CardHeader className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
                     <div className="flex items-center justify-between">
                       <div 
                         className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
