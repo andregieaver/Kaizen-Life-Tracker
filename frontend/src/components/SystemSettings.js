@@ -809,11 +809,14 @@ const SystemSettings = ({ athleteId }) => {
                           onDragOver={handleFeatureDragOver}
                           onDrop={(e) => handleFeatureDrop(e, 'free', index)}
                           onDragEnd={handleFeatureDragEnd}
-                          className={`flex gap-2 items-center ${
+                          className={`flex gap-2 items-center select-none ${
                             draggedFeature.plan === 'free' && draggedFeature.index === index 
                               ? 'opacity-50' 
                               : ''
                           }`}
+                          style={{ cursor: 'grab' }}
+                          onMouseDown={(e) => e.currentTarget.style.cursor = 'grabbing'}
+                          onMouseUp={(e) => e.currentTarget.style.cursor = 'grab'}
                         >
                           <div className="cursor-move p-2 text-gray-400 hover:text-white">
                             <GripVertical className="w-5 h-5" />
