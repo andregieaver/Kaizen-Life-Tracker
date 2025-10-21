@@ -44,6 +44,16 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+        <!-- Eruda Mobile Console for Debugging -->
+        <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+        <script>
+            // Initialize Eruda for mobile debugging
+            if (window.eruda) {
+                eruda.init();
+                console.log('✅ Eruda mobile console initialized');
+            }
+        </script>
+
         <!-- Emergent badge removed -->
         <script>
             !(function (t, e) {
