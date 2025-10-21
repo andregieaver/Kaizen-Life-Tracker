@@ -5,6 +5,16 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
   // Support both old images prop and new media prop
   const mediaItems = media.length > 0 ? media : images.map(url => ({ type: 'image', url }));
   
+  // Debug logging
+  console.log('🔍 ImageCarousel received:', { 
+    images, 
+    media, 
+    mediaItems,
+    hasImages: images?.length > 0,
+    hasMedia: media?.length > 0,
+    mediaItemsCount: mediaItems?.length
+  });
+  
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
@@ -15,8 +25,11 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
 
   // Early return if no media
   if (!mediaItems || mediaItems.length === 0) {
+    console.log('❌ ImageCarousel: No media items to display');
     return null;
   }
+  
+  console.log('✅ ImageCarousel: Rendering', mediaItems.length, 'items');
 
   // Handle keyboard navigation
   useEffect(() => {
