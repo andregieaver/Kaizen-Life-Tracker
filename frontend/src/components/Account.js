@@ -1610,14 +1610,14 @@ const Account = ({ athleteId }) => {
 
                 {/* Dietary Restrictions & Preferences */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-medium flex items-center">
-                    <Utensils className="w-5 h-5 mr-2 text-blue-600" />
+                  <h3 className="text-lg font-medium text-white flex items-center">
+                    <Utensils className="w-5 h-5 mr-2 text-[#00C2A8]" />
                     Dietary Restrictions & Preferences
                   </h3>
                   
                   {/* Allergies */}
                   <div>
-                    <Label className="text-base font-medium mb-3 block">Allergies</Label>
+                    <Label className="text-base font-medium text-white mb-3 block">Allergies</Label>
                     <p className="text-sm text-gray-400 mb-3">Select any food allergies (for recipe generation)</p>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {[
@@ -1642,7 +1642,7 @@ const Account = ({ athleteId }) => {
                                 : (personalForm.allergies || []).filter(a => a !== allergy.value);
                               setPersonalForm(prev => ({...prev, allergies: newAllergies}));
                             }}
-                            className="mt-0.5 rounded border-gray-700 text-blue-600 focus:ring-blue-500"
+                            className="mt-0.5 rounded border-gray-700 text-[#00C2A8] focus:ring-[#00C2A8]"
                           />
                           <span className="text-sm text-gray-300">{allergy.label}</span>
                         </label>
