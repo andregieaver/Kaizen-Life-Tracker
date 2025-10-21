@@ -376,7 +376,11 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
     try {
       const response = await axios.get(`${API}/community/notifications/${athleteId}`);
       setNotifications(response.data.notifications);
-      setUnreadCount(response.data.notifications.filter(n => !n.read).length);
+      const count = response.data.notifications.filter(n => !n.read).length;
+      setUnreadCount(count);
+      if (externalSetCommunityUnreadCount) {
+        externalSetCommunityUnreadCount(count);
+      }
       setNotificationsLoaded(true);
     } catch (error) {
       console.error('Error loading notifications:', error);
