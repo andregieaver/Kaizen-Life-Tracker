@@ -3279,6 +3279,12 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
     setPostsLoading(true);
     try {
       const response = await axios.get(`${API}/community/user/${profile.id}/posts?viewer_athlete_id=${athleteId}&limit=20`);
+      console.log('📥 Personal feed API response:', response.data);
+      console.log('📊 Posts received:', response.data.posts?.length);
+      if (response.data.posts && response.data.posts.length > 0) {
+        console.log('📷 First post image_urls:', response.data.posts[0].image_urls);
+        console.log('🖼️ First post image_data:', response.data.posts[0].image_data ? 'present' : 'null');
+      }
       setUserPosts(response.data.posts || []);
     } catch (error) {
       console.error('Error loading user posts:', error);
