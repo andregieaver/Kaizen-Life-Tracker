@@ -15,10 +15,20 @@ const SystemSettings = ({ athleteId }) => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Initialize active tab from URL hash or default to 'seo'
+  // Initialize active tab from localStorage, URL hash, or default to 'seo'
   const [activeTab, setActiveTab] = useState(() => {
+    // First try localStorage
+    const savedTab = localStorage.getItem('systemSettings_activeTab');
+    if (savedTab && ['seo', 'modules', 'plan-editor', 'statistics'].includes(savedTab)) {
+      return savedTab;
+    }
+    // Then try URL hash
     const hash = location.hash.replace('#', '');
-    return ['seo', 'modules', 'plan-editor', 'statistics'].includes(hash) ? hash : 'seo';
+    if (['seo', 'modules', 'plan-editor', 'statistics'].includes(hash)) {
+      return hash;
+    }
+    // Default to 'seo'
+    return 'seo';
   });
   const [loading, setLoading] = useState(true);
   
