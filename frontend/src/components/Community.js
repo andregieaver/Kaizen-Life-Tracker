@@ -2861,6 +2861,30 @@ const Community = ({ athleteId }) => {
         />
       )}
 
+      {/* Create Challenge Modal */}
+      {showCreateChallenge && (
+        <CreateChallengeModal
+          challengeData={newChallengeData}
+          setChallengeData={setNewChallengeData}
+          onClose={() => setShowCreateChallenge(false)}
+          onCreate={handleCreateChallenge}
+        />
+      )}
+
+      {/* Challenge Detail Modal */}
+      {showChallengeDetail && (
+        <ChallengeDetailModal
+          challengeData={challengeDetailData}
+          loading={challengeDetailLoading}
+          athleteId={athleteId}
+          onClose={() => setShowChallengeDetail(false)}
+          onJoin={() => handleJoinChallenge(challengeDetailData.id)}
+          onLeave={() => handleLeaveChallenge(challengeDetailData.id)}
+          onDelete={() => handleDeleteChallenge(challengeDetailData.id)}
+          onAddComment={handleAddChallengeComment}
+        />
+      )}
+
 
       {/* Athlete Profile Modal */}
       {showProfile && profileData && (
