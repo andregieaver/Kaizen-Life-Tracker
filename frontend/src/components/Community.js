@@ -178,9 +178,21 @@ const Community = ({ athleteId }) => {
     visibility: 'public',
     competition_type: 'individual',
     cover_photo: null,
+    trophy_image: null,
     is_recurring: false,
     recurrence_frequency: 'weekly',
     recurrence_count: 4
+  });
+  const [showEditChallenge, setShowEditChallenge] = useState(false);
+  const [editChallengeData, setEditChallengeData] = useState({
+    id: '',
+    title: '',
+    description: '',
+    cover_photo: null,
+    trophy_image: null,
+    end_date: '',
+    visibility: 'public',
+    goal_value: ''
   });
 
 
