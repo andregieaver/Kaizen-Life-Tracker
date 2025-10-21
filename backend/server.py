@@ -8574,13 +8574,16 @@ async def join_challenge(challenge_id: str, athlete_id: str = Query(...)):
         participation_dict["last_updated"] = participation_dict["last_updated"].isoformat()
         
         await db.community_challenge_participants.insert_one(participation_dict)
+        print(f"✅ DEBUG: Participation record created", flush=True)
         
         # Increment participants count
         await db.community_challenges.update_one(
             {"id": challenge_id},
             {"$inc": {"participants_count": 1}}
         )
+        print(f"✅ DEBUG: Participants count incremented", flush=True)
         
+        print(f"✅ DEBUG: Successfully joined challenge!", flush=True)
         return {"message": "Joined challenge successfully"}
     except HTTPException:
         raise
