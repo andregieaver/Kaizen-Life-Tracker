@@ -1944,7 +1944,7 @@ const Community = ({ athleteId }) => {
           </button>
         </div>
 
-        {/* Secondary Actions Row - Search and Create Post */}
+        {/* Secondary Actions Row - Search and Create Post (Mobile Only) */}
         <div className="flex items-center justify-center space-x-3 sm:hidden">
           {/* Write Post Button - Only on Feed and Following tabs */}
           {(activeTab === 'feed' || activeTab === 'following') && (
@@ -1965,19 +1965,46 @@ const Community = ({ athleteId }) => {
           >
             <Search className="w-6 h-6 text-white" />
           </button>
-          
-          <div className="relative">
+        </div>
+
+        {/* Desktop Actions - Right aligned */}
+        <div className="hidden sm:flex items-center justify-end space-x-3">
+          {/* Write Post Button - Only on Feed and Following tabs */}
+          {(activeTab === 'feed' || activeTab === 'following') && (
             <button
-              onClick={() => setShowNotifications(!showNotifications)}
-              className="relative p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
+              onClick={() => setShowWritePostModal(true)}
+              className="p-2 bg-[#00C2A8] hover:bg-[#00a890] rounded-full transition-colors"
+              aria-label="Write Post"
+              title="Write a post"
             >
-              <Bell className="w-6 h-6 text-white" />
-              {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  {unreadCount}
-                </span>
-              )}
+              <Edit3 className="w-6 h-6 text-white" />
             </button>
+          )}
+          
+          <button
+            onClick={handleOpenAthletes}
+            className="p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
+            aria-label="Find Athletes"
+          >
+            <Search className="w-6 h-6 text-white" />
+          </button>
+        </div>
+      </div>
+
+      {/* Notifications Dropdown - Hidden on desktop, moved to global header */}
+      <div className="hidden">
+        <div className="relative">
+          <button
+            onClick={() => setShowNotifications(!showNotifications)}
+            className="relative p-2 bg-gray-700 hover:bg-gray-600 rounded-full transition-colors"
+          >
+            <Bell className="w-6 h-6 text-white" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {unreadCount}
+              </span>
+            )}
+          </button>
 
           {/* Notifications Dropdown */}
           {showNotifications && (
