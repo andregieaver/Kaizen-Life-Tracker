@@ -4896,6 +4896,494 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick }) => (
   </Card>
 );
 
+// CreateChallengeModal Component
+const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCreate }) => {
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const compressed = await compressBannerImage(file);
+        setChallengeData({ ...challengeData, cover_photo: compressed });
+      } catch (error) {
+        console.error('Error compressing image:', error);
+        alert('Failed to process image');
+      }
+    }
+  };
+
+  const handleChallengeTypeChange = (type) => {
+    let unit = 'km';
+    if (type === 'activity_count') unit = 'activities';
+    if (type === 'duration') unit = 'minutes';
+    
+    setChallengeData({ ...challengeData, challenge_type: type, goal_unit: unit });
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold text-white flex items-center">
+              <Trophy className="w-6 h-6 mr-2 text-[#00C2A8]" />
+              Create Challenge
+            </h2>
+            <button onClick={onClose} className="text-gray-400 hover:text-white">
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">Title *</label>
+              <input
+                type="text"
+                value={challengeData.title}
+                onChange={(e) => setChallengeData({ ...challengeData, title: e.target.value })}
+                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+                placeholder="e.g., Run 100km in January"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">Description</label>
+              <textarea
+                value={challengeData.description}
+                onChange={(e) => setChallengeData({ ...challengeData, description: e.target.value })}
+                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+                rows="3"
+                placeholder="Describe your challenge..."
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">Challenge Type *</label>
+                <select
+                  value={challengeData.challenge_type}
+                  onChange={(e) => handleChallengeTypeChange(e.target.value)}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+                >
+                  <option value="distance">Distance</option>
+                  <option value="activity_count">Activity Count</option>
+                  <option value="duration">Duration</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">Goal Value *</label>
+                <div className="flex space-x-2">
+                  <input
+                    type="number"
+                    value={challengeData.goal_value}
+                    onChange={(e) => setChallengeData({ ...challengeData, goal_value: e.target.value })}
+                    className="flex-1 px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+                    placeholder="100"
+                    step="any"
+                  />
+                  <span className="px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-gray-400">
+                    {challengeData.goal_unit}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">Start Date *</label>
+                <input
+                  type="date"
+                  value={challengeData.start_date}
+                  onChange={(e) => setChallengeData({ ...challengeData, start_date: e.target.value })}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">End Date *</label>
+                <input
+                  type="date"
+                  value={challengeData.end_date}
+                  onChange={(e) => setChallengeData({ ...challengeData, end_date: e.target.value })}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">Visibility</label>
+                <select
+                  value={challengeData.visibility}
+                  onChange={(e) => setChallengeData({ ...challengeData, visibility: e.target.value })}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+                >
+                  <option value="public">Public</option>
+                  <option value="private">Private</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">Competition Type</label>
+                <select
+                  value={challengeData.competition_type}
+                  onChange={(e) => setChallengeData({ ...challengeData, competition_type: e.target.value })}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+                >
+                  <option value="individual">Individual</option>
+                  <option value="team">Team</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-600 pt-4">
+              <div className="flex items-center mb-2">
+                <input
+                  type="checkbox"
+                  checked={challengeData.is_recurring}
+                  onChange={(e) => setChallengeData({ ...challengeData, is_recurring: e.target.checked })}
+                  className="mr-2"
+                />
+                <label className="text-sm font-medium text-white">Recurring Challenge</label>
+              </div>
+
+              {challengeData.is_recurring && (
+                <div className="grid grid-cols-2 gap-4 ml-6">
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-1">Frequency</label>
+                    <select
+                      value={challengeData.recurrence_frequency}
+                      onChange={(e) => setChallengeData({ ...challengeData, recurrence_frequency: e.target.value })}
+                      className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white text-sm"
+                    >
+                      <option value="daily">Daily</option>
+                      <option value="weekly">Weekly</option>
+                      <option value="monthly">Monthly</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-1">Repeat Count</label>
+                    <input
+                      type="number"
+                      value={challengeData.recurrence_count}
+                      onChange={(e) => setChallengeData({ ...challengeData, recurrence_count: parseInt(e.target.value) })}
+                      className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white text-sm"
+                      min="1"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">Cover Photo</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#00C2A8] file:text-white hover:file:bg-[#00a890]"
+              />
+              {challengeData.cover_photo && (
+                <img src={challengeData.cover_photo} alt="Cover preview" className="mt-2 w-full h-32 object-cover rounded-lg" />
+              )}
+            </div>
+
+            <div className="flex justify-end space-x-3 pt-4">
+              <button
+                onClick={onClose}
+                className="px-6 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={onCreate}
+                className="px-6 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors"
+              >
+                <Trophy className="w-4 h-4 inline mr-2" />
+                Create Challenge
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ChallengeDetailModal Component
+const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJoin, onLeave, onDelete, onAddComment }) => {
+  const [commentText, setCommentText] = useState('');
+
+  if (loading || !challengeData) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg p-8">
+          <RefreshCw className="w-8 h-8 text-[#00C2A8] animate-spin mx-auto" />
+          <p className="text-white mt-4">Loading challenge...</p>
+        </div>
+      </div>
+    );
+  }
+
+  const progress = challengeData.user_progress || 0;
+  const goalValue = challengeData.goal_value;
+  const percentage = Math.min((progress / goalValue) * 100, 100);
+  const isCreator = challengeData.creator_id === athleteId;
+  const hasJoined = challengeData.has_joined;
+
+  const now = new Date();
+  const endDate = new Date(challengeData.end_date);
+  const isActive = endDate > now;
+
+  const handleAddComment = () => {
+    if (commentText.trim()) {
+      onAddComment(challengeData.id, commentText);
+      setCommentText('');
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex justify-between items-start mb-4">
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center">
+                <Trophy className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-white">{challengeData.title}</h2>
+                <p className="text-gray-400 text-sm">
+                  Created by {challengeData.creator_name}
+                  {challengeData.is_recurring && <RefreshCw className="w-4 h-4 inline ml-2 text-blue-400" title="Recurring" />}
+                </p>
+              </div>
+            </div>
+            <button onClick={onClose} className="text-gray-400 hover:text-white">
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Cover Photo */}
+          {challengeData.cover_photo && (
+            <img src={challengeData.cover_photo} alt={challengeData.title} className="w-full h-48 object-cover rounded-lg mb-4" />
+          )}
+
+          {/* Challenge Info */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <Card className="border-0 bg-gray-800">
+              <CardContent className="p-4">
+                <div className="flex items-center text-white mb-2">
+                  <Target className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                  <span className="font-semibold">Goal</span>
+                </div>
+                <p className="text-gray-300 text-lg">
+                  {goalValue} {challengeData.goal_unit}
+                </p>
+                <p className="text-gray-400 text-sm capitalize">
+                  {challengeData.challenge_type.replace('_', ' ')}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 bg-gray-800">
+              <CardContent className="p-4">
+                <div className="flex items-center text-white mb-2">
+                  <Calendar className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                  <span className="font-semibold">Duration</span>
+                </div>
+                <p className="text-gray-300 text-sm">
+                  {new Date(challengeData.start_date).toLocaleDateString()} - {new Date(challengeData.end_date).toLocaleDateString()}
+                </p>
+                <p className={`text-sm mt-1 ${isActive ? 'text-green-400' : 'text-gray-400'}`}>
+                  {isActive ? 'Active' : 'Completed'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 bg-gray-800">
+              <CardContent className="p-4">
+                <div className="flex items-center text-white mb-2">
+                  <UsersIcon className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                  <span className="font-semibold">Participants</span>
+                </div>
+                <p className="text-gray-300 text-2xl">
+                  {challengeData.participants_count || 0}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 bg-gray-800">
+              <CardContent className="p-4">
+                <div className="flex items-center text-white mb-2">
+                  {challengeData.visibility === 'public' ? <Globe className="w-5 h-5 mr-2 text-[#00C2A8]" /> : <Lock className="w-5 h-5 mr-2 text-[#00C2A8]" />}
+                  <span className="font-semibold">Visibility</span>
+                </div>
+                <p className="text-gray-300 capitalize">
+                  {challengeData.visibility} / {challengeData.competition_type}
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Description */}
+          {challengeData.description && (
+            <Card className="border-0 bg-gray-800 mb-6">
+              <CardContent className="p-4">
+                <h3 className="text-white font-semibold mb-2">Description</h3>
+                <p className="text-gray-300">{challengeData.description}</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* User Progress */}
+          {hasJoined && (
+            <Card className="border-0 bg-gradient-to-r from-[#00C2A8]/20 to-green-500/20 mb-6">
+              <CardContent className="p-4">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-white font-semibold">Your Progress</h3>
+                  <span className="text-[#00C2A8] font-bold text-lg">
+                    {progress.toFixed(1)} / {goalValue} {challengeData.goal_unit}
+                  </span>
+                </div>
+                <div className="w-full bg-gray-600 rounded-full h-3 mb-2">
+                  <div 
+                    className="bg-gradient-to-r from-[#00C2A8] to-green-500 h-3 rounded-full transition-all duration-300"
+                    style={{ width: `${percentage}%` }}
+                  />
+                </div>
+                <p className="text-right text-gray-300 text-sm">{percentage.toFixed(1)}% complete</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Leaderboard */}
+          {challengeData.leaderboard && challengeData.leaderboard.length > 0 && (
+            <Card className="border-0 bg-gray-800 mb-6">
+              <CardContent className="p-4">
+                <h3 className="text-white font-semibold mb-4 flex items-center">
+                  <Award className="w-5 h-5 mr-2 text-yellow-500" />
+                  Leaderboard
+                </h3>
+                <div className="space-y-2">
+                  {challengeData.leaderboard.slice(0, 10).map((participant, index) => (
+                    <div key={participant.id} className="flex items-center justify-between py-2 border-b border-gray-700">
+                      <div className="flex items-center space-x-3">
+                        <span className={`text-lg font-bold ${index === 0 ? 'text-yellow-500' : index === 1 ? 'text-gray-400' : index === 2 ? 'text-orange-600' : 'text-gray-500'}`}>
+                          #{index + 1}
+                        </span>
+                        {participant.athlete_profile_picture ? (
+                          <img src={participant.athlete_profile_picture} alt={participant.athlete_name} className="w-8 h-8 rounded-full" />
+                        ) : (
+                          <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                            <span className="text-white text-sm">{participant.athlete_name.charAt(0)}</span>
+                          </div>
+                        )}
+                        <span className="text-white">{participant.athlete_name}</span>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[#00C2A8] font-semibold">
+                          {participant.current_progress.toFixed(1)} {challengeData.goal_unit}
+                        </p>
+                        <p className="text-gray-400 text-xs">{participant.percentage_complete.toFixed(1)}%</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Comments */}
+          <Card className="border-0 bg-gray-800 mb-6">
+            <CardContent className="p-4">
+              <h3 className="text-white font-semibold mb-4">Comments</h3>
+              
+              {/* Add Comment */}
+              <div className="flex space-x-2 mb-4">
+                <input
+                  type="text"
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleAddComment()}
+                  className="flex-1 px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+                  placeholder="Add a comment..."
+                />
+                <button
+                  onClick={handleAddComment}
+                  className="px-4 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Comments List */}
+              <div className="space-y-3 max-h-64 overflow-y-auto">
+                {challengeData.comments && challengeData.comments.length > 0 ? (
+                  challengeData.comments.map((comment) => (
+                    <div key={comment.id} className="flex space-x-3 py-2">
+                      {comment.athlete_profile_picture ? (
+                        <img src={comment.athlete_profile_picture} alt={comment.athlete_name} className="w-8 h-8 rounded-full" />
+                      ) : (
+                        <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                          <span className="text-white text-sm">{comment.athlete_name.charAt(0)}</span>
+                        </div>
+                      )}
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-white font-medium text-sm">{comment.athlete_name}</span>
+                          <span className="text-gray-500 text-xs">{new Date(comment.created_at).toLocaleString()}</span>
+                        </div>
+                        <p className="text-gray-300 text-sm mt-1">{comment.content}</p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500 text-center py-4">No comments yet. Be the first to comment!</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Action Buttons */}
+          <div className="flex justify-between">
+            <div className="flex space-x-2">
+              {!isCreator && (
+                hasJoined ? (
+                  <button
+                    onClick={onLeave}
+                    className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+                  >
+                    Leave Challenge
+                  </button>
+                ) : (
+                  <button
+                    onClick={onJoin}
+                    className="px-6 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors"
+                  >
+                    <Trophy className="w-4 h-4 inline mr-2" />
+                    Join Challenge
+                  </button>
+                )
+              )}
+            </div>
+            {isCreator && (
+              <button
+                onClick={onDelete}
+                className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+              >
+                <Trash2 className="w-4 h-4 inline mr-2" />
+                Delete Challenge
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // CreateEventModal Component
 const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups, onEmojiSelect }) => {
   const handleImageUpload = async (e, type) => {
