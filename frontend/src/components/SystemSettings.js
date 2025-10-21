@@ -15,7 +15,10 @@ import {
   Eye,
   EyeOff,
   Calendar,
-  ArrowLeftRight
+  ArrowLeftRight,
+  DollarSign,
+  Percent,
+  Zap
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
