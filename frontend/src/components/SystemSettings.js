@@ -1072,6 +1072,72 @@ const SystemSettings = ({ athleteId }) => {
               </CardContent>
             </Card>
           </TabsContent>
+
+          {/* Advanced Tab */}
+          <TabsContent value="advanced">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="text-white">Advanced Settings</CardTitle>
+                <CardDescription className="text-gray-400">
+                  Configure system-wide integrations and API keys
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* OpenAI API Key */}
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-white">
+                    OpenAI API Key
+                  </Label>
+                  <p className="text-xs text-gray-400 mb-2">
+                    Global OpenAI API key used for all AI Coach features across all users
+                  </p>
+                  <div className="flex gap-2">
+                    <Input
+                      type={advancedSettings.showKey ? 'text' : 'password'}
+                      value={advancedSettings.openaiApiKey}
+                      onChange={(e) => setAdvancedSettings(prev => ({
+                        ...prev,
+                        openaiApiKey: e.target.value
+                      }))}
+                      placeholder="sk-..."
+                      className="flex-1 bg-gray-900 border-gray-700 text-white placeholder:text-gray-500"
+                    />
+                    <Button
+                      type="button"
+                      onClick={() => setAdvancedSettings(prev => ({
+                        ...prev,
+                        showKey: !prev.showKey
+                      }))}
+                      className="bg-gray-700 hover:bg-gray-600 text-white"
+                    >
+                      {advancedSettings.showKey ? 'Hide' : 'Show'}
+                    </Button>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-1">
+                    Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">OpenAI Platform</a>
+                  </p>
+                </div>
+
+                {/* Save Button */}
+                <div className="flex items-center justify-between pt-4 border-t border-gray-700">
+                  <div>
+                    {saveStatus.message && (
+                      <p className={`text-sm ${saveStatus.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+                        {saveStatus.message}
+                      </p>
+                    )}
+                  </div>
+                  <Button 
+                    onClick={handleSaveAdvancedSettings}
+                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                  >
+                    <Save className="w-4 h-4 mr-2" />
+                    Save Advanced Settings
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
       </div>
     </div>
