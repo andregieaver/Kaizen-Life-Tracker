@@ -2029,6 +2029,7 @@ const Community = ({ athleteId }) => {
                                 setEditingPost(null);
                                 setEditContent('');
                                 setEditVisibility('public');
+                                setEditMedia([]);
                               }}
                               className="bg-gray-600 hover:bg-gray-500 text-white"
                             >
