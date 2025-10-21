@@ -3479,13 +3479,19 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
 
                       {/* Post Content */}
                       <p className="text-white whitespace-pre-wrap mb-3">{formatMentions(post.content)}</p>
-                      {post.image_data && (
+                      
+                      {/* Display images - support both image_urls and image_data */}
+                      {post.image_urls && post.image_urls.length > 0 ? (
+                        <div className="mb-3">
+                          <ImageCarousel images={post.image_urls} alt="Post images" />
+                        </div>
+                      ) : post.image_data ? (
                         <img 
                           src={post.image_data} 
                           alt="Post" 
                           className="w-full rounded-lg max-h-96 object-cover mb-3" 
                         />
-                      )}
+                      ) : null}
 
                       {/* Post Actions */}
                       <div className="flex items-center space-x-6 text-gray-400">
