@@ -1113,6 +1113,7 @@ const SystemSettings = ({ athleteId }) => {
                     </div>
                   </div>
                 </div>
+                </div> {/* End of three column grid */}
 
                 {/* Save Button */}
                 <div className="pt-4">
