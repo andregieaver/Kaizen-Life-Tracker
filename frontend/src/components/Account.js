@@ -2130,7 +2130,7 @@ const Account = ({ athleteId }) => {
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm text-gray-500">Next billing date</p>
+                      <p className="text-sm text-gray-400">Next billing date</p>
                       <p className="font-semibold text-white">
                         {subscriptionStatus.current_period_end 
                           ? new Date(subscriptionStatus.current_period_end).toLocaleDateString() 
@@ -2143,15 +2143,15 @@ const Account = ({ athleteId }) => {
                 <div className="space-y-3 mb-6">
                   <h4 className="font-semibold text-white mb-2">Current Features:</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    <div className="flex items-center text-sm">
+                    <div className="flex items-center text-sm text-gray-300">
                       <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
                       <span>10 AI Coach questions/month</span>
                     </div>
-                    <div className="flex items-center text-sm">
+                    <div className="flex items-center text-sm text-gray-300">
                       <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
                       <span>Manual workout logging</span>
                     </div>
-                    <div className="flex items-center text-sm">
+                    <div className="flex items-center text-sm text-gray-300">
                       <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
                       <span>Basic readiness score</span>
                     </div>
