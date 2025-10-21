@@ -9867,7 +9867,21 @@ async def get_subscriber_stats(
                 previous_period_start = current_period_start - timedelta(days=90)
                 days = 90
         
-        # Current period data
+        # Filter athletes by period for accurate metrics
+        period_athletes = []
+        for athlete in athletes:
+            if not athlete.get("created_at"):
+                period_athletes.append(athlete)  # Include athletes without dates
+                continue
+            try:
+                created_date = datetime.fromisoformat(athlete["created_at"].replace('Z', '+00:00'))
+                # Include all athletes created up to now (cumulative)
+                if created_date <= now:
+                    period_athletes.append(athlete)
+            except Exception:
+                period_athletes.append(athlete)
+        
+        # Current period data (new subscribers in period)
         current_period_athletes = []
         previous_period_athletes = []
         
@@ -9883,9 +9897,9 @@ async def get_subscriber_stats(
             except Exception:
                 continue
         
-        # Current period counts
+        # Current period counts (cumulative at end of period)
         tier_counts = {"free": 0, "pro": 0, "premium": 0}
-        for athlete in athletes:
+        for athlete in period_athletes:
             tier = athlete.get("subscription_tier", "free")
             tier_counts[tier] = tier_counts.get(tier, 0) + 1
         
