@@ -1866,7 +1866,7 @@ const Account = ({ athleteId }) => {
                         value={personalForm.week_starts_on || 'monday'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, week_starts_on: value}))}
                       >
-                        <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                        <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#111827' }}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
