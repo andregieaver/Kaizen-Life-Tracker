@@ -152,11 +152,15 @@ const SystemSettings = ({ athleteId }) => {
     loadSubscriberStats();
   }, [athleteId]);
 
-  const loadSubscriberStats = async () => {
+  const loadSubscriberStats = async (period = selectedPeriod, compare = compareEnabled) => {
     setLoadingStats(true);
     try {
       const response = await axios.get(`${API}/system/subscriber-stats`, {
-        params: { athlete_id: athleteId }
+        params: { 
+          athlete_id: athleteId,
+          period: period,
+          compare: compare
+        }
       });
       setSubscriberStats(response.data);
     } catch (error) {
@@ -164,6 +168,17 @@ const SystemSettings = ({ athleteId }) => {
     } finally {
       setLoadingStats(false);
     }
+  };
+
+  const handlePeriodChange = (newPeriod) => {
+    setSelectedPeriod(newPeriod);
+    loadSubscriberStats(newPeriod, compareEnabled);
+  };
+
+  const handleCompareToggle = () => {
+    const newCompareValue = !compareEnabled;
+    setCompareEnabled(newCompareValue);
+    loadSubscriberStats(selectedPeriod, newCompareValue);
   };
 
   const loadSystemSettings = async () => {
