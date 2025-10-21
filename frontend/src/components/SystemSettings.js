@@ -1271,7 +1271,9 @@ const SystemSettings = ({ athleteId }) => {
                                 <span className="text-sm text-red-400">{subscriberStats.growth_percentage}%</span>
                               </>
                             )}
-                            <span className="text-sm text-gray-400 ml-2">last 30 days</span>
+                            <span className="text-sm text-gray-400 ml-2">
+                              in {selectedPeriod === '7d' ? 'last 7 days' : selectedPeriod === '30d' ? 'last 30 days' : selectedPeriod === '90d' ? 'last 90 days' : selectedPeriod === '1y' ? 'last year' : 'all time'}
+                            </span>
                           </div>
                         </div>
 
