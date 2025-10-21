@@ -1872,7 +1872,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
               setActiveTab('feed');
               setSelectedGroup(null);
             }}
-            className={`flex-1 p-2 sm:p-3 rounded-lg transition-all ${
+            className={`flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all ${
               activeTab === 'feed'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
@@ -1886,7 +1886,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
               setActiveTab('following');
               setSelectedGroup(null);
             }}
-            className={`flex-1 p-2 sm:p-3 rounded-lg transition-all ${
+            className={`flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all ${
               activeTab === 'following'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
@@ -1900,7 +1900,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
               setActiveTab('groups');
               setSelectedGroup(null);
             }}
-            className={`flex-1 p-2 sm:p-3 rounded-lg transition-all ${
+            className={`flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all ${
               activeTab === 'groups'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
@@ -1914,7 +1914,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
               setActiveTab('mygroups');
               setSelectedGroup(null);
             }}
-            className={`flex-1 p-2 sm:p-3 rounded-lg transition-all ${
+            className={`flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all ${
               activeTab === 'mygroups'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
@@ -1928,7 +1928,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
               setActiveTab('events');
               setSelectedGroup(null);
             }}
-            className={`flex-1 p-2 sm:p-3 rounded-lg transition-all ${
+            className={`flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all ${
               activeTab === 'events'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
@@ -1942,7 +1942,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
               setActiveTab('challenges');
               setSelectedGroup(null);
             }}
-            className={`flex-1 p-2 sm:p-3 rounded-lg transition-all ${
+            className={`flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all ${
               activeTab === 'challenges'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
