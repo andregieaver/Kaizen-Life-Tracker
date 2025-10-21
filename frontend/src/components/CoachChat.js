@@ -20,7 +20,6 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
-  const [hasOpenAIKey, setHasOpenAIKey] = useState(false);
   const [sessionId, setSessionId] = useState(() => `session_${Date.now()}`);
   const [showArchive, setShowArchive] = useState(false);
   const [conversations, setConversations] = useState([]);
