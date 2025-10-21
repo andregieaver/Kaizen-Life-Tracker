@@ -1855,95 +1855,97 @@ const Community = ({ athleteId }) => {
       onTouchEnd={onTouchEnd}
     >
       {/* Header with Tabs and Notifications */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex space-x-2">
+      <div className="space-y-3 mb-6">
+        {/* Main Navigation Tabs - Full width with justify-between on mobile */}
+        <div className="flex justify-between w-full gap-1 sm:gap-2">
           <button
             onClick={() => {
               setActiveTab('feed');
               setSelectedGroup(null);
             }}
-            className={`p-3 rounded-lg transition-all ${
+            className={`flex-1 p-2 sm:p-3 rounded-lg transition-all ${
               activeTab === 'feed'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
             }`}
             title="Feed"
           >
-            <Home className="w-6 h-6" />
+            <Home className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
           <button
             onClick={() => {
               setActiveTab('following');
               setSelectedGroup(null);
             }}
-            className={`p-3 rounded-lg transition-all ${
+            className={`flex-1 p-2 sm:p-3 rounded-lg transition-all ${
               activeTab === 'following'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
             }`}
             title="Following"
           >
-            <UserPlus className="w-6 h-6" />
+            <UserPlus className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
           <button
             onClick={() => {
               setActiveTab('groups');
               setSelectedGroup(null);
             }}
-            className={`p-3 rounded-lg transition-all ${
+            className={`flex-1 p-2 sm:p-3 rounded-lg transition-all ${
               activeTab === 'groups'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
             }`}
             title="All Groups"
           >
-            <UsersIcon className="w-6 h-6" />
+            <UsersIcon className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
           <button
             onClick={() => {
               setActiveTab('mygroups');
               setSelectedGroup(null);
             }}
-            className={`p-3 rounded-lg transition-all ${
+            className={`flex-1 p-2 sm:p-3 rounded-lg transition-all ${
               activeTab === 'mygroups'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
             }`}
             title="My Groups"
           >
-            <UserCheck className="w-6 h-6" />
+            <UserCheck className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
           <button
             onClick={() => {
               setActiveTab('events');
               setSelectedGroup(null);
             }}
-            className={`p-3 rounded-lg transition-all ${
+            className={`flex-1 p-2 sm:p-3 rounded-lg transition-all ${
               activeTab === 'events'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
             }`}
             title="Events"
           >
-            <Calendar className="w-6 h-6" />
+            <Calendar className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
           <button
             onClick={() => {
               setActiveTab('challenges');
               setSelectedGroup(null);
             }}
-            className={`p-3 rounded-lg transition-all ${
+            className={`flex-1 p-2 sm:p-3 rounded-lg transition-all ${
               activeTab === 'challenges'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
             }`}
             title="Challenges"
           >
-            <Trophy className="w-6 h-6" />
+            <Trophy className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
         </div>
 
-        <div className="flex items-center space-x-3">
+        {/* Secondary Actions Row - Search and Create Post */}
+        <div className="flex items-center justify-center space-x-3 sm:hidden">
           {/* Write Post Button - Only on Feed and Following tabs */}
           {(activeTab === 'feed' || activeTab === 'following') && (
             <button
