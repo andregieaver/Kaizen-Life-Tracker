@@ -8688,10 +8688,41 @@ async def update_challenge_progress(challenge_id: str, athlete_id: str = Query(.
             }
         )
         
+        # Check if challenge is completed (100% or more) and award trophy
+        trophy_awarded = False
+        if percentage >= 100:
+            # Check if trophy already awarded
+            existing_achievement = await db.community_challenge_achievements.find_one({
+                "challenge_id": challenge_id,
+                "athlete_id": athlete_id
+            })
+            
+            if not existing_achievement:
+                # Award trophy
+                achievement = ChallengeAchievement(
+                    id=str(uuid.uuid4()),
+                    challenge_id=challenge_id,
+                    challenge_title=challenge.get("title"),
+                    challenge_type=challenge.get("challenge_type"),
+                    trophy_image=challenge.get("trophy_image"),
+                    athlete_id=athlete_id,
+                    athlete_name=participation.get("athlete_name", "User"),
+                    completed_at=datetime.now(timezone.utc),
+                    final_value=progress
+                )
+                
+                achievement_dict = achievement.model_dump()
+                achievement_dict["completed_at"] = achievement_dict["completed_at"].isoformat()
+                
+                await db.community_challenge_achievements.insert_one(achievement_dict)
+                trophy_awarded = True
+                logging.info(f"Trophy awarded to {athlete_id} for completing challenge {challenge_id}")
+        
         return {
             "message": "Progress updated successfully",
             "current_progress": progress,
-            "percentage_complete": percentage
+            "percentage_complete": percentage,
+            "trophy_awarded": trophy_awarded
         }
     except HTTPException:
         raise
