@@ -7616,6 +7616,7 @@ async def get_user_posts(target_athlete_id: str, viewer_athlete_id: str = Query(
         
         if exclude_images:
             projection_stage["$project"]["image_data"] = 0
+            # Don't exclude image_urls - they should always be returned
         
         # Use aggregation pipeline to fetch user's posts with like status
         pipeline = [
