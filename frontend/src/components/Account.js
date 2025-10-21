@@ -1331,7 +1331,7 @@ const Account = ({ athleteId }) => {
                           value={personalForm.birth_day}
                           onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_day: value}))}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
                             <SelectValue placeholder="Day" />
                           </SelectTrigger>
                           <SelectContent>
@@ -1347,7 +1347,7 @@ const Account = ({ athleteId }) => {
                           value={personalForm.birth_month}
                           onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_month: value}))}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
                             <SelectValue placeholder="Month" />
                           </SelectTrigger>
                           <SelectContent>
@@ -1372,7 +1372,7 @@ const Account = ({ athleteId }) => {
                           value={personalForm.birth_year}
                           onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_year: value}))}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
                             <SelectValue placeholder="Year" />
                           </SelectTrigger>
                           <SelectContent>
