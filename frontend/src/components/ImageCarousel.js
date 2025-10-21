@@ -91,11 +91,7 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
       onTouchEnd={handleTouchEnd}
     >
       {/* Main Image */}
-      <div className={`${inFullscreen ? 'max-w-[90vw] max-h-[90vh]' : 'w-full aspect-video'}`}>
-        {/* Debug: Show current image URL */}
-        <div className="absolute top-0 left-0 right-0 bg-black/70 text-white text-xs p-2 z-10 truncate">
-          Loading: {images[currentIndex]}
-        </div>
+      <div className={`${inFullscreen ? 'max-w-[90vw] max-h-[90vh]' : 'w-full aspect-video'} overflow-hidden`}>
         <img
           src={images[currentIndex]}
           alt={`${alt} ${currentIndex + 1}`}
@@ -103,16 +99,11 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
             inFullscreen 
               ? 'max-w-full max-h-full object-contain' 
               : 'w-full h-full object-cover'
-          } rounded-lg`}
+          } rounded-lg transition-all duration-300 ease-in-out ${
+            isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
+          }`}
           onClick={() => !inFullscreen && setIsFullscreen(true)}
           style={{ cursor: inFullscreen ? 'default' : 'pointer' }}
-          onError={(e) => {
-            console.error('Image failed to load:', images[currentIndex]);
-            e.target.style.border = '2px solid red';
-          }}
-          onLoad={() => {
-            console.log('Image loaded successfully:', images[currentIndex]);
-          }}
         />
       </div>
 
