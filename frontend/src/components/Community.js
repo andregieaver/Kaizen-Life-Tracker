@@ -3054,84 +3054,105 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
         />
       )}
 
-      {/* Floating Action Button - Bottom Left */}
+      {/* Floating Action Button - Bottom Right */}
       <button
         onClick={() => setShowCreateMenu(!showCreateMenu)}
-        className="fixed bottom-20 left-4 z-40 w-14 h-14 bg-gradient-to-br from-[#00C2A8] to-[#00a890] hover:from-[#00a890] hover:to-[#00C2A8] rounded-full shadow-lg flex items-center justify-center transition-all transform hover:scale-110"
+        className={`fixed bottom-20 right-4 z-50 w-14 h-14 bg-gradient-to-br from-[#00C2A8] to-[#00a890] hover:from-[#00a890] hover:to-[#00C2A8] rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+          showCreateMenu ? 'rotate-45 scale-110' : 'rotate-0'
+        }`}
         aria-label="Create"
       >
         <PlusCircle className="w-7 h-7 text-white" />
       </button>
 
-      {/* Create Menu - Slides up from FAB */}
+      {/* Backdrop when menu is open */}
       {showCreateMenu && (
-        <>
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 bg-black/30 z-30"
-            onClick={() => setShowCreateMenu(false)}
-          />
-          
-          {/* Menu */}
-          <div className="fixed bottom-36 left-4 z-40 bg-gray-800 rounded-lg shadow-xl border border-gray-700 p-2 min-w-[200px]">
-            <button
-              onClick={() => {
-                setShowWritePostModal(true);
-                setShowCreateMenu(false);
-              }}
-              className="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded-lg transition-colors text-left"
-            >
-              <Edit3 className="w-5 h-5 text-[#00C2A8]" />
-              <div>
-                <p className="text-white font-medium">Post</p>
-                <p className="text-gray-400 text-xs">Share an update</p>
-              </div>
-            </button>
-            
-            <button
-              onClick={() => {
-                setShowCreateEvent(true);
-                setShowCreateMenu(false);
-              }}
-              className="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded-lg transition-colors text-left"
-            >
-              <Calendar className="w-5 h-5 text-blue-400" />
-              <div>
-                <p className="text-white font-medium">Event</p>
-                <p className="text-gray-400 text-xs">Create an event</p>
-              </div>
-            </button>
-            
-            <button
-              onClick={() => {
-                setShowCreateGroup(true);
-                setShowCreateMenu(false);
-              }}
-              className="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded-lg transition-colors text-left"
-            >
-              <UsersIcon className="w-5 h-5 text-purple-400" />
-              <div>
-                <p className="text-white font-medium">Group</p>
-                <p className="text-gray-400 text-xs">Start a community</p>
-              </div>
-            </button>
-            
-            <button
-              onClick={() => {
-                setShowCreateChallenge(true);
-                setShowCreateMenu(false);
-              }}
-              className="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded-lg transition-colors text-left"
-            >
-              <Trophy className="w-5 h-5 text-yellow-400" />
-              <div>
-                <p className="text-white font-medium">Challenge</p>
-                <p className="text-gray-400 text-xs">Create a challenge</p>
-              </div>
-            </button>
-          </div>
-        </>
+        <div 
+          className="fixed inset-0 bg-black/30 z-30"
+          onClick={() => setShowCreateMenu(false)}
+        />
       )}
+
+      {/* Fan Menu - Individual FABs */}
+      {/* Post Button */}
+      <button
+        onClick={() => {
+          setShowWritePostModal(true);
+          setShowCreateMenu(false);
+        }}
+        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-[#00C2A8] hover:bg-[#00a890] rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+          showCreateMenu 
+            ? 'opacity-100 translate-x-0 translate-y-0' 
+            : 'opacity-0 translate-x-8 translate-y-8 pointer-events-none'
+        }`}
+        style={{
+          transform: showCreateMenu ? 'translate(-70px, -10px)' : 'translate(0, 0)',
+          transitionDelay: showCreateMenu ? '50ms' : '0ms'
+        }}
+        title="Create Post"
+      >
+        <Edit3 className="w-5 h-5 text-white" />
+      </button>
+
+      {/* Event Button */}
+      <button
+        onClick={() => {
+          setShowCreateEvent(true);
+          setShowCreateMenu(false);
+        }}
+        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-blue-500 hover:bg-blue-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+          showCreateMenu 
+            ? 'opacity-100 translate-x-0 translate-y-0' 
+            : 'opacity-0 translate-x-8 translate-y-8 pointer-events-none'
+        }`}
+        style={{
+          transform: showCreateMenu ? 'translate(-50px, -60px)' : 'translate(0, 0)',
+          transitionDelay: showCreateMenu ? '100ms' : '0ms'
+        }}
+        title="Create Event"
+      >
+        <Calendar className="w-5 h-5 text-white" />
+      </button>
+
+      {/* Group Button */}
+      <button
+        onClick={() => {
+          setShowCreateGroup(true);
+          setShowCreateMenu(false);
+        }}
+        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-purple-500 hover:bg-purple-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+          showCreateMenu 
+            ? 'opacity-100 translate-x-0 translate-y-0' 
+            : 'opacity-0 translate-x-8 translate-y-8 pointer-events-none'
+        }`}
+        style={{
+          transform: showCreateMenu ? 'translate(-10px, -90px)' : 'translate(0, 0)',
+          transitionDelay: showCreateMenu ? '150ms' : '0ms'
+        }}
+        title="Create Group"
+      >
+        <UsersIcon className="w-5 h-5 text-white" />
+      </button>
+
+      {/* Challenge Button */}
+      <button
+        onClick={() => {
+          setShowCreateChallenge(true);
+          setShowCreateMenu(false);
+        }}
+        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-yellow-500 hover:bg-yellow-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+          showCreateMenu 
+            ? 'opacity-100 translate-x-0 translate-y-0' 
+            : 'opacity-0 translate-x-8 translate-y-8 pointer-events-none'
+        }`}
+        style={{
+          transform: showCreateMenu ? 'translate(30px, -85px)' : 'translate(0, 0)',
+          transitionDelay: showCreateMenu ? '200ms' : '0ms'
+        }}
+        title="Create Challenge"
+      >
+        <Trophy className="w-5 h-5 text-white" />
+      </button>
 
 
       {/* Write Post Modal */}
