@@ -2652,32 +2652,32 @@ const Community = ({ athleteId }) => {
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-4 border-t border-gray-600">
                 <div className="flex items-center space-x-2">
-                  {/* Multiple images input - allows both camera and gallery selection */}
+                  {/* Mixed media input - images and videos */}
                   <input
                     type="file"
-                    accept="image/*"
+                    accept="image/*,video/*"
                     multiple
-                    onChange={handleMultipleImagesSelect}
+                    onChange={handleMediaSelect}
                     className="hidden"
-                    id="write-post-multi-images"
-                    disabled={isUploadingImages || selectedImages.length >= 5}
+                    id="write-post-media"
+                    disabled={isUploadingMedia || selectedMedia.length >= 5}
                   />
                   <label
-                    htmlFor="write-post-multi-images"
+                    htmlFor="write-post-media"
                     className={`p-2 rounded-full cursor-pointer transition-colors ${
-                      isUploadingImages || selectedImages.length >= 5
+                      isUploadingMedia || selectedMedia.length >= 5
                         ? 'bg-gray-600 cursor-not-allowed opacity-50'
                         : 'bg-gray-700 hover:bg-gray-600'
                     }`}
-                    title={selectedImages.length >= 5 ? 'Maximum 5 images allowed' : 'Add images (max 5)'}
+                    title={selectedMedia.length >= 5 ? 'Maximum 5 media items' : 'Add images or video (max 5, 1 video)'}
                   >
                     <Camera className="w-5 h-5 text-white" />
                   </label>
                   
-                  {/* Show image count on mobile */}
-                  {selectedImages.length > 0 && (
+                  {/* Show media count */}
+                  {selectedMedia.length > 0 && (
                     <span className="text-sm text-white bg-[#00C2A8] px-2 py-1 rounded-full">
-                      {selectedImages.length}/5
+                      {selectedMedia.length}/5
                     </span>
                   )}
                 </div>
