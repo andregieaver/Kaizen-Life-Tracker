@@ -220,9 +220,9 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
           </button>
 
           {/* Image Counter */}
-          {images.length > 1 && (
+          {mediaItems.length > 1 && (
             <div className="absolute top-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm z-10">
-              {currentIndex + 1} / {images.length}
+              {currentIndex + 1} / {mediaItems.length}
             </div>
           )}
 
