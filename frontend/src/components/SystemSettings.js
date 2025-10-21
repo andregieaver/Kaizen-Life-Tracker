@@ -1567,6 +1567,131 @@ const SystemSettings = ({ athleteId }) => {
                   )}
                 </CardContent>
               </Card>
+
+              {/* Community Metrics Card */}
+              <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center">
+                    <MessageSquare className="w-6 h-6 mr-2 text-[#00C2A8]" />
+                    Community Metrics
+                  </CardTitle>
+                  <CardDescription className="text-gray-400 mt-2">
+                    User engagement and activity statistics
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {loadingStats ? (
+                    <div className="text-center text-gray-400 py-8">Loading community data...</div>
+                  ) : (
+                    <>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {/* Total Posts */}
+                        <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-sm font-medium text-gray-400">Total Posts</p>
+                            <MessageSquare className="w-5 h-5 text-blue-400" />
+                          </div>
+                          <p className="text-2xl font-bold text-white">
+                            {subscriberStats.community_metrics?.total_posts?.toLocaleString() || '0'}
+                          </p>
+                          <p className="text-xs text-gray-400 mt-2">
+                            in {selectedPeriod === '7d' ? 'last 7 days' : selectedPeriod === '30d' ? 'last 30 days' : selectedPeriod === '90d' ? 'last 90 days' : selectedPeriod === '1y' ? 'last year' : 'all time'}
+                          </p>
+                        </div>
+
+                        {/* Active Posters */}
+                        <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-sm font-medium text-gray-400">Active Posters</p>
+                            <UserCheck className="w-5 h-5 text-green-400" />
+                          </div>
+                          <p className="text-2xl font-bold text-white">
+                            {subscriberStats.community_metrics?.unique_posters?.toLocaleString() || '0'}
+                          </p>
+                          <p className="text-xs text-gray-400 mt-2">Unique contributors</p>
+                        </div>
+
+                        {/* Total Engagement */}
+                        <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-sm font-medium text-gray-400">Total Engagement</p>
+                            <Activity className="w-5 h-5 text-purple-400" />
+                          </div>
+                          <p className="text-2xl font-bold text-white">
+                            {((subscriberStats.community_metrics?.total_likes || 0) + (subscriberStats.community_metrics?.total_comments || 0)).toLocaleString()}
+                          </p>
+                          <p className="text-xs text-gray-400 mt-2">Likes + Comments</p>
+                        </div>
+
+                        {/* Engagement Rate */}
+                        <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-sm font-medium text-gray-400">Engagement Rate</p>
+                            <Percent className="w-5 h-5 text-orange-400" />
+                          </div>
+                          <p className="text-2xl font-bold text-white">
+                            {subscriberStats.community_metrics?.engagement_rate || '0'}%
+                          </p>
+                          <p className="text-xs text-gray-400 mt-2">Active vs Total Users</p>
+                        </div>
+                      </div>
+
+                      {/* Engagement Details Row */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        {/* Likes & Comments Breakdown */}
+                        <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
+                          <p className="text-sm font-medium text-gray-400 mb-3">Average Engagement Per Post</p>
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <Heart className="w-4 h-4 text-red-400" />
+                                <span className="text-sm text-gray-300">Likes per Post</span>
+                              </div>
+                              <span className="text-lg font-semibold text-white">
+                                {subscriberStats.community_metrics?.avg_likes_per_post?.toFixed(1) || '0.0'}
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <MessageSquare className="w-4 h-4 text-blue-400" />
+                                <span className="text-sm text-gray-300">Comments per Post</span>
+                              </div>
+                              <span className="text-lg font-semibold text-white">
+                                {subscriberStats.community_metrics?.avg_comments_per_post?.toFixed(1) || '0.0'}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Activity Summary */}
+                        <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
+                          <p className="text-sm font-medium text-gray-400 mb-3">Community Activity</p>
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-gray-300">Total Likes</span>
+                              <div className="flex items-center gap-2">
+                                <Heart className="w-4 h-4 text-red-400" />
+                                <span className="text-lg font-semibold text-white">
+                                  {subscriberStats.community_metrics?.total_likes?.toLocaleString() || '0'}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm text-gray-300">Total Comments</span>
+                              <div className="flex items-center gap-2">
+                                <MessageSquare className="w-4 h-4 text-blue-400" />
+                                <span className="text-lg font-semibold text-white">
+                                  {subscriberStats.community_metrics?.total_comments?.toLocaleString() || '0'}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </CardContent>
+              </Card>
             </div>
           </TabsContent>
 
