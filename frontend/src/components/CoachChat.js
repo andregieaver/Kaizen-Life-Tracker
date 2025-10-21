@@ -53,7 +53,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
     const urlParams = new URLSearchParams(window.location.search);
     const action = urlParams.get('action');
     
-    if (action === 'voice' && hasOpenAIKey && voiceChatRef.current) {
+    if (action === 'voice' && voiceChatRef.current) {
       // Small delay to ensure component is fully mounted
       setTimeout(async () => {
         try {
@@ -66,7 +66,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
         }
       }, 500);
     }
-  }, [hasOpenAIKey]);
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
