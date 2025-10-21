@@ -77,11 +77,6 @@ const SystemSettings = ({ athleteId }) => {
     }
   });
 
-  // Update URL hash when tab changes
-  useEffect(() => {
-    window.location.hash = activeTab;
-  }, [activeTab]);
-
   // Load settings on mount
   useEffect(() => {
     loadSystemSettings();
