@@ -1922,12 +1922,12 @@ const Account = ({ athleteId }) => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label>Fluid Unit</Label>
+                      <Label className="text-sm font-medium text-white">Fluid Unit</Label>
                       <Select
                         value={personalForm.fluid_unit || 'fl oz'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, fluid_unit: value}))}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -1939,12 +1939,12 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>{t('account.aiCoachVoice')}</Label>
+                    <Label className="text-sm font-medium text-white">{t('account.aiCoachVoice')}</Label>
                     <Select
                       value={personalForm.voice_preference || 'alloy'}
                       onValueChange={(value) => setPersonalForm(prev => ({...prev, voice_preference: value}))}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1962,13 +1962,13 @@ const Account = ({ athleteId }) => {
 
                   {/* AI Coach Language Preference */}
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium">AI Coach Language</Label>
+                    <Label className="text-sm font-medium text-white">AI Coach Language</Label>
                     <p className="text-xs text-gray-500">Choose the language for AI responses in chat, voice, and reports</p>
                     <Select
                       value={personalForm.coach_language || 'en'}
                       onValueChange={(value) => setPersonalForm(prev => ({...prev, coach_language: value}))}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
