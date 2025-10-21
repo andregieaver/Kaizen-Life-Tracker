@@ -3111,7 +3111,9 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
             : 'opacity-0 translate-x-8 translate-y-8 pointer-events-none'
         }`}
         style={{
-          transform: showCreateMenu ? 'translate(-110px, -25px)' : 'translate(0, 0)',
+          transform: showCreateMenu 
+            ? `translate(-110px, ${scrollDirection === 'down' ? '103px' : '-25px'})` 
+            : 'translate(0, 0)',
           transitionDelay: showCreateMenu ? '50ms' : '0ms'
         }}
         title="Create Post"
