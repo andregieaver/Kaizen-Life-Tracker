@@ -1466,7 +1466,8 @@ const Account = ({ athleteId }) => {
                         value={personalForm.max_heart_rate}
                         onChange={handlePersonalFormChange}
                         placeholder="190"
-                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                        className="text-white placeholder:text-gray-500"
+                        style={{ backgroundColor: '#111827', borderColor: '#111827' }}
                       />
                     </div>
 
