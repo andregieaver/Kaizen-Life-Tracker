@@ -2334,24 +2334,16 @@ const Community = ({ athleteId }) => {
 
       {/* Athlete Profile Modal */}
       {showProfile && profileData && (
-        <>
-          <div className="fixed top-4 right-4 bg-orange-900/90 p-3 rounded text-orange-200 text-sm z-[70]">
-            🔍 Profile Modal Open
-            <div>Profile ID: {profileData.id}</div>
-            <div>Your ID: {athleteId}</div>
-            <div>Same person: {profileData.id === athleteId ? 'YES' : 'NO'}</div>
-          </div>
-          <AthleteProfileModal
-            profile={profileData}
-            onClose={() => setShowProfile(false)}
-            onFollowToggle={handleFollowToggle}
-            loading={profileLoading}
-            athleteId={athleteId}
-            loadAthleteProfile={loadAthleteProfile}
-            handleLike={handleToggleLike}
-            handleShare={handleSharePost}
-          />
-        </>
+        <AthleteProfileModal
+          profile={profileData}
+          onClose={() => setShowProfile(false)}
+          onFollowToggle={handleFollowToggle}
+          loading={profileLoading}
+          athleteId={athleteId}
+          loadAthleteProfile={loadAthleteProfile}
+          handleLike={handleToggleLike}
+          handleShare={handleSharePost}
+        />
       )}
 
       {/* Athletes List Modal */}
