@@ -8786,6 +8786,20 @@ async def get_challenge_comments(challenge_id: str):
         logging.error(f"Error fetching challenge comments: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.get("/community/challenges/achievements/{athlete_id}")
+async def get_athlete_achievements(athlete_id: str):
+    """Get all earned trophies/achievements for an athlete"""
+    try:
+        achievements = await db.community_challenge_achievements.find(
+            {"athlete_id": athlete_id},
+            {"_id": 0}
+        ).sort("completed_at", -1).to_list(length=None)
+        
+        return {"achievements": achievements}
+    except Exception as e:
+        logging.error(f"Error fetching achievements: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.get("/community/notifications/{athlete_id}")
 async def get_notifications(athlete_id: str, unread_only: bool = Query(False)):
     """Get notifications for an athlete"""
