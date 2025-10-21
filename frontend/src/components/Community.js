@@ -2802,6 +2802,7 @@ const Community = ({ athleteId }) => {
                 onJoin={() => handleJoinChallenge(challenge.id)}
                 onLeave={() => handleLeaveChallenge(challenge.id)}
                 onDelete={() => handleDeleteChallenge(challenge.id)}
+                onEdit={handleOpenEditChallenge}
                 onClick={() => handleOpenChallengeDetail(challenge.id)}
               />
             ))}
