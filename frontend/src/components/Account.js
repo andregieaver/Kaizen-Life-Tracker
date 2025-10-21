@@ -1311,18 +1311,18 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="name" className="text-sm font-medium">{t('auth.fullName')}</Label>
+                    <Label htmlFor="name" className="text-sm font-medium text-white">{t('auth.fullName')}</Label>
                     <Input
                       id="name"
                       name="name"
                       value={personalForm.name}
                       onChange={handlePersonalFormChange}
-                      className="input-focus"
+                      className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
                       data-testid="name-input"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium">{t('account.dateOfBirth')}</Label>
+                    <Label className="text-sm font-medium text-white">{t('account.dateOfBirth')}</Label>
                     <div className="grid grid-cols-3 gap-2">
                       <div>
                         <Label className="text-xs text-gray-400">{t('account.birthDay')}</Label>
