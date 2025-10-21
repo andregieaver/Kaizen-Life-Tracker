@@ -2574,15 +2574,15 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
                         
                         {/* Display media (images and videos) */}
                         {post.media && post.media.length > 0 ? (
-                          <div className="mb-4">
+                          <div className="mb-4 -mx-3 sm:mx-0">
                             <ImageCarousel media={post.media} alt="Post media" />
                           </div>
                         ) : post.image_urls && post.image_urls.length > 0 ? (
-                          <div className="mb-4">
+                          <div className="mb-4 -mx-3 sm:mx-0">
                             <ImageCarousel images={post.image_urls} alt="Post images" />
                           </div>
                         ) : post.image_data ? (
-                          <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-96 object-cover mb-4" />
+                          <img src={post.image_data} alt="Post" className="w-full rounded-none sm:rounded-lg max-h-96 object-cover mb-4 -mx-3 sm:mx-0" />
                         ) : null}
                       </>
                     )}
