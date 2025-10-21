@@ -8300,6 +8300,13 @@ async def create_challenge(challenge: dict, athlete_id: str = Query(...)):
                 raise HTTPException(status_code=404, detail="User not found")
         
         # Create challenge object
+        print(f"🔍 DEBUG: Creating challenge object with data:", flush=True)
+        print(f"  - title: {challenge.get('title')}", flush=True)
+        print(f"  - challenge_type: {challenge.get('challenge_type')}", flush=True)
+        print(f"  - goal_value: {challenge.get('goal_value')}", flush=True)
+        print(f"  - start_date: {challenge.get('start_date')}", flush=True)
+        print(f"  - end_date: {challenge.get('end_date')}", flush=True)
+        
         challenge_obj = Challenge(
             id=str(uuid.uuid4()),
             title=challenge.get("title"),
@@ -8323,15 +8330,26 @@ async def create_challenge(challenge: dict, athlete_id: str = Query(...)):
             created_at=datetime.now(timezone.utc)
         )
         
+        print(f"✅ DEBUG: Challenge object created successfully", flush=True)
+        
         # Convert to dict and prepare for MongoDB
         challenge_dict = challenge_obj.model_dump()
         challenge_dict["created_at"] = challenge_dict["created_at"].isoformat()
         
+        print(f"🔍 DEBUG: Inserting challenge into database", flush=True)
         # Insert into database
         await db.community_challenges.insert_one(challenge_dict)
         
+        print(f"✅ DEBUG: Challenge inserted successfully with id: {challenge_obj.id}", flush=True)
         return challenge_obj
+    except HTTPException as he:
+        print(f"❌ DEBUG: HTTPException in create_challenge: {he.detail}", flush=True)
+        raise
     except Exception as e:
+        print(f"❌ DEBUG: Exception in create_challenge: {str(e)}", flush=True)
+        print(f"❌ DEBUG: Exception type: {type(e).__name__}", flush=True)
+        import traceback
+        print(f"❌ DEBUG: Traceback: {traceback.format_exc()}", flush=True)
         logging.error(f"Error creating challenge: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
