@@ -1551,7 +1551,8 @@ const Account = ({ athleteId }) => {
                         value={personalForm.estimated_calorie_need}
                         onChange={handlePersonalFormChange}
                         placeholder="e.g., 2500"
-                        className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                        className="text-white placeholder:text-gray-500"
+                        style={{ backgroundColor: '#111827', borderColor: '#111827' }}
                       />
                       <p className="text-xs text-gray-500">
                         Calories per day (based on age, gender, activity level)
