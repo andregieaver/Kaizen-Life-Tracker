@@ -7383,8 +7383,8 @@ async def upload_images(
                 quality=85
             )
             
-            # Generate URL using request base URL
-            image_url = f"{base_url}/uploads/images/{processed_filename}"
+            # Generate URL using request base URL with /api prefix
+            image_url = f"{base_url}/api/uploads/images/{processed_filename}"
             uploaded_urls.append(image_url)
             
             logging.info(f"Processed and uploaded image: {processed_filename} -> {image_url}")
