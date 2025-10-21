@@ -1163,7 +1163,12 @@ const Dashboard = ({ athleteId }) => {
         )}
 
         {activeTab === 'community' && (
-          <Community athleteId={athleteId} />
+          <Community 
+            athleteId={athleteId} 
+            showNotifications={showNotifications}
+            setShowNotifications={setShowNotifications}
+            setCommunityUnreadCount={setCommunityUnreadCount}
+          />
         )}
 
         {activeTab === 'referrals' && (
