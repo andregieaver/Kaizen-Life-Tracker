@@ -8340,6 +8340,7 @@ async def create_challenge(challenge: dict, athlete_id: str = Query(...)):
             visibility=challenge.get("visibility", "public"),
             competition_type=challenge.get("competition_type", "individual"),
             cover_photo=challenge.get("cover_photo"),
+            trophy_image=challenge.get("trophy_image"),
             creator_id=athlete_id,
             creator_name=athlete.get("name", "Unknown User"),
             creator_profile_picture=athlete.get("profile_picture"),
