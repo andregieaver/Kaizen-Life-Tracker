@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, X, Maximize2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, Maximize2, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
-const ImageCarousel = ({ images = [], alt = "Image" }) => {
+const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
+  // Support both old images prop and new media prop
+  const mediaItems = media.length > 0 ? media : images.map(url => ({ type: 'image', url }));
+  
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [slideDirection, setSlideDirection] = useState('right');
+  const [isPlaying, setIsPlaying] = useState({});
+  const [isMuted, setIsMuted] = useState({});
 
-  // Early return with no message if no images
-  if (!images || images.length === 0) {
+  // Early return if no media
+  if (!mediaItems || mediaItems.length === 0) {
     return null;
   }
 
