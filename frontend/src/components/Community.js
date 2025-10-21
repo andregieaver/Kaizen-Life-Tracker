@@ -4735,6 +4735,16 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
   const isCreator = challenge.creator_id === athleteId;
   const hasJoined = challenge.has_joined;
   
+  // Debug logging
+  console.log('🔍 ChallengeCard DEBUG:', {
+    challengeTitle: challenge.title,
+    athleteId,
+    creatorId: challenge.creator_id,
+    isCreator,
+    hasJoined,
+    challenge
+  });
+  
   // Check if challenge is active
   const now = new Date();
   const endDate = new Date(challenge.end_date);
