@@ -2309,18 +2309,18 @@ const Account = ({ athleteId }) => {
                         <h3 className="text-lg font-bold text-white">{planSettings.premium.title}</h3>
                         <p className="text-sm text-gray-400">{planSettings.premium.description}</p>
                       </div>
-                      <Crown className="w-5 h-5 text-yellow-600" />
+                      <Crown className="w-5 h-5 text-[#00C2A8]" />
                     </div>
                     <div className="mb-4">
                       <div className="flex items-baseline">
                         <span className="text-3xl font-bold text-white">€19.99</span>
-                        <span className="text-gray-500 ml-1">/month</span>
+                        <span className="text-gray-400 ml-1">/month</span>
                       </div>
-                      <p className="text-sm text-green-600 mt-1">or €199/year (save 17%)</p>
+                      <p className="text-sm text-green-400 mt-1">or €199/year (save 17%)</p>
                     </div>
                     <ul className="space-y-2 mb-4">
                       {planSettings.premium.features.map((feature, index) => (
-                        <li key={index} className="flex items-start text-sm">
+                        <li key={index} className="flex items-start text-sm text-gray-300">
                           <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
                           <span>{feature}</span>
                         </li>
@@ -2328,7 +2328,7 @@ const Account = ({ athleteId }) => {
                     </ul>
                     {subscriptionStatus.tier === 'free' || subscriptionStatus.tier === 'pro' ? (
                       <Button 
-                        className="w-full" 
+                        className="w-full bg-purple-600 hover:bg-purple-700 text-white" 
                         variant="default"
                         onClick={() => {
                           setUpgradeTarget('premium');
@@ -2339,16 +2339,16 @@ const Account = ({ athleteId }) => {
                         {subscriptionStatus.tier === 'free' ? 'Upgrade to Premium' : 'Upgrade to Premium'}
                       </Button>
                     ) : (
-                      <Button className="w-full" variant="outline" disabled>
+                      <Button className="w-full border-gray-600 text-gray-400" variant="outline" disabled>
                         Current Plan
                       </Button>
                     )}
                   </div>
                 </div>
 
-                <div className="mt-6 p-4 bg-blue-900/20 rounded-lg border border-blue-700">
-                  <p className="text-sm text-blue-200 text-center">
-                    <strong>Secure Payment:</strong> All payments are processed securely through Stripe. 
+                <div className="mt-6 p-4 rounded-lg border border-gray-600" style={{ backgroundColor: '#111827' }}>
+                  <p className="text-sm text-gray-300 text-center">
+                    <strong className="text-white">Secure Payment:</strong> All payments are processed securely through Stripe. 
                     Your payment information is never stored on our servers.
                   </p>
                 </div>
