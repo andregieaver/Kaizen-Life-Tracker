@@ -1652,7 +1652,7 @@ const Account = ({ athleteId }) => {
 
                   {/* Dietary Preferences */}
                   <div>
-                    <Label className="text-base font-medium mb-3 block">Dietary Preferences</Label>
+                    <Label className="text-base font-medium text-white mb-3 block">Dietary Preferences</Label>
                     <p className="text-sm text-gray-400 mb-3">Select your dietary preferences (for recipe generation)</p>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {[
@@ -1676,7 +1676,7 @@ const Account = ({ athleteId }) => {
                                 : (personalForm.dietary_preferences || []).filter(d => d !== diet.value);
                               setPersonalForm(prev => ({...prev, dietary_preferences: newPrefs}));
                             }}
-                            className="mt-0.5 rounded border-gray-700 text-blue-600 focus:ring-blue-500"
+                            className="mt-0.5 rounded border-gray-700 text-[#00C2A8] focus:ring-[#00C2A8]"
                           />
                           <span className="text-sm text-gray-300">{diet.label}</span>
                         </label>
@@ -1688,8 +1688,8 @@ const Account = ({ athleteId }) => {
                 <Separator />
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-medium flex items-center">
-                    <Shield className="w-5 h-5 mr-2 text-blue-600" />
+                  <h3 className="text-lg font-medium text-white flex items-center">
+                    <Shield className="w-5 h-5 mr-2 text-[#00C2A8]" />
                     {t('account.security')}
                   </h3>
                   <ChangePassword athleteId={athleteId} />
@@ -1698,7 +1698,7 @@ const Account = ({ athleteId }) => {
                 <div className="flex justify-end">
                   <Button 
                     type="submit" 
-                    className="bg-blue-600 hover:bg-blue-700 btn-transition"
+                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white font-medium px-6 py-2"
                     data-testid="save-personal-info-btn"
                   >
                     {t('account.saveChanges')}
