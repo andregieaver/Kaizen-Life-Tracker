@@ -84,6 +84,7 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
       {/* Main Image */}
       <div className={`${inFullscreen ? 'max-w-[90vw] max-h-[90vh]' : 'w-full aspect-video'} overflow-hidden relative`}>
         <div 
+          key={currentIndex}
           className="flex transition-transform duration-500 ease-in-out h-full"
           style={{ 
             transform: `translateX(-${currentIndex * 100}%)`,
@@ -91,7 +92,7 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
         >
           {images.map((image, index) => (
             <div
-              key={index}
+              key={`img-${index}`}
               className="w-full h-full flex-shrink-0"
               style={{ minWidth: '100%' }}
             >
