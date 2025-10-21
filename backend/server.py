@@ -10061,6 +10061,69 @@ async def get_subscriber_stats(
             "post_time_series": post_time_series
         }
         
+        # Calculate referral metrics
+        # Get all referrals
+        referrals_query = {}
+        if days:
+            referrals_query["created_at"] = {"$gte": current_period_start.isoformat()}
+        
+        referrals = await db.referrals.find(referrals_query).to_list(length=None)
+        total_referrals = len(referrals)
+        
+        # Count successful referrals (where referred user signed up)
+        successful_referrals = sum(1 for ref in referrals if ref.get("status") == "completed" or ref.get("referred_athlete_id"))
+        
+        # Calculate referral conversion rate
+        referral_conversion_rate = (successful_referrals / max(total_referrals, 1)) * 100
+        
+        # Get unique referrers
+        unique_referrers = len(set(ref.get("referrer_athlete_id") for ref in referrals if ref.get("referrer_athlete_id")))
+        
+        # Calculate total rewards distributed
+        total_rewards = sum(ref.get("reward_amount", 0) for ref in referrals if ref.get("status") == "completed")
+        
+        # Get top referrers (most referrals)
+        referrer_counts = {}
+        for ref in referrals:
+            referrer_id = ref.get("referrer_athlete_id")
+            if referrer_id:
+                referrer_counts[referrer_id] = referrer_counts.get(referrer_id, 0) + 1
+        
+        top_referrers = sorted(referrer_counts.items(), key=lambda x: x[1], reverse=True)[:5]
+        top_referrers_count = len(top_referrers)
+        
+        # Calculate average referrals per referrer
+        avg_referrals_per_user = total_referrals / max(unique_referrers, 1)
+        
+        # Calculate referral participation rate (users who made at least 1 referral)
+        referral_participation = (unique_referrers / max(total_subscribers, 1)) * 100
+        
+        # Daily referral distribution
+        daily_referrals = {}
+        for ref in referrals:
+            created_at = ref.get("created_at")
+            if created_at:
+                try:
+                    if isinstance(created_at, str):
+                        date_obj = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                    else:
+                        date_obj = created_at
+                    date_key = date_obj.strftime('%Y-%m-%d')
+                    daily_referrals[date_key] = daily_referrals.get(date_key, 0) + 1
+                except Exception:
+                    continue
+        
+        result["referral_metrics"] = {
+            "total_referrals": total_referrals,
+            "successful_referrals": successful_referrals,
+            "referral_conversion_rate": round(referral_conversion_rate, 1),
+            "unique_referrers": unique_referrers,
+            "total_rewards": round(total_rewards, 2),
+            "avg_referrals_per_user": round(avg_referrals_per_user, 1),
+            "referral_participation": round(referral_participation, 2),
+            "top_referrers_count": top_referrers_count
+        }
+        
         # Add comparison data if requested
         if compare:
             previous_growth_count = len(previous_period_athletes)
