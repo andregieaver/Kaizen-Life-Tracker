@@ -563,7 +563,17 @@ const SystemSettings = ({ athleteId }) => {
     try {
       await axios.post(`${API}/system/settings?athlete_id=${athleteId}`, {
         advanced: {
-          openaiApiKey: advancedSettings.openaiApiKey
+          openaiApiKey: advancedSettings.openaiApiKey,
+          stripe: {
+            live: {
+              apiKey: advancedSettings.stripe.live.apiKey,
+              webhookSecret: advancedSettings.stripe.live.webhookSecret
+            },
+            sandbox: {
+              apiKey: advancedSettings.stripe.sandbox.apiKey,
+              webhookSecret: advancedSettings.stripe.sandbox.webhookSecret
+            }
+          }
         }
       });
       
