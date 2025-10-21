@@ -183,10 +183,6 @@ const Account = ({ athleteId }) => {
     coach_language: 'en', // AI Coach preferred language
     voice_preference: 'alloy'
   });
-  
-  const [apiKeyForm, setApiKeyForm] = useState({
-    openai_api_key: ''
-  });
 
   // Plan settings from system settings
   const [planSettings, setPlanSettings] = useState({
