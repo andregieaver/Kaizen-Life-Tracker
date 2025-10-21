@@ -15,7 +15,7 @@ from datetime import datetime
 from PIL import Image
 
 # Backend URL from environment
-BACKEND_URL = "https://smartupload-1.preview.emergentagent.com/api"
+BACKEND_URL = "https://growth-dashboard-13.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""
