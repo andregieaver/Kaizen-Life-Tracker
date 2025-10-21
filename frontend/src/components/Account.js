@@ -2202,15 +2202,15 @@ const Account = ({ athleteId }) => {
             {/* Available Plans */}
             <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
-                <CardTitle>Available Plans</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-white">Available Plans</CardTitle>
+                <CardDescription className="text-gray-400">
                   Choose the plan that fits your needs
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {/* Free Plan */}
-                  <div className="border-2 border-gray-700 rounded-lg p-4 hover:border-gray-600 transition-colors bg-gray-800/50">
+                  <div className="border-2 border-gray-600 rounded-lg p-4 hover:border-gray-500 transition-colors" style={{ backgroundColor: '#111827' }}>
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <h3 className="text-lg font-bold text-white">{planSettings.free.title}</h3>
@@ -2221,24 +2221,24 @@ const Account = ({ athleteId }) => {
                     <div className="mb-4">
                       <div className="flex items-baseline">
                         <span className="text-3xl font-bold text-white">€0</span>
-                        <span className="text-gray-500 ml-1">/month</span>
+                        <span className="text-gray-400 ml-1">/month</span>
                       </div>
                     </div>
                     <ul className="space-y-2 mb-4">
                       {planSettings.free.features.map((feature, index) => (
-                        <li key={index} className="flex items-start text-sm">
+                        <li key={index} className="flex items-start text-sm text-gray-300">
                           <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
                           <span>{feature}</span>
                         </li>
                       ))}
                     </ul>
                     {subscriptionStatus.tier === 'free' ? (
-                      <Button className="w-full" variant="outline" disabled>
+                      <Button className="w-full border-gray-600 text-gray-400" variant="outline" disabled>
                         Current Plan
                       </Button>
                     ) : (
                       <Button 
-                        className="w-full" 
+                        className="w-full border-gray-600 text-white hover:bg-gray-700" 
                         variant="outline"
                         onClick={() => setShowCancelDialog(true)}
                       >
