@@ -844,6 +844,88 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
           </form>
         </div>
       </div>
+      
+      {/* Upgrade Dialog for Free Users */}
+      {showUpgradeDialog && subscriptionTier === 'free' && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <Card className="w-full max-w-md mx-4 bg-gray-800 border-gray-700">
+            <CardHeader>
+              <CardTitle className="text-white">Upgrade Required</CardTitle>
+              <CardDescription className="text-gray-300">
+                AI Coach is available for Pro and Premium subscribers
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Billing Cycle Toggle */}
+              <div className="flex items-center justify-center space-x-4 bg-gray-900 rounded-full p-2">
+                <button
+                  onClick={() => setSelectedBillingCycle('monthly')}
+                  className={`px-6 py-2 rounded-full font-medium transition-all ${
+                    selectedBillingCycle === 'monthly'
+                      ? 'bg-[#00C2A8] text-white shadow-md'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  Monthly
+                </button>
+                <button
+                  onClick={() => setSelectedBillingCycle('annual')}
+                  className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
+                    selectedBillingCycle === 'annual'
+                      ? 'bg-[#00C2A8] text-white shadow-md'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  Annual
+                  <Badge variant="default" className="ml-2 bg-green-500 text-white border-0">
+                    Save 17%
+                  </Badge>
+                </button>
+              </div>
+
+              {/* Pricing Display */}
+              <div className="p-4 bg-[#00C2A8]/20 border border-[#00C2A8] rounded-lg">
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-white">
+                    {selectedBillingCycle === 'monthly' ? '€9.99/mo' : '€99/year'}
+                  </p>
+                  {selectedBillingCycle === 'annual' && (
+                    <p className="text-sm text-green-400 mt-2">
+                      Save €20.88 per year!
+                    </p>
+                  )}
+                  <p className="text-sm text-gray-400 mt-2">Pro Plan includes:</p>
+                  <ul className="text-sm text-gray-300 mt-2 space-y-1">
+                    <li>✓ AI Running Coach</li>
+                    <li>✓ Unlimited Chat History</li>
+                    <li>✓ Advanced Analytics</li>
+                    <li>✓ Training Plans</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="flex gap-2">
+                <Button 
+                  variant="outline" 
+                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white border-0"
+                  onClick={() => {
+                    setShowUpgradeDialog(false);
+                    window.location.href = '/';
+                  }}
+                >
+                  Go Back
+                </Button>
+                <Button 
+                  className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                  onClick={handleUpgrade}
+                >
+                  Upgrade to Pro
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 };
