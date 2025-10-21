@@ -8272,6 +8272,411 @@ async def delete_event_comment(event_id: str, comment_id: str, athlete_id: str =
         logging.error(f"Error deleting event comment: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# ============================================================================
+# CHALLENGES ENDPOINTS
+# ============================================================================
+
+@api_router.post("/community/challenges")
+async def create_challenge(challenge: dict, athlete_id: str = Query(...)):
+    """Create a new challenge"""
+    try:
+        # Get creator info
+        athlete = await db.athletes.find_one({"id": athlete_id}, {"_id": 0, "name": 1, "profile_picture": 1})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="Athlete not found")
+        
+        # Create challenge object
+        challenge_obj = Challenge(
+            id=str(uuid.uuid4()),
+            title=challenge.get("title"),
+            description=challenge.get("description"),
+            challenge_type=challenge.get("challenge_type"),  # distance, activity_count, duration
+            goal_value=float(challenge.get("goal_value")),
+            goal_unit=challenge.get("goal_unit"),  # km, activities, minutes
+            start_date=challenge.get("start_date"),
+            end_date=challenge.get("end_date"),
+            visibility=challenge.get("visibility", "public"),
+            competition_type=challenge.get("competition_type", "individual"),
+            cover_photo=challenge.get("cover_photo"),
+            creator_id=athlete_id,
+            creator_name=athlete.get("name"),
+            creator_profile_picture=athlete.get("profile_picture"),
+            participants_count=0,
+            is_recurring=challenge.get("is_recurring", False),
+            recurrence_frequency=challenge.get("recurrence_frequency"),
+            recurrence_count=challenge.get("recurrence_count"),
+            group_id=challenge.get("group_id"),
+            created_at=datetime.now(timezone.utc)
+        )
+        
+        # Convert to dict and prepare for MongoDB
+        challenge_dict = challenge_obj.model_dump()
+        challenge_dict["created_at"] = challenge_dict["created_at"].isoformat()
+        
+        # Insert into database
+        await db.community_challenges.insert_one(challenge_dict)
+        
+        return challenge_obj
+    except Exception as e:
+        logging.error(f"Error creating challenge: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/challenges")
+async def get_challenges(
+    athlete_id: str = Query(...),
+    filter_type: str = Query("all"),  # all, active, completed, joined
+    limit: int = Query(20),
+    skip: int = Query(0)
+):
+    """Get challenges with optional filtering"""
+    try:
+        from datetime import datetime
+        
+        query = {}
+        current_date = datetime.now(timezone.utc).isoformat()
+        
+        # Apply filters
+        if filter_type == "active":
+            query["end_date"] = {"$gte": current_date}
+        elif filter_type == "completed":
+            query["end_date"] = {"$lt": current_date}
+        elif filter_type == "joined":
+            # Get challenges where user is a participant
+            participations = await db.community_challenge_participants.find(
+                {"athlete_id": athlete_id},
+                {"_id": 0, "challenge_id": 1}
+            ).to_list(length=None)
+            challenge_ids = [p["challenge_id"] for p in participations]
+            query["id"] = {"$in": challenge_ids}
+        
+        # Fetch challenges
+        challenges = await db.community_challenges.find(
+            query,
+            {"_id": 0}
+        ).sort("created_at", -1).skip(skip).limit(limit).to_list(length=None)
+        
+        # For each challenge, check if user has joined and get their progress
+        for challenge in challenges:
+            participation = await db.community_challenge_participants.find_one(
+                {"challenge_id": challenge["id"], "athlete_id": athlete_id},
+                {"_id": 0}
+            )
+            challenge["has_joined"] = participation is not None
+            challenge["user_progress"] = participation.get("current_progress", 0) if participation else 0
+            challenge["user_percentage"] = participation.get("percentage_complete", 0) if participation else 0
+        
+        return {"challenges": challenges}
+    except Exception as e:
+        logging.error(f"Error fetching challenges: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/challenges/{challenge_id}")
+async def get_challenge_details(challenge_id: str, athlete_id: str = Query(...)):
+    """Get detailed challenge information including leaderboard"""
+    try:
+        # Get challenge
+        challenge = await db.community_challenges.find_one({"id": challenge_id}, {"_id": 0})
+        if not challenge:
+            raise HTTPException(status_code=404, detail="Challenge not found")
+        
+        # Check if user has joined
+        participation = await db.community_challenge_participants.find_one(
+            {"challenge_id": challenge_id, "athlete_id": athlete_id},
+            {"_id": 0}
+        )
+        challenge["has_joined"] = participation is not None
+        challenge["user_progress"] = participation.get("current_progress", 0) if participation else 0
+        challenge["user_percentage"] = participation.get("percentage_complete", 0) if participation else 0
+        
+        # Get leaderboard (top participants sorted by progress)
+        leaderboard = await db.community_challenge_participants.find(
+            {"challenge_id": challenge_id},
+            {"_id": 0}
+        ).sort("current_progress", -1).limit(10).to_list(length=None)
+        
+        # Update ranks
+        for idx, participant in enumerate(leaderboard, 1):
+            participant["rank"] = idx
+        
+        challenge["leaderboard"] = leaderboard
+        
+        return challenge
+    except Exception as e:
+        logging.error(f"Error fetching challenge details: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/community/challenges/{challenge_id}")
+async def edit_challenge(challenge_id: str, updates: dict, athlete_id: str = Query(...)):
+    """Edit a challenge (creator only)"""
+    try:
+        # Check if challenge exists and user is creator
+        challenge = await db.community_challenges.find_one({"id": challenge_id}, {"_id": 0})
+        if not challenge:
+            raise HTTPException(status_code=404, detail="Challenge not found")
+        
+        if challenge.get("creator_id") != athlete_id:
+            raise HTTPException(status_code=403, detail="Only the creator can edit this challenge")
+        
+        # Update challenge
+        update_fields = {}
+        allowed_fields = ["title", "description", "cover_photo", "end_date", "visibility", "goal_value"]
+        for field in allowed_fields:
+            if field in updates:
+                update_fields[field] = updates[field]
+        
+        if update_fields:
+            update_fields["updated_at"] = datetime.now(timezone.utc).isoformat()
+            await db.community_challenges.update_one(
+                {"id": challenge_id},
+                {"$set": update_fields}
+            )
+        
+        return {"message": "Challenge updated successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error editing challenge: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/community/challenges/{challenge_id}")
+async def delete_challenge(challenge_id: str, athlete_id: str = Query(...)):
+    """Delete a challenge (creator only)"""
+    try:
+        # Check if challenge exists and user is creator
+        challenge = await db.community_challenges.find_one({"id": challenge_id}, {"_id": 0})
+        if not challenge:
+            raise HTTPException(status_code=404, detail="Challenge not found")
+        
+        if challenge.get("creator_id") != athlete_id:
+            raise HTTPException(status_code=403, detail="Only the creator can delete this challenge")
+        
+        # Delete challenge and all related data
+        await db.community_challenges.delete_one({"id": challenge_id})
+        await db.community_challenge_participants.delete_many({"challenge_id": challenge_id})
+        await db.community_challenge_comments.delete_many({"challenge_id": challenge_id})
+        
+        return {"message": "Challenge deleted successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error deleting challenge: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/community/challenges/{challenge_id}/join")
+async def join_challenge(challenge_id: str, athlete_id: str = Query(...)):
+    """Join a challenge"""
+    try:
+        # Check if challenge exists
+        challenge = await db.community_challenges.find_one({"id": challenge_id}, {"_id": 0})
+        if not challenge:
+            raise HTTPException(status_code=404, detail="Challenge not found")
+        
+        # Check if already joined
+        existing = await db.community_challenge_participants.find_one(
+            {"challenge_id": challenge_id, "athlete_id": athlete_id}
+        )
+        if existing:
+            raise HTTPException(status_code=400, detail="Already joined this challenge")
+        
+        # Get athlete info
+        athlete = await db.athletes.find_one({"id": athlete_id}, {"_id": 0, "name": 1, "profile_picture": 1})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="Athlete not found")
+        
+        # Create participation
+        participation = ChallengeParticipation(
+            id=str(uuid.uuid4()),
+            challenge_id=challenge_id,
+            athlete_id=athlete_id,
+            athlete_name=athlete.get("name"),
+            athlete_profile_picture=athlete.get("profile_picture"),
+            current_progress=0.0,
+            percentage_complete=0.0,
+            joined_at=datetime.now(timezone.utc)
+        )
+        
+        participation_dict = participation.model_dump()
+        participation_dict["joined_at"] = participation_dict["joined_at"].isoformat()
+        participation_dict["last_updated"] = participation_dict["last_updated"].isoformat()
+        
+        await db.community_challenge_participants.insert_one(participation_dict)
+        
+        # Increment participants count
+        await db.community_challenges.update_one(
+            {"id": challenge_id},
+            {"$inc": {"participants_count": 1}}
+        )
+        
+        return {"message": "Joined challenge successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error joining challenge: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/community/challenges/{challenge_id}/leave")
+async def leave_challenge(challenge_id: str, athlete_id: str = Query(...)):
+    """Leave a challenge"""
+    try:
+        # Check if participant exists
+        participation = await db.community_challenge_participants.find_one(
+            {"challenge_id": challenge_id, "athlete_id": athlete_id}
+        )
+        if not participation:
+            raise HTTPException(status_code=404, detail="Not participating in this challenge")
+        
+        # Delete participation
+        await db.community_challenge_participants.delete_one(
+            {"challenge_id": challenge_id, "athlete_id": athlete_id}
+        )
+        
+        # Decrement participants count
+        await db.community_challenges.update_one(
+            {"id": challenge_id},
+            {"$inc": {"participants_count": -1}}
+        )
+        
+        return {"message": "Left challenge successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error leaving challenge: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/community/challenges/{challenge_id}/update-progress")
+async def update_challenge_progress(challenge_id: str, athlete_id: str = Query(...)):
+    """Update progress for a challenge participant (called when workout is logged)"""
+    try:
+        # Get challenge
+        challenge = await db.community_challenges.find_one({"id": challenge_id}, {"_id": 0})
+        if not challenge:
+            raise HTTPException(status_code=404, detail="Challenge not found")
+        
+        # Check if user is participating
+        participation = await db.community_challenge_participants.find_one(
+            {"challenge_id": challenge_id, "athlete_id": athlete_id},
+            {"_id": 0}
+        )
+        if not participation:
+            raise HTTPException(status_code=404, detail="Not participating in this challenge")
+        
+        # Calculate progress based on challenge type and workout logs within challenge dates
+        start_date = challenge.get("start_date")
+        end_date = challenge.get("end_date")
+        challenge_type = challenge.get("challenge_type")
+        
+        progress = 0.0
+        
+        if challenge_type == "distance":
+            # Sum up distance from workouts
+            workouts = await db.workouts.find(
+                {
+                    "athlete_id": athlete_id,
+                    "date": {"$gte": start_date, "$lte": end_date}
+                },
+                {"_id": 0, "distance": 1}
+            ).to_list(length=None)
+            progress = sum(float(w.get("distance", 0)) for w in workouts)
+        
+        elif challenge_type == "activity_count":
+            # Count workouts
+            count = await db.workouts.count_documents({
+                "athlete_id": athlete_id,
+                "date": {"$gte": start_date, "$lte": end_date}
+            })
+            progress = float(count)
+        
+        elif challenge_type == "duration":
+            # Sum up duration from workouts
+            workouts = await db.workouts.find(
+                {
+                    "athlete_id": athlete_id,
+                    "date": {"$gte": start_date, "$lte": end_date}
+                },
+                {"_id": 0, "duration": 1}
+            ).to_list(length=None)
+            # Convert duration to minutes
+            total_minutes = 0.0
+            for w in workouts:
+                duration_str = w.get("duration", "0:00")
+                if ":" in duration_str:
+                    parts = duration_str.split(":")
+                    hours = int(parts[0]) if len(parts) > 0 else 0
+                    minutes = int(parts[1]) if len(parts) > 1 else 0
+                    total_minutes += hours * 60 + minutes
+            progress = total_minutes
+        
+        # Calculate percentage
+        goal_value = float(challenge.get("goal_value", 1))
+        percentage = min((progress / goal_value) * 100, 100) if goal_value > 0 else 0
+        
+        # Update participation
+        await db.community_challenge_participants.update_one(
+            {"challenge_id": challenge_id, "athlete_id": athlete_id},
+            {
+                "$set": {
+                    "current_progress": progress,
+                    "percentage_complete": percentage,
+                    "last_updated": datetime.now(timezone.utc).isoformat()
+                }
+            }
+        )
+        
+        return {
+            "message": "Progress updated successfully",
+            "current_progress": progress,
+            "percentage_complete": percentage
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating challenge progress: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/community/challenges/{challenge_id}/comments")
+async def add_challenge_comment(challenge_id: str, comment: dict, athlete_id: str = Query(...)):
+    """Add a comment to a challenge"""
+    try:
+        # Get athlete info
+        athlete = await db.athletes.find_one({"id": athlete_id}, {"_id": 0, "name": 1, "profile_picture": 1})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="Athlete not found")
+        
+        # Create comment
+        comment_obj = ChallengeComment(
+            id=str(uuid.uuid4()),
+            challenge_id=challenge_id,
+            athlete_id=athlete_id,
+            athlete_name=athlete.get("name"),
+            athlete_profile_picture=athlete.get("profile_picture"),
+            content=comment.get("content"),
+            created_at=datetime.now(timezone.utc)
+        )
+        
+        comment_dict = comment_obj.model_dump()
+        comment_dict["created_at"] = comment_dict["created_at"].isoformat()
+        
+        await db.community_challenge_comments.insert_one(comment_dict)
+        
+        return comment_obj
+    except Exception as e:
+        logging.error(f"Error adding challenge comment: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/community/challenges/{challenge_id}/comments")
+async def get_challenge_comments(challenge_id: str):
+    """Get comments for a challenge"""
+    try:
+        comments = await db.community_challenge_comments.find(
+            {"challenge_id": challenge_id},
+            {"_id": 0}
+        ).sort("created_at", 1).to_list(length=None)
+        
+        return {"comments": comments}
+    except Exception as e:
+        logging.error(f"Error fetching challenge comments: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.get("/community/notifications/{athlete_id}")
 async def get_notifications(athlete_id: str, unread_only: bool = Query(False)):
     """Get notifications for an athlete"""
