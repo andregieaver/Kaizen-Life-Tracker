@@ -1245,8 +1245,8 @@ const Account = ({ athleteId }) => {
             <span className="sm:hidden">Apps</span>
           </TabsTrigger>
           <TabsTrigger value="subscriptions" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400" data-testid="subscriptions-tab">
-            <span className="hidden sm:inline">{t('account.subscriptions')}</span>
-            <span className="sm:hidden">Plans</span>
+            <span className="hidden sm:inline">Subscription</span>
+            <span className="sm:hidden">Subs.</span>
           </TabsTrigger>
         </TabsList>
 
