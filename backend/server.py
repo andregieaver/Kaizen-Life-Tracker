@@ -7357,8 +7357,11 @@ async def upload_images(
     
     uploaded_urls = []
     
-    # Get base URL from request
+    # Get base URL from request and force HTTPS
     base_url = str(request.base_url).rstrip('/')
+    # Force HTTPS for production
+    if 'preview.emergentagent.com' in base_url or 'emergentagent.com' in base_url:
+        base_url = base_url.replace('http://', 'https://')
     
     for file in files:
         # Validate file type
