@@ -1485,13 +1485,13 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="bio" className="text-sm font-medium">{t('account.bio')}</Label>
+                    <Label htmlFor="bio" className="text-sm font-medium text-white">{t('account.bio')}</Label>
                     <textarea
                       id="bio"
                       name="bio"
                       value={personalForm.bio}
                       onChange={handlePersonalFormChange}
-                      className="w-full min-h-20 p-3 border border-gray-700 rounded-md input-focus resize-none"
+                      className="w-full min-h-20 p-3 bg-gray-800 border border-gray-700 text-white placeholder:text-gray-500 rounded-md resize-none focus:ring-2 focus:ring-[#00C2A8] focus:border-transparent"
                       placeholder={t('account.bioPlaceholder')}
                       maxLength="500"
                     />
@@ -1499,7 +1499,7 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium">{t('account.interests')}</Label>
+                    <Label className="text-sm font-medium text-white">{t('account.interests')}</Label>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                       {[
                         'Running', 'Marathon', 'Trail Running', 'Ultramarathon', 
@@ -1517,7 +1517,7 @@ const Account = ({ athleteId }) => {
                                 : personalForm.interests.filter(i => i !== interest);
                               setPersonalForm(prev => ({...prev, interests: newInterests}));
                             }}
-                            className="rounded border-gray-700 text-blue-600 focus:ring-blue-500"
+                            className="rounded border-gray-700 text-[#00C2A8] focus:ring-[#00C2A8]"
                           />
                           <span className="text-sm text-gray-300">{interest}</span>
                         </label>
