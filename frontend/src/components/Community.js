@@ -2686,9 +2686,8 @@ const Community = ({ athleteId }) => {
                   <Button
                     onClick={() => {
                       setShowWritePostModal(false);
-                      // Clear multi-image state when closing
-                      setSelectedImages([]);
-                      setUploadedImageUrls([]);
+                      // Clear media state when closing
+                      setSelectedMedia([]);
                     }}
                     className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-white"
                   >
@@ -2696,10 +2695,10 @@ const Community = ({ athleteId }) => {
                   </Button>
                   <Button
                     onClick={handleWritePost}
-                    disabled={!writePostContent.trim() || isUploadingImages}
+                    disabled={!writePostContent.trim() || isUploadingMedia}
                     className="flex-1 sm:flex-none bg-[#00C2A8] hover:bg-[#00a890] text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isUploadingImages ? 'Uploading...' : 'Post'}
+                    {isUploadingMedia ? 'Uploading...' : 'Post'}
                   </Button>
                 </div>
               </div>
