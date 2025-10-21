@@ -7480,7 +7480,8 @@ async def create_community_post(post_data: dict, athlete_id: str = Query(...)):
             "athlete_name": athlete.get("name", "Unknown"),
             "athlete_profile_picture": athlete.get("profile_picture"),
             "content": content,
-            "image_urls": post_data.get("image_urls", []),  # Array of image URLs
+            "image_urls": post_data.get("image_urls", []),  # Array of image URLs (backward compatibility)
+            "media": post_data.get("media", []),  # Array of media items [{type, url, thumbnail}]
             "visibility": post_data.get("visibility", "public"),  # Default to public
             "likes_count": 0,
             "comments_count": 0,
