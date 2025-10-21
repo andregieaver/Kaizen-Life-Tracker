@@ -100,6 +100,10 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
   const [athletesSearch, setAthletesSearch] = useState('');
   const [athletesLoading, setAthletesLoading] = useState(false);
   
+  // Scroll animation state for FAB
+  const [scrollDirection, setScrollDirection] = useState('none');
+  const [lastScrollY, setLastScrollY] = useState(0);
+  
   // Groups state
   const [groups, setGroups] = useState([]);
   const [groupsLoaded, setGroupsLoaded] = useState(false);
