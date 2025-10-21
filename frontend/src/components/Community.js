@@ -2924,6 +2924,16 @@ const Community = ({ athleteId }) => {
         />
       )}
 
+      {/* Edit Challenge Modal */}
+      {showEditChallenge && (
+        <EditChallengeModal
+          challengeData={editChallengeData}
+          setChallengeData={setEditChallengeData}
+          onClose={() => setShowEditChallenge(false)}
+          onSave={handleEditChallenge}
+        />
+      )}
+
       {/* Challenge Detail Modal */}
       {showChallengeDetail && (
         <ChallengeDetailModal
