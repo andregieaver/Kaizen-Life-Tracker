@@ -2456,7 +2456,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
       {activeTab === 'following' && !selectedGroup && (
         <>
           {/* Posts from people you follow */}
-          <div className="space-y-0 sm:space-y-6 pt-28 sm:pt-0">
+          <div className="space-y-0 sm:space-y-6 pt-[6.5rem] sm:pt-0">
             {isLoading ? (
               <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg">
                 <CardContent className="p-12 text-center">
