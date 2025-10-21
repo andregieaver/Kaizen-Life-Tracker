@@ -1919,7 +1919,7 @@ const Account = ({ athleteId }) => {
                         value={personalForm.weight_unit || 'lbs'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, weight_unit: value}))}
                       >
-                        <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                        <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#111827' }}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
