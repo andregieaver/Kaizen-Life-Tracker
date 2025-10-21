@@ -9821,12 +9821,14 @@ async def get_subscriber_stats(athlete_id: str):
     # Verify super admin
     await verify_super_admin(athlete_id)
     
+    print(f"=== SUBSCRIBER STATS DEBUG ===", flush=True)
+    
     try:
         from datetime import datetime, timedelta
         
         # Direct count to verify database access
         total_count = await db.athletes.count_documents({})
-        logging.info(f"Direct count from db.athletes: {total_count}")
+        print(f"Direct count from db.athletes: {total_count}", flush=True)
         
         # Get all athletes with their creation dates and subscription tiers
         athletes = await db.athletes.find(
@@ -9834,7 +9836,7 @@ async def get_subscriber_stats(athlete_id: str):
             {"_id": 0, "created_at": 1, "subscription_tier": 1}
         ).to_list(length=None)
         
-        logging.info(f"Found {len(athletes)} athletes in query results")
+        print(f"Found {len(athletes)} athletes in query results", flush=True)
         
         # Get current counts by tier
         tier_counts = {
@@ -9847,7 +9849,7 @@ async def get_subscriber_stats(athlete_id: str):
             tier = athlete.get("subscription_tier", "free")
             tier_counts[tier] = tier_counts.get(tier, 0) + 1
         
-        logging.info(f"Tier counts: {tier_counts}")
+        print(f"Tier counts: {tier_counts}", flush=True)
         
         total_subscribers = sum(tier_counts.values())
         paid_subscribers = tier_counts.get("pro", 0) + tier_counts.get("premium", 0)
