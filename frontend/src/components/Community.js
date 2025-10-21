@@ -2118,7 +2118,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
                       </div>
                     </CardHeader>
 
-                    <CardContent>
+                    <CardContent className="px-3 pb-3 pt-0 sm:px-6 sm:pb-6">
                       {editingPost === post.id ? (
                         <div className="space-y-3">
                           <textarea
