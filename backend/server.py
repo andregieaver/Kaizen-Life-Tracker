@@ -8283,21 +8283,28 @@ async def create_challenge(challenge: dict, athlete_id: str = Query(...)):
         print(f"🔍 DEBUG: create_challenge called with athlete_id: {athlete_id}", flush=True)
         print(f"🔍 DEBUG: challenge data received: {challenge}", flush=True)
         
-        # Get creator info (try athletes collection, fallback to user collection)
-        athlete = await db.athletes.find_one({"id": athlete_id}, {"_id": 0, "name": 1, "profile_picture": 1})
-        print(f"🔍 DEBUG: athlete from athletes collection: {athlete}", flush=True)
+        # Get creator info - try multiple field names (id, athlete_id, _id string)
+        athlete = await db.athletes.find_one(
+            {"$or": [{"id": athlete_id}, {"athlete_id": athlete_id}, {"_id": athlete_id}]},
+            {"_id": 0, "name": 1, "profile_picture": 1}
+        )
+        print(f"🔍 DEBUG: athlete from athletes collection (by id/athlete_id/_id): {athlete}", flush=True)
         
         if not athlete:
-            print(f"🔍 DEBUG: Athlete not found in athletes collection, trying users collection", flush=True)
+            print(f"🔍 DEBUG: Athlete not found by id, trying users collection", flush=True)
             # Fallback to user collection
-            user = await db.users.find_one({"id": athlete_id}, {"_id": 0, "name": 1, "email": 1})
+            user = await db.users.find_one(
+                {"$or": [{"id": athlete_id}, {"user_id": athlete_id}, {"_id": athlete_id}]},
+                {"_id": 0, "name": 1, "email": 1}
+            )
             print(f"🔍 DEBUG: user from users collection: {user}", flush=True)
             if user:
                 athlete = {"name": user.get("name", "Unknown User"), "profile_picture": None}
                 print(f"🔍 DEBUG: Using user data as athlete: {athlete}", flush=True)
             else:
-                print(f"❌ DEBUG: User not found in either collection", flush=True)
-                raise HTTPException(status_code=404, detail="User not found")
+                # Last resort: use athleteId as the user identifier
+                print(f"⚠️ DEBUG: No user found, creating with default values", flush=True)
+                athlete = {"name": "User", "profile_picture": None}
         
         # Create challenge object
         print(f"🔍 DEBUG: Creating challenge object with data:", flush=True)
