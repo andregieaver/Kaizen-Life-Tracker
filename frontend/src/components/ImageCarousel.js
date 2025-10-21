@@ -177,9 +177,9 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
       )}
 
       {/* Dot Indicators - Overlaid at bottom */}
-      {images.length > 1 && (
+      {mediaItems.length > 1 && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-          {images.map((_, index) => (
+          {mediaItems.map((_, index) => (
             <button
               key={index}
               onClick={(e) => {
@@ -191,7 +191,7 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
                   ? 'bg-white w-6'
                   : 'bg-white/50 hover:bg-white/75'
               }`}
-              aria-label={`Go to image ${index + 1}`}
+              aria-label={`Go to item ${index + 1}`}
             />
           ))}
         </div>
