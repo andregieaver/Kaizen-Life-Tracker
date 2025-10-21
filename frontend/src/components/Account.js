@@ -2248,24 +2248,24 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   {/* Pro Plan */}
-                  <div className="border-2 border-blue-700 rounded-lg p-4 hover:border-blue-600 transition-colors bg-blue-900/20">
+                  <div className="border-2 border-blue-600 rounded-lg p-4 hover:border-blue-500 transition-colors" style={{ backgroundColor: '#111827' }}>
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <h3 className="text-lg font-bold text-white">{planSettings.pro.title}</h3>
                         <p className="text-sm text-gray-400">{planSettings.pro.description}</p>
                       </div>
-                      <Badge className="bg-blue-600">Popular</Badge>
+                      <Badge className="bg-blue-600 text-white">Popular</Badge>
                     </div>
                     <div className="mb-4">
                       <div className="flex items-baseline">
                         <span className="text-3xl font-bold text-white">€9.99</span>
-                        <span className="text-gray-500 ml-1">/month</span>
+                        <span className="text-gray-400 ml-1">/month</span>
                       </div>
-                      <p className="text-sm text-green-600 mt-1">or €99/year (save 17%)</p>
+                      <p className="text-sm text-green-400 mt-1">or €99/year (save 17%)</p>
                     </div>
                     <ul className="space-y-2 mb-4">
                       {planSettings.pro.features.map((feature, index) => (
-                        <li key={index} className="flex items-start text-sm">
+                        <li key={index} className="flex items-start text-sm text-gray-300">
                           <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
                           <span>{feature}</span>
                         </li>
@@ -2273,7 +2273,7 @@ const Account = ({ athleteId }) => {
                     </ul>
                     {subscriptionStatus.tier === 'free' ? (
                       <Button 
-                        className="w-full" 
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white" 
                         variant="default"
                         onClick={() => {
                           setUpgradeTarget('pro');
@@ -2284,12 +2284,12 @@ const Account = ({ athleteId }) => {
                         Upgrade to Pro
                       </Button>
                     ) : subscriptionStatus.tier === 'pro' ? (
-                      <Button className="w-full" variant="outline" disabled>
+                      <Button className="w-full border-gray-600 text-gray-400" variant="outline" disabled>
                         Current Plan
                       </Button>
                     ) : (
                       <Button 
-                        className="w-full" 
+                        className="w-full border-gray-600 text-white hover:bg-gray-700" 
                         variant="outline"
                         onClick={() => {
                           setDowngradeTarget('pro');
@@ -2303,7 +2303,7 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   {/* Premium Plan */}
-                  <div className="border-2 border-purple-700 rounded-lg p-4 hover:border-purple-600 transition-colors bg-purple-900/20">
+                  <div className="border-2 border-purple-600 rounded-lg p-4 hover:border-purple-500 transition-colors" style={{ backgroundColor: '#111827' }}>
                     <div className="flex items-center justify-between mb-3">
                       <div>
                         <h3 className="text-lg font-bold text-white">{planSettings.premium.title}</h3>
