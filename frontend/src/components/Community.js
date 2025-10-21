@@ -2050,9 +2050,14 @@ const Community = ({ athleteId }) => {
                           )}
                         </div>
                         
-                        {post.image_data && (
+                        {/* Display images - support both image_urls and image_data */}
+                        {post.image_urls && post.image_urls.length > 0 ? (
+                          <div className="mb-4">
+                            <ImageCarousel images={post.image_urls} alt="Post images" />
+                          </div>
+                        ) : post.image_data ? (
                           <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-96 object-cover mb-4" />
-                        )}
+                        ) : null}
                       </>
                     )}
                     
