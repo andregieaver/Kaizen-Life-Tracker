@@ -90,6 +90,10 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
     >
       {/* Main Image */}
       <div className={`${inFullscreen ? 'max-w-[90vw] max-h-[90vh]' : 'w-full aspect-video'}`}>
+        {/* Debug: Show current image URL */}
+        <div className="absolute top-0 left-0 right-0 bg-black/70 text-white text-xs p-2 z-10 truncate">
+          Loading: {images[currentIndex]}
+        </div>
         <img
           src={images[currentIndex]}
           alt={`${alt} ${currentIndex + 1}`}
@@ -100,6 +104,13 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
           } rounded-lg`}
           onClick={() => !inFullscreen && setIsFullscreen(true)}
           style={{ cursor: inFullscreen ? 'default' : 'pointer' }}
+          onError={(e) => {
+            console.error('Image failed to load:', images[currentIndex]);
+            e.target.style.border = '2px solid red';
+          }}
+          onLoad={() => {
+            console.log('Image loaded successfully:', images[currentIndex]);
+          }}
         />
       </div>
 
