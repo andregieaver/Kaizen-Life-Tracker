@@ -1388,13 +1388,13 @@ const Account = ({ athleteId }) => {
                 <Separator />
 
                 <div className="space-y-2">
-                  <Label htmlFor="running_goals">{t('account.runningGoals')}</Label>
+                  <Label htmlFor="running_goals" className="text-sm font-medium text-white">{t('account.runningGoals')}</Label>
                   <textarea
                     id="running_goals"
                     name="running_goals"
                     value={personalForm.running_goals}
                     onChange={handlePersonalFormChange}
-                    className="w-full min-h-24 p-3 border border-gray-700 rounded-md input-focus resize-none"
+                    className="w-full min-h-24 p-3 bg-gray-800 border border-gray-700 text-white placeholder:text-gray-500 rounded-md resize-none focus:ring-2 focus:ring-[#00C2A8] focus:border-transparent"
                     placeholder={t('onboarding.runningGoalsPlaceholder')}
                     data-testid="goals-textarea"
                   />
@@ -1404,8 +1404,8 @@ const Account = ({ athleteId }) => {
 
                 {/* Physical Information Section */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-medium flex items-center">
-                    <User className="w-5 h-5 mr-2 text-blue-600" />
+                  <h3 className="text-lg font-medium text-white flex items-center">
+                    <User className="w-5 h-5 mr-2 text-[#00C2A8]" />
                     {t('account.physicalInformation')}
                   </h3>
                   
