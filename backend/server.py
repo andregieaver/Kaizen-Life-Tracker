@@ -9943,6 +9943,44 @@ async def get_subscriber_stats(
             "period": period
         }
         
+        # Calculate business metrics
+        # Conversion rate: percentage of free users who became paid
+        conversion_rate = (paid_subscribers / max(total_subscribers, 1)) * 100
+        
+        # Average Revenue Per User (ARPU) - assuming Pro = €9.99/mo, Premium = €19.99/mo
+        pro_revenue = tier_counts.get("pro", 0) * 9.99
+        premium_revenue = tier_counts.get("premium", 0) * 19.99
+        total_revenue = pro_revenue + premium_revenue
+        arpu = total_revenue / max(total_subscribers, 1)
+        
+        # Monthly Recurring Revenue (MRR)
+        mrr = total_revenue
+        
+        # Annual Recurring Revenue (ARR)
+        arr = mrr * 12
+        
+        # Customer Lifetime Value (LTV) - simplified: ARPU * avg customer lifetime (assume 24 months)
+        avg_lifetime_months = 24
+        ltv = arpu * avg_lifetime_months
+        
+        # Average Revenue Per Paid User (ARPPU)
+        arppu = total_revenue / max(paid_subscribers, 1) if paid_subscribers > 0 else 0
+        
+        # Pro vs Premium ratio
+        pro_percentage = (tier_counts.get("pro", 0) / max(paid_subscribers, 1)) * 100 if paid_subscribers > 0 else 0
+        premium_percentage = (tier_counts.get("premium", 0) / max(paid_subscribers, 1)) * 100 if paid_subscribers > 0 else 0
+        
+        result["business_metrics"] = {
+            "conversion_rate": round(conversion_rate, 2),
+            "arpu": round(arpu, 2),
+            "arppu": round(arppu, 2),
+            "mrr": round(mrr, 2),
+            "arr": round(arr, 2),
+            "ltv": round(ltv, 2),
+            "pro_percentage": round(pro_percentage, 1),
+            "premium_percentage": round(premium_percentage, 1)
+        }
+        
         # Add comparison data if requested
         if compare:
             previous_growth_count = len(previous_period_athletes)
