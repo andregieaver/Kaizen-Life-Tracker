@@ -1317,7 +1317,8 @@ const Account = ({ athleteId }) => {
                       name="name"
                       value={personalForm.name}
                       onChange={handlePersonalFormChange}
-                      className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
+                      className="text-white placeholder:text-gray-500"
+                      style={{ backgroundColor: '#111827', borderColor: '#111827' }}
                       data-testid="name-input"
                     />
                   </div>
