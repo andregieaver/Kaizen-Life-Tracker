@@ -1316,7 +1316,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
     await markNotificationRead(notification.id);
     
     // Close notifications dropdown
-    setShowNotifications(false);
+    effectiveSetShowNotifications(false);
     
     // Handle different notification types
     if (notification.type === 'mention' && notification.post_id) {
