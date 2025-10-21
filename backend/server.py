@@ -7396,6 +7396,62 @@ async def upload_images(
     
     return {"urls": uploaded_urls}
 
+
+@api_router.post("/upload/video")
+async def upload_video(
+    request: Request,
+    file: UploadFile = File(...)
+):
+    """
+    Upload and process a single video:
+    - Compress to MP4 (H.264, max 720p)
+    - Generate thumbnail
+    - Max 2 minutes duration
+    - Returns video URL and thumbnail URL
+    """
+    # Validate file type
+    if not file.content_type.startswith('video/'):
+        raise HTTPException(status_code=400, detail=f"File {file.filename} is not a video")
+    
+    # Check file size (max 200MB)
+    file_bytes = await file.read()
+    max_size = 200 * 1024 * 1024  # 200MB
+    if len(file_bytes) > max_size:
+        raise HTTPException(status_code=400, detail=f"Video file too large. Maximum size is 200MB")
+    
+    try:
+        # Process video: compress and generate thumbnail
+        video_filename, thumbnail_filename = process_and_save_video(
+            file_data=file_bytes,
+            upload_dir=UPLOAD_DIR,
+            max_duration=120  # 2 minutes
+        )
+        
+        # Generate URLs
+        base_url = str(request.base_url).rstrip('/')
+        # Force HTTPS for production
+        if 'preview.emergentagent.com' in base_url or 'emergentagent.com' in base_url:
+            base_url = base_url.replace('http://', 'https://')
+        
+        video_url = f"{base_url}/api/uploads/images/{video_filename}"
+        thumbnail_url = f"{base_url}/api/uploads/images/{thumbnail_filename}"
+        
+        logging.info(f"Processed video: {video_filename}, thumbnail: {thumbnail_filename}")
+        
+        return {
+            "video_url": video_url,
+            "thumbnail_url": thumbnail_url,
+            "type": "video"
+        }
+        
+    except ValueError as e:
+        # Duration or validation error
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logging.error(f"Error processing video: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to process video: {str(e)}")
+
+
 # ==========================================
 # COMMUNITY ENDPOINTS
 # ==========================================
