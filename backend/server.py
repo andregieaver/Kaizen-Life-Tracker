@@ -8280,10 +8280,15 @@ async def delete_event_comment(event_id: str, comment_id: str, athlete_id: str =
 async def create_challenge(challenge: dict, athlete_id: str = Query(...)):
     """Create a new challenge"""
     try:
-        # Get creator info
+        # Get creator info (try athletes collection, fallback to user collection)
         athlete = await db.athletes.find_one({"id": athlete_id}, {"_id": 0, "name": 1, "profile_picture": 1})
         if not athlete:
-            raise HTTPException(status_code=404, detail="Athlete not found")
+            # Fallback to user collection
+            user = await db.users.find_one({"id": athlete_id}, {"_id": 0, "name": 1, "email": 1})
+            if user:
+                athlete = {"name": user.get("name", "Unknown User"), "profile_picture": None}
+            else:
+                raise HTTPException(status_code=404, detail="User not found")
         
         # Create challenge object
         challenge_obj = Challenge(
@@ -8299,7 +8304,7 @@ async def create_challenge(challenge: dict, athlete_id: str = Query(...)):
             competition_type=challenge.get("competition_type", "individual"),
             cover_photo=challenge.get("cover_photo"),
             creator_id=athlete_id,
-            creator_name=athlete.get("name"),
+            creator_name=athlete.get("name", "Unknown User"),
             creator_profile_picture=athlete.get("profile_picture"),
             participants_count=0,
             is_recurring=challenge.get("is_recurring", False),
