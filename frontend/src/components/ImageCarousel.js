@@ -97,7 +97,7 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
       onTouchEnd={handleTouchEnd}
     >
       {/* Main Image */}
-      <div className={`${inFullscreen ? 'max-w-[90vw] max-h-[90vh]' : 'w-full aspect-video'} overflow-hidden`}>
+      <div className={`${inFullscreen ? 'max-w-[90vw] max-h-[90vh]' : 'w-full aspect-video'} overflow-hidden relative`}>
         <img
           src={images[currentIndex]}
           alt={`${alt} ${currentIndex + 1}`}
@@ -106,7 +106,7 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
               ? 'max-w-full max-h-full object-contain' 
               : 'w-full h-full object-cover'
           } rounded-lg transition-all duration-300 ease-in-out ${
-            isTransitioning ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'
+            isTransitioning ? 'opacity-0 transform translate-x-4' : 'opacity-100 transform translate-x-0'
           }`}
           onClick={() => !inFullscreen && setIsFullscreen(true)}
           style={{ cursor: inFullscreen ? 'default' : 'pointer' }}
