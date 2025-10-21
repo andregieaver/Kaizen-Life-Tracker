@@ -19,15 +19,20 @@ const SystemSettings = ({ athleteId }) => {
   const [activeTab, setActiveTab] = useState(() => {
     // First try localStorage
     const savedTab = localStorage.getItem('systemSettings_activeTab');
+    console.log('🔍 Loading tab from localStorage:', savedTab);
     if (savedTab && ['seo', 'modules', 'plan-editor', 'statistics'].includes(savedTab)) {
+      // Also update hash to match
+      window.location.hash = savedTab;
       return savedTab;
     }
     // Then try URL hash
     const hash = location.hash.replace('#', '');
+    console.log('🔍 Loading tab from hash:', hash);
     if (['seo', 'modules', 'plan-editor', 'statistics'].includes(hash)) {
       return hash;
     }
     // Default to 'seo'
+    console.log('🔍 Using default tab: seo');
     return 'seo';
   });
   const [loading, setLoading] = useState(true);
