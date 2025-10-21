@@ -121,17 +121,6 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
     }
   };
 
-  const checkOpenAIKey = async () => {
-    try {
-      const response = await axios.get(`${API}/integrations/${athleteId}`);
-      const integrations = response.data.integrations || [];
-      const openaiIntegration = integrations.find(i => i.integration_type === 'openai' && i.is_active);
-      setHasOpenAIKey(!!openaiIntegration);
-    } catch (error) {
-      console.error('Error checking OpenAI key:', error);
-      setHasOpenAIKey(false);
-    }
-  };
 
   const sendMessage = async (e) => {
     e.preventDefault();
