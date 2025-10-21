@@ -1552,7 +1552,7 @@ const Account = ({ athleteId }) => {
                         onChange={handlePersonalFormChange}
                         placeholder="e.g., 2500"
                         className="text-white placeholder:text-gray-500"
-                        style={{ backgroundColor: '#111827', borderColor: '#111827' }}
+                        style={{ backgroundColor: '#111827', borderColor: '#374151' }}
                       />
                       <p className="text-xs text-gray-500">
                         Calories per day (based on age, gender, activity level)
