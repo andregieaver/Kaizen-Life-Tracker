@@ -142,6 +142,10 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
                     cursor: inFullscreen ? 'default' : 'pointer'
                   }}
                   onClick={() => !inFullscreen && setIsFullscreen(true)}
+                  onError={(e) => {
+                    console.error('❌ Image failed to load:', item.url);
+                    console.error('Error details:', e);
+                  }}
                 />
               )}
             </div>
