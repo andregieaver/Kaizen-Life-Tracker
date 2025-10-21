@@ -193,8 +193,8 @@ const ChangePassword = ({ athleteId }) => {
           </div>
         </form>
 
-        <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-          <p className="text-sm text-blue-700">
+        <div className="mt-4 p-3 bg-gray-700/50 border border-gray-600 rounded-lg">
+          <p className="text-sm text-gray-300">
             <strong>{t('common.note')}:</strong> {t('auth.passwordSecurityNote')}
           </p>
         </div>
