@@ -430,6 +430,31 @@ const SystemSettings = ({ athleteId }) => {
     }
   };
 
+  const handleSaveAdvancedSettings = async () => {
+    try {
+      await axios.post(`${API}/system/settings?athlete_id=${athleteId}`, {
+        advanced: {
+          openaiApiKey: advancedSettings.openaiApiKey
+        }
+      });
+      
+      setSaveStatus({
+        message: 'Advanced settings saved successfully!',
+        type: 'success'
+      });
+      
+      setTimeout(() => {
+        setSaveStatus({ message: '', type: '' });
+      }, 3000);
+    } catch (error) {
+      console.error('Error saving advanced settings:', error);
+      setSaveStatus({
+        message: 'Failed to save advanced settings',
+        type: 'error'
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
