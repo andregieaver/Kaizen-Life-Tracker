@@ -1396,7 +1396,7 @@ const Account = ({ athleteId }) => {
                     value={personalForm.running_goals}
                     onChange={handlePersonalFormChange}
                     className="w-full min-h-24 p-3 text-white placeholder:text-gray-500 rounded-md resize-none focus:ring-2 focus:ring-[#00C2A8] focus:border-transparent"
-                    style={{ backgroundColor: '#111827', borderColor: '#111827' }}
+                    style={{ backgroundColor: '#111827', borderColor: '#374151' }}
                     placeholder={t('onboarding.runningGoalsPlaceholder')}
                     data-testid="goals-textarea"
                   />
