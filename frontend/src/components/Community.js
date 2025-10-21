@@ -2322,6 +2322,18 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
                           </div>
                           
                           {/* Display media (images and videos) */}
+                          {(() => {
+                            console.log('🔍 Post media check:', {
+                              postId: post.id,
+                              hasMedia: !!post.media,
+                              mediaLength: post.media?.length,
+                              media: post.media,
+                              hasImageUrls: !!post.image_urls,
+                              imageUrlsLength: post.image_urls?.length,
+                              hasImageData: !!post.image_data
+                            });
+                            return null;
+                          })()}
                           {post.media && post.media.length > 0 ? (
                             <div className="mb-4">
                               <ImageCarousel media={post.media} alt="Post media" />
