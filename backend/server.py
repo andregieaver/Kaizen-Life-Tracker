@@ -8517,15 +8517,22 @@ async def join_challenge(challenge_id: str, athlete_id: str = Query(...)):
         if existing:
             raise HTTPException(status_code=400, detail="Already joined this challenge")
         
-        # Get athlete info (try athletes collection, fallback to user collection)
-        athlete = await db.athletes.find_one({"id": athlete_id}, {"_id": 0, "name": 1, "profile_picture": 1})
+        # Get athlete info - try multiple field names
+        athlete = await db.athletes.find_one(
+            {"$or": [{"id": athlete_id}, {"athlete_id": athlete_id}, {"_id": athlete_id}]},
+            {"_id": 0, "name": 1, "profile_picture": 1}
+        )
         if not athlete:
             # Fallback to user collection
-            user = await db.users.find_one({"id": athlete_id}, {"_id": 0, "name": 1, "email": 1})
+            user = await db.users.find_one(
+                {"$or": [{"id": athlete_id}, {"user_id": athlete_id}, {"_id": athlete_id}]},
+                {"_id": 0, "name": 1, "email": 1}
+            )
             if user:
                 athlete = {"name": user.get("name", "Unknown User"), "profile_picture": None}
             else:
-                raise HTTPException(status_code=404, detail="User not found")
+                # Use default values
+                athlete = {"name": "User", "profile_picture": None}
         
         # Create participation
         participation = ChallengeParticipation(
