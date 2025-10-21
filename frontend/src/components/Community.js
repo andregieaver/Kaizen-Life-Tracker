@@ -1604,6 +1604,20 @@ const Community = ({ athleteId }) => {
       {/* Feed Tab */}
       {activeTab === 'feed' && !selectedGroup && (
         <>
+          {/* Debug: Feed Info */}
+          <div className="mb-4 p-4 bg-purple-900/50 rounded-lg text-purple-200 text-sm">
+            <div className="font-bold mb-2">🔍 FEED DEBUG INFO</div>
+            <div>📊 Total items in feed: {posts.length}</div>
+            <div>⏳ Loading: {isLoading ? 'Yes' : 'No'}</div>
+            <div>🔄 Posts loaded flag: {postsLoaded ? 'Yes' : 'No'}</div>
+            {posts.length > 0 && (
+              <div className="mt-2">
+                <div>Most recent post ID: {posts[0]?.id?.substring(0, 8)}...</div>
+                <div>Most recent has image_urls: {posts[0]?.image_urls ? 'Yes' : 'No'}</div>
+              </div>
+            )}
+          </div>
+          
           {/* Posts and Events Feed */}
           <div className="space-y-6">
             {isLoading ? (
