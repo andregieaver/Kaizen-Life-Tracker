@@ -1467,7 +1467,7 @@ const Account = ({ athleteId }) => {
                         onChange={handlePersonalFormChange}
                         placeholder="190"
                         className="text-white placeholder:text-gray-500"
-                        style={{ backgroundColor: '#111827', borderColor: '#111827' }}
+                        style={{ backgroundColor: '#111827', borderColor: '#374151' }}
                       />
                     </div>
 
