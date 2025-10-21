@@ -76,15 +76,18 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
   // Check subscription tier
   const checkSubscription = async () => {
     try {
-      const response = await axios.get(`${API}/subscription/status?athlete_id=${athleteId}`);
+      console.log('🔍 Checking subscription for athlete:', athleteId);
+      const response = await axios.get(`${API}/subscriptions/status/${athleteId}`);
+      console.log('📊 Subscription response:', response.data);
       setSubscriptionTier(response.data.tier);
       
       // If free tier, show upgrade dialog immediately
       if (response.data.tier === 'free') {
+        console.log('🚫 Free tier detected - showing upgrade dialog');
         setShowUpgradeDialog(true);
       }
     } catch (error) {
-      console.error('Error checking subscription:', error);
+      console.error('❌ Error checking subscription:', error);
     }
   };
 
