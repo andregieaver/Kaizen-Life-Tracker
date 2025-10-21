@@ -1615,7 +1615,7 @@ const Community = ({ athleteId }) => {
       setNewChallengeData({
         title: '', description: '', challenge_type: 'distance', goal_value: '', goal_unit: 'km',
         start_date: '', end_date: '', visibility: 'public', competition_type: 'individual',
-        cover_photo: null, is_recurring: false, recurrence_frequency: 'weekly', recurrence_count: 4
+        cover_photo: null, trophy_image: null, is_recurring: false, recurrence_frequency: 'weekly', recurrence_count: 4
       });
       setChallengesLoaded(false);
       loadChallenges(challengeFilter);
@@ -1625,6 +1625,35 @@ const Community = ({ athleteId }) => {
       console.error('❌ DEBUG: Error status:', error.response?.status);
       console.error('❌ DEBUG: Error headers:', error.response?.headers);
       alert(`Failed to create challenge: ${error.response?.data?.detail || error.message}`);
+    }
+  };
+
+  const handleOpenEditChallenge = (challenge) => {
+    setEditChallengeData({
+      id: challenge.id,
+      title: challenge.title,
+      description: challenge.description,
+      cover_photo: challenge.cover_photo,
+      trophy_image: challenge.trophy_image,
+      end_date: challenge.end_date,
+      visibility: challenge.visibility,
+      goal_value: challenge.goal_value
+    });
+    setShowEditChallenge(true);
+  };
+
+  const handleEditChallenge = async () => {
+    try {
+      await axios.put(`${API}/community/challenges/${editChallengeData.id}?athlete_id=${athleteId}`, editChallengeData);
+      setShowEditChallenge(false);
+      setChallengesLoaded(false);
+      loadChallenges(challengeFilter);
+      if (showChallengeDetail && challengeDetailData?.id === editChallengeData.id) {
+        handleOpenChallengeDetail(editChallengeData.id);
+      }
+    } catch (error) {
+      console.error('Error editing challenge:', error);
+      alert('Failed to edit challenge');
     }
   };
 
