@@ -22,7 +22,10 @@ import {
   MessageSquare,
   Heart,
   UserCheck,
-  Activity
+  Activity,
+  UserPlus,
+  Gift,
+  Target
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
