@@ -3084,7 +3084,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
         onClick={() => setShowCreateMenu(!showCreateMenu)}
         className={`fixed bottom-20 right-4 z-50 w-14 h-14 bg-gradient-to-br from-[#00C2A8] to-[#00a890] hover:from-[#00a890] hover:to-[#00C2A8] rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
           showCreateMenu ? 'rotate-45 scale-110' : 'rotate-0'
-        }`}
+        } ${scrollDirection === 'down' ? 'translate-y-32' : 'translate-y-0'}`}
         aria-label="Create"
       >
         <PlusCircle className="w-7 h-7 text-white" />
