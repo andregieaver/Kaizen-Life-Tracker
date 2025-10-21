@@ -9995,6 +9995,72 @@ async def get_subscriber_stats(
             "premium_percentage": round(premium_percentage, 1)
         }
         
+        # Calculate community metrics
+        # Get posts from the period
+        posts_query = {}
+        if days:
+            posts_query["created_at"] = {"$gte": current_period_start.isoformat()}
+        
+        posts = await db.community_posts.find(posts_query).to_list(length=None)
+        total_posts = len(posts)
+        
+        # Calculate engagement metrics
+        total_likes = sum(post.get("likes_count", 0) for post in posts)
+        total_comments = sum(post.get("comments_count", 0) for post in posts)
+        
+        # Get unique posters
+        unique_posters = len(set(post.get("athlete_id") for post in posts if post.get("athlete_id")))
+        
+        # Calculate averages
+        avg_likes_per_post = total_likes / max(total_posts, 1)
+        avg_comments_per_post = total_comments / max(total_posts, 1)
+        engagement_rate = (unique_posters / max(total_subscribers, 1)) * 100
+        
+        # Get top contributors (most posts)
+        poster_counts = {}
+        for post in posts:
+            athlete_id = post.get("athlete_id")
+            if athlete_id:
+                poster_counts[athlete_id] = poster_counts.get(athlete_id, 0) + 1
+        
+        top_contributors = sorted(poster_counts.items(), key=lambda x: x[1], reverse=True)[:5]
+        
+        # Calculate daily post distribution for time series
+        daily_posts = {}
+        for post in posts:
+            created_at = post.get("created_at")
+            if created_at:
+                try:
+                    if isinstance(created_at, str):
+                        date_obj = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
+                    else:
+                        date_obj = created_at
+                    date_key = date_obj.strftime('%Y-%m-%d')
+                    daily_posts[date_key] = daily_posts.get(date_key, 0) + 1
+                except Exception:
+                    continue
+        
+        # Create time series for posts
+        sorted_post_dates = sorted(daily_posts.keys())
+        post_time_series = []
+        for date in sorted_post_dates:
+            post_time_series.append({
+                "date": date,
+                "count": daily_posts[date]
+            })
+        
+        result["community_metrics"] = {
+            "total_posts": total_posts,
+            "total_likes": total_likes,
+            "total_comments": total_comments,
+            "unique_posters": unique_posters,
+            "avg_likes_per_post": round(avg_likes_per_post, 1),
+            "avg_comments_per_post": round(avg_comments_per_post, 1),
+            "engagement_rate": round(engagement_rate, 2),
+            "top_contributors_count": len(top_contributors),
+            "post_time_series": post_time_series
+        }
+        
         # Add comparison data if requested
         if compare:
             previous_growth_count = len(previous_period_athletes)
