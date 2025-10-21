@@ -477,11 +477,12 @@ const SystemSettings = ({ athleteId }) => {
               <h1 className="text-3xl font-display font-bold text-white">System Settings</h1>
             </div>
             <Button
-              onClick={() => navigate('/account')}
-              className="bg-gray-700 hover:bg-gray-600 text-white border-0"
+              onClick={() => navigate('/dashboard/account')}
+              className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
+              title="Account Settings"
             >
-              <User className="w-4 h-4 mr-2" />
-              Account Settings
+              <User className="w-5 h-5" />
+              <span className="hidden sm:inline font-semibold">Account Settings</span>
             </Button>
           </div>
           <p className="text-gray-300">
