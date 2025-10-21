@@ -4,14 +4,16 @@ from datetime import datetime, timedelta
 import os
 import random
 
-# MongoDB connection
+# MongoDB connection - use same DB_NAME as the server
 MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
+DB_NAME = os.environ.get('DB_NAME', 'test_database')
 client = AsyncIOMotorClient(MONGO_URL)
-db = client.trainsmart
+db = client[DB_NAME]
 
 async def populate_test_subscribers():
     """Add test subscribers to the database"""
     
+    print(f"Using database: {DB_NAME}")
     print("Starting to populate test subscribers...")
     
     # Create test subscribers with different tiers and dates
@@ -78,6 +80,7 @@ async def populate_test_subscribers():
     print("\n" + "="*50)
     print("📊 DATABASE SUMMARY:")
     print("="*50)
+    print(f"Database: {DB_NAME}")
     print(f"Total Subscribers: {total_count}")
     print(f"Free Tier: {free_count}")
     print(f"Pro Tier: {pro_count}")
