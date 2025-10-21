@@ -330,6 +330,49 @@ const SystemSettings = ({ athleteId }) => {
     });
   };
 
+  // Drag handlers for feature reordering
+  const handleFeatureDragStart = (e, planType, index) => {
+    setDraggedFeature({ plan: planType, index });
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleFeatureDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleFeatureDrop = (e, planType, dropIndex) => {
+    e.preventDefault();
+    
+    const { plan: dragPlan, index: dragIndex } = draggedFeature;
+    
+    // Only allow reordering within the same plan
+    if (dragPlan !== planType || dragIndex === null || dragIndex === dropIndex) {
+      setDraggedFeature({ plan: null, index: null });
+      return;
+    }
+
+    setPlanSettings(prev => {
+      const features = [...prev[planType].features];
+      const [draggedItem] = features.splice(dragIndex, 1);
+      features.splice(dropIndex, 0, draggedItem);
+      
+      return {
+        ...prev,
+        [planType]: {
+          ...prev[planType],
+          features
+        }
+      };
+    });
+    
+    setDraggedFeature({ plan: null, index: null });
+  };
+
+  const handleFeatureDragEnd = () => {
+    setDraggedFeature({ plan: null, index: null });
+  };
+
   const handleSavePlanSettings = async () => {
     try {
       await axios.post(`${API}/system/settings?athlete_id=${athleteId}`, {
