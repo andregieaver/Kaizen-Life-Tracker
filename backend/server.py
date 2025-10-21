@@ -7468,12 +7468,6 @@ async def upload_images(
     
     uploaded_urls = []
     
-    # Get base URL from request and force HTTPS
-    base_url = str(request.base_url).rstrip('/')
-    # Force HTTPS for production
-    if 'preview.emergentagent.com' in base_url or 'emergentagent.com' in base_url:
-        base_url = base_url.replace('http://', 'https://')
-    
     for file in files:
         # Validate file type
         if not file.content_type.startswith('image/'):
@@ -7492,8 +7486,8 @@ async def upload_images(
                 quality=85
             )
             
-            # Generate URL using request base URL with /api prefix
-            image_url = f"{base_url}/api/uploads/images/{processed_filename}"
+            # Generate relative URL with /api prefix
+            image_url = f"/api/uploads/images/{processed_filename}"
             uploaded_urls.append(image_url)
             
             logging.info(f"Processed and uploaded image: {processed_filename} -> {image_url}")
