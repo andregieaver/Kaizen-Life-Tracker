@@ -136,11 +136,15 @@ const SystemSettings = ({ athleteId }) => {
     free_subscribers: 0,
     pro_subscribers: 0,
     premium_subscribers: 0,
-    growth_30_days: 0,
+    growth_count: 0,
     growth_percentage: 0,
-    time_series: []
+    time_series: [],
+    period: "90d",
+    comparison: null
   });
   const [loadingStats, setLoadingStats] = useState(false);
+  const [selectedPeriod, setSelectedPeriod] = useState("90d");
+  const [compareEnabled, setCompareEnabled] = useState(false);
 
   // Load settings on mount
   useEffect(() => {
