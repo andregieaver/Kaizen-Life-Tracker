@@ -39,11 +39,10 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
   const voiceChatRef = useRef(null);
 
   useEffect(() => {
-    // Don't load chat history on mount - start fresh
-    // Users can click past conversations to load them
-    checkOpenAIKey();
-    loadConversations(); // Load conversations list on mount
-    checkSubscription(); // Check subscription tier
+    // Load conversations list on mount
+    loadConversations();
+    // Check subscription tier
+    checkSubscription();
   }, [athleteId]);
 
   useEffect(() => {
