@@ -4328,7 +4328,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
   editingPost, editContent, showComments, commentText, setNewPostContent, setNewPostImage, 
   setNewPostImagePreview, setEditingPost, setEditContent, setCommentText,
   handleCreateGroupPost, handleImageSelect, onBack, onLeave, onEditGroup, loadAthleteProfile }) => (
-  <div className="space-y-6">
+  <div className="space-y-6 pt-14 sm:pt-0">
     {/* Group Header */}
     <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
       <CardContent className="p-6">
