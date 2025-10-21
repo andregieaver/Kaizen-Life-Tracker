@@ -143,9 +143,7 @@ const Account = ({ athleteId }) => {
   const { t } = useTranslation();
   const [athlete, setAthlete] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [showApiKey, setShowApiKey] = useState(false);
   const [integrations, setIntegrations] = useState({
-    openai_api_key: '',
     strava: { connected: false, athlete_name: '', last_sync: null },
     oura: { connected: false, user_id: '', last_sync: null },
     coros: { connected: false, last_sync: null }
