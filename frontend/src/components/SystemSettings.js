@@ -515,6 +515,9 @@ const SystemSettings = ({ athleteId }) => {
             <TabsTrigger value="statistics" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
               <span>Statistics</span>
             </TabsTrigger>
+            <TabsTrigger value="advanced" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
+              <span>Advanced</span>
+            </TabsTrigger>
           </TabsList>
 
           {/* SEO Tab */}
