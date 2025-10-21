@@ -1277,12 +1277,12 @@ Return only the JSON array, nothing else.
 """
         
         try:
-            # Use user's OpenAI key if available, otherwise Emergent
-            user_openai_key = await self.get_user_openai_key(athlete_id)
+            # Use OpenAI key (personal or global) if available, otherwise Emergent
+            openai_key = await self.get_openai_key(athlete_id)
             
-            if user_openai_key:
+            if openai_key:
                 import openai
-                client = openai.AsyncOpenAI(api_key=user_openai_key)
+                client = openai.AsyncOpenAI(api_key=openai_key)
                 response_obj = await client.chat.completions.create(
                     model="gpt-4o-mini",  # Faster model for extraction
                     messages=[{"role": "user", "content": extraction_prompt}],
