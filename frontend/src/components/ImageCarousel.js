@@ -2,14 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, X, Maximize2, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
-  // Support both old images prop and new media prop
-  const mediaItems = media.length > 0 ? media : images.map(url => ({ type: 'image', url }));
+  // Get backend URL from environment
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
+  
+  // Helper function to normalize URLs
+  const normalizeUrl = (url) => {
+    if (!url) return '';
+    // If URL starts with '/', prepend backend URL
+    if (url.startsWith('/')) {
+      return `${backendUrl}${url}`;
+    }
+    // Otherwise return as-is (already absolute)
+    return url;
+  };
+  
+  // Support both old images prop and new media prop, normalizing URLs
+  const mediaItems = media.length > 0 
+    ? media.map(item => ({ ...item, url: normalizeUrl(item.url) }))
+    : images.map(url => ({ type: 'image', url: normalizeUrl(url) }));
   
   // Debug logging
   console.log('🔍 ImageCarousel received:', { 
     images, 
     media, 
     mediaItems,
+    backendUrl,
     hasImages: images?.length > 0,
     hasMedia: media?.length > 0,
     mediaItemsCount: mediaItems?.length
