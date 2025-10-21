@@ -1222,6 +1222,7 @@ class Challenge(BaseModel):
     visibility: str  # 'public', 'private'
     competition_type: str  # 'individual', 'team'
     cover_photo: Optional[str] = None
+    trophy_image: Optional[str] = None  # Badge/trophy image for completed challenges
     creator_id: str
     creator_name: str
     creator_profile_picture: Optional[str] = None
