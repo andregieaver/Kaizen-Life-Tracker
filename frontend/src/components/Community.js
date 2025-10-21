@@ -2750,7 +2750,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
 
       {/* My Groups Tab */}
       {activeTab === 'mygroups' && !selectedGroup && (
-        <div className="space-y-6 pt-28 sm:pt-0">
+        <div className="space-y-6 pt-[6.5rem] sm:pt-0">
           <Button
             onClick={() => setShowCreateGroup(true)}
             className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
