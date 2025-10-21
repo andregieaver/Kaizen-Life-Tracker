@@ -877,15 +877,25 @@ const Community = ({ athleteId }) => {
 
   const handleEditPost = async (postId) => {
     try {
+      // Build media array from editMedia
+      const media = editMedia.map(item => ({
+        type: item.type,
+        url: item.url,
+        thumbnail: item.thumbnail
+      }));
+
       const postData = {
         content: editContent,
-        visibility: editVisibility
+        visibility: editVisibility,
+        media: media.length > 0 ? media : [],
+        image_urls: editMedia.filter(m => m.type === 'image').map(m => m.url)
       };
 
       await axios.put(`${API}/community/posts/${postId}?athlete_id=${athleteId}`, postData);
       setEditingPost(null);
       setEditContent('');
       setEditVisibility('public');
+      setEditMedia([]);
       
       // Reload both feeds
       setPostsLoaded(false);
