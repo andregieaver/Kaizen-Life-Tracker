@@ -7,6 +7,13 @@ const ImageCarousel = ({ images = [], alt = "Image" }) => {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
+  // Debug logging
+  console.log('🎠 ImageCarousel rendered with:', { 
+    imageCount: images?.length, 
+    images: images,
+    firstImage: images?.[0]
+  });
+
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e) => {
