@@ -479,10 +479,10 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       <div className="hidden md:flex w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4 items-center justify-between w-full">
         <div className="flex items-center space-x-2">
           <Button
-            variant="outline"
+            variant="ghost"
             size="sm"
             onClick={toggleArchive}
-            className="btn-transition"
+            className="bg-[#374151] text-white hover:bg-[#4B5563] border-0"
             data-testid="archive-btn"
           >
             <Archive className="w-4 h-4 mr-2" />
