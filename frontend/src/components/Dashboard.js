@@ -44,6 +44,7 @@ const Dashboard = ({ athleteId }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [testResults, setTestResults] = useState([]);
   const [communityUnreadCount, setCommunityUnreadCount] = useState(0);
+  const [showNotifications, setShowNotifications] = useState(false);
   
   // Module settings state
   const [moduleSettings, setModuleSettings] = useState({
