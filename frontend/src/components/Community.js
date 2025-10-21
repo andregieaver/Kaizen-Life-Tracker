@@ -443,54 +443,105 @@ const Community = ({ athleteId }) => {
     }
   };
 
-  // Handle multiple image selection
-  const handleMultipleImagesSelect = async (e) => {
+  // Handle mixed media selection (images + videos)
+  const handleMediaSelect = async (e) => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
 
-    // Check max limit (5 images)
-    const maxImages = 5;
-    const currentCount = selectedImages.length;
-    const newCount = currentCount + files.length;
-
-    if (newCount > maxImages) {
-      alert(`You can only upload a maximum of ${maxImages} images. You currently have ${currentCount} image(s).`);
+    // Max 5 media items total (images + videos), but max 1 video
+    const currentVideoCount = selectedMedia.filter(m => m.type === 'video').length;
+    const newVideos = files.filter(f => f.type.startsWith('video/'));
+    
+    if (currentVideoCount > 0 && newVideos.length > 0) {
+      alert('You can only upload 1 video per post');
+      return;
+    }
+    
+    if (newVideos.length > 1) {
+      alert('You can only upload 1 video per post');
       return;
     }
 
-    // Add files to selected images
-    setSelectedImages(prev => [...prev, ...files]);
+    const currentCount = selectedMedia.length;
+    const newCount = currentCount + files.length;
 
-    // Upload images to backend
-    setIsUploadingImages(true);
+    if (newCount > 5) {
+      alert(`You can upload a maximum of 5 media items (images + video). You currently have ${currentCount} item(s).`);
+      return;
+    }
+
+    setIsUploadingMedia(true);
+
     try {
-      const formData = new FormData();
-      files.forEach(file => {
-        formData.append('files', file);
-      });
+      const newMedia = [];
 
-      const response = await axios.post(`${API}/upload/images?max_files=${maxImages}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      for (const file of files) {
+        const mediaItem = {
+          id: `temp-${Date.now()}-${Math.random()}`,
+          file: file,
+          preview: URL.createObjectURL(file),
+          url: null,
+          thumbnail: null,
+          uploading: true
+        };
+
+        if (file.type.startsWith('video/')) {
+          mediaItem.type = 'video';
+          
+          // Upload video
+          const formData = new FormData();
+          formData.append('file', file);
+
+          const response = await axios.post(`${API}/upload/video`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          });
+
+          mediaItem.url = response.data.video_url;
+          mediaItem.thumbnail = response.data.thumbnail_url;
+          mediaItem.uploading = false;
+        } else if (file.type.startsWith('image/')) {
+          mediaItem.type = 'image';
+          
+          // Upload image
+          const formData = new FormData();
+          formData.append('files', file);
+
+          const response = await axios.post(`${API}/upload/images?max_files=1`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          });
+
+          mediaItem.url = response.data.urls[0];
+          mediaItem.uploading = false;
+        } else {
+          continue; // Skip unsupported files
         }
-      });
 
-      // Add URLs to state
-      setUploadedImageUrls(prev => [...prev, ...response.data.urls]);
+        newMedia.push(mediaItem);
+      }
+
+      setSelectedMedia(prev => [...prev, ...newMedia]);
     } catch (error) {
-      console.error('Error uploading images:', error);
-      alert('Failed to upload images. Please try again.');
-      // Remove the files that failed to upload
-      setSelectedImages(prev => prev.slice(0, currentCount));
+      console.error('Error uploading media:', error);
+      alert(`Failed to upload media: ${error.response?.data?.detail || error.message}`);
     } finally {
-      setIsUploadingImages(false);
+      setIsUploadingMedia(false);
     }
   };
 
-  // Remove image from selection
-  const handleRemoveImage = (index) => {
-    setSelectedImages(prev => prev.filter((_, i) => i !== index));
-    setUploadedImageUrls(prev => prev.filter((_, i) => i !== index));
+  // Remove media from selection
+  const handleRemoveMedia = (index) => {
+    setSelectedMedia(prev => prev.filter((_, i) => i !== index));
+  };
+
+  // Handle drag end for reordering
+  const handleMediaDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const items = Array.from(selectedMedia);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setSelectedMedia(items);
   };
 
   // Mention handling functions
