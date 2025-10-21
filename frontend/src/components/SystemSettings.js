@@ -1448,64 +1448,119 @@ const SystemSettings = ({ athleteId }) => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {/* Monthly Revenue */}
-                    <div className="p-4 rounded-lg bg-gray-900 border border-gray-700">
-                      <div className="flex items-center justify-between mb-2">
-                        <p className="text-sm font-medium text-gray-400">Monthly Revenue</p>
-                        <DollarSign className="w-5 h-5 text-green-400" />
-                      </div>
-                      <p className="text-2xl font-bold text-white">$12,450</p>
-                      <div className="flex items-center mt-2">
-                        <TrendingUp className="w-4 h-4 text-green-400 mr-1" />
-                        <span className="text-sm text-green-400">+15.3%</span>
-                        <span className="text-sm text-gray-400 ml-2">vs last month</span>
-                      </div>
-                    </div>
+                  {loadingStats ? (
+                    <div className="text-center text-gray-400 py-8">Loading metrics...</div>
+                  ) : (
+                    <>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {/* Monthly Recurring Revenue */}
+                        <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-sm font-medium text-gray-400">MRR</p>
+                            <DollarSign className="w-5 h-5 text-green-400" />
+                          </div>
+                          <p className="text-2xl font-bold text-white">
+                            €{subscriberStats.business_metrics?.mrr?.toLocaleString() || '0'}
+                          </p>
+                          <p className="text-xs text-gray-400 mt-2">Monthly Recurring Revenue</p>
+                        </div>
 
-                    {/* Conversion Rate */}
-                    <div className="p-4 rounded-lg bg-gray-900 border border-gray-700">
-                      <div className="flex items-center justify-between mb-2">
-                        <p className="text-sm font-medium text-gray-400">Conversion Rate</p>
-                        <Percent className="w-5 h-5 text-blue-400" />
-                      </div>
-                      <p className="text-2xl font-bold text-white">3.2%</p>
-                      <div className="flex items-center mt-2">
-                        <TrendingUp className="w-4 h-4 text-green-400 mr-1" />
-                        <span className="text-sm text-green-400">+0.8%</span>
-                        <span className="text-sm text-gray-400 ml-2">vs last month</span>
-                      </div>
-                    </div>
+                        {/* Annual Recurring Revenue */}
+                        <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-sm font-medium text-gray-400">ARR</p>
+                            <DollarSign className="w-5 h-5 text-blue-400" />
+                          </div>
+                          <p className="text-2xl font-bold text-white">
+                            €{subscriberStats.business_metrics?.arr?.toLocaleString() || '0'}
+                          </p>
+                          <p className="text-xs text-gray-400 mt-2">Annual Recurring Revenue</p>
+                        </div>
 
-                    {/* Average Revenue Per User */}
-                    <div className="p-4 rounded-lg bg-gray-900 border border-gray-700">
-                      <div className="flex items-center justify-between mb-2">
-                        <p className="text-sm font-medium text-gray-400">Avg Revenue/User</p>
-                        <Zap className="w-5 h-5 text-yellow-400" />
-                      </div>
-                      <p className="text-2xl font-bold text-white">$24.80</p>
-                      <div className="flex items-center mt-2">
-                        <TrendingDown className="w-4 h-4 text-red-400 mr-1" />
-                        <span className="text-sm text-red-400">-2.1%</span>
-                        <span className="text-sm text-gray-400 ml-2">vs last month</span>
-                      </div>
-                    </div>
-                  </div>
+                        {/* Conversion Rate */}
+                        <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-sm font-medium text-gray-400">Conversion Rate</p>
+                            <Percent className="w-5 h-5 text-purple-400" />
+                          </div>
+                          <p className="text-2xl font-bold text-white">
+                            {subscriberStats.business_metrics?.conversion_rate || '0'}%
+                          </p>
+                          <p className="text-xs text-gray-400 mt-2">Free to Paid</p>
+                        </div>
 
-                  {/* Revenue Breakdown */}
-                  <div className="mt-6 p-4 rounded-lg bg-gray-900 border border-gray-700">
-                    <h4 className="text-lg font-semibold text-white mb-4">Revenue Breakdown</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-400">Pro Subscriptions</span>
-                        <span className="text-white font-semibold">$8,200 (66%)</span>
+                        {/* Customer Lifetime Value */}
+                        <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
+                          <div className="flex items-center justify-between mb-2">
+                            <p className="text-sm font-medium text-gray-400">LTV</p>
+                            <Zap className="w-5 h-5 text-yellow-400" />
+                          </div>
+                          <p className="text-2xl font-bold text-white">
+                            €{subscriberStats.business_metrics?.ltv?.toLocaleString() || '0'}
+                          </p>
+                          <p className="text-xs text-gray-400 mt-2">Customer Lifetime Value</p>
+                        </div>
                       </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-400">Premium Subscriptions</span>
-                        <span className="text-white font-semibold">$4,250 (34%)</span>
+
+                      {/* Additional Metrics Row */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                        {/* ARPU */}
+                        <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="text-sm font-medium text-gray-400 mb-1">ARPU</p>
+                              <p className="text-xl font-bold text-white">
+                                €{subscriberStats.business_metrics?.arpu?.toFixed(2) || '0.00'}
+                              </p>
+                              <p className="text-xs text-gray-400 mt-1">Average Revenue Per User</p>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-sm font-medium text-gray-400 mb-1">ARPPU</p>
+                              <p className="text-xl font-bold text-white">
+                                €{subscriberStats.business_metrics?.arppu?.toFixed(2) || '0.00'}
+                              </p>
+                              <p className="text-xs text-gray-400 mt-1">Per Paid User</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Plan Distribution */}
+                        <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
+                          <p className="text-sm font-medium text-gray-400 mb-3">Paid Plan Distribution</p>
+                          <div className="space-y-3">
+                            <div>
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="text-sm text-gray-300">Pro</span>
+                                <span className="text-sm font-semibold text-white">
+                                  {subscriberStats.business_metrics?.pro_percentage || '0'}%
+                                </span>
+                              </div>
+                              <div className="w-full bg-gray-700 rounded-full h-2">
+                                <div 
+                                  className="bg-blue-500 h-2 rounded-full" 
+                                  style={{ width: `${subscriberStats.business_metrics?.pro_percentage || 0}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                            <div>
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="text-sm text-gray-300">Premium</span>
+                                <span className="text-sm font-semibold text-white">
+                                  {subscriberStats.business_metrics?.premium_percentage || '0'}%
+                                </span>
+                              </div>
+                              <div className="w-full bg-gray-700 rounded-full h-2">
+                                <div 
+                                  className="bg-purple-500 h-2 rounded-full" 
+                                  style={{ width: `${subscriberStats.business_metrics?.premium_percentage || 0}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    </>
+                  )}
                 </CardContent>
               </Card>
             </div>
