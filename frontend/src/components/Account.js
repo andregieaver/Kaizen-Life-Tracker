@@ -1899,7 +1899,7 @@ const Account = ({ athleteId }) => {
                       value={personalForm.date_format || 'MM/DD/YYYY'}
                       onValueChange={(value) => setPersonalForm(prev => ({...prev, date_format: value}))}
                     >
-                      <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                      <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#111827' }}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
