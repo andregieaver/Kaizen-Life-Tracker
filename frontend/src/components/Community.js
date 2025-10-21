@@ -34,10 +34,9 @@ const Community = ({ athleteId }) => {
   const [newPostContent, setNewPostContent] = useState('');
   const [newPostImage, setNewPostImage] = useState(null);
   const [newPostImagePreview, setNewPostImagePreview] = useState(null);
-  // Multi-image support
-  const [selectedImages, setSelectedImages] = useState([]); // Array of File objects
-  const [uploadedImageUrls, setUploadedImageUrls] = useState([]); // Array of URLs from backend
-  const [isUploadingImages, setIsUploadingImages] = useState(false);
+  // Multi-media support (images + videos)
+  const [selectedMedia, setSelectedMedia] = useState([]); // Array of media objects: {type, file, preview, url, thumbnail}
+  const [isUploadingMedia, setIsUploadingMedia] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showComments, setShowComments] = useState({});
   const [commentText, setCommentText] = useState({});
