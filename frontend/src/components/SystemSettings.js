@@ -51,6 +51,12 @@ const SystemSettings = ({ athleteId }) => {
   const [faviconPreview, setFaviconPreview] = useState(null);
   const [saveStatus, setSaveStatus] = useState({ message: '', type: '' });
 
+  // Advanced Settings State
+  const [advancedSettings, setAdvancedSettings] = useState({
+    openaiApiKey: '',
+    showKey: false
+  });
+
   // Modules State
   const [moduleSettings, setModuleSettings] = useState({
     affiliateProgram: {
