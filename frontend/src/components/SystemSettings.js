@@ -107,7 +107,21 @@ const SystemSettings = ({ athleteId }) => {
   // Advanced Settings State
   const [advancedSettings, setAdvancedSettings] = useState({
     openaiApiKey: '',
-    showKey: false
+    showKey: false,
+    stripe: {
+      live: {
+        apiKey: '',
+        webhookSecret: ''
+      },
+      sandbox: {
+        apiKey: '',
+        webhookSecret: ''
+      }
+    },
+    showStripeLiveKey: false,
+    showStripeLiveWebhook: false,
+    showStripeSandboxKey: false,
+    showStripeSandboxWebhook: false
   });
 
   // Modules State
