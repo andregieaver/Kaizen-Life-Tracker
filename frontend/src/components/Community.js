@@ -563,6 +563,95 @@ const Community = ({ athleteId }) => {
     setDraggedIndex(null);
   };
 
+  // Edit media handlers
+  const handleEditMediaSelect = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+
+    const currentVideoCount = editMedia.filter(m => m.type === 'video').length;
+    const newVideos = files.filter(f => f.type.startsWith('video/'));
+    
+    if (currentVideoCount > 0 && newVideos.length > 0) {
+      alert('You can only have 1 video per post');
+      return;
+    }
+    
+    if (newVideos.length > 1) {
+      alert('You can only upload 1 video per post');
+      return;
+    }
+
+    const currentCount = editMedia.length;
+    const newCount = currentCount + files.length;
+
+    if (newCount > 5) {
+      alert(`Maximum 5 media items. You currently have ${currentCount}.`);
+      return;
+    }
+
+    setIsUploadingEditMedia(true);
+
+    try {
+      const newMedia = [];
+
+      for (const file of files) {
+        const mediaItem = {
+          id: `temp-${Date.now()}-${Math.random()}`,
+          file: file,
+          preview: URL.createObjectURL(file),
+          url: null,
+          thumbnail: null,
+          uploading: true
+        };
+
+        if (file.type.startsWith('video/')) {
+          mediaItem.type = 'video';
+          const formData = new FormData();
+          formData.append('file', file);
+          const response = await axios.post(`${API}/upload/video`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          });
+          mediaItem.url = response.data.video_url;
+          mediaItem.thumbnail = response.data.thumbnail_url;
+          mediaItem.uploading = false;
+        } else if (file.type.startsWith('image/')) {
+          mediaItem.type = 'image';
+          const formData = new FormData();
+          formData.append('files', file);
+          const response = await axios.post(`${API}/upload/images?max_files=1`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          });
+          mediaItem.url = response.data.urls[0];
+          mediaItem.uploading = false;
+        } else {
+          continue;
+        }
+
+        newMedia.push(mediaItem);
+      }
+
+      setEditMedia(prev => [...prev, ...newMedia]);
+    } catch (error) {
+      console.error('Error uploading edit media:', error);
+      alert(`Failed to upload: ${error.response?.data?.detail || error.message}`);
+    } finally {
+      setIsUploadingEditMedia(false);
+    }
+  };
+
+  const handleRemoveEditMedia = (index) => {
+    setEditMedia(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleEditMediaDragEnd = (result) => {
+    if (draggedIndex === null || draggedIndex === result) return;
+    const items = Array.from(editMedia);
+    const [draggedItem] = items.splice(draggedIndex, 1);
+    items.splice(result, 0, draggedItem);
+    setEditMedia(items);
+    setDraggedIndex(null);
+  };
+
   // Mention handling functions
   const searchAthletes = async (searchText) => {
     if (!searchText || searchText.length < 1) {
