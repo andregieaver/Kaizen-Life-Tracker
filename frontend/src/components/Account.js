@@ -2164,7 +2164,7 @@ const Account = ({ athleteId }) => {
                 </div>
 
                 {subscriptionStatus.tier === 'free' ? (
-                  <Button className="w-full bg-[#00C2A8] hover:bg-[#00a890] text-white" onClick={() => navigate('/pricing')}>
+                  <Button className="w-full text-white bg-gradient-to-r from-[#00C2A8] to-[#00D4B8] hover:from-[#00a890] hover:to-[#00C2A8] shadow-lg" onClick={() => navigate('/pricing')}>
                     <TrendingUp className="w-4 h-4 mr-2" />
                     Upgrade Your Plan
                   </Button>
