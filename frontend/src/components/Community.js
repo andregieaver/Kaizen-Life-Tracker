@@ -158,6 +158,31 @@ const Community = ({ athleteId }) => {
     group_id: null
   });
 
+  // Challenges state
+  const [challenges, setChallenges] = useState([]);
+  const [challengesLoaded, setChallengesLoaded] = useState(false);
+  const [challengeFilter, setChallengeFilter] = useState('all'); // all, active, completed, joined
+  const [selectedChallenge, setSelectedChallenge] = useState(null);
+  const [showChallengeDetail, setShowChallengeDetail] = useState(false);
+  const [challengeDetailData, setChallengeDetailData] = useState(null);
+  const [challengeDetailLoading, setChallengeDetailLoading] = useState(false);
+  const [showCreateChallenge, setShowCreateChallenge] = useState(false);
+  const [newChallengeData, setNewChallengeData] = useState({
+    title: '',
+    description: '',
+    challenge_type: 'distance',
+    goal_value: '',
+    goal_unit: 'km',
+    start_date: '',
+    end_date: '',
+    visibility: 'public',
+    competition_type: 'individual',
+    cover_photo: null,
+    is_recurring: false,
+    recurrence_frequency: 'weekly',
+    recurrence_count: 4
+  });
+
 
   // Swipe handlers
   const onTouchStart = (e) => {
