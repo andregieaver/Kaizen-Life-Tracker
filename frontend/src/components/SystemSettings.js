@@ -1454,6 +1454,9 @@ const SystemSettings = ({ athleteId }) => {
                       <option value="subscriptions">Subscriptions Only</option>
                       <option value="one_time">One-Time Purchases Only</option>
                     </select>
+                    <p className="text-gray-500 text-xs mt-1">
+                      💡 Select "Subscriptions Only" to specify which plans this coupon applies to
+                    </p>
                   </div>
 
                   {/* Minimum Purchase Amount */}
