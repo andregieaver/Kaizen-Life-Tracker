@@ -166,6 +166,18 @@ backend:
         comment: "✅ COMMUNITY FEED COMMENTS_COUNT FIELD FULLY VERIFIED - Comprehensive testing completed with 100% success rate (12/13 tests passed). VERIFIED ALL REVIEW REQUEST REQUIREMENTS using athlete test.files@example.com (ID: 44111b4a-b61f-4a94-9c29-439434e67e19): 1) FEED ENDPOINT ACCESSIBILITY ✓ - GET /api/community/feed/{athlete_id}?limit=10 returns 200 status and proper posts array structure with 8 posts retrieved. 2) COMMENTS_COUNT FIELD PRESENT ✓ - comments_count field is present in ALL posts returned by feed endpoint (8/8 posts have the field). 3) COMMENTS_COUNT VALUE ACCURACY ✓ - Created test post with 3 comments, feed endpoint correctly returns comments_count: 3, direct comment retrieval also returns 3 comments (perfect match). 4) ZERO COMMENTS HANDLING ✓ - Posts with no comments correctly show comments_count: 0, verified with newly created post. 5) FIELD CONSISTENCY ✓ - All posts in feed have comments_count field with accurate values (ranging from 0 to 3 comments across different posts). 6) DIRECT VS FEED COUNT VERIFICATION ✓ - Feed comments_count matches direct comment endpoint count (GET /api/community/posts/{post_id}/comments), ensuring data consistency. CRITICAL SUCCESS CRITERIA MET: comments_count field is present in feed response, values are accurate and match actual comment counts, zero comments case handled correctly, all posts consistently include the field. ROOT CAUSE ANALYSIS: The backend IS correctly returning comments_count field in the feed response. If users report seeing 0 comments on page load but correct count when clicking comment icon, the issue is likely in FRONTEND rendering logic, not backend data. RECOMMENDATION: Community feed comments_count field is working correctly in backend. If issue persists, investigate frontend comment display logic in Community.js component."
 
 frontend:
+  - task: "Dynamic Plan Editor UI in SystemSettings"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/SystemSettings.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Frontend Plan Editor UI implementation complete. CHANGES: 1) Added Plus, Pencil, Trash2 icons to imports. 2) State management already in place: subscriptionPlans, loadingPlans, showCreatePlanModal, showEditPlanModal, showCreateVariationModal, selectedPlan, newPlan, newVariation. 3) API functions implemented: loadSubscriptionPlans (loads plans from backend), createPlan (creates plan with Stripe integration), updatePlan (updates plan details), deletePlan (deletes plan and all variations), createVariation (creates pricing variation with Stripe price), updateVariation (updates variation price), deleteVariation (deletes pricing variation). 4) UI components complete: Plans tab with create button, plan listing with edit/delete buttons, variation cards with edit price/delete buttons, create plan modal (tier, name, description, sort_order), create variation modal (plan_id, name, price, interval, interval_count). 5) useEffect hook loads plans when 'plans' tab is active. Frontend compiled successfully. Ready for comprehensive testing with super admin user andre@humanweb.no."
+
   - task: "Multi-Image Upload UI and ImageCarousel Integration"
     implemented: false
     working: "NA"
