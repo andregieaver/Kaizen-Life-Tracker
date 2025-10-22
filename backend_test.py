@@ -1441,24 +1441,9 @@ def test_subscription_plan_management_api():
                 # Note: In a real system, we would need to set is_super_admin=true in the database
                 # For testing purposes, we'll proceed and see what happens
             else:
-                # Try with existing test users from test_result.md
-                test_users = [
-                    "44111b4a-b61f-4a94-9c29-439434e67e19",  # test.files@example.com
-                    "90de5b99-6db3-4e14-8455-c00864fb9976",  # andre@example.com
-                ]
-                
-                for test_id in test_users:
-                    # Test if this user exists by trying a simple endpoint
-                    test_response = requests.get(f"{BACKEND_URL}/subscription-plans")
-                    if test_response.status_code == 200:
-                        super_admin_id = test_id
-                        print_test_result("Use Existing Test User", True, f"Using existing test user ID: {super_admin_id}")
-                        break
-                
-                # If still no user found, use the provided ID
-                if not super_admin_id:
-                    super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"
-                    print_test_result("Use Provided Super Admin ID", True, f"Using provided super admin ID: {super_admin_id}")
+                # Use the provided super admin ID (we just created this user)
+                super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"
+                print_test_result("Use Super Admin ID", True, f"Using super admin ID: {super_admin_id}")
         
         # Verify super admin exists and has correct permissions
         # We'll test this by trying to access a super admin endpoint
