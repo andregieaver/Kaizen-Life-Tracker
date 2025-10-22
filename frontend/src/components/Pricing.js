@@ -336,6 +336,78 @@ const Pricing = () => {
               </Badge>
             </button>
           </div>
+
+          {/* Coupon Code Section */}
+          <div className="mt-8 max-w-md mx-auto">
+            <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <Tag className="w-5 h-5 text-teal-400" />
+                  <h3 className="text-white font-semibold">Have a coupon code?</h3>
+                </div>
+                
+                {!appliedCoupon ? (
+                  <div className="space-y-3">
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="Enter coupon code"
+                        value={couponCode}
+                        onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                        className="flex-1 bg-gray-600 text-white px-4 py-2 rounded border border-gray-500 focus:border-teal-500 focus:outline-none"
+                        disabled={validatingCoupon}
+                      />
+                      <Button
+                        onClick={() => {
+                          // Calculate price for validation (use Pro plan as default)
+                          const proPlan = plans.find(p => p.id === 'pro');
+                          const price = billingCycle === 'annual' ? proPlan.annualPrice : proPlan.monthlyPrice;
+                          applyCoupon(price);
+                        }}
+                        disabled={validatingCoupon || !couponCode.trim()}
+                        className="bg-teal-600 hover:bg-teal-700 text-white px-6"
+                      >
+                        {validatingCoupon ? 'Checking...' : 'Apply'}
+                      </Button>
+                    </div>
+                    {couponError && (
+                      <p className="text-sm text-red-400">{couponError}</p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="bg-green-500/20 border border-green-500 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <div>
+                        <p className="text-green-400 font-semibold">
+                          ✓ Coupon Applied: {appliedCoupon.coupon.code}
+                        </p>
+                        <p className="text-gray-300 text-sm">{appliedCoupon.coupon.name}</p>
+                      </div>
+                      <button
+                        onClick={removeCoupon}
+                        className="text-gray-400 hover:text-white"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <div className="text-white">
+                      <p className="text-sm">
+                        Discount: <span className="font-bold text-green-400">
+                          {appliedCoupon.coupon.type === 'percentage' 
+                            ? `${appliedCoupon.coupon.value}%` 
+                            : `€${appliedCoupon.coupon.value}`
+                          }
+                        </span>
+                      </p>
+                      <p className="text-xs text-gray-400 mt-1">
+                        Discount will be applied at checkout
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Pricing Cards */}
