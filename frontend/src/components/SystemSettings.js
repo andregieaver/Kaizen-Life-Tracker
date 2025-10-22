@@ -1619,6 +1619,146 @@ const SystemSettings = ({ athleteId }) => {
               </div>
             )}
 
+            {/* Edit Plan Modal */}
+            {showEditPlanModal && selectedPlan && (
+              <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                <Card className="bg-gray-800 border-gray-700 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                  <CardHeader>
+                    <CardTitle className="text-white">Edit Plan: {selectedPlan.name}</CardTitle>
+                    <CardDescription className="text-gray-400">
+                      Update plan details (Stripe product will be updated)
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <label className="block text-gray-300 mb-2">Tier ID</label>
+                      <input
+                        type="text"
+                        value={selectedPlan.tier}
+                        disabled
+                        className="w-full bg-gray-600 text-gray-400 px-4 py-2 rounded border border-gray-600 cursor-not-allowed"
+                      />
+                      <p className="text-gray-500 text-xs mt-1">Cannot change tier ID</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-300 mb-2">Plan Name *</label>
+                      <input
+                        type="text"
+                        placeholder="e.g., Professional, Premium"
+                        value={editingPlan.name}
+                        onChange={(e) => setEditingPlan({...editingPlan, name: e.target.value})}
+                        className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-300 mb-2">Description</label>
+                      <textarea
+                        placeholder="Plan description..."
+                        value={editingPlan.description}
+                        onChange={(e) => setEditingPlan({...editingPlan, description: e.target.value})}
+                        className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
+                        rows={3}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-300 mb-2">Features</label>
+                      <div className="space-y-2">
+                        {editingPlan.features.map((feature, idx) => (
+                          <div key={idx} className="flex items-center gap-2">
+                            <input
+                              type="text"
+                              value={feature}
+                              onChange={(e) => {
+                                const updated = [...editingPlan.features];
+                                updated[idx] = e.target.value;
+                                setEditingPlan({...editingPlan, features: updated});
+                              }}
+                              className="flex-1 bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 text-sm"
+                            />
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                const updated = editingPlan.features.filter((_, i) => i !== idx);
+                                setEditingPlan({...editingPlan, features: updated});
+                              }}
+                              className="text-red-400 border-red-600"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        ))}
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            placeholder="Add a feature..."
+                            value={newFeature}
+                            onChange={(e) => setNewFeature(e.target.value)}
+                            onKeyPress={(e) => {
+                              if (e.key === 'Enter' && newFeature.trim()) {
+                                setEditingPlan({...editingPlan, features: [...editingPlan.features, newFeature.trim()]});
+                                setNewFeature('');
+                              }
+                            }}
+                            className="flex-1 bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 text-sm"
+                          />
+                          <Button
+                            size="sm"
+                            onClick={() => {
+                              if (newFeature.trim()) {
+                                setEditingPlan({...editingPlan, features: [...editingPlan.features, newFeature.trim()]});
+                                setNewFeature('');
+                              }
+                            }}
+                            className="bg-teal-600 hover:bg-teal-700"
+                          >
+                            <Plus className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-300 mb-2">Sort Order</label>
+                      <input
+                        type="number"
+                        value={editingPlan.sort_order}
+                        onChange={(e) => setEditingPlan({...editingPlan, sort_order: parseInt(e.target.value) || 0})}
+                        className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
+                      />
+                      <p className="text-gray-500 text-xs mt-1">Lower numbers appear first</p>
+                    </div>
+                  </CardContent>
+                  <div className="px-6 pb-6 flex gap-3">
+                    <Button
+                      onClick={() => {
+                        updatePlan(selectedPlan.tier, {
+                          name: editingPlan.name,
+                          description: editingPlan.description,
+                          features: editingPlan.features,
+                          sort_order: editingPlan.sort_order
+                        });
+                        setShowEditPlanModal(false);
+                      }}
+                      className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                    >
+                      Save Changes
+                    </Button>
+                    <Button
+                      onClick={() => setShowEditPlanModal(false)}
+                      variant="outline"
+                      className="flex-1 text-gray-300 border-gray-600"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </Card>
+              </div>
+            )}
+
             {/* Create Variation Modal */}
             {showCreateVariationModal && selectedPlan && (
               <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
