@@ -11612,6 +11612,187 @@ async def sync_stripe_plans(athlete_id: str):
         logging.error(f"Error syncing with Stripe: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Waiting List Endpoints
+@api_router.post("/waiting-list")
+async def add_to_waiting_list(entry_data: dict):
+    """Add entry to waiting list (public endpoint, no auth required)"""
+    try:
+        # Validate required fields
+        if not entry_data.get("name") or not entry_data.get("email") or not entry_data.get("nationality"):
+            raise HTTPException(status_code=400, detail="Name, email, and nationality are required")
+        
+        # Check if email already exists
+        existing = await db.waiting_list.find_one(
+            {"email": entry_data["email"].lower().strip()},
+            {"_id": 0}
+        )
+        
+        if existing:
+            raise HTTPException(status_code=409, detail="Email already registered in waiting list")
+        
+        # Create entry
+        entry = WaitingListEntry(
+            name=entry_data["name"].strip(),
+            email=entry_data["email"].lower().strip(),
+            nationality=entry_data["nationality"].strip(),
+            source=entry_data.get("source", "homepage"),
+            notes=entry_data.get("notes")
+        )
+        
+        await db.waiting_list.insert_one(entry.model_dump())
+        
+        logging.info(f"Waiting list entry added: {entry.email}")
+        return {
+            "message": "Successfully added to waiting list",
+            "id": entry.id
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error adding to waiting list: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/waiting-list")
+async def get_waiting_list(
+    athlete_id: str,
+    status: Optional[str] = None,
+    limit: int = 100,
+    skip: int = 0
+):
+    """Get waiting list entries (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Build query
+        query = {}
+        if status:
+            query["status"] = status
+        
+        # Get entries
+        entries = await db.waiting_list.find(
+            query,
+            {"_id": 0}
+        ).sort("created_at", -1).skip(skip).limit(limit).to_list(length=None)
+        
+        # Get total count
+        total_count = await db.waiting_list.count_documents(query)
+        
+        return {
+            "entries": entries,
+            "total": total_count,
+            "limit": limit,
+            "skip": skip
+        }
+        
+    except Exception as e:
+        logging.error(f"Error getting waiting list: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/waiting-list/export")
+async def export_waiting_list_csv(athlete_id: str, status: Optional[str] = None):
+    """Export waiting list to CSV (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Build query
+        query = {}
+        if status:
+            query["status"] = status
+        
+        # Get all entries
+        entries = await db.waiting_list.find(
+            query,
+            {"_id": 0}
+        ).sort("created_at", -1).to_list(length=None)
+        
+        # Create CSV content
+        csv_lines = []
+        csv_lines.append("Name,Email,Nationality,Status,Source,Created At,Notes")
+        
+        for entry in entries:
+            name = entry.get("name", "").replace(",", ";")
+            email = entry.get("email", "")
+            nationality = entry.get("nationality", "").replace(",", ";")
+            status = entry.get("status", "pending")
+            source = entry.get("source", "homepage")
+            created_at = entry.get("created_at", "")
+            if isinstance(created_at, datetime):
+                created_at = created_at.isoformat()
+            notes = entry.get("notes", "").replace(",", ";") if entry.get("notes") else ""
+            
+            csv_lines.append(f"{name},{email},{nationality},{status},{source},{created_at},{notes}")
+        
+        csv_content = "\n".join(csv_lines)
+        
+        from fastapi.responses import Response
+        
+        return Response(
+            content=csv_content,
+            media_type="text/csv",
+            headers={
+                "Content-Disposition": f"attachment; filename=waiting-list-{datetime.now(timezone.utc).strftime('%Y%m%d')}.csv"
+            }
+        )
+        
+    except Exception as e:
+        logging.error(f"Error exporting waiting list: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/waiting-list/{entry_id}")
+async def update_waiting_list_entry(entry_id: str, updates: dict, athlete_id: str):
+    """Update waiting list entry (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Check if entry exists
+        entry = await db.waiting_list.find_one({"id": entry_id}, {"_id": 0})
+        if not entry:
+            raise HTTPException(status_code=404, detail="Entry not found")
+        
+        # Update entry
+        update_data = {}
+        if "status" in updates:
+            update_data["status"] = updates["status"]
+        if "notes" in updates:
+            update_data["notes"] = updates["notes"]
+        
+        update_data["updated_at"] = datetime.now(timezone.utc)
+        
+        await db.waiting_list.update_one(
+            {"id": entry_id},
+            {"$set": update_data}
+        )
+        
+        logging.info(f"Waiting list entry updated: {entry_id} by {athlete_id}")
+        return {"message": "Entry updated successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating waiting list entry: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/waiting-list/{entry_id}")
+async def delete_waiting_list_entry(entry_id: str, athlete_id: str):
+    """Delete waiting list entry (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        result = await db.waiting_list.delete_one({"id": entry_id})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Entry not found")
+        
+        logging.info(f"Waiting list entry deleted: {entry_id} by {athlete_id}")
+        return {"message": "Entry deleted successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error deleting waiting list entry: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 app.include_router(api_router)
 
 @app.on_event("shutdown")
