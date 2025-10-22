@@ -303,6 +303,18 @@ agent_communication:
 user_problem_statement: "Complete the dynamic Plan Editor frontend UI in SystemSettings.js for managing subscription plans and their variations. The backend API is already implemented. Need to ensure the UI properly loads plans, allows creation/editing/deletion of plans and variations, and integrates with Stripe."
 
 backend:
+  - task: "Subscription Plan Management API Endpoints"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Backend subscription plan management endpoints already implemented in server.py (lines 11173-11422). Includes GET /api/subscription-plans (list all plans with variations), POST /api/subscription-plans (create plan + Stripe product), PUT /api/subscription-plans/{tier} (update plan), DELETE /api/subscription-plans/{tier} (delete plan), POST /api/subscription-plans/{tier}/variations (create variation + Stripe price), PUT /api/subscription-plans/variations/{plan_id} (update variation price), DELETE /api/subscription-plans/variations/{plan_id} (delete variation). Pydantic models defined: SubscriptionPlan and SubscriptionPlanVariation. Stripe integration included for product and price creation. Super admin authentication required for all mutation endpoints. Added STRIPE_API_KEY to backend .env and restarted backend successfully. Ready for frontend testing."
+
   - task: "Image Upload Endpoint with Processing"
     implemented: true
     working: true
