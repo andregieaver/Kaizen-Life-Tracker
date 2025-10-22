@@ -3056,6 +3056,50 @@ async def change_password(request: ChangePasswordRequest):
     
     return {"message": "Password changed successfully"}
 
+@api_router.post("/auth/change-email")
+async def change_email(request: ChangeEmailRequest):
+    """Change email for logged-in user"""
+    # Find athlete
+    athlete = await db.athlete_profiles.find_one(
+        {"id": request.athlete_id}, 
+        {"_id": 0}
+    )
+    if not athlete:
+        raise HTTPException(status_code=404, detail="Athlete not found")
+    
+    # Verify password
+    if not pwd_context.verify(request.password, athlete["password"]):
+        raise HTTPException(status_code=401, detail="Password is incorrect")
+    
+    # Check if new email is already in use by another user
+    existing_user = await db.athlete_profiles.find_one(
+        {"email": request.new_email.lower()},
+        {"_id": 0, "id": 1}
+    )
+    if existing_user and existing_user["id"] != request.athlete_id:
+        raise HTTPException(status_code=400, detail="Email already in use")
+    
+    # Check athletes collection as well for backward compatibility
+    existing_athlete = await db.athletes.find_one(
+        {"email": request.new_email.lower()},
+        {"_id": 0, "id": 1}
+    )
+    if existing_athlete and existing_athlete["id"] != request.athlete_id:
+        raise HTTPException(status_code=400, detail="Email already in use")
+    
+    # Update email in both collections
+    await db.athlete_profiles.update_one(
+        {"id": request.athlete_id},
+        {"$set": {"email": request.new_email.lower()}}
+    )
+    
+    await db.athletes.update_one(
+        {"id": request.athlete_id},
+        {"$set": {"email": request.new_email.lower()}}
+    )
+    
+    return {"message": "Email changed successfully"}
+
 @api_router.get("/athlete/{athlete_id}")
 async def get_athlete_profile(athlete_id: str):
     athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
