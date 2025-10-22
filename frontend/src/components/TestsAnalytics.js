@@ -582,22 +582,13 @@ const TestsAnalytics = ({ athleteId }) => {
 
       {/* Test Graphs */}
       {Object.keys(testGroups).length === 0 ? (
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <LineChartIcon className="w-16 h-16 text-gray-300 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No test results yet</h3>
-            <p className="text-gray-600 text-center mb-4">
-              Start tracking your fitness tests to see progress over time
-            </p>
-            <Button 
-              onClick={handleAddNew}
-              className="bg-blue-600 hover:bg-blue-700"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Add First Test
-            </Button>
-          </CardContent>
-        </Card>
+        <div className="flex flex-col items-center justify-center py-12">
+          <LineChartIcon className="w-16 h-16 text-gray-400 mb-4" />
+          <h3 className="text-lg font-medium text-gray-200 mb-2">No test results yet</h3>
+          <p className="text-gray-400 text-center">
+            Start tracking your fitness tests to see progress over time
+          </p>
+        </div>
       ) : (
         <DndContext
           sensors={sensors}
