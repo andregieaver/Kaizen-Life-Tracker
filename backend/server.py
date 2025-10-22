@@ -11011,7 +11011,7 @@ async def delete_coupon(code: str, athlete_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.post("/coupons/validate")
-async def validate_coupon(code: str, amount: float, purchase_type: str = "all"):
+async def validate_coupon(code: str, amount: float, purchase_type: str = "all", plan_id: str = None):
     """Validate a coupon code and return discount details (public endpoint)"""
     try:
         code = code.upper().strip()
@@ -11052,6 +11052,15 @@ async def validate_coupon(code: str, amount: float, purchase_type: str = "all"):
                 detail=f"This coupon is only valid for {applies_to}"
             )
         
+        # Check specific plans
+        specific_plans = coupon.get("specific_plans")
+        if specific_plans and plan_id:
+            if plan_id not in specific_plans:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"This coupon is not valid for the selected plan"
+                )
+        
         # Calculate discount
         if coupon["type"] == "percentage":
             discount_amount = (amount * coupon["value"]) / 100
@@ -11066,7 +11075,8 @@ async def validate_coupon(code: str, amount: float, purchase_type: str = "all"):
                 "code": coupon["code"],
                 "name": coupon.get("name", ""),
                 "type": coupon["type"],
-                "value": coupon["value"]
+                "value": coupon["value"],
+                "specific_plans": coupon.get("specific_plans")
             },
             "original_amount": amount,
             "discount_amount": round(discount_amount, 2),
