@@ -10782,28 +10782,54 @@ async def get_subscriber_stats(
 # ===========================
 
 @api_router.post("/coupons")
-async def create_coupon(coupon: Coupon, athlete_id: str):
+async def create_coupon(coupon_data: dict, athlete_id: str):
     """Create a new coupon (Super Admin only)"""
     await verify_super_admin(athlete_id)
     
     try:
         # Normalize code to uppercase
-        coupon.code = coupon.code.upper().strip()
+        code = coupon_data.get("code", "").upper().strip()
+        
+        if not code:
+            raise HTTPException(status_code=400, detail="Coupon code is required")
         
         # Check if coupon code already exists
-        existing = await db.coupons.find_one({"code": coupon.code}, {"_id": 0})
+        existing = await db.coupons.find_one({"code": code}, {"_id": 0})
         if existing:
             raise HTTPException(status_code=400, detail="Coupon code already exists")
         
+        # Validate required fields
+        if not coupon_data.get("name"):
+            raise HTTPException(status_code=400, detail="Coupon name is required")
+        
+        if not coupon_data.get("type") or coupon_data["type"] not in ["percentage", "fixed"]:
+            raise HTTPException(status_code=400, detail="Invalid coupon type")
+        
+        value = coupon_data.get("value")
+        if value is None:
+            raise HTTPException(status_code=400, detail="Coupon value is required")
+        
         # Validate coupon data
-        if coupon.type == "percentage" and (coupon.value < 0 or coupon.value > 100):
+        if coupon_data["type"] == "percentage" and (value < 0 or value > 100):
             raise HTTPException(status_code=400, detail="Percentage must be between 0 and 100")
         
-        if coupon.type == "fixed" and coupon.value <= 0:
+        if coupon_data["type"] == "fixed" and value <= 0:
             raise HTTPException(status_code=400, detail="Fixed amount must be greater than 0")
         
-        # Set created_by
-        coupon.created_by = athlete_id
+        # Create coupon object
+        coupon = Coupon(
+            code=code,
+            name=coupon_data["name"],
+            type=coupon_data["type"],
+            value=value,
+            currency=coupon_data.get("currency", "usd"),
+            max_uses=coupon_data.get("max_uses"),
+            enabled=coupon_data.get("enabled", True),
+            expires_at=coupon_data.get("expires_at"),
+            created_by=athlete_id,
+            applies_to=coupon_data.get("applies_to", "all"),
+            min_purchase_amount=coupon_data.get("min_purchase_amount")
+        )
         
         # Insert coupon
         await db.coupons.insert_one(coupon.model_dump())
