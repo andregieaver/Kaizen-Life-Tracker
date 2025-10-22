@@ -1515,22 +1515,6 @@ const SystemSettings = ({ athleteId }) => {
                     </div>
                   </div>
                 )}
-                  
-                  {/* Minimum Purchase Amount */}
-                  <div>
-                    <label className="block text-gray-300 mb-2">Minimum Purchase Amount</label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      placeholder="0"
-                      value={newCoupon.min_purchase_amount}
-                      onChange={(e) => setNewCoupon({...newCoupon, min_purchase_amount: e.target.value})}
-                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
-                    />
-                    <p className="text-gray-500 text-xs mt-1">Minimum amount required to use coupon</p>
-                  </div>
-                </div>
                 
                 <div className="mt-6 flex justify-end">
                   <Button 
