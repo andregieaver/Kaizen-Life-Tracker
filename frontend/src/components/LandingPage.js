@@ -267,32 +267,32 @@ const LandingPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-800 to-gray-900">
       {/* Navigation */}
       <nav 
-        className={`fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50 transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 right-0 bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 backdrop-blur-sm z-50 transition-transform duration-300 ease-in-out ${
           isVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Heart className="w-8 h-8 text-blue-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900">TrainSmart</span>
+              <Heart className="w-8 h-8 text-white" />
+              <span className="ml-2 text-xl font-bold text-white">TrainSmart</span>
             </div>
             <div className="flex items-center gap-4">
               <Link to="/pricing">
-                <Button variant="ghost" className="hidden sm:inline-flex">
+                <Button variant="ghost" className="hidden sm:inline-flex text-white hover:bg-white/10">
                   Pricing
                 </Button>
               </Link>
               <Link to="/login">
-                <Button variant="outline">
+                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-teal-600">
                   Log In
                 </Button>
               </Link>
               <Link to="/onboarding">
-                <Button className="bg-blue-600 hover:bg-blue-700">
+                <Button className="bg-white text-teal-600 hover:bg-gray-100">
                   Get Started Free
                 </Button>
               </Link>
@@ -302,7 +302,7 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800">
         <div className="max-w-7xl mx-auto">
           {/* Referral Banner */}
           {hasReferralCode && (
