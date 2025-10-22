@@ -1599,6 +1599,19 @@ const SystemSettings = ({ athleteId }) => {
                                 </>
                               )}
                             </div>
+                            {coupon.specific_plans && coupon.specific_plans.length > 0 && (
+                              <div className="mt-2 flex flex-wrap gap-1">
+                                <span className="text-xs text-gray-400">Valid for:</span>
+                                {coupon.specific_plans.map(planId => {
+                                  const plan = availablePlans.find(p => p.id === planId);
+                                  return plan ? (
+                                    <span key={planId} className="text-xs px-2 py-1 bg-teal-500/20 text-teal-400 rounded">
+                                      {plan.name}
+                                    </span>
+                                  ) : null;
+                                })}
+                              </div>
+                            )}
                           </div>
                           <div className="flex gap-2">
                             <Button
