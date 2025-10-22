@@ -390,7 +390,8 @@ const Pricing = () => {
                           // Calculate price for validation (use Pro plan as default)
                           const proPlan = plans.find(p => p.id === 'pro');
                           const price = billingCycle === 'annual' ? proPlan.annualPrice : proPlan.monthlyPrice;
-                          applyCoupon(price);
+                          const planId = billingCycle === 'annual' ? 'pro_annual' : 'pro_monthly';
+                          applyCoupon(price, planId);
                         }}
                         disabled={validatingCoupon || !couponCode.trim()}
                         className="bg-teal-600 hover:bg-teal-700 text-white px-6"
