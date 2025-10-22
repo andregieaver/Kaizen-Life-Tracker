@@ -235,6 +235,14 @@ function App() {
             path="/auth/coros/callback" 
             element={<CorosCallback />} 
           />
+          <Route 
+            path="/privacy" 
+            element={<PrivacyPolicy />} 
+          />
+          <Route 
+            path="/terms" 
+            element={<TermsConditions />} 
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
