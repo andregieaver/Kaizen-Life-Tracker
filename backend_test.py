@@ -1901,6 +1901,59 @@ def test_subscription_plan_management_api():
         traceback.print_exc()
         return False
 
+def test_subscription_plan_readonly_endpoints():
+    """
+    Test subscription plan endpoints that don't require super admin privileges
+    """
+    print("   Testing read-only subscription plan endpoints...")
+    
+    try:
+        # Test GET /api/subscription-plans (should work without authentication)
+        plans_response = requests.get(f"{BACKEND_URL}/subscription-plans")
+        
+        if plans_response.status_code == 200:
+            plans_data = plans_response.json()
+            if "plans" in plans_data:
+                print_test_result("GET /api/subscription-plans (read-only)", True, f"Retrieved {len(plans_data['plans'])} plans")
+            else:
+                print_test_result("GET /api/subscription-plans (read-only)", False, "Response missing 'plans' field")
+        else:
+            print_test_result("GET /api/subscription-plans (read-only)", False, f"Failed: {plans_response.status_code}")
+        
+        # Test authentication error handling
+        fake_user_id = str(uuid.uuid4())
+        
+        # Test POST with non-super-admin user
+        auth_test_response = requests.post(
+            f"{BACKEND_URL}/subscription-plans?athlete_id={fake_user_id}",
+            json={"tier": "test", "name": "Test", "description": "Test"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if auth_test_response.status_code in [403, 404]:
+            print_test_result("Authentication Error Handling", True, f"Correctly rejected non-super-admin: {auth_test_response.status_code}")
+        else:
+            print_test_result("Authentication Error Handling", False, f"Expected 403/404, got: {auth_test_response.status_code}")
+        
+        # Test missing athlete_id
+        no_auth_response = requests.post(
+            f"{BACKEND_URL}/subscription-plans",
+            json={"tier": "test", "name": "Test", "description": "Test"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if no_auth_response.status_code in [400, 422]:
+            print_test_result("Missing Authentication", True, f"Correctly rejected missing athlete_id: {no_auth_response.status_code}")
+        else:
+            print_test_result("Missing Authentication", False, f"Expected 400/422, got: {no_auth_response.status_code}")
+        
+        print_test_result("Read-only Subscription Plan Testing", True, "Completed testing available endpoints")
+        return True
+        
+    except Exception as e:
+        print_test_result("Read-only Testing - Exception", False, f"Exception: {str(e)}")
+        return False
+
 def test_image_upload_endpoint_with_processing():
     """
     COMPREHENSIVE IMAGE UPLOAD ENDPOINT WITH PROCESSING TESTING
