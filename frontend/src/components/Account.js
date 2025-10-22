@@ -2171,24 +2171,18 @@ const Account = ({ athleteId }) => {
 
                 <div className="space-y-3 mb-6">
                   <h4 className="font-semibold text-white mb-2">Current Features:</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    <div className="flex items-center text-sm text-gray-300">
-                      <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                      <span>10 AI Coach questions/month</span>
+                  {currentPlanDetails && currentPlanDetails.features && currentPlanDetails.features.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {currentPlanDetails.features.map((feature, idx) => (
+                        <div key={idx} className="flex items-center text-sm text-gray-300">
+                          <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                          <span>{feature}</span>
+                        </div>
+                      ))}
                     </div>
-                    <div className="flex items-center text-sm text-gray-300">
-                      <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                      <span>Manual workout logging</span>
-                    </div>
-                    <div className="flex items-center text-sm text-gray-300">
-                      <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                      <span>Basic readiness score</span>
-                    </div>
-                    <div className="flex items-center text-sm text-gray-300">
-                      <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                      <span>30-day history</span>
-                    </div>
-                  </div>
+                  ) : (
+                    <div className="text-gray-400 text-sm">Loading features...</div>
+                  )}
                 </div>
 
                 {subscriptionStatus.tier === 'free' ? (
