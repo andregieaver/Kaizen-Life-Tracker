@@ -1472,19 +1472,108 @@ const SystemSettings = ({ athleteId }) => {
             {/* Active Coupons List */}
             <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader className="flex flex-row items-center justify-between">
-                <h3 className="text-white font-semibold text-lg">Active Coupons</h3>
+                <h3 className="text-white font-semibold text-lg">
+                  {showDisabledCoupons ? 'All Coupons' : 'Active Coupons'}
+                </h3>
                 <Button 
                   variant="outline" 
                   size="sm"
-                  className="text-gray-400 border-gray-600"
+                  onClick={() => setShowDisabledCoupons(!showDisabledCoupons)}
+                  className="text-gray-400 border-gray-600 hover:bg-gray-700"
                 >
-                  Show Disabled
+                  {showDisabledCoupons ? 'Hide Disabled' : 'Show Disabled'}
                 </Button>
               </CardHeader>
               <CardContent>
-                <div className="text-gray-400 text-center py-8">
-                  No coupons created yet. Create your first coupon above.
-                </div>
+                {loadingCoupons ? (
+                  <div className="text-gray-400 text-center py-8">Loading coupons...</div>
+                ) : coupons.length === 0 ? (
+                  <div className="text-gray-400 text-center py-8">
+                    No coupons created yet. Create your first coupon above.
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {coupons.map((coupon) => (
+                      <div 
+                        key={coupon.code}
+                        className={`p-4 rounded-lg border ${
+                          coupon.enabled 
+                            ? 'border-gray-600 bg-gray-700/50' 
+                            : 'border-gray-700 bg-gray-800/50 opacity-60'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-2">
+                              <code className="text-lg font-mono text-[#00C2A8]">{coupon.code}</code>
+                              {!coupon.enabled && (
+                                <span className="text-xs px-2 py-1 bg-red-500/20 text-red-400 rounded">
+                                  Disabled
+                                </span>
+                              )}
+                              {coupon.max_uses && (
+                                <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-400 rounded">
+                                  {coupon.current_uses || 0}/{coupon.max_uses} uses
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-white font-medium mb-1">{coupon.name}</p>
+                            <div className="flex flex-wrap gap-3 text-sm text-gray-400">
+                              <span>
+                                <strong className="text-white">
+                                  {coupon.type === 'percentage' 
+                                    ? `${coupon.value}%` 
+                                    : `$${coupon.value}`
+                                  }
+                                </strong> off
+                              </span>
+                              <span>•</span>
+                              <span>
+                                {coupon.applies_to === 'all' ? 'All purchases' : 
+                                 coupon.applies_to === 'subscriptions' ? 'Subscriptions only' : 
+                                 'One-time only'}
+                              </span>
+                              {coupon.expires_at && (
+                                <>
+                                  <span>•</span>
+                                  <span>
+                                    Expires: {new Date(coupon.expires_at).toLocaleDateString()}
+                                  </span>
+                                </>
+                              )}
+                              {coupon.min_purchase_amount && (
+                                <>
+                                  <span>•</span>
+                                  <span>
+                                    Min: ${coupon.min_purchase_amount}
+                                  </span>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => toggleCoupon(coupon.code, coupon.enabled)}
+                              className="text-gray-400 border-gray-600 hover:bg-gray-700"
+                            >
+                              {coupon.enabled ? 'Disable' : 'Enable'}
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => deleteCoupon(coupon.code)}
+                              className="text-red-400 border-red-600 hover:bg-red-900/20"
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
