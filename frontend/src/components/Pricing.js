@@ -23,6 +23,55 @@ const Pricing = () => {
   const [plans, setPlans] = useState([]);
   const [loadingPlans, setLoadingPlans] = useState(true);
 
+  // Load plans from API
+  useEffect(() => {
+    const loadPlans = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/subscription-plans-public`);
+        const data = await response.json();
+        
+        // Transform API data to component format
+        const transformedPlans = data.plans.map(plan => {
+          // Get monthly and annual variations
+          const monthlyVar = plan.variations?.find(v => v.interval === 'month');
+          const annualVar = plan.variations?.find(v => v.interval === 'year');
+          
+          // Determine icon based on tier
+          let icon = Shield;
+          if (plan.tier === 'pro') icon = Zap;
+          if (plan.tier === 'premium') icon = Crown;
+          
+          return {
+            id: plan.tier,
+            name: plan.name,
+            icon: icon,
+            description: plan.description || '',
+            monthlyPrice: monthlyVar?.price || 0,
+            annualPrice: annualVar?.price || 0,
+            monthlyPlanId: monthlyVar?.plan_id || null,
+            annualPlanId: annualVar?.plan_id || null,
+            features: plan.features || [],
+            popular: plan.tier === 'pro',
+            sort_order: plan.sort_order || 0
+          };
+        });
+        
+        // Sort by sort_order
+        transformedPlans.sort((a, b) => a.sort_order - b.sort_order);
+        
+        setPlans(transformedPlans);
+      } catch (error) {
+        console.error('Error loading plans:', error);
+        // Fallback to empty array or default plans
+        setPlans([]);
+      } finally {
+        setLoadingPlans(false);
+      }
+    };
+    
+    loadPlans();
+  }, []);
+
   // Check for referral code on component mount
   useEffect(() => {
     const storedRefCode = localStorage.getItem('referralCode');
