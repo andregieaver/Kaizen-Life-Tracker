@@ -285,6 +285,124 @@ const SystemSettings = ({ athleteId }) => {
     }
   };
 
+  // Coupon Management Functions
+  const loadCoupons = async () => {
+    setLoadingCoupons(true);
+    try {
+      const response = await axios.get(`${API}/coupons`, {
+        params: { 
+          athlete_id: athleteId,
+          include_disabled: showDisabledCoupons
+        }
+      });
+      setCoupons(response.data.coupons || []);
+    } catch (error) {
+      console.error('Error loading coupons:', error);
+      alert('Failed to load coupons');
+    } finally {
+      setLoadingCoupons(false);
+    }
+  };
+
+  const createCoupon = async () => {
+    try {
+      // Validate required fields
+      if (!newCoupon.code || !newCoupon.name || !newCoupon.value) {
+        alert('Please fill in all required fields');
+        return;
+      }
+
+      // Validate value based on type
+      const value = parseFloat(newCoupon.value);
+      if (isNaN(value) || value <= 0) {
+        alert('Please enter a valid discount value');
+        return;
+      }
+
+      if (newCoupon.type === 'percentage' && (value < 0 || value > 100)) {
+        alert('Percentage must be between 0 and 100');
+        return;
+      }
+
+      const couponData = {
+        code: newCoupon.code.toUpperCase().trim(),
+        name: newCoupon.name,
+        type: newCoupon.type,
+        value: value,
+        applies_to: newCoupon.applies_to,
+        enabled: true
+      };
+
+      // Add optional fields if provided
+      if (newCoupon.max_uses) {
+        couponData.max_uses = parseInt(newCoupon.max_uses);
+      }
+      if (newCoupon.expires_at) {
+        couponData.expires_at = new Date(newCoupon.expires_at).toISOString();
+      }
+      if (newCoupon.min_purchase_amount) {
+        couponData.min_purchase_amount = parseFloat(newCoupon.min_purchase_amount);
+      }
+
+      await axios.post(`${API}/coupons?athlete_id=${athleteId}`, couponData);
+      
+      alert('Coupon created successfully!');
+      
+      // Reset form
+      setNewCoupon({
+        code: '',
+        name: '',
+        type: 'percentage',
+        value: '',
+        max_uses: '',
+        expires_at: '',
+        applies_to: 'all',
+        min_purchase_amount: ''
+      });
+      
+      // Reload coupons
+      loadCoupons();
+    } catch (error) {
+      console.error('Error creating coupon:', error);
+      alert(error.response?.data?.detail || 'Failed to create coupon');
+    }
+  };
+
+  const toggleCoupon = async (code, currentlyEnabled) => {
+    try {
+      await axios.put(
+        `${API}/coupons/${code}?athlete_id=${athleteId}`,
+        { enabled: !currentlyEnabled }
+      );
+      loadCoupons();
+    } catch (error) {
+      console.error('Error toggling coupon:', error);
+      alert('Failed to update coupon status');
+    }
+  };
+
+  const deleteCoupon = async (code) => {
+    if (!window.confirm(`Are you sure you want to delete coupon ${code}?`)) {
+      return;
+    }
+    
+    try {
+      await axios.delete(`${API}/coupons/${code}?athlete_id=${athleteId}`);
+      alert('Coupon deleted successfully');
+      loadCoupons();
+    } catch (error) {
+      console.error('Error deleting coupon:', error);
+      alert('Failed to delete coupon');
+    }
+  };
+
+  // Load coupons when tab is active
+  useEffect(() => {
+    if (activeTab === 'coupons') {
+      loadCoupons();
+    }
+  }, [activeTab, showDisabledCoupons]);
+
   const handleTabChange = (value) => {
     console.log('📝 Saving tab to localStorage:', value);
     setActiveTab(value);
