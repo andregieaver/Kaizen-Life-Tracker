@@ -481,41 +481,41 @@ const LandingPage = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-6">
-              <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-0">
+              <Card className="bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600">
                 <CardHeader>
-                  <Brain className="w-10 h-10 text-blue-600 mb-2" />
-                  <CardTitle>AI Coach</CardTitle>
-                  <CardDescription className="text-gray-700">
+                  <Brain className="w-10 h-10 text-teal-400 mb-2" />
+                  <CardTitle className="text-white">AI Coach</CardTitle>
+                  <CardDescription className="text-gray-300">
                     24/7 personalized guidance from your intelligent training partner
                   </CardDescription>
                 </CardHeader>
               </Card>
 
-              <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-0">
+              <Card className="bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600">
                 <CardHeader>
-                  <Calendar className="w-10 h-10 text-purple-600 mb-2" />
-                  <CardTitle>Smart Planning</CardTitle>
-                  <CardDescription className="text-gray-700">
+                  <Calendar className="w-10 h-10 text-cyan-400 mb-2" />
+                  <CardTitle className="text-white">Smart Planning</CardTitle>
+                  <CardDescription className="text-gray-300">
                     Automated training calendar that adapts to your progress
                   </CardDescription>
                 </CardHeader>
               </Card>
 
-              <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-0">
+              <Card className="bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600">
                 <CardHeader>
-                  <FileText className="w-10 h-10 text-green-600 mb-2" />
-                  <CardTitle>Full Tracking</CardTitle>
-                  <CardDescription className="text-gray-700">
+                  <FileText className="w-10 h-10 text-emerald-400 mb-2" />
+                  <CardTitle className="text-white">Full Tracking</CardTitle>
+                  <CardDescription className="text-gray-300">
                     Journal, nutrition, documents - everything in one place
                   </CardDescription>
                 </CardHeader>
               </Card>
 
-              <Card className="bg-gradient-to-br from-orange-50 to-red-50 border-0">
+              <Card className="bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600">
                 <CardHeader>
-                  <LineChart className="w-10 h-10 text-orange-600 mb-2" />
-                  <CardTitle>Analytics</CardTitle>
-                  <CardDescription className="text-gray-700">
+                  <LineChart className="w-10 h-10 text-orange-400 mb-2" />
+                  <CardTitle className="text-white">Analytics</CardTitle>
+                  <CardDescription className="text-gray-300">
                     Visual insights that reveal your path to peak performance
                   </CardDescription>
                 </CardHeader>
