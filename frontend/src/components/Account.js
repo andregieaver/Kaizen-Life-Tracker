@@ -293,8 +293,10 @@ const Account = ({ athleteId }) => {
 
   const loadAvailablePlans = async () => {
     try {
+      console.log('Loading available plans from API...');
       const response = await axios.get(`${API}/subscription-plans-public`);
       const plans = response.data.plans || [];
+      console.log('Loaded plans:', plans);
       setAvailablePlans(plans);
       return plans;
     } catch (error) {
@@ -311,14 +313,18 @@ const Account = ({ athleteId }) => {
       const response = await axios.get(`${API}/subscriptions/status/${athleteId}`);
       console.log('Subscription status response:', response.data);
       
+      const tier = response.data.subscription_tier || 'free';
+      
       setSubscriptionStatus({
-        tier: response.data.subscription_tier || 'free',
+        tier: tier,
         status: response.data.subscription_status || 'active',
         current_period_end: response.data.subscription_current_period_end
       });
       
       // Find current plan details
-      const currentPlan = plans.find(p => p.tier === (response.data.subscription_tier || 'free'));
+      const currentPlan = plans.find(p => p.tier === tier);
+      console.log('Current plan details:', currentPlan);
+      console.log('Looking for tier:', tier);
       setCurrentPlanDetails(currentPlan);
       
       // Detect billing cycle from subscription_interval if available
