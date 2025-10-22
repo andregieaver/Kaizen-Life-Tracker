@@ -518,13 +518,14 @@ const Pricing = () => {
                     size="lg"
                     onClick={() => handleSelectPlan(plan.id)}
                   >
-                    {plan.cta}
+                    {plan.id === 'free' ? 'Get Started Free' : `Start ${plan.name}`}
                   </Button>
                 </CardContent>
               </Card>
             );
           })}
-        </div>
+          </div>
+        )}
 
         {/* Feature Comparison */}
         <div className="bg-gradient-to-b from-gray-700 to-gray-800 rounded-2xl shadow-lg p-8 mb-16">
