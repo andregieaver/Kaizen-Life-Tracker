@@ -30,7 +30,11 @@ const ResetPassword = () => {
     const emailFromUrl = searchParams.get('email');
     const tokenFromUrl = searchParams.get('token');
     
+    console.log('Reset Password - Email from URL:', emailFromUrl);
+    console.log('Reset Password - Token from URL:', tokenFromUrl);
+    
     if (emailFromUrl && tokenFromUrl) {
+      console.log('Valid reset link detected');
       setFormData(prev => ({ 
         ...prev, 
         email: emailFromUrl,
@@ -38,6 +42,7 @@ const ResetPassword = () => {
       }));
       setError(''); // Clear any previous errors
     } else {
+      console.log('Invalid reset link - missing parameters');
       setError('Invalid reset link. Please request a new password reset from the login page.');
     }
   }, [searchParams]);
