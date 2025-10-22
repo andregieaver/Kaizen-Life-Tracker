@@ -12,6 +12,7 @@ import { Separator } from './ui/separator';
 import { Badge } from './ui/badge';
 import LanguageSelector from './LanguageSelector';
 import ChangePassword from './ChangePassword';
+import ChangeEmail from './ChangeEmail';
 import StravaCredentialsModal from './StravaCredentialsModal';
 import OuraCredentialsModal from './OuraCredentialsModal';
 import { 
