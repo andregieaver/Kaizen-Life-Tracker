@@ -429,8 +429,18 @@ const Pricing = () => {
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          {plans.map((plan) => {
+        {loadingPlans ? (
+          <div className="text-center py-16">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
+            <p className="text-gray-400 mt-4">Loading plans...</p>
+          </div>
+        ) : plans.length === 0 ? (
+          <div className="text-center py-16">
+            <p className="text-gray-400">No subscription plans available at this time.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {plans.map((plan) => {
             const Icon = plan.icon;
             const price = getDisplayPrice(plan);
             const savings = calculateSavings(plan.monthlyPrice, plan.annualPrice);
