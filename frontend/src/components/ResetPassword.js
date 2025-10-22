@@ -21,17 +21,25 @@ const ResetPassword = () => {
     newPassword: '',
     confirmPassword: ''
   });
-  
-  // Auto-fill token from URL parameter
-  useEffect(() => {
-    const tokenFromUrl = searchParams.get('token');
-    if (tokenFromUrl) {
-      setFormData(prev => ({ ...prev, resetToken: tokenFromUrl }));
-    }
-  }, [searchParams]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
+  
+  // Auto-fill email and token from URL parameters
+  useEffect(() => {
+    const emailFromUrl = searchParams.get('email');
+    const tokenFromUrl = searchParams.get('token');
+    
+    if (emailFromUrl && tokenFromUrl) {
+      setFormData(prev => ({ 
+        ...prev, 
+        email: emailFromUrl,
+        resetToken: tokenFromUrl 
+      }));
+    } else if (!emailFromUrl || !tokenFromUrl) {
+      setError('Invalid reset link. Please request a new password reset.');
+    }
+  }, [searchParams]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
