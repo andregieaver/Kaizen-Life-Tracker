@@ -3104,6 +3104,9 @@ async def change_email(request: ChangeEmailRequest):
     if existing_athlete and existing_athlete["id"] != request.athlete_id:
         raise HTTPException(status_code=400, detail="Email already in use")
     
+    # Store old email for notification
+    old_email = athlete["email"]
+    
     # Update email in both collections
     await db.athlete_profiles.update_one(
         {"id": request.athlete_id},
@@ -3114,6 +3117,81 @@ async def change_email(request: ChangeEmailRequest):
         {"id": request.athlete_id},
         {"$set": {"email": request.new_email.lower()}}
     )
+    
+    # Send email notifications to both old and new addresses
+    email_service = get_email_service()
+    if email_service.enabled:
+        try:
+            user_name = athlete.get("name", "User")
+            
+            # Email to old address
+            old_email_html = f"""
+            <html>
+                <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 10px 10px 0 0;">
+                        <h1 style="color: white; margin: 0;">Email Address Changed</h1>
+                    </div>
+                    <div style="background: #f5f5f5; padding: 30px; border-radius: 0 0 10px 10px;">
+                        <p style="font-size: 16px; color: #333;">Hi {user_name},</p>
+                        <p style="font-size: 16px; color: #333;">
+                            This is to confirm that your email address has been changed from <strong>{old_email}</strong> to <strong>{request.new_email}</strong>.
+                        </p>
+                        <p style="font-size: 14px; color: #666;">
+                            If you did not make this change, please contact support immediately.
+                        </p>
+                        <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+                        <p style="font-size: 12px; color: #999; text-align: center;">
+                            TrainSmart - Your Personal Fitness Companion<br>
+                            This is an automated message, please do not reply.
+                        </p>
+                    </div>
+                </body>
+            </html>
+            """
+            
+            # Email to new address
+            new_email_html = f"""
+            <html>
+                <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 10px 10px 0 0;">
+                        <h1 style="color: white; margin: 0;">Email Address Updated</h1>
+                    </div>
+                    <div style="background: #f5f5f5; padding: 30px; border-radius: 0 0 10px 10px;">
+                        <p style="font-size: 16px; color: #333;">Hi {user_name},</p>
+                        <p style="font-size: 16px; color: #333;">
+                            Welcome to your new email address! Your TrainSmart account email has been successfully updated to <strong>{request.new_email}</strong>.
+                        </p>
+                        <p style="font-size: 14px; color: #666;">
+                            You can now use this email address to log in to your account.
+                        </p>
+                        <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+                        <p style="font-size: 12px; color: #999; text-align: center;">
+                            TrainSmart - Your Personal Fitness Companion<br>
+                            This is an automated message, please do not reply.
+                        </p>
+                    </div>
+                </body>
+            </html>
+            """
+            
+            # Send to old email
+            email_service.send_email(
+                to_email=old_email,
+                subject="Email Address Changed",
+                html_content=old_email_html
+            )
+            
+            # Send to new email
+            email_service.send_email(
+                to_email=request.new_email,
+                subject="Email Address Updated",
+                html_content=new_email_html
+            )
+            
+            logging.info(f"Email change notifications sent for athlete {request.athlete_id}")
+        except Exception as e:
+            logging.error(f"Failed to send email change notification: {e}")
+            # Don't fail the request if email sending fails
     
     return {"message": "Email changed successfully"}
 
