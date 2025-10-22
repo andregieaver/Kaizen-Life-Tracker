@@ -3577,6 +3577,106 @@ const SystemSettings = ({ athleteId }) => {
                   </p>
                 </div>
 
+                {/* SendGrid Configuration */}
+                <div className="space-y-4 pt-6 border-t border-gray-700">
+                  <div>
+                    <Label className="text-sm font-medium text-white flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-[#00C2A8]" />
+                      SendGrid Email Configuration
+                    </Label>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Configure SendGrid API for transactional emails (password resets, notifications, etc.)
+                    </p>
+                  </div>
+
+                  {/* SendGrid API Key */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-medium text-gray-300">
+                      SendGrid API Key
+                    </Label>
+                    <div className="flex gap-2">
+                      <Input
+                        type={advancedSettings.showSendgridKey ? 'text' : 'password'}
+                        value={advancedSettings.sendgrid.apiKey}
+                        onChange={(e) => setAdvancedSettings(prev => ({
+                          ...prev,
+                          sendgrid: {
+                            ...prev.sendgrid,
+                            apiKey: e.target.value
+                          }
+                        }))}
+                        placeholder="SG...."
+                        className="flex-1 bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 text-sm"
+                      />
+                      <Button
+                        type="button"
+                        onClick={() => setAdvancedSettings(prev => ({
+                          ...prev,
+                          showSendgridKey: !prev.showSendgridKey
+                        }))}
+                        className="bg-gray-700 hover:bg-gray-600 text-white text-xs px-3"
+                      >
+                        {advancedSettings.showSendgridKey ? 'Hide' : 'Show'}
+                      </Button>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Get your API key from <a href="https://app.sendgrid.com/settings/api_keys" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">SendGrid Dashboard → Settings → API Keys</a>
+                    </p>
+                  </div>
+
+                  {/* Sender Email */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-medium text-gray-300">
+                      Sender Email Address
+                    </Label>
+                    <Input
+                      type="email"
+                      value={advancedSettings.sendgrid.senderEmail}
+                      onChange={(e) => setAdvancedSettings(prev => ({
+                        ...prev,
+                        sendgrid: {
+                          ...prev.sendgrid,
+                          senderEmail: e.target.value
+                        }
+                      }))}
+                      placeholder="noreply@yourdomain.com"
+                      className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 text-sm"
+                    />
+                    <p className="text-xs text-gray-400 mt-1">
+                      Must be a verified sender in SendGrid. Configure at <a href="https://app.sendgrid.com/settings/sender_auth" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">Sender Authentication</a>
+                    </p>
+                  </div>
+
+                  {/* Sender Name */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-medium text-gray-300">
+                      Sender Name
+                    </Label>
+                    <Input
+                      type="text"
+                      value={advancedSettings.sendgrid.senderName}
+                      onChange={(e) => setAdvancedSettings(prev => ({
+                        ...prev,
+                        sendgrid: {
+                          ...prev.sendgrid,
+                          senderName: e.target.value
+                        }
+                      }))}
+                      placeholder="TrainSmart"
+                      className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 text-sm"
+                    />
+                    <p className="text-xs text-gray-400 mt-1">
+                      The name that will appear in the "From" field of emails
+                    </p>
+                  </div>
+
+                  <div className="p-3 bg-blue-900/20 border border-blue-700/50 rounded-lg">
+                    <p className="text-xs text-blue-200">
+                      <strong>Note:</strong> Make sure you have completed domain authentication in SendGrid to ensure high email deliverability. After saving, test email functionality with a password reset or notification.
+                    </p>
+                  </div>
+                </div>
+
                 {/* Save Button */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-700">
                   <div>
