@@ -1456,40 +1456,65 @@ const SystemSettings = ({ athleteId }) => {
                     </select>
                   </div>
 
-                  {/* Specific Plans (conditionally shown for subscriptions) */}
-                  {newCoupon.applies_to === 'subscriptions' && (
-                    <div className="col-span-2">
-                      <label className="block text-gray-300 mb-2">Specific Plans (Optional)</label>
-                      <div className="bg-gray-700 p-4 rounded border border-gray-600">
-                        <p className="text-gray-400 text-sm mb-3">Leave unchecked to apply to all subscription plans</p>
-                        <div className="grid grid-cols-2 gap-3">
-                          {availablePlans.map(plan => (
-                            <label key={plan.id} className="flex items-center space-x-2 text-gray-300 cursor-pointer hover:text-white">
-                              <input
-                                type="checkbox"
-                                checked={newCoupon.specific_plans.includes(plan.id)}
-                                onChange={(e) => {
-                                  if (e.target.checked) {
-                                    setNewCoupon({
-                                      ...newCoupon,
-                                      specific_plans: [...newCoupon.specific_plans, plan.id]
-                                    });
-                                  } else {
-                                    setNewCoupon({
-                                      ...newCoupon,
-                                      specific_plans: newCoupon.specific_plans.filter(p => p !== plan.id)
-                                    });
-                                  }
-                                }}
-                                className="w-4 h-4 text-teal-600 bg-gray-600 border-gray-500 rounded focus:ring-teal-500"
-                              />
-                              <span>{plan.name}</span>
-                            </label>
-                          ))}
-                        </div>
+                  {/* Minimum Purchase Amount */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">Minimum Purchase Amount</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      placeholder="0"
+                      value={newCoupon.min_purchase_amount}
+                      onChange={(e) => setNewCoupon({...newCoupon, min_purchase_amount: e.target.value})}
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                    />
+                    <p className="text-gray-500 text-xs mt-1">Minimum amount required to use coupon</p>
+                  </div>
+                </div>
+
+                {/* Specific Plans (full width section, shown for subscriptions) */}
+                {newCoupon.applies_to === 'subscriptions' && (
+                  <div className="mt-4">
+                    <label className="block text-gray-300 mb-2 font-semibold">Specific Subscription Plans (Optional)</label>
+                    <div className="bg-gray-700 p-4 rounded-lg border border-gray-600">
+                      <p className="text-gray-400 text-sm mb-4">
+                        Select which subscription plans this coupon applies to. Leave all unchecked to apply to ALL subscription plans.
+                      </p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {availablePlans.map(plan => (
+                          <label key={plan.id} className="flex items-center space-x-3 text-gray-300 cursor-pointer hover:text-white p-2 rounded hover:bg-gray-600/50 transition-colors">
+                            <input
+                              type="checkbox"
+                              checked={newCoupon.specific_plans.includes(plan.id)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setNewCoupon({
+                                    ...newCoupon,
+                                    specific_plans: [...newCoupon.specific_plans, plan.id]
+                                  });
+                                } else {
+                                  setNewCoupon({
+                                    ...newCoupon,
+                                    specific_plans: newCoupon.specific_plans.filter(p => p !== plan.id)
+                                  });
+                                }
+                              }}
+                              className="w-5 h-5 text-teal-600 bg-gray-600 border-gray-500 rounded focus:ring-teal-500 focus:ring-2"
+                            />
+                            <span className="text-sm font-medium">{plan.name}</span>
+                          </label>
+                        ))}
                       </div>
+                      {newCoupon.specific_plans.length > 0 && (
+                        <div className="mt-3 pt-3 border-t border-gray-600">
+                          <p className="text-sm text-teal-400">
+                            ✓ Selected {newCoupon.specific_plans.length} plan(s)
+                          </p>
+                        </div>
+                      )}
                     </div>
-                  )}
+                  </div>
+                )}
                   
                   {/* Minimum Purchase Amount */}
                   <div>
