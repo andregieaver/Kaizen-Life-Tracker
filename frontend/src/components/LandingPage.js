@@ -706,8 +706,14 @@ const LandingPage = () => {
             </div>
           </div>
           
-          <div className="border-t border-gray-800 pt-8 text-center text-sm text-gray-400">
-            <p>© 2024 TrainSmart. All rights reserved. Built for athletes who demand more.</p>
+          <div className="border-t border-gray-800 pt-8">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-400">
+              <p>© {new Date().getFullYear()} {siteTitle}. All rights reserved.</p>
+              <div className="flex gap-6">
+                <Link to="/privacy" className="hover:text-teal-400 transition-colors">Privacy Policy</Link>
+                <Link to="/terms" className="hover:text-teal-400 transition-colors">Terms & Conditions</Link>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
