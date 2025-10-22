@@ -2138,16 +2138,23 @@ const Account = ({ athleteId }) => {
                         </Badge>
                       </div>
                       <p className="text-gray-300 mt-1">
-                        {subscriptionStatus.tier === 'free' && '€0/month • Basic features'}
-                        {subscriptionStatus.tier === 'pro' && (
+                        {currentPlanDetails ? (
                           <>
-                            {currentBillingCycle === 'monthly' ? '€9.99/month' : '€99/year'} • Enhanced features
+                            {subscriptionStatus.tier === 'free' ? (
+                              '€0/month • ' + (currentPlanDetails.description || 'Basic features')
+                            ) : (
+                              <>
+                                {(() => {
+                                  const variation = currentPlanDetails.variations?.find(v => v.interval === (currentBillingCycle === 'monthly' ? 'month' : 'year'));
+                                  return variation ? `€${variation.price}/${variation.interval === 'month' ? 'month' : 'year'}` : '';
+                                })()}
+                                {' • '}
+                                {currentPlanDetails.description || 'Enhanced features'}
+                              </>
+                            )}
                           </>
-                        )}
-                        {subscriptionStatus.tier === 'premium' && (
-                          <>
-                            {currentBillingCycle === 'monthly' ? '€19.99/month' : '€199/year'} • Maximum performance
-                          </>
+                        ) : (
+                          subscriptionStatus.tier === 'free' ? '€0/month • Basic features' : 'Loading...'
                         )}
                       </p>
                     </div>
