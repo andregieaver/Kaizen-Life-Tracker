@@ -1451,6 +1451,41 @@ const SystemSettings = ({ athleteId }) => {
                       <option value="one_time">One-Time Purchases Only</option>
                     </select>
                   </div>
+
+                  {/* Specific Plans (conditionally shown for subscriptions) */}
+                  {newCoupon.applies_to === 'subscriptions' && (
+                    <div className="col-span-2">
+                      <label className="block text-gray-300 mb-2">Specific Plans (Optional)</label>
+                      <div className="bg-gray-700 p-4 rounded border border-gray-600">
+                        <p className="text-gray-400 text-sm mb-3">Leave unchecked to apply to all subscription plans</p>
+                        <div className="grid grid-cols-2 gap-3">
+                          {availablePlans.map(plan => (
+                            <label key={plan.id} className="flex items-center space-x-2 text-gray-300 cursor-pointer hover:text-white">
+                              <input
+                                type="checkbox"
+                                checked={newCoupon.specific_plans.includes(plan.id)}
+                                onChange={(e) => {
+                                  if (e.target.checked) {
+                                    setNewCoupon({
+                                      ...newCoupon,
+                                      specific_plans: [...newCoupon.specific_plans, plan.id]
+                                    });
+                                  } else {
+                                    setNewCoupon({
+                                      ...newCoupon,
+                                      specific_plans: newCoupon.specific_plans.filter(p => p !== plan.id)
+                                    });
+                                  }
+                                }}
+                                className="w-4 h-4 text-teal-600 bg-gray-600 border-gray-500 rounded focus:ring-teal-500"
+                              />
+                              <span>{plan.name}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   
                   {/* Minimum Purchase Amount */}
                   <div>
