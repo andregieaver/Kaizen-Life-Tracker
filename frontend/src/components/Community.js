@@ -2714,7 +2714,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
 
       {/* Groups Tab */}
       {activeTab === 'groups' && !selectedGroup && (
-        <div className="space-y-6 pt-[6.5rem] sm:pt-0">
+        <div className="space-y-6 pt-[6.5rem] md:pt-0">
           <Button
             onClick={() => setShowCreateGroup(true)}
             className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
@@ -2739,7 +2739,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
 
       {/* My Groups Tab */}
       {activeTab === 'mygroups' && !selectedGroup && (
-        <div className="space-y-6 pt-[6.5rem] sm:pt-0">
+        <div className="space-y-6 pt-[6.5rem] md:pt-0">
           <Button
             onClick={() => setShowCreateGroup(true)}
             className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
@@ -2765,7 +2765,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
 
       {/* Events Tab */}
       {activeTab === 'events' && (
-        <div className="space-y-6 pt-[6.5rem] sm:pt-0">
+        <div className="space-y-6 pt-[6.5rem] md:pt-0">
           <Button
             onClick={() => setShowCreateEvent(true)}
             className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
@@ -2800,7 +2800,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
 
       {/* Challenges Tab */}
       {activeTab === 'challenges' && (
-        <div className="space-y-6 pt-[6.5rem] sm:pt-0">
+        <div className="space-y-6 pt-[6.5rem] md:pt-0">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <Button
               onClick={() => setShowCreateChallenge(true)}
