@@ -171,6 +171,21 @@ const SystemSettings = ({ athleteId }) => {
   const [loadingStats, setLoadingStats] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState("90d");
   const [compareEnabled, setCompareEnabled] = useState(false);
+  
+  // Coupon management state
+  const [coupons, setCoupons] = useState([]);
+  const [loadingCoupons, setLoadingCoupons] = useState(false);
+  const [showDisabledCoupons, setShowDisabledCoupons] = useState(false);
+  const [newCoupon, setNewCoupon] = useState({
+    code: '',
+    name: '',
+    type: 'percentage',
+    value: '',
+    max_uses: '',
+    expires_at: '',
+    applies_to: 'all',
+    min_purchase_amount: ''
+  });
 
   // Load settings on mount
   useEffect(() => {
