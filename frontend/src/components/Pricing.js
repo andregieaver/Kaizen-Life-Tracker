@@ -42,7 +42,7 @@ const Pricing = () => {
   }, [billingCycle]);
 
   // Validate and apply coupon
-  const applyCoupon = async (planPrice) => {
+  const applyCoupon = async (planPrice, planId = null) => {
     if (!couponCode.trim()) {
       setCouponError('Please enter a coupon code');
       return;
@@ -52,15 +52,17 @@ const Pricing = () => {
     setCouponError('');
 
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/coupons/validate?code=${encodeURIComponent(couponCode)}&amount=${planPrice}&purchase_type=subscriptions`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          }
+      let url = `${process.env.REACT_APP_BACKEND_URL}/api/coupons/validate?code=${encodeURIComponent(couponCode)}&amount=${planPrice}&purchase_type=subscriptions`;
+      if (planId) {
+        url += `&plan_id=${planId}`;
+      }
+      
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         }
-      );
+      });
 
       if (!response.ok) {
         const error = await response.json();
