@@ -2602,7 +2602,6 @@ const Account = ({ athleteId }) => {
               </div>
             );
           })()}
-          )}
 
           {/* Downgrade Confirmation Dialog */}
           {showDowngradeDialog && downgradeTarget && (() => {
