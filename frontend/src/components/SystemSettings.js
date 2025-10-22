@@ -1202,6 +1202,139 @@ const SystemSettings = ({ athleteId }) => {
             </Card>
           </TabsContent>
 
+          {/* Coupons Tab */}
+          <TabsContent value="coupons">
+            <div className="text-gray-400 text-sm mb-4">
+              Manage discount coupons for subscriptions and one-time purchases. Coupons can be percentage-based or fixed amount discounts.
+            </div>
+            
+            {/* Create Coupon Card */}
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700 mb-6">
+              <CardHeader>
+                <h3 className="text-white font-semibold text-lg">Create New Coupon</h3>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Coupon Code */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">Coupon Code *</label>
+                    <input
+                      type="text"
+                      placeholder="SUMMER2025"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                      style={{ textTransform: 'uppercase' }}
+                    />
+                    <p className="text-gray-500 text-xs mt-1">Letters and numbers only, automatically uppercase</p>
+                  </div>
+                  
+                  {/* Coupon Name */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">Display Name *</label>
+                    <input
+                      type="text"
+                      placeholder="Summer Sale 2025"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                    />
+                  </div>
+                  
+                  {/* Discount Type */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">Discount Type *</label>
+                    <select className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]">
+                      <option value="percentage">Percentage (%)</option>
+                      <option value="fixed">Fixed Amount ($)</option>
+                    </select>
+                  </div>
+                  
+                  {/* Discount Value */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">Discount Value *</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      placeholder="20"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                    />
+                    <p className="text-gray-500 text-xs mt-1">For percentage: 0-100, For fixed: amount in USD</p>
+                  </div>
+                  
+                  {/* Max Uses */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">Maximum Uses</label>
+                    <input
+                      type="number"
+                      min="1"
+                      placeholder="100"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                    />
+                    <p className="text-gray-500 text-xs mt-1">Leave empty for unlimited uses</p>
+                  </div>
+                  
+                  {/* Expiration Date */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">Expiration Date</label>
+                    <input
+                      type="datetime-local"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                    />
+                    <p className="text-gray-500 text-xs mt-1">Leave empty for no expiration</p>
+                  </div>
+                  
+                  {/* Applies To */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">Applies To</label>
+                    <select className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]">
+                      <option value="all">All Purchases</option>
+                      <option value="subscriptions">Subscriptions Only</option>
+                      <option value="one_time">One-Time Purchases Only</option>
+                    </select>
+                  </div>
+                  
+                  {/* Minimum Purchase Amount */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">Minimum Purchase Amount</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      placeholder="0"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                    />
+                    <p className="text-gray-500 text-xs mt-1">Minimum amount required to use coupon</p>
+                  </div>
+                </div>
+                
+                <div className="mt-6 flex justify-end">
+                  <Button 
+                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                  >
+                    Create Coupon
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+            
+            {/* Active Coupons List */}
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <h3 className="text-white font-semibold text-lg">Active Coupons</h3>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="text-gray-400 border-gray-600"
+                >
+                  Show Disabled
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <div className="text-gray-400 text-center py-8">
+                  No coupons created yet. Create your first coupon above.
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           {/* Statistics Tab */}
           <TabsContent value="statistics">
             <div className="space-y-6">
