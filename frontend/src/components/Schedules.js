@@ -400,10 +400,10 @@ const Schedules = ({ athleteId }) => {
       </div>
 
       {/* Preset Templates */}
-      <Card className="border-0 shadow-lg">
+      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
         <CardHeader>
-          <CardTitle className="text-lg">Schedule Templates</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-lg text-white">Schedule Templates</CardTitle>
+          <CardDescription className="text-gray-300">
             Quick start with these pre-built schedule templates
           </CardDescription>
         </CardHeader>
