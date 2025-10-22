@@ -3370,7 +3370,8 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
                 "plan_id": request.plan_id,
                 "tier": plan["tier"],
                 "interval": plan["interval"],
-                "athlete_id": request.athlete_id
+                "athlete_id": request.athlete_id,
+                "coupon_code": request.coupon_code if request.coupon_code else ""
             }
         }
         
