@@ -5441,6 +5441,36 @@ async def stripe_webhook(request: Request):
                             "subscription_current_period_end": datetime.now(timezone.utc) + timedelta(days=30 if transaction["interval"] == "month" else 365)
                         }}
                     )
+                    
+                    # Record coupon usage if coupon was applied
+                    coupon_code = webhook_response.metadata.get("coupon_code")
+                    if coupon_code:
+                        try:
+                            # Get coupon details
+                            coupon_doc = await db.coupons.find_one({"code": coupon_code.upper()}, {"_id": 0})
+                            if coupon_doc:
+                                # Calculate discount amount
+                                amount = transaction.get("amount", 0)
+                                if coupon_doc["type"] == "percentage":
+                                    discount_amount = (amount * coupon_doc["value"]) / 100
+                                else:
+                                    discount_amount = min(coupon_doc["value"], amount)
+                                
+                                # Create coupon usage record
+                                usage_record = CouponUsage(
+                                    coupon_id=coupon_doc["id"],
+                                    coupon_code=coupon_code.upper(),
+                                    athlete_id=athlete_id,
+                                    session_id=webhook_response.session_id,
+                                    discount_amount=discount_amount,
+                                    original_amount=amount,
+                                    final_amount=amount - discount_amount
+                                )
+                                
+                                await db.coupon_usage.insert_one(usage_record.model_dump())
+                                logging.info(f"Recorded coupon usage: {coupon_code} for athlete {athlete_id}")
+                        except Exception as e:
+                            logging.error(f"Failed to record coupon usage: {e}")
         
         return {"status": "success", "event_id": webhook_response.event_id}
     except Exception as e:
