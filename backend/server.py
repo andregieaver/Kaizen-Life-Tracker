@@ -1033,6 +1033,38 @@ class SubscriptionWebhookData(BaseModel):
     subscription_status: Optional[str] = None  # 'active', 'canceled', 'past_due', etc.
     subscription_current_period_end: Optional[str] = None
 
+# Coupon Models
+class Coupon(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    code: str  # Coupon code (uppercase, unique)
+    name: str  # Display name for admin
+    type: str  # 'percentage' or 'fixed'
+    value: float  # Percentage (0-100) or fixed amount
+    currency: str = "usd"  # Currency for fixed amount coupons
+    max_uses: Optional[int] = None  # None = unlimited
+    current_uses: int = 0
+    enabled: bool = True
+    expires_at: Optional[datetime] = None
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    created_by: str  # Admin athlete_id
+    applies_to: str = "all"  # 'subscriptions', 'one_time', or 'all'
+    min_purchase_amount: Optional[float] = None  # Minimum purchase amount to apply coupon
+
+class CouponUsage(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    coupon_id: str
+    coupon_code: str  # Denormalized for easier tracking
+    athlete_id: Optional[str] = None  # User who used it (if logged in)
+    session_id: str  # Stripe session ID
+    discount_amount: float
+    original_amount: float
+    final_amount: float
+    used_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 # Community Models
 class CommunityPost(BaseModel):
     model_config = ConfigDict(extra="ignore")
