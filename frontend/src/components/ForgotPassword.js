@@ -106,12 +106,12 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-6">
         {/* Navigation */}
         <Link
           to="/login"
-          className="inline-flex items-center text-gray-600 hover:text-gray-700 transition-colors"
+          className="inline-flex items-center text-gray-300 hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t('auth.backToLogin')}
@@ -119,40 +119,40 @@ const ForgotPassword = () => {
 
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-4xl font-display font-bold text-gray-900 mb-2">
+          <h1 className="text-4xl font-display font-bold text-white mb-2">
             My Health Tracker
           </h1>
-          <p className="text-gray-600">{t('auth.forgotPasswordSubtitle')}</p>
+          <p className="text-gray-300">{t('auth.forgotPasswordSubtitle')}</p>
         </div>
 
         {/* Forgot Password Card */}
-        <Card className="border-0 shadow-xl">
+        <Card className="bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-2xl">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl flex items-center justify-center">
-              <Mail className="w-6 h-6 mr-2 text-blue-600" />
+            <CardTitle className="text-2xl flex items-center justify-center text-white">
+              <Mail className="w-6 h-6 mr-2 text-teal-400" />
               {t('auth.forgotPassword')}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-300">
               {t('auth.enterEmailForReset')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600">
+                <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400">
                   {error}
                 </div>
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email">{t('auth.email')}</Label>
+                <Label htmlFor="email" className="text-gray-300">{t('auth.email')}</Label>
                 <Input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t('auth.emailPlaceholder')}
-                  className="input-focus"
+                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-teal-500 focus:ring-teal-500"
                   required
                   disabled={isLoading}
                 />
@@ -160,7 +160,7 @@ const ForgotPassword = () => {
 
               <Button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 btn-transition"
+                className="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-3 btn-transition"
                 disabled={isLoading}
               >
                 {isLoading ? (
