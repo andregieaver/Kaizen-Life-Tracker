@@ -213,6 +213,14 @@ const SystemSettings = ({ athleteId }) => {
     features: [],
     sort_order: 0
   });
+  const [editingPlan, setEditingPlan] = useState({
+    tier: '',
+    name: '',
+    description: '',
+    features: [],
+    sort_order: 0
+  });
+  const [newFeature, setNewFeature] = useState('');
   const [newVariation, setNewVariation] = useState({
     plan_id: '',
     name: '',
