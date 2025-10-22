@@ -2990,12 +2990,28 @@ async def forgot_password(request: PasswordResetRequest):
         }}
     )
     
-    # In a real app, you would send an email here
-    # For now, we'll return the token (remove this in production)
+    # Send password reset email
+    email_service = get_email_service()
+    if email_service.enabled:
+        try:
+            # Get the frontend URL from environment or use default
+            frontend_url = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+            reset_url = f"{frontend_url}/reset-password"
+            
+            email_service.send_password_reset_email(
+                to_email=request.email,
+                reset_token=reset_token,
+                reset_url=reset_url
+            )
+            logging.info(f"Password reset email sent to {request.email}")
+        except Exception as e:
+            logging.error(f"Failed to send password reset email: {e}")
+            # Don't fail the request if email sending fails
+    
     return {
-        "message": "Password reset initiated",
-        "reset_token": reset_token,  # Remove this in production!
-        "email": request.email
+        "message": "If the email exists, a reset link will be sent",
+        # In development, optionally return the token for testing
+        **({"reset_token": reset_token} if os.getenv('ENVIRONMENT') == 'development' else {})
     }
 
 @api_router.post("/auth/reset-password")
