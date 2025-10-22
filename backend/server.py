@@ -1673,7 +1673,12 @@ Return only the JSON array, nothing else.
                 logging.info("No system settings found")
                 return None
             
-            api_key = settings.get("openaiApiKey")
+            # Check for key in advanced settings (new location)
+            api_key = settings.get("advanced", {}).get("openaiApiKey")
+            
+            # Fallback to old location for backwards compatibility
+            if not api_key:
+                api_key = settings.get("openaiApiKey")
             
             # Ensure we have a valid, non-empty API key
             if not api_key or not api_key.strip():
