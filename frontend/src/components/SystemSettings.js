@@ -1422,24 +1422,26 @@ const SystemSettings = ({ athleteId }) => {
                                 {plan.variations.map((variation) => (
                                   <div
                                     key={variation.plan_id}
-                                    className="flex items-center justify-between p-3 bg-gray-600/50 rounded-lg"
+                                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-gray-600/50 rounded-lg gap-3"
                                   >
-                                    <div className="flex-1">
-                                      <div className="flex items-center gap-3">
-                                        <span className="text-white font-medium">{variation.name}</span>
-                                        <span className="text-teal-400 font-bold text-lg">
-                                          ${variation.price}
-                                        </span>
-                                        <span className="text-gray-400 text-sm">
-                                          / {variation.interval_count > 1 ? `${variation.interval_count} ` : ''}
-                                          {variation.interval}
-                                          {variation.interval_count > 1 ? 's' : ''}
-                                        </span>
+                                    <div className="flex-1 min-w-0">
+                                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                                        <span className="text-white font-medium text-sm sm:text-base truncate">{variation.name}</span>
+                                        <div className="flex items-center gap-2">
+                                          <span className="text-teal-400 font-bold text-base sm:text-lg">
+                                            ${variation.price}
+                                          </span>
+                                          <span className="text-gray-400 text-xs sm:text-sm">
+                                            / {variation.interval_count > 1 ? `${variation.interval_count} ` : ''}
+                                            {variation.interval}
+                                            {variation.interval_count > 1 ? 's' : ''}
+                                          </span>
+                                        </div>
                                       </div>
-                                      <div className="text-xs text-gray-500 mt-1">
+                                      <div className="text-xs text-gray-500 mt-1 truncate">
                                         ID: {variation.plan_id}
                                         {variation.stripe_price_id && (
-                                          <span className="ml-2">• Stripe: {variation.stripe_price_id}</span>
+                                          <span className="ml-2 hidden sm:inline">• Stripe: {variation.stripe_price_id}</span>
                                         )}
                                       </div>
                                     </div>
@@ -1453,17 +1455,19 @@ const SystemSettings = ({ athleteId }) => {
                                             updateVariation(variation.plan_id, { price: parseFloat(newPrice) });
                                           }
                                         }}
-                                        className="text-gray-300 border-gray-500"
+                                        className="text-gray-300 border-gray-500 flex-1 sm:flex-none"
                                       >
-                                        Edit Price
+                                        <DollarSign className="w-4 h-4 sm:mr-1" />
+                                        <span className="hidden sm:inline">Edit Price</span>
                                       </Button>
                                       <Button
                                         size="sm"
                                         variant="outline"
                                         onClick={() => deleteVariation(variation.plan_id)}
-                                        className="text-red-400 border-red-600"
+                                        className="text-red-400 border-red-600 flex-1 sm:flex-none"
                                       >
-                                        Delete
+                                        <Trash2 className="w-4 h-4 sm:mr-1" />
+                                        <span className="hidden sm:inline">Delete</span>
                                       </Button>
                                     </div>
                                   </div>
