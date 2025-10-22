@@ -104,6 +104,10 @@ class EmailService:
         """
         subject = "Reset Your TrainSmart Password"
         
+        # Include both email and token in the URL for better UX
+        from urllib.parse import quote
+        full_reset_url = f"{reset_url}?email={quote(to_email)}&token={reset_token}"
+        
         html_content = f"""
         <html>
             <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -119,7 +123,7 @@ class EmailService:
                         Click the button below to reset your password:
                     </p>
                     <div style="text-align: center; margin: 30px 0;">
-                        <a href="{reset_url}?token={reset_token}" 
+                        <a href="{full_reset_url}" 
                            style="background: #00C2A8; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
                             Reset Password
                         </a>
@@ -128,7 +132,7 @@ class EmailService:
                         Or copy and paste this link into your browser:
                     </p>
                     <p style="font-size: 12px; color: #999; word-break: break-all;">
-                        {reset_url}?token={reset_token}
+                        {full_reset_url}
                     </p>
                     <p style="font-size: 14px; color: #666; margin-top: 30px;">
                         This link will expire in 1 hour for security reasons.
@@ -154,7 +158,7 @@ class EmailService:
         We received a request to reset your password for your TrainSmart account.
         
         Click the link below to reset your password:
-        {reset_url}?token={reset_token}
+        {full_reset_url}
         
         This link will expire in 1 hour for security reasons.
         
