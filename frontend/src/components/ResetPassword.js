@@ -81,31 +81,34 @@ const ResetPassword = () => {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center p-4">
         <div className="w-full max-w-md space-y-6">
           {/* Header */}
           <div className="text-center">
-            <h1 className="text-4xl font-display font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl font-display font-bold text-white mb-2">
               My Health Tracker
             </h1>
-            <p className="text-gray-600">{t('auth.passwordResetComplete')}</p>
+            <p className="text-gray-300">{t('auth.passwordResetComplete')}</p>
           </div>
 
           {/* Success Card */}
-          <Card className="border-0 shadow-xl">
+          <Card className="border-0 shadow-xl bg-gradient-to-br from-gray-600 to-gray-800">
             <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle className="w-8 h-8 text-green-600" />
+              <div className="mx-auto w-16 h-16 bg-green-900/30 rounded-full flex items-center justify-center mb-4">
+                <CheckCircle className="w-8 h-8 text-green-400" />
               </div>
-              <CardTitle className="text-2xl">{t('auth.passwordReset')}</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-2xl text-white">{t('auth.passwordReset')}</CardTitle>
+              <CardDescription className="text-gray-300">
                 {t('auth.passwordResetSuccessMessage')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Button
                 onClick={() => navigate('/login')}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 btn-transition"
+                className="w-full text-white font-medium py-3 btn-transition border-0"
+                style={{ backgroundColor: '#00C2A8' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
               >
                 {t('auth.loginNow')}
               </Button>
