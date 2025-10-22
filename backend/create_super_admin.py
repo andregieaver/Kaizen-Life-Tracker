@@ -31,7 +31,7 @@ async def create_super_admin():
         hashed_password = bcrypt.hashpw("admin123".encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         
         athlete_data = {
-            "id": str(uuid.uuid4()),
+            "id": "77e6ef02-0c9e-4ede-a428-213b83eed1fe",  # Use the specific ID from the test
             "name": "André Giæver",
             "email": "andre@humanweb.no",
             "password": hashed_password,
@@ -60,7 +60,7 @@ async def create_super_admin():
             "is_super_admin": True
         }
         
-        await db.athletes.insert_one(athlete_data)
+        await db.athlete_profiles.insert_one(athlete_data)
         print("✅ Created new super admin user: andre@humanweb.no")
         print("📧 Email: andre@humanweb.no")
         print("🔑 Password: admin123")
