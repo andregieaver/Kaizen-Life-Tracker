@@ -212,15 +212,13 @@ const Recommendations = ({ athleteId }) => {
       {/* Recommendations List */}
       <div className="space-y-4">
         {recommendations.length === 0 ? (
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-600 to-gray-800">
-            <CardContent className="text-center py-12">
-              <Brain className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-200 mb-4">{t('reports.noReports')}</p>
-              <p className="text-sm text-gray-300">
-                {t('reports.setupSchedules')}
-              </p>
-            </CardContent>
-          </Card>
+          <div className="flex flex-col items-center justify-center py-12">
+            <Brain className="w-16 h-16 text-gray-400 mb-4" />
+            <h3 className="text-lg font-medium text-gray-200 mb-2">{t('reports.noReports')}</h3>
+            <p className="text-gray-400 text-center">
+              {t('reports.setupSchedules')}
+            </p>
+          </div>
         ) : (
           recommendations.map((recommendation) => (
             <Card 
