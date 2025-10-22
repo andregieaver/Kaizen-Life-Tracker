@@ -514,6 +514,7 @@ const SystemSettings = ({ athleteId }) => {
 
   const updatePlan = async (tier, updates) => {
     try {
+      console.log('Updating plan:', tier, 'with updates:', updates);
       await axios.put(`${API}/subscription-plans/${tier}?athlete_id=${athleteId}`, updates);
       alert('Plan updated successfully');
       loadSubscriptionPlans();
