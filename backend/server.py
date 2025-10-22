@@ -1097,6 +1097,20 @@ class SubscriptionPlan(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+# Waiting List Model
+class WaitingListEntry(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    email: str
+    nationality: str
+    status: str = "pending"  # pending, contacted, converted
+    source: str = "homepage"  # homepage, referral, etc.
+    notes: Optional[str] = None
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 # Community Models
 class CommunityPost(BaseModel):
     model_config = ConfigDict(extra="ignore")
