@@ -196,6 +196,28 @@ const SystemSettings = ({ athleteId }) => {
     { id: 'premium_annual', name: 'Premium Annual' }
   ];
 
+  // Subscription plan management state
+  const [subscriptionPlans, setSubscriptionPlans] = useState([]);
+  const [loadingPlans, setLoadingPlans] = useState(false);
+  const [showCreatePlanModal, setShowCreatePlanModal] = useState(false);
+  const [showEditPlanModal, setShowEditPlanModal] = useState(false);
+  const [showCreateVariationModal, setShowCreateVariationModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [newPlan, setNewPlan] = useState({
+    tier: '',
+    name: '',
+    description: '',
+    features: [],
+    sort_order: 0
+  });
+  const [newVariation, setNewVariation] = useState({
+    plan_id: '',
+    name: '',
+    price: '',
+    interval: 'month',
+    interval_count: 1
+  });
+
   // Load settings on mount
   useEffect(() => {
     loadSystemSettings();
