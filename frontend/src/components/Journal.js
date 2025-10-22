@@ -214,7 +214,13 @@ const Journal = ({ athleteId }) => {
           <p className="text-gray-300">Loading entries...</p>
         </div>
       ) : entries.length === 0 ? (
-        null
+        <div className="flex flex-col items-center justify-center py-12">
+          <BookOpen className="w-16 h-16 text-gray-400 mb-4" />
+          <h3 className="text-lg font-medium text-gray-200 mb-2">No journal entries yet</h3>
+          <p className="text-gray-400 text-center">
+            Record your thoughts, feelings, and progress
+          </p>
+        </div>
       ) : (
         <div className="space-y-4">
           {entries.map((entry) => (
