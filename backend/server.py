@@ -11194,6 +11194,35 @@ async def get_coupon_usage(code: str, athlete_id: str):
 # SUBSCRIPTION PLAN MANAGEMENT
 # ===========================
 
+@api_router.get("/subscription-plans-public")
+async def get_subscription_plans_public():
+    """Get all active subscription plans with their variations (public endpoint)"""
+    try:
+        # Get all enabled plans
+        plans = await db.subscription_plans.find(
+            {"enabled": {"$ne": False}},
+            {"_id": 0}
+        ).sort("sort_order", 1).to_list(length=None)
+        
+        # Get all variations
+        all_variations = await db.subscription_plan_variations.find(
+            {"enabled": {"$ne": False}},
+            {"_id": 0}
+        ).to_list(length=None)
+        
+        # Group variations by plan tier
+        for plan in plans:
+            plan_variations = [
+                v for v in all_variations 
+                if v["plan_id"].startswith(f"{plan['tier']}_")
+            ]
+            plan["variations"] = plan_variations
+        
+        return {"plans": plans}
+    except Exception as e:
+        logging.error(f"Error getting public subscription plans: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.get("/subscription-plans")
 async def get_subscription_plans(athlete_id: str = None):
     """Get all subscription plans and their variations"""
