@@ -1477,8 +1477,8 @@ const SystemSettings = ({ athleteId }) => {
 
                 {/* Specific Plans (full width section, shown for subscriptions) */}
                 {newCoupon.applies_to === 'subscriptions' && (
-                  <div className="mt-4">
-                    <label className="block text-gray-300 mb-2 font-semibold">Specific Subscription Plans (Optional)</label>
+                  <div className="mt-4 border-t border-gray-600 pt-4">
+                    <label className="block text-white mb-2 font-semibold text-lg">🎯 Specific Subscription Plans (Optional)</label>
                     <div className="bg-gray-700 p-4 rounded-lg border border-gray-600">
                       <p className="text-gray-400 text-sm mb-4">
                         Select which subscription plans this coupon applies to. Leave all unchecked to apply to ALL subscription plans.
