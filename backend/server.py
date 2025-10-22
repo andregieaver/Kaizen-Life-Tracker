@@ -11166,6 +11166,289 @@ async def get_coupon_usage(code: str, athlete_id: str):
         logging.error(f"Error getting coupon usage: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# ===========================
+# SUBSCRIPTION PLAN MANAGEMENT
+# ===========================
+
+@api_router.get("/subscription-plans")
+async def get_subscription_plans(athlete_id: str = None):
+    """Get all subscription plans and their variations"""
+    try:
+        # Get plans from database
+        plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).to_list(length=None)
+        variations = await db.subscription_plan_variations.find({"enabled": True}, {"_id": 0}).to_list(length=None)
+        
+        # Group variations by plan tier
+        plans_with_variations = []
+        for plan in plans:
+            plan_variations = [v for v in variations if v.get("plan_id", "").startswith(plan["tier"])]
+            plans_with_variations.append({
+                **plan,
+                "variations": plan_variations
+            })
+        
+        # Sort by sort_order
+        plans_with_variations.sort(key=lambda x: x.get("sort_order", 0))
+        
+        return {"plans": plans_with_variations}
+    except Exception as e:
+        logging.error(f"Error getting subscription plans: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/subscription-plans")
+async def create_subscription_plan(plan_data: dict, athlete_id: str):
+    """Create a new subscription plan with Stripe integration (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Initialize Stripe
+        stripe_api_key = os.environ.get("STRIPE_API_KEY")
+        if not stripe_api_key:
+            raise HTTPException(status_code=500, detail="Stripe API key not configured")
+        
+        stripe.api_key = stripe_api_key
+        
+        # Create Stripe product
+        stripe_product = stripe.Product.create(
+            name=plan_data["name"],
+            description=plan_data.get("description", ""),
+            metadata={"tier": plan_data["tier"]}
+        )
+        
+        # Create plan in database
+        plan = SubscriptionPlan(
+            tier=plan_data["tier"],
+            name=plan_data["name"],
+            description=plan_data.get("description"),
+            features=plan_data.get("features", []),
+            stripe_product_id=stripe_product.id,
+            sort_order=plan_data.get("sort_order", 0)
+        )
+        
+        await db.subscription_plans.insert_one(plan.model_dump())
+        
+        logging.info(f"Subscription plan created: {plan.tier} by {athlete_id}")
+        return {"message": "Plan created successfully", "plan": plan.model_dump()}
+    except Exception as e:
+        logging.error(f"Error creating subscription plan: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/subscription-plans/{tier}")
+async def update_subscription_plan(tier: str, updates: dict, athlete_id: str):
+    """Update a subscription plan (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get current plan
+        plan = await db.subscription_plans.find_one({"tier": tier}, {"_id": 0})
+        if not plan:
+            raise HTTPException(status_code=404, detail="Plan not found")
+        
+        # Update Stripe product if needed
+        if plan.get("stripe_product_id") and ("name" in updates or "description" in updates):
+            stripe_api_key = os.environ.get("STRIPE_API_KEY")
+            if stripe_api_key:
+                stripe.api_key = stripe_api_key
+                update_params = {}
+                if "name" in updates:
+                    update_params["name"] = updates["name"]
+                if "description" in updates:
+                    update_params["description"] = updates["description"]
+                
+                stripe.Product.modify(plan["stripe_product_id"], **update_params)
+        
+        # Update in database
+        updates["updated_at"] = datetime.now(timezone.utc)
+        result = await db.subscription_plans.update_one(
+            {"tier": tier},
+            {"$set": updates}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Plan not found")
+        
+        logging.info(f"Subscription plan updated: {tier} by {athlete_id}")
+        return {"message": "Plan updated successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating subscription plan: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/subscription-plans/{tier}")
+async def delete_subscription_plan(tier: str, athlete_id: str):
+    """Delete a subscription plan (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get plan
+        plan = await db.subscription_plans.find_one({"tier": tier}, {"_id": 0})
+        if not plan:
+            raise HTTPException(status_code=404, detail="Plan not found")
+        
+        # Archive Stripe product (don't delete to preserve history)
+        if plan.get("stripe_product_id"):
+            stripe_api_key = os.environ.get("STRIPE_API_KEY")
+            if stripe_api_key:
+                stripe.api_key = stripe_api_key
+                stripe.Product.modify(plan["stripe_product_id"], active=False)
+        
+        # Delete variations
+        await db.subscription_plan_variations.delete_many({"plan_id": {"$regex": f"^{tier}_"}})
+        
+        # Delete plan
+        result = await db.subscription_plans.delete_one({"tier": tier})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Plan not found")
+        
+        logging.info(f"Subscription plan deleted: {tier} by {athlete_id}")
+        return {"message": "Plan deleted successfully"}
+    except Exception as e:
+        logging.error(f"Error deleting subscription plan: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/subscription-plans/{tier}/variations")
+async def create_plan_variation(tier: str, variation_data: dict, athlete_id: str):
+    """Create a plan variation (pricing tier) with Stripe price (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get parent plan
+        plan = await db.subscription_plans.find_one({"tier": tier}, {"_id": 0})
+        if not plan:
+            raise HTTPException(status_code=404, detail="Plan not found")
+        
+        # Initialize Stripe
+        stripe_api_key = os.environ.get("STRIPE_API_KEY")
+        if not stripe_api_key:
+            raise HTTPException(status_code=500, detail="Stripe API key not configured")
+        
+        stripe.api_key = stripe_api_key
+        
+        # Create Stripe price
+        stripe_price = stripe.Price.create(
+            product=plan["stripe_product_id"],
+            unit_amount=int(variation_data["price"] * 100),  # Convert to cents
+            currency="usd",
+            recurring={
+                "interval": variation_data["interval"],
+                "interval_count": variation_data.get("interval_count", 1)
+            },
+            metadata={
+                "plan_id": variation_data["plan_id"],
+                "tier": tier
+            }
+        )
+        
+        # Create variation in database
+        variation = SubscriptionPlanVariation(
+            plan_id=variation_data["plan_id"],
+            name=variation_data["name"],
+            price=variation_data["price"],
+            interval=variation_data["interval"],
+            interval_count=variation_data.get("interval_count", 1),
+            stripe_price_id=stripe_price.id
+        )
+        
+        await db.subscription_plan_variations.insert_one(variation.model_dump())
+        
+        logging.info(f"Plan variation created: {variation.plan_id} by {athlete_id}")
+        return {"message": "Variation created successfully", "variation": variation.model_dump()}
+    except Exception as e:
+        logging.error(f"Error creating plan variation: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/subscription-plans/variations/{plan_id}")
+async def update_plan_variation(plan_id: str, updates: dict, athlete_id: str):
+    """Update a plan variation (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get current variation
+        variation = await db.subscription_plan_variations.find_one({"plan_id": plan_id}, {"_id": 0})
+        if not variation:
+            raise HTTPException(status_code=404, detail="Variation not found")
+        
+        # If price is updated, create new Stripe price (can't update existing)
+        if "price" in updates and variation.get("stripe_price_id"):
+            stripe_api_key = os.environ.get("STRIPE_API_KEY")
+            if stripe_api_key:
+                stripe.api_key = stripe_api_key
+                
+                # Get parent plan
+                tier = plan_id.split("_")[0]
+                plan = await db.subscription_plans.find_one({"tier": tier}, {"_id": 0})
+                
+                if plan and plan.get("stripe_product_id"):
+                    # Archive old price
+                    stripe.Price.modify(variation["stripe_price_id"], active=False)
+                    
+                    # Create new price
+                    new_stripe_price = stripe.Price.create(
+                        product=plan["stripe_product_id"],
+                        unit_amount=int(updates["price"] * 100),
+                        currency="usd",
+                        recurring={
+                            "interval": variation["interval"],
+                            "interval_count": variation.get("interval_count", 1)
+                        },
+                        metadata={
+                            "plan_id": plan_id,
+                            "tier": tier
+                        }
+                    )
+                    
+                    updates["stripe_price_id"] = new_stripe_price.id
+        
+        # Update in database
+        updates["updated_at"] = datetime.now(timezone.utc)
+        result = await db.subscription_plan_variations.update_one(
+            {"plan_id": plan_id},
+            {"$set": updates}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Variation not found")
+        
+        logging.info(f"Plan variation updated: {plan_id} by {athlete_id}")
+        return {"message": "Variation updated successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating plan variation: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/subscription-plans/variations/{plan_id}")
+async def delete_plan_variation(plan_id: str, athlete_id: str):
+    """Delete a plan variation (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get variation
+        variation = await db.subscription_plan_variations.find_one({"plan_id": plan_id}, {"_id": 0})
+        if not variation:
+            raise HTTPException(status_code=404, detail="Variation not found")
+        
+        # Archive Stripe price
+        if variation.get("stripe_price_id"):
+            stripe_api_key = os.environ.get("STRIPE_API_KEY")
+            if stripe_api_key:
+                stripe.api_key = stripe_api_key
+                stripe.Price.modify(variation["stripe_price_id"], active=False)
+        
+        # Delete variation
+        result = await db.subscription_plan_variations.delete_one({"plan_id": plan_id})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Variation not found")
+        
+        logging.info(f"Plan variation deleted: {plan_id} by {athlete_id}")
+        return {"message": "Variation deleted successfully"}
+    except Exception as e:
+        logging.error(f"Error deleting plan variation: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 app.include_router(api_router)
 
 @app.on_event("shutdown")
