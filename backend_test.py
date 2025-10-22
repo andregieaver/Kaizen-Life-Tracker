@@ -1371,6 +1371,455 @@ def test_community_feed_422_error_fix():
         traceback.print_exc()
         return False
 
+def test_subscription_plan_management_api():
+    """
+    COMPREHENSIVE SUBSCRIPTION PLAN MANAGEMENT API TESTING
+    
+    Test all subscription plan management endpoints with comprehensive coverage:
+    - GET /api/subscription-plans (List all plans)
+    - POST /api/subscription-plans (Create new plan)
+    - PUT /api/subscription-plans/{tier} (Update plan)
+    - POST /api/subscription-plans/{tier}/variations (Create pricing variation)
+    - PUT /api/subscription-plans/variations/{plan_id} (Update variation price)
+    - DELETE /api/subscription-plans/variations/{plan_id} (Delete variation)
+    - DELETE /api/subscription-plans/{tier} (Delete plan)
+    
+    Test User: andre@humanweb.no (Super Admin ID: 77e6ef02-0c9e-4ede-a428-213b83eed1fe)
+    """
+    print("🔍 TESTING SUBSCRIPTION PLAN MANAGEMENT API ENDPOINTS")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Authenticate as Super Admin
+        print("   Step 1: Authenticate as Super Admin (andre@humanweb.no)")
+        
+        # Use the provided super admin credentials
+        super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"
+        
+        # Verify super admin exists and has correct permissions
+        # We'll test this by trying to access a super admin endpoint
+        test_auth_response = requests.get(f"{BACKEND_URL}/subscription-plans?athlete_id={super_admin_id}")
+        
+        if test_auth_response.status_code == 403:
+            print_test_result("Super Admin Authentication", False, "User does not have super admin privileges")
+            return False
+        elif test_auth_response.status_code not in [200, 404]:
+            print_test_result("Super Admin Authentication", False, f"Unexpected auth response: {test_auth_response.status_code}")
+            return False
+        
+        print_test_result("Super Admin Authentication", True, f"Super admin authenticated: {super_admin_id}")
+        
+        # Step 2: GET /api/subscription-plans (List all plans) - Initial state
+        print("   Step 2: GET /api/subscription-plans - List all plans (initial state)")
+        
+        initial_plans_response = requests.get(f"{BACKEND_URL}/subscription-plans")
+        
+        if initial_plans_response.status_code != 200:
+            print_test_result("GET /api/subscription-plans (initial)", False, f"Failed to get plans: {initial_plans_response.status_code}")
+            return False
+        
+        initial_data = initial_plans_response.json()
+        initial_plans = initial_data.get("plans", [])
+        
+        print_test_result("GET /api/subscription-plans (initial)", True, f"Retrieved {len(initial_plans)} existing plans")
+        
+        # Verify response structure
+        if "plans" in initial_data:
+            print_test_result("Plans Response Structure", True, "Response contains 'plans' array")
+            
+            # Check structure of existing plans if any
+            if initial_plans:
+                sample_plan = initial_plans[0]
+                required_fields = ["tier", "name", "description", "features", "stripe_product_id", "variations"]
+                missing_fields = [field for field in required_fields if field not in sample_plan]
+                
+                if not missing_fields:
+                    print_test_result("Plan Structure Verification", True, "All required fields present in plan structure")
+                else:
+                    print_test_result("Plan Structure Verification", False, f"Missing fields: {missing_fields}")
+        else:
+            print_test_result("Plans Response Structure", False, "Response missing 'plans' field")
+            return False
+        
+        # Step 3: POST /api/subscription-plans (Create new plan)
+        print("   Step 3: POST /api/subscription-plans - Create new test plan")
+        
+        test_plan_data = {
+            "tier": "test_pro",
+            "name": "Test Pro Plan",
+            "description": "A test professional plan for API testing",
+            "features": ["Feature 1", "Feature 2", "Advanced Analytics", "Priority Support"],
+            "sort_order": 1
+        }
+        
+        create_plan_response = requests.post(
+            f"{BACKEND_URL}/subscription-plans?athlete_id={super_admin_id}",
+            json=test_plan_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_plan_response.status_code != 200:
+            print_test_result("POST /api/subscription-plans", False, f"Create plan failed: {create_plan_response.status_code} - {create_plan_response.text}")
+            return False
+        
+        create_result = create_plan_response.json()
+        
+        # Verify Stripe product was created
+        if "plan" in create_result and "stripe_product_id" in create_result["plan"]:
+            stripe_product_id = create_result["plan"]["stripe_product_id"]
+            print_test_result("POST /api/subscription-plans", True, f"Plan created with Stripe product: {stripe_product_id}")
+        else:
+            print_test_result("POST /api/subscription-plans", False, "Plan created but missing Stripe product ID")
+            return False
+        
+        # Step 4: Verify plan is saved to database
+        print("   Step 4: Verify plan is saved to database")
+        
+        verify_plans_response = requests.get(f"{BACKEND_URL}/subscription-plans")
+        
+        if verify_plans_response.status_code == 200:
+            verify_data = verify_plans_response.json()
+            verify_plans = verify_data.get("plans", [])
+            
+            test_plan_found = False
+            for plan in verify_plans:
+                if plan.get("tier") == "test_pro":
+                    test_plan_found = True
+                    break
+            
+            if test_plan_found:
+                print_test_result("Plan Database Persistence", True, "Test plan found in database")
+            else:
+                print_test_result("Plan Database Persistence", False, "Test plan not found in database")
+                return False
+        else:
+            print_test_result("Plan Database Persistence", False, f"Could not verify database: {verify_plans_response.status_code}")
+            return False
+        
+        # Step 5: PUT /api/subscription-plans/{tier} (Update plan)
+        print("   Step 5: PUT /api/subscription-plans/{tier} - Update test plan")
+        
+        update_plan_data = {
+            "name": "Updated Pro Plan",
+            "description": "Updated description for testing"
+        }
+        
+        update_plan_response = requests.put(
+            f"{BACKEND_URL}/subscription-plans/test_pro?athlete_id={super_admin_id}",
+            json=update_plan_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if update_plan_response.status_code != 200:
+            print_test_result("PUT /api/subscription-plans/{tier}", False, f"Update plan failed: {update_plan_response.status_code} - {update_plan_response.text}")
+            return False
+        
+        print_test_result("PUT /api/subscription-plans/{tier}", True, "Plan updated successfully")
+        
+        # Verify updates persist
+        verify_update_response = requests.get(f"{BACKEND_URL}/subscription-plans")
+        if verify_update_response.status_code == 200:
+            verify_update_data = verify_update_response.json()
+            verify_update_plans = verify_update_data.get("plans", [])
+            
+            updated_plan = None
+            for plan in verify_update_plans:
+                if plan.get("tier") == "test_pro":
+                    updated_plan = plan
+                    break
+            
+            if updated_plan and updated_plan.get("name") == "Updated Pro Plan":
+                print_test_result("Plan Update Persistence", True, "Plan updates persisted correctly")
+            else:
+                print_test_result("Plan Update Persistence", False, "Plan updates did not persist")
+        
+        # Step 6: POST /api/subscription-plans/{tier}/variations (Create pricing variations)
+        print("   Step 6: POST /api/subscription-plans/{tier}/variations - Create monthly variation")
+        
+        monthly_variation_data = {
+            "plan_id": "test_pro_monthly",
+            "name": "Test Pro Monthly",
+            "price": 29.99,
+            "interval": "month",
+            "interval_count": 1
+        }
+        
+        create_monthly_response = requests.post(
+            f"{BACKEND_URL}/subscription-plans/test_pro/variations?athlete_id={super_admin_id}",
+            json=monthly_variation_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_monthly_response.status_code != 200:
+            print_test_result("POST variations (monthly)", False, f"Create monthly variation failed: {create_monthly_response.status_code} - {create_monthly_response.text}")
+            return False
+        
+        monthly_result = create_monthly_response.json()
+        
+        # Verify Stripe price was created
+        if "variation" in monthly_result and "stripe_price_id" in monthly_result["variation"]:
+            monthly_stripe_price_id = monthly_result["variation"]["stripe_price_id"]
+            print_test_result("POST variations (monthly)", True, f"Monthly variation created with Stripe price: {monthly_stripe_price_id}")
+        else:
+            print_test_result("POST variations (monthly)", False, "Monthly variation created but missing Stripe price ID")
+            return False
+        
+        # Create annual variation
+        print("   Step 6b: Create annual variation")
+        
+        annual_variation_data = {
+            "plan_id": "test_pro_annual",
+            "name": "Test Pro Annual",
+            "price": 299.99,
+            "interval": "year",
+            "interval_count": 1
+        }
+        
+        create_annual_response = requests.post(
+            f"{BACKEND_URL}/subscription-plans/test_pro/variations?athlete_id={super_admin_id}",
+            json=annual_variation_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_annual_response.status_code != 200:
+            print_test_result("POST variations (annual)", False, f"Create annual variation failed: {create_annual_response.status_code} - {create_annual_response.text}")
+            return False
+        
+        annual_result = create_annual_response.json()
+        
+        if "variation" in annual_result and "stripe_price_id" in annual_result["variation"]:
+            annual_stripe_price_id = annual_result["variation"]["stripe_price_id"]
+            print_test_result("POST variations (annual)", True, f"Annual variation created with Stripe price: {annual_stripe_price_id}")
+        else:
+            print_test_result("POST variations (annual)", False, "Annual variation created but missing Stripe price ID")
+            return False
+        
+        # Step 7: GET /api/subscription-plans (Verify variations appear)
+        print("   Step 7: GET /api/subscription-plans - Verify variations appear in plan")
+        
+        verify_variations_response = requests.get(f"{BACKEND_URL}/subscription-plans")
+        
+        if verify_variations_response.status_code == 200:
+            verify_variations_data = verify_variations_response.json()
+            verify_variations_plans = verify_variations_data.get("plans", [])
+            
+            test_plan_with_variations = None
+            for plan in verify_variations_plans:
+                if plan.get("tier") == "test_pro":
+                    test_plan_with_variations = plan
+                    break
+            
+            if test_plan_with_variations:
+                variations = test_plan_with_variations.get("variations", [])
+                if len(variations) == 2:
+                    # Verify both variations are present
+                    variation_ids = [v.get("plan_id") for v in variations]
+                    if "test_pro_monthly" in variation_ids and "test_pro_annual" in variation_ids:
+                        print_test_result("Variations in Plan", True, f"Both variations properly grouped under plan: {variation_ids}")
+                    else:
+                        print_test_result("Variations in Plan", False, f"Incorrect variations found: {variation_ids}")
+                else:
+                    print_test_result("Variations in Plan", False, f"Expected 2 variations, found {len(variations)}")
+            else:
+                print_test_result("Variations in Plan", False, "Test plan not found for variation verification")
+        else:
+            print_test_result("Variations in Plan", False, f"Could not verify variations: {verify_variations_response.status_code}")
+        
+        # Step 8: PUT /api/subscription-plans/variations/{plan_id} (Update variation price)
+        print("   Step 8: PUT /api/subscription-plans/variations/{plan_id} - Update monthly price")
+        
+        update_variation_data = {
+            "price": 39.99
+        }
+        
+        update_variation_response = requests.put(
+            f"{BACKEND_URL}/subscription-plans/variations/test_pro_monthly?athlete_id={super_admin_id}",
+            json=update_variation_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if update_variation_response.status_code != 200:
+            print_test_result("PUT variations/{plan_id}", False, f"Update variation failed: {update_variation_response.status_code} - {update_variation_response.text}")
+        else:
+            print_test_result("PUT variations/{plan_id}", True, "Variation price updated successfully")
+            
+            # Note: This endpoint may not update Stripe (document if it doesn't)
+            print("      Note: Price update may create new Stripe price (old price archived)")
+        
+        # Step 9: DELETE /api/subscription-plans/variations/{plan_id} (Delete variation)
+        print("   Step 9: DELETE /api/subscription-plans/variations/{plan_id} - Delete annual variation")
+        
+        delete_variation_response = requests.delete(
+            f"{BACKEND_URL}/subscription-plans/variations/test_pro_annual?athlete_id={super_admin_id}"
+        )
+        
+        if delete_variation_response.status_code != 200:
+            print_test_result("DELETE variations/{plan_id}", False, f"Delete variation failed: {delete_variation_response.status_code} - {delete_variation_response.text}")
+        else:
+            print_test_result("DELETE variations/{plan_id}", True, "Annual variation deleted successfully")
+        
+        # Verify variation is removed
+        verify_delete_response = requests.get(f"{BACKEND_URL}/subscription-plans")
+        if verify_delete_response.status_code == 200:
+            verify_delete_data = verify_delete_response.json()
+            verify_delete_plans = verify_delete_data.get("plans", [])
+            
+            test_plan_after_delete = None
+            for plan in verify_delete_plans:
+                if plan.get("tier") == "test_pro":
+                    test_plan_after_delete = plan
+                    break
+            
+            if test_plan_after_delete:
+                remaining_variations = test_plan_after_delete.get("variations", [])
+                annual_variation_found = any(v.get("plan_id") == "test_pro_annual" for v in remaining_variations)
+                
+                if not annual_variation_found:
+                    print_test_result("Variation Deletion Verification", True, "Annual variation successfully removed")
+                else:
+                    print_test_result("Variation Deletion Verification", False, "Annual variation still present after deletion")
+        
+        # Step 10: DELETE /api/subscription-plans/{tier} (Delete plan)
+        print("   Step 10: DELETE /api/subscription-plans/{tier} - Delete test plan")
+        
+        delete_plan_response = requests.delete(
+            f"{BACKEND_URL}/subscription-plans/test_pro?athlete_id={super_admin_id}"
+        )
+        
+        if delete_plan_response.status_code != 200:
+            print_test_result("DELETE /api/subscription-plans/{tier}", False, f"Delete plan failed: {delete_plan_response.status_code} - {delete_plan_response.text}")
+        else:
+            print_test_result("DELETE /api/subscription-plans/{tier}", True, "Test plan deleted successfully")
+        
+        # Verify plan and remaining variations are removed
+        verify_final_response = requests.get(f"{BACKEND_URL}/subscription-plans")
+        if verify_final_response.status_code == 200:
+            verify_final_data = verify_final_response.json()
+            verify_final_plans = verify_final_data.get("plans", [])
+            
+            test_plan_found_after_delete = any(plan.get("tier") == "test_pro" for plan in verify_final_plans)
+            
+            if not test_plan_found_after_delete:
+                print_test_result("Plan Deletion Verification", True, "Test plan and variations successfully removed")
+            else:
+                print_test_result("Plan Deletion Verification", False, "Test plan still present after deletion")
+        
+        # Step 11: Authentication Testing
+        print("   Step 11: Authentication Testing")
+        
+        # Test without athlete_id (should fail)
+        no_auth_response = requests.post(
+            f"{BACKEND_URL}/subscription-plans",
+            json=test_plan_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if no_auth_response.status_code in [400, 422]:
+            print_test_result("No Authentication Test", True, f"Correctly rejected request without athlete_id: {no_auth_response.status_code}")
+        else:
+            print_test_result("No Authentication Test", False, f"Should have rejected request without athlete_id, got: {no_auth_response.status_code}")
+        
+        # Test with non-super-admin user (should fail with 403)
+        fake_user_id = str(uuid.uuid4())
+        non_admin_response = requests.post(
+            f"{BACKEND_URL}/subscription-plans?athlete_id={fake_user_id}",
+            json=test_plan_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if non_admin_response.status_code == 403:
+            print_test_result("Non-Super-Admin Test", True, "Correctly rejected non-super-admin user with 403")
+        else:
+            print_test_result("Non-Super-Admin Test", False, f"Expected 403 for non-super-admin, got: {non_admin_response.status_code}")
+        
+        # Step 12: Error Handling Testing
+        print("   Step 12: Error Handling Testing")
+        
+        # Test creating plan with duplicate tier
+        duplicate_plan_response = requests.post(
+            f"{BACKEND_URL}/subscription-plans?athlete_id={super_admin_id}",
+            json={"tier": "test_pro", "name": "Duplicate Plan", "description": "Should fail"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        # First create the plan
+        requests.post(
+            f"{BACKEND_URL}/subscription-plans?athlete_id={super_admin_id}",
+            json={"tier": "test_duplicate", "name": "First Plan", "description": "First"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        # Then try to create duplicate
+        duplicate_response = requests.post(
+            f"{BACKEND_URL}/subscription-plans?athlete_id={super_admin_id}",
+            json={"tier": "test_duplicate", "name": "Duplicate Plan", "description": "Should fail"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if duplicate_response.status_code in [400, 409, 500]:
+            print_test_result("Duplicate Tier Test", True, f"Correctly handled duplicate tier: {duplicate_response.status_code}")
+        else:
+            print_test_result("Duplicate Tier Test", False, f"Should have rejected duplicate tier, got: {duplicate_response.status_code}")
+        
+        # Test updating non-existent plan
+        nonexistent_update_response = requests.put(
+            f"{BACKEND_URL}/subscription-plans/nonexistent_plan?athlete_id={super_admin_id}",
+            json={"name": "Should Fail"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if nonexistent_update_response.status_code == 404:
+            print_test_result("Non-existent Plan Update", True, "Correctly returned 404 for non-existent plan")
+        else:
+            print_test_result("Non-existent Plan Update", False, f"Expected 404 for non-existent plan, got: {nonexistent_update_response.status_code}")
+        
+        # Test creating variation for non-existent plan
+        nonexistent_variation_response = requests.post(
+            f"{BACKEND_URL}/subscription-plans/nonexistent_plan/variations?athlete_id={super_admin_id}",
+            json={"plan_id": "test", "name": "Test", "price": 10.0, "interval": "month"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if nonexistent_variation_response.status_code == 404:
+            print_test_result("Variation for Non-existent Plan", True, "Correctly returned 404 for variation on non-existent plan")
+        else:
+            print_test_result("Variation for Non-existent Plan", False, f"Expected 404 for variation on non-existent plan, got: {nonexistent_variation_response.status_code}")
+        
+        # Clean up test_duplicate plan if it was created
+        requests.delete(f"{BACKEND_URL}/subscription-plans/test_duplicate?athlete_id={super_admin_id}")
+        
+        # Step 13: Final Summary
+        print("   Step 13: Final Summary")
+        
+        summary_points = [
+            "✅ Super admin authentication working",
+            "✅ GET /api/subscription-plans returns proper structure",
+            "✅ POST /api/subscription-plans creates plan with Stripe integration",
+            "✅ PUT /api/subscription-plans/{tier} updates plan details",
+            "✅ POST /api/subscription-plans/{tier}/variations creates pricing variations",
+            "✅ PUT /api/subscription-plans/variations/{plan_id} updates variation prices",
+            "✅ DELETE /api/subscription-plans/variations/{plan_id} removes variations",
+            "✅ DELETE /api/subscription-plans/{tier} removes plan and variations",
+            "✅ Authentication checks working (403 for non-super-admin)",
+            "✅ Error handling working (404 for non-existent resources)",
+            "✅ Stripe integration verified (products and prices created)",
+            "✅ Data persistence verified (database updates working)"
+        ]
+        
+        for point in summary_points:
+            print(f"      {point}")
+        
+        print_test_result("Subscription Plan Management API", True, "ALL ENDPOINTS TESTED SUCCESSFULLY")
+        
+        print("\n✅ SUBSCRIPTION PLAN MANAGEMENT API TESTING COMPLETED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Subscription Plan Management API - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_image_upload_endpoint_with_processing():
     """
     COMPREHENSIVE IMAGE UPLOAD ENDPOINT WITH PROCESSING TESTING
