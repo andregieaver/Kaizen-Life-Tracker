@@ -5144,22 +5144,18 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
             logging.error(f"[RECIPE] Athlete not found: {athlete_id}")
             raise HTTPException(status_code=404, detail="Athlete not found")
         
-        logging.info(f"[RECIPE] Fetching OpenAI key for athlete: {athlete_id}")
-        # Get OpenAI key from integrations collection
-        openai_integration = await db.integrations.find_one(
-            {"athlete_id": athlete_id, "integration_type": "openai"},
+        logging.info(f"[RECIPE] Fetching OpenAI key from system settings")
+        # Get OpenAI key from system_settings collection
+        system_settings = await db.system_settings.find_one(
+            {"setting_type": "global"},
             {"_id": 0}
         )
         
-        if not openai_integration:
-            logging.error(f"[RECIPE] OpenAI integration not found for athlete: {athlete_id}")
+        if not system_settings or not system_settings.get('advanced', {}).get('openaiApiKey'):
+            logging.error(f"[RECIPE] OpenAI API key not found in system settings")
             raise HTTPException(status_code=400, detail="OpenAI API key not found. Please add your OpenAI API key in System Settings → Advanced tab (Super Admin only), then try again.")
         
-        if not openai_integration.get('credentials', {}).get('api_key'):
-            logging.error(f"[RECIPE] OpenAI key missing in credentials")
-            raise HTTPException(status_code=400, detail="OpenAI API key is invalid or missing. Please re-add your key in System Settings → Advanced tab (Super Admin only).")
-        
-        openai_key = openai_integration['credentials']['api_key']
+        openai_key = system_settings['advanced']['openaiApiKey']
         logging.info(f"[RECIPE] OpenAI key found, length: {len(openai_key)}")
         
         # Get recent nutrition entries (last 14 days)
