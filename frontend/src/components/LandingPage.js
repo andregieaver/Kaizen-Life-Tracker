@@ -325,15 +325,15 @@ const LandingPage = () => {
           )}
           
           <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-500/20 text-teal-400 rounded-full text-sm font-medium mb-6 border border-teal-500/30">
               <Zap className="w-4 h-4" />
               <span>Your Journey to Better Health Starts Here</span>
             </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
               Optimize Your Health with
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Data-Driven Insights</span>
+              <span className="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent"> Data-Driven Insights</span>
             </h1>
-            <p className="text-xl sm:text-2xl text-gray-600 mb-8 leading-relaxed">
+            <p className="text-xl sm:text-2xl text-gray-300 mb-8 leading-relaxed">
               Transform your wellbeing through intelligent tracking, personalized AI coaching, 
               and actionable analytics. Start your journey to longevity today.
             </p>
@@ -341,7 +341,7 @@ const LandingPage = () => {
               <Link to="/onboarding">
                 <Button 
                   size="lg" 
-                  className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
+                  className="bg-teal-600 hover:bg-teal-700 text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
                 >
                   Start Your Free Journey
                   <ChevronRight className="w-5 h-5 ml-2" />
@@ -351,23 +351,23 @@ const LandingPage = () => {
                 <Button 
                   size="lg" 
                   variant="outline"
-                  className="text-lg px-8 py-6 h-auto"
+                  className="text-lg px-8 py-6 h-auto border-gray-600 text-gray-300 hover:bg-gray-700"
                 >
                   View Plans & Pricing
                 </Button>
               </Link>
             </div>
-            <div className="flex items-center justify-center gap-8 text-sm text-gray-600">
+            <div className="flex items-center justify-center gap-8 text-sm text-gray-400">
               <div className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-green-600" />
+                <Check className="w-4 h-4 text-teal-400" />
                 <span>No credit card required</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-green-600" />
+                <Check className="w-4 h-4 text-teal-400" />
                 <span>Free to start</span>
               </div>
               <div className="hidden sm:flex items-center gap-2">
-                <Check className="w-4 h-4 text-green-600" />
+                <Check className="w-4 h-4 text-teal-400" />
                 <span>Cancel anytime</span>
               </div>
             </div>
@@ -376,8 +376,8 @@ const LandingPage = () => {
           {/* Hero Stats */}
           <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">24/7</div>
-              <div className="text-gray-600">AI Coach Available</div>
+              <div className="text-4xl font-bold text-teal-400 mb-2">24/7</div>
+              <div className="text-gray-300">AI Coach Available</div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-purple-600 mb-2">All-in-One</div>
