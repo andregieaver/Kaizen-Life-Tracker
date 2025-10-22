@@ -206,6 +206,11 @@ const SystemSettings = ({ athleteId }) => {
   const [showEditPlanModal, setShowEditPlanModal] = useState(false);
   const [showCreateVariationModal, setShowCreateVariationModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
+
+  // Waiting list state
+  const [waitingListEntries, setWaitingListEntries] = useState([]);
+  const [loadingWaitingList, setLoadingWaitingList] = useState(false);
+  const [waitingListFilter, setWaitingListFilter] = useState('all');
   const [newPlan, setNewPlan] = useState({
     tier: '',
     name: '',
