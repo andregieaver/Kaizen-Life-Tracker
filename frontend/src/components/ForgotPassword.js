@@ -178,11 +178,11 @@ const ForgotPassword = () => {
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-400">
                 {t('auth.rememberPassword')}{' '}
                 <Link 
                   to="/login" 
-                  className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
+                  className="text-teal-400 hover:text-teal-300 font-medium hover:underline"
                 >
                   {t('auth.loginHere')}
                 </Link>
@@ -192,7 +192,7 @@ const ForgotPassword = () => {
         </Card>
 
         {/* Footer Note */}
-        <p className="text-center text-sm text-gray-500">
+        <p className="text-center text-sm text-gray-400">
           {t('auth.resetSecurityNote')}
         </p>
       </div>
