@@ -29,6 +29,52 @@ const Pricing = () => {
     }
   }, []);
 
+  // Validate and apply coupon
+  const applyCoupon = async (planPrice) => {
+    if (!couponCode.trim()) {
+      setCouponError('Please enter a coupon code');
+      return;
+    }
+
+    setValidatingCoupon(true);
+    setCouponError('');
+
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/coupons/validate?code=${encodeURIComponent(couponCode)}&amount=${planPrice}&purchase_type=subscriptions`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Invalid coupon code');
+      }
+
+      const data = await response.json();
+      setAppliedCoupon(data);
+      setCouponError('');
+      console.log('Coupon applied:', data);
+    } catch (error) {
+      console.error('Coupon validation error:', error);
+      setCouponError(error.message || 'Failed to apply coupon');
+      setAppliedCoupon(null);
+    } finally {
+      setValidatingCoupon(false);
+    }
+  };
+
+  // Remove applied coupon
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode('');
+    setCouponError('');
+  };
+
   const plans = [
     {
       id: 'free',
