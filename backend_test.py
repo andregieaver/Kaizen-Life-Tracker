@@ -6347,49 +6347,50 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Subscription Plan Management API Testing"""
-    print("🚀 STARTING SUBSCRIPTION PLAN MANAGEMENT API TESTING")
+    """Run Stripe Sync Endpoint Testing"""
+    print("🚀 STARTING STRIPE SYNC ENDPOINT TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Subscription Plan Management API
+    # Test Stripe Sync Endpoint
     try:
-        result = test_subscription_plan_management_api()
+        result = test_stripe_sync_endpoint()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Subscription Plan Management API", False, f"Exception: {str(e)}")
+        print_test_result("Stripe Sync Endpoint", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 SUBSCRIPTION PLAN MANAGEMENT API TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ SUPER ADMIN AUTHENTICATION: andre@humanweb.no authenticated successfully")
-        print("✅ GET /api/subscription-plans: List all plans working")
-        print("✅ POST /api/subscription-plans: Create new plan with Stripe integration")
-        print("✅ PUT /api/subscription-plans/{tier}: Update plan details working")
-        print("✅ POST /api/subscription-plans/{tier}/variations: Create pricing variations")
-        print("✅ PUT /api/subscription-plans/variations/{plan_id}: Update variation prices")
-        print("✅ DELETE /api/subscription-plans/variations/{plan_id}: Delete variations")
-        print("✅ DELETE /api/subscription-plans/{tier}: Delete plans and variations")
-        print("✅ STRIPE INTEGRATION: Products and prices created successfully")
-        print("✅ AUTHENTICATION: Super admin only access enforced")
-        print("✅ ERROR HANDLING: 404 for non-existent resources")
-        print("✅ DATA PERSISTENCE: Database updates working correctly")
-        print("🔧 VERIFIED: All subscription plan management endpoints functional")
-        print("🔧 CONFIRMED: Stripe synchronization working as specified")
+        print("🎉 STRIPE SYNC ENDPOINT TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ SUPER ADMIN AUTHENTICATION: andre@humanweb.no (ID: 77e6ef02-0c9e-4ede-a428-213b83eed1fe) verified")
+        print("✅ INITIAL SYNC: POST /api/subscription-plans/sync-stripe working")
+        print("✅ SYNC STATISTICS: All required statistics returned (products_synced, products_created, etc.)")
+        print("✅ STRIPE API INTEGRATION: Products and prices fetched from Stripe successfully")
+        print("✅ DATABASE PERSISTENCE: Plans and variations created/updated in MongoDB")
+        print("✅ DUPLICATE PREVENTION: Re-sync updates existing records (not duplicates)")
+        print("✅ PRICE CONVERSION: Cents to dollars conversion working correctly")
+        print("✅ METADATA EXTRACTION: Tier extracted from product metadata")
+        print("✅ INTERVAL HANDLING: Interval and interval_count set correctly")
+        print("✅ AUTHENTICATION TESTS: 422 for missing athlete_id, 403 for non-super-admin")
+        print("✅ ERROR HANDLING: Errors captured and reported in response")
+        print("✅ SYNCED DATA VERIFICATION: Plans appear in GET /api/subscription-plans")
+        print("🔧 VERIFIED: All Stripe sync functionality working as specified")
+        print("🔧 CONFIRMED: Comprehensive coverage of all test scenarios completed")
     else:
-        print("❌ SUBSCRIPTION PLAN MANAGEMENT API TESTING FOUND ISSUES")
+        print("❌ STRIPE SYNC ENDPOINT TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Subscription plan management may not be working correctly")
-        print("💡 Check super admin user andre@humanweb.no exists and has is_super_admin=true")
+        print("🚨 CRITICAL: Stripe sync functionality may not be working correctly")
+        print("💡 Check super admin user andre@humanweb.no (ID: 77e6ef02-0c9e-4ede-a428-213b83eed1fe) exists")
         print("💡 Verify STRIPE_API_KEY is configured in backend/.env")
-        print("💡 Check backend logs for Stripe integration errors")
+        print("💡 Check backend logs for Stripe API integration errors")
         print("💡 Verify MongoDB subscription_plans and subscription_plan_variations collections")
         print("💡 Check verify_super_admin function is working correctly")
+        print("💡 Ensure Stripe account has active products and prices for testing")
     
     print("=" * 70)
 
