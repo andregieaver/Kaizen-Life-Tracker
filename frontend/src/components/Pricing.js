@@ -204,8 +204,14 @@ const Pricing = () => {
       return;
     }
 
-    // Create plan_id based on selection
-    const plan_id = `${planId}_${billingCycle === 'monthly' ? 'monthly' : 'annual'}`;
+    // Get plan_id from plan variations
+    const plan = plans.find(p => p.id === planId);
+    const plan_id = billingCycle === 'monthly' ? plan?.monthlyPlanId : plan?.annualPlanId;
+    
+    if (!plan_id) {
+      console.error('No plan_id found for selected plan');
+      return;
+    }
     
     try {
       // Get origin URL
