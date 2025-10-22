@@ -11446,6 +11446,9 @@ async def update_subscription_plan(tier: str, updates: dict, athlete_id: str):
         
         # Update in database
         updates["updated_at"] = datetime.now(timezone.utc)
+        
+        logging.info(f"Updating plan {tier} with data: {updates}")
+        
         result = await db.subscription_plans.update_one(
             {"tier": tier},
             {"$set": updates}
@@ -11453,6 +11456,10 @@ async def update_subscription_plan(tier: str, updates: dict, athlete_id: str):
         
         if result.matched_count == 0:
             raise HTTPException(status_code=404, detail="Plan not found")
+        
+        # Verify the update
+        updated_plan = await db.subscription_plans.find_one({"tier": tier}, {"_id": 0})
+        logging.info(f"Plan after update: features={updated_plan.get('features')}")
         
         logging.info(f"Subscription plan updated: {tier} by {athlete_id}")
         return {"message": "Plan updated successfully"}
