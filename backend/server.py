@@ -3071,6 +3071,54 @@ async def change_password(request: ChangePasswordRequest):
         {"$set": {"password": hashed_password}}
     )
     
+    # Send password change notification email
+    email_service = get_email_service()
+    if email_service.enabled:
+        try:
+            user_name = athlete.get("name", "User")
+            user_email = athlete.get("email")
+            
+            html_content = f"""
+            <html>
+                <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 10px 10px 0 0;">
+                        <h1 style="color: white; margin: 0;">Password Changed</h1>
+                    </div>
+                    <div style="background: #f5f5f5; padding: 30px; border-radius: 0 0 10px 10px;">
+                        <p style="font-size: 16px; color: #333;">Hi {user_name},</p>
+                        <p style="font-size: 16px; color: #333;">
+                            This is to confirm that your password has been successfully changed.
+                        </p>
+                        <p style="font-size: 14px; color: #666;">
+                            If you did not make this change, please contact support immediately and reset your password.
+                        </p>
+                        <div style="text-align: center; margin: 30px 0;">
+                            <a href="{os.getenv('FRONTEND_URL', 'http://localhost:3000')}/forgot-password" 
+                               style="background: #00C2A8; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+                                Reset Password
+                            </a>
+                        </div>
+                        <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+                        <p style="font-size: 12px; color: #999; text-align: center;">
+                            TrainSmart - Your Personal Fitness Companion<br>
+                            This is an automated message, please do not reply.
+                        </p>
+                    </div>
+                </body>
+            </html>
+            """
+            
+            email_service.send_email(
+                to_email=user_email,
+                subject="Password Changed",
+                html_content=html_content
+            )
+            
+            logging.info(f"Password change notification sent to {user_email}")
+        except Exception as e:
+            logging.error(f"Failed to send password change notification: {e}")
+            # Don't fail the request if email sending fails
+    
     return {"message": "Password changed successfully"}
 
 @api_router.post("/auth/change-email")
