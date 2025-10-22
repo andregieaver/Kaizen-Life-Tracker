@@ -333,19 +333,13 @@ const Schedules = ({ athleteId }) => {
       {/* Existing Schedules */}
       <div className="space-y-4">
         {schedules.length === 0 && !showScheduleForm ? (
-          <Card className="border-0 shadow-lg">
-            <CardContent className="text-center py-12">
-              <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 mb-4">No automated schedules yet</p>
-              <Button 
-                onClick={handleAddScheduleClick}
-                className="bg-blue-600 hover:bg-blue-700"
-                data-testid="create-first-schedule-btn"
-              >
-                Create Your First Schedule
-              </Button>
-            </CardContent>
-          </Card>
+          <div className="flex flex-col items-center justify-center py-12">
+            <Calendar className="w-16 h-16 text-gray-400 mb-4" />
+            <h3 className="text-lg font-medium text-gray-200 mb-2">No automated schedules yet</h3>
+            <p className="text-gray-400 text-center">
+              Schedule automated prompts for your AI coach
+            </p>
+          </div>
         ) : (
           schedules.map((schedule, index) => (
             <Card key={index} className="border-0 shadow-lg">
