@@ -44,38 +44,38 @@ const ForgotPassword = () => {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
         <div className="w-full max-w-md space-y-6">
           {/* Header */}
           <div className="text-center">
-            <h1 className="text-4xl font-display font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl font-display font-bold text-white mb-2">
               My Health Tracker
             </h1>
-            <p className="text-gray-600">{t('auth.checkYourEmail')}</p>
+            <p className="text-gray-300">{t('auth.checkYourEmail')}</p>
           </div>
 
           {/* Success Card */}
-          <Card className="border-0 shadow-xl">
+          <Card className="bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-2xl">
             <CardHeader className="text-center">
-              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <CheckCircle className="w-8 h-8 text-green-600" />
+              <div className="mx-auto w-16 h-16 bg-teal-500/20 rounded-full flex items-center justify-center mb-4">
+                <CheckCircle className="w-8 h-8 text-teal-400" />
               </div>
-              <CardTitle className="text-2xl">{t('auth.emailSent')}</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-2xl text-white">{t('auth.emailSent')}</CardTitle>
+              <CardDescription className="text-gray-300">
                 {t('auth.passwordResetInstructions')}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Development only - show reset token */}
               {resetToken && (
-                <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <p className="text-sm font-medium text-yellow-800 mb-2">
+                <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+                  <p className="text-sm font-medium text-yellow-400 mb-2">
                     {t('auth.devModeToken')}:
                   </p>
-                  <code className="text-xs bg-white p-2 rounded border block break-all">
+                  <code className="text-xs bg-gray-950 text-gray-300 p-2 rounded border border-gray-700 block break-all">
                     {resetToken}
                   </code>
-                  <p className="text-xs text-yellow-700 mt-2">
+                  <p className="text-xs text-yellow-400/80 mt-2">
                     {t('auth.tokenExpires')}
                   </p>
                 </div>
@@ -84,14 +84,14 @@ const ForgotPassword = () => {
               <div className="text-center space-y-3">
                 <Link
                   to="/reset-password"
-                  className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium hover:underline"
+                  className="inline-flex items-center text-teal-400 hover:text-teal-300 font-medium hover:underline"
                 >
                   {t('auth.resetPasswordNow')}
                 </Link>
                 <div>
                   <Link
                     to="/login"
-                    className="inline-flex items-center text-gray-600 hover:text-gray-700 text-sm"
+                    className="inline-flex items-center text-gray-400 hover:text-gray-300 text-sm"
                   >
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     {t('auth.backToLogin')}
