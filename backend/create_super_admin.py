@@ -20,12 +20,15 @@ async def create_super_admin():
     existing_user = await db.athlete_profiles.find_one({"email": "andre@humanweb.no"})
     
     if existing_user:
-        # Update existing user to be super admin
+        # Update existing user to be super admin and set the correct ID
         await db.athlete_profiles.update_one(
             {"email": "andre@humanweb.no"},
-            {"$set": {"is_super_admin": True}}
+            {"$set": {
+                "is_super_admin": True,
+                "id": "77e6ef02-0c9e-4ede-a428-213b83eed1fe"
+            }}
         )
-        print("✅ Updated existing user andre@humanweb.no to super admin")
+        print("✅ Updated existing user andre@humanweb.no to super admin with correct ID")
     else:
         # Create new super admin user
         hashed_password = bcrypt.hashpw("admin123".encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
