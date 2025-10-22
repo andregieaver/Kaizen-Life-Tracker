@@ -30,6 +30,8 @@ const Pricing = () => {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/subscription-plans-public`);
         const data = await response.json();
         
+        console.log('Loaded plans from API:', data.plans);
+        
         // Transform API data to component format
         const transformedPlans = data.plans.map(plan => {
           // Get monthly and annual variations
@@ -41,6 +43,11 @@ const Pricing = () => {
           if (plan.tier === 'pro') icon = Zap;
           if (plan.tier === 'premium') icon = Crown;
           
+          // Ensure features is an array
+          const features = Array.isArray(plan.features) ? plan.features : [];
+          
+          console.log(`Plan ${plan.name} features:`, features);
+          
           return {
             id: plan.tier,
             name: plan.name,
@@ -50,7 +57,7 @@ const Pricing = () => {
             annualPrice: annualVar?.price || 0,
             monthlyPlanId: monthlyVar?.plan_id || null,
             annualPlanId: annualVar?.plan_id || null,
-            features: plan.features || [],
+            features: features,
             popular: plan.tier === 'pro',
             sort_order: plan.sort_order || 0
           };
@@ -59,6 +66,7 @@ const Pricing = () => {
         // Sort by sort_order
         transformedPlans.sort((a, b) => a.sort_order - b.sort_order);
         
+        console.log('Transformed plans:', transformedPlans);
         setPlans(transformedPlans);
       } catch (error) {
         console.error('Error loading plans:', error);
