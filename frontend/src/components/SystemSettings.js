@@ -1454,8 +1454,15 @@ const SystemSettings = ({ athleteId }) => {
                 {loadingPlans ? (
                   <div className="text-center py-8 text-gray-400">Loading plans...</div>
                 ) : subscriptionPlans.length === 0 ? (
-                  <div className="text-center py-8 text-gray-400">
-                    No subscription plans yet. Create your first plan above.
+                  <div className="text-center py-12">
+                    <div className="text-gray-400 mb-4">
+                      No subscription plans yet.
+                    </div>
+                    <div className="text-gray-500 text-sm space-y-2">
+                      <p>👆 Click <strong className="text-purple-400">"Quick Setup"</strong> to create Free, Pro, Premium tiers</p>
+                      <p>or</p>
+                      <p>Click <strong className="text-teal-400">"Create Custom Plan"</strong> to build from scratch</p>
+                    </div>
                   </div>
                 ) : (
                   <div className="space-y-6">
