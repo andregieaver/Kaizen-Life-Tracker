@@ -548,23 +548,23 @@ const LandingPage = () => {
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">Automated</div>
-              <div className="text-blue-100">Intelligent Tracking</div>
+              <div className="text-teal-100">Intelligent Tracking</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">Easy</div>
-              <div className="text-blue-100">Simple to Use</div>
+              <div className="text-teal-100">Simple to Use</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-900 to-gray-800">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
             Ready to Transform Your Health?
           </h2>
-          <p className="text-xl text-gray-600 mb-8">
+          <p className="text-xl text-gray-300 mb-8">
             Join thousands of athletes who are achieving their health and fitness goals 
             with TrainSmart's intelligent, data-driven platform.
           </p>
@@ -572,7 +572,7 @@ const LandingPage = () => {
             <Link to="/onboarding">
               <Button 
                 size="lg" 
-                className="bg-blue-600 hover:bg-blue-700 text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
+                className="bg-teal-600 hover:bg-teal-700 text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
               >
                 Start Your Free Journey
                 <ChevronRight className="w-5 h-5 ml-2" />
@@ -582,13 +582,13 @@ const LandingPage = () => {
               <Button 
                 size="lg" 
                 variant="outline"
-                className="text-lg px-8 py-6 h-auto"
+                className="text-lg px-8 py-6 h-auto border-gray-600 text-gray-300 hover:bg-gray-700"
               >
                 View Pricing
               </Button>
             </Link>
           </div>
-          <p className="mt-6 text-sm text-gray-500">
+          <p className="mt-6 text-sm text-gray-400">
             No credit card required • Free to start • Cancel anytime
           </p>
         </div>
@@ -596,7 +596,7 @@ const LandingPage = () => {
 
       {/* Mobile Bottom Navigation */}
       <nav 
-        className={`md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 transition-transform duration-300 ease-in-out ${
+        className={`md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 border-t border-teal-500/30 shadow-lg z-50 transition-transform duration-300 ease-in-out ${
           scrollDirection === 'up' ? 'translate-y-full' : 'translate-y-0'
         }`}
       >
