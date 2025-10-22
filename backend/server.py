@@ -824,6 +824,11 @@ class ChangePasswordRequest(BaseModel):
     current_password: str
     new_password: str
 
+class ChangeEmailRequest(BaseModel):
+    athlete_id: str
+    new_email: str
+    password: str
+
 class Workout(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
