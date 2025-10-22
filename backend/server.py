@@ -3710,6 +3710,9 @@ async def get_checkout_status(session_id: str):
                         period_days = 30 if transaction["interval"] == "month" else 365
                         period_end = datetime.now(timezone.utc) + timedelta(days=period_days)
                         
+                        # Get athlete details for email
+                        athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+                        
                         await db.athlete_profiles.update_one(
                             {"id": athlete_id},
                             {"$set": {
@@ -3722,6 +3725,76 @@ async def get_checkout_status(session_id: str):
                             }}
                         )
                         logging.info(f"Updated subscription for athlete {athlete_id} to {transaction['tier']}")
+                        
+                        # Send subscription confirmation email
+                        email_service = get_email_service()
+                        if email_service.enabled and athlete:
+                            try:
+                                tier_name = transaction["tier"].capitalize()
+                                interval_text = "monthly" if transaction["interval"] == "month" else "annual"
+                                amount = checkout_session.amount_total / 100  # Convert from cents
+                                currency = checkout_session.currency.upper()
+                                
+                                html_content = f"""
+                                <html>
+                                    <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; border-radius: 10px 10px 0 0;">
+                                            <h1 style="color: white; margin: 0;">Subscription Confirmed! 🎉</h1>
+                                        </div>
+                                        <div style="background: #f5f5f5; padding: 30px; border-radius: 0 0 10px 10px;">
+                                            <p style="font-size: 16px; color: #333;">Hi {athlete.get('name', 'there')},</p>
+                                            <p style="font-size: 16px; color: #333;">
+                                                Thank you for subscribing to TrainSmart {tier_name}! Your subscription is now active.
+                                            </p>
+                                            <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                                                <h2 style="color: #667eea; margin-top: 0;">Subscription Details</h2>
+                                                <table style="width: 100%; font-size: 14px; color: #666;">
+                                                    <tr>
+                                                        <td style="padding: 8px 0;"><strong>Plan:</strong></td>
+                                                        <td style="padding: 8px 0;">{tier_name}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="padding: 8px 0;"><strong>Billing:</strong></td>
+                                                        <td style="padding: 8px 0;">{interval_text.capitalize()}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="padding: 8px 0;"><strong>Amount:</strong></td>
+                                                        <td style="padding: 8px 0;">{amount:.2f} {currency}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="padding: 8px 0;"><strong>Next billing date:</strong></td>
+                                                        <td style="padding: 8px 0;">{period_end.strftime('%B %d, %Y')}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <p style="font-size: 14px; color: #666;">
+                                                You now have access to all {tier_name} features. Visit your dashboard to start exploring!
+                                            </p>
+                                            <div style="text-align: center; margin: 30px 0;">
+                                                <a href="{os.getenv('FRONTEND_URL', 'http://localhost:3000')}/dashboard" 
+                                                   style="background: #00C2A8; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+                                                    Go to Dashboard
+                                                </a>
+                                            </div>
+                                            <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+                                            <p style="font-size: 12px; color: #999; text-align: center;">
+                                                TrainSmart - Your Personal Fitness Companion<br>
+                                                This is an automated message, please do not reply.
+                                            </p>
+                                        </div>
+                                    </body>
+                                </html>
+                                """
+                                
+                                email_service.send_email(
+                                    to_email=athlete.get('email'),
+                                    subject=f"Welcome to TrainSmart {tier_name}!",
+                                    html_content=html_content
+                                )
+                                
+                                logging.info(f"Subscription confirmation email sent to {athlete.get('email')}")
+                            except Exception as e:
+                                logging.error(f"Failed to send subscription confirmation email: {e}")
                 
                 await db.payment_transactions.update_one(
                     {"session_id": session_id},
