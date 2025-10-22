@@ -582,6 +582,36 @@ const SystemSettings = ({ athleteId }) => {
     }
   };
 
+  const syncWithStripe = async () => {
+    if (!window.confirm('This will fetch all products and prices from Stripe and sync them to your database. Existing plans will be updated. Continue?')) {
+      return;
+    }
+    
+    setLoadingPlans(true);
+    try {
+      const response = await axios.post(
+        `${API}/subscription-plans/sync-stripe?athlete_id=${athleteId}`
+      );
+      
+      const stats = response.data.stats;
+      let message = 'Stripe sync completed!\n\n';
+      message += `Products: ${stats.products_synced} synced (${stats.products_created} created, ${stats.products_updated} updated)\n`;
+      message += `Prices: ${stats.prices_synced} synced (${stats.prices_created} created, ${stats.prices_updated} updated)`;
+      
+      if (stats.errors && stats.errors.length > 0) {
+        message += `\n\nErrors:\n${stats.errors.join('\n')}`;
+      }
+      
+      alert(message);
+      loadSubscriptionPlans();
+    } catch (error) {
+      console.error('Error syncing with Stripe:', error);
+      alert(error.response?.data?.detail || 'Failed to sync with Stripe');
+    } finally {
+      setLoadingPlans(false);
+    }
+  };
+
   const handleTabChange = (value) => {
     console.log('📝 Saving tab to localStorage:', value);
     setActiveTab(value);
