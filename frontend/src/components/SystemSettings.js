@@ -439,6 +439,146 @@ const SystemSettings = ({ athleteId }) => {
     }
   }, [activeTab, showDisabledCoupons]);
 
+  // Load subscription plans when plans tab is active
+  useEffect(() => {
+    if (activeTab === 'plans') {
+      loadSubscriptionPlans();
+    }
+  }, [activeTab]);
+
+  // Subscription Plan Management Functions
+  const loadSubscriptionPlans = async () => {
+    setLoadingPlans(true);
+    try {
+      const response = await axios.get(`${API}/subscription-plans`, {
+        params: { athlete_id: athleteId }
+      });
+      setSubscriptionPlans(response.data.plans || []);
+    } catch (error) {
+      console.error('Error loading subscription plans:', error);
+      alert('Failed to load subscription plans');
+    } finally {
+      setLoadingPlans(false);
+    }
+  };
+
+  const createPlan = async () => {
+    try {
+      if (!newPlan.tier || !newPlan.name) {
+        alert('Please fill in tier and name');
+        return;
+      }
+
+      await axios.post(`${API}/subscription-plans?athlete_id=${athleteId}`, newPlan);
+      
+      alert('Plan created successfully!');
+      setShowCreatePlanModal(false);
+      setNewPlan({
+        tier: '',
+        name: '',
+        description: '',
+        features: [],
+        sort_order: 0
+      });
+      loadSubscriptionPlans();
+    } catch (error) {
+      console.error('Error creating plan:', error);
+      alert(error.response?.data?.detail || 'Failed to create plan');
+    }
+  };
+
+  const updatePlan = async (tier, updates) => {
+    try {
+      await axios.put(`${API}/subscription-plans/${tier}?athlete_id=${athleteId}`, updates);
+      alert('Plan updated successfully');
+      loadSubscriptionPlans();
+    } catch (error) {
+      console.error('Error updating plan:', error);
+      alert('Failed to update plan');
+    }
+  };
+
+  const deletePlan = async (tier) => {
+    if (!window.confirm(`Are you sure you want to delete the ${tier} plan? This will also delete all its variations.`)) {
+      return;
+    }
+    
+    try {
+      await axios.delete(`${API}/subscription-plans/${tier}?athlete_id=${athleteId}`);
+      alert('Plan deleted successfully');
+      loadSubscriptionPlans();
+    } catch (error) {
+      console.error('Error deleting plan:', error);
+      alert('Failed to delete plan');
+    }
+  };
+
+  const createVariation = async () => {
+    try {
+      if (!newVariation.plan_id || !newVariation.name || !newVariation.price) {
+        alert('Please fill in all required fields');
+        return;
+      }
+
+      const price = parseFloat(newVariation.price);
+      if (isNaN(price) || price <= 0) {
+        alert('Please enter a valid price');
+        return;
+      }
+
+      await axios.post(
+        `${API}/subscription-plans/${selectedPlan.tier}/variations?athlete_id=${athleteId}`,
+        {
+          ...newVariation,
+          price: price
+        }
+      );
+      
+      alert('Variation created successfully!');
+      setShowCreateVariationModal(false);
+      setNewVariation({
+        plan_id: '',
+        name: '',
+        price: '',
+        interval: 'month',
+        interval_count: 1
+      });
+      loadSubscriptionPlans();
+    } catch (error) {
+      console.error('Error creating variation:', error);
+      alert(error.response?.data?.detail || 'Failed to create variation');
+    }
+  };
+
+  const updateVariation = async (planId, updates) => {
+    try {
+      await axios.put(
+        `${API}/subscription-plans/variations/${planId}?athlete_id=${athleteId}`,
+        updates
+      );
+      alert('Variation updated successfully');
+      loadSubscriptionPlans();
+    } catch (error) {
+      console.error('Error updating variation:', error);
+      alert('Failed to update variation');
+    }
+  };
+
+  const deleteVariation = async (planId) => {
+    if (!window.confirm(`Are you sure you want to delete this pricing variation?`)) {
+      return;
+    }
+    
+    try {
+      await axios.delete(`${API}/subscription-plans/variations/${planId}?athlete_id=${athleteId}`);
+      alert('Variation deleted successfully');
+      loadSubscriptionPlans();
+    } catch (error) {
+      console.error('Error deleting variation:', error);
+      alert('Failed to delete variation');
+    }
+  };
+
   const handleTabChange = (value) => {
     console.log('📝 Saving tab to localStorage:', value);
     setActiveTab(value);
