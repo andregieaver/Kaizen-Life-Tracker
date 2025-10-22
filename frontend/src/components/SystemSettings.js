@@ -352,6 +352,9 @@ const SystemSettings = ({ athleteId }) => {
       if (newCoupon.min_purchase_amount) {
         couponData.min_purchase_amount = parseFloat(newCoupon.min_purchase_amount);
       }
+      if (newCoupon.specific_plans && newCoupon.specific_plans.length > 0) {
+        couponData.specific_plans = newCoupon.specific_plans;
+      }
 
       await axios.post(`${API}/coupons?athlete_id=${athleteId}`, couponData);
       
