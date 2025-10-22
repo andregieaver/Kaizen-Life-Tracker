@@ -380,12 +380,12 @@ const LandingPage = () => {
               <div className="text-gray-300">AI Coach Available</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-purple-600 mb-2">All-in-One</div>
-              <div className="text-gray-600">Complete Health Platform</div>
+              <div className="text-4xl font-bold text-cyan-400 mb-2">All-in-One</div>
+              <div className="text-gray-300">Complete Health Platform</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-indigo-600 mb-2">Data-Driven</div>
-              <div className="text-gray-600">Personalized Insights</div>
+              <div className="text-4xl font-bold text-teal-400 mb-2">Data-Driven</div>
+              <div className="text-gray-300">Personalized Insights</div>
             </div>
           </div>
         </div>
@@ -395,13 +395,13 @@ const LandingPage = () => {
       <WaitingListSection />
 
       {/* Features Grid */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-800">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
               Everything You Need for Optimal Health
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               A comprehensive platform that combines AI coaching, fitness tracking, and health analytics 
               to help you achieve your wellness goals.
             </p>
@@ -409,13 +409,13 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="border-2 hover:border-blue-200 hover:shadow-lg transition-all">
+              <Card key={index} className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 hover:border-teal-500 hover:shadow-lg transition-all">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                    <feature.icon className="w-6 h-6 text-blue-600" />
+                  <div className="w-12 h-12 bg-teal-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <feature.icon className="w-6 h-6 text-teal-400" />
                   </div>
-                  <CardTitle className="text-xl">{feature.title}</CardTitle>
-                  <CardDescription className="text-base">{feature.description}</CardDescription>
+                  <CardTitle className="text-xl text-white">{feature.title}</CardTitle>
+                  <CardDescription className="text-base text-gray-300">{feature.description}</CardDescription>
                 </CardHeader>
               </Card>
             ))}
