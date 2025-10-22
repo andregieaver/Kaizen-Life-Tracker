@@ -10652,6 +10652,20 @@ async def save_system_settings(athlete_id: str, settings: dict):
             upsert=True
         )
         
+        # Initialize SendGrid email service if credentials provided
+        if settings.get("advanced", {}).get("sendgrid"):
+            sendgrid_config = settings["advanced"]["sendgrid"]
+            if sendgrid_config.get("apiKey") and sendgrid_config.get("senderEmail"):
+                try:
+                    initialize_email_service(
+                        api_key=sendgrid_config["apiKey"],
+                        sender_email=sendgrid_config["senderEmail"],
+                        sender_name=sendgrid_config.get("senderName", "TrainSmart")
+                    )
+                    logging.info("SendGrid email service initialized successfully")
+                except Exception as email_error:
+                    logging.error(f"Failed to initialize email service: {email_error}")
+        
         logging.info(f"System settings saved by {athlete_id}")
         return {"message": "Settings saved successfully", "modified": result.modified_count > 0}
     except Exception as e:
