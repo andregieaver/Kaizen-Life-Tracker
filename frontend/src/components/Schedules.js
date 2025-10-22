@@ -192,8 +192,8 @@ const Schedules = ({ athleteId }) => {
       {saveStatus.message && (
         <div className={`p-4 rounded-lg ${
           saveStatus.type === 'success' 
-            ? 'bg-green-50 text-green-800 border border-green-200' 
-            : 'bg-red-50 text-red-800 border border-red-200'
+            ? 'bg-green-900/30 text-green-200 border border-green-700' 
+            : 'bg-red-900/30 text-red-200 border border-red-700'
         }`}>
           {saveStatus.message}
         </div>
