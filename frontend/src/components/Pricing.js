@@ -29,6 +29,18 @@ const Pricing = () => {
     }
   }, []);
 
+  // Re-validate coupon when billing cycle changes
+  useEffect(() => {
+    if (appliedCoupon && couponCode) {
+      // Recalculate for the new billing cycle
+      const proPlan = plans.find(p => p.id === 'pro');
+      if (proPlan) {
+        const price = billingCycle === 'annual' ? proPlan.annualPrice : proPlan.monthlyPrice;
+        applyCoupon(price);
+      }
+    }
+  }, [billingCycle]);
+
   // Validate and apply coupon
   const applyCoupon = async (planPrice) => {
     if (!couponCode.trim()) {
