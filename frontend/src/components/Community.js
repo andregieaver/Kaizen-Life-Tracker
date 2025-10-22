@@ -2030,7 +2030,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
       {activeTab === 'feed' && !selectedGroup && (
         <>
           {/* Posts and Events Feed */}
-          <div className="space-y-0 sm:space-y-6 pt-[6.5rem] sm:pt-0">
+          <div className="space-y-0 sm:space-y-6 pt-[6.5rem] md:pt-0">
             {isLoading ? (
               <div className="flex justify-center py-12">
                 <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
