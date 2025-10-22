@@ -604,6 +604,27 @@ const SystemSettings = ({ athleteId }) => {
     }
   };
 
+  const quickSetupPlans = async () => {
+    if (!window.confirm('This will create the standard 3-tier structure:\n\n✅ Free (no pricing)\n✅ Pro (Monthly $29.99 + Annual $299.99)\n✅ Premium (Monthly $99.99 + Annual $999.99)\n\nEach plan includes a features list you can edit.\n\nContinue?')) {
+      return;
+    }
+    
+    setLoadingPlans(true);
+    try {
+      const response = await axios.post(
+        `${API}/subscription-plans/quick-setup?athlete_id=${athleteId}`
+      );
+      
+      alert(`Quick setup completed!\n\nCreated plans: ${response.data.created_plans.join(', ')}\nCreated variations: ${response.data.created_variations.join(', ')}\n\nYou can now edit features, prices, and add more variations.`);
+      loadSubscriptionPlans();
+    } catch (error) {
+      console.error('Error in quick setup:', error);
+      alert(error.response?.data?.detail || 'Failed to complete quick setup');
+    } finally {
+      setLoadingPlans(false);
+    }
+  };
+
   const syncWithStripe = async () => {
     if (!window.confirm('This will fetch all products and prices from Stripe and sync them to your database. Existing plans will be updated. Continue?')) {
       return;
