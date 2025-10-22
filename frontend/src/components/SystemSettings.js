@@ -369,6 +369,7 @@ const SystemSettings = ({ athleteId }) => {
         max_uses: '',
         expires_at: '',
         applies_to: 'all',
+        specific_plans: [],
         min_purchase_amount: ''
       });
       
