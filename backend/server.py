@@ -3331,30 +3331,30 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
                             
                             if plan_valid:
                                 # Create Stripe coupon
-                            stripe_coupon_params = {
-                                "name": coupon_doc.get("name", coupon_doc["code"])
-                            }
-                            
-                            if coupon_doc["type"] == "percentage":
-                                stripe_coupon_params["percent_off"] = coupon_doc["value"]
-                            else:
-                                # Fixed amount in cents
-                                stripe_coupon_params["amount_off"] = int(coupon_doc["value"] * 100)
-                                stripe_coupon_params["currency"] = coupon_doc.get("currency", "usd")
-                            
-                            # Apply coupon only once for subscription
-                            stripe_coupon_params["duration"] = "once"
-                            
-                            stripe_coupon = stripe.Coupon.create(**stripe_coupon_params)
-                            discounts_list.append({"coupon": stripe_coupon.id})
-                            
-                            logging.info(f"Applied coupon {request.coupon_code} for user {request.athlete_id}")
-                            
-                            # Increment usage counter
-                            await db.coupons.update_one(
-                                {"code": request.coupon_code.upper()},
-                                {"$inc": {"current_uses": 1}}
-                            )
+                                stripe_coupon_params = {
+                                    "name": coupon_doc.get("name", coupon_doc["code"])
+                                }
+                                
+                                if coupon_doc["type"] == "percentage":
+                                    stripe_coupon_params["percent_off"] = coupon_doc["value"]
+                                else:
+                                    # Fixed amount in cents
+                                    stripe_coupon_params["amount_off"] = int(coupon_doc["value"] * 100)
+                                    stripe_coupon_params["currency"] = coupon_doc.get("currency", "usd")
+                                
+                                # Apply coupon only once for subscription
+                                stripe_coupon_params["duration"] = "once"
+                                
+                                stripe_coupon = stripe.Coupon.create(**stripe_coupon_params)
+                                discounts_list.append({"coupon": stripe_coupon.id})
+                                
+                                logging.info(f"Applied coupon {request.coupon_code} for user {request.athlete_id}")
+                                
+                                # Increment usage counter
+                                await db.coupons.update_one(
+                                    {"code": request.coupon_code.upper()},
+                                    {"$inc": {"current_uses": 1}}
+                                )
                         else:
                             logging.warning(f"Coupon {request.coupon_code} does not apply to subscriptions")
                     else:
