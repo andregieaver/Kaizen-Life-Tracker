@@ -25,7 +25,10 @@ import {
   Activity,
   UserPlus,
   Gift,
-  Target
+  Target,
+  Plus,
+  Pencil,
+  Trash2
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
