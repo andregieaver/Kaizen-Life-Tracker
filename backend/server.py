@@ -4439,7 +4439,7 @@ async def reanalyze_nutrition_entry(entry_id: str):
         )
         
         if not openai_integration or not openai_integration.get('credentials', {}).get('api_key'):
-            raise HTTPException(status_code=400, detail="OpenAI API key not configured. Please add your OpenAI API key in Account Settings → Apps tab.")
+            raise HTTPException(status_code=400, detail="OpenAI API key not configured. Please add your OpenAI API key in System Settings → Advanced tab (Super Admin only).")
         
         openai_key = openai_integration['credentials']['api_key']
         logging.info(f"[NUTRITION REANALYZE] Re-analyzing entry {entry_id}")
