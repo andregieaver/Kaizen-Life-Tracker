@@ -640,6 +640,20 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => {
+                    navigate('/dashboard/schedules');
+                    setIsMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                    activeTab === 'schedules'
+                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
+                      : 'text-white hover:bg-gray-700'
+                  }`}
+                >
+                  <Repeat className="w-5 h-5" />
+                  <span className="font-medium">Schedules</span>
+                </button>
+                <button
+                  onClick={() => {
                     navigate('/dashboard/calculators');
                     setIsMenuOpen(false);
                   }}
