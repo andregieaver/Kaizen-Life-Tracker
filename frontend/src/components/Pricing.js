@@ -459,19 +459,26 @@ const Pricing = () => {
                   
                   <div className="mt-6">
                     <div className="flex items-baseline justify-center flex-wrap gap-2">
-                      {discount > 0 && price.originalAmount > 0 && (
+                      {(discount > 0 || price.hasCouponDiscount) && price.originalAmount > 0 && (
                         <span className="text-2xl font-bold text-gray-500 line-through">
                           €{price.originalAmount.toFixed(2)}
                         </span>
                       )}
-                      <span className={`text-5xl font-bold ${discount > 0 && price.originalAmount > 0 ? 'text-green-400' : 'text-white'}`}>
+                      <span className={`text-5xl font-bold ${(discount > 0 || price.hasCouponDiscount) && price.originalAmount > 0 ? 'text-green-400' : 'text-white'}`}>
                         €{price.amount.toFixed(2)}
                       </span>
                       <span className="text-gray-300 ml-2">{price.period}</span>
                     </div>
-                    {discount > 0 && price.originalAmount > 0 && (
+                    {discount > 0 && price.originalAmount > 0 && !price.hasCouponDiscount && (
                       <p className="text-sm text-green-400 mt-2 font-bold">
                         🎉 {discount}% referral discount applied!
+                      </p>
+                    )}
+                    {price.hasCouponDiscount && price.originalAmount > 0 && (
+                      <p className="text-sm text-green-400 mt-2 font-bold">
+                        🎟️ Coupon discount applied: {appliedCoupon.coupon.type === 'percentage' 
+                          ? `${appliedCoupon.coupon.value}%` 
+                          : `€${appliedCoupon.coupon.value}`} off!
                       </p>
                     )}
                     {billingCycle === 'annual' && plan.monthlyPrice > 0 && (
