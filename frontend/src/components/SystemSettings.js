@@ -1280,8 +1280,14 @@ const SystemSettings = ({ athleteId }) => {
                 </Button>
               </CardHeader>
               <CardContent>
-                {/* Three Column Grid for Plans */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                {loadingPlans ? (
+                  <div className="text-center py-8 text-gray-400">Loading plans...</div>
+                ) : subscriptionPlans.length === 0 ? (
+                  <div className="text-center py-8 text-gray-400">
+                    No subscription plans yet. Create your first plan above.
+                  </div>
+                ) : (
+                  <div className="space-y-6">
                 {/* Free Plan */}
                 <div className="border border-gray-700 rounded-lg p-6">
                   <h3 className="text-xl font-semibold text-white mb-4">Free Plan</h3>
