@@ -5153,7 +5153,7 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         
         if not openai_integration:
             logging.error(f"[RECIPE] OpenAI integration not found for athlete: {athlete_id}")
-            raise HTTPException(status_code=400, detail="OpenAI API key not found. Please add your OpenAI API key in Account Settings → Apps tab, then try again.")
+            raise HTTPException(status_code=400, detail="OpenAI API key not found. Please add your OpenAI API key in System Settings → Advanced tab (Super Admin only), then try again.")
         
         if not openai_integration.get('credentials', {}).get('api_key'):
             logging.error(f"[RECIPE] OpenAI key missing in credentials")
