@@ -161,7 +161,7 @@ const ResetPassword = () => {
               {t('auth.resetPassword')}
             </CardTitle>
             <CardDescription className="text-gray-300">
-              {t('auth.enterNewPassword')}
+              Create a new password for your account
             </CardDescription>
           </CardHeader>
           <CardContent>
