@@ -327,7 +327,7 @@ const LandingPage = () => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Heart className="w-8 h-8 text-white" />
-              <span className="ml-2 text-xl font-bold text-white">TrainSmart</span>
+              <span className="ml-2 text-xl font-bold text-white">{siteTitle}</span>
             </div>
             <div className="flex items-center gap-4">
               <Link to="/pricing">
