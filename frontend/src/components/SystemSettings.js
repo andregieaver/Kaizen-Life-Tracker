@@ -462,6 +462,13 @@ const SystemSettings = ({ athleteId }) => {
     }
   }, [activeTab]);
 
+  // Load waiting list when waitinglist tab is active
+  useEffect(() => {
+    if (activeTab === 'waitinglist') {
+      loadWaitingList();
+    }
+  }, [activeTab, waitingListFilter]);
+
   // Subscription Plan Management Functions
   const loadSubscriptionPlans = async () => {
     setLoadingPlans(true);
