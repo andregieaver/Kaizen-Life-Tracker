@@ -1067,6 +1067,35 @@ class CouponUsage(BaseModel):
     final_amount: float
     used_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+# Subscription Plan Models
+class SubscriptionPlanVariation(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    plan_id: str  # e.g., 'pro_monthly', 'premium_annual'
+    name: str  # e.g., 'Pro Monthly'
+    price: float
+    interval: str  # 'month' or 'year'
+    interval_count: int = 1
+    stripe_price_id: Optional[str] = None
+    enabled: bool = True
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class SubscriptionPlan(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    tier: str  # 'free', 'pro', 'premium', etc.
+    name: str  # Display name
+    description: Optional[str] = None
+    features: list = []
+    stripe_product_id: Optional[str] = None
+    enabled: bool = True
+    sort_order: int = 0
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 # Community Models
 class CommunityPost(BaseModel):
     model_config = ConfigDict(extra="ignore")
