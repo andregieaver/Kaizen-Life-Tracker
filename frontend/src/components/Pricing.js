@@ -19,6 +19,10 @@ const Pricing = () => {
   const [couponError, setCouponError] = useState('');
   const [validatingCoupon, setValidatingCoupon] = useState(false);
 
+  // Dynamic plans from API
+  const [plans, setPlans] = useState([]);
+  const [loadingPlans, setLoadingPlans] = useState(true);
+
   // Check for referral code on component mount
   useEffect(() => {
     const storedRefCode = localStorage.getItem('referralCode');
