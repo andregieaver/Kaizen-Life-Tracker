@@ -310,7 +310,7 @@ const SystemSettings = ({ athleteId }) => {
         setPlanSettings(response.data.plans);
       }
       
-      // Load advanced settings (OpenAI key and Stripe)
+      // Load advanced settings (OpenAI key, Stripe, and SendGrid)
       if (response.data.advanced) {
         setAdvancedSettings(prev => ({
           ...prev,
@@ -329,7 +329,13 @@ const SystemSettings = ({ athleteId }) => {
           showStripeLiveKey: false,
           showStripeLiveWebhook: false,
           showStripeSandboxKey: false,
-          showStripeSandboxWebhook: false
+          showStripeSandboxWebhook: false,
+          sendgrid: {
+            apiKey: response.data.advanced.sendgrid?.apiKey || '',
+            senderEmail: response.data.advanced.sendgrid?.senderEmail || '',
+            senderName: response.data.advanced.sendgrid?.senderName || ''
+          },
+          showSendgridKey: false
         }));
       }
       
