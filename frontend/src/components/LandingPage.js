@@ -162,7 +162,7 @@ const WaitingListSection = () => {
                 )}
               </Button>
 
-              <p className="text-xs text-gray-500 text-center mt-4">
+              <p className="text-xs text-gray-400 text-center mt-4">
                 We respect your privacy. Your information will never be shared.
               </p>
             </form>
