@@ -1727,6 +1727,7 @@ const Account = ({ athleteId }) => {
                     <Shield className="w-5 h-5 mr-2 text-[#00C2A8]" />
                     {t('account.security')}
                   </h3>
+                  <ChangeEmail athleteId={athleteId} currentEmail={personalForm.email} />
                   <ChangePassword athleteId={athleteId} />
                 </div>
 
