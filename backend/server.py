@@ -1051,6 +1051,7 @@ class Coupon(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     created_by: str  # Admin athlete_id
     applies_to: str = "all"  # 'subscriptions', 'one_time', or 'all'
+    specific_plans: Optional[list] = None  # List of plan IDs (e.g., ['pro_monthly', 'premium_annual']) - None means all plans
     min_purchase_amount: Optional[float] = None  # Minimum purchase amount to apply coupon
 
 class CouponUsage(BaseModel):
