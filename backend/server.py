@@ -11450,6 +11450,145 @@ async def delete_plan_variation(plan_id: str, athlete_id: str):
         logging.error(f"Error deleting plan variation: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/subscription-plans/sync-stripe")
+async def sync_stripe_plans(athlete_id: str):
+    """Fetch and sync all Stripe products and prices with database (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Initialize Stripe
+        stripe_api_key = os.environ.get("STRIPE_API_KEY")
+        if not stripe_api_key:
+            raise HTTPException(status_code=500, detail="Stripe API key not configured")
+        
+        stripe.api_key = stripe_api_key
+        
+        sync_stats = {
+            "products_synced": 0,
+            "products_created": 0,
+            "products_updated": 0,
+            "prices_synced": 0,
+            "prices_created": 0,
+            "prices_updated": 0,
+            "errors": []
+        }
+        
+        # Fetch all active Stripe products
+        stripe_products = stripe.Product.list(active=True, limit=100)
+        
+        for stripe_product in stripe_products.data:
+            try:
+                # Check if product exists in our database
+                existing_plan = await db.subscription_plans.find_one(
+                    {"stripe_product_id": stripe_product.id},
+                    {"_id": 0}
+                )
+                
+                # Extract tier from metadata or generate one
+                tier = stripe_product.metadata.get("tier", stripe_product.id.replace("prod_", "").lower())
+                
+                if existing_plan:
+                    # Update existing plan
+                    await db.subscription_plans.update_one(
+                        {"stripe_product_id": stripe_product.id},
+                        {"$set": {
+                            "name": stripe_product.name,
+                            "description": stripe_product.description or "",
+                            "updated_at": datetime.now(timezone.utc)
+                        }}
+                    )
+                    sync_stats["products_updated"] += 1
+                else:
+                    # Create new plan
+                    new_plan = SubscriptionPlan(
+                        tier=tier,
+                        name=stripe_product.name,
+                        description=stripe_product.description or "",
+                        features=[],
+                        stripe_product_id=stripe_product.id,
+                        sort_order=sync_stats["products_created"]
+                    )
+                    await db.subscription_plans.insert_one(new_plan.model_dump())
+                    sync_stats["products_created"] += 1
+                
+                sync_stats["products_synced"] += 1
+                
+            except Exception as e:
+                sync_stats["errors"].append(f"Product {stripe_product.id}: {str(e)}")
+                logging.error(f"Error syncing product {stripe_product.id}: {e}")
+        
+        # Fetch all active Stripe prices
+        stripe_prices = stripe.Price.list(active=True, limit=100)
+        
+        for stripe_price in stripe_prices.data:
+            try:
+                # Get the product this price belongs to
+                product_id = stripe_price.product
+                
+                # Check if the product exists in our database
+                plan = await db.subscription_plans.find_one(
+                    {"stripe_product_id": product_id},
+                    {"_id": 0}
+                )
+                
+                if not plan:
+                    # Skip prices for products we don't have
+                    continue
+                
+                # Check if price exists in our database
+                existing_variation = await db.subscription_plan_variations.find_one(
+                    {"stripe_price_id": stripe_price.id},
+                    {"_id": 0}
+                )
+                
+                # Generate plan_id (e.g., "pro_monthly", "pro_annual")
+                interval = stripe_price.recurring.get("interval") if stripe_price.recurring else "one_time"
+                interval_count = stripe_price.recurring.get("interval_count", 1) if stripe_price.recurring else 1
+                plan_id_suffix = f"{interval}" if interval_count == 1 else f"{interval_count}_{interval}"
+                plan_id = f"{plan['tier']}_{plan_id_suffix}"
+                
+                # Convert price from cents to dollars
+                price_amount = stripe_price.unit_amount / 100.0 if stripe_price.unit_amount else 0
+                
+                if existing_variation:
+                    # Update existing variation
+                    await db.subscription_plan_variations.update_one(
+                        {"stripe_price_id": stripe_price.id},
+                        {"$set": {
+                            "price": price_amount,
+                            "updated_at": datetime.now(timezone.utc)
+                        }}
+                    )
+                    sync_stats["prices_updated"] += 1
+                else:
+                    # Create new variation
+                    new_variation = SubscriptionPlanVariation(
+                        plan_id=plan_id,
+                        name=f"{plan['name']} {interval.capitalize()}",
+                        price=price_amount,
+                        interval=interval,
+                        interval_count=interval_count,
+                        stripe_price_id=stripe_price.id
+                    )
+                    await db.subscription_plan_variations.insert_one(new_variation.model_dump())
+                    sync_stats["prices_created"] += 1
+                
+                sync_stats["prices_synced"] += 1
+                
+            except Exception as e:
+                sync_stats["errors"].append(f"Price {stripe_price.id}: {str(e)}")
+                logging.error(f"Error syncing price {stripe_price.id}: {e}")
+        
+        logging.info(f"Stripe sync completed by {athlete_id}: {sync_stats}")
+        return {
+            "message": "Stripe sync completed",
+            "stats": sync_stats
+        }
+        
+    except Exception as e:
+        logging.error(f"Error syncing with Stripe: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 app.include_router(api_router)
 
 @app.on_event("shutdown")
