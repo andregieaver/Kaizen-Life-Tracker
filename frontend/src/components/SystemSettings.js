@@ -1354,6 +1354,8 @@ const SystemSettings = ({ athleteId }) => {
                     <input
                       type="text"
                       placeholder="SUMMER2025"
+                      value={newCoupon.code}
+                      onChange={(e) => setNewCoupon({...newCoupon, code: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
                       style={{ textTransform: 'uppercase' }}
                     />
@@ -1366,6 +1368,8 @@ const SystemSettings = ({ athleteId }) => {
                     <input
                       type="text"
                       placeholder="Summer Sale 2025"
+                      value={newCoupon.name}
+                      onChange={(e) => setNewCoupon({...newCoupon, name: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
                     />
                   </div>
@@ -1373,7 +1377,11 @@ const SystemSettings = ({ athleteId }) => {
                   {/* Discount Type */}
                   <div>
                     <label className="block text-gray-300 mb-2">Discount Type *</label>
-                    <select className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]">
+                    <select 
+                      value={newCoupon.type}
+                      onChange={(e) => setNewCoupon({...newCoupon, type: e.target.value})}
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                    >
                       <option value="percentage">Percentage (%)</option>
                       <option value="fixed">Fixed Amount ($)</option>
                     </select>
@@ -1387,6 +1395,8 @@ const SystemSettings = ({ athleteId }) => {
                       step="0.01"
                       min="0"
                       placeholder="20"
+                      value={newCoupon.value}
+                      onChange={(e) => setNewCoupon({...newCoupon, value: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
                     />
                     <p className="text-gray-500 text-xs mt-1">For percentage: 0-100, For fixed: amount in USD</p>
@@ -1399,6 +1409,8 @@ const SystemSettings = ({ athleteId }) => {
                       type="number"
                       min="1"
                       placeholder="100"
+                      value={newCoupon.max_uses}
+                      onChange={(e) => setNewCoupon({...newCoupon, max_uses: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
                     />
                     <p className="text-gray-500 text-xs mt-1">Leave empty for unlimited uses</p>
@@ -1409,6 +1421,8 @@ const SystemSettings = ({ athleteId }) => {
                     <label className="block text-gray-300 mb-2">Expiration Date</label>
                     <input
                       type="datetime-local"
+                      value={newCoupon.expires_at}
+                      onChange={(e) => setNewCoupon({...newCoupon, expires_at: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
                     />
                     <p className="text-gray-500 text-xs mt-1">Leave empty for no expiration</p>
@@ -1417,7 +1431,11 @@ const SystemSettings = ({ athleteId }) => {
                   {/* Applies To */}
                   <div>
                     <label className="block text-gray-300 mb-2">Applies To</label>
-                    <select className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]">
+                    <select 
+                      value={newCoupon.applies_to}
+                      onChange={(e) => setNewCoupon({...newCoupon, applies_to: e.target.value})}
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                    >
                       <option value="all">All Purchases</option>
                       <option value="subscriptions">Subscriptions Only</option>
                       <option value="one_time">One-Time Purchases Only</option>
@@ -1432,6 +1450,8 @@ const SystemSettings = ({ athleteId }) => {
                       step="0.01"
                       min="0"
                       placeholder="0"
+                      value={newCoupon.min_purchase_amount}
+                      onChange={(e) => setNewCoupon({...newCoupon, min_purchase_amount: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
                     />
                     <p className="text-gray-500 text-xs mt-1">Minimum amount required to use coupon</p>
@@ -1440,6 +1460,7 @@ const SystemSettings = ({ athleteId }) => {
                 
                 <div className="mt-6 flex justify-end">
                   <Button 
+                    onClick={createCoupon}
                     className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
                   >
                     Create Coupon
