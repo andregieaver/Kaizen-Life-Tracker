@@ -142,21 +142,6 @@ const Pricing = () => {
     setCouponCode('');
     setCouponError('');
   };
-        'Unlimited scheduled AI analyses',
-        'Unlimited fitness test tracking',
-        'Personalized training plans',
-        'Recovery optimization',
-        'Injury prevention insights',
-        'Nutrition recommendations',
-        'Performance predictions',
-        '1-on-1 coaching sessions (2/month)',
-        '24/7 priority support',
-        'Early access to new features',
-      ],
-      cta: 'Go Premium',
-      ctaVariant: 'default',
-    },
-  ];
 
   const calculateSavings = (monthlyPrice, annualPrice) => {
     if (monthlyPrice === 0) return 0;
