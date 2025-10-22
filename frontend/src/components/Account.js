@@ -291,8 +291,23 @@ const Account = ({ athleteId }) => {
     initPushNotifications();
   }, []);
 
+  const loadAvailablePlans = async () => {
+    try {
+      const response = await axios.get(`${API}/subscription-plans-public`);
+      const plans = response.data.plans || [];
+      setAvailablePlans(plans);
+      return plans;
+    } catch (error) {
+      console.error('Error loading available plans:', error);
+      return [];
+    }
+  };
+
   const loadSubscriptionStatus = async () => {
     try {
+      // Load plans first
+      const plans = await loadAvailablePlans();
+      
       const response = await axios.get(`${API}/subscriptions/status/${athleteId}`);
       console.log('Subscription status response:', response.data);
       
@@ -301,6 +316,10 @@ const Account = ({ athleteId }) => {
         status: response.data.subscription_status || 'active',
         current_period_end: response.data.subscription_current_period_end
       });
+      
+      // Find current plan details
+      const currentPlan = plans.find(p => p.tier === (response.data.subscription_tier || 'free'));
+      setCurrentPlanDetails(currentPlan);
       
       // Detect billing cycle from subscription_interval if available
       if (response.data.subscription_interval) {
