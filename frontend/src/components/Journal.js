@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Plus, Mic, MicOff, Trash2, Edit3, FileText, Volume2, X } from 'lucide-react';
+import { Plus, Mic, MicOff, Trash2, Edit3, FileText, Volume2, X, BookOpen } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 const API = `${BACKEND_URL}/api`;
