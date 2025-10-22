@@ -364,7 +364,8 @@ const SystemSettings = ({ athleteId }) => {
       loadCoupons();
     } catch (error) {
       console.error('Error creating coupon:', error);
-      alert(error.response?.data?.detail || 'Failed to create coupon');
+      const errorMessage = error.response?.data?.detail || error.message || 'Failed to create coupon';
+      alert(errorMessage);
     }
   };
 
