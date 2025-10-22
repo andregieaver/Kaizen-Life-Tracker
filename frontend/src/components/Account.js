@@ -2451,20 +2451,20 @@ const Account = ({ athleteId }) => {
 
           {/* Cancel Subscription Dialog */}
           {showCancelDialog && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <Card className="w-full max-w-md mx-4">
+            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
+              <Card className="w-full max-w-md mx-4 bg-gradient-to-b from-gray-800 to-gray-900 border-gray-700 shadow-2xl">
                 <CardHeader>
-                  <CardTitle className="text-red-600">Cancel Subscription?</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-red-400">Cancel Subscription?</CardTitle>
+                  <CardDescription className="text-gray-300">
                     Are you sure you want to cancel your subscription?
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="p-4 bg-yellow-900/30 border border-yellow-700 rounded-lg">
-                    <p className="text-sm text-yellow-900">
+                  <div className="p-4 bg-amber-900/20 border border-amber-700/50 rounded-lg">
+                    <p className="text-sm text-amber-200">
                       <strong>What happens next:</strong>
                     </p>
-                    <ul className="text-sm text-yellow-800 mt-2 space-y-1 list-disc list-inside">
+                    <ul className="text-sm text-amber-100 mt-2 space-y-1 list-disc list-inside">
                       <li>Your subscription will remain active until the end of your billing period</li>
                       <li>You'll be downgraded to the Free plan automatically</li>
                       <li>You won't be charged again</li>
@@ -2474,14 +2474,14 @@ const Account = ({ athleteId }) => {
                   <div className="flex gap-2">
                     <Button 
                       variant="outline" 
-                      className="flex-1"
+                      className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white"
                       onClick={() => setShowCancelDialog(false)}
                     >
                       Keep Subscription
                     </Button>
                     <Button 
                       variant="destructive" 
-                      className="flex-1"
+                      className="flex-1 bg-red-600 hover:bg-red-700 text-white"
                       onClick={handleCancelSubscription}
                     >
                       Cancel Subscription
