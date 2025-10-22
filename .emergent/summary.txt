@@ -1,74 +1,71 @@
 <analysis>
-The AI engineer's work in this trajectory primarily focused on robust media handling, including multi-image and video upload, editing, and display across various feeds. This involved significant backend development for file processing (Pillow for images, FFmpeg for videos) and storage, along with comprehensive frontend integration using a custom  component and native HTML5 drag-and-drop for reordering. Debugging efforts were extensive, addressing issues from incorrect localhost URLs to static file serving paths and ensuring data consistency across backend models and frontend rendering. Complementary work included UI styling for the Coach page, persistence for System Settings tabs, and enhancing plan feature reordering. The most recent task completed was moving the OpenAI API key from individual account settings to a global Advanced tab within System Settings.
+The previous AI engineer's work on the TrainSmart application focused on significant feature additions and mobile UI/UX enhancements. Initial work addressed styling for edge-to-edge posts, implemented scroll-aware hiding for the Floating Action Button (FAB) and Community navigation, and resolved image loading issues through URL normalization. A comprehensive Stripe coupon system was then integrated, covering backend API, database models, frontend management UI, and checkout integration with plan-specific discounts. Most recently, the engineer initiated the development of a dynamic Plan Editor within System Settings for managing subscription plans, completing the backend implementation and commencing the frontend UI development by removing legacy static content.
 </analysis>
 
 <product_requirements>
-The TrainSmart application aimed to enhance social interaction and user acquisition through improved community features. Initial requirements included comment deletion, user profiles with a wall and Following feed, and post management (create, edit, delete, visibility, truncation). UI/UX improvements focused on consistent modals, removing redundant forms, dark themes, and responsive designs. A referral/reward system was implemented with discounts and Stripe integration. A Super Admin role and System Settings page were developed for global configurations like SEO, module management (Affiliate, Community), and a Plan Editor for subscription details.
-
-During this trajectory, the primary focus evolved into a comprehensive **Multi-Image/Video Upload System**: allowing multiple images/one video per post/event/comment, file storage, image resizing (max 1024x1024px), WebP conversion, video compression (MP4, max quality), slideshows with navigation/fullscreen, and mobile swipe/camera capture. This was extended to include drag-and-drop reordering for media in post creation and editing. Additional requirements included specific styling for the Coach page, persistent active tab state and vertical drag reordering in System Settings, restricting Coach page access for free users, and moving the OpenAI API key to global System Settings.
+The TrainSmart application aims to provide a robust community and fitness platform. The recent development trajectory expanded functionality by:
+1.  **Stripe Integration**: Enabling Super Admins to configure Stripe API keys and webhooks for payment processing via a new section in the  Advanced tab.
+2.  **Challenges Feature**: Introducing a Strava-like Challenges tab in the Community section, supporting goal tracking, leaderboards, progress monitoring, recurring challenges, and a trophy badge system, with full CRUD capabilities.
+3.  **Mobile UI/UX Enhancements**:
+    *   Streamlining Community navigation by moving the notification icon to the global header and making main navigation tabs full-width and scroll-aware.
+    *   Implementing a fanning-out Floating Action Button (FAB) for content creation with an animated hide/show on scroll.
+    *   Redesigning post cards for mobile with zero border-radius/margin, reduced padding, and full-width media for an immersive, edge-to-edge experience.
+    *   Converting the notifications dropdown to a fullscreen modal on mobile, ensuring correct positioning and scroll behavior.
+4.  **Stripe Coupon System**: Implementing a comprehensive system to create, manage, validate, and apply coupons (percentage/fixed, various application scopes, usage limits, plan-specific targeting) for subscription sign-ups, including display of discounted prices.
+5.  **Stripe Plan Editor**: Building a System Settings feature to dynamically manage subscription plans and their variations, adjust pricing, and integrate seamlessly with Stripe.
 </product_requirements>
 
 <key_technical_concepts>
 -   **Full-stack Development**: React.js (Frontend), FastAPI (Backend), MongoDB (Database).
 -   **State Management**: , .
 -   **API Integration**: .
--   **Pydantic**: Data validation.
--   **Image Processing**: Pillow (Python).
--   **Video Processing**: FFmpeg (system utility).
--   **Drag and Drop**: HTML5 native for reordering.
--   **UI Components**: Shadcn UI (Card, Tabs, Button), custom .
--   **Local Storage**: For UI state persistence.
+-   **Pydantic**: Data validation and serialization.
+-   **UI Components**: Shadcn UI, custom .
+-   **Mobile UI/UX**: Tailwind CSS, scroll-based animations.
+-   **Stripe API**: Payments, coupons, subscription management.
 </key_technical_concepts>
 
 <code_architecture>
 
 -   :
-    -   **Importance**: Core backend logic and API routes.
-    -   **Changes**: Imported  and . Mounted static files for  at . Updated  to use  and construct  URLs. Added  endpoint.  model was updated to use  for mixed media.  and  were updated to handle this  array.  was updated to include  (and implicitly ). Subscription status endpoint  was verified. System settings endpoints were implicitly used to store global OpenAI key.
+    -   **Importance**: Central API and data handling.
+    -   **Changes**: Added Pydantic models for , , and . Implemented CRUD endpoints for coupons and plans. Modified image/video upload to return relative URLs. Integrated coupon validation and application into Stripe checkout.
 -   :
-    -   **Importance**: Directory for storing processed images and videos.
-    -   **Changes**: Created to handle file uploads.
+    -   **Importance**: Utility for database migrations.
+    -   **Changes**: New script to convert absolute image/video URLs in posts to relative paths in MongoDB.
 -   :
-    -   **Importance**: New utility for image processing.
-    -   **Changes**: Created to encapsulate image resizing, WebP conversion, and compression logic.
+    -   **Importance**: Global layout and mobile header.
+    -   **Changes**: Contains scroll detection logic () that dictates the slide-up/down animation for the mobile header.
 -   :
-    -   **Importance**: New utility for video processing.
-    -   **Changes**: Created to handle video compression (MP4) and thumbnail generation.
+    -   **Importance**: Super admin configuration panel.
+    -   **Changes**: Added Stripe API key/webhook input fields. Introduced a Coupons tab with UI for coupon creation and management. Started replacing the static Plans tab with a dynamic Plan Editor UI, including state and API functions for plan management.
 -   :
-    -   **Importance**: Manages community posts, feeds, and interactions.
-    -   **Changes**: Integrated  for displaying multiple images/videos. Updated state (, ) and handlers (, ) for mixed media upload with native HTML5 drag-and-drop. Modified  and  to send  array to backend. Updated UI for post creation/edit modals and all feeds (Main, Following, Personal) to use the  component. Removed all debugging outputs.
+    -   **Importance**: Core community features, feeds, and content.
+    -   **Changes**: Restyled post cards for edge-to-edge mobile display. Implemented scroll-aware hide/show for the Floating Action Button (FAB) and the fixed community navigation bar. Converted the notifications dropdown to a fullscreen modal with correct positioning and body scroll prevention.
 -   :
-    -   **Importance**: AI coach interface.
-    -   **Changes**: Styled title, description, and buttons for dark theme. Implemented a subscription check on mount, displaying an  to free users. Corrected API call to .
+    -   **Importance**: Handles media display within posts.
+    -   **Changes**: Added a  utility to correctly resolve relative image/video URLs by prepending the backend URL.
 -   :
-    -   **Importance**: Super admin configuration interface.
-    -   **Changes**: Implemented tab persistence using  and URL hash. Added an Account Settings button. Implemented vertical drag-and-drop for plan features in the Plan Editor, restricting horizontal movement. Fixed a bug where the Plan Editor tab state was not preserving due to inconsistent naming (plans vs plan-editor). Added a new Advanced tab to globally manage the OpenAI API key.
--   :
-    -   **Importance**: New reusable component for displaying multiple images/videos with slideshow, navigation, fullscreen, and swipe.
-    -   **Changes**: Renamed from . Modified to accept a  array (objects with , , ). Conditionally renders  or  tags. Implemented horizontal slide effects using  and forced re-render with  prop.
+    -   **Importance**: Subscription pricing display and checkout.
+    -   **Changes**: Integrated a coupon input field, client-side validation, and dynamic display of discounted prices. Updated the checkout flow to pass coupon codes to the backend for Stripe processing.
 </code_architecture>
 
 <pending_tasks>
--   Provide Oura API Client ID and Client Secret via the Oura Credentials Modal.
--   Fully implement and test image upload/camera capture for the Nutrition page.
--   Scan for hardcoded date formats () and integrate the  utility.
--   Add delete functionality for nutrition entries.
--   Investigate persistent profile picture upload failures.
--   Build the actual logic for the Race Predictor calculator.
--   Address CORS policy issues observed for .
--   Apply the file storage and image/video processing approach to all other file uploads (meal entries, documents, event images, group banner, profile images).
--   Update CoachChat to use the global OpenAI key from System Settings and remove its individual key input.
+-   Integrate Oura API credentials.
+-   Complete Nutrition page image/camera upload and delete functionality.
+-   Refactor hardcoded date formats.
+-   Resolve persistent profile picture upload failures.
+-   Implement Race Predictor calculator logic.
+-   Address CORS issues for Posthog.
+-   Extend file processing to all uploads (meals, documents, events, groups, profiles).
+-   Complete Referral Metrics UI in .
+-   Finish the frontend UI for the dynamic Plan Editor in .
 </pending_tasks>
 
 <current_work>
-The AI engineer has just completed moving the OpenAI API key input from the individual Account settings page to a new, globally accessible Advanced tab within the System Settings page. This involved:
-1.  Updating  to define and manage the  state.
-2.  Modifying the  function to fetch the  when the system settings are loaded.
-3.  Implementing  to persist the  to the backend's  endpoint.
-4.  Adding the Advanced tab to the UI, providing an input field for the OpenAI key and a corresponding save button.
-The backend's existing system settings endpoints were already robust enough to handle the storage of this new arbitrary setting without requiring further modifications. The frontend is currently compiled and ready for the next phase.
+Immediately before this summary request, the AI engineer was focused on completing the frontend UI for the new dynamic Plan Editor feature within the Plans tab of the  component. This task is part of a larger effort to allow Super Admins to add, edit, and delete subscription plans and their variations, adjusting prices and discounts, with seamless integration with Stripe. The backend API endpoints and data models for plan management () have been successfully implemented. On the frontend, state management and API functions (, , , ) were added to . The current work involves replacing the existing, static plan content in the Plans tab with a dynamic UI that leverages these backend capabilities. The last specific action was actively identifying and removing old, static plan content within  to prepare for the new dynamic components.
 </current_work>
 
 <optional_next_step>
-Update  to use the global OpenAI key and remove the individual key input from Account settings.
+Continue removing the remaining old static content from the Plans tab in .
 </optional_next_step>
