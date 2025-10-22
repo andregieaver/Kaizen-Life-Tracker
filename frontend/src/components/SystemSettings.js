@@ -1258,12 +1258,26 @@ const SystemSettings = ({ athleteId }) => {
 
           {/* Plan Editor Tab */}
           <TabsContent value="plans">
-            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
-              <CardHeader>
-                <CardTitle className="text-white">Plan Editor</CardTitle>
-                <CardDescription className="text-gray-400">
-                  Configure subscription plan details and features
-                </CardDescription>
+            <div className="text-gray-400 text-sm mb-4">
+              Manage subscription plans and pricing. Plans are synced with Stripe automatically.
+            </div>
+
+            {/* Create Plan Button */}
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700 mb-6">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="text-white">Subscription Plans</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Create and manage subscription tiers with multiple pricing variations
+                  </CardDescription>
+                </div>
+                <Button 
+                  onClick={() => setShowCreatePlanModal(true)}
+                  className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Create Plan
+                </Button>
               </CardHeader>
               <CardContent>
                 {/* Three Column Grid for Plans */}
