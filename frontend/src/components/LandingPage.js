@@ -5,8 +5,143 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/
 import { 
   Activity, Heart, Target, TrendingUp, Clock, BarChart3, 
   Brain, Calendar, FileText, LineChart, Zap, Shield, 
-  ChevronRight, Check, Star
+  ChevronRight, Check, Star, Mail, User, Globe, ArrowRight
 } from 'lucide-react';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const API = `${BACKEND_URL}/api`;
+
+const WaitingListSection = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    nationality: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus({ type: '', message: '' });
+
+    try {
+      await axios.post(`${API}/waiting-list`, formData);
+      setSubmitStatus({
+        type: 'success',
+        message: '🎉 Success! You\'re on the waiting list. We\'ll be in touch soon!'
+      });
+      setFormData({ name: '', email: '', nationality: '' });
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message: error.response?.data?.detail || 'Failed to join waiting list. Please try again.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-indigo-50">
+      <div className="max-w-4xl mx-auto">
+        <Card className="shadow-2xl border-0 overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 sm:p-8">
+            <CardHeader className="text-center p-0">
+              <CardTitle className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                Join the Waiting List
+              </CardTitle>
+              <CardDescription className="text-blue-100 text-base sm:text-lg">
+                Be the first to know when we launch. Get early access and exclusive benefits!
+              </CardDescription>
+            </CardHeader>
+          </div>
+          
+          <CardContent className="p-6 sm:p-8">
+            {submitStatus.message && (
+              <div className={`mb-6 p-4 rounded-lg ${
+                submitStatus.type === 'success' 
+                  ? 'bg-green-50 border border-green-200 text-green-800' 
+                  : 'bg-red-50 border border-red-200 text-red-800'
+              }`}>
+                {submitStatus.message}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                    <User className="w-4 h-4 mr-2 text-blue-600" />
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    placeholder="John Doe"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                    <Globe className="w-4 h-4 mr-2 text-blue-600" />
+                    Nationality *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.nationality}
+                    onChange={(e) => setFormData({...formData, nationality: e.target.value})}
+                    placeholder="e.g., USA, UK, Canada"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                  <Mail className="w-4 h-4 mr-2 text-blue-600" />
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  placeholder="your.email@example.com"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-4 text-lg shadow-lg hover:shadow-xl transition-all"
+              >
+                {isSubmitting ? (
+                  <>Processing...</>
+                ) : (
+                  <>
+                    Join Waiting List
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </>
+                )}
+              </Button>
+
+              <p className="text-xs text-gray-500 text-center mt-4">
+                We respect your privacy. Your information will never be shared.
+              </p>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </section>
+  );
+};
 
 const LandingPage = () => {
   const navigate = useNavigate();
