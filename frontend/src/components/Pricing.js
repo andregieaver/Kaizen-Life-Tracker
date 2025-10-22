@@ -142,62 +142,6 @@ const Pricing = () => {
     setCouponCode('');
     setCouponError('');
   };
-
-  const plans = [
-    {
-      id: 'free',
-      name: 'Free',
-      icon: Shield,
-      description: 'Perfect for getting started',
-      monthlyPrice: 0,
-      annualPrice: 0,
-      popular: false,
-      features: [
-        'Basic AI Coach access (10 questions/month)',
-        '1 scheduled AI analysis',
-        'Track up to 3 fitness tests',
-        'Manual workout logging',
-        'Basic readiness score',
-        '30-day history',
-        'Connect 1 device',
-        'Email support',
-      ],
-      cta: 'Get Started Free',
-      ctaVariant: 'outline',
-    },
-    {
-      id: 'pro',
-      name: 'Pro',
-      icon: TrendingUp,
-      description: 'For serious athletes',
-      monthlyPrice: 9.99,
-      annualPrice: 99,
-      popular: true,
-      features: [
-        'Unlimited AI Coach access',
-        'Up to 5 scheduled AI analyses',
-        'Track up to 10 fitness tests',
-        'All integrations (Strava, Oura, COROS)',
-        'Advanced analytics & reports',
-        'Unlimited history',
-        'Connect unlimited devices',
-        'Custom training schedules',
-        'Priority email support',
-        'Chart generation',
-      ],
-      cta: 'Start Pro Trial',
-      ctaVariant: 'default',
-    },
-    {
-      id: 'premium',
-      name: 'Premium',
-      icon: Crown,
-      description: 'Maximum performance',
-      monthlyPrice: 19.99,
-      annualPrice: 199,
-      popular: false,
-      features: [
-        'Everything in Pro',
         'Unlimited scheduled AI analyses',
         'Unlimited fitness test tracking',
         'Personalized training plans',
