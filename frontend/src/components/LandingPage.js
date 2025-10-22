@@ -182,6 +182,24 @@ const LandingPage = () => {
   const [hasReferralCode, setHasReferralCode] = useState(false);
   const [siteTitle, setSiteTitle] = useState('TrainSmart');
 
+  // Fetch site title from SEO settings
+  useEffect(() => {
+    const fetchSiteTitle = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/api/system/settings/public`);
+        if (response.data?.seo?.siteTitle) {
+          setSiteTitle(response.data.seo.siteTitle);
+          document.title = response.data.seo.siteTitle; // Also update page title
+        }
+      } catch (error) {
+        console.error('Error fetching site title:', error);
+        // Keep default 'TrainSmart'
+      }
+    };
+    
+    fetchSiteTitle();
+  }, []);
+
   // Capture referral code from URL
   useEffect(() => {
     const refCode = searchParams.get('ref');
