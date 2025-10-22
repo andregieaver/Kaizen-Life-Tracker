@@ -21,7 +21,7 @@ async def create_super_admin():
     
     if existing_user:
         # Update existing user to be super admin and set the correct ID
-        await db.athlete_profiles.update_one(
+        await db.athletes.update_one(
             {"email": "andre@humanweb.no"},
             {"$set": {
                 "is_super_admin": True,
@@ -63,14 +63,14 @@ async def create_super_admin():
             "is_super_admin": True
         }
         
-        await db.athlete_profiles.insert_one(athlete_data)
+        await db.athletes.insert_one(athlete_data)
         print("✅ Created new super admin user: andre@humanweb.no")
         print("📧 Email: andre@humanweb.no")
         print("🔑 Password: admin123")
         print(f"🆔 User ID: {athlete_data['id']}")
     
     # Verify
-    user = await db.athlete_profiles.find_one(
+    user = await db.athletes.find_one(
         {"email": "andre@humanweb.no"}, 
         {"_id": 0, "email": 1, "name": 1, "is_super_admin": 1, "id": 1}
     )
