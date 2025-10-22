@@ -342,19 +342,19 @@ const Schedules = ({ athleteId }) => {
           </div>
         ) : (
           schedules.map((schedule, index) => (
-            <Card key={index} className="border-0 shadow-lg">
+            <Card key={index} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center">
-                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                    <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center mr-3">
                       {schedule.frequency === 'daily' ? (
-                        <Calendar className="w-5 h-5 text-blue-600" />
+                        <Calendar className="w-5 h-5" style={{ color: '#00C2A8' }} />
                       ) : (
-                        <Repeat className="w-5 h-5 text-blue-600" />
+                        <Repeat className="w-5 h-5" style={{ color: '#00C2A8' }} />
                       )}
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-900 flex items-center gap-2">
+                      <h3 className="font-medium text-white flex items-center gap-2">
                         {schedule.name}
                         <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${
                           schedule.active 
