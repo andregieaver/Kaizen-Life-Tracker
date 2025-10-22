@@ -36,8 +36,9 @@ const ResetPassword = () => {
         email: emailFromUrl,
         resetToken: tokenFromUrl 
       }));
-    } else if (!emailFromUrl || !tokenFromUrl) {
-      setError('Invalid reset link. Please request a new password reset.');
+      setError(''); // Clear any previous errors
+    } else {
+      setError('Invalid reset link. Please request a new password reset from the login page.');
     }
   }, [searchParams]);
 
