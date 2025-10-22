@@ -21,6 +21,28 @@ const WaitingListSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
 
+  const languages = [
+    { code: 'en', name: 'English' },
+    { code: 'es', name: 'Spanish (Español)' },
+    { code: 'fr', name: 'French (Français)' },
+    { code: 'de', name: 'German (Deutsch)' },
+    { code: 'it', name: 'Italian (Italiano)' },
+    { code: 'pt', name: 'Portuguese (Português)' },
+    { code: 'nl', name: 'Dutch (Nederlands)' },
+    { code: 'ru', name: 'Russian (Русский)' },
+    { code: 'zh', name: 'Chinese (中文)' },
+    { code: 'ja', name: 'Japanese (日本語)' },
+    { code: 'ko', name: 'Korean (한국어)' },
+    { code: 'ar', name: 'Arabic (العربية)' },
+    { code: 'hi', name: 'Hindi (हिन्दी)' },
+    { code: 'sv', name: 'Swedish (Svenska)' },
+    { code: 'no', name: 'Norwegian (Norsk)' },
+    { code: 'da', name: 'Danish (Dansk)' },
+    { code: 'fi', name: 'Finnish (Suomi)' },
+    { code: 'pl', name: 'Polish (Polski)' },
+    { code: 'tr', name: 'Turkish (Türkçe)' }
+  ];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -44,15 +66,15 @@ const WaitingListSection = () => {
   };
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 to-indigo-50">
+    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-900">
       <div className="max-w-4xl mx-auto">
-        <Card className="shadow-2xl border-0 overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 sm:p-8">
+        <Card className="shadow-2xl border-0 overflow-hidden bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
+          <div className="bg-gradient-to-r from-teal-600 to-cyan-600 p-6 sm:p-8">
             <CardHeader className="text-center p-0">
               <CardTitle className="text-2xl sm:text-3xl font-bold text-white mb-2">
                 Join the Waiting List
               </CardTitle>
-              <CardDescription className="text-blue-100 text-base sm:text-lg">
+              <CardDescription className="text-teal-100 text-base sm:text-lg">
                 Be the first to know when we launch. Get early access and exclusive benefits!
               </CardDescription>
             </CardHeader>
@@ -62,8 +84,8 @@ const WaitingListSection = () => {
             {submitStatus.message && (
               <div className={`mb-6 p-4 rounded-lg ${
                 submitStatus.type === 'success' 
-                  ? 'bg-green-50 border border-green-200 text-green-800' 
-                  : 'bg-red-50 border border-red-200 text-red-800'
+                  ? 'bg-green-500/20 border border-green-500 text-green-400' 
+                  : 'bg-red-500/20 border border-red-500 text-red-400'
               }`}>
                 {submitStatus.message}
               </div>
@@ -72,8 +94,8 @@ const WaitingListSection = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                    <User className="w-4 h-4 mr-2 text-blue-600" />
+                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
+                    <User className="w-4 h-4 mr-2 text-teal-400" />
                     Full Name *
                   </label>
                   <input
@@ -82,29 +104,37 @@ const WaitingListSection = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     placeholder="John Doe"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all placeholder-gray-400"
                   />
                 </div>
 
                 <div>
-                  <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                    <Globe className="w-4 h-4 mr-2 text-blue-600" />
-                    Nationality *
+                  <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
+                    <Globe className="w-4 h-4 mr-2 text-teal-400" />
+                    Preferred Language *
                   </label>
-                  <input
-                    type="text"
+                  <select
                     required
                     value={formData.nationality}
                     onChange={(e) => setFormData({...formData, nationality: e.target.value})}
-                    placeholder="e.g., USA, UK, Canada"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  />
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
+                  >
+                    <option value="" className="bg-gray-700">Select your language...</option>
+                    {languages.map((lang) => (
+                      <option key={lang.code} value={lang.name} className="bg-gray-700">
+                        {lang.name}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-gray-400 mt-1">
+                    To prioritize your language at launch of the app
+                  </p>
                 </div>
               </div>
 
               <div>
-                <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                  <Mail className="w-4 h-4 mr-2 text-blue-600" />
+                <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
+                  <Mail className="w-4 h-4 mr-2 text-teal-400" />
                   Email Address *
                 </label>
                 <input
@@ -113,14 +143,14 @@ const WaitingListSection = () => {
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
                   placeholder="your.email@example.com"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all placeholder-gray-400"
                 />
               </div>
 
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-4 text-lg shadow-lg hover:shadow-xl transition-all"
+                className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold py-4 text-lg shadow-lg hover:shadow-xl transition-all"
               >
                 {isSubmitting ? (
                   <>Processing...</>
