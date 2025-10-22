@@ -1028,6 +1028,11 @@ const SystemSettings = ({ athleteId }) => {
               apiKey: advancedSettings.stripe.sandbox.apiKey,
               webhookSecret: advancedSettings.stripe.sandbox.webhookSecret
             }
+          },
+          sendgrid: {
+            apiKey: advancedSettings.sendgrid.apiKey,
+            senderEmail: advancedSettings.sendgrid.senderEmail,
+            senderName: advancedSettings.sendgrid.senderName
           }
         }
       });
