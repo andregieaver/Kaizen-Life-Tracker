@@ -2493,81 +2493,115 @@ const Account = ({ athleteId }) => {
           )}
 
           {/* Upgrade Dialog */}
-          {showUpgradeDialog && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <Card className="w-full max-w-md mx-4">
-                <CardHeader>
-                  <CardTitle>Upgrade to {upgradeTarget === 'pro' ? 'Pro' : 'Premium'}?</CardTitle>
-                  <CardDescription>
-                    Choose your billing cycle
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {/* Billing Cycle Toggle */}
-                  <div className="flex items-center justify-center space-x-4 bg-gray-800 rounded-full p-2">
-                    <button
-                      onClick={() => setSelectedBillingCycle('monthly')}
-                      className={`px-6 py-2 rounded-full font-medium transition-all ${
-                        selectedBillingCycle === 'monthly'
-                          ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-400 hover:text-white'
-                      }`}
-                    >
-                      Monthly
-                    </button>
-                    <button
-                      onClick={() => setSelectedBillingCycle('annual')}
-                      className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
-                        selectedBillingCycle === 'annual'
-                          ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-400 hover:text-white'
-                      }`}
-                    >
-                      Annual
-                      <Badge variant="default" className="ml-2 bg-green-500 text-white border-0">
-                        Save 17%
-                      </Badge>
-                    </button>
-                  </div>
+          {showUpgradeDialog && upgradeTarget && (() => {
+            const targetPlan = availablePlans.find(p => p.tier === upgradeTarget);
+            if (!targetPlan) return null;
+            
+            const monthlyVar = targetPlan.variations?.find(v => v.interval === 'month');
+            const annualVar = targetPlan.variations?.find(v => v.interval === 'year');
+            const selectedPrice = selectedBillingCycle === 'monthly' ? monthlyVar : annualVar;
+            const savings = monthlyVar && annualVar ? 
+              Math.round((1 - (annualVar.price / (monthlyVar.price * 12))) * 100) : 0;
+            
+            return (
+              <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                <Card className="w-full max-w-lg bg-gradient-to-b from-gray-800 to-gray-900 border-gray-700 shadow-2xl">
+                  <CardHeader>
+                    <CardTitle className="text-white text-2xl">Upgrade to {targetPlan.name}?</CardTitle>
+                    <CardDescription className="text-gray-300">
+                      Choose your billing cycle
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {/* Billing Cycle Toggle */}
+                    {monthlyVar && annualVar && (
+                      <div className="flex items-center justify-center space-x-4 bg-gray-950 rounded-full p-2">
+                        <button
+                          onClick={() => setSelectedBillingCycle('monthly')}
+                          className={`px-6 py-2 rounded-full font-medium transition-all ${
+                            selectedBillingCycle === 'monthly'
+                              ? 'bg-teal-600 text-white shadow-lg'
+                              : 'text-gray-400 hover:text-white'
+                          }`}
+                        >
+                          Monthly
+                        </button>
+                        <button
+                          onClick={() => setSelectedBillingCycle('annual')}
+                          className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
+                            selectedBillingCycle === 'annual'
+                              ? 'bg-teal-600 text-white shadow-lg'
+                              : 'text-gray-400 hover:text-white'
+                          }`}
+                        >
+                          Annual
+                          {savings > 0 && (
+                            <Badge variant="default" className="ml-2 bg-green-500 text-white border-0">
+                              Save {savings}%
+                            </Badge>
+                          )}
+                        </button>
+                      </div>
+                    )}
 
-                  {/* Pricing Display */}
-                  <div className="p-4 bg-blue-900/20 border border-blue-700 rounded-lg">
-                    <div className="text-center">
-                      <p className="text-3xl font-bold text-blue-900">
-                        {upgradeTarget === 'pro' 
-                          ? (selectedBillingCycle === 'monthly' ? '€9.99/mo' : '€99/year')
-                          : (selectedBillingCycle === 'monthly' ? '€19.99/mo' : '€199/year')
-                        }
-                      </p>
-                      {selectedBillingCycle === 'annual' && (
-                        <p className="text-sm text-green-700 mt-2">
-                          Save {upgradeTarget === 'pro' ? '€20.88' : '€40.68'} per year!
-                        </p>
-                      )}
+                    {/* Pricing Display */}
+                    {selectedPrice && (
+                      <div className="p-6 bg-teal-500/10 border border-teal-500/30 rounded-lg">
+                        <div className="text-center">
+                          <p className="text-4xl font-bold text-white">
+                            €{selectedPrice.price}
+                            <span className="text-xl text-gray-400">
+                              /{selectedPrice.interval === 'month' ? 'mo' : 'year'}
+                            </span>
+                          </p>
+                          {selectedBillingCycle === 'annual' && monthlyVar && savings > 0 && (
+                            <p className="text-sm text-green-400 mt-2">
+                              Save €{((monthlyVar.price * 12) - annualVar.price).toFixed(2)} per year!
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Features */}
+                    {targetPlan.features && targetPlan.features.length > 0 && (
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-semibold text-gray-400 uppercase">What you'll get:</h4>
+                        <ul className="space-y-2">
+                          {targetPlan.features.slice(0, 5).map((feature, idx) => (
+                            <li key={idx} className="flex items-start text-sm text-gray-300">
+                              <Check className="w-4 h-4 text-teal-400 mr-2 flex-shrink-0 mt-0.5" />
+                              <span>{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    <div className="flex gap-3">
+                      <Button 
+                        variant="outline" 
+                        className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-700"
+                        onClick={() => {
+                          setShowUpgradeDialog(false);
+                          setUpgradeTarget(null);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button 
+                        className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
+                        onClick={handleUpgrade}
+                        disabled={!selectedPrice}
+                      >
+                        Continue to Checkout
+                      </Button>
                     </div>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      className="flex-1"
-                      onClick={() => {
-                        setShowUpgradeDialog(false);
-                        setUpgradeTarget(null);
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button 
-                      variant="default" 
-                      className="flex-1"
-                      onClick={handleUpgrade}
-                    >
-                      Continue to Checkout
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })()}
             </div>
           )}
 
