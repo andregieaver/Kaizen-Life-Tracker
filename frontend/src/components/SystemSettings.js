@@ -1288,9 +1288,333 @@ const SystemSettings = ({ athleteId }) => {
                   </div>
                 ) : (
                   <div className="space-y-6">
-                {/* Free Plan */}
-                <div className="border border-gray-700 rounded-lg p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Free Plan</h3>
+                    {subscriptionPlans.map((plan) => (
+                      <Card key={plan.tier} className="border-gray-600 bg-gray-700/50">
+                        <CardHeader>
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <CardTitle className="text-white text-xl">{plan.name}</CardTitle>
+                              <CardDescription className="text-gray-400 mt-1">
+                                {plan.description || 'No description'}
+                              </CardDescription>
+                              <div className="mt-2">
+                                <span className="text-xs px-2 py-1 bg-teal-500/20 text-teal-400 rounded">
+                                  Tier: {plan.tier}
+                                </span>
+                                {plan.stripe_product_id && (
+                                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-400 rounded ml-2">
+                                    Synced with Stripe
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  setSelectedPlan(plan);
+                                  setShowEditPlanModal(true);
+                                }}
+                                className="text-gray-300 border-gray-600"
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => deletePlan(plan.tier)}
+                                className="text-red-400 border-red-600"
+                              >
+                                Delete
+                              </Button>
+                            </div>
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          {/* Pricing Variations */}
+                          <div className="mb-4">
+                            <div className="flex items-center justify-between mb-3">
+                              <h4 className="text-white font-semibold">Pricing Variations</h4>
+                              <Button
+                                size="sm"
+                                onClick={() => {
+                                  setSelectedPlan(plan);
+                                  setNewVariation({
+                                    plan_id: `${plan.tier}_`,
+                                    name: '',
+                                    price: '',
+                                    interval: 'month',
+                                    interval_count: 1
+                                  });
+                                  setShowCreateVariationModal(true);
+                                }}
+                                className="bg-teal-600 hover:bg-teal-700 text-white"
+                              >
+                                <Plus className="w-4 h-4 mr-1" />
+                                Add Variation
+                              </Button>
+                            </div>
+                            
+                            {plan.variations && plan.variations.length > 0 ? (
+                              <div className="space-y-2">
+                                {plan.variations.map((variation) => (
+                                  <div
+                                    key={variation.plan_id}
+                                    className="flex items-center justify-between p-3 bg-gray-600/50 rounded-lg"
+                                  >
+                                    <div className="flex-1">
+                                      <div className="flex items-center gap-3">
+                                        <span className="text-white font-medium">{variation.name}</span>
+                                        <span className="text-teal-400 font-bold text-lg">
+                                          ${variation.price}
+                                        </span>
+                                        <span className="text-gray-400 text-sm">
+                                          / {variation.interval_count > 1 ? `${variation.interval_count} ` : ''}
+                                          {variation.interval}
+                                          {variation.interval_count > 1 ? 's' : ''}
+                                        </span>
+                                      </div>
+                                      <div className="text-xs text-gray-500 mt-1">
+                                        ID: {variation.plan_id}
+                                        {variation.stripe_price_id && (
+                                          <span className="ml-2">• Stripe: {variation.stripe_price_id}</span>
+                                        )}
+                                      </div>
+                                    </div>
+                                    <div className="flex gap-2">
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => {
+                                          const newPrice = prompt('Enter new price:', variation.price);
+                                          if (newPrice && !isNaN(parseFloat(newPrice))) {
+                                            updateVariation(variation.plan_id, { price: parseFloat(newPrice) });
+                                          }
+                                        }}
+                                        className="text-gray-300 border-gray-500"
+                                      >
+                                        Edit Price
+                                      </Button>
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => deleteVariation(variation.plan_id)}
+                                        className="text-red-400 border-red-600"
+                                      >
+                                        Delete
+                                      </Button>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <div className="text-center py-4 text-gray-400 text-sm">
+                                No pricing variations. Add one to enable subscriptions.
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Features */}
+                          {plan.features && plan.features.length > 0 && (
+                            <div>
+                              <h4 className="text-white font-semibold mb-2">Features</h4>
+                              <ul className="list-disc list-inside text-gray-300 text-sm space-y-1">
+                                {plan.features.map((feature, idx) => (
+                                  <li key={idx}>{feature}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Create Plan Modal */}
+            {showCreatePlanModal && (
+              <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                <Card className="bg-gray-800 border-gray-700 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                  <CardHeader>
+                    <CardTitle className="text-white">Create New Subscription Plan</CardTitle>
+                    <CardDescription className="text-gray-400">
+                      This will create a Stripe Product and sync it to your database
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <label className="block text-gray-300 mb-2">Tier ID *</label>
+                      <input
+                        type="text"
+                        placeholder="e.g., pro, premium, enterprise"
+                        value={newPlan.tier}
+                        onChange={(e) => setNewPlan({...newPlan, tier: e.target.value.toLowerCase().replace(/\s+/g, '_')})}
+                        className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
+                      />
+                      <p className="text-gray-500 text-xs mt-1">Unique identifier (lowercase, no spaces)</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-300 mb-2">Plan Name *</label>
+                      <input
+                        type="text"
+                        placeholder="e.g., Professional, Premium"
+                        value={newPlan.name}
+                        onChange={(e) => setNewPlan({...newPlan, name: e.target.value})}
+                        className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-300 mb-2">Description</label>
+                      <textarea
+                        placeholder="Plan description..."
+                        value={newPlan.description}
+                        onChange={(e) => setNewPlan({...newPlan, description: e.target.value})}
+                        className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
+                        rows={3}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-300 mb-2">Sort Order</label>
+                      <input
+                        type="number"
+                        value={newPlan.sort_order}
+                        onChange={(e) => setNewPlan({...newPlan, sort_order: parseInt(e.target.value) || 0})}
+                        className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
+                      />
+                      <p className="text-gray-500 text-xs mt-1">Lower numbers appear first</p>
+                    </div>
+                  </CardContent>
+                  <div className="px-6 pb-6 flex gap-3">
+                    <Button
+                      onClick={createPlan}
+                      className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                    >
+                      Create Plan
+                    </Button>
+                    <Button
+                      onClick={() => setShowCreatePlanModal(false)}
+                      variant="outline"
+                      className="flex-1 text-gray-300 border-gray-600"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </Card>
+              </div>
+            )}
+
+            {/* Create Variation Modal */}
+            {showCreateVariationModal && selectedPlan && (
+              <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                <Card className="bg-gray-800 border-gray-700 w-full max-w-lg">
+                  <CardHeader>
+                    <CardTitle className="text-white">Add Pricing Variation</CardTitle>
+                    <CardDescription className="text-gray-400">
+                      Add a new pricing option for {selectedPlan.name}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <label className="block text-gray-300 mb-2">Variation ID *</label>
+                      <input
+                        type="text"
+                        placeholder="e.g., pro_monthly, premium_annual"
+                        value={newVariation.plan_id}
+                        onChange={(e) => setNewVariation({...newVariation, plan_id: e.target.value})}
+                        className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-300 mb-2">Display Name *</label>
+                      <input
+                        type="text"
+                        placeholder="e.g., Pro Monthly, Premium Annual"
+                        value={newVariation.name}
+                        onChange={(e) => setNewVariation({...newVariation, name: e.target.value})}
+                        className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-300 mb-2">Price (USD) *</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        placeholder="49.99"
+                        value={newVariation.price}
+                        onChange={(e) => setNewVariation({...newVariation, price: e.target.value})}
+                        className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-gray-300 mb-2">Billing Interval *</label>
+                        <select
+                          value={newVariation.interval}
+                          onChange={(e) => setNewVariation({...newVariation, interval: e.target.value})}
+                          className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
+                        >
+                          <option value="month">Monthly</option>
+                          <option value="year">Yearly</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-gray-300 mb-2">Interval Count</label>
+                        <input
+                          type="number"
+                          min="1"
+                          value={newVariation.interval_count}
+                          onChange={(e) => setNewVariation({...newVariation, interval_count: parseInt(e.target.value) || 1})}
+                          className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                  <div className="px-6 pb-6 flex gap-3">
+                    <Button
+                      onClick={createVariation}
+                      className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                    >
+                      Create Variation
+                    </Button>
+                    <Button
+                      onClick={() => setShowCreateVariationModal(false)}
+                      variant="outline"
+                      className="flex-1 text-gray-300 border-gray-600"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </Card>
+              </div>
+            )}
+          </TabsContent>
+
+          {/* Coupons Tab */}
+          <TabsContent value="coupons">
+            <div className="text-gray-400 text-sm mb-4">
+              Manage discount coupons for subscriptions and one-time purchases. Coupons can be percentage-based or fixed amount discounts.
+            </div>
+            
+            {/* Create Coupon Card */}
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700 mb-6">
+              <CardHeader>
+                <h3 className="text-white font-semibold text-lg">Create New Coupon</h3>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Coupon Code */}
+                  <div>
+                    <label className="block text-gray-300 mb-2">Coupon Code *</label>
                   
                   <div className="space-y-4">
                     <div className="space-y-2">
