@@ -47,14 +47,14 @@ const ResetPassword = () => {
   };
 
   const validateForm = () => {
-    if (!formData.email || !formData.resetToken || !formData.newPassword) {
-      return t('auth.allFieldsRequired');
+    if (!formData.newPassword) {
+      return 'Please enter a new password';
     }
     if (formData.newPassword.length < 6) {
-      return t('validation.passwordTooShort');
+      return 'Password must be at least 6 characters';
     }
     if (formData.newPassword !== formData.confirmPassword) {
-      return t('validation.passwordsDoNotMatch');
+      return 'Passwords do not match';
     }
     return null;
   };
