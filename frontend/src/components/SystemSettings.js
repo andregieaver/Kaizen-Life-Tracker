@@ -28,7 +28,9 @@ import {
   Target,
   Plus,
   Pencil,
-  Trash2
+  Trash2,
+  Mail,
+  Download
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
