@@ -76,7 +76,7 @@ const SystemSettings = ({ athleteId }) => {
     // First try localStorage
     const savedTab = localStorage.getItem('systemSettings_activeTab');
     console.log('🔍 Loading tab from localStorage:', savedTab);
-    if (savedTab && ['seo', 'modules', 'plans', 'statistics', 'advanced'].includes(savedTab)) {
+    if (savedTab && ['seo', 'modules', 'plans', 'coupons', 'waitinglist', 'statistics', 'advanced'].includes(savedTab)) {
       // Also update hash to match
       window.location.hash = savedTab;
       return savedTab;
@@ -84,7 +84,7 @@ const SystemSettings = ({ athleteId }) => {
     // Then try URL hash
     const hash = location.hash.replace('#', '');
     console.log('🔍 Loading tab from hash:', hash);
-    if (['seo', 'modules', 'plans', 'statistics', 'advanced'].includes(hash)) {
+    if (['seo', 'modules', 'plans', 'coupons', 'waitinglist', 'statistics', 'advanced'].includes(hash)) {
       return hash;
     }
     // Default to 'seo'
