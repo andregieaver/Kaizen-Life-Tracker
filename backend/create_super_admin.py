@@ -17,11 +17,11 @@ async def create_super_admin():
     db = client.health_coach
     
     # Check if user already exists
-    existing_user = await db.athletes.find_one({"email": "andre@humanweb.no"})
+    existing_user = await db.athlete_profiles.find_one({"email": "andre@humanweb.no"})
     
     if existing_user:
         # Update existing user to be super admin
-        await db.athletes.update_one(
+        await db.athlete_profiles.update_one(
             {"email": "andre@humanweb.no"},
             {"$set": {"is_super_admin": True}}
         )
