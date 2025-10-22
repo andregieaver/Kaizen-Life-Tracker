@@ -1274,13 +1274,24 @@ const SystemSettings = ({ athleteId }) => {
                     Create and manage subscription tiers with multiple pricing variations
                   </CardDescription>
                 </div>
-                <Button 
-                  onClick={() => setShowCreatePlanModal(true)}
-                  className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create Plan
-                </Button>
+                <div className="flex gap-2">
+                  <Button 
+                    onClick={syncWithStripe}
+                    variant="outline"
+                    disabled={loadingPlans}
+                    className="text-gray-300 border-gray-600 hover:bg-gray-700"
+                  >
+                    <ArrowLeftRight className="w-4 h-4 mr-2" />
+                    Sync with Stripe
+                  </Button>
+                  <Button 
+                    onClick={() => setShowCreatePlanModal(true)}
+                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Create Plan
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 {loadingPlans ? (
