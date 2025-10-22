@@ -2879,6 +2879,19 @@ async def create_athlete_profile(profile: AthleteProfile):
     
     await db.athlete_profiles.insert_one(profile_dict)
     
+    # Send welcome email
+    email_service = get_email_service()
+    if email_service.enabled:
+        try:
+            email_service.send_welcome_email(
+                to_email=profile.email,
+                user_name=profile.name
+            )
+            logging.info(f"Welcome email sent to {profile.email}")
+        except Exception as e:
+            logging.error(f"Failed to send welcome email: {e}")
+            # Don't fail signup if email sending fails
+    
     # Retrieve the created profile and return it properly parsed
     created_profile = await db.athlete_profiles.find_one({"id": profile.id}, {"_id": 0})
     return parse_from_mongo(created_profile)
