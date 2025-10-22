@@ -285,7 +285,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Dynamic Plan Editor UI in SystemSettings"
+    - "Change Email Endpoint Testing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
