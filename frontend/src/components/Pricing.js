@@ -161,12 +161,26 @@ const Pricing = () => {
     }
     
     // Apply referral discount if available
-    const discountedAmount = discount > 0 ? baseAmount * (1 - discount / 100) : baseAmount;
+    let discountedAmount = discount > 0 ? baseAmount * (1 - discount / 100) : baseAmount;
+    
+    // Apply coupon discount if available
+    if (appliedCoupon && baseAmount > 0) {
+      const couponType = appliedCoupon.coupon.type;
+      const couponValue = appliedCoupon.coupon.value;
+      
+      if (couponType === 'percentage') {
+        discountedAmount = discountedAmount * (1 - couponValue / 100);
+      } else {
+        // Fixed amount discount
+        discountedAmount = Math.max(0, discountedAmount - couponValue);
+      }
+    }
     
     return { 
       amount: discountedAmount, 
       originalAmount: baseAmount,
-      period: billingCycle === 'monthly' ? '/month' : '/year' 
+      period: billingCycle === 'monthly' ? '/month' : '/year',
+      hasCouponDiscount: appliedCoupon && baseAmount > 0
     };
   };
 
