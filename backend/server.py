@@ -11219,6 +11219,140 @@ async def get_subscription_plans(athlete_id: str = None):
         logging.error(f"Error getting subscription plans: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/subscription-plans/quick-setup")
+async def quick_setup_plans(athlete_id: str):
+    """Quick setup: Create standard 3-tier plan structure with Stripe (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Initialize Stripe
+        stripe_api_key = os.environ.get("STRIPE_API_KEY")
+        if not stripe_api_key:
+            raise HTTPException(status_code=500, detail="Stripe API key not configured")
+        
+        stripe.api_key = stripe_api_key
+        
+        # Define standard 3-tier structure
+        standard_plans = [
+            {
+                "tier": "free",
+                "name": "Free",
+                "description": "Get started with basic features",
+                "features": [
+                    "Basic training plans",
+                    "30-day history",
+                    "Community access",
+                    "Basic analytics"
+                ],
+                "sort_order": 0,
+                "variations": []  # Free plan has no paid variations
+            },
+            {
+                "tier": "pro",
+                "name": "Pro",
+                "description": "Advanced features for serious athletes",
+                "features": [
+                    "Everything in Free",
+                    "Unlimited history",
+                    "AI coach chat",
+                    "Advanced analytics",
+                    "Custom training plans",
+                    "Priority support"
+                ],
+                "sort_order": 1,
+                "variations": [
+                    {"plan_id": "pro_monthly", "name": "Pro Monthly", "price": 29.99, "interval": "month"},
+                    {"plan_id": "pro_annual", "name": "Pro Annual", "price": 299.99, "interval": "year"}
+                ]
+            },
+            {
+                "tier": "premium",
+                "name": "Premium",
+                "description": "Complete coaching experience",
+                "features": [
+                    "Everything in Pro",
+                    "Personalized nutrition plans",
+                    "1-on-1 coaching sessions",
+                    "Race strategy planning",
+                    "Injury prevention programs",
+                    "VIP community access"
+                ],
+                "sort_order": 2,
+                "variations": [
+                    {"plan_id": "premium_monthly", "name": "Premium Monthly", "price": 99.99, "interval": "month"},
+                    {"plan_id": "premium_annual", "name": "Premium Annual", "price": 999.99, "interval": "year"}
+                ]
+            }
+        ]
+        
+        created_plans = []
+        created_variations = []
+        
+        for plan_template in standard_plans:
+            # Check if plan already exists
+            existing = await db.subscription_plans.find_one({"tier": plan_template["tier"]}, {"_id": 0})
+            
+            if existing:
+                logging.info(f"Plan {plan_template['tier']} already exists, skipping")
+                continue
+            
+            # Create Stripe product
+            stripe_product = stripe.Product.create(
+                name=plan_template["name"],
+                description=plan_template["description"],
+                metadata={"tier": plan_template["tier"]}
+            )
+            
+            # Create plan in database
+            plan = SubscriptionPlan(
+                tier=plan_template["tier"],
+                name=plan_template["name"],
+                description=plan_template["description"],
+                features=plan_template["features"],
+                stripe_product_id=stripe_product.id,
+                sort_order=plan_template["sort_order"]
+            )
+            
+            await db.subscription_plans.insert_one(plan.model_dump())
+            created_plans.append(plan_template["tier"])
+            
+            # Create variations if any
+            for var_template in plan_template["variations"]:
+                # Create Stripe price
+                stripe_price = stripe.Price.create(
+                    product=stripe_product.id,
+                    unit_amount=int(var_template["price"] * 100),  # Convert to cents
+                    currency="usd",
+                    recurring={
+                        "interval": var_template["interval"],
+                        "interval_count": 1
+                    }
+                )
+                
+                # Create variation in database
+                variation = SubscriptionPlanVariation(
+                    plan_id=var_template["plan_id"],
+                    name=var_template["name"],
+                    price=var_template["price"],
+                    interval=var_template["interval"],
+                    interval_count=1,
+                    stripe_price_id=stripe_price.id
+                )
+                
+                await db.subscription_plan_variations.insert_one(variation.model_dump())
+                created_variations.append(var_template["plan_id"])
+        
+        logging.info(f"Quick setup completed by {athlete_id}: {len(created_plans)} plans, {len(created_variations)} variations")
+        return {
+            "message": "Quick setup completed",
+            "created_plans": created_plans,
+            "created_variations": created_variations
+        }
+        
+    except Exception as e:
+        logging.error(f"Error in quick setup: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.post("/subscription-plans")
 async def create_subscription_plan(plan_data: dict, athlete_id: str):
     """Create a new subscription plan with Stripe integration (Super Admin only)"""
