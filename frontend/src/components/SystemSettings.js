@@ -126,7 +126,13 @@ const SystemSettings = ({ athleteId }) => {
     showStripeLiveKey: false,
     showStripeLiveWebhook: false,
     showStripeSandboxKey: false,
-    showStripeSandboxWebhook: false
+    showStripeSandboxWebhook: false,
+    sendgrid: {
+      apiKey: '',
+      senderEmail: '',
+      senderName: ''
+    },
+    showSendgridKey: false
   });
 
   // Modules State
