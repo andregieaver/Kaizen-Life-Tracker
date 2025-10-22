@@ -1343,18 +1343,18 @@ const SystemSettings = ({ athleteId }) => {
                     {subscriptionPlans.map((plan) => (
                       <Card key={plan.tier} className="border-gray-600 bg-gray-700/50">
                         <CardHeader>
-                          <div className="flex items-start justify-between">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                             <div className="flex-1">
-                              <CardTitle className="text-white text-xl">{plan.name}</CardTitle>
-                              <CardDescription className="text-gray-400 mt-1">
+                              <CardTitle className="text-white text-lg sm:text-xl">{plan.name}</CardTitle>
+                              <CardDescription className="text-gray-400 mt-1 text-sm">
                                 {plan.description || 'No description'}
                               </CardDescription>
-                              <div className="mt-2">
+                              <div className="mt-2 flex flex-wrap gap-2">
                                 <span className="text-xs px-2 py-1 bg-teal-500/20 text-teal-400 rounded">
                                   Tier: {plan.tier}
                                 </span>
                                 {plan.stripe_product_id && (
-                                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-400 rounded ml-2">
+                                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-400 rounded">
                                     Synced with Stripe
                                   </span>
                                 )}
@@ -1377,8 +1377,8 @@ const SystemSettings = ({ athleteId }) => {
                                 }}
                                 className="text-gray-300 border-gray-600"
                               >
-                                <Pencil className="w-4 h-4 mr-1" />
-                                Edit
+                                <Pencil className="w-4 h-4 sm:mr-1" />
+                                <span className="hidden sm:inline">Edit</span>
                               </Button>
                               <Button
                                 size="sm"
@@ -1386,7 +1386,8 @@ const SystemSettings = ({ athleteId }) => {
                                 onClick={() => deletePlan(plan.tier)}
                                 className="text-red-400 border-red-600"
                               >
-                                Delete
+                                <Trash2 className="w-4 h-4 sm:mr-1" />
+                                <span className="hidden sm:inline">Delete</span>
                               </Button>
                             </div>
                           </div>
