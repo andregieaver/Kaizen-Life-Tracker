@@ -12,6 +12,12 @@ const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' or 'annual'
   const [referralCode, setReferralCode] = useState(null);
   const [discount, setDiscount] = useState(0);
+  
+  // Coupon state
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponError, setCouponError] = useState('');
+  const [validatingCoupon, setValidatingCoupon] = useState(false);
 
   // Check for referral code on component mount
   useEffect(() => {
