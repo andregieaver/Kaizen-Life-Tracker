@@ -273,7 +273,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Image Upload Endpoint with Processing"
+    - "Dynamic Plan Editor UI in SystemSettings"
+    - "Subscription Plan Management API Endpoints"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
