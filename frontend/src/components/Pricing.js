@@ -513,12 +513,18 @@ const Pricing = () => {
 
                 <CardContent>
                   <ul className="space-y-3 mb-8">
-                    {plan.features.map((feature, index) => (
-                      <li key={index} className="flex items-start">
-                        <Check className="w-5 h-5 text-teal-400 mr-3 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-200">{feature}</span>
+                    {plan.features && plan.features.length > 0 ? (
+                      plan.features.map((feature, index) => (
+                        <li key={index} className="flex items-start">
+                          <Check className="w-5 h-5 text-teal-400 mr-3 flex-shrink-0 mt-0.5" />
+                          <span className="text-gray-200">{feature}</span>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="flex items-start">
+                        <span className="text-gray-400 text-sm italic">No features listed yet. Add features in Plan Editor.</span>
                       </li>
-                    ))}
+                    )}
                   </ul>
 
                   <Button
