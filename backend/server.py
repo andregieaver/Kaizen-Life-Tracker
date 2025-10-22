@@ -3321,7 +3321,16 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
                         # Check if applies to subscriptions
                         applies_to = coupon_doc.get("applies_to", "all")
                         if applies_to in ["all", "subscriptions"]:
-                            # Create Stripe coupon
+                            # Check specific plans if specified
+                            specific_plans = coupon_doc.get("specific_plans")
+                            plan_valid = True
+                            if specific_plans:
+                                if request.plan_id not in specific_plans:
+                                    plan_valid = False
+                                    logging.warning(f"Coupon {request.coupon_code} not valid for plan {request.plan_id}")
+                            
+                            if plan_valid:
+                                # Create Stripe coupon
                             stripe_coupon_params = {
                                 "name": coupon_doc.get("name", coupon_doc["code"])
                             }
