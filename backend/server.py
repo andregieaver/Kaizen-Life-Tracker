@@ -2866,10 +2866,19 @@ async def create_athlete_profile(profile: AthleteProfile):
 @api_router.post("/auth/login")
 async def login_athlete(login_data: LoginRequest):
     """Login athlete by email and password"""
+    # Try athlete_profiles first (new collection)
     athlete = await db.athlete_profiles.find_one(
         {"email": login_data.email.lower().strip()}, 
         {"_id": 0}
     )
+    
+    # Fallback to athletes collection (legacy)
+    if not athlete:
+        athlete = await db.athletes.find_one(
+            {"email": login_data.email.lower().strip()}, 
+            {"_id": 0}
+        )
+    
     if not athlete:
         raise HTTPException(status_code=401, detail="Invalid email or password")
     
