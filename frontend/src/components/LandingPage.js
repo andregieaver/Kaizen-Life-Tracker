@@ -671,8 +671,8 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center mb-4">
-                <Heart className="w-6 h-6 text-blue-400" />
-                <span className="ml-2 text-lg font-bold text-white">TrainSmart</span>
+                <Heart className="w-6 h-6 text-teal-400" />
+                <span className="ml-2 text-lg font-bold text-white">{siteTitle}</span>
               </div>
               <p className="text-sm text-gray-400">
                 Your intelligent partner for health, fitness, and longevity.
