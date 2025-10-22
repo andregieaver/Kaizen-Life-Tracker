@@ -1532,6 +1532,64 @@ const SystemSettings = ({ athleteId }) => {
                     </div>
 
                     <div>
+                      <label className="block text-gray-300 mb-2">Features</label>
+                      <div className="space-y-2">
+                        {newPlan.features.map((feature, idx) => (
+                          <div key={idx} className="flex items-center gap-2">
+                            <input
+                              type="text"
+                              value={feature}
+                              onChange={(e) => {
+                                const updated = [...newPlan.features];
+                                updated[idx] = e.target.value;
+                                setNewPlan({...newPlan, features: updated});
+                              }}
+                              className="flex-1 bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 text-sm"
+                            />
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                const updated = newPlan.features.filter((_, i) => i !== idx);
+                                setNewPlan({...newPlan, features: updated});
+                              }}
+                              className="text-red-400 border-red-600"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        ))}
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            placeholder="Add a feature..."
+                            value={newFeature}
+                            onChange={(e) => setNewFeature(e.target.value)}
+                            onKeyPress={(e) => {
+                              if (e.key === 'Enter' && newFeature.trim()) {
+                                setNewPlan({...newPlan, features: [...newPlan.features, newFeature.trim()]});
+                                setNewFeature('');
+                              }
+                            }}
+                            className="flex-1 bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 text-sm"
+                          />
+                          <Button
+                            size="sm"
+                            onClick={() => {
+                              if (newFeature.trim()) {
+                                setNewPlan({...newPlan, features: [...newPlan.features, newFeature.trim()]});
+                                setNewFeature('');
+                              }
+                            }}
+                            className="bg-teal-600 hover:bg-teal-700"
+                          >
+                            <Plus className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
                       <label className="block text-gray-300 mb-2">Sort Order</label>
                       <input
                         type="number"
