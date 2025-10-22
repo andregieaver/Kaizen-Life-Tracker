@@ -1395,8 +1395,8 @@ const SystemSettings = ({ athleteId }) => {
                         <CardContent>
                           {/* Pricing Variations */}
                           <div className="mb-4">
-                            <div className="flex items-center justify-between mb-3">
-                              <h4 className="text-white font-semibold">Pricing Variations</h4>
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                              <h4 className="text-white font-semibold text-sm sm:text-base">Pricing Variations</h4>
                               <Button
                                 size="sm"
                                 onClick={() => {
@@ -1410,7 +1410,7 @@ const SystemSettings = ({ athleteId }) => {
                                   });
                                   setShowCreateVariationModal(true);
                                 }}
-                                className="bg-teal-600 hover:bg-teal-700 text-white"
+                                className="bg-teal-600 hover:bg-teal-700 text-white w-full sm:w-auto"
                               >
                                 <Plus className="w-4 h-4 mr-1" />
                                 Add Variation
