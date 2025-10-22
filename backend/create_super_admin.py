@@ -14,7 +14,7 @@ async def create_super_admin():
     
     # Connect to MongoDB
     client = AsyncIOMotorClient(mongo_url)
-    db = client.health_coach
+    db = client[os.environ.get('DB_NAME', 'test_database')]
     
     # Check if user already exists
     existing_user = await db.athlete_profiles.find_one({"email": "andre@humanweb.no"})
