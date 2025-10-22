@@ -437,12 +437,17 @@ const Schedules = ({ athleteId }) => {
             ].map((template, index) => (
               <div 
                 key={index}
-                className="p-4 border border-gray-200 rounded-lg hover:border-blue-300 transition-colors cursor-pointer"
+                className="p-4 border border-gray-600 rounded-lg transition-colors cursor-pointer bg-gray-800/50"
+                style={{ 
+                  borderColor: '#4b5563'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = '#00C2A8'}
+                onMouseLeave={(e) => e.currentTarget.style.borderColor = '#4b5563'}
                 onClick={() => handleTemplateClick(template)}
               >
-                <h4 className="font-medium text-gray-900 mb-2">{template.name}</h4>
-                <p className="text-sm text-gray-600 mb-3">{template.prompt}</p>
-                <div className="flex items-center text-xs text-gray-500">
+                <h4 className="font-medium text-white mb-2">{template.name}</h4>
+                <p className="text-sm text-gray-300 mb-3">{template.prompt}</p>
+                <div className="flex items-center text-xs text-gray-400">
                   <Clock className="w-3 h-3 mr-1" />
                   {template.frequency} at {template.time}
                 </div>
