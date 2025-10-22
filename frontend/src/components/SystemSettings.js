@@ -2499,6 +2499,133 @@ const SystemSettings = ({ athleteId }) => {
             </Card>
           </TabsContent>
 
+          {/* Waiting List Tab */}
+          <TabsContent value="waitinglist">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+              <CardHeader className="flex flex-col gap-4">
+                <div>
+                  <CardTitle className="text-white text-lg sm:text-xl flex items-center">
+                    <Mail className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                    Waiting List Entries
+                  </CardTitle>
+                  <CardDescription className="text-gray-400 text-sm mt-1">
+                    Manage email harvesting and waiting list sign-ups
+                  </CardDescription>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant={waitingListFilter === 'all' ? 'default' : 'outline'}
+                      onClick={() => setWaitingListFilter('all')}
+                      className={waitingListFilter === 'all' ? 'bg-[#00C2A8]' : 'text-gray-300 border-gray-600'}
+                    >
+                      All
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant={waitingListFilter === 'pending' ? 'default' : 'outline'}
+                      onClick={() => setWaitingListFilter('pending')}
+                      className={waitingListFilter === 'pending' ? 'bg-[#00C2A8]' : 'text-gray-300 border-gray-600'}
+                    >
+                      Pending
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant={waitingListFilter === 'contacted' ? 'default' : 'outline'}
+                      onClick={() => setWaitingListFilter('contacted')}
+                      className={waitingListFilter === 'contacted' ? 'bg-[#00C2A8]' : 'text-gray-300 border-gray-600'}
+                    >
+                      Contacted
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant={waitingListFilter === 'converted' ? 'default' : 'outline'}
+                      onClick={() => setWaitingListFilter('converted')}
+                      className={waitingListFilter === 'converted' ? 'bg-[#00C2A8]' : 'text-gray-300 border-gray-600'}
+                    >
+                      Converted
+                    </Button>
+                  </div>
+                  
+                  <Button
+                    onClick={exportWaitingListCSV}
+                    disabled={waitingListEntries.length === 0}
+                    className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto sm:ml-auto"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Export to CSV
+                  </Button>
+                </div>
+              </CardHeader>
+
+              <CardContent>
+                {loadingWaitingList ? (
+                  <div className="text-center py-8 text-gray-400">Loading entries...</div>
+                ) : waitingListEntries.length === 0 ? (
+                  <div className="text-center py-8 text-gray-400">
+                    No entries found. Share your waiting list link to get sign-ups!
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-gray-700 border-b border-gray-600">
+                        <tr>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold">Name</th>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold">Email</th>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold hidden md:table-cell">Nationality</th>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold hidden lg:table-cell">Source</th>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold">Status</th>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold hidden lg:table-cell">Created</th>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-700">
+                        {waitingListEntries.map((entry) => (
+                          <tr key={entry.id} className="hover:bg-gray-700/50 transition-colors">
+                            <td className="px-4 py-3 text-white text-sm">{entry.name}</td>
+                            <td className="px-4 py-3 text-gray-300 text-sm">{entry.email}</td>
+                            <td className="px-4 py-3 text-gray-300 text-sm hidden md:table-cell">{entry.nationality}</td>
+                            <td className="px-4 py-3 text-gray-400 text-xs hidden lg:table-cell">{entry.source}</td>
+                            <td className="px-4 py-3">
+                              <select
+                                value={entry.status}
+                                onChange={(e) => updateWaitingListStatus(entry.id, e.target.value)}
+                                className="bg-gray-700 text-white text-xs px-2 py-1 rounded border border-gray-600"
+                              >
+                                <option value="pending">Pending</option>
+                                <option value="contacted">Contacted</option>
+                                <option value="converted">Converted</option>
+                              </select>
+                            </td>
+                            <td className="px-4 py-3 text-gray-400 text-xs hidden lg:table-cell">
+                              {new Date(entry.created_at).toLocaleDateString()}
+                            </td>
+                            <td className="px-4 py-3">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => deleteWaitingListEntry(entry.id)}
+                                className="text-red-400 border-red-600 hover:bg-red-600 hover:text-white"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    
+                    <div className="mt-4 text-sm text-gray-400 text-center">
+                      Total entries: {waitingListEntries.length}
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           {/* Statistics Tab */}
           <TabsContent value="statistics">
             <div className="space-y-6">
