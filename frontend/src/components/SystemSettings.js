@@ -1379,8 +1379,16 @@ const SystemSettings = ({ athleteId }) => {
 
           {/* Plan Editor Tab */}
           <TabsContent value="plans">
-            <div className="text-gray-400 text-sm mb-4">
-              Manage subscription plans and pricing. Plans are synced with Stripe automatically.
+            <div className="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 mb-4">
+              <h3 className="text-blue-400 font-semibold mb-2 flex items-center">
+                <Zap className="w-4 h-4 mr-2" />
+                How Plan Structure Works
+              </h3>
+              <div className="text-gray-300 text-sm space-y-2">
+                <p><strong>Plans (Tiers):</strong> Free, Pro, Premium - each is a Stripe Product with features list</p>
+                <p><strong>Variations:</strong> Monthly & Annual pricing for each plan - each is a Stripe Price</p>
+                <p><strong>Example:</strong> "Pro" plan → "Pro Monthly" ($29.99/mo) + "Pro Annual" ($299/yr)</p>
+              </div>
             </div>
 
             {/* Create Plan Button */}
@@ -1389,10 +1397,20 @@ const SystemSettings = ({ athleteId }) => {
                 <div>
                   <CardTitle className="text-white text-lg sm:text-xl">Subscription Plans</CardTitle>
                   <CardDescription className="text-gray-400 text-sm">
-                    Create and manage subscription tiers with multiple pricing variations
+                    Manage your 3-tier subscription structure (Free, Pro, Premium)
                   </CardDescription>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2">
+                  {subscriptionPlans.length === 0 && (
+                    <Button 
+                      onClick={quickSetupPlans}
+                      disabled={loadingPlans}
+                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white w-full sm:w-auto"
+                    >
+                      <Zap className="w-4 h-4 mr-2" />
+                      Quick Setup (3-Tier Structure)
+                    </Button>
+                  )}
                   <Button 
                     onClick={syncWithStripe}
                     variant="outline"
@@ -1400,14 +1418,14 @@ const SystemSettings = ({ athleteId }) => {
                     className="text-gray-300 border-gray-600 hover:bg-gray-700 w-full sm:w-auto"
                   >
                     <ArrowLeftRight className="w-4 h-4 mr-2" />
-                    Sync with Stripe
+                    Sync from Stripe
                   </Button>
                   <Button 
                     onClick={() => setShowCreatePlanModal(true)}
                     className="bg-[#00C2A8] hover:bg-[#00a890] text-white w-full sm:w-auto"
                   >
                     <Plus className="w-4 h-4 mr-2" />
-                    Create Plan
+                    Create Custom Plan
                   </Button>
                 </div>
               </CardHeader>
