@@ -2606,92 +2606,110 @@ const Account = ({ athleteId }) => {
           )}
 
           {/* Downgrade Confirmation Dialog */}
-          {showDowngradeDialog && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <Card className="w-full max-w-md mx-4">
-                <CardHeader>
-                  <CardTitle>
-                    {downgradeTarget === 'pro' ? 'Downgrade to Pro?' : 'Change Plan?'}
-                  </CardTitle>
-                  <CardDescription>
-                    Choose your billing cycle
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {/* Billing Cycle Toggle */}
-                  <div className="flex items-center justify-center space-x-4 bg-gray-800 rounded-full p-2">
-                    <button
-                      onClick={() => setSelectedBillingCycle('monthly')}
-                      className={`px-6 py-2 rounded-full font-medium transition-all ${
-                        selectedBillingCycle === 'monthly'
-                          ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-400 hover:text-white'
-                      }`}
-                    >
-                      Monthly
-                    </button>
-                    <button
-                      onClick={() => setSelectedBillingCycle('annual')}
-                      className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
-                        selectedBillingCycle === 'annual'
-                          ? 'bg-blue-600 text-white shadow-md'
-                          : 'text-gray-400 hover:text-white'
-                      }`}
-                    >
-                      Annual
-                      <Badge variant="default" className="ml-2 bg-green-500 text-white border-0">
-                        Save 17%
-                      </Badge>
-                    </button>
-                  </div>
+          {showDowngradeDialog && downgradeTarget && (() => {
+            const targetPlan = availablePlans.find(p => p.tier === downgradeTarget);
+            if (!targetPlan) return null;
+            
+            const monthlyVar = targetPlan.variations?.find(v => v.interval === 'month');
+            const annualVar = targetPlan.variations?.find(v => v.interval === 'year');
+            const selectedPrice = selectedBillingCycle === 'monthly' ? monthlyVar : annualVar;
+            const savings = monthlyVar && annualVar ? 
+              Math.round((1 - (annualVar.price / (monthlyVar.price * 12))) * 100) : 0;
+            
+            return (
+              <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                <Card className="w-full max-w-lg bg-gradient-to-b from-gray-800 to-gray-900 border-gray-700 shadow-2xl">
+                  <CardHeader>
+                    <CardTitle className="text-white text-2xl">
+                      Change Plan to {targetPlan.name}?
+                    </CardTitle>
+                    <CardDescription className="text-gray-300">
+                      Choose your billing cycle
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    {/* Billing Cycle Toggle */}
+                    {monthlyVar && annualVar && (
+                      <div className="flex items-center justify-center space-x-4 bg-gray-950 rounded-full p-2">
+                        <button
+                          onClick={() => setSelectedBillingCycle('monthly')}
+                          className={`px-6 py-2 rounded-full font-medium transition-all ${
+                            selectedBillingCycle === 'monthly'
+                              ? 'bg-teal-600 text-white shadow-lg'
+                              : 'text-gray-400 hover:text-white'
+                          }`}
+                        >
+                          Monthly
+                        </button>
+                        <button
+                          onClick={() => setSelectedBillingCycle('annual')}
+                          className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
+                            selectedBillingCycle === 'annual'
+                              ? 'bg-teal-600 text-white shadow-lg'
+                              : 'text-gray-400 hover:text-white'
+                          }`}
+                        >
+                          Annual
+                          {savings > 0 && (
+                            <Badge variant="default" className="ml-2 bg-green-500 text-white border-0">
+                              Save {savings}%
+                            </Badge>
+                          )}
+                        </button>
+                      </div>
+                    )}
 
-                  {/* Pricing Display */}
-                  <div className="p-4 bg-blue-900/20 border border-blue-700 rounded-lg">
-                    <div className="text-center mb-3">
-                      <p className="text-3xl font-bold text-blue-900">
-                        {downgradeTarget === 'pro' 
-                          ? (selectedBillingCycle === 'monthly' ? '€9.99/mo' : '€99/year')
-                          : (selectedBillingCycle === 'monthly' ? '€19.99/mo' : '€199/year')
-                        }
-                      </p>
-                      {selectedBillingCycle === 'annual' && (
-                        <p className="text-sm text-green-700 mt-2">
-                          Save {downgradeTarget === 'pro' ? '€20.88' : '€40.68'} per year!
-                        </p>
-                      )}
+                    {/* Pricing Display */}
+                    {selectedPrice && (
+                      <div className="p-6 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+                        <div className="text-center mb-4">
+                          <p className="text-4xl font-bold text-white">
+                            €{selectedPrice.price}
+                            <span className="text-xl text-gray-400">
+                              /{selectedPrice.interval === 'month' ? 'mo' : 'year'}
+                            </span>
+                          </p>
+                          {selectedBillingCycle === 'annual' && monthlyVar && savings > 0 && (
+                            <p className="text-sm text-green-400 mt-2">
+                              Save €{((monthlyVar.price * 12) - annualVar.price).toFixed(2)} per year!
+                            </p>
+                          )}
+                        </div>
+                        <div className="text-sm text-gray-300 bg-gray-950 rounded-lg p-4">
+                          <p className="font-semibold mb-2 text-white">What happens next:</p>
+                          <ul className="space-y-1 list-disc list-inside">
+                            <li>Your plan will change immediately</li>
+                            <li>You'll receive a prorated credit</li>
+                            <li>New billing cycle starts today</li>
+                          </ul>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex gap-3">
+                      <Button 
+                        variant="outline" 
+                        className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-700"
+                        onClick={() => {
+                          setShowDowngradeDialog(false);
+                          setDowngradeTarget(null);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button 
+                        className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
+                        onClick={handleDowngrade}
+                        disabled={!selectedPrice}
+                      >
+                        Confirm Change
+                      </Button>
                     </div>
-                    <div className="text-sm text-blue-800">
-                      <p className="font-semibold mb-1">What happens next:</p>
-                      <ul className="space-y-1 list-disc list-inside">
-                        <li>Your plan will change immediately</li>
-                        <li>You'll receive a prorated credit</li>
-                        <li>New billing cycle starts today</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      className="flex-1"
-                      onClick={() => {
-                        setShowDowngradeDialog(false);
-                        setDowngradeTarget(null);
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button 
-                      variant="default" 
-                      className="flex-1"
-                      onClick={handleDowngrade}
-                    >
-                      Confirm Change
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          )}
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })()}
 
           {/* Billing Cycle Change Dialog */}
           {showBillingCycleDialog && (
