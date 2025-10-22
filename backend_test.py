@@ -1458,9 +1458,14 @@ def test_stripe_sync_endpoint():
         
         plans_data = plans_response.json()
         plans = plans_data.get("plans", [])
-        variations = plans_data.get("variations", [])
         
-        print_test_result("Get Synced Plans", True, f"Retrieved {len(plans)} plans and {len(variations)} variations")
+        # Extract all variations from all plans (they're nested inside each plan)
+        all_variations = []
+        for plan in plans:
+            plan_variations = plan.get("variations", [])
+            all_variations.extend(plan_variations)
+        
+        print_test_result("Get Synced Plans", True, f"Retrieved {len(plans)} plans and {len(all_variations)} variations")
         
         # Verify synced plans have proper stripe_product_id
         stripe_plans = [plan for plan in plans if plan.get("stripe_product_id")]
@@ -1473,7 +1478,7 @@ def test_stripe_sync_endpoint():
             print_test_result("Plans Have Stripe Product ID", True, "No Stripe products to verify (empty Stripe account)")
         
         # Verify variations have proper stripe_price_id
-        stripe_variations = [var for var in variations if var.get("stripe_price_id")]
+        stripe_variations = [var for var in all_variations if var.get("stripe_price_id")]
         if sync_stats['prices_synced'] > 0:
             if len(stripe_variations) > 0:
                 print_test_result("Variations Have Stripe Price ID", True, f"{len(stripe_variations)} variations have stripe_price_id")
