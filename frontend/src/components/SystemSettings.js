@@ -1366,10 +1366,18 @@ const SystemSettings = ({ athleteId }) => {
                                 variant="outline"
                                 onClick={() => {
                                   setSelectedPlan(plan);
+                                  setEditingPlan({
+                                    tier: plan.tier,
+                                    name: plan.name,
+                                    description: plan.description || '',
+                                    features: plan.features || [],
+                                    sort_order: plan.sort_order || 0
+                                  });
                                   setShowEditPlanModal(true);
                                 }}
                                 className="text-gray-300 border-gray-600"
                               >
+                                <Pencil className="w-4 h-4 mr-1" />
                                 Edit
                               </Button>
                               <Button
