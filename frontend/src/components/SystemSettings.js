@@ -625,6 +625,69 @@ const SystemSettings = ({ athleteId }) => {
     }
   };
 
+  // Waiting List Functions
+  const loadWaitingList = async () => {
+    setLoadingWaitingList(true);
+    try {
+      const statusParam = waitingListFilter !== 'all' ? `&status=${waitingListFilter}` : '';
+      const response = await axios.get(`${API}/waiting-list?athlete_id=${athleteId}${statusParam}`);
+      setWaitingListEntries(response.data.entries || []);
+    } catch (error) {
+      console.error('Error loading waiting list:', error);
+      alert('Failed to load waiting list');
+    } finally {
+      setLoadingWaitingList(false);
+    }
+  };
+
+  const exportWaitingListCSV = async () => {
+    try {
+      const statusParam = waitingListFilter !== 'all' ? `?status=${waitingListFilter}&` : '?';
+      const response = await axios.get(
+        `${API}/waiting-list/export${statusParam}athlete_id=${athleteId}`,
+        { responseType: 'blob' }
+      );
+      
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `waiting-list-${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error('Error exporting waiting list:', error);
+      alert('Failed to export waiting list');
+    }
+  };
+
+  const updateWaitingListStatus = async (entryId, newStatus) => {
+    try {
+      await axios.put(
+        `${API}/waiting-list/${entryId}?athlete_id=${athleteId}`,
+        { status: newStatus }
+      );
+      loadWaitingList();
+    } catch (error) {
+      console.error('Error updating entry:', error);
+      alert('Failed to update entry');
+    }
+  };
+
+  const deleteWaitingListEntry = async (entryId) => {
+    if (!window.confirm('Are you sure you want to delete this entry?')) {
+      return;
+    }
+    
+    try {
+      await axios.delete(`${API}/waiting-list/${entryId}?athlete_id=${athleteId}`);
+      loadWaitingList();
+    } catch (error) {
+      console.error('Error deleting entry:', error);
+      alert('Failed to delete entry');
+    }
+  };
+
   const handleTabChange = (value) => {
     console.log('📝 Saving tab to localStorage:', value);
     setActiveTab(value);
