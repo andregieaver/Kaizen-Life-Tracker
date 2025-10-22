@@ -5980,49 +5980,49 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Image Upload Endpoint with Processing Testing"""
-    print("🚀 STARTING IMAGE UPLOAD ENDPOINT WITH PROCESSING TESTING")
+    """Run Subscription Plan Management API Testing"""
+    print("🚀 STARTING SUBSCRIPTION PLAN MANAGEMENT API TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Image Upload Endpoint with Processing
+    # Test Subscription Plan Management API
     try:
-        result = test_image_upload_endpoint_with_processing()
+        result = test_subscription_plan_management_api()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Image Upload Endpoint with Processing", False, f"Exception: {str(e)}")
+        print_test_result("Subscription Plan Management API", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 IMAGE UPLOAD ENDPOINT WITH PROCESSING TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ SINGLE IMAGE UPLOAD: JPG uploaded and processed correctly")
-        print("✅ WEBP CONVERSION: All images converted to WebP format")
-        print("✅ IMAGE RESIZING: Large images resized to max 1024x1024px")
-        print("✅ ASPECT RATIO: Original aspect ratios maintained during resize")
-        print("✅ MULTIPLE IMAGES: Up to 5 images uploaded simultaneously")
-        print("✅ PNG TRANSPARENCY: PNG with transparency converted correctly")
-        print("✅ MAX FILES VALIDATION: Correctly rejects >5 images")
-        print("✅ CUSTOM MAX FILES: max_files query parameter working")
-        print("✅ FILE TYPE VALIDATION: Non-image files correctly rejected")
-        print("✅ IMAGE COMPRESSION: Quality=85 compression working")
-        print("✅ URL GENERATION: Correct URLs with backend domain")
-        print("✅ STATIC FILE SERVING: Images accessible via /uploads/images/")
-        print("🔧 VERIFIED: Image processing pipeline fully functional")
-        print("🔧 CONFIRMED: All image optimization features working as specified")
+        print("🎉 SUBSCRIPTION PLAN MANAGEMENT API TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ SUPER ADMIN AUTHENTICATION: andre@humanweb.no authenticated successfully")
+        print("✅ GET /api/subscription-plans: List all plans working")
+        print("✅ POST /api/subscription-plans: Create new plan with Stripe integration")
+        print("✅ PUT /api/subscription-plans/{tier}: Update plan details working")
+        print("✅ POST /api/subscription-plans/{tier}/variations: Create pricing variations")
+        print("✅ PUT /api/subscription-plans/variations/{plan_id}: Update variation prices")
+        print("✅ DELETE /api/subscription-plans/variations/{plan_id}: Delete variations")
+        print("✅ DELETE /api/subscription-plans/{tier}: Delete plans and variations")
+        print("✅ STRIPE INTEGRATION: Products and prices created successfully")
+        print("✅ AUTHENTICATION: Super admin only access enforced")
+        print("✅ ERROR HANDLING: 404 for non-existent resources")
+        print("✅ DATA PERSISTENCE: Database updates working correctly")
+        print("🔧 VERIFIED: All subscription plan management endpoints functional")
+        print("🔧 CONFIRMED: Stripe synchronization working as specified")
     else:
-        print("❌ IMAGE UPLOAD ENDPOINT WITH PROCESSING TESTING FOUND ISSUES")
+        print("❌ SUBSCRIPTION PLAN MANAGEMENT API TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Image upload and processing may not be working correctly")
-        print("💡 Check backend logs for image processing errors")
-        print("💡 Verify image_processor.py module is working")
-        print("💡 Check /app/backend/uploads/images/ directory permissions")
-        print("💡 Verify static file mounting at /uploads path")
-        print("💡 Check PIL/Pillow library installation")
+        print("🚨 CRITICAL: Subscription plan management may not be working correctly")
+        print("💡 Check super admin user andre@humanweb.no exists and has is_super_admin=true")
+        print("💡 Verify STRIPE_API_KEY is configured in backend/.env")
+        print("💡 Check backend logs for Stripe integration errors")
+        print("💡 Verify MongoDB subscription_plans and subscription_plan_variations collections")
+        print("💡 Check verify_super_admin function is working correctly")
     
     print("=" * 70)
 
