@@ -1067,7 +1067,7 @@ const SystemSettings = ({ athleteId }) => {
 
         {/* System Settings Tabs */}
         <Tabs value={activeTab} onValueChange={handleTabChange}>
-          <TabsList className="grid w-full grid-cols-6 mb-8 bg-gray-800 border border-gray-700 p-1.5 h-auto">
+          <TabsList className="grid w-full grid-cols-4 sm:grid-cols-7 mb-8 bg-gray-800 border border-gray-700 p-1.5 h-auto gap-1">
             <TabsTrigger value="seo" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
               <span>SEO</span>
             </TabsTrigger>
@@ -1075,13 +1075,16 @@ const SystemSettings = ({ athleteId }) => {
               <span>Modules</span>
             </TabsTrigger>
             <TabsTrigger value="plans" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
-              <span>Plan Editor</span>
+              <span>Plans</span>
             </TabsTrigger>
             <TabsTrigger value="coupons" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
               <span>Coupons</span>
             </TabsTrigger>
+            <TabsTrigger value="waitinglist" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
+              <span>Waiting List</span>
+            </TabsTrigger>
             <TabsTrigger value="statistics" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
-              <span>Statistics</span>
+              <span>Stats</span>
             </TabsTrigger>
             <TabsTrigger value="advanced" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
               <span>Advanced</span>
