@@ -1374,32 +1374,13 @@ const Nutrition = ({ athleteId }) => {
           <p className="text-gray-500">Loading entries...</p>
         </div>
       ) : filteredEntries.length === 0 ? (
-        <Card className="bg-gradient-to-r from-gray-900 to-gray-800 border-0">
-          <CardContent className="text-center py-12">
-            <Utensils className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-white mb-2">No entries for this {viewType === 'day' ? 'day' : 'week'}</h3>
-            <p className="text-gray-300 mb-4">Start tracking your meals and supplements</p>
-            <div className="flex gap-2 justify-center">
-              <Button 
-                onClick={openSupplementModal}
-                className="text-white border-0 bg-gray-700 hover:bg-gray-600"
-              >
-                <Pill className="w-4 h-4 mr-2" />
-                Log Supplements
-              </Button>
-              <Button 
-                onClick={openNewEntryModal}
-                className="text-white border-0"
-                style={{ backgroundColor: '#00C2A8' }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Log Meal
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="flex flex-col items-center justify-center py-12">
+          <Utensils className="w-16 h-16 text-gray-400 mb-4" />
+          <h3 className="text-lg font-medium text-gray-200 mb-2">No entries for this {viewType === 'day' ? 'day' : 'week'}</h3>
+          <p className="text-gray-400 text-center">
+            Start tracking your meals and supplements
+          </p>
+        </div>
       ) : viewType === 'week' ? (
         // Week view with day separators
         <div className="space-y-6">
