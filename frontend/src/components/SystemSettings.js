@@ -1305,26 +1305,26 @@ const SystemSettings = ({ athleteId }) => {
 
             {/* Create Plan Button */}
             <Card className="border-0 shadow-lg bg-gray-800 border-gray-700 mb-6">
-              <CardHeader className="flex flex-row items-center justify-between">
+              <CardHeader className="flex flex-col gap-4">
                 <div>
-                  <CardTitle className="text-white">Subscription Plans</CardTitle>
-                  <CardDescription className="text-gray-400">
+                  <CardTitle className="text-white text-lg sm:text-xl">Subscription Plans</CardTitle>
+                  <CardDescription className="text-gray-400 text-sm">
                     Create and manage subscription tiers with multiple pricing variations
                   </CardDescription>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <Button 
                     onClick={syncWithStripe}
                     variant="outline"
                     disabled={loadingPlans}
-                    className="text-gray-300 border-gray-600 hover:bg-gray-700"
+                    className="text-gray-300 border-gray-600 hover:bg-gray-700 w-full sm:w-auto"
                   >
                     <ArrowLeftRight className="w-4 h-4 mr-2" />
                     Sync with Stripe
                   </Button>
                   <Button 
                     onClick={() => setShowCreatePlanModal(true)}
-                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white w-full sm:w-auto"
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     Create Plan
