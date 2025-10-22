@@ -180,6 +180,7 @@ const LandingPage = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const [hasReferralCode, setHasReferralCode] = useState(false);
+  const [siteTitle, setSiteTitle] = useState('TrainSmart');
 
   // Capture referral code from URL
   useEffect(() => {
