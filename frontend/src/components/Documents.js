@@ -742,10 +742,12 @@ const Documents = ({ athleteId }) => {
           <p className="mt-4 text-gray-300">Loading documents...</p>
         </div>
       ) : filteredDocuments.length === 0 ? (
-        <div className="text-center py-12 bg-gradient-to-r from-gray-900 to-gray-800 rounded-lg">
-          <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-300 mb-2">No documents yet</p>
-          <p className="text-sm text-gray-400">Upload your first document to get started</p>
+        <div className="flex flex-col items-center justify-center py-12">
+          <FileText className="w-16 h-16 text-gray-400 mb-4" />
+          <h3 className="text-lg font-medium text-gray-200 mb-2">No documents yet</h3>
+          <p className="text-gray-400 text-center">
+            Upload your first document to get started
+          </p>
         </div>
       ) : (
         <div className="grid gap-4">
