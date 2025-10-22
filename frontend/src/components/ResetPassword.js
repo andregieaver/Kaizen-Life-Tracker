@@ -120,12 +120,12 @@ const ResetPassword = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-emerald-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center p-4">
       <div className="w-full max-w-md space-y-6">
         {/* Navigation */}
         <Link
           to="/login"
-          className="inline-flex items-center text-gray-600 hover:text-gray-700 transition-colors"
+          className="inline-flex items-center text-sm text-gray-300 hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t('auth.backToLogin')}
@@ -133,33 +133,33 @@ const ResetPassword = () => {
 
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-4xl font-display font-bold text-gray-900 mb-2">
+          <h1 className="text-4xl font-display font-bold text-white mb-2">
             My Health Tracker
           </h1>
-          <p className="text-gray-600">{t('auth.resetPasswordSubtitle')}</p>
+          <p className="text-gray-300">{t('auth.resetPasswordSubtitle')}</p>
         </div>
 
         {/* Reset Password Card */}
-        <Card className="border-0 shadow-xl">
+        <Card className="border-0 shadow-xl bg-gradient-to-br from-gray-600 to-gray-800">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl flex items-center justify-center">
-              <Lock className="w-6 h-6 mr-2 text-blue-600" />
+            <CardTitle className="text-2xl flex items-center justify-center text-white">
+              <Lock className="w-6 h-6 mr-2" style={{ color: '#00C2A8' }} />
               {t('auth.resetPassword')}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-300">
               {t('auth.enterNewPassword')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
-                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600">
+                <div className="p-3 bg-red-900/30 border border-red-700 rounded-lg text-sm text-red-400">
                   {error}
                 </div>
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email">{t('auth.email')}</Label>
+                <Label htmlFor="email" className="text-white">{t('auth.email')}</Label>
                 <Input
                   id="email"
                   name="email"
@@ -167,14 +167,14 @@ const ResetPassword = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder={t('auth.emailPlaceholder')}
-                  className="input-focus"
+                  className="input-focus bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                   required
                   disabled={isLoading}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="resetToken">{t('auth.resetToken')}</Label>
+                <Label htmlFor="resetToken" className="text-white">{t('auth.resetToken')}</Label>
                 <Input
                   id="resetToken"
                   name="resetToken"
@@ -182,14 +182,14 @@ const ResetPassword = () => {
                   value={formData.resetToken}
                   onChange={handleInputChange}
                   placeholder={t('auth.resetTokenPlaceholder')}
-                  className="input-focus"
+                  className="input-focus bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                   required
                   disabled={isLoading}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="newPassword">{t('auth.newPassword')}</Label>
+                <Label htmlFor="newPassword" className="text-white">{t('auth.newPassword')}</Label>
                 <Input
                   id="newPassword"
                   name="newPassword"
@@ -197,14 +197,14 @@ const ResetPassword = () => {
                   value={formData.newPassword}
                   onChange={handleInputChange}
                   placeholder={t('auth.passwordPlaceholder')}
-                  className="input-focus"
+                  className="input-focus bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                   required
                   disabled={isLoading}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">{t('auth.confirmNewPassword')}</Label>
+                <Label htmlFor="confirmPassword" className="text-white">{t('auth.confirmNewPassword')}</Label>
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
@@ -212,7 +212,7 @@ const ResetPassword = () => {
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
                   placeholder={t('auth.confirmPasswordPlaceholder')}
-                  className="input-focus"
+                  className="input-focus bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                   required
                   disabled={isLoading}
                 />
@@ -220,7 +220,10 @@ const ResetPassword = () => {
 
               <Button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 btn-transition"
+                className="w-full text-white font-medium py-3 btn-transition border-0"
+                style={{ backgroundColor: '#00C2A8' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
                 disabled={isLoading}
               >
                 {isLoading ? (
@@ -238,11 +241,14 @@ const ResetPassword = () => {
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-300">
                 {t('auth.rememberPassword')}{' '}
                 <Link 
                   to="/login" 
-                  className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
+                  className="font-medium hover:underline"
+                  style={{ color: '#00C2A8' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#009688'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#00C2A8'}
                 >
                   {t('auth.loginHere')}
                 </Link>
