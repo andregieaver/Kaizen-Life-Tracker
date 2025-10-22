@@ -3293,6 +3293,70 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
             except Exception as e:
                 logging.error(f"Failed to apply referral rewards: {e}")
         
+        # Handle custom coupon code
+        if request.coupon_code:
+            try:
+                # Validate coupon from database
+                coupon_doc = await db.coupons.find_one({
+                    "code": request.coupon_code.upper(),
+                    "enabled": True
+                }, {"_id": 0})
+                
+                if coupon_doc:
+                    # Check expiration
+                    expired = False
+                    if coupon_doc.get("expires_at"):
+                        expiry = datetime.fromisoformat(coupon_doc["expires_at"]) if isinstance(coupon_doc["expires_at"], str) else coupon_doc["expires_at"]
+                        if datetime.now(timezone.utc) > expiry:
+                            expired = True
+                    
+                    # Check usage limit
+                    usage_limit_reached = False
+                    if coupon_doc.get("max_uses") is not None:
+                        if coupon_doc.get("current_uses", 0) >= coupon_doc["max_uses"]:
+                            usage_limit_reached = True
+                    
+                    if not expired and not usage_limit_reached:
+                        # Check if applies to subscriptions
+                        applies_to = coupon_doc.get("applies_to", "all")
+                        if applies_to in ["all", "subscriptions"]:
+                            # Create Stripe coupon
+                            stripe_coupon_params = {
+                                "name": coupon_doc.get("name", coupon_doc["code"])
+                            }
+                            
+                            if coupon_doc["type"] == "percentage":
+                                stripe_coupon_params["percent_off"] = coupon_doc["value"]
+                            else:
+                                # Fixed amount in cents
+                                stripe_coupon_params["amount_off"] = int(coupon_doc["value"] * 100)
+                                stripe_coupon_params["currency"] = coupon_doc.get("currency", "usd")
+                            
+                            # Apply coupon only once for subscription
+                            stripe_coupon_params["duration"] = "once"
+                            
+                            stripe_coupon = stripe.Coupon.create(**stripe_coupon_params)
+                            discounts_list.append({"coupon": stripe_coupon.id})
+                            
+                            logging.info(f"Applied coupon {request.coupon_code} for user {request.athlete_id}")
+                            
+                            # Increment usage counter
+                            await db.coupons.update_one(
+                                {"code": request.coupon_code.upper()},
+                                {"$inc": {"current_uses": 1}}
+                            )
+                        else:
+                            logging.warning(f"Coupon {request.coupon_code} does not apply to subscriptions")
+                    else:
+                        if expired:
+                            logging.warning(f"Coupon {request.coupon_code} has expired")
+                        if usage_limit_reached:
+                            logging.warning(f"Coupon {request.coupon_code} usage limit reached")
+                else:
+                    logging.warning(f"Coupon {request.coupon_code} not found or disabled")
+            except Exception as e:
+                logging.error(f"Failed to apply coupon: {e}")
+        
         # Create Stripe Checkout Session for subscription
         session_params = {
             'mode': 'subscription',
