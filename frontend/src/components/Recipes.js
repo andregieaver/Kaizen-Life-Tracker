@@ -188,37 +188,39 @@ const Recipes = ({ athleteId }) => {
     <div className="space-y-6 p-4 sm:p-6 lg:p-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-display font-bold text-gray-900">Recipe Generator</h1>
-        <p className="text-gray-600 mt-1">Generate AI-powered recipes tailored to your nutrition needs</p>
+        <h1 className="text-3xl font-display font-bold text-white">Recipe Generator</h1>
+        <p className="text-gray-300 mt-1">Generate AI-powered recipes tailored to your nutrition needs</p>
       </div>
 
       {/* Status Message */}
       {statusMessage.message && (
-        <div className={`p-4 rounded-lg ${
-          statusMessage.type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' :
-          statusMessage.type === 'error' ? 'bg-red-50 text-red-800 border border-red-200' :
-          'bg-blue-50 text-blue-800 border border-blue-200'
+        <div className={`p-4 rounded-lg flex items-start gap-3 ${
+          statusMessage.type === 'success' ? 'bg-green-900/30 text-green-200 border border-green-700' :
+          statusMessage.type === 'error' ? 'bg-red-900/30 text-red-200 border border-red-700' :
+          'bg-blue-900/30 text-blue-200 border border-blue-700'
         }`}>
-          {statusMessage.message}
+          {statusMessage.type === 'error' && <X className="w-5 h-5 flex-shrink-0 mt-0.5" />}
+          <span className="flex-1">{statusMessage.message}</span>
         </div>
       )}
 
       {/* Generation Form */}
-      <Card>
+      <Card className="bg-gradient-to-br from-gray-700 to-gray-800 border-0 shadow-lg">
         <CardHeader>
-          <CardTitle className="text-lg font-display">Generate New Recipe</CardTitle>
-          <CardDescription>Select a meal type and generate a personalized recipe</CardDescription>
+          <CardTitle className="text-lg font-display text-white">Generate New Recipe</CardTitle>
+          <CardDescription className="text-gray-300">Select a meal type and generate a personalized recipe</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col sm:flex-row gap-4 items-end">
+          <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-end">
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Meal Type
               </label>
               <select
                 value={selectedMealType}
                 onChange={(e) => setSelectedMealType(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-2.5 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:border-transparent"
+                style={{ focusRingColor: '#00C2A8' }}
                 disabled={isGenerating}
               >
                 <option value="breakfast">🍳 Breakfast</option>
@@ -229,17 +231,22 @@ const Recipes = ({ athleteId }) => {
             <Button
               onClick={generateRecipe}
               disabled={isGenerating}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white whitespace-nowrap"
+              className="text-white border-0 whitespace-nowrap h-[42px] sm:h-auto px-6 py-2.5"
+              style={{ backgroundColor: '#00C2A8' }}
+              onMouseEnter={(e) => !isGenerating && (e.currentTarget.style.backgroundColor = '#009688')}
+              onMouseLeave={(e) => !isGenerating && (e.currentTarget.style.backgroundColor = '#00C2A8')}
             >
               {isGenerating ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Generating...
+                  <span className="hidden sm:inline">Generating...</span>
+                  <span className="sm:hidden">...</span>
                 </>
               ) : (
                 <>
                   <Sparkles className="w-4 h-4 mr-2" />
-                  Generate Recipe
+                  <span className="hidden sm:inline">Generate Recipe</span>
+                  <span className="sm:hidden">Generate</span>
                 </>
               )}
             </Button>
@@ -250,11 +257,12 @@ const Recipes = ({ athleteId }) => {
       {/* Filter */}
       {recipes.length > 0 && (
         <div className="flex items-center gap-2">
-          <label className="text-sm font-medium text-gray-700">Filter by:</label>
+          <label className="text-sm font-medium text-gray-300">Filter by:</label>
           <select
             value={filterMealType}
             onChange={(e) => setFilterMealType(e.target.value)}
-            className="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500"
+            className="px-4 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2"
+            style={{ focusRingColor: '#00C2A8' }}
           >
             <option value="all">All Meals</option>
             <option value="breakfast">🍳 Breakfast</option>
