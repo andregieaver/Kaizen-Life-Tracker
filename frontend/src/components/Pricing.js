@@ -201,16 +201,23 @@ const Pricing = () => {
       const originUrl = window.location.origin;
       
       // Call backend to create checkout session
+      const checkoutData = {
+        plan_id: plan_id,
+        origin_url: originUrl,
+        athlete_id: athleteId
+      };
+
+      // Add coupon if applied
+      if (appliedCoupon) {
+        checkoutData.coupon_code = appliedCoupon.coupon.code;
+      }
+
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/subscriptions/create-checkout-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          plan_id: plan_id,
-          origin_url: originUrl,
-          athlete_id: athleteId
-        })
+        body: JSON.stringify(checkoutData)
       });
 
       if (!response.ok) {
