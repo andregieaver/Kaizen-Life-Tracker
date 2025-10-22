@@ -229,6 +229,8 @@ const Account = ({ athleteId }) => {
     status: 'active',
     current_period_end: null
   });
+  const [availablePlans, setAvailablePlans] = useState([]);
+  const [currentPlanDetails, setCurrentPlanDetails] = useState(null);
   const [invoices, setInvoices] = useState([]);
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [showDowngradeDialog, setShowDowngradeDialog] = useState(false);
