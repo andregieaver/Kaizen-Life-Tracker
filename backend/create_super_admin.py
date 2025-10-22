@@ -67,7 +67,7 @@ async def create_super_admin():
         print(f"🆔 User ID: {athlete_data['id']}")
     
     # Verify
-    user = await db.athletes.find_one(
+    user = await db.athlete_profiles.find_one(
         {"email": "andre@humanweb.no"}, 
         {"_id": 0, "email": 1, "name": 1, "is_super_admin": 1, "id": 1}
     )
