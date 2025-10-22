@@ -184,8 +184,17 @@ const SystemSettings = ({ athleteId }) => {
     max_uses: '',
     expires_at: '',
     applies_to: 'all',
+    specific_plans: [],
     min_purchase_amount: ''
   });
+
+  // Available plans for coupon selection
+  const availablePlans = [
+    { id: 'pro_monthly', name: 'Pro Monthly' },
+    { id: 'pro_annual', name: 'Pro Annual' },
+    { id: 'premium_monthly', name: 'Premium Monthly' },
+    { id: 'premium_annual', name: 'Premium Annual' }
+  ];
 
   // Load settings on mount
   useEffect(() => {
