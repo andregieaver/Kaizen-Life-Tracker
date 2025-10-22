@@ -166,60 +166,40 @@ const ResetPassword = () => {
                 </div>
               )}
 
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-white">{t('auth.email')}</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder={t('auth.emailPlaceholder')}
-                  className="input-focus bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-                  required
-                  disabled={isLoading}
-                />
-              </div>
+              {/* Show email for confirmation (read-only) */}
+              {formData.email && (
+                <div className="p-3 bg-gray-700/50 border border-gray-600 rounded-lg">
+                  <p className="text-sm text-gray-300">
+                    Resetting password for: <span className="font-medium text-white">{formData.email}</span>
+                  </p>
+                </div>
+              )}
 
               <div className="space-y-2">
-                <Label htmlFor="resetToken" className="text-white">{t('auth.resetToken')}</Label>
-                <Input
-                  id="resetToken"
-                  name="resetToken"
-                  type="text"
-                  value={formData.resetToken}
-                  onChange={handleInputChange}
-                  placeholder={t('auth.resetTokenPlaceholder')}
-                  className="input-focus bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="newPassword" className="text-white">{t('auth.newPassword')}</Label>
+                <Label htmlFor="newPassword" className="text-white">New Password</Label>
                 <Input
                   id="newPassword"
                   name="newPassword"
                   type="password"
                   value={formData.newPassword}
                   onChange={handleInputChange}
-                  placeholder={t('auth.passwordPlaceholder')}
+                  placeholder="Enter your new password"
                   className="input-focus bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                   required
                   disabled={isLoading}
+                  autoFocus
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword" className="text-white">{t('auth.confirmNewPassword')}</Label>
+                <Label htmlFor="confirmPassword" className="text-white">Confirm New Password</Label>
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
                   type="password"
                   value={formData.confirmPassword}
                   onChange={handleInputChange}
-                  placeholder={t('auth.confirmPasswordPlaceholder')}
+                  placeholder="Re-enter your new password"
                   className="input-focus bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                   required
                   disabled={isLoading}
