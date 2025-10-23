@@ -114,6 +114,7 @@ const SystemSettings = ({ athleteId }) => {
     openaiApiKey: '',
     showKey: false,
     stripe: {
+      mode: 'test', // 'test' or 'live'
       live: {
         publishableKey: '',
         apiKey: '',
