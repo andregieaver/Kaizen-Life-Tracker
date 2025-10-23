@@ -12636,7 +12636,11 @@ async def push_plans_to_stripe(athlete_id: str):
                 push_stats["plans_updated"] += 1
                 
                 # Create prices for each variation
-                variations = plan.get("variations", [])
+                if not variations:
+                    push_stats["errors"].append(f"Plan '{tier}' has no variations. Add monthly/yearly pricing first.")
+                    logging.warning(f"Plan {tier} has no variations to create prices for")
+                    continue
+                
                 for variation in variations:
                     try:
                         # Skip if already has Stripe price ID
