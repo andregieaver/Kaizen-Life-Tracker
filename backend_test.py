@@ -1472,7 +1472,7 @@ def test_stripe_plan_id_format_mismatch_fix():
                     print_test_result(f"Frontend Format - {plan_id}", False, f"400 error but different reason: {error_text}")
             elif checkout_response.status_code == 200:
                 checkout_result = checkout_response.json()
-                checkout_url = checkout_result.get("checkout_url", "")
+                checkout_url = checkout_result.get("checkout_url", "") or checkout_result.get("url", "")
                 session_id = checkout_result.get("session_id", "")
                 
                 if checkout_url.startswith("https://checkout.stripe.com"):
