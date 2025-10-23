@@ -12332,17 +12332,23 @@ async def create_plan_variation(tier: str, variation_data: dict, athlete_id: str
         else:
             logging.warning(f"Plan {tier} has no Stripe product ID. Variation will be saved without Stripe price ID.")
         
-        # Create variation in database
-        variation = SubscriptionPlanVariation(
-            plan_id=variation_data["plan_id"],
-            name=variation_data["name"],
-            price=variation_data["price"],
-            interval=variation_data["interval"],
-            interval_count=variation_data.get("interval_count", 1),
-            stripe_price_id=stripe_price.id
-        )
+        # Add variation to the plan's variations array
+        import uuid
+        variation_id = str(uuid.uuid4())
         
-        await db.subscription_plan_variations.insert_one(variation.model_dump())
+        new_variation = {
+            "id": variation_id,
+            "interval": variation_data["interval"],
+            "price": variation_data["price"],
+            "currency": variation_data.get("currency", "EUR"),
+            "stripe_price_id": stripe_price_id
+        }
+        
+        # Add to plan's variations
+        await db.subscription_plans.update_one(
+            {"tier": tier},
+            {"$push": {"variations": new_variation}}
+        )
         
         logging.info(f"Plan variation created: {variation.plan_id} by {athlete_id}")
         return {"message": "Variation created successfully", "variation": variation.model_dump()}
