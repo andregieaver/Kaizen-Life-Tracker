@@ -1639,14 +1639,7 @@ def test_stripe_plan_id_format_mismatch_fix():
         print_test_result("Stripe Plan ID Format Mismatch Fix", True, "ALL CRITICAL SUCCESS CRITERIA MET")
         
         print("\n✅ STRIPE PLAN ID FORMAT MISMATCH FIX VERIFICATION COMPLETED SUCCESSFULLY")
-        return True this user exists and has super admin privileges
-        test_admin_response = requests.get(f"{BACKEND_URL}/subscription-plans?athlete_id={super_admin_id}")
-        
-        if test_admin_response.status_code == 200:
-            print_test_result("Use Known Super Admin", True, f"Using known super admin: {super_admin_email} (ID: {super_admin_id})")
-        else:
-            print_test_result("Use Known Super Admin", False, f"Known super admin not accessible: {test_admin_response.status_code}")
-            return False
+        return True
         
         # Step 2: Test Sync to Stripe Endpoint
         print("   Step 2: Test Sync to Stripe Endpoint - POST /api/subscription-plans/push-to-stripe")
