@@ -320,6 +320,7 @@ const SystemSettings = ({ athleteId }) => {
           openaiApiKey: response.data.advanced.openaiApiKey || '',
           showKey: false,
           stripe: {
+            mode: response.data.advanced.stripe?.mode || 'test',
             live: {
               publishableKey: response.data.advanced.stripe?.live?.publishableKey || '',
               apiKey: response.data.advanced.stripe?.live?.apiKey || '',
