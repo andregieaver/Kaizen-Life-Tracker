@@ -1735,8 +1735,8 @@ def test_stripe_checkout_database_synced_prices():
         else:
             print_test_result("Missing Athlete ID Check", False, f"Expected 400/422, got {missing_id_response.status_code}")
         
-        # Step 8: Check backend logs for activation errors
-        print("   Step 8: Check backend logs for activation errors")
+        # Step 9: Check backend logs for activation errors
+        print("   Step 9: Check backend logs for activation errors")
         
         try:
             import subprocess
