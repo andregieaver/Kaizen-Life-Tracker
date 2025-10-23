@@ -224,6 +224,16 @@ function App() {
             } 
           />
           <Route 
+            path="/dashboard/:tab/*" 
+            element={
+              athleteId ? (
+                <Dashboard athleteId={athleteId} />
+              ) : (
+                <Navigate to="/" replace />
+              )
+            } 
+          />
+          <Route 
             path="/auth/strava/callback" 
             element={<StravaCallback />} 
           />
