@@ -25,8 +25,11 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const UserProfile = ({ athleteId }) => {
-  const { userId } = useParams();
+  const { tab } = useParams();
   const navigate = useNavigate();
+  
+  // Extract userId from tab param (format: "crm/user/{userId}")
+  const userId = tab?.split('/').pop();
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
