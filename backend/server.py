@@ -4047,9 +4047,6 @@ async def update_subscription_plan(request: dict):
     if not athlete_id or not new_plan_id:
         raise HTTPException(status_code=400, detail="athlete_id and new_plan_id are required")
     
-    if new_plan_id not in SUBSCRIPTION_PLANS:
-        raise HTTPException(status_code=400, detail="Invalid plan ID")
-    
     # Get athlete
     athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
     if not athlete:
@@ -4059,20 +4056,56 @@ async def update_subscription_plan(request: dict):
     if not stripe_subscription_id:
         raise HTTPException(status_code=400, detail="No active subscription found")
     
-    # Get Stripe API key
-    stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
+    # Get Stripe settings from system_settings
+    system_settings = await db.system_settings.find_one({}, {"_id": 0})
+    if not system_settings:
+        raise HTTPException(status_code=500, detail="System settings not found")
+    
+    stripe_settings = system_settings.get("advanced", {}).get("stripe", {})
+    stripe_mode = stripe_settings.get("mode", "test")
+    
+    # Get the appropriate API key based on mode
+    if stripe_mode == "live":
+        stripe_secret_key = stripe_settings.get("live", {}).get("apiKey") or stripe_settings.get("live", {}).get("secretKey")
+    else:
+        stripe_secret_key = stripe_settings.get("sandbox", {}).get("apiKey") or stripe_settings.get("sandbox", {}).get("secretKey")
+    
     if not stripe_secret_key:
-        raise HTTPException(status_code=500, detail="Stripe not configured")
+        raise HTTPException(status_code=500, detail=f"Stripe API key not configured for {stripe_mode} mode")
     
     stripe.api_key = stripe_secret_key
+    
+    # Fetch subscription plans from database to get synced Stripe price IDs
+    all_plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).to_list(length=None)
+    
+    # Find the matching variation by plan_id
+    new_plan = None
+    new_price_id = None
+    
+    for db_plan in all_plans:
+        variations = db_plan.get("variations", [])
+        for variation in variations:
+            variation_id = f"{db_plan.get('tier')}_{variation.get('interval')}"
+            if variation_id == new_plan_id:
+                new_price_id = variation.get("stripe_price_id")
+                new_plan = {
+                    "tier": db_plan.get("tier"),
+                    "interval": variation.get("interval"),
+                    "price": variation.get("price")
+                }
+                break
+        if new_plan:
+            break
+    
+    if not new_plan:
+        raise HTTPException(status_code=400, detail=f"Invalid plan ID: {new_plan_id}")
+    
+    if not new_price_id:
+        raise HTTPException(status_code=500, detail=f"Stripe price ID not found for plan {new_plan_id}. Please run 'Sync to Stripe' first.")
     
     try:
         # Get current subscription
         subscription = stripe.Subscription.retrieve(stripe_subscription_id)
-        
-        # Get or create new price ID
-        new_plan = SUBSCRIPTION_PLANS[new_plan_id]
-        new_price_id = await get_or_create_stripe_price(new_plan_id, new_plan, stripe_secret_key)
         
         # Update subscription with new price
         updated_subscription = stripe.Subscription.modify(
