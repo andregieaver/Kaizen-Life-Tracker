@@ -12604,10 +12604,15 @@ async def push_plans_to_stripe(athlete_id: str):
             try:
                 tier = plan.get("tier")
                 plan_id = plan.get("id")
+                variations = plan.get("variations", [])
                 
                 # Check if this plan already has a Stripe product ID
                 if plan.get("stripe_product_id"):
                     logging.info(f"Plan {tier} already has Stripe product ID: {plan.get('stripe_product_id')}")
+                    
+                    # Still check if variations need price IDs
+                    if not variations:
+                        push_stats["errors"].append(f"Plan '{tier}' has no variations defined. Add monthly/yearly pricing first.")
                     continue
                 
                 # Create Stripe product
