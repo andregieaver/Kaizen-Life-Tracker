@@ -362,6 +362,11 @@ const Orders = ({ athleteId }) => {
                           <Sparkles className="w-5 h-5 text-yellow-400 mx-auto" title="First Time" />
                         )}
                       </td>
+                      <td className="px-4 py-3">
+                        <Badge className={order.payment_status === 'paid' ? 'bg-green-600 text-white' : order.payment_status === 'pending' ? 'bg-yellow-600 text-white' : 'bg-red-600 text-white'}>
+                          {order.payment_status?.charAt(0).toUpperCase() + order.payment_status?.slice(1) || 'Unknown'}
+                        </Badge>
+                      </td>
                       <td className="px-4 py-3 text-right">
                         <div className="text-white font-semibold">
                           {formatAmount(order.amount, order.currency)}
