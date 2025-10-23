@@ -328,7 +328,7 @@ const Orders = ({ athleteId }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredOrders.map((order, index) => (
+                  {paginatedOrders.map((order, index) => (
                     <tr
                       key={order.order_id}
                       className={`border-b border-gray-600 hover:bg-gray-700/50 transition-colors ${index % 2 === 0 ? 'bg-gray-800/30' : ''}`}
