@@ -900,6 +900,7 @@ const Account = ({ athleteId }) => {
         name: personalForm.name,
         date_of_birth: date_of_birth,
         running_goals: personalForm.running_goals,
+        nationality: personalForm.nationality || null,
         height: personalForm.height ? parseFloat(personalForm.height) : null,
         weight: personalForm.weight ? parseFloat(personalForm.weight) : null,
         vo2_max: personalForm.vo2_max ? parseFloat(personalForm.vo2_max) : null,
