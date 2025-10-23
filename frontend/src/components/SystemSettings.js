@@ -1690,7 +1690,7 @@ const SystemSettings = ({ athleteId }) => {
                                       <Button
                                         size="sm"
                                         variant="outline"
-                                        onClick={() => deleteVariation(variation.plan_id)}
+                                        onClick={() => deleteVariation(variation.id)}
                                         className="text-red-400 border-red-600 flex-1 sm:flex-none"
                                       >
                                         <Trash2 className="w-4 h-4 sm:mr-1" />
