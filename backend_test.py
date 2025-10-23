@@ -7416,48 +7416,48 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Stripe Orders API Endpoint Testing"""
-    print("🚀 STARTING STRIPE ORDERS API ENDPOINT TESTING")
+    """Run Stripe Product/Price Activation Fix Testing"""
+    print("🚀 STARTING STRIPE PRODUCT/PRICE ACTIVATION FIX TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Stripe Orders API Endpoint
+    # Test Stripe Product/Price Activation Fix
     try:
-        result = test_stripe_orders_api_endpoint()
+        result = test_stripe_product_price_activation_fix()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Stripe Orders API Endpoint", False, f"Exception: {str(e)}")
+        print_test_result("Stripe Product/Price Activation Fix", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 STRIPE ORDERS API ENDPOINT TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ SUPER ADMIN AUTHENTICATION: Super admin access to GET /api/crm/orders working")
-        print("✅ NON-ADMIN REJECTION: Non-super admin users correctly blocked with 403 error")
-        print("✅ MISSING ATHLETE_ID VALIDATION: Missing athlete_id parameter returns 422 error")
-        print("✅ RESPONSE STRUCTURE: Response has 'orders' array and 'total' count fields")
-        print("✅ ORDER FIELDS: All required fields present (order_id, stripe_session_id, athlete_id, athlete_name, athlete_email, plan, interval, amount, currency, status, order_date, is_renewal)")
-        print("✅ DATA FILTERING: Only transactions with payment_status='paid' returned")
-        print("✅ SORTING: Orders sorted by order_date newest first")
-        print("✅ IS_RENEWAL LOGIC: First transactions have is_renewal=false, subsequent have is_renewal=true")
-        print("✅ DATA ACCURACY: Athlete names/emails populated, amounts in cents, currency uppercase")
-        print("✅ PERFORMANCE: Response time under 5 seconds")
-        print("🔧 VERIFIED: All Stripe Orders API functionality working as specified")
-        print("🔧 CONFIRMED: Comprehensive coverage of all authentication, data filtering, and business logic requirements")
+        print("🎉 STRIPE PRODUCT/PRICE ACTIVATION FIX TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ SYNC TO STRIPE ENDPOINT: POST /api/subscription-plans/push-to-stripe working correctly")
+        print("✅ PRODUCT ACTIVATION: Products created with active=True status in Stripe")
+        print("✅ PRICE ACTIVATION: Prices created with active=True status in Stripe")
+        print("✅ EXISTING PRODUCT ACTIVATION: Existing products activated during sync")
+        print("✅ STRIPE PRODUCT IDS: Plans have stripe_product_id after sync")
+        print("✅ STRIPE PRICE IDS: Variations have stripe_price_id after sync")
+        print("✅ CHECKOUT SESSION CREATION: No '403: product is not active' errors")
+        print("✅ AUTHORIZATION: Super admin authentication working, non-admin blocked")
+        print("✅ ERROR HANDLING: Missing parameters handled correctly")
+        print("✅ BACKEND LOGS: No critical Stripe activation errors")
+        print("🔧 VERIFIED: Stripe checkout failure fix working as specified")
+        print("🔧 CONFIRMED: Users can now change subscription plans without 'product is not active' error")
     else:
-        print("❌ STRIPE ORDERS API ENDPOINT TESTING FOUND ISSUES")
+        print("❌ STRIPE PRODUCT/PRICE ACTIVATION FIX TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Stripe Orders API functionality may not be working correctly")
-        print("💡 Check super admin users exist (test.files@example.com or andre@example.com)")
-        print("💡 Verify payment_transactions collection has data with payment_status='paid'")
-        print("💡 Check athlete_profiles collection for athlete name/email joins")
-        print("💡 Verify is_renewal detection logic for multiple transactions per athlete/tier")
-        print("💡 Check backend logs for any MongoDB or authentication errors")
-        print("💡 Ensure super admin flag (is_super_admin=true) is set correctly")
+        print("🚨 CRITICAL: Stripe checkout failure may still occur")
+        print("💡 Check super admin users exist (andre@humanweb.no or andre@example.com)")
+        print("💡 Verify Stripe API keys are configured in SystemSettings -> Advanced -> Stripe")
+        print("💡 Check subscription_plans collection has plans with variations")
+        print("💡 Verify Stripe products are created with active=True in Stripe dashboard")
+        print("💡 Check backend logs for Stripe API errors during sync")
+        print("💡 Test checkout session creation after sync to verify fix")
     
     print("=" * 70)
 
