@@ -102,7 +102,20 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Implement a Stripe Orders page for super admins to view all subscription orders. The page should display Order ID, Plan, Interval, Full user name, Order date/time (in DD.MM.YY format), First time/renewal indicator, and Amount. Include search, filters (plan, interval, order type), sorting, and pagination (20 items per page). Add an Orders button to Account Settings (left of System Settings)."
+user_problem_statement: "Fix Stripe checkout failure due to inactive products/prices. When users attempt to change plans in Account Settings, the Stripe checkout session fails with 'product is not active' error. The 'Sync to Stripe' functionality must ensure both products and prices are created with active status."
+
+backend:
+  - task: "Stripe Product and Price Activation Fix"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Stripe product/price activation fix complete. CHANGES IN /app/backend/server.py POST /api/subscription-plans/push-to-stripe endpoint (lines 12555-12696): 1) PRODUCT ACTIVATION - Line 12610: Added active=True when creating new Stripe products to ensure they start in active state. Lines 12629-12633: Added logic to activate existing products using stripe.Product.modify(stripe_product_id, active=True) for products that already have stripe_product_id. 2) PRICE ACTIVATION - Line 12658: Added active=True when creating Stripe prices to ensure they are immediately usable for checkout. EXPECTED BEHAVIOR: When super admin clicks 'Sync to Stripe' button in SystemSettings, all created/existing products and prices will be set to active status in Stripe. This should resolve the '403: This product is not currently available for purchase because it is not active' error that occurs during checkout when users try to change their subscription plan. TESTING REQUIREMENTS: 1) Verify 'Sync to Stripe' creates products with active status, 2) Verify existing products are activated during sync, 3) Verify prices are created with active status, 4) Test complete flow: Sync to Stripe → Change plan in Account Settings → Verify checkout session creation succeeds (no 500 error)."
 
 backend:
   - task: "Stripe Orders API Endpoint"
