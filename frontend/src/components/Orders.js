@@ -21,6 +21,8 @@ const Orders = ({ athleteId }) => {
     orderType: 'all'
   });
   const [showFilters, setShowFilters] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(20);
 
   useEffect(() => {
     fetchOrders();
