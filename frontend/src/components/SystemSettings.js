@@ -1500,6 +1500,15 @@ const SystemSettings = ({ athleteId }) => {
                     Sync from Stripe
                   </Button>
                   <Button 
+                    onClick={syncToStripe}
+                    variant="outline"
+                    disabled={loadingPlans}
+                    className="text-[#00C2A8] border-[#00C2A8] hover:bg-[#00C2A8]/10 w-full sm:w-auto"
+                  >
+                    <ArrowLeftRight className="w-4 h-4 mr-2 rotate-180" />
+                    Sync to Stripe
+                  </Button>
+                  <Button 
                     onClick={() => setShowCreatePlanModal(true)}
                     className="bg-[#00C2A8] hover:bg-[#00a890] text-white w-full sm:w-auto"
                   >
