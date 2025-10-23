@@ -1415,42 +1415,20 @@ def test_stripe_product_price_activation_fix():
     print("=" * 70)
     
     try:
-        # Step 1: Find super admin user (andre@humanweb.no or fallback)
-        print("   Step 1: Find super admin user")
+        # Step 1: Use known super admin user from test_result.md
+        print("   Step 1: Use known super admin user")
         
-        super_admin_id = None
-        super_admin_email = None
+        # Use the known super admin ID from test_result.md
+        super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"
+        super_admin_email = "andre@humanweb.no"
         
-        # Try known super admin users
-        test_users = [
-            {"email": "andre@humanweb.no", "password": "password123"},
-            {"email": "superadmin@test.com", "password": "password123"},
-            {"email": "test.files@example.com", "password": "password123"},
-            {"email": "andre@example.com", "password": "password123"}
-        ]
+        # Verify this user exists and has super admin privileges
+        test_admin_response = requests.get(f"{BACKEND_URL}/subscription-plans?athlete_id={super_admin_id}")
         
-        for user_data in test_users:
-            login_response = requests.post(
-                f"{BACKEND_URL}/auth/login",
-                json=user_data,
-                headers={"Content-Type": "application/json"}
-            )
-            
-            if login_response.status_code == 200:
-                athlete_data = login_response.json()
-                athlete_id = athlete_data.get("athlete_id")
-                
-                # Check if this user is super admin by trying to access admin endpoint
-                test_admin_response = requests.get(f"{BACKEND_URL}/subscription-plans?athlete_id={athlete_id}")
-                
-                if test_admin_response.status_code == 200:
-                    super_admin_id = athlete_id
-                    super_admin_email = user_data["email"]
-                    print_test_result("Find Super Admin", True, f"Found super admin: {super_admin_email} (ID: {super_admin_id})")
-                    break
-        
-        if not super_admin_id:
-            print_test_result("Find Super Admin", False, "No super admin user found")
+        if test_admin_response.status_code == 200:
+            print_test_result("Use Known Super Admin", True, f"Using known super admin: {super_admin_email} (ID: {super_admin_id})")
+        else:
+            print_test_result("Use Known Super Admin", False, f"Known super admin not accessible: {test_admin_response.status_code}")
             return False
         
         # Step 2: Test Sync to Stripe Endpoint
