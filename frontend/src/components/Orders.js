@@ -167,6 +167,17 @@ const Orders = ({ athleteId }) => {
     );
   };
 
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedOrders = filteredOrders.slice(startIndex, endIndex);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filters]);
+
   return (
     <div className="w-full max-w-[1600px] mx-auto space-y-6 p-4 sm:p-6 lg:p-8">
       {/* Header */}
