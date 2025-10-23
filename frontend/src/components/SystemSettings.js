@@ -1031,10 +1031,12 @@ const SystemSettings = ({ athleteId }) => {
           openaiApiKey: advancedSettings.openaiApiKey,
           stripe: {
             live: {
+              publishableKey: advancedSettings.stripe.live.publishableKey,
               apiKey: advancedSettings.stripe.live.apiKey,
               webhookSecret: advancedSettings.stripe.live.webhookSecret
             },
             sandbox: {
+              publishableKey: advancedSettings.stripe.sandbox.publishableKey,
               apiKey: advancedSettings.stripe.sandbox.apiKey,
               webhookSecret: advancedSettings.stripe.sandbox.webhookSecret
             }
