@@ -7395,13 +7395,13 @@ def main():
     
     all_tests_passed = True
     
-    # Test Stripe Product/Price Activation Fix
+    # Test Stripe Checkout Database-Synced Prices Fix
     try:
-        result = test_stripe_product_price_activation_fix()
+        result = test_stripe_checkout_database_synced_prices()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Stripe Product/Price Activation Fix", False, f"Exception: {str(e)}")
+        print_test_result("Stripe Checkout Database-Synced Prices Fix", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
