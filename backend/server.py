@@ -4083,18 +4083,23 @@ async def update_subscription_plan(request: dict):
     all_plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).to_list(length=None)
     
     # Find the matching variation by plan_id
+    # Normalize interval: "monthly" -> "month", "annual" -> "year"
     new_plan = None
     new_price_id = None
     
     for db_plan in all_plans:
         variations = db_plan.get("variations", [])
         for variation in variations:
-            variation_id = f"{db_plan.get('tier')}_{variation.get('interval')}"
-            if variation_id == new_plan_id:
+            db_interval = variation.get("interval")  # "month" or "year" from database
+            # Match plan_id with both formats: "pro_month"/"pro_year" AND "pro_monthly"/"pro_annual"
+            variation_id_month = f"{db_plan.get('tier')}_{db_interval}"  # "pro_month"
+            variation_id_ly = f"{db_plan.get('tier')}_{'monthly' if db_interval == 'month' else 'annual'}"  # "pro_monthly"
+            
+            if new_plan_id in [variation_id_month, variation_id_ly]:
                 new_price_id = variation.get("stripe_price_id")
                 new_plan = {
                     "tier": db_plan.get("tier"),
-                    "interval": variation.get("interval"),
+                    "interval": db_interval,
                     "price": variation.get("price")
                 }
                 break
