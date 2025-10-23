@@ -11,7 +11,7 @@ import uuid
 from datetime import datetime
 
 # Backend URL from environment
-BACKEND_URL = "https://athletic-hub-25.preview.emergentagent.com/api"
+BACKEND_URL = "https://fitness-platform-9.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""
