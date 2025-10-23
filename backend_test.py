@@ -7074,49 +7074,48 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Change Email Endpoint Testing"""
-    print("🚀 STARTING CHANGE EMAIL ENDPOINT TESTING")
+    """Run Stripe Orders API Endpoint Testing"""
+    print("🚀 STARTING STRIPE ORDERS API ENDPOINT TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Change Email Endpoint
+    # Test Stripe Orders API Endpoint
     try:
-        result = test_change_email_endpoint()
+        result = test_stripe_orders_api_endpoint()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Change Email Endpoint", False, f"Exception: {str(e)}")
+        print_test_result("Stripe Orders API Endpoint", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 CHANGE EMAIL ENDPOINT TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ TEST USER AUTHENTICATION: test.files@example.com (ID: 44111b4a-b61f-4a94-9c29-439434e67e19) verified")
-        print("✅ SUCCESSFUL EMAIL CHANGE: POST /api/auth/change-email working with password validation")
-        print("✅ EMAIL UPDATE VERIFICATION: Email updated in both athlete_profiles and athletes collections")
-        print("✅ LOGIN WITH NEW EMAIL: Authentication works with changed email")
-        print("✅ INVALID PASSWORD REJECTION: 401 error correctly returned for wrong password")
-        print("✅ EMAIL CONFLICT DETECTION: 400 error correctly returned for email already in use")
-        print("✅ INVALID EMAIL FORMAT HANDLING: Invalid formats handled appropriately")
-        print("✅ SAME EMAIL HANDLING: Same email change handled gracefully")
-        print("✅ NON-EXISTENT ATHLETE: 404 error correctly returned for invalid athlete_id")
-        print("✅ MISSING FIELDS VALIDATION: 422 error correctly returned for missing required fields")
-        print("✅ EDGE CASES COVERAGE: All edge cases tested and handled correctly")
-        print("🔧 VERIFIED: All change email functionality working as specified")
-        print("🔧 CONFIRMED: Comprehensive coverage of all test scenarios completed")
+        print("🎉 STRIPE ORDERS API ENDPOINT TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ SUPER ADMIN AUTHENTICATION: Super admin access to GET /api/crm/orders working")
+        print("✅ NON-ADMIN REJECTION: Non-super admin users correctly blocked with 403 error")
+        print("✅ MISSING ATHLETE_ID VALIDATION: Missing athlete_id parameter returns 422 error")
+        print("✅ RESPONSE STRUCTURE: Response has 'orders' array and 'total' count fields")
+        print("✅ ORDER FIELDS: All required fields present (order_id, stripe_session_id, athlete_id, athlete_name, athlete_email, plan, interval, amount, currency, status, order_date, is_renewal)")
+        print("✅ DATA FILTERING: Only transactions with payment_status='paid' returned")
+        print("✅ SORTING: Orders sorted by order_date newest first")
+        print("✅ IS_RENEWAL LOGIC: First transactions have is_renewal=false, subsequent have is_renewal=true")
+        print("✅ DATA ACCURACY: Athlete names/emails populated, amounts in cents, currency uppercase")
+        print("✅ PERFORMANCE: Response time under 5 seconds")
+        print("🔧 VERIFIED: All Stripe Orders API functionality working as specified")
+        print("🔧 CONFIRMED: Comprehensive coverage of all authentication, data filtering, and business logic requirements")
     else:
-        print("❌ CHANGE EMAIL ENDPOINT TESTING FOUND ISSUES")
+        print("❌ STRIPE ORDERS API ENDPOINT TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Change email functionality may not be working correctly")
-        print("💡 Check test user test.files@example.com (ID: 44111b4a-b61f-4a94-9c29-439434e67e19) exists")
-        print("💡 Verify password hashing is working correctly (bcrypt)")
-        print("💡 Check backend logs for authentication errors")
-        print("💡 Verify MongoDB athlete_profiles and athletes collections are accessible")
-        print("💡 Check email validation logic in the endpoint")
-        print("💡 Ensure both collections are updated when email changes")
+        print("🚨 CRITICAL: Stripe Orders API functionality may not be working correctly")
+        print("💡 Check super admin users exist (test.files@example.com or andre@example.com)")
+        print("💡 Verify payment_transactions collection has data with payment_status='paid'")
+        print("💡 Check athlete_profiles collection for athlete name/email joins")
+        print("💡 Verify is_renewal detection logic for multiple transactions per athlete/tier")
+        print("💡 Check backend logs for any MongoDB or authentication errors")
+        print("💡 Ensure super admin flag (is_super_admin=true) is set correctly")
     
     print("=" * 70)
 
