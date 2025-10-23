@@ -1592,7 +1592,7 @@ def test_stripe_product_price_activation_fix():
         }
         
         checkout_response = requests.post(
-            f"{BACKEND_URL}/subscription/create-checkout-session",
+            f"{BACKEND_URL}/subscriptions/create-checkout-session",
             json=checkout_data,
             headers={"Content-Type": "application/json"}
         )
