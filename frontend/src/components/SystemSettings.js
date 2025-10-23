@@ -693,7 +693,8 @@ const SystemSettings = ({ athleteId }) => {
       message += `Plans Updated: ${stats.plans_updated}`;
       
       if (stats.errors && stats.errors.length > 0) {
-        message += `\n\nErrors:\n${stats.errors.join('\n')}`;
+        message += `\n\n⚠️ WARNINGS:\n${stats.errors.join('\n')}`;
+        message += `\n\nℹ️ To add pricing variations:\n1. Click the plan card\n2. Click "Add Variation"\n3. Set Monthly/Yearly prices\n4. Save and run "Sync to Stripe" again`;
       }
       
       alert(message);
