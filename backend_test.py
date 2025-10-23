@@ -7746,45 +7746,46 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Stripe Checkout Database-Synced Prices Fix Testing"""
-    print("🚀 STARTING STRIPE CHECKOUT DATABASE-SYNCED PRICES FIX TESTING")
+    """Run Stripe Plan ID Format Mismatch Fix Testing"""
+    print("🚀 STARTING STRIPE PLAN ID FORMAT MISMATCH FIX TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Stripe Checkout Database-Synced Prices Fix
+    # Test Stripe Plan ID Format Mismatch Fix
     try:
-        result = test_stripe_checkout_database_synced_prices()
+        result = test_stripe_plan_id_format_mismatch_fix()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Stripe Checkout Database-Synced Prices Fix", False, f"Exception: {str(e)}")
+        print_test_result("Stripe Plan ID Format Mismatch Fix", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 STRIPE CHECKOUT DATABASE-SYNCED PRICES FIX TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ DATABASE SYNCED PRICES: GET /api/subscription-plans returns plans with stripe_price_id")
+        print("🎉 STRIPE PLAN ID FORMAT MISMATCH FIX TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ FRONTEND FORMATS: pro_monthly, premium_monthly, pro_annual, premium_annual work (200 status)")
+        print("✅ BACKEND FORMATS: pro_month, premium_year still work (backward compatibility)")
         print("✅ CHECKOUT SESSION CREATION: POST /api/subscriptions/create-checkout-session returns 200 with checkout_url")
-        print("✅ NO 500 ERRORS: No 'product is not active' errors during checkout")
-        print("✅ DATABASE INTEGRATION: Checkout endpoints use synced stripe_price_id from database")
-        print("✅ PLAN UPDATE: POST /api/subscriptions/update-plan works with synced prices")
+        print("✅ UPDATE PLAN: POST /api/subscriptions/update-plan recognizes both format types")
         print("✅ ERROR HANDLING: Invalid plan_id returns 400 with clear error message")
-        print("✅ BACKEND LOGS: No 'product is not active' errors in logs")
-        print("🔧 VERIFIED: Complete fix working - checkout uses database-synced prices")
-        print("🔧 CONFIRMED: Users can now change subscription plans without errors")
+        print("✅ CHECKOUT URLS: All successful responses contain valid Stripe checkout URLs")
+        print("✅ NO 400 ERRORS: Users upgrading via Account Settings no longer get 400 errors")
+        print("🔧 VERIFIED: Both monthly/annual and month/year formats accepted")
+        print("🔧 CONFIRMED: Users can now upgrade from Account Settings without format errors")
     else:
-        print("❌ STRIPE CHECKOUT DATABASE-SYNCED PRICES FIX TESTING FOUND ISSUES")
+        print("❌ STRIPE PLAN ID FORMAT MISMATCH FIX TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Stripe checkout failure may still occur")
-        print("💡 Ensure 'Sync to Stripe' has been run: POST /api/subscription-plans/push-to-stripe")
-        print("💡 Verify all plans have stripe_price_id populated in database")
-        print("💡 Check checkout endpoints are using database plans (not hardcoded SUBSCRIPTION_PLANS)")
-        print("💡 Verify Stripe API keys are configured in SystemSettings")
-        print("💡 Test with different plan_ids: 'pro_monthly', 'premium_monthly', etc.")
-        print("💡 Check backend logs for checkout session creation errors")
+        print("🚨 CRITICAL: Users may still get 400 errors when upgrading via Account Settings")
+        print("💡 Verify checkout endpoints accept both format types:")
+        print("   - Frontend formats: pro_monthly, premium_monthly, pro_annual, premium_annual")
+        print("   - Backend formats: pro_month, premium_year (backward compatibility)")
+        print("💡 Check dual format matching logic in create-checkout-session endpoint")
+        print("💡 Check dual format matching logic in update-plan endpoint")
+        print("💡 Test with Account Settings frontend to verify end-to-end flow")
+        print("💡 Verify variation_id_month and variation_id_ly logic is working")
     
     print("=" * 70)
 
