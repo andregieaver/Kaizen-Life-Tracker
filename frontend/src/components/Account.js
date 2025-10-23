@@ -1374,6 +1374,18 @@ const Account = ({ athleteId }) => {
                     />
                   </div>
                   <div className="space-y-2">
+                    <Label htmlFor="nationality" className="text-sm font-medium text-white">Nationality</Label>
+                    <Input
+                      id="nationality"
+                      name="nationality"
+                      value={personalForm.nationality}
+                      onChange={handlePersonalFormChange}
+                      placeholder="e.g., Norwegian, American, British"
+                      className="text-white placeholder:text-gray-500"
+                      style={{ backgroundColor: '#111827', borderColor: '#374151' }}
+                    />
+                  </div>
+                  <div className="space-y-2">
                     <Label className="text-sm font-medium text-white">{t('account.dateOfBirth')}</Label>
                     <div className="grid grid-cols-3 gap-2">
                       <div>
