@@ -1679,7 +1679,7 @@ const SystemSettings = ({ athleteId }) => {
                                         onClick={() => {
                                           const newPrice = prompt('Enter new price:', variation.price);
                                           if (newPrice && !isNaN(parseFloat(newPrice))) {
-                                            updateVariation(variation.plan_id, { price: parseFloat(newPrice) });
+                                            updateVariation(variation.id, { price: parseFloat(newPrice) });
                                           }
                                         }}
                                         className="text-gray-300 border-gray-500 flex-1 sm:flex-none"
