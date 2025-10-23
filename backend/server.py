@@ -12350,8 +12350,11 @@ async def create_plan_variation(tier: str, variation_data: dict, athlete_id: str
             {"$push": {"variations": new_variation}}
         )
         
-        logging.info(f"Plan variation created: {variation.plan_id} by {athlete_id}")
-        return {"message": "Variation created successfully", "variation": variation.model_dump()}
+        logging.info(f"Plan variation created for {tier} by {athlete_id}")
+        return {
+            "message": "Variation created successfully" + (" (without Stripe sync - run 'Sync to Stripe' to create price)" if not stripe_price_id else ""),
+            "variation": new_variation
+        }
     except Exception as e:
         logging.error(f"Error creating plan variation: {e}")
         raise HTTPException(status_code=500, detail=str(e))
