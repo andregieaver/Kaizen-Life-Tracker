@@ -1400,8 +1400,9 @@ def test_stripe_orders_api_endpoint():
         super_admin_id = None
         super_admin_email = None
         
-        # Test with known users
+        # Test with known users (including our created super admin)
         test_users = [
+            {"email": "superadmin@test.com", "password": "password123"},
             {"email": "test.files@example.com", "password": "password123"},
             {"email": "andre@example.com", "password": "password123"},
             {"email": "andre@humanweb.no", "password": "password123"}
