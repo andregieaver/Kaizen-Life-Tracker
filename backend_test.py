@@ -1371,43 +1371,31 @@ def test_community_feed_422_error_fix():
         traceback.print_exc()
         return False
 
-def test_stripe_product_price_activation_fix():
+def test_stripe_checkout_database_synced_prices():
     """
-    STRIPE PRODUCT/PRICE ACTIVATION FIX TESTING
+    STRIPE COMPLETE FIX VERIFICATION - CHECKOUT WITH DATABASE-SYNCED PRICES
     
     CONTEXT:
-    Users were experiencing checkout failures when attempting to change subscription plans. 
-    The error was "403: This product is not currently available for purchase because it is not active." 
-    A fix has been implemented to ensure Stripe products and prices are created with active status.
+    The initial fix activated Stripe products/prices during sync, but checkout endpoints were still using 
+    hardcoded SUBSCRIPTION_PLANS. A complete fix has now been implemented where checkout endpoints fetch 
+    plans from the database and use synced stripe_price_id values.
     
-    TESTING REQUIREMENTS:
-    1. Sync to Stripe Endpoint Testing:
-       - Test endpoint: POST /api/subscription-plans/push-to-stripe?athlete_id={super_admin_id}
-       - Super admin to use: andre@humanweb.no (ID: 77e6ef02-0c9e-4ede-a428-213b83eed1fe) or any available super admin
-       - Verify response includes push_stats with products_created, prices_created counts
-       - Check for any errors in the response
-    
-    2. Stripe Product Activation Verification:
-       - After sync, fetch subscription plans: GET /api/subscription-plans
-       - Verify plans have stripe_product_id and variations have stripe_price_id
-       - If possible, verify in Stripe API that products have active=True status
-       - Check backend logs for any activation errors
-    
-    3. Checkout Session Creation Test (CRITICAL):
-       - This is the key test - attempt to create a checkout session after sync
-       - Endpoint: POST /api/subscription/create-checkout-session
-       - Use a regular user (not super admin) to test plan change
-       - Expected: 200 status with checkout_url (not 500 error)
-       - If 500 error occurs, capture the error message and backend logs
-    
-    4. Error Handling:
-       - Test with missing Stripe API keys (should return proper error)
-       - Test with non-super-admin user (should return 403)
+    CRITICAL TESTING REQUIREMENTS:
+    1. Verify Database Has Synced Prices - GET /api/subscription-plans
+    2. Test Checkout Session Creation (CRITICAL) - POST /api/subscriptions/create-checkout-session
+    3. Test Update Subscription Plan - POST /api/subscriptions/update-plan  
+    4. Error Handling Verification
+    5. Backend Logs Check
     
     EXPECTED RESULTS:
-    - Products created with active=True
-    - Prices created with active=True  
-    - Existing products activated during sync
+    - Checkout session creates successfully with 200 status
+    - Response contains valid checkout_url starting with "https://checkout.stripe.com"
+    - No 500 errors about inactive products/prices
+    - Database stripe_price_id values are being used (not calling get_or_create_stripe_price)
+    - Plan update endpoint works with synced prices
+    
+    CRITICAL SUCCESS CRITERIA:
+    Users can now change subscription plans without errors. This resolves the original issue completely. products activated during sync
     - Checkout session creation succeeds without "product is not active" error
     - No 500 errors during plan changes
     """
