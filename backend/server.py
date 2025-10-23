@@ -12559,6 +12559,136 @@ async def sync_stripe_plans(athlete_id: str):
         logging.error(f"Error syncing with Stripe: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/subscription-plans/push-to-stripe")
+async def push_plans_to_stripe(athlete_id: str):
+    """Push local subscription plans to Stripe (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get Stripe settings from system_settings
+        system_settings = await db.system_settings.find_one({}, {"_id": 0})
+        if not system_settings:
+            raise HTTPException(status_code=500, detail="System settings not found")
+        
+        stripe_settings = system_settings.get("advanced", {}).get("stripe", {})
+        stripe_mode = stripe_settings.get("mode", "test")
+        
+        # Get the appropriate API key
+        if stripe_mode == "live":
+            stripe_api_key = stripe_settings.get("live", {}).get("apiKey") or stripe_settings.get("live", {}).get("secretKey")
+        else:
+            stripe_api_key = stripe_settings.get("sandbox", {}).get("apiKey") or stripe_settings.get("sandbox", {}).get("secretKey")
+        
+        if not stripe_api_key:
+            raise HTTPException(status_code=500, detail=f"Stripe API key not configured for {stripe_mode} mode")
+        
+        stripe.api_key = stripe_api_key
+        
+        push_stats = {
+            "products_created": 0,
+            "prices_created": 0,
+            "plans_updated": 0,
+            "errors": []
+        }
+        
+        # Get all local subscription plans
+        plans = await db.subscription_plans.find({}, {"_id": 0}).to_list(length=None)
+        
+        if not plans:
+            return {
+                "message": "No plans found to push",
+                "stats": push_stats
+            }
+        
+        for plan in plans:
+            try:
+                tier = plan.get("tier")
+                plan_id = plan.get("id")
+                
+                # Check if this plan already has a Stripe product ID
+                if plan.get("stripe_product_id"):
+                    logging.info(f"Plan {tier} already has Stripe product ID: {plan.get('stripe_product_id')}")
+                    continue
+                
+                # Create Stripe product
+                stripe_product = stripe.Product.create(
+                    name=plan.get("name", tier.capitalize()),
+                    description=plan.get("description", ""),
+                    metadata={
+                        "tier": tier,
+                        "plan_id": plan_id
+                    }
+                )
+                
+                push_stats["products_created"] += 1
+                
+                # Update plan with Stripe product ID
+                await db.subscription_plans.update_one(
+                    {"id": plan_id},
+                    {"$set": {"stripe_product_id": stripe_product.id}}
+                )
+                
+                push_stats["plans_updated"] += 1
+                
+                # Create prices for each variation
+                variations = plan.get("variations", [])
+                for variation in variations:
+                    try:
+                        # Skip if already has Stripe price ID
+                        if variation.get("stripe_price_id"):
+                            logging.info(f"Variation already has Stripe price ID: {variation.get('stripe_price_id')}")
+                            continue
+                        
+                        interval = variation.get("interval", "month")
+                        price_amount = variation.get("price", 0)
+                        
+                        # Convert to cents for Stripe
+                        price_in_cents = int(price_amount * 100)
+                        
+                        # Create Stripe price
+                        stripe_price = stripe.Price.create(
+                            product=stripe_product.id,
+                            unit_amount=price_in_cents,
+                            currency=variation.get("currency", "eur").lower(),
+                            recurring={
+                                "interval": interval,
+                                "interval_count": 1
+                            },
+                            metadata={
+                                "tier": tier,
+                                "interval": interval,
+                                "variation_id": variation.get("id", "")
+                            }
+                        )
+                        
+                        push_stats["prices_created"] += 1
+                        
+                        # Update variation with Stripe price ID
+                        await db.subscription_plans.update_one(
+                            {"id": plan_id, "variations.id": variation.get("id")},
+                            {"$set": {"variations.$.stripe_price_id": stripe_price.id}}
+                        )
+                        
+                    except Exception as e:
+                        error_msg = f"Variation {variation.get('interval')} for {tier}: {str(e)}"
+                        push_stats["errors"].append(error_msg)
+                        logging.error(error_msg)
+                
+            except Exception as e:
+                error_msg = f"Plan {plan.get('tier')}: {str(e)}"
+                push_stats["errors"].append(error_msg)
+                logging.error(error_msg)
+        
+        logging.info(f"Push to Stripe completed by {athlete_id}: {push_stats}")
+        return {
+            "message": "Push to Stripe completed",
+            "stats": push_stats
+        }
+        
+    except Exception as e:
+        logging.error(f"Error pushing to Stripe: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Waiting List Endpoints
 @api_router.post("/waiting-list")
 async def add_to_waiting_list(entry_data: dict):
