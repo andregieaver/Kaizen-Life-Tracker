@@ -102,9 +102,22 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Implement a Community feature - a simplified Facebook-like component where users can create posts with text and images, like posts, comment, share, edit/delete their own posts, and receive notifications. The feature should be accessible via an icon in the header (left of hamburger menu) and follow the app's dark theme."
+user_problem_statement: "Implement a Stripe Orders page for super admins to view all subscription orders. The page should display Order ID, Plan, Interval, Full user name, Order date/time (in DD.MM.YY format), First time/renewal indicator, and Amount. Include search, filters (plan, interval, order type), sorting, and pagination (20 items per page). Add an Orders button to Account Settings (left of System Settings)."
 
 backend:
+  - task: "Stripe Orders API Endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Backend endpoint implementation complete. CHANGES: 1) Updated GET /api/crm/orders endpoint (line 10842) to fetch from correct collection 'payment_transactions' instead of 'stripe_transactions'. 2) Modified query to only fetch paid transactions (payment_status='paid'). 3) Added is_renewal detection logic by checking if athlete has previous paid transactions for the same tier. 4) Field mapping updated: transaction.id -> order_id, transaction.session_id -> stripe_session_id, transaction.created_at/updated_at -> order_date. 5) Amount converted to cents (*100) for frontend compatibility. 6) Joined with athlete_profiles to fetch athlete name and email. 7) Returns sorted orders (newest first) with total count. Backend restarted successfully. Ready for testing."
+
+frontend:
   - task: "Community Backend Models and API Endpoints"
     implemented: true
     working: true
