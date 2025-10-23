@@ -1572,7 +1572,14 @@ def test_stripe_product_price_activation_fix():
             variations = plan.get("variations", [])
             for variation in variations:
                 if variation.get("stripe_price_id"):
-                    test_plan_id = f"{plan.get('tier')}_{variation.get('interval')}"
+                    # Use the correct format: tier + "_" + interval + "ly" (e.g., "pro_monthly")
+                    interval = variation.get('interval', 'month')
+                    if interval == 'month':
+                        test_plan_id = f"{plan.get('tier')}_monthly"
+                    elif interval == 'year':
+                        test_plan_id = f"{plan.get('tier')}_annual"
+                    else:
+                        test_plan_id = f"{plan.get('tier')}_{interval}"
                     test_variation = variation
                     break
             if test_plan_id:
