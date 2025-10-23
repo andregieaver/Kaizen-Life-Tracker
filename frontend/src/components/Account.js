@@ -1360,21 +1360,22 @@ const Account = ({ athleteId }) => {
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="name" className="text-sm font-medium text-white">{t('auth.fullName')}</Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={personalForm.name}
-                      onChange={handlePersonalFormChange}
-                      className="text-white placeholder:text-gray-500"
-                      style={{ backgroundColor: '#111827', borderColor: '#374151' }}
-                      data-testid="name-input"
-                    />
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="text-sm font-medium text-white">{t('auth.fullName')}</Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={personalForm.name}
+                    onChange={handlePersonalFormChange}
+                    className="text-white placeholder:text-gray-500"
+                    style={{ backgroundColor: '#111827', borderColor: '#374151' }}
+                    data-testid="name-input"
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="nationality" className="text-sm font-medium text-white">Nationality</Label>
                       <Select
