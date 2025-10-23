@@ -38,6 +38,7 @@ const API = `${BACKEND_URL}/api`;
 const Dashboard = ({ athleteId }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { tab } = useParams();
   const [athlete, setAthlete] = useState(null);
   const [readiness, setReadiness] = useState(null);
@@ -59,6 +60,9 @@ const Dashboard = ({ athleteId }) => {
   const [scrollDirection, setScrollDirection] = useState('none'); // 'none' on initial load to show elements
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  
+  // Check if we're on a nested CRM user page
+  const isUserProfilePage = location.pathname.includes('/dashboard/crm/user/');
   
   // Determine active tab from URL, default to overview
   const activeTab = tab || 'overview';
