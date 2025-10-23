@@ -1631,6 +1631,63 @@ def test_stripe_checkout_database_synced_prices():
         else:
             print_test_result("Checkout Session Creation (CRITICAL)", False, f"Unexpected checkout response: {checkout_response.status_code} - {checkout_response.text}")
         
+        # Step 5b: Test Update Subscription Plan endpoint
+        print("   Step 5b: Test Update Subscription Plan endpoint")
+        
+        if test_plan_id:
+            # Find a different plan for update testing
+            update_plan_id = None
+            for plan in plans:
+                variations = plan.get("variations", [])
+                for variation in variations:
+                    if variation.get("stripe_price_id"):
+                        candidate_plan_id = variation.get('plan_id')
+                        if not candidate_plan_id:
+                            # Construct plan_id if not present
+                            interval = variation.get('interval', 'month')
+                            if interval == 'month':
+                                candidate_plan_id = f"{plan.get('tier')}_monthly"
+                            elif interval == 'year':
+                                candidate_plan_id = f"{plan.get('tier')}_annual"
+                            else:
+                                candidate_plan_id = f"{plan.get('tier')}_{interval}"
+                        
+                        if candidate_plan_id != test_plan_id:
+                            update_plan_id = candidate_plan_id
+                            break
+                if update_plan_id:
+                    break
+            
+            if not update_plan_id:
+                update_plan_id = test_plan_id  # Use same plan if no alternative
+            
+            update_plan_data = {
+                "athlete_id": regular_user_id,
+                "new_plan_id": update_plan_id
+            }
+            
+            update_response = requests.post(
+                f"{BACKEND_URL}/subscriptions/update-plan",
+                json=update_plan_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            print(f"      Update Plan Response Status: {update_response.status_code}")
+            print(f"      Update Plan Response Text: {update_response.text}")
+            
+            if update_response.status_code == 200:
+                print_test_result("Update Subscription Plan", True, f"Plan update successful")
+            elif update_response.status_code == 400:
+                response_text = update_response.text
+                if "no active subscription" in response_text.lower() or "subscription not found" in response_text.lower():
+                    print_test_result("Update Subscription Plan", True, f"Expected 400 - user has no active subscription: {response_text}")
+                else:
+                    print_test_result("Update Subscription Plan", False, f"Unexpected 400 error: {response_text}")
+            else:
+                print_test_result("Update Subscription Plan", False, f"Unexpected response: {update_response.status_code} - {update_response.text}")
+        else:
+            print_test_result("Update Subscription Plan", False, "No test plan available for update testing")
+        
         # Step 6: Test Error Handling - Non-super-admin user
         print("   Step 6: Test Error Handling - Non-super-admin user")
         
