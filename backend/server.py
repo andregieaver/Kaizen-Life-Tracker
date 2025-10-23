@@ -12607,33 +12607,31 @@ async def push_plans_to_stripe(athlete_id: str):
                 variations = plan.get("variations", [])
                 
                 # Check if this plan already has a Stripe product ID
-                if plan.get("stripe_product_id"):
-                    logging.info(f"Plan {tier} already has Stripe product ID: {plan.get('stripe_product_id')}")
+                stripe_product_id = plan.get("stripe_product_id")
+                
+                if not stripe_product_id:
+                    # Create Stripe product
+                    stripe_product = stripe.Product.create(
+                        name=plan.get("name", tier.capitalize()),
+                        description=plan.get("description", ""),
+                        metadata={
+                            "tier": tier,
+                            "plan_id": plan_id
+                        }
+                    )
                     
-                    # Still check if variations need price IDs
-                    if not variations:
-                        push_stats["errors"].append(f"Plan '{tier}' has no variations defined. Add monthly/yearly pricing first.")
-                    continue
-                
-                # Create Stripe product
-                stripe_product = stripe.Product.create(
-                    name=plan.get("name", tier.capitalize()),
-                    description=plan.get("description", ""),
-                    metadata={
-                        "tier": tier,
-                        "plan_id": plan_id
-                    }
-                )
-                
-                push_stats["products_created"] += 1
-                
-                # Update plan with Stripe product ID
-                await db.subscription_plans.update_one(
-                    {"id": plan_id},
-                    {"$set": {"stripe_product_id": stripe_product.id}}
-                )
-                
-                push_stats["plans_updated"] += 1
+                    stripe_product_id = stripe_product.id
+                    push_stats["products_created"] += 1
+                    
+                    # Update plan with Stripe product ID
+                    await db.subscription_plans.update_one(
+                        {"id": plan_id},
+                        {"$set": {"stripe_product_id": stripe_product_id}}
+                    )
+                    
+                    push_stats["plans_updated"] += 1
+                else:
+                    logging.info(f"Plan {tier} already has Stripe product ID: {stripe_product_id}")
                 
                 # Create prices for each variation
                 if not variations:
