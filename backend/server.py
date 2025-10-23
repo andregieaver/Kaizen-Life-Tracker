@@ -12689,6 +12689,53 @@ async def push_plans_to_stripe(athlete_id: str):
         logging.error(f"Error pushing to Stripe: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/subscription-plans/reset-stripe-ids")
+async def reset_stripe_ids(athlete_id: str):
+    """Reset all Stripe IDs from subscription plans (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get all plans
+        plans = await db.subscription_plans.find({}, {"_id": 0}).to_list(length=None)
+        
+        if not plans:
+            return {
+                "message": "No plans found",
+                "plans_updated": 0
+            }
+        
+        plans_updated = 0
+        
+        # Remove stripe_product_id from all plans
+        result = await db.subscription_plans.update_many(
+            {},
+            {
+                "$unset": {"stripe_product_id": ""}
+            }
+        )
+        plans_updated = result.modified_count
+        
+        # Remove stripe_price_id from all variations
+        for plan in plans:
+            variations = plan.get("variations", [])
+            if variations:
+                # Update each variation to remove stripe_price_id
+                for variation in variations:
+                    await db.subscription_plans.update_one(
+                        {"id": plan.get("id"), "variations.id": variation.get("id")},
+                        {"$unset": {"variations.$.stripe_price_id": ""}}
+                    )
+        
+        logging.info(f"Stripe IDs reset by {athlete_id}: {plans_updated} plans affected")
+        return {
+            "message": "All Stripe IDs have been reset. You can now sync to a new Stripe account.",
+            "plans_updated": plans_updated
+        }
+        
+    except Exception as e:
+        logging.error(f"Error resetting Stripe IDs: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Waiting List Endpoints
 @api_router.post("/waiting-list")
 async def add_to_waiting_list(entry_data: dict):
