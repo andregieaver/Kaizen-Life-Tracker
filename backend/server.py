@@ -10839,6 +10839,120 @@ async def get_all_users(athlete_id: str):
         logging.error(f"Error fetching CRM users: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch users: {str(e)}")
 
+@api_router.get("/crm/users/{user_id}")
+async def get_user_profile(user_id: str, athlete_id: str):
+    """Get detailed user profile for CRM (Super Admin only)"""
+    # Verify super admin
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # 1. Fetch user profile
+        user = await db.athlete_profiles.find_one(
+            {"id": user_id},
+            {"_id": 0}
+        )
+        
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # 2. Calculate lifetime value from payment transactions
+        transactions = await db.payment_transactions.find(
+            {"athlete_id": user_id, "payment_status": "paid"},
+            {"_id": 0, "amount": 1}
+        ).to_list(length=None)
+        
+        lifetime_value = sum([t.get("amount", 0) for t in transactions])
+        
+        # 3. Get community stats
+        posts_count = await db.community_posts.count_documents({"athlete_id": user_id})
+        comments_count = await db.community_comments.count_documents({"athlete_id": user_id})
+        events_count = await db.community_events.count_documents({"creator_id": user_id})
+        # Challenges - check if collection exists, default to 0 for now
+        try:
+            challenges_count = await db.challenges.count_documents({"athlete_id": user_id})
+        except:
+            challenges_count = 0
+        
+        # 4. Get referral stats
+        # Count referrals where this user is the referrer
+        referrals = await db.referrals.find(
+            {"referrer_athlete_id": user_id},
+            {"_id": 0, "referred_athlete_id": 1}
+        ).to_list(length=None)
+        
+        referrals_count = len(referrals)
+        
+        # Calculate kickback and generated revenue
+        kickback = 0
+        generated_revenue = 0
+        
+        for referral in referrals:
+            referred_user_id = referral.get("referred_athlete_id")
+            if referred_user_id:
+                # Get all payments made by referred user
+                referred_payments = await db.payment_transactions.find(
+                    {"athlete_id": referred_user_id, "payment_status": "paid"},
+                    {"_id": 0, "amount": 1}
+                ).to_list(length=None)
+                
+                referred_total = sum([p.get("amount", 0) for p in referred_payments])
+                generated_revenue += referred_total
+                
+                # Calculate kickback (assuming 20% kickback rate)
+                kickback += referred_total * 0.20
+        
+        # 5. Get interaction timeline (placeholder for now)
+        interactions = []
+        
+        # Add payment transactions as interactions
+        payment_interactions = await db.payment_transactions.find(
+            {"athlete_id": user_id, "payment_status": "paid"},
+            {"_id": 0, "tier": 1, "interval": 1, "created_at": 1, "updated_at": 1}
+        ).to_list(length=None)
+        
+        for payment in payment_interactions:
+            interactions.append({
+                "type": "subscription_payment",
+                "description": f"Subscribed to {payment.get('tier', 'plan').capitalize()} ({payment.get('interval', 'monthly')})",
+                "timestamp": payment.get("updated_at") or payment.get("created_at", "")
+            })
+        
+        # Sort interactions by timestamp (newest first)
+        interactions.sort(key=lambda x: x.get("timestamp", ""), reverse=True)
+        
+        # 6. Format response
+        profile_data = {
+            "id": user.get("id", ""),
+            "name": user.get("name", "Unknown"),
+            "email": user.get("email", ""),
+            "profile_picture": user.get("profile_picture", ""),
+            "nationality": user.get("nationality", ""),
+            "subscription_tier": user.get("subscription_tier", "free"),
+            "subscription_interval": user.get("subscription_interval", ""),
+            "subscription_current_period_end": user.get("subscription_current_period_end", ""),
+            "created_at": user.get("created_at", ""),
+            "lifetime_value": lifetime_value,
+            "community_stats": {
+                "posts_added": posts_count,
+                "comments_created": comments_count,
+                "events_created": events_count,
+                "challenges_done": challenges_count
+            },
+            "referral_stats": {
+                "referrals_count": referrals_count,
+                "kickback": kickback,
+                "generated_revenue": generated_revenue
+            },
+            "interactions": interactions[:20]  # Limit to 20 most recent interactions
+        }
+        
+        return profile_data
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fetching user profile: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch user profile: {str(e)}")
+
 @api_router.get("/crm/orders")
 async def get_all_orders(athlete_id: str):
     """Get all Stripe orders/transactions (Super Admin only)"""
