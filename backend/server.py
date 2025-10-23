@@ -10838,6 +10838,65 @@ async def get_all_users(athlete_id: str):
     except Exception as e:
         logging.error(f"Error fetching CRM users: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch users: {str(e)}")
+
+@api_router.get("/crm/orders")
+async def get_all_orders(athlete_id: str):
+    """Get all Stripe orders/transactions (Super Admin only)"""
+    # Verify super admin
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Fetch all transactions from the database
+        transactions = await db.stripe_transactions.find(
+            {},
+            {
+                "_id": 0,
+                "transaction_id": 1,
+                "athlete_id": 1,
+                "tier": 1,
+                "interval": 1,
+                "amount": 1,
+                "currency": 1,
+                "status": 1,
+                "timestamp": 1,
+                "is_renewal": 1,
+                "stripe_session_id": 1
+            }
+        ).to_list(length=None)
+        
+        # Get athlete names for each transaction
+        formatted_orders = []
+        for transaction in transactions:
+            athlete_id_val = transaction.get("athlete_id", "")
+            
+            # Fetch athlete name
+            athlete = await db.athlete_profiles.find_one(
+                {"id": athlete_id_val},
+                {"_id": 0, "name": 1, "email": 1}
+            )
+            
+            formatted_orders.append({
+                "order_id": transaction.get("transaction_id", ""),
+                "stripe_session_id": transaction.get("stripe_session_id", ""),
+                "athlete_id": athlete_id_val,
+                "athlete_name": athlete.get("name", "Unknown") if athlete else "Unknown",
+                "athlete_email": athlete.get("email", "") if athlete else "",
+                "plan": transaction.get("tier", ""),
+                "interval": transaction.get("interval", ""),
+                "amount": transaction.get("amount", 0),
+                "currency": transaction.get("currency", "EUR").upper(),
+                "status": transaction.get("status", ""),
+                "order_date": transaction.get("timestamp", ""),
+                "is_renewal": transaction.get("is_renewal", False)
+            })
+        
+        # Sort by date, newest first
+        formatted_orders.sort(key=lambda x: x.get("order_date", ""), reverse=True)
+        
+        return {"orders": formatted_orders, "total": len(formatted_orders)}
+    except Exception as e:
+        logging.error(f"Error fetching orders: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch orders: {str(e)}")
 @api_router.get("/system/settings")
 async def get_system_settings(athlete_id: str):
     """Get system settings (Super Admin only)"""
