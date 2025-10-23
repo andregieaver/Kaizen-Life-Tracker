@@ -293,7 +293,8 @@ const CRM = ({ athleteId }) => {
                   {filteredUsers.map((user, index) => (
                     <tr
                       key={user.id}
-                      className={`border-b border-gray-600 hover:bg-gray-700/50 transition-colors ${index % 2 === 0 ? 'bg-gray-800/30' : ''}`}
+                      onClick={() => navigate(`/dashboard/crm/user/${user.id}`)}
+                      className={`border-b border-gray-600 hover:bg-gray-700/50 transition-colors cursor-pointer ${index % 2 === 0 ? 'bg-gray-800/30' : ''}`}
                     >
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
