@@ -11013,9 +11013,10 @@ async def get_all_orders(athlete_id: str):
                 "athlete_email": athlete.get("email", "") if athlete else "",
                 "plan": transaction.get("tier", ""),
                 "interval": transaction.get("interval", ""),
-                "amount": int(transaction.get("amount", 0) * 100),  # Convert to cents for frontend
+                "amount": transaction.get("amount", 0),  # Keep amount as is (already in correct format)
                 "currency": transaction.get("currency", "EUR").upper(),
-                "status": transaction.get("payment_status", ""),
+                "payment_status": transaction.get("payment_status", ""),
+                "status": transaction.get("status", ""),
                 "order_date": order_date,
                 "is_renewal": is_renewal
             })
