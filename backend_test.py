@@ -1504,7 +1504,7 @@ def test_stripe_plan_id_format_mismatch_fix():
             
             if checkout_response.status_code == 200:
                 checkout_result = checkout_response.json()
-                checkout_url = checkout_result.get("checkout_url", "")
+                checkout_url = checkout_result.get("checkout_url", "") or checkout_result.get("url", "")
                 
                 if checkout_url.startswith("https://checkout.stripe.com"):
                     print_test_result(f"Backend Format - {plan_id}", True, f"SUCCESS: Backward compatibility maintained")
