@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
-DATABASE_NAME = 'trainsmart'
+DATABASE_NAME = os.environ.get('DB_NAME', 'test_database')
 
 async def cleanup_test_data():
     """Clean up test data while preserving andre@humanweb.no"""
