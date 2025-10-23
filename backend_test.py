@@ -1641,7 +1641,13 @@ def test_stripe_plan_id_format_mismatch_fix():
         print("\n✅ STRIPE PLAN ID FORMAT MISMATCH FIX VERIFICATION COMPLETED SUCCESSFULLY")
         return True
         
-        # Step 2: Test Sync to Stripe Endpoint
+    except Exception as e:
+        print_test_result("Stripe Plan ID Format Mismatch Fix - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+def test_stripe_orders_api_endpoint():
         print("   Step 2: Test Sync to Stripe Endpoint - POST /api/subscription-plans/push-to-stripe")
         
         sync_response = requests.post(f"{BACKEND_URL}/subscription-plans/push-to-stripe?athlete_id={super_admin_id}")
