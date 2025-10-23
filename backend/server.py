@@ -3270,6 +3270,55 @@ async def get_athlete_profile(athlete_id: str):
     return parse_from_mongo(athlete)
 
 @api_router.put("/athlete/{athlete_id}", response_model=AthleteProfile)
+async def cascade_profile_picture_update(athlete_id: str, new_profile_picture: str):
+    """Update profile picture across all posts, comments, and other user content"""
+    try:
+        # Update posts in community feed
+        posts_result = await db.posts.update_many(
+            {"athlete_id": athlete_id},
+            {"$set": {"athlete_profile_picture": new_profile_picture}}
+        )
+        logging.info(f"Updated profile picture in {posts_result.modified_count} posts for athlete {athlete_id}")
+        
+        # Update comments on posts
+        comments_result = await db.comments.update_many(
+            {"athlete_id": athlete_id},
+            {"$set": {"athlete_profile_picture": new_profile_picture}}
+        )
+        logging.info(f"Updated profile picture in {comments_result.modified_count} comments for athlete {athlete_id}")
+        
+        # Update event comments
+        event_comments_result = await db.event_comments.update_many(
+            {"athlete_id": athlete_id},
+            {"$set": {"athlete_profile_picture": new_profile_picture}}
+        )
+        logging.info(f"Updated profile picture in {event_comments_result.modified_count} event comments for athlete {athlete_id}")
+        
+        # Update group posts
+        group_posts_result = await db.group_posts.update_many(
+            {"athlete_id": athlete_id},
+            {"$set": {"athlete_profile_picture": new_profile_picture}}
+        )
+        logging.info(f"Updated profile picture in {group_posts_result.modified_count} group posts for athlete {athlete_id}")
+        
+        # Update notifications (from_athlete_profile_picture)
+        notifications_result = await db.notifications.update_many(
+            {"from_athlete_id": athlete_id},
+            {"$set": {"from_athlete_profile_picture": new_profile_picture}}
+        )
+        logging.info(f"Updated profile picture in {notifications_result.modified_count} notifications for athlete {athlete_id}")
+        
+        return {
+            "posts": posts_result.modified_count,
+            "comments": comments_result.modified_count,
+            "event_comments": event_comments_result.modified_count,
+            "group_posts": group_posts_result.modified_count,
+            "notifications": notifications_result.modified_count
+        }
+    except Exception as e:
+        logging.error(f"Error cascading profile picture update: {e}")
+        return None
+
 async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
     """Update athlete profile with partial data"""
     # Get current athlete
@@ -3305,6 +3354,12 @@ async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
             {"id": athlete_id},
             {"$set": prepared_data}
         )
+        
+        # If profile picture was updated, cascade the update to all user content
+        if 'profile_picture' in prepared_data:
+            cascade_result = await cascade_profile_picture_update(athlete_id, prepared_data['profile_picture'])
+            if cascade_result:
+                logging.info(f"[PROFILE PICTURE CASCADE] Updated across collections: {cascade_result}")
     
     # Return updated athlete
     updated_athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
