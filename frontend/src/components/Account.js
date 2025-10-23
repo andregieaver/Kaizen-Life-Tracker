@@ -1619,8 +1619,8 @@ const Account = ({ athleteId }) => {
                         </Select>
                       </div>
                     </div>
-                    </div>
                   </div>
+                </div>
 
                 <Separator />
 
