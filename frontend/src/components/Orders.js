@@ -322,6 +322,9 @@ const Orders = ({ athleteId }) => {
                     <th className="px-4 py-3 text-center text-sm font-medium text-gray-300">
                       Type
                     </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('payment_status')}>
+                      Payment Status <SortIcon columnKey="payment_status" />
+                    </th>
                     <th className="px-4 py-3 text-right text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('amount')}>
                       Amount <SortIcon columnKey="amount" />
                     </th>
