@@ -117,6 +117,30 @@ backend:
         agent: "main"
         comment: "Backend endpoint implementation complete. CHANGES: 1) Updated GET /api/crm/orders endpoint (line 10842) to fetch from correct collection 'payment_transactions' instead of 'stripe_transactions'. 2) Modified query to only fetch paid transactions (payment_status='paid'). 3) Added is_renewal detection logic by checking if athlete has previous paid transactions for the same tier. 4) Field mapping updated: transaction.id -> order_id, transaction.session_id -> stripe_session_id, transaction.created_at/updated_at -> order_date. 5) Amount converted to cents (*100) for frontend compatibility. 6) Joined with athlete_profiles to fetch athlete name and email. 7) Returns sorted orders (newest first) with total count. Backend restarted successfully. Ready for testing."
 
+  - task: "Stripe Orders Frontend Page"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Orders.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Frontend Orders page implementation complete. CHANGES: 1) Updated formatDate function to use DD.MM.YY format (e.g., '23.10.24 14:30') instead of locale string. 2) Added pagination state: currentPage, itemsPerPage (20). 3) Implemented pagination logic: totalPages calculation, paginatedOrders slice, auto-reset to page 1 when filters change. 4) Updated table to display paginatedOrders instead of all filteredOrders. 5) Added pagination UI: page info display (showing X to Y of Z orders), Previous/Next buttons with disabled states, page number buttons with ellipsis for large page counts, active page highlighting with teal color. 6) Existing features: Search by order ID/customer name/email, filters (plan: all/pro/premium, interval: all/month/year, order type: all/first/renewal), sorting by all columns (order ID, plan, interval, customer, date, amount), CSV export, revenue total display, dark theme consistent with app. Frontend compiled successfully. Ready for testing."
+
+  - task: "Orders Button and Routing Integration"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Account.js, /app/frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Navigation integration complete. CHANGES: 1) Account.js (line 1241-1249): Added Orders button between CRM and System Settings buttons for super admins. Button uses ShoppingCart icon (already imported), gray background matching CRM button style, navigates to '/dashboard/orders'. 2) Dashboard.js: Added Orders import (line 32), added route rendering (line 1201-1203) to display <Orders athleteId={athleteId} /> when activeTab === 'orders'. Frontend compiled successfully. Ready for end-to-end testing."
+
 frontend:
   - task: "Community Backend Models and API Endpoints"
     implemented: true
