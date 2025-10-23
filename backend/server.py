@@ -3721,10 +3721,22 @@ async def get_checkout_status(session_id: str):
     """Get the status of a checkout session"""
     import stripe
     
-    # Get Stripe API key
-    stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
+    # Get Stripe settings from system_settings
+    system_settings = await db.system_settings.find_one({}, {"_id": 0})
+    if not system_settings:
+        raise HTTPException(status_code=500, detail="System settings not found")
+    
+    stripe_settings = system_settings.get("advanced", {}).get("stripe", {})
+    stripe_mode = stripe_settings.get("mode", "test")
+    
+    # Get the appropriate API key based on mode
+    if stripe_mode == "live":
+        stripe_secret_key = stripe_settings.get("live", {}).get("apiKey") or stripe_settings.get("live", {}).get("secretKey")
+    else:
+        stripe_secret_key = stripe_settings.get("sandbox", {}).get("apiKey") or stripe_settings.get("sandbox", {}).get("secretKey")
+    
     if not stripe_secret_key:
-        raise HTTPException(status_code=500, detail="Stripe not configured")
+        raise HTTPException(status_code=500, detail=f"Stripe API key not configured for {stripe_mode} mode")
     
     stripe.api_key = stripe_secret_key
     
