@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, 
   User, 
@@ -25,11 +25,11 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const UserProfile = ({ athleteId }) => {
-  const { tab } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
   
-  // Extract userId from tab param (format: "crm/user/{userId}")
-  const userId = tab?.split('/').pop();
+  // Extract userId from pathname (format: "/dashboard/crm/user/{userId}")
+  const userId = location.pathname.split('/').pop();
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
