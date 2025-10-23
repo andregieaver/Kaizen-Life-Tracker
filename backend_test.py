@@ -1648,7 +1648,8 @@ def test_stripe_plan_id_format_mismatch_fix():
         return False
 
 def test_stripe_orders_api_endpoint():
-        print("   Step 2: Test Sync to Stripe Endpoint - POST /api/subscription-plans/push-to-stripe")
+    """
+    COMPREHENSIVE STRIPE ORDERS API ENDPOINT TESTING
         
         sync_response = requests.post(f"{BACKEND_URL}/subscription-plans/push-to-stripe?athlete_id={super_admin_id}")
         
