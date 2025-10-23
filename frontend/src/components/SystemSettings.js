@@ -3533,6 +3533,29 @@ const SystemSettings = ({ athleteId }) => {
                       </Label>
                     </div>
 
+                    {/* Sandbox Publishable Key */}
+                    <div className="space-y-2">
+                      <Label className="text-xs font-medium text-gray-300">
+                        Publishable Key
+                      </Label>
+                      <Input
+                        type="text"
+                        value={advancedSettings.stripe.sandbox.publishableKey || ''}
+                        onChange={(e) => setAdvancedSettings(prev => ({
+                          ...prev,
+                          stripe: {
+                            ...prev.stripe,
+                            sandbox: {
+                              ...prev.stripe.sandbox,
+                              publishableKey: e.target.value
+                            }
+                          }
+                        }))}
+                        placeholder="pk_test_..."
+                        className="bg-gray-800 border-gray-600 text-white placeholder:text-gray-500 text-sm"
+                      />
+                    </div>
+
                     {/* Sandbox API Key */}
                     <div className="space-y-2">
                       <Label className="text-xs font-medium text-gray-300">
