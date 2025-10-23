@@ -10793,6 +10793,51 @@ async def get_public_system_settings():
             }
         }
 
+@api_router.get("/crm/users")
+async def get_all_users(athlete_id: str):
+    """Get all users for CRM (Super Admin only)"""
+    # Verify super admin
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Fetch all athlete profiles with required data
+        users = await db.athlete_profiles.find(
+            {},
+            {
+                "_id": 0,
+                "id": 1,
+                "name": 1,
+                "email": 1,
+                "profile_picture": 1,
+                "subscription_tier": 1,
+                "subscription_interval": 1,
+                "nationality": 1,
+                "created_at": 1,
+                "date_of_birth": 1,
+                "gender": 1
+            }
+        ).to_list(length=None)
+        
+        # Format the data for CRM
+        formatted_users = []
+        for user in users:
+            formatted_users.append({
+                "id": user.get("id", ""),
+                "name": user.get("name", "Unknown"),
+                "email": user.get("email", ""),
+                "profile_picture": user.get("profile_picture", ""),
+                "subscription_tier": user.get("subscription_tier", "free"),
+                "subscription_interval": user.get("subscription_interval", ""),
+                "nationality": user.get("nationality", ""),
+                "created_at": user.get("created_at", ""),
+                "date_of_birth": user.get("date_of_birth", ""),
+                "gender": user.get("gender", "")
+            })
+        
+        return {"users": formatted_users, "total": len(formatted_users)}
+    except Exception as e:
+        logging.error(f"Error fetching CRM users: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch users: {str(e)}")
 @api_router.get("/system/settings")
 async def get_system_settings(athlete_id: str):
     """Get system settings (Super Admin only)"""
