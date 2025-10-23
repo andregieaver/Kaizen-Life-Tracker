@@ -1638,14 +1638,9 @@ def test_stripe_checkout_database_synced_prices():
                     if variation.get("stripe_price_id"):
                         candidate_plan_id = variation.get('plan_id')
                         if not candidate_plan_id:
-                            # Construct plan_id if not present
+                            # Construct plan_id if not present using correct format
                             interval = variation.get('interval', 'month')
-                            if interval == 'month':
-                                candidate_plan_id = f"{plan.get('tier')}_monthly"
-                            elif interval == 'year':
-                                candidate_plan_id = f"{plan.get('tier')}_annual"
-                            else:
-                                candidate_plan_id = f"{plan.get('tier')}_{interval}"
+                            candidate_plan_id = f"{plan.get('tier')}_{interval}"
                         
                         if candidate_plan_id != test_plan_id:
                             update_plan_id = candidate_plan_id
