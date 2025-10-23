@@ -12004,23 +12004,13 @@ async def get_subscription_plans_public():
 async def get_subscription_plans(athlete_id: str = None):
     """Get all subscription plans and their variations"""
     try:
-        # Get plans from database
+        # Get plans from database (variations are now embedded in the plans)
         plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).to_list(length=None)
-        variations = await db.subscription_plan_variations.find({"enabled": True}, {"_id": 0}).to_list(length=None)
-        
-        # Group variations by plan tier
-        plans_with_variations = []
-        for plan in plans:
-            plan_variations = [v for v in variations if v.get("plan_id", "").startswith(plan["tier"])]
-            plans_with_variations.append({
-                **plan,
-                "variations": plan_variations
-            })
         
         # Sort by sort_order
-        plans_with_variations.sort(key=lambda x: x.get("sort_order", 0))
+        plans.sort(key=lambda x: x.get("sort_order", 0))
         
-        return {"plans": plans_with_variations}
+        return {"plans": plans}
     except Exception as e:
         logging.error(f"Error getting subscription plans: {e}")
         raise HTTPException(status_code=500, detail=str(e))
