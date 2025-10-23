@@ -3423,6 +3423,11 @@ async def upload_profile_picture(athlete_id: str, file: UploadFile = File(...)):
             {"$set": {"profile_picture": profile_picture}}
         )
         
+        # Cascade the profile picture update to all user content
+        cascade_result = await cascade_profile_picture_update(athlete_id, profile_picture)
+        if cascade_result:
+            logging.info(f"[PROFILE PICTURE CASCADE] Updated across collections: {cascade_result}")
+        
         return {"success": True, "message": "Profile picture updated successfully", "profile_picture": profile_picture}
         
     except HTTPException:
