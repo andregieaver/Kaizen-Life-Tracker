@@ -7389,8 +7389,8 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Stripe Product/Price Activation Fix Testing"""
-    print("🚀 STARTING STRIPE PRODUCT/PRICE ACTIVATION FIX TESTING")
+    """Run Stripe Checkout Database-Synced Prices Fix Testing"""
+    print("🚀 STARTING STRIPE CHECKOUT DATABASE-SYNCED PRICES FIX TESTING")
     print("=" * 70)
     
     all_tests_passed = True
