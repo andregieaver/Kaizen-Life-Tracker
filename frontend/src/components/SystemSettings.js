@@ -320,10 +320,12 @@ const SystemSettings = ({ athleteId }) => {
           showKey: false,
           stripe: {
             live: {
+              publishableKey: response.data.advanced.stripe?.live?.publishableKey || '',
               apiKey: response.data.advanced.stripe?.live?.apiKey || '',
               webhookSecret: response.data.advanced.stripe?.live?.webhookSecret || ''
             },
             sandbox: {
+              publishableKey: response.data.advanced.stripe?.sandbox?.publishableKey || '',
               apiKey: response.data.advanced.stripe?.sandbox?.apiKey || '',
               webhookSecret: response.data.advanced.stripe?.sandbox?.webhookSecret || ''
             }
