@@ -1195,6 +1195,9 @@ const Dashboard = ({ athleteId }) => {
         {activeTab === 'system-settings' && (
           <SystemSettings athleteId={athleteId} />
         )}
+        {activeTab === 'crm' && (
+          <CRM athleteId={athleteId} />
+        )}
 
         {activeTab === 'calendar' && (
           <TrainingCalendar 
