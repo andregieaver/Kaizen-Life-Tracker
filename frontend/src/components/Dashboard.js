@@ -31,6 +31,7 @@ import SystemSettings from './SystemSettings';
 import CRM from './CRM';
 import Orders from './Orders';
 import UserProfile from './UserProfile';
+import OrderDetail from './OrderDetail';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
