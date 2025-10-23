@@ -62,8 +62,9 @@ const Dashboard = ({ athleteId }) => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   
-  // Check if we're on a nested CRM user page
+  // Check if we're on nested pages
   const isUserProfilePage = location.pathname.includes('/dashboard/crm/user/');
+  const isOrderDetailPage = location.pathname.match(/\/dashboard\/orders\/[^/]+$/) && !location.pathname.endsWith('/orders');
   
   // Determine active tab from URL, default to overview
   const activeTab = tab || 'overview';
