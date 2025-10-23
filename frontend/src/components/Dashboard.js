@@ -1201,10 +1201,10 @@ const Dashboard = ({ athleteId }) => {
         {activeTab === 'system-settings' && (
           <SystemSettings athleteId={athleteId} />
         )}
-        {activeTab === 'crm' && !tab?.includes('/') && (
+        {activeTab === 'crm' && !isUserProfilePage && (
           <CRM athleteId={athleteId} />
         )}
-        {tab?.startsWith('crm/user/') && (
+        {isUserProfilePage && (
           <UserProfile athleteId={athleteId} />
         )}
         {activeTab === 'orders' && (
