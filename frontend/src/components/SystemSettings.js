@@ -674,6 +674,37 @@ const SystemSettings = ({ athleteId }) => {
     }
   };
 
+  const syncToStripe = async () => {
+    if (!window.confirm('This will create Stripe products and prices based on your local plans. Any plans without Stripe IDs will be pushed to Stripe. Continue?')) {
+      return;
+    }
+    
+    setLoadingPlans(true);
+    try {
+      const response = await axios.post(
+        `${API}/subscription-plans/push-to-stripe?athlete_id=${athleteId}`
+      );
+      
+      const stats = response.data.stats;
+      let message = 'Sync to Stripe completed!\n\n';
+      message += `Products Created: ${stats.products_created}\n`;
+      message += `Prices Created: ${stats.prices_created}\n`;
+      message += `Plans Updated: ${stats.plans_updated}`;
+      
+      if (stats.errors && stats.errors.length > 0) {
+        message += `\n\nErrors:\n${stats.errors.join('\n')}`;
+      }
+      
+      alert(message);
+      loadSubscriptionPlans();
+    } catch (error) {
+      console.error('Error syncing to Stripe:', error);
+      alert(error.response?.data?.detail || 'Failed to sync to Stripe');
+    } finally {
+      setLoadingPlans(false);
+    }
+  };
+
   // Waiting List Functions
   const loadWaitingList = async () => {
     setLoadingWaitingList(true);
