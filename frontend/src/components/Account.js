@@ -613,6 +613,7 @@ const Account = ({ athleteId }) => {
         birth_month: birthMonth,
         birth_year: birthYear,
         running_goals: athleteRes.data.running_goals,
+        nationality: athleteRes.data.nationality || '',
         // Personal Information fields
         height: athleteRes.data.height || '',
         weight: athleteRes.data.weight || '',
