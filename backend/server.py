@@ -11198,6 +11198,85 @@ async def refund_order(order_id: str, athlete_id: str, amount: float, type: str)
         logging.error(f"Error processing refund: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to process refund: {str(e)}")
 
+@api_router.get("/crm/subscriptions")
+async def get_all_subscriptions(athlete_id: str):
+    """Get all active subscriptions (Super Admin only)"""
+    # Verify super admin
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Fetch all users with subscription information
+        users = await db.athlete_profiles.find(
+            {},
+            {
+                "_id": 0,
+                "id": 1,
+                "name": 1,
+                "email": 1,
+                "subscription_tier": 1,
+                "subscription_interval": 1,
+                "subscription_status": 1,
+                "subscription_current_period_start": 1,
+                "subscription_current_period_end": 1,
+                "subscription_cancel_at": 1,
+                "created_at": 1,
+                "stripe_customer_id": 1,
+                "stripe_subscription_id": 1
+            }
+        ).to_list(length=None)
+        
+        subscriptions = []
+        for user in users:
+            user_id = user.get("id", "")
+            
+            # Calculate lifetime value from all paid transactions
+            transactions = await db.payment_transactions.find(
+                {"athlete_id": user_id, "payment_status": "paid"},
+                {"_id": 0, "amount": 1}
+            ).to_list(length=None)
+            
+            lifetime_value = sum([t.get("amount", 0) for t in transactions])
+            
+            # Determine subscription status
+            subscription_tier = user.get("subscription_tier", "free")
+            subscription_status = user.get("subscription_status", "inactive")
+            
+            # Skip users with no active subscription (free tier)
+            if subscription_tier == "free" and subscription_status == "inactive":
+                continue
+            
+            # Calculate next renewal date
+            current_period_end = user.get("subscription_current_period_end", "")
+            cancel_at = user.get("subscription_cancel_at", "")
+            
+            # Determine if subscription is ongoing or will be cancelled
+            end_date = cancel_at if cancel_at else current_period_end
+            next_renewal = current_period_end if subscription_status == "active" and not cancel_at else None
+            
+            subscriptions.append({
+                "user_id": user_id,
+                "customer_name": user.get("name", "Unknown"),
+                "customer_email": user.get("email", ""),
+                "plan": subscription_tier,
+                "interval": user.get("subscription_interval", ""),
+                "status": subscription_status,
+                "start_date": user.get("subscription_current_period_start", "") or user.get("created_at", ""),
+                "end_date": end_date,
+                "next_renewal": next_renewal,
+                "lifetime_value": lifetime_value,
+                "is_cancelled": bool(cancel_at),
+                "stripe_customer_id": user.get("stripe_customer_id", ""),
+                "stripe_subscription_id": user.get("stripe_subscription_id", "")
+            })
+        
+        # Sort by start date, newest first
+        subscriptions.sort(key=lambda x: x.get("start_date", ""), reverse=True)
+        
+        return {"subscriptions": subscriptions, "total": len(subscriptions)}
+    except Exception as e:
+        logging.error(f"Error fetching subscriptions: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch subscriptions: {str(e)}")
+
 @api_router.get("/system/settings")
 async def get_system_settings(athlete_id: str):
     """Get system settings (Super Admin only)"""
