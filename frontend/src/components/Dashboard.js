@@ -29,6 +29,7 @@ import Community from './Community';
 import Referrals from './Referrals';
 import SystemSettings from './SystemSettings';
 import CRM from './CRM';
+import Orders from './Orders';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
