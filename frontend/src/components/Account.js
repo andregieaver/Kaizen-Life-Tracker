@@ -160,6 +160,7 @@ const Account = ({ athleteId }) => {
     birth_month: '',
     birth_year: '',
     running_goals: '',
+    nationality: '',
     // Personal Information fields
     height: '',
     weight: '',
