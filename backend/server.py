@@ -11028,6 +11028,176 @@ async def get_all_orders(athlete_id: str):
     except Exception as e:
         logging.error(f"Error fetching orders: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch orders: {str(e)}")
+@api_router.get("/crm/orders/{order_id}")
+async def get_order_details(order_id: str, athlete_id: str):
+    """Get detailed information for a specific order (Super Admin only)"""
+    # Verify super admin
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Fetch the specific order
+        transaction = await db.payment_transactions.find_one(
+            {"id": order_id},
+            {"_id": 0}
+        )
+        
+        if not transaction:
+            raise HTTPException(status_code=404, detail="Order not found")
+        
+        athlete_id_val = transaction.get("athlete_id", "")
+        
+        # Fetch athlete information
+        athlete = await db.athlete_profiles.find_one(
+            {"id": athlete_id_val},
+            {"_id": 0, "name": 1, "email": 1}
+        )
+        
+        # Check if renewal
+        athlete_transactions_before = await db.payment_transactions.count_documents({
+            "athlete_id": athlete_id_val,
+            "payment_status": "paid",
+            "tier": transaction.get("tier"),
+            "created_at": {"$lt": transaction.get("created_at", "")}
+        })
+        
+        is_renewal = athlete_transactions_before > 0
+        
+        # Fetch all orders for this customer
+        customer_orders = await db.payment_transactions.find(
+            {"athlete_id": athlete_id_val},
+            {"_id": 0, "id": 1, "tier": 1, "interval": 1, "amount": 1, "currency": 1, "payment_status": 1, "created_at": 1, "updated_at": 1}
+        ).sort("created_at", -1).to_list(length=None)
+        
+        # Format order history
+        order_history = []
+        for order in customer_orders:
+            # Check if this order is a renewal
+            prev_orders = await db.payment_transactions.count_documents({
+                "athlete_id": athlete_id_val,
+                "payment_status": "paid",
+                "tier": order.get("tier"),
+                "created_at": {"$lt": order.get("created_at", "")}
+            })
+            
+            order_history.append({
+                "order_id": order.get("id", ""),
+                "plan": order.get("tier", ""),
+                "interval": order.get("interval", ""),
+                "amount": order.get("amount", 0),
+                "currency": order.get("currency", "EUR").upper(),
+                "payment_status": order.get("payment_status", ""),
+                "order_date": order.get("updated_at") or order.get("created_at", ""),
+                "is_renewal": prev_orders > 0
+            })
+        
+        # Format order details
+        order_data = {
+            "order_id": transaction.get("id", ""),
+            "stripe_session_id": transaction.get("session_id", ""),
+            "athlete_id": athlete_id_val,
+            "athlete_name": athlete.get("name", "Unknown") if athlete else "Unknown",
+            "athlete_email": athlete.get("email", "") if athlete else "",
+            "plan": transaction.get("tier", ""),
+            "interval": transaction.get("interval", ""),
+            "amount": transaction.get("amount", 0),
+            "currency": transaction.get("currency", "EUR").upper(),
+            "payment_status": transaction.get("payment_status", ""),
+            "status": transaction.get("status", ""),
+            "order_date": transaction.get("updated_at") or transaction.get("created_at", ""),
+            "is_renewal": is_renewal
+        }
+        
+        return {
+            "order": order_data,
+            "order_history": order_history
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fetching order details: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch order details: {str(e)}")
+
+@api_router.post("/crm/orders/{order_id}/refund")
+async def refund_order(order_id: str, athlete_id: str, amount: float, type: str):
+    """Process a refund for an order (Super Admin only)"""
+    # Verify super admin
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Fetch the order
+        transaction = await db.payment_transactions.find_one({"id": order_id})
+        
+        if not transaction:
+            raise HTTPException(status_code=404, detail="Order not found")
+        
+        if transaction.get("payment_status") != "paid":
+            raise HTTPException(status_code=400, detail="Only paid orders can be refunded")
+        
+        # Validate refund amount
+        order_amount = transaction.get("amount", 0)
+        if amount > order_amount:
+            raise HTTPException(status_code=400, detail="Refund amount cannot exceed order amount")
+        
+        # Get Stripe settings
+        system_settings = await db.system_settings.find_one({}, {"_id": 0})
+        stripe_settings = system_settings.get("stripe", {}).get("live", {}) if system_settings else {}
+        stripe_api_key = stripe_settings.get("secretKey")
+        
+        if not stripe_api_key:
+            raise HTTPException(status_code=500, detail="Stripe API key not configured")
+        
+        import stripe
+        stripe.api_key = stripe_api_key
+        
+        # Process the refund through Stripe
+        session_id = transaction.get("session_id")
+        if not session_id:
+            raise HTTPException(status_code=400, detail="No Stripe session ID found for this order")
+        
+        # Get the payment intent from the session
+        session = stripe.checkout.Session.retrieve(session_id)
+        payment_intent_id = session.payment_intent
+        
+        if not payment_intent_id:
+            raise HTTPException(status_code=400, detail="No payment intent found for this order")
+        
+        # Create the refund
+        refund_amount_cents = int(amount * 100)  # Convert to cents
+        refund = stripe.Refund.create(
+            payment_intent=payment_intent_id,
+            amount=refund_amount_cents if type == 'partial' else None  # None means full refund
+        )
+        
+        # Update the transaction in database
+        new_status = "refunded" if type == 'full' or amount == order_amount else "partially_refunded"
+        await db.payment_transactions.update_one(
+            {"id": order_id},
+            {
+                "$set": {
+                    "payment_status": new_status,
+                    "refund_id": refund.id,
+                    "refund_amount": amount,
+                    "refund_type": type,
+                    "refunded_at": datetime.now(timezone.utc).isoformat()
+                }
+            }
+        )
+        
+        return {
+            "success": True,
+            "message": f"Refund of {amount} {transaction.get('currency', 'EUR')} processed successfully",
+            "refund_id": refund.id,
+            "new_status": new_status
+        }
+    except stripe.error.StripeError as e:
+        logging.error(f"Stripe refund error: {e}")
+        raise HTTPException(status_code=400, detail=f"Stripe error: {str(e)}")
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error processing refund: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to process refund: {str(e)}")
+
 @api_router.get("/system/settings")
 async def get_system_settings(athlete_id: str):
     """Get system settings (Super Admin only)"""
