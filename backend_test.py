@@ -1759,8 +1759,8 @@ def test_stripe_checkout_database_synced_prices():
         except Exception as log_e:
             print_test_result("Backend Logs Check", False, f"Could not read backend logs: {log_e}")
         
-        # Step 9: Summary of fix verification
-        print("   Step 9: Summary of fix verification")
+        # Step 10: Summary of fix verification
+        print("   Step 10: Summary of fix verification")
         
         fix_verification = [
             f"✅ Sync to Stripe endpoint working (Products: {products_created}, Prices: {prices_created})",
