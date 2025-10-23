@@ -3467,7 +3467,8 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
     # Fetch subscription plans from database to get synced Stripe price IDs
     all_plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).to_list(length=None)
     
-    # Find the matching variation by plan_id (format: tier_interval, e.g., "pro_monthly")
+    # Find the matching variation by plan_id (format: tier_interval, e.g., "pro_monthly" or "pro_annual")
+    # Normalize interval: "monthly" -> "month", "annual" -> "year"
     plan = None
     stripe_price_id = None
     tier = None
@@ -3477,12 +3478,15 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
     for db_plan in all_plans:
         variations = db_plan.get("variations", [])
         for variation in variations:
-            # Match plan_id format: tier_interval (e.g., "pro_monthly" or "premium_annual")
-            variation_id = f"{db_plan.get('tier')}_{variation.get('interval')}"
-            if variation_id == request.plan_id:
+            db_interval = variation.get("interval")  # "month" or "year" from database
+            # Match plan_id with both formats: "pro_month"/"pro_year" AND "pro_monthly"/"pro_annual"
+            variation_id_month = f"{db_plan.get('tier')}_{db_interval}"  # "pro_month"
+            variation_id_ly = f"{db_plan.get('tier')}_{'monthly' if db_interval == 'month' else 'annual'}"  # "pro_monthly"
+            
+            if request.plan_id in [variation_id_month, variation_id_ly]:
                 stripe_price_id = variation.get("stripe_price_id")
                 tier = db_plan.get("tier")
-                interval = variation.get("interval")
+                interval = db_interval
                 price = variation.get("price")
                 plan = {
                     "tier": tier,
