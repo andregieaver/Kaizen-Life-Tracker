@@ -1032,6 +1032,7 @@ const SystemSettings = ({ athleteId }) => {
         advanced: {
           openaiApiKey: advancedSettings.openaiApiKey,
           stripe: {
+            mode: advancedSettings.stripe.mode,
             live: {
               publishableKey: advancedSettings.stripe.live.publishableKey,
               apiKey: advancedSettings.stripe.live.apiKey,
