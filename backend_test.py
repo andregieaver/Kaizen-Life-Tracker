@@ -1556,22 +1556,41 @@ def test_stripe_checkout_database_synced_prices():
         test_plan_id = None
         test_variation = None
         
+        # First, let's examine the actual plan structure
+        print(f"      Available plans structure:")
         for plan in plans:
+            tier = plan.get('tier')
             variations = plan.get("variations", [])
+            print(f"        Plan tier: {tier}")
             for variation in variations:
-                if variation.get("stripe_price_id"):
-                    # Use the correct format: tier + "_" + interval + "ly" (e.g., "pro_monthly")
-                    interval = variation.get('interval', 'month')
-                    if interval == 'month':
-                        test_plan_id = f"{plan.get('tier')}_monthly"
-                    elif interval == 'year':
-                        test_plan_id = f"{plan.get('tier')}_annual"
-                    else:
-                        test_plan_id = f"{plan.get('tier')}_{interval}"
+                plan_id = variation.get('plan_id')
+                interval = variation.get('interval')
+                stripe_price_id = variation.get('stripe_price_id')
+                print(f"          Variation plan_id: {plan_id}, interval: {interval}, has stripe_price_id: {bool(stripe_price_id)}")
+                
+                # Use the actual plan_id from the variation
+                if stripe_price_id and not test_plan_id:
+                    test_plan_id = plan_id
                     test_variation = variation
+        
+        # If no plan_id found in variations, try constructing it
+        if not test_plan_id:
+            for plan in plans:
+                variations = plan.get("variations", [])
+                for variation in variations:
+                    if variation.get("stripe_price_id"):
+                        # Use the correct format: tier + "_" + interval + "ly" (e.g., "pro_monthly")
+                        interval = variation.get('interval', 'month')
+                        if interval == 'month':
+                            test_plan_id = f"{plan.get('tier')}_monthly"
+                        elif interval == 'year':
+                            test_plan_id = f"{plan.get('tier')}_annual"
+                        else:
+                            test_plan_id = f"{plan.get('tier')}_{interval}"
+                        test_variation = variation
+                        break
+                if test_plan_id:
                     break
-            if test_plan_id:
-                break
         
         if not test_plan_id:
             print_test_result("Find Test Plan for Checkout", False, "No plan with stripe_price_id found for checkout testing")
