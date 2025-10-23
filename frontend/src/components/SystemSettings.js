@@ -115,10 +115,12 @@ const SystemSettings = ({ athleteId }) => {
     showKey: false,
     stripe: {
       live: {
+        publishableKey: '',
         apiKey: '',
         webhookSecret: ''
       },
       sandbox: {
+        publishableKey: '',
         apiKey: '',
         webhookSecret: ''
       }
