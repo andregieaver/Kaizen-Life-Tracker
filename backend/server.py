@@ -4107,7 +4107,7 @@ async def update_subscription_plan(request: dict):
         # Get current subscription
         subscription = stripe.Subscription.retrieve(stripe_subscription_id)
         
-        # Update subscription with new price
+        # Update subscription with new price (using synced price ID)
         updated_subscription = stripe.Subscription.modify(
             stripe_subscription_id,
             items=[{
