@@ -1646,18 +1646,20 @@ const SystemSettings = ({ athleteId }) => {
                               <div className="space-y-2">
                                 {plan.variations.map((variation) => (
                                   <div
-                                    key={variation.plan_id}
+                                    key={variation.id}
                                     className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-gray-600/50 rounded-lg gap-3"
                                   >
                                     <div className="flex-1 min-w-0">
                                       <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-                                        <span className="text-white font-medium text-sm sm:text-base truncate">{variation.name}</span>
+                                        <span className="text-white font-medium text-sm sm:text-base truncate">
+                                          {variation.name || `${plan.name} ${variation.interval === 'month' ? 'Monthly' : 'Annual'}`}
+                                        </span>
                                         <div className="flex items-center gap-2">
                                           <span className="text-teal-400 font-bold text-base sm:text-lg">
-                                            ${variation.price}
+                                            {variation.currency || 'EUR'} {variation.price}
                                           </span>
                                           <span className="text-gray-400 text-xs sm:text-sm">
-                                            / {variation.interval_count > 1 ? `${variation.interval_count} ` : ''}
+                                            / {(variation.interval_count && variation.interval_count > 1) ? `${variation.interval_count} ` : ''}
                                             {variation.interval}
                                             {variation.interval_count > 1 ? 's' : ''}
                                           </span>
