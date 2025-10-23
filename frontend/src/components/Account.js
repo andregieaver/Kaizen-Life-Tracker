@@ -51,7 +51,8 @@ import {
   Bell,
   BellOff,
   Utensils,
-  Users
+  Users,
+  ShoppingCart
 } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
