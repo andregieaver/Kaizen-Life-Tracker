@@ -30,7 +30,8 @@ import {
   Pencil,
   Trash2,
   Mail,
-  Download
+  Download,
+  X
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
