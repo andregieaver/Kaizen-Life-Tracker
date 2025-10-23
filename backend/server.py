@@ -10846,48 +10846,63 @@ async def get_all_orders(athlete_id: str):
     await verify_super_admin(athlete_id)
     
     try:
-        # Fetch all transactions from the database
-        transactions = await db.stripe_transactions.find(
-            {},
+        # Fetch all transactions from the database, only where payment_status is "paid"
+        transactions = await db.payment_transactions.find(
+            {"payment_status": "paid"},
             {
                 "_id": 0,
-                "transaction_id": 1,
+                "id": 1,
+                "session_id": 1,
                 "athlete_id": 1,
                 "tier": 1,
                 "interval": 1,
                 "amount": 1,
                 "currency": 1,
+                "payment_status": 1,
                 "status": 1,
-                "timestamp": 1,
-                "is_renewal": 1,
-                "stripe_session_id": 1
+                "created_at": 1,
+                "updated_at": 1
             }
         ).to_list(length=None)
         
-        # Get athlete names for each transaction
+        # Get athlete names for each transaction and determine if renewal
         formatted_orders = []
         for transaction in transactions:
             athlete_id_val = transaction.get("athlete_id", "")
             
-            # Fetch athlete name
+            # Fetch athlete name and profile
             athlete = await db.athlete_profiles.find_one(
                 {"id": athlete_id_val},
-                {"_id": 0, "name": 1, "email": 1}
+                {"_id": 0, "name": 1, "email": 1, "created_at": 1}
             )
             
+            # Determine if this is a renewal based on subscription history
+            # Check if athlete has other completed transactions before this one
+            athlete_transactions = await db.payment_transactions.count_documents({
+                "athlete_id": athlete_id_val,
+                "payment_status": "paid",
+                "tier": transaction.get("tier"),
+                "created_at": {"$lt": transaction.get("created_at", "")}
+            })
+            
+            is_renewal = athlete_transactions > 0
+            
+            # Use created_at or updated_at for order date
+            order_date = transaction.get("updated_at") or transaction.get("created_at", "")
+            
             formatted_orders.append({
-                "order_id": transaction.get("transaction_id", ""),
-                "stripe_session_id": transaction.get("stripe_session_id", ""),
+                "order_id": transaction.get("id", ""),
+                "stripe_session_id": transaction.get("session_id", ""),
                 "athlete_id": athlete_id_val,
                 "athlete_name": athlete.get("name", "Unknown") if athlete else "Unknown",
                 "athlete_email": athlete.get("email", "") if athlete else "",
                 "plan": transaction.get("tier", ""),
                 "interval": transaction.get("interval", ""),
-                "amount": transaction.get("amount", 0),
+                "amount": int(transaction.get("amount", 0) * 100),  # Convert to cents for frontend
                 "currency": transaction.get("currency", "EUR").upper(),
-                "status": transaction.get("status", ""),
-                "order_date": transaction.get("timestamp", ""),
-                "is_renewal": transaction.get("is_renewal", False)
+                "status": transaction.get("payment_status", ""),
+                "order_date": order_date,
+                "is_renewal": is_renewal
             })
         
         # Sort by date, newest first
