@@ -705,6 +705,27 @@ const SystemSettings = ({ athleteId }) => {
     }
   };
 
+  const resetStripeIds = async () => {
+    if (!window.confirm('⚠️ WARNING: This will remove all Stripe IDs from your plans!\n\nThis is useful when switching to a new Stripe account. After resetting, you can use "Sync to Stripe" to create new products.\n\nContinue?')) {
+      return;
+    }
+    
+    setLoadingPlans(true);
+    try {
+      const response = await axios.post(
+        `${API}/subscription-plans/reset-stripe-ids?athlete_id=${athleteId}`
+      );
+      
+      alert(`Reset complete!\n\n${response.data.message}\nPlans affected: ${response.data.plans_updated}`);
+      loadSubscriptionPlans();
+    } catch (error) {
+      console.error('Error resetting Stripe IDs:', error);
+      alert(error.response?.data?.detail || 'Failed to reset Stripe IDs');
+    } finally {
+      setLoadingPlans(false);
+    }
+  };
+
   // Waiting List Functions
   const loadWaitingList = async () => {
     setLoadingWaitingList(true);
