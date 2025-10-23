@@ -50,7 +50,8 @@ import {
   X,
   Bell,
   BellOff,
-  Utensils
+  Utensils,
+  Users
 } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
