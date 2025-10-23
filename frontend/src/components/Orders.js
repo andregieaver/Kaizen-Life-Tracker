@@ -334,7 +334,8 @@ const Orders = ({ athleteId }) => {
                   {paginatedOrders.map((order, index) => (
                     <tr
                       key={order.order_id}
-                      className={`border-b border-gray-600 hover:bg-gray-700/50 transition-colors ${index % 2 === 0 ? 'bg-gray-800/30' : ''}`}
+                      onClick={() => navigate(`/dashboard/orders/${order.order_id}`)}
+                      className={`border-b border-gray-600 hover:bg-gray-700/50 transition-colors cursor-pointer ${index % 2 === 0 ? 'bg-gray-800/30' : ''}`}
                     >
                       <td className="px-4 py-3">
                         <div className="text-white font-mono text-sm">{order.order_id}</div>
