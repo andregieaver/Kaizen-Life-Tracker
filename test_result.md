@@ -107,15 +107,18 @@ user_problem_statement: "Fix Stripe checkout failure due to inactive products/pr
 backend:
   - task: "Stripe Product and Price Activation Fix"
     implemented: true
-    working: "NA"
+    working: false
     file: "/app/backend/server.py"
-    stuck_count: 0
+    stuck_count: 1
     priority: "critical"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Stripe product/price activation fix complete. CHANGES IN /app/backend/server.py POST /api/subscription-plans/push-to-stripe endpoint (lines 12555-12696): 1) PRODUCT ACTIVATION - Line 12610: Added active=True when creating new Stripe products to ensure they start in active state. Lines 12629-12633: Added logic to activate existing products using stripe.Product.modify(stripe_product_id, active=True) for products that already have stripe_product_id. 2) PRICE ACTIVATION - Line 12658: Added active=True when creating Stripe prices to ensure they are immediately usable for checkout. EXPECTED BEHAVIOR: When super admin clicks 'Sync to Stripe' button in SystemSettings, all created/existing products and prices will be set to active status in Stripe. This should resolve the '403: This product is not currently available for purchase because it is not active' error that occurs during checkout when users try to change their subscription plan. TESTING REQUIREMENTS: 1) Verify 'Sync to Stripe' creates products with active status, 2) Verify existing products are activated during sync, 3) Verify prices are created with active status, 4) Test complete flow: Sync to Stripe → Change plan in Account Settings → Verify checkout session creation succeeds (no 500 error)."
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL ISSUE IDENTIFIED - Stripe Product/Price Activation Fix is INCOMPLETE. TESTING RESULTS: 1) SYNC ENDPOINT WORKING ✓ - POST /api/subscription-plans/push-to-stripe correctly activates products (logs show 'Plan pro product activated: prod_THx5G2YlGvT4Ek'), all plans have stripe_product_id (3/3), all variations have stripe_price_id (4/4). 2) CHECKOUT SESSION STILL FAILING ❌ - POST /api/subscriptions/create-checkout-session returns 500 error: 'Price price_1SGQpMCzzIKcO0tboaPPtgPP is not available to be purchased because its product is not active.' ROOT CAUSE IDENTIFIED: The checkout endpoint (line 3449) uses hardcoded SUBSCRIPTION_PLANS constant instead of database-synced plans. Database has correct active price IDs (price_1SLNBaRAdNpFHFaLelD0RonE for pro_monthly) but checkout tries to use different price ID (price_1SGQpMCzzIKcO0tboaPPtgPP) from get_or_create_stripe_price function. REQUIRED FIX: Checkout endpoint must use synced subscription plans from database (/api/subscription-plans) instead of hardcoded SUBSCRIPTION_PLANS constant. The sync activates products correctly, but checkout uses wrong price IDs. CRITICAL: Users still cannot change subscription plans - the original issue persists despite partial fix."
 
 backend:
   - task: "Stripe Orders API Endpoint"
