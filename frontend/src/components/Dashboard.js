@@ -1209,8 +1209,11 @@ const Dashboard = ({ athleteId }) => {
         {isUserProfilePage && (
           <UserProfile athleteId={athleteId} />
         )}
-        {activeTab === 'orders' && (
+        {activeTab === 'orders' && !isOrderDetailPage && (
           <Orders athleteId={athleteId} />
+        )}
+        {isOrderDetailPage && (
+          <OrderDetail athleteId={athleteId} />
         )}
 
         {activeTab === 'calendar' && (
