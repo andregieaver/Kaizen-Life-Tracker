@@ -3445,24 +3445,60 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
     """Create a Stripe Checkout session for subscription"""
     import stripe
     
-    # Validate plan
-    if request.plan_id not in SUBSCRIPTION_PLANS:
-        raise HTTPException(status_code=400, detail="Invalid plan ID")
+    # Get Stripe settings from system_settings
+    system_settings = await db.system_settings.find_one({}, {"_id": 0})
+    if not system_settings:
+        raise HTTPException(status_code=500, detail="System settings not found")
     
-    plan = SUBSCRIPTION_PLANS[request.plan_id]
+    stripe_settings = system_settings.get("advanced", {}).get("stripe", {})
+    stripe_mode = stripe_settings.get("mode", "test")
     
-    # Get Stripe API key
-    stripe_secret_key = os.environ.get('STRIPE_SECRET_KEY')
+    # Get the appropriate API key based on mode
+    if stripe_mode == "live":
+        stripe_secret_key = stripe_settings.get("live", {}).get("apiKey") or stripe_settings.get("live", {}).get("secretKey")
+    else:
+        stripe_secret_key = stripe_settings.get("sandbox", {}).get("apiKey") or stripe_settings.get("sandbox", {}).get("secretKey")
+    
     if not stripe_secret_key:
-        raise HTTPException(status_code=500, detail="Stripe not configured")
+        raise HTTPException(status_code=500, detail=f"Stripe API key not configured for {stripe_mode} mode")
     
     stripe.api_key = stripe_secret_key
     
-    # Get or create Stripe Price ID
-    try:
-        stripe_price_id = await get_or_create_stripe_price(request.plan_id, plan, stripe_secret_key)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to get price: {str(e)}")
+    # Fetch subscription plans from database to get synced Stripe price IDs
+    all_plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).to_list(length=None)
+    
+    # Find the matching variation by plan_id (format: tier_interval, e.g., "pro_monthly")
+    plan = None
+    stripe_price_id = None
+    tier = None
+    interval = None
+    price = None
+    
+    for db_plan in all_plans:
+        variations = db_plan.get("variations", [])
+        for variation in variations:
+            # Match plan_id format: tier_interval (e.g., "pro_monthly" or "premium_annual")
+            variation_id = f"{db_plan.get('tier')}_{variation.get('interval')}"
+            if variation_id == request.plan_id:
+                stripe_price_id = variation.get("stripe_price_id")
+                tier = db_plan.get("tier")
+                interval = variation.get("interval")
+                price = variation.get("price")
+                plan = {
+                    "tier": tier,
+                    "interval": interval,
+                    "price": price,
+                    "name": f"{db_plan.get('name', tier.capitalize())} {interval.capitalize()}"
+                }
+                break
+        if plan:
+            break
+    
+    if not plan:
+        raise HTTPException(status_code=400, detail=f"Invalid plan ID: {request.plan_id}")
+    
+    if not stripe_price_id:
+        raise HTTPException(status_code=500, detail=f"Stripe price ID not found for plan {request.plan_id}. Please run 'Sync to Stripe' first.")
     
     # Build success and cancel URLs
     origin_url = request.origin_url.rstrip('/')
