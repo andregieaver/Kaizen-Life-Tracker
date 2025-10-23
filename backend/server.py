@@ -12359,59 +12359,45 @@ async def create_plan_variation(tier: str, variation_data: dict, athlete_id: str
         logging.error(f"Error creating plan variation: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@api_router.put("/subscription-plans/variations/{plan_id}")
-async def update_plan_variation(plan_id: str, updates: dict, athlete_id: str):
+@api_router.put("/subscription-plans/variations/{variation_id}")
+async def update_plan_variation(variation_id: str, updates: dict, athlete_id: str):
     """Update a plan variation (Super Admin only)"""
     await verify_super_admin(athlete_id)
     
     try:
-        # Get current variation
-        variation = await db.subscription_plan_variations.find_one({"plan_id": plan_id}, {"_id": 0})
+        # Find the plan containing this variation
+        plan = await db.subscription_plans.find_one(
+            {"variations.id": variation_id},
+            {"_id": 0}
+        )
+        
+        if not plan:
+            raise HTTPException(status_code=404, detail="Variation not found")
+        
+        # Find the variation in the plan
+        variation = None
+        for var in plan.get("variations", []):
+            if var.get("id") == variation_id:
+                variation = var
+                break
+        
         if not variation:
             raise HTTPException(status_code=404, detail="Variation not found")
         
-        # If price is updated, create new Stripe price (can't update existing)
-        if "price" in updates and variation.get("stripe_price_id"):
-            stripe_api_key = os.environ.get("STRIPE_API_KEY")
-            if stripe_api_key:
-                stripe.api_key = stripe_api_key
-                
-                # Get parent plan
-                tier = plan_id.split("_")[0]
-                plan = await db.subscription_plans.find_one({"tier": tier}, {"_id": 0})
-                
-                if plan and plan.get("stripe_product_id"):
-                    # Archive old price
-                    stripe.Price.modify(variation["stripe_price_id"], active=False)
-                    
-                    # Create new price
-                    new_stripe_price = stripe.Price.create(
-                        product=plan["stripe_product_id"],
-                        unit_amount=int(updates["price"] * 100),
-                        currency="usd",
-                        recurring={
-                            "interval": variation["interval"],
-                            "interval_count": variation.get("interval_count", 1)
-                        },
-                        metadata={
-                            "plan_id": plan_id,
-                            "tier": tier
-                        }
-                    )
-                    
-                    updates["stripe_price_id"] = new_stripe_price.id
+        # Update the variation in the array
+        update_fields = {}
+        for key, value in updates.items():
+            update_fields[f"variations.$.{key}"] = value
         
-        # Update in database
-        updates["updated_at"] = datetime.now(timezone.utc)
-        result = await db.subscription_plan_variations.update_one(
-            {"plan_id": plan_id},
-            {"$set": updates}
+        result = await db.subscription_plans.update_one(
+            {"variations.id": variation_id},
+            {"$set": update_fields}
         )
         
         if result.matched_count == 0:
             raise HTTPException(status_code=404, detail="Variation not found")
         
-        logging.info(f"Plan variation updated: {plan_id} by {athlete_id}")
+        logging.info(f"Plan variation updated: {variation_id} by {athlete_id}")
         return {"message": "Variation updated successfully"}
     except HTTPException:
         raise
