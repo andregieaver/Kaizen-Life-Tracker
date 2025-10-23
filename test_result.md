@@ -102,7 +102,20 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Fix Stripe checkout failure due to inactive products/prices. When users attempt to change plans in Account Settings, the Stripe checkout session fails with 'product is not active' error. The 'Sync to Stripe' functionality must ensure both products and prices are created with active status."
+user_problem_statement: "Implement cascading profile picture updates. When a user updates their profile picture in Account Settings, ensure that the new profile picture is automatically updated across all their posts and comments in the community."
+
+backend:
+  - task: "Cascading Profile Picture Update"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Cascading profile picture update implemented. CHANGES IN /app/backend/server.py: 1) NEW FUNCTION cascade_profile_picture_update (line 3273): Updates profile_picture across all collections (posts, comments, event_comments, group_posts, notifications), uses update_many for bulk updates, logs modified count for each collection, returns summary of updates. 2) INTEGRATED INTO update_athlete_profile (line 3304): Checks if profile_picture in update_data, calls cascade function after athlete profile update, logs cascade results. 3) INTEGRATED INTO upload_profile_picture (line 3365): Calls cascade function after profile picture upload, logs cascade results. COLLECTIONS UPDATED: posts (athlete_profile_picture), comments (athlete_profile_picture), event_comments (athlete_profile_picture), group_posts (athlete_profile_picture), notifications (from_athlete_profile_picture). Backend restarted successfully. TESTING NEEDED: 1) Create posts and comments as user A, 2) Update profile picture in Account Settings, 3) Verify old posts/comments show new profile picture, 4) Check backend logs for cascade update counts."
 
 backend:
   - task: "Stripe Product and Price Activation Fix"
