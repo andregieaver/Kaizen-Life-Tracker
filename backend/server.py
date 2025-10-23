@@ -12637,49 +12637,48 @@ async def push_plans_to_stripe(athlete_id: str):
                 if not variations:
                     push_stats["errors"].append(f"Plan '{tier}' has no variations. Add monthly/yearly pricing first.")
                     logging.warning(f"Plan {tier} has no variations to create prices for")
-                    continue
-                
-                for variation in variations:
-                    try:
-                        # Skip if already has Stripe price ID
-                        if variation.get("stripe_price_id"):
-                            logging.info(f"Variation already has Stripe price ID: {variation.get('stripe_price_id')}")
-                            continue
-                        
-                        interval = variation.get("interval", "month")
-                        price_amount = variation.get("price", 0)
-                        
-                        # Convert to cents for Stripe
-                        price_in_cents = int(price_amount * 100)
-                        
-                        # Create Stripe price
-                        stripe_price = stripe.Price.create(
-                            product=stripe_product.id,
-                            unit_amount=price_in_cents,
-                            currency=variation.get("currency", "eur").lower(),
-                            recurring={
-                                "interval": interval,
-                                "interval_count": 1
-                            },
-                            metadata={
-                                "tier": tier,
-                                "interval": interval,
-                                "variation_id": variation.get("id", "")
-                            }
-                        )
-                        
-                        push_stats["prices_created"] += 1
-                        
-                        # Update variation with Stripe price ID
-                        await db.subscription_plans.update_one(
-                            {"id": plan_id, "variations.id": variation.get("id")},
-                            {"$set": {"variations.$.stripe_price_id": stripe_price.id}}
-                        )
-                        
-                    except Exception as e:
-                        error_msg = f"Variation {variation.get('interval')} for {tier}: {str(e)}"
-                        push_stats["errors"].append(error_msg)
-                        logging.error(error_msg)
+                else:
+                    for variation in variations:
+                        try:
+                            # Skip if already has Stripe price ID
+                            if variation.get("stripe_price_id"):
+                                logging.info(f"Variation {variation.get('interval')} for {tier} already has Stripe price ID: {variation.get('stripe_price_id')}")
+                                continue
+                            
+                            interval = variation.get("interval", "month")
+                            price_amount = variation.get("price", 0)
+                            
+                            # Convert to cents for Stripe
+                            price_in_cents = int(price_amount * 100)
+                            
+                            # Create Stripe price
+                            stripe_price = stripe.Price.create(
+                                product=stripe_product_id,
+                                unit_amount=price_in_cents,
+                                currency=variation.get("currency", "eur").lower(),
+                                recurring={
+                                    "interval": interval,
+                                    "interval_count": 1
+                                },
+                                metadata={
+                                    "tier": tier,
+                                    "interval": interval,
+                                    "variation_id": variation.get("id", "")
+                                }
+                            )
+                            
+                            push_stats["prices_created"] += 1
+                            
+                            # Update variation with Stripe price ID
+                            await db.subscription_plans.update_one(
+                                {"id": plan_id, "variations.id": variation.get("id")},
+                                {"$set": {"variations.$.stripe_price_id": stripe_price.id}}
+                            )
+                            
+                        except Exception as e:
+                            error_msg = f"Variation {variation.get('interval')} for {tier}: {str(e)}"
+                            push_stats["errors"].append(error_msg)
+                            logging.error(error_msg)
                 
             except Exception as e:
                 error_msg = f"Plan {plan.get('tier')}: {str(e)}"
