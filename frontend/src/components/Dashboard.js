@@ -1216,6 +1216,9 @@ const Dashboard = ({ athleteId }) => {
         {isOrderDetailPage && (
           <OrderDetail athleteId={athleteId} />
         )}
+        {activeTab === 'subscriptions' && (
+          <Subscriptions athleteId={athleteId} />
+        )}
 
         {activeTab === 'calendar' && (
           <TrainingCalendar 
