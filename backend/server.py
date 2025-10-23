@@ -12655,6 +12655,7 @@ async def push_plans_to_stripe(athlete_id: str):
                                 product=stripe_product_id,
                                 unit_amount=price_in_cents,
                                 currency=variation.get("currency", "eur").lower(),
+                                active=True,  # Make sure price is active
                                 recurring={
                                     "interval": interval,
                                     "interval_count": 1
