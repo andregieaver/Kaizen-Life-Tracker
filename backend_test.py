@@ -1371,33 +1371,36 @@ def test_community_feed_422_error_fix():
         traceback.print_exc()
         return False
 
-def test_stripe_checkout_database_synced_prices():
+def test_stripe_plan_id_format_mismatch_fix():
     """
-    STRIPE COMPLETE FIX VERIFICATION - CHECKOUT WITH DATABASE-SYNCED PRICES
+    STRIPE PLAN ID FORMAT MISMATCH FIX VERIFICATION
     
     CONTEXT:
-    The initial fix activated Stripe products/prices during sync, but checkout endpoints were still using 
-    hardcoded SUBSCRIPTION_PLANS. A complete fix has now been implemented where checkout endpoints fetch 
-    plans from the database and use synced stripe_price_id values.
+    User reported 400 error when trying to upgrade via Account Settings. The issue was that frontend 
+    sends plan_id in format "pro_monthly" or "premium_annual", but backend was only matching 
+    "pro_month" or "premium_year". A fix has been implemented to accept both formats.
     
     CRITICAL TESTING REQUIREMENTS:
-    1. Verify Database Has Synced Prices - GET /api/subscription-plans
-    2. Test Checkout Session Creation (CRITICAL) - POST /api/subscriptions/create-checkout-session
-    3. Test Update Subscription Plan - POST /api/subscriptions/update-plan  
-    4. Error Handling Verification
-    5. Backend Logs Check
+    1. Test Frontend Format (monthly/annual):
+       - POST /api/subscriptions/create-checkout-session with plan_id: "pro_monthly", "premium_monthly", "pro_annual", "premium_annual"
+    2. Test Backend Format (month/year) - Backward Compatibility:
+       - Test with plan_id: "pro_month", "premium_year"
+    3. Test Invalid Plan IDs:
+       - Test with plan_id: "invalid_plan" - Expected: 400 with clear error message
+    4. Verify Checkout URLs:
+       - All successful responses should contain checkout_url starting with "https://checkout.stripe.com"
+    5. Update Plan Endpoint:
+       - Test POST /api/subscriptions/update-plan with both formats
     
     EXPECTED RESULTS:
-    - Checkout session creates successfully with 200 status
-    - Response contains valid checkout_url starting with "https://checkout.stripe.com"
-    - No 500 errors about inactive products/prices
-    - Database stripe_price_id values are being used (not calling get_or_create_stripe_price)
-    - Plan update endpoint works with synced prices
+    - Both "pro_monthly" and "pro_month" formats work (200 status)
+    - Both "premium_annual" and "premium_year" formats work (200 status)
+    - Invalid plan IDs return 400 with clear error
+    - No more 400 errors when users try to upgrade from Account Settings
     
     CRITICAL SUCCESS CRITERIA:
-    Users can now change subscription plans without errors. This resolves the original issue completely. products activated during sync
-    - Checkout session creation succeeds without "product is not active" error
-    - No 500 errors during plan changes
+    Users upgrading via Account Settings (which sends "pro_monthly"/"premium_annual" format) 
+    should now successfully create checkout sessions without 400 errors.
     """
     print("🔍 TESTING STRIPE PRODUCT/PRICE ACTIVATION FIX")
     print("=" * 70)
