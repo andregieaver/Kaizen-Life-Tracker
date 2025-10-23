@@ -12405,32 +12405,34 @@ async def update_plan_variation(variation_id: str, updates: dict, athlete_id: st
         logging.error(f"Error updating plan variation: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@api_router.delete("/subscription-plans/variations/{plan_id}")
-async def delete_plan_variation(plan_id: str, athlete_id: str):
+@api_router.delete("/subscription-plans/variations/{variation_id}")
+async def delete_plan_variation(variation_id: str, athlete_id: str):
     """Delete a plan variation (Super Admin only)"""
     await verify_super_admin(athlete_id)
     
     try:
-        # Get variation
-        variation = await db.subscription_plan_variations.find_one({"plan_id": plan_id}, {"_id": 0})
-        if not variation:
+        # Find the plan containing this variation
+        plan = await db.subscription_plans.find_one(
+            {"variations.id": variation_id},
+            {"_id": 0}
+        )
+        
+        if not plan:
             raise HTTPException(status_code=404, detail="Variation not found")
         
-        # Archive Stripe price
-        if variation.get("stripe_price_id"):
-            stripe_api_key = os.environ.get("STRIPE_API_KEY")
-            if stripe_api_key:
-                stripe.api_key = stripe_api_key
-                stripe.Price.modify(variation["stripe_price_id"], active=False)
+        # Remove the variation from the array
+        result = await db.subscription_plans.update_one(
+            {"variations.id": variation_id},
+            {"$pull": {"variations": {"id": variation_id}}}
+        )
         
-        # Delete variation
-        result = await db.subscription_plan_variations.delete_one({"plan_id": plan_id})
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Variation not found or already deleted")
         
-        if result.deleted_count == 0:
-            raise HTTPException(status_code=404, detail="Variation not found")
-        
-        logging.info(f"Plan variation deleted: {plan_id} by {athlete_id}")
+        logging.info(f"Plan variation deleted: {variation_id} by {athlete_id}")
         return {"message": "Variation deleted successfully"}
+    except HTTPException:
+        raise
     except Exception as e:
         logging.error(f"Error deleting plan variation: {e}")
         raise HTTPException(status_code=500, detail=str(e))
