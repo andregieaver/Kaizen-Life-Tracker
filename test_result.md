@@ -107,11 +107,11 @@ user_problem_statement: "Fix Stripe checkout failure due to inactive products/pr
 backend:
   - task: "Stripe Product and Price Activation Fix"
     implemented: true
-    working: false
+    working: "NA"
     file: "/app/backend/server.py"
     stuck_count: 1
     priority: "critical"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
@@ -119,6 +119,9 @@ backend:
       - working: false
         agent: "testing"
         comment: "❌ CRITICAL ISSUE IDENTIFIED - Stripe Product/Price Activation Fix is INCOMPLETE. TESTING RESULTS: 1) SYNC ENDPOINT WORKING ✓ - POST /api/subscription-plans/push-to-stripe correctly activates products (logs show 'Plan pro product activated: prod_THx5G2YlGvT4Ek'), all plans have stripe_product_id (3/3), all variations have stripe_price_id (4/4). 2) CHECKOUT SESSION STILL FAILING ❌ - POST /api/subscriptions/create-checkout-session returns 500 error: 'Price price_1SGQpMCzzIKcO0tboaPPtgPP is not available to be purchased because its product is not active.' ROOT CAUSE IDENTIFIED: The checkout endpoint (line 3449) uses hardcoded SUBSCRIPTION_PLANS constant instead of database-synced plans. Database has correct active price IDs (price_1SLNBaRAdNpFHFaLelD0RonE for pro_monthly) but checkout tries to use different price ID (price_1SGQpMCzzIKcO0tboaPPtgPP) from get_or_create_stripe_price function. REQUIRED FIX: Checkout endpoint must use synced subscription plans from database (/api/subscription-plans) instead of hardcoded SUBSCRIPTION_PLANS constant. The sync activates products correctly, but checkout uses wrong price IDs. CRITICAL: Users still cannot change subscription plans - the original issue persists despite partial fix."
+      - working: "NA"
+        agent: "main"
+        comment: "COMPLETE FIX IMPLEMENTED - Checkout endpoint now uses database-synced Stripe prices. CHANGES IN /app/backend/server.py: 1) POST /api/subscriptions/create-checkout-session (line 3443): Removed hardcoded SUBSCRIPTION_PLANS usage, now fetches plans from database (db.subscription_plans), extracts stripe_price_id from matching variation, validates plan_id format (tier_interval, e.g., 'pro_monthly'), returns error if stripe_price_id not found (prompts to run 'Sync to Stripe'). 2) POST /api/subscriptions/update-plan (line 4039): Same changes applied - uses database plans instead of hardcoded constant, uses synced stripe_price_id for plan updates. 3) Stripe API key handling: Both endpoints now use system_settings to get Stripe keys (supports Test/Live mode switching), respects stripe.mode configuration. EXPECTED BEHAVIOR: After 'Sync to Stripe', checkout session will use active Stripe price IDs from database, no more 'product is not active' errors, users can successfully change subscription plans. Backend restarted successfully. TESTING REQUIRED: 1) Run 'Sync to Stripe' from SystemSettings, 2) Attempt to change plan in Account Settings, 3) Verify checkout session creation returns 200 with checkout_url, 4) Verify user is redirected to Stripe checkout page."
 
 backend:
   - task: "Stripe Orders API Endpoint"
