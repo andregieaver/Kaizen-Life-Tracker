@@ -3430,6 +3430,29 @@ const SystemSettings = ({ athleteId }) => {
                       </Label>
                     </div>
 
+                    {/* Live Publishable Key */}
+                    <div className="space-y-2">
+                      <Label className="text-xs font-medium text-gray-300">
+                        Publishable Key
+                      </Label>
+                      <Input
+                        type="text"
+                        value={advancedSettings.stripe.live.publishableKey || ''}
+                        onChange={(e) => setAdvancedSettings(prev => ({
+                          ...prev,
+                          stripe: {
+                            ...prev.stripe,
+                            live: {
+                              ...prev.stripe.live,
+                              publishableKey: e.target.value
+                            }
+                          }
+                        }))}
+                        placeholder="pk_live_..."
+                        className="bg-gray-800 border-gray-600 text-white placeholder:text-gray-500 text-sm"
+                      />
+                    </div>
+
                     {/* Live API Key */}
                     <div className="space-y-2">
                       <Label className="text-xs font-medium text-gray-300">
