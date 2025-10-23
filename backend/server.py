@@ -756,6 +756,7 @@ class AthleteUpdate(BaseModel):
     weekly_mileage: Optional[float] = None
     recent_race_time: Optional[str] = None
     running_goals: Optional[str] = None
+    nationality: Optional[str] = None
     
     # Personal Information Fields
     height: Optional[float] = None
