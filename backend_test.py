@@ -1619,12 +1619,50 @@ def test_stripe_checkout_database_synced_prices():
         elif checkout_response.status_code == 200:
             checkout_result = checkout_response.json()
             checkout_url = checkout_result.get("checkout_url") or checkout_result.get("url")
-            if checkout_url:
-                print_test_result("Checkout Session Creation (CRITICAL)", True, f"SUCCESS: Checkout session created successfully")
+            if checkout_url and checkout_url.startswith("https://checkout.stripe.com"):
+                print_test_result("Checkout Session Creation (CRITICAL)", True, f"SUCCESS: Checkout session created with valid Stripe URL")
+            elif checkout_url:
+                print_test_result("Checkout Session Creation (CRITICAL)", True, f"SUCCESS: Checkout session created (URL: {checkout_url[:50]}...)")
             else:
                 print_test_result("Checkout Session Creation (CRITICAL)", False, f"Checkout session created but no URL returned: {checkout_result}")
         else:
             print_test_result("Checkout Session Creation (CRITICAL)", False, f"Unexpected checkout response: {checkout_response.status_code} - {checkout_response.text}")
+        
+        # Step 5a: Test with different plan IDs (as mentioned in review request)
+        print("   Step 5a: Test checkout with different plan IDs")
+        
+        test_plan_ids = []
+        for plan in plans:
+            variations = plan.get("variations", [])
+            for variation in variations:
+                if variation.get("stripe_price_id"):
+                    interval = variation.get('interval', 'month')
+                    plan_id = f"{plan.get('tier')}_{interval}"
+                    if plan_id != test_plan_id:  # Don't repeat the same plan
+                        test_plan_ids.append(plan_id)
+        
+        additional_tests_passed = 0
+        for additional_plan_id in test_plan_ids[:2]:  # Test up to 2 additional plans
+            additional_checkout_data = {
+                "plan_id": additional_plan_id,
+                "origin_url": "https://stripe-checkout-fix-2.preview.emergentagent.com",
+                "athlete_id": regular_user_id
+            }
+            
+            additional_response = requests.post(
+                f"{BACKEND_URL}/subscriptions/create-checkout-session",
+                json=additional_checkout_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if additional_response.status_code == 200:
+                additional_tests_passed += 1
+                print_test_result(f"Additional Plan Test ({additional_plan_id})", True, f"Checkout successful: {additional_response.status_code}")
+            else:
+                print_test_result(f"Additional Plan Test ({additional_plan_id})", False, f"Checkout failed: {additional_response.status_code} - {additional_response.text}")
+        
+        if additional_tests_passed > 0:
+            print_test_result("Multiple Plan IDs Test", True, f"{additional_tests_passed} additional plan IDs tested successfully")
         
         # Step 5b: Test Update Subscription Plan endpoint
         print("   Step 5b: Test Update Subscription Plan endpoint")
