@@ -1568,25 +1568,20 @@ def test_stripe_checkout_database_synced_prices():
                 stripe_price_id = variation.get('stripe_price_id')
                 print(f"          Variation plan_id: {plan_id}, interval: {interval}, has stripe_price_id: {bool(stripe_price_id)}")
                 
-                # Use the actual plan_id from the variation
-                if stripe_price_id and not test_plan_id:
+                # Use the actual plan_id from the variation if available
+                if stripe_price_id and plan_id and not test_plan_id:
                     test_plan_id = plan_id
                     test_variation = variation
         
-        # If no plan_id found in variations, try constructing it
+        # If no plan_id found in variations, construct it using the correct format
         if not test_plan_id:
             for plan in plans:
                 variations = plan.get("variations", [])
                 for variation in variations:
                     if variation.get("stripe_price_id"):
-                        # Use the correct format: tier + "_" + interval + "ly" (e.g., "pro_monthly")
+                        # Use the correct format: tier + "_" + interval (e.g., "pro_month", "premium_year")
                         interval = variation.get('interval', 'month')
-                        if interval == 'month':
-                            test_plan_id = f"{plan.get('tier')}_monthly"
-                        elif interval == 'year':
-                            test_plan_id = f"{plan.get('tier')}_annual"
-                        else:
-                            test_plan_id = f"{plan.get('tier')}_{interval}"
+                        test_plan_id = f"{plan.get('tier')}_{interval}"
                         test_variation = variation
                         break
                 if test_plan_id:
