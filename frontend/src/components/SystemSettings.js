@@ -3418,12 +3418,67 @@ const SystemSettings = ({ athleteId }) => {
 
                 {/* Stripe Configuration */}
                 <div className="space-y-4 pt-6 border-t border-gray-700">
-                  <div>
-                    <Label className="text-sm font-medium text-white">
-                      Stripe Configuration
-                    </Label>
-                    <p className="text-xs text-gray-400 mt-1">
-                      Configure Stripe API keys and webhooks for payment processing
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <Label className="text-sm font-medium text-white">
+                        Stripe Configuration
+                      </Label>
+                      <p className="text-xs text-gray-400 mt-1">
+                        Configure Stripe API keys and webhooks for payment processing
+                      </p>
+                    </div>
+                    
+                    {/* Mode Toggle Switch */}
+                    <div className="flex items-center gap-3 bg-gray-900 px-4 py-2 rounded-full border border-gray-700">
+                      <span className={`text-sm font-medium transition-colors ${advancedSettings.stripe.mode === 'test' ? 'text-yellow-400' : 'text-gray-500'}`}>
+                        Test
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setAdvancedSettings(prev => ({
+                          ...prev,
+                          stripe: {
+                            ...prev.stripe,
+                            mode: prev.stripe.mode === 'live' ? 'test' : 'live'
+                          }
+                        }))}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                          advancedSettings.stripe.mode === 'live' ? 'bg-green-600' : 'bg-yellow-600'
+                        }`}
+                      >
+                        <span
+                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                            advancedSettings.stripe.mode === 'live' ? 'translate-x-6' : 'translate-x-1'
+                          }`}
+                        />
+                      </button>
+                      <span className={`text-sm font-medium transition-colors ${advancedSettings.stripe.mode === 'live' ? 'text-green-400' : 'text-gray-500'}`}>
+                        Live
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Active Mode Indicator */}
+                  <div className={`p-3 rounded-lg border ${
+                    advancedSettings.stripe.mode === 'live' 
+                      ? 'bg-green-900/20 border-green-700' 
+                      : 'bg-yellow-900/20 border-yellow-700'
+                  }`}>
+                    <div className="flex items-center gap-2">
+                      <div className={`w-2 h-2 rounded-full ${
+                        advancedSettings.stripe.mode === 'live' ? 'bg-green-500' : 'bg-yellow-500'
+                      }`}></div>
+                      <p className={`text-sm font-medium ${
+                        advancedSettings.stripe.mode === 'live' ? 'text-green-400' : 'text-yellow-400'
+                      }`}>
+                        Currently using {advancedSettings.stripe.mode === 'live' ? 'LIVE' : 'TEST'} mode credentials
+                      </p>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-1 ml-4">
+                      {advancedSettings.stripe.mode === 'live' 
+                        ? 'Real payments will be processed. Use with caution in production.'
+                        : 'Test mode - No real charges will be made. Safe for development and testing.'
+                      }
                     </p>
                   </div>
 
