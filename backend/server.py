@@ -12290,27 +12290,47 @@ async def create_plan_variation(tier: str, variation_data: dict, athlete_id: str
         if not plan:
             raise HTTPException(status_code=404, detail="Plan not found")
         
-        # Initialize Stripe
-        stripe_api_key = os.environ.get("STRIPE_API_KEY")
-        if not stripe_api_key:
-            raise HTTPException(status_code=500, detail="Stripe API key not configured")
+        # Initialize Stripe only if product ID exists
+        stripe_price_id = None
         
-        stripe.api_key = stripe_api_key
-        
-        # Create Stripe price
-        stripe_price = stripe.Price.create(
-            product=plan["stripe_product_id"],
-            unit_amount=int(variation_data["price"] * 100),  # Convert to cents
-            currency="usd",
-            recurring={
-                "interval": variation_data["interval"],
-                "interval_count": variation_data.get("interval_count", 1)
-            },
-            metadata={
-                "plan_id": variation_data["plan_id"],
-                "tier": tier
-            }
-        )
+        if plan.get("stripe_product_id"):
+            # Get Stripe settings from system_settings
+            system_settings = await db.system_settings.find_one({}, {"_id": 0})
+            stripe_settings = system_settings.get("advanced", {}).get("stripe", {}) if system_settings else {}
+            stripe_mode = stripe_settings.get("mode", "test")
+            
+            # Get the appropriate API key
+            if stripe_mode == "live":
+                stripe_api_key = stripe_settings.get("live", {}).get("apiKey") or stripe_settings.get("live", {}).get("secretKey")
+            else:
+                stripe_api_key = stripe_settings.get("sandbox", {}).get("apiKey") or stripe_settings.get("sandbox", {}).get("secretKey")
+            
+            if stripe_api_key:
+                try:
+                    stripe.api_key = stripe_api_key
+                    
+                    # Create Stripe price
+                    stripe_price = stripe.Price.create(
+                        product=plan["stripe_product_id"],
+                        unit_amount=int(variation_data["price"] * 100),  # Convert to cents
+                        currency=variation_data.get("currency", "eur").lower(),
+                        recurring={
+                            "interval": variation_data["interval"],
+                            "interval_count": variation_data.get("interval_count", 1)
+                        },
+                        metadata={
+                            "plan_id": variation_data["plan_id"],
+                            "tier": tier
+                        }
+                    )
+                    stripe_price_id = stripe_price.id
+                    logging.info(f"Stripe price created: {stripe_price_id}")
+                except Exception as e:
+                    logging.warning(f"Failed to create Stripe price: {e}. Variation will be saved without Stripe price ID.")
+            else:
+                logging.warning(f"No Stripe API key configured. Variation will be saved without Stripe price ID.")
+        else:
+            logging.warning(f"Plan {tier} has no Stripe product ID. Variation will be saved without Stripe price ID.")
         
         # Create variation in database
         variation = SubscriptionPlanVariation(
