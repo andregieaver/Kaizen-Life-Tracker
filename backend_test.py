@@ -1701,8 +1701,32 @@ def test_stripe_checkout_database_synced_prices():
         else:
             print_test_result("Non-Admin Authorization Check", True, "Skipped (using super admin for all tests)")
         
-        # Step 7: Test Error Handling - Missing athlete_id
-        print("   Step 7: Test Error Handling - Missing athlete_id")
+        # Step 7: Test Error Handling - Invalid plan_id
+        print("   Step 7: Test Error Handling - Invalid plan_id")
+        
+        invalid_checkout_data = {
+            "plan_id": "invalid_plan_id",
+            "origin_url": "https://stripe-checkout-fix-2.preview.emergentagent.com",
+            "athlete_id": regular_user_id
+        }
+        
+        invalid_checkout_response = requests.post(
+            f"{BACKEND_URL}/subscriptions/create-checkout-session",
+            json=invalid_checkout_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if invalid_checkout_response.status_code == 400:
+            response_text = invalid_checkout_response.text
+            if "invalid plan" in response_text.lower() or "sync to stripe" in response_text.lower():
+                print_test_result("Invalid Plan ID Error Handling", True, f"Correctly returned 400 with clear error: {response_text}")
+            else:
+                print_test_result("Invalid Plan ID Error Handling", True, f"Returned 400 for invalid plan: {response_text}")
+        else:
+            print_test_result("Invalid Plan ID Error Handling", False, f"Expected 400, got {invalid_checkout_response.status_code}")
+        
+        # Step 8: Test Error Handling - Missing athlete_id
+        print("   Step 8: Test Error Handling - Missing athlete_id")
         
         missing_id_response = requests.post(f"{BACKEND_URL}/subscription-plans/push-to-stripe")
         
