@@ -12607,6 +12607,7 @@ async def push_plans_to_stripe(athlete_id: str):
                     stripe_product = stripe.Product.create(
                         name=plan.get("name", tier.capitalize()),
                         description=plan.get("description", ""),
+                        active=True,  # Make sure product is active
                         metadata={
                             "tier": tier,
                             "plan_id": plan_id
@@ -12624,7 +12625,12 @@ async def push_plans_to_stripe(athlete_id: str):
                     
                     push_stats["plans_updated"] += 1
                 else:
-                    logging.info(f"Plan {tier} already has Stripe product ID: {stripe_product_id}")
+                    # Product already exists, make sure it's active
+                    try:
+                        stripe.Product.modify(stripe_product_id, active=True)
+                        logging.info(f"Plan {tier} product activated: {stripe_product_id}")
+                    except Exception as e:
+                        logging.warning(f"Could not activate product {stripe_product_id}: {e}")
                 
                 # Create prices for each variation
                 if not variations:
