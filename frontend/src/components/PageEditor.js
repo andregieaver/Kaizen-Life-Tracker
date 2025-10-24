@@ -6,9 +6,8 @@ import { ArrowLeft, Upload, X, Save, FileText } from 'lucide-react';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-const PageEditor = ({ athleteId }) => {
+const PageEditor = ({ athleteId, pageId }) => {
   const navigate = useNavigate();
-  const { pageId } = useParams();
   const isEditMode = pageId && pageId !== 'new';
 
   const [loading, setLoading] = useState(false);
