@@ -343,7 +343,15 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Heart className="w-8 h-8 text-white" />
+              {logoUrl ? (
+                <img 
+                  src={`${BACKEND_URL}${logoUrl}`} 
+                  alt={siteTitle}
+                  className="w-8 h-8 object-contain"
+                />
+              ) : (
+                <Heart className="w-8 h-8 text-white" />
+              )}
               <span className="ml-2 text-xl font-bold text-white">{siteTitle}</span>
             </div>
             <div className="flex items-center gap-4">
