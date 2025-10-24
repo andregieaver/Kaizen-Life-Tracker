@@ -230,8 +230,8 @@ const Login = ({ onAthleteLogin }) => {
                 )}
               </Button>
 
-              {/* Divider */}
-              <div className="relative my-6">
+              {/* Divider - HIDDEN BUT NOT DELETED */}
+              <div className="hidden relative my-6">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-gray-600"></div>
                 </div>
@@ -240,12 +240,12 @@ const Login = ({ onAthleteLogin }) => {
                 </div>
               </div>
 
-              {/* Google Sign In Button */}
+              {/* Google Sign In Button - HIDDEN BUT NOT DELETED */}
               <Button
                 type="button"
                 onClick={handleGoogleLogin}
                 disabled={isLoading}
-                className="w-full bg-white hover:bg-gray-100 text-gray-900 font-medium py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                className="hidden w-full bg-white hover:bg-gray-100 text-gray-900 font-medium py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
               >
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -257,8 +257,8 @@ const Login = ({ onAthleteLogin }) => {
               </Button>
             </form>
 
-            {/* Sign Up Link */}
-            <div className="mt-6 text-center space-y-3">
+            {/* Sign Up Link - HIDDEN BUT NOT DELETED */}
+            <div className="hidden mt-6 text-center space-y-3">
               <div>
                 <Link 
                   to="/forgot-password"
