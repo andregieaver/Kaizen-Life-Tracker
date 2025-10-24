@@ -331,8 +331,10 @@ const SystemSettings = ({ athleteId }) => {
           ...prev,
           seo: {
             siteTitle: response.data.advanced.seo?.siteTitle || '',
+            metaDescription: response.data.advanced.seo?.metaDescription || '',
             faviconUrl: response.data.advanced.seo?.faviconUrl || '',
-            logoUrl: response.data.advanced.seo?.logoUrl || ''
+            logoUrl: response.data.advanced.seo?.logoUrl || '',
+            ogImage: response.data.advanced.seo?.ogImage || ''
           },
           openaiApiKey: response.data.advanced.openaiApiKey || '',
           showKey: false,
