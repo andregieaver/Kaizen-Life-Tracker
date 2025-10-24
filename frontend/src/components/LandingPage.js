@@ -628,7 +628,7 @@ const LandingPage = () => {
           </h2>
           <p className="text-xl text-gray-300 mb-8">
             Join thousands of athletes who are achieving their health and fitness goals 
-            with TrainSmart's intelligent, data-driven platform.
+            with {siteTitle}'s intelligent, data-driven platform.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
