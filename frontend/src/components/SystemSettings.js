@@ -1190,11 +1190,11 @@ const SystemSettings = ({ athleteId }) => {
         ...prev,
         seo: {
           ...prev.seo,
-          [imageType === 'favicon' ? 'faviconUrl' : 'logoUrl']: response.data.path
+          [imageType === 'favicon' ? 'faviconUrl' : imageType === 'logo' ? 'logoUrl' : 'ogImage']: response.data.path
         }
       }));
 
-      alert(`${imageType === 'favicon' ? 'Favicon' : 'Logo'} uploaded successfully!`);
+      alert(`${imageType === 'favicon' ? 'Favicon' : imageType === 'logo' ? 'Logo' : 'OG Image'} uploaded successfully!`);
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Failed to upload image');
