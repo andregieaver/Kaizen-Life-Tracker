@@ -3525,6 +3525,43 @@ const SystemSettings = ({ athleteId }) => {
                       Appears in headers and footers throughout the site
                     </p>
                   </div>
+
+                  {/* OG Image Upload */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-medium text-gray-300">
+                      Open Graph Image (1200x630 recommended)
+                    </Label>
+                    <div className="flex items-center gap-4">
+                      {advancedSettings.seo.ogImage && (
+                        <div className="w-32 h-16 bg-gray-900 rounded border border-gray-700 flex items-center justify-center overflow-hidden">
+                          <img
+                            src={`${BACKEND_URL}${advancedSettings.seo.ogImage}`}
+                            alt="OG Image preview"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      )}
+                      <div className="flex-1">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleSEOImageUpload('og_image', e.target.files[0])}
+                          className="hidden"
+                          id="og-image-upload"
+                        />
+                        <label
+                          htmlFor="og-image-upload"
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded cursor-pointer transition-colors"
+                        >
+                          <Upload className="w-4 h-4" />
+                          Upload OG Image
+                        </label>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-400">
+                      Displayed when sharing your site on social media (Facebook, Twitter, LinkedIn, etc.)
+                    </p>
+                  </div>
                 </div>
 
                 {/* OpenAI API Key */}
