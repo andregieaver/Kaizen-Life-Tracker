@@ -68,6 +68,7 @@ const Dashboard = ({ athleteId }) => {
   // Check if we're on nested pages
   const isUserProfilePage = location.pathname.includes('/dashboard/crm/user/');
   const isOrderDetailPage = location.pathname.match(/\/dashboard\/orders\/[^/]+$/) && !location.pathname.endsWith('/orders');
+  const isPageEditorPage = location.pathname.includes('/dashboard/pages/edit/') || location.pathname.includes('/dashboard/pages/new');
   
   // Determine active tab from URL, default to overview
   const activeTab = tab || 'overview';
