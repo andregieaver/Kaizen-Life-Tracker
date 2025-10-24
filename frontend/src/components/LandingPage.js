@@ -355,16 +355,6 @@ const LandingPage = () => {
               <span className="ml-2 text-xl font-bold text-white">{siteTitle}</span>
             </div>
             <div className="flex items-center gap-4">
-              <Link to="/pricing">
-                <Button variant="ghost" className="hidden sm:inline-flex text-white hover:bg-white/10">
-                  Pricing
-                </Button>
-              </Link>
-              <Link to="/login">
-                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-teal-600">
-                  Log In
-                </Button>
-              </Link>
               <Link to="/onboarding">
                 <Button className="bg-white text-teal-600 hover:bg-gray-100">
                   Get Started Free
