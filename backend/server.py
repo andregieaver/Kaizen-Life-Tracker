@@ -10955,9 +10955,13 @@ async def get_public_system_settings():
         settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
         
         # Return only SEO settings and GTM codes for public access
-        if settings and settings.get("seo"):
+        if settings:
             return {
-                "seo": settings["seo"],
+                "seo": settings.get("advanced", {}).get("seo", {
+                    "siteTitle": "TrainSmart",
+                    "faviconUrl": None,
+                    "logoUrl": None
+                }),
                 "googleTagManager": settings.get("advanced", {}).get("googleTagManager", {
                     "headCode": "",
                     "bodyCode": ""
