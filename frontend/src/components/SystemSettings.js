@@ -136,7 +136,11 @@ const SystemSettings = ({ athleteId }) => {
       senderEmail: '',
       senderName: ''
     },
-    showSendgridKey: false
+    showSendgridKey: false,
+    googleTagManager: {
+      headCode: '',
+      bodyCode: ''
+    }
   });
 
   // Modules State
