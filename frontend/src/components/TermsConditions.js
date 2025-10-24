@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Heart, ArrowLeft } from 'lucide-react';
 import axios from 'axios';
+import { loadAndInjectPageSEO } from '../utils/seoUtils';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -15,17 +16,16 @@ const TermsConditions = () => {
         const response = await axios.get(`${BACKEND_URL}/api/system/settings/public`);
         if (response.data?.seo?.siteTitle) {
           setSiteTitle(response.data.seo.siteTitle);
-          document.title = `Terms & Conditions - ${response.data.seo.siteTitle}`;
-        } else {
-          document.title = 'Terms & Conditions - TrainSmart';
         }
       } catch (error) {
         console.error('Error fetching site title:', error);
-        document.title = 'Terms & Conditions - TrainSmart';
       }
     };
     
     fetchSiteTitle();
+    
+    // Load page-level SEO meta tags
+    loadAndInjectPageSEO('/terms');
   }, []);
 
   return (
