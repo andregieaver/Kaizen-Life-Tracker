@@ -323,10 +323,15 @@ const SystemSettings = ({ athleteId }) => {
         setPlanSettings(response.data.plans);
       }
       
-      // Load advanced settings (OpenAI key, Stripe, SendGrid, and GTM)
+      // Load advanced settings (SEO, OpenAI key, Stripe, SendGrid, and GTM)
       if (response.data.advanced) {
         setAdvancedSettings(prev => ({
           ...prev,
+          seo: {
+            siteTitle: response.data.advanced.seo?.siteTitle || '',
+            faviconUrl: response.data.advanced.seo?.faviconUrl || '',
+            logoUrl: response.data.advanced.seo?.logoUrl || ''
+          },
           openaiApiKey: response.data.advanced.openaiApiKey || '',
           showKey: false,
           stripe: {
