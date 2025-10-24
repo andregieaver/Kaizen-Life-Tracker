@@ -91,7 +91,26 @@ const Dashboard = ({ athleteId }) => {
     loadDashboardData();
     loadCommunityUnreadCount();
     loadModuleSettings();
+    loadSEOSettings();
   }, [athleteId]);
+
+  const loadSEOSettings = async () => {
+    try {
+      const response = await axios.get(`${API}/system/settings/public`);
+      if (response.data?.seo) {
+        const seo = response.data.seo;
+        if (seo.siteTitle) {
+          setSiteTitle(seo.siteTitle);
+        }
+        if (seo.logoUrl) {
+          setLogoUrl(seo.logoUrl);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading SEO settings:', error);
+      // Keep defaults
+    }
+  };
 
   // Reload community unread count periodically
   useEffect(() => {
