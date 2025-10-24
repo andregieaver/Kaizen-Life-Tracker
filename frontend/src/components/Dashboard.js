@@ -70,6 +70,16 @@ const Dashboard = ({ athleteId }) => {
   const isOrderDetailPage = location.pathname.match(/\/dashboard\/orders\/[^/]+$/) && !location.pathname.endsWith('/orders');
   const isPageEditorPage = location.pathname.includes('/dashboard/pages/edit/') || location.pathname.includes('/dashboard/pages/new');
   
+  // Extract pageId from URL for page editor
+  const getPageIdFromUrl = () => {
+    if (location.pathname.includes('/dashboard/pages/new')) {
+      return 'new';
+    }
+    const match = location.pathname.match(/\/dashboard\/pages\/edit\/([^/]+)/);
+    return match ? match[1] : null;
+  };
+  const pageIdFromUrl = getPageIdFromUrl();
+  
   // Determine active tab from URL, default to overview
   const activeTab = tab || 'overview';
 
