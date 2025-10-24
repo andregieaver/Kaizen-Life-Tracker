@@ -11809,6 +11809,9 @@ async def upload_seo_image(athlete_id: str, image_type: str, file: UploadFile = 
             elif image_type == "logo":
                 # Logo: max 200x200, maintain aspect ratio
                 image.thumbnail((200, 200), Image.Resampling.LANCZOS)
+            elif image_type == "og_image":
+                # OG Image: 1200x630 (standard Open Graph size)
+                image = image.resize((1200, 630), Image.Resampling.LANCZOS)
             
             # Create directory if it doesn't exist
             seo_dir = Path("/app/backend/uploaded_images/seo")
