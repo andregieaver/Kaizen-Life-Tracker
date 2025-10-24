@@ -5,6 +5,7 @@ import { Check, ArrowLeft, Zap, TrendingUp, Crown, Shield, Users, Clock, Gift, T
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
+import { loadAndInjectPageSEO } from '../utils/seoUtils';
 
 const Pricing = () => {
   const navigate = useNavigate();
@@ -22,6 +23,11 @@ const Pricing = () => {
   // Dynamic plans from API
   const [plans, setPlans] = useState([]);
   const [loadingPlans, setLoadingPlans] = useState(true);
+
+  // Load page-level SEO meta tags
+  useEffect(() => {
+    loadAndInjectPageSEO('/pricing');
+  }, []);
 
   // Load plans from API
   useEffect(() => {
