@@ -599,7 +599,7 @@ const LandingPage = () => {
             Trusted by Athletes Worldwide
           </h2>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-12">
-            From beginners to elite athletes, TrainSmart helps everyone achieve their health goals 
+            From beginners to elite athletes, {siteTitle} helps everyone achieve their health goals 
             through intelligent, data-driven coaching.
           </p>
           
