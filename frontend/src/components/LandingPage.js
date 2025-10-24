@@ -572,8 +572,8 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Social Proof / Trust */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-teal-700 via-teal-600 to-cyan-600 text-white">
+      {/* Social Proof / Trust - HIDDEN BUT NOT DELETED */}
+      <section className="hidden py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-teal-700 via-teal-600 to-cyan-600 text-white">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center gap-1 mb-4">
             {[...Array(5)].map((_, i) => (
