@@ -7887,8 +7887,14 @@ app.add_middleware(
 UPLOAD_DIR = Path("/app/backend/uploads/images")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
+# Ensure uploaded_images directory exists for CMS pages
+UPLOADED_IMAGES_DIR = Path("/app/backend/uploaded_images")
+UPLOADED_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+
 # Mount static files on the API router path so ingress can reach it
 app.mount("/api/uploads", StaticFiles(directory="/app/backend/uploads"), name="uploads")
+# Mount static files for CMS page images
+app.mount("/uploaded_images", StaticFiles(directory="/app/backend/uploaded_images"), name="uploaded_images")
 
 # Configure logging
 logging.basicConfig(
