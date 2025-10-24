@@ -692,7 +692,15 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center mb-4">
-                <Heart className="w-6 h-6 text-teal-400" />
+                {logoUrl ? (
+                  <img 
+                    src={`${BACKEND_URL}${logoUrl}`} 
+                    alt={siteTitle}
+                    className="w-6 h-6 object-contain"
+                  />
+                ) : (
+                  <Heart className="w-6 h-6 text-teal-400" />
+                )}
                 <span className="ml-2 text-lg font-bold text-white">{siteTitle}</span>
               </div>
               <p className="text-sm text-gray-400">
