@@ -11794,13 +11794,13 @@ async def upload_seo_image(athlete_id: str, image_type: str, file: UploadFile = 
         try:
             image = Image.open(io.BytesIO(file_content))
             
-            # Convert to RGB if needed
-            if image.mode in ('RGBA', 'LA', 'P'):
-                background = Image.new('RGB', image.size, (255, 255, 255))
-                if image.mode == 'P':
-                    image = image.convert('RGBA')
-                background.paste(image, mask=image.split()[-1] if image.mode == 'RGBA' else None)
-                image = background
+            # Keep transparency for PNG images (logos and favicons)
+            # Only convert P mode (palette) to RGBA to preserve transparency
+            if image.mode == 'P':
+                image = image.convert('RGBA')
+            elif image.mode not in ('RGB', 'RGBA'):
+                # Convert other modes to RGBA to be safe
+                image = image.convert('RGBA')
             
             # Resize based on image type
             if image_type == "favicon":
@@ -11814,14 +11814,12 @@ async def upload_seo_image(athlete_id: str, image_type: str, file: UploadFile = 
             seo_dir = Path("/app/backend/uploaded_images/seo")
             seo_dir.mkdir(parents=True, exist_ok=True)
             
-            # Save to file
-            filename = f"{image_type}_{int(datetime.now(timezone.utc).timestamp())}.{'ico' if image_type == 'favicon' else 'png'}"
+            # Save to file - always save as PNG to preserve transparency
+            filename = f"{image_type}_{int(datetime.now(timezone.utc).timestamp())}.png"
             filepath = f"/app/backend/uploaded_images/seo/{filename}"
             
-            if image_type == "favicon":
-                image.save(filepath, format='ICO')
-            else:
-                image.save(filepath, format='PNG', quality=85)
+            # Save with transparency
+            image.save(filepath, format='PNG', optimize=True)
             
             # Store path with /api prefix for Kubernetes ingress routing
             image_path = f"/api/uploaded_images/seo/{filename}"
