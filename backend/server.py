@@ -10959,8 +10959,10 @@ async def get_public_system_settings():
             return {
                 "seo": settings.get("advanced", {}).get("seo", {
                     "siteTitle": "TrainSmart",
+                    "metaDescription": "",
                     "faviconUrl": None,
-                    "logoUrl": None
+                    "logoUrl": None,
+                    "ogImage": None
                 }),
                 "googleTagManager": settings.get("advanced", {}).get("googleTagManager", {
                     "headCode": "",
