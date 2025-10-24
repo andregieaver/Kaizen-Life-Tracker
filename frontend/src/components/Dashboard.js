@@ -33,6 +33,8 @@ import Orders from './Orders';
 import UserProfile from './UserProfile';
 import OrderDetail from './OrderDetail';
 import Subscriptions from './Subscriptions';
+import Pages from './Pages';
+import PageEditor from './PageEditor';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
