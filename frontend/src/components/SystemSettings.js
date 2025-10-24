@@ -1110,6 +1110,10 @@ const SystemSettings = ({ athleteId }) => {
             apiKey: advancedSettings.sendgrid.apiKey,
             senderEmail: advancedSettings.sendgrid.senderEmail,
             senderName: advancedSettings.sendgrid.senderName
+          },
+          googleTagManager: {
+            headCode: advancedSettings.googleTagManager.headCode,
+            bodyCode: advancedSettings.googleTagManager.bodyCode
           }
         }
       });
