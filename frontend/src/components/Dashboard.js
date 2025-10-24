@@ -1236,7 +1236,7 @@ const Dashboard = ({ athleteId }) => {
           <Pages athleteId={athleteId} />
         )}
         {isPageEditorPage && (
-          <PageEditor athleteId={athleteId} />
+          <PageEditor athleteId={athleteId} pageId={pageIdFromUrl} />
         )}
 
         {activeTab === 'calendar' && (
