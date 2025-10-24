@@ -10929,6 +10929,10 @@ async def get_public_system_settings():
                 "focusKeyword": "running coach",
                 "faviconUrl": None
             },
+            "googleTagManager": {
+                "headCode": "",
+                "bodyCode": ""
+            },
             "plans": {
                 "free": {
                     "title": "Free",
