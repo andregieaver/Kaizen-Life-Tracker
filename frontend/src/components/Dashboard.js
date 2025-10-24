@@ -54,6 +54,10 @@ const Dashboard = ({ athleteId }) => {
   const [communityUnreadCount, setCommunityUnreadCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
   
+  // SEO settings state
+  const [siteTitle, setSiteTitle] = useState('TrainSmart');
+  const [logoUrl, setLogoUrl] = useState(null);
+  
   // Module settings state
   const [moduleSettings, setModuleSettings] = useState({
     affiliateProgram: { enabled: true },
