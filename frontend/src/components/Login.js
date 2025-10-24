@@ -132,9 +132,10 @@ const Login = ({ onAthleteLogin }) => {
             My Health Tracker
           </h1>
           <p className="text-gray-300">{t('auth.welcomeBack')}</p>
+          {/* View Pricing Plans Link - HIDDEN BUT NOT DELETED */}
           <Link 
             to="/pricing" 
-            className="inline-block mt-3 text-sm font-medium transition-colors"
+            className="hidden inline-block mt-3 text-sm font-medium transition-colors"
             style={{ color: '#00C2A8' }}
             onMouseEnter={(e) => e.currentTarget.style.color = '#009688'}
             onMouseLeave={(e) => e.currentTarget.style.color = '#00C2A8'}
