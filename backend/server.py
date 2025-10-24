@@ -1363,6 +1363,7 @@ class Page(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str
     url_slug: str  # URL path, e.g., "/pricing" or "/about"
+    is_home: bool = False  # True if this is the home page (url_slug will be "/")
     thumbnail: Optional[str] = None  # Path to thumbnail image
     status: str = "draft"  # draft, pending, published, scheduled
     index_status: str = "indexed"  # indexed, no-index
