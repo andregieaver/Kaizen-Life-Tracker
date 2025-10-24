@@ -11499,6 +11499,236 @@ async def get_all_subscriptions(athlete_id: str):
         logging.error(f"Error fetching subscriptions: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch subscriptions: {str(e)}")
 
+# CMS Pages Endpoints
+@api_router.get("/pages")
+async def get_all_pages(athlete_id: str, search: str = "", status: str = "", index_status: str = ""):
+    """Get all pages with optional filters (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Build query
+        query = {}
+        
+        if search:
+            query["$or"] = [
+                {"title": {"$regex": search, "$options": "i"}},
+                {"url_slug": {"$regex": search, "$options": "i"}}
+            ]
+        
+        if status:
+            query["status"] = status
+        
+        if index_status:
+            query["index_status"] = index_status
+        
+        # Fetch pages
+        pages = await db.pages.find(query, {"_id": 0}).sort("updated_at", -1).to_list(length=None)
+        
+        return {"pages": pages, "total": len(pages)}
+    except Exception as e:
+        logging.error(f"Error fetching pages: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch pages: {str(e)}")
+
+@api_router.get("/pages/{page_id}")
+async def get_page(page_id: str, athlete_id: str):
+    """Get a single page by ID (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        page = await db.pages.find_one({"id": page_id}, {"_id": 0})
+        if not page:
+            raise HTTPException(status_code=404, detail="Page not found")
+        
+        return page
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fetching page: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch page: {str(e)}")
+
+@api_router.post("/pages")
+async def create_page(athlete_id: str, page_data: PageCreate):
+    """Create a new page (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Auto-generate URL slug from title if not provided
+        if not page_data.url_slug:
+            url_slug = page_data.title.lower().replace(" ", "-").replace("/", "")
+            # Remove special characters
+            url_slug = "".join(c for c in url_slug if c.isalnum() or c == "-")
+        else:
+            url_slug = page_data.url_slug
+        
+        # Ensure slug starts with /
+        if not url_slug.startswith("/"):
+            url_slug = "/" + url_slug
+        
+        # Check if URL slug already exists
+        existing = await db.pages.find_one({"url_slug": url_slug})
+        if existing:
+            raise HTTPException(status_code=400, detail=f"A page with URL slug '{url_slug}' already exists")
+        
+        # Create page object
+        page = Page(
+            **page_data.model_dump(exclude_unset=True),
+            url_slug=url_slug,
+            created_by=athlete_id,
+            last_modified_by=athlete_id
+        )
+        
+        # Insert into database
+        await db.pages.insert_one(page.model_dump())
+        
+        logging.info(f"Page created: {page.id} by {athlete_id}")
+        return {"message": "Page created successfully", "page": page.model_dump()}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error creating page: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to create page: {str(e)}")
+
+@api_router.put("/pages/{page_id}")
+async def update_page(page_id: str, athlete_id: str, page_data: PageUpdate):
+    """Update a page (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Check if page exists
+        existing = await db.pages.find_one({"id": page_id})
+        if not existing:
+            raise HTTPException(status_code=404, detail="Page not found")
+        
+        # Build update data
+        update_data = page_data.model_dump(exclude_unset=True)
+        
+        # If URL slug is being updated, check for conflicts
+        if "url_slug" in update_data:
+            url_slug = update_data["url_slug"]
+            if not url_slug.startswith("/"):
+                url_slug = "/" + url_slug
+                update_data["url_slug"] = url_slug
+            
+            # Check if another page has this slug
+            conflict = await db.pages.find_one({"url_slug": url_slug, "id": {"$ne": page_id}})
+            if conflict:
+                raise HTTPException(status_code=400, detail=f"Another page with URL slug '{url_slug}' already exists")
+        
+        # Add metadata
+        update_data["updated_at"] = datetime.now(timezone.utc).isoformat()
+        update_data["last_modified_by"] = athlete_id
+        
+        # Update page
+        await db.pages.update_one(
+            {"id": page_id},
+            {"$set": update_data}
+        )
+        
+        # Fetch updated page
+        updated_page = await db.pages.find_one({"id": page_id}, {"_id": 0})
+        
+        logging.info(f"Page updated: {page_id} by {athlete_id}")
+        return {"message": "Page updated successfully", "page": updated_page}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating page: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to update page: {str(e)}")
+
+@api_router.delete("/pages/{page_id}")
+async def delete_page(page_id: str, athlete_id: str):
+    """Delete a page (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Check if page exists
+        existing = await db.pages.find_one({"id": page_id})
+        if not existing:
+            raise HTTPException(status_code=404, detail="Page not found")
+        
+        # Delete page
+        await db.pages.delete_one({"id": page_id})
+        
+        logging.info(f"Page deleted: {page_id} by {athlete_id}")
+        return {"message": "Page deleted successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error deleting page: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete page: {str(e)}")
+
+@api_router.post("/pages/{page_id}/upload-image")
+async def upload_page_image(page_id: str, athlete_id: str, image_type: str, file: UploadFile = File(...)):
+    """Upload thumbnail or OG image for a page (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Validate file type
+        if not file.content_type or not file.content_type.startswith('image/'):
+            raise HTTPException(status_code=400, detail="File must be an image")
+        
+        # Check file size (limit to 5MB)
+        file_content = await file.read()
+        if len(file_content) > 5 * 1024 * 1024:
+            raise HTTPException(status_code=400, detail="File size must be less than 5MB")
+        
+        # Check if page exists
+        page = await db.pages.find_one({"id": page_id})
+        if not page:
+            raise HTTPException(status_code=404, detail="Page not found")
+        
+        # Process image
+        try:
+            image = Image.open(io.BytesIO(file_content))
+            
+            # Convert to RGB if needed
+            if image.mode in ('RGBA', 'LA', 'P'):
+                background = Image.new('RGB', image.size, (255, 255, 255))
+                if image.mode == 'P':
+                    image = image.convert('RGBA')
+                background.paste(image, mask=image.split()[-1] if image.mode == 'RGBA' else None)
+                image = background
+            
+            # Resize based on image type
+            if image_type == "thumbnail":
+                # Thumbnail: 3:2 ratio, max 600x400
+                image.thumbnail((600, 400), Image.Resampling.LANCZOS)
+            elif image_type == "og_image":
+                # OG image: 1200x630 (recommended for social media)
+                image.thumbnail((1200, 630), Image.Resampling.LANCZOS)
+            
+            # Save to file
+            filename = f"{page_id}_{image_type}_{int(datetime.now(timezone.utc).timestamp())}.jpg"
+            filepath = f"/app/backend/uploaded_images/pages/{filename}"
+            
+            image.save(filepath, format='JPEG', quality=85)
+            
+            # Store relative path
+            image_path = f"/uploaded_images/pages/{filename}"
+            
+            # Update page
+            update_field = "thumbnail" if image_type == "thumbnail" else "og_image"
+            await db.pages.update_one(
+                {"id": page_id},
+                {"$set": {
+                    update_field: image_path,
+                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "last_modified_by": athlete_id
+                }}
+            )
+            
+            return {"success": True, "message": f"{image_type.title()} uploaded successfully", "path": image_path}
+            
+        except Exception as e:
+            logging.error(f"Error processing image: {e}")
+            raise HTTPException(status_code=400, detail="Invalid image file")
+            
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error uploading page image: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to upload image: {str(e)}")
+
 @api_router.get("/system/settings")
 async def get_system_settings(athlete_id: str):
     """Get system settings (Super Admin only)"""
