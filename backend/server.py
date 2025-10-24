@@ -10893,10 +10893,14 @@ async def get_public_system_settings():
         # Get settings from database
         settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
         
-        # Return only SEO settings for public access
+        # Return only SEO settings and GTM codes for public access
         if settings and settings.get("seo"):
             return {
                 "seo": settings["seo"],
+                "googleTagManager": settings.get("advanced", {}).get("googleTagManager", {
+                    "headCode": "",
+                    "bodyCode": ""
+                }),
                 "plans": settings.get("plans", {
                     "free": {
                         "title": "Free",
