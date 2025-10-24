@@ -8,6 +8,7 @@ import {
   ChevronRight, Check, Star, Mail, User, Globe, ArrowRight
 } from 'lucide-react';
 import axios from 'axios';
+import { loadAndInjectPageSEO } from '../utils/seoUtils';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
