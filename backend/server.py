@@ -11618,8 +11618,30 @@ async def update_page(page_id: str, athlete_id: str, page_data: PageUpdate):
         # Build update data
         update_data = page_data.model_dump(exclude_unset=True)
         
-        # If URL slug is being updated, check for conflicts
-        if "url_slug" in update_data:
+        # Handle home page logic
+        if "is_home" in update_data and update_data["is_home"]:
+            # If setting as home page, set URL slug to "/"
+            update_data["url_slug"] = "/"
+            
+            # Remove is_home flag from any other page
+            await db.pages.update_many(
+                {"is_home": True, "id": {"$ne": page_id}},
+                {"$set": {"is_home": False}}
+            )
+            logging.info(f"Removed home page flag from other pages, set {page_id} as home")
+        elif "is_home" in update_data and not update_data["is_home"]:
+            # If removing home page status, ensure URL slug is not "/"
+            current_slug = existing.get("url_slug", "")
+            if current_slug == "/":
+                # Generate a new slug from title
+                title = update_data.get("title", existing.get("title", "page"))
+                new_slug = "/" + title.lower().replace(" ", "-")
+                new_slug = "".join(c for c in new_slug if c.isalnum() or c == "-" or c == "/")
+                update_data["url_slug"] = new_slug
+                logging.info(f"Changed URL slug from / to {new_slug} as page is no longer home")
+        
+        # If URL slug is being updated manually (and not by is_home logic), check for conflicts
+        if "url_slug" in update_data and not update_data.get("is_home"):
             url_slug = update_data["url_slug"]
             if not url_slug.startswith("/"):
                 url_slug = "/" + url_slug
