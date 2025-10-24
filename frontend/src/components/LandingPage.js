@@ -194,7 +194,6 @@ const LandingPage = () => {
           const seo = response.data.seo;
           if (seo.siteTitle) {
             setSiteTitle(seo.siteTitle);
-            document.title = seo.siteTitle; // Update page title
           }
           if (seo.logoUrl) {
             setLogoUrl(seo.logoUrl);
@@ -216,6 +215,9 @@ const LandingPage = () => {
     };
     
     fetchSEOSettings();
+    
+    // Load page-level SEO meta tags for home page
+    loadAndInjectPageSEO('/');
   }, []);
 
   // Capture referral code from URL
