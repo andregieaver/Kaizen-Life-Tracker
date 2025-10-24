@@ -3429,6 +3429,29 @@ const SystemSettings = ({ athleteId }) => {
                     </p>
                   </div>
 
+                  {/* Meta Description */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-medium text-gray-300">
+                      Meta Description
+                    </Label>
+                    <textarea
+                      value={advancedSettings.seo.metaDescription}
+                      onChange={(e) => setAdvancedSettings(prev => ({
+                        ...prev,
+                        seo: {
+                          ...prev.seo,
+                          metaDescription: e.target.value
+                        }
+                      }))}
+                      placeholder="A brief description of your site for search engines and social media"
+                      rows="3"
+                      className="w-full bg-gray-900 border border-gray-700 rounded-md px-3 py-2 text-white placeholder:text-gray-500 focus:outline-none focus:border-[#00C2A8]"
+                    />
+                    <p className="text-xs text-gray-400">
+                      Displayed in search results and social media shares (recommended: 150-160 characters)
+                    </p>
+                  </div>
+
                   {/* Favicon Upload */}
                   <div className="space-y-2">
                     <Label className="text-xs font-medium text-gray-300">
