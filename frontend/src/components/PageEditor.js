@@ -62,8 +62,28 @@ const PageEditor = ({ athleteId, pageId }) => {
       [field]: value
     }));
 
-    // Auto-generate URL slug from title if not manually edited
-    if (field === 'title' && !isEditMode) {
+    // Handle is_home toggle - set URL slug to "/" when enabled
+    if (field === 'is_home') {
+      if (value) {
+        setFormData(prev => ({
+          ...prev,
+          url_slug: '/'
+        }));
+      } else {
+        // Generate new slug from title when is_home is disabled
+        const slug = '/' + (formData.title || 'page').toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-');
+        setFormData(prev => ({
+          ...prev,
+          url_slug: slug
+        }));
+      }
+    }
+
+    // Auto-generate URL slug from title if not manually edited and not home page
+    if (field === 'title' && !isEditMode && !formData.is_home) {
       const slug = '/' + value.toLowerCase()
         .replace(/[^a-z0-9\s-]/g, '')
         .replace(/\s+/g, '-')
