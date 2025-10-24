@@ -456,12 +456,21 @@ const Dashboard = ({ athleteId }) => {
       }`}>
         <div className="px-4 py-3">
           <div className="flex justify-between items-center">
-            <h1 
-              className="font-display text-xl font-bold text-white tracking-tight cursor-pointer active:opacity-80 transition-opacity"
+            <div 
+              className="flex items-center cursor-pointer active:opacity-80 transition-opacity"
               onClick={() => navigate('/dashboard')}
             >
-              My Health Tracker
-            </h1>
+              {logoUrl && (
+                <img 
+                  src={`${BACKEND_URL}${logoUrl}`} 
+                  alt={siteTitle}
+                  className="w-7 h-7 object-contain mr-2"
+                />
+              )}
+              <h1 className="font-display text-xl font-bold text-white tracking-tight">
+                {siteTitle}
+              </h1>
+            </div>
             <div className="flex items-center space-x-2">
               {moduleSettings.affiliateProgram.enabled && (
                 <button 
