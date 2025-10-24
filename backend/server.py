@@ -10991,8 +10991,10 @@ async def get_public_system_settings():
         return {
             "seo": {
                 "siteTitle": "TrainSmart",
+                "metaDescription": "",
                 "faviconUrl": None,
-                "logoUrl": None
+                "logoUrl": None,
+                "ogImage": None
             },
             "googleTagManager": {
                 "headCode": "",
