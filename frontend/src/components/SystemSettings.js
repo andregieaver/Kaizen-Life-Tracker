@@ -318,7 +318,7 @@ const SystemSettings = ({ athleteId }) => {
         setPlanSettings(response.data.plans);
       }
       
-      // Load advanced settings (OpenAI key, Stripe, and SendGrid)
+      // Load advanced settings (OpenAI key, Stripe, SendGrid, and GTM)
       if (response.data.advanced) {
         setAdvancedSettings(prev => ({
           ...prev,
@@ -346,7 +346,11 @@ const SystemSettings = ({ athleteId }) => {
             senderEmail: response.data.advanced.sendgrid?.senderEmail || '',
             senderName: response.data.advanced.sendgrid?.senderName || ''
           },
-          showSendgridKey: false
+          showSendgridKey: false,
+          googleTagManager: {
+            headCode: response.data.advanced.googleTagManager?.headCode || '',
+            bodyCode: response.data.advanced.googleTagManager?.bodyCode || ''
+          }
         }));
       }
       
