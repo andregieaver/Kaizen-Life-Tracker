@@ -11570,18 +11570,19 @@ async def create_page(athlete_id: str, page_data: PageCreate):
             raise HTTPException(status_code=400, detail=f"A page with URL slug '{url_slug}' already exists")
         
         # Create page object
-        page = Page(
-            **page_data.model_dump(exclude_unset=True),
-            url_slug=url_slug,
-            created_by=athlete_id,
-            last_modified_by=athlete_id
-        )
+        page_dict = page_data.model_dump(exclude_unset=True)
+        page_dict["url_slug"] = url_slug
+        page_dict["created_by"] = athlete_id
+        page_dict["last_modified_by"] = athlete_id
+        page_dict["id"] = str(uuid.uuid4())
+        page_dict["created_at"] = datetime.now(timezone.utc).isoformat()
+        page_dict["updated_at"] = datetime.now(timezone.utc).isoformat()
         
         # Insert into database
-        await db.pages.insert_one(page.model_dump())
+        await db.pages.insert_one(page_dict)
         
-        logging.info(f"Page created: {page.id} by {athlete_id}")
-        return {"message": "Page created successfully", "page": page.model_dump()}
+        logging.info(f"Page created: {page_dict['id']} by {athlete_id}")
+        return {"message": "Page created successfully", "page": page_dict}
     except HTTPException:
         raise
     except Exception as e:
