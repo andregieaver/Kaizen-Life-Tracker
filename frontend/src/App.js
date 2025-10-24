@@ -127,15 +127,6 @@ function App() {
       document.title = seoData.siteTitle;
     }
     
-    // Update meta title
-    let metaTitleTag = document.querySelector('meta[property="og:title"]');
-    if (!metaTitleTag) {
-      metaTitleTag = document.createElement('meta');
-      metaTitleTag.setAttribute('property', 'og:title');
-      document.head.appendChild(metaTitleTag);
-    }
-    metaTitleTag.setAttribute('content', seoData.metaTitle || seoData.siteTitle || '');
-    
     // Update meta description
     let metaDescTag = document.querySelector('meta[name="description"]');
     if (!metaDescTag) {
@@ -144,6 +135,15 @@ function App() {
       document.head.appendChild(metaDescTag);
     }
     metaDescTag.setAttribute('content', seoData.metaDescription || '');
+    
+    // Update OG title
+    let ogTitleTag = document.querySelector('meta[property="og:title"]');
+    if (!ogTitleTag) {
+      ogTitleTag = document.createElement('meta');
+      ogTitleTag.setAttribute('property', 'og:title');
+      document.head.appendChild(ogTitleTag);
+    }
+    ogTitleTag.setAttribute('content', seoData.siteTitle || '');
     
     // Update OG description
     let ogDescTag = document.querySelector('meta[property="og:description"]');
@@ -154,6 +154,56 @@ function App() {
     }
     ogDescTag.setAttribute('content', seoData.metaDescription || '');
     
+    // Update OG image
+    if (seoData.ogImage) {
+      let ogImageTag = document.querySelector('meta[property="og:image"]');
+      if (!ogImageTag) {
+        ogImageTag = document.createElement('meta');
+        ogImageTag.setAttribute('property', 'og:image');
+        document.head.appendChild(ogImageTag);
+      }
+      // Use full URL for OG image
+      const fullImageUrl = seoData.ogImage.startsWith('http') 
+        ? seoData.ogImage 
+        : `${BACKEND_URL}${seoData.ogImage}`;
+      ogImageTag.setAttribute('content', fullImageUrl);
+      
+      // Add OG image width and height for better social media display
+      let ogImageWidthTag = document.querySelector('meta[property="og:image:width"]');
+      if (!ogImageWidthTag) {
+        ogImageWidthTag = document.createElement('meta');
+        ogImageWidthTag.setAttribute('property', 'og:image:width');
+        document.head.appendChild(ogImageWidthTag);
+      }
+      ogImageWidthTag.setAttribute('content', '1200');
+      
+      let ogImageHeightTag = document.querySelector('meta[property="og:image:height"]');
+      if (!ogImageHeightTag) {
+        ogImageHeightTag = document.createElement('meta');
+        ogImageHeightTag.setAttribute('property', 'og:image:height');
+        document.head.appendChild(ogImageHeightTag);
+      }
+      ogImageHeightTag.setAttribute('content', '630');
+    }
+    
+    // Update OG type
+    let ogTypeTag = document.querySelector('meta[property="og:type"]');
+    if (!ogTypeTag) {
+      ogTypeTag = document.createElement('meta');
+      ogTypeTag.setAttribute('property', 'og:type');
+      document.head.appendChild(ogTypeTag);
+    }
+    ogTypeTag.setAttribute('content', 'website');
+    
+    // Update OG URL
+    let ogUrlTag = document.querySelector('meta[property="og:url"]');
+    if (!ogUrlTag) {
+      ogUrlTag = document.createElement('meta');
+      ogUrlTag.setAttribute('property', 'og:url');
+      document.head.appendChild(ogUrlTag);
+    }
+    ogUrlTag.setAttribute('content', window.location.href);
+    
     // Update favicon
     if (seoData.faviconUrl) {
       let faviconLink = document.querySelector('link[rel="icon"]');
@@ -162,7 +212,7 @@ function App() {
         faviconLink.setAttribute('rel', 'icon');
         document.head.appendChild(faviconLink);
       }
-      faviconLink.setAttribute('href', seoData.faviconUrl);
+      faviconLink.setAttribute('href', `${BACKEND_URL}${seoData.faviconUrl}`);
     }
   };
 
