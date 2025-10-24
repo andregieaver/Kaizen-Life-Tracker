@@ -54,14 +54,70 @@ function App() {
 
   const loadSeoSettings = async () => {
     try {
-      // Try to load global SEO settings (no auth required)
+      // Try to load global SEO settings and GTM codes (no auth required)
       const response = await axios.get(`${API}/system/settings/public`);
       if (response.data.seo) {
         applySeoSettings(response.data.seo);
       }
+      if (response.data.googleTagManager) {
+        injectGTMCodes(response.data.googleTagManager);
+      }
     } catch (error) {
       // If endpoint doesn't exist or fails, use defaults
       console.log('Using default SEO settings');
+    }
+  };
+
+  const injectGTMCodes = (gtmData) => {
+    // Inject GTM head code
+    if (gtmData.headCode && gtmData.headCode.trim()) {
+      // Check if GTM head code is already injected
+      if (!document.querySelector('[data-gtm-head]')) {
+        const headScript = document.createElement('div');
+        headScript.setAttribute('data-gtm-head', 'true');
+        headScript.innerHTML = gtmData.headCode;
+        
+        // Extract and execute scripts from the HTML string
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = gtmData.headCode;
+        const scripts = tempDiv.querySelectorAll('script');
+        
+        scripts.forEach(script => {
+          const newScript = document.createElement('script');
+          if (script.src) {
+            newScript.src = script.src;
+          } else {
+            newScript.textContent = script.textContent;
+          }
+          Array.from(script.attributes).forEach(attr => {
+            if (attr.name !== 'src') {
+              newScript.setAttribute(attr.name, attr.value);
+            }
+          });
+          document.head.appendChild(newScript);
+        });
+        
+        console.log('✅ GTM head code injected');
+      }
+    }
+    
+    // Inject GTM body code
+    if (gtmData.bodyCode && gtmData.bodyCode.trim()) {
+      // Check if GTM body code is already injected
+      if (!document.querySelector('[data-gtm-body]')) {
+        const bodyDiv = document.createElement('div');
+        bodyDiv.setAttribute('data-gtm-body', 'true');
+        bodyDiv.innerHTML = gtmData.bodyCode;
+        
+        // Insert at the beginning of body
+        if (document.body.firstChild) {
+          document.body.insertBefore(bodyDiv, document.body.firstChild);
+        } else {
+          document.body.appendChild(bodyDiv);
+        }
+        
+        console.log('✅ GTM body code injected');
+      }
     }
   };
 
