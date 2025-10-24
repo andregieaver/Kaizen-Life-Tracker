@@ -1387,6 +1387,7 @@ class Page(BaseModel):
 class PageCreate(BaseModel):
     title: str
     url_slug: Optional[str] = None
+    is_home: bool = False
     thumbnail: Optional[str] = None
     status: str = "draft"
     index_status: str = "indexed"
@@ -1400,6 +1401,7 @@ class PageCreate(BaseModel):
 class PageUpdate(BaseModel):
     title: Optional[str] = None
     url_slug: Optional[str] = None
+    is_home: Optional[bool] = None
     thumbnail: Optional[str] = None
     status: Optional[str] = None
     index_status: Optional[str] = None
