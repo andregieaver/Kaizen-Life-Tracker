@@ -11561,6 +11561,30 @@ async def get_page(page_id: str, athlete_id: str):
         logging.error(f"Error fetching page: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch page: {str(e)}")
 
+@api_router.get("/pages/public/by-slug")
+async def get_page_by_slug(slug: str):
+    """Get a published page by URL slug (Public access, no auth required)"""
+    try:
+        # Normalize slug
+        if not slug.startswith('/'):
+            slug = f"/{slug}"
+        
+        # Find published page by url_slug
+        page = await db.pages.find_one({
+            "url_slug": slug,
+            "status": "published"
+        }, {"_id": 0})
+        
+        if not page:
+            raise HTTPException(status_code=404, detail="Page not found")
+        
+        return page
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fetching page by slug: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch page: {str(e)}")
+
 @api_router.post("/pages")
 async def create_page(athlete_id: str, page_data: PageCreate):
     """Create a new page (Super Admin only)"""
