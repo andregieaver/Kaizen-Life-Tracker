@@ -3389,6 +3389,115 @@ const SystemSettings = ({ athleteId }) => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
+                {/* SEO Settings Section */}
+                <div className="space-y-4 pb-6 border-b border-gray-700">
+                  <div>
+                    <Label className="text-sm font-medium text-white">
+                      SEO & Branding
+                    </Label>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Configure site title, favicon, and logo for your application
+                    </p>
+                  </div>
+
+                  {/* Site Title */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-medium text-gray-300">
+                      Site Title
+                    </Label>
+                    <Input
+                      type="text"
+                      value={advancedSettings.seo.siteTitle}
+                      onChange={(e) => setAdvancedSettings(prev => ({
+                        ...prev,
+                        seo: {
+                          ...prev.seo,
+                          siteTitle: e.target.value
+                        }
+                      }))}
+                      placeholder="TrainSmart"
+                      className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500"
+                    />
+                    <p className="text-xs text-gray-400">
+                      Appears in browser tabs, headers, and footers
+                    </p>
+                  </div>
+
+                  {/* Favicon Upload */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-medium text-gray-300">
+                      Favicon (16x16 or 32x32 recommended)
+                    </Label>
+                    <div className="flex items-center gap-4">
+                      {advancedSettings.seo.faviconUrl && (
+                        <div className="w-12 h-12 bg-gray-900 rounded border border-gray-700 flex items-center justify-center overflow-hidden">
+                          <img
+                            src={`${BACKEND_URL}${advancedSettings.seo.faviconUrl}`}
+                            alt="Favicon preview"
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                      )}
+                      <div className="flex-1">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleSEOImageUpload('favicon', e.target.files[0])}
+                          className="hidden"
+                          id="favicon-upload"
+                        />
+                        <label
+                          htmlFor="favicon-upload"
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded cursor-pointer transition-colors"
+                        >
+                          <Upload className="w-4 h-4" />
+                          Upload Favicon
+                        </label>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-400">
+                      Small icon that appears in browser tabs
+                    </p>
+                  </div>
+
+                  {/* Logo Upload */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-medium text-gray-300">
+                      Logo (Square format recommended)
+                    </Label>
+                    <div className="flex items-center gap-4">
+                      {advancedSettings.seo.logoUrl && (
+                        <div className="w-16 h-16 bg-gray-900 rounded border border-gray-700 flex items-center justify-center overflow-hidden">
+                          <img
+                            src={`${BACKEND_URL}${advancedSettings.seo.logoUrl}`}
+                            alt="Logo preview"
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
+                      )}
+                      <div className="flex-1">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleSEOImageUpload('logo', e.target.files[0])}
+                          className="hidden"
+                          id="logo-upload"
+                        />
+                        <label
+                          htmlFor="logo-upload"
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded cursor-pointer transition-colors"
+                        >
+                          <Upload className="w-4 h-4" />
+                          Upload Logo
+                        </label>
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-400">
+                      Appears in headers and footers throughout the site
+                    </p>
+                  </div>
+                </div>
+
                 {/* OpenAI API Key */}
                 <div className="space-y-2">
                   <Label className="text-sm font-medium text-white">
