@@ -1222,6 +1222,12 @@ const Dashboard = ({ athleteId }) => {
         {activeTab === 'subscriptions' && (
           <Subscriptions athleteId={athleteId} />
         )}
+        {activeTab === 'pages' && !isPageEditorPage && (
+          <Pages athleteId={athleteId} />
+        )}
+        {isPageEditorPage && (
+          <PageEditor athleteId={athleteId} />
+        )}
 
         {activeTab === 'calendar' && (
           <TrainingCalendar 
