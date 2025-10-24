@@ -490,7 +490,7 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-              How TrainSmart Works
+              How {siteTitle} Works
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Simple, automated, and designed to fit seamlessly into your life
