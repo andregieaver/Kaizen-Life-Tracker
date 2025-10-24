@@ -524,7 +524,7 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
-                Why Athletes Choose TrainSmart
+                Why Athletes Choose {siteTitle}
               </h2>
               <p className="text-xl text-gray-300 mb-8">
                 Join thousands of athletes who have transformed their health and fitness 
