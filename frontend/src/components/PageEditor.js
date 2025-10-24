@@ -278,6 +278,41 @@ const PageEditor = ({ athleteId, pageId }) => {
               />
             </div>
 
+            {/* Set as Home Page Toggle */}
+            <div className="bg-gray-900 border border-gray-700 rounded-lg p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="text-2xl">🏠</div>
+                  <div>
+                    <label className="text-sm font-medium text-white">
+                      Set as Home Page
+                    </label>
+                    <p className="text-xs text-gray-400 mt-0.5">
+                      This page will be accessible at the root URL (/)
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleInputChange('is_home', !formData.is_home)}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    formData.is_home ? 'bg-[#00C2A8]' : 'bg-gray-700'
+                  }`}
+                >
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      formData.is_home ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                  />
+                </button>
+              </div>
+              {formData.is_home && (
+                <div className="mt-3 p-2 bg-blue-900/20 border border-blue-700/50 rounded text-xs text-blue-300">
+                  ℹ️ Only one page can be the home page. Setting this will remove the home page status from any other page.
+                </div>
+              )}
+            </div>
+
             {/* URL Slug */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -288,10 +323,16 @@ const PageEditor = ({ athleteId, pageId }) => {
                 value={formData.url_slug}
                 onChange={(e) => handleInputChange('url_slug', e.target.value)}
                 placeholder="/about-us"
-                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#00C2A8]"
+                disabled={formData.is_home}
+                className={`w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#00C2A8] ${
+                  formData.is_home ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
               />
               <p className="text-xs text-gray-400 mt-1">
-                This will be the page URL: {BACKEND_URL.replace('/api', '')}{formData.url_slug || '/your-page'}
+                {formData.is_home 
+                  ? '🏠 Home page URL is locked to /'
+                  : `This will be the page URL: ${BACKEND_URL.replace('/api', '')}${formData.url_slug || '/your-page'}`
+                }
               </p>
             </div>
 
