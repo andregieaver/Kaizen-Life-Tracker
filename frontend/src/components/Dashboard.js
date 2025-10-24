@@ -334,12 +334,18 @@ const Dashboard = ({ athleteId }) => {
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 
-                className="font-display text-2xl font-bold text-white mr-8 tracking-tight cursor-pointer hover:opacity-90 transition-opacity"
-                onClick={() => navigate('/dashboard')}
-              >
-                My Health Tracker
-              </h1>
+              <div className="flex items-center mr-8 cursor-pointer hover:opacity-90 transition-opacity" onClick={() => navigate('/dashboard')}>
+                {logoUrl && (
+                  <img 
+                    src={`${BACKEND_URL}${logoUrl}`} 
+                    alt={siteTitle}
+                    className="w-8 h-8 object-contain mr-2"
+                  />
+                )}
+                <h1 className="font-display text-2xl font-bold text-white tracking-tight">
+                  {siteTitle}
+                </h1>
+              </div>
               <nav className="flex space-x-8">
                 <button
                   onClick={() => navigate('/dashboard')}
