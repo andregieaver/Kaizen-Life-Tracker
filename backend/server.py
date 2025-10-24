@@ -11747,8 +11747,8 @@ async def upload_page_image(page_id: str, athlete_id: str, image_type: str, file
             
             image.save(filepath, format='JPEG', quality=85)
             
-            # Store relative path
-            image_path = f"/uploaded_images/pages/{filename}"
+            # Store path with /api prefix for Kubernetes ingress routing
+            image_path = f"/api/uploaded_images/pages/{filename}"
             
             # Update page
             update_field = "thumbnail" if image_type == "thumbnail" else "og_image"
