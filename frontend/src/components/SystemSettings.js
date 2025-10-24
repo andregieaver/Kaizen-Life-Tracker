@@ -74,12 +74,12 @@ const SystemSettings = ({ athleteId }) => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Initialize active tab from localStorage, URL hash, or default to 'seo'
+  // Initialize active tab from localStorage, URL hash, or default to 'modules'
   const [activeTab, setActiveTab] = useState(() => {
     // First try localStorage
     const savedTab = localStorage.getItem('systemSettings_activeTab');
     console.log('🔍 Loading tab from localStorage:', savedTab);
-    if (savedTab && ['seo', 'modules', 'plans', 'coupons', 'waitinglist', 'statistics', 'advanced'].includes(savedTab)) {
+    if (savedTab && ['modules', 'plans', 'coupons', 'waitinglist', 'statistics', 'advanced'].includes(savedTab)) {
       // Also update hash to match
       window.location.hash = savedTab;
       return savedTab;
@@ -87,12 +87,12 @@ const SystemSettings = ({ athleteId }) => {
     // Then try URL hash
     const hash = location.hash.replace('#', '');
     console.log('🔍 Loading tab from hash:', hash);
-    if (['seo', 'modules', 'plans', 'coupons', 'waitinglist', 'statistics', 'advanced'].includes(hash)) {
+    if (['modules', 'plans', 'coupons', 'waitinglist', 'statistics', 'advanced'].includes(hash)) {
       return hash;
     }
-    // Default to 'seo'
-    console.log('🔍 Using default tab: seo');
-    return 'seo';
+    // Default to 'modules'
+    console.log('🔍 Using default tab: modules');
+    return 'modules';
   });
   const [loading, setLoading] = useState(true);
   
