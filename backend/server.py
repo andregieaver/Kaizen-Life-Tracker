@@ -10989,10 +10989,8 @@ async def get_public_system_settings():
         return {
             "seo": {
                 "siteTitle": "TrainSmart",
-                "metaTitle": "TrainSmart - AI-Powered Running Coach",
-                "metaDescription": "Your personal AI running coach for optimal training and performance",
-                "focusKeyword": "running coach",
-                "faviconUrl": None
+                "faviconUrl": None,
+                "logoUrl": None
             },
             "googleTagManager": {
                 "headCode": "",
