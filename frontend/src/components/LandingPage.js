@@ -355,9 +355,9 @@ const LandingPage = () => {
               <span className="ml-2 text-xl font-bold text-white">{siteTitle}</span>
             </div>
             <div className="flex items-center gap-4">
-              <Link to="/onboarding">
+              <Link to="/login">
                 <Button className="bg-white text-teal-600 hover:bg-gray-100">
-                  Get Started Free
+                  Login
                 </Button>
               </Link>
             </div>
