@@ -1108,8 +1108,10 @@ const SystemSettings = ({ athleteId }) => {
         advanced: {
           seo: {
             siteTitle: advancedSettings.seo.siteTitle,
+            metaDescription: advancedSettings.seo.metaDescription,
             faviconUrl: advancedSettings.seo.faviconUrl,
-            logoUrl: advancedSettings.seo.logoUrl
+            logoUrl: advancedSettings.seo.logoUrl,
+            ogImage: advancedSettings.seo.ogImage
           },
           openaiApiKey: advancedSettings.openaiApiKey,
           stripe: {
