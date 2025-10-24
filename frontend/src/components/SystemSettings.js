@@ -1102,6 +1102,11 @@ const SystemSettings = ({ athleteId }) => {
     try {
       await axios.post(`${API}/system/settings?athlete_id=${athleteId}`, {
         advanced: {
+          seo: {
+            siteTitle: advancedSettings.seo.siteTitle,
+            faviconUrl: advancedSettings.seo.faviconUrl,
+            logoUrl: advancedSettings.seo.logoUrl
+          },
           openaiApiKey: advancedSettings.openaiApiKey,
           stripe: {
             mode: advancedSettings.stripe.mode,
