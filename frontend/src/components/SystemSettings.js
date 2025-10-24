@@ -112,6 +112,11 @@ const SystemSettings = ({ athleteId }) => {
 
   // Advanced Settings State
   const [advancedSettings, setAdvancedSettings] = useState({
+    seo: {
+      siteTitle: '',
+      faviconUrl: '',
+      logoUrl: ''
+    },
     openaiApiKey: '',
     showKey: false,
     stripe: {
