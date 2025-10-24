@@ -15,6 +15,7 @@ const PageEditor = ({ athleteId, pageId }) => {
   const [formData, setFormData] = useState({
     title: '',
     url_slug: '',
+    is_home: false,
     thumbnail: '',
     status: 'draft',
     index_status: 'indexed',
