@@ -3884,6 +3884,72 @@ const SystemSettings = ({ athleteId }) => {
                   </div>
                 </div>
 
+                {/* Google Tag Manager Configuration */}
+                <div className="space-y-4 pt-6 border-t border-gray-700">
+                  <div>
+                    <Label className="text-sm font-medium text-white">
+                      Google Tag Manager
+                    </Label>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Add your Google Tag Manager (GTM) tracking codes
+                    </p>
+                  </div>
+
+                  {/* GTM Head Code */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-white">
+                      GTM Head Code
+                    </Label>
+                    <p className="text-xs text-gray-400">
+                      Paste the GTM code that should be placed in the <code className="bg-gray-900 px-1 py-0.5 rounded text-[#00C2A8]">&lt;head&gt;</code> section
+                    </p>
+                    <Textarea
+                      value={advancedSettings.googleTagManager.headCode}
+                      onChange={(e) => setAdvancedSettings(prev => ({
+                        ...prev,
+                        googleTagManager: {
+                          ...prev.googleTagManager,
+                          headCode: e.target.value
+                        }
+                      }))}
+                      placeholder="<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){...})(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
+<!-- End Google Tag Manager -->"
+                      className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 text-xs font-mono h-32"
+                    />
+                  </div>
+
+                  {/* GTM Body Code */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-white">
+                      GTM Body Code
+                    </Label>
+                    <p className="text-xs text-gray-400">
+                      Paste the GTM code that should be placed at the opening of the <code className="bg-gray-900 px-1 py-0.5 rounded text-[#00C2A8]">&lt;body&gt;</code> tag
+                    </p>
+                    <Textarea
+                      value={advancedSettings.googleTagManager.bodyCode}
+                      onChange={(e) => setAdvancedSettings(prev => ({
+                        ...prev,
+                        googleTagManager: {
+                          ...prev.googleTagManager,
+                          bodyCode: e.target.value
+                        }
+                      }))}
+                      placeholder="<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src='https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX'...></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->"
+                      className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 text-xs font-mono h-32"
+                    />
+                  </div>
+
+                  <div className="p-3 bg-blue-900/20 border border-blue-700/50 rounded-lg">
+                    <p className="text-xs text-blue-200">
+                      <strong>Note:</strong> Get your GTM container code from <a href="https://tagmanager.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">Google Tag Manager</a>. After saving, the codes will be automatically injected into your site's HTML.
+                    </p>
+                  </div>
+                </div>
+
                 {/* Save Button */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-700">
                   <div>
