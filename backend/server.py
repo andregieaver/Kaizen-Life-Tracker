@@ -11555,19 +11555,31 @@ async def create_page(athlete_id: str, page_data: PageCreate):
     await verify_super_admin(athlete_id)
     
     try:
-        # Auto-generate URL slug from title if not provided
-        if not page_data.url_slug:
-            url_slug = page_data.title.lower().replace(" ", "-").replace("/", "")
-            # Remove special characters
-            url_slug = "".join(c for c in url_slug if c.isalnum() or c == "-")
+        # Handle home page logic
+        if page_data.is_home:
+            # If setting as home page, set URL slug to "/"
+            url_slug = "/"
+            
+            # Remove is_home flag from any other page
+            await db.pages.update_many(
+                {"is_home": True},
+                {"$set": {"is_home": False}}
+            )
+            logging.info("Removed home page flag from existing pages")
         else:
-            url_slug = page_data.url_slug
+            # Auto-generate URL slug from title if not provided
+            if not page_data.url_slug:
+                url_slug = page_data.title.lower().replace(" ", "-").replace("/", "")
+                # Remove special characters
+                url_slug = "".join(c for c in url_slug if c.isalnum() or c == "-")
+            else:
+                url_slug = page_data.url_slug
+            
+            # Ensure slug starts with /
+            if not url_slug.startswith("/"):
+                url_slug = "/" + url_slug
         
-        # Ensure slug starts with /
-        if not url_slug.startswith("/"):
-            url_slug = "/" + url_slug
-        
-        # Check if URL slug already exists
+        # Check if URL slug already exists (except for home page being updated)
         existing = await db.pages.find_one({"url_slug": url_slug})
         if existing:
             raise HTTPException(status_code=400, detail=f"A page with URL slug '{url_slug}' already exists")
