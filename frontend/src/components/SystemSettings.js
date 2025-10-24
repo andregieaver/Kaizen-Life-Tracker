@@ -1150,6 +1150,51 @@ const SystemSettings = ({ athleteId }) => {
     }
   };
 
+  const handleSEOImageUpload = async (imageType, file) => {
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please upload an image file');
+      return;
+    }
+
+    // Validate file size (limit to 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Image size must be less than 2MB');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await axios.post(
+        `${API}/system/upload-seo-image?athlete_id=${athleteId}&image_type=${imageType}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      // Update the appropriate field
+      setAdvancedSettings(prev => ({
+        ...prev,
+        seo: {
+          ...prev.seo,
+          [imageType === 'favicon' ? 'faviconUrl' : 'logoUrl']: response.data.path
+        }
+      }));
+
+      alert(`${imageType === 'favicon' ? 'Favicon' : 'Logo'} uploaded successfully!`);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Failed to upload image');
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
