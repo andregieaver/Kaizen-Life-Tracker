@@ -677,7 +677,8 @@ const LandingPage = () => {
               </p>
             </div>
             
-            <div>
+            {/* PRODUCT - HIDDEN BUT NOT DELETED */}
+            <div className="hidden">
               <h3 className="text-white font-semibold mb-4">Product</h3>
               <ul className="space-y-2 text-sm">
                 <li><Link to="/pricing" className="hover:text-white transition-colors">Pricing</Link></li>
@@ -685,7 +686,8 @@ const LandingPage = () => {
               </ul>
             </div>
             
-            <div>
+            {/* FEATURES - HIDDEN BUT NOT DELETED */}
+            <div className="hidden">
               <h3 className="text-white font-semibold mb-4">Features</h3>
               <ul className="space-y-2 text-sm">
                 <li><span className="cursor-default">AI Coaching</span></li>
@@ -695,7 +697,8 @@ const LandingPage = () => {
               </ul>
             </div>
             
-            <div>
+            {/* ACCOUNT - HIDDEN BUT NOT DELETED */}
+            <div className="hidden">
               <h3 className="text-white font-semibold mb-4">Account</h3>
               <ul className="space-y-2 text-sm">
                 <li><Link to="/login" className="hover:text-white transition-colors">Log In</Link></li>
