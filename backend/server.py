@@ -1357,6 +1357,58 @@ class ChallengeAchievement(BaseModel):
     completed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     final_value: float  # Final progress value achieved
 
+class Page(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    url_slug: str  # URL path, e.g., "/pricing" or "/about"
+    thumbnail: Optional[str] = None  # Path to thumbnail image
+    status: str = "draft"  # draft, pending, published, scheduled
+    index_status: str = "indexed"  # indexed, no-index
+    scheduled_at: Optional[datetime] = None  # For scheduled status
+    
+    # SEO fields
+    meta_title: Optional[str] = None
+    meta_description: Optional[str] = None
+    focus_keyword: Optional[str] = None
+    og_image: Optional[str] = None  # Open Graph image
+    
+    # Page content (can be extended later for full content management)
+    content: Optional[str] = None
+    
+    # Metadata
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    created_by: Optional[str] = None  # athlete_id
+    last_modified_by: Optional[str] = None  # athlete_id
+
+class PageCreate(BaseModel):
+    title: str
+    url_slug: Optional[str] = None
+    thumbnail: Optional[str] = None
+    status: str = "draft"
+    index_status: str = "indexed"
+    scheduled_at: Optional[datetime] = None
+    meta_title: Optional[str] = None
+    meta_description: Optional[str] = None
+    focus_keyword: Optional[str] = None
+    og_image: Optional[str] = None
+    content: Optional[str] = None
+
+class PageUpdate(BaseModel):
+    title: Optional[str] = None
+    url_slug: Optional[str] = None
+    thumbnail: Optional[str] = None
+    status: Optional[str] = None
+    index_status: Optional[str] = None
+    scheduled_at: Optional[datetime] = None
+    meta_title: Optional[str] = None
+    meta_description: Optional[str] = None
+    focus_keyword: Optional[str] = None
+    og_image: Optional[str] = None
+    content: Optional[str] = None
+
 
 # AI Coach Service
 class AICoachService:
