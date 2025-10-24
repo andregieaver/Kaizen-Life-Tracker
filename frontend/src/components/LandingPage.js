@@ -181,23 +181,40 @@ const LandingPage = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [hasReferralCode, setHasReferralCode] = useState(false);
   const [siteTitle, setSiteTitle] = useState('TrainSmart');
+  const [logoUrl, setLogoUrl] = useState(null);
+  const [faviconUrl, setFaviconUrl] = useState(null);
 
-  // Fetch site title from SEO settings
+  // Fetch SEO settings (site title, logo, favicon)
   useEffect(() => {
-    const fetchSiteTitle = async () => {
+    const fetchSEOSettings = async () => {
       try {
         const response = await axios.get(`${BACKEND_URL}/api/system/settings/public`);
-        if (response.data?.seo?.siteTitle) {
-          setSiteTitle(response.data.seo.siteTitle);
-          document.title = response.data.seo.siteTitle; // Also update page title
+        if (response.data?.seo) {
+          const seo = response.data.seo;
+          if (seo.siteTitle) {
+            setSiteTitle(seo.siteTitle);
+            document.title = seo.siteTitle; // Update page title
+          }
+          if (seo.logoUrl) {
+            setLogoUrl(seo.logoUrl);
+          }
+          if (seo.faviconUrl) {
+            setFaviconUrl(seo.faviconUrl);
+            // Update favicon in DOM
+            const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+            link.type = 'image/x-icon';
+            link.rel = 'shortcut icon';
+            link.href = `${BACKEND_URL}${seo.faviconUrl}`;
+            document.getElementsByTagName('head')[0].appendChild(link);
+          }
         }
       } catch (error) {
-        console.error('Error fetching site title:', error);
-        // Keep default 'TrainSmart'
+        console.error('Error fetching SEO settings:', error);
+        // Keep defaults
       }
     };
     
-    fetchSiteTitle();
+    fetchSEOSettings();
   }, []);
 
   // Capture referral code from URL
