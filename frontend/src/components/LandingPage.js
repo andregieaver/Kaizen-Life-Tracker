@@ -632,15 +632,6 @@ const LandingPage = () => {
                 <ChevronRight className="w-5 h-5 ml-2" />
               </Button>
             </button>
-            <Link to="/pricing">
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="text-lg px-8 py-6 h-auto border-gray-600 text-gray-300 hover:bg-gray-700"
-              >
-                View Pricing
-              </Button>
-            </Link>
           </div>
           <p className="mt-6 text-sm text-gray-400">
             No credit card required • Free to start • Cancel anytime
