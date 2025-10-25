@@ -8765,12 +8765,34 @@ async def search_athletes_for_mention(q: str = Query(..., min_length=1)):
 
 @api_router.get("/community/posts/{post_id}/comments")
 async def get_comments(post_id: str):
-    """Get all comments for a post"""
+    """Get all comments for a post with subscription tier"""
     try:
-        comments = await db.community_comments.find(
-            {"post_id": post_id},
-            {"_id": 0}
-        ).sort("created_at", 1).to_list(length=None)
+        # Use aggregation to include subscription tier from athletes collection
+        pipeline = [
+            {"$match": {"post_id": post_id}},
+            {"$sort": {"created_at": 1}},
+            {
+                "$lookup": {
+                    "from": "athletes",
+                    "localField": "athlete_id",
+                    "foreignField": "id",
+                    "as": "author_info"
+                }
+            },
+            {
+                "$addFields": {
+                    "subscription_tier": {"$arrayElemAt": ["$author_info.subscription_tier", 0]}
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "author_info": 0
+                }
+            }
+        ]
+        
+        comments = await db.community_comments.aggregate(pipeline).to_list(length=None)
         
         return {"comments": comments}
     except Exception as e:
