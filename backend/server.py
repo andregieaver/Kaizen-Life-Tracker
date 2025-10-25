@@ -8335,7 +8335,8 @@ async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int 
         projection_stage = {
             "$project": {
                 "_id": 0,
-                "user_like": 0
+                "user_like": 0,
+                "author_info": 0
             }
         }
         
@@ -8410,7 +8411,8 @@ async def get_following_feed(athlete_id: str, limit: int = Query(50), skip: int 
         projection_stage = {
             "$project": {
                 "_id": 0,
-                "user_like": 0
+                "user_like": 0,
+                "author_info": 0
             }
         }
         
@@ -8477,7 +8479,8 @@ async def get_user_posts(target_athlete_id: str, viewer_athlete_id: str = Query(
         projection_stage = {
             "$project": {
                 "_id": 0,
-                "user_like": 0
+                "user_like": 0,
+                "author_info": 0
             }
         }
         
