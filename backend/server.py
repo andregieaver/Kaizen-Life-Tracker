@@ -12865,10 +12865,24 @@ async def delete_subscription_plan(tier: str, athlete_id: str):
         
         # Archive Stripe product (don't delete to preserve history)
         if plan.get("stripe_product_id"):
-            stripe_api_key = os.environ.get("STRIPE_API_KEY")
-            if stripe_api_key:
-                stripe.api_key = stripe_api_key
-                stripe.Product.modify(plan["stripe_product_id"], active=False)
+            # Get Stripe settings from system_settings
+            system_settings = await db.system_settings.find_one({}, {"_id": 0})
+            if system_settings:
+                stripe_settings = system_settings.get("advanced", {}).get("stripe", {})
+                stripe_mode = stripe_settings.get("mode", "test")
+                
+                # Get the appropriate API key based on mode
+                if stripe_mode == "live":
+                    stripe_api_key = stripe_settings.get("live", {}).get("apiKey") or stripe_settings.get("live", {}).get("secretKey")
+                else:
+                    stripe_api_key = stripe_settings.get("sandbox", {}).get("apiKey") or stripe_settings.get("sandbox", {}).get("secretKey")
+                
+                if stripe_api_key:
+                    stripe.api_key = stripe_api_key
+                    try:
+                        stripe.Product.modify(plan["stripe_product_id"], active=False)
+                    except Exception as e:
+                        logging.error(f"Error archiving Stripe product: {e}")
         
         # Delete variations
         await db.subscription_plan_variations.delete_many({"plan_id": {"$regex": f"^{tier}_"}})
