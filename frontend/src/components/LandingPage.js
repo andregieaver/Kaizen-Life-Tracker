@@ -657,9 +657,9 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Mobile Bottom Navigation */}
+      {/* Mobile Bottom Navigation - HIDDEN BUT NOT DELETED */}
       <nav 
-        className={`md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 border-t border-teal-500/30 shadow-lg z-50 transition-transform duration-300 ease-in-out ${
+        className={`hidden md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 border-t border-teal-500/30 shadow-lg z-50 transition-transform duration-300 ease-in-out ${
           scrollDirection === 'up' ? 'translate-y-full' : 'translate-y-0'
         }`}
       >
