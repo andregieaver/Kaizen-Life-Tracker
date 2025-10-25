@@ -8444,9 +8444,18 @@ async def get_following_feed(athlete_id: str, limit: int = Query(50), skip: int 
                 }
             },
             {
+                "$lookup": {
+                    "from": "athletes",
+                    "localField": "athlete_id",
+                    "foreignField": "id",
+                    "as": "author_info"
+                }
+            },
+            {
                 "$addFields": {
                     "liked_by_user": {"$gt": [{"$size": "$user_like"}, 0]},
-                    "has_image": {"$cond": [{"$ifNull": ["$image_data", False]}, True, False]}
+                    "has_image": {"$cond": [{"$ifNull": ["$image_data", False]}, True, False]},
+                    "subscription_tier": {"$arrayElemAt": ["$author_info.subscription_tier", 0]}
                 }
             },
             projection_stage
