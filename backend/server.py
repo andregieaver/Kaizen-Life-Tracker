@@ -13513,94 +13513,105 @@ async def delete_waiting_list_entry(entry_id: str, athlete_id: str):
         logging.error(f"Error deleting waiting list entry: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-# HTML template with SEO meta tags
-def generate_html_with_seo(page_data, backend_url):
-    """Generate HTML with SEO meta tags for social media scrapers"""
-    
-    title = page_data.get('meta_title') or page_data.get('title', 'Loading...')
-    description = page_data.get('meta_description', '')
-    og_image = page_data.get('og_image', '')
-    
-    # Construct full OG image URL
-    og_image_url = f"{backend_url}{og_image}" if og_image and not og_image.startswith('http') else og_image
-    
-    html_content = f"""<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-        <meta http-equiv="Pragma" content="no-cache" />
-        <meta http-equiv="Expires" content="0" />
-        
-        <title>{title}</title>
-        <meta name="description" content="{description}" />
-        
-        <!-- Open Graph Meta Tags -->
-        <meta property="og:title" content="{title}" />
-        <meta property="og:description" content="{description}" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="{page_data.get('url_slug', '/')}" />
-        {f'<meta property="og:image" content="{og_image_url}" />' if og_image_url else ''}
-        {f'<meta property="og:image:secure_url" content="{og_image_url}" />' if og_image_url else ''}
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        
-        <!-- Twitter Card Meta Tags -->
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="{title}" />
-        <meta name="twitter:description" content="{description}" />
-        {f'<meta name="twitter:image" content="{og_image_url}" />' if og_image_url else ''}
-        
-        <script>
-            // Redirect to React app after meta tags are loaded
-            window.location.replace(window.location.href);
-        </script>
-    </head>
-    <body>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root"></div>
-    </body>
-</html>"""
-    return html_content
-
-@api_router.get("/seo-page/{slug:path}", response_class=HTMLResponse)
-async def serve_page_with_seo(slug: str, request: Request):
-    """Serve HTML with SEO meta tags for social media scrapers (Facebook, Twitter, etc.)"""
+# Function to read and modify the React index.html with SEO meta tags
+async def get_html_with_seo_tags(slug: str, backend_url: str):
+    """Read React index.html and inject SEO meta tags"""
     try:
-        # Normalize slug
-        if not slug.startswith('/'):
-            slug = f"/{slug}"
+        # Read the React build index.html
+        index_path = Path("/app/frontend/build/index.html")
+        if not index_path.exists():
+            # Fallback to public index.html during development
+            index_path = Path("/app/frontend/public/index.html")
         
-        # Handle root path
-        if slug == '/seo-page/':
-            slug = '/'
+        with open(index_path, 'r') as f:
+            html_content = f.read()
         
-        # Fetch page data
+        # Fetch page data from database
         page = await db.pages.find_one({
             "url_slug": slug,
             "status": "published"
         }, {"_id": 0})
         
-        if not page:
-            # Return default HTML if page not found
-            raise HTTPException(status_code=404, detail="Page not found")
+        if page:
+            title = page.get('meta_title') or page.get('title', '')
+            description = page.get('meta_description', '')
+            og_image = page.get('og_image', '')
+            
+            # Construct full OG image URL
+            og_image_url = f"{backend_url}{og_image}" if og_image and not og_image.startswith('http') else og_image
+            
+            # Build meta tags
+            meta_tags = f"""
+    <title>{title}</title>
+    <meta name="description" content="{description}" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{title}" />
+    <meta property="og:description" content="{description}" />
+    <meta property="og:type" content="website" />"""
+            
+            if og_image_url:
+                meta_tags += f"""
+    <meta property="og:image" content="{og_image_url}" />
+    <meta property="og:image:secure_url" content="{og_image_url}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />"""
+            
+            meta_tags += f"""
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{title}" />
+    <meta name="twitter:description" content="{description}" />"""
+            
+            if og_image_url:
+                meta_tags += f"""
+    <meta name="twitter:image" content="{og_image_url}" />"""
+            
+            # Replace the title and inject meta tags into head
+            html_content = html_content.replace('<title>Loading...</title>', meta_tags)
         
-        # Get backend URL from environment or request
-        backend_url = os.environ.get('REACT_APP_BACKEND_URL', str(request.base_url).rstrip('/'))
+        return html_content
         
-        # Generate and return HTML with SEO meta tags
-        html = generate_html_with_seo(page, backend_url)
-        return HTMLResponse(content=html)
-        
-    except HTTPException:
-        raise
     except Exception as e:
-        logging.error(f"Error serving page with SEO: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        logging.error(f"Error generating HTML with SEO: {e}")
+        # Return original HTML if error
+        with open(index_path, 'r') as f:
+            return f.read()
 
 app.include_router(api_router)
+
+# Catch-all route for React app with SEO support
+@app.get("/{full_path:path}", response_class=HTMLResponse)
+async def serve_react_app(full_path: str, request: Request):
+    """Serve React app with SEO meta tags for main routes"""
+    
+    # List of routes that should get SEO treatment
+    seo_routes = ['/', '/pricing', '/privacy', '/terms']
+    
+    # Normalize the path
+    path = f"/{full_path}" if full_path and not full_path.startswith('/') else full_path
+    if not path:
+        path = '/'
+    
+    # Check if this is a route that needs SEO
+    if path in seo_routes:
+        try:
+            backend_url = os.environ.get('REACT_APP_BACKEND_URL', str(request.base_url).rstrip('/'))
+            html_content = await get_html_with_seo_tags(path, backend_url)
+            return HTMLResponse(content=html_content)
+        except Exception as e:
+            logging.error(f"Error serving page with SEO: {e}")
+    
+    # For other routes or if SEO fails, serve the default React index.html
+    index_path = Path("/app/frontend/build/index.html")
+    if not index_path.exists():
+        index_path = Path("/app/frontend/public/index.html")
+    
+    with open(index_path, 'r') as f:
+        html_content = f.read()
+    
+    return HTMLResponse(content=html_content)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
