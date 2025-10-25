@@ -8342,7 +8342,7 @@ async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int 
         if exclude_images:
             projection_stage["$project"]["image_data"] = 0
         
-        # Use aggregation pipeline to fetch posts with like status in single query
+        # Use aggregation pipeline to fetch posts with like status and subscription tier in single query
         pipeline = [
             {"$match": {"visibility": "public"}},  # Only public posts in main feed
             {"$sort": {"created_at": -1}},
@@ -8368,9 +8368,18 @@ async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int 
                 }
             },
             {
+                "$lookup": {
+                    "from": "athletes",
+                    "localField": "athlete_id",
+                    "foreignField": "id",
+                    "as": "author_info"
+                }
+            },
+            {
                 "$addFields": {
                     "liked_by_user": {"$gt": [{"$size": "$user_like"}, 0]},
-                    "has_image": {"$cond": [{"$ifNull": ["$image_data", False]}, True, False]}
+                    "has_image": {"$cond": [{"$ifNull": ["$image_data", False]}, True, False]},
+                    "subscription_tier": {"$arrayElemAt": ["$author_info.subscription_tier", 0]}
                 }
             },
             projection_stage
