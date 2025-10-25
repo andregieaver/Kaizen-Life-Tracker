@@ -10,7 +10,7 @@ async def seed_pages():
     # Connect to MongoDB
     mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
     client = AsyncIOMotorClient(mongo_url)
-    db = client.test_database
+    db = client['trainsmart']
     
     # Define initial pages
     pages = [
