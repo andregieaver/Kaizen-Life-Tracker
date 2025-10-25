@@ -8,6 +8,9 @@ import { findMentionTrigger, insertMention, formatMentions } from '../utils/ment
 import EmojiPickerButton from './EmojiPickerButton';
 import ConfirmationModal from './ConfirmationModal';
 import ImageCarousel from './ImageCarousel';
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
+import SubscriptionBadge from './SubscriptionBadge';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
