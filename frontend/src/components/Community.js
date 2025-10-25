@@ -3543,7 +3543,10 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                 </div>
               )}
               <div>
-                <p className="text-white font-semibold hover:underline">{post.athlete_name}</p>
+                <p className="text-white font-semibold hover:underline flex items-center">
+                  {post.athlete_name}
+                  <SubscriptionBadge subscriptionTier={post.subscription_tier} />
+                </p>
                 <p className="text-gray-400 text-xs">
                   {new Date(post.created_at).toLocaleString()}
                   {post.is_edited && ' (edited)'}
