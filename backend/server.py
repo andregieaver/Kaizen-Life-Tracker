@@ -13581,21 +13581,35 @@ async def get_html_with_seo_tags(slug: str, backend_url: str):
 
 app.include_router(api_router)
 
-# Catch-all route for React app with SEO support
+@app.on_event("shutdown")
+async def shutdown_db_client():
+    client.close()
+    scheduler.shutdown()
+    logging.info("Scheduler shutdown")
+
+@app.get("/api/schedules/debug/trigger")
+async def debug_trigger_schedules():
+    """Debug endpoint to manually trigger schedule checking"""
+    await check_and_execute_schedules()
+    return {"message": "Schedule check triggered"}
+
+# Catch-all route for React app with SEO support - MUST BE LAST
 @app.get("/{full_path:path}", response_class=HTMLResponse)
 async def serve_react_app(full_path: str, request: Request):
     """Serve React app with SEO meta tags for main routes"""
     
+    # Exclude API routes and static files
+    if full_path.startswith('api/') or full_path.startswith('api') or full_path.startswith('uploaded_images'):
+        raise HTTPException(status_code=404, detail="Not found")
+    
     # List of routes that should get SEO treatment
-    seo_routes = ['/', '/pricing', '/privacy', '/terms']
+    seo_routes = ['', 'pricing', 'privacy', 'terms']
     
     # Normalize the path
-    path = f"/{full_path}" if full_path and not full_path.startswith('/') else full_path
-    if not path:
-        path = '/'
+    path = f"/{full_path}" if full_path else '/'
     
     # Check if this is a route that needs SEO
-    if path in seo_routes:
+    if full_path in seo_routes:
         try:
             backend_url = os.environ.get('REACT_APP_BACKEND_URL', str(request.base_url).rstrip('/'))
             html_content = await get_html_with_seo_tags(path, backend_url)
@@ -13612,18 +13626,6 @@ async def serve_react_app(full_path: str, request: Request):
         html_content = f.read()
     
     return HTMLResponse(content=html_content)
-
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    client.close()
-    scheduler.shutdown()
-    logging.info("Scheduler shutdown")
-
-@app.get("/api/schedules/debug/trigger")
-async def debug_trigger_schedules():
-    """Debug endpoint to manually trigger schedule checking"""
-    await check_and_execute_schedules()
-    return {"message": "Schedule check triggered"}
 
 
 
