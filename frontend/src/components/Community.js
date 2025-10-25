@@ -2684,7 +2684,10 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
                                     className="text-white font-semibold text-sm cursor-pointer hover:underline"
                                     onClick={() => loadAthleteProfile(comment.athlete_id)}
                                   >
-                                    {comment.athlete_name}
+                                    <span className="flex items-center">
+                                      {comment.athlete_name}
+                                      <SubscriptionBadge subscriptionTier={comment.subscription_tier} />
+                                    </span>
                                   </p>
                                   <p className="text-gray-300 text-sm mt-1">{formatMentions(comment.content)}</p>
                                   <p className="text-gray-400 text-xs mt-1">
