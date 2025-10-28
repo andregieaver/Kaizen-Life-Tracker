@@ -1223,8 +1223,8 @@ const Account = ({ athleteId }) => {
     <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Header */}
       <div className="mb-8 relative">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
+        <div className="flex flex-col">
+          <div className="w-full mb-4">
             <h1 className="text-3xl font-display font-bold text-white mb-2">
               {t('account.title')}
             </h1>
@@ -1233,10 +1233,10 @@ const Account = ({ athleteId }) => {
             </p>
           </div>
           {athlete?.is_super_admin && (
-            <div className="flex items-center gap-3 ml-4">
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap w-full justify-between sm:justify-start">
               <Button
                 onClick={() => navigate('/dashboard/pages')}
-                className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
+                className="bg-gray-700 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
                 title="Pages (Super Admin)"
               >
                 <FileText className="w-5 h-5" />
@@ -1244,7 +1244,7 @@ const Account = ({ athleteId }) => {
               </Button>
               <Button
                 onClick={() => navigate('/dashboard/crm')}
-                className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
+                className="bg-gray-700 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
                 title="User Management (Super Admin)"
               >
                 <Users className="w-5 h-5" />
@@ -1252,7 +1252,7 @@ const Account = ({ athleteId }) => {
               </Button>
               <Button
                 onClick={() => navigate('/dashboard/orders')}
-                className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
+                className="bg-gray-700 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
                 title="Stripe Orders (Super Admin)"
               >
                 <ShoppingCart className="w-5 h-5" />
@@ -1260,7 +1260,7 @@ const Account = ({ athleteId }) => {
               </Button>
               <Button
                 onClick={() => navigate('/dashboard/subscriptions')}
-                className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
+                className="bg-gray-700 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
                 title="Subscriptions (Super Admin)"
               >
                 <Repeat className="w-5 h-5" />
@@ -1268,7 +1268,7 @@ const Account = ({ athleteId }) => {
               </Button>
               <Button
                 onClick={() => navigate('/dashboard/system-settings')}
-                className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
+                className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
                 title="System Settings (Super Admin)"
               >
                 <Settings className="w-5 h-5" />
