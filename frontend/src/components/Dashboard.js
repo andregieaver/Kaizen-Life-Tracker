@@ -1412,6 +1412,89 @@ const Dashboard = ({ athleteId }) => {
           </button>
         </div>
       </nav>
+
+      {/* Global Notifications Panel */}
+      {showNotifications && (
+        <>
+          {/* Mobile: Fullscreen Modal */}
+          <div className="md:hidden fixed top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-gray-900 to-gray-800 z-[9999] flex flex-col overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-700 flex-shrink-0">
+              <h3 className="text-white font-semibold text-lg">Notifications</h3>
+              <button
+                onClick={() => setShowNotifications(false)}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            
+            {/* Notifications List */}
+            <div className="flex-1 overflow-y-auto">
+              {notifications.length === 0 ? (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-center">
+                    <Bell className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                    <p className="text-gray-400 text-lg">No notifications</p>
+                    <p className="text-gray-500 text-sm mt-2">You're all caught up!</p>
+                  </div>
+                </div>
+              ) : (
+                notifications.map(notification => (
+                  <div
+                    key={notification.id}
+                    className={`p-4 border-b border-gray-700 hover:bg-gray-700/50 active:bg-gray-700 cursor-pointer transition-colors ${
+                      !notification.read ? 'bg-gray-700/30' : ''
+                    }`}
+                    onClick={() => handleNotificationClick(notification)}
+                  >
+                    <p className="text-white text-sm">{notification.message || notification.content}</p>
+                    <p className="text-gray-400 text-xs mt-1">
+                      {new Date(notification.created_at).toLocaleString()}
+                    </p>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Desktop: Dropdown */}
+          <div className="hidden md:block fixed top-16 right-4 z-50">
+            <div className="w-80 bg-gray-800 rounded-lg shadow-xl max-h-96 overflow-y-auto">
+              <div className="p-4 border-b border-gray-700 flex items-center justify-between">
+                <h3 className="text-white font-semibold">Notifications</h3>
+                <button
+                  onClick={() => setShowNotifications(false)}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              {notifications.length === 0 ? (
+                <div className="p-8 text-gray-400 text-center">
+                  <Bell className="w-12 h-12 text-gray-600 mx-auto mb-2" />
+                  <p>No notifications</p>
+                </div>
+              ) : (
+                notifications.map(notification => (
+                  <div
+                    key={notification.id}
+                    className={`p-4 border-b border-gray-700 hover:bg-gray-700 cursor-pointer ${
+                      !notification.read ? 'bg-gray-700/50' : ''
+                    }`}
+                    onClick={() => handleNotificationClick(notification)}
+                  >
+                    <p className="text-white text-sm">{notification.message || notification.content}</p>
+                    <p className="text-gray-400 text-xs mt-1">
+                      {new Date(notification.created_at).toLocaleString()}
+                    </p>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
