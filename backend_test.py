@@ -8291,53 +8291,49 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Profile Picture Cascade Update Testing"""
-    print("🚀 STARTING PROFILE PICTURE CASCADE UPDATE TESTING")
+    """Run Drink Logging API Endpoints Testing"""
+    print("🚀 STARTING DRINK LOGGING API ENDPOINTS TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Profile Picture Cascade Update
+    # Test Drink Logging API Endpoints
     try:
-        result = test_profile_picture_cascade_update()
+        result = test_drink_logging_api_endpoints()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Profile Picture Cascade Update", False, f"Exception: {str(e)}")
+        print_test_result("Drink Logging API Endpoints", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 PROFILE PICTURE CASCADE UPDATE TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ PROFILE PICTURE UPLOAD: POST /api/athlete/{athlete_id}/profile-picture works (200 status)")
-        print("✅ PROFILE PICTURE UPDATE: PUT /api/athlete/{athlete_id} with profile_picture works")
-        print("✅ CASCADE FUNCTION: cascade_profile_picture_update updates all community collections")
-        print("✅ COMMUNITY POSTS: athlete_profile_picture field updated correctly")
-        print("✅ COMMUNITY COMMENTS: athlete_profile_picture field updated correctly")
-        print("✅ GROUP POSTS: athlete_profile_picture field updated correctly")
-        print("✅ CHALLENGE PARTICIPATIONS: athlete_profile_picture field updated correctly")
-        print("✅ CHALLENGE COMMENTS: athlete_profile_picture field updated correctly")
-        print("✅ CHALLENGES: creator_profile_picture field updated correctly")
-        print("✅ BACKEND LOGS: [CASCADE] update messages appear in logs")
-        print("✅ NO ERRORS: No cascade errors in backend logs")
-        print("🔧 VERIFIED: Profile picture changes cascade to all community collections")
-        print("🔧 CONFIRMED: Bug fix using correct collection names (community_*) working")
+        print("🎉 DRINK LOGGING API ENDPOINTS TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ GET /api/drinks/{athlete_id} - Retrieve drink logs working")
+        print("✅ GET /api/drinks/{athlete_id}?date=YYYY-MM-DD - Date filtering working")
+        print("✅ POST /api/drinks/{athlete_id} - Create drink logs working")
+        print("✅ PUT /api/drinks/{athlete_id}/{drink_id} - Update drink logs working")
+        print("✅ DELETE /api/drinks/{athlete_id}/{drink_id} - Delete drink logs working")
+        print("✅ DRINK TYPES: Multiple drink types supported (water, coffee, tea, juice, sports_drink, milk, smoothie, other)")
+        print("✅ DATE/TIME HANDLING: Proper ISO date/time format handling")
+        print("✅ MONGODB SERIALIZATION: Correct data storage and retrieval")
+        print("✅ ERROR HANDLING: 404 for non-existent drink_id on update/delete")
+        print("✅ RESPONSE FORMAT: {success: true, drink: {...}} for creation")
+        print("✅ RESPONSE FORMAT: {drinks: [...]} for retrieval")
+        print("✅ EMPTY RESULTS: Empty array for dates with no logs")
+        print("🔧 VERIFIED: All drink logging endpoints functional and production-ready")
+        print("🔧 CONFIRMED: DrinkLog model with fields (id, athlete_id, drink_type, amount_ml, log_date, log_time, notes)")
     else:
-        print("❌ PROFILE PICTURE CASCADE UPDATE TESTING FOUND ISSUES")
+        print("❌ DRINK LOGGING API ENDPOINTS TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Profile picture changes may not cascade to community content")
-        print("💡 Verify cascade_profile_picture_update function uses correct collection names:")
-        print("   - community_posts (not posts)")
-        print("   - community_comments (not comments)")
-        print("   - community_group_posts (not group_posts)")
-        print("   - community_challenge_participations")
-        print("   - community_challenge_comments")
-        print("   - community_challenges")
-        print("💡 Check backend logs for [CASCADE] messages")
-        print("💡 Verify both POST /api/athlete/{athlete_id}/profile-picture and PUT /api/athlete/{athlete_id} call cascade function")
-        print("💡 Test with users who have existing community activity")
+        print("🚨 CRITICAL: Some drink logging endpoints may not be working correctly")
+        print("💡 Verify DrinkLog model is properly defined with all required fields")
+        print("💡 Check MongoDB collection 'drink_logs' exists and is accessible")
+        print("💡 Verify date/time parsing and serialization logic")
+        print("💡 Check error handling for invalid drink_id values")
+        print("💡 Test with athlete_id: 44111b4a-b61f-4a94-9c29-439434e67e19 (test.files@example.com)")
     
     print("=" * 70)
 
