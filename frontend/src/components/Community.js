@@ -3174,7 +3174,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }`}
         style={{
           transform: showCreateMenu 
-            ? `translate(${-Math.cos(5 * Math.PI / 6) * 80}px, ${-Math.sin(5 * Math.PI / 6) * 80}px)` // 150° (10 o'clock)
+            ? `translate(${Math.cos(5 * Math.PI / 6) * 80}px, ${-Math.sin(5 * Math.PI / 6) * 80}px)` // 150° (10 o'clock)
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '100ms' : '0ms'
         }}
@@ -3196,7 +3196,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }`}
         style={{
           transform: showCreateMenu 
-            ? `translate(${-Math.cos(2 * Math.PI / 3) * 80}px, ${-Math.sin(2 * Math.PI / 3) * 80}px)` // 120° (11 o'clock)
+            ? `translate(${Math.cos(2 * Math.PI / 3) * 80}px, ${-Math.sin(2 * Math.PI / 3) * 80}px)` // 120° (11 o'clock)
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '150ms' : '0ms'
         }}
