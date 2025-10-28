@@ -1280,6 +1280,10 @@ const Dashboard = ({ athleteId }) => {
           <Supplements athleteId={athleteId} />
         )}
 
+        {activeTab === 'drinks' && (
+          <Drinks athleteId={athleteId} />
+        )}
+
         {activeTab === 'calculators' && (
           <CalculatorsConverters athleteId={athleteId} />
         )}
