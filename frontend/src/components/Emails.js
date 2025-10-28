@@ -149,6 +149,34 @@ const Emails = () => {
     }
   };
 
+  const handleSendTestEmail = async (e) => {
+    e.preventDefault();
+    if (!testEmail) {
+      setTestEmailStatus({ type: 'error', message: 'Please enter an email address' });
+      return;
+    }
+
+    setSendingTest(true);
+    setTestEmailStatus({ type: '', message: '' });
+
+    try {
+      await axios.post(`${API}/email-templates/send-test`, {
+        template_id: selectedTemplate.id,
+        to_email: testEmail,
+        subject: editForm.subject,
+        body: editForm.body,
+        html_body: editForm.htmlBody
+      });
+
+      setTestEmailStatus({ type: 'success', message: `Test email sent successfully to ${testEmail}!` });
+    } catch (error) {
+      console.error('Error sending test email:', error);
+      setTestEmailStatus({ type: 'error', message: 'Failed to send test email' });
+    } finally {
+      setSendingTest(false);
+    }
+  };
+
   return (
     <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Header */}
