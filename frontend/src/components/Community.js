@@ -3153,11 +3153,71 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
         <Edit3 className="w-5 h-5 text-white" />
       </button>
 
-      {/* Event Button - Removed */}
+      {/* Event Button - Circular fan pattern at 45° */}
+      <button
+        onClick={() => {
+          setShowCreateEvent(true);
+          setShowCreateMenu(false);
+        }}
+        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-blue-500 hover:bg-blue-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+          showCreateMenu 
+            ? 'opacity-100 translate-x-0 translate-y-0' 
+            : 'opacity-0 scale-0 pointer-events-none'
+        }`}
+        style={{
+          transform: showCreateMenu 
+            ? `translate(${-Math.cos(Math.PI / 4) * 80}px, ${-Math.sin(Math.PI / 4) * 80}px)` 
+            : 'translate(0, 0) scale(0)',
+          transitionDelay: showCreateMenu ? '100ms' : '0ms'
+        }}
+        title="Create Event"
+      >
+        <Calendar className="w-5 h-5 text-white" />
+      </button>
 
-      {/* Group Button - Removed */}
+      {/* Group Button - Circular fan pattern at 135° */}
+      <button
+        onClick={() => {
+          setShowCreateGroup(true);
+          setShowCreateMenu(false);
+        }}
+        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-purple-500 hover:bg-purple-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+          showCreateMenu 
+            ? 'opacity-100 translate-x-0 translate-y-0' 
+            : 'opacity-0 scale-0 pointer-events-none'
+        }`}
+        style={{
+          transform: showCreateMenu 
+            ? `translate(${-Math.cos(3 * Math.PI / 4) * 80}px, ${-Math.sin(3 * Math.PI / 4) * 80}px)` 
+            : 'translate(0, 0) scale(0)',
+          transitionDelay: showCreateMenu ? '150ms' : '0ms'
+        }}
+        title="Create Group"
+      >
+        <UsersIcon className="w-5 h-5 text-white" />
+      </button>
 
-      {/* Challenge Button - Removed */}
+      {/* Challenge Button - Circular fan pattern at 90° (straight up) */}
+      <button
+        onClick={() => {
+          setShowCreateChallenge(true);
+          setShowCreateMenu(false);
+        }}
+        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-yellow-500 hover:bg-yellow-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+          showCreateMenu 
+            ? 'opacity-100 translate-x-0 translate-y-0' 
+            : 'opacity-0 scale-0 pointer-events-none'
+        }`}
+        style={{
+          transform: showCreateMenu 
+            ? `translate(0px, ${-80}px)` 
+            : 'translate(0, 0) scale(0)',
+          transitionDelay: showCreateMenu ? '200ms' : '0ms'
+        }}
+        title="Create Challenge"
+      >
+        <Trophy className="w-5 h-5 text-white" />
+      </button>
 
 
       {/* Write Post Modal */}
