@@ -391,7 +391,7 @@ const Schedules = ({ athleteId }) => {
                     </Button>
                   </div>
                 </div>
-                <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">
+                <p className="text-sm text-gray-300 bg-gray-900/50 p-3 rounded-lg">
                   {schedule.prompt}
                 </p>
               </CardContent>
