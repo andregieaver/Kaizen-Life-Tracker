@@ -4491,10 +4491,19 @@ async def transcribe_audio(athlete_id: str, audio: UploadFile = File(...)):
     import openai
     
     try:
-        # Get OpenAI API key for the athlete
-        openai_key = await ai_coach.get_user_openai_key(athlete_id)
-        if not openai_key:
-            raise HTTPException(status_code=400, detail="OpenAI API key required for voice transcription. Please configure your API key in Account Settings.")
+        # Get OpenAI API key from system_settings (global key stored in Advanced tab)
+        system_settings = await db.system_settings.find_one(
+            {"setting_type": "global"},
+            {"_id": 0}
+        )
+        
+        if not system_settings or not system_settings.get('advanced', {}).get('openaiApiKey'):
+            raise HTTPException(
+                status_code=400, 
+                detail="OpenAI API key not found. Please add your OpenAI API key in System Settings → Advanced tab (Super Admin only), then try again."
+            )
+        
+        openai_key = system_settings['advanced']['openaiApiKey']
         
         # Read audio file
         audio_content = await audio.read()
@@ -4518,7 +4527,10 @@ async def transcribe_audio(athlete_id: str, audio: UploadFile = File(...)):
     except openai.OpenAIError as e:
         error_message = str(e)
         if "invalid_api_key" in error_message.lower() or "incorrect api key" in error_message.lower():
-            raise HTTPException(status_code=400, detail="Invalid OpenAI API key. Please update your API key in Account Settings.")
+            raise HTTPException(
+                status_code=400, 
+                detail="Invalid OpenAI API key. Please update your API key in System Settings → Advanced tab."
+            )
         raise HTTPException(status_code=500, detail=f"Transcription failed: {error_message}")
     except Exception as e:
         logging.error(f"Error transcribing audio: {str(e)}")
