@@ -2851,14 +2851,6 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
       {activeTab === 'challenges' && (
         <div className="space-y-6 pt-12 md:pt-0">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <Button
-              onClick={() => setShowCreateChallenge(true)}
-              className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
-            >
-              <Trophy className="w-4 h-4 mr-2" />
-              Create Challenge
-            </Button>
-
             {/* Filter buttons */}
             <div className="flex gap-2">
               {['all', 'active', 'completed', 'joined'].map(filter => (
