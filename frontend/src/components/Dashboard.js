@@ -545,13 +545,15 @@ const Dashboard = ({ athleteId }) => {
               )}
               {moduleSettings.community.enabled && (
                 <button 
-                  onClick={() => navigate('/dashboard/community')}
+                  onClick={() => activeTab === 'community' ? navigate('/dashboard') : navigate('/dashboard/community')}
                   className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
-                  aria-label="Community"
+                  aria-label={activeTab === 'community' ? 'Dashboard' : 'Community'}
+                  title={activeTab === 'community' ? 'Back to Dashboard' : 'Community'}
                 >
-                  <Users className="w-6 h-6" style={{ color: '#00C2A8' }} />
-                  {communityUnreadCount > 0 && (
-                    <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+                  {activeTab === 'community' ? (
+                    <User className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                  ) : (
+                    <Users className="w-6 h-6" style={{ color: '#00C2A8' }} />
                   )}
                 </button>
               )}
