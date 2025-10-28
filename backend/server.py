@@ -576,7 +576,10 @@ class JournalEntry(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     athlete_id: str
     content: str
-    entry_type: str = "text"  # 'text' or 'voice'
+    entry_type: str = "text"  # 'text', 'voice', or 'video'
+    video_path: Optional[str] = None  # Path to video file (for video entries)
+    subtitle_path: Optional[str] = None  # Path to subtitle file (for video entries)
+    has_burned_subtitles: Optional[bool] = False  # Whether subtitles are burned into video
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
