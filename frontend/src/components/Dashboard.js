@@ -464,10 +464,10 @@ const Dashboard = ({ athleteId }) => {
                 <img 
                   src={`${BACKEND_URL}${logoUrl}`} 
                   alt={siteTitle}
-                  className="w-7 h-7 object-contain mr-2"
+                  className="w-7 h-7 object-contain"
                 />
               )}
-              <h1 className="font-display text-xl font-bold text-white tracking-tight">
+              <h1 className="hidden font-display text-xl font-bold text-white tracking-tight">
                 {siteTitle}
               </h1>
             </div>
