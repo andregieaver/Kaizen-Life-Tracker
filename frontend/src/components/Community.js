@@ -2988,6 +2988,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           loading={eventDetailLoading}
           onClose={handleCloseEventDetail}
           athleteId={athleteId}
+          isSuperAdmin={isSuperAdmin}
           loadAthleteProfile={loadAthleteProfile}
           onAddComment={() => handleAddEventComment(eventDetailData?.id)}
           commentText={commentText[eventDetailData?.id] || ''}
