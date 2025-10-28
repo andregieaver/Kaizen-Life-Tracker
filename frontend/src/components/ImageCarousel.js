@@ -130,6 +130,18 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
     }
   };
 
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+        setVideoPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setVideoPlaying(false);
+      }
+    }
+  };
+
   const nextImage = () => {
     setSlideDirection('right');
     setCurrentIndex((prev) => (prev + 1) % mediaItems.length);
