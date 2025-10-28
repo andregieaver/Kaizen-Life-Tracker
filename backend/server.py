@@ -11081,6 +11081,63 @@ async def get_system_stats(athlete_id: str):
         logging.error(f"Error getting system stats: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to retrieve system stats: {str(e)}")
 
+# Email Template Routes
+@api_router.get("/email-templates")
+async def get_email_templates():
+    """Get all email templates"""
+    try:
+        templates = await db.email_templates.find({}, {"_id": 0}).to_list(length=None)
+        return templates
+    except Exception as e:
+        logging.error(f"Error getting email templates: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/email-templates")
+async def save_email_template(template: EmailTemplateUpdate):
+    """Save or update an email template"""
+    try:
+        # Check if template exists
+        existing = await db.email_templates.find_one({"template_id": template.template_id})
+        
+        template_data = {
+            "template_id": template.template_id,
+            "subject": template.subject,
+            "body": template.body,
+            "html_body": template.html_body,
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        if existing:
+            # Update existing template
+            await db.email_templates.update_one(
+                {"template_id": template.template_id},
+                {"$set": prepare_for_mongo(template_data)}
+            )
+        else:
+            # Create new template
+            template_data["id"] = str(uuid.uuid4())
+            template_data["created_at"] = datetime.now(timezone.utc).isoformat()
+            await db.email_templates.insert_one(prepare_for_mongo(template_data))
+        
+        return {"success": True, "message": "Email template saved successfully"}
+    except Exception as e:
+        logging.error(f"Error saving email template: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/email-templates/{template_id}")
+async def get_email_template(template_id: str):
+    """Get a specific email template"""
+    try:
+        template = await db.email_templates.find_one({"template_id": template_id}, {"_id": 0})
+        if not template:
+            raise HTTPException(status_code=404, detail="Template not found")
+        return template
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error getting email template: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.get("/system/settings/public")
 async def get_public_system_settings():
     """Get public system settings (no auth required)"""
