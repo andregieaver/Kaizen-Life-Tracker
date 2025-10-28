@@ -2512,7 +2512,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
       {activeTab === 'following' && !selectedGroup && (
         <>
           {/* Posts from people you follow */}
-          <div className="space-y-0 sm:space-y-6 pt-[6.5rem] md:pt-0">
+          <div className="space-y-0 sm:space-y-6 pt-[5rem] md:pt-0">
             {isLoading ? (
               <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg">
                 <CardContent className="p-12 text-center">
@@ -2787,7 +2787,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
 
       {/* Groups Tab */}
       {activeTab === 'groups' && !selectedGroup && (
-        <div className="space-y-6 pt-[6.5rem] md:pt-0">
+        <div className="space-y-6 pt-[5rem] md:pt-0">
           <Button
             onClick={() => setShowCreateGroup(true)}
             className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
@@ -2812,7 +2812,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
 
       {/* My Groups Tab */}
       {activeTab === 'mygroups' && !selectedGroup && (
-        <div className="space-y-6 pt-[6.5rem] md:pt-0">
+        <div className="space-y-6 pt-[5rem] md:pt-0">
           <Button
             onClick={() => setShowCreateGroup(true)}
             className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
@@ -2838,7 +2838,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
 
       {/* Events Tab */}
       {activeTab === 'events' && (
-        <div className="space-y-6 pt-[6.5rem] md:pt-0">
+        <div className="space-y-6 pt-[5rem] md:pt-0">
           <Button
             onClick={() => setShowCreateEvent(true)}
             className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
@@ -2873,7 +2873,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
 
       {/* Challenges Tab */}
       {activeTab === 'challenges' && (
-        <div className="space-y-6 pt-[6.5rem] md:pt-0">
+        <div className="space-y-6 pt-[5rem] md:pt-0">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <Button
               onClick={() => setShowCreateChallenge(true)}
@@ -4480,7 +4480,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
   editingPost, editContent, showComments, commentText, setNewPostContent, setNewPostImage, 
   setNewPostImagePreview, setEditingPost, setEditContent, setCommentText,
   handleCreateGroupPost, handleImageSelect, onBack, onLeave, onEditGroup, loadAthleteProfile }) => (
-  <div className="space-y-6 pt-[6.5rem] md:pt-0">
+  <div className="space-y-6 pt-[5rem] md:pt-0">
     {/* Group Header */}
     <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
       <CardContent className="p-6">
