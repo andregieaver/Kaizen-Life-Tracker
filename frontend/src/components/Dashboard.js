@@ -72,6 +72,9 @@ const Dashboard = ({ athleteId }) => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   
+  // Floating Action Button state
+  const [showCreateMenu, setShowCreateMenu] = useState(false);
+  
   // Check if we're on nested pages
   const isUserProfilePage = location.pathname.includes('/dashboard/crm/user/');
   const isOrderDetailPage = location.pathname.match(/\/dashboard\/orders\/[^/]+$/) && !location.pathname.endsWith('/orders');
