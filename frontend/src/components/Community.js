@@ -3139,7 +3139,29 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       )}
 
       {/* Fan Menu - Individual FABs with Bigger Radius */}
-      {/* Post Button - 30° (1 o'clock position) */}
+      {/* Challenge Button - 180° (9 o'clock - straight left) */}
+      <button
+        onClick={() => {
+          setShowCreateChallenge(true);
+          setShowCreateMenu(false);
+        }}
+        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-yellow-500 hover:bg-yellow-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+          showCreateMenu 
+            ? 'opacity-100 translate-x-0 translate-y-0' 
+            : 'opacity-0 scale-0 pointer-events-none'
+        }`}
+        style={{
+          transform: showCreateMenu 
+            ? `translate(${-80}px, 0px)` // 180° (9 o'clock - straight left)
+            : 'translate(0, 0) scale(0)',
+          transitionDelay: showCreateMenu ? '50ms' : '0ms'
+        }}
+        title="Create Challenge"
+      >
+        <Trophy className="w-5 h-5 text-white" />
+      </button>
+
+      {/* Post Button - 150° (10 o'clock position) */}
       <button
         onClick={() => {
           setShowWritePostModal(true);
@@ -3152,16 +3174,16 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }`}
         style={{
           transform: showCreateMenu 
-            ? `translate(${-Math.cos(Math.PI / 6) * 80}px, ${-Math.sin(Math.PI / 6) * 80}px)` // 30° (1 o'clock)
+            ? `translate(${-Math.cos(5 * Math.PI / 6) * 80}px, ${-Math.sin(5 * Math.PI / 6) * 80}px)` // 150° (10 o'clock)
             : 'translate(0, 0) scale(0)',
-          transitionDelay: showCreateMenu ? '50ms' : '0ms'
+          transitionDelay: showCreateMenu ? '100ms' : '0ms'
         }}
         title="Create Post"
       >
         <Edit3 className="w-5 h-5 text-white" />
       </button>
 
-      {/* Event Button - 45° (10:30 position) */}
+      {/* Event Button - 120° (11 o'clock position) */}
       <button
         onClick={() => {
           setShowCreateEvent(true);
@@ -3174,9 +3196,9 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }`}
         style={{
           transform: showCreateMenu 
-            ? `translate(${-Math.cos(Math.PI / 4) * 80}px, ${-Math.sin(Math.PI / 4) * 80}px)` // 45° (10:30 position)
+            ? `translate(${-Math.cos(2 * Math.PI / 3) * 80}px, ${-Math.sin(2 * Math.PI / 3) * 80}px)` // 120° (11 o'clock)
             : 'translate(0, 0) scale(0)',
-          transitionDelay: showCreateMenu ? '100ms' : '0ms'
+          transitionDelay: showCreateMenu ? '150ms' : '0ms'
         }}
         title="Create Event"
       >
@@ -3198,33 +3220,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           transform: showCreateMenu 
             ? `translate(0px, ${-80}px)` // 90° (12 o'clock - straight up)
             : 'translate(0, 0) scale(0)',
-          transitionDelay: showCreateMenu ? '150ms' : '0ms'
+          transitionDelay: showCreateMenu ? '200ms' : '0ms'
         }}
         title="Create Group"
       >
         <UsersIcon className="w-5 h-5 text-white" />
-      </button>
-
-      {/* Challenge Button - 135° (10 o'clock position) */}
-      <button
-        onClick={() => {
-          setShowCreateChallenge(true);
-          setShowCreateMenu(false);
-        }}
-        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-yellow-500 hover:bg-yellow-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
-          showCreateMenu 
-            ? 'opacity-100 translate-x-0 translate-y-0' 
-            : 'opacity-0 scale-0 pointer-events-none'
-        }`}
-        style={{
-          transform: showCreateMenu 
-            ? `translate(${-Math.cos(3 * Math.PI / 4) * 80}px, ${-Math.sin(3 * Math.PI / 4) * 80}px)` // 135° (10 o'clock position)
-            : 'translate(0, 0) scale(0)',
-          transitionDelay: showCreateMenu ? '200ms' : '0ms'
-        }}
-        title="Create Challenge"
-      >
-        <Trophy className="w-5 h-5 text-white" />
       </button>
 
 
