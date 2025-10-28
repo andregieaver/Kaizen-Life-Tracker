@@ -54,6 +54,8 @@ const Dashboard = ({ athleteId }) => {
   const [testResults, setTestResults] = useState([]);
   const [communityUnreadCount, setCommunityUnreadCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [notificationsUnreadCount, setNotificationsUnreadCount] = useState(0);
   
   // SEO settings state
   const [siteTitle, setSiteTitle] = useState('TrainSmart');
