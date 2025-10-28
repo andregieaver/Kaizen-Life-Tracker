@@ -3139,7 +3139,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       )}
 
       {/* Fan Menu - Individual FABs with Bigger Radius */}
-      {/* Post Button - Most horizontal */}
+      {/* Post Button - 30° (1 o'clock position) */}
       <button
         onClick={() => {
           setShowWritePostModal(true);
@@ -3148,12 +3148,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-[#00C2A8] hover:bg-[#00a890] rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
           showCreateMenu 
             ? 'opacity-100 translate-x-0 translate-y-0' 
-            : 'opacity-0 translate-x-8 translate-y-8 pointer-events-none'
+            : 'opacity-0 scale-0 pointer-events-none'
         }`}
         style={{
           transform: showCreateMenu 
-            ? `translate(-110px, ${scrollDirection === 'down' ? '103px' : '-25px'})` 
-            : 'translate(0, 0)',
+            ? `translate(${-Math.cos(Math.PI / 6) * 80}px, ${-Math.sin(Math.PI / 6) * 80}px)` // 30° (1 o'clock)
+            : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '50ms' : '0ms'
         }}
         title="Create Post"
@@ -3161,7 +3161,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         <Edit3 className="w-5 h-5 text-white" />
       </button>
 
-      {/* Event Button - Circular fan pattern at 45° */}
+      {/* Event Button - 45° (10:30 position) */}
       <button
         onClick={() => {
           setShowCreateEvent(true);
@@ -3174,7 +3174,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }`}
         style={{
           transform: showCreateMenu 
-            ? `translate(${-Math.cos(Math.PI / 4) * 80}px, ${-Math.sin(Math.PI / 4) * 80}px)` 
+            ? `translate(${-Math.cos(Math.PI / 4) * 80}px, ${-Math.sin(Math.PI / 4) * 80}px)` // 45° (10:30 position)
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '100ms' : '0ms'
         }}
@@ -3183,7 +3183,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         <Calendar className="w-5 h-5 text-white" />
       </button>
 
-      {/* Group Button - Circular fan pattern at 135° */}
+      {/* Group Button - 90° (12 o'clock - straight up) */}
       <button
         onClick={() => {
           setShowCreateGroup(true);
@@ -3196,7 +3196,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }`}
         style={{
           transform: showCreateMenu 
-            ? `translate(${-Math.cos(3 * Math.PI / 4) * 80}px, ${-Math.sin(3 * Math.PI / 4) * 80}px)` 
+            ? `translate(0px, ${-80}px)` // 90° (12 o'clock - straight up)
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '150ms' : '0ms'
         }}
@@ -3205,7 +3205,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         <UsersIcon className="w-5 h-5 text-white" />
       </button>
 
-      {/* Challenge Button - Circular fan pattern at 90° (straight up) */}
+      {/* Challenge Button - 135° (10 o'clock position) */}
       <button
         onClick={() => {
           setShowCreateChallenge(true);
@@ -3218,7 +3218,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }`}
         style={{
           transform: showCreateMenu 
-            ? `translate(0px, ${-80}px)` 
+            ? `translate(${-Math.cos(3 * Math.PI / 4) * 80}px, ${-Math.sin(3 * Math.PI / 4) * 80}px)` // 135° (10 o'clock position)
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '200ms' : '0ms'
         }}
