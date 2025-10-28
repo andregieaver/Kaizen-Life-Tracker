@@ -226,12 +226,12 @@ const Schedules = ({ athleteId }) => {
 
       {/* Schedule Form */}
       {showScheduleForm && (
-        <Card className="border-0 shadow-lg">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
           <CardHeader>
-            <CardTitle className="text-lg">
+            <CardTitle className="text-lg text-white">
               {editingSchedule ? 'Edit Schedule' : 'Create New Schedule'}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-300">
               {editingSchedule 
                 ? 'Update your automated AI analysis schedule'
                 : 'Set up automated AI analysis of your training and recovery data'
