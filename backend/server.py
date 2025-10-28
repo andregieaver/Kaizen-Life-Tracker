@@ -12463,7 +12463,12 @@ async def get_subscriber_stats(
         # Get all referrals
         referrals_query = {}
         if days:
-            referrals_query["created_at"] = {"$gte": current_period_start.isoformat()}
+            # Convert current_period_start to datetime for comparison
+            if isinstance(current_period_start, str):
+                date_threshold = datetime.fromisoformat(current_period_start.replace('Z', '+00:00'))
+            else:
+                date_threshold = current_period_start
+            referrals_query["created_at"] = {"$gte": date_threshold}
         
         referrals = await db.referrals.find(referrals_query).to_list(length=None)
         total_referrals = len(referrals)
