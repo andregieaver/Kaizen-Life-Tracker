@@ -374,7 +374,7 @@ const Schedules = ({ athleteId }) => {
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="btn-transition"
+                      className="btn-transition bg-gray-600 text-white border-gray-500 hover:bg-gray-500"
                       onClick={() => handleEditSchedule(schedule)}
                       data-testid={`edit-schedule-btn-${index}`}
                     >
@@ -383,7 +383,7 @@ const Schedules = ({ athleteId }) => {
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="text-red-600 hover:bg-red-50"
+                      className="text-red-400 hover:bg-red-900/30 bg-gray-600 border-gray-500"
                       onClick={() => handleDeleteSchedule(schedule.id)}
                       data-testid={`delete-schedule-btn-${index}`}
                     >
