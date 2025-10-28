@@ -164,7 +164,8 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
                         : 'w-full h-full object-cover'
                   } rounded-none sm:rounded-lg`}
                   style={{ 
-                    cursor: inFullscreen ? 'default' : 'pointer'
+                    cursor: inFullscreen ? 'default' : 'pointer',
+                    imageOrientation: 'from-image'
                   }}
                   onClick={() => !inFullscreen && setIsFullscreen(true)}
                   onError={(e) => {
