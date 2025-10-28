@@ -2085,3 +2085,29 @@ backend:
       - working: "NA"
         agent: "main"
         comment: "Fixed voice journal transcription to use global OpenAI key from system settings. ISSUE: Voice journal transcription was failing with 400 error 'OpenAI API key required for voice transcription' even when key was configured in System Settings → Advanced tab. ROOT CAUSE: The /api/journal/transcribe/{athlete_id} endpoint was using ai_coach.get_user_openai_key(athlete_id) which looks for athlete-specific keys, instead of using the global OpenAI key from system_settings collection. FIX IMPLEMENTED: Updated transcribe_audio endpoint (line 4488) to fetch OpenAI key from system_settings collection (same pattern as recipe generation endpoint): 1) Query db.system_settings.find_one with setting_type='global', 2) Extract key from system_settings['advanced']['openaiApiKey'], 3) Updated error messages to reference 'System Settings → Advanced tab (Super Admin only)' instead of 'Account Settings'. RESULT: Voice transcription now uses the global OpenAI key configured by super admin in System Settings Advanced tab. Backend restarted successfully. TESTING NEEDED: 1) Verify OpenAI key is configured in System Settings → Advanced, 2) Navigate to Journal page, 3) Click voice recording button, 4) Record audio for a few seconds, 5) Stop recording and verify transcription works, 6) Check transcribed text appears in journal entry."
+
+backend:
+  - task: "Video Journal with Transcription and Subtitles"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Complete video journal implementation with transcription and subtitle burning. FEATURES: 1) Video transcription endpoint POST /api/journal/transcribe-video/{athlete_id} - extracts audio from video using FFmpeg, transcribes with OpenAI Whisper (verbose_json with segments), generates SRT subtitles with timestamps. 2) Video processing endpoint POST /api/journal/process-video/{athlete_id} - accepts video file, transcription, SRT content, burn_subtitles flag. If burn_subtitles=true: uses FFmpeg to burn white text (80% black background) subtitles into video with compression (H.264, CRF 28). If false: saves compressed video + separate SRT file. 3) Updated JournalEntry model with video_path, subtitle_path, has_burned_subtitles fields. 4) FFmpeg installed and verified (version 5.1.7). 5) Static file mount for /api/uploaded_videos directory. 6) Video storage: /app/backend/uploaded_videos/journal/. 7) Auto video compression with CRF 28 for optimal quality/size balance. 8) Uses global OpenAI key from system_settings. 9) 50MB video size limit. Backend restarted successfully. TESTING NEEDED: 1) Record video from frontend, 2) Verify transcription works, 3) Test with burn_subtitles=true, 4) Test with burn_subtitles=false, 5) Verify video playback with subtitles."
+
+frontend:
+  - task: "Video Journal Recording UI"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Journal.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Video journal recording frontend complete. FEATURES: 1) Added 'Video' tab to entry type selector (Text/Voice/Video). 2) Video recording with camera access - shows live preview during recording, recording timer, stop button. 3) Video preview after recording with auto-transcription. 4) Editable transcription text area. 5) Checkbox: 'Burn subtitles into video' with description. 6) Record Again button to restart. 7) Video preview shows subtitles (if not burned in). 8) Loading states: Transcribing spinner, Processing spinner. 9) Video entries list display with video player and subtitle track support. 10) 50MB file size validation. 11) Auto-compression happens on backend. 12) State management for videoBlob, videoPreviewUrl, videoTranscription, videoSrtContent, burnSubtitles, isTranscribing, isProcessingVideo. 13) Cleanup functions for video streams and state. 14) SRT to VTT conversion for HTML5 video player. Icons: Video, VideoOff, Play, Check added. Frontend restarted successfully. TESTING NEEDED: 1) Click Video tab, 2) Record 10-20 second video, 3) Wait for auto-transcription, 4) Preview video with subtitles, 5) Test with burn_subtitles checked, 6) Test with burn_subtitles unchecked, 7) Verify saved video appears in journal list, 8) Test playback of saved video."
