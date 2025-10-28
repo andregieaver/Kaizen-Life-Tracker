@@ -3152,7 +3152,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }`}
         style={{
           transform: showCreateMenu 
-            ? `translate(${-80}px, 0px)` // 180° (9 o'clock - straight left)
+            ? `translate(${-110}px, 0px)` // 180° (9 o'clock - straight left)
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '50ms' : '0ms'
         }}
@@ -3174,7 +3174,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }`}
         style={{
           transform: showCreateMenu 
-            ? `translate(${Math.cos(5 * Math.PI / 6) * 80}px, ${-Math.sin(5 * Math.PI / 6) * 80}px)` // 150° (10 o'clock)
+            ? `translate(${Math.cos(5 * Math.PI / 6) * 110}px, ${-Math.sin(5 * Math.PI / 6) * 110}px)` // 150° (10 o'clock)
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '100ms' : '0ms'
         }}
@@ -3196,7 +3196,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }`}
         style={{
           transform: showCreateMenu 
-            ? `translate(${Math.cos(2 * Math.PI / 3) * 80}px, ${-Math.sin(2 * Math.PI / 3) * 80}px)` // 120° (11 o'clock)
+            ? `translate(${Math.cos(2 * Math.PI / 3) * 110}px, ${-Math.sin(2 * Math.PI / 3) * 110}px)` // 120° (11 o'clock)
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '150ms' : '0ms'
         }}
@@ -3218,7 +3218,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }`}
         style={{
           transform: showCreateMenu 
-            ? `translate(0px, ${-80}px)` // 90° (12 o'clock - straight up)
+            ? `translate(0px, ${-110}px)` // 90° (12 o'clock - straight up)
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '200ms' : '0ms'
         }}
