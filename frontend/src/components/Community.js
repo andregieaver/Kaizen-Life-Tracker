@@ -189,6 +189,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     challenge_type: 'distance',
     goal_value: '',
     goal_unit: 'km',
+    time_period: 'total', // 'total', 'daily', 'weekly', 'monthly'
     start_date: '',
     end_date: '',
     visibility: 'public',
