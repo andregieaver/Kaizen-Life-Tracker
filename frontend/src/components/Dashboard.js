@@ -1505,6 +1505,119 @@ const Dashboard = ({ athleteId }) => {
           </div>
         </>
       )}
+
+      {/* Floating Action Buttons - Show only on overview and today pages, hide on community */}
+      {(activeTab === 'overview' || activeTab === 'today') && (
+        <>
+          {/* Main FAB Button - Bottom Right */}
+          <button
+            onClick={() => setShowCreateMenu(!showCreateMenu)}
+            className={`fixed bottom-20 right-4 z-50 w-14 h-14 bg-gradient-to-br from-[#00C2A8] to-[#00a890] hover:from-[#00a890] hover:to-[#00C2A8] rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+              showCreateMenu ? 'rotate-45 scale-110' : 'rotate-0'
+            } ${scrollDirection === 'down' ? 'translate-y-32' : 'translate-y-0'}`}
+            aria-label="Quick Actions"
+          >
+            <PlusCircle className="w-7 h-7 text-white" />
+          </button>
+
+          {/* Backdrop when menu is open */}
+          {showCreateMenu && (
+            <div 
+              className="fixed inset-0 bg-black/30 z-30"
+              onClick={() => setShowCreateMenu(false)}
+            />
+          )}
+
+          {/* Fan Menu - Individual FABs */}
+          {/* Add Journal Entry - 180° (9 o'clock - straight left) */}
+          <button
+            onClick={() => {
+              navigate('/dashboard/journal?action=voice');
+              setShowCreateMenu(false);
+            }}
+            className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-blue-500 hover:bg-blue-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+              showCreateMenu 
+                ? 'opacity-100 translate-x-0 translate-y-0' 
+                : 'opacity-0 scale-0 pointer-events-none'
+            }`}
+            style={{
+              transform: showCreateMenu 
+                ? `translate(${-110}px, 0px)` // 180° (9 o'clock - straight left)
+                : 'translate(0, 0) scale(0)',
+              transitionDelay: showCreateMenu ? '50ms' : '0ms'
+            }}
+            title="Add Journal Entry"
+          >
+            <BookOpen className="w-5 h-5 text-white" />
+          </button>
+
+          {/* Log Drink - 150° (10 o'clock position) */}
+          <button
+            onClick={() => {
+              navigate('/dashboard/drinks');
+              setShowCreateMenu(false);
+            }}
+            className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-cyan-500 hover:bg-cyan-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+              showCreateMenu 
+                ? 'opacity-100 translate-x-0 translate-y-0' 
+                : 'opacity-0 scale-0 pointer-events-none'
+            }`}
+            style={{
+              transform: showCreateMenu 
+                ? `translate(${Math.cos(5 * Math.PI / 6) * 110}px, ${-Math.sin(5 * Math.PI / 6) * 110}px)` // 150° (10 o'clock)
+                : 'translate(0, 0) scale(0)',
+              transitionDelay: showCreateMenu ? '100ms' : '0ms'
+            }}
+            title="Log Drink"
+          >
+            <GlassWater className="w-5 h-5 text-white" />
+          </button>
+
+          {/* Log Supplement - 120° (11 o'clock position) */}
+          <button
+            onClick={() => {
+              navigate('/dashboard/supplements', { state: { openAddModal: true } });
+              setShowCreateMenu(false);
+            }}
+            className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-purple-500 hover:bg-purple-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+              showCreateMenu 
+                ? 'opacity-100 translate-x-0 translate-y-0' 
+                : 'opacity-0 scale-0 pointer-events-none'
+            }`}
+            style={{
+              transform: showCreateMenu 
+                ? `translate(${Math.cos(2 * Math.PI / 3) * 110}px, ${-Math.sin(2 * Math.PI / 3) * 110}px)` // 120° (11 o'clock)
+                : 'translate(0, 0) scale(0)',
+              transitionDelay: showCreateMenu ? '150ms' : '0ms'
+            }}
+            title="Log Supplement"
+          >
+            <Pill className="w-5 h-5 text-white" />
+          </button>
+
+          {/* Log Meal - 90° (12 o'clock - straight up) */}
+          <button
+            onClick={() => {
+              navigate('/dashboard/nutrition?action=add');
+              setShowCreateMenu(false);
+            }}
+            className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-[#00C2A8] hover:bg-[#00a890] rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+              showCreateMenu 
+                ? 'opacity-100 translate-x-0 translate-y-0' 
+                : 'opacity-0 scale-0 pointer-events-none'
+            }`}
+            style={{
+              transform: showCreateMenu 
+                ? `translate(0px, ${-110}px)` // 90° (12 o'clock - straight up)
+                : 'translate(0, 0) scale(0)',
+              transitionDelay: showCreateMenu ? '200ms' : '0ms'
+            }}
+            title="Log Meal"
+          >
+            <Utensils className="w-5 h-5 text-white" />
+          </button>
+        </>
+      )}
     </div>
   );
 };
