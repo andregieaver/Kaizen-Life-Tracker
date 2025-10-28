@@ -217,33 +217,56 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
                           : 'w-full h-full object-cover'
                     } rounded-none sm:rounded-lg`}
                     controls={mediaItems.length > 1 || inFullscreen}
+                    autoPlay={mediaItems.length === 1 && !inFullscreen}
                     playsInline
                     preload="metadata"
                     loop={mediaItems.length === 1}
                     muted={mediaItems.length === 1}
+                    onPlay={() => mediaItems.length === 1 && setVideoPlaying(true)}
+                    onPause={() => mediaItems.length === 1 && setVideoPlaying(false)}
                     onClick={(e) => {
                       if (mediaItems.length === 1 && !inFullscreen) {
                         e.preventDefault();
+                        togglePlay();
                       }
                     }}
                   />
                   
-                  {/* Unmute Button - Only show for single video in feed view */}
+                  {/* Custom Controls - Only show for single video in feed view */}
                   {mediaItems.length === 1 && !inFullscreen && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleMute();
-                      }}
-                      className="absolute bottom-4 right-4 bg-black/70 hover:bg-black/90 text-white p-3 rounded-full transition-all z-10"
-                      aria-label={videoMuted ? "Unmute video" : "Mute video"}
-                    >
-                      {videoMuted ? (
-                        <VolumeX className="w-5 h-5" />
-                      ) : (
-                        <Volume2 className="w-5 h-5" />
-                      )}
-                    </button>
+                    <div className="absolute inset-0 pointer-events-none">
+                      {/* Play/Pause Button - Center */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          togglePlay();
+                        }}
+                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white p-4 rounded-full transition-all pointer-events-auto"
+                        aria-label={videoPlaying ? "Pause video" : "Play video"}
+                      >
+                        {videoPlaying ? (
+                          <Pause className="w-8 h-8" />
+                        ) : (
+                          <Play className="w-8 h-8" />
+                        )}
+                      </button>
+
+                      {/* Mute/Unmute Button - Bottom Right */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleMute();
+                        }}
+                        className="absolute bottom-4 right-4 bg-black/60 hover:bg-black/80 text-white p-3 rounded-full transition-all pointer-events-auto"
+                        aria-label={videoMuted ? "Unmute video" : "Mute video"}
+                      >
+                        {videoMuted ? (
+                          <VolumeX className="w-5 h-5" />
+                        ) : (
+                          <Volume2 className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
                   )}
                 </div>
               ) : (
