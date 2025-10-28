@@ -142,6 +142,182 @@ const Journal = ({ athleteId }) => {
     }
   };
 
+  // Video recording functions
+  const startVideoRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { width: 1280, height: 720 },
+        audio: true
+      });
+      
+      setVideoStream(stream);
+      
+      // Show live preview
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+      
+      // Start recording
+      videoChunksRef.current = [];
+      const mediaRecorder = new MediaRecorder(stream, {
+        mimeType: 'video/webm;codecs=vp8,opus'
+      });
+      
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          videoChunksRef.current.push(event.data);
+        }
+      };
+      
+      mediaRecorder.onstop = async () => {
+        const videoBlob = new Blob(videoChunksRef.current, { type: 'video/webm' });
+        
+        // Check file size (50MB limit)
+        if (videoBlob.size > 50 * 1024 * 1024) {
+          setSaveStatus({ type: 'error', message: 'Video is too large. Maximum size is 50MB.' });
+          stopVideoStream();
+          return;
+        }
+        
+        setVideoBlob(videoBlob);
+        const previewUrl = URL.createObjectURL(videoBlob);
+        setVideoPreviewUrl(previewUrl);
+        
+        // Stop camera stream
+        stopVideoStream();
+        
+        // Auto-transcribe the video
+        await transcribeVideo(videoBlob);
+      };
+      
+      mediaRecorderRef.current = mediaRecorder;
+      
+      // Start timer
+      setRecordingTime(0);
+      timerRef.current = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+      }, 1000);
+      
+      mediaRecorder.start();
+      setIsRecording(true);
+      setSaveStatus({ type: '', message: 'Recording video...' });
+      
+    } catch (error) {
+      console.error('Error starting video recording:', error);
+      setSaveStatus({ type: 'error', message: 'Failed to access camera. Please grant camera permissions.' });
+    }
+  };
+  
+  const stopVideoRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+      clearInterval(timerRef.current);
+    }
+  };
+  
+  const stopVideoStream = () => {
+    if (videoStream) {
+      videoStream.getTracks().forEach(track => track.stop());
+      setVideoStream(null);
+    }
+  };
+  
+  const transcribeVideo = async (blob) => {
+    try {
+      setIsTranscribing(true);
+      setSaveStatus({ type: '', message: 'Transcribing video... This may take a minute.' });
+      
+      const formData = new FormData();
+      formData.append('video', blob, 'video.webm');
+      
+      const response = await axios.post(
+        `${API}/journal/transcribe-video/${athleteId}`,
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+          timeout: 120000 // 2 minute timeout
+        }
+      );
+      
+      setVideoTranscription(response.data.transcription);
+      setVideoSrtContent(response.data.srt);
+      setTextContent(response.data.transcription);
+      setSaveStatus({ type: 'success', message: 'Video transcribed successfully!' });
+      
+    } catch (error) {
+      console.error('Error transcribing video:', error);
+      setSaveStatus({ 
+        type: 'error', 
+        message: error.response?.data?.detail || 'Failed to transcribe video. You can still save the video without transcription.' 
+      });
+    } finally {
+      setIsTranscribing(false);
+    }
+  };
+  
+  const handleSaveVideoEntry = async () => {
+    if (!videoBlob) {
+      setSaveStatus({ type: 'error', message: 'No video recorded' });
+      return;
+    }
+    
+    if (!videoTranscription.trim()) {
+      setSaveStatus({ type: 'error', message: 'Please wait for transcription to complete' });
+      return;
+    }
+    
+    try {
+      setIsProcessingVideo(true);
+      setSaveStatus({ type: '', message: 'Processing video... This may take a moment.' });
+      
+      const formData = new FormData();
+      formData.append('video', videoBlob, 'video.webm');
+      formData.append('transcription', videoTranscription);
+      formData.append('srt_content', videoSrtContent);
+      formData.append('burn_subtitles', burnSubtitles);
+      
+      const response = await axios.post(
+        `${API}/journal/process-video/${athleteId}`,
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+          timeout: 180000 // 3 minute timeout
+        }
+      );
+      
+      setSaveStatus({ type: 'success', message: 'Video journal entry saved!' });
+      
+      // Clean up and reset
+      setShowModal(false);
+      resetVideoState();
+      await loadJournalEntries();
+      
+    } catch (error) {
+      console.error('Error saving video entry:', error);
+      setSaveStatus({ 
+        type: 'error', 
+        message: error.response?.data?.detail || 'Failed to save video entry' 
+      });
+    } finally {
+      setIsProcessingVideo(false);
+    }
+  };
+  
+  const resetVideoState = () => {
+    setVideoBlob(null);
+    if (videoPreviewUrl) {
+      URL.revokeObjectURL(videoPreviewUrl);
+    }
+    setVideoPreviewUrl(null);
+    setVideoTranscription('');
+    setVideoSrtContent('');
+    setBurnSubtitles(false);
+    setTextContent('');
+    setEntryType('text');
+    stopVideoStream();
+  };
+
   const handleSaveEntry = async () => {
     if (!textContent.trim()) {
       setSaveStatus({ type: 'error', message: 'Please enter some content' });
