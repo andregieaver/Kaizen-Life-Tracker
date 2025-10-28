@@ -284,6 +284,22 @@ const OnboardingForm = ({ onAthleteCreated }) => {
               </div>
 
               <div className="space-y-2">
+                <Label htmlFor="nationality" className="text-sm font-medium text-gray-200">
+                  Nationality
+                </Label>
+                <Input
+                  id="nationality"
+                  name="nationality"
+                  value={formData.nationality}
+                  onChange={handleChange}
+                  className="bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-teal-500 focus:ring-teal-500"
+                  placeholder="Enter your nationality"
+                  data-testid="nationality-input"
+                  disabled={isLoading}
+                />
+              </div>
+
+              <div className="space-y-2">
                 <Label htmlFor="password" className="text-sm font-medium text-gray-200">
                   {t('auth.password')}
                 </Label>
