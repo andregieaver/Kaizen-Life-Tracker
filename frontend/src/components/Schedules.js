@@ -359,13 +359,13 @@ const Schedules = ({ athleteId }) => {
                         {schedule.name}
                         <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${
                           schedule.active 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-gray-100 text-gray-600'
+                            ? 'bg-green-900/30 text-green-300 border border-green-700' 
+                            : 'bg-gray-900/30 text-gray-400 border border-gray-600'
                         }`}>
                           {schedule.active ? 'Active' : 'Inactive'}
                         </span>
                       </h3>
-                      <p className="text-sm text-gray-500 capitalize">
+                      <p className="text-sm text-gray-400 capitalize">
                         {schedule.frequency} at {schedule.time}
                       </p>
                     </div>
