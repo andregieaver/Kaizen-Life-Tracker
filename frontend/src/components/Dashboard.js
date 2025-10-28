@@ -128,10 +128,49 @@ const Dashboard = ({ athleteId }) => {
     try {
       const response = await axios.get(`${API}/community/notifications/${athleteId}/unread-count`);
       setCommunityUnreadCount(response.data.unread_count);
+      setNotificationsUnreadCount(response.data.unread_count); // Also set notifications unread count
     } catch (error) {
       console.error('Error loading community unread count:', error);
     }
   };
+
+  const loadNotifications = async () => {
+    try {
+      const response = await axios.get(`${API}/community/notifications/${athleteId}`);
+      setNotifications(response.data);
+      // Update unread count
+      const unreadCount = response.data.filter(n => !n.read).length;
+      setNotificationsUnreadCount(unreadCount);
+    } catch (error) {
+      console.error('Error loading notifications:', error);
+    }
+  };
+
+  const handleNotificationClick = async (notification) => {
+    try {
+      // Mark as read
+      if (!notification.read) {
+        await axios.put(`${API}/community/notifications/${notification.id}/read`);
+        // Reload notifications
+        await loadNotifications();
+      }
+      
+      // Navigate based on notification type
+      if (notification.post_id) {
+        setShowNotifications(false);
+        navigate('/dashboard/community');
+      }
+    } catch (error) {
+      console.error('Error handling notification click:', error);
+    }
+  };
+
+  // Load notifications when panel opens
+  useEffect(() => {
+    if (showNotifications) {
+      loadNotifications();
+    }
+  }, [showNotifications]);
 
   // No longer needed - removed forced reload timer
 
