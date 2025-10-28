@@ -713,16 +713,35 @@ const Journal = ({ athleteId }) => {
                     setTextContent('');
                     setEntryType('text');
                     stopRecording();
+                    stopVideoRecording();
+                    resetVideoState();
                   }}
+                  disabled={isProcessingVideo}
                 >
                   Cancel
                 </Button>
                 <Button
                   className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
-                  onClick={handleSaveEntry}
-                  disabled={!textContent.trim()}
+                  onClick={entryType === 'video' ? handleSaveVideoEntry : handleSaveEntry}
+                  disabled={
+                    entryType === 'video' 
+                      ? (!videoBlob || !videoTranscription || isTranscribing || isProcessingVideo)
+                      : !textContent.trim()
+                  }
                 >
-                  Save Entry
+                  {isProcessingVideo ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Processing...
+                    </>
+                  ) : isTranscribing ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Transcribing...
+                    </>
+                  ) : (
+                    'Save Entry'
+                  )}
                 </Button>
               </div>
             </CardContent>
