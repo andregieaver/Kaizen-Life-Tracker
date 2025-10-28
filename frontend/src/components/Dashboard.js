@@ -1473,7 +1473,7 @@ const Dashboard = ({ athleteId }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              {notifications.length === 0 ? (
+              {!notifications || notifications.length === 0 ? (
                 <div className="p-8 text-gray-400 text-center">
                   <Bell className="w-12 h-12 text-gray-600 mx-auto mb-2" />
                   <p>No notifications</p>
