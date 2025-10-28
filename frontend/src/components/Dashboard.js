@@ -137,12 +137,15 @@ const Dashboard = ({ athleteId }) => {
   const loadNotifications = async () => {
     try {
       const response = await axios.get(`${API}/community/notifications/${athleteId}`);
-      setNotifications(response.data);
+      // Ensure we always have an array
+      const notificationsList = Array.isArray(response.data) ? response.data : [];
+      setNotifications(notificationsList);
       // Update unread count
-      const unreadCount = response.data.filter(n => !n.read).length;
+      const unreadCount = notificationsList.filter(n => !n.read).length;
       setNotificationsUnreadCount(unreadCount);
     } catch (error) {
       console.error('Error loading notifications:', error);
+      setNotifications([]); // Set to empty array on error
     }
   };
 
