@@ -1987,7 +1987,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
       onTouchEnd={onTouchEnd}
     >
       {/* Header with Tabs and Notifications */}
-      <div className={`fixed top-14 left-0 right-0 z-30 md:relative md:top-auto space-y-0 sm:space-y-3 mb-0 sm:mb-6 transition-all duration-300 ease-in-out ${
+      <div className={`fixed top-16 left-0 right-0 z-30 md:relative md:top-auto space-y-0 sm:space-y-3 mb-0 sm:mb-6 transition-all duration-300 ease-in-out ${
         scrollDirection === 'down' ? '-translate-y-[calc(100%+4rem)]' : 'translate-y-0'
       } md:translate-y-0`}>
         {/* Main Navigation Tabs - Full width with no gaps on mobile */}
