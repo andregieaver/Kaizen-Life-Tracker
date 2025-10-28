@@ -44,6 +44,7 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
   const [isPlaying, setIsPlaying] = useState({});
   const [isMuted, setIsMuted] = useState({});
   const [videoMuted, setVideoMuted] = useState(true); // For single video auto-play
+  const [videoPlaying, setVideoPlaying] = useState(false); // Track playing state
   
   const videoRef = useRef(null);
   const observerRef = useRef(null);
