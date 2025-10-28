@@ -1242,7 +1242,8 @@ const Dashboard = ({ athleteId }) => {
 
         {activeTab === 'community' && (
           <Community 
-            athleteId={athleteId} 
+            athleteId={athleteId}
+            athlete={athlete}
             showNotifications={showNotifications}
             setShowNotifications={setShowNotifications}
             setCommunityUnreadCount={setCommunityUnreadCount}
