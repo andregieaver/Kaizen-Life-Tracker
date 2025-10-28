@@ -177,7 +177,7 @@ const Schedules = ({ athleteId }) => {
   };
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto space-y-6 p-4 sm:p-6 lg:p-8">
+    <div className="w-full max-w-[1600px] mx-auto space-y-6 p-4 sm:p-6 lg:p-8 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       {/* Header */}
       <div>
         <h1 className="text-2xl md:text-3xl font-display font-bold text-white">
