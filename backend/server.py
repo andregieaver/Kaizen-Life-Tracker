@@ -4539,6 +4539,218 @@ async def transcribe_audio(athlete_id: str, audio: UploadFile = File(...)):
         logging.error(f"Error transcribing audio: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to transcribe audio: {str(e)}")
 
+@api_router.post("/journal/transcribe-video/{athlete_id}")
+async def transcribe_video(athlete_id: str, video: UploadFile = File(...)):
+    """Transcribe video to text with timestamps using OpenAI Whisper"""
+    import openai
+    import subprocess
+    import tempfile
+    
+    try:
+        # Get OpenAI API key from system_settings
+        system_settings = await db.system_settings.find_one(
+            {"setting_type": "global"},
+            {"_id": 0}
+        )
+        
+        if not system_settings or not system_settings.get('advanced', {}).get('openaiApiKey'):
+            raise HTTPException(
+                status_code=400, 
+                detail="OpenAI API key not found. Please add your OpenAI API key in System Settings → Advanced tab (Super Admin only), then try again."
+            )
+        
+        openai_key = system_settings['advanced']['openaiApiKey']
+        
+        # Read video file
+        video_content = await video.read()
+        
+        # Create temporary files for video and audio
+        with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as video_temp:
+            video_temp.write(video_content)
+            video_temp_path = video_temp.name
+        
+        with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as audio_temp:
+            audio_temp_path = audio_temp.name
+        
+        try:
+            # Extract audio from video using FFmpeg
+            subprocess.run([
+                'ffmpeg', '-i', video_temp_path,
+                '-vn',  # No video
+                '-acodec', 'pcm_s16le',  # PCM audio codec
+                '-ar', '16000',  # 16kHz sample rate
+                '-ac', '1',  # Mono
+                audio_temp_path,
+                '-y'  # Overwrite output file
+            ], check=True, capture_output=True)
+            
+            # Create OpenAI client
+            client = openai.OpenAI(api_key=openai_key)
+            
+            # Transcribe audio with timestamps using Whisper
+            with open(audio_temp_path, 'rb') as audio_file:
+                transcription = client.audio.transcriptions.create(
+                    model="whisper-1",
+                    file=audio_file,
+                    response_format="verbose_json",
+                    timestamp_granularities=["segment"]
+                )
+            
+            # Generate SRT subtitle format
+            srt_content = ""
+            for i, segment in enumerate(transcription.segments, 1):
+                start_time = format_timestamp(segment['start'])
+                end_time = format_timestamp(segment['end'])
+                text = segment['text'].strip()
+                srt_content += f"{i}\n{start_time} --> {end_time}\n{text}\n\n"
+            
+            return {
+                "transcription": transcription.text,
+                "srt": srt_content,
+                "segments": transcription.segments
+            }
+            
+        finally:
+            # Clean up temporary files
+            import os
+            if os.path.exists(video_temp_path):
+                os.unlink(video_temp_path)
+            if os.path.exists(audio_temp_path):
+                os.unlink(audio_temp_path)
+        
+    except openai.OpenAIError as e:
+        error_message = str(e)
+        if "invalid_api_key" in error_message.lower() or "incorrect api key" in error_message.lower():
+            raise HTTPException(
+                status_code=400, 
+                detail="Invalid OpenAI API key. Please update your API key in System Settings → Advanced tab."
+            )
+        raise HTTPException(status_code=500, detail=f"Transcription failed: {error_message}")
+    except Exception as e:
+        logging.error(f"Error transcribing video: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to transcribe video: {str(e)}")
+
+def format_timestamp(seconds):
+    """Convert seconds to SRT timestamp format (HH:MM:SS,mmm)"""
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    secs = int(seconds % 60)
+    millis = int((seconds % 1) * 1000)
+    return f"{hours:02d}:{minutes:02d}:{secs:02d},{millis:03d}"
+
+@api_router.post("/journal/process-video/{athlete_id}")
+async def process_video_journal(
+    athlete_id: str,
+    video: UploadFile = File(...),
+    transcription: str = Form(...),
+    srt_content: str = Form(...),
+    burn_subtitles: bool = Form(False)
+):
+    """Process video journal entry with optional subtitle burning"""
+    import subprocess
+    import tempfile
+    
+    try:
+        # Create unique filename
+        video_id = str(uuid.uuid4())
+        video_filename = f"{athlete_id}_{video_id}.mp4"
+        subtitle_filename = f"{athlete_id}_{video_id}.srt"
+        
+        video_dir = "/app/backend/uploaded_videos/journal"
+        video_path = os.path.join(video_dir, video_filename)
+        subtitle_path = os.path.join(video_dir, subtitle_filename)
+        
+        # Read uploaded video
+        video_content = await video.read()
+        
+        if burn_subtitles:
+            # Create temporary files
+            with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as input_temp:
+                input_temp.write(video_content)
+                input_temp_path = input_temp.name
+            
+            with tempfile.NamedTemporaryFile(suffix='.srt', delete=False, mode='w') as srt_temp:
+                srt_temp.write(srt_content)
+                srt_temp_path = srt_temp.name
+            
+            try:
+                # Burn subtitles into video with compression
+                # White text with 80% black background
+                subprocess.run([
+                    'ffmpeg', '-i', input_temp_path,
+                    '-vf', f"subtitles={srt_temp_path}:force_style='FontSize=18,PrimaryColour=&HFFFFFF,BackColour=&H80000000,BorderStyle=3,Outline=1,Shadow=2'",
+                    '-c:v', 'libx264',  # H.264 codec
+                    '-crf', '28',  # Compression quality (23-28 is good balance)
+                    '-preset', 'medium',  # Encoding speed
+                    '-c:a', 'aac',  # AAC audio codec
+                    '-b:a', '128k',  # Audio bitrate
+                    video_path,
+                    '-y'
+                ], check=True, capture_output=True)
+                
+                final_video_path = video_path
+                final_subtitle_path = None
+                
+            finally:
+                # Clean up temp files
+                if os.path.exists(input_temp_path):
+                    os.unlink(input_temp_path)
+                if os.path.exists(srt_temp_path):
+                    os.unlink(srt_temp_path)
+        else:
+            # Save video with compression (no subtitles burned in)
+            with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as input_temp:
+                input_temp.write(video_content)
+                input_temp_path = input_temp.name
+            
+            try:
+                # Compress video
+                subprocess.run([
+                    'ffmpeg', '-i', input_temp_path,
+                    '-c:v', 'libx264',
+                    '-crf', '28',
+                    '-preset', 'medium',
+                    '-c:a', 'aac',
+                    '-b:a', '128k',
+                    video_path,
+                    '-y'
+                ], check=True, capture_output=True)
+                
+                # Save separate subtitle file
+                with open(subtitle_path, 'w') as srt_file:
+                    srt_file.write(srt_content)
+                
+                final_video_path = video_path
+                final_subtitle_path = subtitle_path
+                
+            finally:
+                if os.path.exists(input_temp_path):
+                    os.unlink(input_temp_path)
+        
+        # Create journal entry
+        entry = JournalEntry(
+            athlete_id=athlete_id,
+            content=transcription,
+            entry_type="video",
+            video_path=f"/api/uploaded_videos/journal/{video_filename}",
+            subtitle_path=f"/api/uploaded_videos/journal/{subtitle_filename}" if final_subtitle_path else None,
+            has_burned_subtitles=burn_subtitles
+        )
+        
+        # Save to database
+        entry_dict = entry.model_dump()
+        entry_dict = prepare_for_mongo(entry_dict)
+        await db.journal_entries.insert_one(entry_dict)
+        
+        return {
+            "success": True,
+            "entry": entry
+        }
+        
+    except Exception as e:
+        logging.error(f"Error processing video journal: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to process video: {str(e)}")
+
 # Nutrition routes
 @api_router.get("/nutrition/{athlete_id}")
 async def get_nutrition_entries(athlete_id: str, date: Optional[str] = None):
