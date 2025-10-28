@@ -170,6 +170,10 @@ const Account = ({ athleteId }) => {
     gender: '',
     bio: '',
     interests: [],
+    // Community Profile Privacy Settings
+    share_bio: false,
+    share_goals: false,
+    share_interests: false,
     estimated_calorie_need: '',
     weight_goal: '',
     health_goals: [],
