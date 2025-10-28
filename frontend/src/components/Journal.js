@@ -581,6 +581,128 @@ const Journal = ({ athleteId }) => {
                 </div>
               )}
 
+              {/* Video Input */}
+              {entryType === 'video' && (
+                <div className="space-y-4">
+                  {!videoBlob ? (
+                    <>
+                      {/* Recording UI */}
+                      <div className="flex flex-col items-center justify-center py-8 bg-gray-700 rounded-lg border border-gray-600">
+                        {isRecording ? (
+                          <>
+                            {/* Live Video Preview */}
+                            <video
+                              ref={videoRef}
+                              autoPlay
+                              muted
+                              className="w-full max-w-md rounded-lg mb-4"
+                            />
+                            <p className="text-lg font-semibold text-white mb-2">Recording...</p>
+                            <p className="text-3xl font-mono text-red-400 mb-4">{recordingTime}s</p>
+                            <Button
+                              onClick={stopVideoRecording}
+                              className="bg-red-600 hover:bg-red-700 text-white"
+                              variant="destructive"
+                            >
+                              <VideoOff className="w-4 h-4 mr-2" />
+                              Stop Recording
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <div className="w-20 h-20 bg-teal-600 rounded-full flex items-center justify-center mb-4">
+                              <Video className="w-10 h-10 text-white" />
+                            </div>
+                            <p className="text-gray-300 mb-4">Click to start video recording</p>
+                            <Button onClick={startVideoRecording} className="bg-teal-600 hover:bg-teal-700 text-white">
+                              <Video className="w-4 h-4 mr-2" />
+                              Start Recording
+                            </Button>
+                          </>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* Video Preview with Subtitles */}
+                      <div className="space-y-4">
+                        <div className="relative">
+                          <video
+                            ref={videoPreviewRef}
+                            src={videoPreviewUrl}
+                            controls
+                            className="w-full rounded-lg bg-black"
+                          >
+                            {!burnSubtitles && videoSrtContent && (
+                              <track
+                                kind="subtitles"
+                                src={`data:text/vtt;base64,${btoa(convertSrtToVtt(videoSrtContent))}`}
+                                srcLang="en"
+                                label="English"
+                                default
+                              />
+                            )}
+                          </video>
+                          {isTranscribing && (
+                            <div className="absolute inset-0 bg-black/70 flex items-center justify-center rounded-lg">
+                              <div className="text-center">
+                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500 mx-auto mb-4"></div>
+                                <p className="text-white font-medium">Transcribing video...</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Transcription Text */}
+                        {videoTranscription && (
+                          <div>
+                            <label className="block text-sm font-medium text-white mb-2">
+                              Transcription (Editable)
+                            </label>
+                            <textarea
+                              value={videoTranscription}
+                              onChange={(e) => setVideoTranscription(e.target.value)}
+                              className="w-full h-32 p-4 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
+                            />
+                          </div>
+                        )}
+
+                        {/* Burn Subtitles Option */}
+                        {videoTranscription && (
+                          <div className="flex items-center space-x-3 p-4 bg-gray-700 rounded-lg">
+                            <input
+                              type="checkbox"
+                              id="burnSubtitles"
+                              checked={burnSubtitles}
+                              onChange={(e) => setBurnSubtitles(e.target.checked)}
+                              className="w-5 h-5 text-teal-600 rounded focus:ring-teal-500 focus:ring-offset-gray-800"
+                            />
+                            <label htmlFor="burnSubtitles" className="text-white cursor-pointer flex-1">
+                              <span className="font-medium">Burn subtitles into video</span>
+                              <p className="text-sm text-gray-400 mt-1">
+                                Add permanent white subtitles with black background to the video file
+                              </p>
+                            </label>
+                          </div>
+                        )}
+
+                        {/* Re-record Button */}
+                        <Button
+                          onClick={() => {
+                            resetVideoState();
+                          }}
+                          variant="outline"
+                          className="w-full bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
+                        >
+                          <Video className="w-4 h-4 mr-2" />
+                          Record Again
+                        </Button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+
               {/* Action Buttons */}
               <div className="flex gap-2 pt-4">
                 <Button
