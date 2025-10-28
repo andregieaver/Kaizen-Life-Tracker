@@ -20,9 +20,22 @@ const Journal = ({ athleteId }) => {
   const [recordingTime, setRecordingTime] = useState(0);
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
   
+  // Video recording state
+  const [videoBlob, setVideoBlob] = useState(null);
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState(null);
+  const [videoTranscription, setVideoTranscription] = useState('');
+  const [videoSrtContent, setVideoSrtContent] = useState('');
+  const [burnSubtitles, setBurnSubtitles] = useState(false);
+  const [isTranscribing, setIsTranscribing] = useState(false);
+  const [isProcessingVideo, setIsProcessingVideo] = useState(false);
+  const [videoStream, setVideoStream] = useState(null);
+  
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
+  const videoChunksRef = useRef([]);
   const timerRef = useRef(null);
+  const videoRef = useRef(null);
+  const videoPreviewRef = useRef(null);
 
   useEffect(() => {
     loadJournalEntries();
