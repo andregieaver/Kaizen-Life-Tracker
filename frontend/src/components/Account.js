@@ -2008,17 +2008,6 @@ const Account = ({ athleteId }) => {
                   </div>
                 </div>
 
-                <Separator className="opacity-10" />
-
-                <div className="space-y-4">
-                  <h3 className="text-lg font-medium text-white flex items-center">
-                    <Shield className="w-5 h-5 mr-2 text-[#00C2A8]" />
-                    {t('account.security')}
-                  </h3>
-                  <ChangeEmail athleteId={athleteId} currentEmail={personalForm.email} />
-                  <ChangePassword athleteId={athleteId} />
-                </div>
-
                 <div className="flex justify-end">
                   <Button 
                     type="submit" 
@@ -2029,6 +2018,17 @@ const Account = ({ athleteId }) => {
                   </Button>
                 </div>
               </form>
+
+              {/* Security Section - Outside form to avoid nested forms */}
+              <Separator className="opacity-10 my-6" />
+              <div className="space-y-4">
+                <h3 className="text-lg font-medium text-white flex items-center">
+                  <Shield className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                  {t('account.security')}
+                </h3>
+                <ChangeEmail athleteId={athleteId} currentEmail={personalForm.email} />
+                <ChangePassword athleteId={athleteId} />
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
