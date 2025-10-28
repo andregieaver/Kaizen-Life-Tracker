@@ -3328,50 +3328,74 @@ async def get_athlete_profile(athlete_id: str):
 async def cascade_profile_picture_update(athlete_id: str, new_profile_picture: str):
     """Update profile picture across all posts, comments, and other user content"""
     try:
-        # Update posts in community feed
-        posts_result = await db.posts.update_many(
+        # Update community posts
+        posts_result = await db.community_posts.update_many(
             {"athlete_id": athlete_id},
             {"$set": {"athlete_profile_picture": new_profile_picture}}
         )
-        logging.info(f"Updated profile picture in {posts_result.modified_count} posts for athlete {athlete_id}")
+        logging.info(f"[CASCADE] Updated profile picture in {posts_result.modified_count} community posts for athlete {athlete_id}")
         
-        # Update comments on posts
-        comments_result = await db.comments.update_many(
+        # Update community comments
+        comments_result = await db.community_comments.update_many(
             {"athlete_id": athlete_id},
             {"$set": {"athlete_profile_picture": new_profile_picture}}
         )
-        logging.info(f"Updated profile picture in {comments_result.modified_count} comments for athlete {athlete_id}")
-        
-        # Update event comments
-        event_comments_result = await db.event_comments.update_many(
-            {"athlete_id": athlete_id},
-            {"$set": {"athlete_profile_picture": new_profile_picture}}
-        )
-        logging.info(f"Updated profile picture in {event_comments_result.modified_count} event comments for athlete {athlete_id}")
+        logging.info(f"[CASCADE] Updated profile picture in {comments_result.modified_count} community comments for athlete {athlete_id}")
         
         # Update group posts
-        group_posts_result = await db.group_posts.update_many(
+        group_posts_result = await db.community_group_posts.update_many(
             {"athlete_id": athlete_id},
             {"$set": {"athlete_profile_picture": new_profile_picture}}
         )
-        logging.info(f"Updated profile picture in {group_posts_result.modified_count} group posts for athlete {athlete_id}")
+        logging.info(f"[CASCADE] Updated profile picture in {group_posts_result.modified_count} group posts for athlete {athlete_id}")
         
-        # Update notifications (from_athlete_profile_picture)
-        notifications_result = await db.notifications.update_many(
-            {"from_athlete_id": athlete_id},
-            {"$set": {"from_athlete_profile_picture": new_profile_picture}}
+        # Update challenge participations
+        challenge_participations_result = await db.community_challenge_participations.update_many(
+            {"athlete_id": athlete_id},
+            {"$set": {"athlete_profile_picture": new_profile_picture}}
         )
-        logging.info(f"Updated profile picture in {notifications_result.modified_count} notifications for athlete {athlete_id}")
+        logging.info(f"[CASCADE] Updated profile picture in {challenge_participations_result.modified_count} challenge participations for athlete {athlete_id}")
+        
+        # Update challenge comments
+        challenge_comments_result = await db.community_challenge_comments.update_many(
+            {"athlete_id": athlete_id},
+            {"$set": {"athlete_profile_picture": new_profile_picture}}
+        )
+        logging.info(f"[CASCADE] Updated profile picture in {challenge_comments_result.modified_count} challenge comments for athlete {athlete_id}")
+        
+        # Update challenges where user is creator
+        challenges_result = await db.community_challenges.update_many(
+            {"creator_id": athlete_id},
+            {"$set": {"creator_profile_picture": new_profile_picture}}
+        )
+        logging.info(f"[CASCADE] Updated profile picture in {challenges_result.modified_count} challenges as creator for athlete {athlete_id}")
+        
+        # Update notifications (from_athlete_profile_picture is not in the model - skip)
+        # The CommunityNotification model doesn't have from_athlete_profile_picture field
+        # Notifications should fetch profile picture from athlete_profiles at read time
+        
+        total_updated = (
+            posts_result.modified_count + 
+            comments_result.modified_count + 
+            group_posts_result.modified_count +
+            challenge_participations_result.modified_count +
+            challenge_comments_result.modified_count +
+            challenges_result.modified_count
+        )
+        
+        logging.info(f"[CASCADE] TOTAL: Updated profile picture in {total_updated} records across all collections for athlete {athlete_id}")
         
         return {
-            "posts": posts_result.modified_count,
-            "comments": comments_result.modified_count,
-            "event_comments": event_comments_result.modified_count,
-            "group_posts": group_posts_result.modified_count,
-            "notifications": notifications_result.modified_count
+            "community_posts": posts_result.modified_count,
+            "community_comments": comments_result.modified_count,
+            "community_group_posts": group_posts_result.modified_count,
+            "community_challenge_participations": challenge_participations_result.modified_count,
+            "community_challenge_comments": challenge_comments_result.modified_count,
+            "community_challenges": challenges_result.modified_count,
+            "total": total_updated
         }
     except Exception as e:
-        logging.error(f"Error cascading profile picture update: {e}")
+        logging.error(f"[CASCADE] Error cascading profile picture update: {e}")
         return None
 
 async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
