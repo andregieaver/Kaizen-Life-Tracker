@@ -137,8 +137,8 @@ const Dashboard = ({ athleteId }) => {
   const loadNotifications = async () => {
     try {
       const response = await axios.get(`${API}/community/notifications/${athleteId}`);
-      // Ensure we always have an array
-      const notificationsList = Array.isArray(response.data) ? response.data : [];
+      // API returns { notifications: [...] } not just [...]
+      const notificationsList = Array.isArray(response.data.notifications) ? response.data.notifications : [];
       setNotifications(notificationsList);
       // Update unread count
       const unreadCount = notificationsList.filter(n => !n.read).length;
