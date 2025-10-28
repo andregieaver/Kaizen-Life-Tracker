@@ -281,45 +281,46 @@ const Schedules = ({ athleteId }) => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="schedule-time" className="text-sm font-medium">Time</Label>
+                  <Label htmlFor="schedule-time" className="text-sm font-medium text-white">Time</Label>
                   <Input
                     id="schedule-time"
                     type="time"
                     value={scheduleForm.time}
                     onChange={(e) => setScheduleForm(prev => ({ ...prev, time: e.target.value }))}
-                    className="input-focus"
+                    className="input-focus bg-gray-600 border-gray-500 text-white"
                     data-testid="schedule-time-input"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium">Status</Label>
+                  <Label className="text-sm font-medium text-white">Status</Label>
                   <div className="flex items-center pt-2">
                     <input
                       type="checkbox"
                       id="schedule-active"
                       checked={scheduleForm.active}
                       onChange={(e) => setScheduleForm(prev => ({ ...prev, active: e.target.checked }))}
-                      className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      className="w-4 h-4 text-[#00C2A8] border-gray-500 rounded focus:ring-[#00C2A8] bg-gray-600"
                     />
-                    <Label htmlFor="schedule-active" className="ml-2 text-sm text-gray-700">
+                    <Label htmlFor="schedule-active" className="ml-2 text-sm text-gray-300">
                       Active
                     </Label>
                   </div>
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-3 pt-4">
+              <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4">
                 <Button 
                   type="button"
                   variant="outline"
                   onClick={handleCancelScheduleForm}
                   data-testid="cancel-schedule-btn"
+                  className="w-full sm:w-auto bg-gray-600 text-white border-gray-500 hover:bg-gray-500"
                 >
                   Cancel
                 </Button>
                 <Button 
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700"
+                  className="w-full sm:w-auto bg-[#00C2A8] hover:bg-[#00a890] text-white"
                   data-testid="save-schedule-btn"
                 >
                   Save Schedule
