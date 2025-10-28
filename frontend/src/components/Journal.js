@@ -469,35 +469,54 @@ const Journal = ({ athleteId }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <CardDescription className="text-gray-300">Choose text or voice input</CardDescription>
+              <CardDescription className="text-gray-300">Choose text, voice, or video input</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Entry Type Toggle */}
-              <div className="flex items-center space-x-4 bg-gray-700 rounded-lg p-2">
+              <div className="flex items-center space-x-2 bg-gray-700 rounded-lg p-2">
                 <button
                   onClick={() => {
                     setEntryType('text');
                     if (isRecording) stopRecording();
+                    if (isRecording) stopVideoRecording();
+                    resetVideoState();
                   }}
-                  className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
+                  className={`flex-1 px-3 py-2 rounded-lg font-medium transition-all ${
                     entryType === 'text'
                       ? 'bg-teal-600 text-white shadow-md'
                       : 'text-gray-300 hover:text-white'
                   }`}
                 >
-                  <FileText className="w-4 h-4 inline mr-2" />
+                  <FileText className="w-4 h-4 inline mr-1" />
                   Text
                 </button>
                 <button
-                  onClick={() => setEntryType('voice')}
-                  className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
+                  onClick={() => {
+                    setEntryType('voice');
+                    resetVideoState();
+                  }}
+                  className={`flex-1 px-3 py-2 rounded-lg font-medium transition-all ${
                     entryType === 'voice'
                       ? 'bg-teal-600 text-white shadow-md'
                       : 'text-gray-300 hover:text-white'
                   }`}
                 >
-                  <Mic className="w-4 h-4 inline mr-2" />
+                  <Mic className="w-4 h-4 inline mr-1" />
                   Voice
+                </button>
+                <button
+                  onClick={() => {
+                    setEntryType('video');
+                    if (isRecording) stopRecording();
+                  }}
+                  className={`flex-1 px-3 py-2 rounded-lg font-medium transition-all ${
+                    entryType === 'video'
+                      ? 'bg-teal-600 text-white shadow-md'
+                      : 'text-gray-300 hover:text-white'
+                  }`}
+                >
+                  <Video className="w-4 h-4 inline mr-1" />
+                  Video
                 </button>
               </div>
 
