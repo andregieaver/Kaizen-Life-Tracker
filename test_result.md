@@ -2000,3 +2000,61 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: "Global OpenAI key implementation complete. Backend now checks for global OpenAI key from system_settings collection (accessed via System Settings → Advanced tab) and falls back to personal user keys for backwards compatibility. Frontend Account settings no longer shows OpenAI API key input section. CoachChat component simplified to always allow chat/voice features with backend handling key validation and error messages. Both backend and frontend compiled successfully and restarted. TESTING NEEDED: 1) Verify super admin can set global OpenAI key in System Settings → Advanced tab (already implemented in previous task). 2) Test CoachChat functionality with global key configured in system settings. 3) Test CoachChat error message when no key is configured (should direct to System Settings). 4) Verify Account settings integrations tab no longer shows OpenAI key input. 5) Test backwards compatibility - users with existing personal OpenAI keys should still be able to use CoachChat."
+
+backend:
+  - task: "Drink Logging API Endpoints"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Drink logging backend API complete. PYDANTIC MODEL: Created DrinkLog model with fields (id, athlete_id, drink_type, amount_ml, log_date, log_time, notes, created_at, updated_at). Drink types supported: water, coffee, tea, juice, sports_drink, milk, smoothie, other. API ENDPOINTS CREATED: 1) GET /api/drinks/{athlete_id} - Get drink logs with optional date filter, returns drinks array. 2) POST /api/drinks/{athlete_id} - Create new drink log with type, amount, date, time, and notes. 3) PUT /api/drinks/{athlete_id}/{drink_id} - Update drink log entry. 4) DELETE /api/drinks/{athlete_id}/{drink_id} - Delete drink log. Collection: drink_logs in MongoDB. Backend restarted successfully. TESTING NEEDED: 1) Create drink log with test user, 2) Get drinks for specific date, 3) Update drink log, 4) Delete drink log."
+
+frontend:
+  - task: "Drinks Page and Hydration Tracker"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Drinks.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Drinks/Hydration tracker frontend implementation complete. FEATURES: 1) Header with title, description, and 'Log Drink' button. 2) Date selector to filter drinks by date. 3) Summary cards showing: Total ml consumed today, Goal progress (% of 2000ml goal), Number of logs today. 4) Drinks list displaying all logs with drink type icons/colors, amount, time, notes, and delete buttons. 5) Add Drink Modal with: Drink type selector (8 types with icons/colors), Amount selector (quick buttons for 250/330/500/750/1000ml plus custom input), Date and time pickers, Notes field, Cancel/Log Drink buttons. 6) Dark theme consistent with app design. Route: /dashboard/drinks. TESTING NEEDED: 1) Navigate to /dashboard/drinks, 2) Log different drink types, 3) Verify summary calculations, 4) Filter by date, 5) Delete drink log."
+
+frontend:
+  - task: "Dashboard Floating Action Buttons"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Dashboard FAB implementation complete (matching Community FAB design). FEATURES: 1) Main FAB button (teal gradient, bottom-right, PlusCircle icon) toggles fan menu on click. 2) Fan menu with 4 action buttons positioned in quarter-circle from 9 o'clock to 12 o'clock (110px radius): Add Journal Entry (blue, 180°/9 o'clock, BookOpen icon, navigates to /dashboard/journal?action=voice), Log Drink (cyan, 150°/10 o'clock, GlassWater icon, navigates to /dashboard/drinks), Log Supplement (purple, 120°/11 o'clock, Pill icon, navigates to /dashboard/supplements with openAddModal state), Log Meal (teal, 90°/12 o'clock, Utensils icon, navigates to /dashboard/nutrition?action=add). 3) Backdrop overlay when menu open (closes on click). 4) Buttons hide when scrolling down (tied to scrollDirection state). 5) Smooth animations with staggered delays (50ms-200ms). 6) Only visible on 'overview' and 'today' tabs, hidden on community and other pages. Icons imported: GlassWater, Edit3 added to lucide imports. State: showCreateMenu added. TESTING NEEDED: 1) Navigate to dashboard overview, 2) Click FAB to open menu, 3) Verify 4 buttons fan out correctly, 4) Click each button to verify navigation, 5) Test on today tab, 6) Verify hidden on community tab."
+
+metadata:
+  created_by: "main_agent"
+  version: "2.0"
+  test_sequence: 0
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Drink Logging API Endpoints"
+    - "Drinks Page and Hydration Tracker"
+    - "Dashboard Floating Action Buttons"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "Implemented floating action buttons (FAB) for dashboard matching Community page design. Created complete drink logging feature with backend API (DrinkLog model, CRUD endpoints), frontend page (Drinks.js with modal, summary cards, list view), and integrated into Dashboard FAB menu. FAB shows 4 quick actions: Log Meal, Log Supplement, Log Drink, Add Journal Entry - all positioned in quarter-circle fan from 9-12 o'clock with 110px radius. Ready for comprehensive testing."
