@@ -199,11 +199,11 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
         athlete = athlete_context['athlete']
         print(f"[SCHEDULER] Athlete found: {athlete.get('name')}")
         
-        # Get user's OpenAI API key
-        user_openai_key = await ai_coach.get_user_openai_key(athlete_id)
-        if not user_openai_key:
-            print(f"[SCHEDULER] ERROR: No OpenAI API key configured for athlete {athlete_id}")
-            logging.error(f"No OpenAI API key configured for athlete {athlete_id}")
+        # Get OpenAI API key (checks user's personal key first, then global system settings)
+        openai_key = await ai_coach.get_openai_key(athlete_id)
+        if not openai_key:
+            print(f"[SCHEDULER] ERROR: No OpenAI API key configured (checked personal and system settings)")
+            logging.error(f"No OpenAI API key configured for athlete {athlete_id} (checked personal and system settings)")
             return
         
         print(f"[SCHEDULER] OpenAI key found, calling API...")
