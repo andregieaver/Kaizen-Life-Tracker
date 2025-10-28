@@ -3089,6 +3089,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           setCommentText={(text) => setCommentText({ ...commentText, [selectedPostForComments.id]: text })}
           commentRef={(el) => commentRefs.current[selectedPostForComments.id] = el}
           athleteId={athleteId}
+          isSuperAdmin={isSuperAdmin}
           formatMentions={formatMentions}
           loadAthleteProfile={loadAthleteProfile}
           onEmojiSelect={(emoji) => handleEmojiSelectForComment(emoji, selectedPostForComments.id)}
@@ -3109,6 +3110,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           setCommentText={(text) => setCommentText({ ...commentText, [selectedEventForComments.id]: text })}
           commentRef={(el) => commentRefs.current[selectedEventForComments.id] = el}
           athleteId={athleteId}
+          isSuperAdmin={isSuperAdmin}
           formatMentions={formatMentions}
           loadAthleteProfile={loadAthleteProfile}
           onEmojiSelect={(emoji) => handleEmojiSelectForComment(emoji, selectedEventForComments.id)}
