@@ -284,7 +284,7 @@ async def execute_scheduled_prompt(schedule_id: str, athlete_id: str, prompt: st
         context += f"\n🎯 Task: {prompt}\n"
         
         # Call OpenAI API using standard openai library
-        openai_client = openai.OpenAI(api_key=user_openai_key)
+        openai_client = openai.OpenAI(api_key=openai_key)
         response = openai_client.chat.completions.create(
             model="gpt-4o",
             messages=[
