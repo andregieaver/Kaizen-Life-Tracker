@@ -371,13 +371,23 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
         if (activeTab === 'challenges' && challengesLoaded) {
           loadChallenges(challengeFilter);
         }
+        
+        // If viewing a specific group, reload group posts
+        if (selectedGroup) {
+          loadGroupDetails(selectedGroup.id);
+        }
+        
+        // If viewing a specific challenge, reload challenge details
+        if (selectedChallenge) {
+          loadChallengeDetails(selectedChallenge.id);
+        }
       }
     };
 
     window.addEventListener('athleteProfileUpdated', handleProfileUpdate);
 
     return () => window.removeEventListener('athleteProfileUpdated', handleProfileUpdate);
-  }, [athleteId, activeTab, postsLoaded, followingPostsLoaded, groupsLoaded, myGroupsLoaded, eventsLoaded, challengesLoaded, challengeFilter]);
+  }, [athleteId, activeTab, postsLoaded, followingPostsLoaded, groupsLoaded, myGroupsLoaded, eventsLoaded, challengesLoaded, challengeFilter, selectedGroup, selectedChallenge]);
 
   // Prevent body scroll when notifications modal is open on mobile
   useEffect(() => {
