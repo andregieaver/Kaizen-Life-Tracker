@@ -3275,13 +3275,59 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
             {/* Content */}
             <div className="space-y-4">
-              {/* Textarea */}
-              <textarea
-                value={writePostContent}
-                onChange={(e) => setWritePostContent(e.target.value)}
-                placeholder="What's on your mind?"
-                className="w-full bg-gray-700 text-white rounded-lg px-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[120px] resize-vertical"
-              />
+              {/* Textarea with Emoji Button */}
+              <div className="relative">
+                <textarea
+                  ref={writePostTextareaRef}
+                  value={writePostContent}
+                  onChange={(e) => setWritePostContent(e.target.value)}
+                  placeholder="What's on your mind?"
+                  className="w-full bg-gray-700 text-white rounded-lg px-4 py-3 pr-12 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[120px] resize-vertical"
+                />
+                
+                {/* Emoji Button - Bottom Right Inside Textarea */}
+                <button
+                  type="button"
+                  onClick={() => setShowWritePostEmojiPicker(!showWritePostEmojiPicker)}
+                  className="absolute bottom-3 right-3 p-1.5 hover:bg-gray-600/50 rounded-full transition-colors"
+                  title="Add emoji"
+                >
+                  <Smile className="w-5 h-5 text-[#00C2A8]" />
+                </button>
+
+                {/* Emoji Picker */}
+                {showWritePostEmojiPicker && (
+                  <>
+                    {/* Backdrop to close picker */}
+                    <div 
+                      className="fixed inset-0 z-[75]"
+                      onClick={() => setShowWritePostEmojiPicker(false)}
+                    />
+                    
+                    {/* Picker positioned relative to button */}
+                    <div className="absolute bottom-14 right-0 z-[80]">
+                      <Picker
+                        data={data}
+                        onEmojiSelect={(emojiData) => handleEmojiSelectForWritePost(emojiData.native)}
+                        theme="dark"
+                        previewPosition="none"
+                        skinTonePosition="none"
+                        set="native"
+                        emojiSize={20}
+                        emojiButtonSize={36}
+                        maxFrequentRows={2}
+                        perLine={8}
+                        style={{
+                          width: '320px',
+                          backgroundColor: '#1f2937',
+                          borderColor: '#374151',
+                          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)'
+                        }}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
 
               {/* Image Preview - Old single image (kept for backward compatibility) */}
               {writePostImagePreview && (
