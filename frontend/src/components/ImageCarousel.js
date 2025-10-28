@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, X, Maximize2, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
@@ -43,6 +43,10 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
   const [slideDirection, setSlideDirection] = useState('right');
   const [isPlaying, setIsPlaying] = useState({});
   const [isMuted, setIsMuted] = useState({});
+  const [videoMuted, setVideoMuted] = useState(true); // For single video auto-play
+  
+  const videoRef = useRef(null);
+  const observerRef = useRef(null);
 
   // Early return if no media
   if (!mediaItems || mediaItems.length === 0) {
