@@ -2157,7 +2157,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                           </div>
                         </div>
                         
-                        {post.athlete_id === athleteId && (
+                        {(post.athlete_id === athleteId || isSuperAdmin) && (
                           <div className="flex space-x-2">
                             <button
                               onClick={() => {
