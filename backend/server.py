@@ -1329,6 +1329,7 @@ class Challenge(BaseModel):
     challenge_type: str  # 'distance', 'activity_count', 'duration'
     goal_value: float  # Target value (km for distance, count for activities, minutes for duration)
     goal_unit: str  # 'km', 'activities', 'minutes'
+    time_period: str = 'total'  # 'total', 'daily', 'weekly', 'monthly' - how often to reach the goal
     start_date: str  # ISO format date
     end_date: str  # ISO format date
     visibility: str  # 'public', 'private'
