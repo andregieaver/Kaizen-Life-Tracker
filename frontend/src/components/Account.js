@@ -1640,7 +1640,7 @@ const Account = ({ athleteId }) => {
                   </div>
                 </div>
 
-                <Separator />
+                <Separator className="opacity-10" />
 
                 <div className="space-y-2">
                   <Label htmlFor="running_goals" className="text-sm font-medium text-white">{t('account.runningGoals')}</Label>
@@ -1656,7 +1656,7 @@ const Account = ({ athleteId }) => {
                   />
                 </div>
 
-                <Separator />
+                <Separator className="opacity-10" />
 
                 {/* Physical Information Section */}
                 <div className="space-y-4">
@@ -1787,7 +1787,7 @@ const Account = ({ athleteId }) => {
                   </div>
                 </div>
 
-                <Separator />
+                <Separator className="opacity-10" />
 
                 <div className="space-y-4">
                   <h3 className="text-lg font-display font-semibold text-white">Health & Nutrition Goals</h3>
@@ -1868,7 +1868,7 @@ const Account = ({ athleteId }) => {
                   </div>
                 </div>
 
-                <Separator />
+                <Separator className="opacity-10" />
 
                 {/* Dietary Restrictions & Preferences */}
                 <div className="space-y-4">
@@ -1947,7 +1947,7 @@ const Account = ({ athleteId }) => {
                   </div>
                 </div>
 
-                <Separator />
+                <Separator className="opacity-10" />
 
                 <div className="space-y-4">
                   <h3 className="text-lg font-medium text-white flex items-center">
@@ -2019,7 +2019,7 @@ const Account = ({ athleteId }) => {
                   </div>
                 </div>
 
-                <Separator />
+                <Separator className="opacity-10" />
 
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-white">Units & Measurements</h3>
@@ -2109,7 +2109,7 @@ const Account = ({ athleteId }) => {
                   </div>
                 </div>
 
-                <Separator />
+                <Separator className="opacity-10" />
 
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-white">Calendar & Time</h3>
@@ -2256,7 +2256,7 @@ const Account = ({ athleteId }) => {
                   </div>
                 </div>
 
-                <Separator />
+                <Separator className="opacity-10" />
 
                 <div className="flex justify-end gap-2 pt-4">
                   <Button 
