@@ -3191,27 +3191,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
         <Calendar className="w-5 h-5 text-white" />
       </button>
 
-      {/* Group Button - More vertical, left side */}
-      <button
-        onClick={() => {
-          setShowCreateGroup(true);
-          setShowCreateMenu(false);
-        }}
-        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-purple-500 hover:bg-purple-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
-          showCreateMenu 
-            ? 'opacity-100 translate-x-0 translate-y-0' 
-            : 'opacity-0 translate-x-8 translate-y-8 pointer-events-none'
-        }`}
-        style={{
-          transform: showCreateMenu 
-            ? `translate(-40px, ${scrollDirection === 'down' ? '-22px' : '-150px'})` 
-            : 'translate(0, 0)',
-          transitionDelay: showCreateMenu ? '150ms' : '0ms'
-        }}
-        title="Create Group"
-      >
-        <UsersIcon className="w-5 h-5 text-white" />
-      </button>
+      {/* Group Button - Removed */}
 
       {/* Challenge Button - Most vertical, stays on screen */}
       <button
