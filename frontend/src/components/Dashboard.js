@@ -1443,7 +1443,7 @@ const Dashboard = ({ athleteId }) => {
                   </div>
                 </div>
               ) : (
-                notifications.map(notification => (
+                (notifications || []).map(notification => (
                   <div
                     key={notification.id}
                     className={`p-4 border-b border-gray-700 hover:bg-gray-700/50 active:bg-gray-700 cursor-pointer transition-colors ${
@@ -1479,7 +1479,7 @@ const Dashboard = ({ athleteId }) => {
                   <p>No notifications</p>
                 </div>
               ) : (
-                notifications.map(notification => (
+                (notifications || []).map(notification => (
                   <div
                     key={notification.id}
                     className={`p-4 border-b border-gray-700 hover:bg-gray-700 cursor-pointer ${
