@@ -107,6 +107,8 @@ const Emails = () => {
     });
     setShowEditModal(true);
     setSaveStatus({ type: '', message: '' });
+    setTestEmailStatus({ type: '', message: '' });
+    setTestEmail('');
   };
 
   const handleSaveTemplate = async (e) => {
