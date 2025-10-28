@@ -339,6 +339,46 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
     return () => window.removeEventListener('scroll', onScroll);
   }, [lastScrollY]);
 
+  // Listen for profile picture updates and refresh posts/comments
+  useEffect(() => {
+    const handleProfileUpdate = (event) => {
+      const { athleteId: updatedAthleteId, profilePictureUpdated } = event.detail;
+      
+      // If profile picture was updated and it's the current user, reload community data
+      if (profilePictureUpdated && updatedAthleteId === athleteId) {
+        console.log('[Community] Profile picture updated, refreshing community data...');
+        
+        // Reload posts to show updated profile pictures
+        if (activeTab === 'feed' && postsLoaded) {
+          loadPosts(true); // Force reload
+        } else if (activeTab === 'following' && followingPostsLoaded) {
+          loadFollowingPosts();
+        }
+        
+        // Reload groups if user is on groups tab
+        if (activeTab === 'groups' && groupsLoaded) {
+          loadAllGroups();
+        } else if (activeTab === 'mygroups' && myGroupsLoaded) {
+          loadMyGroups();
+        }
+        
+        // Reload events if user is on events tab
+        if (activeTab === 'events' && eventsLoaded) {
+          loadEvents();
+        }
+        
+        // Reload challenges if user is on challenges tab
+        if (activeTab === 'challenges' && challengesLoaded) {
+          loadChallenges(challengeFilter);
+        }
+      }
+    };
+
+    window.addEventListener('athleteProfileUpdated', handleProfileUpdate);
+
+    return () => window.removeEventListener('athleteProfileUpdated', handleProfileUpdate);
+  }, [athleteId, activeTab, postsLoaded, followingPostsLoaded, groupsLoaded, myGroupsLoaded, eventsLoaded, challengesLoaded, challengeFilter]);
+
   // Prevent body scroll when notifications modal is open on mobile
   useEffect(() => {
     if (effectiveShowNotifications && window.innerWidth < 768) {
