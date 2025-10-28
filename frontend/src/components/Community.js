@@ -6530,7 +6530,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
 };
 
 // CommentsModal Component
-const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentText, commentRef, athleteId, formatMentions, loadAthleteProfile, onEmojiSelect, onDeleteComment }) => {
+const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentText, commentRef, athleteId, isSuperAdmin, formatMentions, loadAthleteProfile, onEmojiSelect, onDeleteComment }) => {
   if (!post) return null;
 
   return (
