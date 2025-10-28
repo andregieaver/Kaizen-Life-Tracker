@@ -82,6 +82,53 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
     };
   }, [isFullscreen]);
 
+  // Auto-play video when scrolled into view (only for single video posts)
+  useEffect(() => {
+    const isSingleVideo = mediaItems.length === 1 && mediaItems[0].type === 'video';
+    
+    if (!isSingleVideo || !videoRef.current) {
+      return;
+    }
+
+    const videoElement = videoRef.current;
+
+    // Intersection Observer to detect when video is in viewport
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Video is in viewport - auto-play muted
+            videoElement.muted = true;
+            videoElement.play().catch((error) => {
+              console.log('Auto-play prevented:', error);
+            });
+          } else {
+            // Video is out of viewport - pause
+            videoElement.pause();
+          }
+        });
+      },
+      {
+        threshold: 0.5, // Trigger when 50% of video is visible
+      }
+    );
+
+    observerRef.current.observe(videoElement);
+
+    return () => {
+      if (observerRef.current && videoElement) {
+        observerRef.current.unobserve(videoElement);
+      }
+    };
+  }, [mediaItems]);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setVideoMuted(!videoMuted);
+    }
+  };
+
   const nextImage = () => {
     setSlideDirection('right');
     setCurrentIndex((prev) => (prev + 1) % mediaItems.length);
