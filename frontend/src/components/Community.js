@@ -2421,6 +2421,7 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
                           className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
                         >
                           <Share2 className="w-5 h-5" />
+                          <span className="text-sm">{post.shares_count || 0}</span>
                         </button>
                       </div>
 
