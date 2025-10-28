@@ -295,6 +295,55 @@ const Emails = () => {
                 <p className="text-gray-500 text-xs mt-2">Copy and paste these variables into your email content</p>
               </div>
 
+              {/* Send Test Email */}
+              <div className="bg-blue-900/20 border border-blue-700 rounded-lg p-4">
+                <p className="text-white font-semibold mb-3">Send Test Email</p>
+                {testEmailStatus.message && (
+                  <div className={`mb-3 p-3 rounded border text-sm ${
+                    testEmailStatus.type === 'success' 
+                      ? 'bg-green-900/30 border-green-700 text-green-400'
+                      : 'bg-red-900/30 border-red-700 text-red-400'
+                  }`}>
+                    <div className="flex items-center">
+                      {testEmailStatus.type === 'success' ? (
+                        <CheckCircle className="w-4 h-4 mr-2" />
+                      ) : (
+                        <XCircle className="w-4 h-4 mr-2" />
+                      )}
+                      {testEmailStatus.message}
+                    </div>
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <Input
+                    type="email"
+                    placeholder="Enter email address to send test"
+                    value={testEmail}
+                    onChange={(e) => setTestEmail(e.target.value)}
+                    className="flex-1 bg-gray-700 border-gray-600 text-white"
+                  />
+                  <Button
+                    type="button"
+                    onClick={handleSendTestEmail}
+                    disabled={sendingTest || !testEmail}
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    {sendingTest ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Mail className="w-4 h-4 mr-2" />
+                        Send Test
+                      </>
+                    )}
+                  </Button>
+                </div>
+                <p className="text-gray-400 text-xs mt-2">Variables will be replaced with sample data</p>
+              </div>
+
               {/* Subject */}
               <div className="space-y-2">
                 <Label htmlFor="subject" className="text-white font-semibold">Email Subject</Label>
