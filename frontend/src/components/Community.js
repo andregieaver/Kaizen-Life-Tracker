@@ -16,6 +16,10 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Community = ({ athleteId, athlete, showNotifications: externalShowNotifications, setShowNotifications: externalSetShowNotifications, setCommunityUnreadCount: externalSetCommunityUnreadCount }) => {
+  
+  // Check if current user is super admin
+  const isSuperAdmin = athlete?.is_super_admin || false;
+  
   // Initialize activeTab from localStorage or default to 'feed'
   const [activeTab, setActiveTab] = useState(() => {
     const savedTab = localStorage.getItem('communityActiveTab');
