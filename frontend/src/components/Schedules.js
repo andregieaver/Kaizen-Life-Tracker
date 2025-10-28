@@ -242,23 +242,23 @@ const Schedules = ({ athleteId }) => {
             <form onSubmit={handleSaveSchedule} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="schedule-name" className="text-sm font-medium">Schedule Name</Label>
+                  <Label htmlFor="schedule-name" className="text-sm font-medium text-white">Schedule Name</Label>
                   <Input
                     id="schedule-name"
                     value={scheduleForm.name}
                     onChange={(e) => setScheduleForm(prev => ({ ...prev, name: e.target.value }))}
                     placeholder="e.g., Daily Recovery Review"
-                    className="input-focus"
+                    className="input-focus bg-gray-600 border-gray-500 text-white placeholder-gray-400"
                     data-testid="schedule-name-input"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="schedule-frequency" className="text-sm font-medium">Frequency</Label>
+                  <Label htmlFor="schedule-frequency" className="text-sm font-medium text-white">Frequency</Label>
                   <select
                     id="schedule-frequency"
                     value={scheduleForm.frequency}
                     onChange={(e) => setScheduleForm(prev => ({ ...prev, frequency: e.target.value }))}
-                    className="w-full p-2 border border-gray-300 rounded-md input-focus"
+                    className="w-full p-2 border border-gray-500 rounded-md input-focus bg-gray-600 text-white"
                     data-testid="schedule-frequency-select"
                   >
                     <option value="daily">Daily</option>
@@ -268,12 +268,12 @@ const Schedules = ({ athleteId }) => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="schedule-prompt" className="text-sm font-medium">AI Analysis Prompt</Label>
+                <Label htmlFor="schedule-prompt" className="text-sm font-medium text-white">AI Analysis Prompt</Label>
                 <textarea
                   id="schedule-prompt"
                   value={scheduleForm.prompt}
                   onChange={(e) => setScheduleForm(prev => ({ ...prev, prompt: e.target.value }))}
-                  className="w-full min-h-24 p-3 border border-gray-300 rounded-md input-focus resize-none"
+                  className="w-full min-h-24 p-3 border border-gray-500 rounded-md input-focus resize-none bg-gray-600 text-white placeholder-gray-400"
                   placeholder="Describe what you want the AI to analyze..."
                   data-testid="schedule-prompt-textarea"
                 />
