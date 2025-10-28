@@ -439,6 +439,21 @@ const Dashboard = ({ athleteId }) => {
                   )}
                 </button>
               )}
+              {moduleSettings.community.enabled && (
+                <button 
+                  onClick={() => setShowNotifications(!showNotifications)}
+                  className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
+                  aria-label="Notifications"
+                  title="Notifications"
+                >
+                  <Bell className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                  {notificationsUnreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+                      {notificationsUnreadCount > 9 ? '9+' : notificationsUnreadCount}
+                    </span>
+                  )}
+                </button>
+              )}
               <button 
                 onClick={() => setIsMenuOpen(true)}
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
