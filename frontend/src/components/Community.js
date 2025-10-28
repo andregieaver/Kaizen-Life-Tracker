@@ -100,6 +100,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   const [writePostImage, setWritePostImage] = useState(null);
   const [writePostImagePreview, setWritePostImagePreview] = useState(null);
   const [writePostVisibility, setWritePostVisibility] = useState('public');
+  const [showWritePostEmojiPicker, setShowWritePostEmojiPicker] = useState(false);
+  const writePostTextareaRef = useRef(null);
   
   // Athletes modal state
   const [showAthletes, setShowAthletes] = useState(false);
