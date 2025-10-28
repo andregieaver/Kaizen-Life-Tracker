@@ -121,7 +121,7 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
       onTouchEnd={handleTouchEnd}
     >
       {/* Main Media */}
-      <div className={`${inFullscreen ? 'max-w-[90vw] max-h-[90vh]' : 'w-full aspect-video'} overflow-hidden relative`}>
+      <div className={`${inFullscreen ? 'max-w-[90vw] max-h-[90vh]' : mediaItems.length === 1 ? 'w-full' : 'w-full aspect-video'} overflow-hidden relative`}>
         <div 
           key={currentIndex}
           className="flex transition-transform duration-500 ease-in-out h-full"
@@ -143,7 +143,9 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
                     className={`${
                       inFullscreen 
                         ? 'max-w-full max-h-full object-contain mx-auto' 
-                        : 'w-full h-full object-cover'
+                        : mediaItems.length === 1
+                          ? 'w-full object-contain'
+                          : 'w-full h-full object-cover'
                     } rounded-none sm:rounded-lg`}
                     controls
                     playsInline
@@ -157,7 +159,9 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
                   className={`${
                     inFullscreen 
                       ? 'max-w-full max-h-full object-contain mx-auto' 
-                      : 'w-full h-full object-cover'
+                      : mediaItems.length === 1
+                        ? 'w-full object-contain'
+                        : 'w-full h-full object-cover'
                   } rounded-none sm:rounded-lg`}
                   style={{ 
                     cursor: inFullscreen ? 'default' : 'pointer'
