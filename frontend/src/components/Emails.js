@@ -20,6 +20,9 @@ const Emails = () => {
     htmlBody: ''
   });
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
+  const [testEmailStatus, setTestEmailStatus] = useState({ type: '', message: '' });
+  const [testEmail, setTestEmail] = useState('');
+  const [sendingTest, setSendingTest] = useState(false);
 
   const defaultTemplates = [
     {
