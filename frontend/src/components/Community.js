@@ -2823,14 +2823,6 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
       {/* Events Tab */}
       {activeTab === 'events' && (
         <div className="space-y-6 pt-12 md:pt-0">
-          <Button
-            onClick={() => setShowCreateEvent(true)}
-            className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
-          >
-            <Calendar className="w-4 h-4 mr-2" />
-            Create Event
-          </Button>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {events.map(event => (
               <EventCard
