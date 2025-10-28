@@ -8837,12 +8837,17 @@ async def get_comments(post_id: str):
 
 @api_router.post("/community/posts/{post_id}/share")
 async def share_post(post_id: str, athlete_id: str = Query(...)):
-    """Share a post"""
+    """Share a post - creates a new post in user's feed referencing the original"""
     try:
         # Check if post exists
-        post = await db.community_posts.find_one({"id": post_id})
-        if not post:
+        original_post = await db.community_posts.find_one({"id": post_id})
+        if not original_post:
             raise HTTPException(status_code=404, detail="Post not found")
+        
+        # Get sharing athlete info
+        sharing_athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        if not sharing_athlete:
+            raise HTTPException(status_code=404, detail="Athlete not found")
         
         # Create share record
         share = {
@@ -8853,22 +8858,47 @@ async def share_post(post_id: str, athlete_id: str = Query(...)):
         }
         
         await db.community_shares.insert_one(prepare_for_mongo(share.copy()))
+        
+        # Increment share count on original post
         await db.community_posts.update_one(
             {"id": post_id},
             {"$inc": {"shares_count": 1}}
         )
         
-        # Create notification for post owner (if not sharing own post)
-        if post["athlete_id"] != athlete_id:
-            athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        # Create a new shared post in the user's feed
+        shared_post = {
+            "id": str(uuid.uuid4()),
+            "athlete_id": athlete_id,
+            "athlete_name": sharing_athlete.get("name", "Unknown"),
+            "athlete_profile_picture": sharing_athlete.get("profile_picture"),
+            "content": f"Shared {original_post.get('athlete_name', 'a user')}'s post",
+            "media": original_post.get("media", []),
+            "image_urls": original_post.get("image_urls", []),
+            "visibility": "public",
+            "likes_count": 0,
+            "comments_count": 0,
+            "shares_count": 0,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": None,
+            "is_edited": False,
+            "shared_post_id": post_id,  # Reference to original post
+            "shared_post_content": original_post.get("content", ""),
+            "shared_post_athlete_name": original_post.get("athlete_name", "Unknown"),
+            "shared_post_athlete_profile_picture": original_post.get("athlete_profile_picture")
+        }
+        
+        await db.community_posts.insert_one(prepare_for_mongo(shared_post.copy()))
+        
+        # Create notification for original post owner (if not sharing own post)
+        if original_post["athlete_id"] != athlete_id:
             notification = {
                 "id": str(uuid.uuid4()),
-                "athlete_id": post["athlete_id"],
+                "athlete_id": original_post["athlete_id"],
                 "type": "share",
-                "content": f"{athlete.get('name', 'Someone')} shared your post",
+                "content": f"{sharing_athlete.get('name', 'Someone')} shared your post",
                 "post_id": post_id,
                 "from_athlete_id": athlete_id,
-                "from_athlete_name": athlete.get("name", "Unknown"),
+                "from_athlete_name": sharing_athlete.get("name", "Unknown"),
                 "read": False,
                 "created_at": datetime.now(timezone.utc).isoformat()
             }
@@ -8878,7 +8908,8 @@ async def share_post(post_id: str, athlete_id: str = Query(...)):
         updated_post = await db.community_posts.find_one({"id": post_id}, {"_id": 0})
         return {
             "success": True,
-            "shares_count": updated_post["shares_count"]
+            "shares_count": updated_post["shares_count"],
+            "shared_post_id": shared_post["id"]
         }
     except Exception as e:
         logging.error(f"Error sharing post: {e}")
