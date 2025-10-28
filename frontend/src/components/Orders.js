@@ -126,10 +126,12 @@ const Orders = ({ athleteId }) => {
   };
 
   const formatAmount = (amount, currency) => {
+    // Amount is already in main currency units (€29.00, not cents)
+    // Backend converts from cents when storing
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: currency || 'EUR'
-    }).format(amount / 100);
+    }).format(amount);
   };
 
   const calculateTotalRevenue = () => {
