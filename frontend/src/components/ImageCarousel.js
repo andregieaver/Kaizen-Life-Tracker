@@ -148,6 +148,36 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
     }
   };
 
+  const handleShowControls = () => {
+    setShowControls(true);
+    
+    // Clear existing timeout
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current);
+    }
+    
+    // Auto-hide controls after 3 seconds
+    controlsTimeoutRef.current = setTimeout(() => {
+      setShowControls(false);
+    }, 3000);
+  };
+
+  const handleHideControls = () => {
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current);
+    }
+    setShowControls(false);
+  };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const nextImage = () => {
     setSlideDirection('right');
     setCurrentIndex((prev) => (prev + 1) % mediaItems.length);
