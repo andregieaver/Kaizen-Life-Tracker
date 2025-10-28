@@ -772,6 +772,11 @@ class AthleteUpdate(BaseModel):
     bio: Optional[str] = None
     interests: Optional[list] = None
     
+    # Community Profile Privacy Settings
+    share_bio: Optional[bool] = None
+    share_goals: Optional[bool] = None
+    share_interests: Optional[bool] = None
+    
     # Health & Nutrition Goals
     estimated_calorie_need: Optional[int] = None
     weight_goal: Optional[str] = None
