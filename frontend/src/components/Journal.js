@@ -425,11 +425,16 @@ const Journal = ({ athleteId }) => {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-1">
-                      <Badge variant={entry.entry_type === 'voice' ? 'default' : 'secondary'}>
+                      <Badge variant={entry.entry_type === 'text' ? 'secondary' : 'default'}>
                         {entry.entry_type === 'voice' ? (
                           <>
                             <Volume2 className="w-3 h-3 mr-1" />
                             Voice
+                          </>
+                        ) : entry.entry_type === 'video' ? (
+                          <>
+                            <Video className="w-3 h-3 mr-1" />
+                            Video
                           </>
                         ) : (
                           <>
@@ -450,6 +455,26 @@ const Journal = ({ athleteId }) => {
                 </div>
               </CardHeader>
               <CardContent>
+                {/* Video Player for video entries */}
+                {entry.entry_type === 'video' && entry.video_path && (
+                  <div className="mb-4">
+                    <video
+                      src={`${process.env.REACT_APP_BACKEND_URL}${entry.video_path}`}
+                      controls
+                      className="w-full rounded-lg bg-black"
+                    >
+                      {entry.subtitle_path && !entry.has_burned_subtitles && (
+                        <track
+                          kind="subtitles"
+                          src={`${process.env.REACT_APP_BACKEND_URL}${entry.subtitle_path}`}
+                          srcLang="en"
+                          label="English"
+                          default
+                        />
+                      )}
+                    </video>
+                  </div>
+                )}
                 <p className="text-gray-700 whitespace-pre-wrap">{entry.content}</p>
               </CardContent>
             </Card>
