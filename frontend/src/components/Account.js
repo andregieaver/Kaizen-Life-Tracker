@@ -627,6 +627,10 @@ const Account = ({ athleteId }) => {
         gender: athleteRes.data.gender || '',
         bio: athleteRes.data.bio || '',
         interests: athleteRes.data.interests || [],
+        // Community Profile Privacy Settings
+        share_bio: athleteRes.data.share_bio || false,
+        share_goals: athleteRes.data.share_goals || false,
+        share_interests: athleteRes.data.share_interests || false,
         estimated_calorie_need: athleteRes.data.estimated_calorie_need || '',
         weight_goal: athleteRes.data.weight_goal || '',
         health_goals: athleteRes.data.health_goals || [],
