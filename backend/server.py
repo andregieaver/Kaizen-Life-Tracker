@@ -12469,21 +12469,21 @@ async def get_subscriber_stats(
         total_referrals = len(referrals)
         
         # Count successful referrals (where referred user signed up)
-        successful_referrals = sum(1 for ref in referrals if ref.get("status") == "completed" or ref.get("referred_athlete_id"))
+        successful_referrals = sum(1 for ref in referrals if ref.get("status") in ["converted", "rewarded"] or ref.get("referred_user_id"))
         
         # Calculate referral conversion rate
         referral_conversion_rate = (successful_referrals / max(total_referrals, 1)) * 100
         
         # Get unique referrers
-        unique_referrers = len(set(ref.get("referrer_athlete_id") for ref in referrals if ref.get("referrer_athlete_id")))
+        unique_referrers = len(set(ref.get("referrer_id") for ref in referrals if ref.get("referrer_id")))
         
         # Calculate total rewards distributed
-        total_rewards = sum(ref.get("reward_amount", 0) for ref in referrals if ref.get("status") == "completed")
+        total_rewards = sum(ref.get("reward_amount", 0) for ref in referrals if ref.get("status") == "rewarded")
         
         # Get top referrers (most referrals)
         referrer_counts = {}
         for ref in referrals:
-            referrer_id = ref.get("referrer_athlete_id")
+            referrer_id = ref.get("referrer_id")
             if referrer_id:
                 referrer_counts[referrer_id] = referrer_counts.get(referrer_id, 0) + 1
         
