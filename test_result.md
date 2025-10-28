@@ -2072,3 +2072,16 @@ agent_communication:
     message: "Implemented floating action buttons (FAB) for dashboard matching Community page design. Created complete drink logging feature with backend API (DrinkLog model, CRUD endpoints), frontend page (Drinks.js with modal, summary cards, list view), and integrated into Dashboard FAB menu. FAB shows 4 quick actions: Log Meal, Log Supplement, Log Drink, Add Journal Entry - all positioned in quarter-circle fan from 9-12 o'clock with 110px radius. Ready for comprehensive testing."
   - agent: "testing"
     message: "✅ DRINK LOGGING API ENDPOINTS TESTING COMPLETED SUCCESSFULLY - All 4 endpoints fully functional and production-ready. VERIFIED: 1) GET /api/drinks/{athlete_id} with optional date filtering working perfectly, 2) POST /api/drinks/{athlete_id} creates drink logs with all supported types (water, coffee, tea, juice, sports_drink, milk, smoothie, other), 3) PUT /api/drinks/{athlete_id}/{drink_id} updates work correctly with persistence verification, 4) DELETE /api/drinks/{athlete_id}/{drink_id} removes logs properly with 404 handling for non-existent IDs. TESTED WITH: test.files@example.com (athlete_id: 46ba60d6-a06c-4a9b-b7a2-999efaa18229). ALL CRITICAL SUCCESS CRITERIA MET: Proper response formats ({success: true, drink: {...}} for creation, {drinks: [...]} for retrieval), ISO date/time handling, MongoDB serialization, error handling, and data integrity. Backend API is ready for frontend integration. RECOMMENDATION: Main agent can now summarize and finish the drink logging feature implementation."
+
+backend:
+  - task: "Voice Journal Transcription - Use Global OpenAI Key"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed voice journal transcription to use global OpenAI key from system settings. ISSUE: Voice journal transcription was failing with 400 error 'OpenAI API key required for voice transcription' even when key was configured in System Settings → Advanced tab. ROOT CAUSE: The /api/journal/transcribe/{athlete_id} endpoint was using ai_coach.get_user_openai_key(athlete_id) which looks for athlete-specific keys, instead of using the global OpenAI key from system_settings collection. FIX IMPLEMENTED: Updated transcribe_audio endpoint (line 4488) to fetch OpenAI key from system_settings collection (same pattern as recipe generation endpoint): 1) Query db.system_settings.find_one with setting_type='global', 2) Extract key from system_settings['advanced']['openaiApiKey'], 3) Updated error messages to reference 'System Settings → Advanced tab (Super Admin only)' instead of 'Account Settings'. RESULT: Voice transcription now uses the global OpenAI key configured by super admin in System Settings Advanced tab. Backend restarted successfully. TESTING NEEDED: 1) Verify OpenAI key is configured in System Settings → Advanced, 2) Navigate to Journal page, 3) Click voice recording button, 4) Record audio for a few seconds, 5) Stop recording and verify transcription works, 6) Check transcribed text appears in journal entry."
