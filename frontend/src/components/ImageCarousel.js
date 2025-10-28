@@ -45,9 +45,11 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
   const [isMuted, setIsMuted] = useState({});
   const [videoMuted, setVideoMuted] = useState(true); // For single video auto-play
   const [videoPlaying, setVideoPlaying] = useState(false); // Track playing state
+  const [showControls, setShowControls] = useState(false); // Show/hide custom controls
   
   const videoRef = useRef(null);
   const observerRef = useRef(null);
+  const controlsTimeoutRef = useRef(null);
 
   // Early return if no media
   if (!mediaItems || mediaItems.length === 0) {
