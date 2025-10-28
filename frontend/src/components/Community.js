@@ -5383,6 +5383,23 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                   </span>
                 </div>
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">Time Period *</label>
+                <select
+                  value={challengeData.time_period}
+                  onChange={(e) => setChallengeData({ ...challengeData, time_period: e.target.value })}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+                >
+                  <option value="total">Total (entire challenge duration)</option>
+                  <option value="daily">Per Day</option>
+                  <option value="weekly">Per Week</option>
+                  <option value="monthly">Per Month</option>
+                </select>
+                <p className="text-xs text-gray-400 mt-1">
+                  How often participants need to reach the goal
+                </p>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
