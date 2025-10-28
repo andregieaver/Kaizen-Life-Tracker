@@ -6626,7 +6626,7 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
                     )}
                   </div>
                   <div className="flex-1 bg-gray-600 rounded-lg p-3 relative group">
-                    {comment.athlete_id === athleteId && (
+                    {(comment.athlete_id === athleteId || isSuperAdmin) && (
                       <button
                         onClick={() => onDeleteComment(post.id, comment.id)}
                         className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
