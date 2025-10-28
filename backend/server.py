@@ -841,6 +841,23 @@ class ChangeEmailRequest(BaseModel):
     new_email: str
     password: str
 
+class EmailTemplate(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    template_id: str  # e.g., 'reset_password', 'welcome', 'email_changed'
+    subject: str
+    body: str  # Plain text body
+    html_body: str  # HTML body
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
+class EmailTemplateUpdate(BaseModel):
+    template_id: str
+    subject: str
+    body: str
+    html_body: str
+
 class Workout(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
