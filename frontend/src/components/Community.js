@@ -1363,6 +1363,13 @@ const Community = ({ athleteId, showNotifications: externalShowNotifications, se
           : post
       ));
       
+      // Reload feeds to show the new shared post
+      if (activeTab === 'feed') {
+        loadPosts(true);
+      } else if (activeTab === 'following') {
+        loadFollowingPosts();
+      }
+      
       alert('Post shared successfully!');
     } catch (error) {
       console.error('Error sharing post:', error);
