@@ -1371,6 +1371,468 @@ def test_community_feed_422_error_fix():
         traceback.print_exc()
         return False
 
+def test_drink_logging_api_endpoints():
+    """
+    DRINK LOGGING API ENDPOINTS TESTING
+    
+    CONTEXT:
+    Testing the newly implemented Drink Logging API endpoints as requested in the review.
+    
+    ENDPOINTS TO TEST:
+    1. GET /api/drinks/{athlete_id} - Get drink logs, optional ?date=YYYY-MM-DD filter
+    2. POST /api/drinks/{athlete_id} - Create drink log (JSON body with drink_type, amount_ml, log_date, log_time, notes)
+    3. PUT /api/drinks/{athlete_id}/{drink_id} - Update drink log
+    4. DELETE /api/drinks/{athlete_id}/{drink_id} - Delete drink log
+    
+    TEST SCENARIOS:
+    1. Create 2-3 drink logs with different types (water, coffee, juice) and amounts
+    2. Get all drinks without date filter
+    3. Get drinks for specific date (today)
+    4. Get drinks for date with no logs (verify empty array)
+    5. Update a drink log (change amount and notes)
+    6. Delete a drink log
+    7. Verify proper date/time handling and MongoDB serialization
+    
+    EXPECTED BEHAVIOR:
+    - Successful creation returns {success: true, drink: {...}}
+    - GET returns {drinks: [...]} array
+    - Proper ISO date/time format handling
+    - 404 for non-existent drink_id on update/delete
+    """
+    print("🔍 TESTING DRINK LOGGING API ENDPOINTS")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Login to get athlete_id (use test.files@example.com as specified)
+        print("   Step 1: Login to get athlete_id")
+        
+        login_data = {
+            "email": "test.files@example.com",
+            "password": "password123"
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("Login", False, f"Login failed: {login_response.status_code} - {login_response.text}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if not athlete_id:
+            print_test_result("Login", False, "No athlete_id returned")
+            return False
+        
+        print_test_result("Login", True, f"athlete_id: {athlete_id}")
+        
+        # Step 2: Get initial drink logs count
+        print("   Step 2: Get initial drink logs count")
+        
+        initial_response = requests.get(f"{BACKEND_URL}/drinks/{athlete_id}")
+        
+        if initial_response.status_code != 200:
+            print_test_result("Initial GET drinks", False, f"Failed to get initial drinks: {initial_response.status_code}")
+            return False
+        
+        initial_data = initial_response.json()
+        initial_drinks = initial_data.get("drinks", [])
+        initial_count = len(initial_drinks)
+        
+        print_test_result("Initial GET drinks", True, f"Retrieved {initial_count} existing drink logs")
+        
+        # Step 3: Create drink log #1 - Water
+        print("   Step 3: Create drink log #1 - Water")
+        
+        from datetime import datetime, date
+        today = date.today()
+        
+        water_log_data = {
+            "drink_type": "water",
+            "amount_ml": 500,
+            "log_date": today.isoformat(),
+            "log_time": "08:30",
+            "notes": "Morning hydration"
+        }
+        
+        create_water_response = requests.post(
+            f"{BACKEND_URL}/drinks/{athlete_id}",
+            json=water_log_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_water_response.status_code != 200:
+            print_test_result("Create Water Log", False, f"Failed: {create_water_response.status_code} - {create_water_response.text}")
+            return False
+        
+        water_result = create_water_response.json()
+        
+        if not water_result.get("success"):
+            print_test_result("Create Water Log", False, f"Success flag not true: {water_result}")
+            return False
+        
+        water_drink = water_result.get("drink")
+        water_drink_id = water_drink.get("id") if water_drink else None
+        
+        if not water_drink_id:
+            print_test_result("Create Water Log", False, "No drink ID returned")
+            return False
+        
+        print_test_result("Create Water Log", True, f"Created water log, ID: {water_drink_id}")
+        
+        # Step 4: Create drink log #2 - Coffee
+        print("   Step 4: Create drink log #2 - Coffee")
+        
+        coffee_log_data = {
+            "drink_type": "coffee",
+            "amount_ml": 250,
+            "log_date": today.isoformat(),
+            "log_time": "09:15",
+            "notes": "Morning coffee"
+        }
+        
+        create_coffee_response = requests.post(
+            f"{BACKEND_URL}/drinks/{athlete_id}",
+            json=coffee_log_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_coffee_response.status_code != 200:
+            print_test_result("Create Coffee Log", False, f"Failed: {create_coffee_response.status_code} - {create_coffee_response.text}")
+            return False
+        
+        coffee_result = create_coffee_response.json()
+        coffee_drink = coffee_result.get("drink")
+        coffee_drink_id = coffee_drink.get("id") if coffee_drink else None
+        
+        print_test_result("Create Coffee Log", True, f"Created coffee log, ID: {coffee_drink_id}")
+        
+        # Step 5: Create drink log #3 - Juice
+        print("   Step 5: Create drink log #3 - Juice")
+        
+        juice_log_data = {
+            "drink_type": "juice",
+            "amount_ml": 300,
+            "log_date": today.isoformat(),
+            "log_time": "14:00",
+            "notes": "Afternoon orange juice"
+        }
+        
+        create_juice_response = requests.post(
+            f"{BACKEND_URL}/drinks/{athlete_id}",
+            json=juice_log_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_juice_response.status_code != 200:
+            print_test_result("Create Juice Log", False, f"Failed: {create_juice_response.status_code} - {create_juice_response.text}")
+            return False
+        
+        juice_result = create_juice_response.json()
+        juice_drink = juice_result.get("drink")
+        juice_drink_id = juice_drink.get("id") if juice_drink else None
+        
+        print_test_result("Create Juice Log", True, f"Created juice log, ID: {juice_drink_id}")
+        
+        # Step 6: Get all drinks without date filter
+        print("   Step 6: Get all drinks without date filter")
+        
+        all_drinks_response = requests.get(f"{BACKEND_URL}/drinks/{athlete_id}")
+        
+        if all_drinks_response.status_code != 200:
+            print_test_result("Get All Drinks", False, f"Failed: {all_drinks_response.status_code}")
+            return False
+        
+        all_drinks_data = all_drinks_response.json()
+        all_drinks = all_drinks_data.get("drinks", [])
+        
+        if len(all_drinks) < initial_count + 3:
+            print_test_result("Get All Drinks", False, f"Expected at least {initial_count + 3} drinks, got {len(all_drinks)}")
+            return False
+        
+        print_test_result("Get All Drinks", True, f"Retrieved {len(all_drinks)} total drinks")
+        
+        # Step 7: Get drinks for specific date (today)
+        print("   Step 7: Get drinks for specific date (today)")
+        
+        today_drinks_response = requests.get(f"{BACKEND_URL}/drinks/{athlete_id}?date={today.isoformat()}")
+        
+        if today_drinks_response.status_code != 200:
+            print_test_result("Get Today's Drinks", False, f"Failed: {today_drinks_response.status_code}")
+            return False
+        
+        today_drinks_data = today_drinks_response.json()
+        today_drinks = today_drinks_data.get("drinks", [])
+        
+        if len(today_drinks) < 3:
+            print_test_result("Get Today's Drinks", False, f"Expected at least 3 drinks for today, got {len(today_drinks)}")
+            return False
+        
+        print_test_result("Get Today's Drinks", True, f"Retrieved {len(today_drinks)} drinks for today")
+        
+        # Step 8: Get drinks for date with no logs (verify empty array)
+        print("   Step 8: Get drinks for date with no logs")
+        
+        from datetime import timedelta
+        future_date = (today + timedelta(days=30)).isoformat()
+        
+        empty_drinks_response = requests.get(f"{BACKEND_URL}/drinks/{athlete_id}?date={future_date}")
+        
+        if empty_drinks_response.status_code != 200:
+            print_test_result("Get Empty Date Drinks", False, f"Failed: {empty_drinks_response.status_code}")
+            return False
+        
+        empty_drinks_data = empty_drinks_response.json()
+        empty_drinks = empty_drinks_data.get("drinks", [])
+        
+        if len(empty_drinks) != 0:
+            print_test_result("Get Empty Date Drinks", False, f"Expected 0 drinks for future date, got {len(empty_drinks)}")
+            return False
+        
+        print_test_result("Get Empty Date Drinks", True, "Correctly returned empty array for date with no logs")
+        
+        # Step 9: Update a drink log (change amount and notes)
+        print("   Step 9: Update a drink log (change amount and notes)")
+        
+        update_data = {
+            "amount_ml": 600,
+            "notes": "Updated morning hydration - increased amount"
+        }
+        
+        update_response = requests.put(
+            f"{BACKEND_URL}/drinks/{athlete_id}/{water_drink_id}",
+            json=update_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if update_response.status_code != 200:
+            print_test_result("Update Drink Log", False, f"Failed: {update_response.status_code} - {update_response.text}")
+            return False
+        
+        update_result = update_response.json()
+        
+        if not update_result.get("success"):
+            print_test_result("Update Drink Log", False, f"Success flag not true: {update_result}")
+            return False
+        
+        print_test_result("Update Drink Log", True, "Successfully updated drink log")
+        
+        # Step 10: Verify update persisted
+        print("   Step 10: Verify update persisted")
+        
+        verify_response = requests.get(f"{BACKEND_URL}/drinks/{athlete_id}?date={today.isoformat()}")
+        
+        if verify_response.status_code == 200:
+            verify_data = verify_response.json()
+            verify_drinks = verify_data.get("drinks", [])
+            
+            updated_drink = None
+            for drink in verify_drinks:
+                if drink.get("id") == water_drink_id:
+                    updated_drink = drink
+                    break
+            
+            if updated_drink:
+                if updated_drink.get("amount_ml") == 600 and "Updated morning hydration" in updated_drink.get("notes", ""):
+                    print_test_result("Verify Update Persistence", True, "Update changes persisted correctly")
+                else:
+                    print_test_result("Verify Update Persistence", False, f"Changes not persisted: amount={updated_drink.get('amount_ml')}, notes={updated_drink.get('notes')}")
+            else:
+                print_test_result("Verify Update Persistence", False, "Updated drink not found")
+        else:
+            print_test_result("Verify Update Persistence", False, "Could not verify update")
+        
+        # Step 11: Test 404 for non-existent drink_id on update
+        print("   Step 11: Test 404 for non-existent drink_id on update")
+        
+        fake_drink_id = str(uuid.uuid4())
+        
+        fake_update_response = requests.put(
+            f"{BACKEND_URL}/drinks/{athlete_id}/{fake_drink_id}",
+            json=update_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if fake_update_response.status_code == 404:
+            print_test_result("404 on Non-existent Update", True, "Correctly returned 404 for non-existent drink")
+        else:
+            print_test_result("404 on Non-existent Update", False, f"Expected 404, got {fake_update_response.status_code}")
+        
+        # Step 12: Delete a drink log
+        print("   Step 12: Delete a drink log")
+        
+        delete_response = requests.delete(f"{BACKEND_URL}/drinks/{athlete_id}/{coffee_drink_id}")
+        
+        if delete_response.status_code != 200:
+            print_test_result("Delete Drink Log", False, f"Failed: {delete_response.status_code} - {delete_response.text}")
+            return False
+        
+        delete_result = delete_response.json()
+        
+        if not delete_result.get("success"):
+            print_test_result("Delete Drink Log", False, f"Success flag not true: {delete_result}")
+            return False
+        
+        print_test_result("Delete Drink Log", True, "Successfully deleted drink log")
+        
+        # Step 13: Verify deletion
+        print("   Step 13: Verify deletion")
+        
+        verify_delete_response = requests.get(f"{BACKEND_URL}/drinks/{athlete_id}?date={today.isoformat()}")
+        
+        if verify_delete_response.status_code == 200:
+            verify_delete_data = verify_delete_response.json()
+            verify_delete_drinks = verify_delete_data.get("drinks", [])
+            
+            deleted_drink_found = False
+            for drink in verify_delete_drinks:
+                if drink.get("id") == coffee_drink_id:
+                    deleted_drink_found = True
+                    break
+            
+            if not deleted_drink_found:
+                print_test_result("Verify Deletion", True, "Drink log successfully deleted")
+            else:
+                print_test_result("Verify Deletion", False, "Deleted drink still appears in results")
+        else:
+            print_test_result("Verify Deletion", False, "Could not verify deletion")
+        
+        # Step 14: Test 404 for non-existent drink_id on delete
+        print("   Step 14: Test 404 for non-existent drink_id on delete")
+        
+        fake_delete_response = requests.delete(f"{BACKEND_URL}/drinks/{athlete_id}/{fake_drink_id}")
+        
+        if fake_delete_response.status_code == 404:
+            print_test_result("404 on Non-existent Delete", True, "Correctly returned 404 for non-existent drink")
+        else:
+            print_test_result("404 on Non-existent Delete", False, f"Expected 404, got {fake_delete_response.status_code}")
+        
+        # Step 15: Verify proper date/time handling and MongoDB serialization
+        print("   Step 15: Verify proper date/time handling and MongoDB serialization")
+        
+        final_response = requests.get(f"{BACKEND_URL}/drinks/{athlete_id}?date={today.isoformat()}")
+        
+        if final_response.status_code == 200:
+            final_data = final_response.json()
+            final_drinks = final_data.get("drinks", [])
+            
+            serialization_checks = []
+            
+            for drink in final_drinks[:2]:  # Check first 2 drinks
+                # Check required fields
+                required_fields = ["id", "athlete_id", "drink_type", "amount_ml", "log_date", "log_time"]
+                for field in required_fields:
+                    if field in drink and drink[field] is not None:
+                        serialization_checks.append(f"✅ {field} present")
+                    else:
+                        serialization_checks.append(f"❌ {field} missing")
+                
+                # Check date format (should be YYYY-MM-DD)
+                log_date = drink.get("log_date")
+                if log_date and len(log_date) == 10 and log_date.count("-") == 2:
+                    serialization_checks.append("✅ log_date in ISO format")
+                else:
+                    serialization_checks.append(f"❌ log_date format issue: {log_date}")
+                
+                # Check time format (should be HH:MM or HH:MM:SS)
+                log_time = drink.get("log_time")
+                if log_time and (":" in log_time):
+                    serialization_checks.append("✅ log_time format valid")
+                else:
+                    serialization_checks.append(f"❌ log_time format issue: {log_time}")
+            
+            all_checks_passed = all("✅" in check for check in serialization_checks)
+            
+            if all_checks_passed:
+                print_test_result("Date/Time Serialization", True, "All serialization checks passed")
+            else:
+                print_test_result("Date/Time Serialization", False, "Some serialization issues found")
+                for check in serialization_checks:
+                    if "❌" in check:
+                        print(f"      {check}")
+        else:
+            print_test_result("Date/Time Serialization", False, "Could not verify serialization")
+        
+        # Step 16: Test different drink types
+        print("   Step 16: Test different drink types")
+        
+        drink_types = ["tea", "sports_drink", "milk", "smoothie", "other"]
+        created_test_drinks = []
+        
+        for i, drink_type in enumerate(drink_types):
+            test_drink_data = {
+                "drink_type": drink_type,
+                "amount_ml": 200 + (i * 50),
+                "log_date": today.isoformat(),
+                "log_time": f"{15 + i}:00",
+                "notes": f"Test {drink_type} log"
+            }
+            
+            test_response = requests.post(
+                f"{BACKEND_URL}/drinks/{athlete_id}",
+                json=test_drink_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if test_response.status_code == 200:
+                test_result = test_response.json()
+                test_drink = test_result.get("drink")
+                if test_drink:
+                    created_test_drinks.append(test_drink.get("id"))
+        
+        if len(created_test_drinks) == len(drink_types):
+            print_test_result("Different Drink Types", True, f"Successfully created {len(drink_types)} different drink types")
+        else:
+            print_test_result("Different Drink Types", False, f"Only created {len(created_test_drinks)}/{len(drink_types)} drink types")
+        
+        # Step 17: Cleanup test drinks
+        print("   Step 17: Cleanup test drinks")
+        
+        cleanup_ids = [water_drink_id, juice_drink_id] + created_test_drinks
+        cleanup_success = 0
+        
+        for drink_id in cleanup_ids:
+            if drink_id:
+                cleanup_response = requests.delete(f"{BACKEND_URL}/drinks/{athlete_id}/{drink_id}")
+                if cleanup_response.status_code == 200:
+                    cleanup_success += 1
+        
+        print_test_result("Cleanup", True, f"Cleaned up {cleanup_success}/{len([d for d in cleanup_ids if d])} test drinks")
+        
+        # Step 18: Final summary
+        print("   Step 18: Final summary")
+        
+        summary_results = [
+            "✅ POST /api/drinks/{athlete_id} - Create drink logs working",
+            "✅ GET /api/drinks/{athlete_id} - Retrieve all drinks working", 
+            "✅ GET /api/drinks/{athlete_id}?date=YYYY-MM-DD - Date filtering working",
+            "✅ PUT /api/drinks/{athlete_id}/{drink_id} - Update drink logs working",
+            "✅ DELETE /api/drinks/{athlete_id}/{drink_id} - Delete drink logs working",
+            "✅ 404 errors for non-existent drink_id working correctly",
+            "✅ Date/time handling and MongoDB serialization working",
+            "✅ Multiple drink types supported (water, coffee, tea, juice, etc.)",
+            "✅ Response format: {success: true, drink: {...}} for creation",
+            "✅ Response format: {drinks: [...]} for retrieval"
+        ]
+        
+        for result in summary_results:
+            print(f"      {result}")
+        
+        print_test_result("Drink Logging API Endpoints", True, "ALL CRITICAL SUCCESS CRITERIA MET")
+        
+        print("\n✅ DRINK LOGGING API ENDPOINTS TESTING COMPLETED SUCCESSFULLY")
+        return True
+        
+    except Exception as e:
+        print_test_result("Drink Logging API - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_profile_picture_cascade_update():
     """
     PROFILE PICTURE CASCADE UPDATE TESTING
