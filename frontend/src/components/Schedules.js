@@ -459,11 +459,11 @@ const Schedules = ({ athleteId }) => {
 
       {/* Schedule Limit Modal */}
       {showScheduleLimitModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <Card className="max-w-md w-full">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
+          <Card className="max-w-md w-full bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600">
             <CardHeader>
-              <CardTitle>Schedule Limit Reached</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-white">Schedule Limit Reached</CardTitle>
+              <CardDescription className="text-gray-300">
                 {subscriptionStatus.tier === 'free' 
                   ? 'Free plan includes 1 scheduled analysis'
                   : `Your ${subscriptionStatus.tier} plan includes ${getScheduleLimit(subscriptionStatus.tier)} scheduled analyses`
@@ -471,18 +471,19 @@ const Schedules = ({ athleteId }) => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="text-sm text-gray-200 mb-4">
                 Upgrade to create more automated analysis schedules and unlock additional features.
               </p>
-              <div className="flex justify-end space-x-3">
+              <div className="flex flex-col sm:flex-row justify-end gap-3">
                 <Button 
                   variant="outline" 
                   onClick={() => setShowScheduleLimitModal(false)}
+                  className="w-full sm:w-auto bg-gray-600 text-white border-gray-500 hover:bg-gray-500"
                 >
                   Cancel
                 </Button>
                 <Button 
-                  className="bg-blue-600 hover:bg-blue-700"
+                  className="w-full sm:w-auto bg-[#00C2A8] hover:bg-[#00a890] text-white"
                   onClick={() => {
                     setShowScheduleLimitModal(false);
                     navigate('/dashboard/account?tab=subscriptions');
