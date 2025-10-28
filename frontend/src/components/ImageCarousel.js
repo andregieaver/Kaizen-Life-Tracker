@@ -236,7 +236,13 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
               style={{ minWidth: '100%' }}
             >
               {item.type === 'video' ? (
-                <div className="relative w-full h-full">
+                <div 
+                  className="relative w-full h-full"
+                  onMouseEnter={mediaItems.length === 1 && !inFullscreen ? handleShowControls : undefined}
+                  onMouseLeave={mediaItems.length === 1 && !inFullscreen ? handleHideControls : undefined}
+                  onMouseMove={mediaItems.length === 1 && !inFullscreen ? handleShowControls : undefined}
+                  onTouchStart={mediaItems.length === 1 && !inFullscreen ? handleShowControls : undefined}
+                >
                   <video
                     ref={mediaItems.length === 1 && index === 0 ? videoRef : null}
                     src={item.url}
@@ -266,7 +272,9 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
                   
                   {/* Custom Controls - Only show for single video in feed view */}
                   {mediaItems.length === 1 && !inFullscreen && (
-                    <div className="absolute inset-0 pointer-events-none">
+                    <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${
+                      showControls ? 'opacity-100' : 'opacity-0'
+                    }`}>
                       {/* Play/Pause Button - Center */}
                       <button
                         onClick={(e) => {
