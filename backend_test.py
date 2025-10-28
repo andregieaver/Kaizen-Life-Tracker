@@ -7829,46 +7829,53 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Stripe Plan ID Format Mismatch Fix Testing"""
-    print("🚀 STARTING STRIPE PLAN ID FORMAT MISMATCH FIX TESTING")
+    """Run Profile Picture Cascade Update Testing"""
+    print("🚀 STARTING PROFILE PICTURE CASCADE UPDATE TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Stripe Plan ID Format Mismatch Fix
+    # Test Profile Picture Cascade Update
     try:
-        result = test_stripe_plan_id_format_mismatch_fix()
+        result = test_profile_picture_cascade_update()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Stripe Plan ID Format Mismatch Fix", False, f"Exception: {str(e)}")
+        print_test_result("Profile Picture Cascade Update", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 STRIPE PLAN ID FORMAT MISMATCH FIX TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ FRONTEND FORMATS: pro_monthly, premium_monthly, pro_annual, premium_annual work (200 status)")
-        print("✅ BACKEND FORMATS: pro_month, premium_year still work (backward compatibility)")
-        print("✅ CHECKOUT SESSION CREATION: POST /api/subscriptions/create-checkout-session returns 200 with checkout_url")
-        print("✅ UPDATE PLAN: POST /api/subscriptions/update-plan recognizes both format types")
-        print("✅ ERROR HANDLING: Invalid plan_id returns 400 with clear error message")
-        print("✅ CHECKOUT URLS: All successful responses contain valid Stripe checkout URLs")
-        print("✅ NO 400 ERRORS: Users upgrading via Account Settings no longer get 400 errors")
-        print("🔧 VERIFIED: Both monthly/annual and month/year formats accepted")
-        print("🔧 CONFIRMED: Users can now upgrade from Account Settings without format errors")
+        print("🎉 PROFILE PICTURE CASCADE UPDATE TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ PROFILE PICTURE UPLOAD: POST /api/athlete/{athlete_id}/profile-picture works (200 status)")
+        print("✅ PROFILE PICTURE UPDATE: PUT /api/athlete/{athlete_id} with profile_picture works")
+        print("✅ CASCADE FUNCTION: cascade_profile_picture_update updates all community collections")
+        print("✅ COMMUNITY POSTS: athlete_profile_picture field updated correctly")
+        print("✅ COMMUNITY COMMENTS: athlete_profile_picture field updated correctly")
+        print("✅ GROUP POSTS: athlete_profile_picture field updated correctly")
+        print("✅ CHALLENGE PARTICIPATIONS: athlete_profile_picture field updated correctly")
+        print("✅ CHALLENGE COMMENTS: athlete_profile_picture field updated correctly")
+        print("✅ CHALLENGES: creator_profile_picture field updated correctly")
+        print("✅ BACKEND LOGS: [CASCADE] update messages appear in logs")
+        print("✅ NO ERRORS: No cascade errors in backend logs")
+        print("🔧 VERIFIED: Profile picture changes cascade to all community collections")
+        print("🔧 CONFIRMED: Bug fix using correct collection names (community_*) working")
     else:
-        print("❌ STRIPE PLAN ID FORMAT MISMATCH FIX TESTING FOUND ISSUES")
+        print("❌ PROFILE PICTURE CASCADE UPDATE TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Users may still get 400 errors when upgrading via Account Settings")
-        print("💡 Verify checkout endpoints accept both format types:")
-        print("   - Frontend formats: pro_monthly, premium_monthly, pro_annual, premium_annual")
-        print("   - Backend formats: pro_month, premium_year (backward compatibility)")
-        print("💡 Check dual format matching logic in create-checkout-session endpoint")
-        print("💡 Check dual format matching logic in update-plan endpoint")
-        print("💡 Test with Account Settings frontend to verify end-to-end flow")
-        print("💡 Verify variation_id_month and variation_id_ly logic is working")
+        print("🚨 CRITICAL: Profile picture changes may not cascade to community content")
+        print("💡 Verify cascade_profile_picture_update function uses correct collection names:")
+        print("   - community_posts (not posts)")
+        print("   - community_comments (not comments)")
+        print("   - community_group_posts (not group_posts)")
+        print("   - community_challenge_participations")
+        print("   - community_challenge_comments")
+        print("   - community_challenges")
+        print("💡 Check backend logs for [CASCADE] messages")
+        print("💡 Verify both POST /api/athlete/{athlete_id}/profile-picture and PUT /api/athlete/{athlete_id} call cascade function")
+        print("💡 Test with users who have existing community activity")
     
     print("=" * 70)
 
