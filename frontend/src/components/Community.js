@@ -939,6 +939,28 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
   };
 
+  const handleEmojiSelectForWritePost = (emoji) => {
+    // Insert emoji at cursor position
+    const textarea = writePostTextareaRef.current;
+    if (textarea) {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = writePostContent;
+      const before = text.substring(0, start);
+      const after = text.substring(end);
+      setWritePostContent(before + emoji + after);
+      
+      // Set cursor position after emoji
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + emoji.length;
+        textarea.focus();
+      }, 0);
+    } else {
+      setWritePostContent(prev => prev + emoji);
+    }
+    setShowWritePostEmojiPicker(false);
+  };
+
   const handleEmojiSelectForComment = (emoji, postOrEventId) => {
     setCommentText(prev => ({
       ...prev,
