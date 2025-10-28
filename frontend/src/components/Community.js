@@ -3727,31 +3727,26 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                 <button
                   onClick={() => handleToggleLike(post.id)}
                   className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-                    post.liked_by_user
-                      ? 'bg-red-500/20 text-red-400'
-                      : 'hover:bg-gray-600 text-gray-400'
+                    post.liked_by_user ? 'text-red-400' : 'text-gray-400 hover:text-red-400'
                   }`}
                 >
                   <Heart className={`w-5 h-5 ${post.liked_by_user ? 'fill-current' : ''}`} />
-                  <span>{post.likes_count}</span>
+                  <span className="text-sm">{post.likes_count || 0}</span>
                 </button>
-                
+
                 <button
                   onClick={() => toggleComments(post.id)}
-                  className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-600 rounded-lg transition-colors text-gray-400"
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
                 >
                   <MessageCircle className="w-5 h-5" />
-                  <span key={`comment-count-${post.id}-${post.comments_count}`}>
-                    {console.log(`Rendering comment count for post ${post.id}:`, post.comments_count) || (post.comments_count || 0)}
-                  </span>
+                  <span className="text-sm">{post.comments_count || 0}</span>
                 </button>
-                
+
                 <button
                   onClick={() => handleSharePost(post.id)}
-                  className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-600 rounded-lg transition-colors text-gray-400"
+                  className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
                 >
                   <Share2 className="w-5 h-5" />
-                  <span>{post.shares_count}</span>
                 </button>
               </div>
               
