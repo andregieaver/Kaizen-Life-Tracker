@@ -35,6 +35,7 @@ import OrderDetail from './OrderDetail';
 import Subscriptions from './Subscriptions';
 import Pages from './Pages';
 import PageEditor from './PageEditor';
+import Emails from './Emails';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
