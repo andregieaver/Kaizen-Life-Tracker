@@ -637,6 +637,19 @@ class SupplementLog(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
+class DrinkLog(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    athlete_id: str
+    drink_type: str  # 'water', 'coffee', 'tea', 'juice', 'sports_drink', 'milk', 'smoothie', 'other'
+    amount_ml: int  # Amount in milliliters
+    log_date: date  # Date when drink was consumed
+    log_time: time  # Time when drink was consumed
+    notes: Optional[str] = None  # Additional notes
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
 class Document(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
