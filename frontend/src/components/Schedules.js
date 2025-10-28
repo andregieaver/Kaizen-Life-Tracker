@@ -200,21 +200,21 @@ const Schedules = ({ athleteId }) => {
       )}
 
       {/* Header Card */}
-      <Card className="border-0 shadow-lg">
+      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
         <CardHeader>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <CardTitle className="flex items-center">
-                <Calendar className="w-5 h-5 mr-2 text-blue-600" />
+              <CardTitle className="flex items-center text-white">
+                <Calendar className="w-5 h-5 mr-2 text-[#00C2A8]" />
                 Scheduled Reports
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-gray-300">
                 {schedules.length} active {schedules.length === 1 ? 'schedule' : 'schedules'}
               </CardDescription>
             </div>
             <Button 
               onClick={handleAddScheduleClick}
-              className="bg-blue-600 hover:bg-blue-700 btn-transition w-full md:w-auto"
+              className="bg-[#00C2A8] hover:bg-[#00a890] text-white btn-transition w-full md:w-auto"
               data-testid="add-schedule-btn"
             >
               <Plus className="w-4 h-4 mr-2" />
