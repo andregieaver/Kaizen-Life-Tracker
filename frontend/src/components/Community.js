@@ -3304,26 +3304,31 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                       onClick={() => setShowWritePostEmojiPicker(false)}
                     />
                     
-                    {/* Picker positioned relative to button */}
-                    <div className="absolute bottom-14 right-0 z-[80]">
-                      <Picker
-                        data={data}
-                        onEmojiSelect={(emojiData) => handleEmojiSelectForWritePost(emojiData.native)}
-                        theme="dark"
-                        previewPosition="none"
-                        skinTonePosition="none"
-                        set="native"
-                        emojiSize={20}
-                        emojiButtonSize={36}
-                        maxFrequentRows={2}
-                        perLine={8}
-                        style={{
-                          width: '320px',
-                          backgroundColor: '#1f2937',
-                          borderColor: '#374151',
-                          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)'
-                        }}
-                      />
+                    {/* Picker - Centered on mobile, positioned on desktop */}
+                    <div className="fixed md:absolute bottom-1/2 md:bottom-14 left-1/2 md:left-auto md:right-0 transform -translate-x-1/2 translate-y-1/2 md:translate-x-0 md:translate-y-0 z-[80]">
+                      <div className="bg-gray-800 rounded-xl border-2 border-gray-600 shadow-2xl overflow-hidden">
+                        <Picker
+                          data={data}
+                          onEmojiSelect={(emojiData) => handleEmojiSelectForWritePost(emojiData.native)}
+                          theme="dark"
+                          previewPosition="none"
+                          skinTonePosition="none"
+                          set="native"
+                          emojiSize={20}
+                          emojiButtonSize={36}
+                          maxFrequentRows={2}
+                          perLine={8}
+                          style={{
+                            width: '320px',
+                            backgroundColor: '#1f2937',
+                            border: 'none',
+                            '--rgb-background': '31, 41, 55',
+                            '--rgb-accent': '0, 194, 168',
+                            '--rgb-input': '55, 65, 81',
+                            '--rgb-color': '255, 255, 255',
+                          }}
+                        />
+                      </div>
                     </div>
                   </>
                 )}
