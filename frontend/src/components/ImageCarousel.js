@@ -189,6 +189,7 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
               {item.type === 'video' ? (
                 <div className="relative w-full h-full">
                   <video
+                    ref={mediaItems.length === 1 && index === 0 ? videoRef : null}
                     src={item.url}
                     poster={item.thumbnail}
                     className={`${
@@ -198,10 +199,35 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
                           ? 'w-full object-contain'
                           : 'w-full h-full object-cover'
                     } rounded-none sm:rounded-lg`}
-                    controls
+                    controls={mediaItems.length > 1 || inFullscreen}
                     playsInline
                     preload="metadata"
+                    loop={mediaItems.length === 1}
+                    muted={mediaItems.length === 1}
+                    onClick={(e) => {
+                      if (mediaItems.length === 1 && !inFullscreen) {
+                        e.preventDefault();
+                      }
+                    }}
                   />
+                  
+                  {/* Unmute Button - Only show for single video in feed view */}
+                  {mediaItems.length === 1 && !inFullscreen && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleMute();
+                      }}
+                      className="absolute bottom-4 right-4 bg-black/70 hover:bg-black/90 text-white p-3 rounded-full transition-all z-10"
+                      aria-label={videoMuted ? "Unmute video" : "Mute video"}
+                    >
+                      {videoMuted ? (
+                        <VolumeX className="w-5 h-5" />
+                      ) : (
+                        <Volume2 className="w-5 h-5" />
+                      )}
+                    </button>
+                  )}
                 </div>
               ) : (
                 <img
