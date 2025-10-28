@@ -357,6 +357,13 @@ const Journal = ({ athleteId }) => {
     }
   };
 
+  // Convert SRT to VTT format for HTML5 video player
+  const convertSrtToVtt = (srt) => {
+    let vtt = 'WEBVTT\n\n';
+    vtt += srt.replace(/(\d+:\d+:\d+),(\d+)/g, '$1.$2');
+    return vtt;
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
