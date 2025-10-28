@@ -322,8 +322,8 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
         </>
       )}
 
-      {/* Fullscreen Button - Only in normal view */}
-      {!inFullscreen && (
+      {/* Fullscreen Button - Only in normal view and not for single videos */}
+      {!inFullscreen && !(mediaItems.length === 1 && mediaItems[0].type === 'video') && (
         <button
           onClick={(e) => {
             e.stopPropagation();
