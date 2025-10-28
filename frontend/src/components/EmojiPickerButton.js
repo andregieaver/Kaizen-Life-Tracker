@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import EmojiPicker from 'emoji-picker-react';
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
 import { Smile } from 'lucide-react';
 
 const EmojiPickerButton = ({ onEmojiSelect }) => {
@@ -23,7 +24,7 @@ const EmojiPickerButton = ({ onEmojiSelect }) => {
   }, [showPicker]);
 
   const handleEmojiClick = (emojiData) => {
-    onEmojiSelect(emojiData.emoji);
+    onEmojiSelect(emojiData.native);
     setShowPicker(false);
   };
 
@@ -38,17 +39,40 @@ const EmojiPickerButton = ({ onEmojiSelect }) => {
       </button>
 
       {showPicker && (
-        <div className="absolute bottom-12 left-0 z-50">
-          <EmojiPicker
-            onEmojiClick={handleEmojiClick}
-            width={320}
-            height={400}
-            theme="dark"
-            searchDisabled={false}
-            skinTonesDisabled={false}
-            previewConfig={{ showPreview: false }}
+        <>
+          {/* Backdrop for mobile */}
+          <div 
+            className="fixed inset-0 z-[60] md:hidden"
+            onClick={() => setShowPicker(false)}
           />
-        </div>
+          
+          {/* Picker - Centered on mobile, positioned above button on desktop */}
+          <div className="fixed md:absolute bottom-1/2 md:bottom-12 left-1/2 md:left-0 transform -translate-x-1/2 translate-y-1/2 md:translate-x-0 md:translate-y-0 z-[65]">
+            <div className="bg-gray-800 rounded-xl border-2 border-gray-600 shadow-2xl overflow-hidden">
+              <Picker
+                data={data}
+                onEmojiSelect={handleEmojiClick}
+                theme="dark"
+                previewPosition="none"
+                skinTonePosition="none"
+                set="native"
+                emojiSize={20}
+                emojiButtonSize={36}
+                maxFrequentRows={2}
+                perLine={8}
+                style={{
+                  width: '320px',
+                  backgroundColor: '#1f2937',
+                  border: 'none',
+                  '--rgb-background': '31, 41, 55',
+                  '--rgb-accent': '0, 194, 168',
+                  '--rgb-input': '55, 65, 81',
+                  '--rgb-color': '255, 255, 255',
+                }}
+              />
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
