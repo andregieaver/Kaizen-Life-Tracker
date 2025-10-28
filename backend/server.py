@@ -11138,6 +11138,53 @@ async def get_email_template(template_id: str):
         logging.error(f"Error getting email template: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/email-templates/send-test")
+async def send_test_email(request: dict):
+    """Send a test email with sample data"""
+    try:
+        template_id = request.get("template_id")
+        to_email = request.get("to_email")
+        subject = request.get("subject")
+        body = request.get("body")
+        html_body = request.get("html_body")
+        
+        if not to_email:
+            raise HTTPException(status_code=400, detail="Email address is required")
+        
+        # Sample data for variable replacement
+        sample_data = {
+            "{{user_name}}": "John Doe",
+            "{{reset_link}}": "https://example.com/reset-password?token=sample123",
+            "{{login_url}}": "https://example.com/login",
+            "{{new_email}}": "newemail@example.com"
+        }
+        
+        # Replace variables with sample data
+        test_subject = subject
+        test_body = body
+        test_html_body = html_body
+        
+        for variable, value in sample_data.items():
+            test_subject = test_subject.replace(variable, value)
+            test_body = test_body.replace(variable, value)
+            test_html_body = test_html_body.replace(variable, value)
+        
+        # Send email using email service
+        email_service = get_email_service()
+        await email_service.send_email(
+            to_email=to_email,
+            subject=f"[TEST] {test_subject}",
+            text_content=test_body,
+            html_content=test_html_body
+        )
+        
+        return {"success": True, "message": "Test email sent successfully"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error sending test email: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to send test email: {str(e)}")
+
 @api_router.get("/system/settings/public")
 async def get_public_system_settings():
     """Get public system settings (no auth required)"""
