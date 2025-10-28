@@ -100,12 +100,16 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
           if (entry.isIntersecting) {
             // Video is in viewport - auto-play muted
             videoElement.muted = true;
-            videoElement.play().catch((error) => {
+            videoElement.play().then(() => {
+              setVideoPlaying(true);
+            }).catch((error) => {
               console.log('Auto-play prevented:', error);
+              setVideoPlaying(false);
             });
           } else {
             // Video is out of viewport - pause
             videoElement.pause();
+            setVideoPlaying(false);
           }
         });
       },
