@@ -34,6 +34,14 @@ def process_and_save_image(
         # Open image
         image = Image.open(io.BytesIO(file_data))
         
+        # Handle EXIF orientation to prevent rotation issues
+        try:
+            from PIL import ImageOps
+            image = ImageOps.exif_transpose(image)
+            logger.info("Applied EXIF orientation correction")
+        except Exception as e:
+            logger.warning(f"Could not apply EXIF orientation: {e}")
+        
         # Convert RGBA to RGB if needed (WebP works better with RGB)
         if image.mode in ('RGBA', 'LA', 'P'):
             # Create white background
