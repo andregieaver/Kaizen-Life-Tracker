@@ -1434,7 +1434,7 @@ const Dashboard = ({ athleteId }) => {
             
             {/* Notifications List */}
             <div className="flex-1 overflow-y-auto">
-              {notifications.length === 0 ? (
+              {!notifications || notifications.length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
                     <Bell className="w-16 h-16 text-gray-600 mx-auto mb-4" />
