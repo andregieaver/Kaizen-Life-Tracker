@@ -7233,24 +7233,30 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
               post.comments.map(comment => (
                 <div key={comment.id} className="flex items-start space-x-3">
                   <div
-                    className="cursor-pointer hover:opacity-80"
+                    className="cursor-pointer hover:opacity-80 relative"
                     onClick={() => {
                       onClose();
                       loadAthleteProfile(comment.athlete_id);
                     }}
                   >
                     {comment.athlete_profile_picture ? (
-                      <img
-                        src={comment.athlete_profile_picture}
-                        alt={comment.athlete_name}
-                        className="w-8 h-8 rounded-full object-cover flex-shrink-0"
-                      />
+                      <>
+                        <img
+                          src={comment.athlete_profile_picture}
+                          alt={comment.athlete_name}
+                          className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                        />
+                        <FlagIcon nationality={comment.nationality} />
+                      </>
                     ) : (
-                      <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-white font-bold text-xs">
-                          {comment.athlete_name?.charAt(0).toUpperCase()}
-                        </span>
-                      </div>
+                      <>
+                        <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                          <span className="text-white font-bold text-xs">
+                            {comment.athlete_name?.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                        <FlagIcon nationality={comment.nationality} />
+                      </>
                     )}
                   </div>
                   <div className="flex-1 bg-gray-600 rounded-lg p-3 relative group">
