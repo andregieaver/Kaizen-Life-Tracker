@@ -2898,6 +2898,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 onEdit={handleOpenEditEvent}
                 onDelete={handleDeleteEvent}
                 onClick={handleOpenEventDetail}
+                isSuperAdmin={isSuperAdmin}
               />
             ))}
           </div>
