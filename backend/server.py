@@ -8632,6 +8632,122 @@ async def upload_video(
 # COMMUNITY ENDPOINTS
 # ==========================================
 
+@api_router.post("/community/fetch-youtube-metadata")
+async def fetch_youtube_metadata(data: dict):
+    """Fetch YouTube video metadata"""
+    try:
+        url = data.get("url", "")
+        
+        # Extract video ID from YouTube URL
+        video_id = None
+        patterns = [
+            r'(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\?\/]+)',
+            r'youtube\.com\/embed\/([^&\?\/]+)',
+            r'youtube\.com\/v\/([^&\?\/]+)'
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, url)
+            if match:
+                video_id = match.group(1)
+                break
+        
+        if not video_id:
+            raise HTTPException(status_code=400, detail="Invalid YouTube URL")
+        
+        # Fetch video info using oEmbed API (no API key needed)
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                f"https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={video_id}&format=json"
+            )
+            
+            if response.status_code != 200:
+                raise HTTPException(status_code=400, detail="Failed to fetch YouTube metadata")
+            
+            video_data = response.json()
+            
+            return {
+                "video_id": video_id,
+                "title": video_data.get("title", ""),
+                "author": video_data.get("author_name", ""),
+                "thumbnail": video_data.get("thumbnail_url", ""),
+                "embed_url": f"https://www.youtube.com/embed/{video_id}"
+            }
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fetching YouTube metadata: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.post("/community/fetch-url-preview")
+async def fetch_url_preview(data: dict):
+    """Fetch OpenGraph metadata from URL"""
+    try:
+        url = data.get("url", "")
+        
+        if not url:
+            raise HTTPException(status_code=400, detail="URL is required")
+        
+        # Fetch the webpage
+        async with httpx.AsyncClient(follow_redirects=True, timeout=10.0) as client:
+            response = await client.get(url, headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            })
+            
+            if response.status_code != 200:
+                raise HTTPException(status_code=400, detail="Failed to fetch URL")
+            
+            # Parse HTML
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            # Extract OpenGraph data
+            og_data = {}
+            og_tags = soup.find_all('meta', property=re.compile(r'^og:'))
+            for tag in og_tags:
+                property_name = tag.get('property', '').replace('og:', '')
+                content = tag.get('content', '')
+                if property_name and content:
+                    og_data[property_name] = content
+            
+            # Fallback to standard meta tags
+            if not og_data.get('title'):
+                title_tag = soup.find('title')
+                if title_tag:
+                    og_data['title'] = title_tag.string
+            
+            if not og_data.get('description'):
+                desc_tag = soup.find('meta', attrs={'name': 'description'})
+                if desc_tag:
+                    og_data['description'] = desc_tag.get('content', '')
+            
+            # Get favicon if no image
+            if not og_data.get('image'):
+                icon_tag = soup.find('link', rel=re.compile(r'icon', re.I))
+                if icon_tag:
+                    icon_url = icon_tag.get('href', '')
+                    if icon_url:
+                        if not icon_url.startswith('http'):
+                            from urllib.parse import urljoin
+                            icon_url = urljoin(url, icon_url)
+                        og_data['image'] = icon_url
+            
+            return {
+                "url": url,
+                "title": og_data.get('title', url),
+                "description": og_data.get('description', '')[:200],  # Limit description length
+                "image": og_data.get('image', ''),
+                "site_name": og_data.get('site_name', '')
+            }
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fetching URL preview: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.post("/community/posts")
 async def create_community_post(post_data: dict, athlete_id: str = Query(...)):
     """Create a new community post"""
