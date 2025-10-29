@@ -1051,6 +1051,67 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
   };
 
+  // Detect URLs in text and fetch previews
+  const detectAndFetchPreviews = async (text) => {
+    if (!text || fetchingPreview) return;
+    
+    // YouTube URL regex
+    const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\s&]+)/i;
+    const youtubeMatch = text.match(youtubeRegex);
+    
+    // General URL regex (not YouTube)
+    const urlRegex = /https?:\/\/[^\s]+/gi;
+    const urls = text.match(urlRegex);
+    
+    try {
+      setFetchingPreview(true);
+      
+      // Fetch YouTube preview
+      if (youtubeMatch && !youtubePreview) {
+        try {
+          const response = await axios.post(`${API}/community/fetch-youtube-metadata`, {
+            url: youtubeMatch[0]
+          });
+          setYoutubePreview(response.data);
+        } catch (error) {
+          console.error('Error fetching YouTube metadata:', error);
+        }
+      }
+      
+      // Fetch URL preview (first non-YouTube URL)
+      if (urls && !urlPreview) {
+        const nonYoutubeUrl = urls.find(url => !url.match(youtubeRegex));
+        if (nonYoutubeUrl) {
+          try {
+            const response = await axios.post(`${API}/community/fetch-url-preview`, {
+              url: nonYoutubeUrl
+            });
+            setUrlPreview(response.data);
+          } catch (error) {
+            console.error('Error fetching URL preview:', error);
+          }
+        }
+      }
+    } finally {
+      setFetchingPreview(false);
+    }
+  };
+
+  // Handle content change with URL detection
+  const handleWritePostContentChange = (e) => {
+    const newContent = e.target.value;
+    setWritePostContent(newContent);
+    
+    // Debounce URL detection
+    if (window.urlDetectionTimeout) {
+      clearTimeout(window.urlDetectionTimeout);
+    }
+    
+    window.urlDetectionTimeout = setTimeout(() => {
+      detectAndFetchPreviews(newContent);
+    }, 1000);
+  };
+
   const handleWritePost = async () => {
     if (!writePostContent.trim()) return;
 
