@@ -9225,12 +9225,19 @@ async def share_post(post_id: str, share_data: dict, athlete_id: str = Query(...
             {"$inc": {"shares_count": 1}}
         )
         
+        # Get original post author's subscription tier
+        original_author = await db.athlete_profiles.find_one(
+            {"id": original_post["athlete_id"]},
+            {"_id": 0, "subscription_tier": 1}
+        )
+        
         # Prepare embedded original post data (for display in shared post)
         original_post_data = {
             "id": original_post["id"],
             "athlete_id": original_post["athlete_id"],
             "athlete_name": original_post.get("athlete_name", "Unknown"),
             "athlete_profile_picture": original_post.get("athlete_profile_picture"),
+            "subscription_tier": original_author.get("subscription_tier") if original_author else None,
             "content": original_post.get("content", ""),
             "media": original_post.get("media", []),
             "image_urls": original_post.get("image_urls", []),
