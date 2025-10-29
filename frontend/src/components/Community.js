@@ -7110,24 +7110,30 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
           <div className="mb-6 p-4 bg-gray-800/50 rounded-lg">
             <div className="flex items-center space-x-3 mb-3">
               <div 
-                className="cursor-pointer hover:opacity-80"
+                className="cursor-pointer hover:opacity-80 relative"
                 onClick={() => {
                   onClose();
                   loadAthleteProfile(post.athlete_id);
                 }}
               >
                 {post.athlete_profile_picture ? (
-                  <img
-                    src={post.athlete_profile_picture}
-                    alt={post.athlete_name}
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
+                  <>
+                    <img
+                      src={post.athlete_profile_picture}
+                      alt={post.athlete_name}
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                    <FlagIcon nationality={post.nationality} />
+                  </>
                 ) : (
-                  <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold">
-                      {post.athlete_name?.charAt(0).toUpperCase()}
-                    </span>
-                  </div>
+                  <>
+                    <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold">
+                        {post.athlete_name?.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                    <FlagIcon nationality={post.nationality} />
+                  </>
                 )}
               </div>
               <div>
