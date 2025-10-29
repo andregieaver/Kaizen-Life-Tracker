@@ -917,10 +917,10 @@ const Account = ({ athleteId }) => {
         gender: personalForm.gender || null,
         bio: personalForm.bio || null,
         interests: personalForm.interests || [],
-        // Community Profile Privacy Settings
-        share_bio: personalForm.share_bio || false,
-        share_goals: personalForm.share_goals || false,
-        share_interests: personalForm.share_interests || false,
+        // Community Profile Privacy Settings - ensure boolean
+        share_bio: Boolean(personalForm.share_bio),
+        share_goals: Boolean(personalForm.share_goals),
+        share_interests: Boolean(personalForm.share_interests),
         estimated_calorie_need: personalForm.estimated_calorie_need ? parseInt(personalForm.estimated_calorie_need) : null,
         weight_goal: personalForm.weight_goal || null,
         health_goals: personalForm.health_goals || [],
@@ -928,6 +928,14 @@ const Account = ({ athleteId }) => {
         dietary_preferences: personalForm.dietary_preferences || [],
         measurement_system: personalForm.measurement_system
       };
+      
+      // Debug logging
+      console.log('📤 Sending update data:', updatedData);
+      console.log('🔍 Boolean values:', {
+        share_bio: updatedData.share_bio,
+        share_goals: updatedData.share_goals,
+        share_interests: updatedData.share_interests
+      });
       
       // Include profile picture if uploaded
       if (newProfilePicture) {
