@@ -534,9 +534,9 @@ class AthleteProfile(BaseModel):
     interests: Optional[list] = Field(default_factory=list)  # List of interests/activities
     
     # Community Profile Privacy Settings
-    share_bio: bool = Field(default=False)  # Show bio on community profile
-    share_goals: bool = Field(default=False)  # Show health/training goals on community profile
-    share_interests: bool = Field(default=False)  # Show interests on community profile
+    share_bio: bool = Field(default=True)  # Show bio on community profile
+    share_goals: bool = Field(default=True)  # Show health/training goals on community profile
+    share_interests: bool = Field(default=True)  # Show interests on community profile
     
     # Health & Nutrition Goals
     estimated_calorie_need: Optional[int] = None  # Daily calorie need (calculated or manual)
