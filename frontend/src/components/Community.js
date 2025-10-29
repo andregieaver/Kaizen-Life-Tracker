@@ -3873,6 +3873,33 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         </div>
       )}
 
+      {/* Full-Size Image Modal */}
+      {showFullSizeImage && fullSizeImageUrl && (
+        <div 
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-[80] p-4"
+          onClick={() => setShowFullSizeImage(false)}
+        >
+          <div className="relative max-w-6xl w-full max-h-[90vh] flex items-center justify-center">
+            {/* Close button */}
+            <button
+              onClick={() => setShowFullSizeImage(false)}
+              className="absolute top-4 right-4 p-2 bg-gray-800/80 hover:bg-gray-700 rounded-full transition-colors z-10"
+              title="Close"
+            >
+              <X className="w-6 h-6 text-white" />
+            </button>
+            
+            {/* Full-size image */}
+            <img
+              src={fullSizeImageUrl}
+              alt="Full size"
+              className="max-w-full max-h-[90vh] object-contain rounded-lg"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Confirmation Modal */}
       {showConfirmModal && (
         <ConfirmationModal
