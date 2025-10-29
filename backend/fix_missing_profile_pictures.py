@@ -4,17 +4,26 @@ This script updates all posts/comments with the athlete's current profile pictur
 """
 import asyncio
 import os
+import sys
 from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load environment from backend directory
+backend_dir = os.path.dirname(os.path.abspath(__file__))
+env_path = os.path.join(backend_dir, '.env')
+load_dotenv(env_path)
 
-# MongoDB connection
-MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017/trainsmart")
+# MongoDB connection - use localhost as we're running on the same machine
+MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
+# Append database name if not in URL
+if not MONGO_URL.endswith('/'):
+    MONGO_URL = MONGO_URL + '/trainsmart'
+else:
+    MONGO_URL = MONGO_URL + 'trainsmart'
+
+print(f"Connecting to: {MONGO_URL}")
 client = AsyncIOMotorClient(MONGO_URL)
-# Extract database name from URL or use default
-db_name = MONGO_URL.split('/')[-1].split('?')[0] if '/' in MONGO_URL else "trainsmart"
-db = client[db_name]
+db = client.trainsmart
 
 async def fix_missing_profile_pictures():
     """Update all posts and comments with missing profile pictures"""
