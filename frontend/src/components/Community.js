@@ -3836,7 +3836,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
               {/* YouTube Preview */}
               {youtubePreview && (
-                <div className="bg-gray-700 rounded-lg border border-gray-600 overflow-hidden">
+                <div className="relative bg-gray-700 rounded-lg border border-gray-600 overflow-hidden">
                   <div className="relative">
                     <img 
                       src={youtubePreview.thumbnail} 
@@ -3848,17 +3848,17 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                         <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-white border-b-8 border-b-transparent ml-1"></div>
                       </div>
                     </div>
+                    <button
+                      onClick={() => setYoutubePreview(null)}
+                      className="absolute top-2 right-2 p-1.5 bg-black/70 hover:bg-black/90 rounded-full transition-colors z-10"
+                    >
+                      <X className="w-4 h-4 text-white" />
+                    </button>
                   </div>
                   <div className="p-3">
                     <p className="text-white font-semibold text-sm line-clamp-2">{youtubePreview.title}</p>
                     <p className="text-gray-400 text-xs mt-1">{youtubePreview.author}</p>
                   </div>
-                  <button
-                    onClick={() => setYoutubePreview(null)}
-                    className="absolute top-2 right-2 p-1.5 bg-black/70 hover:bg-black/90 rounded-full transition-colors"
-                  >
-                    <X className="w-4 h-4 text-white" />
-                  </button>
                 </div>
               )}
 
