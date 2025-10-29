@@ -103,6 +103,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   const [showWritePostEmojiPicker, setShowWritePostEmojiPicker] = useState(false);
   const writePostTextareaRef = useRef(null);
   
+  // Share post modal state
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [sharePostData, setSharePostData] = useState(null);
+  const [shareCommentary, setShareCommentary] = useState('');
+  const shareTextareaRef = useRef(null);
+  
   // Athletes modal state
   const [showAthletes, setShowAthletes] = useState(false);
   const [athletes, setAthletes] = useState([]);
