@@ -350,7 +350,7 @@ const FlagIcon = ({ nationality, className = '' }) => {
       className={`absolute ${className}`}
       title={nationality}
       style={{ 
-        fontSize: '0.6em',
+        fontSize: '0.9em',
         textShadow: '0 1px 2px rgba(0,0,0,0.5)',
         zIndex: 10,
         right: '-5px',
