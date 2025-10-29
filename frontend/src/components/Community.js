@@ -2233,7 +2233,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 </CardContent>
               </Card>
             ) : (
-              posts.map(item => {
+              getFilteredPosts(posts).map(item => {
               if (item.type === 'event') {
                 // Render event card
                 return (
