@@ -4785,7 +4785,16 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
         ) : (
           <>
             <div className="flex items-center space-x-4 mb-6">
-              <div className="relative">
+              <div 
+                className="relative cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => {
+                  if (profile.profile_picture) {
+                    setFullSizeImageUrl(profile.profile_picture);
+                    setShowFullSizeImage(true);
+                  }
+                }}
+                title="Click to view full size"
+              >
                 {profile.profile_picture ? (
                   <>
                     <img
