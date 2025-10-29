@@ -10805,7 +10805,7 @@ async def create_group_post(group_id: str, post_data: dict, athlete_id: str = Qu
 
 @api_router.get("/community/groups/{group_id}/posts")
 async def get_group_posts(group_id: str, athlete_id: str = Query(...), limit: int = Query(50)):
-    """Get posts from a group"""
+    """Get posts from a group with subscription tier"""
     try:
         # Verify membership for private groups
         group = await db.community_groups.find_one({"id": group_id}, {"_id": 0})
@@ -10821,11 +10821,33 @@ async def get_group_posts(group_id: str, athlete_id: str = Query(...), limit: in
             if not membership:
                 raise HTTPException(status_code=403, detail="Must be a member to view posts")
         
-        # Get posts
-        posts = await db.community_group_posts.find(
-            {"group_id": group_id},
-            {"_id": 0}
-        ).sort("created_at", -1).limit(limit).to_list(length=None)
+        # Get posts with subscription tier using aggregation
+        pipeline = [
+            {"$match": {"group_id": group_id}},
+            {"$sort": {"created_at": -1}},
+            {"$limit": limit},
+            {
+                "$lookup": {
+                    "from": "athlete_profiles",
+                    "localField": "athlete_id",
+                    "foreignField": "id",
+                    "as": "athlete_info"
+                }
+            },
+            {
+                "$addFields": {
+                    "subscription_tier": {"$arrayElemAt": ["$athlete_info.subscription_tier", 0]}
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "athlete_info": 0
+                }
+            }
+        ]
+        
+        posts = await db.community_group_posts.aggregate(pipeline).to_list(length=None)
         
         # For each post, check if current user has liked it
         for post in posts:
