@@ -11,6 +11,7 @@ import ImageCarousel from './ImageCarousel';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import SubscriptionBadge from './SubscriptionBadge';
+import FlagIcon from './FlagIcon';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
