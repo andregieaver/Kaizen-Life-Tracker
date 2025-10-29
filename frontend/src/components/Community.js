@@ -6220,7 +6220,10 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                       )}
                       <div className="flex-1">
                         <div className="flex items-center space-x-2">
-                          <span className="text-white font-medium text-sm">{comment.athlete_name}</span>
+                          <span className="text-white font-medium text-sm flex items-center">
+                            {comment.athlete_name}
+                            <SubscriptionBadge subscriptionTier={comment.subscription_tier} />
+                          </span>
                           <span className="text-gray-500 text-xs">{new Date(comment.created_at).toLocaleString()}</span>
                         </div>
                         <p className="text-gray-300 text-sm mt-1">{comment.content}</p>
