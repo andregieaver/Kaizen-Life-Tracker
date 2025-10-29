@@ -6165,7 +6165,10 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                             <span className="text-white text-sm">{participant.athlete_name.charAt(0)}</span>
                           </div>
                         )}
-                        <span className="text-white">{participant.athlete_name}</span>
+                        <span className="text-white flex items-center">
+                          {participant.athlete_name}
+                          <SubscriptionBadge subscriptionTier={participant.subscription_tier} />
+                        </span>
                       </div>
                       <div className="text-right">
                         <p className="text-[#00C2A8] font-semibold">
