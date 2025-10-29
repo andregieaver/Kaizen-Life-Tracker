@@ -7047,9 +7047,69 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
                 </p>
               </div>
             </div>
-            <p className="text-white whitespace-pre-wrap">{formatMentions(post.content)}</p>
-            {post.image_data && (
-              <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-64 object-cover mt-3" />
+            
+            {/* Check if this is a shared post */}
+            {post.shared_post_id && post.shared_post_data ? (
+              <>
+                {/* User's Commentary */}
+                {post.content && (
+                  <p className="text-white whitespace-pre-wrap mb-4">{formatMentions(post.content)}</p>
+                )}
+
+                {/* Embedded Original Post */}
+                <div className="border border-gray-600 rounded-lg p-3 bg-gray-900/50">
+                  <div className="flex items-center space-x-2 mb-2">
+                    {post.shared_post_data.athlete_profile_picture ? (
+                      <img
+                        src={post.shared_post_data.athlete_profile_picture}
+                        alt={post.shared_post_data.athlete_name}
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-[#00C2A8] flex items-center justify-center text-white font-semibold text-sm">
+                        {post.shared_post_data.athlete_name?.charAt(0)?.toUpperCase() || 'A'}
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-white font-semibold text-sm">
+                        {post.shared_post_data.athlete_name}
+                      </p>
+                      <p className="text-gray-400 text-xs">
+                        {post.shared_post_data.created_at ? new Date(post.shared_post_data.created_at).toLocaleDateString() : ''}
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="text-gray-300 text-sm mb-2 whitespace-pre-wrap">
+                    {post.shared_post_data.content}
+                  </p>
+
+                  {/* Original Post Media */}
+                  {post.shared_post_data.media && post.shared_post_data.media.length > 0 && (
+                    <div className="rounded-lg overflow-hidden mt-2">
+                      <ImageCarousel media={post.shared_post_data.media} alt="Shared post media" />
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Regular Post Content */}
+                <p className="text-white whitespace-pre-wrap mb-3">{formatMentions(post.content)}</p>
+                
+                {/* Post Media - Support all formats */}
+                {post.media && post.media.length > 0 ? (
+                  <div className="rounded-lg overflow-hidden">
+                    <ImageCarousel media={post.media} alt="Post media" />
+                  </div>
+                ) : post.image_urls && post.image_urls.length > 0 ? (
+                  <div className="rounded-lg overflow-hidden">
+                    <ImageCarousel images={post.image_urls} alt="Post images" />
+                  </div>
+                ) : post.image_data ? (
+                  <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-64 object-cover" />
+                ) : null}
+              </>
             )}
           </div>
 
