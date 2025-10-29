@@ -3727,22 +3727,29 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               {/* Original Post Preview (Twitter-style embedded quote) */}
               <div className="border border-gray-600 rounded-lg p-4 bg-gray-900/50">
                 <div className="flex items-center space-x-3 mb-3">
-                  {sharePostData.athlete_profile_picture ? (
-                    <img
-                      src={sharePostData.athlete_profile_picture}
-                      alt={sharePostData.athlete_name}
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-[#00C2A8] flex items-center justify-center text-white font-semibold">
-                      {sharePostData.athlete_name?.charAt(0)?.toUpperCase() || 'A'}
-                    </div>
-                  )}
+                  <div className="relative">
+                    {sharePostData.athlete_profile_picture ? (
+                      <>
+                        <img
+                          src={sharePostData.athlete_profile_picture}
+                          alt={sharePostData.athlete_name}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                        <FlagIcon nationality={sharePostData.nationality} />
+                      </>
+                    ) : (
+                      <>
+                        <div className="w-10 h-10 rounded-full bg-[#00C2A8] flex items-center justify-center text-white font-semibold">
+                          {sharePostData.athlete_name?.charAt(0)?.toUpperCase() || 'A'}
+                        </div>
+                        <FlagIcon nationality={sharePostData.nationality} />
+                      </>
+                    )}
+                  </div>
                   <div>
                     <p className="text-white font-semibold text-sm flex items-center">
                       {sharePostData.athlete_name}
                       <SubscriptionBadge subscriptionTier={sharePostData.subscription_tier} />
-                      <FlagIcon nationality={sharePostData.nationality} />
                     </p>
                     <p className="text-gray-400 text-xs">
                       {sharePostData.created_at ? new Date(sharePostData.created_at).toLocaleDateString() : ''}
