@@ -141,7 +141,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Share Post API with Commentary Support"
     - "Share Post Modal and Rendering"
   stuck_tasks: []
   test_all: false
