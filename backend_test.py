@@ -8677,49 +8677,49 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Drink Logging API Endpoints Testing"""
-    print("🚀 STARTING DRINK LOGGING API ENDPOINTS TESTING")
+    """Run Share Post API with Commentary Support Testing"""
+    print("🚀 STARTING SHARE POST API WITH COMMENTARY SUPPORT TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Drink Logging API Endpoints
+    # Test Share Post API with Commentary Support
     try:
-        result = test_drink_logging_api_endpoints()
+        result = test_share_post_api_with_commentary()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Drink Logging API Endpoints", False, f"Exception: {str(e)}")
+        print_test_result("Share Post API with Commentary Support", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 DRINK LOGGING API ENDPOINTS TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ GET /api/drinks/{athlete_id} - Retrieve drink logs working")
-        print("✅ GET /api/drinks/{athlete_id}?date=YYYY-MM-DD - Date filtering working")
-        print("✅ POST /api/drinks/{athlete_id} - Create drink logs working")
-        print("✅ PUT /api/drinks/{athlete_id}/{drink_id} - Update drink logs working")
-        print("✅ DELETE /api/drinks/{athlete_id}/{drink_id} - Delete drink logs working")
-        print("✅ DRINK TYPES: Multiple drink types supported (water, coffee, tea, juice, sports_drink, milk, smoothie, other)")
-        print("✅ DATE/TIME HANDLING: Proper ISO date/time format handling")
-        print("✅ MONGODB SERIALIZATION: Correct data storage and retrieval")
-        print("✅ ERROR HANDLING: 404 for non-existent drink_id on update/delete")
-        print("✅ RESPONSE FORMAT: {success: true, drink: {...}} for creation")
-        print("✅ RESPONSE FORMAT: {drinks: [...]} for retrieval")
-        print("✅ EMPTY RESULTS: Empty array for dates with no logs")
-        print("🔧 VERIFIED: All drink logging endpoints functional and production-ready")
-        print("🔧 CONFIRMED: DrinkLog model with fields (id, athlete_id, drink_type, amount_ml, log_date, log_time, notes)")
+        print("🎉 SHARE POST API WITH COMMENTARY SUPPORT TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ POST /api/community/posts/{post_id}/share - Share post endpoint working")
+        print("✅ SHARE WITHOUT COMMENTARY: Creates post with empty content field")
+        print("✅ SHARE WITH COMMENTARY: Stores user's commentary text in content field")
+        print("✅ ORIGINAL POST DATA: Correctly embedded in shared_post_data field")
+        print("✅ SHARES COUNT: Increments correctly on original post")
+        print("✅ FEED INTEGRATION: Shared posts appear in community feed")
+        print("✅ SHARED POST STRUCTURE: All required fields present (id, athlete_id, content, shared_post_id, shared_post_data)")
+        print("✅ EMBEDDED POST DATA: Contains complete original post info (id, athlete_name, content, media, stats, created_at)")
+        print("✅ ERROR HANDLING: 404 error returned for invalid post IDs")
+        print("✅ NOTIFICATIONS: Sent to original post owner when shared by different user")
+        print("✅ COMMENTARY DETECTION: Notification message indicates 'shared with a comment' when commentary provided")
+        print("✅ RESPONSE FORMAT: Returns success, updated shares_count, and shared_post object")
+        print("🔧 VERIFIED: Twitter-style quoted repost functionality working correctly")
+        print("🔧 CONFIRMED: Share Post API supports optional user commentary as specified")
     else:
-        print("❌ DRINK LOGGING API ENDPOINTS TESTING FOUND ISSUES")
+        print("❌ SHARE POST API WITH COMMENTARY SUPPORT TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Some drink logging endpoints may not be working correctly")
-        print("💡 Verify DrinkLog model is properly defined with all required fields")
-        print("💡 Check MongoDB collection 'drink_logs' exists and is accessible")
-        print("💡 Verify date/time parsing and serialization logic")
-        print("💡 Check error handling for invalid drink_id values")
-        print("💡 Test with athlete_id: 44111b4a-b61f-4a94-9c29-439434e67e19 (test.files@example.com)")
+        print("🚨 CRITICAL: Share Post API may not be working correctly")
+        print("💡 Verify POST /api/community/posts/{post_id}/share endpoint exists")
+        print("💡 Check CommunityPost model has shared_post_id and shared_post_data fields")
+        print("💡 Verify share_data parameter accepts 'content' field for commentary")
+        print("💡 Check shared posts appear in community feed with embedded original post data")
+        print("💡 Test with athlete_id from test.files@example.com or andre@example.com")
     
     print("=" * 70)
 
