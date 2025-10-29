@@ -6216,17 +6216,24 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                         <span className={`text-lg font-bold ${index === 0 ? 'text-yellow-500' : index === 1 ? 'text-gray-400' : index === 2 ? 'text-orange-600' : 'text-gray-500'}`}>
                           #{index + 1}
                         </span>
-                        {participant.athlete_profile_picture ? (
-                          <img src={participant.athlete_profile_picture} alt={participant.athlete_name} className="w-8 h-8 rounded-full" />
-                        ) : (
-                          <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
-                            <span className="text-white text-sm">{participant.athlete_name.charAt(0)}</span>
-                          </div>
-                        )}
+                        <div className="relative">
+                          {participant.athlete_profile_picture ? (
+                            <>
+                              <img src={participant.athlete_profile_picture} alt={participant.athlete_name} className="w-8 h-8 rounded-full" />
+                              <FlagIcon nationality={participant.nationality} />
+                            </>
+                          ) : (
+                            <>
+                              <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                                <span className="text-white text-sm">{participant.athlete_name.charAt(0)}</span>
+                              </div>
+                              <FlagIcon nationality={participant.nationality} />
+                            </>
+                          )}
+                        </div>
                         <span className="text-white flex items-center">
                           {participant.athlete_name}
                           <SubscriptionBadge subscriptionTier={participant.subscription_tier} />
-                          <FlagIcon nationality={participant.nationality} />
                         </span>
                       </div>
                       <div className="text-right">
