@@ -1201,6 +1201,7 @@ class CommunityComment(BaseModel):
     athlete_profile_picture: Optional[str] = None  # Cached for display
     content: str
     image_urls: Optional[List[str]] = []  # Array of image URLs (max 3 for comments)
+    likes_count: int = 0  # Number of likes on this comment
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class CommunityLike(BaseModel):
@@ -1208,6 +1209,14 @@ class CommunityLike(BaseModel):
     
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     post_id: str
+    athlete_id: str
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class CommunityCommentLike(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    comment_id: str
     athlete_id: str
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
