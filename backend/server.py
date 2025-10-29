@@ -10632,6 +10632,8 @@ async def delete_group(group_id: str, athlete_id: str = Query(...)):
         await db.community_group_posts.delete_many({"group_id": group_id})
         
         return {"success": True, "message": "Group deleted"}
+    except HTTPException:
+        raise
     except Exception as e:
         logging.error(f"Error deleting group: {e}")
         raise HTTPException(status_code=500, detail=str(e))
