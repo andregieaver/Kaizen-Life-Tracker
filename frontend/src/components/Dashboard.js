@@ -57,6 +57,7 @@ const Dashboard = ({ athleteId }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [notificationsUnreadCount, setNotificationsUnreadCount] = useState(0);
+  const [notificationTab, setNotificationTab] = useState('all'); // all, follows, posts, groups, events, challenges
   
   // SEO settings state
   const [siteTitle, setSiteTitle] = useState('TrainSmart');
