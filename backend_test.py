@@ -9253,45 +9253,42 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Subscription Badge Data Testing"""
-    print("🚀 STARTING SUBSCRIPTION BADGE DATA TESTING")
+    """Run Nationality Field Testing"""
+    print("🚀 STARTING NATIONALITY FIELD TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Subscription Badge Data in Community Endpoints
+    # Test Nationality Field in Community Endpoints
     try:
-        result = test_subscription_badge_data()
+        result = test_nationality_field_in_community_endpoints()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Subscription Badge Data Testing", False, f"Exception: {str(e)}")
+        print_test_result("Nationality Field Testing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 SUBSCRIPTION BADGE DATA TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ COMMUNITY FEED: subscription_tier field present in all posts")
-        print("✅ FOLLOWING FEED: subscription_tier field present in all posts")
-        print("✅ USER POSTS: subscription_tier field present in all posts")
-        print("✅ COMMENTS: subscription_tier field present in all comments")
-        print("✅ SUBSCRIPTION TIER VALUES: All values are valid (free/pro/premium)")
-        print("✅ SUBSCRIPTION TIER DATA: Not null/undefined in responses")
-        print("✅ MULTIPLE TIERS: Different subscription tiers working correctly")
-        print("✅ MONGODB LOOKUP: Using correct 'athlete_profiles' collection")
-        print("🔧 VERIFIED: Bug fix for collection name from 'athletes' to 'athlete_profiles' working")
-        print("🔧 CONFIRMED: Subscription badges should now display correctly in frontend")
+        print("🎉 NATIONALITY FIELD TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ COMMUNITY FEED: nationality field checked in all posts")
+        print("✅ FOLLOWING FEED: nationality field checked in all posts")
+        print("✅ COMMENTS: nationality field checked in all comments")
+        print("✅ ATHLETE PROFILES: nationality field checked in profiles")
+        print("✅ MULTIPLE ATHLETES: nationality data analyzed across different users")
+        print("🔧 VERIFIED: Nationality field presence and values in API responses")
+        print("🔧 ANALYSIS: Root cause identified for missing country flags")
     else:
-        print("❌ SUBSCRIPTION BADGE DATA TESTING FOUND ISSUES")
+        print("❌ NATIONALITY FIELD TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Subscription badges may not display correctly")
-        print("💡 Verify MongoDB $lookup operations use 'athlete_profiles' collection")
-        print("💡 Check subscription_tier field is included in aggregation pipeline projections")
-        print("💡 Verify athlete_profiles collection has subscription_tier field populated")
-        print("💡 Test with different athletes having different subscription tiers")
-        print("💡 Check all 4 endpoints: feed, following-feed, user posts, comments")
+        print("🚨 CRITICAL: Country flags may not display due to missing nationality data")
+        print("💡 Verify nationality field is included in MongoDB aggregation pipelines")
+        print("💡 Check athlete_profiles collection has nationality field populated")
+        print("💡 Ensure athletes set their nationality in profile settings")
+        print("💡 Check all endpoints: community feed, following feed, comments, profiles")
+        print("💡 Verify frontend is reading nationality field correctly for flag display")
     
     print("=" * 70)
 
