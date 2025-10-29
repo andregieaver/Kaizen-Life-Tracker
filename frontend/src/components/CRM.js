@@ -49,6 +49,24 @@ const CRM = ({ athleteId }) => {
     }
   };
 
+  const handleDeleteUser = async () => {
+    if (!deleteUserId) return;
+    
+    try {
+      await axios.delete(`${API}/crm/users/${deleteUserId}`, {
+        params: { athlete_id: athleteId }
+      });
+      
+      // Remove user from list
+      setUsers(users.filter(u => u.id !== deleteUserId));
+      setShowDeleteConfirm(false);
+      setDeleteUserId(null);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      alert('Failed to delete user. Please try again.');
+    }
+  };
+
   const applyFiltersAndSearch = () => {
     let result = [...users];
 
