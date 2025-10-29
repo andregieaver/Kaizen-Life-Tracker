@@ -1,92 +1,132 @@
 <analysis>
-The AI engineer successfully enhanced the TrainSmart application across various features. Initially, work focused on improving the floating action buttons' visual layout in . Subsequent tasks involved creating new floating action buttons for non-community areas (log meal, supplement, drink, journal) in , including a new  component and backend endpoints. The engineer then addressed a user request to ensure voice journal entries utilize the global OpenAI key. Emoji integration was added to community posts and comments, styled for dark theme. A complex video journal feature with transcription and subtitles was implemented, requiring FFmpeg, backend API updates, and frontend UI changes. Video auto-play with custom controls in the feed was added and refined. Layout issues in the following feed's action icons were resolved. Super-admin content moderation for groups, events, and challenges was implemented, alongside allowing challenge creators to participate and simplifying their badge. Significant effort went into debugging and fixing a 422 validation error and subsequent React rendering errors related to community profile privacy settings, eventually ensuring correct data saving and retrieval with default  values for privacy. A backfill script for profile pictures was attempted, revealing an empty database. Finally, the nationality field in registration was converted to a dropdown, and the global notifications modal was enhanced with navigation icons and a tabbed interface.
+The AI engineer successfully progressed the TrainSmart application through several distinct feature implementations and bug fixes. The trajectory began with a request to implement a Share Post feature, inspired by Twitter, which involved extensive backend model and endpoint modifications for storing shared post data and frontend UI updates to display embedded shared content. Following this, significant effort was dedicated to consistently displaying subscription badges and country flags next to usernames across various community components, requiring numerous updates to both backend data fetching logic (aggregations to include  and ) and frontend rendering logic, along with meticulous CSS adjustments for flag positioning and sizing. Bug fixes included super-admin deletion functionality for all community content and resolving an issue with profile modal flags not displaying due to missing backend data and incorrect prop passing. The work then moved to enhancing user experience with a clickable profile image for full-size viewing and a nationality filter for the main feed with persistence. More recently, the Find Athletes modal was improved with flags, badges, and a nationality filter. The engineer then ensured nationality data was correctly stored during onboarding and prepopulated in account settings. The ability for super-admins to delete users from the CRM page was implemented, requiring a new backend endpoint for cascading deletion and frontend UI for the delete button. The most recent task involves adding YouTube video embedding and website URL previews to the create post modal, with backend endpoints for metadata fetching and frontend logic for detection and display currently in progress.
 </analysis>
 
 <product_requirements>
-The TrainSmart application aims to be a comprehensive community and fitness platform, with recent updates focused on user experience and administrative controls. Key existing features include Stripe integration, consistent profile picture updates, Google Tag Manager, and a dynamic CMS for editable pages with SEO. Frontend elements like the dashboard and landing page feature dynamic branding, and login is streamlined. Mobile UI is optimized. Community posts display subscription tier badges. The AI Coach/Scheduled Reports use global OpenAI keys.
-Recent enhancements include:
-*   Refined floating action buttons in the community feed.
-*   New floating action buttons for logging meals, supplements, drinks, and adding journal entries in the dashboard, including a new Drinks feature.
-*   Voice journal entry transcription using the global OpenAI API key from system settings.
-*   Emoji picker integration in community post modals and comments, styled for dark theme and centered on mobile.
-*   Video journal entry feature: capture video, transcribe, add subtitles with preview, and save.
-*   Auto-play single video posts in the feed (muted, with custom hover/touch controls).
-*   Corrected layout and added top border to action icons in the Following community feed.
-*   Super-admin ability to edit/delete groups, events, and challenges.
-*   Challenge creators can now participate in their own challenges, with a crown icon replacing the Creator badge.
-*   Fixed 422 errors and React rendering issues when updating community profile privacy settings, ensuring boolean values are handled correctly and data is saved/reflected. Privacy settings now default to selected.
-*   The nationality field on the registration page () is now a dropdown, consistent with account settings.
-*   Enhanced global notifications modal with navigation icons (linking to profiles, posts, groups, events, challenges) and a tabbed interface (All, Follows, Posts, Groups, Events, Challenges).
+The TrainSmart application is a community and fitness platform, enhanced with features to improve user experience and administrative control. Initial capabilities include Stripe integration, profile picture management, GTM, dynamic CMS pages with SEO, dynamic branding, streamlined login, and mobile-optimized UI. AI Coach uses global OpenAI keys.
+
+Recent key enhancements and features include:
+*   Refined floating action buttons in  and new floating action buttons for logging meals, supplements, drinks, and journal entries in  (including a new  component).
+*   Voice journal entries now use the global OpenAI key.
+*   Emoji picker integrated into community post modals and comments, with dark theme styling.
+*   Video journal feature for capturing, transcribing, adding subtitles, and saving video entries.
+*   Auto-play for single video posts in the feed (muted, with custom controls).
+*   Layout fixes for action icons in the Following feed.
+*   Super-admin ability to edit/delete groups, events, and challenges. Challenge creators can participate and display a crown icon.
+*   Fixed 422 validation and React rendering errors for community profile privacy settings, ensuring correct data saving and default  values.
+*   Nationality field in registration and account settings converted to a dropdown.
+*   Enhanced global notifications modal with tabbed interface and navigation icons.
+*   **Share Post Feature**: Implement a Twitter-style repost functionality allowing users to add commentary, share original media (images/videos), and link back to the original post. Shared posts should appear in the follow feed and personal feed.
+*   **Subscription Badges**: Display subscription tier badges next to usernames wherever they appear in the community (posts, comments, shared posts, group/event/challenge participants, profile modals, find athletes modal).
+*   **Country Flags**: Display country flags next to usernames based on nationality, positioned as an overlay on the bottom-right of the user's profile image, slightly sticking out. The flag size should be adjustable based on the profile picture size.
+*   **User Profile Image Clickable**: In the profile modal, clicking the user's profile image should open a full-size image view.
+*   **Nationality Filter (Main Feed)**: Add the ability to filter the main feed by nationality, with the user's choice persisted locally (localStorage) across sessions.
+*   **Find Athletes Modal Enhancements**: Add country flags, subscription badges, and a nationality filter to the user search modal. Remove text from follow/unfollow buttons.
+*   **Nationality Persistence (Onboarding)**: Ensure nationality chosen during registration is stored in the database and prepopulates the field in account settings.
+*   **CRM User Deletion**: Add the ability for super-admins to delete users from the dashboard/CRM page, which should perform a cascading delete of all associated user data (posts, comments, groups, etc.).
+*   **YouTube and Website URL Previews**: Add capabilities to the create post modal:
+    *   Entering a YouTube link should provide a video preview before publishing.
+    *   Adding a website URL should provide an OpenGraph-style preview (like Facebook).
+    *   Published YouTube videos should be playable from the feed.
+    *   Published website URLs should be visible with OG data and link to .
 </product_requirements>
 
 <key_technical_concepts>
 -   **Full-stack Development**: React.js (Frontend), FastAPI (Backend), MongoDB (Database).
--   **API Integration**: , , OpenAI API, FFmpeg (video processing).
--   **Data Handling**: Pydantic (data validation),  for MongoDB serialization.
+-   **API Integration**: , ,  (for web scraping/metadata), OpenAI API, FFmpeg.
+-   **Data Handling**: Pydantic (data validation),  (timezone-aware storage),  (for IDs).
 -   **UI Components**: Shadcn UI, Tailwind CSS, , .
--   **Image/Video Processing**:  (PIL) for image, FFmpeg for video, EXIF orientation handling,  API.
--   **React Hooks**: , , , .
--   **Frontend Routing**: .
+-   **Frontend State Management**: React Hooks (, , ).
+-   **Frontend Routing**: ,  (for persistence).
+-   **MongoDB Aggregation**: For complex data fetching with lookups and projections.
 </key_technical_concepts>
 
 <code_architecture>
 
 -   : Core API.
-    -   **Importance**: Handles all backend logic, API endpoints, and database interactions.
-    -   **Changes**:  model updated for  and . New FastAPI  import. New endpoints for  and  added. Static file mount  added. Fixed 422 error by correcting  decorator to  function.  endpoint now returns privacy fields (, , ). Default values for , ,  in  and  models are set to .
--   : **NEW FILE**.
-    -   **Importance**: Script to backfill missing profile pictures in existing posts (though database was found to be empty in this trajectory).
-    -   **Changes**: Created, updated to use correct  from environment, added connection test and error handling.
+    -   **Importance**: Handles all backend logic, API endpoints, and database interactions for the application.
+    -   **Changes**:
+        *    model updated to include , , , .
+        *   Share post endpoint updated to embed original post data.
+        *   MongoDB lookups corrected from  to  for  in feed and comment endpoints.
+        *   Group members, events attendees, challenge leaderboard, and all comment endpoints updated with aggregation pipelines to include  and .
+        *   Super-admin checks added to all delete endpoints (posts, comments, groups, events, challenges) to allow deletion of others' content.
+        *   Group delete endpoint updated with  handling.
+        *    endpoint updated to return  and .
+        *    model updated to include .
+        *   New DELETE endpoint  created for super-admins to perform cascading user deletion.
+        *   New GET endpoints  and  added for fetching URL previews.
+        *   Imports for , ,  added.
 -   : Global CSS styles.
     -   **Importance**: Defines global application styles.
-    -   **Changes**: Added custom CSS overrides for  to enforce dark theme styling and responsive positioning.
+    -   **Changes**: Not explicitly mentioned in this trajectory, but likely contains styling related to general UI or new components.
 -   : Account settings component.
-    -   **Importance**: Manages user profile, settings, and community privacy options.
-    -   **Changes**: Fixed React rendering error by ensuring  is always a string. Nationality input field updated to use  component with a dropdown of nationalities.
--   : Main community feed.
-    -   **Importance**: Displays community posts, comments, groups, challenges.
-    -   **Changes**: Floating action buttons (FAB) for create post/event/group/challenge were refined (radius increased). Emoji picker added to the Write Post Modal textarea with dark theme styling and mobile centering. Following feed action buttons (like, comment, share) layout fixed to  and a top border added. Super-admin edit/delete functionality added to , , and new edit/delete buttons/handlers added for . Challenge  updated to allow creators to participate and replaces the Creator badge with a crown icon.
--   : Main dashboard, global header, and routing.
-    -   **Importance**: Central hub for user experience and navigation.
-    -   **Changes**: New floating action buttons (, , , ) implemented with circular fan layout, state management, and navigation handlers.  component imported and routed. Global notifications modal enhanced with a tabbed interface (, , , , , ) and navigation icons per notification type.
+    -   **Importance**: Manages user profile and settings.
+    -   **Changes**: Verified to correctly load, display, and save  (including prepopulation logic).
+-   : Main community feed and related modals.
+    -   **Importance**: Central component for community interactions, displaying posts, comments, groups, events, challenges, and user profiles.
+    -   **Changes**:
+        *   State added for share modal, full-size image modal, and nationality filter (, , , , , ).
+        *    updated to open share modal.
+        *   Share button click handlers updated to pass full post object.
+        *   Share Modal UI implemented.
+        *   Logic to render shared posts (with embedded originals) added to main and following feeds.
+        *    component integrated next to all usernames in posts, comments, shared posts, group/event/challenge participants, and profile modal.
+        *    imported and rendered next to  for all user displays, initially adjusted for size and positioned bottom-right, overlapping profile pictures.
+        *    calls updated to handle  as a country name or demonym.
+        *   Profile image in  made clickable to open .
+        *   Nationality filter UI added to the feed section, with handler and  persistence.
+        *   Props for  and  passed to .
+        *   State for YouTube and URL previews (, , , , ) added.
+        *   Functions , , ,  added for URL detection and preview fetching.
+-   : Customer Relationship Management page.
+    -   **Importance**: Provides super-admins with a list of users for management.
+    -   **Changes**: State for delete confirmation added (, ).  function added for user deletion. Delete button (with  icon) and Actions column added to the user list table.
+-   : Main dashboard.
+    -   **Importance**: Central hub for user experience and navigation, includes global notifications.
+    -   **Changes**: Global notifications modal enhanced with a tabbed interface and navigation icons per notification type.
+-   : Component for logging drink entries.
+    -   **Importance**: Handles drink logging functionality.
+    -   **Changes**: Created.
 -   : **NEW FILE**.
-    -   **Importance**: Component for logging drink entries.
-    -   **Changes**: Created as a new component to handle drink logging functionality.
--   : Reusable emoji picker.
-    -   **Importance**: Provides emoji selection functionality.
-    -   **Changes**: Updated to use  library (newer version), applying dark theme styling and mobile centering.
+    -   **Importance**: Reusable component to display country flag emojis based on nationality.
+    -   **Changes**: Created. Updated to handle both country names and demonyms. Updated to accept a  prop and adjust position to bottom-right, slightly sticking out.
 -   : Component for displaying image/video carousels.
     -   **Importance**: Handles media display for posts, including videos.
-    -   **Changes**: Implemented auto-play for single videos when in viewport, starting muted, with custom play/pause/mute/unmute controls visible on hover/touch and initially hidden. Fullscreen button removed for single videos.  implemented for viewport detection.
+    -   **Changes**: Implemented auto-play for single videos with custom controls.
 -   : Journaling component.
     -   **Importance**: Manages user journal entries.
-    -   **Changes**: Voice transcription endpoint updated to use global OpenAI key from system settings. Video recording functionality added, including state management for recording, video preview, add subtitles checkbox, and functions for video capture, upload, transcription, and subtitle processing. UI updated to include video entry type and display video entries with subtitles.
+    -   **Changes**: Voice transcription updated to use global OpenAI key. Video recording functionality implemented.
 -   : User registration form.
     -   **Importance**: Handles new user registration.
-    -   **Changes**: Nationality input field updated to use  component with a dropdown of nationalities, matching .
+    -   **Changes**: Nationality input field updated to use  component with a dropdown. Verified to correctly send  to the backend.
+-   : Badge component for subscription tiers.
+    -   **Importance**: Displays user's subscription tier.
+    -   **Changes**: Used extensively across community components.
 </code_architecture>
 
 <pending_tasks>
 -   Integrate Oura API credentials.
 -   Complete Nutrition page image/camera upload and delete functionality.
 -   Refactor hardcoded date formats (beyond Orders.js).
--   Resolve persistent profile picture upload failures (beyond cascading update logic and URL issues, as previous troubleshooting didn't fully resolve the user's reported error).
+-   Resolve persistent profile picture upload failures.
 -   Implement Race Predictor calculator logic.
 -   Address CORS issues for Posthog.
 -   Extend file processing to all uploads (meals, documents, events, groups, profiles).
 -   Complete Referral Metrics UI in .
--   Complete the UI for the CRM page (search, filters, sorting, display of user data beyond basic list).
 -   Complete the UI for the individual CRM user page () with all requested sections.
 -   Implement refund order partially or in full functionality on the individual order page.
 -   Complete the UI for the Subscriptions list page () with all requested columns, search, sort, and filtering.
--   Ensure all Stripe-related endpoints use the Stripe key from  (only critical ones like webhook, get_subscription_status, cancel-subscription were fixed, more might exist).
--   When sharing a post, allow the user to add text, ensure both text and images/video of the original post are shared, and include a link back to the original post modal (implement if not existing), using Twitter as a template.
+-   Ensure all Stripe-related endpoints use the Stripe key from .
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary request, the AI engineer had successfully implemented significant enhancements to the global notifications modal within the  component. This included transforming the modal into a tabbed interface with categories for All, Follows, Posts, Groups, Events, and Challenges to improve organization and overview. Crucially, each notification now includes a navigation icon that, when clicked, directs the user to the relevant profile, post comment modal, group modal, event modal, or challenge modal, depending on the notification type. This provides a direct and intuitive way for users to engage with specific notifications. The implementation involved updating state management in  to handle active tabs and conditional rendering, adding new icons for each notification category (e.g., User, MessageSquare, Users, Calendar, Trophy from ), and refining the click handlers for each notification type to trigger the appropriate navigation or modal display. This greatly improves user engagement and accessibility for new notifications.
+The immediate previous work focused on implementing the YouTube video embedding and website URL previews feature within the create post modal in the  component.
+On the backend (), new endpoints  and  were added to fetch metadata for YouTube videos and general website URLs, respectively. The  model was updated to accommodate  and  fields. Necessary Python libraries like  were installed, and  for making HTTP requests was imported.
+On the frontend (), state variables were introduced to manage the YouTube URL (), its preview data (), website URL (), its preview data (), and a boolean to show/hide the URL preview (). Helper functions (, , ) were added to detect URLs in the post content and asynchronously fetch the corresponding metadata from the new backend endpoints. The next step is to integrate these preview data into the  function, which is currently being updated to include  and  when a post is created. The UI for displaying these previews in the create post modal and in the feed after publishing is yet to be implemented.
 </current_work>
 
 <optional_next_step>
-Implement the share post functionality, allowing users to add commentary, sharing original media, and linking back to the original post.
+Update the  function in  to send  and  with the post.
 </optional_next_step>
+
