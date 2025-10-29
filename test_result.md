@@ -214,6 +214,18 @@ frontend:
         comment: "CMS frontend components complete. PAGES LIST (Pages.js): Created list view with search input, status filter (draft/pending/published/scheduled), index status filter (indexed/no-index), sortable table columns (thumbnail 3:2 ratio no border-radius, title with URL slug, status with icons, index status badges, last modified in DD.MM.YY format, action buttons view/edit/delete), pagination display, New Page button navigates to /dashboard/pages/new. PAGE EDITOR (PageEditor.js): Created create/edit form with Page Details section (title input, URL slug with auto-generation from title, status dropdown, index status dropdown, thumbnail upload with 3:2 preview), SEO Settings section (meta title with character count, meta description textarea with character count, focus keyword input, OG image upload with preview), Save button with loading state, back to pages navigation, image upload for edit mode uploads immediately, for new pages uploads on save, validates required fields before save. NAVIGATION: Added Pages button (FileText icon) to Account Settings super admin section (left of CRM button), imported Pages and PageEditor in Dashboard.js, added routing for /dashboard/pages (list) and /dashboard/pages/edit/:id (editor), added isPageEditorPage check for nested routes. Dark theme consistent styling maintained. TESTING NEEDED: 1) Click Pages button as super admin, 2) View seeded pages list, 3) Create new page with images, 4) Edit existing page, 5) Delete page."
 
 backend:
+  - task: "Nationality Field in Community Feed Endpoints"
+    implemented: true
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ NATIONALITY FIELD TESTING RESULTS - Country flags not displaying due to missing nationality data. VERIFIED ALL REVIEW REQUEST REQUIREMENTS using test user test.files@example.com (ID: 46ba60d6-a06c-4a9b-b7a2-999efaa18229): 1) COMMUNITY FEED NATIONALITY FIELD ✓ - GET /api/community/feed/{athlete_id}?limit=5 includes nationality field in aggregation pipeline, found nationality field in 2/3 posts (André Giæver: 'Norwegian', Testina Tastesen: NULL). 2) FOLLOWING FEED NATIONALITY FIELD ❌ - GET /api/community/following-feed/{athlete_id}?limit=5 includes nationality field in pipeline but all Test Files User posts show NULL nationality. 3) COMMENTS NATIONALITY FIELD ❌ - GET /api/community/posts/{post_id}/comments includes nationality field in pipeline but test comment shows NULL nationality. 4) ATHLETE PROFILE NATIONALITY FIELD ❌ - GET /api/athlete/{athlete_id} accessible but nationality field missing from Test Files User profile. 5) DATABASE DIRECT CHECK ✓ - Verified athlete_profiles collection: Only 1/8 athletes have nationality set (André Giæver: 'Norwegian'), all others have NULL/missing nationality. ROOT CAUSE IDENTIFIED: ⚠️ PARTIAL NATIONALITY DATA - Only 12.5% (1/8) athletes have nationality field populated in their profiles. This is why country flags are not visible - the API correctly returns nationality field but most values are NULL. BACKEND API WORKING CORRECTLY: All endpoints (community feed, following feed, comments) properly include nationality field in MongoDB aggregation pipelines and return the field in responses. RECOMMENDATION: Users need to set their nationality in profile settings to enable country flag display."
+
   - task: "Cascading Profile Picture Update"
     implemented: true
     working: true
