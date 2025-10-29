@@ -7164,17 +7164,25 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
                 {/* Embedded Original Post */}
                 <div className="border border-gray-600 rounded-lg p-3 bg-gray-900/50">
                   <div className="flex items-center space-x-2 mb-2">
-                    {post.shared_post_data.athlete_profile_picture ? (
-                      <img
-                        src={post.shared_post_data.athlete_profile_picture}
-                        alt={post.shared_post_data.athlete_name}
-                        className="w-8 h-8 rounded-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-8 h-8 rounded-full bg-[#00C2A8] flex items-center justify-center text-white font-semibold text-sm">
-                        {post.shared_post_data.athlete_name?.charAt(0)?.toUpperCase() || 'A'}
-                      </div>
-                    )}
+                    <div className="relative">
+                      {post.shared_post_data.athlete_profile_picture ? (
+                        <>
+                          <img
+                            src={post.shared_post_data.athlete_profile_picture}
+                            alt={post.shared_post_data.athlete_name}
+                            className="w-8 h-8 rounded-full object-cover"
+                          />
+                          <FlagIcon nationality={post.shared_post_data.nationality} />
+                        </>
+                      ) : (
+                        <>
+                          <div className="w-8 h-8 rounded-full bg-[#00C2A8] flex items-center justify-center text-white font-semibold text-sm">
+                            {post.shared_post_data.athlete_name?.charAt(0)?.toUpperCase() || 'A'}
+                          </div>
+                          <FlagIcon nationality={post.shared_post_data.nationality} />
+                        </>
+                      )}
+                    </div>
                     <div>
                       <p className="text-white font-semibold text-sm flex items-center">
                         {post.shared_post_data.athlete_name}
