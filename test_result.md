@@ -160,7 +160,6 @@ metadata:
 test_plan:
   current_focus:
     - "Share Post Modal and Rendering"
-    - "Subscription Badges Collection Name Fix"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
