@@ -7060,13 +7060,14 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
               </div>
               <div>
                 <p 
-                  className="text-white font-semibold cursor-pointer hover:underline"
+                  className="text-white font-semibold cursor-pointer hover:underline flex items-center"
                   onClick={() => {
                     onClose();
                     loadAthleteProfile(post.athlete_id);
                   }}
                 >
                   {post.athlete_name}
+                  <SubscriptionBadge subscriptionTier={post.subscription_tier} />
                 </p>
                 <p className="text-gray-400 text-xs">
                   {new Date(post.created_at).toLocaleString()}
