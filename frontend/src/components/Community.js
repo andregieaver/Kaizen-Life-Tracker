@@ -3306,6 +3306,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           loadAthleteProfile={loadAthleteProfile}
           handleLike={handleToggleLike}
           handleShare={handleSharePost}
+          setFullSizeImageUrl={setFullSizeImageUrl}
+          setShowFullSizeImage={setShowFullSizeImage}
         />
       )}
 
