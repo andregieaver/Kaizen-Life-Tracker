@@ -103,6 +103,9 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   const [writePostVisibility, setWritePostVisibility] = useState('public');
   const [showWritePostEmojiPicker, setShowWritePostEmojiPicker] = useState(false);
   const writePostTextareaRef = useRef(null);
+  const [youtubePreview, setYoutubePreview] = useState(null);
+  const [urlPreview, setUrlPreview] = useState(null);
+  const [fetchingPreview, setFetchingPreview] = useState(false);
   
   // Share post modal state
   const [showShareModal, setShowShareModal] = useState(false);
