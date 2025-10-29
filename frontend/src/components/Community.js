@@ -7076,8 +7076,9 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
                       </div>
                     )}
                     <div>
-                      <p className="text-white font-semibold text-sm">
+                      <p className="text-white font-semibold text-sm flex items-center">
                         {post.shared_post_data.athlete_name}
+                        <SubscriptionBadge subscriptionTier={post.shared_post_data.subscription_tier} />
                       </p>
                       <p className="text-gray-400 text-xs">
                         {post.shared_post_data.created_at ? new Date(post.shared_post_data.created_at).toLocaleDateString() : ''}
