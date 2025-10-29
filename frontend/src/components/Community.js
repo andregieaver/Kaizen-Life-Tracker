@@ -2854,7 +2854,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 group={group}
                 athleteId={athleteId}
                 onJoin={handleJoinGroup}
+                onEdit={handleOpenEditGroup}
+                onDelete={handleDeleteGroup}
                 onClick={() => loadGroupDetails(group.id)}
+                isSuperAdmin={isSuperAdmin}
               />
             ))}
           </div>
@@ -2871,7 +2874,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 group={group}
                 athleteId={athleteId}
                 isMember={true}
+                onEdit={handleOpenEditGroup}
+                onDelete={handleDeleteGroup}
                 onClick={() => loadGroupDetails(group.id)}
+                isSuperAdmin={isSuperAdmin}
               />
             ))}
           </div>
