@@ -1380,28 +1380,46 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
   };
 
-  const handleSharePost = async (postId) => {
+  const handleSharePost = (post) => {
+    // Open share modal with post data
+    setSharePostData(post);
+    setShareCommentary('');
+    setShowShareModal(true);
+  };
+  
+  const submitSharePost = async () => {
+    if (!sharePostData) return;
+    
     try {
-      const response = await axios.post(`${API}/community/posts/${postId}/share?athlete_id=${athleteId}`);
+      const response = await axios.post(
+        `${API}/community/posts/${sharePostData.id}/share?athlete_id=${athleteId}`,
+        { content: shareCommentary.trim() }
+      );
       
-      // Update posts in feed
+      // Update shares_count in feeds
       setPosts(posts.map(post => 
-        post.id === postId 
+        post.id === sharePostData.id 
           ? { ...post, shares_count: response.data.shares_count }
           : post
       ));
       
-      // Update posts in following feed
       setFollowingPosts(followingPosts.map(post => 
-        post.id === postId 
+        post.id === sharePostData.id 
           ? { ...post, shares_count: response.data.shares_count }
           : post
       ));
+      
+      // Close modal
+      setShowShareModal(false);
+      setSharePostData(null);
+      setShareCommentary('');
       
       // Reload feeds to show the new shared post
       if (activeTab === 'feed') {
+        setPostsLoaded(false);
         loadPosts(true);
       } else if (activeTab === 'following') {
+        setFollowingPostsLoaded(false);
         loadFollowingPosts();
       }
       
