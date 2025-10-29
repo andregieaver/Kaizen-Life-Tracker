@@ -3577,6 +3577,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           loadAthleteProfile={loadAthleteProfile}
           onEmojiSelect={(emoji) => handleEmojiSelectForComment(emoji, selectedPostForComments.id)}
           onDeleteComment={handleDeletePostComment}
+          onToggleCommentLike={handleToggleCommentLike}
         />
       )}
 
@@ -3598,6 +3599,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           loadAthleteProfile={loadAthleteProfile}
           onEmojiSelect={(emoji) => handleEmojiSelectForComment(emoji, selectedEventForComments.id)}
           onDeleteComment={handleDeleteEventComment}
+          onToggleCommentLike={handleToggleCommentLike}
         />
       )}
 
