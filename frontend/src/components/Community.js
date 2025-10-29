@@ -1065,6 +1065,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     
     try {
       setFetchingPreview(true);
+      let urlToRemove = null;
       
       // Fetch YouTube preview
       if (youtubeMatch && !youtubePreview) {
@@ -1073,13 +1074,14 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             url: youtubeMatch[0]
           });
           setYoutubePreview(response.data);
+          urlToRemove = youtubeMatch[0];
         } catch (error) {
           console.error('Error fetching YouTube metadata:', error);
         }
       }
       
       // Fetch URL preview (first non-YouTube URL)
-      if (urls && !urlPreview) {
+      if (urls && !urlPreview && !urlToRemove) {
         const nonYoutubeUrl = urls.find(url => !url.match(youtubeRegex));
         if (nonYoutubeUrl) {
           try {
@@ -1087,10 +1089,17 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               url: nonYoutubeUrl
             });
             setUrlPreview(response.data);
+            urlToRemove = nonYoutubeUrl;
           } catch (error) {
             console.error('Error fetching URL preview:', error);
           }
         }
+      }
+      
+      // Remove the URL from content after successful preview fetch
+      if (urlToRemove) {
+        const newContent = text.replace(urlToRemove, '').trim();
+        setWritePostContent(newContent);
       }
     } finally {
       setFetchingPreview(false);
