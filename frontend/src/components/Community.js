@@ -7721,19 +7721,24 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
           {/* Add Comment Input */}
           <div className="border-t border-gray-600 pt-4">
             <div className="flex items-center space-x-2">
-              <EmojiPickerButton onEmojiSelect={(emoji) => onEmojiSelect(emoji)} />
-              <input
-                ref={commentRef}
-                type="text"
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-                placeholder="Write a comment... (Type @ to mention)"
-                className="flex-1 bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
-                onKeyPress={(e) => e.key === 'Enter' && onAddComment()}
-              />
+              <div className="relative flex-1">
+                <input
+                  ref={commentRef}
+                  type="text"
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  placeholder="Write a comment... (Type @ to mention)"
+                  className="w-full bg-gray-600 text-white rounded-lg pl-4 pr-12 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                  onKeyPress={(e) => e.key === 'Enter' && onAddComment()}
+                />
+                {/* Emoji Button - Inside Input on Right */}
+                <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                  <EmojiPickerButton onEmojiSelect={(emoji) => onEmojiSelect(emoji)} />
+                </div>
+              </div>
               <Button
                 onClick={onAddComment}
-                className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                className="bg-[#00C2A8] hover:bg-[#00a890] text-white p-2"
               >
                 <Send className="w-4 h-4" />
               </Button>
