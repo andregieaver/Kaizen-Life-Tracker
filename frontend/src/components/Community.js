@@ -6887,7 +6887,10 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                         </span>
                       </div>
                     )}
-                    <span className="text-white font-medium text-sm sm:text-base truncate">{user.athlete_name || 'Unknown'}</span>
+                    <span className="text-white font-medium text-sm sm:text-base truncate flex items-center">
+                      {user.athlete_name || 'Unknown'}
+                      <SubscriptionBadge subscriptionTier={user.subscription_tier} />
+                    </span>
                   </div>
                 ))}
               </div>
