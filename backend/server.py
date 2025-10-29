@@ -1186,6 +1186,10 @@ class CommunityPost(BaseModel):
     # Share/Repost fields (Twitter-style quoted repost)
     shared_post_id: Optional[str] = None  # ID of original post being shared
     shared_post_data: Optional[dict] = None  # Embedded original post data for display
+    # YouTube embed data
+    youtube_data: Optional[dict] = None  # {"video_id": "...", "title": "...", "thumbnail": "...", "embed_url": "..."}
+    # URL preview data
+    url_preview: Optional[dict] = None  # {"url": "...", "title": "...", "description": "...", "image": "...", "site_name": "..."}
 
 class CommunityComment(BaseModel):
     model_config = ConfigDict(extra="ignore")
