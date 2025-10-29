@@ -9301,8 +9301,8 @@ async def search_athletes_for_mention(q: str = Query(..., min_length=1)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/community/posts/{post_id}/comments")
-async def get_comments(post_id: str):
-    """Get all comments for a post with subscription tier"""
+async def get_comments(post_id: str, athlete_id: str = Query(None)):
+    """Get all comments for a post with subscription tier and liked status"""
     try:
         # Use aggregation to include subscription tier from athletes collection
         pipeline = [
@@ -9331,6 +9331,21 @@ async def get_comments(post_id: str):
         ]
         
         comments = await db.community_comments.aggregate(pipeline).to_list(length=None)
+        
+        # If athlete_id provided, check which comments are liked by this user
+        if athlete_id:
+            comment_ids = [c["id"] for c in comments]
+            liked_comments = await db.community_comment_likes.find({
+                "comment_id": {"$in": comment_ids},
+                "athlete_id": athlete_id
+            }).to_list(length=None)
+            liked_comment_ids = {like["comment_id"] for like in liked_comments}
+            
+            for comment in comments:
+                comment["liked_by_user"] = comment["id"] in liked_comment_ids
+        else:
+            for comment in comments:
+                comment["liked_by_user"] = False
         
         return {"comments": comments}
     except Exception as e:
