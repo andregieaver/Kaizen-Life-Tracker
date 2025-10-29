@@ -6178,6 +6178,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                         <span className="text-white flex items-center">
                           {participant.athlete_name}
                           <SubscriptionBadge subscriptionTier={participant.subscription_tier} />
+                          <FlagIcon nationality={participant.nationality} />
                         </span>
                       </div>
                       <div className="text-right">
