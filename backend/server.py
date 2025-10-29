@@ -9400,7 +9400,8 @@ async def get_event_comments(event_id: str):
             },
             {
                 "$addFields": {
-                    "subscription_tier": {"$arrayElemAt": ["$athlete_info.subscription_tier", 0]}
+                    "subscription_tier": {"$arrayElemAt": ["$athlete_info.subscription_tier", 0]},
+                    "nationality": {"$arrayElemAt": ["$athlete_info.nationality", 0]}
                 }
             },
             {
@@ -9662,7 +9663,8 @@ async def get_challenge_details(challenge_id: str, athlete_id: str = Query(...))
             },
             {
                 "$addFields": {
-                    "subscription_tier": {"$arrayElemAt": ["$athlete_info.subscription_tier", 0]}
+                    "subscription_tier": {"$arrayElemAt": ["$athlete_info.subscription_tier", 0]},
+                    "nationality": {"$arrayElemAt": ["$athlete_info.nationality", 0]}
                 }
             },
             {
@@ -10036,7 +10038,8 @@ async def get_challenge_comments(challenge_id: str):
             },
             {
                 "$addFields": {
-                    "subscription_tier": {"$arrayElemAt": ["$athlete_info.subscription_tier", 0]}
+                    "subscription_tier": {"$arrayElemAt": ["$athlete_info.subscription_tier", 0]},
+                    "nationality": {"$arrayElemAt": ["$athlete_info.nationality", 0]}
                 }
             },
             {
@@ -10842,7 +10845,8 @@ async def get_group_posts(group_id: str, athlete_id: str = Query(...), limit: in
             },
             {
                 "$addFields": {
-                    "subscription_tier": {"$arrayElemAt": ["$athlete_info.subscription_tier", 0]}
+                    "subscription_tier": {"$arrayElemAt": ["$athlete_info.subscription_tier", 0]},
+                    "nationality": {"$arrayElemAt": ["$athlete_info.nationality", 0]}
                 }
             },
             {
