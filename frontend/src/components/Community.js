@@ -2526,6 +2526,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                                 <p className="text-white font-semibold text-sm flex items-center">
                                   {comment.athlete_name}
                                   <SubscriptionBadge subscriptionTier={comment.subscription_tier} />
+                                  <FlagIcon nationality={comment.nationality} />
                                 </p>
                                 <p className="text-gray-300 text-sm mt-1">{formatMentions(comment.content)}</p>
                                 <p className="text-gray-400 text-xs mt-1">
@@ -2915,6 +2916,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                                     <span className="flex items-center">
                                       {comment.athlete_name}
                                       <SubscriptionBadge subscriptionTier={comment.subscription_tier} />
+                                  <FlagIcon nationality={comment.nationality} />
                                     </span>
                                   </p>
                                   <p className="text-gray-300 text-sm mt-1">{formatMentions(comment.content)}</p>
