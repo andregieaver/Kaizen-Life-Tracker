@@ -4701,7 +4701,10 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                 </div>
               )}
               <div className="flex-1">
-                <h2 className="text-2xl font-bold text-white">{profile.name}</h2>
+                <h2 className="text-2xl font-bold text-white flex items-center">
+                  {profile.name}
+                  <SubscriptionBadge subscriptionTier={profile.subscription_tier} />
+                </h2>
                 {age && <p className="text-gray-400 text-sm">{age} years old</p>}
               </div>
             </div>
