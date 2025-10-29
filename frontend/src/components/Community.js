@@ -3586,6 +3586,108 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         </div>
       )}
 
+      {/* Share Post Modal */}
+      {showShareModal && sharePostData && (
+        <div 
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-[70] p-4"
+          onClick={() => setShowShareModal(false)}
+        >
+          <div 
+            className="bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl border border-gray-700"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-2xl font-bold text-white">Share Post</h3>
+              <button
+                onClick={() => setShowShareModal(false)}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Commentary Input */}
+            <div className="space-y-4">
+              <textarea
+                ref={shareTextareaRef}
+                value={shareCommentary}
+                onChange={(e) => setShareCommentary(e.target.value)}
+                placeholder="Add your thoughts (optional)..."
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[100px] resize-vertical"
+              />
+
+              {/* Original Post Preview (Twitter-style embedded quote) */}
+              <div className="border border-gray-600 rounded-lg p-4 bg-gray-900/50">
+                <div className="flex items-center space-x-3 mb-3">
+                  {sharePostData.athlete_profile_picture ? (
+                    <img
+                      src={sharePostData.athlete_profile_picture}
+                      alt={sharePostData.athlete_name}
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-[#00C2A8] flex items-center justify-center text-white font-semibold">
+                      {sharePostData.athlete_name?.charAt(0)?.toUpperCase() || 'A'}
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-white font-semibold text-sm">{sharePostData.athlete_name}</p>
+                    <p className="text-gray-400 text-xs">
+                      {sharePostData.created_at ? new Date(sharePostData.created_at).toLocaleDateString() : ''}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Original Post Content */}
+                <p className="text-gray-300 text-sm mb-3 whitespace-pre-wrap">{sharePostData.content}</p>
+
+                {/* Original Post Media Preview */}
+                {sharePostData.media && sharePostData.media.length > 0 && (
+                  <div className="rounded-lg overflow-hidden">
+                    {sharePostData.media[0].type === 'image' && (
+                      <img
+                        src={sharePostData.media[0].url}
+                        alt="Post media"
+                        className="w-full max-h-48 object-cover"
+                      />
+                    )}
+                    {sharePostData.media[0].type === 'video' && (
+                      <video
+                        src={sharePostData.media[0].url}
+                        className="w-full max-h-48 object-cover"
+                        controls={false}
+                      />
+                    )}
+                    {sharePostData.media.length > 1 && (
+                      <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                        +{sharePostData.media.length - 1} more
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end space-x-3">
+                <Button
+                  onClick={() => setShowShareModal(false)}
+                  className="px-6 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={submitSharePost}
+                  className="px-6 py-2 bg-[#00C2A8] hover:bg-[#00A896] text-white rounded-lg transition-colors"
+                >
+                  Share
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Confirmation Modal */}
       {showConfirmModal && (
         <ConfirmationModal
