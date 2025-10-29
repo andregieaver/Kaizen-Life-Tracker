@@ -9203,6 +9203,72 @@ async def toggle_post_like(post_id: str, athlete_id: str = Query(...)):
         logging.error(f"Error toggling like: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/community/comments/{comment_id}/like")
+async def toggle_comment_like(comment_id: str, athlete_id: str = Query(...)):
+    """Like or unlike a comment"""
+    try:
+        # Check if comment exists
+        comment = await db.community_comments.find_one({"id": comment_id})
+        if not comment:
+            raise HTTPException(status_code=404, detail="Comment not found")
+        
+        # Check if already liked
+        existing_like = await db.community_comment_likes.find_one({
+            "comment_id": comment_id,
+            "athlete_id": athlete_id
+        })
+        
+        if existing_like:
+            # Unlike
+            await db.community_comment_likes.delete_one({"id": existing_like["id"]})
+            await db.community_comments.update_one(
+                {"id": comment_id},
+                {"$inc": {"likes_count": -1}}
+            )
+            liked = False
+        else:
+            # Like
+            like = {
+                "id": str(uuid.uuid4()),
+                "comment_id": comment_id,
+                "athlete_id": athlete_id,
+                "created_at": datetime.now(timezone.utc).isoformat()
+            }
+            await db.community_comment_likes.insert_one(prepare_for_mongo(like.copy()))
+            await db.community_comments.update_one(
+                {"id": comment_id},
+                {"$inc": {"likes_count": 1}}
+            )
+            liked = True
+            
+            # Create notification for comment owner (if not liking own comment)
+            if comment["athlete_id"] != athlete_id:
+                athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+                notification = {
+                    "id": str(uuid.uuid4()),
+                    "athlete_id": comment["athlete_id"],
+                    "type": "comment_like",
+                    "content": f"{athlete.get('name', 'Someone')} liked your comment",
+                    "post_id": comment.get("post_id"),
+                    "comment_id": comment_id,
+                    "from_athlete_id": athlete_id,
+                    "from_athlete_name": athlete.get("name", "Unknown"),
+                    "read": False,
+                    "created_at": datetime.now(timezone.utc).isoformat()
+                }
+                await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
+        
+        # Get updated like count
+        updated_comment = await db.community_comments.find_one({"id": comment_id}, {"_id": 0})
+        return {
+            "success": True,
+            "liked": liked,
+            "likes_count": updated_comment.get("likes_count", 0)
+        }
+    except Exception as e:
+        logging.error(f"Error toggling comment like: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.post("/community/posts/{post_id}/comment")
 async def add_comment(post_id: str, comment_data: dict, athlete_id: str = Query(...)):
     """Add a comment to a post"""
