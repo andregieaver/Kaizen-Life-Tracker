@@ -5272,7 +5272,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
   );
 };
 
-const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick }) => (
+const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSuperAdmin = false }) => (
   <Card 
     className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-shadow"
     onClick={() => onClick(event.id)}
@@ -5294,7 +5294,7 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick }) => (
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between mb-1">
             <h3 className="text-xl font-bold text-white truncate">{event.name}</h3>
-            {event.creator_id === athleteId && (
+            {(event.creator_id === athleteId || isSuperAdmin) && (
               <div className="flex space-x-1 ml-2">
                 <button
                   onClick={(e) => {
