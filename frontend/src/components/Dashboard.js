@@ -1519,9 +1519,79 @@ const Dashboard = ({ athleteId }) => {
               </button>
             </div>
             
+            {/* Tabs */}
+            <div className="flex overflow-x-auto border-b border-gray-700 bg-gray-800/50 flex-shrink-0 scrollbar-hide">
+              <button
+                onClick={() => setNotificationTab('all')}
+                className={`flex items-center gap-2 px-4 py-3 whitespace-nowrap border-b-2 transition-colors ${
+                  notificationTab === 'all'
+                    ? 'border-[#00C2A8] text-[#00C2A8]'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                }`}
+              >
+                <Bell className="w-4 h-4" />
+                All
+              </button>
+              <button
+                onClick={() => setNotificationTab('follows')}
+                className={`flex items-center gap-2 px-4 py-3 whitespace-nowrap border-b-2 transition-colors ${
+                  notificationTab === 'follows'
+                    ? 'border-blue-400 text-blue-400'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                }`}
+              >
+                <UserPlus className="w-4 h-4" />
+                Follows
+              </button>
+              <button
+                onClick={() => setNotificationTab('posts')}
+                className={`flex items-center gap-2 px-4 py-3 whitespace-nowrap border-b-2 transition-colors ${
+                  notificationTab === 'posts'
+                    ? 'border-red-400 text-red-400'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                }`}
+              >
+                <Heart className="w-4 h-4" />
+                Posts
+              </button>
+              <button
+                onClick={() => setNotificationTab('groups')}
+                className={`flex items-center gap-2 px-4 py-3 whitespace-nowrap border-b-2 transition-colors ${
+                  notificationTab === 'groups'
+                    ? 'border-green-400 text-green-400'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                }`}
+              >
+                <Users className="w-4 h-4" />
+                Groups
+              </button>
+              <button
+                onClick={() => setNotificationTab('events')}
+                className={`flex items-center gap-2 px-4 py-3 whitespace-nowrap border-b-2 transition-colors ${
+                  notificationTab === 'events'
+                    ? 'border-orange-400 text-orange-400'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                }`}
+              >
+                <Calendar className="w-4 h-4" />
+                Events
+              </button>
+              <button
+                onClick={() => setNotificationTab('challenges')}
+                className={`flex items-center gap-2 px-4 py-3 whitespace-nowrap border-b-2 transition-colors ${
+                  notificationTab === 'challenges'
+                    ? 'border-yellow-400 text-yellow-400'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                }`}
+              >
+                <Trophy className="w-4 h-4" />
+                Challenges
+              </button>
+            </div>
+            
             {/* Notifications List */}
             <div className="flex-1 overflow-y-auto">
-              {!notifications || notifications.length === 0 ? (
+              {!notifications || getFilteredNotifications().length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
                     <Bell className="w-16 h-16 text-gray-600 mx-auto mb-4" />
@@ -1530,7 +1600,7 @@ const Dashboard = ({ athleteId }) => {
                   </div>
                 </div>
               ) : (
-                (notifications || []).map(notification => (
+                getFilteredNotifications().map(notification => (
                   <div
                     key={notification.id}
                     className={`p-4 border-b border-gray-700 hover:bg-gray-700/50 active:bg-gray-700 cursor-pointer transition-colors ${
@@ -1538,10 +1608,20 @@ const Dashboard = ({ athleteId }) => {
                     }`}
                     onClick={() => handleNotificationClick(notification)}
                   >
-                    <p className="text-white text-sm">{notification.message || notification.content}</p>
-                    <p className="text-gray-400 text-xs mt-1">
-                      {new Date(notification.created_at).toLocaleString()}
-                    </p>
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 mt-1">
+                        {getNotificationIcon(notification.type)}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white text-sm">{notification.message || notification.content}</p>
+                        <p className="text-gray-400 text-xs mt-1">
+                          {new Date(notification.created_at).toLocaleString()}
+                        </p>
+                      </div>
+                      <div className="flex-shrink-0">
+                        <ArrowRight className="w-5 h-5 text-gray-500" />
+                      </div>
+                    </div>
                   </div>
                 ))
               )}
@@ -1550,8 +1630,8 @@ const Dashboard = ({ athleteId }) => {
 
           {/* Desktop: Dropdown */}
           <div className="hidden md:block fixed top-16 right-4 z-50">
-            <div className="w-80 bg-gray-800 rounded-lg shadow-xl max-h-96 overflow-y-auto">
-              <div className="p-4 border-b border-gray-700 flex items-center justify-between">
+            <div className="w-96 bg-gray-800 rounded-lg shadow-xl max-h-[600px] flex flex-col overflow-hidden">
+              <div className="p-4 border-b border-gray-700 flex items-center justify-between flex-shrink-0">
                 <h3 className="text-white font-semibold">Notifications</h3>
                 <button
                   onClick={() => setShowNotifications(false)}
@@ -1560,27 +1640,111 @@ const Dashboard = ({ athleteId }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              {!notifications || notifications.length === 0 ? (
-                <div className="p-8 text-gray-400 text-center">
-                  <Bell className="w-12 h-12 text-gray-600 mx-auto mb-2" />
-                  <p>No notifications</p>
-                </div>
-              ) : (
-                (notifications || []).map(notification => (
-                  <div
-                    key={notification.id}
-                    className={`p-4 border-b border-gray-700 hover:bg-gray-700 cursor-pointer ${
-                      !notification.read ? 'bg-gray-700/50' : ''
-                    }`}
-                    onClick={() => handleNotificationClick(notification)}
-                  >
-                    <p className="text-white text-sm">{notification.message || notification.content}</p>
-                    <p className="text-gray-400 text-xs mt-1">
-                      {new Date(notification.created_at).toLocaleString()}
-                    </p>
+              
+              {/* Tabs */}
+              <div className="flex overflow-x-auto border-b border-gray-700 bg-gray-800/50 flex-shrink-0 scrollbar-hide">
+                <button
+                  onClick={() => setNotificationTab('all')}
+                  className={`flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
+                    notificationTab === 'all'
+                      ? 'border-[#00C2A8] text-[#00C2A8]'
+                      : 'border-transparent text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <Bell className="w-4 h-4" />
+                  All
+                </button>
+                <button
+                  onClick={() => setNotificationTab('follows')}
+                  className={`flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
+                    notificationTab === 'follows'
+                      ? 'border-blue-400 text-blue-400'
+                      : 'border-transparent text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <UserPlus className="w-4 h-4" />
+                  Follows
+                </button>
+                <button
+                  onClick={() => setNotificationTab('posts')}
+                  className={`flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
+                    notificationTab === 'posts'
+                      ? 'border-red-400 text-red-400'
+                      : 'border-transparent text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <Heart className="w-4 h-4" />
+                  Posts
+                </button>
+                <button
+                  onClick={() => setNotificationTab('groups')}
+                  className={`flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
+                    notificationTab === 'groups'
+                      ? 'border-green-400 text-green-400'
+                      : 'border-transparent text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <Users className="w-4 h-4" />
+                  Groups
+                </button>
+                <button
+                  onClick={() => setNotificationTab('events')}
+                  className={`flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
+                    notificationTab === 'events'
+                      ? 'border-orange-400 text-orange-400'
+                      : 'border-transparent text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <Calendar className="w-4 h-4" />
+                  Events
+                </button>
+                <button
+                  onClick={() => setNotificationTab('challenges')}
+                  className={`flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
+                    notificationTab === 'challenges'
+                      ? 'border-yellow-400 text-yellow-400'
+                      : 'border-transparent text-gray-400 hover:text-white'
+                  }`}
+                >
+                  <Trophy className="w-4 h-4" />
+                  Challenges
+                </button>
+              </div>
+              
+              {/* Notifications List */}
+              <div className="flex-1 overflow-y-auto">
+                {!notifications || getFilteredNotifications().length === 0 ? (
+                  <div className="p-8 text-gray-400 text-center">
+                    <Bell className="w-12 h-12 text-gray-600 mx-auto mb-2" />
+                    <p>No notifications</p>
                   </div>
-                ))
-              )}
+                ) : (
+                  getFilteredNotifications().map(notification => (
+                    <div
+                      key={notification.id}
+                      className={`p-3 border-b border-gray-700 hover:bg-gray-700 cursor-pointer transition-colors ${
+                        !notification.read ? 'bg-gray-700/50' : ''
+                      }`}
+                      onClick={() => handleNotificationClick(notification)}
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="flex-shrink-0 mt-1">
+                          {getNotificationIcon(notification.type)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white text-sm">{notification.message || notification.content}</p>
+                          <p className="text-gray-400 text-xs mt-1">
+                            {new Date(notification.created_at).toLocaleString()}
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0">
+                          <ArrowRight className="w-4 h-4 text-gray-500" />
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           </div>
         </>
