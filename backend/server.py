@@ -9987,12 +9987,34 @@ async def add_challenge_comment(challenge_id: str, comment: dict, athlete_id: st
 
 @api_router.get("/community/challenges/{challenge_id}/comments")
 async def get_challenge_comments(challenge_id: str):
-    """Get comments for a challenge"""
+    """Get comments for a challenge with subscription tier"""
     try:
-        comments = await db.community_challenge_comments.find(
-            {"challenge_id": challenge_id},
-            {"_id": 0}
-        ).sort("created_at", 1).to_list(length=None)
+        # Use aggregation to include subscription tier from athlete_profiles
+        pipeline = [
+            {"$match": {"challenge_id": challenge_id}},
+            {"$sort": {"created_at": 1}},
+            {
+                "$lookup": {
+                    "from": "athlete_profiles",
+                    "localField": "athlete_id",
+                    "foreignField": "id",
+                    "as": "athlete_info"
+                }
+            },
+            {
+                "$addFields": {
+                    "subscription_tier": {"$arrayElemAt": ["$athlete_info.subscription_tier", 0]}
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "athlete_info": 0
+                }
+            }
+        ]
+        
+        comments = await db.community_challenge_comments.aggregate(pipeline).to_list(length=None)
         
         return {"comments": comments}
     except Exception as e:
