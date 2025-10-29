@@ -4752,7 +4752,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
 };
 
 // AthleteProfileModal Component
-const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athleteId, loadAthleteProfile, handleLike, handleShare }) => {
+const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athleteId, loadAthleteProfile, handleLike, handleShare, setFullSizeImageUrl, setShowFullSizeImage }) => {
   const [activeTab, setActiveTab] = useState('about'); // 'about' or 'posts'
   const [userPosts, setUserPosts] = useState([]);
   const [postsLoading, setPostsLoading] = useState(false);
