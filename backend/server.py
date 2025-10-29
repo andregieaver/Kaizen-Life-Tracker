@@ -525,6 +525,7 @@ class AthleteProfile(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     
     # Personal Information Fields
+    nationality: Optional[str] = None  # Nationality/Country
     height: Optional[float] = None  # Height in cm or inches based on unit preference
     weight: Optional[float] = None  # Weight in kg or lbs based on unit preference  
     vo2_max: Optional[float] = None  # VO2 Max value
