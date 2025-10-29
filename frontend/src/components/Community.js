@@ -2999,6 +2999,52 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                             ) : post.image_data ? (
                               <img src={post.image_data} alt="Post" className="w-full rounded-none sm:rounded-lg max-h-96 object-cover mb-0 -mx-3 sm:mx-0" />
                             ) : null}
+
+                            {/* YouTube Video Embed */}
+                            {post.youtube_data && (
+                              <div className="mb-4 -mx-3 sm:mx-0">
+                                <div className="relative" style={{ paddingBottom: '56.25%', height: 0 }}>
+                                  <iframe
+                                    src={post.youtube_data.embed_url}
+                                    title={post.youtube_data.title}
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                    className="absolute top-0 left-0 w-full h-full rounded-none sm:rounded-lg"
+                                  />
+                                </div>
+                                <div className="p-2 bg-gray-700/50 -mx-3 sm:mx-0 sm:rounded-b-lg">
+                                  <p className="text-white text-sm font-semibold line-clamp-2">{post.youtube_data.title}</p>
+                                  <p className="text-gray-400 text-xs mt-1">{post.youtube_data.author}</p>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* URL Preview Card */}
+                            {post.url_preview && !post.youtube_data && (
+                              <a 
+                                href={post.url_preview.url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="block mb-4 -mx-3 sm:mx-0 border border-gray-600 rounded-none sm:rounded-lg overflow-hidden hover:border-[#00C2A8] transition-colors"
+                              >
+                                {post.url_preview.image && (
+                                  <img 
+                                    src={post.url_preview.image} 
+                                    alt={post.url_preview.title}
+                                    className="w-full h-48 object-cover"
+                                  />
+                                )}
+                                <div className="p-3 bg-gray-700/50">
+                                  <p className="text-white text-sm font-semibold line-clamp-2">{post.url_preview.title}</p>
+                                  {post.url_preview.description && (
+                                    <p className="text-gray-400 text-xs mt-1 line-clamp-2">{post.url_preview.description}</p>
+                                  )}
+                                  {post.url_preview.site_name && (
+                                    <p className="text-gray-500 text-xs mt-1">{post.url_preview.site_name}</p>
+                                  )}
+                                </div>
+                              </a>
+                            )}
                           </>
                         )}
                       </>
