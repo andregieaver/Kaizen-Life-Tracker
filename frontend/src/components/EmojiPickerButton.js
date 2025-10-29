@@ -46,59 +46,44 @@ const EmojiPickerButton = ({ onEmojiSelect }) => {
             onClick={() => setShowPicker(false)}
           />
           
-          {/* Picker - Centered on mobile, positioned above button on desktop */}
+          {/* Picker Container */}
           <div 
-            className="fixed md:absolute z-[65]"
+            className="fixed left-1/2 top-1/2 z-[65] md:absolute md:left-0 md:bottom-12 md:top-auto"
             style={{
-              top: '50%',
-              left: '50%',
               transform: 'translate(-50%, -50%)',
             }}
-            data-mobile-centered
           >
-            <div 
-              className="md:static md:transform-none"
-              style={{
-                // Reset positioning for desktop
-              }}
-            >
-              <div className="bg-gray-800 rounded-xl border-2 border-gray-600 shadow-2xl overflow-hidden">
-                <Picker
-                  data={data}
-                  onEmojiSelect={handleEmojiClick}
-                  theme="dark"
-                  previewPosition="none"
-                  skinTonePosition="none"
-                  set="native"
-                  emojiSize={20}
-                  emojiButtonSize={36}
-                  maxFrequentRows={2}
-                  perLine={8}
-                  style={{
-                    width: '320px',
-                    backgroundColor: '#1f2937',
-                    border: 'none',
-                    '--rgb-background': '31, 41, 55',
-                    '--rgb-accent': '0, 194, 168',
-                    '--rgb-input': '55, 65, 81',
-                    '--rgb-color': '255, 255, 255',
-                  }}
-                />
-              </div>
+            <style>{`
+              @media (min-width: 768px) {
+                div[data-picker-container] {
+                  transform: none !important;
+                }
+              }
+            `}</style>
+            <div data-picker-container className="bg-gray-800 rounded-xl border-2 border-gray-600 shadow-2xl overflow-hidden">
+              <Picker
+                data={data}
+                onEmojiSelect={handleEmojiClick}
+                theme="dark"
+                previewPosition="none"
+                skinTonePosition="none"
+                set="native"
+                emojiSize={20}
+                emojiButtonSize={36}
+                maxFrequentRows={2}
+                perLine={8}
+                style={{
+                  width: '320px',
+                  backgroundColor: '#1f2937',
+                  border: 'none',
+                  '--rgb-background': '31, 41, 55',
+                  '--rgb-accent': '0, 194, 168',
+                  '--rgb-input': '55, 65, 81',
+                  '--rgb-color': '255, 255, 255',
+                }}
+              />
             </div>
           </div>
-          
-          {/* Desktop positioning wrapper */}
-          <style jsx>{`
-            @media (min-width: 768px) {
-              div[data-mobile-centered] {
-                top: auto !important;
-                left: 0 !important;
-                bottom: 3rem !important;
-                transform: none !important;
-              }
-            }
-          `}</style>
         </>
       )}
     </div>
