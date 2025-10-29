@@ -5041,24 +5041,31 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                   className="flex items-center space-x-3 cursor-pointer"
                   onClick={() => loadAthleteProfile(member.id)}
                 >
-                  {member.profile_picture ? (
-                    <img
-                      src={member.profile_picture}
-                      alt={member.name}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-12 h-12 bg-[#00C2A8] rounded-full flex items-center justify-center">
-                      <span className="text-white font-bold text-lg">
-                        {member.name?.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                  )}
+                  <div className="relative">
+                    {member.profile_picture ? (
+                      <>
+                        <img
+                          src={member.profile_picture}
+                          alt={member.name}
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
+                        <FlagIcon nationality={member.nationality} />
+                      </>
+                    ) : (
+                      <>
+                        <div className="w-12 h-12 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                          <span className="text-white font-bold text-lg">
+                            {member.name?.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                        <FlagIcon nationality={member.nationality} />
+                      </>
+                    )}
+                  </div>
                   <div>
                     <p className="text-white font-semibold hover:underline flex items-center">
                       {member.name}
                       <SubscriptionBadge subscriptionTier={member.subscription_tier} />
-                      <FlagIcon nationality={member.nationality} />
                     </p>
                     <p className="text-gray-400 text-xs">
                       Requested {new Date(member.requested_at).toLocaleDateString()}
