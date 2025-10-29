@@ -966,20 +966,38 @@ const Account = ({ athleteId }) => {
       console.error('Error response:', error.response?.data);
       console.error('Error status:', error.response?.status);
       
-      // Handle FastAPI validation errors
+      // Handle FastAPI validation errors - ALWAYS ensure string output
       let errorMsg = 'Failed to update personal information';
-      if (error.response?.data?.detail) {
-        const detail = error.response.data.detail;
-        // If detail is an array of validation errors
-        if (Array.isArray(detail)) {
-          errorMsg = detail.map(err => `${err.loc?.join('.')} - ${err.msg}`).join(', ');
-        } else if (typeof detail === 'string') {
-          errorMsg = detail;
-        } else if (typeof detail === 'object') {
-          errorMsg = JSON.stringify(detail);
+      
+      try {
+        if (error.response?.data?.detail) {
+          const detail = error.response.data.detail;
+          // If detail is an array of validation errors
+          if (Array.isArray(detail)) {
+            errorMsg = detail.map(err => {
+              const location = Array.isArray(err.loc) ? err.loc.join('.') : 'field';
+              const message = err.msg || 'validation error';
+              return `${location}: ${message}`;
+            }).join('; ');
+          } else if (typeof detail === 'string') {
+            errorMsg = detail;
+          } else {
+            // Convert any object to string
+            errorMsg = 'Validation error: ' + JSON.stringify(detail);
+          }
+        } else if (error.response?.data?.message) {
+          errorMsg = String(error.response.data.message);
+        } else if (error.message) {
+          errorMsg = String(error.message);
         }
-      } else if (error.response?.data?.message) {
-        errorMsg = error.response.data.message;
+      } catch (parseError) {
+        console.error('Error parsing error message:', parseError);
+        errorMsg = 'An error occurred while updating personal information';
+      }
+      
+      // Final safeguard - ensure it's a string
+      if (typeof errorMsg !== 'string') {
+        errorMsg = 'Failed to update personal information';
       }
       
       setSaveStatus({ type: 'error', message: errorMsg });
