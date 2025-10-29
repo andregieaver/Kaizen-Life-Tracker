@@ -5092,7 +5092,10 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                     </div>
                   )}
                   <div className="flex-1">
-                    <p className="text-white font-semibold hover:underline">{member.name}</p>
+                    <p className="text-white font-semibold hover:underline flex items-center">
+                      {member.name}
+                      <SubscriptionBadge subscriptionTier={member.subscription_tier} />
+                    </p>
                     <div className="flex items-center space-x-2">
                       <span className={`text-xs font-semibold ${
                         member.role === 'admin' ? 'text-yellow-400' :
