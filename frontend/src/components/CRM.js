@@ -351,6 +351,19 @@ const CRM = ({ athleteId }) => {
                       <td className="px-4 py-3 text-gray-300">
                         {formatDate(user.created_at)}
                       </td>
+                      <td className="px-4 py-3">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDeleteUserId(user.id);
+                            setShowDeleteConfirm(true);
+                          }}
+                          className="p-2 hover:bg-red-600/20 rounded-lg transition-colors"
+                          title="Delete user"
+                        >
+                          <Trash2 className="w-4 h-4 text-red-500 hover:text-red-400" />
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -359,6 +372,18 @@ const CRM = ({ athleteId }) => {
           )}
         </CardContent>
       </Card>
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showDeleteConfirm}
+        onClose={() => {
+          setShowDeleteConfirm(false);
+          setDeleteUserId(null);
+        }}
+        onConfirm={handleDeleteUser}
+        title="Delete User"
+        message="Are you sure you want to delete this user? This action cannot be undone and will permanently remove all their data including posts, comments, and subscriptions."
+      />
     </div>
   );
 };
