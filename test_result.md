@@ -122,15 +122,18 @@ backend:
 
   - task: "Subscription Badges Collection Name Fix"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "critical"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "CRITICAL BUG FIX - Subscription badges not displaying in community feed/comments. ROOT CAUSE IDENTIFIED: MongoDB $lookup operations in feed endpoints were referencing incorrect collection name 'athletes' instead of 'athlete_profiles'. This caused subscription_tier field to be null because the lookup failed to find matching records. FIX IMPLEMENTED: Updated 4 MongoDB aggregation pipeline $lookup operations (lines 8754, 8831, 8899, 9169) to use correct collection name 'athlete_profiles'. AFFECTED ENDPOINTS: 1) GET /api/community/feed/{athlete_id} - Community feed subscription tiers, 2) GET /api/community/following-feed/{athlete_id} - Following feed subscription tiers, 3) GET /api/community/posts/user/{target_athlete_id} - User posts subscription tier, 4) GET /api/community/posts/{post_id}/comments - Comment author subscription tiers. RESULT: Subscription tier data now correctly joined from athlete_profiles collection and returned in post/comment objects for SubscriptionBadge component to display. Backend restarted successfully. TESTING NEEDED: 1) Verify subscription badges display next to usernames in community feed posts, 2) Verify subscription badges display in comments, 3) Verify badges display in following feed, 4) Check all subscription tiers (free/pro/premium) render correctly."
+      - working: true
+        agent: "testing"
+        comment: "✅ SUBSCRIPTION BADGES COLLECTION NAME FIX FULLY VERIFIED - Comprehensive testing completed with 100% success rate (all tests passed). VERIFIED ALL REVIEW REQUEST REQUIREMENTS using test user test.files@example.com (ID: 46ba60d6-a06c-4a9b-b7a2-999efaa18229): 1) COMMUNITY FEED SUBSCRIPTION TIERS ✓ - GET /api/community/feed/{athlete_id}?limit=10 returns subscription_tier field in all posts, found valid tiers (free, premium), all 5 tested posts have subscription_tier field present and not null. 2) FOLLOWING FEED SUBSCRIPTION TIERS ✓ - GET /api/community/following-feed/{athlete_id}?limit=10 returns subscription_tier field in all posts, 8 following posts retrieved with valid subscription tiers, all posts have subscription_tier field. 3) USER POSTS SUBSCRIPTION TIERS ✓ - GET /api/community/user/{target_athlete_id}/posts?viewer_athlete_id={viewer_id} returns subscription_tier field in all posts, 5 user posts retrieved with valid subscription tiers. 4) COMMENTS SUBSCRIPTION TIERS ✓ - GET /api/community/posts/{post_id}/comments returns subscription_tier field for each comment author, created test comment to verify functionality, comment shows valid subscription tier (free). 5) MULTIPLE SUBSCRIPTION TIERS VERIFIED ✓ - Found 2 different subscription tiers in feed data: free and premium, verified different athletes have different tiers (André Giæver: premium, Test Files User: free). 6) SUBSCRIPTION TIER VALUES VALIDATION ✓ - All 10 subscription tier values are valid (free/pro/premium), no null or invalid values found. 7) MONGODB LOOKUP OPERATIONS VERIFIED ✓ - All 4 endpoints correctly use 'athlete_profiles' collection in $lookup operations (lines 8754, 8831, 8899, 9169), subscription_tier data properly joined and returned. CRITICAL SUCCESS CRITERIA MET: subscription_tier field present in all feed responses, subscription_tier values are not null, subscription_tier values match athlete's actual subscription tier, comments endpoint includes subscription_tier for each comment author, multiple different subscription tiers work correctly. SUBSCRIPTION BADGES COLLECTION NAME FIX IS PRODUCTION-READY AND FULLY FUNCTIONAL - SUBSCRIPTION BADGES SHOULD NOW DISPLAY CORRECTLY IN FRONTEND."
 
 frontend:
   - task: "Share Post Modal and Rendering"
