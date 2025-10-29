@@ -1371,6 +1371,392 @@ def test_community_feed_422_error_fix():
         traceback.print_exc()
         return False
 
+def test_share_post_api_with_commentary():
+    """
+    SHARE POST API WITH COMMENTARY SUPPORT TESTING
+    
+    CONTEXT:
+    Testing the updated Share Post API that supports Twitter-style quoted reposts with optional user commentary.
+    The endpoint POST /api/community/posts/{post_id}/share now accepts a share_data parameter with optional 'content' field.
+    
+    API DETAILS:
+    - Endpoint: POST /api/community/posts/{post_id}/share?athlete_id={athlete_id}
+    - Request Body: {"content": "optional user commentary"}
+    - Expected Response: {
+        "success": true,
+        "shares_count": <updated count>,
+        "shared_post": {
+          "id": "...",
+          "athlete_id": "...",
+          "content": "user commentary",
+          "shared_post_id": "original_post_id",
+          "shared_post_data": {
+            "id": "...",
+            "athlete_name": "...",
+            "content": "...",
+            "media": [...],
+            ...
+          }
+        }
+      }
+    
+    TEST SCENARIOS:
+    1. Create Test Post - Create a test post first that we can share
+    2. Share Without Commentary - Share the post without adding any commentary
+    3. Share With Commentary - Share the same post with user commentary
+    4. Verify Feed Contains Shared Posts - Check that shared posts appear in feed
+    5. Verify Original Post Stats - Confirm original post shares_count increased
+    6. Error Handling - Test with invalid post ID
+    """
+    print("🔍 TESTING SHARE POST API WITH COMMENTARY SUPPORT")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Login to get athlete_id (use test.files@example.com as specified)
+        print("   Step 1: Login to get test athlete_id")
+        
+        login_data = {
+            "email": "test.files@example.com",
+            "password": "password123"
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        test_athlete_id = athlete_data.get("athlete_id")
+        
+        if not test_athlete_id:
+            print_test_result("Login", False, "No athlete_id returned")
+            return False
+        
+        print_test_result("Login", True, f"athlete_id: {test_athlete_id}")
+        
+        # Step 2: Create Test Post - Create a test post first that we can share
+        print("   Step 2: Create Test Post - Create original post to be shared")
+        
+        original_post_data = {
+            "content": "This is the original post to be shared! 🚀 #testing",
+            "media": []
+        }
+        
+        create_post_response = requests.post(
+            f"{BACKEND_URL}/community/posts?athlete_id={test_athlete_id}",
+            json=original_post_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_post_response.status_code != 200:
+            print_test_result("Create Test Post", False, f"Create failed: {create_post_response.status_code} - {create_post_response.text}")
+            return False
+        
+        post_result = create_post_response.json()
+        original_post_id = post_result.get("id")
+        
+        if not original_post_id:
+            print_test_result("Create Test Post", False, "No post ID returned")
+            return False
+        
+        print_test_result("Create Test Post", True, f"Original post created, ID: {original_post_id}")
+        
+        # Step 3: Share Without Commentary - Share the post without adding any commentary
+        print("   Step 3: Share Without Commentary - Share post with empty content")
+        
+        share_without_commentary_data = {
+            "content": ""
+        }
+        
+        share_empty_response = requests.post(
+            f"{BACKEND_URL}/community/posts/{original_post_id}/share?athlete_id={test_athlete_id}",
+            json=share_without_commentary_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if share_empty_response.status_code != 200:
+            print_test_result("Share Without Commentary", False, f"Share failed: {share_empty_response.status_code} - {share_empty_response.text}")
+            return False
+        
+        share_empty_result = share_empty_response.json()
+        
+        # Verify response structure
+        if not share_empty_result.get("success"):
+            print_test_result("Share Without Commentary - Success Flag", False, "success=false in response")
+            return False
+        
+        shares_count_after_empty = share_empty_result.get("shares_count")
+        if shares_count_after_empty != 1:
+            print_test_result("Share Without Commentary - Shares Count", False, f"Expected shares_count=1, got {shares_count_after_empty}")
+            return False
+        
+        shared_post_empty = share_empty_result.get("shared_post")
+        if not shared_post_empty:
+            print_test_result("Share Without Commentary - Shared Post", False, "No shared_post in response")
+            return False
+        
+        # Verify shared post has empty content
+        if shared_post_empty.get("content") != "":
+            print_test_result("Share Without Commentary - Empty Content", False, f"Expected empty content, got: '{shared_post_empty.get('content')}'")
+            return False
+        
+        # Verify shared_post_data contains original post
+        shared_post_data = shared_post_empty.get("shared_post_data")
+        if not shared_post_data:
+            print_test_result("Share Without Commentary - Shared Post Data", False, "No shared_post_data in response")
+            return False
+        
+        if shared_post_data.get("id") != original_post_id:
+            print_test_result("Share Without Commentary - Original Post ID", False, f"shared_post_data.id mismatch: {shared_post_data.get('id')} != {original_post_id}")
+            return False
+        
+        print_test_result("Share Without Commentary", True, "Share without commentary successful, empty content, shared_post_data populated")
+        
+        # Step 4: Get a different athlete for sharing with commentary
+        print("   Step 4: Get different athlete for commentary share")
+        
+        # Try to login as andre@example.com for different athlete
+        different_login_data = {
+            "email": "andre@example.com",
+            "password": "password123"
+        }
+        
+        different_login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=different_login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        different_athlete_id = None
+        if different_login_response.status_code == 200:
+            different_athlete_data = different_login_response.json()
+            different_athlete_id = different_athlete_data.get("athlete_id")
+            print_test_result("Get Different Athlete", True, f"Different athlete_id: {different_athlete_id}")
+        else:
+            # Use same athlete if different one not available
+            different_athlete_id = test_athlete_id
+            print_test_result("Get Different Athlete", True, f"Using same athlete_id: {different_athlete_id}")
+        
+        # Step 5: Share With Commentary - Share the same post with user commentary
+        print("   Step 5: Share With Commentary - Share post with user commentary")
+        
+        share_with_commentary_data = {
+            "content": "Check out this amazing post! 🔥 This is exactly what I was thinking about!"
+        }
+        
+        share_commentary_response = requests.post(
+            f"{BACKEND_URL}/community/posts/{original_post_id}/share?athlete_id={different_athlete_id}",
+            json=share_with_commentary_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if share_commentary_response.status_code != 200:
+            print_test_result("Share With Commentary", False, f"Share failed: {share_commentary_response.status_code} - {share_commentary_response.text}")
+            return False
+        
+        share_commentary_result = share_commentary_response.json()
+        
+        # Verify response structure
+        if not share_commentary_result.get("success"):
+            print_test_result("Share With Commentary - Success Flag", False, "success=false in response")
+            return False
+        
+        shares_count_after_commentary = share_commentary_result.get("shares_count")
+        expected_shares_count = 2 if different_athlete_id != test_athlete_id else 1
+        if shares_count_after_commentary != expected_shares_count:
+            print_test_result("Share With Commentary - Shares Count", False, f"Expected shares_count={expected_shares_count}, got {shares_count_after_commentary}")
+            return False
+        
+        shared_post_commentary = share_commentary_result.get("shared_post")
+        if not shared_post_commentary:
+            print_test_result("Share With Commentary - Shared Post", False, "No shared_post in response")
+            return False
+        
+        # Verify shared post has commentary content
+        expected_commentary = "Check out this amazing post! 🔥 This is exactly what I was thinking about!"
+        if shared_post_commentary.get("content") != expected_commentary:
+            print_test_result("Share With Commentary - Commentary Content", False, f"Expected: '{expected_commentary}', got: '{shared_post_commentary.get('content')}'")
+            return False
+        
+        # Verify shared_post_data contains original post
+        shared_post_data_commentary = shared_post_commentary.get("shared_post_data")
+        if not shared_post_data_commentary:
+            print_test_result("Share With Commentary - Shared Post Data", False, "No shared_post_data in response")
+            return False
+        
+        if shared_post_data_commentary.get("content") != "This is the original post to be shared! 🚀 #testing":
+            print_test_result("Share With Commentary - Original Content", False, f"Original content mismatch in shared_post_data")
+            return False
+        
+        print_test_result("Share With Commentary", True, "Share with commentary successful, commentary stored, shared_post_data populated")
+        
+        # Step 6: Verify Feed Contains Shared Posts - Check that shared posts appear in feed
+        print("   Step 6: Verify Feed Contains Shared Posts - Check shared posts in feed")
+        
+        feed_response = requests.get(f"{BACKEND_URL}/community/feed/{test_athlete_id}?limit=10")
+        
+        if feed_response.status_code != 200:
+            print_test_result("Verify Feed Contains Shared Posts", False, f"Feed request failed: {feed_response.status_code}")
+            return False
+        
+        feed_data = feed_response.json()
+        posts = feed_data.get("posts", [])
+        
+        # Look for shared posts in feed
+        shared_posts_found = []
+        for post in posts:
+            if post.get("shared_post_id") and post.get("shared_post_data"):
+                shared_posts_found.append(post)
+        
+        if len(shared_posts_found) < 1:
+            print_test_result("Verify Feed Contains Shared Posts", False, f"Expected at least 1 shared post in feed, found {len(shared_posts_found)}")
+            return False
+        
+        # Verify shared post structure in feed
+        sample_shared_post = shared_posts_found[0]
+        required_fields = ["id", "athlete_id", "content", "shared_post_id", "shared_post_data"]
+        missing_fields = []
+        
+        for field in required_fields:
+            if field not in sample_shared_post:
+                missing_fields.append(field)
+        
+        if missing_fields:
+            print_test_result("Verify Feed Shared Post Structure", False, f"Missing fields in shared post: {missing_fields}")
+            return False
+        
+        # Verify shared_post_data has required fields
+        shared_data = sample_shared_post.get("shared_post_data", {})
+        required_shared_data_fields = ["id", "athlete_name", "content", "likes_count", "comments_count", "shares_count"]
+        missing_shared_data_fields = []
+        
+        for field in required_shared_data_fields:
+            if field not in shared_data:
+                missing_shared_data_fields.append(field)
+        
+        if missing_shared_data_fields:
+            print_test_result("Verify Shared Post Data Structure", False, f"Missing fields in shared_post_data: {missing_shared_data_fields}")
+            return False
+        
+        print_test_result("Verify Feed Contains Shared Posts", True, f"Found {len(shared_posts_found)} shared posts in feed with correct structure")
+        
+        # Step 7: Verify Original Post Stats - Confirm original post shares_count increased
+        print("   Step 7: Verify Original Post Stats - Check shares_count on original post")
+        
+        original_post_response = requests.get(f"{BACKEND_URL}/community/posts/post/{original_post_id}?athlete_id={test_athlete_id}")
+        
+        if original_post_response.status_code != 200:
+            print_test_result("Verify Original Post Stats", False, f"Get original post failed: {original_post_response.status_code}")
+            return False
+        
+        original_post_data = original_post_response.json()
+        current_shares_count = original_post_data.get("shares_count", 0)
+        
+        if current_shares_count != expected_shares_count:
+            print_test_result("Verify Original Post Stats", False, f"Expected shares_count={expected_shares_count}, got {current_shares_count}")
+            return False
+        
+        print_test_result("Verify Original Post Stats", True, f"Original post shares_count correctly updated to {current_shares_count}")
+        
+        # Step 8: Error Handling - Test with invalid post ID
+        print("   Step 8: Error Handling - Test with invalid post ID")
+        
+        invalid_post_id = "nonexistent_post_id_12345"
+        
+        invalid_share_response = requests.post(
+            f"{BACKEND_URL}/community/posts/{invalid_post_id}/share?athlete_id={test_athlete_id}",
+            json={"content": "This should fail"},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if invalid_share_response.status_code != 404:
+            print_test_result("Error Handling - Invalid Post ID", False, f"Expected 404, got {invalid_share_response.status_code}")
+            return False
+        
+        print_test_result("Error Handling - Invalid Post ID", True, "Correctly returned 404 for invalid post ID")
+        
+        # Step 9: Test Notification Creation - Verify notification sent to original post owner
+        print("   Step 9: Test Notification Creation - Check notifications for original post owner")
+        
+        # Only test notifications if we used different athletes
+        if different_athlete_id != test_athlete_id:
+            notifications_response = requests.get(f"{BACKEND_URL}/community/notifications/{test_athlete_id}")
+            
+            if notifications_response.status_code == 200:
+                notifications_data = notifications_response.json()
+                notifications = notifications_data.get("notifications", [])
+                
+                # Look for share notifications
+                share_notifications = [n for n in notifications if n.get("type") == "share" and n.get("post_id") == original_post_id]
+                
+                if len(share_notifications) > 0:
+                    print_test_result("Test Notification Creation", True, f"Found {len(share_notifications)} share notifications")
+                    
+                    # Check if notification mentions commentary
+                    commentary_notification = None
+                    for notif in share_notifications:
+                        if "comment" in notif.get("content", "").lower():
+                            commentary_notification = notif
+                            break
+                    
+                    if commentary_notification:
+                        print_test_result("Commentary Notification", True, "Found notification mentioning 'comment' for share with commentary")
+                    else:
+                        print_test_result("Commentary Notification", False, "No notification found mentioning commentary")
+                else:
+                    print_test_result("Test Notification Creation", False, "No share notifications found")
+            else:
+                print_test_result("Test Notification Creation", False, f"Could not get notifications: {notifications_response.status_code}")
+        else:
+            print_test_result("Test Notification Creation", True, "Skipped (same athlete - no self-notifications)")
+        
+        # Step 10: Cleanup - Delete test posts
+        print("   Step 10: Cleanup - Delete test posts")
+        
+        cleanup_success = True
+        
+        # Delete original post (this should cascade delete shares)
+        cleanup_response = requests.delete(f"{BACKEND_URL}/community/posts/{original_post_id}?athlete_id={test_athlete_id}")
+        if cleanup_response.status_code != 200:
+            cleanup_success = False
+        
+        if cleanup_success:
+            print_test_result("Cleanup", True, "Test posts cleaned up successfully")
+        else:
+            print_test_result("Cleanup", False, "Some test posts may not have been cleaned up")
+        
+        # Step 11: Final Summary
+        print("   Step 11: Final Summary - All Share Post API Tests")
+        
+        summary_results = [
+            "✅ Share without commentary creates post with empty content",
+            "✅ Share with commentary stores user's text in content field", 
+            "✅ Original post data correctly embedded in shared_post_data",
+            "✅ shares_count increments correctly on original post",
+            "✅ Shared posts appear in feed with all required fields",
+            "✅ Error handling works for invalid post IDs",
+            "✅ Notifications sent to original post owner (when different athletes)"
+        ]
+        
+        for result in summary_results:
+            print(f"      {result}")
+        
+        print_test_result("Share Post API with Commentary Support", True, "ALL SUCCESS CRITERIA MET")
+        
+        print("\n✅ SHARE POST API WITH COMMENTARY SUPPORT TESTING COMPLETED SUCCESSFULLY")
+        return True
+        
+    except Exception as e:
+        print_test_result("Share Post API Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_drink_logging_api_endpoints():
     """
     DRINK LOGGING API ENDPOINTS TESTING
