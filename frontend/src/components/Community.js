@@ -7694,9 +7694,20 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
                       <SubscriptionBadge subscriptionTier={comment.subscription_tier} />
                     </p>
                     <p className="text-gray-300 text-sm mt-1">{formatMentions(comment.content)}</p>
-                    <p className="text-gray-400 text-xs mt-1">
-                      {new Date(comment.created_at).toLocaleString()}
-                    </p>
+                    <div className="flex items-center justify-between mt-2">
+                      <p className="text-gray-400 text-xs">
+                        {new Date(comment.created_at).toLocaleString()}
+                      </p>
+                      <button
+                        onClick={() => onToggleCommentLike(comment.id, post.id)}
+                        className={`flex items-center space-x-1 text-xs transition-colors ${
+                          comment.liked_by_user ? 'text-red-400' : 'text-gray-400 hover:text-red-400'
+                        }`}
+                      >
+                        <Heart className={`w-4 h-4 ${comment.liked_by_user ? 'fill-current' : ''}`} />
+                        <span>{comment.likes_count || 0}</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))
