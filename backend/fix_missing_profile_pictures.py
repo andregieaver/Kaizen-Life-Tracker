@@ -28,17 +28,31 @@ db = client.trainsmart
 async def fix_missing_profile_pictures():
     """Update all posts and comments with missing profile pictures"""
     
-    print("🔍 Finding posts with missing profile pictures...")
+    try:
+        # Test connection
+        await client.admin.command('ping')
+        print("✅ Connected to MongoDB successfully")
+    except Exception as e:
+        print(f"❌ Failed to connect to MongoDB: {e}")
+        return
+    
+    print("\n🔍 Finding posts with missing profile pictures...")
     
     # Get all athletes with their profile pictures
-    athletes = await db.athletes.find({}, {"id": 1, "profile_picture": 1}).to_list(length=None)
-    athlete_pics = {a["id"]: a.get("profile_picture") for a in athletes}
+    athletes = await db.athletes.find({}, {"id": 1, "profile_picture": 1, "_id": 0}).to_list(length=None)
+    athlete_pics = {a["id"]: a.get("profile_picture") for a in athletes if a.get("profile_picture")}
     
-    print(f"📊 Found {len(athletes)} athletes")
+    print(f"📊 Found {len(athletes)} athletes ({len(athlete_pics)} with profile pictures)")
+    
+    if len(athletes) == 0:
+        print("⚠️  No athletes found in database")
+        return
     
     # Update posts
     posts_updated = 0
-    posts = await db.posts.find({}).to_list(length=None)
+    posts = await db.posts.find({}, {"id": 1, "athlete_id": 1, "athlete_name": 1, "athlete_profile_picture": 1, "_id": 0}).to_list(length=None)
+    
+    print(f"📝 Checking {len(posts)} posts...")
     
     for post in posts:
         athlete_id = post.get("athlete_id")
@@ -52,13 +66,15 @@ async def fix_missing_profile_pictures():
                 {"$set": {"athlete_profile_picture": correct_pic}}
             )
             posts_updated += 1
-            print(f"✓ Updated post {post['id'][:8]}... for athlete {post.get('athlete_name', 'Unknown')}")
+            print(f"  ✓ Updated post {post['id'][:8]}... for {post.get('athlete_name', 'Unknown')}")
     
     print(f"✅ Updated {posts_updated} posts")
     
     # Update comments
     comments_updated = 0
-    comments = await db.comments.find({}).to_list(length=None)
+    comments = await db.comments.find({}, {"id": 1, "athlete_id": 1, "athlete_profile_picture": 1, "_id": 0}).to_list(length=None)
+    
+    print(f"💬 Checking {len(comments)} comments...")
     
     for comment in comments:
         athlete_id = comment.get("athlete_id")
@@ -76,7 +92,9 @@ async def fix_missing_profile_pictures():
     
     # Update event comments
     event_comments_updated = 0
-    event_comments = await db.event_comments.find({}).to_list(length=None)
+    event_comments = await db.event_comments.find({}, {"id": 1, "athlete_id": 1, "athlete_profile_picture": 1, "_id": 0}).to_list(length=None)
+    
+    print(f"📅 Checking {len(event_comments)} event comments...")
     
     for comment in event_comments:
         athlete_id = comment.get("athlete_id")
@@ -94,7 +112,9 @@ async def fix_missing_profile_pictures():
     
     # Update challenge participations
     participations_updated = 0
-    participations = await db.challenge_participations.find({}).to_list(length=None)
+    participations = await db.challenge_participations.find({}, {"id": 1, "athlete_id": 1, "athlete_profile_picture": 1, "_id": 0}).to_list(length=None)
+    
+    print(f"🏆 Checking {len(participations)} challenge participations...")
     
     for participation in participations:
         athlete_id = participation.get("athlete_id")
@@ -110,7 +130,14 @@ async def fix_missing_profile_pictures():
     
     print(f"✅ Updated {participations_updated} challenge participations")
     
-    print(f"\n🎉 Total updates: {posts_updated + comments_updated + event_comments_updated + participations_updated}")
+    total = posts_updated + comments_updated + event_comments_updated + participations_updated
+    print(f"\n🎉 Backfill complete! Total updates: {total}")
+    
+    if total == 0:
+        print("ℹ️  All profile pictures are already up to date!")
+    
+    # Close connection
+    client.close()
 
 if __name__ == "__main__":
     asyncio.run(fix_missing_profile_pictures())
