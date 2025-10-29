@@ -2503,7 +2503,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                         </button>
 
                         <button
-                          onClick={() => handleSharePost(post.id)}
+                          onClick={() => handleSharePost(post)}
                           className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
                         >
                           <Share2 className="w-5 h-5" />
