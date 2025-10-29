@@ -47,7 +47,7 @@ const EmojiPickerButton = ({ onEmojiSelect }) => {
           />
           
           {/* Picker - Centered on mobile, positioned above button on desktop */}
-          <div className="fixed md:absolute bottom-1/2 md:bottom-12 left-1/2 md:left-0 transform -translate-x-1/2 translate-y-1/2 md:translate-x-0 md:translate-y-0 z-[65]">
+          <div className="fixed md:absolute top-1/2 md:top-auto md:bottom-12 left-1/2 md:left-0 -translate-x-1/2 -translate-y-1/2 md:translate-x-0 md:translate-y-0 z-[65]">
             <div className="bg-gray-800 rounded-xl border-2 border-gray-600 shadow-2xl overflow-hidden">
               <Picker
                 data={data}
