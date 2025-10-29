@@ -3716,7 +3716,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                     </div>
                   )}
                   <div>
-                    <p className="text-white font-semibold text-sm">{sharePostData.athlete_name}</p>
+                    <p className="text-white font-semibold text-sm flex items-center">
+                      {sharePostData.athlete_name}
+                      <SubscriptionBadge subscriptionTier={sharePostData.subscription_tier} />
+                    </p>
                     <p className="text-gray-400 text-xs">
                       {sharePostData.created_at ? new Date(sharePostData.created_at).toLocaleDateString() : ''}
                     </p>
