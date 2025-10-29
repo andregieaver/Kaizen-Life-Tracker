@@ -9733,14 +9733,18 @@ async def edit_challenge(challenge_id: str, updates: dict, athlete_id: str = Que
 
 @api_router.delete("/community/challenges/{challenge_id}")
 async def delete_challenge(challenge_id: str, athlete_id: str = Query(...)):
-    """Delete a challenge (creator only)"""
+    """Delete a challenge (creator or super-admin)"""
     try:
-        # Check if challenge exists and user is creator
+        # Check if challenge exists
         challenge = await db.community_challenges.find_one({"id": challenge_id}, {"_id": 0})
         if not challenge:
             raise HTTPException(status_code=404, detail="Challenge not found")
         
-        if challenge.get("creator_id") != athlete_id:
+        # Check if user is super-admin
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id})
+        is_super_admin = athlete.get("is_super_admin", False) if athlete else False
+        
+        if challenge.get("creator_id") != athlete_id and not is_super_admin:
             raise HTTPException(status_code=403, detail="Only the creator can delete this challenge")
         
         # Delete challenge and all related data
