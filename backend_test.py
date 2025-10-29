@@ -1551,9 +1551,9 @@ def test_nationality_field_in_community_endpoints():
             print_test_result("Comments Test", False, "No post ID available to test comments")
         
         # Step 5: Check Athlete Profile for Nationality Field
-        print("   Step 5: Check Athlete Profile for Nationality - GET /api/athlete/profile/{athlete_id}")
+        print("   Step 5: Check Athlete Profile for Nationality - GET /api/athlete/{athlete_id}")
         
-        profile_response = requests.get(f"{BACKEND_URL}/athlete/profile/{athlete_id}")
+        profile_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
         
         if profile_response.status_code != 200:
             print_test_result("Athlete Profile Access", False, f"Profile failed: {profile_response.status_code} - {profile_response.text}")
