@@ -24,6 +24,8 @@ const CRM = ({ athleteId }) => {
     nationality: 'all'
   });
   const [showFilters, setShowFilters] = useState(false);
+  const [deleteUserId, setDeleteUserId] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   useEffect(() => {
     fetchUsers();
