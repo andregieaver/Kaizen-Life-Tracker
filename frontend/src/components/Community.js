@@ -2756,22 +2756,29 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                               }}
                             >
                               <div className="flex items-center space-x-3 mb-3">
-                                {post.shared_post_data.athlete_profile_picture ? (
-                                  <img
-                                    src={post.shared_post_data.athlete_profile_picture}
-                                    alt={post.shared_post_data.athlete_name}
-                                    className="w-10 h-10 rounded-full object-cover"
-                                  />
-                                ) : (
-                                  <div className="w-10 h-10 rounded-full bg-[#00C2A8] flex items-center justify-center text-white font-semibold">
-                                    {post.shared_post_data.athlete_name?.charAt(0)?.toUpperCase() || 'A'}
-                                  </div>
-                                )}
+                                <div className="relative">
+                                  {post.shared_post_data.athlete_profile_picture ? (
+                                    <>
+                                      <img
+                                        src={post.shared_post_data.athlete_profile_picture}
+                                        alt={post.shared_post_data.athlete_name}
+                                        className="w-10 h-10 rounded-full object-cover"
+                                      />
+                                      <FlagIcon nationality={post.shared_post_data.nationality} />
+                                    </>
+                                  ) : (
+                                    <>
+                                      <div className="w-10 h-10 rounded-full bg-[#00C2A8] flex items-center justify-center text-white font-semibold">
+                                        {post.shared_post_data.athlete_name?.charAt(0)?.toUpperCase() || 'A'}
+                                      </div>
+                                      <FlagIcon nationality={post.shared_post_data.nationality} />
+                                    </>
+                                  )}
+                                </div>
                                 <div>
                                   <p className="text-white font-semibold text-sm hover:underline flex items-center">
                                     {post.shared_post_data.athlete_name}
                                     <SubscriptionBadge subscriptionTier={post.shared_post_data.subscription_tier} />
-                                    <FlagIcon nationality={post.shared_post_data.nationality} />
                                   </p>
                                   <p className="text-gray-400 text-xs">
                                     {post.shared_post_data.created_at ? new Date(post.shared_post_data.created_at).toLocaleDateString() : ''}
