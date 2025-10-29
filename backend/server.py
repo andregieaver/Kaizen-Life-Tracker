@@ -10982,7 +10982,8 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...), exclude
                     "_id": 0,
                     "athlete_id": 1,
                     "athlete_name": "$athlete_info.name",
-                    "athlete_profile_picture": "$athlete_info.profile_picture"
+                    "athlete_profile_picture": "$athlete_info.profile_picture",
+                    "subscription_tier": "$athlete_info.subscription_tier"
                 }
             }
         ]
@@ -11003,7 +11004,8 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...), exclude
                     "_id": 0,
                     "athlete_id": 1,
                     "athlete_name": "$athlete_info.name",
-                    "athlete_profile_picture": "$athlete_info.profile_picture"
+                    "athlete_profile_picture": "$athlete_info.profile_picture",
+                    "subscription_tier": "$athlete_info.subscription_tier"
                 }
             }
         ]
