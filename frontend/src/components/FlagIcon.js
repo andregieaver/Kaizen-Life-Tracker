@@ -344,15 +344,17 @@ const FlagIcon = ({ nationality, className = '' }) => {
   
   if (!flag) return null;
   
-  // Positioned absolutely in bottom-left corner of profile image
+  // Positioned absolutely in bottom-right corner, sticking out 5px
   return (
     <span 
-      className={`absolute bottom-0 left-0 text-base leading-none ${className}`}
+      className={`absolute ${className}`}
       title={nationality}
       style={{ 
-        fontSize: '1.2em',
+        fontSize: '0.6em',
         textShadow: '0 1px 2px rgba(0,0,0,0.5)',
-        zIndex: 10
+        zIndex: 10,
+        right: '-5px',
+        bottom: '-5px'
       }}
     >
       {flag}
