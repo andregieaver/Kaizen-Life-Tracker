@@ -10433,6 +10433,7 @@ async def get_group_details(group_id: str, athlete_id: str = Query(...)):
                     "id": athlete["id"],
                     "name": athlete.get("name", "Unknown"),
                     "profile_picture": athlete.get("profile_picture"),
+                    "subscription_tier": athlete.get("subscription_tier"),
                     "role": m.get("role")
                 })
         
