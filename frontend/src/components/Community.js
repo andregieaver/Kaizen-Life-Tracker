@@ -110,6 +110,15 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   const [shareCommentary, setShareCommentary] = useState('');
   const shareTextareaRef = useRef(null);
   
+  // Full-size image modal state
+  const [showFullSizeImage, setShowFullSizeImage] = useState(false);
+  const [fullSizeImageUrl, setFullSizeImageUrl] = useState('');
+  
+  // Nationality filter state (persisted in localStorage)
+  const [nationalityFilter, setNationalityFilter] = useState(() => {
+    return localStorage.getItem('communityNationalityFilter') || 'all';
+  });
+  
   // Athletes modal state
   const [showAthletes, setShowAthletes] = useState(false);
   const [athletes, setAthletes] = useState([]);
