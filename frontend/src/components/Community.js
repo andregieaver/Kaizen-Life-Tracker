@@ -5519,7 +5519,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
                           alt={athlete.name}
                           className="w-14 h-14 rounded-full object-cover"
                         />
-                        <FlagIcon nationality={athlete.nationality} size="large" />
+                        <FlagIcon nationality={athlete.nationality} size="medium" />
                       </>
                     ) : (
                       <>
@@ -5528,7 +5528,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
                             {athlete.name?.charAt(0).toUpperCase()}
                           </span>
                         </div>
-                        <FlagIcon nationality={athlete.nationality} size="large" />
+                        <FlagIcon nationality={athlete.nationality} size="medium" />
                       </>
                     )}
                   </div>
