@@ -8978,49 +8978,45 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Share Post API with Commentary Support Testing"""
-    print("🚀 STARTING SHARE POST API WITH COMMENTARY SUPPORT TESTING")
+    """Run Subscription Badge Data Testing"""
+    print("🚀 STARTING SUBSCRIPTION BADGE DATA TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Share Post API with Commentary Support
+    # Test Subscription Badge Data in Community Endpoints
     try:
-        result = test_share_post_api_with_commentary()
+        result = test_subscription_badge_data()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Share Post API with Commentary Support", False, f"Exception: {str(e)}")
+        print_test_result("Subscription Badge Data Testing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 SHARE POST API WITH COMMENTARY SUPPORT TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ POST /api/community/posts/{post_id}/share - Share post endpoint working")
-        print("✅ SHARE WITHOUT COMMENTARY: Creates post with empty content field")
-        print("✅ SHARE WITH COMMENTARY: Stores user's commentary text in content field")
-        print("✅ ORIGINAL POST DATA: Correctly embedded in shared_post_data field")
-        print("✅ SHARES COUNT: Increments correctly on original post")
-        print("✅ FEED INTEGRATION: Shared posts appear in community feed")
-        print("✅ SHARED POST STRUCTURE: All required fields present (id, athlete_id, content, shared_post_id, shared_post_data)")
-        print("✅ EMBEDDED POST DATA: Contains complete original post info (id, athlete_name, content, media, stats, created_at)")
-        print("✅ ERROR HANDLING: 404 error returned for invalid post IDs")
-        print("✅ NOTIFICATIONS: Sent to original post owner when shared by different user")
-        print("✅ COMMENTARY DETECTION: Notification message indicates 'shared with a comment' when commentary provided")
-        print("✅ RESPONSE FORMAT: Returns success, updated shares_count, and shared_post object")
-        print("🔧 VERIFIED: Twitter-style quoted repost functionality working correctly")
-        print("🔧 CONFIRMED: Share Post API supports optional user commentary as specified")
+        print("🎉 SUBSCRIPTION BADGE DATA TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ COMMUNITY FEED: subscription_tier field present in all posts")
+        print("✅ FOLLOWING FEED: subscription_tier field present in all posts")
+        print("✅ USER POSTS: subscription_tier field present in all posts")
+        print("✅ COMMENTS: subscription_tier field present in all comments")
+        print("✅ SUBSCRIPTION TIER VALUES: All values are valid (free/pro/premium)")
+        print("✅ SUBSCRIPTION TIER DATA: Not null/undefined in responses")
+        print("✅ MULTIPLE TIERS: Different subscription tiers working correctly")
+        print("✅ MONGODB LOOKUP: Using correct 'athlete_profiles' collection")
+        print("🔧 VERIFIED: Bug fix for collection name from 'athletes' to 'athlete_profiles' working")
+        print("🔧 CONFIRMED: Subscription badges should now display correctly in frontend")
     else:
-        print("❌ SHARE POST API WITH COMMENTARY SUPPORT TESTING FOUND ISSUES")
+        print("❌ SUBSCRIPTION BADGE DATA TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Share Post API may not be working correctly")
-        print("💡 Verify POST /api/community/posts/{post_id}/share endpoint exists")
-        print("💡 Check CommunityPost model has shared_post_id and shared_post_data fields")
-        print("💡 Verify share_data parameter accepts 'content' field for commentary")
-        print("💡 Check shared posts appear in community feed with embedded original post data")
-        print("💡 Test with athlete_id from test.files@example.com or andre@example.com")
+        print("🚨 CRITICAL: Subscription badges may not display correctly")
+        print("💡 Verify MongoDB $lookup operations use 'athlete_profiles' collection")
+        print("💡 Check subscription_tier field is included in aggregation pipeline projections")
+        print("💡 Verify athlete_profiles collection has subscription_tier field populated")
+        print("💡 Test with different athletes having different subscription tiers")
+        print("💡 Check all 4 endpoints: feed, following-feed, user posts, comments")
     
     print("=" * 70)
 
