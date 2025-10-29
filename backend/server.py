@@ -9614,11 +9614,33 @@ async def get_challenge_details(challenge_id: str, athlete_id: str = Query(...))
         challenge["user_progress"] = participation.get("current_progress", 0) if participation else 0
         challenge["user_percentage"] = participation.get("percentage_complete", 0) if participation else 0
         
-        # Get leaderboard (top participants sorted by progress)
-        leaderboard = await db.community_challenge_participants.find(
-            {"challenge_id": challenge_id},
-            {"_id": 0}
-        ).sort("current_progress", -1).limit(10).to_list(length=None)
+        # Get leaderboard (top participants sorted by progress) with subscription tier
+        leaderboard_pipeline = [
+            {"$match": {"challenge_id": challenge_id}},
+            {"$sort": {"current_progress": -1}},
+            {"$limit": 10},
+            {
+                "$lookup": {
+                    "from": "athlete_profiles",
+                    "localField": "athlete_id",
+                    "foreignField": "id",
+                    "as": "athlete_info"
+                }
+            },
+            {
+                "$addFields": {
+                    "subscription_tier": {"$arrayElemAt": ["$athlete_info.subscription_tier", 0]}
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "athlete_info": 0
+                }
+            }
+        ]
+        
+        leaderboard = await db.community_challenge_participants.aggregate(leaderboard_pipeline).to_list(length=None)
         
         # Update ranks
         for idx, participant in enumerate(leaderboard, 1):
