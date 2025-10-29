@@ -5106,7 +5106,7 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
 
 // EventCard Component
 // ChallengeCard Component
-const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit, onClick }) => {
+const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit, onClick, isSuperAdmin = false }) => {
   const progress = challenge.user_progress || 0;
   const goalValue = challenge.goal_value;
   const percentage = Math.min((progress / goalValue) * 100, 100);
@@ -5160,7 +5160,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between mb-1">
               <h3 className="text-xl font-bold text-white truncate">{challenge.title}</h3>
-              {isCreator && (
+              {(isCreator || isSuperAdmin) && (
                 <div className="flex space-x-1">
                   <button
                     onClick={(e) => {
