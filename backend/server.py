@@ -28,6 +28,9 @@ from passlib.context import CryptContext
 # from emergentintegrations.llm.chat import LlmChat, UserMessage
 from tavily import TavilyClient
 from emergentintegrations.llm.openai import OpenAIChatRealtime
+import httpx
+from bs4 import BeautifulSoup
+import re
 from email_service import initialize_email_service, get_email_service
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
