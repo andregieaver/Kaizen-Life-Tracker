@@ -2904,21 +2904,27 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                             {post.comments.map(comment => (
                               <div key={comment.id} className="flex items-start space-x-3">
                                 <div
-                                  className="cursor-pointer hover:opacity-80"
+                                  className="cursor-pointer hover:opacity-80 relative"
                                   onClick={() => loadAthleteProfile(comment.athlete_id)}
                                 >
                                   {comment.athlete_profile_picture ? (
-                                    <img
-                                      src={comment.athlete_profile_picture}
-                                      alt={comment.athlete_name}
-                                      className="w-8 h-8 rounded-full object-cover"
-                                    />
+                                    <>
+                                      <img
+                                        src={comment.athlete_profile_picture}
+                                        alt={comment.athlete_name}
+                                        className="w-8 h-8 rounded-full object-cover"
+                                      />
+                                      <FlagIcon nationality={comment.nationality} />
+                                    </>
                                   ) : (
-                                    <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center">
-                                      <span className="text-white font-bold text-xs">
-                                        {comment.athlete_name?.charAt(0).toUpperCase()}
-                                      </span>
-                                    </div>
+                                    <>
+                                      <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                                        <span className="text-white font-bold text-xs">
+                                          {comment.athlete_name?.charAt(0).toUpperCase()}
+                                        </span>
+                                      </div>
+                                      <FlagIcon nationality={comment.nationality} />
+                                    </>
                                   )}
                                 </div>
                                 <div className="flex-1 bg-gray-600 rounded-lg p-3">
@@ -2929,7 +2935,6 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                                     <span className="flex items-center">
                                       {comment.athlete_name}
                                       <SubscriptionBadge subscriptionTier={comment.subscription_tier} />
-                                  <FlagIcon nationality={comment.nationality} />
                                     </span>
                                   </p>
                                   <p className="text-gray-300 text-sm mt-1">{formatMentions(comment.content)}</p>
