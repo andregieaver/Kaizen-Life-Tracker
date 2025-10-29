@@ -337,12 +337,15 @@ const getFlagEmoji = (countryName) => {
   );
 };
 
-const FlagIcon = ({ nationality, className = '' }) => {
+const FlagIcon = ({ nationality, className = '', size = 'normal' }) => {
   if (!nationality) return null;
   
   const flag = getFlagEmoji(nationality);
   
   if (!flag) return null;
+  
+  // Size variants: normal (0.9em for 40px images), large (1.8em for 80px images)
+  const fontSize = size === 'large' ? '1.8em' : '0.9em';
   
   // Positioned absolutely in bottom-right corner, sticking out 5px
   return (
@@ -350,7 +353,7 @@ const FlagIcon = ({ nationality, className = '' }) => {
       className={`absolute ${className}`}
       title={nationality}
       style={{ 
-        fontSize: '0.9em',
+        fontSize: fontSize,
         textShadow: '0 1px 2px rgba(0,0,0,0.5)',
         zIndex: 10,
         right: '-5px',
