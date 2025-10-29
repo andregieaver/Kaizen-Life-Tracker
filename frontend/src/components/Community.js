@@ -4726,7 +4726,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                       alt={profile.name}
                       className="w-20 h-20 rounded-full object-cover"
                     />
-                    <FlagIcon nationality={profile.nationality} />
+                    <FlagIcon nationality={profile.nationality} size="large" />
                   </>
                 ) : (
                   <>
@@ -4735,7 +4735,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                         {profile.name?.charAt(0).toUpperCase()}
                       </span>
                     </div>
-                    <FlagIcon nationality={profile.nationality} />
+                    <FlagIcon nationality={profile.nationality} size="large" />
                   </>
                 )}
               </div>
