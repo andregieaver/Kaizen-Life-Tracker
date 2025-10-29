@@ -2649,8 +2649,25 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       {/* Following Feed Tab */}
       {activeTab === 'following' && !selectedGroup && (
         <>
+          {/* Nationality Filter */}
+          <div className="mb-4 pt-12 md:pt-0">
+            <div className="flex items-center space-x-3 bg-gray-800 p-3 rounded-lg">
+              <label className="text-white text-sm font-semibold whitespace-nowrap">Filter by Nationality:</label>
+              <select
+                value={nationalityFilter}
+                onChange={(e) => handleNationalityFilterChange(e.target.value)}
+                className="flex-1 bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none text-sm"
+              >
+                <option value="all">All Nationalities</option>
+                {getUniqueNationalities().map(nationality => (
+                  <option key={nationality} value={nationality}>{nationality}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           {/* Posts from people you follow */}
-          <div className="space-y-0 sm:space-y-6 pt-12 md:pt-0">
+          <div className="space-y-0 sm:space-y-6">
             {isLoading ? (
               <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg">
                 <CardContent className="p-12 text-center">
