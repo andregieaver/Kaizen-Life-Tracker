@@ -4718,24 +4718,31 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
         ) : (
           <>
             <div className="flex items-center space-x-4 mb-6">
-              {profile.profile_picture ? (
-                <img
-                  src={profile.profile_picture}
-                  alt={profile.name}
-                  className="w-20 h-20 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-20 h-20 bg-[#00C2A8] rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-2xl">
-                    {profile.name?.charAt(0).toUpperCase()}
-                  </span>
-                </div>
-              )}
+              <div className="relative">
+                {profile.profile_picture ? (
+                  <>
+                    <img
+                      src={profile.profile_picture}
+                      alt={profile.name}
+                      className="w-20 h-20 rounded-full object-cover"
+                    />
+                    <FlagIcon nationality={profile.nationality} />
+                  </>
+                ) : (
+                  <>
+                    <div className="w-20 h-20 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-2xl">
+                        {profile.name?.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                    <FlagIcon nationality={profile.nationality} />
+                  </>
+                )}
+              </div>
               <div className="flex-1">
                 <h2 className="text-2xl font-bold text-white flex items-center">
                   {profile.name}
                   <SubscriptionBadge subscriptionTier={profile.subscription_tier} />
-                  <FlagIcon nationality={profile.nationality} />
                 </h2>
                 {age && <p className="text-gray-400 text-sm">{age} years old</p>}
               </div>
