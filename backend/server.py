@@ -9429,14 +9429,18 @@ async def get_event_comments(event_id: str):
 
 @api_router.delete("/community/posts/{post_id}/comment/{comment_id}")
 async def delete_post_comment(post_id: str, comment_id: str, athlete_id: str = Query(...)):
-    """Delete a comment from a post (only by the comment author)"""
+    """Delete a comment from a post (by comment author or super-admin)"""
     try:
-        # Check if comment exists and belongs to the athlete
+        # Check if comment exists
         comment = await db.community_comments.find_one({"id": comment_id, "post_id": post_id}, {"_id": 0})
         if not comment:
             raise HTTPException(status_code=404, detail="Comment not found")
         
-        if comment.get("athlete_id") != athlete_id:
+        # Check if user is super-admin
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id})
+        is_super_admin = athlete.get("is_super_admin", False) if athlete else False
+        
+        if comment.get("athlete_id") != athlete_id and not is_super_admin:
             raise HTTPException(status_code=403, detail="You can only delete your own comments")
         
         # Delete the comment
