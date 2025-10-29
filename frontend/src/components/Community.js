@@ -2204,30 +2204,30 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   <Card key={post.id} className="border-0 border-b border-b-gray-700 sm:border-b-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg mx-0 sm:mx-auto">
                     <CardHeader className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
                       <div className="flex items-center justify-between">
-                        <div 
-                          className="cursor-pointer hover:opacity-80 relative"
+                        <div className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
                           onClick={() => loadAthleteProfile(post.athlete_id)}
                         >
-                          {post.athlete_profile_picture ? (
-                            <>
-                              <img
-                                src={post.athlete_profile_picture}
-                                alt={post.athlete_name}
-                                className="w-10 h-10 rounded-full object-cover"
-                              />
-                              <FlagIcon nationality={post.nationality} />
-                            </>
-                          ) : (
-                            <>
-                              <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
-                                <span className="text-white font-bold">
-                                  {post.athlete_name?.charAt(0).toUpperCase()}
-                                </span>
-                              </div>
-                              <FlagIcon nationality={post.nationality} />
-                            </>
-                          )}
-                        </div>
+                          <div className="relative">
+                            {post.athlete_profile_picture ? (
+                              <>
+                                <img
+                                  src={post.athlete_profile_picture}
+                                  alt={post.athlete_name}
+                                  className="w-10 h-10 rounded-full object-cover"
+                                />
+                                <FlagIcon nationality={post.nationality} />
+                              </>
+                            ) : (
+                              <>
+                                <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                                  <span className="text-white font-bold">
+                                    {post.athlete_name?.charAt(0).toUpperCase()}
+                                  </span>
+                                </div>
+                                <FlagIcon nationality={post.nationality} />
+                              </>
+                            )}
+                          </div>
                           <div>
                             <p className="text-white font-semibold hover:underline flex items-center">
                               {post.athlete_name}
