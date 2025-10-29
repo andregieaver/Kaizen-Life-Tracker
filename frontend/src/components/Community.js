@@ -2683,7 +2683,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 </CardContent>
               </Card>
             ) : (
-              followingPosts.map(post => (
+              getFilteredPosts(followingPosts).map(post => (
                 <Card key={post.id} className="border-0 border-b border-b-gray-700 sm:border-b-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg mx-0 sm:mx-auto">
                   <CardHeader className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
                     <div className="flex items-center justify-between">
