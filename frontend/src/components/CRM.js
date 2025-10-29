@@ -308,6 +308,9 @@ const CRM = ({ athleteId }) => {
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('created_at')}>
                       Registration <SortIcon columnKey="created_at" />
                     </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-300">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
