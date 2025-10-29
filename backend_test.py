@@ -9647,42 +9647,43 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Nationality Field Testing"""
-    print("🚀 STARTING NATIONALITY FIELD TESTING")
+    """Run YouTube and URL Preview Feature Testing"""
+    print("🚀 STARTING YOUTUBE AND URL PREVIEW FEATURE TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Nationality Field in Community Endpoints
+    # Test YouTube and URL Preview Endpoints
     try:
-        result = test_nationality_field_in_community_endpoints()
+        result = test_youtube_and_url_preview_endpoints()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Nationality Field Testing", False, f"Exception: {str(e)}")
+        print_test_result("YouTube and URL Preview Testing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 NATIONALITY FIELD TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ COMMUNITY FEED: nationality field checked in all posts")
-        print("✅ FOLLOWING FEED: nationality field checked in all posts")
-        print("✅ COMMENTS: nationality field checked in all comments")
-        print("✅ ATHLETE PROFILES: nationality field checked in profiles")
-        print("✅ MULTIPLE ATHLETES: nationality data analyzed across different users")
-        print("🔧 VERIFIED: Nationality field presence and values in API responses")
-        print("🔧 ANALYSIS: Root cause identified for missing country flags")
+        print("🎉 YOUTUBE AND URL PREVIEW FEATURE TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ YOUTUBE METADATA: fetch-youtube-metadata endpoint working correctly")
+        print("✅ URL PREVIEW: fetch-url-preview endpoint working correctly")
+        print("✅ POST CREATION: Posts with youtube_data and url_preview created successfully")
+        print("✅ FEED INTEGRATION: Posts with preview data appear correctly in feed")
+        print("✅ ERROR HANDLING: Invalid URLs handled correctly with 400 errors")
+        print("✅ PERFORMANCE: Response times acceptable (< 10s for URL fetching)")
+        print("🔧 VERIFIED: All endpoints functional and meeting success criteria")
+        print("🔧 READY: Feature is production-ready for frontend integration")
     else:
-        print("❌ NATIONALITY FIELD TESTING FOUND ISSUES")
+        print("❌ YOUTUBE AND URL PREVIEW FEATURE TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Country flags may not display due to missing nationality data")
-        print("💡 Verify nationality field is included in MongoDB aggregation pipelines")
-        print("💡 Check athlete_profiles collection has nationality field populated")
-        print("💡 Ensure athletes set their nationality in profile settings")
-        print("💡 Check all endpoints: community feed, following feed, comments, profiles")
-        print("💡 Verify frontend is reading nationality field correctly for flag display")
+        print("🚨 CRITICAL: Some endpoints may not be working correctly")
+        print("💡 Verify YouTube oEmbed API is accessible")
+        print("💡 Check URL preview web scraping functionality")
+        print("💡 Ensure post creation accepts youtube_data and url_preview fields")
+        print("💡 Verify feed endpoints return preview data correctly")
+        print("💡 Check error handling for invalid URLs")
     
     print("=" * 70)
 
