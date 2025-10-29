@@ -963,7 +963,10 @@ const Account = ({ athleteId }) => {
       }));
     } catch (error) {
       console.error('Error updating personal info:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to update personal information' });
+      console.error('Error response:', error.response?.data);
+      console.error('Error status:', error.response?.status);
+      const errorMsg = error.response?.data?.detail || error.response?.data?.message || 'Failed to update personal information';
+      setSaveStatus({ type: 'error', message: errorMsg });
     } finally {
       setIsLoading(false);
     }
