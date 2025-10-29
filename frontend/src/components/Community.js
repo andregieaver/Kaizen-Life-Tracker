@@ -6909,23 +6909,30 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                       loadAthleteProfile(user.athlete_id);
                     }}
                   >
-                    {user.athlete_profile_picture ? (
-                      <img
-                        src={user.athlete_profile_picture}
-                        alt={user.athlete_name}
-                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover flex-shrink-0"
-                      />
-                    ) : (
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-white font-semibold text-xs sm:text-sm">
-                          {user.athlete_name?.split(' ').map(n => n[0]).join('').toUpperCase() || '?'}
-                        </span>
-                      </div>
-                    )}
+                    <div className="relative">
+                      {user.athlete_profile_picture ? (
+                        <>
+                          <img
+                            src={user.athlete_profile_picture}
+                            alt={user.athlete_name}
+                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover flex-shrink-0"
+                          />
+                          <FlagIcon nationality={user.nationality} />
+                        </>
+                      ) : (
+                        <>
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                            <span className="text-white font-semibold text-xs sm:text-sm">
+                              {user.athlete_name?.split(' ').map(n => n[0]).join('').toUpperCase() || '?'}
+                            </span>
+                          </div>
+                          <FlagIcon nationality={user.nationality} />
+                        </>
+                      )}
+                    </div>
                     <span className="text-white font-medium text-sm sm:text-base truncate flex items-center">
                       {user.athlete_name || 'Unknown'}
                       <SubscriptionBadge subscriptionTier={user.subscription_tier} />
-                      <FlagIcon nationality={user.nationality} />
                     </span>
                   </div>
                 ))}
