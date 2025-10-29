@@ -1657,8 +1657,8 @@ def test_share_post_api_with_commentary():
         original_post_data = original_post_response.json()
         current_shares_count = original_post_data.get("shares_count", 0)
         
-        if current_shares_count != expected_shares_count:
-            print_test_result("Verify Original Post Stats", False, f"Expected shares_count={expected_shares_count}, got {current_shares_count}")
+        if current_shares_count != 2:  # Should be 2 after both shares
+            print_test_result("Verify Original Post Stats", False, f"Expected shares_count=2, got {current_shares_count}")
             return False
         
         print_test_result("Verify Original Post Stats", True, f"Original post shares_count correctly updated to {current_shares_count}")
