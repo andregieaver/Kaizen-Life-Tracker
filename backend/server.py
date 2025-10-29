@@ -9373,12 +9373,34 @@ async def add_event_comment(event_id: str, comment: dict, athlete_id: str = Quer
 
 @api_router.get("/community/events/{event_id}/comments")
 async def get_event_comments(event_id: str):
-    """Get all comments for an event"""
+    """Get all comments for an event with subscription tier"""
     try:
-        comments = await db.community_event_comments.find(
-            {"event_id": event_id},
-            {"_id": 0}
-        ).sort("created_at", 1).to_list(length=None)
+        # Use aggregation to include subscription tier from athlete_profiles
+        pipeline = [
+            {"$match": {"event_id": event_id}},
+            {"$sort": {"created_at": 1}},
+            {
+                "$lookup": {
+                    "from": "athlete_profiles",
+                    "localField": "athlete_id",
+                    "foreignField": "id",
+                    "as": "athlete_info"
+                }
+            },
+            {
+                "$addFields": {
+                    "subscription_tier": {"$arrayElemAt": ["$athlete_info.subscription_tier", 0]}
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "athlete_info": 0
+                }
+            }
+        ]
+        
+        comments = await db.community_event_comments.aggregate(pipeline).to_list(length=None)
         
         return {"comments": comments}
     except Exception as e:
