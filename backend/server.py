@@ -12006,6 +12006,98 @@ async def get_all_orders(athlete_id: str):
     except Exception as e:
         logging.error(f"Error fetching orders: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to fetch orders: {str(e)}")
+
+
+@api_router.delete("/crm/users/{user_id}")
+async def delete_user(user_id: str, athlete_id: str = Query(...)):
+    """Delete a user and all their data (Super Admin only)"""
+    try:
+        # Verify super admin
+        await verify_super_admin(athlete_id)
+        
+        # Check if user exists
+        user = await db.athlete_profiles.find_one({"id": user_id})
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Delete all user data across collections
+        
+        # 1. Delete athlete profile
+        await db.athlete_profiles.delete_one({"id": user_id})
+        
+        # 2. Delete community posts
+        await db.community_posts.delete_many({"athlete_id": user_id})
+        
+        # 3. Delete community comments
+        await db.community_comments.delete_many({"athlete_id": user_id})
+        
+        # 4. Delete likes
+        await db.community_likes.delete_many({"athlete_id": user_id})
+        
+        # 5. Delete shares
+        await db.community_shares.delete_many({"athlete_id": user_id})
+        
+        # 6. Delete follows (as follower and following)
+        await db.community_follows.delete_many({"follower_id": user_id})
+        await db.community_follows.delete_many({"following_id": user_id})
+        
+        # 7. Delete notifications
+        await db.community_notifications.delete_many({"athlete_id": user_id})
+        await db.community_notifications.delete_many({"from_athlete_id": user_id})
+        
+        # 8. Delete group memberships
+        await db.community_group_memberships.delete_many({"athlete_id": user_id})
+        
+        # 9. Delete groups created by user
+        await db.community_groups.delete_many({"creator_id": user_id})
+        
+        # 10. Delete group posts
+        await db.community_group_posts.delete_many({"athlete_id": user_id})
+        
+        # 11. Delete events
+        await db.community_events.delete_many({"creator_id": user_id})
+        await db.community_event_attendance.delete_many({"athlete_id": user_id})
+        await db.community_event_comments.delete_many({"athlete_id": user_id})
+        
+        # 12. Delete challenges
+        await db.community_challenges.delete_many({"creator_id": user_id})
+        await db.community_challenge_participants.delete_many({"athlete_id": user_id})
+        await db.community_challenge_comments.delete_many({"athlete_id": user_id})
+        
+        # 13. Delete journal entries
+        await db.journal_entries.delete_many({"athlete_id": user_id})
+        
+        # 14. Delete workouts
+        await db.workouts.delete_many({"athlete_id": user_id})
+        
+        # 15. Delete nutrition logs
+        await db.nutrition_logs.delete_many({"athlete_id": user_id})
+        
+        # 16. Delete supplement logs
+        await db.supplement_logs.delete_many({"athlete_id": user_id})
+        
+        # 17. Delete drink logs
+        await db.drink_logs.delete_many({"athlete_id": user_id})
+        
+        # 18. Delete habits
+        await db.habits.delete_many({"athlete_id": user_id})
+        
+        # 19. Delete payment transactions
+        await db.payment_transactions.delete_many({"athlete_id": user_id})
+        
+        # 20. Delete referrals
+        await db.referrals.delete_many({"referrer_id": user_id})
+        await db.referrals.delete_many({"referred_id": user_id})
+        
+        return {"success": True, "message": "User deleted successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error deleting user: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.get("/crm/orders/{order_id}")
 async def get_order_details(order_id: str, athlete_id: str):
     """Get detailed information for a specific order (Super Admin only)"""
