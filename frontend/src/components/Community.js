@@ -1553,7 +1553,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     // Load comments for this post
     if (!post.comments) {
       try {
-        const response = await axios.get(`${API}/community/posts/${postId}/comments`);
+        const response = await axios.get(`${API}/community/posts/${postId}/comments?athlete_id=${athleteId}`);
         
         // Update the post in main feed with comments
         setPosts(currentPosts => currentPosts.map(p => 
@@ -1578,6 +1578,45 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     
     setSelectedPostForComments(post);
     setShowCommentsModal(true);
+  };
+
+  const handleToggleCommentLike = async (commentId, postId) => {
+    try {
+      const response = await axios.post(`${API}/community/comments/${commentId}/like?athlete_id=${athleteId}`);
+      
+      // Update comments in both feeds
+      const updateComments = (comments) => 
+        comments.map(comment => 
+          comment.id === commentId
+            ? { ...comment, liked_by_user: response.data.liked, likes_count: response.data.likes_count }
+            : comment
+        );
+      
+      // Update main feed posts
+      setPosts(currentPosts => currentPosts.map(p => 
+        p.id === postId && p.comments
+          ? { ...p, comments: updateComments(p.comments) }
+          : p
+      ));
+      
+      // Update following feed posts
+      setFollowingPosts(currentPosts => currentPosts.map(p => 
+        p.id === postId && p.comments
+          ? { ...p, comments: updateComments(p.comments) }
+          : p
+      ));
+      
+      // Update selected post if in modal
+      if (selectedPostForComments && selectedPostForComments.id === postId) {
+        setSelectedPostForComments(prev => ({
+          ...prev,
+          comments: updateComments(prev.comments)
+        }));
+      }
+    } catch (error) {
+      console.error('Error toggling comment like:', error);
+      alert('Failed to like/unlike comment. Please try again.');
+    }
   };
 
   const toggleExpandPost = (postId) => {
