@@ -12,7 +12,9 @@ load_dotenv()
 # MongoDB connection
 MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017/trainsmart")
 client = AsyncIOMotorClient(MONGO_URL)
-db = client.get_database()
+# Extract database name from URL or use default
+db_name = MONGO_URL.split('/')[-1].split('?')[0] if '/' in MONGO_URL else "trainsmart"
+db = client[db_name]
 
 async def fix_missing_profile_pictures():
     """Update all posts and comments with missing profile pictures"""
