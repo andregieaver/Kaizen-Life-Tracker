@@ -11188,18 +11188,24 @@ async def edit_event(event_id: str, event_data: dict, athlete_id: str = Query(..
 
 @api_router.delete("/community/events/{event_id}")
 async def delete_event(event_id: str, athlete_id: str = Query(...)):
-    """Delete event (creator only)"""
+    """Delete event (creator or super-admin)"""
     try:
-        # Verify creator
+        # Verify creator or super-admin
         event = await db.community_events.find_one({"id": event_id})
         if not event:
             raise HTTPException(status_code=404, detail="Event not found")
-        if event["creator_id"] != athlete_id:
+        
+        # Check if user is super-admin
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id})
+        is_super_admin = athlete.get("is_super_admin", False) if athlete else False
+        
+        if event["creator_id"] != athlete_id and not is_super_admin:
             raise HTTPException(status_code=403, detail="Only event creator can delete")
         
         # Delete event and attendance
         await db.community_events.delete_one({"id": event_id})
         await db.community_event_attendance.delete_many({"event_id": event_id})
+        await db.community_event_comments.delete_many({"event_id": event_id})
         
         return {"success": True, "message": "Event deleted"}
     except HTTPException:
