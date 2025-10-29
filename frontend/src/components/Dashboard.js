@@ -159,18 +159,92 @@ const Dashboard = ({ athleteId }) => {
       // Mark as read
       if (!notification.read) {
         await axios.put(`${API}/community/notifications/${notification.id}/read`);
-        // Reload notifications
         await loadNotifications();
+        await loadUnreadNotificationCount();
       }
       
       // Navigate based on notification type
-      if (notification.post_id) {
-        setShowNotifications(false);
+      setShowNotifications(false);
+      
+      if (notification.type === 'follow') {
+        // Navigate to follower's profile
+        navigate(`/dashboard/community?view=profile&athleteId=${notification.from_athlete_id}`);
+      } else if (notification.type === 'like' || notification.type === 'comment') {
+        // Navigate to post (Community component will handle opening post modal)
+        navigate(`/dashboard/community?view=post&postId=${notification.post_id}`);
+      } else if (notification.type === 'group_join' || notification.type === 'group_invite') {
+        // Navigate to group detail
+        navigate(`/dashboard/community?tab=groups&groupId=${notification.group_id}`);
+      } else if (notification.type === 'event_join' || notification.type === 'event_invite') {
+        // Navigate to event detail
+        navigate(`/dashboard/community?tab=events&eventId=${notification.event_id}`);
+      } else if (notification.type === 'challenge_join' || notification.type === 'challenge_invite') {
+        // Navigate to challenge detail
+        navigate(`/dashboard/community?tab=challenges&challengeId=${notification.challenge_id}`);
+      } else if (notification.post_id) {
+        // Fallback for other post-related notifications
+        navigate(`/dashboard/community?view=post&postId=${notification.post_id}`);
+      } else {
+        // Default: go to community
         navigate('/dashboard/community');
       }
     } catch (error) {
       console.error('Error handling notification click:', error);
     }
+  };
+  
+  // Get notification icon based on type
+  const getNotificationIcon = (type) => {
+    switch (type) {
+      case 'follow':
+        return <UserPlus className="w-5 h-5 text-blue-400" />;
+      case 'like':
+        return <Heart className="w-5 h-5 text-red-400" />;
+      case 'comment':
+        return <MessageCircle className="w-5 h-5 text-teal-400" />;
+      case 'share':
+        return <Share2 className="w-5 h-5 text-purple-400" />;
+      case 'group_join':
+      case 'group_invite':
+        return <Users className="w-5 h-5 text-green-400" />;
+      case 'event_join':
+      case 'event_invite':
+        return <Calendar className="w-5 h-5 text-orange-400" />;
+      case 'challenge_join':
+      case 'challenge_invite':
+        return <Trophy className="w-5 h-5 text-yellow-400" />;
+      default:
+        return <Bell className="w-5 h-5 text-gray-400" />;
+    }
+  };
+  
+  // Filter notifications by tab
+  const getFilteredNotifications = () => {
+    if (!notifications) return [];
+    
+    if (notificationTab === 'all') return notifications;
+    
+    if (notificationTab === 'follows') {
+      return notifications.filter(n => n.type === 'follow');
+    }
+    
+    if (notificationTab === 'posts') {
+      return notifications.filter(n => ['like', 'comment', 'share'].includes(n.type));
+    }
+    
+    if (notificationTab === 'groups') {
+      return notifications.filter(n => ['group_join', 'group_invite'].includes(n.type));
+    }
+    
+    if (notificationTab === 'events') {
+      return notifications.filter(n => ['event_join', 'event_invite'].includes(n.type));
+    }
+    
+    if (notificationTab === 'challenges') {
+      return notifications.filter(n => ['challenge_join', 'challenge_invite'].includes(n.type));
+    }
+    
+    return notifications;
   };
 
   // Load notifications when panel opens
