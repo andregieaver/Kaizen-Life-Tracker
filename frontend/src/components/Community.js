@@ -1129,7 +1129,9 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         visibility: writePostVisibility,
         media: media.length > 0 ? media : [],
         // Keep image_urls for backward compatibility
-        image_urls: selectedMedia.filter(m => m.type === 'image').map(m => m.url)
+        image_urls: selectedMedia.filter(m => m.type === 'image').map(m => m.url),
+        youtube_data: youtubePreview,
+        url_preview: urlPreview
       };
 
       const response = await axios.post(`${API}/community/posts?athlete_id=${athleteId}`, postData);
