@@ -160,7 +160,7 @@ const Dashboard = ({ athleteId }) => {
       if (!notification.read) {
         await axios.put(`${API}/community/notifications/${notification.id}/read`);
         await loadNotifications();
-        await loadUnreadNotificationCount();
+        await loadCommunityUnreadCount();
       }
       
       // Navigate based on notification type
