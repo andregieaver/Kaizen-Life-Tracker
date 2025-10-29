@@ -5013,7 +5013,10 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                     </div>
                   )}
                   <div>
-                    <p className="text-white font-semibold hover:underline">{member.name}</p>
+                    <p className="text-white font-semibold hover:underline flex items-center">
+                      {member.name}
+                      <SubscriptionBadge subscriptionTier={member.subscription_tier} />
+                    </p>
                     <p className="text-gray-400 text-xs">
                       Requested {new Date(member.requested_at).toLocaleDateString()}
                     </p>
