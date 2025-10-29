@@ -4033,8 +4033,9 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                         </div>
                       )}
                       <div>
-                        <p className="text-white font-semibold text-sm hover:underline">
+                        <p className="text-white font-semibold text-sm hover:underline flex items-center">
                           {post.shared_post_data.athlete_name}
+                          <SubscriptionBadge subscriptionTier={post.shared_post_data.subscription_tier} />
                         </p>
                         <p className="text-gray-400 text-xs">
                           {post.shared_post_data.created_at ? new Date(post.shared_post_data.created_at).toLocaleDateString() : ''}
