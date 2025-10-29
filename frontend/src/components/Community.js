@@ -1566,6 +1566,32 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
   };
 
+  const handleDeleteGroup = async (groupId) => {
+    if (!window.confirm('Are you sure you want to delete this group? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      await axios.delete(`${API}/community/groups/${groupId}?athlete_id=${athleteId}`);
+      
+      // If we're viewing the group details, go back to groups list
+      if (selectedGroup && selectedGroup.id === groupId) {
+        setSelectedGroup(null);
+      }
+      
+      // Reload groups list
+      loadGroups();
+      loadMyGroups();
+    } catch (error) {
+      console.error('Error deleting group:', error);
+      if (error.response?.status === 403) {
+        alert('Only group admins and super admins can delete groups');
+      } else {
+        alert(error.response?.data?.detail || 'Failed to delete group');
+      }
+    }
+  };
+
   const handleOpenEditGroup = () => {
     setEditGroupData({
       name: selectedGroup.name,
