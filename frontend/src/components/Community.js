@@ -2202,8 +2202,25 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       {/* Feed Tab */}
       {activeTab === 'feed' && !selectedGroup && (
         <>
+          {/* Nationality Filter */}
+          <div className="mb-4 pt-12 md:pt-0">
+            <div className="flex items-center space-x-3 bg-gray-800 p-3 rounded-lg">
+              <label className="text-white text-sm font-semibold whitespace-nowrap">Filter by Nationality:</label>
+              <select
+                value={nationalityFilter}
+                onChange={(e) => handleNationalityFilterChange(e.target.value)}
+                className="flex-1 bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none text-sm"
+              >
+                <option value="all">All Nationalities</option>
+                {getUniqueNationalities().map(nationality => (
+                  <option key={nationality} value={nationality}>{nationality}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           {/* Posts and Events Feed */}
-          <div className="space-y-0 sm:space-y-6 pt-12 md:pt-0">
+          <div className="space-y-0 sm:space-y-6">
             {isLoading ? (
               <div className="flex justify-center py-12">
                 <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
