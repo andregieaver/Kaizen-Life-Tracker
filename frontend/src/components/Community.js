@@ -2950,6 +2950,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 onDelete={() => handleDeleteChallenge(challenge.id)}
                 onEdit={handleOpenEditChallenge}
                 onClick={() => handleOpenChallengeDetail(challenge.id)}
+                isSuperAdmin={isSuperAdmin}
               />
             ))}
           </div>
