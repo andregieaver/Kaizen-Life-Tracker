@@ -3733,6 +3733,62 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 </div>
               )}
 
+              {/* YouTube Preview */}
+              {youtubePreview && (
+                <div className="bg-gray-700 rounded-lg border border-gray-600 overflow-hidden">
+                  <div className="relative">
+                    <img 
+                      src={youtubePreview.thumbnail} 
+                      alt={youtubePreview.title}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                      <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
+                        <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-white border-b-8 border-b-transparent ml-1"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-3">
+                    <p className="text-white font-semibold text-sm line-clamp-2">{youtubePreview.title}</p>
+                    <p className="text-gray-400 text-xs mt-1">{youtubePreview.author}</p>
+                  </div>
+                  <button
+                    onClick={() => setYoutubePreview(null)}
+                    className="absolute top-2 right-2 p-1.5 bg-black/70 hover:bg-black/90 rounded-full transition-colors"
+                  >
+                    <X className="w-4 h-4 text-white" />
+                  </button>
+                </div>
+              )}
+
+              {/* URL Preview */}
+              {urlPreview && !youtubePreview && (
+                <div className="bg-gray-700 rounded-lg border border-gray-600 overflow-hidden relative">
+                  {urlPreview.image && (
+                    <img 
+                      src={urlPreview.image} 
+                      alt={urlPreview.title}
+                      className="w-full h-48 object-cover"
+                    />
+                  )}
+                  <div className="p-3">
+                    <p className="text-white font-semibold text-sm line-clamp-2">{urlPreview.title}</p>
+                    {urlPreview.description && (
+                      <p className="text-gray-400 text-xs mt-1 line-clamp-2">{urlPreview.description}</p>
+                    )}
+                    {urlPreview.site_name && (
+                      <p className="text-gray-500 text-xs mt-1">{urlPreview.site_name}</p>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => setUrlPreview(null)}
+                    className="absolute top-2 right-2 p-1.5 bg-black/70 hover:bg-black/90 rounded-full transition-colors"
+                  >
+                    <X className="w-4 h-4 text-white" />
+                  </button>
+                </div>
+              )}
+
               {/* Visibility Toggle */}
               <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 p-4 bg-gray-700 rounded-lg">
                 <span className="text-white font-semibold text-sm sm:text-base">Visibility:</span>
