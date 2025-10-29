@@ -1567,7 +1567,7 @@ def test_share_post_api_with_commentary():
             return False
         
         shares_count_after_commentary = share_commentary_result.get("shares_count")
-        expected_shares_count = 2 if different_athlete_id != test_athlete_id else 1
+        expected_shares_count = 2  # Should be 2 regardless since we're sharing the same post again
         if shares_count_after_commentary != expected_shares_count:
             print_test_result("Share With Commentary - Shares Count", False, f"Expected shares_count={expected_shares_count}, got {shares_count_after_commentary}")
             return False
