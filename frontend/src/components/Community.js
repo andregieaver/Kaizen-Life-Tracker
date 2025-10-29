@@ -3917,33 +3917,116 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
             </div>
           ) : (
             <>
-              {/* Post Content with Show More/Less */}
-              <div className="mb-4">
-                <p 
-                  className={`text-white whitespace-pre-wrap ${
-                    !expandedPosts[post.id] ? 'line-clamp-2' : ''
-                  }`}
-                  style={!expandedPosts[post.id] ? {
-                    display: '-webkit-box',
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden'
-                  } : {}}
-                >
-                  {post.content}
-                </p>
-                {post.content && post.content.length > 100 && (
-                  <button
-                    onClick={() => toggleExpandPost(post.id)}
-                    className="text-[#00C2A8] hover:text-[#00a890] text-sm font-semibold mt-1"
+              {/* Check if this is a shared post (Twitter-style quote repost) */}
+              {post.shared_post_id && post.shared_post_data ? (
+                <>
+                  {/* User's Commentary */}
+                  {post.content && (
+                    <div className="mb-4">
+                      <p className="text-white whitespace-pre-wrap">{post.content}</p>
+                    </div>
+                  )}
+
+                  {/* Embedded Original Post (Clickable) */}
+                  <div 
+                    className="border border-gray-600 rounded-lg p-4 bg-gray-900/50 mb-4 cursor-pointer hover:bg-gray-900/70 transition-colors"
+                    onClick={() => {
+                      // Open original post in modal
+                      setSelectedPostForComments(post.shared_post_data);
+                      setShowCommentsModal(true);
+                    }}
                   >
-                    {expandedPosts[post.id] ? 'Show less' : 'Show more'}
-                  </button>
-                )}
-              </div>
-              
-              {post.image_data && (
-                <img src={post.image_data} alt="Post" className="w-full rounded-lg mb-4" />
+                    <div className="flex items-center space-x-3 mb-3">
+                      {post.shared_post_data.athlete_profile_picture ? (
+                        <img
+                          src={post.shared_post_data.athlete_profile_picture}
+                          alt={post.shared_post_data.athlete_name}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 rounded-full bg-[#00C2A8] flex items-center justify-center text-white font-semibold">
+                          {post.shared_post_data.athlete_name?.charAt(0)?.toUpperCase() || 'A'}
+                        </div>
+                      )}
+                      <div>
+                        <p className="text-white font-semibold text-sm hover:underline">
+                          {post.shared_post_data.athlete_name}
+                        </p>
+                        <p className="text-gray-400 text-xs">
+                          {post.shared_post_data.created_at ? new Date(post.shared_post_data.created_at).toLocaleDateString() : ''}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Original Post Content */}
+                    <p className="text-gray-300 text-sm mb-3 whitespace-pre-wrap line-clamp-3">
+                      {post.shared_post_data.content}
+                    </p>
+
+                    {/* Original Post Media Preview */}
+                    {post.shared_post_data.media && post.shared_post_data.media.length > 0 && (
+                      <div className="relative rounded-lg overflow-hidden">
+                        {post.shared_post_data.media[0].type === 'image' && (
+                          <img
+                            src={post.shared_post_data.media[0].url}
+                            alt="Post media"
+                            className="w-full max-h-64 object-cover"
+                          />
+                        )}
+                        {post.shared_post_data.media[0].type === 'video' && (
+                          <video
+                            src={post.shared_post_data.media[0].url}
+                            className="w-full max-h-64 object-cover"
+                            poster={post.shared_post_data.media[0].thumbnail}
+                          />
+                        )}
+                        {post.shared_post_data.media.length > 1 && (
+                          <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                            +{post.shared_post_data.media.length - 1} more
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Original Post Stats */}
+                    <div className="flex items-center space-x-4 mt-3 text-gray-400 text-xs">
+                      <span>{post.shared_post_data.likes_count || 0} likes</span>
+                      <span>{post.shared_post_data.comments_count || 0} comments</span>
+                      <span>{post.shared_post_data.shares_count || 0} shares</span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Regular Post Content with Show More/Less */}
+                  <div className="mb-4">
+                    <p 
+                      className={`text-white whitespace-pre-wrap ${
+                        !expandedPosts[post.id] ? 'line-clamp-2' : ''
+                      }`}
+                      style={!expandedPosts[post.id] ? {
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      } : {}}
+                    >
+                      {post.content}
+                    </p>
+                    {post.content && post.content.length > 100 && (
+                      <button
+                        onClick={() => toggleExpandPost(post.id)}
+                        className="text-[#00C2A8] hover:text-[#00a890] text-sm font-semibold mt-1"
+                      >
+                        {expandedPosts[post.id] ? 'Show less' : 'Show more'}
+                      </button>
+                    )}
+                  </div>
+                  
+                  {post.image_data && (
+                    <img src={post.image_data} alt="Post" className="w-full rounded-lg mb-4" />
+                  )}
+                </>
               )}
               
               <div className="flex items-center justify-between pt-4 border-t border-gray-600 -mx-3 sm:mx-0">
