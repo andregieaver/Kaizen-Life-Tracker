@@ -1144,6 +1144,9 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setShowWritePostModal(false);
       // Clear media state
       setSelectedMedia([]);
+      // Clear preview states
+      setYoutubePreview(null);
+      setUrlPreview(null);
       
       // Reload appropriate feed
       if (activeTab === 'feed') {
