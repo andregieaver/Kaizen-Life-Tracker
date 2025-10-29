@@ -1179,6 +1179,9 @@ class CommunityPost(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
     is_edited: bool = False
+    # Share/Repost fields (Twitter-style quoted repost)
+    shared_post_id: Optional[str] = None  # ID of original post being shared
+    shared_post_data: Optional[dict] = None  # Embedded original post data for display
 
 class CommunityComment(BaseModel):
     model_config = ConfigDict(extra="ignore")
