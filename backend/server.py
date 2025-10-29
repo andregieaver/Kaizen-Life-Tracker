@@ -10602,16 +10602,21 @@ async def edit_group(group_id: str, group_data: dict, athlete_id: str = Query(..
 
 @api_router.delete("/community/groups/{group_id}")
 async def delete_group(group_id: str, athlete_id: str = Query(...)):
-    """Delete group (admin only)"""
+    """Delete group (admin or super-admin)"""
     try:
-        # Verify admin
-        membership = await db.community_group_memberships.find_one({
-            "group_id": group_id,
-            "athlete_id": athlete_id,
-            "role": "admin"
-        })
-        if not membership:
-            raise HTTPException(status_code=403, detail="Only admins can delete groups")
+        # Check if user is super-admin
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id})
+        is_super_admin = athlete.get("is_super_admin", False) if athlete else False
+        
+        if not is_super_admin:
+            # Verify admin if not super-admin
+            membership = await db.community_group_memberships.find_one({
+                "group_id": group_id,
+                "athlete_id": athlete_id,
+                "role": "admin"
+            })
+            if not membership:
+                raise HTTPException(status_code=403, detail="Only admins can delete groups")
         
         # Delete group and related data
         await db.community_groups.delete_one({"id": group_id})
