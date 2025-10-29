@@ -157,6 +157,7 @@ metadata:
 test_plan:
   current_focus:
     - "Share Post Modal and Rendering"
+    - "Subscription Badges Collection Name Fix"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -166,6 +167,8 @@ agent_communication:
     message: "Implemented Twitter-style share post feature. Backend updated to accept commentary and embed original post data. Frontend includes share modal with commentary input and renders shared posts with embedded originals. Ready for comprehensive backend and frontend testing."
   - agent: "testing"
     message: "✅ SHARE POST API WITH COMMENTARY SUPPORT TESTING COMPLETED SUCCESSFULLY - All 11 test scenarios passed with 100% success rate. VERIFIED: 1) Share without commentary creates post with empty content, 2) Share with commentary stores user's text correctly, 3) Original post data embedded in shared_post_data field, 4) shares_count increments properly, 5) Shared posts appear in feed with correct structure, 6) Error handling works for invalid post IDs, 7) Response format matches specification. Backend API is production-ready and fully functional. Frontend testing still needed for Share Post Modal and Rendering."
+  - agent: "main"
+    message: "CRITICAL BUG FIX - Fixed subscription badges not displaying. Issue: MongoDB lookups were using 'athletes' collection instead of 'athlete_profiles'. Updated 4 lookup operations in feed/comments endpoints. Badges should now display correctly next to all usernames in posts and comments. Backend restarted successfully. Needs testing to verify badges render."
   - task: "Drink Logging API Endpoints"
     implemented: true
     working: true
