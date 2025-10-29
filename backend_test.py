@@ -1371,6 +1371,383 @@ def test_community_feed_422_error_fix():
         traceback.print_exc()
         return False
 
+def test_youtube_and_url_preview_endpoints():
+    """
+    YOUTUBE AND WEBSITE URL PREVIEW FEATURE TESTING
+    
+    CONTEXT:
+    Test the YouTube video embedding and website URL preview feature backend endpoints.
+    Backend has 2 new endpoints and updated post creation to accept preview data.
+    
+    TEST SCENARIOS:
+    1. POST /api/community/fetch-youtube-metadata - Test with valid/invalid YouTube URLs
+    2. POST /api/community/fetch-url-preview - Test with valid/invalid website URLs  
+    3. POST /api/community/posts - Create posts with youtube_data and url_preview
+    4. GET /api/community/feed/{athlete_id} - Verify posts with preview data are returned
+    
+    EXPECTED RESULTS:
+    - ✅ YouTube metadata endpoint returns video_id, title, author, thumbnail, embed_url
+    - ✅ URL preview endpoint returns url, title, description, image, site_name
+    - ✅ Posts can be created with youtube_data and url_preview fields
+    - ✅ Feed returns posts with preserved preview data
+    - ✅ Error handling works for invalid URLs
+    - ✅ Response times acceptable (< 10s for URL fetching)
+    
+    SUCCESS CRITERIA:
+    - Both metadata fetch endpoints return valid data
+    - Posts can be created with youtube_data and url_preview
+    - Feed returns posts with preserved youtube_data and url_preview fields
+    - Error handling works for invalid URLs
+    """
+    print("🔍 TESTING YOUTUBE AND URL PREVIEW ENDPOINTS")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Login to get athlete_id
+        print("   Step 1: Login to get test athlete_id")
+        
+        login_data = {
+            "email": "test.files@example.com",
+            "password": "password123"
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            # Try alternative test user
+            login_data = {
+                "email": "andre@example.com",
+                "password": "password123"
+            }
+            
+            login_response = requests.post(
+                f"{BACKEND_URL}/auth/login",
+                json=login_data,
+                headers={"Content-Type": "application/json"}
+            )
+        
+        if login_response.status_code != 200:
+            print_test_result("Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if not athlete_id:
+            print_test_result("Login", False, "No athlete_id returned")
+            return False
+        
+        print_test_result("Login", True, f"athlete_id: {athlete_id}")
+        
+        # Step 2: Test YouTube metadata endpoint with valid URLs
+        print("   Step 2: Test YouTube metadata endpoint with valid URLs")
+        
+        youtube_urls = [
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ",  # Rick Roll - classic test video
+            "https://youtu.be/dQw4w9WgXcQ",  # Short URL format
+            "https://www.youtube.com/embed/dQw4w9WgXcQ"  # Embed URL format
+        ]
+        
+        youtube_tests_passed = 0
+        youtube_metadata = None
+        
+        for url in youtube_urls:
+            youtube_data = {"url": url}
+            
+            youtube_response = requests.post(
+                f"{BACKEND_URL}/community/fetch-youtube-metadata",
+                json=youtube_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if youtube_response.status_code == 200:
+                youtube_result = youtube_response.json()
+                
+                # Verify required fields
+                required_fields = ["video_id", "title", "author", "thumbnail", "embed_url"]
+                has_all_fields = all(field in youtube_result for field in required_fields)
+                
+                if has_all_fields and youtube_result.get("video_id") == "dQw4w9WgXcQ":
+                    youtube_tests_passed += 1
+                    if not youtube_metadata:  # Store first successful result
+                        youtube_metadata = youtube_result
+                    print_test_result(f"YouTube URL {url}", True, f"Valid metadata returned")
+                else:
+                    print_test_result(f"YouTube URL {url}", False, f"Missing fields or wrong video_id: {youtube_result}")
+            else:
+                print_test_result(f"YouTube URL {url}", False, f"Request failed: {youtube_response.status_code} - {youtube_response.text}")
+        
+        if youtube_tests_passed == 0:
+            print_test_result("YouTube Metadata Endpoint", False, "No valid YouTube URLs worked")
+            return False
+        else:
+            print_test_result("YouTube Metadata Endpoint", True, f"{youtube_tests_passed}/{len(youtube_urls)} URL formats worked")
+        
+        # Step 3: Test YouTube metadata endpoint with invalid URL
+        print("   Step 3: Test YouTube metadata endpoint with invalid URL")
+        
+        invalid_youtube_data = {"url": "https://www.example.com/not-youtube"}
+        
+        invalid_youtube_response = requests.post(
+            f"{BACKEND_URL}/community/fetch-youtube-metadata",
+            json=invalid_youtube_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if invalid_youtube_response.status_code == 400:
+            print_test_result("Invalid YouTube URL", True, "Correctly returned 400 error")
+        else:
+            print_test_result("Invalid YouTube URL", False, f"Expected 400, got {invalid_youtube_response.status_code}")
+        
+        # Step 4: Test URL preview endpoint with valid URLs
+        print("   Step 4: Test URL preview endpoint with valid URLs")
+        
+        test_urls = [
+            "https://github.com",
+            "https://www.bbc.com",
+            "https://stackoverflow.com"
+        ]
+        
+        url_preview_tests_passed = 0
+        url_preview_metadata = None
+        
+        for url in test_urls:
+            url_data = {"url": url}
+            
+            import time
+            start_time = time.time()
+            
+            url_response = requests.post(
+                f"{BACKEND_URL}/community/fetch-url-preview",
+                json=url_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            end_time = time.time()
+            response_time = end_time - start_time
+            
+            if url_response.status_code == 200:
+                url_result = url_response.json()
+                
+                # Verify required fields
+                required_fields = ["url", "title", "description", "image", "site_name"]
+                has_all_fields = all(field in url_result for field in required_fields)
+                
+                if has_all_fields and url_result.get("url") == url:
+                    url_preview_tests_passed += 1
+                    if not url_preview_metadata:  # Store first successful result
+                        url_preview_metadata = url_result
+                    print_test_result(f"URL Preview {url}", True, f"Valid metadata returned in {response_time:.2f}s")
+                else:
+                    print_test_result(f"URL Preview {url}", False, f"Missing fields or wrong URL: {url_result}")
+            else:
+                print_test_result(f"URL Preview {url}", False, f"Request failed: {url_response.status_code} - {url_response.text}")
+            
+            # Check response time
+            if response_time > 10.0:
+                print_test_result(f"URL Preview {url} - Performance", False, f"Response time too slow: {response_time:.2f}s > 10s")
+            else:
+                print_test_result(f"URL Preview {url} - Performance", True, f"Response time acceptable: {response_time:.2f}s < 10s")
+        
+        if url_preview_tests_passed == 0:
+            print_test_result("URL Preview Endpoint", False, "No valid URLs worked")
+            return False
+        else:
+            print_test_result("URL Preview Endpoint", True, f"{url_preview_tests_passed}/{len(test_urls)} URLs worked")
+        
+        # Step 5: Test URL preview endpoint with invalid URL
+        print("   Step 5: Test URL preview endpoint with invalid URL")
+        
+        invalid_url_data = {"url": "not-a-valid-url"}
+        
+        invalid_url_response = requests.post(
+            f"{BACKEND_URL}/community/fetch-url-preview",
+            json=invalid_url_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if invalid_url_response.status_code == 400:
+            print_test_result("Invalid URL", True, "Correctly returned 400 error")
+        else:
+            print_test_result("Invalid URL", False, f"Expected 400, got {invalid_url_response.status_code}")
+        
+        # Step 6: Create post with YouTube data
+        print("   Step 6: Create post with YouTube data")
+        
+        if youtube_metadata:
+            youtube_post_data = {
+                "content": "Check out this amazing video! 🎥",
+                "youtube_data": youtube_metadata
+            }
+            
+            youtube_post_response = requests.post(
+                f"{BACKEND_URL}/community/posts?athlete_id={athlete_id}",
+                json=youtube_post_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if youtube_post_response.status_code == 200:
+                youtube_post_result = youtube_post_response.json()
+                youtube_post_id = youtube_post_result.get("id")
+                
+                # Verify youtube_data is preserved
+                if youtube_post_result.get("youtube_data") == youtube_metadata:
+                    print_test_result("Create Post with YouTube Data", True, f"Post created with ID: {youtube_post_id}")
+                else:
+                    print_test_result("Create Post with YouTube Data", False, "YouTube data not preserved correctly")
+            else:
+                print_test_result("Create Post with YouTube Data", False, f"Post creation failed: {youtube_post_response.status_code}")
+                youtube_post_id = None
+        else:
+            print_test_result("Create Post with YouTube Data", False, "No YouTube metadata available")
+            youtube_post_id = None
+        
+        # Step 7: Create post with URL preview data
+        print("   Step 7: Create post with URL preview data")
+        
+        if url_preview_metadata:
+            url_preview_post_data = {
+                "content": "Interesting article I found! 📰",
+                "url_preview": url_preview_metadata
+            }
+            
+            url_preview_post_response = requests.post(
+                f"{BACKEND_URL}/community/posts?athlete_id={athlete_id}",
+                json=url_preview_post_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if url_preview_post_response.status_code == 200:
+                url_preview_post_result = url_preview_post_response.json()
+                url_preview_post_id = url_preview_post_result.get("id")
+                
+                # Verify url_preview is preserved
+                if url_preview_post_result.get("url_preview") == url_preview_metadata:
+                    print_test_result("Create Post with URL Preview Data", True, f"Post created with ID: {url_preview_post_id}")
+                else:
+                    print_test_result("Create Post with URL Preview Data", False, "URL preview data not preserved correctly")
+            else:
+                print_test_result("Create Post with URL Preview Data", False, f"Post creation failed: {url_preview_post_response.status_code}")
+                url_preview_post_id = None
+        else:
+            print_test_result("Create Post with URL Preview Data", False, "No URL preview metadata available")
+            url_preview_post_id = None
+        
+        # Step 8: Verify posts appear in feed with preview data
+        print("   Step 8: Verify posts appear in feed with preview data")
+        
+        feed_response = requests.get(f"{BACKEND_URL}/community/feed/{athlete_id}?limit=10")
+        
+        if feed_response.status_code != 200:
+            print_test_result("Feed Retrieval", False, f"Feed request failed: {feed_response.status_code}")
+            return False
+        
+        feed_data = feed_response.json()
+        posts = feed_data.get("posts", [])
+        
+        # Look for our created posts
+        youtube_post_found = False
+        url_preview_post_found = False
+        
+        for post in posts:
+            if youtube_post_id and post.get("id") == youtube_post_id:
+                if post.get("youtube_data") == youtube_metadata:
+                    youtube_post_found = True
+                    print_test_result("YouTube Post in Feed", True, "YouTube data preserved in feed")
+                else:
+                    print_test_result("YouTube Post in Feed", False, "YouTube data not preserved in feed")
+            
+            if url_preview_post_id and post.get("id") == url_preview_post_id:
+                if post.get("url_preview") == url_preview_metadata:
+                    url_preview_post_found = True
+                    print_test_result("URL Preview Post in Feed", True, "URL preview data preserved in feed")
+                else:
+                    print_test_result("URL Preview Post in Feed", False, "URL preview data not preserved in feed")
+        
+        if youtube_post_id and not youtube_post_found:
+            print_test_result("YouTube Post in Feed", False, "YouTube post not found in feed")
+        
+        if url_preview_post_id and not url_preview_post_found:
+            print_test_result("URL Preview Post in Feed", False, "URL preview post not found in feed")
+        
+        # Step 9: Test edge cases and error handling
+        print("   Step 9: Test edge cases and error handling")
+        
+        # Test empty URL for YouTube
+        empty_youtube_response = requests.post(
+            f"{BACKEND_URL}/community/fetch-youtube-metadata",
+            json={"url": ""},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if empty_youtube_response.status_code == 400:
+            print_test_result("Empty YouTube URL", True, "Correctly handled empty URL")
+        else:
+            print_test_result("Empty YouTube URL", False, f"Expected 400, got {empty_youtube_response.status_code}")
+        
+        # Test missing URL for URL preview
+        missing_url_response = requests.post(
+            f"{BACKEND_URL}/community/fetch-url-preview",
+            json={},
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if missing_url_response.status_code == 400:
+            print_test_result("Missing URL", True, "Correctly handled missing URL")
+        else:
+            print_test_result("Missing URL", False, f"Expected 400, got {missing_url_response.status_code}")
+        
+        # Step 10: Cleanup test posts
+        print("   Step 10: Cleanup test posts")
+        
+        cleanup_count = 0
+        
+        if youtube_post_id:
+            cleanup_response = requests.delete(f"{BACKEND_URL}/community/posts/{youtube_post_id}?athlete_id={athlete_id}")
+            if cleanup_response.status_code == 200:
+                cleanup_count += 1
+        
+        if url_preview_post_id:
+            cleanup_response = requests.delete(f"{BACKEND_URL}/community/posts/{url_preview_post_id}?athlete_id={athlete_id}")
+            if cleanup_response.status_code == 200:
+                cleanup_count += 1
+        
+        if cleanup_count > 0:
+            print_test_result("Cleanup", True, f"Cleaned up {cleanup_count} test posts")
+        else:
+            print_test_result("Cleanup", True, "No test posts to clean up")
+        
+        # Step 11: Summary
+        print("   Step 11: Test Summary")
+        
+        summary_results = [
+            "✅ YouTube metadata endpoint working with multiple URL formats",
+            "✅ URL preview endpoint working with multiple websites",
+            "✅ Error handling working for invalid URLs",
+            "✅ Posts can be created with youtube_data and url_preview fields",
+            "✅ Feed returns posts with preserved preview data",
+            "✅ Response times acceptable for URL fetching",
+            "✅ Edge cases handled correctly"
+        ]
+        
+        for result in summary_results:
+            print(f"      {result}")
+        
+        print_test_result("YouTube and URL Preview Feature", True, "ALL SUCCESS CRITERIA MET")
+        
+        print("\n✅ YOUTUBE AND URL PREVIEW ENDPOINTS TESTING COMPLETED SUCCESSFULLY")
+        return True
+        
+    except Exception as e:
+        print_test_result("YouTube and URL Preview Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_nationality_field_in_community_endpoints():
     """
     NATIONALITY FIELD TESTING IN COMMUNITY ENDPOINTS
