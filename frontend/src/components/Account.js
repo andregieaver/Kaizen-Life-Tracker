@@ -965,7 +965,23 @@ const Account = ({ athleteId }) => {
       console.error('Error updating personal info:', error);
       console.error('Error response:', error.response?.data);
       console.error('Error status:', error.response?.status);
-      const errorMsg = error.response?.data?.detail || error.response?.data?.message || 'Failed to update personal information';
+      
+      // Handle FastAPI validation errors
+      let errorMsg = 'Failed to update personal information';
+      if (error.response?.data?.detail) {
+        const detail = error.response.data.detail;
+        // If detail is an array of validation errors
+        if (Array.isArray(detail)) {
+          errorMsg = detail.map(err => `${err.loc?.join('.')} - ${err.msg}`).join(', ');
+        } else if (typeof detail === 'string') {
+          errorMsg = detail;
+        } else if (typeof detail === 'object') {
+          errorMsg = JSON.stringify(detail);
+        }
+      } else if (error.response?.data?.message) {
+        errorMsg = error.response.data.message;
+      }
+      
       setSaveStatus({ type: 'error', message: errorMsg });
     } finally {
       setIsLoading(false);
