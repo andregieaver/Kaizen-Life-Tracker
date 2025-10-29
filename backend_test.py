@@ -1517,6 +1517,23 @@ def test_nationality_field_in_community_endpoints():
             test_post_id = posts[0].get("id")
         
         if test_post_id:
+            # First, try to create a test comment to ensure we have comments to test
+            test_comment_data = {
+                "content": "Test comment for nationality field verification"
+            }
+            
+            comment_create_response = requests.post(
+                f"{BACKEND_URL}/community/posts/{test_post_id}/comment?athlete_id={athlete_id}",
+                json=test_comment_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if comment_create_response.status_code == 200:
+                print_test_result("Create Test Comment", True, "Created test comment for nationality testing")
+            else:
+                print_test_result("Create Test Comment", False, f"Could not create test comment: {comment_create_response.status_code}")
+            
+            # Now get comments
             comments_response = requests.get(f"{BACKEND_URL}/community/posts/{test_post_id}/comments")
             
             if comments_response.status_code != 200:
