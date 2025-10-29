@@ -1371,6 +1371,281 @@ def test_community_feed_422_error_fix():
         traceback.print_exc()
         return False
 
+def test_nationality_field_in_community_endpoints():
+    """
+    NATIONALITY FIELD TESTING IN COMMUNITY ENDPOINTS
+    
+    CONTEXT:
+    Country flags should display next to usernames based on nationality field. User reports flags are not visible. 
+    Need to verify if nationality data exists and is being returned by the API.
+    
+    TEST SCENARIOS:
+    1. Check Community Feed for Nationality - GET /api/community/feed/{athlete_id}?limit=5
+    2. Check Following Feed for Nationality - GET /api/community/following-feed/{athlete_id}?limit=5
+    3. Check Comments for Nationality - GET /api/community/posts/{post_id}/comments
+    4. Check Athlete Profiles - GET /api/athlete/profile/{athlete_id}
+    5. Database Direct Check - Query athlete_profiles collection directly
+    
+    EXPECTED RESULTS:
+    - ✅ nationality field present in all responses
+    - ✅ nationality values should be country names (e.g., "United States", "Canada", "Germany")
+    - ⚠️ If nationality is null/empty for all users, that's why flags aren't showing
+    
+    SUCCESS CRITERIA:
+    - nationality field exists in feed responses
+    - nationality field exists in comment responses  
+    - nationality field exists in athlete profile responses
+    - nationality values are populated (not all null/empty)
+    """
+    print("🔍 TESTING NATIONALITY FIELD IN COMMUNITY ENDPOINTS")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Login to get athlete_id
+        print("   Step 1: Login to get test athlete_id")
+        
+        login_data = {
+            "email": "test.files@example.com",
+            "password": "password123"
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            # Try andre@example.com as fallback
+            login_data = {
+                "email": "andre@example.com",
+                "password": "password123"
+            }
+            
+            login_response = requests.post(
+                f"{BACKEND_URL}/auth/login",
+                json=login_data,
+                headers={"Content-Type": "application/json"}
+            )
+        
+        if login_response.status_code != 200:
+            print_test_result("Login", False, f"Login failed: {login_response.status_code}")
+            return False
+        
+        athlete_data = login_response.json()
+        athlete_id = athlete_data.get("athlete_id")
+        
+        if not athlete_id:
+            print_test_result("Login", False, "No athlete_id returned")
+            return False
+        
+        print_test_result("Login", True, f"athlete_id: {athlete_id}")
+        
+        # Step 2: Check Community Feed for Nationality Field
+        print("   Step 2: Check Community Feed for Nationality - GET /api/community/feed/{athlete_id}?limit=5")
+        
+        feed_response = requests.get(f"{BACKEND_URL}/community/feed/{athlete_id}?limit=5")
+        
+        if feed_response.status_code != 200:
+            print_test_result("Community Feed Access", False, f"Feed failed: {feed_response.status_code} - {feed_response.text}")
+            return False
+        
+        feed_data = feed_response.json()
+        posts = feed_data.get("posts", [])
+        
+        if not posts:
+            print_test_result("Community Feed Posts", False, "No posts found in community feed")
+            return False
+        
+        print_test_result("Community Feed Access", True, f"Retrieved {len(posts)} posts from community feed")
+        
+        # Check nationality field in posts
+        nationality_found_in_posts = 0
+        nationality_values_in_posts = []
+        
+        for i, post in enumerate(posts[:3]):  # Check first 3 posts
+            if "nationality" in post:
+                nationality_found_in_posts += 1
+                nationality_value = post.get("nationality")
+                nationality_values_in_posts.append(nationality_value)
+                print(f"      Post {i+1}: nationality = '{nationality_value}' (athlete: {post.get('athlete_name', 'Unknown')})")
+            else:
+                print(f"      Post {i+1}: nationality field MISSING (athlete: {post.get('athlete_name', 'Unknown')})")
+        
+        if nationality_found_in_posts > 0:
+            print_test_result("Community Feed - Nationality Field", True, f"nationality field found in {nationality_found_in_posts}/{len(posts[:3])} posts")
+        else:
+            print_test_result("Community Feed - Nationality Field", False, "nationality field missing from all posts")
+        
+        # Step 3: Check Following Feed for Nationality Field
+        print("   Step 3: Check Following Feed for Nationality - GET /api/community/following-feed/{athlete_id}?limit=5")
+        
+        following_response = requests.get(f"{BACKEND_URL}/community/following-feed/{athlete_id}?limit=5")
+        
+        if following_response.status_code != 200:
+            print_test_result("Following Feed Access", False, f"Following feed failed: {following_response.status_code} - {following_response.text}")
+        else:
+            following_data = following_response.json()
+            following_posts = following_data.get("posts", [])
+            
+            print_test_result("Following Feed Access", True, f"Retrieved {len(following_posts)} posts from following feed")
+            
+            # Check nationality field in following posts
+            nationality_found_in_following = 0
+            nationality_values_in_following = []
+            
+            for i, post in enumerate(following_posts[:3]):  # Check first 3 posts
+                if "nationality" in post:
+                    nationality_found_in_following += 1
+                    nationality_value = post.get("nationality")
+                    nationality_values_in_following.append(nationality_value)
+                    print(f"      Following Post {i+1}: nationality = '{nationality_value}' (athlete: {post.get('athlete_name', 'Unknown')})")
+                else:
+                    print(f"      Following Post {i+1}: nationality field MISSING (athlete: {post.get('athlete_name', 'Unknown')})")
+            
+            if nationality_found_in_following > 0:
+                print_test_result("Following Feed - Nationality Field", True, f"nationality field found in {nationality_found_in_following}/{len(following_posts[:3])} posts")
+            else:
+                print_test_result("Following Feed - Nationality Field", False, "nationality field missing from all following posts")
+        
+        # Step 4: Check Comments for Nationality Field
+        print("   Step 4: Check Comments for Nationality - GET /api/community/posts/{post_id}/comments")
+        
+        # Get a post ID from the feed to check comments
+        test_post_id = None
+        if posts:
+            test_post_id = posts[0].get("id")
+        
+        if test_post_id:
+            comments_response = requests.get(f"{BACKEND_URL}/community/posts/{test_post_id}/comments")
+            
+            if comments_response.status_code != 200:
+                print_test_result("Comments Access", False, f"Comments failed: {comments_response.status_code} - {comments_response.text}")
+            else:
+                comments_data = comments_response.json()
+                comments = comments_data.get("comments", [])
+                
+                print_test_result("Comments Access", True, f"Retrieved {len(comments)} comments")
+                
+                if comments:
+                    # Check nationality field in comments
+                    nationality_found_in_comments = 0
+                    nationality_values_in_comments = []
+                    
+                    for i, comment in enumerate(comments[:3]):  # Check first 3 comments
+                        if "nationality" in comment:
+                            nationality_found_in_comments += 1
+                            nationality_value = comment.get("nationality")
+                            nationality_values_in_comments.append(nationality_value)
+                            print(f"      Comment {i+1}: nationality = '{nationality_value}' (athlete: {comment.get('athlete_name', 'Unknown')})")
+                        else:
+                            print(f"      Comment {i+1}: nationality field MISSING (athlete: {comment.get('athlete_name', 'Unknown')})")
+                    
+                    if nationality_found_in_comments > 0:
+                        print_test_result("Comments - Nationality Field", True, f"nationality field found in {nationality_found_in_comments}/{len(comments[:3])} comments")
+                    else:
+                        print_test_result("Comments - Nationality Field", False, "nationality field missing from all comments")
+                else:
+                    print_test_result("Comments - Nationality Field", True, "No comments to check (not an error)")
+        else:
+            print_test_result("Comments Test", False, "No post ID available to test comments")
+        
+        # Step 5: Check Athlete Profile for Nationality Field
+        print("   Step 5: Check Athlete Profile for Nationality - GET /api/athlete/profile/{athlete_id}")
+        
+        profile_response = requests.get(f"{BACKEND_URL}/athlete/profile/{athlete_id}")
+        
+        if profile_response.status_code != 200:
+            print_test_result("Athlete Profile Access", False, f"Profile failed: {profile_response.status_code} - {profile_response.text}")
+        else:
+            profile_data = profile_response.json()
+            
+            print_test_result("Athlete Profile Access", True, "Retrieved athlete profile")
+            
+            if "nationality" in profile_data:
+                nationality_value = profile_data.get("nationality")
+                print_test_result("Athlete Profile - Nationality Field", True, f"nationality field present: '{nationality_value}'")
+            else:
+                print_test_result("Athlete Profile - Nationality Field", False, "nationality field missing from athlete profile")
+        
+        # Step 6: Test with Multiple Athletes (if available)
+        print("   Step 6: Test Multiple Athletes for Nationality Diversity")
+        
+        # Try to get different athletes from the posts
+        unique_athletes = {}
+        for post in posts:
+            athlete_name = post.get("athlete_name")
+            post_athlete_id = post.get("athlete_id")
+            nationality = post.get("nationality")
+            if athlete_name and post_athlete_id:
+                unique_athletes[post_athlete_id] = {
+                    "name": athlete_name,
+                    "nationality": nationality
+                }
+        
+        print(f"      Found {len(unique_athletes)} unique athletes in feed:")
+        nationality_stats = {"null": 0, "empty": 0, "populated": 0}
+        
+        for athlete_id_key, athlete_info in unique_athletes.items():
+            nationality = athlete_info["nationality"]
+            name = athlete_info["name"]
+            
+            if nationality is None:
+                nationality_stats["null"] += 1
+                status = "NULL"
+            elif nationality == "":
+                nationality_stats["empty"] += 1
+                status = "EMPTY"
+            else:
+                nationality_stats["populated"] += 1
+                status = f"'{nationality}'"
+            
+            print(f"        - {name}: {status}")
+        
+        # Summary of nationality data
+        total_athletes = len(unique_athletes)
+        if total_athletes > 0:
+            populated_percentage = (nationality_stats["populated"] / total_athletes) * 100
+            print_test_result("Nationality Data Summary", True, 
+                f"{nationality_stats['populated']}/{total_athletes} athletes have nationality data ({populated_percentage:.1f}%)")
+        else:
+            print_test_result("Nationality Data Summary", False, "No athletes found to analyze")
+        
+        # Step 7: Root Cause Analysis
+        print("   Step 7: Root Cause Analysis")
+        
+        if nationality_stats["populated"] == 0:
+            print_test_result("Root Cause Analysis", False, 
+                "⚠️ NO ATHLETES HAVE NATIONALITY DATA - This is why flags aren't showing!")
+            print("      RECOMMENDATION: Athletes need to set their nationality in their profiles")
+        elif nationality_stats["populated"] < total_athletes:
+            print_test_result("Root Cause Analysis", True, 
+                f"⚠️ PARTIAL NATIONALITY DATA - {nationality_stats['populated']}/{total_athletes} athletes have nationality set")
+            print("      RECOMMENDATION: Encourage more athletes to set their nationality")
+        else:
+            print_test_result("Root Cause Analysis", True, 
+                "✅ ALL ATHLETES HAVE NATIONALITY DATA - Issue may be in frontend flag rendering")
+        
+        # Step 8: Sample Data for Frontend Debugging
+        print("   Step 8: Sample Data for Frontend Debugging")
+        
+        if posts:
+            sample_post = posts[0]
+            print("      Sample post data structure:")
+            relevant_fields = ["id", "athlete_id", "athlete_name", "nationality", "content"]
+            for field in relevant_fields:
+                value = sample_post.get(field, "MISSING")
+                print(f"        {field}: {value}")
+        
+        print("\n✅ NATIONALITY FIELD TESTING COMPLETED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Nationality Field Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_subscription_badge_data():
     """
     SUBSCRIPTION BADGE DATA TESTING
