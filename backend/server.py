@@ -10309,7 +10309,7 @@ async def get_all_athletes(viewer_athlete_id: str = Query(...), search: str = Qu
         # Get athletes
         athletes = await db.athlete_profiles.find(
             query,
-            {"_id": 0, "id": 1, "name": 1, "profile_picture": 1, "bio": 1}
+            {"_id": 0, "id": 1, "name": 1, "profile_picture": 1, "bio": 1, "nationality": 1, "subscription_tier": 1}
         ).limit(limit).to_list(length=None)
         
         # For each athlete, check if viewer is following them and get their stats
@@ -10332,6 +10332,8 @@ async def get_all_athletes(viewer_athlete_id: str = Query(...), search: str = Qu
                 "id": athlete["id"],
                 "name": athlete.get("name", "Unknown"),
                 "profile_picture": athlete.get("profile_picture"),
+                "nationality": athlete.get("nationality"),
+                "subscription_tier": athlete.get("subscription_tier"),
                 "bio": athlete.get("bio", ""),
                 "posts_count": posts_count,
                 "followers_count": followers_count,
