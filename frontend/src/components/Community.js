@@ -2523,16 +2523,16 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                         <div className="mt-4 space-y-4 pt-4 border-t border-gray-600">
                           {post.comments?.map(comment => (
                             <div key={comment.id} className="flex items-start space-x-3">
-                              <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                              <div className="relative w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
                                 <span className="text-white font-bold text-xs">
                                   {comment.athlete_name?.charAt(0).toUpperCase()}
                                 </span>
+                                <FlagIcon nationality={comment.nationality} />
                               </div>
                               <div className="flex-1 bg-gray-600 rounded-lg p-3">
                                 <p className="text-white font-semibold text-sm flex items-center">
                                   {comment.athlete_name}
                                   <SubscriptionBadge subscriptionTier={comment.subscription_tier} />
-                                  <FlagIcon nationality={comment.nationality} />
                                 </p>
                                 <p className="text-gray-300 text-sm mt-1">{formatMentions(comment.content)}</p>
                                 <p className="text-gray-400 text-xs mt-1">
