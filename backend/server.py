@@ -8783,7 +8783,9 @@ async def create_community_post(post_data: dict, athlete_id: str = Query(...)):
             "shares_count": 0,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "updated_at": None,
-            "is_edited": False
+            "is_edited": False,
+            "youtube_data": post_data.get("youtube_data"),  # YouTube video metadata
+            "url_preview": post_data.get("url_preview")  # Website URL preview metadata
         }
         
         # Prepare for MongoDB and insert
