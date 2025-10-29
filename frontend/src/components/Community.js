@@ -485,6 +485,30 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
   };
 
+  // Handle nationality filter change
+  const handleNationalityFilterChange = (value) => {
+    setNationalityFilter(value);
+    localStorage.setItem('communityNationalityFilter', value);
+  };
+
+  // Get filtered posts based on nationality
+  const getFilteredPosts = (postsArray) => {
+    if (nationalityFilter === 'all') {
+      return postsArray;
+    }
+    return postsArray.filter(post => post.nationality === nationalityFilter);
+  };
+
+  // Get unique nationalities from posts for filter dropdown
+  const getUniqueNationalities = () => {
+    const allPosts = activeTab === 'feed' ? posts : followingPosts;
+    const nationalities = allPosts
+      .map(post => post.nationality)
+      .filter(n => n) // Remove null/undefined
+      .filter((n, i, arr) => arr.indexOf(n) === i); // Unique values
+    return nationalities.sort();
+  };
+
 
   const loadAllGroups = async () => {
     try {
