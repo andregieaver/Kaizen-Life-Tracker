@@ -5306,35 +5306,27 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
 
         {/* Action Buttons */}
         <div className="flex space-x-2">
-          {!isCreator && (
-            hasJoined ? (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onLeave();
-                }}
-                className="flex-1 px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors"
-              >
-                Leave Challenge
-              </button>
-            ) : (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onJoin();
-                }}
-                className="flex-1 px-4 py-2 rounded-lg bg-[#00C2A8] hover:bg-[#00a890] text-white transition-colors"
-              >
-                <Trophy className="w-4 h-4 inline mr-2" />
-                Join Challenge
-              </button>
-            )
-          )}
-          {isCreator && (
-            <div className="flex-1 px-4 py-2 rounded-lg bg-yellow-500/20 text-yellow-400 text-center">
-              <Crown className="w-4 h-4 inline mr-2" />
-              Creator
-            </div>
+          {hasJoined ? (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onLeave();
+              }}
+              className="flex-1 px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors"
+            >
+              Leave Challenge
+            </button>
+          ) : (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onJoin();
+              }}
+              className="flex-1 px-4 py-2 rounded-lg bg-[#00C2A8] hover:bg-[#00a890] text-white transition-colors"
+            >
+              <Trophy className="w-4 h-4 inline mr-2" />
+              Join Challenge
+            </button>
           )}
         </div>
       </CardContent>
