@@ -9177,7 +9177,8 @@ async def get_comments(post_id: str):
             },
             {
                 "$addFields": {
-                    "subscription_tier": {"$arrayElemAt": ["$author_info.subscription_tier", 0]}
+                    "subscription_tier": {"$arrayElemAt": ["$author_info.subscription_tier", 0]},
+                    "nationality": {"$arrayElemAt": ["$author_info.nationality", 0]}
                 }
             },
             {
