@@ -8978,13 +8978,18 @@ async def edit_community_post(post_id: str, post_data: dict, athlete_id: str = Q
 
 @api_router.delete("/community/posts/{post_id}")
 async def delete_community_post(post_id: str, athlete_id: str = Query(...)):
-    """Delete a community post"""
+    """Delete a community post - owner or super-admin"""
     try:
-        # Verify ownership
+        # Verify ownership or super-admin status
         post = await db.community_posts.find_one({"id": post_id})
         if not post:
             raise HTTPException(status_code=404, detail="Post not found")
-        if post["athlete_id"] != athlete_id:
+        
+        # Check if user is super-admin
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id})
+        is_super_admin = athlete.get("is_super_admin", False) if athlete else False
+        
+        if post["athlete_id"] != athlete_id and not is_super_admin:
             raise HTTPException(status_code=403, detail="Not authorized to delete this post")
         
         # Delete post and associated data (likes, comments, shares)
