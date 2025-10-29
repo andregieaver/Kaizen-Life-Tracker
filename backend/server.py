@@ -3368,7 +3368,6 @@ async def get_athlete_profile(athlete_id: str):
         raise HTTPException(status_code=404, detail="Athlete not found")
     return parse_from_mongo(athlete)
 
-@api_router.put("/athlete/{athlete_id}", response_model=AthleteProfile)
 async def cascade_profile_picture_update(athlete_id: str, new_profile_picture: str):
     """Update profile picture across all posts, comments, and other user content"""
     try:
