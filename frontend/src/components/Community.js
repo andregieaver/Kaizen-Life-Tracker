@@ -5224,9 +5224,14 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
           
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between mb-1">
-              <h3 className="text-xl font-bold text-white truncate">{challenge.title}</h3>
+              <div className="flex items-center gap-2">
+                <h3 className="text-xl font-bold text-white truncate">{challenge.title}</h3>
+                {isCreator && (
+                  <Crown className="w-5 h-5 text-yellow-400 flex-shrink-0" title="Challenge Creator" />
+                )}
+              </div>
               {(isCreator || isSuperAdmin) && (
-                <div className="flex space-x-1">
+                <div className="flex space-x-1 flex-shrink-0">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
