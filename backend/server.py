@@ -3442,6 +3442,7 @@ async def cascade_profile_picture_update(athlete_id: str, new_profile_picture: s
         logging.error(f"[CASCADE] Error cascading profile picture update: {e}")
         return None
 
+@api_router.put("/athlete/{athlete_id}", response_model=AthleteProfile)
 async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
     """Update athlete profile with partial data"""
     # Get current athlete
