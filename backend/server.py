@@ -8751,7 +8751,7 @@ async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int 
             },
             {
                 "$lookup": {
-                    "from": "athletes",
+                    "from": "athlete_profiles",
                     "localField": "athlete_id",
                     "foreignField": "id",
                     "as": "author_info"
@@ -8828,7 +8828,7 @@ async def get_following_feed(athlete_id: str, limit: int = Query(50), skip: int 
             },
             {
                 "$lookup": {
-                    "from": "athletes",
+                    "from": "athlete_profiles",
                     "localField": "athlete_id",
                     "foreignField": "id",
                     "as": "author_info"
@@ -8896,7 +8896,7 @@ async def get_user_posts(target_athlete_id: str, viewer_athlete_id: str = Query(
             },
             {
                 "$lookup": {
-                    "from": "athletes",
+                    "from": "athlete_profiles",
                     "localField": "athlete_id",
                     "foreignField": "id",
                     "as": "author_info"
@@ -9166,7 +9166,7 @@ async def get_comments(post_id: str):
             {"$sort": {"created_at": 1}},
             {
                 "$lookup": {
-                    "from": "athletes",
+                    "from": "athlete_profiles",
                     "localField": "athlete_id",
                     "foreignField": "id",
                     "as": "author_info"
