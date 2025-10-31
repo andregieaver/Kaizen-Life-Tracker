@@ -10215,42 +10215,43 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run SendGrid Email Functionality Testing"""
-    print("🚀 STARTING SENDGRID EMAIL FUNCTIONALITY TESTING")
+    """Run Cookie Management API Testing"""
+    print("🚀 STARTING COOKIE MANAGEMENT API TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test SendGrid Email Functionality
+    # Test Cookie Management API Endpoints
     try:
-        result = test_sendgrid_email_functionality()
+        result = test_cookie_management_api_endpoints()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("SendGrid Email Testing", False, f"Exception: {str(e)}")
+        print_test_result("Cookie Management API Testing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 SENDGRID EMAIL FUNCTIONALITY TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ EMAIL SERVICE: SendGrid service is properly configured")
-        print("✅ TEST ENDPOINT: /api/email-templates/send-test working correctly")
-        print("✅ EMAIL DELIVERY: Test emails sent successfully")
-        print("✅ VARIABLE REPLACEMENT: Template variables replaced correctly")
-        print("✅ LOGGING: Comprehensive logging working for debugging")
-        print("🔧 VERIFIED: Email service functional and meeting requirements")
-        print("🔧 READY: Email functionality is production-ready")
+        print("🎉 COOKIE MANAGEMENT API TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ COOKIE SCANNING: POST /api/cookies/scan working correctly")
+        print("✅ COOKIE SETTINGS: GET /api/cookies/settings working correctly")
+        print("✅ SAVE SETTINGS: POST /api/cookies/settings working correctly")
+        print("✅ PUBLIC CONSENT: GET /api/cookies/consent/public working correctly")
+        print("✅ AUTHENTICATION: Super admin authentication enforced")
+        print("✅ SCHEDULER: Weekly auto-scan scheduler initialized")
+        print("✅ PERFORMANCE: All endpoints responding within acceptable time")
+        print("🔧 VERIFIED: Cookie management functionality is complete")
+        print("🔧 READY: Cookie management API is production-ready")
     else:
-        print("❌ SENDGRID EMAIL FUNCTIONALITY TESTING FOUND ISSUES")
+        print("❌ COOKIE MANAGEMENT API TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Email service may not be working correctly")
-        print("💡 Check SendGrid API key configuration in .env file")
-        print("💡 Verify sender email is verified in SendGrid dashboard")
+        print("🚨 CRITICAL: Cookie management may not be working correctly")
+        print("💡 Verify super admin user andre@humanweb.no exists and has correct permissions")
         print("💡 Check backend logs for detailed error messages")
-        print("💡 Ensure SENDGRID_API_KEY and SENDGRID_SENDER_EMAIL are set")
-        print("💡 Verify SendGrid account has sending permissions")
+        print("💡 Ensure MongoDB system_settings collection is accessible")
+        print("💡 Verify scheduler is running and cookie auto-scan is configured")
     
     print("=" * 70)
 
