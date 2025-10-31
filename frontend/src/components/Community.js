@@ -6118,12 +6118,14 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
 
 const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSuperAdmin = false }) => (
   <Card 
-    className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-shadow"
+    className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-shadow rounded-none sm:rounded-lg"
     onClick={() => onClick(event.id)}
   >
-    <CardContent className="p-6">
+    <CardContent className="p-3 sm:p-6">
       {event.cover_photo && (
-        <img src={event.cover_photo} alt={event.name} className="w-full h-32 object-cover rounded-lg mb-4" />
+        <div className="mb-4 -mx-3 sm:mx-0">
+          <img src={event.cover_photo} alt={event.name} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
+        </div>
       )}
       
       <div className="flex items-start space-x-3 mb-3">
