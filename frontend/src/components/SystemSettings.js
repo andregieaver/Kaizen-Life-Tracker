@@ -289,7 +289,6 @@ const SystemSettings = ({ athleteId }) => {
   const [loadingCookieSettings, setLoadingCookieSettings] = useState(false);
   const [scanningCookies, setScanningCookies] = useState(false);
 
-  });
   const [newFeature, setNewFeature] = useState('');
   const [newVariation, setNewVariation] = useState({
     plan_id: '',
