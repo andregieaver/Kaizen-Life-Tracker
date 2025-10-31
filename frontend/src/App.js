@@ -62,9 +62,33 @@ function App() {
       if (response.data.googleTagManager) {
         injectGTMCodes(response.data.googleTagManager);
       }
+      if (response.data.microsoftClarity) {
+        injectMicrosoftClarity(response.data.microsoftClarity);
+      }
     } catch (error) {
       // If endpoint doesn't exist or fails, use defaults
       console.log('Using default SEO settings');
+    }
+  };
+
+  const injectMicrosoftClarity = (clarityData) => {
+    // Inject Microsoft Clarity tracking script
+    if (clarityData.projectId && clarityData.projectId.trim()) {
+      // Check if Clarity is already injected
+      if (!document.querySelector('[data-clarity]')) {
+        const clarityScript = document.createElement('script');
+        clarityScript.setAttribute('data-clarity', 'true');
+        clarityScript.type = 'text/javascript';
+        clarityScript.innerHTML = `
+          (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, "clarity", "script", "${clarityData.projectId}");
+        `;
+        document.head.appendChild(clarityScript);
+        console.log('✅ Microsoft Clarity tracking code injected');
+      }
     }
   };
 
