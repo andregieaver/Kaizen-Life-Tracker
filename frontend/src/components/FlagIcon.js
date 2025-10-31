@@ -378,7 +378,9 @@ const FlagIcon = ({ nationality, className = '', size = 'normal' }) => {
         textShadow: '0 1px 2px rgba(0,0,0,0.5)',
         zIndex: 10,
         right: '-5px',
-        bottom: bottomOffset
+        bottom: bottomOffset,
+        backgroundColor: 'rgba(255, 0, 0, 0.3)', // DEBUG: red background to see if flag is rendering
+        padding: '2px'
       }}
     >
       {flag}
