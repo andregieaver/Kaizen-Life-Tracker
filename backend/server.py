@@ -15407,6 +15407,160 @@ async def get_html_with_seo_tags(slug: str, backend_url: str):
 
 app.include_router(api_router)
 
+
+# =====================================================
+# DYNAMIC OG METADATA - Server-Side Injection
+# =====================================================
+
+@app.get("/{path:path}")
+async def serve_dynamic_html(path: str, request: Request):
+    """
+    Serve index.html with dynamic OG meta tags based on route
+    This enables proper Open Graph metadata for social media sharing
+    """
+    try:
+        # Skip if this is an API request or static asset
+        if path.startswith('api/') or path.startswith('static/'):
+            raise HTTPException(status_code=404, detail="Not found")
+        
+        # Determine the URL slug
+        slug = f"/{path}" if path else "/"
+        
+        # Try to find page in database by slug
+        page = None
+        try:
+            page = await db.pages.find_one({
+                "url_slug": slug,
+                "status": "published"
+            }, {"_id": 0})
+        except Exception as db_error:
+            logging.warning(f"Could not fetch page for slug {slug}: {db_error}")
+        
+        # Read index.html template
+        index_path = "/app/frontend/build/index.html"
+        
+        # Fallback to development path if build doesn't exist
+        if not os.path.exists(index_path):
+            index_path = "/app/frontend/public/index.html"
+        
+        if not os.path.exists(index_path):
+            raise HTTPException(status_code=500, detail="index.html not found")
+        
+        with open(index_path, 'r', encoding='utf-8') as f:
+            html = f.read()
+        
+        # If page found, replace meta tags with page-specific values
+        if page:
+            meta_title = page.get('meta_title') or page.get('title') or 'My Health Tracker'
+            meta_description = page.get('meta_description') or 'Your personal AI Health & Fitness coach'
+            og_image = page.get('og_image') or ''
+            
+            # Construct full image URL
+            if og_image:
+                if og_image.startswith('http'):
+                    full_image_url = og_image
+                else:
+                    backend_url = os.environ.get('REACT_APP_BACKEND_URL', 'https://trainsmart-cms.emergent.host')
+                    full_image_url = f"{backend_url}{og_image}"
+            else:
+                full_image_url = ''
+            
+            # Replace title
+            html = re.sub(
+                r'<title>.*?</title>',
+                f'<title>{meta_title}</title>',
+                html
+            )
+            
+            # Replace meta description
+            html = re.sub(
+                r'<meta name="description" content=".*?"',
+                f'<meta name="description" content="{meta_description}"',
+                html
+            )
+            
+            # Replace OG title
+            html = re.sub(
+                r'<meta property="og:title" content=".*?"',
+                f'<meta property="og:title" content="{meta_title}"',
+                html
+            )
+            
+            # Replace OG description
+            html = re.sub(
+                r'<meta property="og:description" content=".*?"',
+                f'<meta property="og:description" content="{meta_description}"',
+                html
+            )
+            
+            # Replace OG image
+            if full_image_url:
+                html = re.sub(
+                    r'<meta property="og:image" content=".*?"',
+                    f'<meta property="og:image" content="{full_image_url}"',
+                    html
+                )
+                html = re.sub(
+                    r'<meta property="og:image:secure_url" content=".*?"',
+                    f'<meta property="og:image:secure_url" content="{full_image_url}"',
+                    html
+                )
+            
+            # Replace Twitter title
+            html = re.sub(
+                r'<meta name="twitter:title" content=".*?"',
+                f'<meta name="twitter:title" content="{meta_title}"',
+                html
+            )
+            
+            # Replace Twitter description
+            html = re.sub(
+                r'<meta name="twitter:description" content=".*?"',
+                f'<meta name="twitter:description" content="{meta_description}"',
+                html
+            )
+            
+            # Replace Twitter image
+            if full_image_url:
+                html = re.sub(
+                    r'<meta name="twitter:image" content=".*?"',
+                    f'<meta name="twitter:image" content="{full_image_url}"',
+                    html
+                )
+            
+            # Replace OG URL
+            current_url = str(request.url)
+            html = re.sub(
+                r'<meta property="og:url" content=".*?"',
+                f'<meta property="og:url" content="{current_url}"',
+                html
+            )
+            
+            # Replace canonical URL
+            html = re.sub(
+                r'<link rel="canonical" href=".*?"',
+                f'<link rel="canonical" href="{current_url}"',
+                html
+            )
+            
+            logging.info(f"✅ Served dynamic HTML for {slug} with custom OG metadata")
+        else:
+            logging.info(f"ℹ️ Served default HTML for {slug} (no page found)")
+        
+        return HTMLResponse(content=html)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error serving dynamic HTML: {e}", exc_info=True)
+        # Fallback to static index.html
+        try:
+            with open("/app/frontend/build/index.html", 'r') as f:
+                return HTMLResponse(content=f.read())
+        except:
+            raise HTTPException(status_code=500, detail="Failed to serve page")
+
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
