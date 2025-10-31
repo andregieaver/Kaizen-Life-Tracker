@@ -813,7 +813,7 @@ const Dashboard = ({ athleteId }) => {
                     navigate('/dashboard/history');
                     setIsMenuOpen(false);
                   }}
-                  className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                  className={`hidden w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'history'
                       ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
                       : 'text-white hover:bg-gray-700'
