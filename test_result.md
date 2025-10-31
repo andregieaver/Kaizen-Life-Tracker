@@ -159,8 +159,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Share Post Modal and Rendering"
-  stuck_tasks: []
+    - "Country Flag Display in Community Feed"
+  stuck_tasks:
+    - "Country Flag Display in Community Feed"
   test_all: false
   test_priority: "high_first"
 
