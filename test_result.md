@@ -316,6 +316,18 @@ frontend:
         agent: "main"
         comment: "Frontend auto-refresh for profile picture updates implemented. ISSUE: When user updates profile picture in Account Settings, existing posts/comments in Community feed continue showing old profile pictures until page refresh. Backend cascade correctly updates database, but frontend doesn't know to reload the data. FIX IMPLEMENTED in /app/frontend/src/components/Community.js: 1) ADDED EVENT LISTENER: New useEffect hook (after line 340) listens for 'athleteProfileUpdated' custom event dispatched by Account.js. 2) CONDITIONAL RELOAD: When profilePictureUpdated flag is true and updatedAthleteId matches current user, automatically reloads community data based on active tab. 3) RELOAD COVERAGE: Feed tab - calls loadPosts(true) to force reload, Following tab - calls loadFollowingPosts(), Groups tab - calls loadAllGroups(), My Groups tab - calls loadMyGroups(), Events tab - calls loadEvents(), Challenges tab - calls loadChallenges(challengeFilter). 4) DETAIL VIEWS: If viewing specific group - calls loadGroupDetails(selectedGroup.id), if viewing specific challenge - calls loadChallengeDetails(selectedChallenge.id). 5) CONSOLE LOGGING: Added '[Community] Profile picture updated, refreshing community data...' log for debugging. RESULT: When user updates profile picture and saves in Account Settings, Community component automatically detects the change and reloads all visible data (posts, comments, groups, events, challenges) to display updated profile pictures immediately without manual page refresh. Frontend compiled successfully. TESTING NEEDED: 1) Login as test user, 2) Navigate to Community and create a post, 3) Navigate to Account Settings and update profile picture, 4) Save changes in Account Settings, 5) Navigate back to Community feed, 6) Verify post shows new profile picture without manual page refresh, 7) Repeat for comments, group posts, and challenge participations."
 
+  - task: "Support Page with Email Form"
+    implemented: false
+    working: "NA"
+    file: "/app/frontend/src/components/Support.js, /app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "USER REQUEST: Create new frontend page called 'Support' where users can submit support requests via a form. Form submissions should be sent to support@kaizenlifetracker.com via email. IMPLEMENTATION PLAN: 1) Create Support.js component with form fields (name, email, subject, message). 2) Add backend endpoint POST /api/support/submit to handle form submission and send email via SendGrid. 3) Add Support route to Dashboard.js. 4) Add navigation link to Support page. DEPENDENCIES: Requires SendGrid email service (already configured in system settings). TESTING NEEDED: Submit support form and verify email is delivered to support@kaizenlifetracker.com."
+
 backend:
   - task: "Stripe Product and Price Activation Fix"
     implemented: true
