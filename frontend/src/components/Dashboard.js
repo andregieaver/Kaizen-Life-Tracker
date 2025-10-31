@@ -1000,7 +1000,7 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Log Supplement */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-xl md:rounded-[5rem]"
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-none md:rounded-[5rem]"
                 onClick={() => navigate('/dashboard/supplements', { state: { openAddModal: true } })}
               >
                 <CardContent className="p-2 md:pl-[1.2rem]">
