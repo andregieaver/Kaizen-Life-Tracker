@@ -4064,35 +4064,40 @@ const SystemSettings = ({ athleteId }) => {
                       Microsoft Clarity
                     </Label>
                     <p className="text-xs text-gray-400 mt-1">
-                      Add your Microsoft Clarity project ID to enable session recording and heatmaps
+                      Add your Microsoft Clarity tracking script for session recording and heatmaps
                     </p>
                   </div>
 
-                  {/* Clarity Project ID */}
+                  {/* Clarity Script Code */}
                   <div className="space-y-2">
                     <Label className="text-sm font-medium text-white">
-                      Project ID
+                      Clarity Tracking Script
                     </Label>
                     <p className="text-xs text-gray-400">
-                      Enter your Microsoft Clarity project ID (e.g., abc123def)
+                      Paste your complete Microsoft Clarity tracking script (including <code className="bg-gray-900 px-1 py-0.5 rounded text-[#00C2A8]">&lt;script&gt;</code> tags)
                     </p>
-                    <input
-                      type="text"
-                      value={advancedSettings.microsoftClarity.projectId}
+                    <Textarea
+                      value={advancedSettings.microsoftClarity.scriptCode}
                       onChange={(e) => setAdvancedSettings(prev => ({
                         ...prev,
                         microsoftClarity: {
-                          projectId: e.target.value
+                          scriptCode: e.target.value
                         }
                       }))}
-                      placeholder="abc123def"
-                      className="w-full bg-gray-900 border border-gray-700 text-white placeholder:text-gray-500 text-sm px-3 py-2 rounded-lg focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                      placeholder='<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "YOUR_PROJECT_ID");
+</script>'
+                      className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 text-xs font-mono h-40"
                     />
                   </div>
 
                   <div className="p-3 bg-blue-900/20 border border-blue-700/50 rounded-lg">
                     <p className="text-xs text-blue-200">
-                      <strong>Note:</strong> Get your project ID from <a href="https://clarity.microsoft.com" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">Microsoft Clarity</a>. Go to Settings → Setup → Project ID. After saving, the tracking script will be automatically added to your site.
+                      <strong>Note:</strong> Get your tracking script from <a href="https://clarity.microsoft.com" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">Microsoft Clarity</a>. Go to your project → Settings → Setup → Copy the tracking code. After saving, the script will be automatically injected into your site's <code className="bg-gray-900 px-1 py-0.5 rounded text-[#00C2A8]">&lt;head&gt;</code> section.
                     </p>
                   </div>
                 </div>
