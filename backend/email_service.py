@@ -62,11 +62,21 @@ class EmailService:
         Raises:
             EmailDeliveryError: If email sending fails
         """
+        logger.info(f"=== EMAIL SERVICE SEND START ===")
+        logger.info(f"Service enabled: {self.enabled}")
+        logger.info(f"Sender email: {self.sender_email}")
+        logger.info(f"Sender name: {self.sender_name}")
+        logger.info(f"To email: {to_email}")
+        logger.info(f"Subject: {subject}")
+        logger.info(f"Has HTML content: {html_content is not None}")
+        logger.info(f"Has text content: {text_content is not None}")
+        
         if not self.enabled:
             logger.error("Email service not configured. Cannot send email.")
             raise EmailDeliveryError("Email service not configured")
         
         try:
+            logger.info("Creating Mail object...")
             message = Mail(
                 from_email=Email(self.sender_email, self.sender_name),
                 to_emails=To(to_email),
@@ -75,9 +85,14 @@ class EmailService:
             )
             
             if text_content:
+                logger.info("Adding plain text content...")
                 message.plain_text_content = Content("text/plain", text_content)
             
+            logger.info("Sending email via SendGrid client...")
             response = self.client.send(message)
+            logger.info(f"SendGrid response status code: {response.status_code}")
+            logger.info(f"SendGrid response body: {response.body}")
+            logger.info(f"SendGrid response headers: {response.headers}")
             
             if response.status_code in [200, 202]:
                 logger.info(f"Email sent successfully to {to_email}")
@@ -86,8 +101,10 @@ class EmailService:
                 logger.error(f"Failed to send email. Status code: {response.status_code}")
                 raise EmailDeliveryError(f"SendGrid returned status code {response.status_code}")
                 
+        except EmailDeliveryError:
+            raise
         except Exception as e:
-            logger.error(f"Failed to send email to {to_email}: {str(e)}")
+            logger.error(f"Failed to send email to {to_email}: {str(e)}", exc_info=True)
             raise EmailDeliveryError(f"Failed to send email: {str(e)}")
     
     async def send_password_reset_email(self, to_email: str, reset_token: str, reset_url: str) -> bool:
