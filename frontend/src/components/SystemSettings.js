@@ -31,7 +31,10 @@ import {
   Trash2,
   Mail,
   Download,
-  X
+  X,
+  Cookie,
+  RefreshCw,
+  Shield
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
