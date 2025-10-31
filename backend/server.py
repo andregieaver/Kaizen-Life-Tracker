@@ -8443,11 +8443,22 @@ async def startup_scheduler():
             id='check_schedules',
             replace_existing=True
         )
+        
+        # Add job for weekly cookie scan (every Monday at 2 AM)
+        scheduler.add_job(
+            auto_scan_cookies,
+            CronTrigger(day_of_week='mon', hour=2, minute=0),
+            id='auto_cookie_scan',
+            replace_existing=True
+        )
+        
         scheduler.start()
         print("=" * 50)
         print("SCHEDULER STARTED SUCCESSFULLY")
+        print("Cookie auto-scan: Every Monday at 2 AM")
         print("=" * 50)
         logging.info("Scheduler started - checking for due schedules every minute")
+        logging.info("Cookie auto-scan scheduled - every Monday at 2 AM")
     except Exception as e:
         print(f"ERROR STARTING SCHEDULER: {e}")
         logging.error(f"Failed to start scheduler: {e}")
