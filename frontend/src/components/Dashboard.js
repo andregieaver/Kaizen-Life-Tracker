@@ -1090,7 +1090,7 @@ const Dashboard = ({ athleteId }) => {
             </div>
 
             {/* Body Score, Progress, and Merits - Three Equal Columns on Desktop */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 md:gap-6">
               {/* Column 1: Body Score */}
               <Card className="border-0 shadow-md bg-gradient-to-br from-gray-600 to-gray-800 overflow-hidden">
                 <CardHeader className="pb-3">
