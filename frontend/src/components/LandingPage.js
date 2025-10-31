@@ -9,11 +9,17 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import { loadAndInjectPageSEO } from '../utils/seoUtils';
+import { useScrollDepth, useTimeOnPage } from '../lib/useViewTracker';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const WaitingListSection = () => {
+  // Track scroll depth on landing page
+  useScrollDepth();
+  // Track time on page (30 seconds threshold)
+  useTimeOnPage(30);
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
