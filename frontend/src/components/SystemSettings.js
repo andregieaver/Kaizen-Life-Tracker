@@ -3678,7 +3678,7 @@ const SystemSettings = ({ athleteId }) => {
                     <div>
                       <Label className="text-gray-300 text-sm">Banner Title</Label>
                       <Input
-                        value={cookieSettings.consent_texts.banner_title}
+                        value={cookieSettings?.consent_texts?.banner_title || ''}
                         onChange={(e) => setCookieSettings({
                           ...cookieSettings,
                           consent_texts: {
@@ -3695,7 +3695,7 @@ const SystemSettings = ({ athleteId }) => {
                     <div>
                       <Label className="text-gray-300 text-sm">Banner Description</Label>
                       <Textarea
-                        value={cookieSettings.consent_texts.banner_description}
+                        value={cookieSettings?.consent_texts?.banner_description || ''}
                         onChange={(e) => setCookieSettings({
                           ...cookieSettings,
                           consent_texts: {
