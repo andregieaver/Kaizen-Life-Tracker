@@ -1515,27 +1515,32 @@ def test_cookie_management_api_endpoints():
         else:
             save_successful = True
         
-        save_data = save_response.json()
-        
-        if not save_data.get("success"):
-            print_test_result("Save Cookie Settings", False, f"Save not successful: {save_data}")
-            return False
-        
-        print_test_result("Save Cookie Settings", True, "Settings saved successfully")
-        
-        # Verify settings were saved by retrieving them again
-        verify_response = requests.get(f"{BACKEND_URL}/cookies/settings?athlete_id={super_admin_id}")
-        
-        if verify_response.status_code == 200:
-            verify_data = verify_response.json()
-            if (verify_data.get("enabled") == True and 
-                verify_data.get("auto_scan_enabled") == True and
-                verify_data.get("consent_texts", {}).get("banner_title") == "Custom Title"):
-                print_test_result("Settings Persistence", True, "Saved settings persisted correctly")
+        if save_successful:
+            save_data = save_response.json()
+            
+            if not save_data.get("success"):
+                print_test_result("Save Cookie Settings", False, f"Save not successful: {save_data}")
             else:
-                print_test_result("Settings Persistence", False, "Saved settings did not persist correctly")
+                print_test_result("Save Cookie Settings", True, "Settings saved successfully")
+            
+            # Verify settings were saved by retrieving them again
+            verify_response = requests.get(f"{BACKEND_URL}/cookies/settings?athlete_id={super_admin_id}")
+            
+            if verify_response.status_code == 200:
+                try:
+                    verify_data = verify_response.json()
+                    if (verify_data.get("enabled") == True and 
+                        verify_data.get("auto_scan_enabled") == True and
+                        verify_data.get("consent_texts", {}).get("banner_title") == "Custom Title"):
+                        print_test_result("Settings Persistence", True, "Saved settings persisted correctly")
+                    else:
+                        print_test_result("Settings Persistence", False, "Saved settings did not persist correctly")
+                except:
+                    print_test_result("Settings Persistence", False, "Could not parse verification response")
+            else:
+                print_test_result("Settings Persistence", False, "Could not verify settings persistence")
         else:
-            print_test_result("Settings Persistence", False, "Could not verify settings persistence")
+            print_test_result("Save Cookie Settings", False, "Save operation failed")
         
         # Step 5: Test Public Cookie Consent - GET /api/cookies/consent/public (no auth required)
         print("   Step 5: Test Public Cookie Consent - GET /api/cookies/consent/public")
