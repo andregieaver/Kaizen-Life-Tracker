@@ -11926,7 +11926,7 @@ async def get_public_system_settings():
                     "bodyCode": ""
                 }),
                 "microsoftClarity": settings.get("advanced", {}).get("microsoftClarity", {
-                    "projectId": ""
+                    "scriptCode": ""
                 }),
                 "plans": settings.get("plans", {
                     "free": {
