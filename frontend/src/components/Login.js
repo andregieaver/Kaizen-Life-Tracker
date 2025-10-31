@@ -50,8 +50,13 @@ const Login = ({ onAthleteLogin }) => {
           // Clear URL fragment
           window.history.replaceState(null, '', window.location.pathname);
 
+          // Track successful Google login
+          track('login', { method: 'google' });
+          setUserId(backendResponse.data.athlete_id);
+
           // Redirect based on if user is new or existing
           if (backendResponse.data.is_new_user) {
+            track('signup', { method: 'google' });
             localStorage.setItem('athleteId', backendResponse.data.athlete_id);
             navigate('/account');
           } else {
@@ -61,6 +66,10 @@ const Login = ({ onAthleteLogin }) => {
           }
         } catch (error) {
           console.error('Google auth error:', error);
+          track('login_error', { 
+            method: 'google',
+            error_message: 'Google authentication failed'
+          });
           setError('Google authentication failed. Please try again.');
           setIsLoading(false);
         }
