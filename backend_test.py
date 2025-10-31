@@ -1373,92 +1373,23 @@ def test_cookie_management_api_endpoints():
     print("=" * 70)
     
     try:
-        # Step 1: Login as super admin (try multiple known users)
-        print("   Step 1: Login as super admin")
+        # Step 1: Use known super admin ID from test_result.md
+        print("   Step 1: Setup super admin for testing")
         
-        login_attempts = [
-            {"email": "andre@humanweb.no", "password": "password123"},
-            {"email": "superadmin@test.com", "password": "password123"},
-            {"email": "test.files@example.com", "password": "password123"},
-            {"email": "andre@example.com", "password": "password123"}
-        ]
+        # Use known super admin ID from test_result.md (andre@humanweb.no)
+        super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"
+        user_email = "andre@humanweb.no"
         
-        super_admin_id = None
-        user_email = None
+        # Verify this is actually a super admin by testing an endpoint
+        test_response = requests.get(f"{BACKEND_URL}/cookies/settings?athlete_id={super_admin_id}")
         
-        for login_data in login_attempts:
-            login_response = requests.post(
-                f"{BACKEND_URL}/auth/login",
-                json=login_data,
-                headers={"Content-Type": "application/json"}
-            )
-            
-            if login_response.status_code == 200:
-                athlete_data = login_response.json()
-                potential_id = athlete_data.get("athlete_id")
-                user_email = login_data["email"]
-                
-                # Check if this user is a super admin by trying a super admin endpoint
-                test_response = requests.get(f"{BACKEND_URL}/cookies/settings?athlete_id={potential_id}")
-                
-                if test_response.status_code == 200:
-                    super_admin_id = potential_id
-                    print_test_result("Super Admin Login", True, f"Logged in as {user_email}, athlete_id: {super_admin_id}")
-                    break
-                elif test_response.status_code == 403:
-                    print(f"      User {user_email} is not a super admin (403 error)")
-                    continue
-        
-        if not super_admin_id:
-            # Try to create a super admin user
-            print("   Creating super admin user for testing...")
-            
-            create_user_data = {
-                "name": "Super Admin Test User",
-                "email": "superadmin@test.com",
-                "password": "password123",
-                "weekly_mileage": 0.0,
-                "running_goals": "System administration"
-            }
-            
-            create_response = requests.post(
-                f"{BACKEND_URL}/athlete",
-                json=create_user_data,
-                headers={"Content-Type": "application/json"}
-            )
-            
-            if create_response.status_code == 200:
-                # Try to login with new user
-                login_response = requests.post(
-                    f"{BACKEND_URL}/auth/login",
-                    json={"email": "superadmin@test.com", "password": "password123"},
-                    headers={"Content-Type": "application/json"}
-                )
-                
-                if login_response.status_code == 200:
-                    athlete_data = login_response.json()
-                    super_admin_id = athlete_data.get("athlete_id")
-                    user_email = "superadmin@test.com"
-                    
-                    # We need to manually set this user as super admin in the database
-                    # For now, let's use a known super admin ID from test_result.md
-                    super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"  # andre@humanweb.no from test_result.md
-                    user_email = "andre@humanweb.no"
-                    print_test_result("Super Admin Setup", True, f"Using known super admin ID: {super_admin_id}")
-                    
-                    # Override the athlete_id we got from login with the known super admin ID
-                    super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"
-                else:
-                    print_test_result("Super Admin Setup", False, f"Login after create failed: {login_response.status_code}")
-                    return False
-            else:
-                # Use known super admin ID from test_result.md as fallback
-                super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"  # andre@humanweb.no
-                user_email = "andre@humanweb.no"
-                print_test_result("Super Admin Setup", True, f"Using known super admin ID from test_result.md: {super_admin_id}")
-        
-        if not super_admin_id:
-            print_test_result("Super Admin Login", False, "Could not find or create super admin user")
+        if test_response.status_code == 200:
+            print_test_result("Super Admin Setup", True, f"Using known super admin {user_email}, athlete_id: {super_admin_id}")
+        elif test_response.status_code == 403:
+            print_test_result("Super Admin Setup", False, f"Known user {user_email} is not a super admin (403 error)")
+            return False
+        else:
+            print_test_result("Super Admin Setup", False, f"Unexpected response testing super admin: {test_response.status_code}")
             return False
         
         athlete_data = login_response.json()
