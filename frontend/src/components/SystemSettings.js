@@ -3838,7 +3838,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div>
                         <Label className="text-gray-300 text-sm">Analytics Cookies Title</Label>
                         <Input
-                          value={cookieSettings.consent_texts.analytics_title}
+                          value={cookieSettings?.consent_texts?.analytics_title || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
@@ -3849,7 +3849,7 @@ const SystemSettings = ({ athleteId }) => {
                           className="bg-gray-800 border-gray-700 text-white mt-1 mb-2"
                         />
                         <Textarea
-                          value={cookieSettings.consent_texts.analytics_description}
+                          value={cookieSettings?.consent_texts?.analytics_description || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
@@ -3866,7 +3866,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div>
                         <Label className="text-gray-300 text-sm">Marketing Cookies Title</Label>
                         <Input
-                          value={cookieSettings.consent_texts.marketing_title}
+                          value={cookieSettings?.consent_texts?.marketing_title || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
@@ -3877,7 +3877,7 @@ const SystemSettings = ({ athleteId }) => {
                           className="bg-gray-800 border-gray-700 text-white mt-1 mb-2"
                         />
                         <Textarea
-                          value={cookieSettings.consent_texts.marketing_description}
+                          value={cookieSettings?.consent_texts?.marketing_description || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
@@ -3894,7 +3894,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div>
                         <Label className="text-gray-300 text-sm">Functional Cookies Title</Label>
                         <Input
-                          value={cookieSettings.consent_texts.functional_title}
+                          value={cookieSettings?.consent_texts?.functional_title || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
@@ -3905,7 +3905,7 @@ const SystemSettings = ({ athleteId }) => {
                           className="bg-gray-800 border-gray-700 text-white mt-1 mb-2"
                         />
                         <Textarea
-                          value={cookieSettings.consent_texts.functional_description}
+                          value={cookieSettings?.consent_texts?.functional_description || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
