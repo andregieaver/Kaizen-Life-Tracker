@@ -3612,7 +3612,7 @@ const SystemSettings = ({ athleteId }) => {
                   </div>
 
                   {/* Detected Cookies */}
-                  {cookieSettings.detected_cookies.length > 0 && (
+                  {cookieSettings?.detected_cookies?.length > 0 && (
                     <div className="p-4 bg-gray-900 rounded-lg space-y-4">
                       <div className="flex items-center justify-between">
                         <Label className="text-white font-medium">
@@ -3628,7 +3628,7 @@ const SystemSettings = ({ athleteId }) => {
                       {/* Cookie Categories */}
                       <div className="space-y-3">
                         {['necessary', 'analytics', 'marketing', 'functional'].map(category => {
-                          const categoryCookies = cookieSettings.detected_cookies.filter(
+                          const categoryCookies = (cookieSettings.detected_cookies || []).filter(
                             c => c.category === category
                           );
                           
