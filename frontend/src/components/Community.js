@@ -3343,7 +3343,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
       {/* Challenges Tab */}
       {activeTab === 'challenges' && (
-        <div className="space-y-0 md:space-y-6 pt-28 md:pt-0">
+        <div className="space-y-0 md:space-y-6 pt-[7.5rem] md:pt-0">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-0 sm:gap-4">
             {/* Filter buttons */}
             <div className="flex gap-0 md:gap-2 w-full sm:w-auto">
