@@ -13411,6 +13411,11 @@ async def get_cookie_settings(athlete_id: str):
             default_texts = CookieConsentTexts()
             cookie_settings["consent_texts"] = default_texts.model_dump()
         
+        # Remove _id from last_scan if present (MongoDB ObjectId serialization issue)
+        if "last_scan" in cookie_settings and cookie_settings["last_scan"]:
+            if "_id" in cookie_settings["last_scan"]:
+                del cookie_settings["last_scan"]["_id"]
+        
         return cookie_settings
         
     except HTTPException:
