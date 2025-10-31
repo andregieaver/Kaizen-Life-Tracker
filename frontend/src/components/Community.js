@@ -3705,7 +3705,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           setShowCreateGroup(true);
           setShowCreateMenu(false);
         }}
-        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-purple-500 hover:bg-purple-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
           showCreateMenu 
             ? 'opacity-100 translate-x-0 translate-y-0' 
             : 'opacity-0 scale-0 pointer-events-none'
