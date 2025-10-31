@@ -301,8 +301,93 @@ const Emails = () => {
     <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-display font-bold text-white mb-2">Email Templates</h1>
-        <p className="text-gray-300">Customize transactional email templates</p>
+        <h1 className="text-3xl font-display font-bold text-white mb-2">Email Management</h1>
+        <p className="text-gray-300">Customize transactional emails and send custom campaigns</p>
+      </div>
+
+      {/* Custom Emails Section */}
+      <div className="mb-12">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-2xl font-bold text-white">Custom Emails</h2>
+            <p className="text-gray-400 text-sm mt-1">Create and send targeted email campaigns</p>
+          </div>
+          <Button
+            onClick={handleCreateNewEmail}
+            className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Create Email
+          </Button>
+        </div>
+
+        {customEmails.length === 0 ? (
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+            <CardContent className="py-12 text-center">
+              <Mail className="w-16 h-16 text-gray-500 mx-auto mb-4" />
+              <p className="text-gray-400">No custom emails created yet.</p>
+              <p className="text-gray-500 text-sm mt-2">Click "Create Email" to start sending targeted campaigns.</p>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {customEmails.map((email) => (
+              <Card key={email.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <CardTitle className="text-white flex items-center gap-2">
+                        <Mail className="w-5 h-5 text-[#00C2A8]" />
+                        {email.name}
+                      </CardTitle>
+                      <CardDescription className="text-gray-400 mt-1">
+                        Target: <span className="font-semibold capitalize">{email.target_audience}</span>
+                      </CardDescription>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() => handleEditCustomEmail(email)}
+                        className="bg-gray-600 hover:bg-gray-500 text-white"
+                        size="sm"
+                      >
+                        <Edit3 className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        onClick={() => handleDeleteCustomEmail(email.id)}
+                        className="bg-red-600 hover:bg-red-700 text-white"
+                        size="sm"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-xs text-gray-500 mb-1">Subject:</p>
+                      <p className="text-sm text-gray-300 font-medium">{email.subject}</p>
+                    </div>
+                    <Button
+                      onClick={() => handleSendCustomEmail(email.id)}
+                      className="w-full bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                      disabled={sendingEmail}
+                    >
+                      <Send className="w-4 h-4 mr-2" />
+                      {sendingEmail ? 'Sending...' : 'Send to Audience'}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Transactional Email Templates Section */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-white mb-4">Transactional Email Templates</h2>
+        <p className="text-gray-400 text-sm mb-4">Customize automated system emails</p>
       </div>
 
       {/* Email Templates List */}
