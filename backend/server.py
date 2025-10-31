@@ -6463,6 +6463,35 @@ async def stripe_webhook(request: Request):
                         }}
                     )
                     
+                    # Track purchase event (analytics)
+                    try:
+                        coupon_code = webhook_response.metadata.get("coupon_code")
+                        purchase_event = {
+                            "event": "purchase",
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
+                            "user_id": athlete_id,
+                            "transaction_id": webhook_response.session_id,
+                            "value": float(transaction.get("amount", 0)),
+                            "currency": transaction.get("currency", "EUR").upper(),
+                            "items": [{
+                                "item_id": transaction.get("plan_id"),
+                                "item_name": f"{transaction.get('tier', 'Unknown')} - {transaction.get('interval', 'month')}",
+                                "price": float(transaction.get("amount", 0)),
+                                "quantity": 1
+                            }],
+                            "payment_method": "stripe",
+                            "subscription_tier": transaction.get("tier"),
+                            "billing_interval": transaction.get("interval"),
+                            **({"coupon": coupon_code} if coupon_code else {}),
+                            "webhook_event": True
+                        }
+                        
+                        # Store analytics event
+                        await db.analytics_events.insert_one(purchase_event)
+                        logging.info(f"Purchase event tracked for athlete {athlete_id}: {webhook_response.session_id}")
+                    except Exception as analytics_error:
+                        logging.error(f"Failed to track purchase event: {analytics_error}")
+                    
                     # Record coupon usage if coupon was applied
                     coupon_code = webhook_response.metadata.get("coupon_code")
                     if coupon_code:
