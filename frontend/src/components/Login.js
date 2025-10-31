@@ -74,13 +74,18 @@ const Login = ({ onAthleteLogin }) => {
     e.preventDefault();
     setError('');
     
+    // Track form start
+    forms.start('login', 'login-form');
+    
     if (!email.trim()) {
       setError('Please enter your email address');
+      forms.error('login', 'login-form', 'Missing email');
       return;
     }
 
     if (!password) {
       setError('Please enter your password');
+      forms.error('login', 'login-form', 'Missing password');
       return;
     }
 
@@ -93,6 +98,11 @@ const Login = ({ onAthleteLogin }) => {
       });
       
       if (response.data.athlete_id) {
+        // Track successful login
+        track('login', { method: 'email' });
+        setUserId(response.data.athlete_id);
+        forms.submit('login', 'login-form');
+        
         // Store athlete ID and notify parent
         localStorage.setItem('athleteId', response.data.athlete_id);
         onAthleteLogin(response.data.athlete_id);
@@ -100,6 +110,18 @@ const Login = ({ onAthleteLogin }) => {
       }
     } catch (error) {
       console.error('Login error:', error);
+      
+      const errorMessage = error.response?.status === 401 
+        ? 'Invalid credentials' 
+        : error.response?.data?.detail || 'Login failed';
+      
+      // Track login error
+      track('login_error', { 
+        method: 'email',
+        error_message: errorMessage
+      });
+      forms.error('login', 'login-form', errorMessage);
+      
       if (error.response?.status === 401) {
         setError('Invalid email or password. Please try again.');
       } else {
@@ -111,6 +133,9 @@ const Login = ({ onAthleteLogin }) => {
   };
 
   const handleGoogleLogin = () => {
+    // Track Google login attempt
+    track('login_attempt', { method: 'google' });
+    
     const redirectUrl = `${window.location.origin}/login`;
     window.location.href = `https://auth.emergentagent.com/?redirect=${encodeURIComponent(redirectUrl)}`;
   };
