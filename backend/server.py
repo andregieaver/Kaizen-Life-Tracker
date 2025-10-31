@@ -13062,6 +13062,60 @@ async def create_page(athlete_id: str, page_data: PageCreate):
         logging.error(f"Error creating page: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to create page: {str(e)}")
 
+
+
+# Helper function to auto-update index.html with page metadata
+async def auto_update_index_html(page_data: dict):
+    """
+    Automatically update index.html with page metadata
+    Called when home page is saved/published
+    """
+    try:
+        # Extract metadata
+        meta_title = page_data.get('meta_title') or page_data.get('title') or 'My Health Tracker'
+        meta_description = page_data.get('meta_description') or 'Your personal AI Health & Fitness coach'
+        og_image = page_data.get('og_image') or ''
+        
+        # Construct full image URL
+        backend_url = os.environ.get('REACT_APP_BACKEND_URL', 'https://trainsmart-cms.emergent.host')
+        if og_image and not og_image.startswith('http'):
+            og_image = f"{backend_url}{og_image}"
+        
+        # Read current index.html
+        index_path = "/app/frontend/public/index.html"
+        
+        if not os.path.exists(index_path):
+            logging.warning(f"index.html not found at {index_path}")
+            return
+        
+        with open(index_path, 'r', encoding='utf-8') as f:
+            html = f.read()
+        
+        # Replace meta tags
+        html = re.sub(r'<title>.*?</title>', f'<title>{meta_title}</title>', html)
+        html = re.sub(r'<meta name="description" content=".*?"', f'<meta name="description" content="{meta_description}"', html)
+        html = re.sub(r'<meta property="og:title" content=".*?"', f'<meta property="og:title" content="{meta_title}"', html)
+        html = re.sub(r'<meta property="og:description" content=".*?"', f'<meta property="og:description" content="{meta_description}"', html)
+        
+        if og_image:
+            html = re.sub(r'<meta property="og:image" content=".*?"', f'<meta property="og:image" content="{og_image}"', html)
+            html = re.sub(r'<meta property="og:image:secure_url" content=".*?"', f'<meta property="og:image:secure_url" content="{og_image}"', html)
+            html = re.sub(r'<meta name="twitter:image" content=".*?"', f'<meta name="twitter:image" content="{og_image}"', html)
+        
+        html = re.sub(r'<meta name="twitter:title" content=".*?"', f'<meta name="twitter:title" content="{meta_title}"', html)
+        html = re.sub(r'<meta name="twitter:description" content=".*?"', f'<meta name="twitter:description" content="{meta_description}"', html)
+        
+        # Write updated index.html
+        with open(index_path, 'w', encoding='utf-8') as f:
+            f.write(html)
+        
+        logging.info(f"✅ index.html updated automatically with metadata: {meta_title}")
+        
+    except Exception as e:
+        logging.error(f"Error in auto_update_index_html: {e}", exc_info=True)
+        raise
+
+
 @api_router.put("/pages/{page_id}")
 async def update_page(page_id: str, athlete_id: str, page_data: PageUpdate):
     """Update a page (Super Admin only)"""
