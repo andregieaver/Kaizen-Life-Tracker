@@ -6142,65 +6142,66 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
   >
     <CardContent className="p-0 sm:p-6">
       {event.cover_photo && (
-        <div className="mb-4 sm:mb-4">
+        <div className="mb-4 sm:mb-4 relative">
           <img src={event.cover_photo} alt={event.name} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
+          
+          {/* Event Icon - Positioned on Banner */}
+          <div className="absolute bottom-3 left-3">
+            {event.profile_image ? (
+              <img src={event.profile_image} alt={event.name} className="w-16 h-16 rounded-full object-cover border-4 border-gray-800 shadow-lg" />
+            ) : (
+              <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center border-4 border-gray-800 shadow-lg">
+                <Calendar className="w-8 h-8 text-[#00C2A8]" />
+              </div>
+            )}
+          </div>
         </div>
       )}
       
       <div className="px-3 sm:px-0">
-        <div className="flex items-start space-x-3 mb-3">
-          {event.profile_image ? (
-            <img src={event.profile_image} alt={event.name} className="w-16 h-16 rounded-full object-cover flex-shrink-0" />
-          ) : (
-            <div className="w-16 h-16 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
-              <Calendar className="w-8 h-8 text-gray-400" />
-            </div>
-          )}
+        <div className="mb-3">
+          <div className="flex items-start justify-between mb-1">
+            <h3 className="text-xl font-bold text-white truncate">{event.name}</h3>
+            {(event.creator_id === athleteId || isSuperAdmin) && (
+              <div className="flex space-x-1 ml-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEdit(event);
+                  }}
+                  className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                >
+                  <Edit2 className="w-4 h-4 text-blue-400" />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete(event.id);
+                  }}
+                  className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                >
+                  <Trash2 className="w-4 h-4 text-red-400" />
+                </button>
+              </div>
+            )}
+          </div>
+          <p className="text-gray-300 text-sm line-clamp-2 mb-2">{event.description}</p>
           
-          <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between mb-1">
-              <h3 className="text-xl font-bold text-white truncate">{event.name}</h3>
-              {(event.creator_id === athleteId || isSuperAdmin) && (
-                <div className="flex space-x-1 ml-2">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onEdit(event);
-                    }}
-                    className="p-1 hover:bg-gray-600 rounded-full transition-colors"
-                  >
-                    <Edit2 className="w-4 h-4 text-blue-400" />
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDelete(event.id);
-                    }}
-                    className="p-1 hover:bg-gray-600 rounded-full transition-colors"
-                  >
-                    <Trash2 className="w-4 h-4 text-red-400" />
-                  </button>
-                </div>
-              )}
+          <div className="space-y-1">
+            <div className="flex items-center text-gray-400 text-sm">
+              <Clock className="w-4 h-4 mr-2" />
+              {new Date(event.event_date).toLocaleDateString()} at {event.event_time}
             </div>
-            <p className="text-gray-300 text-sm line-clamp-2 mb-2">{event.description}</p>
-            
-            <div className="space-y-1">
+            {event.location && (
               <div className="flex items-center text-gray-400 text-sm">
-                <Clock className="w-4 h-4 mr-2" />
-                {new Date(event.event_date).toLocaleDateString()} at {event.event_time}
+                <MapPin className="w-4 h-4 mr-2" />
+                {event.location}
               </div>
-              {event.location && (
-                <div className="flex items-center text-gray-400 text-sm">
-                  <MapPin className="w-4 h-4 mr-2" />
-                  {event.location}
-                </div>
-              )}
-              <div className="flex items-center space-x-3 text-sm">
-                <span className="text-gray-400">{event.interested_count || 0} interested</span>
-                <span className="text-gray-400">{event.going_count || 0} going</span>
-                <span className="text-gray-400">{event.comments_count || 0} comments</span>
-              </div>
+            )}
+            <div className="flex items-center space-x-3 text-sm">
+              <span className="text-gray-400">{event.interested_count || 0} interested</span>
+              <span className="text-gray-400">{event.going_count || 0} going</span>
+              <span className="text-gray-400">{event.comments_count || 0} comments</span>
             </div>
           </div>
         </div>
