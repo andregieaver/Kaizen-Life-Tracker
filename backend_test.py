@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 from PIL import Image
 
 # Backend URL from environment
-BACKEND_URL = "https://fitness-social-4.preview.emergentagent.com/api"
+BACKEND_URL = "https://community-fit.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""
@@ -5790,7 +5790,7 @@ def test_image_upload_endpoint_with_processing():
         print("   Step 9: URL Format and Backend URL Verification")
         
         # Check if URLs use the correct backend URL from environment
-        backend_url = "https://fitness-social-4.preview.emergentagent.com"  # From frontend/.env
+        backend_url = "https://community-fit.preview.emergentagent.com"  # From frontend/.env
         
         sample_url = single_image_url
         if sample_url.startswith(backend_url) and "/uploads/images/" in sample_url:
@@ -5945,7 +5945,7 @@ def test_referral_system_comprehensive_edge_cases():
         # Create checkout session with no rewards
         zero_rewards_checkout = {
             "plan_id": "pro_monthly",
-            "origin_url": "https://fitness-social-4.preview.emergentagent.com",
+            "origin_url": "https://community-fit.preview.emergentagent.com",
             "athlete_id": referred_athlete_id
         }
         
@@ -5965,7 +5965,7 @@ def test_referral_system_comprehensive_edge_cases():
         
         invalid_checkout = {
             "plan_id": "pro_monthly",
-            "origin_url": "https://fitness-social-4.preview.emergentagent.com",
+            "origin_url": "https://community-fit.preview.emergentagent.com",
             "athlete_id": referred_athlete_id,
             "referral_code": "INVALID_CODE_12345"
         }
@@ -5994,7 +5994,7 @@ def test_referral_system_comprehensive_edge_cases():
             # Try to use own referral code
             self_checkout = {
                 "plan_id": "pro_monthly",
-                "origin_url": "https://fitness-social-4.preview.emergentagent.com",
+                "origin_url": "https://community-fit.preview.emergentagent.com",
                 "athlete_id": referrer_athlete_id,
                 "referral_code": self_referral_code
             }
@@ -6172,7 +6172,7 @@ def test_referral_system_comprehensive_edge_cases():
                     # We'll use the same referred_athlete_id but with different referral codes
                     additional_checkout_request = {
                         "plan_id": "pro_monthly",
-                        "origin_url": "https://fitness-social-4.preview.emergentagent.com",
+                        "origin_url": "https://community-fit.preview.emergentagent.com",
                         "athlete_id": f"test-athlete-{i}",  # Fake athlete ID for testing
                         "referral_code": additional_referral_code
                     }
@@ -6268,7 +6268,7 @@ def test_referral_system_comprehensive_edge_cases():
         
         invalid_checkout_request = {
             "plan_id": "pro_monthly",
-            "origin_url": "https://fitness-social-4.preview.emergentagent.com",
+            "origin_url": "https://community-fit.preview.emergentagent.com",
             "athlete_id": referred_athlete_id,
             "referral_code": "INVALID_CODE_123"
         }
@@ -6457,7 +6457,7 @@ def test_referral_discount_functionality():
         try:
             checkout_request_with_referral = {
                 "plan_id": "pro_monthly",
-                "origin_url": "https://fitness-social-4.preview.emergentagent.com",
+                "origin_url": "https://community-fit.preview.emergentagent.com",
                 "athlete_id": referred_athlete_id,
                 "referral_code": test_referral_code
             }
@@ -6502,7 +6502,7 @@ def test_referral_discount_functionality():
             try:
                 checkout_request_without_referral = {
                     "plan_id": "pro_monthly",
-                    "origin_url": "https://fitness-social-4.preview.emergentagent.com",
+                    "origin_url": "https://community-fit.preview.emergentagent.com",
                     "athlete_id": referred_athlete_id
                     # No referral_code field
                 }
@@ -6537,7 +6537,7 @@ def test_referral_discount_functionality():
             try:
                 checkout_request_invalid_referral = {
                     "plan_id": "pro_monthly",
-                    "origin_url": "https://fitness-social-4.preview.emergentagent.com",
+                    "origin_url": "https://community-fit.preview.emergentagent.com",
                     "athlete_id": referred_athlete_id,
                     "referral_code": "INVALID_CODE_12345"
                 }
@@ -6595,7 +6595,7 @@ def test_referral_discount_functionality():
             # Test with referral_code
             valid_request_with_referral = {
                 "plan_id": "pro_monthly",
-                "origin_url": "https://fitness-social-4.preview.emergentagent.com",
+                "origin_url": "https://community-fit.preview.emergentagent.com",
                 "athlete_id": referred_athlete_id,
                 "referral_code": test_referral_code
             }
@@ -6603,7 +6603,7 @@ def test_referral_discount_functionality():
             # Test without referral_code
             valid_request_without_referral = {
                 "plan_id": "pro_monthly", 
-                "origin_url": "https://fitness-social-4.preview.emergentagent.com",
+                "origin_url": "https://community-fit.preview.emergentagent.com",
                 "athlete_id": referred_athlete_id
             }
             
