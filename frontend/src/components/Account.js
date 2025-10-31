@@ -255,6 +255,8 @@ const Account = ({ athleteId }) => {
   const [showOuraModal, setShowOuraModal] = useState(false);
   const [profilePictureFile, setProfilePictureFile] = useState(null);
   const [profilePicturePreview, setProfilePicturePreview] = useState('');
+  const [coachAvatarFile, setCoachAvatarFile] = useState(null);
+  const [coachAvatarPreview, setCoachAvatarPreview] = useState('');
   
   // Push notifications state
   const [pushSupported, setPushSupported] = useState(false);
