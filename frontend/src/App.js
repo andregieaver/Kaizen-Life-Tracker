@@ -73,20 +73,33 @@ function App() {
 
   const injectMicrosoftClarity = (clarityData) => {
     // Inject Microsoft Clarity tracking script
-    if (clarityData.projectId && clarityData.projectId.trim()) {
+    if (clarityData.scriptCode && clarityData.scriptCode.trim()) {
       // Check if Clarity is already injected
       if (!document.querySelector('[data-clarity]')) {
-        const clarityScript = document.createElement('script');
+        const clarityScript = document.createElement('div');
         clarityScript.setAttribute('data-clarity', 'true');
-        clarityScript.type = 'text/javascript';
-        clarityScript.innerHTML = `
-          (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "${clarityData.projectId}");
-        `;
-        document.head.appendChild(clarityScript);
+        clarityScript.innerHTML = clarityData.scriptCode;
+        
+        // Extract and execute scripts from the HTML string
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = clarityData.scriptCode;
+        const scripts = tempDiv.querySelectorAll('script');
+        
+        scripts.forEach(script => {
+          const newScript = document.createElement('script');
+          if (script.src) {
+            newScript.src = script.src;
+          } else {
+            newScript.textContent = script.textContent;
+          }
+          Array.from(script.attributes).forEach(attr => {
+            if (attr.name !== 'src') {
+              newScript.setAttribute(attr.name, attr.value);
+            }
+          });
+          document.head.appendChild(newScript);
+        });
+        
         console.log('✅ Microsoft Clarity tracking code injected');
       }
     }
