@@ -566,6 +566,8 @@ class AthleteProfile(BaseModel):
     language: str = Field(default="en")  # Language code (e.g., "en", "no", "sv")
     coach_language: str = Field(default="en")  # Preferred language for AI coach responses
     voice_preference: str = Field(default="alloy")  # OpenAI voice: 'alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'
+    coach_name: str = Field(default="Coach")  # Custom name for AI coach
+    coach_avatar: Optional[str] = None  # Custom avatar URL for AI coach
     
     # Subscription fields
     subscription_tier: str = Field(default="free")  # 'free', 'pro', 'premium'
