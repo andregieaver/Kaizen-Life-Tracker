@@ -54,7 +54,7 @@ const Merits = ({ athleteId }) => {
 
   if (isLoading) {
     return (
-      <Card className="border-0 shadow-md bg-gradient-to-br from-gray-600 to-gray-800">
+      <Card className="border-0 shadow-md bg-gradient-to-br from-gray-600 to-gray-800 rounded-none md:rounded-lg">
         <CardHeader>
           <CardTitle className="flex items-center text-white">
             <Trophy className="w-5 h-5 mr-2 text-yellow-400" />
