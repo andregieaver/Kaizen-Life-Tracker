@@ -177,11 +177,11 @@ const Schedules = ({ athleteId }) => {
   };
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto space-y-6 p-4 sm:p-6 lg:p-8 min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+    <div className="w-full max-w-[1600px] mx-auto space-y-6 p-0 min-h-screen">
       {/* Header */}
       <div>
         <h1 className="text-2xl md:text-3xl font-display font-bold text-white">
-          Automated Analysis
+          Scheduled Reports
         </h1>
         <p className="text-gray-300 mt-1">
           Schedule automated prompts for your AI coach to analyze your training and recovery data
