@@ -1078,6 +1078,18 @@ const Account = ({ athleteId }) => {
     e.preventDefault();
     setIsLoading(true);
     try {
+      // Upload coach avatar if a new one is selected
+      let newCoachAvatar = null;
+      if (coachAvatarFile) {
+        try {
+          newCoachAvatar = await uploadCoachAvatar();
+        } catch (error) {
+          setSaveStatus({ type: 'error', message: error.message });
+          setIsLoading(false);
+          return;
+        }
+      }
+      
       const updatedData = {
         distance_unit: personalForm.distance_unit,
         measurement_system: personalForm.measurement_system,
@@ -1089,7 +1101,9 @@ const Account = ({ athleteId }) => {
         fluid_unit: personalForm.fluid_unit,
         language: personalForm.language,
         coach_language: personalForm.coach_language,
-        voice_preference: personalForm.voice_preference
+        voice_preference: personalForm.voice_preference,
+        coach_name: personalForm.coach_name,
+        coach_avatar: newCoachAvatar || personalForm.coach_avatar
       };
       
       const response = await axios.put(`${API}/athlete/${athleteId}`, updatedData);
@@ -1097,6 +1111,12 @@ const Account = ({ athleteId }) => {
       // Update athlete state with the response
       setAthlete(response.data);
       setPersonalForm(response.data);
+      
+      // Clear coach avatar file state after successful upload
+      setCoachAvatarFile(null);
+      if (newCoachAvatar) {
+        setCoachAvatarPreview(newCoachAvatar);
+      }
       
       setSaveStatus({ type: 'success', message: 'Preferences updated successfully!' });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
