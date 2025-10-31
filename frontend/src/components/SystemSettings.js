@@ -3435,6 +3435,460 @@ const SystemSettings = ({ athleteId }) => {
             </div>
           </TabsContent>
 
+
+          {/* Cookies Tab */}
+          <TabsContent value="cookies">
+            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Cookie className="w-5 h-5" />
+                  Cookie Management
+                </CardTitle>
+                <CardDescription className="text-gray-400">
+                  Manage cookies and implement Google Consent Mode v2 compliance
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Cookie Banner Enabled */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 bg-gray-900 rounded-lg">
+                    <div>
+                      <Label className="text-white font-medium">Enable Cookie Consent Banner</Label>
+                      <p className="text-xs text-gray-400 mt-1">
+                        Show cookie consent banner to visitors (Google Consent Mode v2 compliant)
+                      </p>
+                    </div>
+                    <input
+                      type="checkbox"
+                      checked={cookieSettings.enabled}
+                      onChange={(e) => setCookieSettings({
+                        ...cookieSettings,
+                        enabled: e.target.checked
+                      })}
+                      className="w-5 h-5 rounded border-gray-600 text-[#00C2A8] focus:ring-[#00C2A8]"
+                    />
+                  </div>
+
+                  {/* Auto-Scan Settings */}
+                  <div className="p-4 bg-gray-900 rounded-lg space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Label className="text-white font-medium">Weekly Auto-Scan</Label>
+                        <p className="text-xs text-gray-400 mt-1">
+                          Automatically scan for new cookies every week (Monday 2 AM)
+                        </p>
+                      </div>
+                      <input
+                        type="checkbox"
+                        checked={cookieSettings.auto_scan_enabled}
+                        onChange={(e) => setCookieSettings({
+                          ...cookieSettings,
+                          auto_scan_enabled: e.target.checked
+                        })}
+                        className="w-5 h-5 rounded border-gray-600 text-[#00C2A8] focus:ring-[#00C2A8]"
+                      />
+                    </div>
+
+                    {/* Manual Scan Button */}
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-700">
+                      <div>
+                        <Label className="text-white font-medium">Manual Cookie Scan</Label>
+                        <p className="text-xs text-gray-400 mt-1">
+                          Scan for cookies from frontend, backend, and third-party services
+                        </p>
+                        {cookieSettings.last_scan && (
+                          <p className="text-xs text-gray-500 mt-1">
+                            Last scan: {new Date(cookieSettings.last_scan.scanned_at).toLocaleString()}
+                          </p>
+                        )}
+                      </div>
+                      <Button
+                        onClick={handleScanCookies}
+                        disabled={scanningCookies}
+                        className="bg-[#00C2A8] hover:bg-[#00a892] text-white"
+                      >
+                        {scanningCookies ? (
+                          <>
+                            <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                            Scanning...
+                          </>
+                        ) : (
+                          <>
+                            <RefreshCw className="w-4 h-4 mr-2" />
+                            Scan Now
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Detected Cookies */}
+                  {cookieSettings.detected_cookies.length > 0 && (
+                    <div className="p-4 bg-gray-900 rounded-lg space-y-4">
+                      <div className="flex items-center justify-between">
+                        <Label className="text-white font-medium">
+                          Detected Cookies ({cookieSettings.detected_cookies.length})
+                        </Label>
+                        <Badge variant="secondary" className="bg-[#00C2A8] text-white">
+                          {cookieSettings.last_scan?.scanned_at ? 
+                            `Scanned ${new Date(cookieSettings.last_scan.scanned_at).toLocaleDateString()}` 
+                            : 'Not scanned yet'}
+                        </Badge>
+                      </div>
+
+                      {/* Cookie Categories */}
+                      <div className="space-y-3">
+                        {['necessary', 'analytics', 'marketing', 'functional'].map(category => {
+                          const categoryCookies = cookieSettings.detected_cookies.filter(
+                            c => c.category === category
+                          );
+                          
+                          if (categoryCookies.length === 0) return null;
+                          
+                          return (
+                            <div key={category} className="border border-gray-700 rounded-lg p-3">
+                              <div className="flex items-center gap-2 mb-2">
+                                <Shield className="w-4 h-4 text-[#00C2A8]" />
+                                <span className="text-white font-medium capitalize">
+                                  {category} ({categoryCookies.length})
+                                </span>
+                              </div>
+                              <div className="space-y-2">
+                                {categoryCookies.map((cookie, idx) => (
+                                  <div 
+                                    key={idx} 
+                                    className="flex items-start justify-between text-xs p-2 bg-gray-800 rounded"
+                                  >
+                                    <div className="flex-1">
+                                      <div className="text-white font-mono">{cookie.name}</div>
+                                      <div className="text-gray-400 mt-1">{cookie.description}</div>
+                                      <div className="flex gap-4 mt-1 text-gray-500">
+                                        <span>Domain: {cookie.domain}</span>
+                                        <span>Expiry: {cookie.expiry}</span>
+                                        <span>Source: {cookie.source}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Banner Text Customization */}
+                  <div className="p-4 bg-gray-900 rounded-lg space-y-4">
+                    <Label className="text-white font-medium">Cookie Banner Customization</Label>
+                    <p className="text-xs text-gray-400">
+                      Customize the text displayed in the cookie consent banner
+                    </p>
+
+                    {/* Banner Title */}
+                    <div>
+                      <Label className="text-gray-300 text-sm">Banner Title</Label>
+                      <Input
+                        value={cookieSettings.consent_texts.banner_title}
+                        onChange={(e) => setCookieSettings({
+                          ...cookieSettings,
+                          consent_texts: {
+                            ...cookieSettings.consent_texts,
+                            banner_title: e.target.value
+                          }
+                        })}
+                        className="bg-gray-800 border-gray-700 text-white mt-1"
+                        placeholder="We value your privacy"
+                      />
+                    </div>
+
+                    {/* Banner Description */}
+                    <div>
+                      <Label className="text-gray-300 text-sm">Banner Description</Label>
+                      <Textarea
+                        value={cookieSettings.consent_texts.banner_description}
+                        onChange={(e) => setCookieSettings({
+                          ...cookieSettings,
+                          consent_texts: {
+                            ...cookieSettings.consent_texts,
+                            banner_description: e.target.value
+                          }
+                        })}
+                        className="bg-gray-800 border-gray-700 text-white mt-1"
+                        rows={3}
+                        placeholder="We use cookies to enhance your browsing experience..."
+                      />
+                    </div>
+
+                    {/* Button Labels */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-gray-300 text-sm">Accept All Button</Label>
+                        <Input
+                          value={cookieSettings.consent_texts.accept_all_button}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              accept_all_button: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-gray-300 text-sm">Reject All Button</Label>
+                        <Input
+                          value={cookieSettings.consent_texts.reject_all_button}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              reject_all_button: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-gray-300 text-sm">Customize Button</Label>
+                        <Input
+                          value={cookieSettings.consent_texts.customize_button}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              customize_button: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-gray-300 text-sm">Save Preferences Button</Label>
+                        <Input
+                          value={cookieSettings.consent_texts.save_preferences_button}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              save_preferences_button: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white mt-1"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Cookie Policy Link */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-gray-300 text-sm">Cookie Policy Text</Label>
+                        <Input
+                          value={cookieSettings.consent_texts.cookie_policy_text}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              cookie_policy_text: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-gray-300 text-sm">Cookie Policy Link</Label>
+                        <Input
+                          value={cookieSettings.consent_texts.cookie_policy_link}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              cookie_policy_link: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white mt-1"
+                          placeholder="/cookie-policy"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Category Descriptions */}
+                    <div className="space-y-4 pt-4 border-t border-gray-700">
+                      <Label className="text-white font-medium">Cookie Category Descriptions</Label>
+                      
+                      {/* Necessary */}
+                      <div>
+                        <Label className="text-gray-300 text-sm">Necessary Cookies Title</Label>
+                        <Input
+                          value={cookieSettings.consent_texts.necessary_title}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              necessary_title: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white mt-1 mb-2"
+                        />
+                        <Textarea
+                          value={cookieSettings.consent_texts.necessary_description}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              necessary_description: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white"
+                          rows={2}
+                        />
+                      </div>
+
+                      {/* Analytics */}
+                      <div>
+                        <Label className="text-gray-300 text-sm">Analytics Cookies Title</Label>
+                        <Input
+                          value={cookieSettings.consent_texts.analytics_title}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              analytics_title: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white mt-1 mb-2"
+                        />
+                        <Textarea
+                          value={cookieSettings.consent_texts.analytics_description}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              analytics_description: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white"
+                          rows={2}
+                        />
+                      </div>
+
+                      {/* Marketing */}
+                      <div>
+                        <Label className="text-gray-300 text-sm">Marketing Cookies Title</Label>
+                        <Input
+                          value={cookieSettings.consent_texts.marketing_title}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              marketing_title: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white mt-1 mb-2"
+                        />
+                        <Textarea
+                          value={cookieSettings.consent_texts.marketing_description}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              marketing_description: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white"
+                          rows={2}
+                        />
+                      </div>
+
+                      {/* Functional */}
+                      <div>
+                        <Label className="text-gray-300 text-sm">Functional Cookies Title</Label>
+                        <Input
+                          value={cookieSettings.consent_texts.functional_title}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              functional_title: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white mt-1 mb-2"
+                        />
+                        <Textarea
+                          value={cookieSettings.consent_texts.functional_description}
+                          onChange={(e) => setCookieSettings({
+                            ...cookieSettings,
+                            consent_texts: {
+                              ...cookieSettings.consent_texts,
+                              functional_description: e.target.value
+                            }
+                          })}
+                          className="bg-gray-800 border-gray-700 text-white"
+                          rows={2}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* GTM Integration Settings */}
+                  <div className="p-4 bg-gray-900 rounded-lg space-y-4">
+                    <div className="flex items-center gap-2">
+                      <Label className="text-white font-medium">Google Consent Mode v2 Integration</Label>
+                      <Badge variant="secondary" className="bg-blue-600 text-white text-xs">
+                        GTM
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-gray-400">
+                      Integrates with Google Tag Manager for consent management. Make sure you've added your GTM snippet in the Advanced tab.
+                    </p>
+                    <div className="flex items-center justify-between p-3 bg-gray-800 rounded">
+                      <div>
+                        <Label className="text-gray-300 text-sm">Enable GTM Consent Mode</Label>
+                        <p className="text-xs text-gray-500 mt-1">
+                          Sends consent signals to GTM container
+                        </p>
+                      </div>
+                      <input
+                        type="checkbox"
+                        checked={cookieSettings.gtm_integration.enabled}
+                        onChange={(e) => setCookieSettings({
+                          ...cookieSettings,
+                          gtm_integration: {
+                            ...cookieSettings.gtm_integration,
+                            enabled: e.target.checked
+                          }
+                        })}
+                        className="w-5 h-5 rounded border-gray-600 text-[#00C2A8] focus:ring-[#00C2A8]"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Save Button */}
+                  <div className="flex justify-end gap-3 pt-4 border-t border-gray-700">
+                    <Button
+                      onClick={handleSaveCookieSettings}
+                      disabled={loadingCookieSettings}
+                      className="bg-[#00C2A8] hover:bg-[#00a892] text-white"
+                    >
+                      {loadingCookieSettings ? (
+                        <>
+                          <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                          Saving...
+                        </>
+                      ) : (
+                        <>
+                          <Save className="w-4 h-4 mr-2" />
+                          Save Cookie Settings
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           {/* Advanced Tab */}
           <TabsContent value="advanced">
             <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
