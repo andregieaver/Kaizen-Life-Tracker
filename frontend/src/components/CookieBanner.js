@@ -118,6 +118,9 @@ const CookieBanner = () => {
     };
     localStorage.setItem('cookie_consent', JSON.stringify(consent));
     console.log('🍪 Cookie consent saved:', consent);
+    
+    // Update analytics consent via GTM
+    updateConsent(prefs);
   };
 
   if (loading || !cookieSettings || !cookieSettings.enabled || !showBanner) {
