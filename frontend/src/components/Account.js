@@ -649,7 +649,9 @@ const Account = ({ athleteId }) => {
         fluid_unit: athleteRes.data.fluid_unit || 'fl oz',
         language: athleteRes.data.language || 'en',
         coach_language: athleteRes.data.coach_language || 'en',
-        voice_preference: athleteRes.data.voice_preference || 'alloy'
+        voice_preference: athleteRes.data.voice_preference || 'alloy',
+        coach_name: athleteRes.data.coach_name || 'Coach',
+        coach_avatar: athleteRes.data.coach_avatar || null
       });
       
       // Set profile picture preview if available
