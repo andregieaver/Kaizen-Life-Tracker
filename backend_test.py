@@ -1181,7 +1181,7 @@ def test_nationality_field_review_request():
         # Test Scenario 2: Get Following Feed
         print("\n   Test Scenario 2: Get Following Feed - GET /api/community/following")
         
-        following_url = f"{BACKEND_URL}/community/following?athlete_id={super_admin_id}&limit=5"
+        following_url = f"{BACKEND_URL}/community/following-feed/{super_admin_id}?limit=5"
         print(f"   URL: {following_url}")
         
         following_response = requests.get(following_url)
