@@ -1141,6 +1141,9 @@ const SystemSettings = ({ athleteId }) => {
           googleTagManager: {
             headCode: advancedSettings.googleTagManager.headCode,
             bodyCode: advancedSettings.googleTagManager.bodyCode
+          },
+          microsoftClarity: {
+            projectId: advancedSettings.microsoftClarity.projectId
           }
         }
       });
