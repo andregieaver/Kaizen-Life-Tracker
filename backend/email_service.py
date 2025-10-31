@@ -90,7 +90,7 @@ class EmailService:
             logger.error(f"Failed to send email to {to_email}: {str(e)}")
             raise EmailDeliveryError(f"Failed to send email: {str(e)}")
     
-    def send_password_reset_email(self, to_email: str, reset_token: str, reset_url: str) -> bool:
+    async def send_password_reset_email(self, to_email: str, reset_token: str, reset_url: str) -> bool:
         """
         Send password reset email
         
@@ -167,7 +167,7 @@ class EmailService:
         TrainSmart - Your Personal Fitness Companion
         """
         
-        return self.send_email(to_email, subject, html_content, plain_text)
+        return await self.send_email(to_email, subject, html_content, plain_text)
     
     def send_email_verification(self, to_email: str, verification_token: str, verification_url: str) -> bool:
         """
