@@ -12137,6 +12137,171 @@ async def submit_support_form(submission: SupportFormSubmission):
 
 
 # =====================================================
+# CUSTOM EMAILS
+# =====================================================
+
+class CustomEmail(BaseModel):
+    """Model for custom email campaign"""
+    name: str
+    subject: str
+    body: str
+    html_body: Optional[str] = ""
+    target_audience: str  # all, waitlist, free, pro, premium
+
+@api_router.get("/custom-emails")
+async def get_custom_emails():
+    """Get all custom email campaigns"""
+    try:
+        emails = await db.custom_emails.find({}, {"_id": 0}).to_list(length=None)
+        return {"emails": emails}
+    except Exception as e:
+        logging.error(f"Error fetching custom emails: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/custom-emails")
+async def create_custom_email(email: CustomEmail):
+    """Create a new custom email campaign"""
+    try:
+        email_data = {
+            "id": str(uuid.uuid4()),
+            "name": email.name,
+            "subject": email.subject,
+            "body": email.body,
+            "html_body": email.html_body,
+            "target_audience": email.target_audience,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        await db.custom_emails.insert_one(prepare_for_mongo(email_data.copy()))
+        
+        return {"success": True, "email": email_data}
+    except Exception as e:
+        logging.error(f"Error creating custom email: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.put("/custom-emails/{email_id}")
+async def update_custom_email(email_id: str, email: CustomEmail):
+    """Update an existing custom email campaign"""
+    try:
+        email_data = {
+            "name": email.name,
+            "subject": email.subject,
+            "body": email.body,
+            "html_body": email.html_body,
+            "target_audience": email.target_audience,
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }
+        
+        result = await db.custom_emails.update_one(
+            {"id": email_id},
+            {"$set": prepare_for_mongo(email_data)}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="Custom email not found")
+        
+        return {"success": True}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating custom email: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/custom-emails/{email_id}")
+async def delete_custom_email(email_id: str):
+    """Delete a custom email campaign"""
+    try:
+        result = await db.custom_emails.delete_one({"id": email_id})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Custom email not found")
+        
+        return {"success": True}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error deleting custom email: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/custom-emails/{email_id}/send")
+async def send_custom_email(email_id: str):
+    """Send custom email to targeted audience"""
+    try:
+        # Get the custom email
+        email = await db.custom_emails.find_one({"id": email_id}, {"_id": 0})
+        if not email:
+            raise HTTPException(status_code=404, detail="Custom email not found")
+        
+        # Get email service
+        email_service = get_email_service()
+        if not email_service or not email_service.enabled:
+            raise HTTPException(status_code=500, detail="Email service not configured")
+        
+        # Build query based on target audience
+        query = {}
+        target_audience = email.get("target_audience", "all")
+        
+        if target_audience == "waitlist":
+            query["subscription_status"] = "waitlist"
+        elif target_audience in ["free", "pro", "premium"]:
+            query["subscription_tier"] = target_audience
+        # If "all", query remains empty (all users)
+        
+        # Get target users
+        users = await db.athlete_profiles.find(query, {"_id": 0, "email": 1, "name": 1}).to_list(length=None)
+        
+        if not users:
+            raise HTTPException(status_code=400, detail=f"No users found for target audience: {target_audience}")
+        
+        # Send email to each user
+        sent_count = 0
+        failed_count = 0
+        
+        for user in users:
+            try:
+                # Replace variables in email content
+                user_name = user.get("name", "User")
+                user_email = user.get("email")
+                
+                if not user_email:
+                    continue
+                
+                body = email["body"].replace("{{user_name}}", user_name).replace("{{user_email}}", user_email)
+                html_body = email.get("html_body", "").replace("{{user_name}}", user_name).replace("{{user_email}}", user_email)
+                
+                # Send email
+                await email_service.send_email(
+                    to_email=user_email,
+                    subject=email["subject"],
+                    text_content=body,
+                    html_content=html_body if html_body else None
+                )
+                sent_count += 1
+                
+            except Exception as e:
+                logging.error(f"Failed to send email to {user.get('email')}: {e}")
+                failed_count += 1
+                continue
+        
+        logging.info(f"Custom email sent: {sent_count} successful, {failed_count} failed")
+        
+        return {
+            "success": True,
+            "sent_count": sent_count,
+            "failed_count": failed_count,
+            "target_audience": target_audience,
+            "total_users": len(users)
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error sending custom email: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# =====================================================
 # ANALYTICS - First-Party Tracking Endpoint
 # =====================================================
 
