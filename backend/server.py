@@ -12053,6 +12053,88 @@ async def send_test_email(request: dict):
         raise HTTPException(status_code=500, detail=f"Failed to send test email: {str(e)}")
 
 
+# =====================================================
+# SUPPORT FORM
+# =====================================================
+
+class SupportFormSubmission(BaseModel):
+    """Model for support form submission"""
+    name: str
+    email: str
+    subject: str
+    message: str
+
+@api_router.post("/support/submit")
+async def submit_support_form(submission: SupportFormSubmission):
+    """
+    Handle support form submission and send email to support@kaizenlifetracker.com
+    """
+    try:
+        logging.info(f"=== SUPPORT FORM SUBMISSION RECEIVED ===")
+        logging.info(f"From: {submission.name} ({submission.email})")
+        logging.info(f"Subject: {submission.subject}")
+        
+        # Get email service
+        email_service = get_email_service()
+        
+        if not email_service or not email_service.enabled:
+            logging.error("Email service not configured")
+            raise HTTPException(status_code=500, detail="Email service not configured. Please contact support directly at support@kaizenlifetracker.com")
+        
+        # Create email content
+        html_content = f"""
+        <html>
+            <body style="font-family: Arial, sans-serif; color: #333;">
+                <h2 style="color: #00C2A8;">New Support Request</h2>
+                <p><strong>From:</strong> {submission.name}</p>
+                <p><strong>Email:</strong> {submission.email}</p>
+                <p><strong>Subject:</strong> {submission.subject}</p>
+                <hr style="border: 1px solid #eee; margin: 20px 0;">
+                <p><strong>Message:</strong></p>
+                <p style="background: #f5f5f5; padding: 15px; border-left: 4px solid #00C2A8;">
+                    {submission.message.replace(chr(10), '<br>')}
+                </p>
+                <hr style="border: 1px solid #eee; margin: 20px 0;">
+                <p style="color: #999; font-size: 12px;">
+                    This is an automated message from the TrainSmart support form.
+                </p>
+            </body>
+        </html>
+        """
+        
+        text_content = f"""
+        New Support Request
+        
+        From: {submission.name}
+        Email: {submission.email}
+        Subject: {submission.subject}
+        
+        Message:
+        {submission.message}
+        
+        ---
+        This is an automated message from the TrainSmart support form.
+        """
+        
+        # Send email to support
+        logging.info(f"Sending support email to support@kaizenlifetracker.com...")
+        await email_service.send_email(
+            to_email="support@kaizenlifetracker.com",
+            subject=f"Support Request: {submission.subject}",
+            html_content=html_content,
+            text_content=text_content
+        )
+        
+        logging.info("Support email sent successfully")
+        return {"success": True, "message": "Your support request has been submitted successfully"}
+        
+    except EmailDeliveryError as e:
+        logging.error(f"Failed to send support email: {e}")
+        raise HTTPException(status_code=500, detail="Failed to send support request. Please try again or contact support@kaizenlifetracker.com directly")
+    except Exception as e:
+        logging.error(f"Error submitting support form: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Failed to submit support request: {str(e)}")
+
 
 # =====================================================
 # ANALYTICS - First-Party Tracking Endpoint
