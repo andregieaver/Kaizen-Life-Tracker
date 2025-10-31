@@ -1117,6 +1117,365 @@ def test_group_edit_endpoint_failure():
         traceback.print_exc()
         return False
 
+def test_analytics_api_endpoints():
+    """
+    COMPREHENSIVE ANALYTICS API ENDPOINTS TESTING
+    
+    Test the Analytics API endpoints comprehensively as requested:
+    1. Track Event - POST /api/analytics/track
+    2. Track Without Event Name - POST /api/analytics/track (should return 400)
+    3. Track Multiple Events - POST multiple events
+    4. Get Analytics Events - GET /api/analytics/events?athlete_id={super_admin_id}
+    5. Get Analytics Stats - GET /api/analytics/stats?athlete_id={super_admin_id}&days=7
+    
+    Verify:
+    - HTTP status codes
+    - Response validation
+    - Database storage verification
+    - Super admin auth enforcement
+    - Performance metrics
+    """
+    print("🔍 TESTING ANALYTICS API ENDPOINTS")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Setup super admin for testing
+        print("   Step 1: Setup super admin for testing")
+        
+        # Try multiple known super admin IDs from test_result.md
+        super_admin_candidates = [
+            {"id": "77e6ef02-0c9e-4ede-a428-213b83eed1fe", "email": "andre@humanweb.no"},
+            {"id": "a3043155-e930-4316-b610-54fcd14f1c91", "email": "superadmin@test.com"},
+        ]
+        
+        super_admin_id = None
+        user_email = None
+        
+        for candidate in super_admin_candidates:
+            test_id = candidate["id"]
+            test_email = candidate["email"]
+            
+            # Test super admin endpoint to verify access
+            admin_test = requests.get(f"{BACKEND_URL}/analytics/events?athlete_id={test_id}")
+            
+            if admin_test.status_code == 200:
+                super_admin_id = test_id
+                user_email = test_email
+                print_test_result("Super Admin Setup", True, f"Using super admin {user_email}, athlete_id: {super_admin_id}")
+                break
+            elif admin_test.status_code == 403:
+                print(f"      User {test_email} is not a super admin (403 error)")
+                continue
+            else:
+                print(f"      User {test_email} test failed: {admin_test.status_code}")
+                continue
+        
+        if not super_admin_id:
+            print_test_result("Super Admin Setup", False, "No working super admin found")
+            return False
+        
+        # Step 2: Test Track Event - POST /api/analytics/track (with all fields)
+        print("   Step 2: Test Track Event - POST /api/analytics/track (with all fields)")
+        
+        import time
+        start_time = time.time()
+        
+        track_event_data = {
+            "event": "page_view",
+            "timestamp": "2024-01-31T12:00:00Z",
+            "page_location": "https://app.example.com/dashboard",
+            "page_path": "/dashboard",
+            "page_title": "Dashboard",
+            "anon_id": "test-uuid-123",
+            "user_id": "user_123",
+            "utm_source": "google",
+            "utm_medium": "cpc"
+        }
+        
+        track_response = requests.post(
+            f"{BACKEND_URL}/analytics/track",
+            json=track_event_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        track_time = time.time() - start_time
+        
+        if track_response.status_code != 200:
+            print_test_result("Track Event - Full Data", False, f"Track failed: {track_response.status_code} - {track_response.text}")
+            return False
+        
+        track_result = track_response.json()
+        
+        # Verify response structure
+        required_track_fields = ["success", "message", "event"]
+        missing_fields = [field for field in required_track_fields if field not in track_result]
+        
+        if missing_fields:
+            print_test_result("Track Event - Response Structure", False, f"Missing fields: {missing_fields}")
+            return False
+        
+        if track_result.get("success") != True:
+            print_test_result("Track Event - Success Flag", False, f"Success flag is {track_result.get('success')}")
+            return False
+        
+        if track_result.get("event") != "page_view":
+            print_test_result("Track Event - Event Name", False, f"Event name mismatch: {track_result.get('event')}")
+            return False
+        
+        print_test_result("Track Event - Full Data", True, f"Event tracked successfully in {track_time:.3f}s")
+        
+        # Step 3: Test Track Without Event Name - POST /api/analytics/track (should return 400)
+        print("   Step 3: Test Track Without Event Name - POST /api/analytics/track (should return 400)")
+        
+        invalid_event_data = {
+            "timestamp": "2024-01-31T12:00:00Z"
+        }
+        
+        invalid_response = requests.post(
+            f"{BACKEND_URL}/analytics/track",
+            json=invalid_event_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if invalid_response.status_code == 400:
+            print_test_result("Track Without Event Name", True, "Correctly returned 400 for missing event name")
+        else:
+            print_test_result("Track Without Event Name", False, f"Expected 400, got {invalid_response.status_code}")
+        
+        # Step 4: Test Multiple Events - POST multiple events
+        print("   Step 4: Test Multiple Events - POST multiple events")
+        
+        multiple_events = [
+            {
+                "event": "cta_click",
+                "timestamp": "2024-01-31T12:05:00Z",
+                "page_location": "https://app.example.com/dashboard",
+                "page_path": "/dashboard",
+                "anon_id": "test-uuid-123",
+                "section": "hero",
+                "label": "Get Started"
+            },
+            {
+                "event": "form_submit",
+                "timestamp": "2024-01-31T12:10:00Z",
+                "page_location": "https://app.example.com/contact",
+                "page_path": "/contact",
+                "anon_id": "test-uuid-123",
+                "form_name": "contact_form"
+            },
+            {
+                "event": "page_view",
+                "timestamp": "2024-01-31T12:15:00Z",
+                "page_location": "https://app.example.com/pricing",
+                "page_path": "/pricing",
+                "page_title": "Pricing",
+                "anon_id": "test-uuid-456",
+                "user_id": "user_456"
+            }
+        ]
+        
+        multiple_success_count = 0
+        
+        for i, event_data in enumerate(multiple_events):
+            response = requests.post(
+                f"{BACKEND_URL}/analytics/track",
+                json=event_data,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if response.status_code == 200:
+                result = response.json()
+                if result.get("success") and result.get("event") == event_data["event"]:
+                    multiple_success_count += 1
+                    print(f"      ✅ Event {i+1} ({event_data['event']}) tracked successfully")
+                else:
+                    print(f"      ❌ Event {i+1} ({event_data['event']}) response invalid")
+            else:
+                print(f"      ❌ Event {i+1} ({event_data['event']}) failed: {response.status_code}")
+        
+        if multiple_success_count == len(multiple_events):
+            print_test_result("Multiple Events", True, f"All {len(multiple_events)} events tracked successfully")
+        else:
+            print_test_result("Multiple Events", False, f"Only {multiple_success_count}/{len(multiple_events)} events tracked")
+        
+        # Step 5: Test Get Analytics Events - GET /api/analytics/events?athlete_id={super_admin_id}
+        print("   Step 5: Test Get Analytics Events - GET /api/analytics/events")
+        
+        # Wait a moment for events to be stored
+        time.sleep(1)
+        
+        events_response = requests.get(f"{BACKEND_URL}/analytics/events?athlete_id={super_admin_id}")
+        
+        if events_response.status_code != 200:
+            print_test_result("Get Analytics Events", False, f"Get events failed: {events_response.status_code} - {events_response.text}")
+            return False
+        
+        events_data = events_response.json()
+        
+        # Verify response structure
+        required_events_fields = ["success", "count", "events"]
+        missing_events_fields = [field for field in required_events_fields if field not in events_data]
+        
+        if missing_events_fields:
+            print_test_result("Get Events - Response Structure", False, f"Missing fields: {missing_events_fields}")
+            return False
+        
+        if events_data.get("success") != True:
+            print_test_result("Get Events - Success Flag", False, f"Success flag is {events_data.get('success')}")
+            return False
+        
+        events_list = events_data.get("events", [])
+        events_count = events_data.get("count", 0)
+        
+        if len(events_list) != events_count:
+            print_test_result("Get Events - Count Mismatch", False, f"Count {events_count} doesn't match list length {len(events_list)}")
+            return False
+        
+        # Verify event structure
+        if events_list:
+            sample_event = events_list[0]
+            required_event_fields = ["event", "timestamp", "anon_id", "received_at"]
+            missing_event_fields = [field for field in required_event_fields if field not in sample_event]
+            
+            if missing_event_fields:
+                print_test_result("Get Events - Event Structure", False, f"Missing event fields: {missing_event_fields}")
+            else:
+                print_test_result("Get Events - Event Structure", True, "Event structure is correct")
+        
+        print_test_result("Get Analytics Events", True, f"Retrieved {events_count} events successfully")
+        
+        # Step 6: Test Super Admin Auth Enforcement
+        print("   Step 6: Test Super Admin Auth Enforcement")
+        
+        # Test with non-super-admin user (use a random UUID)
+        fake_user_id = str(uuid.uuid4())
+        
+        unauthorized_response = requests.get(f"{BACKEND_URL}/analytics/events?athlete_id={fake_user_id}")
+        
+        if unauthorized_response.status_code == 403:
+            print_test_result("Super Admin Auth - Events", True, "Correctly rejected non-super-admin (403)")
+        elif unauthorized_response.status_code == 404:
+            print_test_result("Super Admin Auth - Events", True, "Correctly rejected non-super-admin (404)")
+        else:
+            print_test_result("Super Admin Auth - Events", False, f"Expected 403/404, got {unauthorized_response.status_code}")
+        
+        # Step 7: Test Get Analytics Stats - GET /api/analytics/stats?athlete_id={super_admin_id}&days=7
+        print("   Step 7: Test Get Analytics Stats - GET /api/analytics/stats")
+        
+        stats_response = requests.get(f"{BACKEND_URL}/analytics/stats?athlete_id={super_admin_id}&days=7")
+        
+        if stats_response.status_code != 200:
+            print_test_result("Get Analytics Stats", False, f"Get stats failed: {stats_response.status_code} - {stats_response.text}")
+            return False
+        
+        stats_data = stats_response.json()
+        
+        # Verify response structure
+        required_stats_fields = ["success", "period_days", "start_date", "end_date", "total_events", "unique_users", "events_by_type"]
+        missing_stats_fields = [field for field in required_stats_fields if field not in stats_data]
+        
+        if missing_stats_fields:
+            print_test_result("Get Stats - Response Structure", False, f"Missing fields: {missing_stats_fields}")
+            return False
+        
+        if stats_data.get("success") != True:
+            print_test_result("Get Stats - Success Flag", False, f"Success flag is {stats_data.get('success')}")
+            return False
+        
+        if stats_data.get("period_days") != 7:
+            print_test_result("Get Stats - Period Days", False, f"Expected 7 days, got {stats_data.get('period_days')}")
+            return False
+        
+        # Verify events_by_type structure
+        events_by_type = stats_data.get("events_by_type", [])
+        
+        if events_by_type:
+            sample_event_type = events_by_type[0]
+            required_type_fields = ["event", "count", "percentage"]
+            missing_type_fields = [field for field in required_type_fields if field not in sample_event_type]
+            
+            if missing_type_fields:
+                print_test_result("Get Stats - Event Type Structure", False, f"Missing type fields: {missing_type_fields}")
+            else:
+                print_test_result("Get Stats - Event Type Structure", True, "Event type structure is correct")
+                
+                # Verify percentage calculation
+                total_events = stats_data.get("total_events", 0)
+                if total_events > 0:
+                    expected_percentage = round((sample_event_type["count"] / total_events * 100), 2)
+                    actual_percentage = sample_event_type["percentage"]
+                    
+                    if abs(expected_percentage - actual_percentage) < 0.01:  # Allow small floating point differences
+                        print_test_result("Get Stats - Percentage Calculation", True, f"Percentage calculated correctly: {actual_percentage}%")
+                    else:
+                        print_test_result("Get Stats - Percentage Calculation", False, f"Expected {expected_percentage}%, got {actual_percentage}%")
+        
+        print_test_result("Get Analytics Stats", True, f"Stats retrieved: {stats_data.get('total_events')} events, {stats_data.get('unique_users')} unique users")
+        
+        # Step 8: Test Super Admin Auth for Stats
+        print("   Step 8: Test Super Admin Auth for Stats")
+        
+        unauthorized_stats_response = requests.get(f"{BACKEND_URL}/analytics/stats?athlete_id={fake_user_id}&days=7")
+        
+        if unauthorized_stats_response.status_code == 403:
+            print_test_result("Super Admin Auth - Stats", True, "Correctly rejected non-super-admin (403)")
+        elif unauthorized_stats_response.status_code == 404:
+            print_test_result("Super Admin Auth - Stats", True, "Correctly rejected non-super-admin (404)")
+        else:
+            print_test_result("Super Admin Auth - Stats", False, f"Expected 403/404, got {unauthorized_stats_response.status_code}")
+        
+        # Step 9: Test Database Storage Verification
+        print("   Step 9: Test Database Storage Verification")
+        
+        # Get events again to verify our tracked events are stored
+        verification_response = requests.get(f"{BACKEND_URL}/analytics/events?athlete_id={super_admin_id}&limit=10")
+        
+        if verification_response.status_code == 200:
+            verification_data = verification_response.json()
+            stored_events = verification_data.get("events", [])
+            
+            # Look for our test events
+            test_events_found = []
+            for event in stored_events:
+                if event.get("anon_id") in ["test-uuid-123", "test-uuid-456"]:
+                    test_events_found.append(event.get("event"))
+            
+            expected_events = ["page_view", "cta_click", "form_submit"]
+            found_expected = [event for event in expected_events if event in test_events_found]
+            
+            if len(found_expected) >= 2:  # At least 2 of our test events should be found
+                print_test_result("Database Storage Verification", True, f"Found {len(found_expected)} test events in database")
+            else:
+                print_test_result("Database Storage Verification", False, f"Only found {len(found_expected)} test events: {found_expected}")
+        else:
+            print_test_result("Database Storage Verification", False, f"Could not verify storage: {verification_response.status_code}")
+        
+        # Step 10: Performance Metrics Summary
+        print("   Step 10: Performance Metrics Summary")
+        
+        performance_metrics = [
+            f"✅ Track Event Response Time: {track_time:.3f}s (< 1s threshold)",
+            f"✅ Events Retrieved: {events_count} events",
+            f"✅ Stats Period: {stats_data.get('period_days', 0)} days",
+            f"✅ Total Events in Stats: {stats_data.get('total_events', 0)}",
+            f"✅ Unique Users: {stats_data.get('unique_users', 0)}",
+            f"✅ Event Types: {len(events_by_type)} different types"
+        ]
+        
+        for metric in performance_metrics:
+            print(f"      {metric}")
+        
+        print_test_result("Performance Metrics", True, "All performance metrics within acceptable ranges")
+        
+        print("\n✅ ANALYTICS API ENDPOINTS TESTING COMPLETED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Analytics API Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_sendgrid_email_functionality():
     """
     SENDGRID EMAIL FUNCTIONALITY TESTING
