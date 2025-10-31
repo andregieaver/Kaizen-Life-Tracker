@@ -661,6 +661,11 @@ const Account = ({ athleteId }) => {
         setProfilePicturePreview(athleteRes.data.profile_picture);
       }
       
+      // Set coach avatar preview if available
+      if (athleteRes.data.coach_avatar) {
+        setCoachAvatarPreview(athleteRes.data.coach_avatar);
+      }
+      
       // Load integrations data from backend
       try {
         // Load from both old integrations and new user_connections
