@@ -11960,6 +11960,9 @@ async def get_public_system_settings():
                 "headCode": "",
                 "bodyCode": ""
             },
+            "microsoftClarity": {
+                "projectId": ""
+            },
             "plans": {
                 "free": {
                     "title": "Free",
