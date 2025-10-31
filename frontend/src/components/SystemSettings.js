@@ -367,6 +367,9 @@ const SystemSettings = ({ athleteId }) => {
           googleTagManager: {
             headCode: response.data.advanced.googleTagManager?.headCode || '',
             bodyCode: response.data.advanced.googleTagManager?.bodyCode || ''
+          },
+          microsoftClarity: {
+            projectId: response.data.advanced.microsoftClarity?.projectId || ''
           }
         }));
       }
