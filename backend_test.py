@@ -1445,6 +1445,9 @@ def test_cookie_management_api_endpoints():
                     super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"  # andre@humanweb.no from test_result.md
                     user_email = "andre@humanweb.no"
                     print_test_result("Super Admin Setup", True, f"Using known super admin ID: {super_admin_id}")
+                    
+                    # Override the athlete_id we got from login with the known super admin ID
+                    super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"
                 else:
                     print_test_result("Super Admin Setup", False, f"Login after create failed: {login_response.status_code}")
                     return False
