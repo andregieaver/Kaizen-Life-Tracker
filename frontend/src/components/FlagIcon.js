@@ -311,7 +311,16 @@ const countryToCode = {
 const getFlagEmoji = (countryName) => {
   if (!countryName) return null;
   
-  // Try to find country code
+  // First, check if it's already a 2-letter country code (e.g., "NO", "US", "GB")
+  if (countryName.length === 2) {
+    const upperCode = countryName.toUpperCase();
+    // Convert country code to flag emoji
+    return String.fromCodePoint(
+      ...[...upperCode].map(c => 127397 + c.charCodeAt())
+    );
+  }
+  
+  // Try to find country code from the mapping
   const countryCode = countryToCode[countryName] || countryToCode[countryName.trim()];
   
   if (!countryCode) {
