@@ -248,6 +248,41 @@ const SystemSettings = ({ athleteId }) => {
     tier: '',
     name: '',
     description: '',
+
+  // Cookie Management State
+  const [cookieSettings, setCookieSettings] = useState({
+    enabled: false,
+    consent_mode: 'gtm',
+    auto_scan_enabled: true,
+    auto_scan_frequency: 'weekly',
+    last_scan: null,
+    detected_cookies: [],
+    consent_texts: {
+      banner_title: 'We value your privacy',
+      banner_description: 'We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking \'Accept All\', you consent to our use of cookies.',
+      accept_all_button: 'Accept All',
+      reject_all_button: 'Reject All',
+      customize_button: 'Customize',
+      save_preferences_button: 'Save Preferences',
+      cookie_policy_link: '/cookie-policy',
+      cookie_policy_text: 'Cookie Policy',
+      necessary_title: 'Necessary Cookies',
+      necessary_description: 'These cookies are essential for the website to function properly.',
+      analytics_title: 'Analytics Cookies',
+      analytics_description: 'These cookies help us understand how visitors interact with our website.',
+      marketing_title: 'Marketing Cookies',
+      marketing_description: 'These cookies are used to track visitors across websites for advertising purposes.',
+      functional_title: 'Functional Cookies',
+      functional_description: 'These cookies enable enhanced functionality and personalization.'
+    },
+    gtm_integration: {
+      enabled: true,
+      container_id: ''
+    }
+  });
+  const [loadingCookieSettings, setLoadingCookieSettings] = useState(false);
+  const [scanningCookies, setScanningCookies] = useState(false);
+
     features: [],
     sort_order: 0
   });
