@@ -3810,7 +3810,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div>
                         <Label className="text-gray-300 text-sm">Necessary Cookies Title</Label>
                         <Input
-                          value={cookieSettings.consent_texts.necessary_title}
+                          value={cookieSettings?.consent_texts?.necessary_title || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
@@ -3821,7 +3821,7 @@ const SystemSettings = ({ athleteId }) => {
                           className="bg-gray-800 border-gray-700 text-white mt-1 mb-2"
                         />
                         <Textarea
-                          value={cookieSettings.consent_texts.necessary_description}
+                          value={cookieSettings?.consent_texts?.necessary_description || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
