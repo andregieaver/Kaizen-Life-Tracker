@@ -9888,43 +9888,42 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run YouTube and URL Preview Feature Testing"""
-    print("🚀 STARTING YOUTUBE AND URL PREVIEW FEATURE TESTING")
+    """Run SendGrid Email Functionality Testing"""
+    print("🚀 STARTING SENDGRID EMAIL FUNCTIONALITY TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test YouTube and URL Preview Endpoints
+    # Test SendGrid Email Functionality
     try:
-        result = test_youtube_and_url_preview_endpoints()
+        result = test_sendgrid_email_functionality()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("YouTube and URL Preview Testing", False, f"Exception: {str(e)}")
+        print_test_result("SendGrid Email Testing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 YOUTUBE AND URL PREVIEW FEATURE TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ YOUTUBE METADATA: fetch-youtube-metadata endpoint working correctly")
-        print("✅ URL PREVIEW: fetch-url-preview endpoint working correctly")
-        print("✅ POST CREATION: Posts with youtube_data and url_preview created successfully")
-        print("✅ FEED INTEGRATION: Posts with preview data appear correctly in feed")
-        print("✅ ERROR HANDLING: Invalid URLs handled correctly with 400 errors")
-        print("✅ PERFORMANCE: Response times acceptable (< 10s for URL fetching)")
-        print("🔧 VERIFIED: All endpoints functional and meeting success criteria")
-        print("🔧 READY: Feature is production-ready for frontend integration")
+        print("🎉 SENDGRID EMAIL FUNCTIONALITY TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ EMAIL SERVICE: SendGrid service is properly configured")
+        print("✅ TEST ENDPOINT: /api/email-templates/send-test working correctly")
+        print("✅ EMAIL DELIVERY: Test emails sent successfully")
+        print("✅ VARIABLE REPLACEMENT: Template variables replaced correctly")
+        print("✅ LOGGING: Comprehensive logging working for debugging")
+        print("🔧 VERIFIED: Email service functional and meeting requirements")
+        print("🔧 READY: Email functionality is production-ready")
     else:
-        print("❌ YOUTUBE AND URL PREVIEW FEATURE TESTING FOUND ISSUES")
+        print("❌ SENDGRID EMAIL FUNCTIONALITY TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Some endpoints may not be working correctly")
-        print("💡 Verify YouTube oEmbed API is accessible")
-        print("💡 Check URL preview web scraping functionality")
-        print("💡 Ensure post creation accepts youtube_data and url_preview fields")
-        print("💡 Verify feed endpoints return preview data correctly")
-        print("💡 Check error handling for invalid URLs")
+        print("🚨 CRITICAL: Email service may not be working correctly")
+        print("💡 Check SendGrid API key configuration in .env file")
+        print("💡 Verify sender email is verified in SendGrid dashboard")
+        print("💡 Check backend logs for detailed error messages")
+        print("💡 Ensure SENDGRID_API_KEY and SENDGRID_SENDER_EMAIL are set")
+        print("💡 Verify SendGrid account has sending permissions")
     
     print("=" * 70)
 
