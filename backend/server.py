@@ -12241,15 +12241,18 @@ async def send_custom_email(email_id: str):
         # Build query based on target audience
         query = {}
         target_audience = email.get("target_audience", "all")
+        collection = db.athlete_profiles  # Default collection
         
         if target_audience == "waitlist":
-            query["subscription_status"] = "waitlist"
+            # Waitlist users are in a separate collection
+            collection = db.waiting_list
+            query = {}  # Get all waitlist entries
         elif target_audience in ["free", "pro", "premium"]:
             query["subscription_tier"] = target_audience
-        # If "all", query remains empty (all users)
+        # If "all", query remains empty (all users from athlete_profiles)
         
         # Get target users
-        users = await db.athlete_profiles.find(query, {"_id": 0, "email": 1, "name": 1}).to_list(length=None)
+        users = await collection.find(query, {"_id": 0, "email": 1, "name": 1}).to_list(length=None)
         
         if not users:
             raise HTTPException(status_code=400, detail=f"No users found for target audience: {target_audience}")
