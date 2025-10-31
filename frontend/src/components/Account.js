@@ -912,6 +912,38 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const handleCoachAvatarChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        setSaveStatus({ type: '', message: 'Compressing image...' });
+        
+        const compressedBlob = await compressImage(file);
+        
+        const filename = file.name.replace(/\.[^.]+$/, '.jpg');
+        const compressedFile = new File([compressedBlob], filename, { 
+          type: 'image/jpeg',
+          lastModified: Date.now()
+        });
+        setCoachAvatarFile(compressedFile);
+        
+        // Create preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setCoachAvatarPreview(e.target.result);
+        };
+        reader.readAsDataURL(compressedFile);
+        
+        setTimeout(() => {
+          setSaveStatus({ type: '', message: '' });
+        }, 1000);
+      } catch (error) {
+        console.error('Error processing coach avatar:', error);
+        setSaveStatus({ type: 'error', message: 'Failed to process image. Please try a different image.' });
+      }
+    }
+  };
+
   const handleSavePersonalInfo = async (e) => {
     e.preventDefault();
     setIsLoading(true);
