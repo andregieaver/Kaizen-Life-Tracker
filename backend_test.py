@@ -10607,43 +10607,45 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Cookie Management API Testing"""
-    print("🚀 STARTING COOKIE MANAGEMENT API TESTING")
+    """Run Analytics API Testing"""
+    print("🚀 STARTING ANALYTICS API TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Cookie Management API Endpoints
+    # Test Analytics API Endpoints
     try:
-        result = test_cookie_management_api_endpoints()
+        result = test_analytics_api_endpoints()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Cookie Management API Testing", False, f"Exception: {str(e)}")
+        print_test_result("Analytics API Testing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 COOKIE MANAGEMENT API TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ COOKIE SCANNING: POST /api/cookies/scan working correctly")
-        print("✅ COOKIE SETTINGS: GET /api/cookies/settings working correctly")
-        print("✅ SAVE SETTINGS: POST /api/cookies/settings working correctly")
-        print("✅ PUBLIC CONSENT: GET /api/cookies/consent/public working correctly")
+        print("🎉 ANALYTICS API TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ TRACK EVENT: POST /api/analytics/track working correctly")
+        print("✅ EVENT VALIDATION: Missing event name returns 400 error")
+        print("✅ MULTIPLE EVENTS: All event types (page_view, cta_click, form_submit) tracked")
+        print("✅ GET EVENTS: GET /api/analytics/events working correctly")
+        print("✅ GET STATS: GET /api/analytics/stats working correctly")
         print("✅ AUTHENTICATION: Super admin authentication enforced")
-        print("✅ SCHEDULER: Weekly auto-scan scheduler initialized")
+        print("✅ DATABASE STORAGE: Events stored and retrieved correctly")
+        print("✅ RESPONSE FORMAT: All endpoints return proper JSON structure")
         print("✅ PERFORMANCE: All endpoints responding within acceptable time")
-        print("🔧 VERIFIED: Cookie management functionality is complete")
-        print("🔧 READY: Cookie management API is production-ready")
+        print("🔧 VERIFIED: Analytics functionality is complete")
+        print("🔧 READY: Analytics API is production-ready")
     else:
-        print("❌ COOKIE MANAGEMENT API TESTING FOUND ISSUES")
+        print("❌ ANALYTICS API TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Cookie management may not be working correctly")
-        print("💡 Verify super admin user andre@humanweb.no exists and has correct permissions")
+        print("🚨 CRITICAL: Analytics may not be working correctly")
+        print("💡 Verify super admin user exists and has correct permissions")
         print("💡 Check backend logs for detailed error messages")
-        print("💡 Ensure MongoDB system_settings collection is accessible")
-        print("💡 Verify scheduler is running and cookie auto-scan is configured")
+        print("💡 Ensure MongoDB analytics_events collection is accessible")
+        print("💡 Verify event tracking and storage functionality")
     
     print("=" * 70)
 
