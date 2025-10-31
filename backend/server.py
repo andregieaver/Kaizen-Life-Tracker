@@ -11926,11 +11926,17 @@ async def get_email_template(template_id: str):
 async def send_test_email(request: dict):
     """Send a test email with sample data"""
     try:
+        logging.info(f"=== SEND TEST EMAIL START ===")
+        logging.info(f"Request payload: {request}")
+        
         template_id = request.get("template_id")
         to_email = request.get("to_email")
         subject = request.get("subject")
         body = request.get("body")
         html_body = request.get("html_body")
+        
+        logging.info(f"Extracted values - to_email: {to_email}, subject: {subject}")
+        logging.info(f"Body length: {len(body) if body else 'None'}, HTML body length: {len(html_body) if html_body else 'None'}")
         
         if not to_email:
             raise HTTPException(status_code=400, detail="Email address is required")
@@ -11944,29 +11950,43 @@ async def send_test_email(request: dict):
         }
         
         # Replace variables with sample data
-        test_subject = subject
-        test_body = body
-        test_html_body = html_body
+        test_subject = subject if subject else "Test Email"
+        test_body = body if body else ""
+        test_html_body = html_body if html_body else ""
+        
+        logging.info(f"Before replacement - test_subject: {test_subject}, test_body length: {len(test_body)}, test_html_body length: {len(test_html_body)}")
         
         for variable, value in sample_data.items():
-            test_subject = test_subject.replace(variable, value)
-            test_body = test_body.replace(variable, value)
-            test_html_body = test_html_body.replace(variable, value)
+            if test_subject:
+                test_subject = test_subject.replace(variable, value)
+            if test_body:
+                test_body = test_body.replace(variable, value)
+            if test_html_body:
+                test_html_body = test_html_body.replace(variable, value)
+        
+        logging.info(f"After replacement - test_subject: {test_subject}, test_body length: {len(test_body)}, test_html_body length: {len(test_html_body)}")
+        
+        # Get email service
+        logging.info("Getting email service...")
+        email_service = get_email_service()
+        logging.info(f"Email service enabled: {email_service.enabled}")
+        logging.info(f"Email service sender: {email_service.sender_email}")
         
         # Send email using email service
-        email_service = get_email_service()
+        logging.info(f"Attempting to send email to {to_email}...")
         await email_service.send_email(
             to_email=to_email,
             subject=f"[TEST] {test_subject}",
-            text_content=test_body,
-            html_content=test_html_body
+            html_content=test_html_body if test_html_body else None,
+            text_content=test_body if test_body else None
         )
         
+        logging.info("Email sent successfully!")
         return {"success": True, "message": "Test email sent successfully"}
     except HTTPException:
         raise
     except Exception as e:
-        logging.error(f"Error sending test email: {e}")
+        logging.error(f"Error sending test email: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Failed to send test email: {str(e)}")
 
 @api_router.get("/system/settings/public")
