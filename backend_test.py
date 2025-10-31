@@ -1144,7 +1144,7 @@ def test_nationality_field_review_request():
         # Test Scenario 1: Get Community Feed
         print("   Test Scenario 1: Get Community Feed - GET /api/community/feed")
         
-        feed_url = f"{BACKEND_URL}/community/feed?athlete_id={super_admin_id}&limit=5"
+        feed_url = f"{BACKEND_URL}/community/feed/{super_admin_id}?limit=5"
         print(f"   URL: {feed_url}")
         
         feed_response = requests.get(feed_url)
