@@ -8413,6 +8413,29 @@ async def startup_scheduler():
         # Create community indexes for better performance
         await create_community_indexes()
         
+        # Initialize SendGrid email service from database settings
+        try:
+            settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
+            if settings and settings.get("advanced", {}).get("sendgrid"):
+                sendgrid_config = settings["advanced"]["sendgrid"]
+                if sendgrid_config.get("apiKey") and sendgrid_config.get("senderEmail"):
+                    initialize_email_service(
+                        api_key=sendgrid_config["apiKey"],
+                        sender_email=sendgrid_config["senderEmail"],
+                        sender_name=sendgrid_config.get("senderName", "TrainSmart")
+                    )
+                    print("=" * 50)
+                    print("SENDGRID EMAIL SERVICE INITIALIZED")
+                    print(f"Sender: {sendgrid_config['senderEmail']}")
+                    print("=" * 50)
+                    logging.info(f"SendGrid email service initialized from database: {sendgrid_config['senderEmail']}")
+                else:
+                    logging.warning("SendGrid credentials found in database but incomplete")
+            else:
+                logging.warning("No SendGrid configuration found in database - email service disabled")
+        except Exception as email_error:
+            logging.error(f"Failed to initialize email service from database: {email_error}")
+        
         # Add job to check schedules every minute
         scheduler.add_job(
             check_and_execute_schedules,
