@@ -5987,129 +5987,133 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
 
   return (
     <Card 
-      className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-shadow"
+      className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-shadow rounded-none sm:rounded-lg"
       onClick={() => onClick(challenge.id)}
     >
-      <CardContent className="p-6">
+      <CardContent className="p-0 sm:p-6">
         {challenge.cover_photo && (
-          <img src={challenge.cover_photo} alt={challenge.title} className="w-full h-32 object-cover rounded-lg mb-4" />
+          <div className="mb-4 sm:mb-4">
+            <img src={challenge.cover_photo} alt={challenge.title} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
+          </div>
         )}
         
-        <div className="flex items-start space-x-3 mb-3">
-          {challenge.trophy_image ? (
-            <img src={challenge.trophy_image} alt="Trophy" className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
-          ) : (
-            <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
-              <Trophy className="w-8 h-8 text-white" />
-            </div>
-          )}
-          
-          <div className="flex-1 min-w-0">
-            <div className="flex items-start justify-between mb-1">
-              <div className="flex items-center gap-2">
-                <h3 className="text-xl font-bold text-white truncate">{challenge.title}</h3>
-                {isCreator && (
-                  <Crown className="w-5 h-5 text-yellow-400 flex-shrink-0" title="Challenge Creator" />
+        <div className="px-3 sm:px-0">
+          <div className="flex items-start space-x-3 mb-3">
+            {challenge.trophy_image ? (
+              <img src={challenge.trophy_image} alt="Trophy" className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
+            ) : (
+              <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <Trophy className="w-8 h-8 text-white" />
+              </div>
+            )}
+            
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between mb-1">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-xl font-bold text-white truncate">{challenge.title}</h3>
+                  {isCreator && (
+                    <Crown className="w-5 h-5 text-yellow-400 flex-shrink-0" title="Challenge Creator" />
+                  )}
+                </div>
+                {(isCreator || isSuperAdmin) && (
+                  <div className="flex space-x-1 flex-shrink-0">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEdit(challenge);
+                      }}
+                      className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                    >
+                      <Edit2 className="w-4 h-4 text-blue-400" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete(challenge.id);
+                      }}
+                      className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4 text-red-400" />
+                    </button>
+                  </div>
                 )}
               </div>
-              {(isCreator || isSuperAdmin) && (
-                <div className="flex space-x-1 flex-shrink-0">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onEdit(challenge);
-                    }}
-                    className="p-1 hover:bg-gray-600 rounded-full transition-colors"
-                  >
-                    <Edit2 className="w-4 h-4 text-blue-400" />
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDelete(challenge.id);
-                    }}
-                    className="p-1 hover:bg-gray-600 rounded-full transition-colors"
-                  >
-                    <Trash2 className="w-4 h-4 text-red-400" />
-                  </button>
-                </div>
+              <p className="text-gray-300 text-sm line-clamp-2 mb-2">{challenge.description}</p>
+            </div>
+          </div>
+
+          {/* Challenge Info */}
+          <div className="space-y-2 mb-4">
+            <div className="flex items-center text-gray-400 text-sm">
+              {getChallengeIcon()}
+              <span className="ml-2">
+                Goal: {goalValue} {challenge.goal_unit}
+              </span>
+              {challenge.is_recurring && (
+                <RefreshCw className="w-4 h-4 ml-2 text-blue-400" title="Recurring Challenge" />
               )}
             </div>
-            <p className="text-gray-300 text-sm line-clamp-2 mb-2">{challenge.description}</p>
-          </div>
-        </div>
-
-        {/* Challenge Info */}
-        <div className="space-y-2 mb-4">
-          <div className="flex items-center text-gray-400 text-sm">
-            {getChallengeIcon()}
-            <span className="ml-2">
-              Goal: {goalValue} {challenge.goal_unit}
-            </span>
-            {challenge.is_recurring && (
-              <RefreshCw className="w-4 h-4 ml-2 text-blue-400" title="Recurring Challenge" />
-            )}
-          </div>
-          <div className="flex items-center text-gray-400 text-sm">
-            <Calendar className="w-4 h-4 mr-2" />
-            {new Date(challenge.start_date).toLocaleDateString()} - {new Date(challenge.end_date).toLocaleDateString()}
-          </div>
-          <div className="flex items-center space-x-3 text-sm">
-            <span className="text-gray-400">{challenge.participants_count || 0} participants</span>
-            <span className={`px-2 py-1 rounded text-xs ${isActive ? 'bg-green-500/20 text-green-400' : 'bg-gray-600 text-gray-400'}`}>
-              {isActive ? 'Active' : 'Completed'}
-            </span>
-            {challenge.visibility === 'private' && (
-              <Lock className="w-4 h-4 text-gray-400" />
-            )}
-          </div>
-        </div>
-
-        {/* Progress Bar (if joined) */}
-        {hasJoined && (
-          <div className="mb-4">
-            <div className="flex justify-between text-sm mb-1">
-              <span className="text-gray-400">Your Progress</span>
-              <span className="text-[#00C2A8] font-semibold">
-                {progress.toFixed(1)} / {goalValue} {challenge.goal_unit}
+            <div className="flex items-center text-gray-400 text-sm">
+              <Calendar className="w-4 h-4 mr-2" />
+              {new Date(challenge.start_date).toLocaleDateString()} - {new Date(challenge.end_date).toLocaleDateString()}
+            </div>
+            <div className="flex items-center space-x-3 text-sm">
+              <span className="text-gray-400">{challenge.participants_count || 0} participants</span>
+              <span className={`px-2 py-1 rounded text-xs ${isActive ? 'bg-green-500/20 text-green-400' : 'bg-gray-600 text-gray-400'}`}>
+                {isActive ? 'Active' : 'Completed'}
               </span>
-            </div>
-            <div className="w-full bg-gray-600 rounded-full h-2">
-              <div 
-                className="bg-gradient-to-r from-[#00C2A8] to-green-500 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${percentage}%` }}
-              />
-            </div>
-            <div className="text-right text-xs text-gray-400 mt-1">
-              {percentage.toFixed(1)}% complete
+              {challenge.visibility === 'private' && (
+                <Lock className="w-4 h-4 text-gray-400" />
+              )}
             </div>
           </div>
-        )}
 
-        {/* Action Buttons */}
-        <div className="flex space-x-2">
-          {hasJoined ? (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onLeave();
-              }}
-              className="flex-1 px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors"
-            >
-              Leave Challenge
-            </button>
-          ) : (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onJoin();
-              }}
-              className="flex-1 px-4 py-2 rounded-lg bg-[#00C2A8] hover:bg-[#00a890] text-white transition-colors"
-            >
-              <Trophy className="w-4 h-4 inline mr-2" />
-              Join Challenge
-            </button>
+          {/* Progress Bar (if joined) */}
+          {hasJoined && (
+            <div className="mb-4">
+              <div className="flex justify-between text-sm mb-1">
+                <span className="text-gray-400">Your Progress</span>
+                <span className="text-[#00C2A8] font-semibold">
+                  {progress.toFixed(1)} / {goalValue} {challenge.goal_unit}
+                </span>
+              </div>
+              <div className="w-full bg-gray-600 rounded-full h-2">
+                <div 
+                  className="bg-gradient-to-r from-[#00C2A8] to-green-500 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${percentage}%` }}
+                />
+              </div>
+              <div className="text-right text-xs text-gray-400 mt-1">
+                {percentage.toFixed(1)}% complete
+              </div>
+            </div>
           )}
+
+          {/* Action Buttons */}
+          <div className="flex space-x-2 pb-3 sm:pb-0">
+            {hasJoined ? (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onLeave();
+                }}
+                className="flex-1 px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors"
+              >
+                Leave Challenge
+              </button>
+            ) : (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onJoin();
+                }}
+                className="flex-1 px-4 py-2 rounded-lg bg-[#00C2A8] hover:bg-[#00a890] text-white transition-colors"
+              >
+                <Trophy className="w-4 h-4 inline mr-2" />
+                Join Challenge
+              </button>
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>
