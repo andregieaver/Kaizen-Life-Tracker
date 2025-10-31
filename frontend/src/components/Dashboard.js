@@ -941,7 +941,7 @@ const Dashboard = ({ athleteId }) => {
           : 'w-full max-w-[1600px] mx-auto px-0 sm:px-6 lg:px-8 py-4 md:py-8 pb-20 md:pb-8 pt-20 md:pt-24'
       }>
         {activeTab === 'overview' && (
-          <div className="space-y-8">
+          <div className="space-y-0 md:space-y-8">
             {/* Quick Actions */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 md:gap-4">
               {/* Today Overview */}
