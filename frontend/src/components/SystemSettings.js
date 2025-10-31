@@ -3714,7 +3714,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div>
                         <Label className="text-gray-300 text-sm">Accept All Button</Label>
                         <Input
-                          value={cookieSettings.consent_texts.accept_all_button}
+                          value={cookieSettings?.consent_texts?.accept_all_button || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
@@ -3728,7 +3728,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div>
                         <Label className="text-gray-300 text-sm">Reject All Button</Label>
                         <Input
-                          value={cookieSettings.consent_texts.reject_all_button}
+                          value={cookieSettings?.consent_texts?.reject_all_button || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
@@ -3742,7 +3742,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div>
                         <Label className="text-gray-300 text-sm">Customize Button</Label>
                         <Input
-                          value={cookieSettings.consent_texts.customize_button}
+                          value={cookieSettings?.consent_texts?.customize_button || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
@@ -3756,7 +3756,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div>
                         <Label className="text-gray-300 text-sm">Save Preferences Button</Label>
                         <Input
-                          value={cookieSettings.consent_texts.save_preferences_button}
+                          value={cookieSettings?.consent_texts?.save_preferences_button || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
