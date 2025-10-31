@@ -616,6 +616,142 @@ const Emails = () => {
           </div>
         </div>
       )}
+
+      {/* Custom Email Create/Edit Modal */}
+      {showCustomEmailModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" onClick={() => setShowCustomEmailModal(false)}>
+          <div className="bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-6 z-10">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-white">{isCreatingNew ? 'Create Custom Email' : 'Edit Custom Email'}</h2>
+                  <p className="text-gray-400 text-sm mt-1">Create targeted email campaigns for your users</p>
+                </div>
+                <button
+                  onClick={() => setShowCustomEmailModal(false)}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+
+            <form onSubmit={handleSaveCustomEmail} className="p-6">
+              <div className="space-y-6">
+                {/* Email Name */}
+                <div>
+                  <Label htmlFor="email-name" className="text-white mb-2">Email Name *</Label>
+                  <Input
+                    id="email-name"
+                    value={customEmailForm.name}
+                    onChange={(e) => setCustomEmailForm({ ...customEmailForm, name: e.target.value })}
+                    placeholder="e.g., Waitlist Welcome Series - Email 1"
+                    className="bg-gray-700 border-gray-600 text-white"
+                    required
+                  />
+                  <p className="text-xs text-gray-400 mt-1">Internal name to identify this email</p>
+                </div>
+
+                {/* Target Audience */}
+                <div>
+                  <Label htmlFor="target-audience" className="text-white mb-2">Target Audience *</Label>
+                  <select
+                    id="target-audience"
+                    value={customEmailForm.targetAudience}
+                    onChange={(e) => setCustomEmailForm({ ...customEmailForm, targetAudience: e.target.value })}
+                    className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                  >
+                    <option value="all">All Users</option>
+                    <option value="waitlist">Waitlist Users</option>
+                    <option value="free">Free Plan Users</option>
+                    <option value="pro">Pro Plan Users</option>
+                    <option value="premium">Premium Plan Users</option>
+                  </select>
+                  <p className="text-xs text-gray-400 mt-1">
+                    {customEmailForm.targetAudience === 'waitlist' && 'Email will be sent to users with subscription_status = "waitlist"'}
+                    {customEmailForm.targetAudience === 'free' && 'Email will be sent to users with subscription_tier = "free"'}
+                    {customEmailForm.targetAudience === 'pro' && 'Email will be sent to users with subscription_tier = "pro"'}
+                    {customEmailForm.targetAudience === 'premium' && 'Email will be sent to users with subscription_tier = "premium"'}
+                    {customEmailForm.targetAudience === 'all' && 'Email will be sent to all registered users'}
+                  </p>
+                </div>
+
+                {/* Subject */}
+                <div>
+                  <Label htmlFor="custom-subject" className="text-white mb-2">Subject Line *</Label>
+                  <Input
+                    id="custom-subject"
+                    value={customEmailForm.subject}
+                    onChange={(e) => setCustomEmailForm({ ...customEmailForm, subject: e.target.value })}
+                    placeholder="Enter email subject"
+                    className="bg-gray-700 border-gray-600 text-white"
+                    required
+                  />
+                </div>
+
+                {/* Plain Text Body */}
+                <div>
+                  <Label htmlFor="custom-body" className="text-white mb-2">Plain Text Body *</Label>
+                  <textarea
+                    id="custom-body"
+                    value={customEmailForm.body}
+                    onChange={(e) => setCustomEmailForm({ ...customEmailForm, body: e.target.value })}
+                    placeholder="Enter plain text email body..."
+                    className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                    rows="8"
+                    required
+                  />
+                  <p className="text-xs text-gray-400 mt-1">Available variables: {{user_name}}, {{user_email}}</p>
+                </div>
+
+                {/* HTML Body */}
+                <div>
+                  <Label htmlFor="custom-html-body" className="text-white mb-2">HTML Body (Optional)</Label>
+                  <textarea
+                    id="custom-html-body"
+                    value={customEmailForm.htmlBody}
+                    onChange={(e) => setCustomEmailForm({ ...customEmailForm, htmlBody: e.target.value })}
+                    placeholder="<p>Enter HTML email body...</p>"
+                    className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none font-mono text-sm"
+                    rows="8"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">HTML version for email clients that support it</p>
+                </div>
+
+                {/* Status Messages */}
+                {saveStatus.message && (
+                  <div className={`flex items-center gap-2 p-4 rounded-lg ${
+                    saveStatus.type === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+                  }`}>
+                    {saveStatus.type === 'success' ? (
+                      <CheckCircle className="w-5 h-5" />
+                    ) : (
+                      <XCircle className="w-5 h-5" />
+                    )}
+                    <span>{saveStatus.message}</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex justify-end gap-3 mt-8">
+                <Button
+                  type="button"
+                  onClick={() => setShowCustomEmailModal(false)}
+                  className="bg-gray-700 hover:bg-gray-600 text-white"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                >
+                  {isCreatingNew ? 'Create Email' : 'Update Email'}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
