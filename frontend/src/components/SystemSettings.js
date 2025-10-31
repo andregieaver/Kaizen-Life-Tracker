@@ -4053,6 +4053,50 @@ const SystemSettings = ({ athleteId }) => {
                   </div>
                 </div>
 
+                {/* Microsoft Clarity Section */}
+                <div className="space-y-4 p-6 bg-gray-700/30 rounded-lg border border-gray-600">
+                  <div>
+                    <Label className="text-base font-semibold text-white flex items-center">
+                      <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                        <rect width="24" height="24" rx="4" fill="#0078D4"/>
+                        <path d="M7 7h10v10H7z" fill="white"/>
+                      </svg>
+                      Microsoft Clarity
+                    </Label>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Add your Microsoft Clarity project ID to enable session recording and heatmaps
+                    </p>
+                  </div>
+
+                  {/* Clarity Project ID */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-white">
+                      Project ID
+                    </Label>
+                    <p className="text-xs text-gray-400">
+                      Enter your Microsoft Clarity project ID (e.g., abc123def)
+                    </p>
+                    <input
+                      type="text"
+                      value={advancedSettings.microsoftClarity.projectId}
+                      onChange={(e) => setAdvancedSettings(prev => ({
+                        ...prev,
+                        microsoftClarity: {
+                          projectId: e.target.value
+                        }
+                      }))}
+                      placeholder="abc123def"
+                      className="w-full bg-gray-900 border border-gray-700 text-white placeholder:text-gray-500 text-sm px-3 py-2 rounded-lg focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                    />
+                  </div>
+
+                  <div className="p-3 bg-blue-900/20 border border-blue-700/50 rounded-lg">
+                    <p className="text-xs text-blue-200">
+                      <strong>Note:</strong> Get your project ID from <a href="https://clarity.microsoft.com" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">Microsoft Clarity</a>. Go to Settings → Setup → Project ID. After saving, the tracking script will be automatically added to your site.
+                    </p>
+                  </div>
+                </div>
+
                 {/* Save Button */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-700">
                   <div>
