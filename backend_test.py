@@ -10873,45 +10873,42 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Analytics API Testing"""
-    print("🚀 STARTING ANALYTICS API TESTING")
+    """Run Nationality Field Testing"""
+    print("🚀 STARTING NATIONALITY FIELD TESTING")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Analytics API Endpoints
+    # Test Nationality Field in Community Endpoints
     try:
-        result = test_analytics_api_endpoints()
+        result = test_nationality_field_in_community_endpoints()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Analytics API Testing", False, f"Exception: {str(e)}")
+        print_test_result("Nationality Field Testing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 ANALYTICS API TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ TRACK EVENT: POST /api/analytics/track working correctly")
-        print("✅ EVENT VALIDATION: Missing event name returns 400 error")
-        print("✅ MULTIPLE EVENTS: All event types (page_view, cta_click, form_submit) tracked")
-        print("✅ GET EVENTS: GET /api/analytics/events working correctly")
-        print("✅ GET STATS: GET /api/analytics/stats working correctly")
-        print("✅ AUTHENTICATION: Super admin authentication enforced")
-        print("✅ DATABASE STORAGE: Events stored and retrieved correctly")
-        print("✅ RESPONSE FORMAT: All endpoints return proper JSON structure")
-        print("✅ PERFORMANCE: All endpoints responding within acceptable time")
-        print("🔧 VERIFIED: Analytics functionality is complete")
-        print("🔧 READY: Analytics API is production-ready")
+        print("🎉 NATIONALITY FIELD TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ COMMUNITY FEED: GET /api/community/feed includes nationality field")
+        print("✅ FOLLOWING FEED: GET /api/community/following includes nationality field")
+        print("✅ ATHLETE PROFILE: GET /api/athlete-profiles includes nationality field")
+        print("✅ API IMPLEMENTATION: Backend correctly returns nationality data")
+        print("✅ DATA ANALYSIS: Some athletes have nationality values set")
+        print("🔧 VERIFIED: Nationality field functionality is working")
+        print("🔧 ISSUE: Country flags not visible due to missing user data")
+        print("💡 RECOMMENDATION: Users need to set nationality in profile settings")
     else:
-        print("❌ ANALYTICS API TESTING FOUND ISSUES")
+        print("❌ NATIONALITY FIELD TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Analytics may not be working correctly")
-        print("💡 Verify super admin user exists and has correct permissions")
-        print("💡 Check backend logs for detailed error messages")
-        print("💡 Ensure MongoDB analytics_events collection is accessible")
-        print("💡 Verify event tracking and storage functionality")
+        print("🚨 CRITICAL: Nationality fields may not be working correctly")
+        print("💡 Verify community feed endpoints include nationality in aggregation")
+        print("💡 Check if athlete profiles have nationality field")
+        print("💡 Ensure MongoDB athlete_profiles collection has nationality data")
+        print("💡 Consider prompting users to complete their profiles")
     
     print("=" * 70)
 
