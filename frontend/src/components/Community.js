@@ -3343,10 +3343,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
       {/* Challenges Tab */}
       {activeTab === 'challenges' && (
-        <div className="space-y-6 pt-12 md:pt-0">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="space-y-0 md:space-y-6 pt-0 md:pt-0">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-0 sm:gap-4">
             {/* Filter buttons */}
-            <div className="flex gap-2">
+            <div className="flex gap-0 md:gap-2 w-full sm:w-auto">
               {['all', 'active', 'completed', 'joined'].map(filter => (
                 <button
                   key={filter}
@@ -3355,7 +3355,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                     setChallengesLoaded(false);
                     loadChallenges(filter);
                   }}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`flex-1 sm:flex-none px-4 py-2 rounded-none md:rounded-lg text-sm font-medium transition-all ${
                     challengeFilter === filter
                       ? 'bg-[#00C2A8] text-white'
                       : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
