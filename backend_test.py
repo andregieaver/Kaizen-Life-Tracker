@@ -1117,6 +1117,247 @@ def test_group_edit_endpoint_failure():
         traceback.print_exc()
         return False
 
+def test_sendgrid_email_functionality():
+    """
+    SENDGRID EMAIL FUNCTIONALITY TESTING
+    
+    CONTEXT:
+    Test the SendGrid test email functionality with comprehensive logging analysis.
+    This test will send a POST request to /api/email-templates/send-test and analyze
+    the backend logs to identify the exact issue with SendGrid configuration.
+    
+    TEST SCENARIO:
+    1. Send POST request to /api/email-templates/send-test with test payload
+    2. Check backend logs for EMAIL, send, or SendGrid related entries
+    3. Analyze logs to identify:
+       - Is the email service enabled?
+       - What are the SendGrid credentials status?
+       - At what exact point does the error occur?
+       - What is the actual exception message?
+    
+    EXPECTED RESULTS:
+    - Detailed analysis of HTTP response (status code and body)
+    - All relevant log entries from backend
+    - Root cause analysis of the issue
+    - Specific recommendations for fixing the problem
+    """
+    print("🔍 TESTING SENDGRID EMAIL FUNCTIONALITY")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Send test email request
+        print("   Step 1: Send POST request to /api/email-templates/send-test")
+        
+        test_payload = {
+            "to_email": "test@example.com",
+            "subject": "Test Email Subject",
+            "body": "This is a plain text test body with variable {{user_name}}",
+            "html_body": "<html><body><h1>Test Email</h1><p>Hello {{user_name}}, this is a test email with {{reset_link}}</p></body></html>"
+        }
+        
+        print(f"      Payload: {test_payload}")
+        
+        # Send the request
+        response = requests.post(
+            f"{BACKEND_URL}/email-templates/send-test",
+            json=test_payload,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        print(f"      HTTP Response Status: {response.status_code}")
+        print(f"      HTTP Response Body: {response.text}")
+        
+        # Step 2: Check backend logs immediately after the request
+        print("   Step 2: Check backend logs for email-related entries")
+        
+        try:
+            import subprocess
+            
+            # Check output logs
+            print("      Checking backend output logs...")
+            out_log_result = subprocess.run(
+                ["tail", "-n", "200", "/var/log/supervisor/backend.out.log"],
+                capture_output=True, text=True, timeout=10
+            )
+            
+            if out_log_result.stdout:
+                out_lines = out_log_result.stdout.split('\n')
+                email_lines = [line for line in out_lines if any(keyword.lower() in line.lower() 
+                              for keyword in ['EMAIL', 'send', 'SendGrid', 'SENDGRID', 'smtp'])]
+                
+                if email_lines:
+                    print(f"      Found {len(email_lines)} email-related lines in output logs:")
+                    for line in email_lines[-20:]:  # Show last 20 relevant lines
+                        print(f"        OUT: {line}")
+                else:
+                    print("      No email-related entries found in output logs")
+            
+            # Check error logs
+            print("      Checking backend error logs...")
+            err_log_result = subprocess.run(
+                ["tail", "-n", "200", "/var/log/supervisor/backend.err.log"],
+                capture_output=True, text=True, timeout=10
+            )
+            
+            if err_log_result.stdout:
+                err_lines = err_log_result.stdout.split('\n')
+                email_lines = [line for line in err_lines if any(keyword.lower() in line.lower() 
+                              for keyword in ['EMAIL', 'send', 'SendGrid', 'SENDGRID', 'smtp', 'error', 'exception'])]
+                
+                if email_lines:
+                    print(f"      Found {len(email_lines)} email-related lines in error logs:")
+                    for line in email_lines[-20:]:  # Show last 20 relevant lines
+                        print(f"        ERR: {line}")
+                else:
+                    print("      No email-related entries found in error logs")
+            
+        except Exception as log_e:
+            print(f"      Could not read backend logs: {log_e}")
+        
+        # Step 3: Analyze the response and logs
+        print("   Step 3: Analyze response and identify root cause")
+        
+        analysis_results = []
+        
+        # Analyze HTTP response
+        if response.status_code == 200:
+            analysis_results.append("✅ HTTP Status: 200 - Request processed successfully")
+            try:
+                response_data = response.json()
+                if response_data.get("success"):
+                    analysis_results.append("✅ Response: Email sent successfully")
+                else:
+                    analysis_results.append("❌ Response: Success flag is false")
+            except:
+                analysis_results.append("⚠️ Response: Could not parse JSON response")
+        elif response.status_code == 400:
+            analysis_results.append("❌ HTTP Status: 400 - Bad Request (likely missing required fields)")
+        elif response.status_code == 500:
+            analysis_results.append("❌ HTTP Status: 500 - Internal Server Error (likely SendGrid configuration issue)")
+        else:
+            analysis_results.append(f"❌ HTTP Status: {response.status_code} - Unexpected status code")
+        
+        # Analyze response body for specific errors
+        response_text = response.text.lower()
+        if "sendgrid" in response_text:
+            analysis_results.append("🔍 Response contains 'SendGrid' - likely SendGrid-specific error")
+        if "api key" in response_text or "credentials" in response_text:
+            analysis_results.append("🔍 Response mentions API key/credentials - likely authentication issue")
+        if "not configured" in response_text:
+            analysis_results.append("🔍 Response mentions 'not configured' - likely missing configuration")
+        if "email service" in response_text:
+            analysis_results.append("🔍 Response mentions 'email service' - service initialization issue")
+        
+        for result in analysis_results:
+            print(f"      {result}")
+        
+        # Step 4: Check environment variables for SendGrid configuration
+        print("   Step 4: Check SendGrid environment variables")
+        
+        env_check_results = []
+        
+        # Check if SendGrid environment variables are set
+        try:
+            with open('/app/backend/.env', 'r') as env_file:
+                env_content = env_file.read()
+                
+                if 'SENDGRID_API_KEY' in env_content:
+                    env_check_results.append("✅ SENDGRID_API_KEY found in .env file")
+                else:
+                    env_check_results.append("❌ SENDGRID_API_KEY missing from .env file")
+                
+                if 'SENDGRID_SENDER_EMAIL' in env_content:
+                    env_check_results.append("✅ SENDGRID_SENDER_EMAIL found in .env file")
+                else:
+                    env_check_results.append("❌ SENDGRID_SENDER_EMAIL missing from .env file")
+                
+                if 'SENDGRID_SENDER_NAME' in env_content:
+                    env_check_results.append("✅ SENDGRID_SENDER_NAME found in .env file")
+                else:
+                    env_check_results.append("⚠️ SENDGRID_SENDER_NAME missing from .env file (optional)")
+                
+        except Exception as env_e:
+            env_check_results.append(f"❌ Could not read .env file: {env_e}")
+        
+        for result in env_check_results:
+            print(f"      {result}")
+        
+        # Step 5: Test with different payload to isolate issues
+        print("   Step 5: Test with minimal payload to isolate issues")
+        
+        minimal_payload = {
+            "to_email": "test@example.com",
+            "subject": "Minimal Test",
+            "body": "Simple test body"
+        }
+        
+        minimal_response = requests.post(
+            f"{BACKEND_URL}/email-templates/send-test",
+            json=minimal_payload,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        print(f"      Minimal Payload Response Status: {minimal_response.status_code}")
+        print(f"      Minimal Payload Response Body: {minimal_response.text}")
+        
+        # Step 6: Provide root cause analysis and recommendations
+        print("   Step 6: Root Cause Analysis and Recommendations")
+        
+        recommendations = []
+        
+        # Determine root cause based on analysis
+        if response.status_code == 500 and "not configured" in response.text.lower():
+            recommendations.append("🔧 ROOT CAUSE: SendGrid service not configured")
+            recommendations.append("   SOLUTION: Add SENDGRID_API_KEY and SENDGRID_SENDER_EMAIL to .env file")
+            recommendations.append("   EXAMPLE: SENDGRID_API_KEY=SG.your_api_key_here")
+            recommendations.append("   EXAMPLE: SENDGRID_SENDER_EMAIL=noreply@yourdomain.com")
+        elif response.status_code == 500 and "api key" in response.text.lower():
+            recommendations.append("🔧 ROOT CAUSE: Invalid SendGrid API key")
+            recommendations.append("   SOLUTION: Verify SendGrid API key is correct and has send permissions")
+        elif response.status_code == 500 and "sender" in response.text.lower():
+            recommendations.append("🔧 ROOT CAUSE: Invalid sender email address")
+            recommendations.append("   SOLUTION: Verify sender email is verified in SendGrid dashboard")
+        elif response.status_code == 400:
+            recommendations.append("🔧 ROOT CAUSE: Invalid request payload")
+            recommendations.append("   SOLUTION: Check required fields (to_email, subject, body)")
+        elif response.status_code == 200:
+            recommendations.append("✅ EMAIL SERVICE WORKING: Test email sent successfully")
+            recommendations.append("   STATUS: SendGrid integration is functional")
+        else:
+            recommendations.append("🔧 ROOT CAUSE: Unknown error")
+            recommendations.append("   SOLUTION: Check backend logs for detailed error messages")
+            recommendations.append("   ACTION: Review SendGrid dashboard for delivery status")
+        
+        for recommendation in recommendations:
+            print(f"      {recommendation}")
+        
+        # Step 7: Summary of findings
+        print("   Step 7: Summary of findings")
+        
+        summary = {
+            "http_status": response.status_code,
+            "response_body": response.text,
+            "sendgrid_configured": "SENDGRID_API_KEY" in env_content if 'env_content' in locals() else False,
+            "email_service_enabled": "not configured" not in response.text.lower(),
+            "test_result": "PASS" if response.status_code == 200 else "FAIL"
+        }
+        
+        print(f"      Summary: {summary}")
+        
+        # Determine overall test result
+        if response.status_code == 200:
+            print_test_result("SendGrid Email Functionality", True, "Email service is working correctly")
+            return True
+        else:
+            print_test_result("SendGrid Email Functionality", False, f"Email service has issues: {response.status_code}")
+            return False
+        
+    except Exception as e:
+        print_test_result("SendGrid Email Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_community_feed_422_error_fix():
     """
     CRITICAL: Test the 422 error fix for Community feed endpoint.
