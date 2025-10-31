@@ -347,11 +347,19 @@ const getFlagEmoji = (countryName) => {
 };
 
 const FlagIcon = ({ nationality, className = '', size = 'normal' }) => {
-  if (!nationality) return null;
+  if (!nationality) {
+    console.log('FlagIcon: No nationality provided');
+    return null;
+  }
   
   const flag = getFlagEmoji(nationality);
   
-  if (!flag) return null;
+  console.log('FlagIcon:', { nationality, flag, flagLength: flag?.length });
+  
+  if (!flag) {
+    console.log('FlagIcon: No flag emoji generated for', nationality);
+    return null;
+  }
   
   // Size variants: normal (0.9em for 40px images), medium (1.2em for 56px images), large (1.8em for 80px images)
   const fontSize = size === 'large' ? '1.8em' : size === 'medium' ? '1.2em' : '0.9em';
