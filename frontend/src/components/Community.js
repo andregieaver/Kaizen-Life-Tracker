@@ -6013,7 +6013,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
             {/* Trophy Icon - Positioned on Banner */}
             <div className="absolute bottom-3 left-3">
               {challenge.trophy_image ? (
-                <img src={challenge.trophy_image} alt="Trophy" className="w-16 h-16 rounded-lg object-cover border-4 border-gray-800 shadow-lg" />
+                <img src={challenge.trophy_image} alt="Trophy" className="w-16 h-16 rounded-full object-cover border-4 border-gray-800 shadow-lg" />
               ) : (
                 <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center border-4 border-gray-800 shadow-lg">
                   <Trophy className="w-8 h-8 text-white" />
