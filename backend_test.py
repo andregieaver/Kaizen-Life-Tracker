@@ -1392,14 +1392,7 @@ def test_cookie_management_api_endpoints():
             print_test_result("Super Admin Setup", False, f"Unexpected response testing super admin: {test_response.status_code}")
             return False
         
-        athlete_data = login_response.json()
-        super_admin_id = athlete_data.get("athlete_id")
-        
-        if not super_admin_id:
-            print_test_result("Super Admin Login", False, "No athlete_id returned")
-            return False
-        
-        print_test_result("Super Admin Login", True, f"Logged in as andre@humanweb.no, athlete_id: {super_admin_id}")
+        # super_admin_id is already set above
         
         # Step 2: Test Cookie Scanning - POST /api/cookies/scan?athlete_id={super_admin_id}
         print("   Step 2: Test Cookie Scanning - POST /api/cookies/scan")
