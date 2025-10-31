@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { loadAndInjectPageSEO } from '../utils/seoUtils';
+import { ecommerce, track } from '../lib/analytics';
 
 const Pricing = () => {
   const navigate = useNavigate();
