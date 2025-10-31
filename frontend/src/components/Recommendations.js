@@ -163,13 +163,13 @@ const Recommendations = ({ athleteId }) => {
           </p>
         </div>
         <Button 
-          onClick={loadRecommendations}
+          onClick={() => navigate('/dashboard/schedules')}
           variant="outline"
           className="btn-transition text-white border-gray-600 hover:bg-gray-700"
-          data-testid="refresh-recommendations-btn"
+          data-testid="schedules-btn"
         >
-          <RefreshCw className="w-4 h-4 mr-2" />
-          {t('common.sync')}
+          <Calendar className="w-4 h-4 mr-2" />
+          Schedules
         </Button>
       </div>
 
