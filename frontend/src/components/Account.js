@@ -880,6 +880,31 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const uploadCoachAvatar = async () => {
+    if (!coachAvatarFile) return null;
+    
+    try {
+      const formData = new FormData();
+      formData.append('file', coachAvatarFile);
+      
+      const response = await fetch(`${API}/athlete/${athleteId}/coach-avatar`, {
+        method: 'POST',
+        body: formData
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to upload coach avatar');
+      }
+      
+      const result = await response.json();
+      return result.coach_avatar;
+    } catch (error) {
+      console.error('Error uploading coach avatar:', error);
+      throw error;
+    }
+  };
+
   const handleSavePersonalInfo = async (e) => {
     e.preventDefault();
     setIsLoading(true);
