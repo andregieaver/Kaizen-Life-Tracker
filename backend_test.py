@@ -10873,15 +10873,15 @@ def test_comment_deletion_endpoints():
         return False
 
 def main():
-    """Run Nationality Field Testing"""
-    print("🚀 STARTING NATIONALITY FIELD TESTING")
+    """Run Nationality Field Testing as requested in review"""
+    print("🚀 STARTING NATIONALITY FIELD TESTING AS REQUESTED")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Nationality Field in Community Endpoints
+    # Test Nationality Field in Community Endpoints as per review request
     try:
-        result = test_nationality_field_in_community_endpoints()
+        result = test_nationality_field_review_request()
         if not result:
             all_tests_passed = False
     except Exception as e:
