@@ -75,6 +75,17 @@ const Pricing = () => {
         
         console.log('Transformed plans:', transformedPlans);
         setPlans(transformedPlans);
+        
+        // Track view_item_list event (ecommerce)
+        if (transformedPlans.length > 0) {
+          const items = transformedPlans.map(plan => ({
+            id: plan.id,
+            name: plan.name,
+            price: billingCycle === 'monthly' ? plan.monthlyPrice : plan.annualPrice,
+            currency: 'EUR'
+          }));
+          ecommerce.viewItemList(items, 'Subscription Plans');
+        }
       } catch (error) {
         console.error('Error loading plans:', error);
         // Fallback to empty array or default plans
