@@ -1377,6 +1377,17 @@ const Account = ({ athleteId }) => {
               {t('account.manageProfile')}
             </p>
           </div>
+          {/* Support Button (visible to all users) */}
+          <div className="mb-4">
+            <Button
+              onClick={() => navigate('/dashboard/support')}
+              className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+              title="Contact Support"
+            >
+              <HelpCircle className="w-5 h-5" />
+              <span className="font-semibold">Contact Support</span>
+            </Button>
+          </div>
           {athlete?.is_super_admin && (
             <div className="flex items-center gap-2 sm:gap-3 flex-wrap w-full justify-between sm:justify-start">
               <Button
