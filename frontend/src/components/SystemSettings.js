@@ -3774,7 +3774,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div>
                         <Label className="text-gray-300 text-sm">Cookie Policy Text</Label>
                         <Input
-                          value={cookieSettings.consent_texts.cookie_policy_text}
+                          value={cookieSettings?.consent_texts?.cookie_policy_text || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
@@ -3788,7 +3788,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div>
                         <Label className="text-gray-300 text-sm">Cookie Policy Link</Label>
                         <Input
-                          value={cookieSettings.consent_texts.cookie_policy_link}
+                          value={cookieSettings?.consent_texts?.cookie_policy_link || ''}
                           onChange={(e) => setCookieSettings({
                             ...cookieSettings,
                             consent_texts: {
