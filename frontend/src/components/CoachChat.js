@@ -96,6 +96,18 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
     }
   };
 
+  const loadAthleteProfile = async () => {
+    try {
+      const response = await axios.get(`${API}/athlete/${athleteId}`);
+      const athlete = response.data;
+      setUserAvatar(athlete.profile_picture);
+      setCoachAvatar(athlete.coach_avatar);
+      setCoachName(athlete.coach_name || 'Coach');
+    } catch (error) {
+      console.error('Error loading athlete profile:', error);
+    }
+  };
+
   // Handle upgrade to paid plan
   const handleUpgrade = async () => {
     try {
