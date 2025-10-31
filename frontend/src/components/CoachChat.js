@@ -594,17 +594,26 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                     message.type === 'user' ? 'flex-row-reverse space-x-reverse' : ''
                   }`}
                 >
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    message.type === 'user'
-                      ? 'bg-blue-100'
-                      : message.isError
-                      ? 'bg-red-100'
-                      : 'bg-green-100'
-                  }`}>
+                  {/* Avatar */}
+                  <div className="w-10 h-10 rounded-full flex-shrink-0 overflow-hidden border-2 border-gray-300">
                     {message.type === 'user' ? (
-                      <User className="w-4 h-4 text-blue-600" />
+                      userAvatar ? (
+                        <img src={userAvatar} alt="You" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full bg-blue-100 flex items-center justify-center">
+                          <User className="w-5 h-5 text-blue-600" />
+                        </div>
+                      )
                     ) : (
-                      <Bot className={`w-4 h-4 ${message.isError ? 'text-red-600' : 'text-green-600'}`} />
+                      coachAvatar ? (
+                        <img src={coachAvatar} alt={coachName} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className={`w-full h-full flex items-center justify-center ${
+                          message.isError ? 'bg-red-100' : 'bg-green-100'
+                        }`}>
+                          <Bot className={`w-5 h-5 ${message.isError ? 'text-red-600' : 'text-green-600'}`} />
+                        </div>
+                      )
                     )}
                   </div>
                   <div className={`flex-1 ${
