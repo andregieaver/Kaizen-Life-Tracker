@@ -1231,7 +1231,7 @@ const Dashboard = ({ athleteId }) => {
               </Card>
 
               {/* Column 2: Progress - Test Results */}
-              <Card className="border-0 shadow-md bg-gradient-to-br from-gray-600 to-gray-800 overflow-hidden">
+              <Card className="border-0 shadow-md bg-gradient-to-br from-gray-600 to-gray-800 overflow-hidden rounded-none md:rounded-lg">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg font-display text-white">Progress</CardTitle>
                   <CardDescription className="text-gray-300">Latest test results and performance metrics</CardDescription>
