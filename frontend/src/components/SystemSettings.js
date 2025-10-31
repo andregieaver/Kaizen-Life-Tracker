@@ -556,6 +556,15 @@ const SystemSettings = ({ athleteId }) => {
     }
   }, [activeTab, waitingListFilter]);
 
+
+  // Load cookie settings when cookies tab is active
+  useEffect(() => {
+    if (activeTab === 'cookies') {
+      loadCookieSettings();
+    }
+  }, [activeTab]);
+
+
   // Subscription Plan Management Functions
   const loadSubscriptionPlans = async () => {
     setLoadingPlans(true);
