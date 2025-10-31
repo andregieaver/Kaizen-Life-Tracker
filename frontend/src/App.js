@@ -24,6 +24,13 @@ import './App.css';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
+// Analytics Provider Component
+// Initializes analytics tracking and page views
+function AnalyticsProvider() {
+  usePageViews();
+  return null;
+}
+
 // Signup redirect component that preserves ref parameter
 const SignupRedirect = () => {
   const [searchParams] = useSearchParams();
