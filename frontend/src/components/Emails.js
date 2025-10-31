@@ -77,6 +77,7 @@ const Emails = () => {
 
   useEffect(() => {
     loadEmailTemplates();
+    loadCustomEmails();
   }, []);
 
   const loadEmailTemplates = async () => {
