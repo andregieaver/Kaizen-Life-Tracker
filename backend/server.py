@@ -3581,6 +3581,69 @@ async def upload_profile_picture(athlete_id: str, file: UploadFile = File(...)):
         logging.error(f"Error uploading profile picture: {e}")
         raise HTTPException(status_code=500, detail="Failed to upload profile picture")
 
+@api_router.post("/athlete/{athlete_id}/coach-avatar")
+async def upload_coach_avatar(athlete_id: str, file: UploadFile = File(...)):
+    """Upload and update AI coach avatar"""
+    try:
+        # Validate file type
+        if not file.content_type or not file.content_type.startswith('image/'):
+            raise HTTPException(status_code=400, detail="File must be an image")
+        
+        # Check file size (limit to 5MB)
+        file_content = await file.read()
+        if len(file_content) > 5 * 1024 * 1024:  # 5MB
+            raise HTTPException(status_code=400, detail="File size must be less than 5MB")
+        
+        # Verify athlete exists
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="Athlete not found")
+        
+        # Process image - resize and convert to base64
+        try:
+            image = Image.open(io.BytesIO(file_content))
+            
+            # Convert to RGB if needed
+            if image.mode in ('RGBA', 'LA', 'P'):
+                background = Image.new('RGB', image.size, (255, 255, 255))
+                if image.mode == 'P':
+                    image = image.convert('RGBA')
+                background.paste(image, mask=image.split()[-1] if image.mode == 'RGBA' else None)
+                image = background
+            
+            # Resize image to 200x200 maintaining aspect ratio
+            image.thumbnail((200, 200), Image.Resampling.LANCZOS)
+            
+            # Create a square canvas
+            canvas = Image.new('RGB', (200, 200), (255, 255, 255))
+            x = (200 - image.width) // 2
+            y = (200 - image.height) // 2
+            canvas.paste(image, (x, y))
+            
+            # Convert to base64
+            buffer = io.BytesIO()
+            canvas.save(buffer, format='JPEG', quality=85)
+            image_data = base64.b64encode(buffer.getvalue()).decode('utf-8')
+            coach_avatar = f"data:image/jpeg;base64,{image_data}"
+            
+        except Exception as e:
+            logging.error(f"Error processing coach avatar: {e}")
+            raise HTTPException(status_code=400, detail="Invalid image file")
+        
+        # Update athlete profile with new coach avatar
+        await db.athlete_profiles.update_one(
+            {"id": athlete_id},
+            {"$set": {"coach_avatar": coach_avatar}}
+        )
+        
+        return {"success": True, "message": "Coach avatar updated successfully", "coach_avatar": coach_avatar}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error uploading coach avatar: {e}")
+        raise HTTPException(status_code=500, detail="Failed to upload coach avatar")
+
 # Subscription routes
 SUBSCRIPTION_PLANS = {
     "pro_monthly": {"price": 9.99, "interval": "month", "interval_count": 1, "tier": "pro", "name": "Pro Monthly"},
