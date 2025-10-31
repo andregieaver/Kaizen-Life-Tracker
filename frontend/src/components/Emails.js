@@ -701,7 +701,7 @@ const Emails = () => {
                     rows="8"
                     required
                   />
-                  <p className="text-xs text-gray-400 mt-1">Available variables: {{user_name}}, {{user_email}}</p>
+                  <p className="text-xs text-gray-400 mt-1">Available variables: {'{{'} user_name {'}}' }, {'{{'} user_email {'}}' }</p>
                 </div>
 
                 {/* HTML Body */}
