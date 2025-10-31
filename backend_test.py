@@ -1117,6 +1117,178 @@ def test_group_edit_endpoint_failure():
         traceback.print_exc()
         return False
 
+def test_nationality_field_review_request():
+    """
+    TEST NATIONALITY FIELD AS REQUESTED IN REVIEW
+    
+    Test Scenarios from Review Request:
+    1. Get Community Feed - GET `/api/community/feed?athlete_id={super_admin_id}&limit=5`
+    2. Get Following Feed - GET `/api/community/following?athlete_id={super_admin_id}&limit=5`
+    3. Check Athlete Profile - GET `/api/athlete-profiles/{super_admin_id}`
+    
+    Report:
+    - Are nationality fields present in responses?
+    - What values are in the nationality fields?
+    - Sample post JSON structure
+    - Any null/missing nationality values?
+    """
+    print("🔍 TESTING NATIONALITY FIELD AS REQUESTED IN REVIEW")
+    print("=" * 70)
+    
+    try:
+        # Use super admin ID from test_result.md
+        super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"  # andre@humanweb.no
+        
+        print(f"   Using super_admin_id: {super_admin_id}")
+        
+        # Test Scenario 1: Get Community Feed
+        print("   Test Scenario 1: Get Community Feed - GET /api/community/feed")
+        
+        feed_url = f"{BACKEND_URL}/community/feed?athlete_id={super_admin_id}&limit=5"
+        print(f"   URL: {feed_url}")
+        
+        feed_response = requests.get(feed_url)
+        
+        print(f"   Response Status: {feed_response.status_code}")
+        
+        if feed_response.status_code != 200:
+            print_test_result("Community Feed Request", False, f"Status: {feed_response.status_code}, Response: {feed_response.text}")
+            return False
+        
+        feed_data = feed_response.json()
+        posts = feed_data.get("posts", [])
+        
+        print(f"   Posts returned: {len(posts)}")
+        
+        if posts:
+            print("   Sample Post JSON Structure:")
+            sample_post = posts[0]
+            print(f"   {json.dumps(sample_post, indent=2)[:1000]}...")
+            
+            print("\n   Nationality Field Analysis:")
+            for i, post in enumerate(posts):
+                nationality = post.get("nationality")
+                athlete_name = post.get("athlete_name", "Unknown")
+                print(f"   Post {i+1} ({athlete_name}): nationality = {repr(nationality)}")
+        
+        nationality_present_feed = any("nationality" in post for post in posts)
+        nationality_values_feed = [post.get("nationality") for post in posts if "nationality" in post]
+        null_values_feed = sum(1 for val in nationality_values_feed if val is None)
+        
+        print_test_result("Community Feed Nationality", nationality_present_feed, 
+                         f"Field present: {nationality_present_feed}, Values: {nationality_values_feed}, Nulls: {null_values_feed}")
+        
+        # Test Scenario 2: Get Following Feed
+        print("\n   Test Scenario 2: Get Following Feed - GET /api/community/following")
+        
+        following_url = f"{BACKEND_URL}/community/following?athlete_id={super_admin_id}&limit=5"
+        print(f"   URL: {following_url}")
+        
+        following_response = requests.get(following_url)
+        
+        print(f"   Response Status: {following_response.status_code}")
+        
+        if following_response.status_code != 200:
+            print_test_result("Following Feed Request", False, f"Status: {following_response.status_code}, Response: {following_response.text}")
+        else:
+            following_data = following_response.json()
+            following_posts = following_data.get("posts", [])
+            
+            print(f"   Following posts returned: {len(following_posts)}")
+            
+            if following_posts:
+                print("   Sample Following Post JSON Structure:")
+                sample_following_post = following_posts[0]
+                print(f"   {json.dumps(sample_following_post, indent=2)[:1000]}...")
+                
+                print("\n   Following Feed Nationality Analysis:")
+                for i, post in enumerate(following_posts):
+                    nationality = post.get("nationality")
+                    athlete_name = post.get("athlete_name", "Unknown")
+                    print(f"   Following Post {i+1} ({athlete_name}): nationality = {repr(nationality)}")
+            else:
+                print("   No following posts found")
+            
+            nationality_present_following = any("nationality" in post for post in following_posts)
+            nationality_values_following = [post.get("nationality") for post in following_posts if "nationality" in post]
+            null_values_following = sum(1 for val in nationality_values_following if val is None)
+            
+            print_test_result("Following Feed Nationality", nationality_present_following, 
+                             f"Field present: {nationality_present_following}, Values: {nationality_values_following}, Nulls: {null_values_following}")
+        
+        # Test Scenario 3: Check Athlete Profile
+        print("\n   Test Scenario 3: Check Athlete Profile - GET /api/athlete-profiles/{super_admin_id}")
+        
+        profile_url = f"{BACKEND_URL}/athlete-profiles/{super_admin_id}"
+        print(f"   URL: {profile_url}")
+        
+        profile_response = requests.get(profile_url)
+        
+        print(f"   Response Status: {profile_response.status_code}")
+        
+        if profile_response.status_code != 200:
+            print_test_result("Athlete Profile Request", False, f"Status: {profile_response.status_code}, Response: {profile_response.text}")
+        else:
+            profile_data = profile_response.json()
+            
+            print("   Athlete Profile JSON Structure:")
+            print(f"   {json.dumps(profile_data, indent=2)[:1000]}...")
+            
+            profile_nationality = profile_data.get("nationality")
+            athlete_name = profile_data.get("name", "Unknown")
+            
+            print(f"\n   Profile Nationality Analysis:")
+            print(f"   Athlete: {athlete_name}")
+            print(f"   Nationality field present: {'nationality' in profile_data}")
+            print(f"   Nationality value: {repr(profile_nationality)}")
+            
+            nationality_present_profile = "nationality" in profile_data
+            
+            print_test_result("Athlete Profile Nationality", nationality_present_profile, 
+                             f"Field present: {nationality_present_profile}, Value: {repr(profile_nationality)}")
+        
+        # Summary Report
+        print("\n   SUMMARY REPORT:")
+        print("   " + "="*50)
+        
+        print(f"   1. Community Feed Nationality Fields:")
+        print(f"      - Present in responses: {nationality_present_feed}")
+        print(f"      - Values found: {nationality_values_feed}")
+        print(f"      - Null/missing values: {null_values_feed}/{len(posts)} posts")
+        
+        if following_response.status_code == 200:
+            print(f"   2. Following Feed Nationality Fields:")
+            print(f"      - Present in responses: {nationality_present_following}")
+            print(f"      - Values found: {nationality_values_following}")
+            print(f"      - Null/missing values: {null_values_following}/{len(following_posts)} posts")
+        
+        if profile_response.status_code == 200:
+            print(f"   3. Athlete Profile Nationality Field:")
+            print(f"      - Present in response: {nationality_present_profile}")
+            print(f"      - Value: {repr(profile_nationality)}")
+        
+        # Determine if issue is backend (no data) or frontend (not rendering)
+        print(f"\n   DIAGNOSIS:")
+        if nationality_present_feed and any(val for val in nationality_values_feed):
+            print(f"   ✅ Backend is working correctly - nationality fields are present and have data")
+            print(f"   🎨 Issue is likely in FRONTEND - not rendering country flags properly")
+            print(f"   💡 Check frontend components that display nationality/country flags")
+        elif nationality_present_feed and not any(val for val in nationality_values_feed):
+            print(f"   ⚠️ Backend API working but NO DATA - all nationality values are null")
+            print(f"   📝 Issue is missing USER DATA - users need to set nationality in profiles")
+        else:
+            print(f"   ❌ Backend API issue - nationality field missing from responses")
+            print(f"   🔧 Check MongoDB aggregation pipelines in community endpoints")
+        
+        print("\n✅ NATIONALITY FIELD TESTING COMPLETED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Nationality Field Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_nationality_field_in_community_endpoints():
     """
     TEST NATIONALITY FIELD IN COMMUNITY FEED ENDPOINTS
