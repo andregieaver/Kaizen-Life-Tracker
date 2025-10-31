@@ -209,8 +209,25 @@ const Pricing = () => {
 
   const handleSelectPlan = async (planId) => {
     if (planId === 'free') {
+      // Track free plan selection
+      track('select_plan', { plan: 'free' });
       navigate('/onboarding');
       return;
+    }
+
+    // Get plan details for tracking
+    const plan = plans.find(p => p.id === planId);
+    const price = billingCycle === 'monthly' ? plan?.monthlyPrice : plan?.annualPrice;
+    const plan_id = billingCycle === 'monthly' ? plan?.monthlyPlanId : plan?.annualPlanId;
+    
+    // Track select_item event (ecommerce)
+    if (plan && price) {
+      ecommerce.selectItem({
+        id: plan.id,
+        name: plan.name,
+        price: price,
+        currency: 'EUR'
+      });
     }
 
     // Check if user is logged in
@@ -225,14 +242,17 @@ const Pricing = () => {
       };
       localStorage.setItem('selectedPlan', JSON.stringify(planInfo));
       
+      // Track signup intent
+      track('signup_intent', {
+        plan: planId,
+        billing_cycle: billingCycle,
+        price: price
+      });
+      
       // Redirect to onboarding/signup
       navigate('/onboarding');
       return;
     }
-
-    // Get plan_id from plan variations
-    const plan = plans.find(p => p.id === planId);
-    const plan_id = billingCycle === 'monthly' ? plan?.monthlyPlanId : plan?.annualPlanId;
     
     if (!plan_id) {
       console.error('No plan_id found for selected plan');
@@ -251,9 +271,32 @@ const Pricing = () => {
       };
 
       // Add coupon if applied
+      let couponCode = null;
       if (appliedCoupon) {
         checkoutData.coupon_code = appliedCoupon.coupon.code;
+        couponCode = appliedCoupon.coupon.code;
       }
+
+      // Track begin_checkout event (ecommerce)
+      ecommerce.beginCheckout(
+        {
+          id: plan.id,
+          name: plan.name,
+          price: price
+        },
+        price,
+        'EUR'
+      );
+      
+      // Track checkout initiation with details
+      track('checkout_started', {
+        plan: planId,
+        billing_cycle: billingCycle,
+        price: price,
+        currency: 'EUR',
+        has_coupon: !!couponCode,
+        ...(couponCode && { coupon_code: couponCode })
+      });
 
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/subscriptions/create-checkout-session`, {
         method: 'POST',
@@ -271,12 +314,26 @@ const Pricing = () => {
       
       // Redirect to Stripe Checkout
       if (data.url) {
+        // Track redirect to Stripe
+        track('redirect_to_stripe', {
+          plan: planId,
+          session_id: data.session_id || 'unknown'
+        });
+        
         window.location.href = data.url;
       } else {
         throw new Error('No checkout URL received');
       }
     } catch (error) {
       console.error('Checkout error:', error);
+      
+      // Track checkout error
+      track('checkout_error', {
+        plan: planId,
+        billing_cycle: billingCycle,
+        error_message: error.message
+      });
+      
       alert('Failed to start checkout. Please try again.');
     }
   };
