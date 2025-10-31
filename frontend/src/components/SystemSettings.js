@@ -149,7 +149,7 @@ const SystemSettings = ({ athleteId }) => {
       bodyCode: ''
     },
     microsoftClarity: {
-      projectId: ''
+      scriptCode: ''
     }
   });
 
