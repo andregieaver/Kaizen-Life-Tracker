@@ -37,6 +37,7 @@ import Pages from './Pages';
 import PageEditor from './PageEditor';
 import Emails from './Emails';
 import Drinks from './Drinks';
+import Support from './Support';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
