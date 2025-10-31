@@ -399,6 +399,9 @@ function App() {
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        
+        {/* Cookie Consent Banner - Google Consent Mode v2 */}
+        <CookieBanner />
       </BrowserRouter>
     </div>
   );
