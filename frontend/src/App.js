@@ -288,6 +288,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <AnalyticsProvider />
         <Routes>
           <Route 
             path="/" 
