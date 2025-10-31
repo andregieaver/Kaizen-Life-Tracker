@@ -251,6 +251,9 @@ const SystemSettings = ({ athleteId }) => {
     tier: '',
     name: '',
     description: '',
+    features: [],
+    sort_order: 0
+  });
 
   // Cookie Management State
   const [cookieSettings, setCookieSettings] = useState({
@@ -286,8 +289,6 @@ const SystemSettings = ({ athleteId }) => {
   const [loadingCookieSettings, setLoadingCookieSettings] = useState(false);
   const [scanningCookies, setScanningCookies] = useState(false);
 
-    features: [],
-    sort_order: 0
   });
   const [newFeature, setNewFeature] = useState('');
   const [newVariation, setNewVariation] = useState({
