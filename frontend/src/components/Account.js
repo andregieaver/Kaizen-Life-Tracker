@@ -2456,6 +2456,54 @@ const Account = ({ athleteId }) => {
                       </SelectContent>
                     </Select>
                   </div>
+
+                  {/* Coach Name */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-white">Coach Name</Label>
+                    <p className="text-xs text-gray-500">Personalize your AI coach with a custom name</p>
+                    <input
+                      type="text"
+                      value={personalForm.coach_name || 'Coach'}
+                      onChange={(e) => setPersonalForm(prev => ({...prev, coach_name: e.target.value}))}
+                      placeholder="Coach"
+                      className="w-full bg-gray-900 border border-gray-700 text-white placeholder:text-gray-500 px-3 py-2 rounded-lg focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                    />
+                  </div>
+
+                  {/* Coach Avatar Upload */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-white">Coach Avatar</Label>
+                    <p className="text-xs text-gray-500">Upload a custom avatar for your AI coach</p>
+                    <div className="flex items-center gap-4">
+                      {coachAvatarPreview ? (
+                        <img
+                          src={coachAvatarPreview}
+                          alt="Coach Avatar"
+                          className="w-16 h-16 rounded-full object-cover border-2 border-[#00C2A8]"
+                        />
+                      ) : (
+                        <div className="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center border-2 border-gray-600">
+                          <User className="w-8 h-8 text-gray-400" />
+                        </div>
+                      )}
+                      <div className="flex-1">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleCoachAvatarChange}
+                          className="hidden"
+                          id="coach-avatar-upload"
+                        />
+                        <label
+                          htmlFor="coach-avatar-upload"
+                          className="inline-block px-4 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg cursor-pointer transition-colors text-sm"
+                        >
+                          {coachAvatarFile ? 'Change Avatar' : 'Upload Avatar'}
+                        </label>
+                        <p className="text-xs text-gray-500 mt-1">JPG, PNG or GIF (max 5MB)</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <Separator className="opacity-10" />
