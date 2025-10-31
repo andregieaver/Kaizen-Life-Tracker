@@ -339,3 +339,7 @@ export default {
   ecommerce,
   forms
 };
+
+// Export all tracking hooks and utilities
+export * from './autoCapture';
+export * from './useViewTracker';
