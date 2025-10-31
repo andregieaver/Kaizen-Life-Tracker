@@ -1003,7 +1003,7 @@ const Dashboard = ({ athleteId }) => {
                 className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-none md:rounded-[5rem]"
                 onClick={() => navigate('/dashboard/supplements', { state: { openAddModal: true } })}
               >
-                <CardContent className="p-2 md:pl-[1.2rem]">
+                <CardContent className="py-4 px-2 md:pl-[1.2rem]">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-0">
                       <Pill className="w-10 h-10" style={{ color: '#00C2A8' }} />
