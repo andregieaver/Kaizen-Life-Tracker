@@ -1004,8 +1004,8 @@ const Dashboard = ({ athleteId }) => {
               >
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <Pill className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                    <div className="p-0">
+                      <Pill className="w-10 h-10" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Log Supplement</h3>
@@ -1017,14 +1017,13 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Talk to Coach */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
-                style={{ borderRadius: '0.3rem' }}
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-xl md:rounded-[5rem]"
                 onClick={() => navigate('/dashboard/coach?action=voice')}
               >
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <MessageCircle className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                    <div className="p-0">
+                      <MessageCircle className="w-10 h-10" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Talk to Coach</h3>
@@ -1036,14 +1035,13 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Voice Journal */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
-                style={{ borderRadius: '0.3rem' }}
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-xl md:rounded-[5rem]"
                 onClick={() => navigate('/dashboard/journal?action=voice')}
               >
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <Mic className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                    <div className="p-0">
+                      <Mic className="w-10 h-10" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Voice Journal</h3>
@@ -1055,14 +1053,13 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Habit Tracker */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
-                style={{ borderRadius: '0.3rem' }}
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-xl md:rounded-[5rem]"
                 onClick={() => navigate('/dashboard/habits')}
               >
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <Check className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                    <div className="p-0">
+                      <Check className="w-10 h-10" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Habit Tracker</h3>
@@ -1074,8 +1071,7 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Training Calendar */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
-                style={{ borderRadius: '0.3rem' }}
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-xl md:rounded-[5rem]"
                 onClick={() => navigate('/dashboard/calendar')}
               >
                 <CardContent style={{ padding: '0.5rem' }}>
