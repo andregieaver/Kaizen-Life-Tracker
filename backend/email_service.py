@@ -169,7 +169,7 @@ class EmailService:
         
         return await self.send_email(to_email, subject, html_content, plain_text)
     
-    def send_email_verification(self, to_email: str, verification_token: str, verification_url: str) -> bool:
+    async def send_email_verification(self, to_email: str, verification_token: str, verification_url: str) -> bool:
         """
         Send email verification email
         
@@ -222,9 +222,9 @@ class EmailService:
         </html>
         """
         
-        return self.send_email(to_email, subject, html_content)
+        return await self.send_email(to_email, subject, html_content)
     
-    def send_welcome_email(self, to_email: str, user_name: str) -> bool:
+    async def send_welcome_email(self, to_email: str, user_name: str) -> bool:
         """
         Send welcome email to new users
         
@@ -274,7 +274,7 @@ class EmailService:
         </html>
         """
         
-        return self.send_email(to_email, subject, html_content)
+        return await self.send_email(to_email, subject, html_content)
 
 
 # Global email service instance
