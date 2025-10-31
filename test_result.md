@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Implement 'Share Post' functionality (Twitter-style quoted repost). Users should be able to share posts with optional commentary. Shared posts should appear in follow feed and personal feed. Clicking the embedded original post should open it in a modal."
+user_problem_statement: "Fix country flag display issue in community feed. Flags are not displaying anywhere in the feed. Previous fix handled 2-letter country codes for emoji generation in FlagIcon component, but flags still don't appear on profile images."
 
 backend:
   - task: "Share Post API with Commentary Support"
