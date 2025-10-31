@@ -1680,7 +1680,7 @@ def test_cookie_management_api_endpoints():
         for item in summary_items:
             print(f"      {item}")
         
-        print_test_result("Cookie Management API Endpoints", True, "All endpoints tested successfully")
+        print_test_result("Cookie Management API Endpoints", True, "All endpoints tested")
         
         print("\n✅ COOKIE MANAGEMENT API TESTING COMPLETED")
         return True
