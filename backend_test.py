@@ -1219,7 +1219,7 @@ def test_nationality_field_review_request():
         # Test Scenario 3: Check Athlete Profile
         print("\n   Test Scenario 3: Check Athlete Profile - GET /api/athlete-profiles/{super_admin_id}")
         
-        profile_url = f"{BACKEND_URL}/athlete-profiles/{super_admin_id}"
+        profile_url = f"{BACKEND_URL}/athlete/{super_admin_id}"
         print(f"   URL: {profile_url}")
         
         profile_response = requests.get(profile_url)
