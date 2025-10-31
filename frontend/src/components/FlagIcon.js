@@ -348,22 +348,24 @@ const getFlagEmoji = (countryName) => {
 
 const FlagIcon = ({ nationality, className = '', size = 'normal' }) => {
   if (!nationality) {
-    console.log('FlagIcon: No nationality provided');
+    console.log('❌ FlagIcon: No nationality provided');
     return null;
   }
   
   const flag = getFlagEmoji(nationality);
   
-  console.log('FlagIcon:', { nationality, flag, flagLength: flag?.length });
+  console.log(`🏳️ FlagIcon: nationality="${nationality}", flag="${flag}", flagLength=${flag?.length}, flagCodePoints=${flag ? [...flag].map(c => c.codePointAt(0).toString(16)).join('-') : 'none'}`);
   
   if (!flag) {
-    console.log('FlagIcon: No flag emoji generated for', nationality);
+    console.log(`❌ FlagIcon: No flag emoji generated for "${nationality}"`);
     return null;
   }
   
   // Size variants: normal (0.9em for 40px images), medium (1.2em for 56px images), large (1.8em for 80px images)
   const fontSize = size === 'large' ? '1.8em' : size === 'medium' ? '1.2em' : '0.9em';
   const bottomOffset = size === 'large' ? '-5px' : size === 'medium' ? '-8px' : '-5px';
+  
+  console.log(`✅ FlagIcon: Rendering flag for ${nationality} at position right:-5px, bottom:${bottomOffset}, fontSize:${fontSize}`);
   
   // Positioned absolutely in bottom-right corner, sticking out
   return (
