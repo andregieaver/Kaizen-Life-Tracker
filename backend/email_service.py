@@ -40,12 +40,12 @@ class EmailService:
             self.enabled = True
             self.client = SendGridAPIClient(self.api_key)
     
-    def send_email(
+    async def send_email(
         self, 
         to_email: str, 
         subject: str, 
-        html_content: str, 
-        plain_text_content: Optional[str] = None
+        html_content: str = None,
+        text_content: str = None
     ) -> bool:
         """
         Send an email via SendGrid
@@ -54,7 +54,7 @@ class EmailService:
             to_email: Recipient email address
             subject: Email subject line
             html_content: HTML version of email content
-            plain_text_content: Plain text version (optional)
+            text_content: Plain text version (optional)
             
         Returns:
             bool: True if email sent successfully
@@ -71,11 +71,11 @@ class EmailService:
                 from_email=Email(self.sender_email, self.sender_name),
                 to_emails=To(to_email),
                 subject=subject,
-                html_content=Content("text/html", html_content)
+                html_content=Content("text/html", html_content) if html_content else None
             )
             
-            if plain_text_content:
-                message.plain_text_content = Content("text/plain", plain_text_content)
+            if text_content:
+                message.plain_text_content = Content("text/plain", text_content)
             
             response = self.client.send(message)
             
