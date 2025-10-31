@@ -13054,6 +13054,15 @@ async def create_page(athlete_id: str, page_data: PageCreate):
         # Insert into database
         await db.pages.insert_one(page_dict)
         
+        # Auto-update index.html if this is the home page and it's published
+        if url_slug == "/" and page_dict.get("status") == "published":
+            try:
+                await auto_update_index_html(page_dict)
+                logging.info(f"✅ Auto-updated index.html with new home page metadata")
+            except Exception as html_error:
+                logging.error(f"Failed to auto-update index.html: {html_error}")
+                # Don't fail the page creation if HTML update fails
+        
         logging.info(f"Page created: {page_dict['id']} by {athlete_id}")
         return {"message": "Page created successfully", "page": page_dict}
     except HTTPException:
