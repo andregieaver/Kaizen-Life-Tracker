@@ -4,25 +4,37 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { Mail, Edit3, X, CheckCircle, XCircle } from 'lucide-react';
+import { Mail, Edit3, X, CheckCircle, XCircle, Plus, Trash2, Send } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Emails = () => {
   const [emailTemplates, setEmailTemplates] = useState([]);
+  const [customEmails, setCustomEmails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [selectedCustomEmail, setSelectedCustomEmail] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showCustomEmailModal, setShowCustomEmailModal] = useState(false);
+  const [isCreatingNew, setIsCreatingNew] = useState(false);
   const [editForm, setEditForm] = useState({
     subject: '',
     body: '',
     htmlBody: ''
   });
+  const [customEmailForm, setCustomEmailForm] = useState({
+    name: '',
+    subject: '',
+    body: '',
+    htmlBody: '',
+    targetAudience: 'all' // all, waitlist, free, pro, premium
+  });
   const [saveStatus, setSaveStatus] = useState({ type: '', message: '' });
   const [testEmailStatus, setTestEmailStatus] = useState({ type: '', message: '' });
   const [testEmail, setTestEmail] = useState('');
   const [sendingTest, setSendingTest] = useState(false);
+  const [sendingEmail, setSendingEmail] = useState(false);
 
   const defaultTemplates = [
     {
