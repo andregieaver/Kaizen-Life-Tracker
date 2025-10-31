@@ -1415,6 +1415,9 @@ const Dashboard = ({ athleteId }) => {
         {activeTab === 'emails' && (
           <Emails />
         )}
+        {activeTab === 'support' && (
+          <Support athleteId={athleteId} athlete={athlete} />
+        )}
         {activeTab === 'pages' && !isPageEditorPage && (
           <Pages athleteId={athleteId} />
         )}
