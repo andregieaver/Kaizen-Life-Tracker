@@ -943,7 +943,7 @@ const Dashboard = ({ athleteId }) => {
         {activeTab === 'overview' && (
           <div className="space-y-8">
             {/* Quick Actions */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 md:gap-4">
               {/* Today Overview */}
               <Card 
                 className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-xl md:rounded-[5rem]"
