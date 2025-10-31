@@ -2328,7 +2328,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         <>
           {/* Nationality Filter */}
           <div className="mb-4 pt-12 md:pt-0">
-            <div className="flex items-center space-x-3 bg-gray-800 p-3 rounded-lg">
+            <div className="flex items-center space-x-3 bg-gray-800 p-3 rounded-none sm:rounded-lg">
               <label className="text-white text-sm font-semibold whitespace-nowrap">Filter by Nationality:</label>
               <select
                 value={nationalityFilter}
@@ -2821,7 +2821,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         <>
           {/* Nationality Filter */}
           <div className="mb-4 pt-12 md:pt-0">
-            <div className="flex items-center space-x-3 bg-gray-800 p-3 rounded-lg">
+            <div className="flex items-center space-x-3 bg-gray-800 p-3 rounded-none sm:rounded-lg">
               <label className="text-white text-sm font-semibold whitespace-nowrap">Filter by Nationality:</label>
               <select
                 value={nationalityFilter}
