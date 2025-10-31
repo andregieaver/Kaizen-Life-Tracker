@@ -27,6 +27,11 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
   const [showArchivedList, setShowArchivedList] = useState(false);
   const [isVoiceActive, setIsVoiceActive] = useState(false);
   
+  // Avatar and coach customization states
+  const [userAvatar, setUserAvatar] = useState(null);
+  const [coachAvatar, setCoachAvatar] = useState(null);
+  const [coachName, setCoachName] = useState('Coach');
+  
   // Subscription check states
   const [subscriptionTier, setSubscriptionTier] = useState(null);
   const [showUpgradeDialog, setShowUpgradeDialog] = useState(false);
@@ -42,6 +47,8 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
     loadConversations();
     // Check subscription tier
     checkSubscription();
+    // Load athlete profile for avatars
+    loadAthleteProfile();
   }, [athleteId]);
 
   useEffect(() => {
