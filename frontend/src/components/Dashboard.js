@@ -948,7 +948,7 @@ const Dashboard = ({ athleteId }) => {
                 className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-xl md:rounded-[5rem]"
                 onClick={() => navigate('/dashboard/today')}
               >
-                <CardContent style={{ padding: '0.5rem' }}>
+                <CardContent className="p-2 md:pl-[1.2rem]">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-0">
                       <Calendar className="w-10 h-10" style={{ color: '#00C2A8' }} />
@@ -966,7 +966,7 @@ const Dashboard = ({ athleteId }) => {
                 className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-xl md:rounded-[5rem]"
                 onClick={() => navigate('/dashboard/recipes')}
               >
-                <CardContent style={{ padding: '0.5rem' }}>
+                <CardContent className="p-2 md:pl-[1.2rem]">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-0">
                       <ChefHat className="w-10 h-10" style={{ color: '#00C2A8' }} />
@@ -984,7 +984,7 @@ const Dashboard = ({ athleteId }) => {
                 className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-xl md:rounded-[5rem]"
                 onClick={() => navigate('/dashboard/nutrition?action=add')}
               >
-                <CardContent style={{ padding: '0.5rem' }}>
+                <CardContent className="p-2 md:pl-[1.2rem]">
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
                     <div className="p-0">
                       <Utensils className="w-10 h-10" style={{ color: '#00C2A8' }} />
