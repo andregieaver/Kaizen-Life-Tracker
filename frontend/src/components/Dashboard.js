@@ -1076,8 +1076,8 @@ const Dashboard = ({ athleteId }) => {
               >
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <Calendar className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                    <div className="p-0">
+                      <Calendar className="w-10 h-10" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Training Calendar</h3>
