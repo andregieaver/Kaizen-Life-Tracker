@@ -1203,6 +1203,86 @@ const SystemSettings = ({ athleteId }) => {
     }
   };
 
+
+  // Cookie Management Handlers
+  const handleScanCookies = async () => {
+    try {
+      setScanningCookies(true);
+      console.log('🍪 Scanning for cookies...');
+      
+      const response = await axios.post(`${API}/cookies/scan?athlete_id=${athleteId}`);
+      
+      console.log('🍪 Cookie scan result:', response.data);
+      
+      // Update cookie settings with scan results
+      setCookieSettings(prev => ({
+        ...prev,
+        last_scan: {
+          scan_id: response.data.scan_id,
+          scanned_at: response.data.scanned_at,
+          cookies: response.data.cookies
+        },
+        detected_cookies: response.data.cookies
+      }));
+      
+      setSaveStatus({
+        message: `Cookie scan completed! Found ${response.data.total_count} cookies.`,
+        type: 'success'
+      });
+      
+      setTimeout(() => {
+        setSaveStatus({ message: '', type: '' });
+      }, 3000);
+    } catch (error) {
+      console.error('Error scanning cookies:', error);
+      setSaveStatus({
+        message: 'Failed to scan cookies',
+        type: 'error'
+      });
+    } finally {
+      setScanningCookies(false);
+    }
+  };
+
+  const handleSaveCookieSettings = async () => {
+    try {
+      setLoadingCookieSettings(true);
+      console.log('💾 Saving cookie settings...');
+      
+      await axios.post(`${API}/cookies/settings?athlete_id=${athleteId}`, cookieSettings);
+      
+      setSaveStatus({
+        message: 'Cookie settings saved successfully!',
+        type: 'success'
+      });
+      
+      setTimeout(() => {
+        setSaveStatus({ message: '', type: '' });
+      }, 3000);
+    } catch (error) {
+      console.error('Error saving cookie settings:', error);
+      setSaveStatus({
+        message: 'Failed to save cookie settings',
+        type: 'error'
+      });
+    } finally {
+      setLoadingCookieSettings(false);
+    }
+  };
+
+  const loadCookieSettings = async () => {
+    try {
+      console.log('📥 Loading cookie settings...');
+      const response = await axios.get(`${API}/cookies/settings?athlete_id=${athleteId}`);
+      console.log('📥 Cookie settings loaded:', response.data);
+      
+      setCookieSettings(response.data);
+    } catch (error) {
+      console.error('Error loading cookie settings:', error);
+    }
+  };
+
+
   const handleSEOImageUpload = async (imageType, file) => {
     if (!file) return;
 
