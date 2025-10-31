@@ -26,6 +26,7 @@ const API = `${BACKEND_URL}/api`;
 
 const Recommendations = ({ athleteId }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [recommendations, setRecommendations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRecommendation, setSelectedRecommendation] = useState(null);
