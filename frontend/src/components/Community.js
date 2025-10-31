@@ -2227,7 +2227,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setActiveTab('feed');
               setSelectedGroup(null);
             }}
-            className={`flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all ${
+            style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
+            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
               activeTab === 'feed'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
@@ -2241,7 +2242,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setActiveTab('following');
               setSelectedGroup(null);
             }}
-            className={`flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all ${
+            style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
+            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
               activeTab === 'following'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
@@ -2255,7 +2257,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setActiveTab('groups');
               setSelectedGroup(null);
             }}
-            className={`flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all ${
+            style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
+            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
               activeTab === 'groups'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
@@ -2269,7 +2272,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setActiveTab('mygroups');
               setSelectedGroup(null);
             }}
-            className={`flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all ${
+            style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
+            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
               activeTab === 'mygroups'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
@@ -2283,7 +2287,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setActiveTab('events');
               setSelectedGroup(null);
             }}
-            className={`flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all ${
+            style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
+            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
               activeTab === 'events'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
@@ -2297,7 +2302,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setActiveTab('challenges');
               setSelectedGroup(null);
             }}
-            className={`flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all ${
+            style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
+            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
               activeTab === 'challenges'
                 ? 'bg-[#00C2A8] text-white shadow-lg'
                 : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
@@ -2308,7 +2314,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           </button>
           <button
             onClick={handleOpenAthletes}
-            className="flex-1 p-2 sm:p-3 rounded-none sm:rounded-lg transition-all bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white"
+            style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
+            className="flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white"
             title="Find Athletes"
           >
             <Search className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
