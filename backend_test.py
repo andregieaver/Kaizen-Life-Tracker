@@ -1510,7 +1510,10 @@ def test_cookie_management_api_endpoints():
         
         if save_response.status_code != 200:
             print_test_result("Save Cookie Settings", False, f"Save failed: {save_response.status_code} - {save_response.text}")
-            return False
+            # Continue with other tests even if this fails
+            save_successful = False
+        else:
+            save_successful = True
         
         save_data = save_response.json()
         
