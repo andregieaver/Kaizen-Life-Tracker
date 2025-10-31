@@ -18,6 +18,7 @@ import LandingPage from './components/LandingPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsConditions from './components/TermsConditions';
 import CookieBanner from './components/CookieBanner';
+import { usePageViews } from './lib/usePageViews';
 import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
