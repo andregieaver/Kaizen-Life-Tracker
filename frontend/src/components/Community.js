@@ -6007,54 +6007,55 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
     >
       <CardContent className="p-0 sm:p-6">
         {challenge.cover_photo && (
-          <div className="mb-4 sm:mb-4">
+          <div className="mb-4 sm:mb-4 relative">
             <img src={challenge.cover_photo} alt={challenge.title} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
+            
+            {/* Trophy Icon - Positioned on Banner */}
+            <div className="absolute bottom-3 left-3">
+              {challenge.trophy_image ? (
+                <img src={challenge.trophy_image} alt="Trophy" className="w-16 h-16 rounded-lg object-cover border-4 border-gray-800 shadow-lg" />
+              ) : (
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center border-4 border-gray-800 shadow-lg">
+                  <Trophy className="w-8 h-8 text-white" />
+                </div>
+              )}
+            </div>
           </div>
         )}
         
         <div className="px-3 sm:px-0">
-          <div className="flex items-start space-x-3 mb-3">
-            {challenge.trophy_image ? (
-              <img src={challenge.trophy_image} alt="Trophy" className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
-            ) : (
-              <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
-                <Trophy className="w-8 h-8 text-white" />
-              </div>
-            )}
-            
-            <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between mb-1">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-xl font-bold text-white truncate">{challenge.title}</h3>
-                  {isCreator && (
-                    <Crown className="w-5 h-5 text-yellow-400 flex-shrink-0" title="Challenge Creator" />
-                  )}
-                </div>
-                {(isCreator || isSuperAdmin) && (
-                  <div className="flex space-x-1 flex-shrink-0">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onEdit(challenge);
-                      }}
-                      className="p-1 hover:bg-gray-600 rounded-full transition-colors"
-                    >
-                      <Edit2 className="w-4 h-4 text-blue-400" />
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onDelete(challenge.id);
-                      }}
-                      className="p-1 hover:bg-gray-600 rounded-full transition-colors"
-                    >
-                      <Trash2 className="w-4 h-4 text-red-400" />
-                    </button>
-                  </div>
+          <div className="mb-3">
+            <div className="flex items-start justify-between mb-1">
+              <div className="flex items-center gap-2">
+                <h3 className="text-xl font-bold text-white truncate">{challenge.title}</h3>
+                {isCreator && (
+                  <Crown className="w-5 h-5 text-yellow-400 flex-shrink-0" title="Challenge Creator" />
                 )}
               </div>
-              <p className="text-gray-300 text-sm line-clamp-2 mb-2">{challenge.description}</p>
+              {(isCreator || isSuperAdmin) && (
+                <div className="flex space-x-1 flex-shrink-0">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEdit(challenge);
+                    }}
+                    className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                  >
+                    <Edit2 className="w-4 h-4 text-blue-400" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDelete(challenge.id);
+                    }}
+                    className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                  >
+                    <Trash2 className="w-4 h-4 text-red-400" />
+                  </button>
+                </div>
+              )}
             </div>
+            <p className="text-gray-300 text-sm line-clamp-2 mb-2">{challenge.description}</p>
           </div>
 
           {/* Challenge Info */}
