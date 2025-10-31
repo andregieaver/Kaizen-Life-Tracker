@@ -13123,6 +13123,15 @@ async def update_page(page_id: str, athlete_id: str, page_data: PageUpdate):
         # Fetch updated page
         updated_page = await db.pages.find_one({"id": page_id}, {"_id": 0})
         
+        # Auto-update index.html if this is the home page
+        if updated_page.get("url_slug") == "/" and updated_page.get("status") == "published":
+            try:
+                await auto_update_index_html(updated_page)
+                logging.info(f"✅ Auto-updated index.html with home page metadata")
+            except Exception as html_error:
+                logging.error(f"Failed to auto-update index.html: {html_error}")
+                # Don't fail the page update if HTML update fails
+        
         logging.info(f"Page updated: {page_id} by {athlete_id}")
         return {"message": "Page updated successfully", "page": updated_page}
     except HTTPException:
