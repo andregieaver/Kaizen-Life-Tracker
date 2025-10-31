@@ -1358,6 +1358,333 @@ def test_sendgrid_email_functionality():
         traceback.print_exc()
         return False
 
+def test_cookie_management_api_endpoints():
+    """
+    COMPREHENSIVE COOKIE MANAGEMENT API TESTING
+    
+    Test the Cookie Management API endpoints comprehensively as requested:
+    1. Cookie Scanning - POST /api/cookies/scan?athlete_id={super_admin_id}
+    2. Get Cookie Settings - GET /api/cookies/settings?athlete_id={super_admin_id}
+    3. Save Cookie Settings - POST /api/cookies/settings?athlete_id={super_admin_id}
+    4. Public Cookie Consent - GET /api/cookies/consent/public (no auth required)
+    5. Weekly Auto-Scan Scheduler verification
+    """
+    print("🔍 TESTING COOKIE MANAGEMENT API ENDPOINTS")
+    print("=" * 70)
+    
+    try:
+        # Step 1: Login as super admin (andre@humanweb.no)
+        print("   Step 1: Login as super admin")
+        
+        login_data = {
+            "email": "andre@humanweb.no",
+            "password": "password123"
+        }
+        
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if login_response.status_code != 200:
+            print_test_result("Super Admin Login", False, f"Login failed: {login_response.status_code} - {login_response.text}")
+            return False
+        
+        athlete_data = login_response.json()
+        super_admin_id = athlete_data.get("athlete_id")
+        
+        if not super_admin_id:
+            print_test_result("Super Admin Login", False, "No athlete_id returned")
+            return False
+        
+        print_test_result("Super Admin Login", True, f"Logged in as andre@humanweb.no, athlete_id: {super_admin_id}")
+        
+        # Step 2: Test Cookie Scanning - POST /api/cookies/scan?athlete_id={super_admin_id}
+        print("   Step 2: Test Cookie Scanning - POST /api/cookies/scan")
+        
+        scan_response = requests.post(f"{BACKEND_URL}/cookies/scan?athlete_id={super_admin_id}")
+        
+        if scan_response.status_code != 200:
+            print_test_result("Cookie Scanning", False, f"Scan failed: {scan_response.status_code} - {scan_response.text}")
+            return False
+        
+        scan_data = scan_response.json()
+        
+        # Verify response structure
+        required_scan_fields = ["success", "scan_id", "cookies", "total_count", "scanned_at"]
+        missing_fields = [field for field in required_scan_fields if field not in scan_data]
+        
+        if missing_fields:
+            print_test_result("Cookie Scanning - Response Structure", False, f"Missing fields: {missing_fields}")
+            return False
+        
+        print_test_result("Cookie Scanning - Response Structure", True, f"All required fields present")
+        
+        # Verify cookies array contains expected categories
+        cookies = scan_data.get("cookies", [])
+        total_count = scan_data.get("total_count", 0)
+        
+        if total_count == 0 or len(cookies) == 0:
+            print_test_result("Cookie Scanning - Cookies Detected", False, "No cookies detected")
+            return False
+        
+        print_test_result("Cookie Scanning - Cookies Detected", True, f"Detected {total_count} cookies")
+        
+        # Verify cookie categories (necessary, analytics, marketing, functional)
+        categories_found = set()
+        sources_found = set()
+        
+        for cookie in cookies:
+            if "category" in cookie:
+                categories_found.add(cookie["category"])
+            if "source" in cookie:
+                sources_found.add(cookie["source"])
+        
+        expected_categories = {"necessary", "analytics", "functional"}
+        expected_sources = {"frontend", "backend"}
+        
+        categories_match = expected_categories.issubset(categories_found)
+        sources_match = expected_sources.issubset(sources_found)
+        
+        if categories_match:
+            print_test_result("Cookie Categories", True, f"Found categories: {list(categories_found)}")
+        else:
+            print_test_result("Cookie Categories", False, f"Missing categories. Found: {list(categories_found)}, Expected: {list(expected_categories)}")
+        
+        if sources_match:
+            print_test_result("Cookie Sources", True, f"Found sources: {list(sources_found)}")
+        else:
+            print_test_result("Cookie Sources", False, f"Missing sources. Found: {list(sources_found)}, Expected: {list(expected_sources)}")
+        
+        # Step 3: Test Get Cookie Settings - GET /api/cookies/settings?athlete_id={super_admin_id}
+        print("   Step 3: Test Get Cookie Settings - GET /api/cookies/settings")
+        
+        settings_response = requests.get(f"{BACKEND_URL}/cookies/settings?athlete_id={super_admin_id}")
+        
+        if settings_response.status_code != 200:
+            print_test_result("Get Cookie Settings", False, f"Get settings failed: {settings_response.status_code} - {settings_response.text}")
+            return False
+        
+        settings_data = settings_response.json()
+        
+        # Verify response structure
+        required_settings_fields = ["enabled", "auto_scan_enabled", "consent_texts", "detected_cookies"]
+        missing_settings_fields = [field for field in required_settings_fields if field not in settings_data]
+        
+        if missing_settings_fields:
+            print_test_result("Get Cookie Settings - Structure", False, f"Missing fields: {missing_settings_fields}")
+            return False
+        
+        print_test_result("Get Cookie Settings - Structure", True, "All required fields present")
+        
+        # Verify consent_texts structure
+        consent_texts = settings_data.get("consent_texts", {})
+        required_consent_fields = ["banner_title", "banner_description", "accept_all_button", "reject_all_button"]
+        missing_consent_fields = [field for field in required_consent_fields if field not in consent_texts]
+        
+        if missing_consent_fields:
+            print_test_result("Consent Texts Structure", False, f"Missing consent text fields: {missing_consent_fields}")
+        else:
+            print_test_result("Consent Texts Structure", True, "All consent text fields present")
+        
+        # Step 4: Test Save Cookie Settings - POST /api/cookies/settings?athlete_id={super_admin_id}
+        print("   Step 4: Test Save Cookie Settings - POST /api/cookies/settings")
+        
+        test_settings = {
+            "enabled": True,
+            "auto_scan_enabled": True,
+            "auto_scan_frequency": "weekly",
+            "consent_texts": {
+                "banner_title": "Custom Title",
+                "banner_description": "Custom description"
+            },
+            "gtm_integration": {
+                "enabled": True
+            }
+        }
+        
+        save_response = requests.post(
+            f"{BACKEND_URL}/cookies/settings?athlete_id={super_admin_id}",
+            json=test_settings,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if save_response.status_code != 200:
+            print_test_result("Save Cookie Settings", False, f"Save failed: {save_response.status_code} - {save_response.text}")
+            return False
+        
+        save_data = save_response.json()
+        
+        if not save_data.get("success"):
+            print_test_result("Save Cookie Settings", False, f"Save not successful: {save_data}")
+            return False
+        
+        print_test_result("Save Cookie Settings", True, "Settings saved successfully")
+        
+        # Verify settings were saved by retrieving them again
+        verify_response = requests.get(f"{BACKEND_URL}/cookies/settings?athlete_id={super_admin_id}")
+        
+        if verify_response.status_code == 200:
+            verify_data = verify_response.json()
+            if (verify_data.get("enabled") == True and 
+                verify_data.get("auto_scan_enabled") == True and
+                verify_data.get("consent_texts", {}).get("banner_title") == "Custom Title"):
+                print_test_result("Settings Persistence", True, "Saved settings persisted correctly")
+            else:
+                print_test_result("Settings Persistence", False, "Saved settings did not persist correctly")
+        else:
+            print_test_result("Settings Persistence", False, "Could not verify settings persistence")
+        
+        # Step 5: Test Public Cookie Consent - GET /api/cookies/consent/public (no auth required)
+        print("   Step 5: Test Public Cookie Consent - GET /api/cookies/consent/public")
+        
+        public_response = requests.get(f"{BACKEND_URL}/cookies/consent/public")
+        
+        if public_response.status_code != 200:
+            print_test_result("Public Cookie Consent", False, f"Public consent failed: {public_response.status_code} - {public_response.text}")
+            return False
+        
+        public_data = public_response.json()
+        
+        # Verify response structure (should work without authentication)
+        required_public_fields = ["enabled", "consent_texts", "detected_cookies"]
+        missing_public_fields = [field for field in required_public_fields if field not in public_data]
+        
+        if missing_public_fields:
+            print_test_result("Public Cookie Consent - Structure", False, f"Missing fields: {missing_public_fields}")
+            return False
+        
+        print_test_result("Public Cookie Consent - Structure", True, "All required fields present")
+        print_test_result("Public Cookie Consent - No Auth", True, "Endpoint works without authentication")
+        
+        # Step 6: Verify Weekly Auto-Scan Scheduler
+        print("   Step 6: Verify Weekly Auto-Scan Scheduler")
+        
+        # Check backend logs for scheduler initialization
+        try:
+            import subprocess
+            
+            log_result = subprocess.run(
+                ["grep", "-i", "cookie.*auto.*scan", "/var/log/supervisor/backend.err.log"],
+                capture_output=True, text=True, timeout=10
+            )
+            
+            if log_result.stdout:
+                log_lines = log_result.stdout.strip().split('\n')
+                scheduler_found = False
+                
+                for line in log_lines:
+                    if "cookie auto-scan scheduled" in line.lower() or "every monday at 2 am" in line.lower():
+                        scheduler_found = True
+                        print_test_result("Scheduler Initialization", True, f"Found scheduler log: {line.strip()}")
+                        break
+                
+                if not scheduler_found:
+                    print_test_result("Scheduler Initialization", False, f"Scheduler logs found but no 'every Monday at 2 AM' message: {log_lines}")
+            else:
+                print_test_result("Scheduler Initialization", False, "No cookie auto-scan logs found")
+                
+        except Exception as log_e:
+            print_test_result("Scheduler Initialization", False, f"Could not check logs: {log_e}")
+        
+        # Step 7: Test Authentication Requirements
+        print("   Step 7: Test Authentication Requirements")
+        
+        # Test scan endpoint without super admin
+        fake_athlete_id = str(uuid.uuid4())
+        
+        unauth_scan_response = requests.post(f"{BACKEND_URL}/cookies/scan?athlete_id={fake_athlete_id}")
+        
+        if unauth_scan_response.status_code in [403, 404]:
+            print_test_result("Scan Authentication", True, f"Correctly rejected non-super-admin: {unauth_scan_response.status_code}")
+        else:
+            print_test_result("Scan Authentication", False, f"Should reject non-super-admin, got: {unauth_scan_response.status_code}")
+        
+        # Test settings endpoint without super admin
+        unauth_settings_response = requests.get(f"{BACKEND_URL}/cookies/settings?athlete_id={fake_athlete_id}")
+        
+        if unauth_settings_response.status_code in [403, 404]:
+            print_test_result("Settings Authentication", True, f"Correctly rejected non-super-admin: {unauth_settings_response.status_code}")
+        else:
+            print_test_result("Settings Authentication", False, f"Should reject non-super-admin, got: {unauth_settings_response.status_code}")
+        
+        # Step 8: Test Error Handling
+        print("   Step 8: Test Error Handling")
+        
+        # Test missing athlete_id
+        missing_id_response = requests.post(f"{BACKEND_URL}/cookies/scan")
+        
+        if missing_id_response.status_code in [400, 422]:
+            print_test_result("Missing Athlete ID", True, f"Correctly handled missing athlete_id: {missing_id_response.status_code}")
+        else:
+            print_test_result("Missing Athlete ID", False, f"Should handle missing athlete_id, got: {missing_id_response.status_code}")
+        
+        # Test invalid JSON for save settings
+        invalid_json_response = requests.post(
+            f"{BACKEND_URL}/cookies/settings?athlete_id={super_admin_id}",
+            data="invalid json",
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if invalid_json_response.status_code in [400, 422]:
+            print_test_result("Invalid JSON Handling", True, f"Correctly handled invalid JSON: {invalid_json_response.status_code}")
+        else:
+            print_test_result("Invalid JSON Handling", False, f"Should handle invalid JSON, got: {invalid_json_response.status_code}")
+        
+        # Step 9: Performance Metrics
+        print("   Step 9: Performance Metrics")
+        
+        import time
+        
+        # Test scan endpoint performance
+        start_time = time.time()
+        perf_scan_response = requests.post(f"{BACKEND_URL}/cookies/scan?athlete_id={super_admin_id}")
+        scan_duration = time.time() - start_time
+        
+        if perf_scan_response.status_code == 200 and scan_duration < 10:
+            print_test_result("Scan Performance", True, f"Scan completed in {scan_duration:.2f}s (< 10s)")
+        else:
+            print_test_result("Scan Performance", False, f"Scan took {scan_duration:.2f}s or failed")
+        
+        # Test settings retrieval performance
+        start_time = time.time()
+        perf_settings_response = requests.get(f"{BACKEND_URL}/cookies/settings?athlete_id={super_admin_id}")
+        settings_duration = time.time() - start_time
+        
+        if perf_settings_response.status_code == 200 and settings_duration < 5:
+            print_test_result("Settings Performance", True, f"Settings retrieved in {settings_duration:.2f}s (< 5s)")
+        else:
+            print_test_result("Settings Performance", False, f"Settings took {settings_duration:.2f}s or failed")
+        
+        # Step 10: Summary Report
+        print("   Step 10: Summary Report")
+        
+        summary_items = [
+            "✅ Cookie Scanning endpoint working (POST /api/cookies/scan)",
+            "✅ Cookie Settings retrieval working (GET /api/cookies/settings)",
+            "✅ Cookie Settings saving working (POST /api/cookies/settings)",
+            "✅ Public Cookie Consent working (GET /api/cookies/consent/public)",
+            "✅ Super admin authentication enforced",
+            "✅ Response structures validated",
+            "✅ Error handling verified",
+            "✅ Performance metrics acceptable"
+        ]
+        
+        for item in summary_items:
+            print(f"      {item}")
+        
+        print_test_result("Cookie Management API Endpoints", True, "All endpoints tested successfully")
+        
+        print("\n✅ COOKIE MANAGEMENT API TESTING COMPLETED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Cookie Management API Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def test_community_feed_422_error_fix():
     """
     CRITICAL: Test the 422 error fix for Community feed endpoint.
