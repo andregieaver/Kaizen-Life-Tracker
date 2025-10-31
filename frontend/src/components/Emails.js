@@ -111,6 +111,113 @@ const Emails = () => {
     }
   };
 
+  const loadCustomEmails = async () => {
+    try {
+      const response = await axios.get(`${API}/custom-emails`);
+      setCustomEmails(response.data.emails || []);
+    } catch (error) {
+      console.error('Error loading custom emails:', error);
+      setCustomEmails([]);
+    }
+  };
+
+  const handleCreateNewEmail = () => {
+    setIsCreatingNew(true);
+    setSelectedCustomEmail(null);
+    setCustomEmailForm({
+      name: '',
+      subject: '',
+      body: '',
+      htmlBody: '',
+      targetAudience: 'all'
+    });
+    setShowCustomEmailModal(true);
+    setSaveStatus({ type: '', message: '' });
+  };
+
+  const handleEditCustomEmail = (email) => {
+    setIsCreatingNew(false);
+    setSelectedCustomEmail(email);
+    setCustomEmailForm({
+      name: email.name,
+      subject: email.subject,
+      body: email.body,
+      htmlBody: email.html_body || '',
+      targetAudience: email.target_audience
+    });
+    setShowCustomEmailModal(true);
+    setSaveStatus({ type: '', message: '' });
+  };
+
+  const handleSaveCustomEmail = async (e) => {
+    e.preventDefault();
+    setSaveStatus({ type: '', message: '' });
+
+    if (!customEmailForm.name.trim()) {
+      setSaveStatus({ type: 'error', message: 'Email name is required' });
+      return;
+    }
+    if (!customEmailForm.subject.trim()) {
+      setSaveStatus({ type: 'error', message: 'Subject is required' });
+      return;
+    }
+
+    try {
+      const payload = {
+        name: customEmailForm.name,
+        subject: customEmailForm.subject,
+        body: customEmailForm.body,
+        html_body: customEmailForm.htmlBody,
+        target_audience: customEmailForm.targetAudience
+      };
+
+      if (isCreatingNew) {
+        await axios.post(`${API}/custom-emails`, payload);
+        setSaveStatus({ type: 'success', message: 'Custom email created successfully!' });
+      } else {
+        await axios.put(`${API}/custom-emails/${selectedCustomEmail.id}`, payload);
+        setSaveStatus({ type: 'success', message: 'Custom email updated successfully!' });
+      }
+
+      await loadCustomEmails();
+      
+      setTimeout(() => {
+        setShowCustomEmailModal(false);
+        setSelectedCustomEmail(null);
+      }, 1500);
+    } catch (error) {
+      console.error('Error saving custom email:', error);
+      setSaveStatus({ type: 'error', message: error.response?.data?.detail || 'Failed to save custom email' });
+    }
+  };
+
+  const handleDeleteCustomEmail = async (emailId) => {
+    if (!window.confirm('Are you sure you want to delete this custom email?')) return;
+
+    try {
+      await axios.delete(`${API}/custom-emails/${emailId}`);
+      await loadCustomEmails();
+    } catch (error) {
+      console.error('Error deleting custom email:', error);
+      alert('Failed to delete custom email');
+    }
+  };
+
+  const handleSendCustomEmail = async (emailId) => {
+    if (!window.confirm('Are you sure you want to send this email to the targeted audience?')) return;
+
+    setSendingEmail(true);
+    try {
+      const response = await axios.post(`${API}/custom-emails/${emailId}/send`);
+      alert(`Email sent successfully to ${response.data.sent_count} recipients!`);
+    } catch (error) {
+      console.error('Error sending custom email:', error);
+      alert(error.response?.data?.detail || 'Failed to send email');
+    } finally {
+      setSendingEmail(false);
+    }
+  };
+
   const handleEditClick = (template) => {
     setSelectedTemplate(template);
     setEditForm({
