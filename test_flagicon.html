@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlagIcon Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .test-container {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            position: relative;
+        }
+        .profile-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #666;
+            display: inline-block;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <h1>FlagIcon Component Test</h1>
+    
+    <div class="test-container">
+        <h3>Test 1: Norwegian Flag</h3>
+        <div class="profile-image relative">
+            <span id="norwegian-flag"></span>
+        </div>
+        <p>Expected: 🇳🇴 (Norwegian flag)</p>
+    </div>
+    
+    <div class="test-container">
+        <h3>Test 2: Belarusian Flag</h3>
+        <div class="profile-image relative">
+            <span id="belarusian-flag"></span>
+        </div>
+        <p>Expected: 🇧🇾 (Belarusian flag)</p>
+    </div>
+    
+    <div class="test-container">
+        <h3>Test 3: Swedish Flag</h3>
+        <div class="profile-image relative">
+            <span id="swedish-flag"></span>
+        </div>
+        <p>Expected: 🇸🇪 (Swedish flag)</p>
+    </div>
+
+    <script>
+        // Simulate the FlagIcon component logic
+        const countryToCode = {
+            'Norwegian': 'NO',
+            'Belarusian': 'BY',
+            'Swedish': 'SE'
+        };
+
+        const getFlagEmoji = (countryName) => {
+            console.log('[FlagIcon] Received nationality:', countryName, 'Type:', typeof countryName);
+            
+            if (!countryName) {
+                console.log('[FlagIcon] ❌ No nationality provided, returning null');
+                return null;
+            }
+            
+            // Try to find country code from the mapping
+            const countryCode = countryToCode[countryName] || countryToCode[countryName.trim()];
+            
+            if (!countryCode) {
+                // Try case-insensitive match
+                const lowerName = countryName.toLowerCase();
+                const foundKey = Object.keys(countryToCode).find(
+                    key => key.toLowerCase() === lowerName
+                );
+                if (foundKey) {
+                    const code = countryToCode[foundKey];
+                    return String.fromCodePoint(
+                        ...[...code].map(c => 127397 + c.charCodeAt())
+                    );
+                }
+                console.log('[FlagIcon] ❌ No flag emoji generated for nationality:', countryName);
+                return null;
+            }
+            
+            // Convert country code to flag emoji
+            const flag = String.fromCodePoint(
+                ...[...countryCode].map(c => 127397 + c.charCodeAt())
+            );
+            
+            console.log('[FlagIcon] Generated flag:', flag, 'Flag type:', typeof flag, 'Flag length:', flag?.length);
+            console.log('[FlagIcon] ✅ Rendering flag:', flag, 'for nationality:', countryName);
+            
+            return flag;
+        };
+
+        // Test the flags
+        const norwegianFlag = getFlagEmoji('Norwegian');
+        const belarusianFlag = getFlagEmoji('Belarusian');
+        const swedishFlag = getFlagEmoji('Swedish');
+
+        // Display the flags
+        if (norwegianFlag) {
+            const element = document.getElementById('norwegian-flag');
+            element.innerHTML = norwegianFlag;
+            element.style.cssText = `
+                position: absolute;
+                font-size: 0.9em;
+                text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+                z-index: 10;
+                right: -5px;
+                bottom: -5px;
+                background-color: rgba(255, 0, 0, 0.3);
+                padding: 2px;
+            `;
+            element.title = 'Norwegian';
+        }
+
+        if (belarusianFlag) {
+            const element = document.getElementById('belarusian-flag');
+            element.innerHTML = belarusianFlag;
+            element.style.cssText = `
+                position: absolute;
+                font-size: 0.9em;
+                text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+                z-index: 10;
+                right: -5px;
+                bottom: -5px;
+                background-color: rgba(255, 0, 0, 0.3);
+                padding: 2px;
+            `;
+            element.title = 'Belarusian';
+        }
+
+        if (swedishFlag) {
+            const element = document.getElementById('swedish-flag');
+            element.innerHTML = swedishFlag;
+            element.style.cssText = `
+                position: absolute;
+                font-size: 0.9em;
+                text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+                z-index: 10;
+                right: -5px;
+                bottom: -5px;
+                background-color: rgba(255, 0, 0, 0.3);
+                padding: 2px;
+            `;
+            element.title = 'Swedish';
+        }
+
+        console.log('FlagIcon test completed');
+    </script>
+</body>
+</html>
