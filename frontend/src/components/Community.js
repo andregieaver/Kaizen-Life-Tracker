@@ -6125,98 +6125,100 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
     className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-shadow rounded-none sm:rounded-lg"
     onClick={() => onClick(event.id)}
   >
-    <CardContent className="p-3 sm:p-6">
+    <CardContent className="p-0 sm:p-6">
       {event.cover_photo && (
-        <div className="mb-4 -mx-3 sm:mx-0">
+        <div className="mb-4 sm:mb-4">
           <img src={event.cover_photo} alt={event.name} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
         </div>
       )}
       
-      <div className="flex items-start space-x-3 mb-3">
-        {event.profile_image ? (
-          <img src={event.profile_image} alt={event.name} className="w-16 h-16 rounded-full object-cover flex-shrink-0" />
-        ) : (
-          <div className="w-16 h-16 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
-            <Calendar className="w-8 h-8 text-gray-400" />
-          </div>
-        )}
-        
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between mb-1">
-            <h3 className="text-xl font-bold text-white truncate">{event.name}</h3>
-            {(event.creator_id === athleteId || isSuperAdmin) && (
-              <div className="flex space-x-1 ml-2">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onEdit(event);
-                  }}
-                  className="p-1 hover:bg-gray-600 rounded-full transition-colors"
-                >
-                  <Edit2 className="w-4 h-4 text-blue-400" />
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDelete(event.id);
-                  }}
-                  className="p-1 hover:bg-gray-600 rounded-full transition-colors"
-                >
-                  <Trash2 className="w-4 h-4 text-red-400" />
-                </button>
-              </div>
-            )}
-          </div>
-          <p className="text-gray-300 text-sm line-clamp-2 mb-2">{event.description}</p>
-          
-          <div className="space-y-1">
-            <div className="flex items-center text-gray-400 text-sm">
-              <Clock className="w-4 h-4 mr-2" />
-              {new Date(event.event_date).toLocaleDateString()} at {event.event_time}
+      <div className="px-3 sm:px-0">
+        <div className="flex items-start space-x-3 mb-3">
+          {event.profile_image ? (
+            <img src={event.profile_image} alt={event.name} className="w-16 h-16 rounded-full object-cover flex-shrink-0" />
+          ) : (
+            <div className="w-16 h-16 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <Calendar className="w-8 h-8 text-gray-400" />
             </div>
-            {event.location && (
+          )}
+          
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start justify-between mb-1">
+              <h3 className="text-xl font-bold text-white truncate">{event.name}</h3>
+              {(event.creator_id === athleteId || isSuperAdmin) && (
+                <div className="flex space-x-1 ml-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEdit(event);
+                    }}
+                    className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                  >
+                    <Edit2 className="w-4 h-4 text-blue-400" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDelete(event.id);
+                    }}
+                    className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                  >
+                    <Trash2 className="w-4 h-4 text-red-400" />
+                  </button>
+                </div>
+              )}
+            </div>
+            <p className="text-gray-300 text-sm line-clamp-2 mb-2">{event.description}</p>
+            
+            <div className="space-y-1">
               <div className="flex items-center text-gray-400 text-sm">
-                <MapPin className="w-4 h-4 mr-2" />
-                {event.location}
+                <Clock className="w-4 h-4 mr-2" />
+                {new Date(event.event_date).toLocaleDateString()} at {event.event_time}
               </div>
-            )}
-            <div className="flex items-center space-x-3 text-sm">
-              <span className="text-gray-400">{event.interested_count || 0} interested</span>
-              <span className="text-gray-400">{event.going_count || 0} going</span>
-              <span className="text-gray-400">{event.comments_count || 0} comments</span>
+              {event.location && (
+                <div className="flex items-center text-gray-400 text-sm">
+                  <MapPin className="w-4 h-4 mr-2" />
+                  {event.location}
+                </div>
+              )}
+              <div className="flex items-center space-x-3 text-sm">
+                <span className="text-gray-400">{event.interested_count || 0} interested</span>
+                <span className="text-gray-400">{event.going_count || 0} going</span>
+                <span className="text-gray-400">{event.comments_count || 0} comments</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      
-      <div className="flex space-x-2 mt-4">
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onRSVP(event.id, event.user_status === 'interested' ? 'not_going' : 'interested');
-          }}
-          className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
-            event.user_status === 'interested'
-              ? 'bg-yellow-500 text-white'
-              : 'bg-gray-600 hover:bg-gray-500 text-white'
-          }`}
-        >
-          <Star className={`w-4 h-4 inline mr-2 ${event.user_status === 'interested' ? 'fill-current' : ''}`} />
-          Interested
-        </button>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onRSVP(event.id, event.user_status === 'going' ? 'not_going' : 'going');
-          }}
-          className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
-            event.user_status === 'going'
-              ? 'bg-[#00C2A8] text-white'
-              : 'bg-gray-600 hover:bg-gray-500 text-white'
-          }`}
-        >
-          I'm Going!
-        </button>
+        
+        <div className="flex space-x-2 mt-4 pb-3 sm:pb-0">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onRSVP(event.id, event.user_status === 'interested' ? 'not_going' : 'interested');
+            }}
+            className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+              event.user_status === 'interested'
+                ? 'bg-yellow-500 text-white'
+                : 'bg-gray-600 hover:bg-gray-500 text-white'
+            }`}
+          >
+            <Star className={`w-4 h-4 inline mr-2 ${event.user_status === 'interested' ? 'fill-current' : ''}`} />
+            Interested
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onRSVP(event.id, event.user_status === 'going' ? 'not_going' : 'going');
+            }}
+            className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+              event.user_status === 'going'
+                ? 'bg-[#00C2A8] text-white'
+                : 'bg-gray-600 hover:bg-gray-500 text-white'
+            }`}
+          >
+            I'm Going!
+          </button>
+        </div>
       </div>
     </CardContent>
   </Card>
