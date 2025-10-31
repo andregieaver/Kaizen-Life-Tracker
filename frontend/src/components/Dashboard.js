@@ -517,7 +517,7 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/history')}
-                  className={`text-sm font-medium transition-colors px-1 py-1 ${
+                  className={`hidden text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'history'
                       ? 'text-white border-b-2 border-white'
                       : 'text-white/80 hover:text-white'
