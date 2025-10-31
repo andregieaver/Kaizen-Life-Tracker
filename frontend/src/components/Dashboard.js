@@ -945,14 +945,13 @@ const Dashboard = ({ athleteId }) => {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Today Overview */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
-                style={{ borderRadius: '0.3rem' }}
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-xl md:rounded-[5rem]"
                 onClick={() => navigate('/dashboard/today')}
               >
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <Calendar className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                    <div className="p-0">
+                      <Calendar className="w-10 h-10" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Today</h3>
@@ -964,14 +963,13 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Weekly Menu */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
-                style={{ borderRadius: '0.3rem' }}
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-xl md:rounded-[5rem]"
                 onClick={() => navigate('/dashboard/recipes')}
               >
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <ChefHat className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                    <div className="p-0">
+                      <ChefHat className="w-10 h-10" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Weekly Menu</h3>
@@ -983,14 +981,13 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Log Meal */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
-                style={{ borderRadius: '0.3rem' }}
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-xl md:rounded-[5rem]"
                 onClick={() => navigate('/dashboard/nutrition?action=add')}
               >
                 <CardContent style={{ padding: '0.5rem' }}>
                   <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-3 bg-white/20 backdrop-blur-sm" style={{ borderRadius: '3rem' }}>
-                      <Utensils className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                    <div className="p-0">
+                      <Utensils className="w-10 h-10" style={{ color: '#00C2A8' }} />
                     </div>
                     <div className="text-center md:text-left">
                       <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Log Meal</h3>
@@ -1002,8 +999,7 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Log Supplement */}
               <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform"
-                style={{ borderRadius: '0.3rem' }}
+                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-xl md:rounded-[5rem]"
                 onClick={() => navigate('/dashboard/supplements', { state: { openAddModal: true } })}
               >
                 <CardContent style={{ padding: '0.5rem' }}>
