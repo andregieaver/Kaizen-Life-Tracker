@@ -6297,11 +6297,11 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-white flex items-center">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 md:p-4">
+      <div className="rounded-none md:rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-bold flex items-center" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
               <Trophy className="w-6 h-6 mr-2 text-[#00C2A8]" />
               Create Challenge
             </h2>
@@ -6309,7 +6309,9 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
               <X className="w-6 h-6" />
             </button>
           </div>
+        </div>
 
+        <div className="p-6">
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-white mb-2">Title *</label>
