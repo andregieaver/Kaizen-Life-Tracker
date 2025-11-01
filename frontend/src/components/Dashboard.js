@@ -1768,11 +1768,8 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => setNotificationTab('follows')}
-                  className={`flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
-                    notificationTab === 'follows'
-                      ? 'border-blue-400 text-blue-400'
-                      : 'border-transparent text-gray-400 hover:text-white'
-                  }`}
+                  className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors"
+                  style={notificationTab === 'follows' ? { borderBottomColor: '#60A5FA', color: '#60A5FA' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
                 >
                   <UserPlus className="w-4 h-4" />
                   Follows
@@ -1780,10 +1777,7 @@ const Dashboard = ({ athleteId }) => {
                 <button
                   onClick={() => setNotificationTab('posts')}
                   className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors"
-                    notificationTab === 'posts'
-                      ? 'border-red-400 text-red-400'
-                      : 'border-transparent text-gray-400 hover:text-white'
-                  }`}
+                  style={notificationTab === 'posts' ? { borderBottomColor: '#F87171', color: '#F87171' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
                 >
                   <Heart className="w-4 h-4" />
                   Posts
@@ -1791,10 +1785,7 @@ const Dashboard = ({ athleteId }) => {
                 <button
                   onClick={() => setNotificationTab('groups')}
                   className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors"
-                    notificationTab === 'groups'
-                      ? 'border-green-400 text-green-400'
-                      : 'border-transparent text-gray-400 hover:text-white'
-                  }`}
+                  style={notificationTab === 'groups' ? { borderBottomColor: '#4ADE80', color: '#4ADE80' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
                 >
                   <Users className="w-4 h-4" />
                   Groups
@@ -1802,10 +1793,7 @@ const Dashboard = ({ athleteId }) => {
                 <button
                   onClick={() => setNotificationTab('events')}
                   className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors"
-                    notificationTab === 'events'
-                      ? 'border-orange-400 text-orange-400'
-                      : 'border-transparent text-gray-400 hover:text-white'
-                  }`}
+                  style={notificationTab === 'events' ? { borderBottomColor: '#FB923C', color: '#FB923C' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
                 >
                   <Calendar className="w-4 h-4" />
                   Events
@@ -1813,10 +1801,7 @@ const Dashboard = ({ athleteId }) => {
                 <button
                   onClick={() => setNotificationTab('challenges')}
                   className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors"
-                    notificationTab === 'challenges'
-                      ? 'border-yellow-400 text-yellow-400'
-                      : 'border-transparent text-gray-400 hover:text-white'
-                  }`}
+                  style={notificationTab === 'challenges' ? { borderBottomColor: '#FACC15', color: '#FACC15' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
                 >
                   <Trophy className="w-4 h-4" />
                   Challenges
