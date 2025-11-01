@@ -180,7 +180,7 @@ const Supplements = ({ athleteId }) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen p-2 md:p-6 space-y-6" style={{ background: 'var(--grad-page)' }}>
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
