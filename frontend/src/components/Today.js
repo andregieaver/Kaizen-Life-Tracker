@@ -272,11 +272,11 @@ const Today = ({ athleteId }) => {
 
       {/* Meals Detail */}
       {todayData.meals.length > 0 && (
-        <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
-          <CardHeader>
-            <CardTitle className="text-lg font-display text-white">Today's Meals</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+          <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+            <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Today's Meals</h3>
+          </div>
+          <div className="p-4">
             <div className="space-y-3">
               {todayData.meals.map((meal, index) => (
                 <div key={index} className="flex items-center justify-between p-3 bg-gray-600 rounded-lg border border-gray-500">
@@ -296,8 +296,8 @@ const Today = ({ athleteId }) => {
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
     </div>
   );
