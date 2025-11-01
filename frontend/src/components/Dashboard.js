@@ -939,165 +939,219 @@ const Dashboard = ({ athleteId }) => {
           : activeTab === 'community'
           ? 'w-full max-w-[1600px] mx-auto px-0 sm:px-6 lg:px-8 py-0 sm:py-8 pb-20 md:pb-8 pt-16 md:pt-24'
           : 'w-full max-w-[1600px] mx-auto px-0 sm:px-6 lg:px-8 pt-16 md:pt-24 pb-0 md:pb-8'
-      }>
+      } style={{ background: 'var(--bg-950)' }}>
         {activeTab === 'overview' && (
-          <div className="space-y-0 md:space-y-8">
-            {/* Quick Actions */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 md:gap-4">
+          <div className="space-y-0 md:space-y-6">
+            {/* Quick Actions Grid - Redesigned */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 md:gap-3">
               {/* Today Overview */}
-              <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-none md:rounded-[5rem]"
+              <div 
+                className="border-0 shadow-lg cursor-pointer transition-all duration-200 ease-out rounded-none md:rounded-3xl overflow-hidden group hover:scale-105"
+                style={{ 
+                  background: 'var(--grad-surface)',
+                  borderColor: 'var(--border)'
+                }}
                 onClick={() => navigate('/dashboard/today')}
               >
-                <CardContent className="py-4 px-2 md:pl-[1.2rem]">
-                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-0">
-                      <Calendar className="w-10 h-10" style={{ color: '#00C2A8' }} />
+                <div className="p-4">
+                  <div className="flex flex-col md:flex-row items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'var(--grad-cta-soft)' }}>
+                      <Calendar className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                     </div>
-                    <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Today</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Daily overview</p>
+                    <div className="text-center md:text-left flex-1">
+                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Today</h3>
+                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>Daily overview</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {/* Weekly Menu */}
-              <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-none md:rounded-[5rem]"
+              <div 
+                className="border-0 shadow-lg cursor-pointer transition-all duration-200 ease-out rounded-none md:rounded-3xl overflow-hidden group hover:scale-105"
+                style={{ 
+                  background: 'var(--grad-surface)',
+                  borderColor: 'var(--border)'
+                }}
                 onClick={() => navigate('/dashboard/recipes')}
               >
-                <CardContent className="py-4 px-2 md:pl-[1.2rem]">
-                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-0">
-                      <ChefHat className="w-10 h-10" style={{ color: '#00C2A8' }} />
+                <div className="p-4">
+                  <div className="flex flex-col md:flex-row items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'var(--grad-cta-soft)' }}>
+                      <ChefHat className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                     </div>
-                    <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Weekly Menu</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>View meal plans</p>
+                    <div className="text-center md:text-left flex-1">
+                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Weekly Menu</h3>
+                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>View meal plans</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {/* Log Meal */}
-              <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-none md:rounded-[5rem]"
+              <div 
+                className="border-0 shadow-lg cursor-pointer transition-all duration-200 ease-out rounded-none md:rounded-3xl overflow-hidden group hover:scale-105"
+                style={{ 
+                  background: 'var(--grad-surface)',
+                  borderColor: 'var(--border)'
+                }}
                 onClick={() => navigate('/dashboard/nutrition?action=add')}
               >
-                <CardContent className="py-4 px-2 md:pl-[1.2rem]">
-                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-0">
-                      <Utensils className="w-10 h-10" style={{ color: '#00C2A8' }} />
+                <div className="p-4">
+                  <div className="flex flex-col md:flex-row items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'var(--grad-cta-soft)' }}>
+                      <Utensils className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                     </div>
-                    <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Log Meal</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Track nutrition</p>
+                    <div className="text-center md:text-left flex-1">
+                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Log Meal</h3>
+                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>Track nutrition</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {/* Log Supplement */}
-              <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-none md:rounded-[5rem]"
+              <div 
+                className="border-0 shadow-lg cursor-pointer transition-all duration-200 ease-out rounded-none md:rounded-3xl overflow-hidden group hover:scale-105"
+                style={{ 
+                  background: 'var(--grad-surface)',
+                  borderColor: 'var(--border)'
+                }}
                 onClick={() => navigate('/dashboard/supplements', { state: { openAddModal: true } })}
               >
-                <CardContent className="py-4 px-2 md:pl-[1.2rem]">
-                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-0">
-                      <Pill className="w-10 h-10" style={{ color: '#00C2A8' }} />
+                <div className="p-4">
+                  <div className="flex flex-col md:flex-row items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'var(--grad-cta-soft)' }}>
+                      <Pill className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                     </div>
-                    <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Log Supplement</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Track supplements</p>
+                    <div className="text-center md:text-left flex-1">
+                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Log Supplement</h3>
+                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>Track supplements</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {/* Talk to Coach */}
-              <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-none md:rounded-[5rem]"
+              <div 
+                className="border-0 shadow-lg cursor-pointer transition-all duration-200 ease-out rounded-none md:rounded-3xl overflow-hidden group hover:scale-105"
+                style={{ 
+                  background: 'var(--grad-surface)',
+                  borderColor: 'var(--border)'
+                }}
                 onClick={() => navigate('/dashboard/coach?action=voice')}
               >
-                <CardContent className="py-4 px-2 md:pl-[1.2rem]">
-                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-0">
-                      <MessageCircle className="w-10 h-10" style={{ color: '#00C2A8' }} />
+                <div className="p-4">
+                  <div className="flex flex-col md:flex-row items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'var(--grad-cta-soft)' }}>
+                      <MessageCircle className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                     </div>
-                    <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Talk to Coach</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Voice AI assistance</p>
+                    <div className="text-center md:text-left flex-1">
+                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Talk to Coach</h3>
+                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>Voice AI assistance</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {/* Voice Journal */}
-              <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-none md:rounded-[5rem]"
+              <div 
+                className="border-0 shadow-lg cursor-pointer transition-all duration-200 ease-out rounded-none md:rounded-3xl overflow-hidden group hover:scale-105"
+                style={{ 
+                  background: 'var(--grad-surface)',
+                  borderColor: 'var(--border)'
+                }}
                 onClick={() => navigate('/dashboard/journal?action=voice')}
               >
-                <CardContent className="py-4 px-2 md:pl-[1.2rem]">
-                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-0">
-                      <Mic className="w-10 h-10" style={{ color: '#00C2A8' }} />
+                <div className="p-4">
+                  <div className="flex flex-col md:flex-row items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'var(--grad-cta-soft)' }}>
+                      <Mic className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                     </div>
-                    <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Voice Journal</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Record your thoughts</p>
+                    <div className="text-center md:text-left flex-1">
+                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Voice Journal</h3>
+                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>Record thoughts</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {/* Habit Tracker */}
-              <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-none md:rounded-[5rem]"
+              <div 
+                className="border-0 shadow-lg cursor-pointer transition-all duration-200 ease-out rounded-none md:rounded-3xl overflow-hidden group hover:scale-105"
+                style={{ 
+                  background: 'var(--grad-surface)',
+                  borderColor: 'var(--border)'
+                }}
                 onClick={() => navigate('/dashboard/habits')}
               >
-                <CardContent className="py-4 px-2 md:pl-[1.2rem]">
-                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-0">
-                      <Check className="w-10 h-10" style={{ color: '#00C2A8' }} />
+                <div className="p-4">
+                  <div className="flex flex-col md:flex-row items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'var(--grad-cta-soft)' }}>
+                      <Check className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                     </div>
-                    <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Habit Tracker</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Track daily habits</p>
+                    <div className="text-center md:text-left flex-1">
+                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Habit Tracker</h3>
+                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>Track daily habits</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {/* Training Calendar */}
-              <Card 
-                className="border-0 shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 hover:scale-105 transform rounded-none md:rounded-[5rem]"
+              <div 
+                className="border-0 shadow-lg cursor-pointer transition-all duration-200 ease-out rounded-none md:rounded-3xl overflow-hidden group hover:scale-105"
+                style={{ 
+                  background: 'var(--grad-surface)',
+                  borderColor: 'var(--border)'
+                }}
                 onClick={() => navigate('/dashboard/calendar')}
               >
-                <CardContent className="py-4 px-2 md:pl-[1.2rem]">
-                  <div className="flex flex-col md:flex-row items-center gap-3 md:gap-4">
-                    <div className="p-0">
-                      <Calendar className="w-10 h-10" style={{ color: '#00C2A8' }} />
+                <div className="p-4">
+                  <div className="flex flex-col md:flex-row items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'var(--grad-cta-soft)' }}>
+                      <Calendar className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                     </div>
-                    <div className="text-center md:text-left">
-                      <h3 className="font-semibold text-[#ffffff]" style={{ fontSize: '1rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>Training Calendar</h3>
-                      <p className="text-[#ffffff]" style={{ fontSize: '0.7rem', textShadow: 'rgba(0, 0, 0, 0.5) 0px 1px 2px' }}>View your schedule</p>
+                    <div className="text-center md:text-left flex-1">
+                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Calendar</h3>
+                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>Your schedule</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
+            </div>
+
+            {/* Primary CTA - Start Workout */}
+            <div className="px-0 md:px-0">
+              <button
+                onClick={() => navigate('/dashboard/schedules')}
+                className="w-full relative inline-flex items-center justify-center rounded-none md:rounded-2xl px-8 py-6 text-lg font-bold shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 transition-all duration-200 ease-out hover:scale-[1.02]"
+                style={{
+                  background: 'var(--grad-brand)',
+                  color: 'var(--bg-950)',
+                  fontFamily: 'var(--font-display)',
+                  boxShadow: '0 10px 40px rgba(25,229,197,.25)',
+                  border: 'none'
+                }}
+              >
+                <span className="flex items-center gap-3">
+                  <span>Start workout</span>
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </span>
+              </button>
             </div>
 
             {/* Body Score, Progress, and Merits - Three Equal Columns on Desktop */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 md:gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 md:gap-3">
               {/* Column 1: Body Score */}
-              <Card className="border-0 shadow-md bg-gradient-to-br from-gray-600 to-gray-800 overflow-hidden rounded-none md:rounded-lg">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg font-display text-white">Body Score</CardTitle>
-                  <CardDescription className="text-gray-300">Overall health and recovery status</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
+              <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)', borderColor: 'var(--border)' }}>
+                <div className="p-4 pb-3">
+                  <h2 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Body Score</h2>
+                  <p className="text-sm" style={{ color: 'var(--text-med)' }}>Overall health and recovery status</p>
+                </div>
+                <div className="px-4 pb-4 space-y-6">
                   {/* Main Body Score - Large Circular */}
                   <div className="flex justify-center">
                     <div className="relative w-40 h-40">
