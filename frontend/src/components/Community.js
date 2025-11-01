@@ -2350,7 +2350,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
               </div>
             ) : posts.length === 0 ? (
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+              <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
                 <CardContent className="p-12 text-center">
                   <p className="text-gray-400 text-lg mb-2">No posts yet</p>
                   <p className="text-gray-500 text-sm">Be the first to share something!</p>
@@ -2834,14 +2834,14 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           {/* Posts from people you follow */}
           <div className="space-y-0 sm:space-y-6">
             {isLoading ? (
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg">
+              <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg" style={{ background: 'var(--grad-surface)' }}>
                 <CardContent className="p-12 text-center">
                   <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin mx-auto"></div>
                   <p className="text-gray-400 mt-4">Loading posts from people you follow...</p>
                 </CardContent>
               </Card>
             ) : followingPosts.length === 0 ? (
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg">
+              <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg" style={{ background: 'var(--grad-surface)' }}>
                 <CardContent className="p-12 text-center">
                   <p className="text-gray-400 text-lg mb-2">No posts from people you follow</p>
                   <p className="text-gray-500 text-sm">Follow other athletes to see their posts here!</p>
@@ -3332,7 +3332,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           </div>
 
           {events.length === 0 && (
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+            <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
               <CardContent className="p-12 text-center">
                 <p className="text-gray-400 text-lg">No events yet. Create the first event!</p>
               </CardContent>
@@ -3384,7 +3384,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           </div>
 
           {challenges.length === 0 && (
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+            <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
               <CardContent className="p-12 text-center">
                 <Trophy className="w-16 h-16 mx-auto mb-4 text-gray-600" />
                 <p className="text-gray-400 text-lg">
@@ -4648,7 +4648,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
     ))}
 
     {posts.length === 0 && (
-      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+      <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
         <CardContent className="p-12 text-center">
           <p className="text-gray-400 text-lg">No posts yet. Be the first to share something!</p>
         </CardContent>
@@ -5384,7 +5384,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
   handleCreateGroupPost, handleImageSelect, onBack, onLeave, onEditGroup, loadAthleteProfile }) => (
   <div className="space-y-6 pt-12 md:pt-0">
     {/* Group Header */}
-    <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+    <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
       <CardContent className="p-6">
         <button
           onClick={onBack}
@@ -5454,7 +5454,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
 
     {/* Pending Requests (admin/moderator only) */}
     {group.pending_members && group.pending_members.length > 0 && (
-      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+      <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
         <CardContent className="p-6">
           <h3 className="text-xl font-bold text-white mb-4">Pending Join Requests</h3>
           <div className="space-y-3">
@@ -5541,7 +5541,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
 
     {/* Members List (admin/manager only) */}
     {group.members && group.member_role && ['admin', 'manager'].includes(group.member_role) && (
-      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+      <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
         <CardContent className="p-6">
           <h3 className="text-xl font-bold text-white mb-4">Group Members</h3>
           <div className="space-y-3">
@@ -5627,7 +5627,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
 
     {/* Create Post (if member) */}
     {group.is_member && (
-      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+      <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
         <CardContent className="p-6">
           <textarea
             value={newPostContent}
@@ -5742,7 +5742,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
       ))}
 
       {posts.length === 0 && (
-        <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+        <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
           <CardContent className="p-12 text-center">
             <p className="text-gray-400 text-lg">No posts in this group yet.</p>
           </CardContent>
@@ -6581,7 +6581,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
 
           {/* Challenge Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <Card className="border-0 bg-gray-800">
+            <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
               <CardContent className="p-4">
                 <div className="flex items-center text-white mb-2">
                   <Target className="w-5 h-5 mr-2 text-[#00C2A8]" />
@@ -6596,7 +6596,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
               </CardContent>
             </Card>
 
-            <Card className="border-0 bg-gray-800">
+            <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
               <CardContent className="p-4">
                 <div className="flex items-center text-white mb-2">
                   <Calendar className="w-5 h-5 mr-2 text-[#00C2A8]" />
@@ -6611,7 +6611,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
               </CardContent>
             </Card>
 
-            <Card className="border-0 bg-gray-800">
+            <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
               <CardContent className="p-4">
                 <div className="flex items-center text-white mb-2">
                   <UsersIcon className="w-5 h-5 mr-2 text-[#00C2A8]" />
@@ -6623,7 +6623,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
               </CardContent>
             </Card>
 
-            <Card className="border-0 bg-gray-800">
+            <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
               <CardContent className="p-4">
                 <div className="flex items-center text-white mb-2">
                   {challengeData.visibility === 'public' ? <Globe className="w-5 h-5 mr-2 text-[#00C2A8]" /> : <Lock className="w-5 h-5 mr-2 text-[#00C2A8]" />}
@@ -6638,7 +6638,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
 
           {/* Description */}
           {challengeData.description && (
-            <Card className="border-0 bg-gray-800 mb-6">
+            <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
               <CardContent className="p-4">
                 <h3 className="text-white font-semibold mb-2">Description</h3>
                 <p className="text-gray-300">{challengeData.description}</p>
@@ -6648,7 +6648,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
 
           {/* User Progress */}
           {hasJoined && (
-            <Card className="border-0 bg-gradient-to-r from-[#00C2A8]/20 to-green-500/20 mb-6">
+            <div className="border-0 bg-gradient-to-r from-[#00C2A8]/20 to-green-500/20 mb-6" style={{ background: 'var(--grad-surface)' }}>
               <CardContent className="p-4">
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="text-white font-semibold">Your Progress</h3>
@@ -6669,7 +6669,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
 
           {/* Leaderboard */}
           {challengeData.leaderboard && challengeData.leaderboard.length > 0 && (
-            <Card className="border-0 bg-gray-800 mb-6">
+            <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
               <CardContent className="p-4">
                 <h3 className="text-white font-semibold mb-4 flex items-center">
                   <Award className="w-5 h-5 mr-2 text-yellow-500" />
@@ -6716,7 +6716,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
           )}
 
           {/* Comments */}
-          <Card className="border-0 bg-gray-800 mb-6">
+          <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
             <CardContent className="p-4">
               <h3 className="text-white font-semibold mb-4">Comments</h3>
               
