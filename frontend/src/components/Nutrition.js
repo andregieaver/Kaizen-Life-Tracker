@@ -1889,10 +1889,10 @@ const Nutrition = ({ athleteId }) => {
       {/* Nutrition Entry Modal - View or Edit Mode */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-2 md:p-4">
-          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700" style={{ background: 'var(--grad-surface)' }}>
+          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-none md:rounded-3xl border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
             <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
-                <h3 className="text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
+                <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
                   {viewMode ? 'Meal Details' : (editingEntry ? 'Edit Meal or Drink' : 'Log Meal or Drink')}
                 </h3>
                 <button
