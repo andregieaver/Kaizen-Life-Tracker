@@ -1279,16 +1279,16 @@ const Dashboard = ({ athleteId }) => {
               </div>
 
               {/* Column 2: Progress - Test Results */}
-              <Card className="border-0 shadow-md bg-gradient-to-br from-gray-600 to-gray-800 overflow-hidden rounded-none md:rounded-lg">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg font-display text-white">Progress</CardTitle>
-                  <CardDescription className="text-gray-300">Latest test results and performance metrics</CardDescription>
-                </CardHeader>
-                <CardContent>
+              <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)', borderColor: 'var(--border)' }}>
+                <div className="p-4 pb-3">
+                  <h2 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Progress</h2>
+                  <p className="text-sm" style={{ color: 'var(--text-med)' }}>Latest test results and performance metrics</p>
+                </div>
+                <div className="px-4 pb-4">
                   {/* Running YTD */}
-                  <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-700">
-                    <span className="text-sm text-gray-300">Running (YTD)</span>
-                    <span className="font-semibold text-[#62D2C4]">
+                  <div className="flex justify-between items-center mb-4 pb-4" style={{ borderBottom: '1px solid var(--border)' }}>
+                    <span className="text-sm" style={{ color: 'var(--text-med)' }}>Running (YTD)</span>
+                    <span className="font-bold text-xl" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
                       {ytdDistance.toFixed(1)} {
                         (athlete?.measurement_system === 'metric' || 
                          athlete?.distance_unit === 'kilometers' || 
@@ -1302,7 +1302,8 @@ const Dashboard = ({ athleteId }) => {
                       {testResults.map((test) => (
                         <div 
                           key={test.id} 
-                          className="flex items-center justify-between p-4 bg-gradient-to-r from-[#D4F0E9]/20 to-transparent rounded-lg hover:from-[#D4F0E9]/30 cursor-pointer transition-all"
+                          className="flex items-center justify-between p-4 rounded-2xl hover:scale-[1.02] cursor-pointer transition-all duration-200"
+                          style={{ background: 'var(--grad-cta-soft)' }}
                           onClick={() => navigate('/dashboard/tests', { 
                             state: { 
                               addEntryToTest: test.test_name,
@@ -1311,20 +1312,20 @@ const Dashboard = ({ athleteId }) => {
                           })}
                         >
                           <div className="flex items-center space-x-4">
-                            <div className="p-3 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                              <LineChart className="w-5 h-5" style={{ color: '#00C2A8' }} />
+                            <div className="p-3 rounded-2xl flex items-center justify-center" style={{ background: 'var(--bg-800)' }}>
+                              <LineChart className="w-5 h-5" style={{ color: 'var(--c-brand-500)' }} />
                             </div>
                             <div>
-                              <p className="font-medium text-white">
+                              <p className="font-semibold" style={{ color: 'var(--text-hi)', fontFamily: 'var(--font-display)' }}>
                                 {test.test_name}
                               </p>
-                              <p className="text-sm text-gray-400">
+                              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
                                 {new Date(test.test_date).toLocaleDateString()}
                               </p>
                             </div>
                           </div>
                           <div className="text-right">
-                            <p className="font-semibold text-[#62D2C4]">
+                            <p className="font-bold text-lg" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
                               {test.result_value} {test.unit === 'repetitions' ? 'reps' : 
                                test.unit === 'time' ? 'min' : 
                                test.unit === 'distance' ? 'km' : 
@@ -1332,7 +1333,7 @@ const Dashboard = ({ athleteId }) => {
                                test.unit === 'percentage' ? '%' : test.unit}
                             </p>
                             {test.time_to_completion && (
-                              <p className="text-sm text-gray-400">
+                              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
                                 {test.time_to_completion} min
                               </p>
                             )}
@@ -1342,17 +1343,23 @@ const Dashboard = ({ athleteId }) => {
                     </div>
                   ) : (
                     <div className="text-center py-8">
-                      <p className="text-gray-300 mb-4">No test results yet</p>
-                      <Button 
+                      <p className="mb-4" style={{ color: 'var(--text-med)' }}>No test results yet</p>
+                      <button 
                         onClick={() => navigate('/dashboard/tests')}
-                        className="bg-gradient-to-r from-[#61a59c] to-[#e9f0c7] hover:from-[#e9f0c7] hover:to-[#61a59c] text-white shadow-md"
+                        className="px-6 py-3 rounded-2xl font-semibold transition-all duration-200 hover:scale-105"
+                        style={{ 
+                          background: 'var(--grad-brand)',
+                          color: 'var(--bg-950)',
+                          fontFamily: 'var(--font-display)',
+                          boxShadow: '0 10px 24px rgba(25,229,197,.15)'
+                        }}
                       >
                         Add Test Results
-                      </Button>
+                      </button>
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {/* Column 3: Merits - Running Distance Personal Records */}
               <Merits athleteId={athleteId} />
