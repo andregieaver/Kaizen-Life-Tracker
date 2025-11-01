@@ -266,8 +266,8 @@ const Today = ({ athleteId }) => {
                 <p className="text-xs text-gray-400 mt-1">Connect Strava or log manually</p>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       {/* Meals Detail */}
