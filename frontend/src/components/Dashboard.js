@@ -680,20 +680,22 @@ const Dashboard = ({ athleteId }) => {
       <>
         {/* Backdrop */}
         <div 
-          className={`fixed inset-0 bg-black z-50 transition-opacity duration-300 ${
+          className={`fixed inset-0 z-50 transition-opacity duration-300 ${
             isMenuOpen ? 'bg-opacity-40 pointer-events-auto' : 'bg-opacity-0 pointer-events-none'
           }`}
+          style={{ background: 'rgba(0, 0, 0, 0.7)' }}
           onClick={() => setIsMenuOpen(false)}
         />
         
         {/* Menu Panel */}
-        <div className={`fixed inset-y-0 left-0 w-80 bg-gradient-to-br from-gray-900 to-gray-800 shadow-2xl z-[60] transform transition-transform duration-300 ease-in-out flex flex-col ${
+        <div className={`fixed inset-y-0 left-0 w-80 shadow-2xl z-[60] transform transition-transform duration-300 ease-in-out flex flex-col ${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}>
+        }`} style={{ background: 'var(--bg-900)' }}>
             {/* Menu Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-gradient-to-r from-gray-900 to-gray-800">
+            <div className="flex items-center justify-between p-4" style={{ borderBottom: '1px solid var(--border)', background: 'var(--grad-surface)' }}>
               <button 
-                className="flex items-center space-x-3 w-full text-left hover:bg-white/10 rounded-lg p-2 transition-colors"
+                className="flex items-center space-x-3 w-full text-left rounded-lg p-2 transition-all duration-200 hover:scale-105"
+                style={{ background: 'var(--grad-cta-soft)' }}
                 onClick={() => {
                   navigate('/dashboard/account');
                   setIsMenuOpen(false);
@@ -704,25 +706,27 @@ const Dashboard = ({ athleteId }) => {
                   <img
                     src={athlete.profile_picture}
                     alt="Profile"
-                    className="w-10 h-10 rounded-full object-cover border-2 border-white"
+                    className="w-10 h-10 rounded-full object-cover"
+                    style={{ border: '2px solid var(--c-brand-500)' }}
                   />
                 ) : (
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                    <span className="text-[#62D2C4] font-bold text-lg">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'var(--grad-brand)' }}>
+                    <span className="font-bold text-lg" style={{ color: 'var(--bg-950)' }}>
                       {athlete?.name?.charAt(0).toUpperCase() || 'U'}
                     </span>
                   </div>
                 )}
                 <div>
-                  <p className="font-semibold text-white">{athlete?.name || 'User'}</p>
+                  <p className="font-semibold" style={{ color: 'var(--text-hi)' }}>{athlete?.name || 'User'}</p>
                 </div>
               </button>
               <button 
                 onClick={() => setIsMenuOpen(false)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="p-2 rounded-lg transition-all duration-200 hover:scale-110"
+                style={{ background: 'var(--grad-cta-soft)' }}
                 aria-label="Close menu"
               >
-                <X className="w-5 h-5 text-white" />
+                <X className="w-5 h-5" style={{ color: 'var(--text-hi)' }} />
               </button>
             </div>
 
