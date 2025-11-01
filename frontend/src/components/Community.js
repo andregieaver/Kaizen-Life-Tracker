@@ -2355,7 +2355,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   <p className="text-gray-400 text-lg mb-2">No posts yet</p>
                   <p className="text-gray-500 text-sm">Be the first to share something!</p>
                 </CardContent>
-              </Card>
+              </div>
             ) : (
               getFilteredPosts(posts).map(item => {
               if (item.type === 'event') {
@@ -2802,7 +2802,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                         </div>
                       )}
                     </CardContent>
-                  </Card>
+                  </div>
                 );
               }
             }))}
@@ -2839,14 +2839,14 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin mx-auto"></div>
                   <p className="text-gray-400 mt-4">Loading posts from people you follow...</p>
                 </CardContent>
-              </Card>
+              </div>
             ) : followingPosts.length === 0 ? (
               <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg" style={{ background: 'var(--grad-surface)' }}>
                 <CardContent className="p-12 text-center">
                   <p className="text-gray-400 text-lg mb-2">No posts from people you follow</p>
                   <p className="text-gray-500 text-sm">Follow other athletes to see their posts here!</p>
                 </CardContent>
-              </Card>
+              </div>
             ) : (
               getFilteredPosts(followingPosts).map(post => (
                 <Card key={post.id} className="border-0 border-b border-b-gray-700 sm:border-b-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg mx-0 sm:mx-auto">
@@ -3265,7 +3265,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                       </div>
                     )}
                   </CardContent>
-                </Card>
+                </div>
               ))
             )}
           </div>
@@ -3336,7 +3336,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               <CardContent className="p-12 text-center">
                 <p className="text-gray-400 text-lg">No events yet. Create the first event!</p>
               </CardContent>
-            </Card>
+            </div>
           )}
         </div>
       )}
@@ -3394,7 +3394,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   {challengeFilter === 'joined' && "You haven't joined any challenges yet"}
                 </p>
               </CardContent>
-            </Card>
+            </div>
           )}
         </div>
       )}
@@ -4644,7 +4644,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
             </>
           )}
         </CardContent>
-      </Card>
+      </div>
     ))}
 
     {posts.length === 0 && (
@@ -4652,7 +4652,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
         <CardContent className="p-12 text-center">
           <p className="text-gray-400 text-lg">No posts yet. Be the first to share something!</p>
         </CardContent>
-      </Card>
+      </div>
     )}
   </div>
 );
@@ -4745,7 +4745,7 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
           </div>
         </div>
       </CardContent>
-    </Card>
+    </div>
   );
 };
 
@@ -5450,7 +5450,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
           </div>
         </div>
       </CardContent>
-    </Card>
+    </div>
 
     {/* Pending Requests (admin/moderator only) */}
     {group.pending_members && group.pending_members.length > 0 && (
@@ -5536,7 +5536,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             ))}
           </div>
         </CardContent>
-      </Card>
+      </div>
     )}
 
     {/* Members List (admin/manager only) */}
@@ -5622,7 +5622,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             ))}
           </div>
         </CardContent>
-      </Card>
+      </div>
     )}
 
     {/* Create Post (if member) */}
@@ -5676,7 +5676,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             </Button>
           </div>
         </CardContent>
-      </Card>
+      </div>
     )}
 
     {/* Group Posts - Reuse PostsList but without edit/delete for non-members */}
@@ -5738,7 +5738,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               </div>
             </div>
           </CardContent>
-        </Card>
+        </div>
       ))}
 
       {posts.length === 0 && (
@@ -5746,7 +5746,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
           <CardContent className="p-12 text-center">
             <p className="text-gray-400 text-lg">No posts in this group yet.</p>
           </CardContent>
-        </Card>
+        </div>
       )}
     </div>
   </div>
@@ -6152,7 +6152,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
           </div>
         </div>
       </CardContent>
-    </Card>
+    </div>
   );
 };
 
@@ -6258,7 +6258,7 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
         </div>
       </div>
     </CardContent>
-  </Card>
+  </div>
 );
 
 // CreateChallengeModal Component
@@ -6594,7 +6594,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                   {challengeData.challenge_type.replace('_', ' ')}
                 </p>
               </CardContent>
-            </Card>
+            </div>
 
             <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
               <CardContent className="p-4">
@@ -6609,7 +6609,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                   {isActive ? 'Active' : 'Completed'}
                 </p>
               </CardContent>
-            </Card>
+            </div>
 
             <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
               <CardContent className="p-4">
@@ -6621,7 +6621,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                   {challengeData.participants_count || 0}
                 </p>
               </CardContent>
-            </Card>
+            </div>
 
             <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
               <CardContent className="p-4">
@@ -6633,7 +6633,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                   {challengeData.visibility} / {challengeData.competition_type}
                 </p>
               </CardContent>
-            </Card>
+            </div>
           </div>
 
           {/* Description */}
@@ -6643,7 +6643,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                 <h3 className="text-white font-semibold mb-2">Description</h3>
                 <p className="text-gray-300">{challengeData.description}</p>
               </CardContent>
-            </Card>
+            </div>
           )}
 
           {/* User Progress */}
@@ -6664,7 +6664,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                 </div>
                 <p className="text-right text-gray-300 text-sm">{percentage.toFixed(1)}% complete</p>
               </CardContent>
-            </Card>
+            </div>
           )}
 
           {/* Leaderboard */}
@@ -6712,7 +6712,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                   ))}
                 </div>
               </CardContent>
-            </Card>
+            </div>
           )}
 
           {/* Comments */}
@@ -6767,7 +6767,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                 )}
               </div>
             </CardContent>
-          </Card>
+          </div>
 
           {/* Action Buttons */}
           <div className="flex justify-between">
