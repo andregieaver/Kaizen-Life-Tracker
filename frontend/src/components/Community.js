@@ -4231,23 +4231,26 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
                     <Bell className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                    <p className="text-gray-400 text-lg">No notifications</p>
-                    <p className="text-gray-500 text-sm mt-2">You're all caught up!</p>
+                    <p className="text-lg" style={{ color: 'var(--text-med)' }}>No notifications</p>
+                    <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>You're all caught up!</p>
                   </div>
                 </div>
               ) : (
                 notifications.map(notification => (
                   <div
                     key={notification.id}
-                    className={`p-4 border-b border-gray-700 hover:bg-gray-700/50 active:bg-gray-700 cursor-pointer transition-colors ${
-                      !notification.read ? 'bg-gray-700/30' : ''
+                    className={`mb-2 rounded-none md:rounded-3xl hover:opacity-90 active:opacity-80 cursor-pointer transition-all overflow-hidden ${
+                      !notification.read ? 'ring-2 ring-[#00C2A8]/30' : ''
                     }`}
+                    style={{ background: 'var(--grad-surface)' }}
                     onClick={() => handleNotificationClick(notification)}
                   >
-                    <p className="text-white text-sm">{notification.message || notification.content}</p>
-                    <p className="text-gray-400 text-xs mt-1">
-                      {new Date(notification.created_at).toLocaleString()}
-                    </p>
+                    <div className="p-4">
+                      <p className="text-sm" style={{ color: 'var(--text-hi)' }}>{notification.message || notification.content}</p>
+                      <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                        {new Date(notification.created_at).toLocaleString()}
+                      </p>
+                    </div>
                   </div>
                 ))
               )}
