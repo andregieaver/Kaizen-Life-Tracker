@@ -2376,7 +2376,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 const post = item;
                 return (
                   <Card key={post.id} className="border-0 border-b border-b-gray-700 sm:border-b-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg mx-0 sm:mx-auto">
-                    <CardHeader className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
+                    <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
                           onClick={() => loadAthleteProfile(post.athlete_id)}
@@ -2451,7 +2451,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                           </div>
                         )}
                       </div>
-                    </CardHeader>
+                    </div>
 
                     <CardContent className="px-3 pb-3 pt-0 sm:px-6 sm:pb-6">
                       {editingPost === post.id ? (
@@ -2850,7 +2850,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             ) : (
               getFilteredPosts(followingPosts).map(post => (
                 <Card key={post.id} className="border-0 border-b border-b-gray-700 sm:border-b-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg mx-0 sm:mx-auto">
-                  <CardHeader className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
+                  <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
                     <div className="flex items-center justify-between">
                       <div 
                         className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
@@ -2906,7 +2906,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                         </div>
                       )}
                     </div>
-                  </CardHeader>
+                  </div>
                   <CardContent className="px-3 pb-3 pt-0 sm:px-6 sm:pb-6">
                     {/* Edit Mode */}
                     {editingPost === post.id ? (
@@ -4301,7 +4301,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
   <div className="space-y-6">
     {posts.map(post => (
       <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-        <CardHeader className="pb-3">
+        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} className="pb-3">
           <div className="flex items-center justify-between">
             <div 
               className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
@@ -4361,7 +4361,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
               </div>
             )}
           </div>
-        </CardHeader>
+        </div>
         
         <CardContent>
           {editingPost === post.id ? (
@@ -5683,7 +5683,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
     <div className="space-y-6">
       {posts.map(post => (
         <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-          <CardHeader className="pb-3">
+          <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} className="pb-3">
             <div className="flex items-center justify-between">
               <div 
                 className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
@@ -5713,7 +5713,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                 </div>
               </div>
             </div>
-          </CardHeader>
+          </div>
           
           <CardContent>
             <p className="text-white mb-4">{post.content}</p>
