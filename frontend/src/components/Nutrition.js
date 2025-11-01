@@ -1010,9 +1010,9 @@ const Nutrition = ({ athleteId }) => {
             <div className="flex flex-col gap-4">
               {/* Title and Description */}
               <div className="flex-1">
-                <CardTitle className="text-lg text-white">
+                <h3 className="text-lg text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
                   {viewType === 'week' ? 'Daily Average' : 'Day Total'}
-                </CardTitle>
+                </h3>
                 <CardDescription className="text-gray-300">
                   {viewType === 'week' 
                     ? (weekStats.daysInWeek > 0 
@@ -1409,9 +1409,9 @@ const Nutrition = ({ athleteId }) => {
                                   Supplements
                                 </Badge>
                               </div>
-                              <CardTitle className="text-base text-white">
+                              <h3 className="text-base text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
                                 {new Date(`${entry.log_date}T${entry.log_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                              </CardTitle>
+                              </h3>
                             </div>
                             <button
                               onClick={() => {
@@ -1472,9 +1472,9 @@ const Nutrition = ({ athleteId }) => {
                                   {entry.meal_type.charAt(0).toUpperCase() + entry.meal_type.slice(1)}
                                 </Badge>
                               </div>
-                              <CardTitle className="text-base line-clamp-2 text-white">
+                              <h3 className="text-base line-clamp-2 text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
                                 {entry.description || 'No description'}
-                              </CardTitle>
+                              </h3>
                               <CardDescription className="text-gray-300">
                                 {formatDateTime(entry.entry_date || entry.created_at, entry.entry_time)}
                               </CardDescription>
@@ -1658,9 +1658,9 @@ const Nutrition = ({ athleteId }) => {
                             Supplements
                           </Badge>
                         </div>
-                        <CardTitle className="text-base text-white">
+                        <h3 className="text-base text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
                           {new Date(`${entry.log_date}T${entry.log_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </CardTitle>
+                        </h3>
                       </div>
                       <button
                         onClick={() => {
@@ -1892,9 +1892,9 @@ const Nutrition = ({ athleteId }) => {
           <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700" style={{ background: 'var(--grad-surface)' }}>
             <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-white">
+                <h3 className="text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
                   {viewMode ? 'Meal Details' : (editingEntry ? 'Edit Meal or Drink' : 'Log Meal or Drink')}
-                </CardTitle>
+                </h3>
                 <button
                   onClick={() => {
                     setShowModal(false);
@@ -2412,7 +2412,7 @@ const Nutrition = ({ athleteId }) => {
           <div className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50 bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700" style={{ background: 'var(--grad-surface)' }}>
             <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-white">Log Supplements</CardTitle>
+                <h3 className="text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Log Supplements</h3>
                 <button
                   onClick={() => setShowSupplementModal(false)}
                   className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
