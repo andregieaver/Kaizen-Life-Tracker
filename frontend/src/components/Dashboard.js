@@ -741,9 +741,12 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'journal'
-                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-white hover:bg-gray-700'
+                      ? '' : ''
                   }`}
+                  style={{
+                    background: activeTab === 'journal' ? 'var(--grad-brand)' : 'transparent',
+                    color: activeTab === 'journal' ? 'var(--bg-950)' : 'var(--text-med)'
+                  }}
                 >
                   <BookOpen className="w-5 h-5" />
                   <span className="font-medium">Journal</span>
@@ -762,9 +765,12 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'nutrition'
-                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-white hover:bg-gray-700'
+                      ? '' : ''
                   }`}
+                  style={{
+                    background: activeTab === 'journal' ? 'var(--grad-brand)' : 'transparent',
+                    color: activeTab === 'journal' ? 'var(--bg-950)' : 'var(--text-med)'
+                  }}
                 >
                   <Utensils className="w-5 h-5" />
                   <span className="font-medium">Nutrition</span>
@@ -776,9 +782,12 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'supplements'
-                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-white hover:bg-gray-700'
+                      ? '' : ''
                   }`}
+                  style={{
+                    background: activeTab === 'journal' ? 'var(--grad-brand)' : 'transparent',
+                    color: activeTab === 'journal' ? 'var(--bg-950)' : 'var(--text-med)'
+                  }}
                 >
                   <Pill className="w-5 h-5" />
                   <span className="font-medium">Supplements</span>
@@ -790,9 +799,12 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'recipes'
-                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-white hover:bg-gray-700'
+                      ? '' : ''
                   }`}
+                  style={{
+                    background: activeTab === 'journal' ? 'var(--grad-brand)' : 'transparent',
+                    color: activeTab === 'journal' ? 'var(--bg-950)' : 'var(--text-med)'
+                  }}
                 >
                   <ChefHat className="w-5 h-5" />
                   <span className="font-medium">Recipes</span>
@@ -804,9 +816,12 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'calendar'
-                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-white hover:bg-gray-700'
+                      ? '' : ''
                   }`}
+                  style={{
+                    background: activeTab === 'journal' ? 'var(--grad-brand)' : 'transparent',
+                    color: activeTab === 'journal' ? 'var(--bg-950)' : 'var(--text-med)'
+                  }}
                 >
                   <Calendar className="w-5 h-5" />
                   <span className="font-medium">Training Calendar</span>
@@ -818,9 +833,12 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'habits'
-                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-white hover:bg-gray-700'
+                      ? '' : ''
                   }`}
+                  style={{
+                    background: activeTab === 'journal' ? 'var(--grad-brand)' : 'transparent',
+                    color: activeTab === 'journal' ? 'var(--bg-950)' : 'var(--text-med)'
+                  }}
                 >
                   <Check className="w-5 h-5" />
                   <span className="font-medium">Habit Tracker</span>
@@ -832,9 +850,12 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`hidden w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'history'
-                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-white hover:bg-gray-700'
+                      ? '' : ''
                   }`}
+                  style={{
+                    background: activeTab === 'journal' ? 'var(--grad-brand)' : 'transparent',
+                    color: activeTab === 'journal' ? 'var(--bg-950)' : 'var(--text-med)'
+                  }}
                 >
                   <Activity className="w-5 h-5" />
                   <span className="font-medium">History</span>
@@ -853,9 +874,12 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'tests'
-                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-white hover:bg-gray-700'
+                      ? '' : ''
                   }`}
+                  style={{
+                    background: activeTab === 'journal' ? 'var(--grad-brand)' : 'transparent',
+                    color: activeTab === 'journal' ? 'var(--bg-950)' : 'var(--text-med)'
+                  }}
                 >
                   <LineChart className="w-5 h-5" />
                   <span className="font-medium">Tests & Analytics</span>
@@ -867,9 +891,12 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'schedules'
-                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-white hover:bg-gray-700'
+                      ? '' : ''
                   }`}
+                  style={{
+                    background: activeTab === 'journal' ? 'var(--grad-brand)' : 'transparent',
+                    color: activeTab === 'journal' ? 'var(--bg-950)' : 'var(--text-med)'
+                  }}
                 >
                   <Repeat className="w-5 h-5" />
                   <span className="font-medium">Schedules</span>
@@ -881,9 +908,12 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'calculators'
-                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-white hover:bg-gray-700'
+                      ? '' : ''
                   }`}
+                  style={{
+                    background: activeTab === 'journal' ? 'var(--grad-brand)' : 'transparent',
+                    color: activeTab === 'journal' ? 'var(--bg-950)' : 'var(--text-med)'
+                  }}
                 >
                   <Calculator className="w-5 h-5" />
                   <span className="font-medium">Calculators</span>
@@ -902,9 +932,12 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'documents'
-                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-white hover:bg-gray-700'
+                      ? '' : ''
                   }`}
+                  style={{
+                    background: activeTab === 'journal' ? 'var(--grad-brand)' : 'transparent',
+                    color: activeTab === 'journal' ? 'var(--bg-950)' : 'var(--text-med)'
+                  }}
                 >
                   <FileText className="w-5 h-5" />
                   <span className="font-medium">Documents</span>
@@ -916,9 +949,12 @@ const Dashboard = ({ athleteId }) => {
                   }}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     activeTab === 'memories'
-                      ? 'bg-gradient-to-r from-[#00C2A8] to-[#4FFBDF] text-white shadow-sm'
-                      : 'text-white hover:bg-gray-700'
+                      ? '' : ''
                   }`}
+                  style={{
+                    background: activeTab === 'journal' ? 'var(--grad-brand)' : 'transparent',
+                    color: activeTab === 'journal' ? 'var(--bg-950)' : 'var(--text-med)'
+                  }}
                 >
                   <Brain className="w-5 h-5" />
                   <span className="font-medium">Memories</span>
