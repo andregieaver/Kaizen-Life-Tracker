@@ -419,8 +419,8 @@ const Journal = ({ athleteId }) => {
       ) : (
         <div className="space-y-4">
           {entries.map((entry) => (
-            <Card key={entry.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
+            <div key={entry.id} className="hover:shadow-lg transition-shadow border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-1">
@@ -442,18 +442,18 @@ const Journal = ({ athleteId }) => {
                           </>
                         )}
                       </Badge>
-                      <span className="text-sm text-gray-500">{formatDate(entry.created_at)}</span>
+                      <span className="text-sm" style={{ color: 'var(--text-muted)' }}>{formatDate(entry.created_at)}</span>
                     </div>
                   </div>
                   <button
                     onClick={() => handleDeleteEntry(entry.id)}
-                    className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-600"
+                    className="p-2 hover:bg-red-900/30 rounded-lg transition-colors text-red-400"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
-              </CardHeader>
-              <CardContent>
+              </div>
+              <div className="p-4">
                 {/* Video Player for video entries */}
                 {entry.entry_type === 'video' && entry.video_path && (
                   <div className="mb-4">
@@ -474,9 +474,9 @@ const Journal = ({ athleteId }) => {
                     </video>
                   </div>
                 )}
-                <p className="text-gray-700 whitespace-pre-wrap">{entry.content}</p>
-              </CardContent>
-            </Card>
+                <p className="whitespace-pre-wrap" style={{ color: 'var(--text-med)' }}>{entry.content}</p>
+              </div>
+            </div>
           ))}
         </div>
       )}
