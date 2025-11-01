@@ -400,14 +400,14 @@ const Schedules = ({ athleteId }) => {
       </div>
 
       {/* Preset Templates */}
-      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-        <CardHeader>
-          <CardTitle className="text-lg text-white">Schedule Templates</CardTitle>
-          <CardDescription className="text-gray-300">
+      <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+          <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Schedule Templates</h3>
+          <p className="text-sm" style={{ color: 'var(--text-med)' }}>
             Quick start with these pre-built schedule templates
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+          </p>
+        </div>
+        <div className="p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
               {
