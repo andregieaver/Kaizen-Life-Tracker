@@ -484,10 +484,10 @@ const Journal = ({ athleteId }) => {
       {/* New Entry Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
-          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
-            <CardHeader>
+          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl border border-gray-700" style={{ background: 'var(--grad-surface)' }}>
+            <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-white">New Journal Entry</CardTitle>
+                <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>New Journal Entry</h3>
                 <button
                   onClick={() => {
                     setShowModal(false);
@@ -500,9 +500,9 @@ const Journal = ({ athleteId }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <CardDescription className="text-gray-300">Choose text, voice, or video input</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>Choose text, voice, or video input</p>
+            </div>
+            <div className="p-4 space-y-4">
               {/* Entry Type Toggle */}
               <div className="flex items-center space-x-2 bg-gray-700 rounded-lg p-2">
                 <button
