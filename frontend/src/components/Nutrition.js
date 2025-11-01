@@ -1013,7 +1013,7 @@ const Nutrition = ({ athleteId }) => {
                 <h3 className="text-lg text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
                   {viewType === 'week' ? 'Daily Average' : 'Day Total'}
                 </h3>
-                <CardDescription className="text-gray-300">
+                <p className="text-gray-300" style={{ color: 'var(--text-med)' }}>
                   {viewType === 'week' 
                     ? (weekStats.daysInWeek > 0 
                         ? `${weekStats.daysInWeek} day${weekStats.daysInWeek > 1 ? 's' : ''} tracked`
@@ -1022,7 +1022,7 @@ const Nutrition = ({ athleteId }) => {
                         ? `${dayStats.entryCount} entr${dayStats.entryCount > 1 ? 'ies' : 'y'} logged`
                         : 'No entries this day')
                   }
-                </CardDescription>
+                </p>
               </div>
 
               {/* Toggle and Navigation Controls */}
@@ -1475,9 +1475,9 @@ const Nutrition = ({ athleteId }) => {
                               <h3 className="text-base line-clamp-2 text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
                                 {entry.description || 'No description'}
                               </h3>
-                              <CardDescription className="text-gray-300">
+                              <p className="text-gray-300" style={{ color: 'var(--text-med)' }}>
                                 {formatDateTime(entry.entry_date || entry.created_at, entry.entry_time)}
-                              </CardDescription>
+                              </p>
                             </div>
                             <button
                               onClick={(e) => {
@@ -1912,9 +1912,9 @@ const Nutrition = ({ athleteId }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <CardDescription className="text-gray-300">
+              <p className="text-gray-300" style={{ color: 'var(--text-med)' }}>
                 {viewMode ? 'View your meal or drink details' : (editingEntry ? 'Update your meal or drink entry' : 'Add what you ate or drank')}
-              </CardDescription>
+              </p>
             </div>
             <div className="p-4" className="space-y-4">
               
@@ -2420,9 +2420,9 @@ const Nutrition = ({ athleteId }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <CardDescription className="text-gray-300">
+              <p className="text-gray-300" style={{ color: 'var(--text-med)' }}>
                 Select the supplements you took
-              </CardDescription>
+              </p>
             </div>
             <div className="p-4" className="space-y-4">
               {/* Date and Time */}
