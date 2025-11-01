@@ -601,9 +601,9 @@ const Dashboard = ({ athleteId }) => {
       </header>
 
       {/* Mobile Header */}
-      <header className={`md:hidden bg-gradient-to-br from-gray-800 to-gray-600 shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
+      <header className={`md:hidden shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
         isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
-      }`}>
+      }`} style={{ background: 'var(--grad-surface)', borderBottom: '1px solid var(--border)' }}>
         <div className="px-4 py-3">
           <div className="flex justify-between items-center">
             <div 
@@ -617,7 +617,7 @@ const Dashboard = ({ athleteId }) => {
                   className="w-11 h-11 object-contain"
                 />
               )}
-              <h1 className="hidden font-display text-xl font-bold text-white tracking-tight">
+              <h1 className="hidden font-display text-xl font-bold tracking-tight" style={{ color: 'var(--text-hi)' }}>
                 {siteTitle}
               </h1>
             </div>
@@ -625,36 +625,39 @@ const Dashboard = ({ athleteId }) => {
               {moduleSettings.affiliateProgram.enabled && (
                 <button 
                   onClick={() => navigate('/dashboard/referrals')}
-                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  className="p-2 rounded-lg transition-all duration-200 active:scale-95"
+                  style={{ background: 'var(--grad-cta-soft)' }}
                   aria-label="Referrals"
                 >
-                  <Gift className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                  <Gift className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                 </button>
               )}
               {moduleSettings.community.enabled && (
                 <button 
                   onClick={() => activeTab === 'community' ? navigate('/dashboard') : navigate('/dashboard/community')}
-                  className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
+                  className="p-2 rounded-lg transition-all duration-200 active:scale-95 relative"
+                  style={{ background: 'var(--grad-cta-soft)' }}
                   aria-label={activeTab === 'community' ? 'Dashboard' : 'Community'}
                   title={activeTab === 'community' ? 'Back to Dashboard' : 'Community'}
                 >
                   {activeTab === 'community' ? (
-                    <User className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                    <User className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                   ) : (
-                    <Users className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                    <Users className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                   )}
                 </button>
               )}
               {moduleSettings.community.enabled && (
                 <button 
                   onClick={() => setShowNotifications(!showNotifications)}
-                  className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
+                  className="p-2 rounded-lg transition-all duration-200 active:scale-95 relative"
+                  style={{ background: 'var(--grad-cta-soft)' }}
                   aria-label="Notifications"
                   title="Notifications"
                 >
-                  <Bell className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                  <Bell className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                   {notificationsUnreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+                    <span className="absolute -top-1 -right-1 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold" style={{ background: 'var(--c-danger)' }}>
                       {notificationsUnreadCount > 9 ? '9+' : notificationsUnreadCount}
                     </span>
                   )}
@@ -662,10 +665,11 @@ const Dashboard = ({ athleteId }) => {
               )}
               <button 
                 onClick={() => setIsMenuOpen(true)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="p-2 rounded-lg transition-all duration-200 active:scale-95"
+                style={{ background: 'var(--grad-cta-soft)' }}
                 aria-label="Open menu"
               >
-                <Menu className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                <Menu className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
               </button>
             </div>
           </div>
