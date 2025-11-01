@@ -272,12 +272,12 @@ const Supplements = ({ athleteId }) => {
       {/* Add/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50 bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
-            <CardHeader>
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50 border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl border border-gray-700" style={{ background: 'var(--grad-surface)' }}>
+            <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
-                <CardTitle className="text-white">
+                <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
                   {editingSupplement ? 'Edit Supplement' : 'Add Supplement'}
-                </CardTitle>
+                </h3>
                 <button
                   onClick={() => {
                     setShowModal(false);
@@ -288,11 +288,11 @@ const Supplements = ({ athleteId }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <CardDescription className="text-gray-300">
+              <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>
                 {editingSupplement ? 'Update supplement details' : 'Add a new supplement to your routine'}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              </p>
+            </div>
+            <div className="p-4 space-y-4">
               {/* Supplement Name */}
               <div className="space-y-2">
                 <Label className="text-white">Supplement Name *</Label>
