@@ -860,14 +860,14 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       {/* Upgrade Dialog for Free Users */}
       {showUpgradeDialog && subscriptionTier === 'free' && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Card className="w-full max-w-md mx-4 bg-gray-800 border-gray-700">
-            <CardHeader>
-              <CardTitle className="text-white">Upgrade Required</CardTitle>
-              <CardDescription className="text-gray-300">
+          <div className="w-full max-w-md mx-4 border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl border border-gray-700" style={{ background: 'var(--grad-surface)' }}>
+            <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+              <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Upgrade Required</h3>
+              <p className="text-sm" style={{ color: 'var(--text-med)' }}>
                 AI Coach is available for Pro and Premium subscribers
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              </p>
+            </div>
+            <div className="p-4 space-y-4">
               {/* Billing Cycle Toggle */}
               <div className="flex items-center justify-center space-x-4 bg-gray-900 rounded-full p-2">
                 <button
@@ -934,8 +934,8 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                   Upgrade to Pro
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       )}
     </div>
