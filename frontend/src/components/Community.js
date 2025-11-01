@@ -4300,7 +4300,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
   handleToggleLike, toggleComments, handleAddComment, handleSharePost, loadAthleteProfile }) => (
   <div className="space-y-6">
     {posts.map(post => (
-      <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+      <div key={post.id} className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
         <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} className="pb-3">
           <div className="flex items-center justify-between">
             <div 
@@ -5682,7 +5682,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
     {/* Group Posts - Reuse PostsList but without edit/delete for non-members */}
     <div className="space-y-6">
       {posts.map(post => (
-        <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
+        <div key={post.id} className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
           <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} className="pb-3">
             <div className="flex items-center justify-between">
               <div 
