@@ -681,9 +681,12 @@ const Dashboard = ({ athleteId }) => {
         {/* Backdrop */}
         <div 
           className={`fixed inset-0 z-50 transition-opacity duration-300 ${
-            isMenuOpen ? 'bg-opacity-40 pointer-events-auto' : 'bg-opacity-0 pointer-events-none'
+            isMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'
           }`}
-          style={{ background: 'rgba(0, 0, 0, 0.7)' }}
+          style={{ 
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            opacity: isMenuOpen ? 1 : 0
+          }}
           onClick={() => setIsMenuOpen(false)}
         />
         
