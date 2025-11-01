@@ -5372,6 +5372,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                 </Button>
               )}
             </div>
+            </div>
           </>
         )}
       </div>
