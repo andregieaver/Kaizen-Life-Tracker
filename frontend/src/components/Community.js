@@ -2351,10 +2351,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               </div>
             ) : posts.length === 0 ? (
               <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
-                <CardContent className="p-12 text-center">
+                <div className="p-4" className="p-12 text-center">
                   <p className="text-gray-400 text-lg mb-2">No posts yet</p>
                   <p className="text-gray-500 text-sm">Be the first to share something!</p>
-                </CardContent>
+                </div>
               </div>
             ) : (
               getFilteredPosts(posts).map(item => {
@@ -2453,7 +2453,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                       </div>
                     </div>
 
-                    <CardContent className="px-3 pb-3 pt-0 sm:px-6 sm:pb-6">
+                    <div className="p-4" className="px-3 pb-3 pt-0 sm:px-6 sm:pb-6">
                       {editingPost === post.id ? (
                         <div className="space-y-3">
                           <textarea
@@ -2801,7 +2801,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                           </div>
                         </div>
                       )}
-                    </CardContent>
+                    </div>
                   </div>
                 );
               }
@@ -2835,17 +2835,17 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           <div className="space-y-0 sm:space-y-6">
             {isLoading ? (
               <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg" style={{ background: 'var(--grad-surface)' }}>
-                <CardContent className="p-12 text-center">
+                <div className="p-4" className="p-12 text-center">
                   <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin mx-auto"></div>
                   <p className="text-gray-400 mt-4">Loading posts from people you follow...</p>
-                </CardContent>
+                </div>
               </div>
             ) : followingPosts.length === 0 ? (
               <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg" style={{ background: 'var(--grad-surface)' }}>
-                <CardContent className="p-12 text-center">
+                <div className="p-4" className="p-12 text-center">
                   <p className="text-gray-400 text-lg mb-2">No posts from people you follow</p>
                   <p className="text-gray-500 text-sm">Follow other athletes to see their posts here!</p>
-                </CardContent>
+                </div>
               </div>
             ) : (
               getFilteredPosts(followingPosts).map(post => (
@@ -2907,7 +2907,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                       )}
                     </div>
                   </div>
-                  <CardContent className="px-3 pb-3 pt-0 sm:px-6 sm:pb-6">
+                  <div className="p-4" className="px-3 pb-3 pt-0 sm:px-6 sm:pb-6">
                     {/* Edit Mode */}
                     {editingPost === post.id ? (
                       <div className="space-y-3">
@@ -3264,7 +3264,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                         </div>
                       </div>
                     )}
-                  </CardContent>
+                  </div>
                 </div>
               ))
             )}
@@ -3333,9 +3333,9 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
           {events.length === 0 && (
             <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
-              <CardContent className="p-12 text-center">
+              <div className="p-4" className="p-12 text-center">
                 <p className="text-gray-400 text-lg">No events yet. Create the first event!</p>
-              </CardContent>
+              </div>
             </div>
           )}
         </div>
@@ -3385,7 +3385,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
           {challenges.length === 0 && (
             <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
-              <CardContent className="p-12 text-center">
+              <div className="p-4" className="p-12 text-center">
                 <Trophy className="w-16 h-16 mx-auto mb-4 text-gray-600" />
                 <p className="text-gray-400 text-lg">
                   {challengeFilter === 'all' && 'No challenges yet. Create the first challenge!'}
@@ -3393,7 +3393,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   {challengeFilter === 'completed' && 'No completed challenges'}
                   {challengeFilter === 'joined' && "You haven't joined any challenges yet"}
                 </p>
-              </CardContent>
+              </div>
             </div>
           )}
         </div>
@@ -4363,7 +4363,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
           </div>
         </div>
         
-        <CardContent>
+        <div className="p-4">
           {editingPost === post.id ? (
             <div className="space-y-3">
               <textarea
@@ -4643,15 +4643,15 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
               )}
             </>
           )}
-        </CardContent>
+        </div>
       </div>
     ))}
 
     {posts.length === 0 && (
       <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
-        <CardContent className="p-12 text-center">
+        <div className="p-4" className="p-12 text-center">
           <p className="text-gray-400 text-lg">No posts yet. Be the first to share something!</p>
-        </CardContent>
+        </div>
       </div>
     )}
   </div>
@@ -4667,7 +4667,7 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
       className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-all rounded-none sm:rounded-lg" 
       onClick={onClick}
     >
-      <CardContent className="p-0 sm:p-6">
+      <div className="p-4" className="p-0 sm:p-6">
         {group.cover_photo && (
           <div className="mb-4 sm:mb-4">
             <img src={group.cover_photo} alt={group.name} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
@@ -4744,7 +4744,7 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
             )}
           </div>
         </div>
-      </CardContent>
+      </div>
     </div>
   );
 };
@@ -5385,7 +5385,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
   <div className="space-y-6 pt-12 md:pt-0">
     {/* Group Header */}
     <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
-      <CardContent className="p-6">
+      <div className="p-4" className="p-6">
         <button
           onClick={onBack}
           className="text-[#00C2A8] hover:underline mb-4 flex items-center"
@@ -5449,13 +5449,13 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             )}
           </div>
         </div>
-      </CardContent>
+      </div>
     </div>
 
     {/* Pending Requests (admin/moderator only) */}
     {group.pending_members && group.pending_members.length > 0 && (
       <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
-        <CardContent className="p-6">
+        <div className="p-4" className="p-6">
           <h3 className="text-xl font-bold text-white mb-4">Pending Join Requests</h3>
           <div className="space-y-3">
             {group.pending_members.map(member => (
@@ -5535,14 +5535,14 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               </div>
             ))}
           </div>
-        </CardContent>
+        </div>
       </div>
     )}
 
     {/* Members List (admin/manager only) */}
     {group.members && group.member_role && ['admin', 'manager'].includes(group.member_role) && (
       <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
-        <CardContent className="p-6">
+        <div className="p-4" className="p-6">
           <h3 className="text-xl font-bold text-white mb-4">Group Members</h3>
           <div className="space-y-3">
             {group.members.map(member => (
@@ -5621,14 +5621,14 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               </div>
             ))}
           </div>
-        </CardContent>
+        </div>
       </div>
     )}
 
     {/* Create Post (if member) */}
     {group.is_member && (
       <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
-        <CardContent className="p-6">
+        <div className="p-4" className="p-6">
           <textarea
             value={newPostContent}
             onChange={(e) => setNewPostContent(e.target.value)}
@@ -5675,7 +5675,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               Post
             </Button>
           </div>
-        </CardContent>
+        </div>
       </div>
     )}
 
@@ -5715,7 +5715,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             </div>
           </div>
           
-          <CardContent>
+          <div className="p-4">
             <p className="text-white mb-4">{post.content}</p>
             {post.image_data && (
               <img src={post.image_data} alt="Post" className="w-full rounded-lg mb-4" />
@@ -5737,15 +5737,15 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                 <span>{post.shares_count || 0}</span>
               </div>
             </div>
-          </CardContent>
+          </div>
         </div>
       ))}
 
       {posts.length === 0 && (
         <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
-          <CardContent className="p-12 text-center">
+          <div className="p-4" className="p-12 text-center">
             <p className="text-gray-400 text-lg">No posts in this group yet.</p>
-          </CardContent>
+          </div>
         </div>
       )}
     </div>
@@ -6025,7 +6025,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
       className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-shadow rounded-none sm:rounded-lg"
       onClick={() => onClick(challenge.id)}
     >
-      <CardContent className="p-0 sm:p-6">
+      <div className="p-4" className="p-0 sm:p-6">
         {challenge.cover_photo && (
           <div className="mb-4 sm:mb-4 relative">
             <img src={challenge.cover_photo} alt={challenge.title} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
@@ -6151,7 +6151,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
             )}
           </div>
         </div>
-      </CardContent>
+      </div>
     </div>
   );
 };
@@ -6161,7 +6161,7 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
     className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-shadow rounded-none sm:rounded-lg"
     onClick={() => onClick(event.id)}
   >
-    <CardContent className="p-0 sm:p-6">
+    <div className="p-4" className="p-0 sm:p-6">
       {event.cover_photo && (
         <div className="mb-4 sm:mb-4 relative">
           <img src={event.cover_photo} alt={event.name} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
@@ -6257,7 +6257,7 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
           </button>
         </div>
       </div>
-    </CardContent>
+    </div>
   </div>
 );
 
@@ -6582,7 +6582,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
           {/* Challenge Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
-              <CardContent className="p-4">
+              <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
                   <Target className="w-5 h-5 mr-2 text-[#00C2A8]" />
                   <span className="font-semibold">Goal</span>
@@ -6593,11 +6593,11 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                 <p className="text-gray-400 text-sm capitalize">
                   {challengeData.challenge_type.replace('_', ' ')}
                 </p>
-              </CardContent>
+              </div>
             </div>
 
             <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
-              <CardContent className="p-4">
+              <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
                   <Calendar className="w-5 h-5 mr-2 text-[#00C2A8]" />
                   <span className="font-semibold">Duration</span>
@@ -6608,11 +6608,11 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                 <p className={`text-sm mt-1 ${isActive ? 'text-green-400' : 'text-gray-400'}`}>
                   {isActive ? 'Active' : 'Completed'}
                 </p>
-              </CardContent>
+              </div>
             </div>
 
             <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
-              <CardContent className="p-4">
+              <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
                   <UsersIcon className="w-5 h-5 mr-2 text-[#00C2A8]" />
                   <span className="font-semibold">Participants</span>
@@ -6620,11 +6620,11 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                 <p className="text-gray-300 text-2xl">
                   {challengeData.participants_count || 0}
                 </p>
-              </CardContent>
+              </div>
             </div>
 
             <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
-              <CardContent className="p-4">
+              <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
                   {challengeData.visibility === 'public' ? <Globe className="w-5 h-5 mr-2 text-[#00C2A8]" /> : <Lock className="w-5 h-5 mr-2 text-[#00C2A8]" />}
                   <span className="font-semibold">Visibility</span>
@@ -6632,24 +6632,24 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                 <p className="text-gray-300 capitalize">
                   {challengeData.visibility} / {challengeData.competition_type}
                 </p>
-              </CardContent>
+              </div>
             </div>
           </div>
 
           {/* Description */}
           {challengeData.description && (
             <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
-              <CardContent className="p-4">
+              <div className="p-4" className="p-4">
                 <h3 className="text-white font-semibold mb-2">Description</h3>
                 <p className="text-gray-300">{challengeData.description}</p>
-              </CardContent>
+              </div>
             </div>
           )}
 
           {/* User Progress */}
           {hasJoined && (
             <div className="border-0 bg-gradient-to-r from-[#00C2A8]/20 to-green-500/20 mb-6" style={{ background: 'var(--grad-surface)' }}>
-              <CardContent className="p-4">
+              <div className="p-4" className="p-4">
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="text-white font-semibold">Your Progress</h3>
                   <span className="text-[#00C2A8] font-bold text-lg">
@@ -6663,14 +6663,14 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                   />
                 </div>
                 <p className="text-right text-gray-300 text-sm">{percentage.toFixed(1)}% complete</p>
-              </CardContent>
+              </div>
             </div>
           )}
 
           {/* Leaderboard */}
           {challengeData.leaderboard && challengeData.leaderboard.length > 0 && (
             <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
-              <CardContent className="p-4">
+              <div className="p-4" className="p-4">
                 <h3 className="text-white font-semibold mb-4 flex items-center">
                   <Award className="w-5 h-5 mr-2 text-yellow-500" />
                   Leaderboard
@@ -6711,13 +6711,13 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                     </div>
                   ))}
                 </div>
-              </CardContent>
+              </div>
             </div>
           )}
 
           {/* Comments */}
           <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
-            <CardContent className="p-4">
+            <div className="p-4" className="p-4">
               <h3 className="text-white font-semibold mb-4">Comments</h3>
               
               {/* Add Comment */}
@@ -6766,7 +6766,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                   <p className="text-gray-500 text-center py-4">No comments yet. Be the first to comment!</p>
                 )}
               </div>
-            </CardContent>
+            </div>
           </div>
 
           {/* Action Buttons */}
