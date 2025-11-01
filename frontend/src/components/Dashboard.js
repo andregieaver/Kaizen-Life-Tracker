@@ -453,9 +453,9 @@ const Dashboard = ({ athleteId }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-600 flex flex-col">
       {/* Desktop Header */}
-      <header className={`hidden md:block bg-gradient-to-br from-gray-800 to-gray-600 shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
+      <header className={`hidden md:block shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
         isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
-      }`}>
+      }`} style={{ background: 'var(--grad-surface)', borderBottom: '1px solid var(--border)' }}>
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -467,7 +467,7 @@ const Dashboard = ({ athleteId }) => {
                     className="w-8 h-8 object-contain mr-2"
                   />
                 )}
-                <h1 className="font-display text-2xl font-bold text-white tracking-tight">
+                <h1 className="font-display text-2xl font-bold tracking-tight" style={{ color: 'var(--text-hi)' }}>
                   {siteTitle}
                 </h1>
               </div>
@@ -476,64 +476,68 @@ const Dashboard = ({ athleteId }) => {
                   onClick={() => navigate('/dashboard')}
                   className={`text-sm font-medium transition-colors px-1 py-1 ${
                     activeTab === 'overview'
-                      ? 'text-white border-b-2 border-white'
-                      : 'text-white/80 hover:text-white'
+                      ? ''
+                      : ''
                   }`}
+                  style={{ 
+                    color: activeTab === 'overview' ? 'var(--c-brand-500)' : 'var(--text-med)',
+                    borderBottom: activeTab === 'overview' ? '2px solid var(--c-brand-500)' : 'none'
+                  }}
                   data-testid="overview-tab"
                 >
                   {t('nav.overview')}
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/coach')}
-                  className={`text-sm font-medium transition-colors px-1 py-1 ${
-                    activeTab === 'coach'
-                      ? 'text-white border-b-2 border-white'
-                      : 'text-white/80 hover:text-white'
-                  }`}
+                  className={`text-sm font-medium transition-colors px-1 py-1`}
+                  style={{ 
+                    color: activeTab === 'coach' ? 'var(--c-brand-500)' : 'var(--text-med)',
+                    borderBottom: activeTab === 'coach' ? '2px solid var(--c-brand-500)' : 'none'
+                  }}
                   data-testid="coach-tab"
                 >
                   {t('nav.coach')}
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/reports')}
-                  className={`text-sm font-medium transition-colors px-1 py-1 ${
-                    activeTab === 'reports'
-                      ? 'text-white border-b-2 border-white'
-                      : 'text-white/80 hover:text-white'
-                  }`}
+                  className={`text-sm font-medium transition-colors px-1 py-1`}
+                  style={{ 
+                    color: activeTab === 'reports' ? 'var(--c-brand-500)' : 'var(--text-med)',
+                    borderBottom: activeTab === 'reports' ? '2px solid var(--c-brand-500)' : 'none'
+                  }}
                   data-testid="reports-tab"
                 >
                   {t('nav.reports')}
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/calendar')}
-                  className={`text-sm font-medium transition-colors px-1 py-1 ${
-                    activeTab === 'calendar'
-                      ? 'text-white border-b-2 border-white'
-                      : 'text-white/80 hover:text-white'
-                  }`}
+                  className={`text-sm font-medium transition-colors px-1 py-1`}
+                  style={{ 
+                    color: activeTab === 'calendar' ? 'var(--c-brand-500)' : 'var(--text-med)',
+                    borderBottom: activeTab === 'calendar' ? '2px solid var(--c-brand-500)' : 'none'
+                  }}
                   data-testid="calendar-tab"
                 >
                   {t('nav.calendar')}
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/history')}
-                  className={`hidden text-sm font-medium transition-colors px-1 py-1 ${
-                    activeTab === 'history'
-                      ? 'text-white border-b-2 border-white'
-                      : 'text-white/80 hover:text-white'
-                  }`}
+                  className={`hidden text-sm font-medium transition-colors px-1 py-1`}
+                  style={{ 
+                    color: activeTab === 'history' ? 'var(--c-brand-500)' : 'var(--text-med)',
+                    borderBottom: activeTab === 'history' ? '2px solid var(--c-brand-500)' : 'none'
+                  }}
                   data-testid="history-tab"
                 >
                   {t('nav.history')}
                 </button>
                 <button
                   onClick={() => navigate('/dashboard/account')}
-                  className={`text-sm font-medium transition-colors px-1 py-1 ${
-                    activeTab === 'account'
-                      ? 'text-white border-b-2 border-white'
-                      : 'text-white/80 hover:text-white'
-                  }`}
+                  className={`text-sm font-medium transition-colors px-1 py-1`}
+                  style={{ 
+                    color: activeTab === 'account' ? 'var(--c-brand-500)' : 'var(--text-med)',
+                    borderBottom: activeTab === 'account' ? '2px solid var(--c-brand-500)' : 'none'
+                  }}
                   data-testid="account-tab"
                 >
                   {t('nav.account')}
@@ -544,37 +548,40 @@ const Dashboard = ({ athleteId }) => {
               {moduleSettings.affiliateProgram.enabled && (
                 <button 
                   onClick={() => navigate('/dashboard/referrals')}
-                  className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                  className="p-2 rounded-lg transition-all duration-200 hover:scale-110"
+                  style={{ background: 'var(--grad-cta-soft)' }}
                   aria-label="Referrals"
                   title="Referral Rewards"
                 >
-                  <Gift className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                  <Gift className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                 </button>
               )}
               {moduleSettings.community.enabled && (
                 <button 
                   onClick={() => activeTab === 'community' ? navigate('/dashboard') : navigate('/dashboard/community')}
-                  className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
+                  className="p-2 rounded-lg transition-all duration-200 hover:scale-110 relative"
+                  style={{ background: 'var(--grad-cta-soft)' }}
                   aria-label={activeTab === 'community' ? 'Dashboard' : 'Community'}
                   title={activeTab === 'community' ? 'Back to Dashboard' : 'Community'}
                 >
                   {activeTab === 'community' ? (
-                    <User className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                    <User className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                   ) : (
-                    <Users className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                    <Users className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                   )}
                 </button>
               )}
               {moduleSettings.community.enabled && (
                 <button 
                   onClick={() => setShowNotifications(!showNotifications)}
-                  className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
+                  className="p-2 rounded-lg transition-all duration-200 hover:scale-110 relative"
+                  style={{ background: 'var(--grad-cta-soft)' }}
                   aria-label="Notifications"
                   title="Notifications"
                 >
-                  <Bell className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                  <Bell className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                   {notificationsUnreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+                    <span className="absolute -top-1 -right-1 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold" style={{ background: 'var(--c-danger)' }}>
                       {notificationsUnreadCount > 9 ? '9+' : notificationsUnreadCount}
                     </span>
                   )}
@@ -582,10 +589,11 @@ const Dashboard = ({ athleteId }) => {
               )}
               <button 
                 onClick={() => setIsMenuOpen(true)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="p-2 rounded-lg transition-all duration-200 hover:scale-110"
+                style={{ background: 'var(--grad-cta-soft)' }}
                 aria-label="Open menu"
               >
-                <Menu className="w-6 h-6" style={{ color: '#00C2A8' }} />
+                <Menu className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
               </button>
             </div>
           </div>
