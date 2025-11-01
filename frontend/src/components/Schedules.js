@@ -454,8 +454,8 @@ const Schedules = ({ athleteId }) => {
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Schedule Limit Modal */}
       {showScheduleLimitModal && (
