@@ -1727,14 +1727,15 @@ const Dashboard = ({ athleteId }) => {
                         {getNotificationIcon(notification.type)}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-white text-sm">{notification.message || notification.content}</p>
-                        <p className="text-gray-400 text-xs mt-1">
+                        <p className="text-sm" style={{ color: 'var(--text-hi)' }}>{notification.message || notification.content}</p>
+                        <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
                           {new Date(notification.created_at).toLocaleString()}
                         </p>
                       </div>
                       <div className="flex-shrink-0">
                         <ArrowRight className="w-5 h-5 text-gray-500" />
                       </div>
+                    </div>
                     </div>
                   </div>
                 ))
