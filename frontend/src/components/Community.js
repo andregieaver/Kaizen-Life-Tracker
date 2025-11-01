@@ -4897,7 +4897,6 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
             <p className="text-gray-400 text-xs mt-1">If set, users must accept these rules before joining</p>
           </div>
         </div>
-        </div>
         
         <div className="p-6 pt-4 flex space-x-3">
           <Button
