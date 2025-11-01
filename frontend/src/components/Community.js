@@ -3725,26 +3725,29 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       {/* Write Post Modal */}
       {showWritePostModal && (
         <div 
-          className="fixed inset-0 bg-black/70 flex items-center justify-center z-[70] p-4"
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-[70] p-2 md:p-4"
           onClick={() => setShowWritePostModal(false)}
         >
           <div 
-            className="bg-gray-800 rounded-lg max-w-2xl w-full p-6 shadow-2xl border border-gray-700"
+            className="rounded-none md:rounded-3xl max-w-2xl w-full shadow-2xl border-0 overflow-hidden"
+            style={{ background: 'var(--grad-surface)' }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-2xl font-bold text-white">Create Post</h3>
-              <button
-                onClick={() => setShowWritePostModal(false)}
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <X className="w-6 h-6" />
-              </button>
+            <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+              <div className="flex items-center justify-between">
+                <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Create Post</h3>
+                <button
+                  onClick={() => setShowWritePostModal(false)}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
             </div>
 
             {/* Content */}
-            <div className="space-y-4">
+            <div className="p-6 space-y-4">
               {/* Textarea with Emoji Button */}
               <div className="relative">
                 <textarea
