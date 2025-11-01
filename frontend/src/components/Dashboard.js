@@ -1757,7 +1757,7 @@ const Dashboard = ({ athleteId }) => {
               </div>
               
               {/* Tabs */}
-              <div className="flex overflow-x-auto flex-shrink-0 scrollbar-hide" style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-800)' }}>
+              <div className="flex overflow-x-auto flex-shrink-0 custom-scrollbar" style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-800)' }}>
                 <button
                   onClick={() => setNotificationTab('all')}
                   className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors"
