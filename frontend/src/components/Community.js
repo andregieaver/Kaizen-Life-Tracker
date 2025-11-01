@@ -2321,7 +2321,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           <button
             onClick={handleOpenAthletes}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className="flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white"
+            className="flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all text-gray-400 hover:bg-gray-700/50 hover:text-white"
             title="Find Athletes"
           >
             <Search className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
