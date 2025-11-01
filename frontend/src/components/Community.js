@@ -6159,8 +6159,9 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
 };
 
 const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSuperAdmin = false }) => (
-  <Card 
-    className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-shadow rounded-none sm:rounded-lg"
+  <div 
+    className="border-0 shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow rounded-none md:rounded-3xl"
+    style={{ background: 'var(--grad-surface)' }}
     onClick={() => onClick(event.id)}
   >
     <div className="p-4" className="p-0 sm:p-6">
