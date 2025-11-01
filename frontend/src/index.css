@@ -2,15 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =====================================================
+   KAIZEN LIFE TRACKER - DESIGN SYSTEM
+   ===================================================== */
+
+:root {
+  /* Brand Colors */
+  --c-brand-500: #19E5C5;
+  --c-brand-600: #12CDB0;
+  --c-brand-700: #0FB99D;
+  --c-sky-500: #32D3FF;
+  --c-sky-700: #0EA5E9;
+  --c-focus: #4DFFE0;
+
+  /* Functional Colors */
+  --c-success: #22C55E;
+  --c-warning: #F59E0B;
+  --c-danger: #EF4444;
+  --c-info: #3B82F6;
+
+  /* Neutrals - Dark Theme (default) */
+  --bg-950: #0B1220;
+  --bg-900: #0E1824;
+  --bg-800: #122030;
+  --bg-700: #16283A;
+  --bg-600: #1E3347;
+  --bg-500: #2A4054;
+  --text-hi: #F5FAFF;
+  --text-med: #C7D3E0;
+  --text-muted: #9BA8B6;
+  --border: #1E2A37;
+
+  /* Gradients */
+  --grad-brand: linear-gradient(135deg, #19E5C5 0%, #32D3FF 100%);
+  --grad-surface: linear-gradient(180deg, #0B1220 0%, #111A23 100%);
+  --grad-cta-soft: linear-gradient(180deg, rgba(25,229,197,.16) 0%, rgba(50,211,255,.16) 100%);
+  --grad-success: linear-gradient(135deg, #22C55E, #19E5C5);
+  --grad-alert: linear-gradient(135deg, #EF4444, #F59E0B);
+  
+  /* Typography */
+  --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Light Theme Override */
+:root.light {
+  --bg-950: #FFFFFF;
+  --bg-900: #F8FAFC;
+  --bg-800: #F1F5F9;
+  --bg-700: #E2E8F0;
+  --bg-600: #CBD5E1;
+  --bg-500: #FFFFFF;
+  --text-hi: #0A0F14;
+  --text-med: #485568;
+  --text-muted: #6B7A8C;
+  --border: #E4EBF3;
+}
+
 body {
     margin: 0;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-        "Helvetica Neue", sans-serif;
+    font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 16px;
-    line-height: 1.5;
+    line-height: 1.6;
+    background: var(--bg-950);
+    color: var(--text-hi);
+    font-variant-numeric: tabular-nums lining-nums;
 }
 
 code {
