@@ -1245,34 +1245,34 @@ const Dashboard = ({ athleteId }) => {
                           <span className="text-lg font-bold text-white">91</span>
                         </div>
                       </div>
-                      <span className="text-xs text-gray-300 mt-2">Activity</span>
+                      <span className="text-xs mt-2" style={{ color: 'var(--text-med)' }}>Activity</span>
                     </div>
                   </div>
 
                   {/* 2x2 Grid of Metrics */}
-                  <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-700">
+                  <div className="grid grid-cols-2 gap-3 pt-4" style={{ borderTop: '1px solid var(--border)' }}>
                     {/* Sleep Amount */}
-                    <div className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-4">
-                      <div className="text-xs text-gray-600 mb-1">Sleep Amount</div>
-                      <div className="text-2xl font-bold text-gray-800">7h 23m</div>
+                    <div className="rounded-2xl p-4" style={{ background: 'var(--grad-cta-soft)' }}>
+                      <div className="text-xs mb-1" style={{ color: 'var(--text-muted)' }}>Sleep Amount</div>
+                      <div className="text-2xl font-bold" style={{ color: 'var(--text-hi)', fontFamily: 'var(--font-display)' }}>7h 23m</div>
                     </div>
 
                     {/* Sleep Quality */}
-                    <div className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-4">
-                      <div className="text-xs text-gray-600 mb-1">Sleep Quality</div>
-                      <div className="text-2xl font-bold text-gray-800">85%</div>
+                    <div className="rounded-2xl p-4" style={{ background: 'var(--grad-cta-soft)' }}>
+                      <div className="text-xs mb-1" style={{ color: 'var(--text-muted)' }}>Sleep Quality</div>
+                      <div className="text-2xl font-bold" style={{ color: 'var(--text-hi)', fontFamily: 'var(--font-display)' }}>85%</div>
                     </div>
 
                     {/* HRV */}
-                    <div className="bg-gradient-to-br from-[#FFE5B4] to-[#FFD89B] rounded-lg p-4">
-                      <div className="text-xs text-gray-600 mb-1">HRV</div>
-                      <div className="text-2xl font-bold text-gray-800">68 ms</div>
+                    <div className="rounded-2xl p-4" style={{ background: 'rgba(249, 115, 22, 0.15)' }}>
+                      <div className="text-xs mb-1" style={{ color: 'var(--text-muted)' }}>HRV</div>
+                      <div className="text-2xl font-bold" style={{ color: 'var(--c-warning)', fontFamily: 'var(--font-display)' }}>68 ms</div>
                     </div>
 
                     {/* Resting Heart Rate */}
-                    <div className="bg-gradient-to-br from-[#FFE5B4] to-[#FFD89B] rounded-lg p-4">
-                      <div className="text-xs text-gray-600 mb-1">Resting HR</div>
-                      <div className="text-2xl font-bold text-gray-800">52 bpm</div>
+                    <div className="rounded-2xl p-4" style={{ background: 'rgba(34, 197, 94, 0.15)' }}>
+                      <div className="text-xs mb-1" style={{ color: 'var(--text-muted)' }}>Resting HR</div>
+                      <div className="text-2xl font-bold" style={{ color: 'var(--c-success)', fontFamily: 'var(--font-display)' }}>52 bpm</div>
                     </div>
                   </div>
                 </div>
