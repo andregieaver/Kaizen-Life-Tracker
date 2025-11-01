@@ -234,14 +234,14 @@ const Supplements = ({ athleteId }) => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {supplements.map((supplement) => (
-            <Card key={supplement.id} className="hover:shadow-lg transition-shadow bg-gradient-to-br from-gray-600 to-gray-800 border-0">
-              <CardHeader className="pb-2">
+            <div key={supplement.id} className="hover:shadow-lg transition-shadow border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4 pb-2">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <CardTitle className="text-lg text-white">{supplement.name}</CardTitle>
-                    <CardDescription className="mt-1 text-gray-300">
+                    <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{supplement.name}</h3>
+                    <p className="mt-1" style={{ color: 'var(--text-med)' }}>
                       {supplement.dosage} {supplement.unit}
-                    </CardDescription>
+                    </p>
                   </div>
                   <div className="flex gap-1">
                     <button
@@ -258,13 +258,13 @@ const Supplements = ({ athleteId }) => {
                     </button>
                   </div>
                 </div>
-              </CardHeader>
-              <CardContent className="pt-0 pb-4">
+              </div>
+              <div className="pt-0 pb-4 px-4">
                 {supplement.notes && (
-                  <p className="text-sm text-gray-300">{supplement.notes}</p>
+                  <p className="text-sm" style={{ color: 'var(--text-med)' }}>{supplement.notes}</p>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       )}
