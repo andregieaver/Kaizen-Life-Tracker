@@ -1450,7 +1450,7 @@ const Nutrition = ({ athleteId }) => {
                     // Render meal card
                     const MealIcon = getMealIcon(entry.meal_type);
                     return (
-                      <Card key={entry.id} className="hover:shadow-lg transition-shadow overflow-hidden cursor-pointer bg-gradient-to-br from-gray-600 to-gray-800 border-0">
+                      <div key={entry.id} className="hover:shadow-lg transition-shadow overflow-hidden cursor-pointer border-0 shadow-lg rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
                         {entry.image_data && (
                           <div 
                             className="relative h-48 bg-gray-700"
