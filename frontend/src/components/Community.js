@@ -2375,7 +2375,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 // Render post (original PostsList logic for single post)
                 const post = item;
                 return (
-                  <Card key={post.id} className="border-0 border-b border-b-gray-700 sm:border-b-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg mx-0 sm:mx-auto">
+                  <div key={post.id} className="border-0 border-b border-b-gray-700 sm:border-b-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl mx-0 sm:mx-auto" style={{ background: 'var(--grad-surface)' }}>
                     <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
@@ -2849,7 +2849,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               </div>
             ) : (
               getFilteredPosts(followingPosts).map(post => (
-                <Card key={post.id} className="border-0 border-b border-b-gray-700 sm:border-b-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg mx-0 sm:mx-auto">
+                <div key={post.id} className="border-0 border-b border-b-gray-700 sm:border-b-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl mx-0 sm:mx-auto" style={{ background: 'var(--grad-surface)' }}>
                   <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
                     <div className="flex items-center justify-between">
                       <div 
