@@ -1809,7 +1809,7 @@ const Dashboard = ({ athleteId }) => {
               </div>
               
               {/* Notifications List */}
-              <div className="flex-1 overflow-y-auto">
+              <div className="flex-1 overflow-y-auto custom-scrollbar">
                 {!notifications || getFilteredNotifications().length === 0 ? (
                   <div className="p-8 text-gray-400 text-center">
                     <Bell className="w-12 h-12 text-gray-600 mx-auto mb-2" />
