@@ -2409,10 +2409,10 @@ const Nutrition = ({ athleteId }) => {
       {/* Supplement Log Modal */}
       {showSupplementModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-2 md:p-4">
-          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50 bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700" style={{ background: 'var(--grad-surface)' }}>
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50 rounded-none md:rounded-3xl border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
             <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
-                <h3 className="text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Log Supplements</h3>
+                <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Log Supplements</h3>
                 <button
                   onClick={() => setShowSupplementModal(false)}
                   className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
@@ -2420,11 +2420,11 @@ const Nutrition = ({ athleteId }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <p className="text-gray-300" style={{ color: 'var(--text-med)' }}>
+              <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>
                 Select the supplements you took
               </p>
             </div>
-            <div className="p-4" className="space-y-4">
+            <div className="p-6 space-y-4">
               {/* Date and Time */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
