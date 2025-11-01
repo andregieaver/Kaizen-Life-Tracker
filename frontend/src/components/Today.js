@@ -99,7 +99,7 @@ const Today = ({ athleteId }) => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: 'var(--c-brand-500)' }}></div>
       </div>
     );
   }
@@ -108,32 +108,32 @@ const Today = ({ athleteId }) => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl md:text-3xl font-display font-bold text-white flex items-center gap-2">
-          <Calendar className="w-8 h-8 text-teal-400" />
+        <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
+          <Calendar className="w-8 h-8" style={{ color: 'var(--c-brand-500)' }} />
           Today
         </h1>
-        <p className="text-sm text-gray-300 mt-1">{formatDate()}</p>
+        <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>{formatDate()}</p>
       </div>
 
       {/* Main Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
         {/* Nutrition Overview */}
-        <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 overflow-hidden">
-          <CardHeader className="bg-gradient-to-r from-gray-900 to-gray-800">
-            <CardTitle className="flex items-center gap-2 text-lg text-white">
-              <Utensils className="w-5 h-5 text-teal-400" />
+        <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+          <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+            <h3 className="flex items-center gap-2 text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
+              <Utensils className="w-5 h-5" style={{ color: 'var(--c-brand-500)' }} />
               Nutrition
-            </CardTitle>
-            <CardDescription className="text-gray-300">Daily calorie tracking</CardDescription>
-          </CardHeader>
-          <CardContent className="pt-6 space-y-4">
+            </h3>
+            <p className="text-sm" style={{ color: 'var(--text-med)' }}>Daily calorie tracking</p>
+          </div>
+          <div className="p-4 space-y-4">
             {/* Calorie Need */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-300">Daily Need</span>
-                <span className="text-2xl font-bold text-white">{todayData.calorieNeed}</span>
+                <span className="text-sm" style={{ color: 'var(--text-med)' }}>Daily Need</span>
+                <span className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{todayData.calorieNeed}</span>
               </div>
-              <div className="text-xs text-gray-400">
+              <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
                 {athleteProfile?.estimated_calorie_need 
                   ? 'Based on your profile settings' 
                   : 'Default value (update in Account Settings)'}
@@ -143,38 +143,42 @@ const Today = ({ athleteId }) => {
             {/* Calories Consumed */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-300">Consumed</span>
-                <span className="text-2xl font-bold text-teal-400">{todayData.caloriesConsumed}</span>
+                <span className="text-sm" style={{ color: 'var(--text-med)' }}>Consumed</span>
+                <span className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--c-brand-500)' }}>{todayData.caloriesConsumed}</span>
               </div>
-              <div className="text-xs text-gray-400">
+              <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
                 From {todayData.meals.length} meal{todayData.meals.length !== 1 ? 's' : ''}
               </div>
             </div>
 
             {/* Calories Remaining */}
-            <div className={`p-4 rounded-lg ${
-              todayData.caloriesRemaining > 500 ? 'bg-blue-900/30 border border-blue-700' :
-              todayData.caloriesRemaining < -500 ? 'bg-red-900/30 border border-red-700' :
-              'bg-green-900/30 border border-green-700'
-            }`}>
+            <div className={`p-4 rounded-2xl`} style={{
+              background: todayData.caloriesRemaining > 500 ? 'rgba(59, 130, 246, 0.15)' :
+                         todayData.caloriesRemaining < -500 ? 'rgba(239, 68, 68, 0.15)' :
+                         'rgba(34, 197, 94, 0.15)',
+              border: todayData.caloriesRemaining > 500 ? '1px solid var(--c-info)' :
+                     todayData.caloriesRemaining < -500 ? '1px solid var(--c-danger)' :
+                     '1px solid var(--c-success)'
+            }}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <StatusIcon className={`w-5 h-5 ${
-                    todayData.caloriesRemaining > 500 ? 'text-blue-400' :
-                    todayData.caloriesRemaining < -500 ? 'text-red-400' :
-                    'text-green-400'
-                  }`} />
-                  <span className="text-sm font-medium text-gray-200">Remaining</span>
+                  <StatusIcon className={`w-5 h-5`} style={{
+                    color: todayData.caloriesRemaining > 500 ? 'var(--c-info)' :
+                          todayData.caloriesRemaining < -500 ? 'var(--c-danger)' :
+                          'var(--c-success)'
+                  }} />
+                  <span className="text-sm font-medium" style={{ color: 'var(--text-med)' }}>Remaining</span>
                 </div>
-                <span className={`text-2xl font-bold ${
-                  todayData.caloriesRemaining > 500 ? 'text-blue-400' :
-                  todayData.caloriesRemaining < -500 ? 'text-red-400' :
-                  'text-green-400'
-                }`}>
+                <span className={`text-2xl font-bold`} style={{ 
+                  fontFamily: 'var(--font-display)',
+                  color: todayData.caloriesRemaining > 500 ? 'var(--c-info)' :
+                        todayData.caloriesRemaining < -500 ? 'var(--c-danger)' :
+                        'var(--c-success)'
+                }}>
                   {todayData.caloriesRemaining > 0 ? '+' : ''}{todayData.caloriesRemaining}
                 </span>
               </div>
-              <div className="mt-2 text-xs text-gray-400">
+              <div className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
                 {todayData.caloriesRemaining > 500 && 'You need more calories today'}
                 {todayData.caloriesRemaining >= -500 && todayData.caloriesRemaining <= 500 && 'You\'re on track!'}
                 {todayData.caloriesRemaining < -500 && 'You\'ve exceeded your daily goal'}
@@ -183,48 +187,45 @@ const Today = ({ athleteId }) => {
 
             {/* Progress Bar */}
             <div>
-              <div className="flex items-center justify-between mb-2 text-xs text-gray-300">
+              <div className="flex items-center justify-between mb-2 text-xs" style={{ color: 'var(--text-med)' }}>
                 <span>Progress</span>
                 <span>{Math.round((todayData.caloriesConsumed / todayData.calorieNeed) * 100)}%</span>
               </div>
-              <div className="w-full bg-gray-600 rounded-full h-3">
+              <div className="w-full rounded-full h-3" style={{ background: 'var(--bg-800)' }}>
                 <div 
-                  className={`h-3 rounded-full transition-all ${
-                    todayData.caloriesConsumed > todayData.calorieNeed 
-                      ? 'bg-red-500' 
-                      : 'bg-teal-500'
-                  }`}
+                  className={`h-3 rounded-full transition-all`}
                   style={{ 
-                    width: `${Math.min((todayData.caloriesConsumed / todayData.calorieNeed) * 100, 100)}%` 
+                    width: `${Math.min((todayData.caloriesConsumed / todayData.calorieNeed) * 100, 100)}%`,
+                    background: todayData.caloriesConsumed > todayData.calorieNeed ? 'var(--c-danger)' : 'var(--grad-brand)'
                   }}
                 ></div>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Training Load */}
-        <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 overflow-hidden">
-          <CardHeader className="bg-gradient-to-r from-gray-900 to-gray-800">
-            <CardTitle className="flex items-center gap-2 text-lg text-white">
-              <Activity className="w-5 h-5 text-teal-400" />
+        <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+          <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+            <h3 className="flex items-center gap-2 text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
+              <Activity className="w-5 h-5" style={{ color: 'var(--c-brand-500)' }} />
               Training Load
-            </CardTitle>
-            <CardDescription className="text-gray-300">Today's activity summary</CardDescription>
-          </CardHeader>
-          <CardContent className="pt-6 space-y-4">
+            </h3>
+            <p className="text-sm" style={{ color: 'var(--text-med)' }}>Today's activity summary</p>
+          </div>
+          <div className="p-4 space-y-4">
             {/* Training Load Value */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-300">Total Load</span>
-                <span className="text-2xl font-bold text-teal-400">
+                <span className="text-sm" style={{ color: 'var(--text-med)' }}>Total Load</span>
+                <span className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--c-brand-500)' }}>
                   {todayData.trainingLoad}
-                  <span className="text-sm text-gray-400 ml-1">
+                  <span className="text-sm ml-1" style={{ color: 'var(--text-muted)' }}>
                     {todayData.workouts.length > 0 && todayData.workouts[0].distance ? 'km' : 'min'}
                   </span>
                 </span>
               </div>
-              <div className="text-xs text-gray-400">
+              <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
                 From {todayData.workouts.length} workout{todayData.workouts.length !== 1 ? 's' : ''}
               </div>
             </div>
@@ -232,19 +233,19 @@ const Today = ({ athleteId }) => {
             {/* Workout List */}
             {todayData.workouts.length > 0 ? (
               <div className="space-y-2">
-                <h4 className="text-sm font-medium text-gray-200">Today's Workouts</h4>
+                <h4 className="text-sm font-medium" style={{ color: 'var(--text-med)' }}>Today's Workouts</h4>
                 {todayData.workouts.map((workout, index) => (
-                  <div key={index} className="p-3 bg-gray-600 rounded-lg border border-gray-500">
+                  <div key={index} className="p-3 rounded-2xl" style={{ background: 'var(--grad-cta-soft)', border: '1px solid var(--border)' }}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Flame className="w-4 h-4 text-orange-400" />
-                        <span className="text-sm font-medium text-white">{workout.name || 'Workout'}</span>
+                        <Flame className="w-4 h-4" style={{ color: 'var(--c-warning)' }} />
+                        <span className="text-sm font-medium" style={{ color: 'var(--text-hi)' }}>{workout.name || 'Workout'}</span>
                       </div>
-                      <Badge variant="outline" className="text-xs border-teal-600 text-teal-400">
+                      <Badge variant="outline" className="text-xs" style={{ borderColor: 'var(--c-brand-500)', color: 'var(--c-brand-500)' }}>
                         {workout.sport_type || workout.type || 'Run'}
                       </Badge>
                     </div>
-                    <div className="mt-2 flex items-center gap-4 text-xs text-gray-300">
+                    <div className="mt-2 flex items-center gap-4 text-xs" style={{ color: 'var(--text-med)' }}>
                       {workout.distance && (
                         <span>{(workout.distance / 1000).toFixed(2)} km</span>
                       )}
