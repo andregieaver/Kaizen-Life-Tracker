@@ -1702,7 +1702,7 @@ const Dashboard = ({ athleteId }) => {
             </div>
             
             {/* Notifications List */}
-            <div className="flex-1 overflow-y-auto p-2">
+            <div className="flex-1 overflow-y-auto p-2 custom-scrollbar">
               {!notifications || getFilteredNotifications().length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
