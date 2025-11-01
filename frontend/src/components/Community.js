@@ -5917,6 +5917,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
             ))
           )}
         </div>
+        </div>
       </div>
     </div>
   );
