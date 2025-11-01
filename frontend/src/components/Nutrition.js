@@ -1005,7 +1005,7 @@ const Nutrition = ({ athleteId }) => {
       {/* Nutrition Statistics - Day/Week View */}
       {entries.length > 0 && (
         <div className="bg-gradient-to-br from-gray-600 to-gray-800 border-0" style={{ background: 'var(--grad-surface)' }}>
-          <CardHeader>
+          <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
             {/* View Type Toggle and Navigation */}
             <div className="flex flex-col gap-4">
               {/* Title and Description */}
@@ -1130,7 +1130,7 @@ const Nutrition = ({ athleteId }) => {
                 </div>
               </div>
             </div>
-          </CardHeader>
+          </div>
           <CardContent className="space-y-4">
             {/* Only show Calories and Macros if there are entries for the period */}
             {(() => {
@@ -1364,7 +1364,7 @@ const Nutrition = ({ athleteId }) => {
               );
             })()}
           </CardContent>
-        </Card>
+        </div>
       )}
 
       {/* Nutrition Entries List */}
@@ -1400,7 +1400,7 @@ const Nutrition = ({ athleteId }) => {
                     const logSupplements = supplements.filter(s => entry.supplement_ids.includes(s.id));
                     return (
                       <Card key={entry.id} className="hover:shadow-lg transition-shadow bg-gradient-to-br from-gray-600 to-gray-800 border-0">
-                        <CardHeader>
+                        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
                           <div className="flex items-start justify-between">
                             <div className="flex-1">
                               <div className="flex items-center space-x-2 mb-1">
@@ -1429,7 +1429,7 @@ const Nutrition = ({ athleteId }) => {
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
-                        </CardHeader>
+                        </div>
                         <CardContent>
                           <div className="space-y-2">
                             {logSupplements.map(supp => (
@@ -1444,7 +1444,7 @@ const Nutrition = ({ athleteId }) => {
                             )}
                           </div>
                         </CardContent>
-                      </Card>
+                      </div>
                     );
                   } else {
                     // Render meal card
@@ -1463,7 +1463,7 @@ const Nutrition = ({ athleteId }) => {
                             />
                           </div>
                         )}
-                        <CardHeader onClick={() => handleViewEntry(entry)}>
+                        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} onClick={() => handleViewEntry(entry)}>
                           <div className="flex items-start justify-between">
                             <div className="flex-1">
                               <div className="flex items-center space-x-2 mb-1">
@@ -1489,7 +1489,7 @@ const Nutrition = ({ athleteId }) => {
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
-                        </CardHeader>
+                        </div>
                         <CardContent onClick={() => handleViewEntry(entry)}>
                           {/* Calories Always Visible */}
                           {entry.calories > 0 && (
@@ -1632,7 +1632,7 @@ const Nutrition = ({ athleteId }) => {
                             </div>
                           )}
                         </CardContent>
-                      </Card>
+                      </div>
                     );
                   }
                 })}
@@ -1649,7 +1649,7 @@ const Nutrition = ({ athleteId }) => {
               const logSupplements = supplements.filter(s => entry.supplement_ids.includes(s.id));
               return (
                 <Card key={entry.id} className="hover:shadow-lg transition-shadow bg-gradient-to-br from-gray-600 to-gray-800 border-0">
-                  <CardHeader>
+                  <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-1">
@@ -1678,7 +1678,7 @@ const Nutrition = ({ athleteId }) => {
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
-                  </CardHeader>
+                  </div>
                   <CardContent>
                     <div className="space-y-2">
                       {logSupplements.map(supp => (
@@ -1693,7 +1693,7 @@ const Nutrition = ({ athleteId }) => {
                       )}
                     </div>
                   </CardContent>
-                </Card>
+                </div>
               );
             } else {
               // Render meal card
@@ -1712,7 +1712,7 @@ const Nutrition = ({ athleteId }) => {
                     />
                   </div>
                 )}
-                <CardHeader onClick={() => handleViewEntry(entry)}>
+                <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} onClick={() => handleViewEntry(entry)}>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-1">
@@ -1740,7 +1740,7 @@ const Nutrition = ({ athleteId }) => {
                       </button>
                     </div>
                   </div>
-                </CardHeader>
+                </div>
                 <CardContent onClick={() => handleViewEntry(entry)}>
                   <p className="text-gray-700 whitespace-pre-wrap mb-3">{entry.description}</p>
                   
@@ -1879,7 +1879,7 @@ const Nutrition = ({ athleteId }) => {
                     </div>
                   )}
                 </CardContent>
-              </Card>
+              </div>
             );
             }
           })}
@@ -1890,7 +1890,7 @@ const Nutrition = ({ athleteId }) => {
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
           <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700" style={{ background: 'var(--grad-surface)' }}>
-            <CardHeader>
+            <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-white">
                   {viewMode ? 'Meal Details' : (editingEntry ? 'Edit Meal or Drink' : 'Log Meal or Drink')}
@@ -1915,7 +1915,7 @@ const Nutrition = ({ athleteId }) => {
               <CardDescription className="text-gray-300">
                 {viewMode ? 'View your meal or drink details' : (editingEntry ? 'Update your meal or drink entry' : 'Add what you ate or drank')}
               </CardDescription>
-            </CardHeader>
+            </div>
             <CardContent className="space-y-4">
               
               {/* VIEW MODE - Read Only */}
@@ -2380,7 +2380,7 @@ const Nutrition = ({ athleteId }) => {
                 </div>
               )}
             </CardContent>
-          </Card>
+          </div>
         </div>
       )}
 
@@ -2410,7 +2410,7 @@ const Nutrition = ({ athleteId }) => {
       {showSupplementModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50 bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700" style={{ background: 'var(--grad-surface)' }}>
-            <CardHeader>
+            <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-white">Log Supplements</CardTitle>
                 <button
@@ -2423,7 +2423,7 @@ const Nutrition = ({ athleteId }) => {
               <CardDescription className="text-gray-300">
                 Select the supplements you took
               </CardDescription>
-            </CardHeader>
+            </div>
             <CardContent className="space-y-4">
               {/* Date and Time */}
               <div className="grid grid-cols-2 gap-4">
@@ -2510,7 +2510,7 @@ const Nutrition = ({ athleteId }) => {
                 </Button>
               </div>
             </CardContent>
-          </Card>
+          </div>
         </div>
       )}
     </div>
