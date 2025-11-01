@@ -326,8 +326,8 @@ const Schedules = ({ athleteId }) => {
                 </Button>
               </div>
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
 
       {/* Existing Schedules */}
