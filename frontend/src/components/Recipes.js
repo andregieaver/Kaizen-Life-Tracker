@@ -204,15 +204,15 @@ const Recipes = ({ athleteId }) => {
       )}
 
       {/* Generation Form */}
-      <Card className="bg-gradient-to-br from-gray-700 to-gray-800 border-0 shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-lg font-display text-white">Generate New Recipe</CardTitle>
-          <CardDescription className="text-gray-300">Select a meal type and generate a personalized recipe</CardDescription>
-        </CardHeader>
-        <CardContent>
+      <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+          <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Generate New Recipe</h3>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>Select a meal type and generate a personalized recipe</p>
+        </div>
+        <div className="p-4">
           <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-end">
             <div className="flex-1">
-              <label className="block text-sm font-medium text-white mb-2">
+              <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-hi)' }}>
                 Meal Type
               </label>
               <select
@@ -250,8 +250,8 @@ const Recipes = ({ athleteId }) => {
               )}
             </Button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Filter */}
       {recipes.length > 0 && (
