@@ -4260,27 +4260,40 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           {/* Desktop: Dropdown */}
           <div className="hidden md:block fixed top-16 right-4 z-50 sm:absolute sm:right-0 sm:mt-2">
             <div className="relative">
-              <div className="absolute right-0 mt-2 w-80 bg-gray-800 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
-                <div className="p-4 border-b border-gray-700 flex items-center justify-between">
-                  <h3 className="text-white font-semibold">Notifications</h3>
-                  <button
-                    onClick={() => effectiveSetShowNotifications(false)}
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
+              <div className="absolute right-0 mt-2 w-80 rounded-3xl shadow-xl z-50 max-h-96 overflow-y-auto overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
+                <div className="p-4" style={{ borderBottom: '1px solid var(--border)' }}>
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-semibold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Notifications</h3>
+                    <button
+                      onClick={() => effectiveSetShowNotifications(false)}
+                      className="text-gray-400 hover:text-white transition-colors"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
                 </div>
                 {notifications.length === 0 ? (
-                  <div className="p-8 text-gray-400 text-center">
+                  <div className="p-8 text-center">
                     <Bell className="w-12 h-12 text-gray-600 mx-auto mb-2" />
-                    <p>No notifications</p>
+                    <p style={{ color: 'var(--text-med)' }}>No notifications</p>
                   </div>
                 ) : (
                   notifications.map(notification => (
                     <div
                       key={notification.id}
-                      className={`p-4 border-b border-gray-700 hover:bg-gray-700 cursor-pointer ${
-                        !notification.read ? 'bg-gray-700/50' : ''
+                      className={`p-4 hover:bg-gray-700/30 cursor-pointer transition-colors ${
+                        !notification.read ? 'bg-gray-700/20' : ''
+                      }`}
+                      style={{ borderBottom: '1px solid var(--border)' }}
+                      onClick={() => handleNotificationClick(notification)}
+                    >
+                      <p className="text-sm" style={{ color: 'var(--text-hi)' }}>{notification.message || notification.content}</p>
+                      <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                        {new Date(notification.created_at).toLocaleString()}
+                      </p>
+                    </div>
+                  ))
+                )}
                       }`}
                       onClick={() => handleNotificationClick(notification)}
                     >
