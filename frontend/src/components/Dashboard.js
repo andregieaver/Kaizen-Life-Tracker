@@ -1275,8 +1275,8 @@ const Dashboard = ({ athleteId }) => {
                       <div className="text-2xl font-bold text-gray-800">52 bpm</div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
               {/* Column 2: Progress - Test Results */}
               <Card className="border-0 shadow-md bg-gradient-to-br from-gray-600 to-gray-800 overflow-hidden rounded-none md:rounded-lg">
