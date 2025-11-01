@@ -184,7 +184,7 @@ const Recipes = ({ athleteId }) => {
   };
 
   return (
-    <div className="space-y-6 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen p-2 md:p-6 space-y-6" style={{ background: 'var(--grad-page)' }}>
       {/* Header */}
       <div>
         <h1 className="text-3xl font-display font-bold text-white">Recipe Generator</h1>
