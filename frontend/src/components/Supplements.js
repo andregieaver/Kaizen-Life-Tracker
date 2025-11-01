@@ -214,11 +214,11 @@ const Supplements = ({ athleteId }) => {
           <p className="text-gray-300">Loading supplements...</p>
         </div>
       ) : supplements.length === 0 ? (
-        <Card className="bg-gradient-to-r from-gray-900 to-gray-800 border-0">
-          <CardContent className="text-center py-12">
-            <Pill className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-white mb-2">No supplements yet</h3>
-            <p className="text-gray-300 mb-4">Start tracking your supplements and vitamins</p>
+        <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+          <div className="text-center py-12 p-4">
+            <Pill className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--text-muted)' }} />
+            <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-hi)' }}>No supplements yet</h3>
+            <p className="mb-4" style={{ color: 'var(--text-med)' }}>Start tracking your supplements and vitamins</p>
             <Button 
               onClick={openNewSupplementModal}
               className="text-white border-0"
@@ -229,8 +229,8 @@ const Supplements = ({ athleteId }) => {
               <Plus className="w-4 h-4 mr-2" />
               Add First Supplement
             </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {supplements.map((supplement) => (
