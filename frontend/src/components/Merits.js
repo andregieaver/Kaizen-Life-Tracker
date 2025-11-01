@@ -54,46 +54,46 @@ const Merits = ({ athleteId }) => {
 
   if (isLoading) {
     return (
-      <Card className="border-0 shadow-md bg-gradient-to-br from-gray-600 to-gray-800 rounded-none md:rounded-lg">
-        <CardHeader>
-          <CardTitle className="flex items-center text-white">
-            <Trophy className="w-5 h-5 mr-2 text-yellow-400" />
+      <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4">
+          <h2 className="flex items-center text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
+            <Trophy className="w-5 h-5 mr-2" style={{ color: 'var(--c-warning)' }} />
             Merits
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </h2>
+        </div>
+        <div className="px-4 pb-4">
           <div className="animate-pulse space-y-3">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-8 bg-gray-700 rounded"></div>
+              <div key={i} className="h-8 rounded" style={{ background: 'var(--bg-800)' }}></div>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Card className="border-0 shadow-md bg-gradient-to-br from-gray-600 to-gray-800 rounded-none md:rounded-lg">
-      <CardHeader>
-        <CardTitle className="flex items-center text-white">
-          <Trophy className="w-5 h-5 mr-2 text-yellow-400" />
+    <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+      <div className="p-4 pb-3">
+        <h2 className="flex items-center text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
+          <Trophy className="w-5 h-5 mr-2" style={{ color: 'var(--c-warning)' }} />
           {t('merits.title')}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
+        </h2>
+      </div>
+      <div className="px-4 pb-4">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-700">
-                <th className="text-left py-2 px-2 font-semibold text-gray-200">{t('merits.distance')}</th>
-                <th className="text-left py-2 px-2 font-semibold text-gray-200">
+              <tr style={{ borderBottom: '1px solid var(--border)' }}>
+                <th className="text-left py-2 px-2 font-semibold" style={{ color: 'var(--text-med)' }}>{t('merits.distance')}</th>
+                <th className="text-left py-2 px-2 font-semibold" style={{ color: 'var(--text-med)' }}>
                   <div className="flex items-center">
-                    <TrendingUp className="w-4 h-4 mr-1 text-blue-400" />
+                    <TrendingUp className="w-4 h-4 mr-1" style={{ color: 'var(--c-info)' }} />
                     {t('merits.last12Months')}
                   </div>
                 </th>
-                <th className="text-left py-2 px-2 font-semibold text-gray-200">
-                  <Trophy className="w-4 h-4 inline mr-1 text-yellow-400" />
+                <th className="text-left py-2 px-2 font-semibold" style={{ color: 'var(--text-med)' }}>
+                  <Trophy className="w-4 h-4 inline mr-1" style={{ color: 'var(--c-warning)' }} />
                   {t('merits.allTimeBest')}
                 </th>
               </tr>
@@ -106,25 +106,31 @@ const Merits = ({ athleteId }) => {
                 const isPersonalBest = hasRecent && hasAllTime && merit.recent_best === merit.all_time_best;
 
                 return (
-                  <tr key={distance.key} className="border-b border-gray-700 hover:bg-gray-700/30">
-                    <td className="py-3 px-2 font-medium text-white">{distance.label}</td>
+                  <tr key={distance.key} className="transition-colors duration-150" style={{ borderBottom: '1px solid var(--border)' }}>
+                    <td className="py-3 px-2 font-medium" style={{ color: 'var(--text-hi)' }}>{distance.label}</td>
                     <td className="py-3 px-2">
                       {hasRecent ? (
-                        <span className={`font-mono ${isPersonalBest ? 'text-blue-400 font-semibold' : 'text-gray-300'}`}>
+                        <span className="font-mono" style={{ 
+                          color: isPersonalBest ? 'var(--c-info)' : 'var(--text-med)',
+                          fontFamily: 'var(--font-display)'
+                        }}>
                           {formatTime(merit.recent_best)}
                           {isPersonalBest && (
-                            <span className="ml-2 text-xs bg-blue-900/50 text-blue-300 px-2 py-0.5 rounded-full">{t('merits.personalBest')}</span>
+                            <span className="ml-2 text-xs px-2 py-0.5 rounded-full" style={{ 
+                              background: 'rgba(59, 130, 246, 0.2)',
+                              color: 'var(--c-info)'
+                            }}>{t('merits.personalBest')}</span>
                           )}
                         </span>
                       ) : (
-                        <span className="text-gray-500 text-xs">{t('merits.noData')}</span>
+                        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('merits.noData')}</span>
                       )}
                     </td>
                     <td className="py-3 px-2">
                       {hasAllTime ? (
-                        <span className="font-mono text-white font-semibold">{formatTime(merit.all_time_best)}</span>
+                        <span className="font-mono font-semibold" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>{formatTime(merit.all_time_best)}</span>
                       ) : (
-                        <span className="text-gray-500 text-xs">{t('merits.noData')}</span>
+                        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('merits.noData')}</span>
                       )}
                     </td>
                   </tr>
@@ -136,13 +142,13 @@ const Merits = ({ athleteId }) => {
 
         {merits.length === 0 && (
           <div className="text-center py-8">
-            <Trophy className="w-12 h-12 text-gray-500 mx-auto mb-2" />
-            <p className="text-gray-300 text-sm">{t('merits.noRecords')}</p>
-            <p className="text-gray-400 text-xs mt-1">{t('merits.completeWorkouts')}</p>
+            <Trophy className="w-12 h-12 mx-auto mb-2" style={{ color: 'var(--text-muted)' }} />
+            <p className="text-sm" style={{ color: 'var(--text-med)' }}>{t('merits.noRecords')}</p>
+            <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>{t('merits.completeWorkouts')}</p>
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 
