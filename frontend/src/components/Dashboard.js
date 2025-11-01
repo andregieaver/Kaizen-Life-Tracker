@@ -1551,17 +1551,17 @@ const Dashboard = ({ athleteId }) => {
       </main>
 
       {/* Mobile Bottom Navigation */}
-      <nav className={`md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-gray-800 border-t border-gray-700 shadow-lg z-50 transition-transform duration-300 ease-in-out ${
+      <nav className={`md:hidden fixed bottom-0 left-0 right-0 shadow-lg z-50 transition-transform duration-300 ease-in-out ${
         scrollDirection === 'down' ? 'translate-y-full' : 'translate-y-0'
-      }`}>
+      }`} style={{ background: 'var(--grad-surface)', borderTop: '1px solid var(--border)' }}>
         <div className="grid grid-cols-4 h-16">
           <button
             onClick={() => navigate('/dashboard/today')}
-            className={`flex flex-col items-center justify-center transition-colors ${
-              activeTab === 'today'
-                ? 'text-white bg-gray-700'
-                : 'text-gray-400 hover:text-white hover:bg-gray-700'
-            }`}
+            className={`flex flex-col items-center justify-center transition-all duration-200`}
+            style={{
+              color: activeTab === 'today' ? 'var(--c-brand-500)' : 'var(--text-med)',
+              background: activeTab === 'today' ? 'var(--grad-cta-soft)' : 'transparent'
+            }}
             data-testid="mobile-today-tab"
           >
             <Calendar className="w-5 h-5 mb-1" />
@@ -1570,11 +1570,11 @@ const Dashboard = ({ athleteId }) => {
           
           <button
             onClick={() => navigate('/dashboard')}
-            className={`flex flex-col items-center justify-center transition-colors ${
-              activeTab === 'overview'
-                ? 'text-white bg-gray-700'
-                : 'text-gray-400 hover:text-white hover:bg-gray-700'
-            }`}
+            className={`flex flex-col items-center justify-center transition-all duration-200`}
+            style={{
+              color: activeTab === 'overview' ? 'var(--c-brand-500)' : 'var(--text-med)',
+              background: activeTab === 'overview' ? 'var(--grad-cta-soft)' : 'transparent'
+            }}
             data-testid="mobile-overview-tab"
           >
             <Home className="w-5 h-5 mb-1" />
@@ -1583,11 +1583,11 @@ const Dashboard = ({ athleteId }) => {
           
           <button
             onClick={() => navigate('/dashboard/coach')}
-            className={`flex flex-col items-center justify-center transition-colors ${
-              activeTab === 'coach'
-                ? 'text-white bg-gray-700'
-                : 'text-gray-400 hover:text-white hover:bg-gray-700'
-            }`}
+            className={`flex flex-col items-center justify-center transition-all duration-200`}
+            style={{
+              color: activeTab === 'coach' ? 'var(--c-brand-500)' : 'var(--text-med)',
+              background: activeTab === 'coach' ? 'var(--grad-cta-soft)' : 'transparent'
+            }}
             data-testid="mobile-coach-tab"
           >
             <MessageCircle className="w-5 h-5 mb-1" />
@@ -1596,11 +1596,11 @@ const Dashboard = ({ athleteId }) => {
           
           <button
             onClick={() => navigate('/dashboard/reports')}
-            className={`flex flex-col items-center justify-center transition-colors ${
-              activeTab === 'reports'
-                ? 'text-white bg-gray-700'
-                : 'text-gray-400 hover:text-white hover:bg-gray-700'
-            }`}
+            className={`flex flex-col items-center justify-center transition-all duration-200`}
+            style={{
+              color: activeTab === 'reports' ? 'var(--c-brand-500)' : 'var(--text-med)',
+              background: activeTab === 'reports' ? 'var(--grad-cta-soft)' : 'transparent'
+            }}
             data-testid="mobile-reports-tab"
           >
             <PlusCircle className="w-5 h-5 mb-1" />
