@@ -1131,7 +1131,7 @@ const Nutrition = ({ athleteId }) => {
               </div>
             </div>
           </div>
-          <CardContent className="space-y-4">
+          <div className="p-4" className="space-y-4">
             {/* Only show Calories and Macros if there are entries for the period */}
             {(() => {
               const hasEntries = viewType === 'week' 
@@ -1363,7 +1363,7 @@ const Nutrition = ({ athleteId }) => {
                 </div>
               );
             })()}
-          </CardContent>
+          </div>
         </div>
       )}
 
@@ -1430,7 +1430,7 @@ const Nutrition = ({ athleteId }) => {
                             </button>
                           </div>
                         </div>
-                        <CardContent>
+                        <div className="p-4">
                           <div className="space-y-2">
                             {logSupplements.map(supp => (
                               <div key={supp.id} className="flex items-center gap-2 text-sm text-white">
@@ -1443,7 +1443,7 @@ const Nutrition = ({ athleteId }) => {
                               <p className="text-sm text-gray-300 mt-2 pt-2 border-t border-gray-700">{entry.notes}</p>
                             )}
                           </div>
-                        </CardContent>
+                        </div>
                       </div>
                     );
                   } else {
@@ -1490,7 +1490,7 @@ const Nutrition = ({ athleteId }) => {
                             </button>
                           </div>
                         </div>
-                        <CardContent onClick={() => handleViewEntry(entry)}>
+                        <div className="p-4" onClick={() => handleViewEntry(entry)}>
                           {/* Calories Always Visible */}
                           {entry.calories > 0 && (
                             <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3 mb-3">
@@ -1631,7 +1631,7 @@ const Nutrition = ({ athleteId }) => {
                               )}
                             </div>
                           )}
-                        </CardContent>
+                        </div>
                       </div>
                     );
                   }
@@ -1679,7 +1679,7 @@ const Nutrition = ({ athleteId }) => {
                       </button>
                     </div>
                   </div>
-                  <CardContent>
+                  <div className="p-4">
                     <div className="space-y-2">
                       {logSupplements.map(supp => (
                         <div key={supp.id} className="flex items-center gap-2 text-sm text-white">
@@ -1692,7 +1692,7 @@ const Nutrition = ({ athleteId }) => {
                         <p className="text-sm text-gray-300 mt-2 pt-2 border-t border-gray-700">{entry.notes}</p>
                       )}
                     </div>
-                  </CardContent>
+                  </div>
                 </div>
               );
             } else {
@@ -1741,7 +1741,7 @@ const Nutrition = ({ athleteId }) => {
                     </div>
                   </div>
                 </div>
-                <CardContent onClick={() => handleViewEntry(entry)}>
+                <div className="p-4" onClick={() => handleViewEntry(entry)}>
                   <p className="text-gray-700 whitespace-pre-wrap mb-3">{entry.description}</p>
                   
                   {/* Calories Always Visible */}
@@ -1878,7 +1878,7 @@ const Nutrition = ({ athleteId }) => {
                       )}
                     </div>
                   )}
-                </CardContent>
+                </div>
               </div>
             );
             }
@@ -1916,7 +1916,7 @@ const Nutrition = ({ athleteId }) => {
                 {viewMode ? 'View your meal or drink details' : (editingEntry ? 'Update your meal or drink entry' : 'Add what you ate or drank')}
               </CardDescription>
             </div>
-            <CardContent className="space-y-4">
+            <div className="p-4" className="space-y-4">
               
               {/* VIEW MODE - Read Only */}
               {viewMode && viewingEntry && (
@@ -2379,7 +2379,7 @@ const Nutrition = ({ athleteId }) => {
               </div>
                 </div>
               )}
-            </CardContent>
+            </div>
           </div>
         </div>
       )}
@@ -2424,7 +2424,7 @@ const Nutrition = ({ athleteId }) => {
                 Select the supplements you took
               </CardDescription>
             </div>
-            <CardContent className="space-y-4">
+            <div className="p-4" className="space-y-4">
               {/* Date and Time */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -2509,7 +2509,7 @@ const Nutrition = ({ athleteId }) => {
                   Save Log
                 </Button>
               </div>
-            </CardContent>
+            </div>
           </div>
         </div>
       )}
