@@ -289,10 +289,10 @@ const Recipes = ({ athleteId }) => {
               .map((recipe) => {
                 return (
                   <div key={recipe.id}>
-                    <Card className="hover:shadow-lg transition-shadow">
+                    <div className="hover:shadow-lg transition-shadow border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
                       {/* Recipe Image */}
                       {recipe.image_base64 && (
-                        <div className="relative h-48 overflow-hidden rounded-t-lg">
+                        <div className="relative h-48 overflow-hidden">
                           <img
                             src={`data:image/png;base64,${recipe.image_base64}`}
                             alt={recipe.recipe_name}
@@ -304,9 +304,9 @@ const Recipes = ({ athleteId }) => {
                         </div>
                       )}
 
-                      <CardHeader>
-                        <CardTitle className="text-lg font-display">{recipe.recipe_name}</CardTitle>
-                        <div className="flex items-center gap-4 text-sm text-gray-600">
+                      <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+                        <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{recipe.recipe_name}</h3>
+                        <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-muted)' }}>
                           <div className="flex items-center gap-1">
                             <Clock className="w-4 h-4" />
                             {recipe.prep_time + recipe.cook_time} min
@@ -316,9 +316,9 @@ const Recipes = ({ athleteId }) => {
                             {recipe.servings} servings
                           </div>
                         </div>
-                      </CardHeader>
+                      </div>
 
-                      <CardContent className="space-y-4">
+                      <div className="p-4 space-y-4">
                         {/* Nutrition Info */}
                         <div className="grid grid-cols-2 gap-2 text-sm">
                           <div className="bg-blue-50 p-2 rounded">
@@ -340,7 +340,7 @@ const Recipes = ({ athleteId }) => {
                         </div>
 
                         {/* Rating and Actions */}
-                        <div className="flex items-center justify-between pt-2 border-t">
+                        <div className="flex items-center justify-between pt-2" style={{ borderTop: '1px solid var(--border)' }}>
                           <div className="flex gap-1">
                             {[1, 2, 3, 4, 5].map(star => (
                               <button
@@ -380,8 +380,8 @@ const Recipes = ({ athleteId }) => {
                             </Button>
                           </div>
                         </div>
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
                   </div>
                 );
               })}
