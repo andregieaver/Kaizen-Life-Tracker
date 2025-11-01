@@ -4213,10 +4213,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       {effectiveShowNotifications && (
         <>
           {/* Mobile: Fullscreen Modal */}
-          <div className="md:hidden fixed top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-gray-900 to-gray-800 z-[9999] flex flex-col overflow-hidden">
+          <div className="md:hidden fixed top-0 left-0 right-0 bottom-0 z-[9999] flex flex-col overflow-hidden" style={{ background: 'var(--grad-page)' }}>
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-700 flex-shrink-0">
-              <h3 className="text-white font-semibold text-lg">Notifications</h3>
+            <div className="flex items-center justify-between p-4" style={{ borderBottom: '1px solid var(--border)' }}>
+              <h3 className="font-semibold text-lg" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Notifications</h3>
               <button
                 onClick={() => effectiveSetShowNotifications(false)}
                 className="text-gray-400 hover:text-white transition-colors"
@@ -4226,7 +4226,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             </div>
             
             {/* Notifications List */}
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto p-2">
               {notifications.length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
