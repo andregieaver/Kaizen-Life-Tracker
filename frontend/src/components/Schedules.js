@@ -460,18 +460,18 @@ const Schedules = ({ athleteId }) => {
       {/* Schedule Limit Modal */}
       {showScheduleLimitModal && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
-          <Card className="max-w-md w-full bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600">
-            <CardHeader>
-              <CardTitle className="text-white">Schedule Limit Reached</CardTitle>
-              <CardDescription className="text-gray-300">
+          <div className="max-w-md w-full border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl border border-gray-600" style={{ background: 'var(--grad-surface)' }}>
+            <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+              <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Schedule Limit Reached</h3>
+              <p className="text-sm" style={{ color: 'var(--text-med)' }}>
                 {subscriptionStatus.tier === 'free' 
                   ? 'Free plan includes 1 scheduled analysis'
                   : `Your ${subscriptionStatus.tier} plan includes ${getScheduleLimit(subscriptionStatus.tier)} scheduled analyses`
                 }
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-200 mb-4">
+              </p>
+            </div>
+            <div className="p-4">
+              <p className="text-sm mb-4" style={{ color: 'var(--text-med)' }}>
                 Upgrade to create more automated analysis schedules and unlock additional features.
               </p>
               <div className="flex flex-col sm:flex-row justify-end gap-3">
@@ -492,8 +492,8 @@ const Schedules = ({ athleteId }) => {
                   View Plans
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       )}
     </div>
