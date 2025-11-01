@@ -1912,11 +1912,11 @@ const Nutrition = ({ athleteId }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <p className="text-gray-300" style={{ color: 'var(--text-med)' }}>
+              <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>
                 {viewMode ? 'View your meal or drink details' : (editingEntry ? 'Update your meal or drink entry' : 'Add what you ate or drank')}
               </p>
             </div>
-            <div className="p-4" className="space-y-4">
+            <div className="p-6 space-y-4">
               
               {/* VIEW MODE - Read Only */}
               {viewMode && viewingEntry && (
