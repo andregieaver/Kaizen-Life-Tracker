@@ -423,8 +423,8 @@ const Supplements = ({ athleteId }) => {
                   {editingSupplement ? 'Update' : 'Save'}
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       )}
     </div>
