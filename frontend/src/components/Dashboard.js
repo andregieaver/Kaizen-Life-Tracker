@@ -1160,7 +1160,7 @@ const Dashboard = ({ athleteId }) => {
                           cx="80"
                           cy="80"
                           r="70"
-                          stroke="#e5e7eb"
+                          stroke="var(--bg-800)"
                           strokeWidth="12"
                           fill="none"
                         />
@@ -1168,23 +1168,17 @@ const Dashboard = ({ athleteId }) => {
                           cx="80"
                           cy="80"
                           r="70"
-                          stroke="url(#bodyScoreGradient)"
+                          stroke="var(--c-brand-500)"
                           strokeWidth="12"
                           fill="none"
                           strokeDasharray={`${2 * Math.PI * 70}`}
                           strokeDashoffset={`${2 * Math.PI * 70 * (1 - 0.87)}`}
                           strokeLinecap="round"
                         />
-                        <defs>
-                          <linearGradient id="bodyScoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor="#62D2C4" />
-                            <stop offset="100%" stopColor="#4fc4b5" />
-                          </linearGradient>
-                        </defs>
                       </svg>
                       <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-4xl font-bold text-white">87</span>
-                        <span className="text-sm text-gray-300">Body Score</span>
+                        <span className="text-4xl font-bold" style={{ color: 'var(--text-hi)', fontFamily: 'var(--font-display)' }}>87</span>
+                        <span className="text-sm" style={{ color: 'var(--text-med)' }}>Body Score</span>
                       </div>
                     </div>
                   </div>
@@ -1195,10 +1189,10 @@ const Dashboard = ({ athleteId }) => {
                     <div className="flex flex-col items-center">
                       <div className="relative w-20 h-20">
                         <svg className="transform -rotate-90 w-20 h-20">
-                          <circle cx="40" cy="40" r="35" stroke="#4a5568" strokeWidth="6" fill="none" />
+                          <circle cx="40" cy="40" r="35" stroke="var(--bg-800)" strokeWidth="6" fill="none" />
                           <circle
                             cx="40" cy="40" r="35"
-                            stroke="#C1E1C1"
+                            stroke="var(--c-success)"
                             strokeWidth="6" fill="none"
                             strokeDasharray={`${2 * Math.PI * 35}`}
                             strokeDashoffset={`${2 * Math.PI * 35 * (1 - 0.82)}`}
@@ -1206,20 +1200,20 @@ const Dashboard = ({ athleteId }) => {
                           />
                         </svg>
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-lg font-bold text-white">82</span>
+                          <span className="text-lg font-bold" style={{ color: 'var(--text-hi)', fontFamily: 'var(--font-display)' }}>82</span>
                         </div>
                       </div>
-                      <span className="text-xs text-gray-300 mt-2">Readiness</span>
+                      <span className="text-xs mt-2" style={{ color: 'var(--text-med)' }}>Readiness</span>
                     </div>
 
                     {/* Sleep */}
                     <div className="flex flex-col items-center">
                       <div className="relative w-20 h-20">
                         <svg className="transform -rotate-90 w-20 h-20">
-                          <circle cx="40" cy="40" r="35" stroke="#4a5568" strokeWidth="6" fill="none" />
+                          <circle cx="40" cy="40" r="35" stroke="var(--bg-800)" strokeWidth="6" fill="none" />
                           <circle
                             cx="40" cy="40" r="35"
-                            stroke="#9B7EBD"
+                            stroke="var(--c-info)"
                             strokeWidth="6" fill="none"
                             strokeDasharray={`${2 * Math.PI * 35}`}
                             strokeDashoffset={`${2 * Math.PI * 35 * (1 - 0.78)}`}
@@ -1227,20 +1221,20 @@ const Dashboard = ({ athleteId }) => {
                           />
                         </svg>
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-lg font-bold text-white">78</span>
+                          <span className="text-lg font-bold" style={{ color: 'var(--text-hi)', fontFamily: 'var(--font-display)' }}>78</span>
                         </div>
                       </div>
-                      <span className="text-xs text-gray-300 mt-2">Sleep</span>
+                      <span className="text-xs mt-2" style={{ color: 'var(--text-med)' }}>Sleep</span>
                     </div>
 
                     {/* Activity */}
                     <div className="flex flex-col items-center">
                       <div className="relative w-20 h-20">
                         <svg className="transform -rotate-90 w-20 h-20">
-                          <circle cx="40" cy="40" r="35" stroke="#4a5568" strokeWidth="6" fill="none" />
+                          <circle cx="40" cy="40" r="35" stroke="var(--bg-800)" strokeWidth="6" fill="none" />
                           <circle
                             cx="40" cy="40" r="35"
-                            stroke="#FFB347"
+                            stroke="var(--c-warning)"
                             strokeWidth="6" fill="none"
                             strokeDasharray={`${2 * Math.PI * 35}`}
                             strokeDashoffset={`${2 * Math.PI * 35 * (1 - 0.91)}`}
