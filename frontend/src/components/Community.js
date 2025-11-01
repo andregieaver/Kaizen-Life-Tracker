@@ -4780,15 +4780,18 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
       }}
     >
       <div 
-        className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
+        className="rounded-none md:rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto border-0 shadow-lg overflow-hidden"
+        style={{ background: 'var(--grad-surface)' }}
         onClick={(e) => {
           // Prevent backdrop click from propagating
           e.stopPropagation();
         }}
       >
-        <h2 className="text-2xl font-bold text-white mb-4">Create Group</h2>
+        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+          <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Create Group</h2>
+        </div>
         
-        <div className="space-y-4">
+        <div className="p-6 space-y-4">
           {/* Profile Image */}
           <div>
             <label className="text-white text-sm font-semibold mb-2 block">Group Profile Image</label>
