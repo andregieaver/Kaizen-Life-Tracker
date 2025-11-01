@@ -199,17 +199,17 @@ const Schedules = ({ athleteId }) => {
       )}
 
       {/* Header Card */}
-      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-        <CardHeader>
+      <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <CardTitle className="flex items-center text-white">
-                <Calendar className="w-5 h-5 mr-2 text-[#00C2A8]" />
+              <h3 className="flex items-center text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
+                <Calendar className="w-5 h-5 mr-2" style={{ color: 'var(--c-brand-500)' }} />
                 Scheduled Reports
-              </CardTitle>
-              <CardDescription className="text-gray-300">
+              </h3>
+              <p className="text-sm" style={{ color: 'var(--text-med)' }}>
                 {schedules.length} active {schedules.length === 1 ? 'schedule' : 'schedules'}
-              </CardDescription>
+              </p>
             </div>
             <Button 
               onClick={handleAddScheduleClick}
@@ -220,8 +220,8 @@ const Schedules = ({ athleteId }) => {
               Add Schedule ({schedules.length}/{getScheduleLimit(subscriptionStatus.tier) === Infinity ? '∞' : getScheduleLimit(subscriptionStatus.tier)})
             </Button>
           </div>
-        </CardHeader>
-      </Card>
+        </div>
+      </div>
 
       {/* Schedule Form */}
       {showScheduleForm && (
