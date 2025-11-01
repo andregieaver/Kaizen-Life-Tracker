@@ -775,8 +775,8 @@ const Journal = ({ athleteId }) => {
                   )}
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       )}
     </div>
