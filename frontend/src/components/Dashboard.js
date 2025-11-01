@@ -1779,7 +1779,7 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => setNotificationTab('posts')}
-                  className={`flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
+                  className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors"
                     notificationTab === 'posts'
                       ? 'border-red-400 text-red-400'
                       : 'border-transparent text-gray-400 hover:text-white'
@@ -1790,7 +1790,7 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => setNotificationTab('groups')}
-                  className={`flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
+                  className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors"
                     notificationTab === 'groups'
                       ? 'border-green-400 text-green-400'
                       : 'border-transparent text-gray-400 hover:text-white'
@@ -1801,7 +1801,7 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => setNotificationTab('events')}
-                  className={`flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
+                  className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors"
                     notificationTab === 'events'
                       ? 'border-orange-400 text-orange-400'
                       : 'border-transparent text-gray-400 hover:text-white'
@@ -1812,7 +1812,7 @@ const Dashboard = ({ athleteId }) => {
                 </button>
                 <button
                   onClick={() => setNotificationTab('challenges')}
-                  className={`flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
+                  className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors"
                     notificationTab === 'challenges'
                       ? 'border-yellow-400 text-yellow-400'
                       : 'border-transparent text-gray-400 hover:text-white'
