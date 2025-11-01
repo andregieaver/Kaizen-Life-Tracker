@@ -1702,24 +1702,26 @@ const Dashboard = ({ athleteId }) => {
             </div>
             
             {/* Notifications List */}
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto p-2">
               {!notifications || getFilteredNotifications().length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
                     <Bell className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                    <p className="text-gray-400 text-lg">No notifications</p>
-                    <p className="text-gray-500 text-sm mt-2">You're all caught up!</p>
+                    <p className="text-lg" style={{ color: 'var(--text-med)' }}>No notifications</p>
+                    <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>You're all caught up!</p>
                   </div>
                 </div>
               ) : (
                 getFilteredNotifications().map(notification => (
                   <div
                     key={notification.id}
-                    className={`p-4 border-b border-gray-700 hover:bg-gray-700/50 active:bg-gray-700 cursor-pointer transition-colors ${
-                      !notification.read ? 'bg-gray-700/30' : ''
+                    className={`mb-2 rounded-none md:rounded-3xl hover:opacity-90 active:opacity-80 cursor-pointer transition-all overflow-hidden ${
+                      !notification.read ? 'ring-2 ring-[#00C2A8]/30' : ''
                     }`}
+                    style={{ background: 'var(--grad-surface)' }}
                     onClick={() => handleNotificationClick(notification)}
                   >
+                    <div className="p-4">
                     <div className="flex items-start gap-3">
                       <div className="flex-shrink-0 mt-1">
                         {getNotificationIcon(notification.type)}
