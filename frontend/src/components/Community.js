@@ -4663,8 +4663,9 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
   const canEditDelete = isAdmin || isSuperAdmin;
   
   return (
-    <Card 
-      className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-all rounded-none sm:rounded-lg" 
+    <div 
+      className="border-0 shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-all rounded-none md:rounded-3xl" 
+      style={{ background: 'var(--grad-surface)' }}
       onClick={onClick}
     >
       <div className="p-4" className="p-0 sm:p-6">
