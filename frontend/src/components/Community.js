@@ -2219,20 +2219,21 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       {/* Header with Tabs and Notifications */}
       <div className={`fixed top-16 left-0 right-0 z-30 md:relative md:top-auto space-y-0 sm:space-y-3 mb-0 sm:mb-6 transition-all duration-300 ease-in-out ${
         scrollDirection === 'down' ? '-translate-y-[calc(100%+4rem)]' : 'translate-y-0'
-      } md:translate-y-0`}>
+      } md:translate-y-0`} style={{ background: 'var(--grad-page)' }}>
         {/* Main Navigation Tabs - Full width with no gaps on mobile */}
-        <div className="flex justify-between w-full gap-0 sm:gap-2">
+        <div className="flex justify-between w-full gap-0 sm:gap-2 p-0 md:p-2">
           <button
             onClick={() => {
               setActiveTab('feed');
               setSelectedGroup(null);
             }}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
               activeTab === 'feed'
-                ? 'bg-[#00C2A8] text-white shadow-lg'
-                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
+            {...(activeTab === 'feed' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
             title="Feed"
           >
             <Home className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
@@ -2243,11 +2244,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setSelectedGroup(null);
             }}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
               activeTab === 'following'
-                ? 'bg-[#00C2A8] text-white shadow-lg'
-                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
+            {...(activeTab === 'following' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
             title="Following"
           >
             <UserPlus className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
@@ -2258,11 +2260,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setSelectedGroup(null);
             }}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
               activeTab === 'groups'
-                ? 'bg-[#00C2A8] text-white shadow-lg'
-                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
+            {...(activeTab === 'groups' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
             title="All Groups"
           >
             <UsersIcon className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
@@ -2273,11 +2276,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setSelectedGroup(null);
             }}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
               activeTab === 'mygroups'
-                ? 'bg-[#00C2A8] text-white shadow-lg'
-                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
+            {...(activeTab === 'mygroups' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
             title="My Groups"
           >
             <UserCheck className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
@@ -2288,11 +2292,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setSelectedGroup(null);
             }}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
               activeTab === 'events'
-                ? 'bg-[#00C2A8] text-white shadow-lg'
-                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
+            {...(activeTab === 'events' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
             title="Events"
           >
             <Calendar className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
@@ -2303,11 +2308,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setSelectedGroup(null);
             }}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
               activeTab === 'challenges'
-                ? 'bg-[#00C2A8] text-white shadow-lg'
-                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
+            {...(activeTab === 'challenges' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
             title="Challenges"
           >
             <Trophy className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
