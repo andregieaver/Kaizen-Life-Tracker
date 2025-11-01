@@ -1760,11 +1760,8 @@ const Dashboard = ({ athleteId }) => {
               <div className="flex overflow-x-auto flex-shrink-0 scrollbar-hide" style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-800)' }}>
                 <button
                   onClick={() => setNotificationTab('all')}
-                  className={`flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
-                    notificationTab === 'all'
-                      ? 'border-[#00C2A8] text-[#00C2A8]'
-                      : 'border-transparent text-gray-400 hover:text-white'
-                  }`}
+                  className="flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors"
+                  style={notificationTab === 'all' ? { borderBottomColor: '#00C2A8', color: '#00C2A8' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
                 >
                   <Bell className="w-4 h-4" />
                   All
