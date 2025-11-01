@@ -1745,9 +1745,9 @@ const Dashboard = ({ athleteId }) => {
 
           {/* Desktop: Dropdown */}
           <div className="hidden md:block fixed top-16 right-4 z-50">
-            <div className="w-96 bg-gray-800 rounded-lg shadow-xl max-h-[600px] flex flex-col overflow-hidden">
-              <div className="p-4 border-b border-gray-700 flex items-center justify-between flex-shrink-0">
-                <h3 className="text-white font-semibold">Notifications</h3>
+            <div className="w-96 rounded-3xl shadow-xl max-h-[600px] flex flex-col overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4 flex items-center justify-between flex-shrink-0" style={{ borderBottom: '1px solid var(--border)' }}>
+                <h3 className="font-semibold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Notifications</h3>
                 <button
                   onClick={() => setShowNotifications(false)}
                   className="text-gray-400 hover:text-white transition-colors"
@@ -1757,7 +1757,7 @@ const Dashboard = ({ athleteId }) => {
               </div>
               
               {/* Tabs */}
-              <div className="flex overflow-x-auto border-b border-gray-700 bg-gray-800/50 flex-shrink-0 scrollbar-hide">
+              <div className="flex overflow-x-auto flex-shrink-0 scrollbar-hide" style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-800)' }}>
                 <button
                   onClick={() => setNotificationTab('all')}
                   className={`flex items-center gap-2 px-3 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
