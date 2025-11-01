@@ -1004,7 +1004,7 @@ const Nutrition = ({ athleteId }) => {
 
       {/* Nutrition Statistics - Day/Week View */}
       {entries.length > 0 && (
-        <Card className="bg-gradient-to-br from-gray-600 to-gray-800 border-0">
+        <div className="bg-gradient-to-br from-gray-600 to-gray-800 border-0" style={{ background: 'var(--grad-surface)' }}>
           <CardHeader>
             {/* View Type Toggle and Navigation */}
             <div className="flex flex-col gap-4">
@@ -1889,7 +1889,7 @@ const Nutrition = ({ athleteId }) => {
       {/* Nutrition Entry Modal - View or Edit Mode */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
-          <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
+          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700" style={{ background: 'var(--grad-surface)' }}>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-white">
@@ -2409,7 +2409,7 @@ const Nutrition = ({ athleteId }) => {
       {/* Supplement Log Modal */}
       {showSupplementModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50 bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50 bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700" style={{ background: 'var(--grad-surface)' }}>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-white">Log Supplements</CardTitle>
