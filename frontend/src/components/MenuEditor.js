@@ -361,6 +361,18 @@ const MenuEditor = ({ athleteId, onBack }) => {
           'Side navigation menu with icons and separators'
         )}
       </div>
+
+      {/* Icon Picker Modal */}
+      <IconPicker
+        isOpen={iconPickerOpen}
+        onClose={() => setIconPickerOpen(false)}
+        onSelect={handleIconSelect}
+        currentIcon={
+          iconPickerTarget 
+            ? menus[iconPickerTarget.menuType]?.find(item => item.id === iconPickerTarget.itemId)?.icon 
+            : null
+        }
+      />
     </div>
   );
 };
