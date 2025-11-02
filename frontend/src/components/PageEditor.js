@@ -217,18 +217,28 @@ const PageEditor = ({ athleteId, pageId }) => {
     try {
       setSaving(true);
 
+      // Prepare data for saving - remove editorState (not serializable)
+      const saveData = {
+        ...formData,
+        content_blocks: (formData.content_blocks || []).map(block => ({
+          id: block.id,
+          content: block.content,
+          order: block.order
+        }))
+      };
+
       if (isEditMode) {
         // Update existing page
         await axios.put(
           `${API}/pages/${pageId}?athlete_id=${athleteId}`,
-          formData
+          saveData
         );
         alert('Page updated successfully');
       } else {
         // Create new page
         const response = await axios.post(
           `${API}/pages?athlete_id=${athleteId}`,
-          formData
+          saveData
         );
         alert('Page created successfully');
         navigate(`/dashboard/pages/edit/${response.data.page.id}`);
