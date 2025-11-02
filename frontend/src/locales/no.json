@@ -374,7 +374,19 @@
     "disable": "Deaktiver",
     "enable": "Aktiver",
     "loading": "Laster...",
-    "getInstantAlerts": "Motta umiddelbare varsler om nye AI-genererte rapporter og anbefalinger"
+    "getInstantAlerts": "Motta umiddelbare varsler om nye AI-genererte rapporter og anbefalinger",
+    "january": "Januar",
+    "february": "Februar",
+    "march": "Mars",
+    "april": "April",
+    "may": "Mai",
+    "june": "Juni",
+    "july": "Juli",
+    "august": "August",
+    "september": "September",
+    "october": "Oktober",
+    "november": "November",
+    "december": "Desember"
   },
   "merits": {
     "title": "Meritter",
