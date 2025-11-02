@@ -464,6 +464,50 @@ const Dashboard = ({ athleteId }) => {
     loadDashboardData();
   };
 
+  // Helper function to get icon component by name
+  const getIconComponent = (iconName) => {
+    const iconMap = {
+      Home, MessageCircle, PlusCircle, BarChart3, User, Menu, X, Settings,
+      BookOpen, Utensils, Calendar, Zap, Activity, FileText, LineChart, Mic,
+      Pill, Brain, ChefHat, Calculator, Check, Users, Gift, Bell, Repeat,
+      GlassWater, Edit3, UserPlus, Heart, Share2, Trophy, ArrowRight,
+      ExternalLink, Circle, ShoppingCart, MessageSquare
+    };
+    return iconMap[iconName] || Circle;
+  };
+
+  // Helper function to render menu item
+  const renderMenuItem = (item, index) => {
+    if (item.is_separator) {
+      return (
+        <div key={item.id || `separator-${index}`} className="py-2">
+          <div className="h-px bg-white opacity-10"></div>
+        </div>
+      );
+    }
+
+    const IconComponent = getIconComponent(item.icon);
+    const isActive = location.pathname === item.url;
+
+    return (
+      <button
+        key={item.id}
+        onClick={() => {
+          navigate(item.url);
+          setIsMenuOpen(false);
+        }}
+        className="w-full flex items-center space-x-3 p-3 rounded-lg transition-colors"
+        style={{
+          background: isActive ? 'var(--grad-brand)' : 'transparent',
+          color: isActive ? 'var(--bg-950)' : 'var(--text-med)'
+        }}
+      >
+        <IconComponent className="w-5 h-5" />
+        <span className="font-medium">{item.label}</span>
+      </button>
+    );
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center">
