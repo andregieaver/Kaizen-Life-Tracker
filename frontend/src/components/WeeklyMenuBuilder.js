@@ -627,10 +627,10 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
       {/* Recipe Picker Modal */}
       {showRecipePicker && selectedSlot && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-4xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="p-6 border-b sticky top-0 bg-white">
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-700 sticky top-0 bg-gradient-to-br from-gray-900 to-gray-800">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-2xl font-bold text-white">
                   Select {selectedSlot.mealType} for {selectedSlot.day}
                 </h2>
                 <button
@@ -639,7 +639,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                     setSelectedSlot(null);
                     setSearchTerm('');
                   }}
-                  className="text-gray-600 hover:text-gray-900"
+                  className="text-gray-400 hover:text-white"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -647,20 +647,20 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
             </div>
             <div className="p-6 space-y-6">
               {/* Search Bar */}
-              <div className="sticky top-0 bg-white pb-4 border-b">
+              <div className="sticky top-0 bg-gradient-to-br from-gray-900 to-gray-800 pb-4 border-b border-gray-700">
                 <input
                   type="text"
                   placeholder="Search recipes and meals..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  className="w-full px-4 py-2 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                 />
               </div>
 
               {/* AI Generated Recipes Section */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                  <ChefHat className="w-5 h-5 text-purple-600" />
+                <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+                  <ChefHat className="w-5 h-5" style={{ color: '#00C2A8' }} />
                   AI Generated Recipes
                 </h3>
                 {(() => {
@@ -680,12 +680,12 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                   console.log('[Modal] Filtered recipes count:', filteredRecipes.length);
 
                   return filteredRecipes.length === 0 ? (
-                    <div className="text-center py-8 bg-gray-50 rounded-lg">
-                      <p className="text-gray-600">
+                    <div className="text-center py-8 bg-gray-800 p-4">
+                      <p className="text-gray-300">
                         {searchTerm ? 'No recipes match your search' : `No ${selectedSlot.mealType} recipes available`}
                       </p>
                       {!searchTerm && (
-                        <p className="text-sm text-gray-500 mt-2">Generate some recipes first</p>
+                        <p className="text-sm text-gray-400 mt-2">Generate some recipes first</p>
                       )}
                     </div>
                   ) : (
@@ -694,19 +694,19 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                         <div
                           key={recipe.id}
                           onClick={() => assignRecipe(recipe)}
-                          className="border rounded-lg p-4 hover:bg-purple-50 cursor-pointer transition-colors"
+                          className="bg-gray-800 border border-gray-700 p-4 hover:bg-gray-700 cursor-pointer transition-colors"
                         >
                           <div className="flex gap-4">
                             {recipe.image_base64 && (
                               <img
                                 src={`data:image/jpeg;base64,${recipe.image_base64}`}
                                 alt={recipe.recipe_name}
-                                className="w-20 h-20 object-cover rounded"
+                                className="w-20 h-20 object-cover"
                               />
                             )}
                             <div className="flex-1">
-                              <h3 className="font-semibold text-gray-900">{recipe.recipe_name}</h3>
-                              <p className="text-sm text-gray-600">
+                              <h3 className="font-semibold text-white">{recipe.recipe_name}</h3>
+                              <p className="text-sm text-gray-300">
                                 {recipe.prep_time + recipe.cook_time} min • {recipe.nutrition_info.calories} cal
                               </p>
                             </div>
@@ -720,7 +720,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
 
               {/* Nutrition Log Entries Section */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
                   📊 Nutrition Log Entries
                 </h3>
                 {(() => {
@@ -736,12 +736,12 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                   console.log('[Modal] Filtered nutrition entries count:', filteredEntries.length);
 
                   return filteredEntries.length === 0 ? (
-                    <div className="text-center py-8 bg-gray-50 rounded-lg">
-                      <p className="text-gray-600">
+                    <div className="text-center py-8 bg-gray-800 p-4">
+                      <p className="text-gray-300">
                         {searchTerm ? 'No nutrition entries match your search' : 'No nutrition entries available'}
                       </p>
                       {!searchTerm && (
-                        <p className="text-sm text-gray-500 mt-2">Log some meals in the Nutrition section first</p>
+                        <p className="text-sm text-gray-400 mt-2">Log some meals in the Nutrition section first</p>
                       )}
                     </div>
                   ) : (
