@@ -149,14 +149,9 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
         <div className="flex-1 overflow-y-auto p-4">
           <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2">
             {filteredIcons.map((iconName) => {
-              // Get icon component
-              const IconComponent = LucideIcons[iconName];
+              // Get icon component from explicit imports first, then try LucideIcons
+              const IconComponent = EXPLICIT_ICONS[iconName] || LucideIcons[iconName];
               const isSelected = iconName === currentIcon;
-              
-              // Debug: log if icon component is found
-              if (!IconComponent) {
-                console.warn(`Icon not found: ${iconName}`);
-              }
               
               return (
                 <button
