@@ -352,8 +352,8 @@ const HabitTracker = ({ athleteId }) => {
                         </div>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               );
             })}
           </div>
@@ -366,9 +366,8 @@ const HabitTracker = ({ athleteId }) => {
           <h3 className="text-lg font-semibold mb-3 text-white">Other Habits</h3>
           <div className="space-y-2">
             {habits.filter(h => !h.days_of_week.includes(todayDayName)).map(habit => (
-              <Card key={habit.id} className="bg-gradient-to-br from-gray-600 to-gray-800 border-0">
-                <CardContent className="p-3">
-                  <div className="flex items-center justify-between">
+              <div key={habit.id} className="bg-gradient-to-br from-gray-800 to-gray-900 p-3">
+                <div className="flex items-center justify-between">
                     <div>
                       <div className="font-medium text-white">{habit.title}</div>
                       <div className="text-sm text-gray-300">
