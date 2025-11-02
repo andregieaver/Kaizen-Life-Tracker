@@ -195,9 +195,9 @@ const PrivacyPolicy = () => {
               </>
             )}
 
-            <div className="mt-12 pt-8 border-t border-gray-600">
-              <Link to="/">
-                <Button className="bg-teal-600 hover:bg-teal-700 text-white">
+          <div className="mt-12 pt-8 border-t border-gray-600">
+            <Link to="/">
+              <Button className="bg-teal-600 hover:bg-teal-700 text-white">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Home
                 </Button>
