@@ -45,7 +45,13 @@ const PageEditor = ({ athleteId, pageId }) => {
     try {
       setLoading(true);
       const response = await axios.get(`${API}/pages/${pageId}?athlete_id=${athleteId}`);
-      setFormData(response.data);
+      // Ensure content_blocks is always an array
+      const pageData = {
+        ...response.data,
+        use_cms_content: response.data.use_cms_content || false,
+        content_blocks: response.data.content_blocks || []
+      };
+      setFormData(pageData);
       if (response.data.thumbnail) {
         setThumbnailPreview(`${BACKEND_URL}${response.data.thumbnail}`);
       }
