@@ -752,7 +752,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                         {provided.placeholder}
                       </div>
                     )}
-                  </Droppable>
+                  </StrictModeDroppable>
                 </DragDropContext>
               )}
             </div>
