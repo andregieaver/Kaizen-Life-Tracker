@@ -1494,17 +1494,17 @@ const Account = ({ athleteId }) => {
 
         {/* Personal Information Tab */}
         <TabsContent value="personal">
-          <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
-            <CardHeader>
-              <CardTitle className="flex items-center text-white">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6">
+            <div className="mb-6">
+              <h3 className="flex items-center text-white text-xl font-semibold">
                 <User className="w-5 h-5 mr-2 text-[#00C2A8]" />
                 Personal Information
-              </CardTitle>
-              <CardDescription className="text-gray-400">
+              </h3>
+              <p className="text-gray-400 mt-1">
                 Update your profile information and running goals
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+              </p>
+            </div>
+            <div>
               <form onSubmit={handleSavePersonalInfo} className="space-y-4 md:space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                   <div className="space-y-4">
