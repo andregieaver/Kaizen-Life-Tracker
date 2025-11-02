@@ -48,11 +48,25 @@ const PageEditor = ({ athleteId, pageId }) => {
     try {
       setLoading(true);
       const response = await axios.get(`${API}/pages/${pageId}?athlete_id=${athleteId}`);
+      
+      // Initialize content blocks with EditorState
+      const contentBlocks = (response.data.content_blocks || []).map(block => {
+        let editorState = EditorState.createEmpty();
+        if (block.content) {
+          const contentBlock = htmlToDraft(block.content);
+          if (contentBlock) {
+            const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+            editorState = EditorState.createWithContent(contentState);
+          }
+        }
+        return { ...block, editorState };
+      });
+      
       // Ensure content_blocks is always an array
       const pageData = {
         ...response.data,
         use_cms_content: response.data.use_cms_content || false,
-        content_blocks: response.data.content_blocks || []
+        content_blocks: contentBlocks
       };
       setFormData(pageData);
       if (response.data.thumbnail) {
