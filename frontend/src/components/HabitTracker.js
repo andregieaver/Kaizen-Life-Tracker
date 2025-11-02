@@ -220,7 +220,7 @@ const HabitTracker = ({ athleteId }) => {
     : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="pt-4 px-2 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-white">Habit Tracker</h2>
@@ -238,17 +238,15 @@ const HabitTracker = ({ athleteId }) => {
 
       {/* Longest Streak Banner */}
       {longestStreak > 0 && (
-        <Card className="bg-gradient-to-r from-gray-700 to-gray-800 border-0">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <Flame className="w-8 h-8 text-orange-400" />
-              <div>
-                <div className="text-sm text-gray-300">Longest Streak</div>
-                <div className="text-2xl font-bold text-orange-400">{longestStreak} days</div>
-              </div>
+        <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4">
+          <div className="flex items-center gap-3">
+            <Flame className="w-8 h-8 text-orange-400" />
+            <div>
+              <div className="text-sm text-gray-300">Longest Streak</div>
+              <div className="text-2xl font-bold text-orange-400">{longestStreak} days</div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
 
       {/* Today's Habits */}
