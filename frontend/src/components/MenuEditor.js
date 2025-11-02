@@ -190,7 +190,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
                                 <GripVertical className="w-5 h-5 text-gray-400" />
                               </div>
                               
-                              <div className="flex-1 grid grid-cols-3 gap-3">
+                              <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-3">
                                 <div>
                                   <label className="block text-xs text-gray-400 mb-1">Label</label>
                                   <input
@@ -213,18 +213,44 @@ const MenuEditor = ({ athleteId, onBack }) => {
                                   />
                                 </div>
 
-                                {isSlideout && (
-                                  <div>
-                                    <label className="block text-xs text-gray-400 mb-1">Icon</label>
-                                    <input
-                                      type="text"
-                                      value={item.icon || ''}
-                                      onChange={(e) => updateMenuItem(menuType, item.id, 'icon', e.target.value)}
-                                      className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#00C2A8]"
-                                      placeholder="Home, User, etc."
-                                    />
+                                <div>
+                                  <label className="block text-xs text-gray-400 mb-1">Icon</label>
+                                  <input
+                                    type="text"
+                                    value={item.icon || ''}
+                                    onChange={(e) => updateMenuItem(menuType, item.id, 'icon', e.target.value)}
+                                    className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#00C2A8]"
+                                    placeholder="Home, User, etc."
+                                  />
+                                </div>
+
+                                <div>
+                                  <label className="block text-xs text-gray-400 mb-1">Highlight</label>
+                                  <div className="flex items-center gap-2">
+                                    <button
+                                      type="button"
+                                      onClick={() => updateMenuItem(menuType, item.id, 'highlighted', !item.highlighted)}
+                                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                                        item.highlighted ? 'bg-[#00C2A8]' : 'bg-gray-700'
+                                      }`}
+                                    >
+                                      <span
+                                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                                          item.highlighted ? 'translate-x-6' : 'translate-x-1'
+                                        }`}
+                                      />
+                                    </button>
+                                    {item.highlighted && (
+                                      <input
+                                        type="color"
+                                        value={item.highlight_color || '#00C2A8'}
+                                        onChange={(e) => updateMenuItem(menuType, item.id, 'highlight_color', e.target.value)}
+                                        className="w-8 h-8 rounded border border-gray-700 cursor-pointer"
+                                        title="Choose highlight color"
+                                      />
+                                    )}
                                   </div>
-                                )}
+                                </div>
                               </div>
 
                               <button
