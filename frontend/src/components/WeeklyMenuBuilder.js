@@ -526,14 +526,14 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                         }, { calories: 0, protein: 0, carbs: 0, fat: 0 });
 
                         return (
-                          <div key={day} className="border rounded-lg p-4 bg-white shadow-sm">
+                          <div key={day} className="bg-gray-700 p-4">
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
-                              <h4 className="font-semibold text-gray-900 capitalize text-lg">{day}</h4>
-                              <div className="flex flex-wrap gap-2 text-xs text-gray-700">
-                                <span className="bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] text-white px-2 py-1 rounded-full font-medium">{Math.round(dailyNutrition.calories)} cal</span>
-                                <span className="bg-[#C1E1C1] text-gray-800 px-2 py-1 rounded-full font-medium">{Math.round(dailyNutrition.protein)}g protein</span>
-                                <span className="bg-[#D4F0E9] text-gray-800 px-2 py-1 rounded-full font-medium">{Math.round(dailyNutrition.carbs)}g carbs</span>
-                                <span className="bg-[#FF7F7F] text-white px-2 py-1 rounded-full font-medium">{Math.round(dailyNutrition.fat)}g fat</span>
+                              <h4 className="font-semibold text-white capitalize text-lg">{day}</h4>
+                              <div className="flex flex-wrap gap-2 text-xs text-white">
+                                <span className="px-2 py-1 font-medium" style={{ backgroundColor: '#00C2A8' }}>{Math.round(dailyNutrition.calories)} cal</span>
+                                <span className="bg-gray-600 text-white px-2 py-1 font-medium">{Math.round(dailyNutrition.protein)}g protein</span>
+                                <span className="bg-gray-600 text-white px-2 py-1 font-medium">{Math.round(dailyNutrition.carbs)}g carbs</span>
+                                <span className="bg-red-900/30 text-red-400 px-2 py-1 font-medium">{Math.round(dailyNutrition.fat)}g fat</span>
                               </div>
                             </div>
                             
@@ -564,7 +564,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                                         openNutritionEntryDetail(meal.nutrition_entry_id);
                                       }
                                     }}
-                                    className="bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-all border border-gray-100 cursor-pointer"
+                                    className="bg-gray-800 overflow-hidden hover:bg-gray-750 transition-all border border-gray-600 cursor-pointer"
                                   >
                                     {/* Meal Image */}
                                     {mealImage && (
@@ -579,28 +579,28 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                                     
                                     {/* Meal Info */}
                                     <div className="p-3">
-                                      <div className="text-xs font-semibold text-gray-500 uppercase mb-1 flex items-center gap-1">
+                                      <div className="text-xs font-semibold text-gray-400 uppercase mb-1 flex items-center gap-1">
                                         {mealIcon} {mealType}
-                                        {nutritionEntry && <span className="bg-[#62D2C4] text-white px-1.5 py-0.5 rounded text-xs">Logged</span>}
+                                        {nutritionEntry && <span className="text-white px-1.5 py-0.5 text-xs" style={{ backgroundColor: '#00C2A8' }}>Logged</span>}
                                       </div>
-                                      <div className="font-medium text-gray-900 text-sm line-clamp-2 mb-2">
+                                      <div className="font-medium text-white text-sm line-clamp-2 mb-2">
                                         {mealName}
                                       </div>
                                       
                                       {/* Individual meal nutrition */}
                                       {nutritionInfo && (
                                         <div className="grid grid-cols-2 gap-1.5 mt-2 text-xs">
-                                          <div className="bg-[#D4F0E9] px-2 py-1 rounded">
-                                            <span className="text-gray-700">{nutritionInfo.calories} cal</span>
+                                          <div className="bg-gray-700 px-2 py-1">
+                                            <span className="text-gray-300">{nutritionInfo.calories} cal</span>
                                           </div>
-                                          <div className="bg-[#C1E1C1] px-2 py-1 rounded">
-                                            <span className="text-gray-700">{nutritionInfo.protein}g Protein</span>
+                                          <div className="bg-gray-700 px-2 py-1">
+                                            <span className="text-gray-300">{nutritionInfo.protein}g Protein</span>
                                           </div>
-                                          <div className="bg-[#D4F0E9] px-2 py-1 rounded">
-                                            <span className="text-gray-700">{nutritionInfo.carbs}g Carbs</span>
+                                          <div className="bg-gray-700 px-2 py-1">
+                                            <span className="text-gray-300">{nutritionInfo.carbs}g Carbs</span>
                                           </div>
-                                          <div className="bg-[#FFB6C1]/30 px-2 py-1 rounded">
-                                            <span className="text-gray-700">{nutritionInfo.fat}g Fat</span>
+                                          <div className="bg-red-900/30 px-2 py-1">
+                                            <span className="text-red-400">{nutritionInfo.fat}g Fat</span>
                                           </div>
                                         </div>
                                       )}
