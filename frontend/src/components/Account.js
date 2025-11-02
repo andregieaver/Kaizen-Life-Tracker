@@ -1802,7 +1802,7 @@ const Account = ({ athleteId }) => {
                           onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_year: value}))}
                         >
                           <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
-                            <SelectValue placeholder="Year" />
+                            <SelectValue placeholder={t('account.selectYear')} />
                           </SelectTrigger>
                           <SelectContent>
                             {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map(year => (
