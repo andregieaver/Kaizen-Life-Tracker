@@ -1479,16 +1479,16 @@ const Account = ({ athleteId }) => {
             <span className="sm:hidden">{t('nav.account')}</span>
           </TabsTrigger>
           <TabsTrigger value="preferences" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400" data-testid="preferences-tab">
-            <span className="hidden sm:inline">Preferences</span>
-            <span className="sm:hidden">Prefs</span>
+            <span className="hidden sm:inline">{t('account.preferences')}</span>
+            <span className="sm:hidden">{t('account.preferences')}</span>
           </TabsTrigger>
           <TabsTrigger value="integrations" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400" data-testid="integrations-tab">
             <span className="hidden sm:inline">{t('account.integrations')}</span>
-            <span className="sm:hidden">Apps</span>
+            <span className="sm:hidden">{t('account.integrations')}</span>
           </TabsTrigger>
           <TabsTrigger value="subscriptions" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400" data-testid="subscriptions-tab">
-            <span className="hidden sm:inline">Subscription</span>
-            <span className="sm:hidden">Subs.</span>
+            <span className="hidden sm:inline">{t('account.subscription')}</span>
+            <span className="sm:hidden">{t('account.subscription')}</span>
           </TabsTrigger>
         </TabsList>
 
