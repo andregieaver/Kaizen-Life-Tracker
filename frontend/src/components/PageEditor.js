@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Upload, X, Save, FileText } from 'lucide-react';
+import { ArrowLeft, Upload, X, Save, FileText, Plus, GripVertical, Trash2 } from 'lucide-react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
