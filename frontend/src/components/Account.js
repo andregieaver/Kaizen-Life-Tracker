@@ -2729,8 +2729,8 @@ const Account = ({ athleteId }) => {
             {/* Available Plans */}
             <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
-                <CardTitle className="text-white">Available Plans</CardTitle>
-                <CardDescription className="text-gray-400">
+                <h3 className="text-white">Available Plans</h3>
+                <p className="text-gray-400 mt-1">
                   Choose the plan that fits your needs
                 </CardDescription>
               </CardHeader>
