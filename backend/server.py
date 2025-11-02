@@ -1472,6 +1472,8 @@ class PageCreate(BaseModel):
     focus_keyword: Optional[str] = None
     og_image: Optional[str] = None
     content: Optional[str] = None
+    use_cms_content: bool = False
+    content_blocks: List[ContentBlock] = []
 
 class PageUpdate(BaseModel):
     title: Optional[str] = None
@@ -1486,6 +1488,8 @@ class PageUpdate(BaseModel):
     focus_keyword: Optional[str] = None
     og_image: Optional[str] = None
     content: Optional[str] = None
+    use_cms_content: Optional[bool] = None
+    content_blocks: Optional[List[ContentBlock]] = None
 
 
 # AI Coach Service
