@@ -5,7 +5,8 @@
     "reports": "Rapporter",
     "history": "Historikk",
     "account": "Konto",
-    "home": "Hjem"
+    "home": "Hjem",
+    "calendar": "Kalender"
   },
   "auth": {
     "login": "Logg inn",
