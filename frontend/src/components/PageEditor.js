@@ -590,22 +590,22 @@ const PageEditor = ({ athleteId, pageId }) => {
                                   </button>
                                 </div>
                                 <div className="p-4">
-                                  <ReactQuill
-                                    theme="snow"
-                                    value={block.content}
-                                    onChange={(content) => updateContentBlock(block.id, content)}
-                                    modules={{
-                                      toolbar: [
-                                        [{ 'header': [1, 2, 3, false] }],
-                                        ['bold', 'italic', 'underline', 'strike'],
-                                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                                        [{ 'align': [] }],
-                                        ['link', 'image'],
-                                        ['clean']
-                                      ]
+                                  <Editor
+                                    editorState={block.editorState || EditorState.createEmpty()}
+                                    onEditorStateChange={(editorState) => updateContentBlock(block.id, editorState)}
+                                    wrapperClassName="demo-wrapper"
+                                    editorClassName="demo-editor bg-white text-gray-900 border border-gray-300 rounded p-2 min-h-[200px]"
+                                    toolbarClassName="demo-toolbar bg-gray-100 border border-gray-300 rounded mb-2"
+                                    toolbar={{
+                                      options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'link', 'image'],
+                                      inline: { options: ['bold', 'italic', 'underline'] },
+                                      blockType: { inDropdown: true, options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'] },
+                                      fontSize: { options: [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96] },
+                                      list: { options: ['unordered', 'ordered'] },
+                                      textAlign: { options: ['left', 'center', 'right', 'justify'] },
+                                      link: { options: ['link'] },
+                                      image: { uploadEnabled: false, previewImage: true }
                                     }}
-                                    className="bg-white text-gray-900 rounded"
-                                    style={{ minHeight: '200px' }}
                                   />
                                 </div>
                               </div>
