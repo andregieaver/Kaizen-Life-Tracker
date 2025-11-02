@@ -389,6 +389,104 @@
     "november": "November",
     "december": "Desember"
   },
+  "community": {
+    "tabs": {
+      "feed": "Strøm",
+      "following": "Følger",
+      "allGroups": "Alle grupper",
+      "myGroups": "Mine grupper",
+      "events": "Arrangementer",
+      "challenges": "Utfordringer",
+      "findAthletes": "Finn utøvere"
+    },
+    "post": {
+      "whatsOnMind": "Hva tenker du på?",
+      "addThoughts": "Legg til dine tanker (valgfritt)...",
+      "writeComment": "Skriv en kommentar...",
+      "writeCommentMention": "Skriv en kommentar... (Skriv @ for å nevne)",
+      "shareWithGroup": "Del noe med gruppen...",
+      "postMedia": "Innleggsmedier",
+      "postImages": "Innleggsbilder",
+      "sharedPostMedia": "Delte innleggsmedier"
+    },
+    "group": {
+      "enterGroupName": "Skriv inn gruppenavn",
+      "describeGroup": "Beskriv gruppen din",
+      "enterGroupRules": "Skriv inn grupperegler som medlemmer må akseptere for å bli med (valgfritt)",
+      "searchByName": "Søk etter navn..."
+    },
+    "event": {
+      "enterEventName": "Skriv inn arrangementsnavn",
+      "describeEvent": "Beskriv arrangementet",
+      "eventLocation": "Arrangementssted"
+    },
+    "challenge": {
+      "describeChallenge": "Beskriv utfordringen din...",
+      "addComment": "Legg til en kommentar...",
+      "notJoinedYet": "Du har ikke blitt med i noen utfordringer ennå"
+    },
+    "modals": {
+      "createChallenge": "Opprett utfordring",
+      "createPost": "Opprett innlegg",
+      "createEvent": "Opprett arrangement",
+      "createGroup": "Opprett gruppe",
+      "editGroup": "Rediger gruppe",
+      "close": "Lukk"
+    },
+    "actions": {
+      "addEmoji": "Legg til emoji",
+      "preview": "Forhåndsvisning",
+      "fullSize": "Full størrelse",
+      "clickToViewFullSize": "Klikk for å se i full størrelse",
+      "approve": "Godkjenn",
+      "reject": "Avvis",
+      "deleteComment": "Slett kommentar"
+    }
+  },
+  "dashboard": {
+    "modals": {
+      "referralRewards": "Henvisningsbelønninger",
+      "notifications": "Varsler",
+      "addJournalEntry": "Legg til dagbokoppføring",
+      "logDrink": "Logg drikke",
+      "logSupplement": "Logg tilskudd",
+      "logMeal": "Logg måltid"
+    }
+  },
+  "placeholders": {
+    "selectWorkoutType": "Velg treningstype",
+    "workoutNotes": "Hvordan føltes treningen? Noen observasjoner?",
+    "searchByEmail": "Søk etter navn, e-post eller nasjonalitet...",
+    "documentNotes": "Legg til notater eller detaljer om dette dokumentet...",
+    "customAmount": "Tilpasset mengde",
+    "enterEmail": "Skriv inn e-postadresse for å sende test",
+    "enterSubject": "Skriv inn e-postemne",
+    "enterBody": "Skriv inn ren tekst for e-postkropp...",
+    "enterDescription": "Skriv inn beskrivelse...",
+    "searchRecipesMeals": "Søk oppskrifter og måltider...",
+    "optionalDescription": "Valgfri beskrivelse...",
+    "enterDistance": "Skriv inn distanse",
+    "hours": "Timer",
+    "minutes": "Minutter",
+    "seconds": "Sekunder",
+    "enterNewEmail": "Skriv inn din nye e-post",
+    "enterPasswordConfirm": "Skriv inn passordet ditt for å bekrefte"
+  },
+  "confirmations": {
+    "deleteUser": "Slett bruker",
+    "deleteUserMessage": "Er du sikker på at du vil slette denne brukeren? Denne handlingen kan ikke angres og vil permanent fjerne all deres data inkludert innlegg, kommentarer og abonnementer."
+  },
+  "performance": {
+    "competitive": "Du presterer på konkurransenivå! Fortsett å presse for forbedring.",
+    "goodProgress": "Flott fremgang! Fokuser på konsistens og gradvis forbedring.",
+    "everyFinish": "Hver finish er en prestasjon! Sett små mål for å forbedre hvert løp."
+  },
+  "raceTypes": {
+    "track": "Bane",
+    "roadTrail": "Vei/Terreng",
+    "ultra": "Ultra"
+  }
+}
   "merits": {
     "title": "Meritter",
     "distance": "Distanse",
