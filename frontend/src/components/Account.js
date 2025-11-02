@@ -2110,25 +2110,25 @@ const Account = ({ athleteId }) => {
                 <div className="space-y-4">
                   <h3 className="text-lg font-medium text-white flex items-center">
                     <Utensils className="w-5 h-5 mr-2 text-[#00C2A8]" />
-                    Dietary Restrictions & Preferences
+                    {t('account.dietaryRestrictionsPreferences')}
                   </h3>
                   
                   {/* Allergies */}
                   <div>
-                    <Label className="text-base font-medium text-white mb-3 block">Allergies</Label>
-                    <p className="text-sm text-gray-400 mb-3">Select any food allergies (for recipe generation)</p>
+                    <Label className="text-base font-medium text-white mb-3 block">{t('account.allergies')}</Label>
+                    <p className="text-sm text-gray-400 mb-3">{t('account.allergiesDescription')}</p>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {[
-                        { value: 'dairy', label: 'Dairy' },
-                        { value: 'eggs', label: 'Eggs' },
-                        { value: 'fish', label: 'Fish' },
-                        { value: 'shellfish', label: 'Shellfish' },
-                        { value: 'tree_nuts', label: 'Tree Nuts' },
-                        { value: 'peanuts', label: 'Peanuts' },
-                        { value: 'wheat', label: 'Wheat' },
-                        { value: 'soy', label: 'Soy' },
-                        { value: 'sesame', label: 'Sesame' },
-                        { value: 'gluten', label: 'Gluten' },
+                        { value: 'dairy', label: t('account.allergyDairy') },
+                        { value: 'eggs', label: t('account.allergyEggs') },
+                        { value: 'fish', label: t('account.allergyFish') },
+                        { value: 'shellfish', label: t('account.allergyShellfish') },
+                        { value: 'tree_nuts', label: t('account.allergyTreeNuts') },
+                        { value: 'peanuts', label: t('account.allergyPeanuts') },
+                        { value: 'wheat', label: t('account.allergyWheat') },
+                        { value: 'soy', label: t('account.allergySoy') },
+                        { value: 'sesame', label: t('account.allergySesame') },
+                        { value: 'gluten', label: t('account.allergyGluten') },
                       ].map(allergy => (
                         <label key={allergy.value} className="flex items-start space-x-2 cursor-pointer">
                           <input
@@ -2150,19 +2150,19 @@ const Account = ({ athleteId }) => {
 
                   {/* Dietary Preferences */}
                   <div>
-                    <Label className="text-base font-medium text-white mb-3 block">Dietary Preferences</Label>
-                    <p className="text-sm text-gray-400 mb-3">Select your dietary preferences (for recipe generation)</p>
+                    <Label className="text-base font-medium text-white mb-3 block">{t('account.dietaryPreferences')}</Label>
+                    <p className="text-sm text-gray-400 mb-3">{t('account.dietaryPreferencesDescription')}</p>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {[
-                        { value: 'vegan', label: 'Vegan' },
-                        { value: 'vegetarian', label: 'Vegetarian' },
-                        { value: 'pescatarian', label: 'Pescatarian' },
-                        { value: 'keto', label: 'Keto' },
-                        { value: 'paleo', label: 'Paleo' },
-                        { value: 'mediterranean', label: 'Mediterranean' },
-                        { value: 'low_carb', label: 'Low-Carb' },
-                        { value: 'gluten_free', label: 'Gluten-Free' },
-                        { value: 'dairy_free', label: 'Dairy-Free' },
+                        { value: 'vegan', label: t('account.dietVegan') },
+                        { value: 'vegetarian', label: t('account.dietVegetarian') },
+                        { value: 'pescatarian', label: t('account.dietPescatarian') },
+                        { value: 'keto', label: t('account.dietKeto') },
+                        { value: 'paleo', label: t('account.dietPaleo') },
+                        { value: 'mediterranean', label: t('account.dietMediterranean') },
+                        { value: 'low_carb', label: t('account.dietLowCarb') },
+                        { value: 'gluten_free', label: t('account.dietGlutenFree') },
+                        { value: 'dairy_free', label: t('account.dietDairyFree') },
                       ].map(diet => (
                         <label key={diet.value} className="flex items-start space-x-2 cursor-pointer">
                           <input
