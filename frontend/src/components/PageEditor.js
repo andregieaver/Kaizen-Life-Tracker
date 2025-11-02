@@ -226,14 +226,15 @@ const PageEditor = ({ athleteId, pageId }) => {
 
   // Content Block Management Functions
   const addContentBlock = () => {
+    const currentBlocks = formData.content_blocks || [];
     const newBlock = {
       id: `block-${Date.now()}`,
       content: '',
-      order: formData.content_blocks.length
+      order: currentBlocks.length
     };
     setFormData(prev => ({
       ...prev,
-      content_blocks: [...prev.content_blocks, newBlock]
+      content_blocks: [...currentBlocks, newBlock]
     }));
   };
 
