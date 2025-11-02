@@ -2230,13 +2230,13 @@ const Account = ({ athleteId }) => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="timezone" className="text-sm font-medium text-white">Timezone</Label>
+                    <Label htmlFor="timezone" className="text-sm font-medium text-white">{t('account.timezone')}</Label>
                     <Select
                       value={personalForm.timezone || 'UTC'}
                       onValueChange={(value) => setPersonalForm(prev => ({...prev, timezone: value}))}
                     >
                       <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
-                        <SelectValue placeholder="Select timezone" />
+                        <SelectValue placeholder={t('account.selectTimezone')} />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="UTC">UTC</SelectItem>
