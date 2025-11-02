@@ -239,16 +239,18 @@ const PageEditor = ({ athleteId, pageId }) => {
   };
 
   const removeContentBlock = (blockId) => {
+    const currentBlocks = formData.content_blocks || [];
     setFormData(prev => ({
       ...prev,
-      content_blocks: prev.content_blocks.filter(block => block.id !== blockId)
+      content_blocks: currentBlocks.filter(block => block.id !== blockId)
     }));
   };
 
   const updateContentBlock = (blockId, content) => {
+    const currentBlocks = formData.content_blocks || [];
     setFormData(prev => ({
       ...prev,
-      content_blocks: prev.content_blocks.map(block =>
+      content_blocks: currentBlocks.map(block =>
         block.id === blockId ? { ...block, content } : block
       )
     }));
@@ -257,7 +259,7 @@ const PageEditor = ({ athleteId, pageId }) => {
   const handleDragEnd = (result) => {
     if (!result.destination) return;
     
-    const items = Array.from(formData.content_blocks);
+    const items = Array.from(formData.content_blocks || []);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     
