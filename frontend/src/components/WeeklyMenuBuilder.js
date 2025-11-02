@@ -301,7 +301,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
   }
 
   return (
-    <div className="space-y-6 p-4 sm:p-6 lg:p-8">
+    <div className="bg-gradient-to-br from-gray-900 to-gray-800 pt-4 px-2 space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-display font-bold text-white">Weekly Menu Builder</h1>
@@ -310,7 +310,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
         {!editingMenu && (
           <Button
             onClick={createNewMenu}
-            className="text-white border-0 shadow-md"
+            className="text-white border-0"
             style={{ backgroundColor: '#00C2A8' }}
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
