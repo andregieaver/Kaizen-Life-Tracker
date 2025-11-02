@@ -149,6 +149,7 @@ const IntegrationCard = ({
 const Account = ({ athleteId }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const countries = useCountries(); // Get translated country list
   const [athlete, setAthlete] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [integrations, setIntegrations] = useState({
