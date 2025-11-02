@@ -393,8 +393,8 @@ const HabitTracker = ({ athleteId }) => {
                       </Button>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -403,11 +403,10 @@ const HabitTracker = ({ athleteId }) => {
       {/* Add/Edit Habit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
-          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-gradient-to-r from-gray-900 to-gray-800 border-gray-700">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-white">{editingHabit ? 'Edit Habit' : 'Add New Habit'}</CardTitle>
-                <button onClick={closeModal} className="p-2 hover:bg-gray-700 rounded-lg text-white">
+          <div className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-gradient-to-br from-gray-900 to-gray-800 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-white">{editingHabit ? 'Edit Habit' : 'Add New Habit'}</h3>
+              <button onClick={closeModal} className="p-2 hover:bg-gray-700 rounded-lg text-white">
                   <X className="w-5 h-5" />
                 </button>
               </div>
