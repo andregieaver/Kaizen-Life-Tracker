@@ -3323,6 +3323,7 @@ const Account = ({ athleteId }) => {
                   onConnect={() => handleSimpleConnect('coros')}
                   onDisconnect={() => handleSimpleDisconnect('coros')}
                   comingSoon={true}
+                  t={t}
                 />
               </CardContent>
             </Card>
