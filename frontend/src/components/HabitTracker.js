@@ -477,8 +477,8 @@ const HabitTracker = ({ athleteId }) => {
                   {isLoading ? 'Saving...' : (editingHabit ? 'Update' : 'Create')}
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       )}
     </div>
