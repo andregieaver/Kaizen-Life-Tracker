@@ -101,38 +101,36 @@ const CmsPage = () => {
       </nav>
 
       {/* Content */}
-      <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+      <div className="pt-24 pb-16">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-b from-gray-700 to-gray-800 border border-gray-600 rounded-2xl p-8 sm:p-12 shadow-2xl">
-            {pageData && pageData.use_cms_content && pageData.content_blocks && pageData.content_blocks.length > 0 ? (
-              // Render CMS content blocks
-              <div className="space-y-6">
-                {pageData.content_blocks
-                  .sort((a, b) => (a.order || 0) - (b.order || 0))
-                  .map((block) => (
-                    <HtmlRenderer
-                      key={block.id}
-                      html={block.content}
-                      className="cms-content text-gray-300"
-                    />
-                  ))}
-              </div>
-            ) : (
-              // Fallback if no CMS content
-              <div className="text-center py-12">
-                <h1 className="text-4xl font-bold text-white mb-4">{pageData?.title || 'Page'}</h1>
-                <p className="text-gray-400">This page is under construction.</p>
-              </div>
-            )}
-
-            <div className="mt-12 pt-8 border-t border-gray-600">
-              <Link to="/">
-                <Button className="bg-teal-600 hover:bg-teal-700 text-white">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Home
-                </Button>
-              </Link>
+          {pageData && pageData.use_cms_content && pageData.content_blocks && pageData.content_blocks.length > 0 ? (
+            // Render CMS content blocks
+            <div className="space-y-6">
+              {pageData.content_blocks
+                .sort((a, b) => (a.order || 0) - (b.order || 0))
+                .map((block) => (
+                  <HtmlRenderer
+                    key={block.id}
+                    html={block.content}
+                    className="cms-content text-gray-300"
+                  />
+                ))}
             </div>
+          ) : (
+            // Fallback if no CMS content
+            <div className="text-center py-12">
+              <h1 className="text-4xl font-bold text-white mb-4">{pageData?.title || 'Page'}</h1>
+              <p className="text-gray-400">This page is under construction.</p>
+            </div>
+          )}
+
+          <div className="mt-12 pt-8 border-t border-gray-600">
+            <Link to="/">
+              <Button className="bg-teal-600 hover:bg-teal-700 text-white">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Home
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
