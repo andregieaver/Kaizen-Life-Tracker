@@ -129,8 +129,8 @@ const MenuEditor = ({ athleteId, onBack }) => {
     const isSlideout = menuType === 'slideout_menu';
 
     return (
-      <div className="bg-gray-800 rounded-lg p-6 mb-6">
-        <div className="flex items-center justify-between mb-4">
+      <div className="bg-gray-800 rounded-lg p-4 md:p-6 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
           <div>
             <h2 className="text-xl font-semibold text-white flex items-center gap-2">
               <MenuIcon className="w-5 h-5 text-[#00C2A8]" />
@@ -138,24 +138,26 @@ const MenuEditor = ({ athleteId, onBack }) => {
             </h2>
             <p className="text-sm text-gray-400 mt-1">{description}</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {isSlideout && (
               <button
                 type="button"
                 onClick={addSeparator}
-                className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-sm transition-colors whitespace-nowrap"
               >
                 <Plus className="w-4 h-4" />
-                Add Separator
+                <span className="hidden sm:inline">Add Separator</span>
+                <span className="sm:hidden">Separator</span>
               </button>
             )}
             <button
               type="button"
               onClick={() => addMenuItem(menuType)}
-              className="flex items-center gap-2 bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg text-sm transition-colors"
+              className="flex items-center gap-2 bg-[#00C2A8] hover:bg-[#00a890] text-white px-3 py-2 rounded-lg text-sm transition-colors whitespace-nowrap"
             >
               <Plus className="w-4 h-4" />
-              Add Menu Item
+              <span className="hidden sm:inline">Add Menu Item</span>
+              <span className="sm:hidden">Add Item</span>
             </button>
           </div>
         </div>
