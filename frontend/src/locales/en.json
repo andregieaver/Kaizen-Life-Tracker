@@ -422,7 +422,19 @@
     "disable": "Disable",
     "enable": "Enable",
     "loading": "Loading...",
-    "getInstantAlerts": "Get instant alerts for new AI-generated reports and recommendations"
+    "getInstantAlerts": "Get instant alerts for new AI-generated reports and recommendations",
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
   },
   "merits": {
     "title": "Merits",
