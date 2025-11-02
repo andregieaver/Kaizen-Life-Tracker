@@ -727,9 +727,20 @@ const PageEditor = ({ athleteId, pageId }) => {
                                         placeholder="<p>Enter your HTML here...</p>"
                                         spellCheck={false}
                                       />
-                                      <p className="text-xs text-gray-500 mt-2">
-                                        💡 Tip: Use standard HTML tags like &lt;h1&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;strong&gt;, etc.
-                                      </p>
+                                      <div className="text-xs text-gray-500 mt-2 space-y-1">
+                                        <p className="flex items-start gap-1">
+                                          <span className="text-green-400">✓</span>
+                                          <span><strong>Inline CSS:</strong> Use style attributes like <code className="bg-gray-800 px-1 rounded">style="color: red; font-size: 20px;"</code></span>
+                                        </p>
+                                        <p className="flex items-start gap-1">
+                                          <span className="text-green-400">✓</span>
+                                          <span><strong>JavaScript:</strong> Add <code className="bg-gray-800 px-1 rounded">&lt;script&gt;</code> tags or inline handlers like <code className="bg-gray-800 px-1 rounded">onclick="alert('Hello')"</code></span>
+                                        </p>
+                                        <p className="flex items-start gap-1">
+                                          <span className="text-blue-400">💡</span>
+                                          <span><strong>Tip:</strong> Use standard HTML tags like &lt;h1&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;div&gt;, &lt;strong&gt;, etc.</span>
+                                        </p>
+                                      </div>
                                     </div>
                                   )}
                                 </div>
