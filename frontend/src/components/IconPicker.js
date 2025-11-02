@@ -7,13 +7,32 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
 
   // Get all available Lucide icons (exclude React components that aren't icons)
   const availableIcons = useMemo(() => {
-    const iconNames = Object.keys(LucideIcons).filter(name => {
-      // Filter out non-icon exports
-      return name !== 'createLucideIcon' && 
-             name !== 'default' &&
-             typeof LucideIcons[name] === 'function';
-    });
-    return iconNames.sort();
+    // Exclude these non-icon exports
+    const excludeList = [
+      'createLucideIcon',
+      'default',
+      'Icon',
+      'icons',
+      'dynamicIconImports'
+    ];
+
+    const iconNames = Object.keys(LucideIcons)
+      .filter(name => {
+        // Exclude non-icon exports
+        if (excludeList.includes(name)) return false;
+        
+        // Must be a function (React component)
+        if (typeof LucideIcons[name] !== 'function') return false;
+        
+        // Icon names typically start with uppercase
+        if (name[0] !== name[0].toUpperCase()) return false;
+        
+        return true;
+      })
+      .sort();
+
+    console.log('Available icons loaded:', iconNames.length);
+    return iconNames;
   }, []);
 
   // Filter icons based on search
