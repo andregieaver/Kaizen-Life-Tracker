@@ -613,12 +613,12 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                         );
                       })}
                       {menu.meals.filter(m => m.recipe_id).length === 0 && (
-                        <p className="text-sm text-gray-500 italic">No meals assigned yet</p>
+                        <p className="text-sm text-gray-400 italic">No meals assigned yet</p>
                       )}
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))
           )}
         </div>
