@@ -2857,7 +2857,7 @@ const Account = ({ athleteId }) => {
                 </h3>
                 <p className="text-gray-400 mt-1">
                   Manage payment methods and view billing history
-                </CardDescription>
+                </p>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
