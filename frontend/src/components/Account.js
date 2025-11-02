@@ -3296,6 +3296,7 @@ const Account = ({ athleteId }) => {
                   connectionInfo={integrations.strava}
                   onConnect={() => handleSimpleConnect('strava')}
                   onDisconnect={() => handleSimpleDisconnect('strava')}
+                  t={t}
                 />
                 
                 {/* Oura */}
