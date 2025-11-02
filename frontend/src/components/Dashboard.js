@@ -129,6 +129,23 @@ const Dashboard = ({ athleteId }) => {
     }
   };
 
+  const loadMenus = async () => {
+    try {
+      const response = await axios.get(`${API}/menus/public`);
+      setMenuItems({
+        slideout_menu: response.data.slideout_menu || [],
+        header_logged_in: response.data.header_logged_in || []
+      });
+    } catch (error) {
+      console.error('Error loading menus:', error);
+      // Keep defaults (empty arrays)
+    }
+  };
+
+  useEffect(() => {
+    loadMenus();
+  }, []);
+
   // Reload community unread count periodically
   useEffect(() => {
     const interval = setInterval(() => {
