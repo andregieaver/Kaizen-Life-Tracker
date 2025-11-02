@@ -1039,6 +1039,8 @@ const Dashboard = ({ athleteId }) => {
                   <Brain className="w-5 h-5" />
                   <span className="font-medium">Memories</span>
                 </button>
+                  </>
+                )}
               </nav>
             </div>
 
