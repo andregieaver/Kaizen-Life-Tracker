@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 import pytz
 
 # Backend URL from environment
-BACKEND_URL = "https://cms-editor.preview.emergentagent.com/api"
+BACKEND_URL = "https://mobile-first-kaizen.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""
