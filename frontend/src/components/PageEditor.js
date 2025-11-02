@@ -649,7 +649,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 </div>
               ) : (
                 <DragDropContext onDragEnd={handleDragEnd}>
-                  <Droppable droppableId="content-blocks">
+                  <StrictModeDroppable droppableId="content-blocks">
                     {(provided) => (
                       <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-4">
                         {formData.content_blocks.map((block, index) => (
