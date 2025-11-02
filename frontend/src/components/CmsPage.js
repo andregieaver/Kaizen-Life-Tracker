@@ -102,7 +102,7 @@ const CmsPage = () => {
 
       {/* Content */}
       <div className="pt-24 pb-16">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto px-4">
           {pageData && pageData.use_cms_content && pageData.content_blocks && pageData.content_blocks.length > 0 ? (
             // Render CMS content blocks
             <div className="space-y-6">
