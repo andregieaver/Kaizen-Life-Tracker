@@ -1434,7 +1434,9 @@ class MenuItem(BaseModel):
     url: str
     order: int = 0
     is_separator: bool = False  # Only for slideout menu
-    icon: Optional[str] = None  # Icon name for slideout menu
+    icon: Optional[str] = None  # Icon name (Lucide icon)
+    highlighted: bool = False  # Highlight menu item with accent color
+    highlight_color: Optional[str] = None  # Custom highlight color (hex)
 
 class MenuSettings(BaseModel):
     header_logged_out: List[MenuItem] = []
