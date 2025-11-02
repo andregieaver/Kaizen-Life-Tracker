@@ -2,6 +2,28 @@ import React, { useState, useMemo } from 'react';
 import { X, Search } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 
+// Fallback list of common icons if dynamic import fails
+const FALLBACK_ICONS = [
+  'Home', 'User', 'Settings', 'Menu', 'Search', 'Bell', 'Heart', 'Star',
+  'Check', 'Plus', 'Minus', 'X', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+  'ChevronLeft', 'ChevronRight', 'ChevronUp', 'ChevronDown', 'MessageSquare',
+  'MessageCircle', 'Mail', 'Phone', 'Video', 'Mic', 'Calendar', 'Clock',
+  'File', 'Folder', 'Image', 'FileText', 'Download', 'Upload', 'Share',
+  'ThumbsUp', 'ThumbsDown', 'Users', 'UserPlus', 'Award', 'Trophy',
+  'ShoppingCart', 'CreditCard', 'DollarSign', 'Tag', 'Package', 'TrendingUp',
+  'Activity', 'BarChart', 'PieChart', 'TrendingDown', 'Zap', 'Shield',
+  'Lock', 'Unlock', 'Eye', 'EyeOff', 'Edit', 'Trash', 'Copy', 'Save',
+  'RefreshCw', 'RotateCw', 'Download', 'Upload', 'ExternalLink', 'Link',
+  'Paperclip', 'Bookmark', 'Flag', 'MapPin', 'Navigation', 'Compass',
+  'Globe', 'Wifi', 'Battery', 'Bluetooth', 'Cast', 'Monitor', 'Smartphone',
+  'Tablet', 'Watch', 'Headphones', 'Camera', 'Printer', 'Server', 'Database',
+  'Cloud', 'HardDrive', 'Cpu', 'Power', 'Volume', 'VolumeX', 'Play', 'Pause',
+  'Square', 'Circle', 'Triangle', 'Hexagon', 'Box', 'Grid', 'List', 'Layers',
+  'BookOpen', 'Book', 'Newspaper', 'Briefcase', 'Coffee', 'Gift', 'Utensils',
+  'Pizza', 'Beer', 'Wine', 'Music', 'Film', 'Tv', 'Radio', 'Mic2',
+  'Sun', 'Moon', 'CloudRain', 'CloudSnow', 'Wind', 'Droplet', 'Flame', 'Sparkles'
+];
+
 const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
