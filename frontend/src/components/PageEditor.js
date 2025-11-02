@@ -49,6 +49,11 @@ const PageEditor = ({ athleteId, pageId }) => {
       setLoading(true);
       const response = await axios.get(`${API}/pages/${pageId}?athlete_id=${athleteId}`);
       
+      console.log('Loaded page data:', {
+        use_cms_content: response.data.use_cms_content,
+        content_blocks_count: (response.data.content_blocks || []).length
+      });
+      
       // Initialize content blocks with EditorState
       const contentBlocks = (response.data.content_blocks || []).map(block => {
         let editorState = EditorState.createEmpty();
@@ -68,7 +73,10 @@ const PageEditor = ({ athleteId, pageId }) => {
         use_cms_content: response.data.use_cms_content || false,
         content_blocks: contentBlocks
       };
+      
+      console.log('Setting form data with use_cms_content:', pageData.use_cms_content);
       setFormData(pageData);
+      
       if (response.data.thumbnail) {
         setThumbnailPreview(`${BACKEND_URL}${response.data.thumbnail}`);
       }
