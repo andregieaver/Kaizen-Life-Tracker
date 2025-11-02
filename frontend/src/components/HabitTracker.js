@@ -352,7 +352,6 @@ const HabitTracker = ({ athleteId }) => {
                         </div>
                       </div>
                     </div>
-                  </div>
                 </div>
               );
             })}
