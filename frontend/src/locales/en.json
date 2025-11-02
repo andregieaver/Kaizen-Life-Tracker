@@ -357,7 +357,10 @@
     "interestRockClimbing": "Rock Climbing",
     "interestTennis": "Tennis",
     "interestBasketball": "Basketball",
-    "languageRegion": "Language & Region"
+    "languageRegion": "Language & Region",
+    "selectCountry": "Select country",
+    "aiCoachLanguagePreference": "AI Coach Language",
+    "aiCoachLanguageDescription": "Choose the language for AI responses in chat, voice, and reports"
   },
   "merits": {
     "title": "Merits",
