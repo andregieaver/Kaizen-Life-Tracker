@@ -9,20 +9,32 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const PrivacyPolicy = () => {
   const [siteTitle, setSiteTitle] = useState('TrainSmart');
+  const [pageData, setPageData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSiteTitle = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(`${BACKEND_URL}/api/system/settings/public`);
-        if (response.data?.seo?.siteTitle) {
-          setSiteTitle(response.data.seo.siteTitle);
+        // Fetch site title
+        const settingsResponse = await axios.get(`${BACKEND_URL}/api/system/settings/public`);
+        if (settingsResponse.data?.seo?.siteTitle) {
+          setSiteTitle(settingsResponse.data.seo.siteTitle);
+        }
+
+        // Fetch page data by URL slug
+        const pagesResponse = await axios.get(`${BACKEND_URL}/api/pages/by-slug?url_slug=/privacy`);
+        if (pagesResponse.data) {
+          setPageData(pagesResponse.data);
+          console.log('Privacy page data:', pagesResponse.data);
         }
       } catch (error) {
-        console.error('Error fetching site title:', error);
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
     };
     
-    fetchSiteTitle();
+    fetchData();
     
     // Load page-level SEO meta tags
     loadAndInjectPageSEO('/privacy');
