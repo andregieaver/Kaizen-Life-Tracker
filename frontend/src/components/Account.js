@@ -1575,7 +1575,7 @@ const Account = ({ athleteId }) => {
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, nationality: value}))}
                       >
                         <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
-                          <SelectValue placeholder="Select country" />
+                          <SelectValue placeholder={t('account.selectCountry')} />
                         </SelectTrigger>
                         <SelectContent className="max-h-[300px]">
                           <SelectItem value="Afghan">Afghan</SelectItem>
