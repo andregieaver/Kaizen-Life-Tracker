@@ -351,3 +351,55 @@ code {
   background: #4b5563;
   cursor: not-allowed;
 }
+
+/* Additional dark theme fixes for all editor elements */
+.rdw-editor-main {
+  background: white;
+  color: #1a1a1a;
+}
+
+/* Make sure all toolbar elements are visible and styled */
+.rdw-fontsize-wrapper,
+.rdw-fontfamily-wrapper {
+  min-width: 60px;
+}
+
+.rdw-fontsize-dropdown,
+.rdw-fontfamily-dropdown {
+  min-width: 80px !important;
+}
+
+/* Ensure dropdown menus are visible and properly styled */
+.rdw-dropdown-optionwrapper:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Block type dropdown styling */
+.rdw-block-wrapper .rdw-dropdown-wrapper {
+  min-width: 100px;
+}
+
+/* Fix any white text on white background issues */
+.rdw-editor-toolbar * {
+  color: #e5e7eb !important;
+}
+
+.rdw-editor-main * {
+  color: #1a1a1a;
+}
+
+/* Ensure icons are visible */
+.rdw-option-wrapper > img,
+.rdw-dropdown-wrapper > img {
+  opacity: 0.9;
+}
+
+/* Active state visibility */
+.rdw-option-wrapper.rdw-option-active {
+  background: #00C2A8 !important;
+  border-color: #00C2A8 !important;
+}
+
+.rdw-dropdown-wrapper.rdw-dropdown-open {
+  background: #374151 !important;
+}
