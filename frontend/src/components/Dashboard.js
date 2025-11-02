@@ -35,6 +35,7 @@ import OrderDetail from './OrderDetail';
 import Subscriptions from './Subscriptions';
 import Pages from './Pages';
 import PageEditor from './PageEditor';
+import MenuEditor from './MenuEditor';
 import Emails from './Emails';
 import Drinks from './Drinks';
 import Support from './Support';
