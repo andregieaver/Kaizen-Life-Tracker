@@ -13314,6 +13314,13 @@ async def create_page(athlete_id: str, page_data: PageCreate):
         page_dict["created_at"] = datetime.now(timezone.utc).isoformat()
         page_dict["updated_at"] = datetime.now(timezone.utc).isoformat()
         
+        # Serialize content_blocks if present (convert ContentBlock objects to dicts)
+        if "content_blocks" in page_dict and page_dict["content_blocks"]:
+            page_dict["content_blocks"] = [
+                block if isinstance(block, dict) else block 
+                for block in page_dict["content_blocks"]
+            ]
+        
         # Insert into database
         await db.pages.insert_one(page_dict)
         
