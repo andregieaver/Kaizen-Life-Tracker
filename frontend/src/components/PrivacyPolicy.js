@@ -64,7 +64,7 @@ const PrivacyPolicy = () => {
 
       {/* Content */}
       <div className="pt-24 pb-16">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto px-4">
           {loading ? (
             <div className="text-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
