@@ -469,3 +469,29 @@ code {
   color: #00a890;
 }
 
+/* HTML Code Editor Styling */
+textarea[class*="font-mono"] {
+  tab-size: 2;
+  line-height: 1.5;
+}
+
+textarea[class*="font-mono"]::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+textarea[class*="font-mono"]::-webkit-scrollbar-track {
+  background: #1f2937;
+  border-radius: 4px;
+}
+
+textarea[class*="font-mono"]::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 4px;
+}
+
+textarea[class*="font-mono"]::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+
