@@ -2567,8 +2567,8 @@ const Account = ({ athleteId }) => {
                   </div>
                 )}
               </form>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
 
         {/* Subscription Tab */}
