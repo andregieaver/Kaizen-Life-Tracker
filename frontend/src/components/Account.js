@@ -2214,10 +2214,10 @@ const Account = ({ athleteId }) => {
             <div className="mb-6">
               <h3 className="flex items-center text-white text-xl font-semibold">
                 <Settings className="w-5 h-5 mr-2 text-[#00C2A8]" />
-                Preferences
+                {t('account.preferences')}
               </h3>
               <p className="text-gray-400 mt-1">
-                Customize your application settings and preferences
+                {t('account.customizeSettings')}
               </p>
             </div>
             <div>
