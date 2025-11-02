@@ -326,20 +326,20 @@ const MenuEditor = ({ athleteId, onBack }) => {
             <ArrowLeft className="w-4 h-4" />
             Back to Account
           </button>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-white">Menu Editor</h1>
-              <p className="text-gray-400 mt-1">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">Menu Editor</h1>
+              <p className="text-gray-400 mt-1 text-sm">
                 Manage navigation menus for your application
               </p>
             </div>
             <button
               onClick={handleSave}
               disabled={saving}
-              className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
             >
               <Save className="w-5 h-5" />
-              {saving ? 'Saving...' : 'Save Menus'}
+              <span>{saving ? 'Saving...' : 'Save Menus'}</span>
             </button>
           </div>
         </div>
