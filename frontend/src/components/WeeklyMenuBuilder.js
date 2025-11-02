@@ -324,13 +324,11 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
       {editingMenu ? (
         <div className="space-y-6">
           {/* Menu Details */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Menu Details</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6">
+            <h3 className="text-xl font-bold text-white mb-4">Menu Details</h3>
+            <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Menu Name *
                 </label>
                 <input
@@ -338,11 +336,11 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                   value={menuName}
                   onChange={(e) => setMenuName(e.target.value)}
                   placeholder="e.g., High Protein Week, Recovery Week"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4]"
+                  className="w-full px-4 py-2 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Description
                 </label>
                 <textarea
@@ -350,11 +348,17 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                   onChange={(e) => setMenuDescription(e.target.value)}
                   placeholder="Optional description..."
                   rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#62D2C4]"
+                  className="w-full px-4 py-2 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                 />
               </div>
               <div className="flex gap-3">
-                <Button onClick={saveMenu} className="bg-gradient-to-r from-[#C1E1C1] to-[#a8d5a8] hover:from-[#a8d5a8] hover:to-[#C1E1C1] text-white shadow-md">
+                <Button 
+                  onClick={saveMenu} 
+                  className="text-white border-0"
+                  style={{ backgroundColor: '#00C2A8' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+                >
                   <Save className="w-4 h-4 mr-2" />
                   Save Menu
                 </Button>
@@ -364,14 +368,14 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                     setMenuName('');
                     setMenuDescription('');
                   }}
-                  variant="outline"
+                  className="bg-gray-700 text-white border-0 hover:bg-gray-600"
                 >
                   <X className="w-4 h-4 mr-2" />
                   Cancel
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           {/* Weekly Grid */}
           <Card>
