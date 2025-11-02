@@ -2461,8 +2461,8 @@ const Account = ({ athleteId }) => {
 
                   {/* AI Coach Language Preference */}
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium text-white">AI Coach Language</Label>
-                    <p className="text-xs text-gray-500">Choose the language for AI responses in chat, voice, and reports</p>
+                    <Label className="text-sm font-medium text-white">{t('account.aiCoachLanguagePreference')}</Label>
+                    <p className="text-xs text-gray-500">{t('account.aiCoachLanguageDescription')}</p>
                     <Select
                       value={personalForm.coach_language || 'en'}
                       onValueChange={(value) => setPersonalForm(prev => ({...prev, coach_language: value}))}
