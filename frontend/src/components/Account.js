@@ -2191,23 +2191,23 @@ const Account = ({ athleteId }) => {
                 <ChangeEmail athleteId={athleteId} currentEmail={personalForm.email} />
                 <ChangePassword athleteId={athleteId} />
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
 
         {/* Preferences Tab */}
         <TabsContent value="preferences">
-          <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
-            <CardHeader>
-              <CardTitle className="flex items-center text-white">
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6">
+            <div className="mb-6">
+              <h3 className="flex items-center text-white text-xl font-semibold">
                 <Settings className="w-5 h-5 mr-2 text-[#00C2A8]" />
                 Preferences
-              </CardTitle>
-              <CardDescription className="text-gray-400">
+              </h3>
+              <p className="text-gray-400 mt-1">
                 Customize your application settings and preferences
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+              </p>
+            </div>
+            <div>
               <form onSubmit={handleSavePreferences} className="space-y-6">
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-white">Language & Region</h3>
