@@ -77,10 +77,10 @@ const PrivacyPolicy = () => {
                 {pageData.content_blocks
                   .sort((a, b) => (a.order || 0) - (b.order || 0))
                   .map((block) => (
-                    <div 
+                    <HtmlRenderer
                       key={block.id}
+                      html={block.content}
                       className="cms-content text-gray-300"
-                      dangerouslySetInnerHTML={{ __html: block.content }}
                     />
                   ))}
               </div>
