@@ -467,6 +467,12 @@ const Dashboard = ({ athleteId }) => {
 
   // Helper function to get icon component by name
   const getIconComponent = (iconName) => {
+    // Try to get from LucideIcons dynamic import first
+    if (iconName && LucideIcons[iconName]) {
+      return LucideIcons[iconName];
+    }
+    
+    // Fallback to explicitly imported icons
     const iconMap = {
       Home, MessageCircle, PlusCircle, BarChart3, User, Menu, X, Settings,
       BookOpen, Utensils, Calendar, Zap, Activity, FileText, LineChart, Mic,
@@ -474,6 +480,7 @@ const Dashboard = ({ athleteId }) => {
       GlassWater, Edit3, UserPlus, Heart, Share2, Trophy, ArrowRight,
       ExternalLink, Circle, ShoppingCart, MessageSquare
     };
+    
     return iconMap[iconName] || Circle;
   };
 
