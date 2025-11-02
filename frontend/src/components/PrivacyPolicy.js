@@ -192,6 +192,8 @@ const PrivacyPolicy = () => {
                 </div>
               </section>
             </div>
+              </>
+            )}
 
             <div className="mt-12 pt-8 border-t border-gray-600">
               <Link to="/">
