@@ -465,6 +465,135 @@ const PageEditor = ({ athleteId, pageId }) => {
           </div>
         </div>
 
+        {/* CMS Content Section */}
+        <div className="bg-gray-800 rounded-lg p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <FileText className="w-5 h-5 text-[#00C2A8]" />
+            Page Content
+          </h2>
+
+          {/* CMS Toggle */}
+          <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 mb-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="text-2xl">📝</div>
+                <div>
+                  <label className="text-sm font-medium text-white">
+                    Use CMS Content
+                  </label>
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    Toggle between hard-coded React components and flexible CMS content blocks
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => handleInputChange('use_cms_content', !formData.use_cms_content)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  formData.use_cms_content ? 'bg-[#00C2A8]' : 'bg-gray-700'
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    formData.use_cms_content ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+            </div>
+            {formData.use_cms_content && (
+              <div className="mt-3 p-2 bg-green-900/20 border border-green-700/50 rounded text-xs text-green-300">
+                ✓ CMS mode active. Create content blocks below. The hard-coded page component will be replaced with your custom content.
+              </div>
+            )}
+            {!formData.use_cms_content && (
+              <div className="mt-3 p-2 bg-gray-700/20 border border-gray-600/50 rounded text-xs text-gray-400">
+                ℹ️ Hard-coded mode. The React component for this page will be displayed.
+              </div>
+            )}
+          </div>
+
+          {/* Content Blocks (only shown when CMS mode is enabled) */}
+          {formData.use_cms_content && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-sm text-gray-400">Content Blocks ({formData.content_blocks.length})</p>
+                <button
+                  type="button"
+                  onClick={addContentBlock}
+                  className="flex items-center gap-2 bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Content Block
+                </button>
+              </div>
+
+              {formData.content_blocks.length === 0 ? (
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-8 text-center">
+                  <p className="text-gray-400 mb-4">No content blocks yet. Click "Add Content Block" to start building your page.</p>
+                </div>
+              ) : (
+                <DragDropContext onDragEnd={handleDragEnd}>
+                  <Droppable droppableId="content-blocks">
+                    {(provided) => (
+                      <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-4">
+                        {formData.content_blocks.map((block, index) => (
+                          <Draggable key={block.id} draggableId={block.id} index={index}>
+                            {(provided, snapshot) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                className={`bg-gray-900 border rounded-lg overflow-hidden transition-shadow ${
+                                  snapshot.isDragging ? 'border-[#00C2A8] shadow-lg' : 'border-gray-700'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between p-3 bg-gray-800 border-b border-gray-700">
+                                  <div className="flex items-center gap-2">
+                                    <div {...provided.dragHandleProps} className="cursor-grab active:cursor-grabbing">
+                                      <GripVertical className="w-5 h-5 text-gray-400" />
+                                    </div>
+                                    <span className="text-sm font-medium text-white">Block {index + 1}</span>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => removeContentBlock(block.id)}
+                                    className="text-red-400 hover:text-red-300 transition-colors"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </div>
+                                <div className="p-4">
+                                  <ReactQuill
+                                    theme="snow"
+                                    value={block.content}
+                                    onChange={(content) => updateContentBlock(block.id, content)}
+                                    modules={{
+                                      toolbar: [
+                                        [{ 'header': [1, 2, 3, false] }],
+                                        ['bold', 'italic', 'underline', 'strike'],
+                                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                        [{ 'align': [] }],
+                                        ['link', 'image'],
+                                        ['clean']
+                                      ]
+                                    }}
+                                    className="bg-white text-gray-900 rounded"
+                                    style={{ minHeight: '200px' }}
+                                  />
+                                </div>
+                              </div>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              )}
+            </div>
+          )}
+        </div>
+
         {/* SEO Section */}
         <div className="bg-gray-800 rounded-lg p-6">
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
