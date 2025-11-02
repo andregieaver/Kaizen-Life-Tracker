@@ -311,6 +311,29 @@ const PageEditor = ({ athleteId, pageId }) => {
     }));
   };
 
+  const updateContentBlockHtml = (blockId, htmlContent) => {
+    const currentBlocks = formData.content_blocks || [];
+    
+    // Parse HTML to create new editor state
+    let editorState = EditorState.createEmpty();
+    try {
+      const contentBlock = htmlToDraft(htmlContent);
+      if (contentBlock) {
+        const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+        editorState = EditorState.createWithContent(contentState);
+      }
+    } catch (error) {
+      console.error('Error parsing HTML:', error);
+    }
+    
+    setFormData(prev => ({
+      ...prev,
+      content_blocks: currentBlocks.map(block =>
+        block.id === blockId ? { ...block, content: htmlContent, editorState } : block
+      )
+    }));
+  };
+
   const handleDragEnd = (result) => {
     if (!result.destination) return;
     
