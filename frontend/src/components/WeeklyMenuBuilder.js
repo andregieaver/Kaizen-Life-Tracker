@@ -435,21 +435,23 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
         /* Menu List */
         <div className="space-y-4">
           {menus.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12">
-              <Calendar className="w-16 h-16 text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-200 mb-2">No menus yet</h3>
-              <p className="text-gray-400 text-center">
-                Create your first weekly menu template
-              </p>
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-8">
+              <div className="flex flex-col items-center justify-center py-12">
+                <Calendar className="w-16 h-16 text-gray-400 mb-4" />
+                <h3 className="text-lg font-medium text-white mb-2">No menus yet</h3>
+                <p className="text-gray-300 text-center">
+                  Create your first weekly menu template
+                </p>
+              </div>
             </div>
           ) : (
             menus.map(menu => (
-              <Card key={menu.id} className={menu.is_active ? 'bg-gradient-to-br from-gray-600 to-gray-800 border-0 shadow-md' : 'bg-gradient-to-br from-gray-600 to-gray-800 border-0 shadow-sm'} style={menu.is_active ? { boxShadow: '0 0 0 2px #00C2A8' } : {}}>
-                <CardHeader>
+              <div key={menu.id} className="bg-gradient-to-br from-gray-800 to-gray-900 p-6" style={menu.is_active ? { boxShadow: '0 0 0 2px #00C2A8' } : {}}>
+                <div className="mb-4">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <CardTitle className="text-white">{menu.menu_name}</CardTitle>
+                        <h3 className="text-xl font-bold text-white">{menu.menu_name}</h3>
                         {menu.is_active && (
                           <Badge className="bg-gray-700 text-white border-0">
                             <Check className="w-3 h-3 mr-1" />
@@ -488,8 +490,8 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                       </Button>
                     </div>
                   </div>
-                </CardHeader>
-                <CardContent>
+                </div>
+                <div>
                   <div className="space-y-4">
                     <div className="text-sm text-gray-300 mb-4">
                       {menu.meals.filter(m => m.recipe_id || m.nutrition_entry_id).length} of 21 meals assigned
