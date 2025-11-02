@@ -3405,7 +3405,7 @@ const Account = ({ athleteId }) => {
                 </h3>
                 <p className="text-gray-400 mt-1">
                   Connect your Oura Ring to automatically import sleep and recovery data
-                </CardDescription>
+                </p>
               </CardHeader>
               <CardContent>
                 {integrations.oura.connected ? (
