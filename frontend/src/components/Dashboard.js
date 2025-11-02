@@ -1536,6 +1536,9 @@ const Dashboard = ({ athleteId }) => {
         {isPageEditorPage && (
           <PageEditor athleteId={athleteId} pageId={pageIdFromUrl} />
         )}
+        {isMenuEditorPage && (
+          <MenuEditor athleteId={athleteId} onBack={() => navigate('/dashboard/account')} />
+        )}
 
         {activeTab === 'calendar' && (
           <TrainingCalendar 
