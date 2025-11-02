@@ -1384,10 +1384,10 @@ const Account = ({ athleteId }) => {
             <Button
               onClick={() => navigate('/dashboard/support')}
               className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
-              title="Contact Support"
+              title={t('account.contactSupport')}
             >
               <HelpCircle className="w-5 h-5" />
-              <span className="font-semibold">Contact Support</span>
+              <span className="font-semibold">{t('account.contactSupport')}</span>
             </Button>
           </div>
           {athlete?.is_super_admin && (
@@ -1395,58 +1395,58 @@ const Account = ({ athleteId }) => {
               <Button
                 onClick={() => navigate('/dashboard/pages')}
                 className="bg-gray-700 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
-                title="Pages (Super Admin)"
+                title={t('account.pages')}
               >
                 <FileText className="w-5 h-5" />
-                <span className="hidden sm:inline font-semibold">Pages</span>
+                <span className="hidden sm:inline font-semibold">{t('account.pages')}</span>
               </Button>
               <Button
                 onClick={() => navigate('/dashboard/menus')}
                 className="bg-gray-700 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
-                title="Menus (Super Admin)"
+                title={t('account.menus')}
               >
                 <Menu className="w-5 h-5" />
-                <span className="hidden sm:inline font-semibold">Menus</span>
+                <span className="hidden sm:inline font-semibold">{t('account.menus')}</span>
               </Button>
               <Button
                 onClick={() => navigate('/dashboard/crm')}
                 className="bg-gray-700 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
-                title="User Management (Super Admin)"
+                title={t('account.crm')}
               >
                 <Users className="w-5 h-5" />
-                <span className="hidden sm:inline font-semibold">CRM</span>
+                <span className="hidden sm:inline font-semibold">{t('account.crm')}</span>
               </Button>
               <Button
                 onClick={() => navigate('/dashboard/orders')}
                 className="bg-gray-700 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
-                title="Stripe Orders (Super Admin)"
+                title={t('account.orders')}
               >
                 <ShoppingCart className="w-5 h-5" />
-                <span className="hidden sm:inline font-semibold">Orders</span>
+                <span className="hidden sm:inline font-semibold">{t('account.orders')}</span>
               </Button>
               <Button
                 onClick={() => navigate('/dashboard/subscriptions')}
                 className="bg-gray-700 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
-                title="Subscriptions (Super Admin)"
+                title={t('account.subscriptions')}
               >
                 <Repeat className="w-5 h-5" />
-                <span className="hidden sm:inline font-semibold">Subscriptions</span>
+                <span className="hidden sm:inline font-semibold">{t('account.subscriptions')}</span>
               </Button>
               <Button
                 onClick={() => navigate('/dashboard/emails')}
                 className="bg-gray-700 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
-                title="Email Templates (Super Admin)"
+                title={t('account.emails')}
               >
                 <FileText className="w-5 h-5" />
-                <span className="hidden sm:inline font-semibold">Emails</span>
+                <span className="hidden sm:inline font-semibold">{t('account.emails')}</span>
               </Button>
               <Button
                 onClick={() => navigate('/dashboard/system-settings')}
                 className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
-                title="System Settings (Super Admin)"
+                title={t('account.systemSettings')}
               >
                 <Settings className="w-5 h-5" />
-                <span className="hidden sm:inline font-semibold">System Settings</span>
+                <span className="hidden sm:inline font-semibold">{t('account.systemSettings')}</span>
               </Button>
             </div>
           )}
