@@ -30,6 +30,9 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
   // Get all available Lucide icons (exclude React components that aren't icons)
   const availableIcons = useMemo(() => {
     try {
+      console.log('LucideIcons object keys:', Object.keys(LucideIcons).slice(0, 10));
+      console.log('Sample icon check - Home:', typeof LucideIcons.Home, LucideIcons.Home);
+      
       // Exclude these non-icon exports
       const excludeList = [
         'createLucideIcon',
@@ -55,6 +58,7 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
         .sort();
 
       console.log('Available icons loaded:', iconNames.length);
+      console.log('First 10 icons:', iconNames.slice(0, 10));
       
       // If no icons found, use fallback
       if (iconNames.length === 0) {
