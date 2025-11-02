@@ -13324,6 +13324,10 @@ async def create_page(athlete_id: str, page_data: PageCreate):
         # Insert into database
         await db.pages.insert_one(page_dict)
         
+        # Remove _id from response (not JSON serializable)
+        if "_id" in page_dict:
+            del page_dict["_id"]
+        
         # Auto-update index.html if this is the home page and it's published
         if url_slug == "/" and page_dict.get("status") == "published":
             try:
