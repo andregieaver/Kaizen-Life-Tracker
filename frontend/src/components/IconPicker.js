@@ -54,43 +54,48 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
   // Get all available Lucide icons (exclude React components that aren't icons)
   const availableIcons = useMemo(() => {
     try {
-      console.log('LucideIcons object keys:', Object.keys(LucideIcons).slice(0, 10));
-      console.log('Sample icon check - Home:', typeof LucideIcons.Home, LucideIcons.Home);
+      console.log('Loading Lucide icons...');
+      console.log('Total LucideIcons keys:', Object.keys(LucideIcons).length);
       
       // Exclude these non-icon exports
-      const excludeList = [
+      const excludeList = new Set([
         'createLucideIcon',
         'default',
         'Icon',
         'icons',
-        'dynamicIconImports'
-      ];
+        'dynamicIconImports',
+        '__esModule'
+      ]);
 
       const iconNames = Object.keys(LucideIcons)
         .filter(name => {
           // Exclude non-icon exports
-          if (excludeList.includes(name)) return false;
+          if (excludeList.has(name)) return false;
           
-          // Must be a function (React component)
-          if (typeof LucideIcons[name] !== 'function') return false;
+          // Must be a function/object (React component)
+          const value = LucideIcons[name];
+          if (typeof value !== 'function' && typeof value !== 'object') return false;
           
-          // Icon names typically start with uppercase
-          if (name[0] !== name[0].toUpperCase()) return false;
+          // Icon names start with uppercase
+          if (!name || name[0] !== name[0].toUpperCase()) return false;
+          
+          // Exclude very short names (likely not icons)
+          if (name.length < 2) return false;
           
           return true;
         })
         .sort();
 
       console.log('Available icons loaded:', iconNames.length);
-      console.log('First 10 icons:', iconNames.slice(0, 10));
+      console.log('Sample icons:', iconNames.slice(0, 20));
       
-      // If no icons found, use fallback
-      if (iconNames.length === 0) {
-        console.warn('No icons found via dynamic import, using fallback list');
-        return FALLBACK_ICONS;
+      // Return all icons if we have a good amount, otherwise use fallback
+      if (iconNames.length > 50) {
+        return iconNames;
       }
       
-      return iconNames;
+      console.warn('Not enough icons found, using fallback list');
+      return FALLBACK_ICONS;
     } catch (error) {
       console.error('Error loading icons:', error);
       return FALLBACK_ICONS;
