@@ -233,7 +233,8 @@ const PageEditor = ({ athleteId, pageId }) => {
     const newBlock = {
       id: `block-${Date.now()}`,
       content: '',
-      order: currentBlocks.length
+      order: currentBlocks.length,
+      editorState: EditorState.createEmpty()
     };
     setFormData(prev => ({
       ...prev,
@@ -249,12 +250,13 @@ const PageEditor = ({ athleteId, pageId }) => {
     }));
   };
 
-  const updateContentBlock = (blockId, content) => {
+  const updateContentBlock = (blockId, editorState) => {
     const currentBlocks = formData.content_blocks || [];
+    const contentHtml = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     setFormData(prev => ({
       ...prev,
       content_blocks: currentBlocks.map(block =>
-        block.id === blockId ? { ...block, content } : block
+        block.id === blockId ? { ...block, content: contentHtml, editorState } : block
       )
     }));
   };
