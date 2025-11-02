@@ -2585,7 +2585,7 @@ const Account = ({ athleteId }) => {
                     </h3>
                     <p className="text-gray-400 mt-1">
                       Manage your subscription and billing
-                    </CardDescription>
+                    </p>
                   </div>
                   <Button 
                     variant="ghost" 
