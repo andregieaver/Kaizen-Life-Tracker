@@ -1978,8 +1978,8 @@ const Account = ({ athleteId }) => {
 
                 {/* Community Profile Privacy Settings */}
                 <div className="space-y-4">
-                  <h3 className="text-lg font-display font-semibold text-white">Community Profile Privacy</h3>
-                  <p className="text-sm text-gray-400">Choose what information is visible on your community profile</p>
+                  <h3 className="text-lg font-display font-semibold text-white">{t('account.communityProfilePrivacy')}</h3>
+                  <p className="text-sm text-gray-400">{t('account.communityProfilePrivacyDescription')}</p>
                   
                   <div className="space-y-3">
                     <label className="flex items-center space-x-3 cursor-pointer group">
@@ -1990,8 +1990,8 @@ const Account = ({ athleteId }) => {
                         className="w-5 h-5 rounded border-gray-700 text-green-500 focus:ring-green-500"
                       />
                       <div>
-                        <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">Show Bio</span>
-                        <p className="text-xs text-gray-500">Display your bio on your community profile</p>
+                        <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">{t('account.showBio')}</span>
+                        <p className="text-xs text-gray-500">{t('account.showBioDescription')}</p>
                       </div>
                     </label>
 
@@ -2003,8 +2003,8 @@ const Account = ({ athleteId }) => {
                         className="w-5 h-5 rounded border-gray-700 text-green-500 focus:ring-green-500"
                       />
                       <div>
-                        <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">Show Health/Training Goals</span>
-                        <p className="text-xs text-gray-500">Display your health and training goals</p>
+                        <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">{t('account.showHealthGoals')}</span>
+                        <p className="text-xs text-gray-500">{t('account.showHealthGoalsDescription')}</p>
                       </div>
                     </label>
 
@@ -2016,8 +2016,8 @@ const Account = ({ athleteId }) => {
                         className="w-5 h-5 rounded border-gray-700 text-green-500 focus:ring-green-500"
                       />
                       <div>
-                        <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">Show Interests</span>
-                        <p className="text-xs text-gray-500">Display your selected interests</p>
+                        <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">{t('account.showInterests')}</span>
+                        <p className="text-xs text-gray-500">{t('account.showInterestsDescription')}</p>
                       </div>
                     </label>
                   </div>
