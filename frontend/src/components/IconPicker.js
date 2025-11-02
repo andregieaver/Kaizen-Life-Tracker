@@ -29,32 +29,44 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
 
   // Get all available Lucide icons (exclude React components that aren't icons)
   const availableIcons = useMemo(() => {
-    // Exclude these non-icon exports
-    const excludeList = [
-      'createLucideIcon',
-      'default',
-      'Icon',
-      'icons',
-      'dynamicIconImports'
-    ];
+    try {
+      // Exclude these non-icon exports
+      const excludeList = [
+        'createLucideIcon',
+        'default',
+        'Icon',
+        'icons',
+        'dynamicIconImports'
+      ];
 
-    const iconNames = Object.keys(LucideIcons)
-      .filter(name => {
-        // Exclude non-icon exports
-        if (excludeList.includes(name)) return false;
-        
-        // Must be a function (React component)
-        if (typeof LucideIcons[name] !== 'function') return false;
-        
-        // Icon names typically start with uppercase
-        if (name[0] !== name[0].toUpperCase()) return false;
-        
-        return true;
-      })
-      .sort();
+      const iconNames = Object.keys(LucideIcons)
+        .filter(name => {
+          // Exclude non-icon exports
+          if (excludeList.includes(name)) return false;
+          
+          // Must be a function (React component)
+          if (typeof LucideIcons[name] !== 'function') return false;
+          
+          // Icon names typically start with uppercase
+          if (name[0] !== name[0].toUpperCase()) return false;
+          
+          return true;
+        })
+        .sort();
 
-    console.log('Available icons loaded:', iconNames.length);
-    return iconNames;
+      console.log('Available icons loaded:', iconNames.length);
+      
+      // If no icons found, use fallback
+      if (iconNames.length === 0) {
+        console.warn('No icons found via dynamic import, using fallback list');
+        return FALLBACK_ICONS;
+      }
+      
+      return iconNames;
+    } catch (error) {
+      console.error('Error loading icons:', error);
+      return FALLBACK_ICONS;
+    }
   }, []);
 
   // Filter icons based on search
