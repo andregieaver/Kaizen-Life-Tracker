@@ -11,6 +11,8 @@ const API = `${BACKEND_URL}/api`;
 const MenuEditor = ({ athleteId, onBack }) => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [iconPickerOpen, setIconPickerOpen] = useState(false);
+  const [iconPickerTarget, setIconPickerTarget] = useState(null); // { menuType, itemId }
   const [menus, setMenus] = useState({
     header_logged_out: [],
     header_logged_in: [],
