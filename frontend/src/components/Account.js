@@ -1367,7 +1367,7 @@ const Account = ({ athleteId }) => {
   }
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto px-2 sm:px-6 lg:px-8 py-6">
+    <div className="bg-gradient-to-br from-gray-900 to-gray-800 w-full max-w-[1600px] mx-auto px-2 sm:px-6 lg:px-8 py-6">
       {/* Header */}
       <div className="mb-8 relative">
         <div className="flex flex-col">
