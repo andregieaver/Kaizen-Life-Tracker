@@ -284,7 +284,6 @@ const Memories = ({ athleteId }) => {
             </div>
           </div>
         </div>
-      </div>
 
       {/* Memories Grid */}
       {isLoading ? (
