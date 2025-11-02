@@ -38,7 +38,7 @@ const PrivacyPolicy = () => {
     fetchData();
     
     // Load page-level SEO meta tags
-    loadAndInjectPageSEO('/privacy');
+    loadAndInjectPageSEO('/privacy-policy');
   }, []);
 
   return (
