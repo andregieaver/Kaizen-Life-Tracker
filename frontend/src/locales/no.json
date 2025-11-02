@@ -401,6 +401,9 @@
   "common": {
     "loading": "Laster...",
     "save": "Lagre",
+    "cancel": "Avbryt",
+    "create": "Opprett",
+    "update": "Oppdater",
     "delete": "Slett",
     "edit": "Rediger",
     "connect": "Koble til",
