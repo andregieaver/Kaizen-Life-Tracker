@@ -83,6 +83,7 @@ const Dashboard = ({ athleteId }) => {
   const isUserProfilePage = location.pathname.includes('/dashboard/crm/user/');
   const isOrderDetailPage = location.pathname.match(/\/dashboard\/orders\/[^/]+$/) && !location.pathname.endsWith('/orders');
   const isPageEditorPage = location.pathname.includes('/dashboard/pages/edit/') || location.pathname.includes('/dashboard/pages/new');
+  const isMenuEditorPage = location.pathname === '/dashboard/menus';
   
   // Extract pageId from URL for page editor
   const getPageIdFromUrl = () => {
