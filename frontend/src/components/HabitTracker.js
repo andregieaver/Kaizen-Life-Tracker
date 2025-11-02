@@ -410,8 +410,8 @@ const HabitTracker = ({ athleteId }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
+            
+            <div className="space-y-4">
               {/* Title */}
               <div>
                 <Label htmlFor="title" className="text-white">Habit Name *</Label>
@@ -433,7 +433,7 @@ const HabitTracker = ({ athleteId }) => {
                       key={day.value}
                       type="button"
                       onClick={() => toggleDay(day.value)}
-                      className={`p-2 rounded-lg text-sm font-medium transition-colors ${
+                      className={`p-2 text-sm font-medium transition-colors ${
                         selectedDays.includes(day.value)
                           ? 'bg-teal-600 text-white'
                           : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
