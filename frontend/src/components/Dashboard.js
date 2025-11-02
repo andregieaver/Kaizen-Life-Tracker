@@ -775,8 +775,7 @@ const Dashboard = ({ athleteId }) => {
             {/* Menu Header */}
             <div className="flex items-center justify-between p-4" style={{ borderBottom: '1px solid var(--border)', background: 'var(--grad-surface)' }}>
               <button 
-                className="flex items-center space-x-3 w-full text-left rounded-lg p-2 transition-all duration-200 hover:scale-105"
-                style={{ background: 'var(--grad-cta-soft)' }}
+                className="flex items-center space-x-3 w-full text-left rounded-lg p-2 transition-all duration-200"
                 onClick={() => {
                   navigate('/dashboard/account');
                   setIsMenuOpen(false);
