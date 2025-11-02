@@ -13584,6 +13584,65 @@ async def upload_page_image(page_id: str, athlete_id: str, image_type: str, file
         logging.error(f"Error uploading page image: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to upload image: {str(e)}")
 
+# Menu Management Endpoints
+@api_router.get("/menus")
+async def get_menus(athlete_id: str):
+    """Get menu settings (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get menus from system settings or return defaults
+        settings = await db.system_settings.find_one({})
+        
+        if settings and "menus" in settings:
+            return settings["menus"]
+        
+        # Return default menus if not configured
+        default_menus = {
+            "header_logged_out": [
+                {"id": str(uuid.uuid4()), "label": "Home", "url": "/", "order": 0},
+                {"id": str(uuid.uuid4()), "label": "Pricing", "url": "/pricing", "order": 1},
+                {"id": str(uuid.uuid4()), "label": "Login", "url": "/login", "order": 2}
+            ],
+            "header_logged_in": [
+                {"id": str(uuid.uuid4()), "label": "Dashboard", "url": "/dashboard", "order": 0},
+                {"id": str(uuid.uuid4()), "label": "Account", "url": "/dashboard/account", "order": 1}
+            ],
+            "slideout_menu": [
+                {"id": str(uuid.uuid4()), "label": "Home", "url": "/dashboard/home", "order": 0, "icon": "Home"},
+                {"id": str(uuid.uuid4()), "label": "Coach Chat", "url": "/dashboard/coach", "order": 1, "icon": "MessageSquare"},
+                {"id": str(uuid.uuid4()), "label": "", "url": "", "order": 2, "is_separator": True},
+                {"id": str(uuid.uuid4()), "label": "Account", "url": "/dashboard/account", "order": 3, "icon": "User"}
+            ]
+        }
+        
+        return default_menus
+    except Exception as e:
+        logging.error(f"Error fetching menus: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch menus: {str(e)}")
+
+@api_router.put("/menus")
+async def update_menus(athlete_id: str, menu_data: MenuSettings):
+    """Update menu settings (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Convert Pydantic models to dict
+        menus_dict = menu_data.model_dump()
+        
+        # Update or create system settings with menus
+        await db.system_settings.update_one(
+            {},
+            {"$set": {"menus": menus_dict}},
+            upsert=True
+        )
+        
+        logging.info(f"Menus updated by {athlete_id}")
+        return {"message": "Menus updated successfully", "menus": menus_dict}
+    except Exception as e:
+        logging.error(f"Error updating menus: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to update menus: {str(e)}")
+
 @api_router.post("/system/upload-seo-image")
 async def upload_seo_image(athlete_id: str, image_type: str, file: UploadFile = File(...)):
     """Upload favicon or logo for SEO settings (Super Admin only)"""
