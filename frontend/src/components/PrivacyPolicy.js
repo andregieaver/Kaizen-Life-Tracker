@@ -22,13 +22,14 @@ const PrivacyPolicy = () => {
         }
 
         // Fetch page data by URL slug
-        const pagesResponse = await axios.get(`${BACKEND_URL}/api/pages/by-slug?url_slug=/privacy`);
+        const pagesResponse = await axios.get(`${BACKEND_URL}/api/pages/public/by-slug?slug=/privacy`);
         if (pagesResponse.data) {
           setPageData(pagesResponse.data);
           console.log('Privacy page data:', pagesResponse.data);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
+        // If page not found in CMS, we'll use hard-coded content
       } finally {
         setLoading(false);
       }
