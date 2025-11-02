@@ -50,7 +50,7 @@ const TermsConditions = () => {
 
       {/* Content */}
       <div className="pt-24 pb-16">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Terms & Conditions</h1>
           <p className="text-gray-400 mb-8">Last updated: {new Date().toLocaleDateString()}</p>
 
