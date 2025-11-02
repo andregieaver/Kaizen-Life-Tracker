@@ -3282,7 +3282,7 @@ const Account = ({ athleteId }) => {
                 </h3>
                 <p className="text-gray-400 mt-1">
                   Connect your fitness apps and wearables to automatically sync your data
-                </CardDescription>
+                </p>
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Strava */}
