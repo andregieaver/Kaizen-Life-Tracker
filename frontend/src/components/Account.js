@@ -2223,9 +2223,9 @@ const Account = ({ athleteId }) => {
             <div>
               <form onSubmit={handleSavePreferences} className="space-y-6">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-white">Language & Region</h3>
+                  <h3 className="text-lg font-semibold text-white">{t('account.languageRegion')}</h3>
                   <div className="space-y-2">
-                    <Label htmlFor="language" className="text-sm font-medium text-white">Language</Label>
+                    <Label htmlFor="language" className="text-sm font-medium text-white">{t('account.language')}</Label>
                     <LanguageSelector />
                   </div>
                   
