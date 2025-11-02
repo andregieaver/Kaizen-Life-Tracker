@@ -228,11 +228,19 @@ const PageEditor = ({ athleteId, pageId }) => {
       // Prepare data for saving - remove editorState (not serializable)
       const saveData = {
         ...formData,
-        content_blocks: (formData.content_blocks || []).map(block => ({
-          id: block.id,
-          content: block.content,
-          order: block.order
-        }))
+        content_blocks: (formData.content_blocks || []).map(block => {
+          // Get HTML content from editorState if available
+          let content = block.content || '';
+          if (block.editorState) {
+            const contentState = block.editorState.getCurrentContent();
+            content = draftToHtml(convertToRaw(contentState));
+          }
+          return {
+            id: block.id,
+            content: content,
+            order: block.order || 0
+          };
+        })
       };
 
       console.log('Saving page data:', {
