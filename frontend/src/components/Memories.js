@@ -374,7 +374,6 @@ const Memories = ({ athleteId }) => {
                   </div>
                 </div>
               </div>
-            </div>
           ))}
         </div>
       )}
