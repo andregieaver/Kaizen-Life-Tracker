@@ -202,20 +202,46 @@ code {
   scrollbar-color: var(--bg-600) var(--bg-900);
 }
 
-/* React Quill Editor Dark Theme Support */
-.ql-toolbar {
+/* React Draft WYSIWYG Editor Styling */
+.demo-wrapper {
+  border: 1px solid #374151;
+  border-radius: 0.5rem;
+}
+
+.demo-toolbar {
   background: #1a1a1a !important;
   border: 1px solid #374151 !important;
-  border-bottom: none !important;
+  border-radius: 0.5rem 0.5rem 0 0 !important;
+  padding: 8px !important;
 }
 
-.ql-container {
-  border: 1px solid #374151 !important;
-  background: white !important;
+.demo-editor {
+  min-height: 200px;
+  padding: 12px;
+  background: white;
+  color: #1a1a1a;
+  border: 1px solid #d1d5db;
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.demo-editor .public-DraftEditor-content {
   min-height: 200px;
 }
 
-.ql-editor {
-  min-height: 200px;
-  font-size: 14px;
+.rdw-editor-toolbar {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+}
+
+.rdw-option-wrapper {
+  background: white;
+  border: 1px solid #d1d5db;
+}
+
+.rdw-option-wrapper:hover {
+  box-shadow: 1px 1px 0px #d1d5db;
+}
+
+.rdw-option-active {
+  box-shadow: 1px 1px 0px #d1d5db inset;
 }
