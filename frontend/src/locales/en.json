@@ -436,6 +436,103 @@
     "november": "November",
     "december": "December"
   },
+  "community": {
+    "tabs": {
+      "feed": "Feed",
+      "following": "Following",
+      "allGroups": "All Groups",
+      "myGroups": "My Groups",
+      "events": "Events",
+      "challenges": "Challenges",
+      "findAthletes": "Find Athletes"
+    },
+    "post": {
+      "whatsOnMind": "What's on your mind?",
+      "addThoughts": "Add your thoughts (optional)...",
+      "writeComment": "Write a comment...",
+      "writeCommentMention": "Write a comment... (Type @ to mention)",
+      "shareWithGroup": "Share something with the group...",
+      "postMedia": "Post media",
+      "postImages": "Post images",
+      "sharedPostMedia": "Shared post media"
+    },
+    "group": {
+      "enterGroupName": "Enter group name",
+      "describeGroup": "Describe your group",
+      "enterGroupRules": "Enter group rules that members must accept to join (optional)",
+      "searchByName": "Search by name..."
+    },
+    "event": {
+      "enterEventName": "Enter event name",
+      "describeEvent": "Describe the event",
+      "eventLocation": "Event location"
+    },
+    "challenge": {
+      "describeChallenge": "Describe your challenge...",
+      "addComment": "Add a comment...",
+      "notJoinedYet": "You haven't joined any challenges yet"
+    },
+    "modals": {
+      "createChallenge": "Create Challenge",
+      "createPost": "Create Post",
+      "createEvent": "Create Event",
+      "createGroup": "Create Group",
+      "editGroup": "Edit Group",
+      "close": "Close"
+    },
+    "actions": {
+      "addEmoji": "Add emoji",
+      "preview": "Preview",
+      "fullSize": "Full size",
+      "clickToViewFullSize": "Click to view full size",
+      "approve": "Approve",
+      "reject": "Reject",
+      "deleteComment": "Delete comment"
+    }
+  },
+  "dashboard": {
+    "modals": {
+      "referralRewards": "Referral Rewards",
+      "notifications": "Notifications",
+      "addJournalEntry": "Add Journal Entry",
+      "logDrink": "Log Drink",
+      "logSupplement": "Log Supplement",
+      "logMeal": "Log Meal"
+    }
+  },
+  "placeholders": {
+    "selectWorkoutType": "Select workout type",
+    "workoutNotes": "How did the workout feel? Any observations?",
+    "searchByEmail": "Search by name, email, or nationality...",
+    "documentNotes": "Add any notes or details about this document...",
+    "customAmount": "Custom amount",
+    "enterEmail": "Enter email address to send test",
+    "enterSubject": "Enter email subject",
+    "enterBody": "Enter plain text email body...",
+    "enterDescription": "Enter description...",
+    "searchRecipesMeals": "Search recipes and meals...",
+    "optionalDescription": "Optional description...",
+    "enterDistance": "Enter distance",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "enterNewEmail": "Enter your new email",
+    "enterPasswordConfirm": "Enter your password to confirm"
+  },
+  "confirmations": {
+    "deleteUser": "Delete User",
+    "deleteUserMessage": "Are you sure you want to delete this user? This action cannot be undone and will permanently remove all their data including posts, comments, and subscriptions."
+  },
+  "performance": {
+    "competitive": "You're performing at a competitive level! Keep pushing for improvement.",
+    "goodProgress": "Great progress! Focus on consistency and gradual improvements.",
+    "everyFinish": "Every finish is an achievement! Set small goals to improve each race."
+  },
+  "raceTypes": {
+    "track": "Track",
+    "roadTrail": "Road/Trail",
+    "ultra": "Ultra"
+  },
   "merits": {
     "title": "Merits",
     "distance": "Distance",
