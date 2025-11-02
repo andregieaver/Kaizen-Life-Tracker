@@ -3279,8 +3279,8 @@ const Account = ({ athleteId }) => {
                 <h3 className="flex items-center text-white text-xl font-semibold">
                   <Zap className="w-5 h-5 mr-2 text-[#00C2A8]" />
                   Connected Apps
-                </CardTitle>
-                <CardDescription className="text-gray-400">
+                </h3>
+                <p className="text-gray-400 mt-1">
                   Connect your fitness apps and wearables to automatically sync your data
                 </CardDescription>
               </CardHeader>
