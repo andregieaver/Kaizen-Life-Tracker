@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import { Heart, ArrowLeft } from 'lucide-react';
 import axios from 'axios';
 import { loadAndInjectPageSEO } from '../utils/seoUtils';
+import HtmlRenderer from '../utils/HtmlRenderer';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
