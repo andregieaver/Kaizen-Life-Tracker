@@ -94,6 +94,17 @@ const MenuEditor = ({ athleteId, onBack }) => {
     }));
   };
 
+  const openIconPicker = (menuType, itemId) => {
+    setIconPickerTarget({ menuType, itemId });
+    setIconPickerOpen(true);
+  };
+
+  const handleIconSelect = (iconName) => {
+    if (iconPickerTarget) {
+      updateMenuItem(iconPickerTarget.menuType, iconPickerTarget.itemId, 'icon', iconName);
+    }
+  };
+
   const handleDragEnd = (menuType, result) => {
     if (!result.destination) return;
 
