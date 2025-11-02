@@ -273,7 +273,9 @@
     "premiumPlan": "Premium-plan",
     "freeTier": "Gratis",
     "proTier": "Pro",
-    "premiumTier": "Premium"
+    "premiumTier": "Premium",
+    "connectedAs": "Tilkoblet som",
+    "userId": "Bruker-ID"
   },
   "merits": {
     "title": "Meritter",
