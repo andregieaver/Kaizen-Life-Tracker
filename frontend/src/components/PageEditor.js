@@ -525,7 +525,7 @@ const PageEditor = ({ athleteId, pageId }) => {
           {formData.use_cms_content && (
             <div className="space-y-4">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-sm text-gray-400">Content Blocks ({formData.content_blocks.length})</p>
+                <p className="text-sm text-gray-400">Content Blocks ({(formData.content_blocks || []).length})</p>
                 <button
                   type="button"
                   onClick={addContentBlock}
@@ -536,7 +536,7 @@ const PageEditor = ({ athleteId, pageId }) => {
                 </button>
               </div>
 
-              {formData.content_blocks.length === 0 ? (
+              {(!formData.content_blocks || formData.content_blocks.length === 0) ? (
                 <div className="bg-gray-900 border border-gray-700 rounded-lg p-8 text-center">
                   <p className="text-gray-400 mb-4">No content blocks yet. Click "Add Content Block" to start building your page.</p>
                 </div>
