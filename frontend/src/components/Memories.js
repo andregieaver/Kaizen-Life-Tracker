@@ -283,18 +283,18 @@ const Memories = ({ athleteId }) => {
               </Select>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      {/* Memories List */}
+      {/* Memories Grid */}
       {isLoading ? (
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto" style={{ borderColor: '#00C2A8' }}></div>
-          <p className="mt-4 text-gray-300">Loading memories...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00C2A8] mx-auto"></div>
+          <p className="text-gray-400 mt-4">Loading memories...</p>
         </div>
       ) : filteredMemories.length === 0 ? (
-        <Card className="bg-gradient-to-r from-gray-900 to-gray-800 border-0">
-          <CardContent className="py-12 text-center">
+        <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-8">
+          <div className="text-center py-12">
             <Brain className="w-16 h-16 mx-auto text-gray-400 mb-4" />
             <h3 className="text-lg font-display font-medium text-white mb-2">
               {searchTerm || selectedCategory !== 'all' ? 'No memories found' : 'No memories yet'}
