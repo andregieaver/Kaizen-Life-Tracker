@@ -2575,8 +2575,8 @@ const Account = ({ athleteId }) => {
         <TabsContent value="subscriptions">
           <div className="space-y-6">
             {/* Current Plan */}
-            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
-              <CardHeader>
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6">
+              <div className="mb-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle className="flex items-center text-white">
