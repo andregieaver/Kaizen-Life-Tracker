@@ -1952,7 +1952,7 @@ const Account = ({ athleteId }) => {
                                 : personalForm.interests.filter(i => i !== interest);
                               setPersonalForm(prev => ({...prev, interests: newInterests}));
                             }}
-                            className="rounded border-gray-700 text-[#00C2A8] focus:ring-[#00C2A8]"
+                            className="rounded border-gray-700 text-green-500 focus:ring-green-500"
                           />
                           <span className="text-sm text-gray-300">{interest}</span>
                         </label>
