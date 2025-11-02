@@ -383,25 +383,26 @@ const Memories = ({ athleteId }) => {
       {/* Create/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-2xl">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>
-                  {editingMemory ? 'Edit Memory' : 'Add New Memory'}
-                </CardTitle>
-                <Button variant="ghost" size="sm" onClick={() => setShowModal(false)}>
-                  <X className="w-5 h-5" />
-                </Button>
-              </div>
-              <CardDescription>
-                {editingMemory 
-                  ? 'Update the memory details below'
-                  : 'Add important information for your AI coach to remember'
-                }
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSaveMemory} className="space-y-4">
+          <div className="w-full max-w-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-white">
+                {editingMemory ? 'Edit Memory' : 'Add New Memory'}
+              </h3>
+              <button 
+                type="button"
+                onClick={() => setShowModal(false)}
+                className="p-2 hover:bg-gray-700 rounded-lg text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <p className="text-gray-400 mb-6">
+              {editingMemory 
+                ? 'Update the memory details below'
+                : 'Add important information for your AI coach to remember'
+              }
+            </p>
+            <form onSubmit={handleSaveMemory} className="space-y-4">
                 {/* Category */}
                 <div className="space-y-2">
                   <Label>Category *</Label>
