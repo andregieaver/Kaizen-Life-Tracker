@@ -2723,8 +2723,8 @@ const Account = ({ athleteId }) => {
                     </Button>
                   </div>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Available Plans */}
             <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
