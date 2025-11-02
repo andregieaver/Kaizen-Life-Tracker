@@ -1423,6 +1423,11 @@ class ChallengeAchievement(BaseModel):
     completed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     final_value: float  # Final progress value achieved
 
+class ContentBlock(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    content: str  # Rich text HTML content
+    order: int = 0
+
 class Page(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
@@ -1434,6 +1439,10 @@ class Page(BaseModel):
     status: str = "draft"  # draft, pending, published, scheduled
     index_status: str = "indexed"  # indexed, no-index
     scheduled_at: Optional[datetime] = None  # For scheduled status
+    
+    # CMS flexible content
+    use_cms_content: bool = False  # Toggle between hard-coded and CMS content
+    content_blocks: List[ContentBlock] = []  # Repeater blocks with rich text
     
     # SEO fields
     meta_title: Optional[str] = None
