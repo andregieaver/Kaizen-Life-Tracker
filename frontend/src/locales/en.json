@@ -321,7 +321,9 @@
     "premiumPlan": "Premium Plan",
     "freeTier": "Free",
     "proTier": "Pro",
-    "premiumTier": "Premium"
+    "premiumTier": "Premium",
+    "connectedAs": "Connected as",
+    "userId": "User ID"
   },
   "merits": {
     "title": "Merits",
