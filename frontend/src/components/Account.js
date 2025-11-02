@@ -1938,24 +1938,36 @@ const Account = ({ athleteId }) => {
                     <Label className="text-sm font-medium text-white">{t('account.interests')}</Label>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                       {[
-                        'Running', 'Marathon', 'Trail Running', 'Ultramarathon', 
-                        'Cycling', 'Swimming', 'Triathlon', 'Fitness',
-                        'Nutrition', 'Yoga', 'Strength Training', 'CrossFit',
-                        'Hiking', 'Rock Climbing', 'Tennis', 'Basketball'
+                        { key: 'Running', label: t('account.interestRunning') },
+                        { key: 'Marathon', label: t('account.interestMarathon') },
+                        { key: 'Trail Running', label: t('account.interestTrailRunning') },
+                        { key: 'Ultramarathon', label: t('account.interestUltramarathon') },
+                        { key: 'Cycling', label: t('account.interestCycling') },
+                        { key: 'Swimming', label: t('account.interestSwimming') },
+                        { key: 'Triathlon', label: t('account.interestTriathlon') },
+                        { key: 'Fitness', label: t('account.interestFitness') },
+                        { key: 'Nutrition', label: t('account.interestNutrition') },
+                        { key: 'Yoga', label: t('account.interestYoga') },
+                        { key: 'Strength Training', label: t('account.interestStrengthTraining') },
+                        { key: 'CrossFit', label: t('account.interestCrossFit') },
+                        { key: 'Hiking', label: t('account.interestHiking') },
+                        { key: 'Rock Climbing', label: t('account.interestRockClimbing') },
+                        { key: 'Tennis', label: t('account.interestTennis') },
+                        { key: 'Basketball', label: t('account.interestBasketball') }
                       ].map((interest) => (
-                        <label key={interest} className="flex items-center space-x-2 cursor-pointer">
+                        <label key={interest.key} className="flex items-center space-x-2 cursor-pointer">
                           <input
                             type="checkbox"
-                            checked={personalForm.interests.includes(interest)}
+                            checked={personalForm.interests.includes(interest.key)}
                             onChange={(e) => {
                               const newInterests = e.target.checked
-                                ? [...personalForm.interests, interest]
-                                : personalForm.interests.filter(i => i !== interest);
+                                ? [...personalForm.interests, interest.key]
+                                : personalForm.interests.filter(i => i !== interest.key);
                               setPersonalForm(prev => ({...prev, interests: newInterests}));
                             }}
                             className="rounded border-gray-700 text-green-500 focus:ring-green-500"
                           />
-                          <span className="text-sm text-gray-300">{interest}</span>
+                          <span className="text-sm text-gray-300">{interest.label}</span>
                         </label>
                       ))}
                     </div>
