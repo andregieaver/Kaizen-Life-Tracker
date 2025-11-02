@@ -2601,8 +2601,8 @@ const Account = ({ athleteId }) => {
                     Refresh
                   </Button>
                 </div>
-              </CardHeader>
-              <CardContent>
+              </div>
+              <div>
                 {subscriptionStatus.status === 'canceling' ? (
                   <div className="p-4 bg-gradient-to-r from-orange-900/30 to-red-900/30 border-2 border-orange-700 rounded-lg mb-4">
                     <div className="flex items-center justify-between">
