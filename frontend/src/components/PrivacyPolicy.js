@@ -22,7 +22,7 @@ const PrivacyPolicy = () => {
         }
 
         // Fetch page data by URL slug
-        const pagesResponse = await axios.get(`${BACKEND_URL}/api/pages/public/by-slug?slug=/privacy`);
+        const pagesResponse = await axios.get(`${BACKEND_URL}/api/pages/public/by-slug?slug=/privacy-policy`);
         if (pagesResponse.data) {
           setPageData(pagesResponse.data);
           console.log('Privacy page data:', pagesResponse.data);
