@@ -677,40 +677,61 @@ const PageEditor = ({ athleteId, pageId }) => {
                                   </button>
                                 </div>
                                 <div className="p-4">
-                                  <Editor
-                                    editorState={block.editorState || EditorState.createEmpty()}
-                                    onEditorStateChange={(editorState) => updateContentBlock(block.id, editorState)}
-                                    wrapperClassName="demo-wrapper"
-                                    editorClassName="demo-editor bg-white text-gray-900 border border-gray-300 rounded p-2 min-h-[200px]"
-                                    toolbarClassName="demo-toolbar bg-gray-800 border border-gray-600 rounded mb-2"
-                                    toolbar={{
-                                      options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'link'],
-                                      inline: { 
-                                        inDropdown: false,
-                                        options: ['bold', 'italic', 'underline']
-                                      },
-                                      blockType: { 
-                                        inDropdown: true,
-                                        options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6']
-                                      },
-                                      fontSize: { 
-                                        inDropdown: true,
-                                        options: [10, 12, 14, 16, 18, 20, 24, 30, 36]
-                                      },
-                                      list: { 
-                                        inDropdown: false,
-                                        options: ['unordered', 'ordered'] 
-                                      },
-                                      textAlign: { 
-                                        inDropdown: false,
-                                        options: ['left', 'center', 'right', 'justify'] 
-                                      },
-                                      link: { 
-                                        inDropdown: false,
-                                        options: ['link', 'unlink']
-                                      }
-                                    }}
-                                  />
+                                  {viewMode === 'visual' ? (
+                                    // Visual Editor
+                                    <Editor
+                                      editorState={block.editorState || EditorState.createEmpty()}
+                                      onEditorStateChange={(editorState) => updateContentBlock(block.id, editorState)}
+                                      wrapperClassName="demo-wrapper"
+                                      editorClassName="demo-editor bg-white text-gray-900 border border-gray-300 rounded p-2 min-h-[200px]"
+                                      toolbarClassName="demo-toolbar bg-gray-800 border border-gray-600 rounded mb-2"
+                                      toolbar={{
+                                        options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'link'],
+                                        inline: { 
+                                          inDropdown: false,
+                                          options: ['bold', 'italic', 'underline']
+                                        },
+                                        blockType: { 
+                                          inDropdown: true,
+                                          options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6']
+                                        },
+                                        fontSize: { 
+                                          inDropdown: true,
+                                          options: [10, 12, 14, 16, 18, 20, 24, 30, 36]
+                                        },
+                                        list: { 
+                                          inDropdown: false,
+                                          options: ['unordered', 'ordered'] 
+                                        },
+                                        textAlign: { 
+                                          inDropdown: false,
+                                          options: ['left', 'center', 'right', 'justify'] 
+                                        },
+                                        link: { 
+                                          inDropdown: false,
+                                          options: ['link', 'unlink']
+                                        }
+                                      }}
+                                    />
+                                  ) : (
+                                    // HTML Editor
+                                    <div>
+                                      <div className="flex items-center justify-between mb-2">
+                                        <label className="text-xs text-gray-400 font-mono">HTML Content</label>
+                                        <span className="text-xs text-gray-500">Edit raw HTML</span>
+                                      </div>
+                                      <textarea
+                                        value={block.content || ''}
+                                        onChange={(e) => updateContentBlockHtml(block.id, e.target.value)}
+                                        className="w-full bg-gray-950 text-gray-300 border border-gray-700 rounded p-3 font-mono text-sm min-h-[300px] focus:outline-none focus:border-[#00C2A8]"
+                                        placeholder="<p>Enter your HTML here...</p>"
+                                        spellCheck={false}
+                                      />
+                                      <p className="text-xs text-gray-500 mt-2">
+                                        💡 Tip: Use standard HTML tags like &lt;h1&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;strong&gt;, etc.
+                                      </p>
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             )}
