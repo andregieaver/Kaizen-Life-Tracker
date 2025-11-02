@@ -317,14 +317,13 @@ const Memories = ({ athleteId }) => {
                 Add Your First Memory
               </Button>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ) : (
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredMemories.map((memory) => (
-            <Card key={memory.id} className="hover:shadow-md transition-shadow bg-gradient-to-br from-gray-600 to-gray-800 border-0">
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between gap-4">
+            <div key={memory.id} className="bg-gradient-to-br from-gray-800 to-gray-900 p-4">
+              <div className="flex items-start justify-between mb-3">
                   <div className="flex-1 space-y-2">
                     {/* Category and Importance */}
                     <div className="flex items-center gap-2 flex-wrap">
