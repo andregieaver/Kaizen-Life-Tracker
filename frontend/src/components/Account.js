@@ -3477,7 +3477,7 @@ const Account = ({ athleteId }) => {
                 </h3>
                 <p className="text-gray-400 mt-1">
                   {t('account.corosDescription')}
-                </CardDescription>
+                </p>
               </CardHeader>
               <CardContent>
                 {integrations.coros?.connected ? (
