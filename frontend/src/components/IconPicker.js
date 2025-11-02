@@ -149,9 +149,14 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
         <div className="flex-1 overflow-y-auto p-4">
           <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2">
             {filteredIcons.map((iconName) => {
-              // Get icon component from explicit imports first, then try LucideIcons
+              // Get icon component from explicit imports first
               const IconComponent = EXPLICIT_ICONS[iconName] || LucideIcons[iconName];
               const isSelected = iconName === currentIcon;
+              
+              // Debug first render
+              if (iconName === 'Home') {
+                console.log('Home icon:', IconComponent, typeof IconComponent);
+              }
               
               return (
                 <button
@@ -162,10 +167,12 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
                   }`}
                   title={iconName}
                 >
-                  {IconComponent && typeof IconComponent === 'function' ? (
-                    <IconComponent className={`w-6 h-6 mb-1 ${isSelected ? 'text-[#00C2A8]' : 'text-gray-300'}`} />
+                  {IconComponent ? (
+                    React.createElement(IconComponent, {
+                      className: `w-6 h-6 mb-1 ${isSelected ? 'text-[#00C2A8]' : 'text-gray-300'}`
+                    })
                   ) : (
-                    <div className={`w-6 h-6 mb-1 flex items-center justify-center text-xs ${isSelected ? 'text-[#00C2A8]' : 'text-gray-300'}`}>
+                    <div className={`w-6 h-6 mb-1 flex items-center justify-center text-xs border border-gray-600 rounded ${isSelected ? 'text-[#00C2A8]' : 'text-gray-300'}`}>
                       {iconName[0]}
                     </div>
                   )}
