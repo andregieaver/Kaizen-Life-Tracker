@@ -71,6 +71,12 @@ const Dashboard = ({ athleteId }) => {
     community: { enabled: true }
   });
   
+  // Menu settings state
+  const [menuItems, setMenuItems] = useState({
+    slideout_menu: [],
+    header_logged_in: []
+  });
+  
   // Scroll animation state
   const [scrollDirection, setScrollDirection] = useState('none'); // 'none' on initial load to show elements
   const [lastScrollY, setLastScrollY] = useState(0);
