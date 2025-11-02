@@ -17,6 +17,7 @@ import CorosCallback from './components/CorosCallback';
 import LandingPage from './components/LandingPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsConditions from './components/TermsConditions';
+import CmsPage from './components/CmsPage';
 import CookieBanner from './components/CookieBanner';
 import { usePageViews } from './lib/usePageViews';
 import './App.css';
