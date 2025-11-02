@@ -805,8 +805,16 @@ const Dashboard = ({ athleteId }) => {
             {/* Menu Content */}
             <div className="flex-1 p-4">
               <nav className="space-y-1">
-                {/* Journal */}
-                <button
+                {menuItems.slideout_menu.length > 0 ? (
+                  // Render dynamic menu from menu editor
+                  menuItems.slideout_menu
+                    .sort((a, b) => (a.order || 0) - (b.order || 0))
+                    .map((item, index) => renderMenuItem(item, index))
+                ) : (
+                  // Fallback to default hard-coded menu if no menu items loaded
+                  <>
+                    {/* Journal */}
+                    <button
                   onClick={() => {
                     navigate('/dashboard/journal');
                     setIsMenuOpen(false);
