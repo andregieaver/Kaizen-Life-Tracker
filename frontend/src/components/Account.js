@@ -2258,11 +2258,11 @@ const Account = ({ athleteId }) => {
                 <Separator className="opacity-10" />
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-white">Units & Measurements</h3>
+                  <h3 className="text-lg font-semibold text-white">{t('account.unitsMeasurements')}</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label className="text-sm font-medium text-white">Distance Unit</Label>
+                      <Label className="text-sm font-medium text-white">{t('account.distanceUnit')}</Label>
                       <Select
                         value={personalForm.distance_unit || 'miles'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, distance_unit: value}))}
@@ -2271,8 +2271,8 @@ const Account = ({ athleteId }) => {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="miles">Miles</SelectItem>
-                          <SelectItem value="km">Kilometers</SelectItem>
+                          <SelectItem value="miles">{t('account.miles')}</SelectItem>
+                          <SelectItem value="km">{t('account.kilometers')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
