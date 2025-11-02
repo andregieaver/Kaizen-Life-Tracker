@@ -71,10 +71,11 @@ const IntegrationCard = ({
   connectionInfo, 
   onConnect, 
   onDisconnect,
-  comingSoon = false 
+  comingSoon = false,
+  t
 }) => {
   const formatLastSync = (lastSync) => {
-    if (!lastSync) return 'Never';
+    if (!lastSync) return t('account.never');
     const syncDate = new Date(lastSync);
     const now = new Date();
     const diffMs = now - syncDate;
@@ -98,12 +99,12 @@ const IntegrationCard = ({
           {connected && connectionInfo && (
             <div className="flex items-center gap-4 mt-1 text-xs text-gray-400">
               {connectionInfo.athlete_name && (
-                <span>Connected as: {connectionInfo.athlete_name}</span>
+                <span>{t('account.connectedAs')}: {connectionInfo.athlete_name}</span>
               )}
               {connectionInfo.user_id && (
-                <span>User ID: {connectionInfo.user_id.slice(0, 8)}...</span>
+                <span>{t('account.userId')}: {connectionInfo.user_id.slice(0, 8)}...</span>
               )}
-              <span>Last sync: {formatLastSync(connectionInfo.last_sync)}</span>
+              <span>{t('account.lastSync')}: {formatLastSync(connectionInfo.last_sync)}</span>
             </div>
           )}
         </div>
@@ -114,7 +115,7 @@ const IntegrationCard = ({
           <>
             <Badge className="bg-green-900/30 text-green-400 border-green-700">
               <CheckCircle className="w-3 h-3 mr-1" />
-              Connected
+              {t('account.connected')}
             </Badge>
             <Button
               variant="outline"
@@ -122,12 +123,12 @@ const IntegrationCard = ({
               onClick={onDisconnect}
               className="text-red-600 hover:text-red-700 hover:border-red-300"
             >
-              Disconnect
+              {t('common.disconnect')}
             </Button>
           </>
         ) : comingSoon ? (
           <Badge variant="secondary" className="bg-gray-800 text-gray-400">
-            Coming Soon
+            {t('account.comingSoon')}
           </Badge>
         ) : (
           <Button
@@ -136,7 +137,7 @@ const IntegrationCard = ({
             className="bg-blue-600 hover:bg-blue-700"
           >
             <ExternalLink className="w-4 h-4 mr-2" />
-            Connect {name}
+            {t('common.connect')} {name}
           </Button>
         )}
       </div>
