@@ -603,7 +603,35 @@ const PageEditor = ({ athleteId, pageId }) => {
           {formData.use_cms_content && (
             <div className="space-y-4">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-sm text-gray-400">Content Blocks ({(formData.content_blocks || []).length})</p>
+                <div className="flex items-center gap-4">
+                  <p className="text-sm text-gray-400">Content Blocks ({(formData.content_blocks || []).length})</p>
+                  
+                  {/* View Mode Toggle */}
+                  <div className="flex items-center gap-1 bg-gray-800 rounded-lg p-1">
+                    <button
+                      type="button"
+                      onClick={() => setViewMode('visual')}
+                      className={`px-3 py-1 text-xs rounded transition-colors ${
+                        viewMode === 'visual' 
+                          ? 'bg-[#00C2A8] text-white' 
+                          : 'text-gray-400 hover:text-white'
+                      }`}
+                    >
+                      Visual
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setViewMode('html')}
+                      className={`px-3 py-1 text-xs rounded transition-colors ${
+                        viewMode === 'html' 
+                          ? 'bg-[#00C2A8] text-white' 
+                          : 'text-gray-400 hover:text-white'
+                      }`}
+                    >
+                      HTML
+                    </button>
+                  </div>
+                </div>
                 <button
                   type="button"
                   onClick={addContentBlock}
