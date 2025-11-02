@@ -201,3 +201,21 @@ code {
   scrollbar-width: thin;
   scrollbar-color: var(--bg-600) var(--bg-900);
 }
+
+/* React Quill Editor Dark Theme Support */
+.ql-toolbar {
+  background: #1a1a1a !important;
+  border: 1px solid #374151 !important;
+  border-bottom: none !important;
+}
+
+.ql-container {
+  border: 1px solid #374151 !important;
+  background: white !important;
+  min-height: 200px;
+}
+
+.ql-editor {
+  min-height: 200px;
+  font-size: 14px;
+}
