@@ -407,7 +407,7 @@ code {
 /* CMS Content Styling - For rendering saved HTML content blocks */
 .cms-content {
   line-height: 1.7;
-  padding: 1rem;
+  padding: 1rem !important;
 }
 
 .cms-content h1 {
