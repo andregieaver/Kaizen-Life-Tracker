@@ -1974,7 +1974,7 @@ const Account = ({ athleteId }) => {
                         type="checkbox"
                         checked={personalForm.share_bio || false}
                         onChange={(e) => setPersonalForm(prev => ({...prev, share_bio: e.target.checked}))}
-                        className="w-5 h-5 rounded border-gray-700 text-[#00C2A8] focus:ring-[#00C2A8]"
+                        className="w-5 h-5 rounded border-gray-700 text-green-500 focus:ring-green-500"
                       />
                       <div>
                         <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">Show Bio</span>
@@ -1987,7 +1987,7 @@ const Account = ({ athleteId }) => {
                         type="checkbox"
                         checked={personalForm.share_goals || false}
                         onChange={(e) => setPersonalForm(prev => ({...prev, share_goals: e.target.checked}))}
-                        className="w-5 h-5 rounded border-gray-700 text-[#00C2A8] focus:ring-[#00C2A8]"
+                        className="w-5 h-5 rounded border-gray-700 text-green-500 focus:ring-green-500"
                       />
                       <div>
                         <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">Show Health/Training Goals</span>
@@ -2000,7 +2000,7 @@ const Account = ({ athleteId }) => {
                         type="checkbox"
                         checked={personalForm.share_interests || false}
                         onChange={(e) => setPersonalForm(prev => ({...prev, share_interests: e.target.checked}))}
-                        className="w-5 h-5 rounded border-gray-700 text-[#00C2A8] focus:ring-[#00C2A8]"
+                        className="w-5 h-5 rounded border-gray-700 text-green-500 focus:ring-green-500"
                       />
                       <div>
                         <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">Show Interests</span>
