@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ArrowLeft, Plus, GripVertical, Trash2, Save, Menu as MenuIcon } from 'lucide-react';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable } from '../utils/StrictModeDroppable';
+import IconPicker from './IconPicker';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
