@@ -392,7 +392,6 @@ const HabitTracker = ({ athleteId }) => {
                       </Button>
                     </div>
                   </div>
-                </div>
               </div>
             ))}
           </div>
