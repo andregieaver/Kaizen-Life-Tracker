@@ -2072,18 +2072,18 @@ const Account = ({ athleteId }) => {
 
                   {/* Health Goals */}
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium text-white">Health Goals</Label>
-                    <p className="text-xs text-gray-500 mb-3">Select all that apply to your fitness journey</p>
+                    <Label className="text-sm font-medium text-white">{t('account.healthGoals')}</Label>
+                    <p className="text-xs text-gray-500 mb-3">{t('account.healthGoalsDescription')}</p>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {[
-                        { value: 'muscle_mass', label: 'Increase Muscle Mass' },
-                        { value: 'speed', label: 'Improve Speed' },
-                        { value: 'strength', label: 'Build Strength' },
-                        { value: 'flexibility', label: 'Increase Flexibility' },
-                        { value: 'endurance', label: 'Build Endurance' },
-                        { value: 'longevity', label: 'Longevity' },
-                        { value: 'mental_clarity', label: 'Mental Clarity' },
-                        { value: 'emotional_stability', label: 'Emotional Stability' }
+                        { value: 'muscle_mass', label: t('account.goalIncreaseMuscle') },
+                        { value: 'speed', label: t('account.goalImproveSpeed') },
+                        { value: 'strength', label: t('account.goalBuildStrength') },
+                        { value: 'flexibility', label: t('account.goalIncreaseFlexibility') },
+                        { value: 'endurance', label: t('account.goalBuildEndurance') },
+                        { value: 'longevity', label: t('account.goalLongevity') },
+                        { value: 'mental_clarity', label: t('account.goalMentalClarity') },
+                        { value: 'emotional_stability', label: t('account.goalEmotionalStability') }
                       ].map((goal) => (
                         <label key={goal.value} className="flex items-start space-x-2 cursor-pointer">
                           <input
