@@ -624,17 +624,18 @@ const PageEditor = ({ athleteId, pageId }) => {
                                     editorClassName="demo-editor bg-white text-gray-900 border border-gray-300 rounded p-2 min-h-[200px]"
                                     toolbarClassName="demo-toolbar bg-gray-800 border border-gray-600 rounded mb-2"
                                     toolbar={{
-                                      options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'link', 'image'],
+                                      options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'link'],
                                       inline: { 
                                         inDropdown: false,
                                         options: ['bold', 'italic', 'underline']
                                       },
                                       blockType: { 
-                                        inDropdown: false,
-                                        options: ['Normal', 'H1', 'H2', 'H3', 'H4']
+                                        inDropdown: true,
+                                        options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6']
                                       },
                                       fontSize: { 
-                                        options: [10, 12, 14, 16, 18, 24, 30]
+                                        inDropdown: true,
+                                        options: [10, 12, 14, 16, 18, 20, 24, 30, 36]
                                       },
                                       list: { 
                                         inDropdown: false,
