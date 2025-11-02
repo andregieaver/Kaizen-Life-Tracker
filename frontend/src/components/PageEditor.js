@@ -25,7 +25,9 @@ const PageEditor = ({ athleteId, pageId }) => {
     meta_title: '',
     meta_description: '',
     focus_keyword: '',
-    og_image: ''
+    og_image: '',
+    use_cms_content: false,
+    content_blocks: []
   });
 
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
