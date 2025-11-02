@@ -378,61 +378,58 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
           </div>
 
           {/* Weekly Grid */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Weekly Meal Plan</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="bg-gray-50">
-                      <th className="p-3 text-left font-semibold text-gray-700 border">Day</th>
-                      <th className="p-3 text-left font-semibold text-gray-700 border">🍳 Breakfast</th>
-                      <th className="p-3 text-left font-semibold text-gray-700 border">🥗 Lunch</th>
-                      <th className="p-3 text-left font-semibold text-gray-700 border">🍽️ Dinner</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {DAYS.map(day => (
-                      <tr key={day} className="hover:bg-gray-50">
-                        <td className="p-3 border font-medium capitalize text-gray-900">
-                          {day}
-                        </td>
-                        {MEALS.map(meal => {
-                          const mealData = getMealForSlot(day, meal);
-                          return (
-                            <td key={meal} className="p-3 border">
-                              {mealData?.recipe_name ? (
-                                <div className="flex items-center justify-between gap-2 bg-gradient-to-r from-[#D4F0E9] to-[#b8e6db] p-2 rounded">
-                                  <span className="text-sm text-gray-900 flex-1">
-                                    {mealData.recipe_name}
-                                  </span>
-                                  <button
-                                    onClick={() => removeRecipeFromSlot(day, meal)}
-                                    className="text-[#FF7F7F] hover:text-[#ff6666]"
-                                  >
-                                    <X className="w-4 h-4" />
-                                  </button>
-                                </div>
-                              ) : (
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6">
+            <h3 className="text-xl font-bold text-white mb-4">Weekly Meal Plan</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-gray-700">
+                    <th className="p-3 text-left font-semibold text-white border border-gray-600">Day</th>
+                    <th className="p-3 text-left font-semibold text-white border border-gray-600">🍳 Breakfast</th>
+                    <th className="p-3 text-left font-semibold text-white border border-gray-600">🥗 Lunch</th>
+                    <th className="p-3 text-left font-semibold text-white border border-gray-600">🍽️ Dinner</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {DAYS.map(day => (
+                    <tr key={day} className="hover:bg-gray-700">
+                      <td className="p-3 border border-gray-600 font-medium capitalize text-white">
+                        {day}
+                      </td>
+                      {MEALS.map(meal => {
+                        const mealData = getMealForSlot(day, meal);
+                        return (
+                          <td key={meal} className="p-3 border border-gray-600">
+                            {mealData?.recipe_name ? (
+                              <div className="flex items-center justify-between gap-2 bg-gray-700 p-2">
+                                <span className="text-sm text-white flex-1">
+                                  {mealData.recipe_name}
+                                </span>
                                 <button
-                                  onClick={() => selectRecipeForSlot(day, meal)}
-                                  className="w-full px-3 py-2 text-sm text-[#62D2C4] hover:bg-[#D4F0E9] rounded border-2 border-dashed border-[#62D2C4] hover:border-[#4fc4b5] transition-colors"
+                                  onClick={() => removeRecipeFromSlot(day, meal)}
+                                  className="text-red-400 hover:text-red-300"
                                 >
-                                  <Plus className="w-4 h-4 mx-auto" />
+                                  <X className="w-4 h-4" />
                                 </button>
-                              )}
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() => selectRecipeForSlot(day, meal)}
+                                className="w-full px-3 py-2 text-sm border-2 border-dashed border-gray-600 hover:border-teal-500 transition-colors"
+                                style={{ color: '#00C2A8' }}
+                              >
+                                <Plus className="w-4 h-4 mx-auto" />
+                              </button>
+                            )}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       ) : (
         /* Menu List */
