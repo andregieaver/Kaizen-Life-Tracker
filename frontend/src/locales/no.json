@@ -309,7 +309,10 @@
     "interestRockClimbing": "Klatring",
     "interestTennis": "Tennis",
     "interestBasketball": "Basketball",
-    "languageRegion": "Språk og region"
+    "languageRegion": "Språk og region",
+    "selectCountry": "Velg land",
+    "aiCoachLanguagePreference": "AI-trener språk",
+    "aiCoachLanguageDescription": "Velg språk for AI-svar i chat, tale og rapporter"
   },
   "merits": {
     "title": "Meritter",
