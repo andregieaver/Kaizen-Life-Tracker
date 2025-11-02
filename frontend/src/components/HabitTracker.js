@@ -269,9 +269,8 @@ const HabitTracker = ({ athleteId }) => {
               const streak = calculateStreak(habit);
               
               return (
-                <Card key={habit.id} className={`transition-all bg-gradient-to-br from-gray-600 to-gray-800 border-0 ${isComplete ? 'ring-2 ring-green-400' : ''}`}>
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between gap-4">
+                <div key={habit.id} className={`transition-all bg-gradient-to-br from-gray-800 to-gray-900 p-4 ${isComplete ? 'ring-2 ring-green-400' : ''}`}>
+                  <div className="flex items-start justify-between gap-4">
                       {/* Main Content */}
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
