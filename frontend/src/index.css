@@ -202,15 +202,16 @@ code {
   scrollbar-color: var(--bg-600) var(--bg-900);
 }
 
-/* React Draft WYSIWYG Editor Styling */
+/* React Draft WYSIWYG Editor Styling - Dark Theme */
 .demo-wrapper {
   border: 1px solid #374151;
   border-radius: 0.5rem;
+  background: #1f2937;
 }
 
 .demo-toolbar {
-  background: #1a1a1a !important;
-  border: 1px solid #374151 !important;
+  background: #1f2937 !important;
+  border: 1px solid #4b5563 !important;
   border-radius: 0.5rem 0.5rem 0 0 !important;
   padding: 8px !important;
 }
@@ -220,7 +221,7 @@ code {
   padding: 12px;
   background: white;
   color: #1a1a1a;
-  border: 1px solid #d1d5db;
+  border: 1px solid #374151;
   border-radius: 0 0 0.5rem 0.5rem;
 }
 
@@ -228,20 +229,116 @@ code {
   min-height: 200px;
 }
 
+/* Toolbar buttons - Dark theme */
 .rdw-editor-toolbar {
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
+  background: #1f2937;
+  border: none;
+  padding: 6px;
+  margin-bottom: 0;
 }
 
 .rdw-option-wrapper {
-  background: white;
-  border: 1px solid #d1d5db;
+  background: #374151;
+  border: 1px solid #4b5563;
+  color: #e5e7eb;
+  height: 30px;
+  width: 30px;
+  min-width: 30px;
 }
 
 .rdw-option-wrapper:hover {
-  box-shadow: 1px 1px 0px #d1d5db;
+  background: #4b5563;
+  box-shadow: none;
 }
 
 .rdw-option-active {
-  box-shadow: 1px 1px 0px #d1d5db inset;
+  background: #00C2A8;
+  border-color: #00C2A8;
+  box-shadow: none;
+}
+
+.rdw-option-wrapper img {
+  filter: invert(1);
+}
+
+.rdw-option-active img {
+  filter: invert(0);
+}
+
+/* Dropdowns - Dark theme */
+.rdw-dropdown-wrapper {
+  background: #374151;
+  border: 1px solid #4b5563;
+  color: #e5e7eb;
+  height: 30px;
+}
+
+.rdw-dropdown-wrapper:hover {
+  background: #4b5563;
+  box-shadow: none;
+}
+
+.rdw-dropdown-optionwrapper {
+  background: #1f2937;
+  border: 1px solid #4b5563;
+  color: #e5e7eb;
+  width: 150px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.rdw-dropdownoption-default {
+  background: #1f2937;
+  color: #e5e7eb;
+}
+
+.rdw-dropdownoption-highlighted {
+  background: #374151;
+}
+
+.rdw-dropdownoption-active {
+  background: #00C2A8;
+  color: white;
+}
+
+/* Link modal - Dark theme */
+.rdw-link-modal {
+  background: #1f2937;
+  border: 1px solid #4b5563;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.rdw-link-modal-label {
+  color: #e5e7eb;
+}
+
+.rdw-link-modal-input {
+  background: #374151;
+  border: 1px solid #4b5563;
+  color: #e5e7eb;
+  border-radius: 4px;
+  padding: 6px;
+}
+
+.rdw-link-modal-input:focus {
+  outline: none;
+  border-color: #00C2A8;
+}
+
+.rdw-link-modal-btn {
+  background: #00C2A8;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.rdw-link-modal-btn:hover {
+  background: #00a890;
+}
+
+.rdw-link-modal-btn:disabled {
+  background: #4b5563;
+  cursor: not-allowed;
 }
