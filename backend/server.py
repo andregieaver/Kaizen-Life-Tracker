@@ -1428,6 +1428,19 @@ class ContentBlock(BaseModel):
     content: str  # Rich text HTML content
     order: int = 0
 
+class MenuItem(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    label: str
+    url: str
+    order: int = 0
+    is_separator: bool = False  # Only for slideout menu
+    icon: Optional[str] = None  # Icon name for slideout menu
+
+class MenuSettings(BaseModel):
+    header_logged_out: List[MenuItem] = []
+    header_logged_in: List[MenuItem] = []
+    slideout_menu: List[MenuItem] = []
+
 class Page(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
