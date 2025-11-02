@@ -18,6 +18,7 @@ const PageEditor = ({ athleteId, pageId }) => {
 
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [viewMode, setViewMode] = useState('visual'); // 'visual' or 'html'
   const [formData, setFormData] = useState({
     title: '',
     url_slug: '',
