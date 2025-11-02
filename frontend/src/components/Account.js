@@ -1931,7 +1931,7 @@ const Account = ({ athleteId }) => {
                       placeholder={t('account.bioPlaceholder')}
                       maxLength="500"
                     />
-                    <p className="text-xs text-gray-500">{personalForm.bio?.length || 0}/500 characters</p>
+                    <p className="text-xs text-gray-500">{t('account.characterCount', { count: personalForm.bio?.length || 0 })}</p>
                   </div>
 
                   <div className="space-y-2">
