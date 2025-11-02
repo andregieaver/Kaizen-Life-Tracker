@@ -2236,7 +2236,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
             {...(activeTab === 'feed' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
-            title="Feed"
+            title={t('community.tabs.feed')}
           >
             <Home className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
@@ -2252,7 +2252,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
             {...(activeTab === 'following' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
-            title="Following"
+            title={t('community.tabs.following')}
           >
             <UserPlus className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
@@ -2268,7 +2268,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
             {...(activeTab === 'groups' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
-            title="All Groups"
+            title={t('community.tabs.allGroups')}
           >
             <UsersIcon className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
@@ -2284,7 +2284,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
             {...(activeTab === 'mygroups' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
-            title="My Groups"
+            title={t('community.tabs.myGroups')}
           >
             <UserCheck className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
@@ -2300,7 +2300,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
             {...(activeTab === 'events' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
-            title="Events"
+            title={t('community.tabs.events')}
           >
             <Calendar className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
@@ -2316,7 +2316,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
             {...(activeTab === 'challenges' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
-            title="Challenges"
+            title={t('community.tabs.challenges')}
           >
             <Trophy className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
@@ -2324,7 +2324,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             onClick={handleOpenAthletes}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
             className="flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all text-gray-400 hover:bg-gray-700/50 hover:text-white"
-            title="Find Athletes"
+            title={t('community.tabs.findAthletes')}
           >
             <Search className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
