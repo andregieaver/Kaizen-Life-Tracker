@@ -63,34 +63,33 @@ const PrivacyPolicy = () => {
       </nav>
 
       {/* Content */}
-      <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+      <div className="pt-24 pb-16">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-b from-gray-700 to-gray-800 border border-gray-600 rounded-2xl p-8 sm:p-12 shadow-2xl">
-            {loading ? (
-              <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
-                <p className="text-gray-400 mt-4">Loading...</p>
-              </div>
-            ) : pageData && pageData.use_cms_content && pageData.content_blocks && pageData.content_blocks.length > 0 ? (
-              // Render CMS content blocks
-              <div className="space-y-6">
-                {pageData.content_blocks
-                  .sort((a, b) => (a.order || 0) - (b.order || 0))
-                  .map((block) => (
-                    <HtmlRenderer
-                      key={block.id}
-                      html={block.content}
-                      className="cms-content text-gray-300"
-                    />
-                  ))}
-              </div>
-            ) : (
-              // Render hard-coded content (fallback)
-              <>
-                <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Privacy Policy</h1>
-                <p className="text-gray-400 mb-8">Last updated: {new Date().toLocaleDateString()}</p>
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
+              <p className="text-gray-400 mt-4">Loading...</p>
+            </div>
+          ) : pageData && pageData.use_cms_content && pageData.content_blocks && pageData.content_blocks.length > 0 ? (
+            // Render CMS content blocks
+            <div className="space-y-6">
+              {pageData.content_blocks
+                .sort((a, b) => (a.order || 0) - (b.order || 0))
+                .map((block) => (
+                  <HtmlRenderer
+                    key={block.id}
+                    html={block.content}
+                    className="cms-content text-gray-300"
+                  />
+                ))}
+            </div>
+          ) : (
+            // Render hard-coded content (fallback)
+            <>
+              <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Privacy Policy</h1>
+              <p className="text-gray-400 mb-8">Last updated: {new Date().toLocaleDateString()}</p>
 
-                <div className="space-y-8 text-gray-300">
+              <div className="space-y-8 text-gray-300">
               <section>
                 <h2 className="text-2xl font-bold text-white mb-4">1. Introduction</h2>
                 <p className="mb-4">
