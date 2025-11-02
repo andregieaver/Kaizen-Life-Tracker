@@ -813,7 +813,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
 const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getScaledIngredients, getScaledNutrition, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+      <div className="bg-gradient-to-br from-gray-900 to-gray-800 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         {recipe.image_base64 && (
           <div className="relative h-64 md:h-80 overflow-hidden">
             <img
@@ -823,25 +823,25 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
             />
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100"
+              className="absolute top-4 right-4 bg-gray-800 p-2 hover:bg-gray-700"
             >
-              <X className="w-5 h-5 text-gray-600" />
+              <X className="w-5 h-5 text-white" />
             </button>
           </div>
         )}
         <div className="p-6 md:p-8 space-y-6">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
             {recipe.recipe_name}
           </h2>
           
           {/* Servings Adjuster */}
-          <div className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-6 border border-[#62D2C4]">
+          <div className="bg-gray-700 p-6 border border-gray-600">
             <div className="flex items-center justify-between mb-4">
-              <label className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                <Users className="w-5 h-5 text-[#62D2C4]" />
+              <label className="text-lg font-semibold text-white flex items-center gap-2">
+                <Users className="w-5 h-5" style={{ color: '#00C2A8' }} />
                 Servings
               </label>
-              <span className="text-2xl font-bold text-[#62D2C4]">{adjustedServings}</span>
+              <span className="text-2xl font-bold" style={{ color: '#00C2A8' }}>{adjustedServings}</span>
             </div>
             <input
               type="range"
@@ -849,12 +849,13 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
               max="12"
               value={adjustedServings}
               onChange={(e) => setAdjustedServings(parseInt(e.target.value))}
-              className="w-full h-2 bg-[#62D2C4]/30 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-2 rounded-lg appearance-none cursor-pointer"
+              style={{ backgroundColor: 'rgba(0, 194, 168, 0.3)' }}
             />
           </div>
 
           {/* Time and Servings Info */}
-          <div className="flex gap-4 text-gray-600">
+          <div className="flex gap-4 text-gray-300">
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5" />
               <span>{recipe.prep_time + recipe.cook_time} minutes</span>
@@ -863,35 +864,35 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
 
           {/* Scaled Nutrition */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-4 text-center">
-              <p className="text-sm text-gray-600 mb-1">Calories</p>
-              <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().calories}</p>
+            <div className="bg-gray-700 p-4 text-center">
+              <p className="text-sm text-gray-300 mb-1">Calories</p>
+              <p className="text-2xl font-bold text-white">{getScaledNutrition().calories}</p>
             </div>
-            <div className="bg-gradient-to-br from-[#C1E1C1] to-[#a8d5a8] rounded-lg p-4 text-center">
-              <p className="text-sm text-gray-600 mb-1">Protein</p>
-              <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().protein}g</p>
+            <div className="bg-gray-700 p-4 text-center">
+              <p className="text-sm text-gray-300 mb-1">Protein</p>
+              <p className="text-2xl font-bold text-white">{getScaledNutrition().protein}g</p>
             </div>
-            <div className="bg-gradient-to-br from-[#FFE5B4] to-[#FFD89B] rounded-lg p-4 text-center">
-              <p className="text-sm text-gray-600 mb-1">Carbs</p>
-              <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().carbs}g</p>
+            <div className="bg-gray-700 p-4 text-center">
+              <p className="text-sm text-gray-300 mb-1">Carbs</p>
+              <p className="text-2xl font-bold text-white">{getScaledNutrition().carbs}g</p>
             </div>
-            <div className="bg-gradient-to-br from-[#FFB6C1] to-[#FFA6B1] rounded-lg p-4 text-center">
-              <p className="text-sm text-gray-600 mb-1">Fat</p>
-              <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().fat}g</p>
+            <div className="bg-red-900/30 p-4 text-center">
+              <p className="text-sm text-red-300 mb-1">Fat</p>
+              <p className="text-2xl font-bold text-red-400">{getScaledNutrition().fat}g</p>
             </div>
           </div>
 
           {/* Ingredients */}
           <div>
-            <h3 className="text-2xl font-display font-bold text-gray-900 mb-4">Ingredients</h3>
-            <div className="bg-gray-50 rounded-lg p-6">
+            <h3 className="text-2xl font-display font-bold text-white mb-4">Ingredients</h3>
+            <div className="bg-gray-700 p-6">
               <ul className="space-y-3">
                 {getScaledIngredients().map((ingredient, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <span className="w-6 h-6 bg-[#62D2C4] text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
+                    <span className="w-6 h-6 text-white flex items-center justify-center text-sm font-semibold flex-shrink-0" style={{ backgroundColor: '#00C2A8' }}>
                       {index + 1}
                     </span>
-                    <span className="text-gray-700">{ingredient}</span>
+                    <span className="text-gray-300">{ingredient}</span>
                   </li>
                 ))}
               </ul>
@@ -901,22 +902,22 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
           {/* Instructions */}
           {recipe.instructions && Array.isArray(recipe.instructions) && recipe.instructions.length > 0 && (
             <div>
-              <h3 className="text-2xl font-display font-bold bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] bg-clip-text text-transparent mb-6">Instructions</h3>
-              <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-xl p-6 shadow-inner border border-teal-100">
+              <h3 className="text-2xl font-display font-bold text-white mb-6">Instructions</h3>
+              <div className="bg-gray-700 p-6 border border-gray-600">
                 <ol className="space-y-5">
                   {recipe.instructions.map((instruction, index) => (
                     <li key={index} className="group relative">
                       <div className="flex gap-4">
                         <div className="relative flex-shrink-0">
-                          <span className="w-10 h-10 bg-gradient-to-br from-[#62D2C4] to-[#4fc4b5] text-white rounded-full flex items-center justify-center text-base font-bold shadow-md group-hover:scale-110 transition-transform duration-200">
+                          <span className="w-10 h-10 text-white flex items-center justify-center text-base font-bold group-hover:scale-110 transition-transform duration-200" style={{ backgroundColor: '#00C2A8' }}>
                             {index + 1}
                           </span>
                           {index < recipe.instructions.length - 1 && (
-                            <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-0.5 h-5 bg-gradient-to-b from-[#62D2C4] to-transparent"></div>
+                            <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-0.5 h-5" style={{ background: 'linear-gradient(to bottom, #00C2A8, transparent)' }}></div>
                           )}
                         </div>
                         <div className="flex-1 pt-1.5">
-                          <p className="text-gray-800 leading-relaxed font-medium">{instruction}</p>
+                          <p className="text-gray-300 leading-relaxed font-medium">{instruction}</p>
                         </div>
                       </div>
                     </li>
@@ -927,8 +928,14 @@ const RecipeDetailModal = ({ recipe, adjustedServings, setAdjustedServings, getS
           )}
 
           {/* Close Button */}
-          <div className="flex justify-end pt-6 border-t">
-            <Button onClick={onClose} className="bg-gradient-to-r from-[#62D2C4] to-[#4fc4b5] hover:from-[#4fc4b5] hover:to-[#62D2C4] text-white">
+          <div className="flex justify-end pt-6 border-t border-gray-700">
+            <Button 
+              onClick={onClose} 
+              className="text-white border-0"
+              style={{ backgroundColor: '#00C2A8' }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+            >
               Close
             </Button>
           </div>
