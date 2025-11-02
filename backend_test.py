@@ -11368,36 +11368,36 @@ def main():
     
     all_tests_passed = True
     
-    # Test Nationality Field in Community Endpoints as per review request
+    # Test CMS Flexible Content Feature as per review request
     try:
-        result = test_nationality_field_review_request()
+        result = test_cms_flexible_content_feature()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Nationality Field Testing", False, f"Exception: {str(e)}")
+        print_test_result("CMS Flexible Content Feature Testing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 NATIONALITY FIELD TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ COMMUNITY FEED: GET /api/community/feed includes nationality field")
-        print("✅ FOLLOWING FEED: GET /api/community/following includes nationality field")
-        print("✅ ATHLETE PROFILE: GET /api/athlete-profiles includes nationality field")
-        print("✅ API IMPLEMENTATION: Backend correctly returns nationality data")
-        print("✅ DATA ANALYSIS: Some athletes have nationality values set")
-        print("🔧 VERIFIED: Nationality field functionality is working")
-        print("🔧 ISSUE: Country flags not visible due to missing user data")
-        print("💡 RECOMMENDATION: Users need to set nationality in profile settings")
+        print("🎉 CMS FLEXIBLE CONTENT FEATURE TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ PUT ENDPOINT: Accepts use_cms_content and content_blocks fields")
+        print("✅ DATA PERSISTENCE: Data persists correctly in database")
+        print("✅ GET ENDPOINT: Returns saved use_cms_content and content_blocks")
+        print("✅ TOGGLE STATE: True/false persists across updates")
+        print("✅ HTML CONTENT: Content blocks with HTML stored and retrieved correctly")
+        print("🔧 VERIFIED: CMS flexible content feature is working correctly")
+        print("🔧 BACKEND FIX: use_cms_content and content_blocks fields added to Pydantic models")
+        print("💡 READY: Frontend can now save and persist CMS content blocks")
     else:
-        print("❌ NATIONALITY FIELD TESTING FOUND ISSUES")
+        print("❌ CMS FLEXIBLE CONTENT FEATURE TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Nationality fields may not be working correctly")
-        print("💡 Verify community feed endpoints include nationality in aggregation")
-        print("💡 Check if athlete profiles have nationality field")
-        print("💡 Ensure MongoDB athlete_profiles collection has nationality data")
-        print("💡 Consider prompting users to complete their profiles")
+        print("🚨 CRITICAL: CMS content blocks may not be saving correctly")
+        print("💡 Verify PageCreate and PageUpdate models have use_cms_content field")
+        print("💡 Verify PageCreate and PageUpdate models have content_blocks field")
+        print("💡 Check if MongoDB pages collection accepts these fields")
+        print("💡 Ensure PUT /api/pages/{page_id} endpoint processes these fields")
     
     print("=" * 70)
 
