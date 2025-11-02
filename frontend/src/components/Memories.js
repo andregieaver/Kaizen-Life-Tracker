@@ -204,7 +204,7 @@ const Memories = ({ athleteId }) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="bg-gradient-to-br from-gray-900 to-gray-800 pt-4 px-2 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -230,7 +230,7 @@ const Memories = ({ athleteId }) => {
 
       {/* Save Status */}
       {saveStatus.message && (
-        <div className={`p-4 rounded-lg flex items-center gap-2 ${
+        <div className={`p-4 flex items-center gap-2 ${
           saveStatus.type === 'success' 
             ? 'bg-green-900/30 text-green-400 border border-green-700' 
             : 'bg-red-900/30 text-red-400 border border-red-700'
@@ -245,9 +245,8 @@ const Memories = ({ athleteId }) => {
       )}
 
       {/* Filters */}
-      <Card className="bg-gradient-to-br from-gray-600 to-gray-800 border-0">
-        <CardContent className="pt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Search */}
             <div className="space-y-2">
               <Label className="text-white">Search Memories</Label>
