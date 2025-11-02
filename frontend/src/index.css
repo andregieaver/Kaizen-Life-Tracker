@@ -495,4 +495,20 @@ textarea[class*="font-mono"]::-webkit-scrollbar-thumb:hover {
   background: #6b7280;
 }
 
+/* Checkbox Styling - Green for checked state */
+input[type="checkbox"] {
+  accent-color: #22c55e; /* green-500 */
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  accent-color: #22c55e; /* green-500 */
+}
+
+input[type="checkbox"]:focus {
+  outline: 2px solid #22c55e;
+  outline-offset: 2px;
+}
+
+
 
