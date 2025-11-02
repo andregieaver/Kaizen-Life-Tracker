@@ -205,7 +205,6 @@ const PrivacyPolicy = () => {
             </div>
           </div>
         </div>
-      </div>
 
       {/* Footer */}
       <footer className="bg-gray-950 text-gray-300 py-8 px-4 sm:px-6 lg:px-8">
