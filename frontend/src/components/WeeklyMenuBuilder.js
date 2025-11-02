@@ -750,26 +750,26 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                         <div
                           key={entry.id}
                           onClick={() => assignNutritionEntry(entry)}
-                          className="border rounded-lg p-4 hover:bg-blue-50 cursor-pointer transition-colors"
+                          className="bg-gray-800 border border-gray-700 p-4 hover:bg-gray-700 cursor-pointer transition-colors"
                         >
                           <div className="flex gap-4">
                             {entry.image_data && (
                               <img
                                 src={entry.image_data.startsWith('data:') ? entry.image_data : `data:image/jpeg;base64,${entry.image_data}`}
                                 alt={entry.description}
-                                className="w-20 h-20 object-cover rounded"
+                                className="w-20 h-20 object-cover"
                               />
                             )}
                             <div className="flex-1">
                               <div className="flex items-center gap-2">
-                                <h3 className="font-semibold text-gray-900">{entry.description || 'Meal Entry'}</h3>
-                                <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-xs">Logged</span>
+                                <h3 className="font-semibold text-white">{entry.description || 'Meal Entry'}</h3>
+                                <span className="text-white px-2 py-0.5 text-xs" style={{ backgroundColor: '#00C2A8' }}>Logged</span>
                               </div>
-                              <p className="text-sm text-gray-600">
+                              <p className="text-sm text-gray-300">
                                 {entry.calories} cal • {entry.protein}g protein • {entry.carbs}g carbs • {entry.fat}g fat
                               </p>
                               {entry.date && (
-                                <p className="text-xs text-gray-500 mt-1">
+                                <p className="text-xs text-gray-400 mt-1">
                                   {new Date(entry.date).toLocaleDateString()}
                                 </p>
                               )}
