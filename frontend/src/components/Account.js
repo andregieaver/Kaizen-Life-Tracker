@@ -3309,6 +3309,7 @@ const Account = ({ athleteId }) => {
                   connectionInfo={integrations.oura}
                   onConnect={() => handleSimpleConnect('oura')}
                   onDisconnect={() => handleSimpleDisconnect('oura')}
+                  t={t}
                 />
                 
                 {/* COROS */}
