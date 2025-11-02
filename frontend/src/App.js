@@ -407,6 +407,11 @@ function App() {
             path="/terms" 
             element={<TermsConditions />} 
           />
+          {/* Dynamic CMS Pages - Must be before catch-all route */}
+          <Route 
+            path="/:slug" 
+            element={<CmsPage />} 
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         
