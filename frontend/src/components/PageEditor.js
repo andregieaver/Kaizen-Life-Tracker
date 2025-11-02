@@ -218,6 +218,54 @@ const PageEditor = ({ athleteId, pageId }) => {
     }
   };
 
+  // Content Block Management Functions
+  const addContentBlock = () => {
+    const newBlock = {
+      id: `block-${Date.now()}`,
+      content: '',
+      order: formData.content_blocks.length
+    };
+    setFormData(prev => ({
+      ...prev,
+      content_blocks: [...prev.content_blocks, newBlock]
+    }));
+  };
+
+  const removeContentBlock = (blockId) => {
+    setFormData(prev => ({
+      ...prev,
+      content_blocks: prev.content_blocks.filter(block => block.id !== blockId)
+    }));
+  };
+
+  const updateContentBlock = (blockId, content) => {
+    setFormData(prev => ({
+      ...prev,
+      content_blocks: prev.content_blocks.map(block =>
+        block.id === blockId ? { ...block, content } : block
+      )
+    }));
+  };
+
+  const handleDragEnd = (result) => {
+    if (!result.destination) return;
+    
+    const items = Array.from(formData.content_blocks);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    
+    // Update order field
+    const updatedItems = items.map((item, index) => ({
+      ...item,
+      order: index
+    }));
+    
+    setFormData(prev => ({
+      ...prev,
+      content_blocks: updatedItems
+    }));
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white flex items-center justify-center">
