@@ -1761,7 +1761,7 @@ const Account = ({ athleteId }) => {
                           onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_day: value}))}
                         >
                           <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
-                            <SelectValue placeholder="Day" />
+                            <SelectValue placeholder={t('account.selectDay')} />
                           </SelectTrigger>
                           <SelectContent>
                             {Array.from({ length: 31 }, (_, i) => i + 1).map(day => (
@@ -1777,21 +1777,21 @@ const Account = ({ athleteId }) => {
                           onValueChange={(value) => setPersonalForm(prev => ({...prev, birth_month: value}))}
                         >
                           <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
-                            <SelectValue placeholder="Month" />
+                            <SelectValue placeholder={t('account.selectMonth')} />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="1">January</SelectItem>
-                            <SelectItem value="2">February</SelectItem>
-                            <SelectItem value="3">March</SelectItem>
-                            <SelectItem value="4">April</SelectItem>
-                            <SelectItem value="5">May</SelectItem>
-                            <SelectItem value="6">June</SelectItem>
-                            <SelectItem value="7">July</SelectItem>
-                            <SelectItem value="8">August</SelectItem>
-                            <SelectItem value="9">September</SelectItem>
-                            <SelectItem value="10">October</SelectItem>
-                            <SelectItem value="11">November</SelectItem>
-                            <SelectItem value="12">December</SelectItem>
+                            <SelectItem value="1">{t('account.january')}</SelectItem>
+                            <SelectItem value="2">{t('account.february')}</SelectItem>
+                            <SelectItem value="3">{t('account.march')}</SelectItem>
+                            <SelectItem value="4">{t('account.april')}</SelectItem>
+                            <SelectItem value="5">{t('account.may')}</SelectItem>
+                            <SelectItem value="6">{t('account.june')}</SelectItem>
+                            <SelectItem value="7">{t('account.july')}</SelectItem>
+                            <SelectItem value="8">{t('account.august')}</SelectItem>
+                            <SelectItem value="9">{t('account.september')}</SelectItem>
+                            <SelectItem value="10">{t('account.october')}</SelectItem>
+                            <SelectItem value="11">{t('account.november')}</SelectItem>
+                            <SelectItem value="12">{t('account.december')}</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
