@@ -407,16 +407,7 @@ code {
 /* CMS Content Styling - For rendering saved HTML content blocks */
 .cms-content {
   line-height: 1.7;
-  padding-left: 1rem;  /* 16px on mobile */
-  padding-right: 1rem; /* 16px on mobile */
-}
-
-/* Remove padding on larger screens */
-@media (min-width: 640px) {
-  .cms-content {
-    padding-left: 0;
-    padding-right: 0;
-  }
+  padding: 1rem;
 }
 
 .cms-content h1 {
