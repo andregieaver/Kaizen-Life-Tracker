@@ -54,6 +54,7 @@ import {
   Users,
   ShoppingCart,
   FileText,
+  Menu,
   HelpCircle
 } from 'lucide-react';
 
