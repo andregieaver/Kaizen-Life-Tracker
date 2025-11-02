@@ -227,12 +227,19 @@ const PageEditor = ({ athleteId, pageId }) => {
         }))
       };
 
+      console.log('Saving page data:', {
+        use_cms_content: saveData.use_cms_content,
+        content_blocks_count: saveData.content_blocks.length,
+        content_blocks: saveData.content_blocks
+      });
+
       if (isEditMode) {
         // Update existing page
-        await axios.put(
+        const response = await axios.put(
           `${API}/pages/${pageId}?athlete_id=${athleteId}`,
           saveData
         );
+        console.log('Page update response:', response.data);
         alert('Page updated successfully');
       } else {
         // Create new page
@@ -240,11 +247,13 @@ const PageEditor = ({ athleteId, pageId }) => {
           `${API}/pages?athlete_id=${athleteId}`,
           saveData
         );
+        console.log('Page create response:', response.data);
         alert('Page created successfully');
         navigate(`/dashboard/pages/edit/${response.data.page.id}`);
       }
     } catch (error) {
       console.error('Error saving page:', error);
+      console.error('Error response:', error.response?.data);
       alert(error.response?.data?.detail || 'Failed to save page');
     } finally {
       setSaving(false);
