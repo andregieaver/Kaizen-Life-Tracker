@@ -2732,7 +2732,7 @@ const Account = ({ athleteId }) => {
                 <h3 className="text-white">Available Plans</h3>
                 <p className="text-gray-400 mt-1">
                   Choose the plan that fits your needs
-                </CardDescription>
+                </p>
               </CardHeader>
               <CardContent>
                 {availablePlans.length === 0 ? (
