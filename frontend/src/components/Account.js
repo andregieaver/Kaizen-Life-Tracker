@@ -2026,13 +2026,13 @@ const Account = ({ athleteId }) => {
                 <Separator className="opacity-10" />
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-display font-semibold text-white">Health & Nutrition Goals</h3>
+                  <h3 className="text-lg font-display font-semibold text-white">{t('account.healthNutritionGoals')}</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Estimated Calorie Need */}
                     <div className="space-y-2">
                       <Label htmlFor="estimated_calorie_need" className="text-sm font-medium text-white">
-                        Estimated Daily Calorie Need
+                        {t('account.estimatedCalorieNeed')}
                       </Label>
                       <Input
                         id="estimated_calorie_need"
@@ -2045,26 +2045,26 @@ const Account = ({ athleteId }) => {
                         style={{ backgroundColor: '#111827', borderColor: '#374151' }}
                       />
                       <p className="text-xs text-gray-500">
-                        Calories per day (based on age, gender, activity level)
+                        {t('account.caloriesPerDay')}
                       </p>
                     </div>
 
                     {/* Weight Goal */}
                     <div className="space-y-2">
                       <Label htmlFor="weight_goal" className="text-sm font-medium text-white">
-                        Weight Goal
+                        {t('account.weightGoal')}
                       </Label>
                       <Select 
                         value={personalForm.weight_goal}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, weight_goal: value}))}
                       >
                         <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
-                          <SelectValue placeholder="Select weight goal" />
+                          <SelectValue placeholder={t('account.selectWeightGoal')} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="decrease">Decrease Weight</SelectItem>
-                          <SelectItem value="maintain">Maintain Weight</SelectItem>
-                          <SelectItem value="increase">Increase Weight</SelectItem>
+                          <SelectItem value="decrease">{t('account.decreaseWeight')}</SelectItem>
+                          <SelectItem value="maintain">{t('account.maintainWeight')}</SelectItem>
+                          <SelectItem value="increase">{t('account.increaseWeight')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
