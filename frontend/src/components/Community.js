@@ -3744,7 +3744,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             {/* Header */}
             <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Create Post</h3>
+                <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('community.modals.createPost')}</h3>
                 <button
                   onClick={() => setShowWritePostModal(false)}
                   className="text-gray-400 hover:text-white transition-colors"
