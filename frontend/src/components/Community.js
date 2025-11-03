@@ -4964,7 +4964,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
           e.stopPropagation();
         }}
       >
-        <h2 className="text-2xl font-bold text-white mb-4">Edit Group</h2>
+        <h2 className="text-2xl font-bold text-white mb-4">{t('community.modals.editGroup')}</h2>
         
         <div className="space-y-4">
           {/* Profile Image */}
