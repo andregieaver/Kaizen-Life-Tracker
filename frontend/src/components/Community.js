@@ -4802,7 +4802,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
         }}
       >
         <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
-          <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Create Group</h2>
+          <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('community.modals.createGroup')}</h2>
         </div>
         
         <div className="p-6 space-y-4">
