@@ -7002,7 +7002,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
-          <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Create Event</h2>
+          <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('community.modals.createEvent')}</h2>
         </div>
         
         <div className="p-6 space-y-4">
