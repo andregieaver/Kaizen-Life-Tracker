@@ -3254,7 +3254,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                               type="text"
                               value={commentText[post.id] || ''}
                               onChange={(e) => setCommentText({ ...commentText, [post.id]: e.target.value })}
-                              placeholder="Write a comment... (Type @ to mention)"
+                              placeholder={t('community.post.writeCommentMention')}
                               className="w-full bg-gray-600 text-white rounded-lg pl-4 pr-12 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
                               onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
                             />
