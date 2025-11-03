@@ -4917,7 +4917,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
             onClick={onCreate}
             className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
           >
-            Create Group
+            {t('community.modals.createGroup')}
           </Button>
           <Button
             onClick={onClose}
