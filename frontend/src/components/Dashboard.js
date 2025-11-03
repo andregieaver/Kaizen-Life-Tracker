@@ -637,7 +637,7 @@ const Dashboard = ({ athleteId }) => {
                   className="p-2 rounded-lg transition-all duration-200 hover:scale-110"
                   style={{ background: 'var(--grad-cta-soft)' }}
                   aria-label="Referrals"
-                  title="Referral Rewards"
+                  title={t('dashboard.modals.referralRewards')}
                 >
                   <Gift className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                 </button>
