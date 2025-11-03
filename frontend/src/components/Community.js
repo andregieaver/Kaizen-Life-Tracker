@@ -3762,7 +3762,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   ref={writePostTextareaRef}
                   value={writePostContent}
                   onChange={handleWritePostContentChange}
-                  placeholder="What's on your mind?"
+                  placeholder={t('community.post.whatsOnMind')}
                   className="w-full bg-gray-700 text-white rounded-lg px-4 py-3 pr-12 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[120px] resize-vertical"
                 />
                 
