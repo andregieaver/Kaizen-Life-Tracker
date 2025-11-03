@@ -15,6 +15,7 @@ const API = `${BACKEND_URL}/api`;
 
 const OnboardingForm = ({ onAthleteCreated }) => {
   const { t } = useTranslation();
+  const countries = useCountries();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
