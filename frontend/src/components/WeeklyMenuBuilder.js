@@ -381,22 +381,22 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
 
           {/* Weekly Grid */}
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6">
-            <h3 className="text-xl font-bold text-white mb-4">Weekly Meal Plan</h3>
+            <h3 className="text-xl font-bold text-white mb-4">{t('weeklyMenu.weeklyMealPlan')}</h3>
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="bg-gray-700">
-                    <th className="p-3 text-left font-semibold text-white border border-gray-600">Day</th>
-                    <th className="p-3 text-left font-semibold text-white border border-gray-600">🍳 Breakfast</th>
-                    <th className="p-3 text-left font-semibold text-white border border-gray-600">🥗 Lunch</th>
-                    <th className="p-3 text-left font-semibold text-white border border-gray-600">🍽️ Dinner</th>
+                    <th className="p-3 text-left font-semibold text-white border border-gray-600">{t('weeklyMenu.day')}</th>
+                    <th className="p-3 text-left font-semibold text-white border border-gray-600">{t('weeklyMenu.breakfast')}</th>
+                    <th className="p-3 text-left font-semibold text-white border border-gray-600">{t('weeklyMenu.lunch')}</th>
+                    <th className="p-3 text-left font-semibold text-white border border-gray-600">{t('weeklyMenu.dinner')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {DAYS.map(day => (
                     <tr key={day} className="hover:bg-gray-700">
-                      <td className="p-3 border border-gray-600 font-medium capitalize text-white">
-                        {day}
+                      <td className="p-3 border border-gray-600 font-medium text-white">
+                        {t(`weeklyMenu.daysOfWeek.${day}`)}
                       </td>
                       {MEALS.map(meal => {
                         const mealData = getMealForSlot(day, meal);
