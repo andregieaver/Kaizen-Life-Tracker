@@ -3990,7 +3990,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   >
                     <div className="flex items-center justify-center space-x-2">
                       <Lock className="w-4 h-4" />
-                      <span className="text-sm">Private</span>
+                      <span className="text-sm">{t('community.post.private')}</span>
                     </div>
                   </button>
                 </div>
