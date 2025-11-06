@@ -275,7 +275,7 @@ const Today = ({ athleteId }) => {
       {todayData.meals.length > 0 && (
         <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
           <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
-            <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Today's Meals</h3>
+            <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('today.todaysMeals')}</h3>
           </div>
           <div className="p-4">
             <div className="space-y-3">
@@ -292,7 +292,7 @@ const Today = ({ athleteId }) => {
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-bold text-white">{meal.calories || 0}</p>
-                    <p className="text-xs text-gray-400">cal</p>
+                    <p className="text-xs text-gray-400">{t('today.cal')}</p>
                   </div>
                 </div>
               ))}
