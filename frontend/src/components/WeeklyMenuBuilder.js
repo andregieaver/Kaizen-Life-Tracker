@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
@@ -12,6 +13,7 @@ const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'
 const MEALS = ['breakfast', 'lunch', 'dinner'];
 
 const WeeklyMenuBuilder = ({ athleteId }) => {
+  const { t } = useTranslation();
   const [menus, setMenus] = useState([]);
   const [recipes, setRecipes] = useState([]);
   const [nutritionEntries, setNutritionEntries] = useState([]);
