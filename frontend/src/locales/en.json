@@ -556,6 +556,23 @@
       }
     }
   },
+  "systemSettings": {
+    "accountSettings": "Account Settings",
+    "planDescription": "Plan description...",
+    "addFeature": "Add a feature...",
+    "enterFeature": "Enter feature",
+    "couponName": "Summer Sale 2025",
+    "subscriptionOnlyHint": "💡 Select \"Subscriptions Only\" to specify which plans this coupon applies to",
+    "privacyTitle": "We value your privacy",
+    "privacyText": "We use cookies to enhance your browsing experience...",
+    "appName": "TrainSmart",
+    "faviconPreview": "Favicon preview",
+    "logoPreview": "Logo preview",
+    "emailFromName": "The name that will appear in the \"From\" field of emails",
+    "pricingVariationsInstructions": "\n\nℹ️ To add pricing variations:\n1. Click the plan card\n2. Click \"Add Variation\"\n3. Set Monthly/Yearly prices\n4. Save and run \"Sync to Stripe\" again",
+    "resetStripeWarning": "⚠️ WARNING: This will remove all Stripe IDs from your plans!\n\nThis is useful when switching to a new Stripe account. After resetting, you can use \"Sync to Stripe\" to create new products.\n\nContinue?",
+    "pricingExample": "<strong>Example:</strong> \"Pro\" plan → \"Pro Monthly\" ($29.99/mo) + \"Pro Annual\" ($299/yr)"
+  },
   "merits": {
     "title": "Merits",
     "distance": "Distance",
