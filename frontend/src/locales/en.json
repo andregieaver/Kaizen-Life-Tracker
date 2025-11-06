@@ -535,6 +535,27 @@
     "roadTrail": "Road/Trail",
     "ultra": "Ultra"
   },
+  "schedules": {
+    "analyzePrompt": "Describe what you want the AI to analyze...",
+    "presets": {
+      "dailyRecovery": {
+        "name": "Daily Recovery Review",
+        "prompt": "Analyze yesterday's workout alongside last night's sleep data. How did training intensity affect my HRV, sleep quality, and readiness? Recommend today's training approach."
+      },
+      "weeklyTraining": {
+        "name": "Weekly Training Analysis",
+        "prompt": "Review this week's training load, sleep patterns, and recovery metrics. Identify trends and provide recommendations for next week's training plan."
+      },
+      "nutrition": {
+        "name": "Nutrition Check",
+        "prompt": "Review my nutrition entries and supplement intake for the past week. Are my macros aligned with my training goals? Any recommendations?"
+      },
+      "racePrep": {
+        "name": "Race Prep Check",
+        "prompt": "Analyze my recent training progression, sleep quality, and readiness trends. Am I on track for my upcoming race? Any adjustments needed?"
+      }
+    }
+  },
   "merits": {
     "title": "Merits",
     "distance": "Distance",
