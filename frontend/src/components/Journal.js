@@ -225,7 +225,7 @@ const Journal = ({ athleteId }) => {
   const transcribeVideo = async (blob) => {
     try {
       setIsTranscribing(true);
-      setSaveStatus({ type: '', message: 'Transcribing video... This may take a minute.' });
+      setSaveStatus({ type: '', message: t('journal.transcribingVideo') });
       
       const formData = new FormData();
       formData.append('video', blob, 'video.webm');
