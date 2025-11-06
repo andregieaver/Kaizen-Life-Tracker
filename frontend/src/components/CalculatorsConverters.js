@@ -292,11 +292,11 @@ const PaceCalculator = ({ athletePreferences }) => {
           {/* Current Pace Display */}
           <div className="mt-6 bg-gradient-to-r from-teal-700 to-teal-800 rounded-lg p-4 border border-teal-600">
             <p className="text-center text-lg">
-              <span className="text-gray-300">Your pace:</span>{' '}
+              <span className="text-gray-300">{t('calculators.yourPace')}</span>{' '}
               <span className="font-bold text-2xl text-white">
                 {minutes}:{seconds.toString().padStart(2, '0')}
               </span>
-              <span className="text-gray-300"> per {unit === 'km' ? 'km' : 'mile'}</span>
+              <span className="text-gray-300"> {unit === 'km' ? t('calculators.perKm') : t('calculators.perMile')}</span>
             </p>
           </div>
         </CardContent>
