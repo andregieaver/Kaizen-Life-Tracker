@@ -221,8 +221,8 @@ const RecipeBrowser = ({ athleteId }) => {
         <Card className="border-2 border-dashed">
           <CardContent className="text-center py-12">
             <ChefHat className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No Recipes Found</h3>
-            <p className="text-gray-600">Try adjusting your filters or generate some recipes first</p>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">{t('recipeBrowser.noRecipesFound')}</h3>
+            <p className="text-gray-600">{t('recipeBrowser.adjustFilters')}</p>
           </CardContent>
         </Card>
       ) : (
