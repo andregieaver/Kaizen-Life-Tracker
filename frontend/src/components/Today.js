@@ -111,7 +111,7 @@ const Today = ({ athleteId }) => {
       <div>
         <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
           <Calendar className="w-8 h-8" style={{ color: 'var(--c-brand-500)' }} />
-          Today
+          {t('today.title')}
         </h1>
         <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>{formatDate()}</p>
       </div>
