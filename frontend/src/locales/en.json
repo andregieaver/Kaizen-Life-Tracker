@@ -577,7 +577,24 @@
     "noEntries": "No nutrition entries yet",
     "startTracking": "Start tracking your nutrition to see insights",
     "viewDay": "Day",
-    "viewWeek": "Week"
+    "viewWeek": "Week",
+    "macros": {
+      "calories": "Calories",
+      "protein": "Protein",
+      "carbs": "Carbs",
+      "fat": "Fat",
+      "fiber": "Fiber"
+    },
+    "micros": {
+      "micronutrients": "Micronutrients",
+      "sugar": "Sugar",
+      "sodium": "Sodium",
+      "vitaminA": "Vitamin A",
+      "vitaminC": "Vitamin C",
+      "vitaminD": "Vitamin D",
+      "calcium": "Calcium",
+      "iron": "Iron"
+    }
   },
   "habits": {
     "title": "Habit Tracker",
