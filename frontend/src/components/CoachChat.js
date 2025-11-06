@@ -385,7 +385,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                     >
                       <div className="flex items-start justify-between mb-1">
                         <p className="text-sm font-medium text-white truncate flex-1 pr-8">
-                          {conv.preview || 'Conversation'}
+                          {conv.preview || t('coachChat.conversationPreview')}
                         </p>
                         <span className="text-xs text-gray-400 ml-2">
                           {new Date(conv.last_message).toLocaleDateString()}
