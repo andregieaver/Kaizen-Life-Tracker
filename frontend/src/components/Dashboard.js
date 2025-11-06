@@ -1985,7 +1985,7 @@ const Dashboard = ({ athleteId }) => {
                 : 'translate(0, 0) scale(0)',
               transitionDelay: showCreateMenu ? '50ms' : '0ms'
             }}
-            title="Add Journal Entry"
+            title={t('dashboard.modals.addJournalEntry')}
           >
             <BookOpen className="w-5 h-5 text-white" />
           </button>
