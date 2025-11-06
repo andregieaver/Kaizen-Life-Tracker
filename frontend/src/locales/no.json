@@ -434,7 +434,9 @@
       "eventLocation": "Arrangementssted"
     },
     "challenge": {
+      "enterChallengeName": "f.eks., Løp 100km i januar",
       "describeChallenge": "Beskriv utfordringen din...",
+      "targetValue": "100",
       "addComment": "Legg til en kommentar...",
       "notJoinedYet": "Du har ikke blitt med i noen utfordringer ennå"
     },
