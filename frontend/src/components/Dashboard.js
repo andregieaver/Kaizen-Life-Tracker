@@ -1254,7 +1254,6 @@ const Dashboard = ({ athleteId }) => {
             </div>
 
           </div>
-          </div>
         )}
 
         {activeTab === 'today' && (
