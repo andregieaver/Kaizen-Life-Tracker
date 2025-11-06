@@ -456,6 +456,19 @@
       "approve": "Godkjenn",
       "reject": "Avvis",
       "deleteComment": "Slett kommentar"
+    },
+    "emptyStates": {
+      "noPostsYet": "Ingen innlegg ennå",
+      "beFirstToShare": "Vær den første til å dele noe!",
+      "loadingPosts": "Laster innlegg fra folk du følger...",
+      "noFollowingPosts": "Ingen innlegg fra folk du følger",
+      "followOthers": "Følg andre utøvere for å se innleggene deres her!",
+      "noEvents": "Ingen arrangementer funnet",
+      "createFirstEvent": "Opprett ditt første arrangement for å komme i gang!",
+      "noChallenges": "Ingen aktive utfordringer",
+      "createChallenge": "Opprett en utfordring for å motivere fellesskapet!",
+      "noGroups": "Ingen grupper funnet",
+      "createFirstGroup": "Opprett din første gruppe!"
     }
   },
   "dashboard": {
