@@ -136,7 +136,7 @@ const Support = ({ athleteId, athlete }) => {
               {/* Email Field */}
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                  Your Email <span className="text-red-500">*</span>
+                  {t('support.email')} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="email"
@@ -146,14 +146,14 @@ const Support = ({ athleteId, athlete }) => {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                  placeholder="john@example.com"
+                  placeholder={t('support.emailPlaceholder')}
                 />
               </div>
 
               {/* Subject Field */}
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
-                  Subject <span className="text-red-500">*</span>
+                  {t('support.subject')} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -163,14 +163,14 @@ const Support = ({ athleteId, athlete }) => {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                  placeholder="Brief description of your issue"
+                  placeholder={t('support.subjectPlaceholder')}
                 />
               </div>
 
               {/* Message Field */}
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                  Message <span className="text-red-500">*</span>
+                  {t('support.message')} <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   id="message"
@@ -180,10 +180,10 @@ const Support = ({ athleteId, athlete }) => {
                   required
                   rows={6}
                   className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
-                  placeholder="Please describe your issue or question in detail..."
+                  placeholder={t('support.messagePlaceholder')}
                 />
                 <p className="text-gray-400 text-xs mt-1">
-                  {formData.message.length} characters
+                  {t('support.messageCount', { count: formData.message.length })}
                 </p>
               </div>
 
@@ -197,7 +197,7 @@ const Support = ({ athleteId, athlete }) => {
                   {isSubmitting ? (
                     <>
                       <div className="animate-spin mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
-                      Sending...
+                      {t('support.submitting')}
                     </>
                   ) : (
                     <>
