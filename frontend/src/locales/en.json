@@ -503,6 +503,19 @@
       "approve": "Approve",
       "reject": "Reject",
       "deleteComment": "Delete comment"
+    },
+    "emptyStates": {
+      "noPostsYet": "No posts yet",
+      "beFirstToShare": "Be the first to share something!",
+      "loadingPosts": "Loading posts from people you follow...",
+      "noFollowingPosts": "No posts from people you follow",
+      "followOthers": "Follow other athletes to see their posts here!",
+      "noEvents": "No events found",
+      "createFirstEvent": "Create your first event to get started!",
+      "noChallenges": "No active challenges",
+      "createChallenge": "Create a challenge to motivate the community!",
+      "noGroups": "No groups found",
+      "createFirstGroup": "Create your first group!"
     }
   },
   "dashboard": {
