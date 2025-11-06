@@ -470,6 +470,21 @@
       "createChallenge": "Opprett en utfordring for å motivere fellesskapet!",
       "noGroups": "Ingen grupper funnet",
       "createFirstGroup": "Opprett din første gruppe!"
+    },
+    "messages": {
+      "failedToLoadProfile": "Kunne ikke laste profil",
+      "failedToProcessImage": "Kunne ikke behandle bilde",
+      "oneVideoPerPost": "Du kan bare laste opp 1 video per innlegg",
+      "maxMediaItems": "Du kan laste opp maksimalt 5 medieelementer (bilder + video). Du har for øyeblikket {{count}} element(er).",
+      "postCreated": "Innlegg opprettet!",
+      "postDeleted": "Innlegg slettet!",
+      "commentAdded": "Kommentar lagt til!",
+      "groupCreated": "Gruppe opprettet!",
+      "groupUpdated": "Gruppe oppdatert!",
+      "eventCreated": "Arrangement opprettet!",
+      "challengeCreated": "Utfordring opprettet!",
+      "joinedGroup": "Ble med i gruppe!",
+      "leftGroup": "Forlot gruppe!"
     }
   },
   "nutrition": {
