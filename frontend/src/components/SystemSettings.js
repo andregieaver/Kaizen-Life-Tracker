@@ -1828,10 +1828,10 @@ const SystemSettings = ({ athleteId }) => {
                     </div>
 
                     <div>
-                      <label className="block text-gray-300 mb-2">Plan Name *</label>
+                      <label className="block text-gray-300 mb-2">{t('systemSettings.plans.planName')} *</label>
                       <input
                         type="text"
-                        placeholder="e.g., Professional, Premium"
+                        placeholder={t('systemSettings.plans.planNamePlaceholder')}
                         value={newPlan.name}
                         onChange={(e) => setNewPlan({...newPlan, name: e.target.value})}
                         className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
@@ -1839,9 +1839,9 @@ const SystemSettings = ({ athleteId }) => {
                     </div>
 
                     <div>
-                      <label className="block text-gray-300 mb-2">Description</label>
+                      <label className="block text-gray-300 mb-2">{t('account.tabs.profile.description')}</label>
                       <textarea
-                        placeholder="Plan description..."
+                        placeholder={t('systemSettings.plans.planDescription')}
                         value={newPlan.description}
                         onChange={(e) => setNewPlan({...newPlan, description: e.target.value})}
                         className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
@@ -1850,7 +1850,7 @@ const SystemSettings = ({ athleteId }) => {
                     </div>
 
                     <div>
-                      <label className="block text-gray-300 mb-2">Features</label>
+                      <label className="block text-gray-300 mb-2">{t('account.tabs.profile.interests')}</label>
                       <div className="space-y-2">
                         {newPlan.features.map((feature, idx) => (
                           <div key={idx} className="flex items-center gap-2">
@@ -1880,7 +1880,7 @@ const SystemSettings = ({ athleteId }) => {
                         <div className="flex gap-2">
                           <input
                             type="text"
-                            placeholder="Add a feature..."
+                            placeholder={t('systemSettings.plans.addFeature')}
                             value={newFeature}
                             onChange={(e) => setNewFeature(e.target.value)}
                             onKeyPress={(e) => {
