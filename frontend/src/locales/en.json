@@ -529,6 +529,22 @@
       "logMeal": "Log Meal"
     }
   },
+  "nutrition": {
+    "title": "Nutrition Tracking",
+    "mealTypes": {
+      "breakfast": "Breakfast",
+      "lunch": "Lunch",
+      "dinner": "Dinner",
+      "snack": "Snack"
+    },
+    "addMeal": "Add Meal",
+    "logNutrition": "Log Nutrition",
+    "analyzingImage": "Analyzing image...",
+    "noEntries": "No nutrition entries yet",
+    "startTracking": "Start tracking your nutrition to see insights",
+    "viewDay": "Day",
+    "viewWeek": "Week"
+  },
   "placeholders": {
     "selectWorkoutType": "Select workout type",
     "workoutNotes": "How did the workout feel? Any observations?",
