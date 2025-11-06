@@ -420,7 +420,11 @@
       "shareWithGroup": "Del noe med gruppen...",
       "postMedia": "Innleggsmedier",
       "postImages": "Innleggsbilder",
-      "sharedPostMedia": "Delte innleggsmedier"
+      "sharedPostMedia": "Delte innleggsmedier",
+      "visibility": "Synlighet",
+      "public": "Offentlig",
+      "private": "Privat",
+      "filterByNationality": "Filtrer etter nasjonalitet"
     },
     "group": {
       "enterGroupName": "Skriv inn gruppenavn",
