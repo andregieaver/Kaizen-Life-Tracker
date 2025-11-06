@@ -62,7 +62,7 @@ const Drinks = ({ athleteId }) => {
       const response = await axios.post(`${API}/drinks/${athleteId}`, newDrink);
       
       if (response.data.success) {
-        setSaveStatus({ type: 'success', message: 'Drink logged successfully!' });
+        setSaveStatus({ type: 'success', message: t('drinks.drinkLoggedSuccess') });
         setShowAddModal(false);
         loadDrinks();
         
