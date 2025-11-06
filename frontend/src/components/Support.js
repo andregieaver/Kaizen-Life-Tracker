@@ -202,7 +202,7 @@ const Support = ({ athleteId, athlete }) => {
                   ) : (
                     <>
                       <Send size={18} className="mr-2" />
-                      Send Message
+                      {t('support.submit')}
                     </>
                   )}
                 </Button>
