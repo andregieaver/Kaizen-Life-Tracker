@@ -717,6 +717,27 @@
       "cookiesScanError": "Failed to scan cookies. Please try again."
     }
   },
+  "support": {
+    "title": "Support",
+    "subtitle": "Need help? Send us a message and we'll get back to you as soon as possible.",
+    "contactSupport": "Contact Support",
+    "formTitle": "Send Support Request",
+    "name": "Your Name",
+    "namePlaceholder": "Enter your name",
+    "email": "Your Email",
+    "emailPlaceholder": "your.email@example.com",
+    "subject": "Subject",
+    "subjectPlaceholder": "What can we help you with?",
+    "message": "Message",
+    "messagePlaceholder": "Please describe your issue or question in detail...",
+    "messageCount": "{{count}} / 1000 characters",
+    "submit": "Send Message",
+    "submitting": "Sending...",
+    "successTitle": "Message Sent Successfully!",
+    "successMessage": "Thank you for contacting us. We've received your message and will respond as soon as possible.",
+    "errorTitle": "Failed to Send Message",
+    "errorMessage": "Failed to submit support request. Please try again or contact support@kaizenlifetracker.com directly."
+  },
   "merits": {
     "title": "Merits",
     "distance": "Distance",
