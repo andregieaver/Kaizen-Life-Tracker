@@ -285,7 +285,7 @@ const Journal = ({ athleteId }) => {
         }
       );
       
-      setSaveStatus({ type: 'success', message: 'Video journal entry saved!' });
+      setSaveStatus({ type: 'success', message: t('journal.videoEntrySaved') });
       
       // Clean up and reset
       setShowModal(false);
@@ -296,7 +296,7 @@ const Journal = ({ athleteId }) => {
       console.error('Error saving video entry:', error);
       setSaveStatus({ 
         type: 'error', 
-        message: error.response?.data?.detail || 'Failed to save video entry' 
+        message: error.response?.data?.detail || t('journal.failedToSaveVideo')
       });
     } finally {
       setIsProcessingVideo(false);
