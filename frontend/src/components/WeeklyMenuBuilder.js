@@ -137,12 +137,12 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
     } catch (error) {
       console.error('Error saving menu:', error);
       console.error('Error details:', error.response?.data || error.message);
-      alert(`Failed to save menu: ${error.response?.data?.detail || error.message}`);
+      alert(`${t('weeklyMenu.failedToSaveMenu')}: ${error.response?.data?.detail || error.message}`);
     }
   };
 
   const deleteMenu = async (menuId) => {
-    if (!window.confirm('Are you sure you want to delete this menu?')) return;
+    if (!window.confirm(t('weeklyMenu.confirmDeleteMenu'))) return;
 
     try {
       await axios.delete(`${API}/weekly-menus/${menuId}`);
