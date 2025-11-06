@@ -168,8 +168,8 @@ const RecipeBrowser = ({ athleteId }) => {
     <div className="space-y-6 p-4 sm:p-6 lg:p-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-display font-bold text-gray-900">Recipe Collection</h1>
-        <p className="text-gray-600 mt-1">Browse and filter your saved recipes</p>
+        <h1 className="text-3xl font-display font-bold text-gray-900">{t('recipeBrowser.title')}</h1>
+        <p className="text-gray-600 mt-1">{t('recipeBrowser.subtitle')}</p>
       </div>
 
       {/* Filters */}
@@ -179,40 +179,40 @@ const RecipeBrowser = ({ athleteId }) => {
             <div className="flex-1">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <Filter className="w-4 h-4 inline mr-1" />
-                Meal Type
+                {t('recipeBrowser.mealType')}
               </label>
               <select
                 value={filterMealType}
                 onChange={(e) => setFilterMealType(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
               >
-                <option value="all">All Meals</option>
-                <option value="breakfast">🍳 Breakfast</option>
-                <option value="lunch">🥗 Lunch</option>
-                <option value="dinner">🍽️ Dinner</option>
+                <option value="all">{t('recipes.allMeals')}</option>
+                <option value="breakfast">{t('recipes.mealTypes.breakfast')}</option>
+                <option value="lunch">{t('recipes.mealTypes.lunch')}</option>
+                <option value="dinner">{t('recipes.mealTypes.dinner')}</option>
               </select>
             </div>
             <div className="flex-1">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <Star className="w-4 h-4 inline mr-1" />
-                Minimum Rating
+                {t('recipeBrowser.minimumRating')}
               </label>
               <select
                 value={filterRating}
                 onChange={(e) => setFilterRating(parseInt(e.target.value))}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
               >
-                <option value="0">All Ratings</option>
-                <option value="1">⭐ 1+ Stars</option>
-                <option value="2">⭐⭐ 2+ Stars</option>
-                <option value="3">⭐⭐⭐ 3+ Stars</option>
-                <option value="4">⭐⭐⭐⭐ 4+ Stars</option>
-                <option value="5">⭐⭐⭐⭐⭐ 5 Stars</option>
+                <option value="0">{t('recipeBrowser.allRatings')}</option>
+                <option value="1">⭐ {t('recipeBrowser.starsPlus', { count: 1 })}</option>
+                <option value="2">⭐⭐ {t('recipeBrowser.starsPlus', { count: 2 })}</option>
+                <option value="3">⭐⭐⭐ {t('recipeBrowser.starsPlus', { count: 3 })}</option>
+                <option value="4">⭐⭐⭐⭐ {t('recipeBrowser.starsPlus', { count: 4 })}</option>
+                <option value="5">⭐⭐⭐⭐⭐ {t('recipeBrowser.starsPlus', { count: 5 })}</option>
               </select>
             </div>
           </div>
           <div className="mt-4 text-sm text-gray-600">
-            Showing {filteredRecipes.length} of {recipes.length} recipes
+            {t('recipeBrowser.showingRecipes', { filtered: filteredRecipes.length, total: recipes.length })}
           </div>
         </CardContent>
       </Card>
