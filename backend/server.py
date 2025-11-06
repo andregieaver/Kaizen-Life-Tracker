@@ -5047,17 +5047,19 @@ async def reanalyze_nutrition_entry(entry_id: str):
         if not entry.get("description") or not entry.get("image_data"):
             raise HTTPException(status_code=400, detail="Entry must have both description and image for AI analysis")
         
-        # Get OpenAI key from integrations
-        athlete_id = entry.get("athlete_id")
-        openai_integration = await db.integrations.find_one(
-            {"athlete_id": athlete_id, "integration_type": "openai"},
+        # Get OpenAI key from system settings (global key stored in Advanced tab)
+        system_settings = await db.system_settings.find_one(
+            {"setting_type": "global"},
             {"_id": 0}
         )
         
-        if not openai_integration or not openai_integration.get('credentials', {}).get('api_key'):
-            raise HTTPException(status_code=400, detail="OpenAI API key not configured. Please add your OpenAI API key in System Settings → Advanced tab (Super Admin only).")
+        if not system_settings or not system_settings.get('advanced', {}).get('openaiApiKey'):
+            raise HTTPException(
+                status_code=400, 
+                detail="OpenAI API key not found. Please add your OpenAI API key in System Settings → Advanced tab (Super Admin only), then try again."
+            )
         
-        openai_key = openai_integration['credentials']['api_key']
+        openai_key = system_settings['advanced']['openaiApiKey']
         logging.info(f"[NUTRITION REANALYZE] Re-analyzing entry {entry_id}")
         
         # Generate ingredients and instructions
