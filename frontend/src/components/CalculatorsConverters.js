@@ -260,7 +260,7 @@ const PaceCalculator = ({ athletePreferences }) => {
             {/* Seconds Selector */}
             <div>
               <label className="block text-sm font-medium text-white mb-2">
-                Seconds
+                {t('calculators.seconds')}
               </label>
               <select
                 value={seconds}
