@@ -305,16 +305,16 @@ const PaceCalculator = ({ athletePreferences }) => {
       {/* Results Table */}
       <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
         <CardHeader>
-          <CardTitle className="text-xl font-display text-white">Finish Times</CardTitle>
-          <CardDescription className="text-gray-300">Estimated finish times for various distances</CardDescription>
+          <CardTitle className="text-xl font-display text-white">{t('calculators.finishTimes')}</CardTitle>
+          <CardDescription className="text-gray-300">{t('calculators.estimatedFinishTimes')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b-2 border-gray-600">
-                  <th className="text-left py-3 px-4 font-semibold text-white">Distance</th>
-                  <th className="text-right py-3 px-4 font-semibold text-white">Time</th>
+                  <th className="text-left py-3 px-4 font-semibold text-white">{t('calculators.distance')}</th>
+                  <th className="text-right py-3 px-4 font-semibold text-white">{t('calculators.time')}</th>
                 </tr>
               </thead>
               <tbody>
