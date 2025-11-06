@@ -600,7 +600,7 @@ const Journal = ({ athleteId }) => {
                   {textContent && (
                     <div>
                       <label className="block text-sm font-medium text-white mb-2">
-                        Transcription Preview
+                        {t('journal.transcriptionPreview')}
                       </label>
                       <textarea
                         value={textContent}
