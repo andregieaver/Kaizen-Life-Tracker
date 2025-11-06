@@ -309,11 +309,11 @@ const Recipes = ({ athleteId }) => {
                         <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-muted)' }}>
                           <div className="flex items-center gap-1">
                             <Clock className="w-4 h-4" />
-                            {recipe.prep_time + recipe.cook_time} min
+                            {recipe.prep_time + recipe.cook_time} {t('recipes.minutes')}
                           </div>
                           <div className="flex items-center gap-1">
                             <Users className="w-4 h-4" />
-                            {recipe.servings} servings
+                            {t('recipes.servingsCount', { count: recipe.servings })}
                           </div>
                         </div>
                       </div>
