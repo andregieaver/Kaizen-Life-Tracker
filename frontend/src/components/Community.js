@@ -654,7 +654,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         setNewPostImagePreview(compressed);
       } catch (error) {
         console.error('Error compressing image:', error);
-        alert('Failed to process image');
+        alert(t('community.messages.failedToProcessImage'));
       }
     }
   };
@@ -4780,7 +4780,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
         setGroupData({ ...groupData, [type]: compressed });
       } catch (error) {
         console.error('Error compressing image:', error);
-        alert('Failed to process image');
+        alert(t('community.messages.failedToProcessImage'));
       }
     }
   };
@@ -4944,7 +4944,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
         setGroupData({ ...groupData, [type]: compressed });
       } catch (error) {
         console.error('Error compressing image:', error);
-        alert('Failed to process image');
+        alert(t('community.messages.failedToProcessImage'));
       }
     }
   };
@@ -6300,7 +6300,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
         setChallengeData({ ...challengeData, cover_photo: compressed });
       } catch (error) {
         console.error('Error compressing image:', error);
-        alert('Failed to process image');
+        alert(t('community.messages.failedToProcessImage'));
       }
     }
   };
@@ -6848,7 +6848,7 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
         setChallengeData({ ...challengeData, [type]: compressed });
       } catch (error) {
         console.error('Error compressing image:', error);
-        alert('Failed to process image');
+        alert(t('community.messages.failedToProcessImage'));
       }
     }
   };
@@ -6986,7 +6986,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
         setEventData({ ...eventData, [type]: compressed });
       } catch (error) {
         console.error('Error compressing image:', error);
-        alert('Failed to process image');
+        alert(t('community.messages.failedToProcessImage'));
       }
     }
   };
@@ -7163,7 +7163,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
         setEventData({ ...eventData, [type]: compressed });
       } catch (error) {
         console.error('Error compressing image:', error);
-        alert('Failed to process image');
+        alert(t('community.messages.failedToProcessImage'));
       }
     }
   };
