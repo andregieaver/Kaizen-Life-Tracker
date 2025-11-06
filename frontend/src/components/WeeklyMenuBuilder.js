@@ -496,7 +496,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                 <div>
                   <div className="space-y-4">
                     <div className="text-sm text-gray-300 mb-4">
-                      {menu.meals.filter(m => m.recipe_id || m.nutrition_entry_id).length} of 21 meals assigned
+                      {t('weeklyMenu.mealsAssigned', { count: menu.meals.filter(m => m.recipe_id || m.nutrition_entry_id).length })}
                     </div>
 
                     {/* Weekly Overview */}
