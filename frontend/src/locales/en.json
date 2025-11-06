@@ -511,7 +511,16 @@
       "clickToViewFullSize": "Click to view full size",
       "approve": "Approve",
       "reject": "Reject",
-      "deleteComment": "Delete comment"
+      "deleteComment": "Delete comment",
+      "editGroup": "Edit Group",
+      "createChallenge": "Create Challenge",
+      "createPost": "Create Post",
+      "createEvent": "Create Event",
+      "createGroup": "Create Group",
+      "challengeCreator": "Challenge Creator",
+      "recurringChallenge": "Recurring Challenge",
+      "addMedia": "Add images or video (max 5, 1 video)",
+      "maxMediaItems": "Maximum 5 media items"
     },
     "emptyStates": {
       "noPostsYet": "No posts yet",
