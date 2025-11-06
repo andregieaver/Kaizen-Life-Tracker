@@ -1342,5 +1342,34 @@
     "time": "Time",
     "halfMarathon": "Half Marathon",
     "marathon": "Marathon"
+  },
+  "drinks": {
+    "title": "Hydration Tracker",
+    "subtitle": "Track your daily fluid intake",
+    "logDrink": "Log Drink",
+    "totalForDay": "Total for Day",
+    "drinkTypes": {
+      "water": "Water",
+      "coffee": "Coffee",
+      "tea": "Tea",
+      "juice": "Juice",
+      "sports_drink": "Sports Drink",
+      "milk": "Milk",
+      "smoothie": "Smoothie",
+      "other": "Other"
+    },
+    "amount": "Amount",
+    "date": "Date",
+    "time": "Time",
+    "notes": "Notes",
+    "notesPlaceholder": "Optional notes...",
+    "drinkLoggedSuccess": "Drink logged successfully!",
+    "drinkDeletedSuccess": "Drink deleted successfully!",
+    "failedToLoad": "Failed to load drinks",
+    "failedToLog": "Failed to log drink",
+    "failedToDelete": "Failed to delete drink",
+    "confirmDelete": "Delete this drink log?",
+    "noDrinksToday": "No drinks logged today",
+    "startTracking": "Start tracking your hydration"
   }
 }
