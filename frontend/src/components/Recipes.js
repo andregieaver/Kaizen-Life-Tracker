@@ -461,8 +461,8 @@ const Recipes = ({ athleteId }) => {
                   }}
                 />
                 <div className="flex justify-between text-xs text-gray-600 mt-2">
-                  <span>1 serving</span>
-                  <span>12 servings</span>
+                  <span>{t('recipes.servingSingular')}</span>
+                  <span>{t('recipes.servingsPlural', { count: 12 })}</span>
                 </div>
               </div>
 
