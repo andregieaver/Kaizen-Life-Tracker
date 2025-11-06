@@ -4645,7 +4645,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                       value={commentText[post.id] || ''}
                       onChange={(e) => setCommentText({ ...commentText, [post.id]: e.target.value })}
                       onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
-                      placeholder="Write a comment..."
+                      placeholder={t('community.post.writeComment')}
                       className="flex-1 bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
                     />
                     <Button
