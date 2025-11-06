@@ -4872,7 +4872,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
               type="text"
               value={groupData.name}
               onChange={(e) => setGroupData({ ...groupData, name: e.target.value })}
-              placeholder="Enter group name"
+              placeholder={t('community.group.enterGroupName')}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             />
           </div>
@@ -5033,7 +5033,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
               type="text"
               value={groupData.name}
               onChange={(e) => setGroupData({ ...groupData, name: e.target.value })}
-              placeholder="Enter group name"
+              placeholder={t('community.group.enterGroupName')}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             />
           </div>
