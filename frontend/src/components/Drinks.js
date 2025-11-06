@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { GlassWater, Plus, X, Trash2, Calendar as CalendarIcon, Clock, Droplets } from 'lucide-react';
@@ -7,6 +8,7 @@ import { GlassWater, Plus, X, Trash2, Calendar as CalendarIcon, Clock, Droplets 
 const API = process.env.REACT_APP_BACKEND_URL ? `${process.env.REACT_APP_BACKEND_URL}/api` : 'http://localhost:8001/api';
 
 const Drinks = ({ athleteId }) => {
+  const { t } = useTranslation();
   const [drinks, setDrinks] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
