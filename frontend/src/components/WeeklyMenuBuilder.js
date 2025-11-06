@@ -362,7 +362,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
                 >
                   <Save className="w-4 h-4 mr-2" />
-                  Save Menu
+                  {t('weeklyMenu.saveMenu')}
                 </Button>
                 <Button
                   onClick={() => {
@@ -373,7 +373,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                   className="bg-gray-700 text-white border-0 hover:bg-gray-600"
                 >
                   <X className="w-4 h-4 mr-2" />
-                  Cancel
+                  {t('weeklyMenu.cancel')}
                 </Button>
               </div>
             </div>
