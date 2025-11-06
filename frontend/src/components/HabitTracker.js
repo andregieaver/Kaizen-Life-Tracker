@@ -405,7 +405,7 @@ const HabitTracker = ({ athleteId }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
           <div className="w-full max-w-md max-h-[90vh] overflow-y-auto bg-gradient-to-br from-gray-900 to-gray-800 p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">{editingHabit ? 'Edit Habit' : 'Add New Habit'}</h3>
+              <h3 className="text-xl font-bold text-white">{editingHabit ? t('habits.editHabit') : t('habits.addHabit')}</h3>
               <button onClick={closeModal} className="p-2 hover:bg-gray-700 rounded-lg text-white">
                   <X className="w-5 h-5" />
                 </button>
@@ -414,19 +414,19 @@ const HabitTracker = ({ athleteId }) => {
             <div className="space-y-4">
               {/* Title */}
               <div>
-                <Label htmlFor="title" className="text-white">Habit Name *</Label>
+                <Label htmlFor="title" className="text-white">{t('habits.habitTitle')} *</Label>
                 <Input
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="e.g., Drink Water, Morning Run"
+                  placeholder={t('habits.habitTitlePlaceholder')}
                   className="mt-1 bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
                 />
               </div>
 
               {/* Days of Week */}
               <div>
-                <Label className="text-white">Active Days *</Label>
+                <Label className="text-white">{t('habits.selectDays')} *</Label>
                 <div className="grid grid-cols-7 gap-2 mt-2">
                   {DAYS_OF_WEEK.map(day => (
                     <button
