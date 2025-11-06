@@ -425,16 +425,16 @@ const Recipes = ({ athleteId }) => {
                 <div className="flex flex-wrap items-center gap-4 text-gray-600">
                   <div className="flex items-center gap-2">
                     <Clock className="w-5 h-5" />
-                    <span><strong>Prep:</strong> {selectedRecipe.prep_time} min</span>
+                    <span><strong>{t('recipes.prep')}:</strong> {selectedRecipe.prep_time} {t('recipes.minutes')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="w-5 h-5" />
-                    <span><strong>Cook:</strong> {selectedRecipe.cook_time} min</span>
+                    <span><strong>{t('recipes.cook')}:</strong> {selectedRecipe.cook_time} {t('recipes.minutes')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="w-5 h-5 text-purple-600" />
                     <span className="font-semibold text-purple-600">
-                      <strong>Total:</strong> {selectedRecipe.prep_time + selectedRecipe.cook_time} min
+                      <strong>{t('recipes.total')}:</strong> {selectedRecipe.prep_time + selectedRecipe.cook_time} {t('recipes.minutes')}
                     </span>
                   </div>
                 </div>
