@@ -160,13 +160,13 @@ const Memories = ({ athleteId }) => {
   };
 
   const handleDeleteMemory = async (memoryId) => {
-    if (!window.confirm('Are you sure you want to delete this memory? This action cannot be undone.')) {
+    if (!window.confirm(t('memories.confirmDelete'))) {
       return;
     }
 
     try {
       await axios.delete(`${API}/api/memories/${memoryId}`);
-      setSaveStatus({ type: 'success', message: 'Memory deleted successfully!' });
+      setSaveStatus({ type: 'success', message: t('memories.memoryDeleted') });
       loadMemories();
       loadCategories();
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
@@ -174,7 +174,7 @@ const Memories = ({ athleteId }) => {
       console.error('Error deleting memory:', error);
       setSaveStatus({ 
         type: 'error', 
-        message: error.response?.data?.detail || 'Failed to delete memory' 
+        message: error.response?.data?.detail || t('memories.errorDeleting')
       });
     }
   };
