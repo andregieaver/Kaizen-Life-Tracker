@@ -7139,10 +7139,10 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
         
         <div className="p-6 pt-4 flex space-x-3">
           <Button onClick={onCreate} className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white">
-            Create Event
+            {t('common.createEvent')}
           </Button>
           <Button onClick={onClose} className="flex-1 bg-gray-700 hover:bg-gray-600 text-white">
-            Cancel
+            {t('common.cancel')}
           </Button>
         </div>
       </div>
