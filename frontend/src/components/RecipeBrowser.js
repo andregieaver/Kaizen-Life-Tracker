@@ -68,7 +68,7 @@ const RecipeBrowser = ({ athleteId }) => {
   };
 
   const deleteRecipe = async (recipeId) => {
-    if (!window.confirm('Are you sure you want to delete this recipe?')) {
+    if (!window.confirm(t('recipeBrowser.confirmDelete'))) {
       return;
     }
 
@@ -82,7 +82,7 @@ const RecipeBrowser = ({ athleteId }) => {
       }
     } catch (error) {
       console.error('Error deleting recipe:', error);
-      alert('Failed to delete recipe. Please try again.');
+      alert(t('recipeBrowser.failedToDelete'));
     }
   };
 
