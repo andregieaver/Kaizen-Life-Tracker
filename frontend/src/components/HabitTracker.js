@@ -21,6 +21,7 @@ const DAYS_OF_WEEK = [
 ];
 
 const HabitTracker = ({ athleteId }) => {
+  const { t } = useTranslation();
   const [habits, setHabits] = useState([]);
   const [completions, setCompletions] = useState({});
   const [showModal, setShowModal] = useState(false);
