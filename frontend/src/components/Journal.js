@@ -519,7 +519,7 @@ const Journal = ({ athleteId }) => {
                   }`}
                 >
                   <FileText className="w-4 h-4 inline mr-1" />
-                  Text
+                  {t('journal.text')}
                 </button>
                 <button
                   onClick={() => {
@@ -533,7 +533,7 @@ const Journal = ({ athleteId }) => {
                   }`}
                 >
                   <Mic className="w-4 h-4 inline mr-1" />
-                  Voice
+                  {t('journal.voice')}
                 </button>
                 <button
                   onClick={() => {
@@ -547,7 +547,7 @@ const Journal = ({ athleteId }) => {
                   }`}
                 >
                   <Video className="w-4 h-4 inline mr-1" />
-                  Video
+                  {t('journal.video')}
                 </button>
               </div>
 
