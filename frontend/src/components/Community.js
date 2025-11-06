@@ -5655,7 +5655,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
           <textarea
             value={newPostContent}
             onChange={(e) => setNewPostContent(e.target.value)}
-            placeholder="Share something with the group..."
+            placeholder={t('community.post.shareWithGroup')}
             className="w-full bg-gray-600 text-white rounded-lg p-4 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
             rows="3"
           />
