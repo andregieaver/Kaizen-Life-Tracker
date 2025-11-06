@@ -178,6 +178,7 @@ const CalculatorModal = ({ calculatorId, calculators, athletePreferences, onClos
 
 // Pace Calculator Component
 const PaceCalculator = ({ athletePreferences }) => {
+  const { t } = useTranslation();
   // Determine default unit from athlete preferences
   const getDefaultUnit = () => {
     if (!athletePreferences) return 'km';
