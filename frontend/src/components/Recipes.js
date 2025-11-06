@@ -365,7 +365,7 @@ const Recipes = ({ athleteId }) => {
                               onClick={() => openRecipeDetail(recipe)}
                               className="text-purple-600 hover:text-purple-700"
                             >
-                              View Recipe
+                              {t('recipes.viewRecipe')}
                             </Button>
                             <Button
                               variant="ghost"
@@ -376,7 +376,7 @@ const Recipes = ({ athleteId }) => {
                               }}
                               className="text-red-600 hover:text-red-700"
                             >
-                              Delete
+                              {t('common.delete')}
                             </Button>
                           </div>
                         </div>
