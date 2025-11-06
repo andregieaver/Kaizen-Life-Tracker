@@ -539,7 +539,7 @@ const Recipes = ({ athleteId }) => {
               {/* Rating Section */}
               <div className="flex items-center justify-between pt-6 border-t">
                 <div>
-                  <p className="text-sm text-gray-600 mb-2">Rate this recipe</p>
+                  <p className="text-sm text-gray-600 mb-2">{t('recipes.rateThisRecipe')}</p>
                   <div className="flex gap-1">
                     {[1, 2, 3, 4, 5].map(star => (
                       <button
