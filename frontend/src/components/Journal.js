@@ -242,13 +242,13 @@ const Journal = ({ athleteId }) => {
       setVideoTranscription(response.data.transcription);
       setVideoSrtContent(response.data.srt);
       setTextContent(response.data.transcription);
-      setSaveStatus({ type: 'success', message: 'Video transcribed successfully!' });
+      setSaveStatus({ type: 'success', message: t('journal.videoTranscribedSuccess') });
       
     } catch (error) {
       console.error('Error transcribing video:', error);
       setSaveStatus({ 
         type: 'error', 
-        message: error.response?.data?.detail || 'Failed to transcribe video. You can still save the video without transcription.' 
+        message: error.response?.data?.detail || t('journal.failedToTranscribeVideo')
       });
     } finally {
       setIsTranscribing(false);
