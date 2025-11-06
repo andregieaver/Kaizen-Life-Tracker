@@ -472,6 +472,22 @@
       "createFirstGroup": "Opprett din første gruppe!"
     }
   },
+  "nutrition": {
+    "title": "Ernæringssporing",
+    "mealTypes": {
+      "breakfast": "Frokost",
+      "lunch": "Lunsj",
+      "dinner": "Middag",
+      "snack": "Snacks"
+    },
+    "addMeal": "Legg til måltid",
+    "logNutrition": "Logg ernæring",
+    "analyzingImage": "Analyserer bilde...",
+    "noEntries": "Ingen ernæringsoppføringer ennå",
+    "startTracking": "Start å spore ernæringen din for å se innsikt",
+    "viewDay": "Dag",
+    "viewWeek": "Uke"
+  },
   "dashboard": {
     "modals": {
       "referralRewards": "Henvisningsbelønninger",
