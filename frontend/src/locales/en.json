@@ -4,9 +4,22 @@
     "coach": "AI Coach",
     "reports": "Reports",
     "calendar": "Calendar",
+    "trainingCalendar": "Training Calendar",
     "history": "History",
     "account": "Account",
-    "home": "Home"
+    "home": "Home",
+    "today": "Today",
+    "schedule": "Schedule",
+    "nutrition": "Nutrition",
+    "journal": "Journal",
+    "recipes": "Recipes",
+    "habitTracker": "Habit Tracker",
+    "tests": "Tests & Analytics",
+    "merits": "Merits",
+    "memories": "Memories",
+    "supplements": "Supplements",
+    "community": "Community",
+    "systemSettings": "System Settings"
   },
   "auth": {
     "login": "Log In",
