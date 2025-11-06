@@ -72,10 +72,10 @@ const Support = ({ athleteId, athlete }) => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2 flex items-center">
             <HelpCircle className="mr-3 text-teal-500" size={36} />
-            Support
+            {t('support.title')}
           </h1>
           <p className="text-gray-400">
-            Need help? Send us a message and we'll get back to you as soon as possible.
+            {t('support.subtitle')}
           </p>
         </div>
 
@@ -84,7 +84,7 @@ const Support = ({ athleteId, athlete }) => {
           <CardHeader>
             <CardTitle className="flex items-center text-white">
               <Mail className="mr-2 text-teal-500" />
-              Contact Support
+              {t('support.contactSupport')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -93,9 +93,9 @@ const Support = ({ athleteId, athlete }) => {
               <div className="mb-6 p-4 bg-green-900/30 border border-green-500/50 rounded-lg flex items-start">
                 <CheckCircle className="mr-3 text-green-500 flex-shrink-0 mt-0.5" size={20} />
                 <div>
-                  <p className="font-semibold text-green-400">Success!</p>
+                  <p className="font-semibold text-green-400">{t('support.successTitle')}</p>
                   <p className="text-green-300 text-sm mt-1">
-                    Your support request has been submitted successfully. We'll get back to you soon at {formData.email}
+                    {t('support.successMessage')}
                   </p>
                 </div>
               </div>
@@ -106,7 +106,7 @@ const Support = ({ athleteId, athlete }) => {
               <div className="mb-6 p-4 bg-red-900/30 border border-red-500/50 rounded-lg flex items-start">
                 <AlertCircle className="mr-3 text-red-500 flex-shrink-0 mt-0.5" size={20} />
                 <div>
-                  <p className="font-semibold text-red-400">Error</p>
+                  <p className="font-semibold text-red-400">{t('support.errorTitle')}</p>
                   <p className="text-red-300 text-sm mt-1">
                     {errorMessage}
                   </p>
@@ -119,7 +119,7 @@ const Support = ({ athleteId, athlete }) => {
               {/* Name Field */}
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                  Your Name <span className="text-red-500">*</span>
+                  {t('support.name')} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -129,7 +129,7 @@ const Support = ({ athleteId, athlete }) => {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                  placeholder="John Doe"
+                  placeholder={t('support.namePlaceholder')}
                 />
               </div>
 
