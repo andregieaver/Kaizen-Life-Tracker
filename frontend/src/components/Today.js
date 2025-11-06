@@ -210,24 +210,24 @@ const Today = ({ athleteId }) => {
           <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
             <h3 className="flex items-center gap-2 text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
               <Activity className="w-5 h-5" style={{ color: 'var(--c-brand-500)' }} />
-              Training Load
+              {t('today.trainingLoad')}
             </h3>
-            <p className="text-sm" style={{ color: 'var(--text-med)' }}>Today's activity summary</p>
+            <p className="text-sm" style={{ color: 'var(--text-med)' }}>{t('today.todaysActivitySummary')}</p>
           </div>
           <div className="p-4 space-y-4">
             {/* Training Load Value */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm" style={{ color: 'var(--text-med)' }}>Total Load</span>
+                <span className="text-sm" style={{ color: 'var(--text-med)' }}>{t('today.totalLoad')}</span>
                 <span className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--c-brand-500)' }}>
                   {todayData.trainingLoad}
                   <span className="text-sm ml-1" style={{ color: 'var(--text-muted)' }}>
-                    {todayData.workouts.length > 0 && todayData.workouts[0].distance ? 'km' : 'min'}
+                    {todayData.workouts.length > 0 && todayData.workouts[0].distance ? t('common.km') : t('today.min')}
                   </span>
                 </span>
               </div>
               <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                From {todayData.workouts.length} workout{todayData.workouts.length !== 1 ? 's' : ''}
+                {t('today.fromWorkouts', { count: todayData.workouts.length })}
               </div>
             </div>
 
