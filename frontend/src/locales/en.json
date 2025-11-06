@@ -568,6 +568,37 @@
     "viewDay": "Day",
     "viewWeek": "Week"
   },
+  "habits": {
+    "title": "Habit Tracker",
+    "subtitle": "Build consistency with daily habit tracking",
+    "addHabit": "Add Habit",
+    "editHabit": "Edit Habit",
+    "habitTitle": "Habit Title",
+    "habitTitlePlaceholder": "e.g., Drink 8 glasses of water",
+    "frequency": "Frequency",
+    "selectDays": "Select Days",
+    "timesPerDay": "Times per day",
+    "currentStreak": "Current Streak",
+    "days": "days",
+    "noHabitsYet": "No habits yet",
+    "startTracking": "Start building habits to improve your routine",
+    "daysOfWeek": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    }
+  },
   "placeholders": {
     "selectWorkoutType": "Select workout type",
     "workoutNotes": "How did the workout feel? Any observations?",
