@@ -464,7 +464,16 @@
       "clickToViewFullSize": "Klikk for å se i full størrelse",
       "approve": "Godkjenn",
       "reject": "Avvis",
-      "deleteComment": "Slett kommentar"
+      "deleteComment": "Slett kommentar",
+      "editGroup": "Rediger gruppe",
+      "createChallenge": "Opprett utfordring",
+      "createPost": "Opprett innlegg",
+      "createEvent": "Opprett arrangement",
+      "createGroup": "Opprett gruppe",
+      "challengeCreator": "Utfordringsskaper",
+      "recurringChallenge": "Gjentakende utfordring",
+      "addMedia": "Legg til bilder eller video (maks 5, 1 video)",
+      "maxMediaItems": "Maksimalt 5 medieelementer"
     },
     "emptyStates": {
       "noPostsYet": "Ingen innlegg ennå",
