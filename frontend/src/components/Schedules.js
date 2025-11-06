@@ -273,7 +273,7 @@ const Schedules = ({ athleteId }) => {
                   value={scheduleForm.prompt}
                   onChange={(e) => setScheduleForm(prev => ({ ...prev, prompt: e.target.value }))}
                   className="w-full min-h-24 p-3 border border-gray-500 rounded-md input-focus resize-none bg-gray-600 text-white placeholder-gray-400"
-                  placeholder="Describe what you want the AI to analyze..."
+                  placeholder={t('schedules.analyzePrompt')}
                   data-testid="schedule-prompt-textarea"
                 />
               </div>
