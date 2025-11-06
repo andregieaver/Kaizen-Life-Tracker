@@ -670,6 +670,27 @@
       "cookiesScanError": "Kunne ikke skanne informasjonskapsler. Vennligst prøv igjen."
     }
   },
+  "support": {
+    "title": "Support",
+    "subtitle": "Trenger du hjelp? Send oss en melding, så kommer vi tilbake til deg så snart som mulig.",
+    "contactSupport": "Kontakt support",
+    "formTitle": "Send supportforespørsel",
+    "name": "Ditt navn",
+    "namePlaceholder": "Skriv inn navnet ditt",
+    "email": "Din e-post",
+    "emailPlaceholder": "din.epost@eksempel.no",
+    "subject": "Emne",
+    "subjectPlaceholder": "Hva kan vi hjelpe deg med?",
+    "message": "Melding",
+    "messagePlaceholder": "Vennligst beskriv problemet eller spørsmålet ditt i detalj...",
+    "messageCount": "{{count}} / 1000 tegn",
+    "submit": "Send melding",
+    "submitting": "Sender...",
+    "successTitle": "Melding sendt!",
+    "successMessage": "Takk for at du kontaktet oss. Vi har mottatt meldingen din og vil svare så snart som mulig.",
+    "errorTitle": "Kunne ikke sende melding",
+    "errorMessage": "Kunne ikke sende supportforespørsel. Vennligst prøv igjen eller kontakt support@kaizenlifetracker.com direkte."
+  },
   "merits": {
     "title": "Meritter",
     "distance": "Distanse",
