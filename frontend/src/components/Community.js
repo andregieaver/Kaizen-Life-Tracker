@@ -5457,7 +5457,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               <button
                 onClick={onEditGroup}
                 className="p-2 bg-[#00C2A8] hover:bg-[#00a890] rounded-lg transition-colors"
-                title="Edit Group"
+                title={t('community.actions.editGroup')}
               >
                 <Edit2 className="w-5 h-5 text-white" />
               </button>
