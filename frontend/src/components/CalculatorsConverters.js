@@ -125,6 +125,7 @@ const CalculatorsConverters = ({ athleteId }) => {
 
 // Full-Page Calculator Modal Component
 const CalculatorModal = ({ calculatorId, calculators, athletePreferences, onClose }) => {
+  const { t } = useTranslation();
   const calculator = calculators.find(c => c.id === calculatorId);
   const IconComponent = calculator.icon;
 
