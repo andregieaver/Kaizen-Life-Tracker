@@ -2610,7 +2610,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                               }}
                               className="bg-gray-600 hover:bg-gray-500 text-white"
                             >
-                              Cancel
+                              {t('common.cancel')}
                             </Button>
                           </div>
                         </div>
@@ -2973,7 +2973,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                             }}
                             className="bg-gray-600 hover:bg-gray-500 text-white"
                           >
-                            Cancel
+                            {t('common.cancel')}
                           </Button>
                         </div>
                       </div>
@@ -4045,7 +4045,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                     }}
                     className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-white"
                   >
-                    Cancel
+                    {t('common.cancel')}
                   </Button>
                   <Button
                     onClick={handleWritePost}
@@ -4160,7 +4160,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   onClick={() => setShowShareModal(false)}
                   className="px-6 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </Button>
                 <Button
                   onClick={submitSharePost}
@@ -4438,7 +4438,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                   }}
                   className="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded-lg"
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </Button>
               </div>
             </div>
@@ -4923,7 +4923,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
             onClick={onClose}
             className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
           >
-            Cancel
+            {t('common.cancel')}
           </Button>
         </div>
       </div>
@@ -5084,7 +5084,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
             onClick={onClose}
             className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
           >
-            Cancel
+            {t('common.cancel')}
           </Button>
         </div>
       </div>
@@ -6002,7 +6002,7 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
                 onClick={onCancel}
                 className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
               >
-                Cancel
+                {t('common.cancel')}
               </Button>
             </div>
           </>
@@ -6533,7 +6533,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                 onClick={onClose}
                 className="px-6 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors"
               >
-                Cancel
+                {t('common.cancel')}
               </button>
               <button
                 onClick={onCreate}
@@ -6956,7 +6956,7 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
                 onClick={onClose}
                 className="px-6 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors"
               >
-                Cancel
+                {t('common.cancel')}
               </button>
               <button
                 onClick={onSave}
