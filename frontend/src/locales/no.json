@@ -1186,5 +1186,41 @@
       "drops": "dråper",
       "other": "annet"
     }
+  },
+  "recipes": {
+    "title": "Oppskriftsgenerator",
+    "subtitle": "Generer AI-drevne oppskrifter tilpasset dine ernæringsbehov",
+    "generateNew": "Generer ny oppskrift",
+    "selectMealType": "Velg måltidstype og generer en personlig oppskrift",
+    "mealType": "Måltidstype",
+    "generateRecipe": "Generer oppskrift",
+    "generating": "Genererer...",
+    "generatingMessage": "Genererer {{mealType}} oppskrift... (dette kan ta 30-60 sekunder)",
+    "recipeGenerated": "✅ Oppskrift generert: {{name}}",
+    "generationFailed": "❌ Generering feilet (Status: {{status}}): {{detail}}",
+    "confirmDeleteRecipe": "Er du sikker på at du vil slette denne oppskriften?",
+    "noRecipesYet": "Ingen oppskrifter ennå",
+    "useFormAbove": "Bruk skjemaet ovenfor for å generere din første AI-drevne oppskrift",
+    "filterBy": "Filtrer etter:",
+    "allMeals": "Alle måltider",
+    "viewRecipe": "Vis oppskrift",
+    "deleteRecipe": "Slett oppskrift",
+    "servings": "Porsjoner",
+    "servingsCount": "{{count}} porsjoner",
+    "servingSingular": "1 porsjon",
+    "servingsPlural": "{{count}} porsjoner",
+    "minutes": "min",
+    "prep": "Forberedelse",
+    "cook": "Tilberedning",
+    "total": "Totalt",
+    "perServing": "per porsjon",
+    "ingredients": "Ingredienser",
+    "preparationInstructions": "Tilberedningsinstruksjoner",
+    "rateThisRecipe": "Vurder denne oppskriften",
+    "mealTypes": {
+      "breakfast": "🍳 Frokost",
+      "lunch": "🥗 Lunsj",
+      "dinner": "🍽️ Middag"
+    }
   }
 }
