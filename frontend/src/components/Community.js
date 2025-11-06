@@ -6337,7 +6337,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                 value={challengeData.title}
                 onChange={(e) => setChallengeData({ ...challengeData, title: e.target.value })}
                 className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
-                placeholder="e.g., Run 100km in January"
+                placeholder={t('community.challenge.enterChallengeName')}
               />
             </div>
 
