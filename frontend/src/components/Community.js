@@ -669,12 +669,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     const newVideos = files.filter(f => f.type.startsWith('video/'));
     
     if (currentVideoCount > 0 && newVideos.length > 0) {
-      alert('You can only upload 1 video per post');
+      alert(t('community.messages.oneVideoPerPost'));
       return;
     }
     
     if (newVideos.length > 1) {
-      alert('You can only upload 1 video per post');
+      alert(t('community.messages.oneVideoPerPost'));
       return;
     }
 
@@ -792,7 +792,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
     
     if (newVideos.length > 1) {
-      alert('You can only upload 1 video per post');
+      alert(t('community.messages.oneVideoPerPost'));
       return;
     }
 
