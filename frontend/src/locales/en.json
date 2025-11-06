@@ -1313,5 +1313,34 @@
       "halfMarathon": "Half Marathon",
       "marathon": "Marathon"
     }
+  },
+  "calculators": {
+    "title": "Calculators & Converters",
+    "subtitle": "Useful tools to help you track and optimize your fitness journey",
+    "openCalculator": "Open Calculator",
+    "runningPaceTitle": "Calculate Running Pace",
+    "runningPaceDesc": "Calculate your pace per mile or kilometer based on distance and time",
+    "racePredictorTitle": "Race Time Predictor",
+    "racePredictorDesc": "Predict your finish times for other race distances based on a recent result",
+    "finishingPercentageTitle": "Calculate Finishing Percentage",
+    "finishingPercentageDesc": "Estimate your race finishing position based on your time",
+    "bodyFatTitle": "Calculate Body Fat Percentage",
+    "bodyFatDesc": "Calculate body fat percentage using various measurement methods",
+    "enterYourPace": "Enter Your Pace",
+    "selectYourPace": "Select your pace per {{unit}}",
+    "minutes": "Minutes",
+    "seconds": "Seconds",
+    "per": "Per",
+    "kilometer": "Kilometer (km)",
+    "mile": "Mile (mi)",
+    "yourPace": "Your pace:",
+    "perKm": "per km",
+    "perMile": "per mile",
+    "finishTimes": "Finish Times",
+    "estimatedFinishTimes": "Estimated finish times for various distances",
+    "distance": "Distance",
+    "time": "Time",
+    "halfMarathon": "Half Marathon",
+    "marathon": "Marathon"
   }
 }
