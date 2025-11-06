@@ -4050,14 +4050,14 @@ const SystemSettings = ({ athleteId }) => {
                   {/* Favicon Upload */}
                   <div className="space-y-2">
                     <Label className="text-xs font-medium text-gray-300">
-                      Favicon (16x16 or 32x32 recommended)
+                      {t('systemSettings.advanced.favicon')} (16x16 or 32x32 recommended)
                     </Label>
                     <div className="flex items-center gap-4">
                       {advancedSettings.seo.faviconUrl && (
                         <div className="w-12 h-12 bg-gray-900 rounded border border-gray-700 flex items-center justify-center overflow-hidden">
                           <img
                             src={`${BACKEND_URL}${advancedSettings.seo.faviconUrl}`}
-                            alt="Favicon preview"
+                            alt={t('systemSettings.faviconPreview')}
                             className="w-full h-full object-contain"
                           />
                         </div>
@@ -4075,7 +4075,7 @@ const SystemSettings = ({ athleteId }) => {
                           className="inline-flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded cursor-pointer transition-colors"
                         >
                           <Upload className="w-4 h-4" />
-                          Upload Favicon
+                          {t('systemSettings.advanced.uploadFavicon')}
                         </label>
                       </div>
                     </div>
@@ -4087,14 +4087,14 @@ const SystemSettings = ({ athleteId }) => {
                   {/* Logo Upload */}
                   <div className="space-y-2">
                     <Label className="text-xs font-medium text-gray-300">
-                      Logo (Square format recommended)
+                      {t('systemSettings.advanced.logo')} (Square format recommended)
                     </Label>
                     <div className="flex items-center gap-4">
                       {advancedSettings.seo.logoUrl && (
                         <div className="w-16 h-16 bg-gray-900 rounded border border-gray-700 flex items-center justify-center overflow-hidden">
                           <img
                             src={`${BACKEND_URL}${advancedSettings.seo.logoUrl}`}
-                            alt="Logo preview"
+                            alt={t('systemSettings.logoPreview')}
                             className="w-full h-full object-contain"
                           />
                         </div>
@@ -4112,7 +4112,7 @@ const SystemSettings = ({ athleteId }) => {
                           className="inline-flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded cursor-pointer transition-colors"
                         >
                           <Upload className="w-4 h-4" />
-                          Upload Logo
+                          {t('systemSettings.advanced.uploadLogo')}
                         </label>
                       </div>
                     </div>
