@@ -258,9 +258,9 @@ const HabitTracker = ({ athleteId }) => {
         {todayHabits.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12">
             <Check className="w-16 h-16 text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium text-gray-200 mb-2">No habits scheduled for today</h3>
+            <h3 className="text-lg font-medium text-gray-200 mb-2">{t('habits.noHabitsYet')}</h3>
             <p className="text-gray-400 text-center">
-              Add a habit to get started!
+              {t('habits.startTracking')}
             </p>
           </div>
         ) : (
