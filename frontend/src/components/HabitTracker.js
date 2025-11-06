@@ -10,18 +10,18 @@ import { Plus, X, Edit3, Trash2, Check, Flame } from 'lucide-react';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 const API = `${BACKEND_URL}/api`;
 
-const DAYS_OF_WEEK = [
-  { value: 'monday', label: 'Mon', full: 'Monday' },
-  { value: 'tuesday', label: 'Tue', full: 'Tuesday' },
-  { value: 'wednesday', label: 'Wed', full: 'Wednesday' },
-  { value: 'thursday', label: 'Thu', full: 'Thursday' },
-  { value: 'friday', label: 'Fri', full: 'Friday' },
-  { value: 'saturday', label: 'Sat', full: 'Saturday' },
-  { value: 'sunday', label: 'Sun', full: 'Sunday' }
-];
-
 const HabitTracker = ({ athleteId }) => {
   const { t } = useTranslation();
+  
+  const DAYS_OF_WEEK = [
+    { value: 'monday', label: t('habits.daysOfWeek.mon'), full: t('habits.daysOfWeek.monday') },
+    { value: 'tuesday', label: t('habits.daysOfWeek.tue'), full: t('habits.daysOfWeek.tuesday') },
+    { value: 'wednesday', label: t('habits.daysOfWeek.wed'), full: t('habits.daysOfWeek.wednesday') },
+    { value: 'thursday', label: t('habits.daysOfWeek.thu'), full: t('habits.daysOfWeek.thursday') },
+    { value: 'friday', label: t('habits.daysOfWeek.fri'), full: t('habits.daysOfWeek.friday') },
+    { value: 'saturday', label: t('habits.daysOfWeek.sat'), full: t('habits.daysOfWeek.saturday') },
+    { value: 'sunday', label: t('habits.daysOfWeek.sun'), full: t('habits.daysOfWeek.sunday') }
+  ];
   const [habits, setHabits] = useState([]);
   const [completions, setCompletions] = useState({});
   const [showModal, setShowModal] = useState(false);
