@@ -6374,7 +6374,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                     value={challengeData.goal_value}
                     onChange={(e) => setChallengeData({ ...challengeData, goal_value: e.target.value })}
                     className="flex-1 px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
-                    placeholder="100"
+                    placeholder={t('community.challenge.targetValue')}
                     step="any"
                   />
                   <span className="px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-gray-400">
