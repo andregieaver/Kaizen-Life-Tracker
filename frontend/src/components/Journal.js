@@ -379,8 +379,8 @@ const Journal = ({ athleteId }) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Journal</h1>
-          <p className="text-gray-300 mt-1">Record your thoughts, feelings, and progress</p>
+          <h1 className="text-2xl font-bold text-white">{t('journal.title')}</h1>
+          <p className="text-gray-300 mt-1">{t('journal.subtitle')}</p>
         </div>
         <Button 
           onClick={() => setShowModal(true)}
@@ -390,7 +390,7 @@ const Journal = ({ athleteId }) => {
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
         >
           <Plus className="w-4 h-4 mr-2" />
-          New Entry
+          {t('journal.newEntry')}
         </Button>
       </div>
 
