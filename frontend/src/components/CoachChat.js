@@ -101,7 +101,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       const athlete = response.data;
       setUserAvatar(athlete.profile_picture);
       setCoachAvatar(athlete.coach_avatar);
-      setCoachName(athlete.coach_name || 'Coach');
+      setCoachName(athlete.coach_name || t('coachChat.defaultCoachName'));
     } catch (error) {
       console.error('Error loading athlete profile:', error);
     }
