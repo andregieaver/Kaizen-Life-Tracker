@@ -77,20 +77,20 @@ const Drinks = ({ athleteId }) => {
       }
     } catch (error) {
       console.error('Error adding drink:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to log drink' });
+      setSaveStatus({ type: 'error', message: t('drinks.failedToLog') });
     }
   };
 
   const handleDeleteDrink = async (drinkId) => {
-    if (!window.confirm('Delete this drink log?')) return;
+    if (!window.confirm(t('drinks.confirmDelete'))) return;
     
     try {
       await axios.delete(`${API}/drinks/${athleteId}/${drinkId}`);
-      setSaveStatus({ type: 'success', message: 'Drink deleted successfully!' });
+      setSaveStatus({ type: 'success', message: t('drinks.drinkDeletedSuccess') });
       loadDrinks();
     } catch (error) {
       console.error('Error deleting drink:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to delete drink' });
+      setSaveStatus({ type: 'error', message: t('drinks.failedToDelete') });
     }
   };
 
