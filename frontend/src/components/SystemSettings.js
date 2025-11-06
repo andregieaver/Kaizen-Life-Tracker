@@ -2426,22 +2426,22 @@ const SystemSettings = ({ athleteId }) => {
           {/* Coupons Tab */}
           <TabsContent value="coupons">
             <div className="text-gray-400 text-sm mb-4">
-              Manage discount coupons for subscriptions and one-time purchases. Coupons can be percentage-based or fixed amount discounts.
+              {t('systemSettings.coupons.description')}
             </div>
             
             {/* Create Coupon Card */}
             <Card className="border-0 shadow-lg bg-gray-800 border-gray-700 mb-6">
               <CardHeader>
-                <h3 className="text-white font-semibold text-lg">Create New Coupon</h3>
+                <h3 className="text-white font-semibold text-lg">{t('systemSettings.coupons.addCoupon')}</h3>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Coupon Code */}
                   <div>
-                    <label className="block text-gray-300 mb-2">Coupon Code *</label>
+                    <label className="block text-gray-300 mb-2">{t('systemSettings.coupons.couponCode')} *</label>
                     <input
                       type="text"
-                      placeholder="SUMMER2025"
+                      placeholder={t('systemSettings.coupons.couponCodePlaceholder')}
                       value={newCoupon.code}
                       onChange={(e) => setNewCoupon({...newCoupon, code: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
@@ -2455,7 +2455,7 @@ const SystemSettings = ({ athleteId }) => {
                     <label className="block text-gray-300 mb-2">Display Name *</label>
                     <input
                       type="text"
-                      placeholder="Summer Sale 2025"
+                      placeholder={t('systemSettings.couponName')}
                       value={newCoupon.name}
                       onChange={(e) => setNewCoupon({...newCoupon, name: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
@@ -2464,20 +2464,20 @@ const SystemSettings = ({ athleteId }) => {
                   
                   {/* Discount Type */}
                   <div>
-                    <label className="block text-gray-300 mb-2">Discount Type *</label>
+                    <label className="block text-gray-300 mb-2">{t('systemSettings.coupons.discountType')} *</label>
                     <select 
                       value={newCoupon.type}
                       onChange={(e) => setNewCoupon({...newCoupon, type: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
                     >
-                      <option value="percentage">Percentage (%)</option>
-                      <option value="fixed">Fixed Amount ($)</option>
+                      <option value="percentage">{t('systemSettings.coupons.percentage')} ({t('systemSettings.coupons.percentageOff')})</option>
+                      <option value="fixed">{t('systemSettings.coupons.fixedAmount')} ({t('systemSettings.coupons.amountOff')})</option>
                     </select>
                   </div>
                   
                   {/* Discount Value */}
                   <div>
-                    <label className="block text-gray-300 mb-2">Discount Value *</label>
+                    <label className="block text-gray-300 mb-2">{t('systemSettings.coupons.discountValue')} *</label>
                     <input
                       type="number"
                       step="0.01"
@@ -2492,7 +2492,7 @@ const SystemSettings = ({ athleteId }) => {
                   
                   {/* Max Uses */}
                   <div>
-                    <label className="block text-gray-300 mb-2">Maximum Uses</label>
+                    <label className="block text-gray-300 mb-2">{t('systemSettings.coupons.maxUses')}</label>
                     <input
                       type="number"
                       min="1"
@@ -2501,12 +2501,12 @@ const SystemSettings = ({ athleteId }) => {
                       onChange={(e) => setNewCoupon({...newCoupon, max_uses: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
                     />
-                    <p className="text-gray-500 text-xs mt-1">Leave empty for unlimited uses</p>
+                    <p className="text-gray-500 text-xs mt-1">Leave empty for {t('systemSettings.coupons.unlimited').toLowerCase()} uses</p>
                   </div>
                   
                   {/* Expiration Date */}
                   <div>
-                    <label className="block text-gray-300 mb-2">Expiration Date</label>
+                    <label className="block text-gray-300 mb-2">{t('systemSettings.coupons.expiryDate')}</label>
                     <input
                       type="datetime-local"
                       value={newCoupon.expires_at}
