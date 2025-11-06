@@ -168,7 +168,7 @@ const Today = ({ athleteId }) => {
                           todayData.caloriesRemaining < -500 ? 'var(--c-danger)' :
                           'var(--c-success)'
                   }} />
-                  <span className="text-sm font-medium" style={{ color: 'var(--text-med)' }}>Remaining</span>
+                  <span className="text-sm font-medium" style={{ color: 'var(--text-med)' }}>{t('today.remaining')}</span>
                 </div>
                 <span className={`text-2xl font-bold`} style={{ 
                   fontFamily: 'var(--font-display)',
@@ -180,9 +180,9 @@ const Today = ({ athleteId }) => {
                 </span>
               </div>
               <div className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
-                {todayData.caloriesRemaining > 500 && 'You need more calories today'}
-                {todayData.caloriesRemaining >= -500 && todayData.caloriesRemaining <= 500 && 'You\'re on track!'}
-                {todayData.caloriesRemaining < -500 && 'You\'ve exceeded your daily goal'}
+                {todayData.caloriesRemaining > 500 && t('today.needMoreCalories')}
+                {todayData.caloriesRemaining >= -500 && todayData.caloriesRemaining <= 500 && t('today.onTrack')}
+                {todayData.caloriesRemaining < -500 && t('today.exceededGoal')}
               </div>
             </div>
 
