@@ -430,7 +430,11 @@
       "enterGroupName": "Skriv inn gruppenavn",
       "describeGroup": "Beskriv gruppen din",
       "enterGroupRules": "Skriv inn grupperegler som medlemmer må akseptere for å bli med (valgfritt)",
-      "searchByName": "Søk etter navn..."
+      "searchByName": "Søk etter navn...",
+      "groupProfileImage": "Gruppeprofilbilde",
+      "groupCoverPhoto": "Gruppens omslagsfoto",
+      "members": "medlemmer",
+      "noPostsYet": "Ingen innlegg ennå. Vær den første til å dele noe!"
     },
     "event": {
       "enterEventName": "Skriv inn arrangementsnavn",
