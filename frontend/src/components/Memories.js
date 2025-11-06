@@ -212,10 +212,10 @@ const Memories = ({ athleteId }) => {
         <div>
           <h2 className="text-2xl font-display font-bold text-white flex items-center gap-2">
             <Brain className="w-7 h-7" style={{ color: '#00C2A8' }} />
-            AI Coach Memories
+            {t('memories.title')}
           </h2>
           <p className="text-sm text-gray-300 mt-1">
-            Manage what your AI coach remembers about you
+            {t('memories.subtitle')}
           </p>
         </div>
         <Button 
@@ -226,7 +226,7 @@ const Memories = ({ athleteId }) => {
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
         >
           <Plus className="w-4 h-4 mr-2" />
-          Add Memory
+          {t('memories.addMemory')}
         </Button>
       </div>
 
