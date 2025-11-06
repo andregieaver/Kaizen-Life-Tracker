@@ -256,17 +256,17 @@ const Recipes = ({ athleteId }) => {
       {/* Filter */}
       {recipes.length > 0 && (
         <div className="flex items-center gap-2">
-          <label className="text-sm font-medium text-gray-300">Filter by:</label>
+          <label className="text-sm font-medium text-gray-300">{t('recipes.filterBy')}</label>
           <select
             value={filterMealType}
             onChange={(e) => setFilterMealType(e.target.value)}
             className="px-4 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2"
             style={{ focusRingColor: '#00C2A8' }}
           >
-            <option value="all">All Meals</option>
-            <option value="breakfast">🍳 Breakfast</option>
-            <option value="lunch">🥗 Lunch</option>
-            <option value="dinner">🍽️ Dinner</option>
+            <option value="all">{t('recipes.allMeals')}</option>
+            <option value="breakfast">{t('recipes.mealTypes.breakfast')}</option>
+            <option value="lunch">{t('recipes.mealTypes.lunch')}</option>
+            <option value="dinner">{t('recipes.mealTypes.dinner')}</option>
           </select>
         </div>
       )}
@@ -274,9 +274,9 @@ const Recipes = ({ athleteId }) => {
       {recipes.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12">
           <ChefHat className="w-16 h-16 text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-200 mb-2">No recipes yet</h3>
+          <h3 className="text-lg font-medium text-gray-200 mb-2">{t('recipes.noRecipesYet')}</h3>
           <p className="text-gray-400 text-center">
-            Use the form above to generate your first AI-powered recipe
+            {t('recipes.useFormAbove')}
           </p>
         </div>
       ) : (
