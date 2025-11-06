@@ -1358,19 +1358,19 @@ const SystemSettings = ({ athleteId }) => {
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center">
               <Settings className="w-8 h-8 text-[#00C2A8] mr-3" />
-              <h1 className="text-3xl font-display font-bold text-white">System Settings</h1>
+              <h1 className="text-3xl font-display font-bold text-white">{t('systemSettings.title')}</h1>
             </div>
             <Button
               onClick={() => navigate('/dashboard/account')}
               className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
-              title="Account Settings"
+              title={t('systemSettings.accountSettings')}
             >
               <User className="w-5 h-5" />
-              <span className="hidden sm:inline font-semibold">Account Settings</span>
+              <span className="hidden sm:inline font-semibold">{t('systemSettings.accountSettings')}</span>
             </Button>
           </div>
           <p className="text-gray-300">
-            Super Admin Dashboard - Monitor and manage system-wide settings
+            {t('systemSettings.subtitle')}
           </p>
         </div>
 
