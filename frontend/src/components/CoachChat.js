@@ -451,7 +451,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                 <div className="p-4 border-b border-gray-700 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Archive className="w-5 h-5 text-gray-400" />
-                    <h3 className="text-lg font-semibold text-white">Archived</h3>
+                    <h3 className="text-lg font-semibold text-white">{t('coachChat.archived')}</h3>
                   </div>
                   <Button
                     variant="ghost"
