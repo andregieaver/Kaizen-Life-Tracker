@@ -586,7 +586,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setShowProfile(true);
     } catch (error) {
       console.error('Error loading profile:', error);
-      alert('Failed to load profile');
+      alert(t('community.messages.failedToLoadProfile'));
     } finally {
       setProfileLoading(false);
     }
