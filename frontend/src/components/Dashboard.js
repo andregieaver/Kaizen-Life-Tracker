@@ -903,7 +903,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                 >
                   <ChefHat className="w-5 h-5" />
-                  <span className="font-medium">Recipes</span>
+                  <span className="font-medium">{t('nav.recipes')}</span>
                 </button>
                 <button
                   onClick={() => {
@@ -920,7 +920,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                 >
                   <Calendar className="w-5 h-5" />
-                  <span className="font-medium">Training Calendar</span>
+                  <span className="font-medium">{t('nav.trainingCalendar')}</span>
                 </button>
                 <button
                   onClick={() => {
@@ -937,7 +937,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                 >
                   <Check className="w-5 h-5" />
-                  <span className="font-medium">Habit Tracker</span>
+                  <span className="font-medium">{t('nav.habitTracker')}</span>
                 </button>
                 <button
                   onClick={() => {
@@ -954,7 +954,7 @@ const Dashboard = ({ athleteId }) => {
                   }}
                 >
                   <Activity className="w-5 h-5" />
-                  <span className="font-medium">History</span>
+                  <span className="font-medium">{t('nav.history')}</span>
                 </button>
 
                 {/* Separator */}
