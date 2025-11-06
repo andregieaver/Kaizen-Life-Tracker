@@ -1339,5 +1339,34 @@
       "halfMarathon": "Halvmaraton",
       "marathon": "Maraton"
     }
+  },
+  "calculators": {
+    "title": "Kalkulatorer og konverteringsverktøy",
+    "subtitle": "Nyttige verktøy for å hjelpe deg med å spore og optimalisere treningsreisen din",
+    "openCalculator": "Åpne kalkulator",
+    "runningPaceTitle": "Beregn løpetempo",
+    "runningPaceDesc": "Beregn tempoet ditt per mil eller kilometer basert på distanse og tid",
+    "racePredictorTitle": "Løpstidsforutsigelse",
+    "racePredictorDesc": "Forutsi sluttidene dine for andre løpsdistanser basert på et nylig resultat",
+    "finishingPercentageTitle": "Beregn sluttposisjon",
+    "finishingPercentageDesc": "Estimer løpssluttposisjonen din basert på tiden din",
+    "bodyFatTitle": "Beregn kroppsfett prosent",
+    "bodyFatDesc": "Beregn kroppsfett prosent ved bruk av ulike målemetoder",
+    "enterYourPace": "Skriv inn tempoet ditt",
+    "selectYourPace": "Velg tempoet ditt per {{unit}}",
+    "minutes": "Minutter",
+    "seconds": "Sekunder",
+    "per": "Per",
+    "kilometer": "Kilometer (km)",
+    "mile": "Mil (mi)",
+    "yourPace": "Ditt tempo:",
+    "perKm": "per km",
+    "perMile": "per mil",
+    "finishTimes": "Sluttider",
+    "estimatedFinishTimes": "Estimerte sluttider for ulike distanser",
+    "distance": "Distanse",
+    "time": "Tid",
+    "halfMarathon": "Halvmaraton",
+    "marathon": "Maraton"
   }
 }
