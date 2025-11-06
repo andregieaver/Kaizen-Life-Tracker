@@ -3724,7 +3724,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '200ms' : '0ms'
         }}
-        title="Create Group"
+        title={t('community.actions.createGroup')}
       >
         <UsersIcon className="w-5 h-5 text-white" />
       </button>
