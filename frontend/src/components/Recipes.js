@@ -566,7 +566,7 @@ const Recipes = ({ athleteId }) => {
                     }}
                     className="bg-red-600 hover:bg-red-700 text-white"
                   >
-                    Delete Recipe
+                    {t('recipes.deleteRecipe')}
                   </Button>
                   <Button
                     onClick={closeRecipeDetail}
