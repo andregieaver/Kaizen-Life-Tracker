@@ -7572,7 +7572,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
           {/* Close Button */}
           <div className="mt-4 sm:mt-6">
             <Button onClick={onClose} className="w-full bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base py-2 sm:py-3">
-              Close
+              {t('common.close')}
             </Button>
           </div>
         </div>
