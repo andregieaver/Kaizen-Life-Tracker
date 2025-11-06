@@ -238,14 +238,14 @@ const Recipes = ({ athleteId }) => {
               {isGenerating ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  <span className="hidden sm:inline">Generating...</span>
+                  <span className="hidden sm:inline">{t('recipes.generating')}</span>
                   <span className="sm:hidden">...</span>
                 </>
               ) : (
                 <>
                   <Sparkles className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">Generate Recipe</span>
-                  <span className="sm:hidden">Generate</span>
+                  <span className="hidden sm:inline">{t('recipes.generateRecipe')}</span>
+                  <span className="sm:hidden">{t('common.create')}</span>
                 </>
               )}
             </Button>
