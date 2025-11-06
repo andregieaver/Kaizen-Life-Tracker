@@ -517,7 +517,9 @@
     "minutes": "Minutes",
     "seconds": "Seconds",
     "enterNewEmail": "Enter your new email",
-    "enterPasswordConfirm": "Enter your password to confirm"
+    "enterPasswordConfirm": "Enter your password to confirm",
+    "whatDidYouHave": "What did you have? (e.g., Oatmeal with berries, Chicken salad)",
+    "additionalNotes": "Any additional notes..."
   },
   "confirmations": {
     "deleteUser": "Delete User",
