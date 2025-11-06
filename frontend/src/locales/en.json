@@ -517,6 +517,21 @@
       "createChallenge": "Create a challenge to motivate the community!",
       "noGroups": "No groups found",
       "createFirstGroup": "Create your first group!"
+    },
+    "messages": {
+      "failedToLoadProfile": "Failed to load profile",
+      "failedToProcessImage": "Failed to process image",
+      "oneVideoPerPost": "You can only upload 1 video per post",
+      "maxMediaItems": "You can upload a maximum of 5 media items (images + video). You currently have {{count}} item(s).",
+      "postCreated": "Post created successfully!",
+      "postDeleted": "Post deleted successfully!",
+      "commentAdded": "Comment added!",
+      "groupCreated": "Group created successfully!",
+      "groupUpdated": "Group updated successfully!",
+      "eventCreated": "Event created successfully!",
+      "challengeCreated": "Challenge created successfully!",
+      "joinedGroup": "Joined group!",
+      "leftGroup": "Left group!"
     }
   },
   "dashboard": {
