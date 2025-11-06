@@ -3533,10 +3533,10 @@ const SystemSettings = ({ athleteId }) => {
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-2">
                   <Cookie className="w-5 h-5" />
-                  Cookie Management
+                  {t('systemSettings.cookies.title')}
                 </CardTitle>
                 <CardDescription className="text-gray-400">
-                  Manage cookies and implement Google Consent Mode v2 compliance
+                  {t('systemSettings.cookies.description')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -3544,7 +3544,7 @@ const SystemSettings = ({ athleteId }) => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between p-4 bg-gray-900 rounded-lg">
                     <div>
-                      <Label className="text-white font-medium">Enable Cookie Consent Banner</Label>
+                      <Label className="text-white font-medium">{t('systemSettings.cookies.enableCookieConsent')}</Label>
                       <p className="text-xs text-gray-400 mt-1">
                         Show cookie consent banner to visitors (Google Consent Mode v2 compliant)
                       </p>
@@ -3564,7 +3564,7 @@ const SystemSettings = ({ athleteId }) => {
                   <div className="p-4 bg-gray-900 rounded-lg space-y-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <Label className="text-white font-medium">Weekly Auto-Scan</Label>
+                        <Label className="text-white font-medium">{t('systemSettings.cookies.autoScanEnabled')}</Label>
                         <p className="text-xs text-gray-400 mt-1">
                           Automatically scan for new cookies every week (Monday 2 AM)
                         </p>
@@ -3583,7 +3583,7 @@ const SystemSettings = ({ athleteId }) => {
                     {/* Manual Scan Button */}
                     <div className="flex items-center justify-between pt-4 border-t border-gray-700">
                       <div>
-                        <Label className="text-white font-medium">Manual Cookie Scan</Label>
+                        <Label className="text-white font-medium">{t('systemSettings.cookies.scanCookies')}</Label>
                         <p className="text-xs text-gray-400 mt-1">
                           Scan for cookies from frontend, backend, and third-party services
                         </p>
@@ -3601,12 +3601,12 @@ const SystemSettings = ({ athleteId }) => {
                         {scanningCookies ? (
                           <>
                             <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                            Scanning...
+                            {t('systemSettings.cookies.scanningCookies')}
                           </>
                         ) : (
                           <>
                             <RefreshCw className="w-4 h-4 mr-2" />
-                            Scan Now
+                            {t('systemSettings.cookies.scanCookies')}
                           </>
                         )}
                       </Button>
