@@ -2165,7 +2165,7 @@ const Nutrition = ({ athleteId }) => {
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="What did you have? (e.g., Oatmeal with berries, Chicken salad)"
+                  placeholder={t('placeholders.whatDidYouHave')}
                   className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                 />
               </div>
