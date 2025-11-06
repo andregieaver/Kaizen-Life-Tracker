@@ -68,10 +68,10 @@ const CalculatorsConverters = ({ athleteId }) => {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-display font-bold text-white mb-2">
-          Calculators & Converters
+          {t('calculators.title')}
         </h1>
         <p className="text-gray-300">
-          Useful tools to help you track and optimize your fitness journey
+          {t('calculators.subtitle')}
         </p>
       </div>
 
