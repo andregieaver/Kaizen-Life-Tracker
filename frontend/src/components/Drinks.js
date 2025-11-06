@@ -50,7 +50,7 @@ const Drinks = ({ athleteId }) => {
       setDrinks(response.data.drinks || []);
     } catch (error) {
       console.error('Error loading drinks:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to load drinks' });
+      setSaveStatus({ type: 'error', message: t('drinks.failedToLoad') });
     } finally {
       setIsLoading(false);
     }
