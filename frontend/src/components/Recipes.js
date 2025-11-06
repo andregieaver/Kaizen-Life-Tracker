@@ -445,7 +445,7 @@ const Recipes = ({ athleteId }) => {
                 <div className="flex items-center justify-between mb-4">
                   <label className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                     <Users className="w-5 h-5 text-purple-600" />
-                    Servings
+                    {t('recipes.servings')}
                   </label>
                   <span className="text-2xl font-bold text-purple-600">{adjustedServings}</span>
                 </div>
