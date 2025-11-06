@@ -246,7 +246,7 @@ const Schedules = ({ athleteId }) => {
                     id="schedule-name"
                     value={scheduleForm.name}
                     onChange={(e) => setScheduleForm(prev => ({ ...prev, name: e.target.value }))}
-                    placeholder="e.g., Daily Recovery Review"
+                    placeholder={t('schedules.presets.dailyRecovery.name')}
                     className="input-focus bg-gray-600 border-gray-500 text-white placeholder-gray-400"
                     data-testid="schedule-name-input"
                   />
