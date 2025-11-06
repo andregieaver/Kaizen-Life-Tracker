@@ -1817,7 +1817,7 @@ const Nutrition = ({ athleteId }) => {
                         }}
                         className="w-full flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors"
                       >
-                        <span className="text-sm font-semibold text-gray-700">Micronutrients</span>
+                        <span className="text-sm font-semibold text-gray-700">{t('nutrition.micros.micronutrients')}</span>
                         {expandedMicros[entry.id] ? (
                           <ChevronUp className="w-4 h-4 text-gray-400" />
                         ) : (
