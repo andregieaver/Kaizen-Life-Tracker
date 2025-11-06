@@ -234,13 +234,13 @@ const Today = ({ athleteId }) => {
             {/* Workout List */}
             {todayData.workouts.length > 0 ? (
               <div className="space-y-2">
-                <h4 className="text-sm font-medium" style={{ color: 'var(--text-med)' }}>Today's Workouts</h4>
+                <h4 className="text-sm font-medium" style={{ color: 'var(--text-med)' }}>{t('today.todaysWorkouts')}</h4>
                 {todayData.workouts.map((workout, index) => (
                   <div key={index} className="p-3 rounded-2xl" style={{ background: 'var(--grad-cta-soft)', border: '1px solid var(--border)' }}>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Flame className="w-4 h-4" style={{ color: 'var(--c-warning)' }} />
-                        <span className="text-sm font-medium" style={{ color: 'var(--text-hi)' }}>{workout.name || 'Workout'}</span>
+                        <span className="text-sm font-medium" style={{ color: 'var(--text-hi)' }}>{workout.name || t('today.workout')}</span>
                       </div>
                       <Badge variant="outline" className="text-xs" style={{ borderColor: 'var(--c-brand-500)', color: 'var(--c-brand-500)' }}>
                         {workout.sport_type || workout.type || 'Run'}
@@ -248,13 +248,13 @@ const Today = ({ athleteId }) => {
                     </div>
                     <div className="mt-2 flex items-center gap-4 text-xs" style={{ color: 'var(--text-med)' }}>
                       {workout.distance && (
-                        <span>{(workout.distance / 1000).toFixed(2)} km</span>
+                        <span>{(workout.distance / 1000).toFixed(2)} {t('common.km')}</span>
                       )}
                       {workout.moving_time && (
-                        <span>{Math.round(workout.moving_time / 60)} min</span>
+                        <span>{Math.round(workout.moving_time / 60)} {t('today.min')}</span>
                       )}
                       {workout.average_heartrate && (
-                        <span>{workout.average_heartrate} bpm</span>
+                        <span>{workout.average_heartrate} {t('today.bpm')}</span>
                       )}
                     </div>
                   </div>
@@ -263,8 +263,8 @@ const Today = ({ athleteId }) => {
             ) : (
               <div className="p-6 text-center bg-gray-600 rounded-lg border border-gray-500">
                 <Activity className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                <p className="text-sm text-gray-300">No workouts recorded today</p>
-                <p className="text-xs text-gray-400 mt-1">Connect Strava or log manually</p>
+                <p className="text-sm text-gray-300">{t('today.noWorkoutsToday')}</p>
+                <p className="text-xs text-gray-400 mt-1">{t('today.connectStravaOrLogManually')}</p>
               </div>
             )}
           </div>
