@@ -771,21 +771,21 @@ const SystemSettings = ({ athleteId }) => {
       
       if (stats.errors && stats.errors.length > 0) {
         message += `\n\n⚠️ WARNINGS:\n${stats.errors.join('\n')}`;
-        message += `\n\nℹ️ To add pricing variations:\n1. Click the plan card\n2. Click "Add Variation"\n3. Set Monthly/Yearly prices\n4. Save and run "Sync to Stripe" again`;
+        message += t('systemSettings.plans.pricingVariationsInstructions');
       }
       
       alert(message);
       loadSubscriptionPlans();
     } catch (error) {
       console.error('Error syncing to Stripe:', error);
-      alert(error.response?.data?.detail || 'Failed to sync to Stripe');
+      alert(error.response?.data?.detail || t('systemSettings.messages.syncError'));
     } finally {
       setLoadingPlans(false);
     }
   };
 
   const resetStripeIds = async () => {
-    if (!window.confirm('⚠️ WARNING: This will remove all Stripe IDs from your plans!\n\nThis is useful when switching to a new Stripe account. After resetting, you can use "Sync to Stripe" to create new products.\n\nContinue?')) {
+    if (!window.confirm(t('systemSettings.plans.resetStripeWarning'))) {
       return;
     }
     
