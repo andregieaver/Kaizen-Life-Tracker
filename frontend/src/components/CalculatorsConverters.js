@@ -225,8 +225,8 @@ const PaceCalculator = ({ athletePreferences }) => {
       label: `${i + 1} ${unit}`,
       value: i + 1
     })),
-    { label: 'Half Marathon', value: unit === 'km' ? 21.0975 : 13.1094 },
-    { label: 'Marathon', value: unit === 'km' ? 42.195 : 26.2188 },
+    { label: t('calculators.halfMarathon'), value: unit === 'km' ? 21.0975 : 13.1094 },
+    { label: t('calculators.marathon'), value: unit === 'km' ? 42.195 : 26.2188 },
     { label: '50 miles', value: unit === 'km' ? 80.4672 : 50 },
     { label: '100 miles', value: unit === 'km' ? 160.934 : 100 },
   ];
