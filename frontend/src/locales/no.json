@@ -512,6 +512,10 @@
     "viewWeek": "Uke"
   },
   "dashboard": {
+    "welcome": "Velkommen tilbake",
+    "quickActions": "Hurtighandlinger",
+    "recentActivity": "Nylig aktivitet",
+    "aiCoachInsights": "AI-trener innsikt",
     "modals": {
       "referralRewards": "Henvisningsbelønninger",
       "notifications": "Varsler",
@@ -519,6 +523,13 @@
       "logDrink": "Logg drikke",
       "logSupplement": "Logg tilskudd",
       "logMeal": "Logg måltid"
+    },
+    "actions": {
+      "trackNutrition": "Spor ernæring",
+      "trackSupplements": "Spor kosttilskudd",
+      "recordJournal": "Skriv ned tankene dine",
+      "viewSchedule": "Se treningstidsplanen din",
+      "exploreCommunity": "Koble til utøvere"
     }
   },
   "habits": {
