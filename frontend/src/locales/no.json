@@ -1139,5 +1139,52 @@
     "archived": "Arkivert",
     "noArchivedConversations": "Ingen arkiverte samtaler",
     "unarchive": "Gjenopprett"
+  },
+  "supplements": {
+    "title": "Kosttilskudd",
+    "subtitle": "Spor dine daglige kosttilskudd og vitaminer",
+    "addSupplement": "Legg til tilskudd",
+    "addFirstSupplement": "Legg til første tilskudd",
+    "editSupplement": "Rediger tilskudd",
+    "updateDetails": "Oppdater tilskuddsdetaljer",
+    "addToRoutine": "Legg til et nytt tilskudd i rutinen din",
+    "noSupplementsYet": "Ingen tilskudd ennå",
+    "startTracking": "Begynn å spore kosttilskuddene og vitaminene dine",
+    "loadingSupplements": "Laster tilskudd...",
+    "supplementName": "Tilskuddsnavn",
+    "dosage": "Dosering",
+    "unit": "Enhet",
+    "frequency": "Frekvens",
+    "timeOfDay": "Tid på dagen",
+    "notes": "Notater",
+    "notesPlaceholder": "Ytterligere notater eller instruksjoner...",
+    "fillRequired": "Vennligst fyll inn tilskuddsnavn og dosering",
+    "supplementUpdated": "Tilskudd oppdatert!",
+    "supplementAdded": "Tilskudd lagt til!",
+    "supplementDeleted": "Tilskudd slettet",
+    "failedToLoad": "Kunne ikke laste tilskudd",
+    "failedToSave": "Kunne ikke lagre tilskudd",
+    "failedToDelete": "Kunne ikke slette tilskudd",
+    "confirmDelete": "Er du sikker på at du vil slette dette tilskuddet?",
+    "frequencies": {
+      "daily": "Daglig",
+      "twice_daily": "To ganger daglig",
+      "weekly": "Ukentlig",
+      "as_needed": "Etter behov"
+    },
+    "timesOfDay": {
+      "morning": "Morgen",
+      "afternoon": "Ettermiddag",
+      "evening": "Kveld",
+      "night": "Natt",
+      "with_meals": "Med måltider",
+      "any": "Når som helst"
+    },
+    "units": {
+      "capsules": "kapsler",
+      "tablets": "tabletter",
+      "drops": "dråper",
+      "other": "annet"
+    }
   }
 }
