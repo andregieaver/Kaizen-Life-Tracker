@@ -2845,7 +2845,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg" style={{ background: 'var(--grad-surface)' }}>
                 <div className="p-4" className="p-12 text-center">
                   <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin mx-auto"></div>
-                  <p className="text-gray-400 mt-4">Loading posts from people you follow...</p>
+                  <p className="text-gray-400 mt-4">{t('community.emptyStates.loadingPosts')}</p>
                 </div>
               </div>
             ) : followingPosts.length === 0 ? (
