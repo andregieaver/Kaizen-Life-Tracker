@@ -386,7 +386,7 @@ const Memories = ({ athleteId }) => {
           <div className="w-full max-w-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-6">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-bold text-white">
-                {editingMemory ? 'Edit Memory' : 'Add New Memory'}
+                {editingMemory ? t('memories.editMemory') : t('memories.addMemory')}
               </h3>
               <button 
                 type="button"
@@ -398,20 +398,20 @@ const Memories = ({ athleteId }) => {
             </div>
             <p className="text-gray-400 mb-6">
               {editingMemory 
-                ? 'Update the memory details below'
-                : 'Add important information for your AI coach to remember'
+                ? t('memories.subtitle')
+                : t('memories.noMemoriesDescription')
               }
             </p>
             <form onSubmit={handleSaveMemory} className="space-y-4">
                 {/* Category */}
                 <div className="space-y-2">
-                  <Label>Category *</Label>
+                  <Label>{t('memories.category')} *</Label>
                   <Select 
                     value={formData.category} 
                     onValueChange={(value) => setFormData({...formData, category: value})}
                   >
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue placeholder={t('memories.selectCategory')} />
                     </SelectTrigger>
                     <SelectContent>
                       {CATEGORIES.map(cat => (
@@ -425,11 +425,11 @@ const Memories = ({ athleteId }) => {
 
                 {/* Content */}
                 <div className="space-y-2">
-                  <Label>Memory Content *</Label>
+                  <Label>{t('memories.content')} *</Label>
                   <textarea
                     value={formData.content}
                     onChange={(e) => setFormData({...formData, content: e.target.value})}
-                    placeholder="What should the AI coach remember?"
+                    placeholder={t('memories.contentPlaceholder')}
                     className="w-full min-h-32 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
@@ -437,7 +437,7 @@ const Memories = ({ athleteId }) => {
 
                 {/* Importance */}
                 <div className="space-y-2">
-                  <Label>Importance (1-10)</Label>
+                  <Label>{t('memories.importance')} (1-10)</Label>
                   <div className="flex items-center gap-4">
                     <input
                       type="range"
@@ -450,15 +450,14 @@ const Memories = ({ athleteId }) => {
                     <span className="font-semibold text-lg w-8 text-center">{formData.importance}</span>
                   </div>
                   <div className="flex justify-between text-xs text-gray-500">
-                    <span>Less important</span>
-                    <span>Very important</span>
+                    <span>{t('memories.importanceHint')}</span>
                   </div>
                 </div>
 
                 {/* Actions */}
                 <div className="flex gap-2 pt-4">
                   <Button type="submit" className="flex-1 bg-blue-600 hover:bg-blue-700">
-                    {editingMemory ? 'Update Memory' : 'Create Memory'}
+                    {editingMemory ? t('memories.updateMemory') : t('memories.createMemory')}
                   </Button>
                   <Button 
                     type="button" 
