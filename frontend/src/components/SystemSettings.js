@@ -1575,9 +1575,9 @@ const SystemSettings = ({ athleteId }) => {
             <Card className="border-0 shadow-lg bg-gray-800 border-gray-700 mb-6">
               <CardHeader className="flex flex-col gap-4">
                 <div>
-                  <CardTitle className="text-white text-lg sm:text-xl">Subscription Plans</CardTitle>
+                  <CardTitle className="text-white text-lg sm:text-xl">{t('systemSettings.plans.title')}</CardTitle>
                   <CardDescription className="text-gray-400 text-sm">
-                    Manage your 3-tier subscription structure (Free, Pro, Premium)
+                    {t('systemSettings.plans.description')}
                   </CardDescription>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-2">
@@ -1607,7 +1607,7 @@ const SystemSettings = ({ athleteId }) => {
                     className="text-[#00C2A8] border-[#00C2A8] hover:bg-[#00C2A8]/10 w-full sm:w-auto"
                   >
                     <ArrowLeftRight className="w-4 h-4 mr-2 rotate-180" />
-                    Sync to Stripe
+                    {loadingPlans ? t('systemSettings.plans.syncingToStripe') : t('systemSettings.plans.syncToStripe')}
                   </Button>
                   <Button 
                     onClick={resetStripeIds}
@@ -1616,7 +1616,7 @@ const SystemSettings = ({ athleteId }) => {
                     className="text-red-400 border-red-600 hover:bg-red-600/10 w-full sm:w-auto"
                   >
                     <X className="w-4 h-4 mr-2" />
-                    Reset Stripe IDs
+                    {t('systemSettings.plans.resetStripe')}
                   </Button>
                   <Button 
                     onClick={() => setShowCreatePlanModal(true)}
