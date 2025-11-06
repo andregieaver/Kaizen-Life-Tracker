@@ -234,7 +234,7 @@ const HabitTracker = ({ athleteId }) => {
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
         >
           <Plus className="w-4 h-4 mr-2" />
-          Add Habit
+          {t('habits.addHabit')}
         </Button>
       </div>
 
@@ -244,8 +244,8 @@ const HabitTracker = ({ athleteId }) => {
           <div className="flex items-center gap-3">
             <Flame className="w-8 h-8 text-orange-400" />
             <div>
-              <div className="text-sm text-gray-300">Longest Streak</div>
-              <div className="text-2xl font-bold text-orange-400">{longestStreak} days</div>
+              <div className="text-sm text-gray-300">{t('habits.currentStreak')}</div>
+              <div className="text-2xl font-bold text-orange-400">{longestStreak} {t('habits.days')}</div>
             </div>
           </div>
         </div>
