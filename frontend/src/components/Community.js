@@ -6348,7 +6348,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                 onChange={(e) => setChallengeData({ ...challengeData, description: e.target.value })}
                 className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
                 rows="3"
-                placeholder="Describe your challenge..."
+                placeholder={t('community.challenge.describeChallenge')}
               />
             </div>
 
