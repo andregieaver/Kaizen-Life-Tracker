@@ -466,7 +466,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                 {/* Archived List */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-2">
                   {archivedConversations.length === 0 ? (
-                    <p className="text-sm text-gray-400 text-center py-8">No archived conversations</p>
+                    <p className="text-sm text-gray-400 text-center py-8">{t('coachChat.noArchivedConversations')}</p>
                   ) : (
                     archivedConversations.map((conv, index) => (
                       <div
@@ -482,7 +482,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                         >
                           <div className="flex items-start justify-between mb-1">
                             <p className="text-sm font-medium text-white truncate flex-1 pr-8">
-                              {conv.preview || 'Conversation'}
+                              {conv.preview || t('coachChat.conversationPreview')}
                             </p>
                             <span className="text-xs text-gray-400 ml-2">
                               {new Date(conv.last_message).toLocaleDateString()}
