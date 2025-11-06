@@ -2029,7 +2029,7 @@ const Dashboard = ({ athleteId }) => {
                 : 'translate(0, 0) scale(0)',
               transitionDelay: showCreateMenu ? '150ms' : '0ms'
             }}
-            title="Log Supplement"
+            title={t('dashboard.modals.logSupplement')}
           >
             <Pill className="w-5 h-5 text-white" />
           </button>
