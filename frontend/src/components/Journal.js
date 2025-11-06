@@ -199,11 +199,11 @@ const Journal = ({ athleteId }) => {
       
       mediaRecorder.start();
       setIsRecording(true);
-      setSaveStatus({ type: '', message: 'Recording video...' });
+      setSaveStatus({ type: '', message: t('journal.recordingVideo') });
       
     } catch (error) {
       console.error('Error starting video recording:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to access camera. Please grant camera permissions.' });
+      setSaveStatus({ type: 'error', message: t('journal.failedToAccessCamera') });
     }
   };
   
