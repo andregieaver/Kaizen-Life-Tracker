@@ -131,24 +131,24 @@ const Today = ({ athleteId }) => {
             {/* Calorie Need */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm" style={{ color: 'var(--text-med)' }}>Daily Need</span>
+                <span className="text-sm" style={{ color: 'var(--text-med)' }}>{t('today.dailyNeed')}</span>
                 <span className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{todayData.calorieNeed}</span>
               </div>
               <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
                 {athleteProfile?.estimated_calorie_need 
-                  ? 'Based on your profile settings' 
-                  : 'Default value (update in Account Settings)'}
+                  ? t('today.basedOnProfile')
+                  : t('today.defaultValue')}
               </div>
             </div>
 
             {/* Calories Consumed */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm" style={{ color: 'var(--text-med)' }}>Consumed</span>
+                <span className="text-sm" style={{ color: 'var(--text-med)' }}>{t('today.consumed')}</span>
                 <span className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--c-brand-500)' }}>{todayData.caloriesConsumed}</span>
               </div>
               <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                From {todayData.meals.length} meal{todayData.meals.length !== 1 ? 's' : ''}
+                {t('today.fromMeals', { count: todayData.meals.length })}
               </div>
             </div>
 
