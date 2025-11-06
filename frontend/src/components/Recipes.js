@@ -79,7 +79,7 @@ const Recipes = ({ athleteId }) => {
       
       setStatusMessage({ 
         type: 'error', 
-        message: `❌ Generation Failed (Status: ${errorStatus}): ${errorDetail}` 
+        message: t('recipes.generationFailed', { status: errorStatus, detail: errorDetail })
       });
       
       // Log full error details
