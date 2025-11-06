@@ -7067,7 +7067,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
               <textarea
                 value={eventData.description}
                 onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
-                placeholder="Describe the event"
+                placeholder={t('community.event.describeEvent')}
                 className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
                 rows="3"
               />
