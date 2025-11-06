@@ -7522,7 +7522,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                         <button
                           onClick={() => onDeleteComment(eventData.id, comment.id)}
                           className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                          title="Delete comment"
+                          title={t('community.actions.deleteComment')}
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -7764,7 +7764,7 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
                       <button
                         onClick={() => onDeleteComment(post.id, comment.id)}
                         className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                        title="Delete comment"
+                        title={t('community.actions.deleteComment')}
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
