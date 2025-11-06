@@ -173,7 +173,7 @@ const Journal = ({ athleteId }) => {
         
         // Check file size (50MB limit)
         if (videoBlob.size > 50 * 1024 * 1024) {
-          setSaveStatus({ type: 'error', message: 'Video is too large. Maximum size is 50MB.' });
+          setSaveStatus({ type: 'error', message: t('journal.videoTooLarge') });
           stopVideoStream();
           return;
         }
