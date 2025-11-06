@@ -457,7 +457,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                         {menu.is_active && (
                           <Badge className="bg-gray-700 text-white border-0">
                             <Check className="w-3 h-3 mr-1" />
-                            Active
+                            {t('weeklyMenu.active')}
                           </Badge>
                         )}
                       </div>
