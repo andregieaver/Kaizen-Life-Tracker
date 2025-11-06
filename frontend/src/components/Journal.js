@@ -319,7 +319,7 @@ const Journal = ({ athleteId }) => {
 
   const handleSaveEntry = async () => {
     if (!textContent.trim()) {
-      setSaveStatus({ type: 'error', message: 'Please enter some content' });
+      setSaveStatus({ type: 'error', message: t('journal.enterContent') });
       return;
     }
 
@@ -330,29 +330,29 @@ const Journal = ({ athleteId }) => {
         entry_type: entryType
       });
 
-      setSaveStatus({ type: 'success', message: 'Journal entry saved!' });
+      setSaveStatus({ type: 'success', message: t('journal.journalEntrySaved') });
       setShowModal(false);
       setTextContent('');
       setEntryType('text');
       await loadJournalEntries();
     } catch (error) {
       console.error('Error saving journal entry:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to save entry' });
+      setSaveStatus({ type: 'error', message: t('journal.failedToSaveEntry') });
     }
   };
 
   const handleDeleteEntry = async (entryId) => {
-    if (!window.confirm('Are you sure you want to delete this entry?')) {
+    if (!window.confirm(t('journal.confirmDeleteEntry'))) {
       return;
     }
 
     try {
       await axios.delete(`${API}/journal/${entryId}`);
-      setSaveStatus({ type: 'success', message: 'Entry deleted' });
+      setSaveStatus({ type: 'success', message: t('journal.entryDeleted') });
       await loadJournalEntries();
     } catch (error) {
       console.error('Error deleting entry:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to delete entry' });
+      setSaveStatus({ type: 'error', message: t('journal.failedToDeleteEntry') });
     }
   };
 
