@@ -663,7 +663,7 @@ const Dashboard = ({ athleteId }) => {
                   className="p-2 rounded-lg transition-all duration-200 hover:scale-110 relative"
                   style={{ background: 'var(--grad-cta-soft)' }}
                   aria-label="Notifications"
-                  title="Notifications"
+                  title={t('dashboard.modals.notifications')}
                 >
                   <Bell className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                   {notificationsUnreadCount > 0 && (
@@ -739,7 +739,7 @@ const Dashboard = ({ athleteId }) => {
                   className="p-2 rounded-lg transition-all duration-200 active:scale-95 relative"
                   style={{ background: 'var(--grad-cta-soft)' }}
                   aria-label="Notifications"
-                  title="Notifications"
+                  title={t('dashboard.modals.notifications')}
                 >
                   <Bell className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                   {notificationsUnreadCount > 0 && (
