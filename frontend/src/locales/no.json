@@ -1317,5 +1317,27 @@
       "saturday": "Lørdag",
       "sunday": "Søndag"
     }
+  },
+  "recipeBrowser": {
+    "title": "Oppskriftssamling",
+    "subtitle": "Bla gjennom og filtrer dine lagrede oppskrifter",
+    "loadingRecipes": "Laster oppskrifter...",
+    "mealType": "Måltidstype",
+    "minimumRating": "Minimum vurdering",
+    "allRatings": "Alle vurderinger",
+    "starsPlus": "{{count}}+ stjerner",
+    "showingRecipes": "Viser {{filtered}} av {{total}} oppskrifter",
+    "noRecipesFound": "Ingen oppskrifter funnet",
+    "adjustFilters": "Prøv å justere filtrene eller generer noen oppskrifter først",
+    "confirmDelete": "Er du sikker på at du vil slette denne oppskriften?",
+    "failedToDelete": "Kunne ikke slette oppskrift. Vennligst prøv igjen.",
+    "distances": {
+      "1km": "1 km",
+      "1mile": "1 mil",
+      "5km": "5 km",
+      "10km": "10 km",
+      "halfMarathon": "Halvmaraton",
+      "marathon": "Maraton"
+    }
   }
 }
