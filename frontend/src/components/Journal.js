@@ -129,7 +129,7 @@ const Journal = ({ athleteId }) => {
       }, 1000);
     } catch (error) {
       console.error('Error starting recording:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to access microphone' });
+      setSaveStatus({ type: 'error', message: t('journal.failedToAccessMicrophone') });
     }
   };
 
