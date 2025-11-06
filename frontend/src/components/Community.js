@@ -6759,7 +6759,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                   onChange={(e) => setCommentText(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleAddComment()}
                   className="flex-1 px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
-                  placeholder="Add a comment..."
+                  placeholder={t('community.challenge.addComment')}
                 />
                 <button
                   onClick={handleAddComment}
