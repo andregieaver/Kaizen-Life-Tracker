@@ -470,7 +470,9 @@
     "minutes": "Minutter",
     "seconds": "Sekunder",
     "enterNewEmail": "Skriv inn din nye e-post",
-    "enterPasswordConfirm": "Skriv inn passordet ditt for å bekrefte"
+    "enterPasswordConfirm": "Skriv inn passordet ditt for å bekrefte",
+    "whatDidYouHave": "Hva spiste du? (f.eks. Havregrøt med bær, Kyllingsalat)",
+    "additionalNotes": "Eventuelle tilleggsnotater..."
   },
   "confirmations": {
     "deleteUser": "Slett bruker",
