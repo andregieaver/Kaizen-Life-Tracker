@@ -506,7 +506,7 @@ const Recipes = ({ athleteId }) => {
               <div>
                 <h3 className="text-2xl font-display font-bold text-gray-900 mb-4 flex items-center gap-2">
                   <ChefHat className="w-6 h-6 text-purple-600" />
-                  Ingredients
+                  {t('recipes.ingredients')}
                 </h3>
                 <div className="bg-gray-50 rounded-lg p-6">
                   <ul className="space-y-3">
