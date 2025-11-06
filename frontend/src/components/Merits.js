@@ -44,12 +44,12 @@ const Merits = ({ athleteId }) => {
   };
 
   const distances = [
-    { key: '1km', label: '1 km' },
-    { key: '1mile', label: '1 mile' },
-    { key: '5km', label: '5 km' },
-    { key: '10km', label: '10 km' },
-    { key: 'half_marathon', label: 'Half Marathon' },
-    { key: 'marathon', label: 'Marathon' }
+    { key: '1km', label: t('recipeBrowser.distances.1km') },
+    { key: '1mile', label: t('recipeBrowser.distances.1mile') },
+    { key: '5km', label: t('recipeBrowser.distances.5km') },
+    { key: '10km', label: t('recipeBrowser.distances.10km') },
+    { key: 'half_marathon', label: t('recipeBrowser.distances.halfMarathon') },
+    { key: 'marathon', label: t('recipeBrowser.distances.marathon') }
   ];
 
   if (isLoading) {
