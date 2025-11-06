@@ -4808,7 +4808,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
         <div className="p-6 space-y-4">
           {/* Profile Image */}
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Group Profile Image</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.groupProfileImage')}</label>
             <div className="flex items-center space-x-4">
               {groupData.profile_image ? (
                 <img src={groupData.profile_image} alt="Profile" className="w-20 h-20 rounded-full object-cover" />
@@ -4969,7 +4969,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
         <div className="space-y-4">
           {/* Profile Image */}
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Group Profile Image</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.groupProfileImage')}</label>
             <div className="flex items-center space-x-4">
               {groupData.profile_image ? (
                 <img src={groupData.profile_image} alt="Profile" className="w-20 h-20 rounded-full object-cover" />
