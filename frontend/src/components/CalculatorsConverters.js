@@ -236,15 +236,15 @@ const PaceCalculator = ({ athletePreferences }) => {
       {/* Input Card */}
       <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
         <CardHeader>
-          <CardTitle className="text-xl font-display text-white">Enter Your Pace</CardTitle>
-          <CardDescription className="text-gray-300">Select your pace per {unit === 'km' ? 'kilometer' : 'mile'}</CardDescription>
+          <CardTitle className="text-xl font-display text-white">{t('calculators.enterYourPace')}</CardTitle>
+          <CardDescription className="text-gray-300">{t('calculators.selectYourPace', { unit: unit === 'km' ? t('calculators.perKm').replace('per ', '') : t('calculators.perMile').replace('per ', '') })}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Minutes Selector */}
             <div>
               <label className="block text-sm font-medium text-white mb-2">
-                Minutes
+                {t('calculators.minutes')}
               </label>
               <select
                 value={minutes}
