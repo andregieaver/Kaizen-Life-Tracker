@@ -6114,7 +6114,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
                 Goal: {goalValue} {challenge.goal_unit}
               </span>
               {challenge.is_recurring && (
-                <RefreshCw className="w-4 h-4 ml-2 text-blue-400" title="Recurring Challenge" />
+                <RefreshCw className="w-4 h-4 ml-2 text-blue-400" title={t('community.actions.recurringChallenge')} />
               )}
             </div>
             <div className="flex items-center text-gray-400 text-sm">
