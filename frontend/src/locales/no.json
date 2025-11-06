@@ -521,6 +521,37 @@
       "logMeal": "Logg måltid"
     }
   },
+  "habits": {
+    "title": "Vanetracker",
+    "subtitle": "Bygg konsistens med daglig vanesporing",
+    "addHabit": "Legg til vane",
+    "editHabit": "Rediger vane",
+    "habitTitle": "Vanetittel",
+    "habitTitlePlaceholder": "f.eks., Drikk 8 glass vann",
+    "frequency": "Frekvens",
+    "selectDays": "Velg dager",
+    "timesPerDay": "Ganger per dag",
+    "currentStreak": "Nåværende streak",
+    "days": "dager",
+    "noHabitsYet": "Ingen vaner ennå",
+    "startTracking": "Begynn å bygge vaner for å forbedre rutinen din",
+    "daysOfWeek": {
+      "monday": "Mandag",
+      "tuesday": "Tirsdag",
+      "wednesday": "Onsdag",
+      "thursday": "Torsdag",
+      "friday": "Fredag",
+      "saturday": "Lørdag",
+      "sunday": "Søndag",
+      "mon": "Man",
+      "tue": "Tir",
+      "wed": "Ons",
+      "thu": "Tor",
+      "fri": "Fre",
+      "sat": "Lør",
+      "sun": "Søn"
+    }
+  },
   "placeholders": {
     "selectWorkoutType": "Velg treningstype",
     "workoutNotes": "Hvordan føltes treningen? Noen observasjoner?",
