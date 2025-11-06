@@ -488,6 +488,27 @@
     "roadTrail": "Vei/Terreng",
     "ultra": "Ultra"
   },
+  "schedules": {
+    "analyzePrompt": "Beskriv hva du vil at AI skal analysere...",
+    "presets": {
+      "dailyRecovery": {
+        "name": "Daglig restitusjonsgjennomgang",
+        "prompt": "Analyser gårsdagens trening sammen med nattens søvndata. Hvordan påvirket treningsintensiteten min HRV, søvnkvalitet og beredskap? Anbefal dagens treningstilnærming."
+      },
+      "weeklyTraining": {
+        "name": "Ukentlig treningsanalyse",
+        "prompt": "Gjennomgå denne ukens treningsbelastning, søvnmønster og restitusjonsdata. Identifiser trender og gi anbefalinger for neste ukes treningsplan."
+      },
+      "nutrition": {
+        "name": "Ernæringskontroll",
+        "prompt": "Gjennomgå ernæringsoppføringene og tilskuddsinntak for den siste uken. Er makroene mine i tråd med treningsmålene mine? Noen anbefalinger?"
+      },
+      "racePrep": {
+        "name": "Løpsforberedelseskontroll",
+        "prompt": "Analyser min nylige treningsprogresjon, søvnkvalitet og beredskapstrender. Er jeg på rett spor for det kommende løpet? Noen justeringer som trengs?"
+      }
+    }
+  },
   "merits": {
     "title": "Meritter",
     "distance": "Distanse",
