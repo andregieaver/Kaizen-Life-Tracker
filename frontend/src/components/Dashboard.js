@@ -2051,7 +2051,7 @@ const Dashboard = ({ athleteId }) => {
                 : 'translate(0, 0) scale(0)',
               transitionDelay: showCreateMenu ? '200ms' : '0ms'
             }}
-            title="Log Meal"
+            title={t('dashboard.modals.logMeal')}
           >
             <Utensils className="w-5 h-5 text-white" />
           </button>
