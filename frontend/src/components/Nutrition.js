@@ -1834,7 +1834,7 @@ const Nutrition = ({ athleteId }) => {
                           )}
                           {entry.sodium > 0 && (
                             <div className="bg-gray-50 rounded-lg p-2">
-                              <div className="text-xs text-gray-500">Sodium</div>
+                              <div className="text-xs text-gray-500">{t('nutrition.micros.sodium')}</div>
                               <div className="text-sm font-semibold text-gray-900">{entry.sodium}mg</div>
                             </div>
                           )}
