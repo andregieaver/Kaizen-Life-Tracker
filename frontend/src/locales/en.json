@@ -543,6 +543,10 @@
     }
   },
   "dashboard": {
+    "welcome": "Welcome back",
+    "quickActions": "Quick Actions",
+    "recentActivity": "Recent Activity",
+    "aiCoachInsights": "AI Coach Insights",
     "modals": {
       "referralRewards": "Referral Rewards",
       "notifications": "Notifications",
@@ -550,6 +554,13 @@
       "logDrink": "Log Drink",
       "logSupplement": "Log Supplement",
       "logMeal": "Log Meal"
+    },
+    "actions": {
+      "trackNutrition": "Track nutrition",
+      "trackSupplements": "Track supplements",
+      "recordJournal": "Record your thoughts",
+      "viewSchedule": "View your training schedule",
+      "exploreCommunity": "Connect with athletes"
     }
   },
   "nutrition": {
