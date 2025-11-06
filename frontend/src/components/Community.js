@@ -4904,7 +4904,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
             <textarea
               value={groupData.rules}
               onChange={(e) => setGroupData({ ...groupData, rules: e.target.value })}
-              placeholder="Enter group rules that members must accept to join (optional)"
+              placeholder={t('community.group.enterGroupRules')}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
               rows="4"
             />
@@ -5065,7 +5065,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
             <textarea
               value={groupData.rules}
               onChange={(e) => setGroupData({ ...groupData, rules: e.target.value })}
-              placeholder="Enter group rules that members must accept to join (optional)"
+              placeholder={t('community.group.enterGroupRules')}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
               rows="4"
             />
