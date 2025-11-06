@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -22,16 +23,17 @@ import {
 
 const API = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
-const CATEGORIES = [
-  { value: 'goals', label: 'Goals', color: 'bg-blue-100 text-blue-800' },
-  { value: 'prs', label: 'Personal Records', color: 'bg-green-100 text-green-800' },
-  { value: 'injuries', label: 'Injuries', color: 'bg-red-100 text-red-800' },
-  { value: 'preferences', label: 'Preferences', color: 'bg-purple-100 text-purple-800' },
-  { value: 'progress', label: 'Progress', color: 'bg-yellow-100 text-yellow-800' },
-  { value: 'equipment', label: 'Equipment', color: 'bg-gray-100 text-gray-800' }
-];
-
 const Memories = ({ athleteId }) => {
+  const { t } = useTranslation();
+  
+  const CATEGORIES = [
+    { value: 'goals', label: t('memories.categories.goals'), color: 'bg-blue-100 text-blue-800' },
+    { value: 'prs', label: t('memories.categories.prs'), color: 'bg-green-100 text-green-800' },
+    { value: 'injuries', label: t('memories.categories.injuries'), color: 'bg-red-100 text-red-800' },
+    { value: 'preferences', label: t('memories.categories.preferences'), color: 'bg-purple-100 text-purple-800' },
+    { value: 'progress', label: t('memories.categories.progress'), color: 'bg-yellow-100 text-yellow-800' },
+    { value: 'equipment', label: t('memories.categories.equipment'), color: 'bg-gray-100 text-gray-800' }
+  ];
   const [memories, setMemories] = useState([]);
   const [filteredMemories, setFilteredMemories] = useState([]);
   const [categories, setCategories] = useState([]);
