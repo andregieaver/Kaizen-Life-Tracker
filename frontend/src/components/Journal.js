@@ -572,7 +572,7 @@ const Journal = ({ athleteId }) => {
                         <div className="w-20 h-20 bg-red-500 rounded-full flex items-center justify-center mb-4 animate-pulse">
                           <Mic className="w-10 h-10 text-white" />
                         </div>
-                        <p className="text-lg font-semibold text-white mb-2">Recording...</p>
+                        <p className="text-lg font-semibold text-white mb-2">{t('journal.recording')}</p>
                         <p className="text-3xl font-mono text-red-400">{recordingTime}s</p>
                         <Button
                           onClick={stopRecording}
@@ -580,7 +580,7 @@ const Journal = ({ athleteId }) => {
                           variant="destructive"
                         >
                           <MicOff className="w-4 h-4 mr-2" />
-                          Stop Recording
+                          {t('journal.stopRecording')}
                         </Button>
                       </>
                     ) : (
@@ -588,10 +588,10 @@ const Journal = ({ athleteId }) => {
                         <div className="w-20 h-20 bg-teal-600 rounded-full flex items-center justify-center mb-4">
                           <Mic className="w-10 h-10 text-white" />
                         </div>
-                        <p className="text-gray-300 mb-4">Click to start recording</p>
+                        <p className="text-gray-300 mb-4">{t('journal.clickToStart')}</p>
                         <Button onClick={startRecording} className="bg-teal-600 hover:bg-teal-700 text-white">
                           <Mic className="w-4 h-4 mr-2" />
-                          Start Recording
+                          {t('journal.startRecording')}
                         </Button>
                       </>
                     )}
