@@ -88,7 +88,7 @@ const Journal = ({ athleteId }) => {
         
         // Transcribe audio using backend API
         try {
-          setSaveStatus({ type: '', message: 'Transcribing audio...' });
+          setSaveStatus({ type: '', message: t('journal.transcribing') });
           
           const formData = new FormData();
           formData.append('audio', audioBlob, 'recording.wav');
