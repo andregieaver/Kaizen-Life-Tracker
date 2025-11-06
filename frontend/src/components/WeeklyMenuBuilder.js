@@ -108,7 +108,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
 
   const saveMenu = async () => {
     if (!menuName.trim()) {
-      alert('Please enter a menu name');
+      alert(t('weeklyMenu.enterMenuName'));
       return;
     }
 
