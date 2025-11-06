@@ -6596,7 +6596,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                 <h2 className="text-2xl font-bold text-white">{challengeData.title}</h2>
                 <p className="text-gray-400 text-sm">
                   Created by {challengeData.creator_name}
-                  {challengeData.is_recurring && <RefreshCw className="w-4 h-4 inline ml-2 text-blue-400" title="Recurring" />}
+                  {challengeData.is_recurring && <RefreshCw className="w-4 h-4 inline ml-2 text-blue-400" title={t('community.actions.recurringChallenge')} />}
                 </p>
               </div>
             </div>
