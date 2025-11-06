@@ -3984,9 +3984,9 @@ const SystemSettings = ({ athleteId }) => {
           <TabsContent value="advanced">
             <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
-                <CardTitle className="text-white">Advanced Settings</CardTitle>
+                <CardTitle className="text-white">{t('systemSettings.advanced.title')}</CardTitle>
                 <CardDescription className="text-gray-400">
-                  Configure system-wide integrations and API keys
+                  {t('systemSettings.advanced.description')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -3994,7 +3994,7 @@ const SystemSettings = ({ athleteId }) => {
                 <div className="space-y-4 pb-6 border-b border-gray-700">
                   <div>
                     <Label className="text-sm font-medium text-white">
-                      SEO & Branding
+                      {t('systemSettings.advanced.branding')}
                     </Label>
                     <p className="text-xs text-gray-400 mt-1">
                       Configure site title, favicon, and logo for your application
@@ -4004,7 +4004,7 @@ const SystemSettings = ({ athleteId }) => {
                   {/* Site Title */}
                   <div className="space-y-2">
                     <Label className="text-xs font-medium text-gray-300">
-                      Site Title
+                      {t('systemSettings.advanced.appName')}
                     </Label>
                     <Input
                       type="text"
@@ -4016,7 +4016,7 @@ const SystemSettings = ({ athleteId }) => {
                           siteTitle: e.target.value
                         }
                       }))}
-                      placeholder="TrainSmart"
+                      placeholder={t('systemSettings.advanced.appNamePlaceholder')}
                       className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500"
                     />
                     <p className="text-xs text-gray-400">
