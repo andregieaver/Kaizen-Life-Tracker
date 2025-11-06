@@ -428,17 +428,17 @@ const Journal = ({ athleteId }) => {
                         {entry.entry_type === 'voice' ? (
                           <>
                             <Volume2 className="w-3 h-3 mr-1" />
-                            Voice
+                            {t('journal.entryTypes.voice')}
                           </>
                         ) : entry.entry_type === 'video' ? (
                           <>
                             <Video className="w-3 h-3 mr-1" />
-                            Video
+                            {t('journal.entryTypes.video')}
                           </>
                         ) : (
                           <>
                             <FileText className="w-3 h-3 mr-1" />
-                            Text
+                            {t('journal.entryTypes.text')}
                           </>
                         )}
                       </Badge>
