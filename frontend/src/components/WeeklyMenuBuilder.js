@@ -440,9 +440,9 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
             <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-8">
               <div className="flex flex-col items-center justify-center py-12">
                 <Calendar className="w-16 h-16 text-gray-400 mb-4" />
-                <h3 className="text-lg font-medium text-white mb-2">No menus yet</h3>
+                <h3 className="text-lg font-medium text-white mb-2">{t('weeklyMenu.noMenusYet')}</h3>
                 <p className="text-gray-300 text-center">
-                  Create your first weekly menu template
+                  {t('weeklyMenu.createFirstMenu')}
                 </p>
               </div>
             </div>
