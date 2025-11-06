@@ -175,7 +175,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       console.error('Error sending message:', error);
       const errorMessage = {
         type: 'coach',
-        content: "I'm having trouble connecting right now. Please try again in a moment.",
+        content: t('coachChat.connectionTrouble'),
         timestamp: new Date().toISOString(),
         isError: true
       };
