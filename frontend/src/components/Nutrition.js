@@ -2487,7 +2487,7 @@ const Nutrition = ({ athleteId }) => {
                 <textarea
                   value={supplementNotes}
                   onChange={(e) => setSupplementNotes(e.target.value)}
-                  placeholder="Any additional notes..."
+                  placeholder={t('placeholders.additionalNotes')}
                   className="w-full h-20 p-3 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
                 />
               </div>
