@@ -411,26 +411,26 @@ const Schedules = ({ athleteId }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
               {
-                name: "Daily Recovery Review",
-                prompt: "Analyze yesterday's workout alongside last night's sleep data. How did training intensity affect my HRV, sleep quality, and readiness? Recommend today's training approach.",
+                name: t('schedules.presets.dailyRecovery.name'),
+                prompt: t('schedules.presets.dailyRecovery.prompt'),
                 frequency: "daily",
                 time: "08:00"
               },
               {
-                name: "Weekly Training Analysis",
-                prompt: "Review this week's training load, sleep patterns, and recovery metrics. Identify trends and provide recommendations for next week's training plan.",
+                name: t('schedules.presets.weeklyTraining.name'),
+                prompt: t('schedules.presets.weeklyTraining.prompt'),
                 frequency: "weekly", 
                 time: "18:00"
               },
               {
-                name: "Nutrition Check",
-                prompt: "Review my nutrition entries and supplement intake for the past week. Are my macros aligned with my training goals? Any recommendations?",
+                name: t('schedules.presets.nutrition.name'),
+                prompt: t('schedules.presets.nutrition.prompt'),
                 frequency: "weekly",
                 time: "19:00"
               },
               {
-                name: "Race Prep Check",
-                prompt: "Analyze my recent training progression, sleep quality, and readiness trends. Am I on track for my upcoming race? Any adjustments needed?",
+                name: t('schedules.presets.racePrep.name'),
+                prompt: t('schedules.presets.racePrep.prompt'),
                 frequency: "weekly",
                 time: "19:00"
               }
