@@ -481,7 +481,9 @@
       "eventLocation": "Event location"
     },
     "challenge": {
+      "enterChallengeName": "e.g., Run 100km in January",
       "describeChallenge": "Describe your challenge...",
+      "targetValue": "100",
       "addComment": "Add a comment...",
       "notJoinedYet": "You haven't joined any challenges yet"
     },
