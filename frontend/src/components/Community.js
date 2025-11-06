@@ -7056,7 +7056,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
               type="text"
               value={eventData.name}
               onChange={(e) => setEventData({ ...eventData, name: e.target.value })}
-              placeholder="Enter event name"
+              placeholder={t('community.event.enterEventName')}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             />
           </div>
