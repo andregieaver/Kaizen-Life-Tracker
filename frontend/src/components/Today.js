@@ -189,7 +189,7 @@ const Today = ({ athleteId }) => {
             {/* Progress Bar */}
             <div>
               <div className="flex items-center justify-between mb-2 text-xs" style={{ color: 'var(--text-med)' }}>
-                <span>Progress</span>
+                <span>{t('today.progress')}</span>
                 <span>{Math.round((todayData.caloriesConsumed / todayData.calorieNeed) * 100)}%</span>
               </div>
               <div className="w-full rounded-full h-3" style={{ background: 'var(--bg-800)' }}>
