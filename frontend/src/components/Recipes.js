@@ -51,7 +51,7 @@ const Recipes = ({ athleteId }) => {
 
   const generateRecipe = async () => {
     setIsGenerating(true);
-    setStatusMessage({ type: 'info', message: `Generating ${selectedMealType} recipe... (this may take 30-60 seconds)` });
+    setStatusMessage({ type: 'info', message: t('recipes.generatingMessage', { mealType: selectedMealType }) });
     
     try {
       console.log('[RECIPE] Starting generation for:', selectedMealType);
