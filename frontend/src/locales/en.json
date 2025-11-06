@@ -467,7 +467,11 @@
       "shareWithGroup": "Share something with the group...",
       "postMedia": "Post media",
       "postImages": "Post images",
-      "sharedPostMedia": "Shared post media"
+      "sharedPostMedia": "Shared post media",
+      "visibility": "Visibility",
+      "public": "Public",
+      "private": "Private",
+      "filterByNationality": "Filter by Nationality"
     },
     "group": {
       "enterGroupName": "Enter group name",
