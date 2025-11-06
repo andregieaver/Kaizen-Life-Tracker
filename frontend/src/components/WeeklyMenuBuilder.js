@@ -306,8 +306,8 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
     <div className="bg-gradient-to-br from-gray-900 to-gray-800 pt-4 px-2 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-display font-bold text-white">Weekly Menu Builder</h1>
-          <p className="text-gray-300 mt-1">Create and manage weekly meal plan templates</p>
+          <h1 className="text-3xl font-display font-bold text-white">{t('weeklyMenu.title')}</h1>
+          <p className="text-gray-300 mt-1">{t('weeklyMenu.subtitle')}</p>
         </div>
         {!editingMenu && (
           <Button
@@ -318,7 +318,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
           >
             <Plus className="w-4 h-4 mr-2" />
-            New Menu
+            {t('weeklyMenu.newMenu')}
           </Button>
         )}
       </div>
