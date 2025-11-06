@@ -121,7 +121,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       }
     } catch (error) {
       console.error('Error creating checkout session:', error);
-      alert('Failed to start checkout. Please try again.');
+      alert(t('coachChat.failedCheckout'));
     }
   };
 
