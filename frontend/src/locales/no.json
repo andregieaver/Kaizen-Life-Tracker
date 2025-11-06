@@ -1368,5 +1368,34 @@
     "time": "Tid",
     "halfMarathon": "Halvmaraton",
     "marathon": "Maraton"
+  },
+  "drinks": {
+    "title": "Væskesporer",
+    "subtitle": "Spor ditt daglige væskeinntak",
+    "logDrink": "Logg drikke",
+    "totalForDay": "Totalt for dagen",
+    "drinkTypes": {
+      "water": "Vann",
+      "coffee": "Kaffe",
+      "tea": "Te",
+      "juice": "Juice",
+      "sports_drink": "Sportsdrikk",
+      "milk": "Melk",
+      "smoothie": "Smoothie",
+      "other": "Annet"
+    },
+    "amount": "Mengde",
+    "date": "Dato",
+    "time": "Tid",
+    "notes": "Notater",
+    "notesPlaceholder": "Valgfrie notater...",
+    "drinkLoggedSuccess": "Drikke logget!",
+    "drinkDeletedSuccess": "Drikke slettet!",
+    "failedToLoad": "Kunne ikke laste drikker",
+    "failedToLog": "Kunne ikke logge drikke",
+    "failedToDelete": "Kunne ikke slette drikke",
+    "confirmDelete": "Slette denne drikkelog gen?",
+    "noDrinksToday": "Ingen drikker logget i dag",
+    "startTracking": "Begynn å spore væskeinntak"
   }
 }
