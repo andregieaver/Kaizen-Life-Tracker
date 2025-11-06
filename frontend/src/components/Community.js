@@ -4740,7 +4740,7 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
             </div>
           </div>
           <div className="flex items-center justify-between pb-3 sm:pb-0">
-            <span className="text-gray-400 text-sm">{group.members_count} members</span>
+            <span className="text-gray-400 text-sm">{group.members_count} {t('community.group.members')}</span>
             {!isMember && !group.is_member && (
               <Button
                 onClick={(e) => {
