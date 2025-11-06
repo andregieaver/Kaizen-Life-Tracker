@@ -1389,25 +1389,25 @@ const SystemSettings = ({ athleteId }) => {
         <Tabs value={activeTab} onValueChange={handleTabChange}>
           <TabsList className="grid w-full grid-cols-3 sm:grid-cols-7 mb-8 bg-gray-800 border border-gray-700 p-1.5 h-auto gap-1">
             <TabsTrigger value="modules" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
-              <span>Modules</span>
+              <span>{t('systemSettings.tabs.modules')}</span>
             </TabsTrigger>
             <TabsTrigger value="plans" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
-              <span>Plans</span>
+              <span>{t('systemSettings.tabs.plans')}</span>
             </TabsTrigger>
             <TabsTrigger value="coupons" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
-              <span>Coupons</span>
+              <span>{t('systemSettings.tabs.coupons')}</span>
             </TabsTrigger>
             <TabsTrigger value="waitinglist" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
-              <span>Waiting List</span>
+              <span>{t('systemSettings.tabs.waitingList')}</span>
             </TabsTrigger>
             <TabsTrigger value="statistics" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
-              <span>Stats</span>
+              <span>{t('systemSettings.tabs.statistics')}</span>
             </TabsTrigger>
             <TabsTrigger value="cookies" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
-              <span>Cookies</span>
+              <span>{t('systemSettings.tabs.cookies')}</span>
             </TabsTrigger>
             <TabsTrigger value="advanced" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400">
-              <span>Advanced</span>
+              <span>{t('systemSettings.tabs.advanced')}</span>
             </TabsTrigger>
           </TabsList>
 
