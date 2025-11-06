@@ -509,6 +509,23 @@
       }
     }
   },
+  "systemSettings": {
+    "accountSettings": "Kontoinnstillinger",
+    "planDescription": "Planbeskrivelse...",
+    "addFeature": "Legg til en funksjon...",
+    "enterFeature": "Skriv inn funksjon",
+    "couponName": "Sommersalg 2025",
+    "subscriptionOnlyHint": "💡 Velg \"Kun abonnementer\" for å spesifisere hvilke planer denne kupongen gjelder for",
+    "privacyTitle": "Vi verdsetter ditt personvern",
+    "privacyText": "Vi bruker informasjonskapsler for å forbedre nettleseropplevelsen din...",
+    "appName": "TrainSmart",
+    "faviconPreview": "Favicon forhåndsvisning",
+    "logoPreview": "Logo forhåndsvisning",
+    "emailFromName": "Navnet som vises i \"Fra\"-feltet i e-poster",
+    "pricingVariationsInstructions": "\n\nℹ️ For å legge til prisvarianter:\n1. Klikk på plankortet\n2. Klikk \"Legg til variant\"\n3. Sett månedlige/årlige priser\n4. Lagre og kjør \"Synkroniser til Stripe\" igjen",
+    "resetStripeWarning": "⚠️ ADVARSEL: Dette vil fjerne alle Stripe-ID-er fra planene dine!\n\nDette er nyttig når du bytter til en ny Stripe-konto. Etter tilbakestilling kan du bruke \"Synkroniser til Stripe\" for å opprette nye produkter.\n\nFortsette?",
+    "pricingExample": "<strong>Eksempel:</strong> \"Pro\" plan → \"Pro Månedlig\" (299 kr/md) + \"Pro Årlig\" (2990 kr/år)"
+  },
   "merits": {
     "title": "Meritter",
     "distance": "Distanse",
