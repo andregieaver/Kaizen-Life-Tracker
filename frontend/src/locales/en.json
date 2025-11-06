@@ -1160,5 +1160,41 @@
       "drops": "drops",
       "other": "other"
     }
+  },
+  "recipes": {
+    "title": "Recipe Generator",
+    "subtitle": "Generate AI-powered recipes tailored to your nutrition needs",
+    "generateNew": "Generate New Recipe",
+    "selectMealType": "Select a meal type and generate a personalized recipe",
+    "mealType": "Meal Type",
+    "generateRecipe": "Generate Recipe",
+    "generating": "Generating...",
+    "generatingMessage": "Generating {{mealType}} recipe... (this may take 30-60 seconds)",
+    "recipeGenerated": "✅ Recipe generated: {{name}}",
+    "generationFailed": "❌ Generation Failed (Status: {{status}}): {{detail}}",
+    "confirmDeleteRecipe": "Are you sure you want to delete this recipe?",
+    "noRecipesYet": "No recipes yet",
+    "useFormAbove": "Use the form above to generate your first AI-powered recipe",
+    "filterBy": "Filter by:",
+    "allMeals": "All Meals",
+    "viewRecipe": "View Recipe",
+    "deleteRecipe": "Delete Recipe",
+    "servings": "Servings",
+    "servingsCount": "{{count}} servings",
+    "servingSingular": "1 serving",
+    "servingsPlural": "{{count}} servings",
+    "minutes": "min",
+    "prep": "Prep",
+    "cook": "Cook",
+    "total": "Total",
+    "perServing": "per serving",
+    "ingredients": "Ingredients",
+    "preparationInstructions": "Preparation Instructions",
+    "rateThisRecipe": "Rate this recipe",
+    "mealTypes": {
+      "breakfast": "🍳 Breakfast",
+      "lunch": "🥗 Lunch",
+      "dinner": "🍽️ Dinner"
+    }
   }
 }
