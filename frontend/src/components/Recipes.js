@@ -187,8 +187,8 @@ const Recipes = ({ athleteId }) => {
     <div className="min-h-screen p-2 md:p-6 space-y-6" style={{ background: 'var(--grad-page)' }}>
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-display font-bold text-white">Recipe Generator</h1>
-        <p className="text-gray-300 mt-1">Generate AI-powered recipes tailored to your nutrition needs</p>
+        <h1 className="text-3xl font-display font-bold text-white">{t('recipes.title')}</h1>
+        <p className="text-gray-300 mt-1">{t('recipes.subtitle')}</p>
       </div>
 
       {/* Status Message */}
