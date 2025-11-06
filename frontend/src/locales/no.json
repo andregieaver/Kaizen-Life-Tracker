@@ -595,9 +595,26 @@
     },
     "waitingList": {
       "title": "Ventelisteadministrasjon",
-      "description": "Administrer brukere på ventelisten din",
+      "description": "Administrer e-postinnsamling og ventelistepåmeldinger",
+      "entries": "Ventelisteoppføringer",
       "totalUsers": "Totalt antall brukere",
-      "exportCSV": "Eksporter CSV"
+      "exportCSV": "Eksporter til CSV",
+      "all": "Alle",
+      "pending": "Venter",
+      "contacted": "Kontaktet",
+      "converted": "Konvertert",
+      "loadingEntries": "Laster oppføringer...",
+      "noEntries": "Ingen oppføringer funnet. Del ventelistelenken din for å få påmeldinger!",
+      "name": "Navn",
+      "email": "E-post",
+      "nationality": "Nasjonalitet",
+      "source": "Kilde",
+      "status": "Status",
+      "created": "Opprettet",
+      "actions": "Handlinger",
+      "markAsContacted": "Merk som kontaktet",
+      "markAsConverted": "Merk som konvertert",
+      "delete": "Slett"
     },
     "statistics": {
       "title": "Systemstatistikk",
