@@ -3977,7 +3977,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   >
                     <div className="flex items-center justify-center space-x-2">
                       <Globe className="w-4 h-4" />
-                      <span className="text-sm">Public</span>
+                      <span className="text-sm">{t('community.post.public')}</span>
                     </div>
                   </button>
                   <button
