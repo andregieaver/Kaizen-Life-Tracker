@@ -3702,7 +3702,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '150ms' : '0ms'
         }}
-        title="Create Event"
+        title={t('community.actions.createEvent')}
       >
         <Calendar className="w-5 h-5 text-white" />
       </button>
