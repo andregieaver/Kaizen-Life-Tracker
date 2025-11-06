@@ -67,7 +67,7 @@ const Journal = ({ athleteId }) => {
       setEntries(response.data.entries || []);
     } catch (error) {
       console.error('Error loading journal entries:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to load journal entries' });
+      setSaveStatus({ type: 'error', message: t('journal.failedToLoadEntries') });
     } finally {
       setIsLoading(false);
     }
