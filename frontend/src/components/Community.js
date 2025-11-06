@@ -2563,7 +2563,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                           
                           {/* Visibility Toggle in Edit Mode */}
                           <div className="flex items-center space-x-4 p-3 bg-gray-700 rounded-lg">
-                            <span className="text-white text-sm font-semibold">Visibility:</span>
+                            <span className="text-white text-sm font-semibold">{t('community.post.visibility')}:</span>
                             <div className="flex space-x-2">
                               <button
                                 onClick={() => setEditVisibility('public')}
