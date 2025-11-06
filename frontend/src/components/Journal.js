@@ -557,7 +557,7 @@ const Journal = ({ athleteId }) => {
                   <textarea
                     value={textContent}
                     onChange={(e) => setTextContent(e.target.value)}
-                    placeholder="Write your thoughts here..."
+                    placeholder={t('journal.writeThoughtsPlaceholder')}
                     className="w-full h-64 p-4 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
                   />
                 </div>
