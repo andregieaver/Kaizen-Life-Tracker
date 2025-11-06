@@ -123,9 +123,9 @@ const Today = ({ athleteId }) => {
           <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
             <h3 className="flex items-center gap-2 text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
               <Utensils className="w-5 h-5" style={{ color: 'var(--c-brand-500)' }} />
-              Nutrition
+              {t('nutrition.title')}
             </h3>
-            <p className="text-sm" style={{ color: 'var(--text-med)' }}>Daily calorie tracking</p>
+            <p className="text-sm" style={{ color: 'var(--text-med)' }}>{t('today.dailyCalorieTracking')}</p>
           </div>
           <div className="p-4 space-y-4">
             {/* Calorie Need */}
