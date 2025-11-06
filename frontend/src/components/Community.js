@@ -5814,7 +5814,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
               type="text"
               value={searchQuery}
               onChange={onSearchChange}
-              placeholder="Search by name..."
+              placeholder={t('community.group.searchByName')}
               className="w-full bg-gray-700 text-white rounded-lg pl-10 pr-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             />
           </div>
