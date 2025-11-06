@@ -487,7 +487,7 @@ const Journal = ({ athleteId }) => {
           <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl border border-gray-700" style={{ background: 'var(--grad-surface)' }}>
             <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>New Journal Entry</h3>
+                <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('journal.newJournalEntry')}</h3>
                 <button
                   onClick={() => {
                     setShowModal(false);
@@ -500,7 +500,7 @@ const Journal = ({ athleteId }) => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>Choose text, voice, or video input</p>
+              <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>{t('journal.chooseInputType')}</p>
             </div>
             <div className="p-4 space-y-4">
               {/* Entry Type Toggle */}
