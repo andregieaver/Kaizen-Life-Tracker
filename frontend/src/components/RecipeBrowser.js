@@ -231,7 +231,7 @@ const RecipeBrowser = ({ athleteId }) => {
           {recipesByMealType.breakfast.length > 0 && (
             <div>
               <h2 className="text-2xl font-display font-bold text-gray-900 mb-4 flex items-center gap-2">
-                🍳 Breakfast
+                {t('recipes.mealTypes.breakfast')}
                 <Badge variant="secondary">{recipesByMealType.breakfast.length}</Badge>
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
