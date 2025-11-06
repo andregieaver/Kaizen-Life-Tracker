@@ -7104,7 +7104,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
               type="text"
               value={eventData.location}
               onChange={(e) => setEventData({ ...eventData, location: e.target.value })}
-              placeholder="Event location"
+              placeholder={t('community.event.eventLocation')}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             />
           </div>
