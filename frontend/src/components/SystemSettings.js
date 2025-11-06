@@ -1344,7 +1344,7 @@ const SystemSettings = ({ athleteId }) => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading settings...</p>
+          <p className="text-gray-400">{t('systemSettings.loadingSettings')}</p>
         </div>
       </div>
     );
