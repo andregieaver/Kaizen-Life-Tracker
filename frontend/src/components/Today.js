@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { Badge } from './ui/badge';
 import { 
   Calendar, 
@@ -15,6 +16,7 @@ import {
 const API = process.env.REACT_APP_BACKEND_URL ? `${process.env.REACT_APP_BACKEND_URL}/api` : 'http://localhost:8001/api';
 
 const Today = ({ athleteId }) => {
+  const { t } = useTranslation();
   const [todayData, setTodayData] = useState({
     calorieNeed: 0,
     caloriesConsumed: 0,
