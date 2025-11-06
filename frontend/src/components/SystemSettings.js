@@ -1415,9 +1415,9 @@ const SystemSettings = ({ athleteId }) => {
           <TabsContent value="modules">
             <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
-                <CardTitle className="text-white">Module Management</CardTitle>
+                <CardTitle className="text-white">{t('systemSettings.modules.title')}</CardTitle>
                 <CardDescription className="text-gray-400">
-                  Enable or disable system modules and features
+                  {t('systemSettings.modules.description')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -1427,10 +1427,10 @@ const SystemSettings = ({ athleteId }) => {
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <h3 className="text-lg font-semibold text-white mb-1">
-                          Affiliate Program
+                          {t('systemSettings.modules.affiliateProgram.title')}
                         </h3>
                         <p className="text-sm text-gray-400">
-                          Enable referral system and gift icon in header
+                          {t('systemSettings.modules.affiliateProgram.description')}
                         </p>
                       </div>
                       <div className="flex items-center gap-3">
@@ -1453,7 +1453,7 @@ const SystemSettings = ({ athleteId }) => {
                           />
                         </button>
                         <span className="text-sm font-medium text-white min-w-[60px]">
-                          {moduleSettings.affiliateProgram.enabled ? 'Enabled' : 'Disabled'}
+                          {moduleSettings.affiliateProgram.enabled ? t('common.connect') : t('common.disconnect')}
                         </span>
                         {moduleSettings.affiliateProgram.enabled && (
                           <button
