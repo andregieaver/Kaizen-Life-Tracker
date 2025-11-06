@@ -327,28 +327,28 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
         <div className="space-y-6">
           {/* Menu Details */}
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6">
-            <h3 className="text-xl font-bold text-white mb-4">Menu Details</h3>
+            <h3 className="text-xl font-bold text-white mb-4">{t('weeklyMenu.menuDetails')}</h3>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-white mb-2">
-                  Menu Name *
+                  {t('weeklyMenu.menuNameRequired')}
                 </label>
                 <input
                   type="text"
                   value={menuName}
                   onChange={(e) => setMenuName(e.target.value)}
-                  placeholder="e.g., High Protein Week, Recovery Week"
+                  placeholder={t('weeklyMenu.menuNamePlaceholder')}
                   className="w-full px-4 py-2 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-white mb-2">
-                  Description
+                  {t('weeklyMenu.description')}
                 </label>
                 <textarea
                   value={menuDescription}
                   onChange={(e) => setMenuDescription(e.target.value)}
-                  placeholder="Optional description..."
+                  placeholder={t('weeklyMenu.descriptionPlaceholder')}
                   rows={2}
                   className="w-full px-4 py-2 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                 />
