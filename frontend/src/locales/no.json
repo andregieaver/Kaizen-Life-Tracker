@@ -509,7 +509,24 @@
     "noEntries": "Ingen ernæringsoppføringer ennå",
     "startTracking": "Start å spore ernæringen din for å se innsikt",
     "viewDay": "Dag",
-    "viewWeek": "Uke"
+    "viewWeek": "Uke",
+    "macros": {
+      "calories": "Kalorier",
+      "protein": "Protein",
+      "carbs": "Karbohydrater",
+      "fat": "Fett",
+      "fiber": "Fiber"
+    },
+    "micros": {
+      "micronutrients": "Mikronæringsstoffer",
+      "sugar": "Sukker",
+      "sodium": "Natrium",
+      "vitaminA": "Vitamin A",
+      "vitaminC": "Vitamin C",
+      "vitaminD": "Vitamin D",
+      "calcium": "Kalsium",
+      "iron": "Jern"
+    }
   },
   "dashboard": {
     "welcome": "Velkommen tilbake",
