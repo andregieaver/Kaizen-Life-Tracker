@@ -4478,7 +4478,7 @@ const SystemSettings = ({ athleteId }) => {
                   <div>
                     <Label className="text-sm font-medium text-white flex items-center gap-2">
                       <Mail className="w-4 h-4 text-[#00C2A8]" />
-                      SendGrid Email Configuration
+                      {t('systemSettings.advanced.emailSettings')}
                     </Label>
                     <p className="text-xs text-gray-400 mt-1">
                       Configure SendGrid API for transactional emails (password resets, notifications, etc.)
@@ -4523,7 +4523,7 @@ const SystemSettings = ({ athleteId }) => {
                   {/* Sender Email */}
                   <div className="space-y-2">
                     <Label className="text-xs font-medium text-gray-300">
-                      Sender Email Address
+                      {t('systemSettings.advanced.emailFromAddress')}
                     </Label>
                     <Input
                       type="email"
@@ -4535,7 +4535,7 @@ const SystemSettings = ({ athleteId }) => {
                           senderEmail: e.target.value
                         }
                       }))}
-                      placeholder="noreply@yourdomain.com"
+                      placeholder={t('systemSettings.advanced.emailFromAddressPlaceholder')}
                       className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 text-sm"
                     />
                     <p className="text-xs text-gray-400 mt-1">
@@ -4546,7 +4546,7 @@ const SystemSettings = ({ athleteId }) => {
                   {/* Sender Name */}
                   <div className="space-y-2">
                     <Label className="text-xs font-medium text-gray-300">
-                      Sender Name
+                      {t('systemSettings.emailFromName')}
                     </Label>
                     <Input
                       type="text"
