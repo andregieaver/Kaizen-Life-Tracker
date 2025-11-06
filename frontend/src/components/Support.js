@@ -58,7 +58,7 @@ const Support = ({ athleteId, athlete }) => {
       setSubmitStatus('error');
       setErrorMessage(
         error.response?.data?.detail || 
-        'Failed to submit support request. Please try again or contact support@kaizenlifetracker.com directly.'
+        t('support.errorMessage')
       );
     } finally {
       setIsSubmitting(false);
