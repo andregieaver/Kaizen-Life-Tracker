@@ -206,14 +206,14 @@ const Recipes = ({ athleteId }) => {
       {/* Generation Form */}
       <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
         <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
-          <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Generate New Recipe</h3>
-          <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>Select a meal type and generate a personalized recipe</p>
+          <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('recipes.generateNew')}</h3>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>{t('recipes.selectMealType')}</p>
         </div>
         <div className="p-4">
           <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-end">
             <div className="flex-1">
               <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-hi)' }}>
-                Meal Type
+                {t('recipes.mealType')}
               </label>
               <select
                 value={selectedMealType}
@@ -222,9 +222,9 @@ const Recipes = ({ athleteId }) => {
                 style={{ focusRingColor: '#00C2A8' }}
                 disabled={isGenerating}
               >
-                <option value="breakfast">🍳 Breakfast</option>
-                <option value="lunch">🥗 Lunch</option>
-                <option value="dinner">🍽️ Dinner</option>
+                <option value="breakfast">{t('recipes.mealTypes.breakfast')}</option>
+                <option value="lunch">{t('recipes.mealTypes.lunch')}</option>
+                <option value="dinner">{t('recipes.mealTypes.dinner')}</option>
               </select>
             </div>
             <Button
