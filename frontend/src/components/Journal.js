@@ -104,10 +104,10 @@ const Journal = ({ athleteId }) => {
           );
           
           setTextContent(response.data.transcription);
-          setSaveStatus({ type: 'success', message: 'Audio transcribed successfully!' });
+          setSaveStatus({ type: 'success', message: t('journal.audioTranscribedSuccess') });
         } catch (error) {
           console.error('Error transcribing audio:', error);
-          const errorMessage = error.response?.data?.detail || 'Failed to transcribe audio';
+          const errorMessage = error.response?.data?.detail || t('journal.failedToTranscribe');
           setSaveStatus({ type: 'error', message: errorMessage });
           
           // Fallback to placeholder if transcription fails
