@@ -257,18 +257,18 @@ const Journal = ({ athleteId }) => {
   
   const handleSaveVideoEntry = async () => {
     if (!videoBlob) {
-      setSaveStatus({ type: 'error', message: 'No video recorded' });
+      setSaveStatus({ type: 'error', message: t('journal.noVideoRecorded') });
       return;
     }
     
     if (!videoTranscription.trim()) {
-      setSaveStatus({ type: 'error', message: 'Please wait for transcription to complete' });
+      setSaveStatus({ type: 'error', message: t('journal.waitForTranscription') });
       return;
     }
     
     try {
       setIsProcessingVideo(true);
-      setSaveStatus({ type: '', message: 'Processing video... This may take a moment.' });
+      setSaveStatus({ type: '', message: t('journal.processingVideo') });
       
       const formData = new FormData();
       formData.append('video', videoBlob, 'video.webm');
