@@ -2851,8 +2851,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             ) : followingPosts.length === 0 ? (
               <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg" style={{ background: 'var(--grad-surface)' }}>
                 <div className="p-4" className="p-12 text-center">
-                  <p className="text-gray-400 text-lg mb-2">No posts from people you follow</p>
-                  <p className="text-gray-500 text-sm">Follow other athletes to see their posts here!</p>
+                  <p className="text-gray-400 text-lg mb-2">{t('community.emptyStates.noFollowingPosts')}</p>
+                  <p className="text-gray-500 text-sm">{t('community.emptyStates.followOthers')}</p>
                 </div>
               </div>
             ) : (
