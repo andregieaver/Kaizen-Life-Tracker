@@ -1183,28 +1183,6 @@ const Dashboard = ({ athleteId }) => {
               </div>
             </div>
 
-            {/* Primary CTA - Start Workout */}
-            <div className="px-0 md:px-0">
-              <button
-                onClick={() => navigate('/dashboard/schedules')}
-                className="w-full relative inline-flex items-center justify-center rounded-none md:rounded-2xl px-8 py-6 text-lg font-bold shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 transition-all duration-200 ease-out hover:scale-[1.02]"
-                style={{
-                  background: 'var(--grad-brand)',
-                  color: 'var(--bg-950)',
-                  fontFamily: 'var(--font-display)',
-                  boxShadow: '0 10px 40px rgba(25,229,197,.25)',
-                  border: 'none'
-                }}
-              >
-                <span className="flex items-center gap-3">
-                  <span>Start workout</span>
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </span>
-              </button>
-            </div>
-
             {/* Body Score, Progress, and Merits - Three Equal Columns on Desktop */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 md:gap-3">
               {/* Column 1: Body Score */}
