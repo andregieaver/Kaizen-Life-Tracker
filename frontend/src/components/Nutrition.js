@@ -1828,7 +1828,7 @@ const Nutrition = ({ athleteId }) => {
                         <div className="grid grid-cols-2 gap-2 mt-2">
                           {entry.sugar > 0 && (
                             <div className="bg-gray-50 rounded-lg p-2">
-                              <div className="text-xs text-gray-500">Sugar</div>
+                              <div className="text-xs text-gray-500">{t('nutrition.micros.sugar')}</div>
                               <div className="text-sm font-semibold text-gray-900">{entry.sugar}g</div>
                             </div>
                           )}
