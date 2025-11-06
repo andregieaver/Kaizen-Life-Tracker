@@ -477,7 +477,11 @@
       "enterGroupName": "Enter group name",
       "describeGroup": "Describe your group",
       "enterGroupRules": "Enter group rules that members must accept to join (optional)",
-      "searchByName": "Search by name..."
+      "searchByName": "Search by name...",
+      "groupProfileImage": "Group Profile Image",
+      "groupCoverPhoto": "Group Cover Photo",
+      "members": "members",
+      "noPostsYet": "No posts yet. Be the first to share something!"
     },
     "event": {
       "enterEventName": "Enter event name",
