@@ -3680,7 +3680,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '100ms' : '0ms'
         }}
-        title="Create Post"
+        title={t('community.actions.createPost')}
       >
         <Edit3 className="w-5 h-5 text-white" />
       </button>
