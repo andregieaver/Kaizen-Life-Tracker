@@ -4992,14 +4992,14 @@ async def create_nutrition_entry(entry: NutritionEntry):
     # Generate ingredients and instructions with AI if image and description are provided
     if entry.description and entry.image_data:
         try:
-            # Get OpenAI key from integrations
-            openai_integration = await db.integrations.find_one(
-                {"athlete_id": entry.athlete_id, "integration_type": "openai"},
+            # Get OpenAI key from system settings (global key stored in Advanced tab)
+            system_settings = await db.system_settings.find_one(
+                {"setting_type": "global"},
                 {"_id": 0}
             )
             
-            if openai_integration and openai_integration.get('credentials', {}).get('api_key'):
-                openai_key = openai_integration['credentials']['api_key']
+            if system_settings and system_settings.get('advanced', {}).get('openaiApiKey'):
+                openai_key = system_settings['advanced']['openaiApiKey']
                 logging.info(f"[NUTRITION AI] Generating meal details for entry {entry.id}")
                 
                 # Generate ingredients and instructions
