@@ -102,7 +102,7 @@ const CalculatorsConverters = ({ athleteId }) => {
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
                 >
                   <Calculator className="w-4 h-4 mr-2" />
-                  Open Calculator
+                  {t('calculators.openCalculator')}
                 </Button>
               </CardContent>
             </Card>
