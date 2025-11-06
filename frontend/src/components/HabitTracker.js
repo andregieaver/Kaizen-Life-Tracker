@@ -474,7 +474,7 @@ const HabitTracker = ({ athleteId }) => {
                   className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
                   disabled={isLoading || !title.trim() || selectedDays.length === 0}
                 >
-                  {isLoading ? 'Saving...' : (editingHabit ? 'Update' : 'Create')}
+                  {isLoading ? t('common.loading') : (editingHabit ? t('common.update') : t('common.create'))}
                 </Button>
               </div>
             </div>
