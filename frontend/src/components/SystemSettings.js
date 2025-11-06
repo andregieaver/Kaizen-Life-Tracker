@@ -2733,10 +2733,10 @@ const SystemSettings = ({ athleteId }) => {
                 <div>
                   <CardTitle className="text-white text-lg sm:text-xl flex items-center">
                     <Mail className="w-5 h-5 mr-2 text-[#00C2A8]" />
-                    Waiting List Entries
+                    {t('systemSettings.waitingList.entries')}
                   </CardTitle>
                   <CardDescription className="text-gray-400 text-sm mt-1">
-                    Manage email harvesting and waiting list sign-ups
+                    {t('systemSettings.waitingList.description')}
                   </CardDescription>
                 </div>
                 
@@ -2748,7 +2748,7 @@ const SystemSettings = ({ athleteId }) => {
                       onClick={() => setWaitingListFilter('all')}
                       className={waitingListFilter === 'all' ? 'bg-[#00C2A8]' : 'text-gray-300 border-gray-600'}
                     >
-                      All
+                      {t('systemSettings.waitingList.all')}
                     </Button>
                     <Button
                       size="sm"
@@ -2756,7 +2756,7 @@ const SystemSettings = ({ athleteId }) => {
                       onClick={() => setWaitingListFilter('pending')}
                       className={waitingListFilter === 'pending' ? 'bg-[#00C2A8]' : 'text-gray-300 border-gray-600'}
                     >
-                      Pending
+                      {t('systemSettings.waitingList.pending')}
                     </Button>
                     <Button
                       size="sm"
@@ -2764,7 +2764,7 @@ const SystemSettings = ({ athleteId }) => {
                       onClick={() => setWaitingListFilter('contacted')}
                       className={waitingListFilter === 'contacted' ? 'bg-[#00C2A8]' : 'text-gray-300 border-gray-600'}
                     >
-                      Contacted
+                      {t('systemSettings.waitingList.contacted')}
                     </Button>
                     <Button
                       size="sm"
@@ -2772,7 +2772,7 @@ const SystemSettings = ({ athleteId }) => {
                       onClick={() => setWaitingListFilter('converted')}
                       className={waitingListFilter === 'converted' ? 'bg-[#00C2A8]' : 'text-gray-300 border-gray-600'}
                     >
-                      Converted
+                      {t('systemSettings.waitingList.converted')}
                     </Button>
                   </div>
                   
@@ -2782,30 +2782,30 @@ const SystemSettings = ({ athleteId }) => {
                     className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto sm:ml-auto"
                   >
                     <Download className="w-4 h-4 mr-2" />
-                    Export to CSV
+                    {t('systemSettings.waitingList.exportCSV')}
                   </Button>
                 </div>
               </CardHeader>
 
               <CardContent>
                 {loadingWaitingList ? (
-                  <div className="text-center py-8 text-gray-400">Loading entries...</div>
+                  <div className="text-center py-8 text-gray-400">{t('systemSettings.waitingList.loadingEntries')}</div>
                 ) : waitingListEntries.length === 0 ? (
                   <div className="text-center py-8 text-gray-400">
-                    No entries found. Share your waiting list link to get sign-ups!
+                    {t('systemSettings.waitingList.noEntries')}
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="w-full">
                       <thead className="bg-gray-700 border-b border-gray-600">
                         <tr>
-                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold">Name</th>
-                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold">Email</th>
-                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold hidden md:table-cell">Nationality</th>
-                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold hidden lg:table-cell">Source</th>
-                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold">Status</th>
-                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold hidden lg:table-cell">Created</th>
-                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold">Actions</th>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold">{t('systemSettings.waitingList.name')}</th>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold">{t('systemSettings.waitingList.email')}</th>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold hidden md:table-cell">{t('systemSettings.waitingList.nationality')}</th>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold hidden lg:table-cell">{t('systemSettings.waitingList.source')}</th>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold">{t('systemSettings.waitingList.status')}</th>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold hidden lg:table-cell">{t('systemSettings.waitingList.created')}</th>
+                          <th className="text-left px-4 py-3 text-gray-300 text-sm font-semibold">{t('systemSettings.waitingList.actions')}</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-700">
