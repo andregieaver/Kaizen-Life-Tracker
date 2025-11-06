@@ -1852,7 +1852,7 @@ const Nutrition = ({ athleteId }) => {
                           )}
                           {entry.vitamin_d > 0 && (
                             <div className="bg-gray-50 rounded-lg p-2">
-                              <div className="text-xs text-gray-500">Vitamin D</div>
+                              <div className="text-xs text-gray-500">{t('nutrition.micros.vitaminD')}</div>
                               <div className="text-sm font-semibold text-gray-900">{entry.vitamin_d}μg</div>
                             </div>
                           )}
