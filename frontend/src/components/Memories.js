@@ -70,7 +70,7 @@ const Memories = ({ athleteId }) => {
       setMemories(response.data.memories || []);
     } catch (error) {
       console.error('Error loading memories:', error);
-      setSaveStatus({ type: 'error', message: 'Failed to load memories' });
+      setSaveStatus({ type: 'error', message: t('memories.errorLoading') });
     } finally {
       setIsLoading(false);
     }
