@@ -642,9 +642,26 @@
     },
     "waitingList": {
       "title": "Waiting List Management",
-      "description": "Manage users on your waiting list",
+      "description": "Manage email harvesting and waiting list sign-ups",
+      "entries": "Waiting List Entries",
       "totalUsers": "Total Users",
-      "exportCSV": "Export CSV"
+      "exportCSV": "Export to CSV",
+      "all": "All",
+      "pending": "Pending",
+      "contacted": "Contacted",
+      "converted": "Converted",
+      "loadingEntries": "Loading entries...",
+      "noEntries": "No entries found. Share your waiting list link to get sign-ups!",
+      "name": "Name",
+      "email": "Email",
+      "nationality": "Nationality",
+      "source": "Source",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions",
+      "markAsContacted": "Mark as Contacted",
+      "markAsConverted": "Mark as Converted",
+      "delete": "Delete"
     },
     "statistics": {
       "title": "System Statistics",
