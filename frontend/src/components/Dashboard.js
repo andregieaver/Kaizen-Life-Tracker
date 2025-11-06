@@ -1153,7 +1153,7 @@ const Dashboard = ({ athleteId }) => {
                       <Utensils className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                     </div>
                     <div className="text-center md:text-left flex-1">
-                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Log Meal</h3>
+                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('dashboard.modals.logMeal')}</h3>
                       <p className="text-sm" style={{ color: 'var(--text-med)' }}>Track nutrition</p>
                     </div>
                   </div>
@@ -1175,7 +1175,7 @@ const Dashboard = ({ athleteId }) => {
                       <Pill className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                     </div>
                     <div className="text-center md:text-left flex-1">
-                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Log Supplement</h3>
+                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('dashboard.modals.logSupplement')}</h3>
                       <p className="text-sm" style={{ color: 'var(--text-med)' }}>Track supplements</p>
                     </div>
                   </div>
