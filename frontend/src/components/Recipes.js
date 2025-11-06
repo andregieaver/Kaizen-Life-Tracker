@@ -474,31 +474,31 @@ const Recipes = ({ athleteId }) => {
                     <p className="text-sm font-medium text-gray-600">Calories</p>
                   </div>
                   <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().calories}</p>
-                  <p className="text-xs text-gray-500 mt-1">per serving</p>
+                  <p className="text-xs text-gray-500 mt-1">{t('recipes.perServing')}</p>
                 </div>
                 <div className="bg-red-50 p-4 rounded-lg border border-red-200">
                   <div className="flex items-center gap-2 mb-2">
                     <Beef className="w-5 h-5 text-red-600" />
-                    <p className="text-sm font-medium text-gray-600">Protein</p>
+                    <p className="text-sm font-medium text-gray-600">{t('nutrition.macros.protein')}</p>
                   </div>
                   <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().protein}g</p>
-                  <p className="text-xs text-gray-500 mt-1">per serving</p>
+                  <p className="text-xs text-gray-500 mt-1">{t('recipes.perServing')}</p>
                 </div>
                 <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
                   <div className="flex items-center gap-2 mb-2">
                     <Wheat className="w-5 h-5 text-yellow-600" />
-                    <p className="text-sm font-medium text-gray-600">Carbs</p>
+                    <p className="text-sm font-medium text-gray-600">{t('nutrition.macros.carbs')}</p>
                   </div>
                   <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().carbs}g</p>
-                  <p className="text-xs text-gray-500 mt-1">per serving</p>
+                  <p className="text-xs text-gray-500 mt-1">{t('recipes.perServing')}</p>
                 </div>
                 <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
                   <div className="flex items-center gap-2 mb-2">
                     <Droplet className="w-5 h-5 text-blue-600" />
-                    <p className="text-sm font-medium text-gray-600">Fat</p>
+                    <p className="text-sm font-medium text-gray-600">{t('nutrition.macros.fat')}</p>
                   </div>
                   <p className="text-2xl font-bold text-gray-900">{getScaledNutrition().fat}g</p>
-                  <p className="text-xs text-gray-500 mt-1">per serving</p>
+                  <p className="text-xs text-gray-500 mt-1">{t('recipes.perServing')}</p>
                 </div>
               </div>
 
