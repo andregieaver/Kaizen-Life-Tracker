@@ -473,7 +473,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                           className="bg-gray-700 text-white border-0 hover:bg-gray-600"
                         >
                           <Check className="w-4 h-4 mr-1" />
-                          Set Active
+                          {t('weeklyMenu.setActive')}
                         </Button>
                       )}
                       <Button
@@ -481,7 +481,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                         onClick={() => editMenu(menu)}
                         className="bg-gray-700 text-white border-0 hover:bg-gray-600"
                       >
-                        Edit
+                        {t('common.edit')}
                       </Button>
                       <Button
                         size="sm"
