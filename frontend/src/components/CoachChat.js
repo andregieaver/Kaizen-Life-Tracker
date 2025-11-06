@@ -282,7 +282,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       await loadArchivedConversations();
     } catch (error) {
       console.error('Failed to archive conversation:', error);
-      alert('Failed to archive conversation. Please try again.');
+      alert(t('coachChat.failedArchive'));
     }
   };
 
@@ -296,7 +296,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       await loadArchivedConversations();
     } catch (error) {
       console.error('Failed to unarchive conversation:', error);
-      alert('Failed to unarchive conversation. Please try again.');
+      alert(t('coachChat.failedUnarchive'));
     }
   };
 
@@ -304,7 +304,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
   const deleteConversation = async (sessionId, e, isArchived = false) => {
     e.stopPropagation();
     
-    if (!window.confirm('Are you sure you want to delete this conversation? This action cannot be undone.')) {
+    if (!window.confirm(t('coachChat.confirmDeleteConversation'))) {
       return;
     }
 
@@ -321,7 +321,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       }
     } catch (error) {
       console.error('Failed to delete conversation:', error);
-      alert('Failed to delete conversation. Please try again.');
+      alert(t('coachChat.failedDelete'));
     }
   };
 
