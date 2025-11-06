@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Calculator, Activity, Target, Ruler, X } from 'lucide-react';
 
 const CalculatorsConverters = ({ athleteId }) => {
+  const { t } = useTranslation();
   const [selectedCalculator, setSelectedCalculator] = useState(null);
   const [athletePreferences, setAthletePreferences] = useState(null);
 
