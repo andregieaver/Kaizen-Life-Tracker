@@ -4073,7 +4073,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-2xl font-bold text-white">Share Post</h3>
+              <h3 className="text-2xl font-bold text-white">{t('community.modals.sharePost')}</h3>
               <button
                 onClick={() => setShowShareModal(false)}
                 className="text-gray-400 hover:text-white transition-colors"
