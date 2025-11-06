@@ -525,7 +525,7 @@ const Recipes = ({ athleteId }) => {
               {/* Instructions */}
               <div>
                 <h3 className="text-2xl font-display font-bold text-gray-900 mb-4">
-                  Preparation Instructions
+                  {t('recipes.preparationInstructions')}
                 </h3>
                 <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-6 border border-purple-200">
                   <div className="prose prose-lg max-w-none">
