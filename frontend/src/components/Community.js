@@ -4882,7 +4882,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
             <textarea
               value={groupData.description}
               onChange={(e) => setGroupData({ ...groupData, description: e.target.value })}
-              placeholder="Describe your group"
+              placeholder={t('community.group.describeGroup')}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
               rows="3"
             />
@@ -5043,7 +5043,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
             <textarea
               value={groupData.description}
               onChange={(e) => setGroupData({ ...groupData, description: e.target.value })}
-              placeholder="Describe your group"
+              placeholder={t('community.group.describeGroup')}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
               rows="3"
             />
