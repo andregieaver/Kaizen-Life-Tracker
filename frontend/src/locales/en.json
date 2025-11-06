@@ -1113,5 +1113,52 @@
     "archived": "Archived",
     "noArchivedConversations": "No archived conversations",
     "unarchive": "Unarchive"
+  },
+  "supplements": {
+    "title": "Supplements",
+    "subtitle": "Track your daily supplements and vitamins",
+    "addSupplement": "Add Supplement",
+    "addFirstSupplement": "Add First Supplement",
+    "editSupplement": "Edit Supplement",
+    "updateDetails": "Update supplement details",
+    "addToRoutine": "Add a new supplement to your routine",
+    "noSupplementsYet": "No supplements yet",
+    "startTracking": "Start tracking your supplements and vitamins",
+    "loadingSupplements": "Loading supplements...",
+    "supplementName": "Supplement Name",
+    "dosage": "Dosage",
+    "unit": "Unit",
+    "frequency": "Frequency",
+    "timeOfDay": "Time of Day",
+    "notes": "Notes",
+    "notesPlaceholder": "Additional notes or instructions...",
+    "fillRequired": "Please fill in supplement name and dosage",
+    "supplementUpdated": "Supplement updated!",
+    "supplementAdded": "Supplement added!",
+    "supplementDeleted": "Supplement deleted",
+    "failedToLoad": "Failed to load supplements",
+    "failedToSave": "Failed to save supplement",
+    "failedToDelete": "Failed to delete supplement",
+    "confirmDelete": "Are you sure you want to delete this supplement?",
+    "frequencies": {
+      "daily": "Daily",
+      "twice_daily": "Twice Daily",
+      "weekly": "Weekly",
+      "as_needed": "As Needed"
+    },
+    "timesOfDay": {
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening",
+      "night": "Night",
+      "with_meals": "With Meals",
+      "any": "Any Time"
+    },
+    "units": {
+      "capsules": "capsules",
+      "tablets": "tablets",
+      "drops": "drops",
+      "other": "other"
+    }
   }
 }
