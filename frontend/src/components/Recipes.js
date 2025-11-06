@@ -108,7 +108,7 @@ const Recipes = ({ athleteId }) => {
   };
 
   const deleteRecipe = async (recipeId) => {
-    if (!window.confirm('Are you sure you want to delete this recipe?')) return;
+    if (!window.confirm(t('recipes.confirmDeleteRecipe'))) return;
     
     try {
       await axios.delete(`${API}/recipes/${recipeId}`);
