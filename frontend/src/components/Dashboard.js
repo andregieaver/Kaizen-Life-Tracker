@@ -1154,7 +1154,7 @@ const Dashboard = ({ athleteId }) => {
                     </div>
                     <div className="text-center md:text-left flex-1">
                       <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('dashboard.modals.logMeal')}</h3>
-                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>Track nutrition</p>
+                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>{t('dashboard.actions.trackNutrition')}</p>
                     </div>
                   </div>
                 </div>
