@@ -1092,6 +1092,76 @@ const Dashboard = ({ athleteId }) => {
       } style={{ background: 'var(--bg-950)' }}>
         {activeTab === 'overview' && (
           <div className="space-y-0 md:space-y-6">
+            {/* Body Score, Progress, and Merits - Three Equal Columns on Desktop */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 md:gap-3">
+              {/* Column 1: Body Score */}
+              <ReadinessCard athleteId={athleteId} readiness={readiness} />
+
+              {/* Column 2: Progress - Recent Test Results */}
+              <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)', borderColor: 'var(--border)' }}>
+                <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+                  <h2 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Progress</h2>
+                  <p className="text-sm" style={{ color: 'var(--text-med)' }}>Recent test results</p>
+                </div>
+                <div className="p-4">
+                  {testResults && testResults.length > 0 ? (
+                    <div className="space-y-3">
+                      {testResults.slice(0, 3).map((test, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 rounded-2xl" style={{ background: 'var(--grad-cta-soft)', border: '1px solid var(--border)' }}>
+                          <div className="flex items-center space-x-4">
+                            <div className="p-3 rounded-2xl flex items-center justify-center" style={{ background: 'var(--bg-800)' }}>
+                              <LineChart className="w-5 h-5" style={{ color: 'var(--c-brand-500)' }} />
+                            </div>
+                            <div>
+                              <p className="font-semibold" style={{ color: 'var(--text-hi)', fontFamily: 'var(--font-display)' }}>
+                                {test.test_name}
+                              </p>
+                              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+                                {new Date(test.test_date).toLocaleDateString()}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <p className="font-bold text-lg" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
+                              {test.result_value} {test.unit === 'repetitions' ? 'reps' : 
+                               test.unit === 'time' ? 'min' : 
+                               test.unit === 'distance' ? 'km' : 
+                               test.unit === 'weight' ? 'kg' : 
+                               test.unit === 'percentage' ? '%' : test.unit}
+                            </p>
+                            {test.time_to_completion && (
+                              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+                                {test.time_to_completion} min
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <p className="mb-4" style={{ color: 'var(--text-med)' }}>No test results yet</p>
+                      <button 
+                        onClick={() => navigate('/dashboard/tests')}
+                        className="px-6 py-3 rounded-2xl font-semibold transition-all duration-200 hover:scale-105"
+                        style={{ 
+                          background: 'var(--grad-brand)',
+                          color: 'var(--bg-950)',
+                          fontFamily: 'var(--font-display)',
+                          boxShadow: '0 10px 24px rgba(25,229,197,.15)'
+                        }}
+                      >
+                        Add Test Results
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Column 3: Merits - Running Distance Personal Records */}
+              <Merits athleteId={athleteId} />
+            </div>
+
             {/* Quick Actions Grid - Redesigned */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 md:gap-3">
               {/* Weekly Menu */}
