@@ -26,14 +26,14 @@ const Drinks = ({ athleteId }) => {
 
   // Drink types with colors
   const drinkTypes = [
-    { value: 'water', label: 'Water', color: 'bg-blue-500', icon: '💧' },
-    { value: 'coffee', label: 'Coffee', color: 'bg-amber-700', icon: '☕' },
-    { value: 'tea', label: 'Tea', color: 'bg-green-600', icon: '🍵' },
-    { value: 'juice', label: 'Juice', color: 'bg-orange-500', icon: '🧃' },
-    { value: 'sports_drink', label: 'Sports Drink', color: 'bg-purple-500', icon: '⚡' },
-    { value: 'milk', label: 'Milk', color: 'bg-gray-100', icon: '🥛' },
-    { value: 'smoothie', label: 'Smoothie', color: 'bg-pink-500', icon: '🥤' },
-    { value: 'other', label: 'Other', color: 'bg-gray-500', icon: '🥤' }
+    { value: 'water', label: t('drinks.drinkTypes.water'), color: 'bg-blue-500', icon: '💧' },
+    { value: 'coffee', label: t('drinks.drinkTypes.coffee'), color: 'bg-amber-700', icon: '☕' },
+    { value: 'tea', label: t('drinks.drinkTypes.tea'), color: 'bg-green-600', icon: '🍵' },
+    { value: 'juice', label: t('drinks.drinkTypes.juice'), color: 'bg-orange-500', icon: '🧃' },
+    { value: 'sports_drink', label: t('drinks.drinkTypes.sports_drink'), color: 'bg-purple-500', icon: '⚡' },
+    { value: 'milk', label: t('drinks.drinkTypes.milk'), color: 'bg-gray-100', icon: '🥛' },
+    { value: 'smoothie', label: t('drinks.drinkTypes.smoothie'), color: 'bg-pink-500', icon: '🥤' },
+    { value: 'other', label: t('drinks.drinkTypes.other'), color: 'bg-gray-500', icon: '🥤' }
   ];
 
   // Common amounts in ml
