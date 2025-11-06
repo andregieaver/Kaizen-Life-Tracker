@@ -2360,8 +2360,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             ) : posts.length === 0 ? (
               <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
                 <div className="p-4" className="p-12 text-center">
-                  <p className="text-gray-400 text-lg mb-2">No posts yet</p>
-                  <p className="text-gray-500 text-sm">Be the first to share something!</p>
+                  <p className="text-gray-400 text-lg mb-2">{t('community.emptyStates.noPostsYet')}</p>
+                  <p className="text-gray-500 text-sm">{t('community.emptyStates.beFirstToShare')}</p>
                 </div>
               </div>
             ) : (
