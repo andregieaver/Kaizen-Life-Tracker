@@ -4088,7 +4088,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 ref={shareTextareaRef}
                 value={shareCommentary}
                 onChange={(e) => setShareCommentary(e.target.value)}
-                placeholder="Add your thoughts (optional)..."
+                placeholder={t('community.post.addThoughts')}
                 className="w-full bg-gray-700 text-white rounded-lg px-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[100px] resize-vertical"
               />
 
