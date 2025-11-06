@@ -61,7 +61,7 @@ const Recipes = ({ athleteId }) => {
       });
       
       console.log('[RECIPE] Success! Generated recipe:', response.data);
-      setStatusMessage({ type: 'success', message: `✅ Recipe generated: ${response.data.recipe_name || 'Success'}` });
+      setStatusMessage({ type: 'success', message: t('recipes.recipeGenerated', { name: response.data.recipe_name || 'Success' }) });
       
       // Add the new recipe to the list
       if (response.data.recipe) {
