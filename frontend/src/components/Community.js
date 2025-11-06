@@ -6077,7 +6077,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
               <div className="flex items-center gap-2">
                 <h3 className="text-xl font-bold text-white truncate">{challenge.title}</h3>
                 {isCreator && (
-                  <Crown className="w-5 h-5 text-yellow-400 flex-shrink-0" title="Challenge Creator" />
+                  <Crown className="w-5 h-5 text-yellow-400 flex-shrink-0" title={t('community.actions.challengeCreator')} />
                 )}
               </div>
               {(isCreator || isSuperAdmin) && (
