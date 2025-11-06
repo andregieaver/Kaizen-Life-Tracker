@@ -128,7 +128,7 @@ const Memories = ({ athleteId }) => {
     e.preventDefault();
 
     if (!formData.content.trim()) {
-      setSaveStatus({ type: 'error', message: 'Memory content is required' });
+      setSaveStatus({ type: 'error', message: t('memories.errorSaving') });
       return;
     }
 
@@ -136,14 +136,14 @@ const Memories = ({ athleteId }) => {
       if (editingMemory) {
         // Update existing memory
         await axios.put(`${API}/api/memories/${editingMemory.id}`, formData);
-        setSaveStatus({ type: 'success', message: 'Memory updated successfully!' });
+        setSaveStatus({ type: 'success', message: t('memories.memoryUpdated') });
       } else {
         // Create new memory
         await axios.post(`${API}/api/memories/${athleteId}`, {
           ...formData,
           athlete_id: athleteId
         });
-        setSaveStatus({ type: 'success', message: 'Memory created successfully!' });
+        setSaveStatus({ type: 'success', message: t('memories.memoryCreated') });
       }
 
       setShowModal(false);
@@ -154,7 +154,7 @@ const Memories = ({ athleteId }) => {
       console.error('Error saving memory:', error);
       setSaveStatus({ 
         type: 'error', 
-        message: error.response?.data?.detail || 'Failed to save memory' 
+        message: error.response?.data?.detail || t('memories.errorSaving')
       });
     }
   };
