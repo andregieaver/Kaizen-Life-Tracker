@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Mail, Send, CheckCircle, AlertCircle, HelpCircle } from 'lucide-react';
@@ -8,6 +9,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Support = ({ athleteId, athlete }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: athlete?.name || '',
     email: athlete?.email || '',
