@@ -46,10 +46,10 @@ const Nutrition = ({ athleteId }) => {
   const cameraInputRef = useRef(null);
 
   const mealTypes = [
-    { value: 'breakfast', label: 'Breakfast', icon: Coffee },
-    { value: 'lunch', label: 'Lunch', icon: Utensils },
-    { value: 'dinner', label: 'Dinner', icon: UtensilsCrossed },
-    { value: 'snack', label: 'Snack', icon: Apple }
+    { value: 'breakfast', label: t('nutrition.mealTypes.breakfast'), icon: Coffee },
+    { value: 'lunch', label: t('nutrition.mealTypes.lunch'), icon: Utensils },
+    { value: 'dinner', label: t('nutrition.mealTypes.dinner'), icon: UtensilsCrossed },
+    { value: 'snack', label: t('nutrition.mealTypes.snack'), icon: Apple }
   ];
 
   useEffect(() => {
