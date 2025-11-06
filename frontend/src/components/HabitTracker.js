@@ -447,7 +447,7 @@ const HabitTracker = ({ athleteId }) => {
 
               {/* Times Per Day */}
               <div>
-                <Label htmlFor="times" className="text-white">Times Per Day *</Label>
+                <Label htmlFor="times" className="text-white">{t('habits.timesPerDay')} *</Label>
                 <Input
                   id="times"
                   type="number"
