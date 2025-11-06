@@ -3658,7 +3658,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '50ms' : '0ms'
         }}
-        title="Create Challenge"
+        title={t('community.actions.createChallenge')}
       >
         <Trophy className="w-5 h-5 text-white" />
       </button>
