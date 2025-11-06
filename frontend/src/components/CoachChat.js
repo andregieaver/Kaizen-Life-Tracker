@@ -401,7 +401,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                             size="sm"
                             onClick={(e) => archiveConversation(conv.session_id, e)}
                             className="h-7 w-7 p-0 text-gray-400 hover:text-white hover:bg-gray-600"
-                            title="Archive conversation"
+                            title={t('coachChat.archiveConversation')}
                           >
                             <Archive className="w-3.5 h-3.5" />
                           </Button>
@@ -410,7 +410,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                             size="sm"
                             onClick={(e) => deleteConversation(conv.session_id, e)}
                             className="h-7 w-7 p-0 text-red-400 hover:text-red-300 hover:bg-red-900/30"
-                            title="Delete conversation"
+                            title={t('coachChat.deleteConversation')}
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </Button>
