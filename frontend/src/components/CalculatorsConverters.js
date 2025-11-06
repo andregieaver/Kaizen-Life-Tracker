@@ -276,15 +276,15 @@ const PaceCalculator = ({ athletePreferences }) => {
             {/* Unit Selector */}
             <div>
               <label className="block text-sm font-medium text-white mb-2">
-                Per
+                {t('calculators.per')}
               </label>
               <select
                 value={unit}
                 onChange={(e) => setUnit(e.target.value)}
                 className="w-full px-4 py-3 bg-gray-600 border border-gray-500 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
               >
-                <option value="km">Kilometer (km)</option>
-                <option value="miles">Mile (mi)</option>
+                <option value="km">{t('calculators.kilometer')}</option>
+                <option value="miles">{t('calculators.mile')}</option>
               </select>
             </div>
           </div>
