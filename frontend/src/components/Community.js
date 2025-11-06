@@ -682,7 +682,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     const newCount = currentCount + files.length;
 
     if (newCount > 5) {
-      alert(`You can upload a maximum of 5 media items (images + video). You currently have ${currentCount} item(s).`);
+      alert(t('community.messages.maxMediaItems', { count: currentCount }));
       return;
     }
 
