@@ -220,6 +220,7 @@ const Account = ({ athleteId }) => {
   });
   
   const [activeTab, setActiveTab] = useState('personal');
+  const [previousAccountTab, setPreviousAccountTab] = useState('personal');
   const location = window.location;
 
   // Tab handling moved to main useEffect below
