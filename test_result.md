@@ -107,9 +107,9 @@ user_problem_statement: "Fix Strava integration credential retrieval issue. Back
 backend:
   - task: "Strava Credential Retrieval Fix"
     implemented: true
-    working: false
+    working: true
     file: "/app/backend/strava_service.py, /app/backend/server.py"
-    stuck_count: 1
+    stuck_count: 0
     priority: "critical"
     needs_retesting: false
     status_history:
@@ -122,6 +122,9 @@ backend:
       - working: false
         agent: "testing"
         comment: "❌ STRAVA CREDENTIAL RETRIEVAL FIX PARTIALLY WORKING - ROUTING/ARCHITECTURE ISSUE IDENTIFIED. Comprehensive testing completed using super admin andre@humanweb.no (ID: 77e6ef02-0c9e-4ede-a428-213b83eed1fe). VERIFIED: 1) CREDENTIALS STORAGE ✅ - Strava credentials exist in system_settings collection with setting_type='global', clientId: 57985, clientSecret present, callbackDomain: kaizenlifetracker.com. 2) MONGODB QUERY FIX ✅ - Direct MongoDB query with {'setting_type': 'global'} successfully retrieves credentials, strava_service.py line 32 fix is CORRECT. 3) WEBHOOK LIST ENDPOINT ✅ - GET /api/strava/webhook/list returns 200 status with subscriptions array, StravaService.load_settings() works correctly, no 'credentials not found' errors. 4) AUTHORIZATION URL ENDPOINT ❌ - GET /api/auth/strava?user_id={user_id} returns 400 'Strava credentials not configured', endpoint NOT using StravaService! ROOT CAUSE ANALYSIS: There are THREE different Strava auth implementations in server.py: 1) Generic provider endpoint /api/auth/{provider_key} (line 8273) uses StravaConnector class (line 8085) which looks for credentials in environment variables or user integrations collection, NOT system_settings. 2) User-specific endpoint /api/auth/strava/{athlete_id} (line 7359) uses integrations collection for user-specific credentials. 3) System-wide endpoint /api/auth/strava (line 16013) uses StravaService with fixed load_settings() method. ROUTING ISSUE: When calling /api/auth/strava?user_id=..., FastAPI routes request to generic provider endpoint (line 8273) which uses StravaConnector.begin_auth (line 8089), NOT StravaService. StravaConnector.begin_auth checks environment variables and user integrations but NOT system_settings, causing 'Strava credentials not configured' error (line 8104). CONCLUSION: The fix in strava_service.py is CORRECT and works for webhook endpoints. However, authorization URL endpoint uses different code path (StravaConnector) that doesn't use the fixed code. SOLUTION NEEDED: Update StravaConnector.begin_auth (line 8089) to also check system_settings collection with {'setting_type': 'global'} filter, OR update routing to use StravaService endpoint (line 16013) instead of generic provider endpoint."
+      - working: true
+        agent: "testing"
+        comment: "✅ STRAVA CREDENTIAL RETRIEVAL FIX FULLY WORKING - BOTH FIXES VERIFIED SUCCESSFUL. Comprehensive testing completed using super admin andre@humanweb.no (ID: 77e6ef02-0c9e-4ede-a428-213b83eed1fe). VERIFIED ALL SUCCESS CRITERIA: 1) AUTHORIZATION ENDPOINT ✅ - GET /api/auth/strava?user_id={user_id} returns 200 status (not 400), no 'credentials not configured' error, authorization URL generated correctly with client_id=57985, URL points to strava.com/oauth/authorize, state parameter included in response and URL, all required OAuth parameters present (client_id, response_type, redirect_uri, scope, state). 2) WEBHOOK LIST ENDPOINT ✅ - GET /api/strava/webhook/list returns 200 status with subscriptions array, StravaService.load_settings() works correctly. 3) BACKEND LOGS ✅ - No Strava-related errors in recent logs, no credential loading errors. 4) BOTH CODE PATHS WORKING ✅ - StravaService (webhook endpoints) can access credentials via strava_service.py line 32 fix, StravaConnector (authorization endpoint) can access credentials via server.py line 8104-8108 fallback fix. CRITICAL SUCCESS CRITERIA MET: Authorization URL contains correct client_id (57985), no 'credentials not configured' errors in response or logs, both strava_service.py and StravaConnector can retrieve credentials from system_settings collection with {setting_type: 'global'} filter. STRAVA CREDENTIAL RETRIEVAL FIX IS PRODUCTION-READY AND FULLY FUNCTIONAL."
 
 backend:
   - task: "Share Post API with Commentary Support"
