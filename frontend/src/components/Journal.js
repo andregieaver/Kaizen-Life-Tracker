@@ -533,37 +533,55 @@ const Journal = ({ athleteId }) => {
             </div>
             <div className="p-4 space-y-4">
               {/* Entry Type Toggle */}
-              <div className="flex items-center space-x-2 bg-gray-700 rounded-lg p-2">
+              <div 
+                className="journal-entry-type-switcher flex items-center space-x-2 p-2 relative"
+                data-previous={previousEntryType}
+                style={{
+                  background: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
+                  backdropFilter: 'blur(8px) saturate(150%)',
+                  WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+                  borderRadius: '99em',
+                  boxShadow: `
+                    inset 0 2px 4px -1px rgba(0,0,0,0.3),
+                    inset 0 -1px 2px rgba(255,255,255,0.05)
+                  `,
+                  '--bubble-left': '0px',
+                  '--bubble-width': '100px'
+                }}
+              >
                 <button
                   type="button"
+                  data-entry-type="text"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('Text button clicked');
+                    setPreviousEntryType(entryType);
                     setEntryType('text');
                     if (isRecording) stopRecording();
                     if (isRecording) stopVideoRecording();
                     resetVideoState();
                   }}
                   style={{
-                    background: entryType === 'text' ? 'var(--c-brand-500)' : 'transparent',
                     color: entryType === 'text' ? 'var(--bg-950)' : 'var(--text-med)',
                     cursor: 'pointer',
                     border: 'none',
                     outline: 'none',
-                    pointerEvents: 'auto'
+                    background: 'transparent',
+                    position: 'relative',
+                    zIndex: 1
                   }}
-                  className="flex-1 px-3 py-2 rounded-lg font-medium transition-all hover:bg-opacity-80"
+                  className="flex-1 px-4 py-2.5 rounded-full font-medium transition-colors flex items-center justify-center"
                 >
-                  <FileText className="w-4 h-4 inline mr-1" />
+                  <FileText className="w-4 h-4 mr-1.5" />
                   {t('journal.text')}
                 </button>
                 <button
                   type="button"
+                  data-entry-type="voice"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('Voice button clicked');
+                    setPreviousEntryType(entryType);
                     // Clear video state first
                     setVideoBlob(null);
                     if (videoPreviewUrl) {
@@ -578,38 +596,41 @@ const Journal = ({ athleteId }) => {
                     setEntryType('voice');
                   }}
                   style={{
-                    background: entryType === 'voice' ? 'var(--c-brand-500)' : 'transparent',
                     color: entryType === 'voice' ? 'var(--bg-950)' : 'var(--text-med)',
                     cursor: 'pointer',
                     border: 'none',
                     outline: 'none',
-                    pointerEvents: 'auto'
+                    background: 'transparent',
+                    position: 'relative',
+                    zIndex: 1
                   }}
-                  className="flex-1 px-3 py-2 rounded-lg font-medium transition-all hover:bg-opacity-80"
+                  className="flex-1 px-4 py-2.5 rounded-full font-medium transition-colors flex items-center justify-center"
                 >
-                  <Mic className="w-4 h-4 inline mr-1" />
+                  <Mic className="w-4 h-4 mr-1.5" />
                   {t('journal.voice')}
                 </button>
                 <button
                   type="button"
+                  data-entry-type="video"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('Video button clicked');
+                    setPreviousEntryType(entryType);
                     setEntryType('video');
                     if (isRecording) stopRecording();
                   }}
                   style={{
-                    background: entryType === 'video' ? 'var(--c-brand-500)' : 'transparent',
                     color: entryType === 'video' ? 'var(--bg-950)' : 'var(--text-med)',
                     cursor: 'pointer',
                     border: 'none',
                     outline: 'none',
-                    pointerEvents: 'auto'
+                    background: 'transparent',
+                    position: 'relative',
+                    zIndex: 1
                   }}
-                  className="flex-1 px-3 py-2 rounded-lg font-medium transition-all hover:bg-opacity-80"
+                  className="flex-1 px-4 py-2.5 rounded-full font-medium transition-colors flex items-center justify-center"
                 >
-                  <Video className="w-4 h-4 inline mr-1" />
+                  <Video className="w-4 h-4 mr-1.5" />
                   {t('journal.video')}
                 </button>
               </div>
