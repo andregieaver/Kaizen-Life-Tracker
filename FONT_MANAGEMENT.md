@@ -42,20 +42,51 @@ fontFamily: {
 ## How to Change Fonts
 
 ### To change the main app font:
-1. Open `/app/frontend/src/index.css`
-2. Update `--font-display` and `--font-body` variables (lines 83-84)
-3. If using a new font, add @font-face declarations at the top of the file
+1. **Update CSS variables** in `/app/frontend/src/index.css`:
+   ```css
+   --font-display: "Roboto", sans-serif;
+   --font-body: "Roboto", sans-serif;
+   ```
+
+2. **Update Tailwind config** in `/app/frontend/tailwind.config.js`:
+   ```javascript
+   fontFamily: {
+     sans: ['Roboto', 'system-ui', ...],
+     display: ['Roboto', 'system-ui', ...]
+   }
+   ```
+
+3. **Add @font-face declarations** if using a new font (in index.css)
 
 ### To change the logo font:
-1. Open `/app/frontend/src/index.css`
-2. Update `--font-logo` variable (line 85)
+1. **Update CSS variable** in `/app/frontend/src/index.css`:
+   ```css
+   --font-logo: "Montserrat", sans-serif;
+   ```
 
-### Example: Switching to Roboto
+2. **Update Tailwind config** in `/app/frontend/tailwind.config.js`:
+   ```javascript
+   fontFamily: {
+     logo: ['Montserrat', '-apple-system', ...]
+   }
+   ```
+
+### Complete Example: Switching to Roboto
+**In `/app/frontend/src/index.css`:**
 ```css
 :root {
   --font-display: "Roboto", sans-serif;
   --font-body: "Roboto", sans-serif;
   --font-logo: "Inter", sans-serif;
+}
+```
+
+**In `/app/frontend/tailwind.config.js`:**
+```javascript
+fontFamily: {
+  sans: ['Roboto', 'system-ui', '-apple-system', ...],
+  display: ['Roboto', 'system-ui', ...],
+  logo: ['Inter', '-apple-system', ...]
 }
 ```
 
