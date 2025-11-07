@@ -45,41 +45,24 @@ def test_strava_credential_retrieval():
     print_section("STRAVA CREDENTIAL RETRIEVAL FIX TESTING")
     
     try:
-        # Step 1: Find super admin user
-        print("\n   Step 1: Find super admin user")
+        # Step 1: Use known super admin ID from test_result.md
+        print("\n   Step 1: Use known super admin ID")
         
-        # Try to login as known super admin
-        login_attempts = [
-            {"email": "andre@humanweb.no", "password": "password123"},
-            {"email": "test.files@example.com", "password": "password123"}
-        ]
+        # Use known super admin ID from test_result.md
+        super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"  # andre@humanweb.no
+        super_admin_email = "andre@humanweb.no"
         
-        super_admin_id = None
-        super_admin_email = None
-        
-        for login_data in login_attempts:
-            login_response = requests.post(
-                f"{BACKEND_URL}/auth/login",
-                json=login_data,
-                headers={"Content-Type": "application/json"}
-            )
-            
-            if login_response.status_code == 200:
-                athlete_data = login_response.json()
-                athlete_id = athlete_data.get("athlete_id")
-                
-                # Check if this user is super admin
-                profile_response = requests.get(f"{BACKEND_URL}/athlete/{athlete_id}")
-                if profile_response.status_code == 200:
-                    profile = profile_response.json()
-                    if profile.get("is_super_admin"):
-                        super_admin_id = athlete_id
-                        super_admin_email = login_data["email"]
-                        print_test_result("Find Super Admin", True, f"Found super admin: {super_admin_email}, ID: {super_admin_id}")
-                        break
-        
-        if not super_admin_id:
-            print_test_result("Find Super Admin", False, "No super admin user found")
+        # Verify this user exists and is super admin
+        profile_response = requests.get(f"{BACKEND_URL}/athlete/{super_admin_id}")
+        if profile_response.status_code == 200:
+            profile = profile_response.json()
+            if profile.get("is_super_admin"):
+                print_test_result("Find Super Admin", True, f"Using super admin: {super_admin_email}, ID: {super_admin_id}")
+            else:
+                print_test_result("Find Super Admin", False, f"User {super_admin_id} is not super admin")
+                return False
+        else:
+            print_test_result("Find Super Admin", False, f"Cannot access profile: {profile_response.status_code}")
             return False
         
         # Step 2: Check if Strava credentials exist in system_settings
