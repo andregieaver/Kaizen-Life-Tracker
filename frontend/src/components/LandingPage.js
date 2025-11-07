@@ -226,7 +226,9 @@ const LandingPage = () => {
         const response = await axios.get(`${API}/menus/public`);
         console.log('Fetched menus:', response.data);
         if (response.data) {
-          const headerLoggedOutMenu = response.data.find(menu => menu.menu_type === 'header_logged_out');
+          // Response.data is an object with menu types as keys, not an array
+          const menusArray = Array.isArray(response.data) ? response.data : Object.values(response.data);
+          const headerLoggedOutMenu = menusArray.find(menu => menu.menu_type === 'header_logged_out');
           console.log('Found header_logged_out menu:', headerLoggedOutMenu);
           if (headerLoggedOutMenu && headerLoggedOutMenu.items) {
             const sortedItems = headerLoggedOutMenu.items.sort((a, b) => (a.order || 0) - (b.order || 0));
