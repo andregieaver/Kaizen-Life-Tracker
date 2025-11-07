@@ -130,13 +130,9 @@ const Dashboard = ({ athleteId }) => {
         const leftOffset = buttonRect.left - menuRect.left;
         const width = buttonRect.width;
         
-        console.log('Header bubble update:', { activeTab, leftOffset, width, buttonText: activeButton.textContent });
-        
         // Update CSS custom properties for the sliding bubble
         headerMenu.style.setProperty('--bubble-left', `${leftOffset}px`);
         headerMenu.style.setProperty('--bubble-width', `${width}px`);
-      } else {
-        console.log('Header bubble not found:', { headerMenu: !!headerMenu, activeButton: !!activeButton, activeTab });
       }
     };
 
