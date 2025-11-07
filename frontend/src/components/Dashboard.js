@@ -1911,7 +1911,7 @@ const Dashboard = ({ athleteId }) => {
               showCreateMenu ? 'rotate-45' : ''
             }`}
             style={{
-              bottom: '100px',
+              bottom: '96px',
               right: '16px',
               background: showCreateMenu ? 'var(--grad-danger)' : 'var(--grad-brand)',
               boxShadow: showCreateMenu 
