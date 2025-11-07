@@ -140,20 +140,23 @@ class StravaService:
         # Exchange code for tokens
         import logging
         async with httpx.AsyncClient() as client:
-            logging.info(f"Exchanging code with Strava API: URL={STRAVA_TOKEN_URL}")
+            token_params = {
+                'client_id': self.system_settings['clientId'],
+                'client_secret': self.system_settings['clientSecret'],
+                'code': code,
+                'grant_type': 'authorization_code'
+            }
+            logging.info(f"Exchanging code with Strava API: URL={STRAVA_TOKEN_URL}, params={list(token_params.keys())}")
+            
+            # Try as form data first (what curl -d does)
             response = await client.post(
                 STRAVA_TOKEN_URL,
-                data={
-                    'client_id': self.system_settings['clientId'],
-                    'client_secret': self.system_settings['clientSecret'],
-                    'code': code,
-                    'grant_type': 'authorization_code'
-                }
+                data=token_params
             )
             
-            logging.info(f"Strava token exchange response: status={response.status_code}")
+            logging.info(f"Strava token exchange response: status={response.status_code}, body_preview={response.text[:200]}")
             if response.status_code != 200:
-                logging.error(f"Strava token exchange failed: {response.text}")
+                logging.error(f"Strava token exchange failed: status={response.status_code}, full_response={response.text}")
                 raise HTTPException(
                     status_code=response.status_code,
                     detail=f"Strava token exchange failed: {response.text}"
