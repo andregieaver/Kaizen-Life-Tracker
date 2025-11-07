@@ -1264,7 +1264,7 @@ const Dashboard = ({ athleteId }) => {
                           background: 'var(--grad-brand)',
                           color: 'var(--bg-950)',
                           fontFamily: 'var(--font-display)',
-                          boxShadow: '0 10px 24px rgba(25,229,197,.15)'
+                          boxShadow: '0 10px 24px rgba(50,211,255,.15)'
                         }}
                       >
                         Add Test Results
