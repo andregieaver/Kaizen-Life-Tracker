@@ -231,7 +231,9 @@ const Dashboard = ({ athleteId }) => {
       setCommunityUnreadCount(response.data.unread_count);
       setNotificationsUnreadCount(response.data.unread_count); // Also set notifications unread count
     } catch (error) {
-      console.error('Error loading community unread count:', error);
+      // Silently fail - this is a non-critical feature
+      setCommunityUnreadCount(0);
+      setNotificationsUnreadCount(0);
     }
   };
 
