@@ -1213,7 +1213,8 @@ const SystemSettings = ({ athleteId }) => {
           strava: {
             clientId: advancedSettings.strava.clientId,
             clientSecret: advancedSettings.strava.clientSecret,
-            webhookVerifyToken: advancedSettings.strava.webhookVerifyToken
+            webhookVerifyToken: advancedSettings.strava.webhookVerifyToken,
+            callbackDomain: advancedSettings.strava.callbackDomain
           }
         }
       });
