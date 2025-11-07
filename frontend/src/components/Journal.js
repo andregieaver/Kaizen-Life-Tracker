@@ -506,7 +506,11 @@ const Journal = ({ athleteId }) => {
               {/* Entry Type Toggle */}
               <div className="flex items-center space-x-2 bg-gray-700 rounded-lg p-2">
                 <button
-                  onClick={() => {
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Text button clicked');
                     setEntryType('text');
                     if (isRecording) stopRecording();
                     if (isRecording) stopVideoRecording();
@@ -515,7 +519,10 @@ const Journal = ({ athleteId }) => {
                   style={{
                     background: entryType === 'text' ? 'var(--c-brand-500)' : 'transparent',
                     color: entryType === 'text' ? 'var(--bg-950)' : 'var(--text-med)',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    border: 'none',
+                    outline: 'none',
+                    pointerEvents: 'auto'
                   }}
                   className="flex-1 px-3 py-2 rounded-lg font-medium transition-all hover:bg-opacity-80"
                 >
@@ -523,14 +530,21 @@ const Journal = ({ athleteId }) => {
                   {t('journal.text')}
                 </button>
                 <button
-                  onClick={() => {
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Voice button clicked');
                     setEntryType('voice');
                     resetVideoState();
                   }}
                   style={{
                     background: entryType === 'voice' ? 'var(--c-brand-500)' : 'transparent',
                     color: entryType === 'voice' ? 'var(--bg-950)' : 'var(--text-med)',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    border: 'none',
+                    outline: 'none',
+                    pointerEvents: 'auto'
                   }}
                   className="flex-1 px-3 py-2 rounded-lg font-medium transition-all hover:bg-opacity-80"
                 >
@@ -538,14 +552,21 @@ const Journal = ({ athleteId }) => {
                   {t('journal.voice')}
                 </button>
                 <button
-                  onClick={() => {
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Video button clicked');
                     setEntryType('video');
                     if (isRecording) stopRecording();
                   }}
                   style={{
                     background: entryType === 'video' ? 'var(--c-brand-500)' : 'transparent',
                     color: entryType === 'video' ? 'var(--bg-950)' : 'var(--text-med)',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    border: 'none',
+                    outline: 'none',
+                    pointerEvents: 'auto'
                   }}
                   className="flex-1 px-3 py-2 rounded-lg font-medium transition-all hover:bg-opacity-80"
                 >
