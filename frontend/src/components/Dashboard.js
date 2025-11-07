@@ -922,7 +922,7 @@ const Dashboard = ({ athleteId }) => {
             {/* Menu Content */}
             <div className="flex-1 p-4">
               <nav 
-                className="slideout-menu-switcher space-y-1 relative p-2"
+                className="slideout-menu-switcher space-y-1 relative"
                 data-previous={previousTab}
                 style={{
                   background: 'color-mix(in srgb, var(--c-glass) 8%, transparent)',
@@ -933,6 +933,7 @@ const Dashboard = ({ athleteId }) => {
                     inset 0 2px 4px -1px rgba(0,0,0,0.3),
                     inset 0 -1px 2px rgba(255,255,255,0.05)
                   `,
+                  padding: '8px 12px',
                   '--bubble-top': '0px',
                   '--bubble-height': '48px'
                 }}
