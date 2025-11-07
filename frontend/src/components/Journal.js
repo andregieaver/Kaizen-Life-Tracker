@@ -535,8 +535,18 @@ const Journal = ({ athleteId }) => {
                     e.preventDefault();
                     e.stopPropagation();
                     console.log('Voice button clicked');
+                    // Clear video state first
+                    setVideoBlob(null);
+                    if (videoPreviewUrl) {
+                      URL.revokeObjectURL(videoPreviewUrl);
+                    }
+                    setVideoPreviewUrl(null);
+                    setVideoTranscription('');
+                    setVideoSrtContent('');
+                    setBurnSubtitles(false);
+                    stopVideoStream();
+                    // Then set to voice mode
                     setEntryType('voice');
-                    resetVideoState();
                   }}
                   style={{
                     background: entryType === 'voice' ? 'var(--c-brand-500)' : 'transparent',
