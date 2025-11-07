@@ -192,7 +192,7 @@ const LandingPage = () => {
   const [faviconUrl, setFaviconUrl] = useState(null);
   const [headerMenu, setHeaderMenu] = useState([]);
 
-  // Fetch SEO settings (site title, logo, favicon)
+  // Fetch SEO settings (site title, logo, favicon) and menu
   useEffect(() => {
     const fetchSEOSettings = async () => {
       try {
@@ -221,7 +221,23 @@ const LandingPage = () => {
       }
     };
     
+    const fetchHeaderMenu = async () => {
+      try {
+        const response = await axios.get(`${API}/menus/public`);
+        if (response.data) {
+          const headerLoggedOutMenu = response.data.find(menu => menu.menu_type === 'header_logged_out');
+          if (headerLoggedOutMenu && headerLoggedOutMenu.items) {
+            setHeaderMenu(headerLoggedOutMenu.items.sort((a, b) => (a.order || 0) - (b.order || 0)));
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching header menu:', error);
+        // Keep empty menu as default
+      }
+    };
+    
     fetchSEOSettings();
+    fetchHeaderMenu();
     
     // Load page-level SEO meta tags for home page
     loadAndInjectPageSEO('/');
