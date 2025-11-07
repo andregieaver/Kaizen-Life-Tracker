@@ -190,6 +190,7 @@ const LandingPage = () => {
   const [siteTitle, setSiteTitle] = useState('TrainSmart');
   const [logoUrl, setLogoUrl] = useState(null);
   const [faviconUrl, setFaviconUrl] = useState(null);
+  const [headerMenu, setHeaderMenu] = useState([]);
 
   // Fetch SEO settings (site title, logo, favicon)
   useEffect(() => {
