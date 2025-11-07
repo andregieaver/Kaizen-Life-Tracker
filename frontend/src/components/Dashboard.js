@@ -558,76 +558,90 @@ const Dashboard = ({ athleteId }) => {
                 </h1>
               </div>
               <nav className="flex space-x-8">
-                <button
-                  onClick={() => navigate('/dashboard')}
-                  className={`text-sm font-medium transition-colors px-1 py-1 ${
-                    activeTab === 'overview'
-                      ? ''
-                      : ''
-                  }`}
-                  style={{ 
-                    color: activeTab === 'overview' ? 'var(--c-brand-500)' : 'var(--text-med)',
-                    borderBottom: activeTab === 'overview' ? '2px solid var(--c-brand-500)' : 'none'
-                  }}
-                  data-testid="overview-tab"
-                >
-                  {t('nav.overview')}
-                </button>
-                <button
-                  onClick={() => navigate('/dashboard/coach')}
-                  className={`text-sm font-medium transition-colors px-1 py-1`}
-                  style={{ 
-                    color: activeTab === 'coach' ? 'var(--c-brand-500)' : 'var(--text-med)',
-                    borderBottom: activeTab === 'coach' ? '2px solid var(--c-brand-500)' : 'none'
-                  }}
-                  data-testid="coach-tab"
-                >
-                  {t('nav.coach')}
-                </button>
-                <button
-                  onClick={() => navigate('/dashboard/reports')}
-                  className={`text-sm font-medium transition-colors px-1 py-1`}
-                  style={{ 
-                    color: activeTab === 'reports' ? 'var(--c-brand-500)' : 'var(--text-med)',
-                    borderBottom: activeTab === 'reports' ? '2px solid var(--c-brand-500)' : 'none'
-                  }}
-                  data-testid="reports-tab"
-                >
-                  {t('nav.reports')}
-                </button>
-                <button
-                  onClick={() => navigate('/dashboard/calendar')}
-                  className={`text-sm font-medium transition-colors px-1 py-1`}
-                  style={{ 
-                    color: activeTab === 'calendar' ? 'var(--c-brand-500)' : 'var(--text-med)',
-                    borderBottom: activeTab === 'calendar' ? '2px solid var(--c-brand-500)' : 'none'
-                  }}
-                  data-testid="calendar-tab"
-                >
-                  {t('nav.calendar')}
-                </button>
-                <button
-                  onClick={() => navigate('/dashboard/history')}
-                  className={`hidden text-sm font-medium transition-colors px-1 py-1`}
-                  style={{ 
-                    color: activeTab === 'history' ? 'var(--c-brand-500)' : 'var(--text-med)',
-                    borderBottom: activeTab === 'history' ? '2px solid var(--c-brand-500)' : 'none'
-                  }}
-                  data-testid="history-tab"
-                >
-                  {t('nav.history')}
-                </button>
-                <button
-                  onClick={() => navigate('/dashboard/account')}
-                  className={`text-sm font-medium transition-colors px-1 py-1`}
-                  style={{ 
-                    color: activeTab === 'account' ? 'var(--c-brand-500)' : 'var(--text-med)',
-                    borderBottom: activeTab === 'account' ? '2px solid var(--c-brand-500)' : 'none'
-                  }}
-                  data-testid="account-tab"
-                >
-                  {t('nav.account')}
-                </button>
+                {menuItems.header_logged_in.length > 0 ? (
+                  // Render dynamic header menu from menu editor
+                  menuItems.header_logged_in
+                    .sort((a, b) => (a.order || 0) - (b.order || 0))
+                    .map((item, index) => {
+                      // Determine if this menu item is active
+                      const isActive = location.pathname === item.url || 
+                                      (item.url === '/dashboard' && activeTab === 'overview') ||
+                                      (item.url.includes('/dashboard/') && activeTab === item.url.replace('/dashboard/', ''));
+                      
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => navigate(item.url)}
+                          className="text-sm font-medium transition-colors px-1 py-1"
+                          style={{ 
+                            color: isActive ? 'var(--c-brand-500)' : 'var(--text-med)',
+                            borderBottom: isActive ? '2px solid var(--c-brand-500)' : 'none'
+                          }}
+                        >
+                          {item.label}
+                        </button>
+                      );
+                    })
+                ) : (
+                  // Fallback to default header menu if no menu items loaded
+                  <>
+                    <button
+                      onClick={() => navigate('/dashboard')}
+                      className="text-sm font-medium transition-colors px-1 py-1"
+                      style={{ 
+                        color: activeTab === 'overview' ? 'var(--c-brand-500)' : 'var(--text-med)',
+                        borderBottom: activeTab === 'overview' ? '2px solid var(--c-brand-500)' : 'none'
+                      }}
+                      data-testid="overview-tab"
+                    >
+                      {t('nav.overview')}
+                    </button>
+                    <button
+                      onClick={() => navigate('/dashboard/coach')}
+                      className="text-sm font-medium transition-colors px-1 py-1"
+                      style={{ 
+                        color: activeTab === 'coach' ? 'var(--c-brand-500)' : 'var(--text-med)',
+                        borderBottom: activeTab === 'coach' ? '2px solid var(--c-brand-500)' : 'none'
+                      }}
+                      data-testid="coach-tab"
+                    >
+                      {t('nav.coach')}
+                    </button>
+                    <button
+                      onClick={() => navigate('/dashboard/reports')}
+                      className="text-sm font-medium transition-colors px-1 py-1"
+                      style={{ 
+                        color: activeTab === 'reports' ? 'var(--c-brand-500)' : 'var(--text-med)',
+                        borderBottom: activeTab === 'reports' ? '2px solid var(--c-brand-500)' : 'none'
+                      }}
+                      data-testid="reports-tab"
+                    >
+                      {t('nav.reports')}
+                    </button>
+                    <button
+                      onClick={() => navigate('/dashboard/calendar')}
+                      className="text-sm font-medium transition-colors px-1 py-1"
+                      style={{ 
+                        color: activeTab === 'calendar' ? 'var(--c-brand-500)' : 'var(--text-med)',
+                        borderBottom: activeTab === 'calendar' ? '2px solid var(--c-brand-500)' : 'none'
+                      }}
+                      data-testid="calendar-tab"
+                    >
+                      {t('nav.calendar')}
+                    </button>
+                    <button
+                      onClick={() => navigate('/dashboard/account')}
+                      className="text-sm font-medium transition-colors px-1 py-1"
+                      style={{ 
+                        color: activeTab === 'account' ? 'var(--c-brand-500)' : 'var(--text-med)',
+                        borderBottom: activeTab === 'account' ? '2px solid var(--c-brand-500)' : 'none'
+                      }}
+                      data-testid="account-tab"
+                    >
+                      {t('nav.account')}
+                    </button>
+                  </>
+                )}
               </nav>
             </div>
             <div className="flex items-center space-x-4">
