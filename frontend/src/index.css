@@ -378,17 +378,21 @@ code {
 }
 
 /* Tab text gets darker when active (over bright background) */
-.account-tab-item,
-.system-tab-item {
-  transition: color 300ms ease;
+.account-tabs-switcher button.account-tab-item,
+.system-tabs-switcher button.system-tab-item {
+  transition: color 300ms ease !important;
   background: transparent !important;
+  background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
 }
 
-.account-tab-item[data-state="active"],
-.system-tab-item[data-state="active"] {
+.account-tabs-switcher button.account-tab-item[data-state="active"],
+.system-tabs-switcher button.system-tab-item[data-state="active"],
+.account-tabs-switcher button.account-tab-item[aria-selected="true"],
+.system-tabs-switcher button.system-tab-item[aria-selected="true"] {
   background: transparent !important;
+  background-color: transparent !important;
   box-shadow: none !important;
 }
 
