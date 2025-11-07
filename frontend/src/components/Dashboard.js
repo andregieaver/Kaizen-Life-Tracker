@@ -1414,9 +1414,10 @@ const Dashboard = ({ athleteId }) => {
 
       {/* Bottom Tab Bar - Liquid Glass Switcher Style */}
       <div 
-        className="md:hidden fixed bottom-6 left-1/2 z-40 bottom-tab-switcher"
+        className="md:hidden fixed left-1/2 z-40 bottom-tab-switcher"
         data-previous={previousTab}
         style={{
+          bottom: '12px',
           transform: 'translateX(-50%)',
           display: 'flex',
           alignItems: 'center',
