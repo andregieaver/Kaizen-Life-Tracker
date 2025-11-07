@@ -1404,188 +1404,254 @@ const Dashboard = ({ athleteId }) => {
         )}
       </main>
 
-      {/* Bottom Tab Bar - Mobile Only with Glassmorphic Design */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40" style={{
-        background: 'color-mix(in srgb, var(--c-glass, #bbbbbc) 12%, transparent)',
-        backdropFilter: 'blur(20px) saturate(150%)',
-        WebkitBackdropFilter: 'blur(20px) saturate(150%)',
-        borderTop: '1px solid color-mix(in srgb, var(--c-light, #fff) 10%, transparent)',
-        boxShadow: `
-          inset 0 0 0 1px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 10%), transparent),
-          inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 90%), transparent),
-          inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 80%), transparent),
-          inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 60%), transparent),
-          inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 12%), transparent),
-          0px -2px 10px 0px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 8%), transparent),
-          0px -4px 20px 0px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 6%), transparent)
-        `
-      }}>
-        <nav className="flex justify-around items-center h-20 px-2">
-          {/* Tab 1: Today */}
-          <button
-            onClick={() => navigate('/dashboard/today')}
-            className="flex flex-col items-center justify-center flex-1 h-full transition-all duration-300"
+      {/* Bottom Tab Bar - Liquid Glass Switcher Style */}
+      <div 
+        className="md:hidden fixed bottom-6 left-1/2 z-40 bottom-tab-switcher"
+        data-previous={previousTab}
+        style={{
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          width: '340px',
+          maxWidth: '90vw',
+          height: '70px',
+          boxSizing: 'border-box',
+          padding: '8px 12px 10px',
+          border: 'none',
+          borderRadius: '99em',
+          backgroundColor: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
+          backdropFilter: 'blur(8px) saturate(150%)',
+          WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+          boxShadow: `
+            inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+            inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent),
+            inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent),
+            inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent),
+            inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent),
+            inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+            inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+            inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+            0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+            0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent)
+          `,
+          transition: 'background-color 400ms cubic-bezier(1, 0, 0.4, 1), box-shadow 400ms cubic-bezier(1, 0, 0.4, 1)'
+        }}
+      >
+        {/* Tab 1: Today */}
+        <button
+          onClick={() => {
+            setPreviousTab(activeTab);
+            navigate('/dashboard/today');
+          }}
+          className="tab-option"
+          data-active={activeTab === 'today'}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '0 12px',
+            flex: 1,
+            height: '100%',
+            boxSizing: 'border-box',
+            borderRadius: '99em',
+            opacity: 1,
+            transition: 'all 160ms',
+            color: activeTab === 'today' ? 'var(--c-brand-500)' : 'var(--text-med)',
+            cursor: 'pointer',
+            border: 'none',
+            background: 'transparent'
+          }}
+          onMouseEnter={(e) => {
+            if (activeTab !== 'today') {
+              e.currentTarget.style.color = 'var(--c-brand-500)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (activeTab !== 'today') {
+              e.currentTarget.style.color = 'var(--text-med)';
+            }
+          }}
+        >
+          <Zap 
+            className="w-6 h-6 transition-transform duration-200"
             style={{
-              color: activeTab === 'today' ? 'var(--c-brand-500)' : 'var(--text-med)'
+              transform: activeTab === 'today' ? 'scale(1.1)' : 'scale(1)'
             }}
-          >
-            <div 
-              className={`flex flex-col items-center justify-center transition-all duration-300 ${
-                activeTab === 'today' ? 'scale-110' : ''
-              }`}
-              style={{
-                transform: activeTab === 'today' ? 'translateY(-4px)' : 'translateY(0)'
-              }}
-            >
-              <div 
-                className={`p-2 rounded-2xl mb-1 transition-all duration-300`}
-                style={{
-                  background: activeTab === 'today' 
-                    ? 'color-mix(in srgb, var(--c-brand-500) 15%, transparent)'
-                    : 'transparent',
-                  boxShadow: activeTab === 'today'
-                    ? '0 4px 12px color-mix(in srgb, var(--c-brand-500) 20%, transparent)'
-                    : 'none'
-                }}
-              >
-                <Zap className="w-6 h-6" />
-              </div>
-              <span className="text-xs font-medium">{t('nav.today')}</span>
-            </div>
-          </button>
+          />
+        </button>
 
-          {/* Tab 2: Home/Dashboard */}
-          <button
-            onClick={() => navigate('/dashboard')}
-            className="flex flex-col items-center justify-center flex-1 h-full transition-all duration-300"
+        {/* Tab 2: Home */}
+        <button
+          onClick={() => {
+            setPreviousTab(activeTab);
+            navigate('/dashboard');
+          }}
+          className="tab-option"
+          data-active={activeTab === 'overview'}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '0 12px',
+            flex: 1,
+            height: '100%',
+            boxSizing: 'border-box',
+            borderRadius: '99em',
+            opacity: 1,
+            transition: 'all 160ms',
+            color: activeTab === 'overview' ? 'var(--c-brand-500)' : 'var(--text-med)',
+            cursor: 'pointer',
+            border: 'none',
+            background: 'transparent'
+          }}
+          onMouseEnter={(e) => {
+            if (activeTab !== 'overview') {
+              e.currentTarget.style.color = 'var(--c-brand-500)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (activeTab !== 'overview') {
+              e.currentTarget.style.color = 'var(--text-med)';
+            }
+          }}
+        >
+          <Home 
+            className="w-6 h-6 transition-transform duration-200"
             style={{
-              color: activeTab === 'overview' ? 'var(--c-brand-500)' : 'var(--text-med)'
+              transform: activeTab === 'overview' ? 'scale(1.1)' : 'scale(1)'
             }}
-          >
-            <div 
-              className={`flex flex-col items-center justify-center transition-all duration-300 ${
-                activeTab === 'overview' ? 'scale-110' : ''
-              }`}
-              style={{
-                transform: activeTab === 'overview' ? 'translateY(-4px)' : 'translateY(0)'
-              }}
-            >
-              <div 
-                className={`p-2 rounded-2xl mb-1 transition-all duration-300`}
-                style={{
-                  background: activeTab === 'overview' 
-                    ? 'color-mix(in srgb, var(--c-brand-500) 15%, transparent)'
-                    : 'transparent',
-                  boxShadow: activeTab === 'overview'
-                    ? '0 4px 12px color-mix(in srgb, var(--c-brand-500) 20%, transparent)'
-                    : 'none'
-                }}
-              >
-                <Home className="w-6 h-6" />
-              </div>
-              <span className="text-xs font-medium">{t('nav.home')}</span>
-            </div>
-          </button>
+          />
+        </button>
 
-          {/* Tab 3: AI Coach */}
-          <button
-            onClick={() => navigate('/dashboard/coach')}
-            className="flex flex-col items-center justify-center flex-1 h-full transition-all duration-300"
+        {/* Tab 3: Coach */}
+        <button
+          onClick={() => {
+            setPreviousTab(activeTab);
+            navigate('/dashboard/coach');
+          }}
+          className="tab-option"
+          data-active={activeTab === 'coach'}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '0 12px',
+            flex: 1,
+            height: '100%',
+            boxSizing: 'border-box',
+            borderRadius: '99em',
+            opacity: 1,
+            transition: 'all 160ms',
+            color: activeTab === 'coach' ? 'var(--c-brand-500)' : 'var(--text-med)',
+            cursor: 'pointer',
+            border: 'none',
+            background: 'transparent'
+          }}
+          onMouseEnter={(e) => {
+            if (activeTab !== 'coach') {
+              e.currentTarget.style.color = 'var(--c-brand-500)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (activeTab !== 'coach') {
+              e.currentTarget.style.color = 'var(--text-med)';
+            }
+          }}
+        >
+          <Brain 
+            className="w-6 h-6 transition-transform duration-200"
             style={{
-              color: activeTab === 'coach' ? 'var(--c-brand-500)' : 'var(--text-med)'
+              transform: activeTab === 'coach' ? 'scale(1.1)' : 'scale(1)'
             }}
-          >
-            <div 
-              className={`flex flex-col items-center justify-center transition-all duration-300 ${
-                activeTab === 'coach' ? 'scale-110' : ''
-              }`}
-              style={{
-                transform: activeTab === 'coach' ? 'translateY(-4px)' : 'translateY(0)'
-              }}
-            >
-              <div 
-                className={`p-2 rounded-2xl mb-1 transition-all duration-300`}
-                style={{
-                  background: activeTab === 'coach' 
-                    ? 'color-mix(in srgb, var(--c-brand-500) 15%, transparent)'
-                    : 'transparent',
-                  boxShadow: activeTab === 'coach'
-                    ? '0 4px 12px color-mix(in srgb, var(--c-brand-500) 20%, transparent)'
-                    : 'none'
-                }}
-              >
-                <Brain className="w-6 h-6" />
-              </div>
-              <span className="text-xs font-medium">{t('nav.coach')}</span>
-            </div>
-          </button>
+          />
+        </button>
 
-          {/* Tab 4: Reports */}
-          <button
-            onClick={() => navigate('/dashboard/reports')}
-            className="flex flex-col items-center justify-center flex-1 h-full transition-all duration-300"
+        {/* Tab 4: Reports */}
+        <button
+          onClick={() => {
+            setPreviousTab(activeTab);
+            navigate('/dashboard/reports');
+          }}
+          className="tab-option"
+          data-active={activeTab === 'reports'}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '0 12px',
+            flex: 1,
+            height: '100%',
+            boxSizing: 'border-box',
+            borderRadius: '99em',
+            opacity: 1,
+            transition: 'all 160ms',
+            color: activeTab === 'reports' ? 'var(--c-brand-500)' : 'var(--text-med)',
+            cursor: 'pointer',
+            border: 'none',
+            background: 'transparent'
+          }}
+          onMouseEnter={(e) => {
+            if (activeTab !== 'reports') {
+              e.currentTarget.style.color = 'var(--c-brand-500)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (activeTab !== 'reports') {
+              e.currentTarget.style.color = 'var(--text-med)';
+            }
+          }}
+        >
+          <BarChart3 
+            className="w-6 h-6 transition-transform duration-200"
             style={{
-              color: activeTab === 'reports' ? 'var(--c-brand-500)' : 'var(--text-med)'
+              transform: activeTab === 'reports' ? 'scale(1.1)' : 'scale(1)'
             }}
-          >
-            <div 
-              className={`flex flex-col items-center justify-center transition-all duration-300 ${
-                activeTab === 'reports' ? 'scale-110' : ''
-              }`}
-              style={{
-                transform: activeTab === 'reports' ? 'translateY(-4px)' : 'translateY(0)'
-              }}
-            >
-              <div 
-                className={`p-2 rounded-2xl mb-1 transition-all duration-300`}
-                style={{
-                  background: activeTab === 'reports' 
-                    ? 'color-mix(in srgb, var(--c-brand-500) 15%, transparent)'
-                    : 'transparent',
-                  boxShadow: activeTab === 'reports'
-                    ? '0 4px 12px color-mix(in srgb, var(--c-brand-500) 20%, transparent)'
-                    : 'none'
-                }}
-              >
-                <BarChart3 className="w-6 h-6" />
-              </div>
-              <span className="text-xs font-medium">{t('nav.reports')}</span>
-            </div>
-          </button>
+          />
+        </button>
 
-          {/* Tab 5: Account */}
-          <button
-            onClick={() => navigate('/dashboard/account')}
-            className="flex flex-col items-center justify-center flex-1 h-full transition-all duration-300"
+        {/* Tab 5: Account */}
+        <button
+          onClick={() => {
+            setPreviousTab(activeTab);
+            navigate('/dashboard/account');
+          }}
+          className="tab-option"
+          data-active={activeTab === 'account'}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '0 12px',
+            flex: 1,
+            height: '100%',
+            boxSizing: 'border-box',
+            borderRadius: '99em',
+            opacity: 1,
+            transition: 'all 160ms',
+            color: activeTab === 'account' ? 'var(--c-brand-500)' : 'var(--text-med)',
+            cursor: 'pointer',
+            border: 'none',
+            background: 'transparent'
+          }}
+          onMouseEnter={(e) => {
+            if (activeTab !== 'account') {
+              e.currentTarget.style.color = 'var(--c-brand-500)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (activeTab !== 'account') {
+              e.currentTarget.style.color = 'var(--text-med)';
+            }
+          }}
+        >
+          <User 
+            className="w-6 h-6 transition-transform duration-200"
             style={{
-              color: activeTab === 'account' ? 'var(--c-brand-500)' : 'var(--text-med)'
+              transform: activeTab === 'account' ? 'scale(1.1)' : 'scale(1)'
             }}
-          >
-            <div 
-              className={`flex flex-col items-center justify-center transition-all duration-300 ${
-                activeTab === 'account' ? 'scale-110' : ''
-              }`}
-              style={{
-                transform: activeTab === 'account' ? 'translateY(-4px)' : 'translateY(0)'
-              }}
-            >
-              <div 
-                className={`p-2 rounded-2xl mb-1 transition-all duration-300`}
-                style={{
-                  background: activeTab === 'account' 
-                    ? 'color-mix(in srgb, var(--c-brand-500) 15%, transparent)'
-                    : 'transparent',
-                  boxShadow: activeTab === 'account'
-                    ? '0 4px 12px color-mix(in srgb, var(--c-brand-500) 20%, transparent)'
-                    : 'none'
-                }}
-              >
-                <User className="w-6 h-6" />
-              </div>
-              <span className="text-xs font-medium">{t('nav.account')}</span>
-            </div>
-          </button>
-        </nav>
+          />
+        </button>
       </div>
 
       {/* Global Notifications Panel */}
