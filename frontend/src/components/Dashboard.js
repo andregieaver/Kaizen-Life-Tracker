@@ -368,19 +368,8 @@ const Dashboard = ({ athleteId }) => {
     };
   }, [athleteId]);
   
-  // Force refresh athlete data on page visibility change (when user returns to page)
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (!document.hidden && athleteId) {
-        loadDashboardData();
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [athleteId]);
+  // Removed: Auto-refresh on visibility change was causing unnecessary reloads
+  // Data will still refresh when navigating between dashboard pages
 
   // Scroll animation effect
   useEffect(() => {
