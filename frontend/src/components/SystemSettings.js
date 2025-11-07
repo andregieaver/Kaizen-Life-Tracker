@@ -422,7 +422,8 @@ const SystemSettings = ({ athleteId }) => {
           strava: {
             clientId: response.data.advanced.strava?.clientId || '',
             clientSecret: response.data.advanced.strava?.clientSecret || '',
-            webhookVerifyToken: response.data.advanced.strava?.webhookVerifyToken || ''
+            webhookVerifyToken: response.data.advanced.strava?.webhookVerifyToken || '',
+            callbackDomain: response.data.advanced.strava?.callbackDomain || ''
           },
           showStravaSecret: false,
           showStravaVerifyToken: false
