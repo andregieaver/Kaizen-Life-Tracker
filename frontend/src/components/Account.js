@@ -1241,8 +1241,23 @@ const Account = ({ athleteId }) => {
     }
   };
 
-  const handleStravaConnect = () => {
-    setShowStravaModal(true);
+  const handleStravaConnect = async () => {
+    try {
+      // Call new OAuth endpoint
+      const response = await axios.get(`${API}/auth/strava`, {
+        params: { user_id: athleteId }
+      });
+      
+      // Redirect to Strava authorization page
+      window.location.href = response.data.authUrl;
+    } catch (error) {
+      console.error('Error connecting to strava:', error);
+      setSaveStatus({ 
+        type: 'error', 
+        message: error.response?.data?.detail || 'Failed to connect to Strava. Please check System Settings for API credentials.' 
+      });
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
+    }
   };
 
   const handleStravaCredentialsSuccess = () => {
