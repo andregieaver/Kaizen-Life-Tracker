@@ -204,10 +204,11 @@ sans-serif               /* Generic fallback */
 ## Troubleshooting
 
 ### Fonts not loading?
-- Check file paths in @font-face declarations
-- Verify files exist in `/app/frontend/public/fonts/`
+- Check file paths in @font-face declarations (must use `./fonts/` relative path)
+- Verify files exist in `/app/frontend/src/fonts/`
 - Clear browser cache
 - Check Network tab for 404 errors
+- Ensure webpack compiled successfully (check frontend logs)
 
 ### Wrong font showing?
 - Inspect element to check computed `font-family`
