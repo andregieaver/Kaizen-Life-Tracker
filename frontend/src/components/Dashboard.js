@@ -1916,7 +1916,7 @@ const Dashboard = ({ athleteId }) => {
               background: showCreateMenu ? 'var(--grad-danger)' : 'var(--grad-brand)',
               boxShadow: showCreateMenu 
                 ? '0 10px 40px rgba(255,100,100,.3)' 
-                : '0 10px 40px rgba(25,229,197,.3)'
+                : '0 10px 40px rgba(50,211,255,.3)'
             }}
             aria-label={showCreateMenu ? "Close menu" : "Create new entry"}
           >
