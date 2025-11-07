@@ -448,7 +448,9 @@ const LandingPage = () => {
               and actionable analytics. Start your journey to longevity today.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-              <button
+              <Button 
+                size="lg" 
+                className="bg-teal-600 hover:bg-teal-700 text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
                 onClick={() => {
                   const waitingListSection = document.querySelector('#waiting-list-section');
                   if (waitingListSection) {
@@ -456,14 +458,9 @@ const LandingPage = () => {
                   }
                 }}
               >
-                <Button 
-                  size="lg" 
-                  className="bg-teal-600 hover:bg-teal-700 text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
-                >
-                  Join the wait list today!
-                  <ChevronRight className="w-5 h-5 ml-2" />
-                </Button>
-              </button>
+                Join the wait list today!
+                <ChevronRight className="w-5 h-5 ml-2" />
+              </Button>
             </div>
             <div className="flex items-center justify-center gap-8 text-sm text-gray-400">
               <div className="flex items-center gap-2">
