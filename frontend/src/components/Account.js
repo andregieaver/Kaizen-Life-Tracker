@@ -1286,7 +1286,12 @@ const Account = ({ athleteId }) => {
 
   const handleDisconnectIntegration = async (integration) => {
     try {
-      await axios.delete(`${API}/integrations/${athleteId}/${integration}`);
+      // Use new OAuth disconnect for Strava
+      if (integration === 'strava') {
+        await axios.post(`${API}/auth/strava/disconnect`, { user_id: athleteId });
+      } else {
+        await axios.delete(`${API}/integrations/${athleteId}/${integration}`);
+      }
       
       setIntegrations(prev => ({
         ...prev,
