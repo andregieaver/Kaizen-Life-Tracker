@@ -18,6 +18,7 @@ import {
   Calendar,
   ArrowLeftRight,
   DollarSign,
+  Activity,
   Percent,
   Zap,
   MessageSquare,
