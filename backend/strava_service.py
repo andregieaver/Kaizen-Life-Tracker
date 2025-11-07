@@ -197,7 +197,7 @@ class StravaService:
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 STRAVA_TOKEN_URL,
-                json={
+                data={
                     'client_id': self.system_settings['clientId'],
                     'client_secret': self.system_settings['clientSecret'],
                     'refresh_token': connection['refresh_token'],
