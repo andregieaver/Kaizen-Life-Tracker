@@ -88,7 +88,7 @@ code {
    ===================================================== */
 
 .bottom-tab-switcher {
-  position: relative;
+  position: fixed;
 }
 
 /* Sliding indicator background */
