@@ -8113,6 +8113,20 @@ class StravaConnector(ProviderConnector):
         if not client_id:
             raise HTTPException(status_code=400, detail="Strava credentials not configured")
         
+        # Store OAuth state in database for callback verification (expires in 10 minutes)
+        await db.strava_oauth_state.update_one(
+            {'user_id': user_id},
+            {
+                '$set': {
+                    'user_id': user_id,
+                    'state': state,
+                    'created_at': datetime.now(timezone.utc),
+                    'expires_at': datetime.now(timezone.utc) + timedelta(minutes=10)
+                }
+            },
+            upsert=True
+        )
+        
         # Use callback domain from settings if available, otherwise fall back to BACKEND_URL
         if callback_domain:
             redirect_uri = f"https://{callback_domain}/api/auth/strava/callback"
