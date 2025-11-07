@@ -119,32 +119,32 @@ code {
 
 /* Tab 1: Today - position 0 */
 .bottom-tab-switcher:has(button[data-active="true"]:nth-child(1))::after {
-  translate: 0 0;
+  translate: 4px 0;
   transform-origin: right;
   animation: scaleToggle 440ms ease;
 }
 
 /* Tab 2: Home - position 1 */
 .bottom-tab-switcher:has(button[data-active="true"]:nth-child(2))::after {
-  translate: 64px 0;
+  translate: 69px 0;
   animation: scaleToggle2 440ms ease;
 }
 
 /* Tab 3: Coach - position 2 (center) */
 .bottom-tab-switcher:has(button[data-active="true"]:nth-child(3))::after {
-  translate: 128px 0;
+  translate: 135px 0;
   animation: scaleToggle2 440ms ease;
 }
 
 /* Tab 4: Reports - position 3 */
 .bottom-tab-switcher:has(button[data-active="true"]:nth-child(4))::after {
-  translate: 192px 0;
+  translate: 200px 0;
   animation: scaleToggle2 440ms ease;
 }
 
 /* Tab 5: Account - position 4 */
 .bottom-tab-switcher:has(button[data-active="true"]:nth-child(5))::after {
-  translate: 256px 0;
+  translate: 265px 0;
   transform-origin: left;
   animation: scaleToggle3 440ms ease;
 }
