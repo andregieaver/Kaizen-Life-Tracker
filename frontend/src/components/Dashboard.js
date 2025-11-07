@@ -86,6 +86,9 @@ const Dashboard = ({ athleteId }) => {
   // Floating Action Button state
   const [showCreateMenu, setShowCreateMenu] = useState(false);
   
+  // Bottom tab bar state for tracking previous selection (for animation)
+  const [previousTab, setPreviousTab] = useState('overview');
+  
   // Check if we're on nested pages
   const isUserProfilePage = location.pathname.includes('/dashboard/crm/user/');
   const isOrderDetailPage = location.pathname.match(/\/dashboard\/orders\/[^/]+$/) && !location.pathname.endsWith('/orders');
