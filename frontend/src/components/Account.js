@@ -1580,9 +1580,12 @@ const Account = ({ athleteId }) => {
             value="personal" 
             data-tab-value="personal"
             onClick={() => setPreviousAccountTab(activeTab)}
-            className="account-tab-item text-xs md:text-sm relative z-10 bg-transparent border-none transition-colors"
+            className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
             style={{
-              color: activeTab === 'personal' ? 'var(--bg-950)' : 'var(--text-med)'
+              color: activeTab === 'personal' ? 'var(--bg-950)' : 'var(--text-med)',
+              background: 'transparent',
+              boxShadow: 'none',
+              zIndex: 10
             }}
             data-testid="personal-tab"
           >
@@ -1593,9 +1596,12 @@ const Account = ({ athleteId }) => {
             value="preferences" 
             data-tab-value="preferences"
             onClick={() => setPreviousAccountTab(activeTab)}
-            className="account-tab-item text-xs md:text-sm relative z-10 bg-transparent border-none transition-colors"
+            className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
             style={{
-              color: activeTab === 'preferences' ? 'var(--bg-950)' : 'var(--text-med)'
+              color: activeTab === 'preferences' ? 'var(--bg-950)' : 'var(--text-med)',
+              background: 'transparent',
+              boxShadow: 'none',
+              zIndex: 10
             }}
             data-testid="preferences-tab"
           >
@@ -1606,9 +1612,12 @@ const Account = ({ athleteId }) => {
             value="integrations" 
             data-tab-value="integrations"
             onClick={() => setPreviousAccountTab(activeTab)}
-            className="account-tab-item text-xs md:text-sm relative z-10 bg-transparent border-none transition-colors"
+            className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
             style={{
-              color: activeTab === 'integrations' ? 'var(--bg-950)' : 'var(--text-med)'
+              color: activeTab === 'integrations' ? 'var(--bg-950)' : 'var(--text-med)',
+              background: 'transparent',
+              boxShadow: 'none',
+              zIndex: 10
             }}
             data-testid="integrations-tab"
           >
@@ -1619,9 +1628,12 @@ const Account = ({ athleteId }) => {
             value="subscriptions" 
             data-tab-value="subscriptions"
             onClick={() => setPreviousAccountTab(activeTab)}
-            className="account-tab-item text-xs md:text-sm relative z-10 bg-transparent border-none transition-colors"
+            className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
             style={{
-              color: activeTab === 'subscriptions' ? 'var(--bg-950)' : 'var(--text-med)'
+              color: activeTab === 'subscriptions' ? 'var(--bg-950)' : 'var(--text-med)',
+              background: 'transparent',
+              boxShadow: 'none',
+              zIndex: 10
             }}
             data-testid="subscriptions-tab"
           >
