@@ -225,13 +225,12 @@ const LandingPage = () => {
       try {
         const response = await axios.get(`${API}/menus/public`);
         console.log('Fetched menus:', response.data);
-        if (response.data) {
-          // Response.data is an object with menu types as keys, not an array
-          const menusArray = Array.isArray(response.data) ? response.data : Object.values(response.data);
-          const headerLoggedOutMenu = menusArray.find(menu => menu.menu_type === 'header_logged_out');
-          console.log('Found header_logged_out menu:', headerLoggedOutMenu);
-          if (headerLoggedOutMenu && headerLoggedOutMenu.items) {
-            const sortedItems = headerLoggedOutMenu.items.sort((a, b) => (a.order || 0) - (b.order || 0));
+        if (response.data && response.data.header_logged_out) {
+          // Response.data has menu types as keys with arrays as values
+          const menuItems = response.data.header_logged_out;
+          console.log('Found header_logged_out menu items:', menuItems);
+          if (Array.isArray(menuItems) && menuItems.length > 0) {
+            const sortedItems = menuItems.sort((a, b) => (a.order || 0) - (b.order || 0));
             console.log('Setting header menu items:', sortedItems);
             setHeaderMenu(sortedItems);
           }
