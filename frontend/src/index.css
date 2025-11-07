@@ -95,11 +95,11 @@ code {
 .bottom-tab-switcher::after {
   content: "";
   position: absolute;
-  left: 4px;
-  top: 4px;
+  left: 8px;
+  top: 8px;
   display: block;
-  width: calc(20% - 4px);
-  height: calc(100% - 10px);
+  width: 56px;
+  height: 54px;
   border-radius: 99em;
   background-color: color-mix(in srgb, var(--c-glass) 36%, transparent);
   z-index: -1;
@@ -126,25 +126,25 @@ code {
 
 /* Tab 2: Home - position 1 */
 .bottom-tab-switcher:has(button[data-active="true"]:nth-child(2))::after {
-  translate: calc(20% + 4px) 0;
+  translate: 64px 0;
   animation: scaleToggle2 440ms ease;
 }
 
 /* Tab 3: Coach - position 2 (center) */
 .bottom-tab-switcher:has(button[data-active="true"]:nth-child(3))::after {
-  translate: calc(40% + 8px) 0;
+  translate: 128px 0;
   animation: scaleToggle2 440ms ease;
 }
 
 /* Tab 4: Reports - position 3 */
 .bottom-tab-switcher:has(button[data-active="true"]:nth-child(4))::after {
-  translate: calc(60% + 12px) 0;
+  translate: 192px 0;
   animation: scaleToggle2 440ms ease;
 }
 
 /* Tab 5: Account - position 4 */
 .bottom-tab-switcher:has(button[data-active="true"]:nth-child(5))::after {
-  translate: calc(80% + 16px) 0;
+  translate: 256px 0;
   transform-origin: left;
   animation: scaleToggle3 440ms ease;
 }
