@@ -568,7 +568,11 @@ const Dashboard = ({ athleteId }) => {
                   {siteTitle}
                 </h1>
               </div>
-              <nav className="flex space-x-8">
+              <nav 
+                className="header-menu-switcher flex space-x-2 relative"
+                data-previous={previousTab}
+                data-active-tab={activeTab}
+              >
                 {menuItems.header_logged_in.length > 0 ? (
                   // Render dynamic header menu from menu editor
                   menuItems.header_logged_in
@@ -582,7 +586,10 @@ const Dashboard = ({ athleteId }) => {
                       return (
                         <button
                           key={index}
-                          onClick={() => navigate(item.url)}
+                          onClick={() => {
+                            setPreviousTab(activeTab);
+                            navigate(item.url);
+                          }}
                           className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
                           data-active={isActive}
                           style={{ 
@@ -597,9 +604,13 @@ const Dashboard = ({ athleteId }) => {
                   // Fallback to default header menu if no menu items loaded
                   <>
                     <button
-                      onClick={() => navigate('/dashboard')}
+                      onClick={() => {
+                        setPreviousTab(activeTab);
+                        navigate('/dashboard');
+                      }}
                       className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
                       data-active={activeTab === 'overview'}
+                      data-tab="overview"
                       style={{ 
                         color: activeTab === 'overview' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
@@ -608,9 +619,13 @@ const Dashboard = ({ athleteId }) => {
                       {t('nav.overview')}
                     </button>
                     <button
-                      onClick={() => navigate('/dashboard/coach')}
+                      onClick={() => {
+                        setPreviousTab(activeTab);
+                        navigate('/dashboard/coach');
+                      }}
                       className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
                       data-active={activeTab === 'coach'}
+                      data-tab="coach"
                       style={{ 
                         color: activeTab === 'coach' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
@@ -619,9 +634,13 @@ const Dashboard = ({ athleteId }) => {
                       {t('nav.coach')}
                     </button>
                     <button
-                      onClick={() => navigate('/dashboard/reports')}
+                      onClick={() => {
+                        setPreviousTab(activeTab);
+                        navigate('/dashboard/reports');
+                      }}
                       className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
                       data-active={activeTab === 'reports'}
+                      data-tab="reports"
                       style={{ 
                         color: activeTab === 'reports' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
@@ -630,9 +649,13 @@ const Dashboard = ({ athleteId }) => {
                       {t('nav.reports')}
                     </button>
                     <button
-                      onClick={() => navigate('/dashboard/calendar')}
+                      onClick={() => {
+                        setPreviousTab(activeTab);
+                        navigate('/dashboard/calendar');
+                      }}
                       className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
                       data-active={activeTab === 'calendar'}
+                      data-tab="calendar"
                       style={{ 
                         color: activeTab === 'calendar' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
@@ -641,9 +664,13 @@ const Dashboard = ({ athleteId }) => {
                       {t('nav.calendar')}
                     </button>
                     <button
-                      onClick={() => navigate('/dashboard/account')}
+                      onClick={() => {
+                        setPreviousTab(activeTab);
+                        navigate('/dashboard/account');
+                      }}
                       className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
                       data-active={activeTab === 'account'}
+                      data-tab="account"
                       style={{ 
                         color: activeTab === 'account' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
