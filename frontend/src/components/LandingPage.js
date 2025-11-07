@@ -731,7 +731,7 @@ const LandingPage = () => {
                 ) : (
                   <Heart className="w-6 h-6 text-teal-400" />
                 )}
-                <span className="ml-2 text-lg font-bold text-white">{siteTitle}</span>
+                <span className="ml-2 text-lg font-bold text-white" style={{ fontFamily: 'var(--font-logo)' }}>{siteTitle}</span>
               </div>
               <p className="text-sm text-gray-400">
                 Your intelligent partner for health, fitness, and longevity.
