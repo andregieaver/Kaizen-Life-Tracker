@@ -136,37 +136,28 @@ const Dashboard = ({ athleteId }) => {
       }
     };
 
-    // Initial calculation with slight delay to ensure fonts are loaded
-    const timer = setTimeout(updateBubblePosition, 100);
+    // Run immediately
+    updateBubblePosition();
+    
+    // Also run after a short delay for fonts
+    const timer1 = setTimeout(updateBubblePosition, 50);
+    const timer2 = setTimeout(updateBubblePosition, 200);
+    const timer3 = setTimeout(updateBubblePosition, 500);
     
     // Also update on window resize
     window.addEventListener('resize', updateBubblePosition);
     
+    // Font loading detection
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(updateBubblePosition);
+    }
+    
     return () => {
-      clearTimeout(timer);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
       window.removeEventListener('resize', updateBubblePosition);
     };
-  }, [activeTab, menuItems]);
-
-  // Additional effect to recalculate after fonts are loaded
-  useEffect(() => {
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => {
-        const headerMenu = document.querySelector('.header-menu-switcher');
-        const activeButton = headerMenu?.querySelector('.header-menu-item[data-active="true"]');
-        
-        if (headerMenu && activeButton) {
-          const menuRect = headerMenu.getBoundingClientRect();
-          const buttonRect = activeButton.getBoundingClientRect();
-          
-          const leftOffset = buttonRect.left - menuRect.left;
-          const width = buttonRect.width;
-          
-          headerMenu.style.setProperty('--bubble-left', `${leftOffset}px`);
-          headerMenu.style.setProperty('--bubble-width', `${width}px`);
-        }
-      });
-    }
   }, [activeTab, menuItems]);
 
   useEffect(() => {
