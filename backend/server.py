@@ -8091,6 +8091,8 @@ class StravaConnector(ProviderConnector):
         
         # Get client credentials from environment or user config
         client_id = os.environ.get('STRAVA_CLIENT_ID')
+        callback_domain = None
+        
         if not client_id:
             # Try to get from user's saved credentials
             integration = await db.integrations.find_one({
@@ -8106,11 +8108,16 @@ class StravaConnector(ProviderConnector):
             if settings_doc and "advanced" in settings_doc and "strava" in settings_doc["advanced"]:
                 strava_settings = settings_doc["advanced"]["strava"]
                 client_id = strava_settings.get("clientId")
+                callback_domain = strava_settings.get("callbackDomain")
         
         if not client_id:
             raise HTTPException(status_code=400, detail="Strava credentials not configured")
         
-        redirect_uri = f"{os.environ.get('BACKEND_URL', 'http://localhost:8001')}/api/auth/strava/callback"
+        # Use callback domain from settings if available, otherwise fall back to BACKEND_URL
+        if callback_domain:
+            redirect_uri = f"https://{callback_domain}/api/auth/strava/callback"
+        else:
+            redirect_uri = f"{os.environ.get('BACKEND_URL', 'http://localhost:8001')}/api/auth/strava/callback"
         
         auth_params = {
             "client_id": client_id,
