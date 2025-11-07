@@ -301,3 +301,187 @@ class StravaService:
                 )
             
             return response.json()
+    
+    async def create_webhook_subscription(self, callback_url: str) -> Dict[str, Any]:
+        """
+        Create a webhook subscription with Strava
+        Only needs to be done once per application
+        """
+        await self.load_settings()
+        
+        verify_token = self.system_settings.get('webhookVerifyToken', secrets.token_urlsafe(32))
+        
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{STRAVA_API_BASE}/push_subscriptions",
+                params={
+                    'client_id': self.system_settings['clientId'],
+                    'client_secret': self.system_settings['clientSecret'],
+                    'callback_url': callback_url,
+                    'verify_token': verify_token
+                }
+            )
+            
+            if response.status_code not in [200, 201]:
+                raise HTTPException(
+                    status_code=response.status_code,
+                    detail=f"Failed to create webhook: {response.text}"
+                )
+            
+            subscription = response.json()
+            
+            # Store subscription info
+            await self.db.strava_webhook_subscriptions.update_one(
+                {'application_id': self.system_settings['clientId']},
+                {
+                    '$set': {
+                        'subscription_id': subscription['id'],
+                        'callback_url': callback_url,
+                        'verify_token': verify_token,
+                        'created_at': datetime.now(timezone.utc)
+                    }
+                },
+                upsert=True
+            )
+            
+            return subscription
+    
+    async def list_webhook_subscriptions(self) -> list:
+        """List active webhook subscriptions"""
+        await self.load_settings()
+        
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                f"{STRAVA_API_BASE}/push_subscriptions",
+                params={
+                    'client_id': self.system_settings['clientId'],
+                    'client_secret': self.system_settings['clientSecret']
+                }
+            )
+            
+            if response.status_code != 200:
+                raise HTTPException(
+                    status_code=response.status_code,
+                    detail=f"Failed to list webhooks: {response.text}"
+                )
+            
+            return response.json()
+    
+    async def delete_webhook_subscription(self, subscription_id: int) -> Dict[str, bool]:
+        """Delete a webhook subscription"""
+        await self.load_settings()
+        
+        async with httpx.AsyncClient() as client:
+            response = await client.delete(
+                f"{STRAVA_API_BASE}/push_subscriptions/{subscription_id}",
+                params={
+                    'client_id': self.system_settings['clientId'],
+                    'client_secret': self.system_settings['clientSecret']
+                }
+            )
+            
+            if response.status_code not in [200, 204]:
+                raise HTTPException(
+                    status_code=response.status_code,
+                    detail=f"Failed to delete webhook: {response.text}"
+                )
+            
+            # Remove from database
+            await self.db.strava_webhook_subscriptions.delete_one({'subscription_id': subscription_id})
+            
+            return {'success': True}
+    
+    async def sync_activities(self, user_id: str, since: Optional[datetime] = None) -> Dict[str, Any]:
+        """
+        Sync activities from Strava to database
+        """
+        connection = await self.db.strava_connections.find_one({'user_id': user_id})
+        if not connection:
+            raise HTTPException(status_code=404, detail="Strava not connected")
+        
+        # Determine starting point
+        if since is None:
+            since = connection.get('last_sync_at') or connection['connected_at']
+        
+        # Fetch all activities since last sync
+        all_activities = []
+        page = 1
+        per_page = 200  # Max allowed by Strava
+        
+        token = await self.get_valid_token(user_id)
+        
+        async with httpx.AsyncClient() as client:
+            while True:
+                response = await client.get(
+                    f"{STRAVA_API_BASE}/athlete/activities",
+                    headers={'Authorization': f'Bearer {token}'},
+                    params={
+                        'after': int(since.timestamp()),
+                        'page': page,
+                        'per_page': per_page
+                    }
+                )
+                
+                if response.status_code != 200:
+                    break
+                
+                activities = response.json()
+                if not activities:
+                    break
+                
+                all_activities.extend(activities)
+                
+                if len(activities) < per_page:
+                    break
+                
+                page += 1
+        
+        # Store activities in database
+        imported_count = 0
+        for activity in all_activities:
+            await self.db.strava_activities.update_one(
+                {'activity_id': activity['id'], 'user_id': user_id},
+                {
+                    '$set': {
+                        'activity_id': activity['id'],
+                        'user_id': user_id,
+                        'athlete_id': connection['athlete_id'],
+                        'name': activity['name'],
+                        'type': activity['type'],
+                        'sport_type': activity.get('sport_type'),
+                        'distance': activity.get('distance'),
+                        'moving_time': activity.get('moving_time'),
+                        'elapsed_time': activity.get('elapsed_time'),
+                        'total_elevation_gain': activity.get('total_elevation_gain'),
+                        'start_date': datetime.fromisoformat(activity['start_date'].replace('Z', '+00:00')),
+                        'start_date_local': datetime.fromisoformat(activity['start_date_local']),
+                        'average_speed': activity.get('average_speed'),
+                        'max_speed': activity.get('max_speed'),
+                        'average_heartrate': activity.get('average_heartrate'),
+                        'max_heartrate': activity.get('max_heartrate'),
+                        'calories': activity.get('calories'),
+                        'achievement_count': activity.get('achievement_count'),
+                        'kudos_count': activity.get('kudos_count'),
+                        'raw_data': activity,
+                        'synced_at': datetime.now(timezone.utc)
+                    }
+                },
+                upsert=True
+            )
+            imported_count += 1
+        
+        # Update last sync time
+        await self.db.strava_connections.update_one(
+            {'user_id': user_id},
+            {
+                '$set': {
+                    'last_sync_at': datetime.now(timezone.utc),
+                    'sync_status': 'completed'
+                }
+            }
+        )
+        
+        return {
+            'imported': imported_count,
+            'total_activities': len(all_activities)
+        }
