@@ -271,13 +271,18 @@ sans-serif               /* Generic fallback */
 
 2. **`/app/frontend/src/index.css`** (MODIFIED)
    - Lines 9-44: @font-face declarations
-   - Lines 81-85: Font CSS variables (single source of truth)
+   - Lines 81-85: Font CSS variables
 
-3. **`/app/frontend/src/components/Dashboard.js`** (MODIFIED)
+3. **`/app/frontend/tailwind.config.js`** (MODIFIED)
+   - Lines 10-13: Tailwind font family configuration
+   - Updated `sans` and `display` to Noto Sans
+   - Added `logo` font family for Inter
+
+4. **`/app/frontend/src/components/Dashboard.js`** (MODIFIED)
    - Line 567: Desktop header logo font
    - Line 731: Mobile header logo font
 
-4. **`/app/frontend/src/components/LandingPage.js`** (MODIFIED)
+5. **`/app/frontend/src/components/LandingPage.js`** (MODIFIED)
    - Line 386: Header logo font
    - Line 734: Footer logo font
 
