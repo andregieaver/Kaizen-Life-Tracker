@@ -54,7 +54,7 @@ All font changes are managed through CSS variables in `/app/frontend/src/index.c
 ```css
 @font-face {
   font-family: 'Noto Sans';
-  src: url('/fonts/NotoSans-Regular.ttf') format('truetype');
+  src: url('./fonts/NotoSans-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap; /* Prevents FOIT (Flash of Invisible Text) */
@@ -62,6 +62,8 @@ All font changes are managed through CSS variables in `/app/frontend/src/index.c
 
 /* ...and 3 more weight variations */
 ```
+
+**Note:** Using relative paths (`./fonts/...`) allows webpack to process and bundle the fonts correctly.
 
 ### Font Display Strategy
 - **`font-display: swap`**: Shows fallback font immediately, then swaps to Noto Sans when loaded
