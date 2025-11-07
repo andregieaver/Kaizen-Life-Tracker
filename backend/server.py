@@ -16140,6 +16140,229 @@ async def fetch_strava_activities(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.post("/api/strava/sync")
+async def sync_strava_activities(request: Request):
+    """
+    Sync activities from Strava to database
+    """
+    try:
+        data = await request.json()
+        user_id = data.get('user_id')
+        
+        if not user_id:
+            raise HTTPException(status_code=400, detail="user_id required")
+        
+        strava_service = StravaService(db)
+        result = await strava_service.sync_activities(user_id)
+        
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error syncing Strava activities: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ============================================================================
+# STRAVA WEBHOOKS
+# ============================================================================
+
+@app.get("/api/webhook/strava")
+async def strava_webhook_verify(request: Request):
+    """
+    Verify webhook subscription (Strava's challenge)
+    """
+    try:
+        params = request.query_params
+        mode = params.get('hub.mode')
+        token = params.get('hub.verify_token')
+        challenge = params.get('hub.challenge')
+        
+        # Load verify token from system settings
+        settings = await db.system_settings.find_one({})
+        if not settings or 'advanced' not in settings or 'strava' not in settings['advanced']:
+            raise HTTPException(status_code=400, detail="Strava not configured")
+        
+        verify_token = settings['advanced']['strava'].get('webhookVerifyToken')
+        
+        if mode == 'subscribe' and token == verify_token:
+            logging.info(f"Strava webhook verified with challenge: {challenge}")
+            return {'hub.challenge': challenge}
+        
+        raise HTTPException(status_code=403, detail="Verification failed")
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error verifying Strava webhook: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/webhook/strava")
+async def strava_webhook_event(request: Request):
+    """
+    Handle Strava webhook events
+    """
+    try:
+        event = await request.json()
+        logging.info(f"Received Strava webhook event: {event}")
+        
+        # Event structure:
+        # {
+        #   "aspect_type": "create|update|delete",
+        #   "event_time": timestamp,
+        #   "object_id": activity_id,
+        #   "object_type": "activity|athlete",
+        #   "owner_id": athlete_id,
+        #   "subscription_id": subscription_id
+        # }
+        
+        aspect_type = event.get('aspect_type')
+        object_type = event.get('object_type')
+        object_id = event.get('object_id')
+        owner_id = event.get('owner_id')
+        
+        # Find user by athlete_id
+        connection = await db.strava_connections.find_one({'athlete_id': owner_id})
+        if not connection:
+            logging.warning(f"No connection found for athlete {owner_id}")
+            return {'received': True}
+        
+        user_id = connection['user_id']
+        
+        if object_type == 'activity':
+            if aspect_type in ['create', 'update']:
+                # Fetch full activity details
+                strava_service = StravaService(db)
+                token = await strava_service.get_valid_token(user_id)
+                
+                async with httpx.AsyncClient() as client:
+                    response = await client.get(
+                        f"https://www.strava.com/api/v3/activities/{object_id}",
+                        headers={'Authorization': f'Bearer {token}'}
+                    )
+                    
+                    if response.status_code == 200:
+                        activity = response.json()
+                        
+                        # Store/update in database
+                        await db.strava_activities.update_one(
+                            {'activity_id': object_id, 'user_id': user_id},
+                            {
+                                '$set': {
+                                    'activity_id': activity['id'],
+                                    'user_id': user_id,
+                                    'athlete_id': owner_id,
+                                    'name': activity['name'],
+                                    'type': activity['type'],
+                                    'sport_type': activity.get('sport_type'),
+                                    'distance': activity.get('distance'),
+                                    'moving_time': activity.get('moving_time'),
+                                    'elapsed_time': activity.get('elapsed_time'),
+                                    'total_elevation_gain': activity.get('total_elevation_gain'),
+                                    'start_date': datetime.fromisoformat(activity['start_date'].replace('Z', '+00:00')),
+                                    'start_date_local': datetime.fromisoformat(activity['start_date_local']),
+                                    'average_speed': activity.get('average_speed'),
+                                    'max_speed': activity.get('max_speed'),
+                                    'average_heartrate': activity.get('average_heartrate'),
+                                    'max_heartrate': activity.get('max_heartrate'),
+                                    'calories': activity.get('calories'),
+                                    'raw_data': activity,
+                                    'synced_at': datetime.now(timezone.utc)
+                                }
+                            },
+                            upsert=True
+                        )
+                        logging.info(f"Activity {object_id} {aspect_type}d for user {user_id}")
+                    
+            elif aspect_type == 'delete':
+                # Remove from database
+                await db.strava_activities.delete_one({
+                    'activity_id': object_id,
+                    'user_id': user_id
+                })
+                logging.info(f"Activity {object_id} deleted for user {user_id}")
+        
+        elif object_type == 'athlete' and aspect_type == 'update':
+            # Handle deauthorization
+            if event.get('updates', {}).get('authorized') == 'false':
+                await db.strava_connections.delete_one({'user_id': user_id})
+                logging.info(f"User {user_id} deauthorized Strava")
+        
+        return {'received': True}
+        
+    except Exception as e:
+        logging.error(f"Error handling Strava webhook: {e}", exc_info=True)
+        # Return 200 to prevent Strava from retrying
+        return {'received': True, 'error': str(e)}
+
+
+@app.post("/api/strava/webhook/create")
+async def create_strava_webhook():
+    """
+    Create a new webhook subscription (admin only)
+    """
+    try:
+        # Get callback URL from settings
+        settings = await db.system_settings.find_one({})
+        if not settings or 'advanced' not in settings or 'strava' not in settings['advanced']:
+            raise HTTPException(status_code=400, detail="Strava not configured")
+        
+        callback_domain = settings['advanced']['strava'].get('callbackDomain')
+        if not callback_domain:
+            raise HTTPException(status_code=400, detail="Callback domain not configured")
+        
+        callback_url = f"https://{callback_domain}/api/webhook/strava"
+        
+        strava_service = StravaService(db)
+        subscription = await strava_service.create_webhook_subscription(callback_url)
+        
+        return subscription
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error creating Strava webhook: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/strava/webhook/list")
+async def list_strava_webhooks():
+    """
+    List active webhook subscriptions
+    """
+    try:
+        strava_service = StravaService(db)
+        subscriptions = await strava_service.list_webhook_subscriptions()
+        
+        return {'subscriptions': subscriptions}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error listing Strava webhooks: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.delete("/api/strava/webhook/{subscription_id}")
+async def delete_strava_webhook(subscription_id: int):
+    """
+    Delete a webhook subscription
+    """
+    try:
+        strava_service = StravaService(db)
+        result = await strava_service.delete_webhook_subscription(subscription_id)
+        
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error deleting Strava webhook: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
