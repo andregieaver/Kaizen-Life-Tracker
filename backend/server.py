@@ -8101,6 +8101,13 @@ class StravaConnector(ProviderConnector):
                 client_id = integration["credentials"].get("client_id")
         
         if not client_id:
+            # Fallback: Check system_settings for global Strava credentials
+            settings_doc = await db.system_settings.find_one({"setting_type": "global"})
+            if settings_doc and "advanced" in settings_doc and "strava" in settings_doc["advanced"]:
+                strava_settings = settings_doc["advanced"]["strava"]
+                client_id = strava_settings.get("clientId")
+        
+        if not client_id:
             raise HTTPException(status_code=400, detail="Strava credentials not configured")
         
         redirect_uri = f"{os.environ.get('BACKEND_URL', 'http://localhost:8001')}/api/auth/strava/callback"
