@@ -1207,6 +1207,11 @@ const SystemSettings = ({ athleteId }) => {
           },
           microsoftClarity: {
             scriptCode: advancedSettings.microsoftClarity.scriptCode
+          },
+          strava: {
+            clientId: advancedSettings.strava.clientId,
+            clientSecret: advancedSettings.strava.clientSecret,
+            webhookVerifyToken: advancedSettings.strava.webhookVerifyToken
           }
         }
       });
