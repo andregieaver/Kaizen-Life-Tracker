@@ -1860,12 +1860,14 @@ const Dashboard = ({ athleteId }) => {
               navigate('/dashboard/journal?action=voice');
               setShowCreateMenu(false);
             }}
-            className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+            className={`fixed z-40 w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
               showCreateMenu 
                 ? 'opacity-100 translate-x-0 translate-y-0' 
                 : 'opacity-0 scale-0 pointer-events-none'
             }`}
             style={{
+              bottom: '90px',
+              right: '16px',
               transform: showCreateMenu 
                 ? `translate(${-110}px, 0px)` // 180° (9 o'clock - straight left)
                 : 'translate(0, 0) scale(0)',
