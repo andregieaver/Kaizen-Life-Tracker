@@ -1561,7 +1561,7 @@ const Account = ({ athleteId }) => {
       {/* Account Tabs */}
       <Tabs value={activeTab} onValueChange={handleTabChange}>
         <TabsList 
-          className="account-tabs-switcher grid w-full grid-cols-4 mb-8 p-2 h-auto relative"
+          className="account-tabs-switcher grid w-full grid-cols-4 mb-8 p-2 h-auto"
           data-previous={previousAccountTab}
           style={{
             background: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
@@ -1572,6 +1572,8 @@ const Account = ({ athleteId }) => {
               inset 0 2px 4px -1px rgba(0,0,0,0.3),
               inset 0 -1px 2px rgba(255,255,255,0.05)
             `,
+            position: 'relative',
+            overflow: 'visible',
             '--bubble-left': '0px',
             '--bubble-width': '25%'
           }}
