@@ -1401,64 +1401,189 @@ const Dashboard = ({ athleteId }) => {
         )}
       </main>
 
-      {/* Mobile Bottom Navigation */}
-      <nav className={`md:hidden fixed bottom-0 left-0 right-0 shadow-lg z-50 transition-transform duration-300 ease-in-out ${
-        scrollDirection === 'down' ? 'translate-y-full' : 'translate-y-0'
-      }`} style={{ background: 'var(--grad-surface)', borderTop: '1px solid var(--border)' }}>
-        <div className="grid grid-cols-4 h-16">
+      {/* Bottom Tab Bar - Mobile Only with Glassmorphic Design */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40" style={{
+        background: 'color-mix(in srgb, var(--c-glass, #bbbbbc) 12%, transparent)',
+        backdropFilter: 'blur(20px) saturate(150%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(150%)',
+        borderTop: '1px solid color-mix(in srgb, var(--c-light, #fff) 10%, transparent)',
+        boxShadow: `
+          inset 0 0 0 1px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 10%), transparent),
+          inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 90%), transparent),
+          inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 80%), transparent),
+          inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light, #fff) calc(var(--glass-reflex-light, 1) * 60%), transparent),
+          inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 12%), transparent),
+          0px -2px 10px 0px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 8%), transparent),
+          0px -4px 20px 0px color-mix(in srgb, var(--c-dark, #000) calc(var(--glass-reflex-dark, 1) * 6%), transparent)
+        `
+      }}>
+        <nav className="flex justify-around items-center h-20 px-2">
+          {/* Tab 1: Today */}
           <button
             onClick={() => navigate('/dashboard/today')}
-            className={`flex flex-col items-center justify-center transition-all duration-200`}
+            className="flex flex-col items-center justify-center flex-1 h-full transition-all duration-300"
             style={{
-              color: activeTab === 'today' ? 'var(--c-brand-500)' : 'var(--text-med)',
-              background: activeTab === 'today' ? 'var(--grad-cta-soft)' : 'transparent'
+              color: activeTab === 'today' ? 'var(--c-brand-500)' : 'var(--text-med)'
             }}
-            data-testid="mobile-today-tab"
           >
-            <Calendar className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">Today</span>
+            <div 
+              className={`flex flex-col items-center justify-center transition-all duration-300 ${
+                activeTab === 'today' ? 'scale-110' : ''
+              }`}
+              style={{
+                transform: activeTab === 'today' ? 'translateY(-4px)' : 'translateY(0)'
+              }}
+            >
+              <div 
+                className={`p-2 rounded-2xl mb-1 transition-all duration-300`}
+                style={{
+                  background: activeTab === 'today' 
+                    ? 'color-mix(in srgb, var(--c-brand-500) 15%, transparent)'
+                    : 'transparent',
+                  boxShadow: activeTab === 'today'
+                    ? '0 4px 12px color-mix(in srgb, var(--c-brand-500) 20%, transparent)'
+                    : 'none'
+                }}
+              >
+                <Zap className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-medium">{t('nav.today')}</span>
+            </div>
           </button>
-          
+
+          {/* Tab 2: Home/Dashboard */}
           <button
             onClick={() => navigate('/dashboard')}
-            className={`flex flex-col items-center justify-center transition-all duration-200`}
+            className="flex flex-col items-center justify-center flex-1 h-full transition-all duration-300"
             style={{
-              color: activeTab === 'overview' ? 'var(--c-brand-500)' : 'var(--text-med)',
-              background: activeTab === 'overview' ? 'var(--grad-cta-soft)' : 'transparent'
+              color: activeTab === 'overview' ? 'var(--c-brand-500)' : 'var(--text-med)'
             }}
-            data-testid="mobile-overview-tab"
           >
-            <Home className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">{t('nav.home')}</span>
+            <div 
+              className={`flex flex-col items-center justify-center transition-all duration-300 ${
+                activeTab === 'overview' ? 'scale-110' : ''
+              }`}
+              style={{
+                transform: activeTab === 'overview' ? 'translateY(-4px)' : 'translateY(0)'
+              }}
+            >
+              <div 
+                className={`p-2 rounded-2xl mb-1 transition-all duration-300`}
+                style={{
+                  background: activeTab === 'overview' 
+                    ? 'color-mix(in srgb, var(--c-brand-500) 15%, transparent)'
+                    : 'transparent',
+                  boxShadow: activeTab === 'overview'
+                    ? '0 4px 12px color-mix(in srgb, var(--c-brand-500) 20%, transparent)'
+                    : 'none'
+                }}
+              >
+                <Home className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-medium">{t('nav.home')}</span>
+            </div>
           </button>
-          
+
+          {/* Tab 3: AI Coach */}
           <button
             onClick={() => navigate('/dashboard/coach')}
-            className={`flex flex-col items-center justify-center transition-all duration-200`}
+            className="flex flex-col items-center justify-center flex-1 h-full transition-all duration-300"
             style={{
-              color: activeTab === 'coach' ? 'var(--c-brand-500)' : 'var(--text-med)',
-              background: activeTab === 'coach' ? 'var(--grad-cta-soft)' : 'transparent'
+              color: activeTab === 'coach' ? 'var(--c-brand-500)' : 'var(--text-med)'
             }}
-            data-testid="mobile-coach-tab"
           >
-            <MessageCircle className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">{t('nav.coach')}</span>
+            <div 
+              className={`flex flex-col items-center justify-center transition-all duration-300 ${
+                activeTab === 'coach' ? 'scale-110' : ''
+              }`}
+              style={{
+                transform: activeTab === 'coach' ? 'translateY(-4px)' : 'translateY(0)'
+              }}
+            >
+              <div 
+                className={`p-2 rounded-2xl mb-1 transition-all duration-300`}
+                style={{
+                  background: activeTab === 'coach' 
+                    ? 'color-mix(in srgb, var(--c-brand-500) 15%, transparent)'
+                    : 'transparent',
+                  boxShadow: activeTab === 'coach'
+                    ? '0 4px 12px color-mix(in srgb, var(--c-brand-500) 20%, transparent)'
+                    : 'none'
+                }}
+              >
+                <Brain className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-medium">{t('nav.coach')}</span>
+            </div>
           </button>
-          
+
+          {/* Tab 4: Reports */}
           <button
             onClick={() => navigate('/dashboard/reports')}
-            className={`flex flex-col items-center justify-center transition-all duration-200`}
+            className="flex flex-col items-center justify-center flex-1 h-full transition-all duration-300"
             style={{
-              color: activeTab === 'reports' ? 'var(--c-brand-500)' : 'var(--text-med)',
-              background: activeTab === 'reports' ? 'var(--grad-cta-soft)' : 'transparent'
+              color: activeTab === 'reports' ? 'var(--c-brand-500)' : 'var(--text-med)'
             }}
-            data-testid="mobile-reports-tab"
           >
-            <PlusCircle className="w-5 h-5 mb-1" />
-            <span className="text-xs font-medium">{t('nav.reports')}</span>
+            <div 
+              className={`flex flex-col items-center justify-center transition-all duration-300 ${
+                activeTab === 'reports' ? 'scale-110' : ''
+              }`}
+              style={{
+                transform: activeTab === 'reports' ? 'translateY(-4px)' : 'translateY(0)'
+              }}
+            >
+              <div 
+                className={`p-2 rounded-2xl mb-1 transition-all duration-300`}
+                style={{
+                  background: activeTab === 'reports' 
+                    ? 'color-mix(in srgb, var(--c-brand-500) 15%, transparent)'
+                    : 'transparent',
+                  boxShadow: activeTab === 'reports'
+                    ? '0 4px 12px color-mix(in srgb, var(--c-brand-500) 20%, transparent)'
+                    : 'none'
+                }}
+              >
+                <BarChart3 className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-medium">{t('nav.reports')}</span>
+            </div>
           </button>
-        </div>
-      </nav>
+
+          {/* Tab 5: Account */}
+          <button
+            onClick={() => navigate('/dashboard/account')}
+            className="flex flex-col items-center justify-center flex-1 h-full transition-all duration-300"
+            style={{
+              color: activeTab === 'account' ? 'var(--c-brand-500)' : 'var(--text-med)'
+            }}
+          >
+            <div 
+              className={`flex flex-col items-center justify-center transition-all duration-300 ${
+                activeTab === 'account' ? 'scale-110' : ''
+              }`}
+              style={{
+                transform: activeTab === 'account' ? 'translateY(-4px)' : 'translateY(0)'
+              }}
+            >
+              <div 
+                className={`p-2 rounded-2xl mb-1 transition-all duration-300`}
+                style={{
+                  background: activeTab === 'account' 
+                    ? 'color-mix(in srgb, var(--c-brand-500) 15%, transparent)'
+                    : 'transparent',
+                  boxShadow: activeTab === 'account'
+                    ? '0 4px 12px color-mix(in srgb, var(--c-brand-500) 20%, transparent)'
+                    : 'none'
+                }}
+              >
+                <User className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-medium">{t('nav.account')}</span>
+            </div>
+          </button>
+        </nav>
+      </div>
 
       {/* Global Notifications Panel */}
       {showNotifications && (
