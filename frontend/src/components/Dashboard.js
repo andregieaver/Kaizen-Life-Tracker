@@ -89,6 +89,14 @@ const Dashboard = ({ athleteId }) => {
   // Bottom tab bar state for tracking previous selection (for animation)
   const [previousTab, setPreviousTab] = useState('overview');
   
+  // Update the DOM attribute when activeTab changes (for CSS transform-origin)
+  useEffect(() => {
+    const tabSwitcher = document.querySelector('.bottom-tab-switcher');
+    if (tabSwitcher && previousTab) {
+      tabSwitcher.setAttribute('data-previous', previousTab);
+    }
+  }, [activeTab, previousTab]);
+  
   // Check if we're on nested pages
   const isUserProfilePage = location.pathname.includes('/dashboard/crm/user/');
   const isOrderDetailPage = location.pathname.match(/\/dashboard\/orders\/[^/]+$/) && !location.pathname.endsWith('/orders');
