@@ -417,7 +417,7 @@ em-emoji-picker {
   --rgb-color: 255, 255, 255 !important;
   --border-radius: 0.75rem !important;
   --category-icon-size: 1.125rem !important;
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
+  --font-family: 'Noto Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
 }
 
 /* Emoji picker search input */
