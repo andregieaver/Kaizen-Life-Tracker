@@ -25,23 +25,23 @@ const ReadinessCard = ({ readiness, onRefresh }) => {
   
   if (!readiness) {
     return (
-      <Card className="border-0 shadow-lg">
+      <Card className="border-0 shadow-lg" style={{ background: 'var(--bg-800)', color: 'var(--text-hi)' }}>
         <CardHeader>
-          <CardTitle className="text-lg font-display">{t('readiness.title')}</CardTitle>
-          <CardDescription>{t('common.loading')}</CardDescription>
+          <CardTitle className="text-lg font-display" style={{ color: 'var(--text-hi)' }}>{t('readiness.title')}</CardTitle>
+          <CardDescription style={{ color: 'var(--text-muted)' }}>{t('common.loading')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="skeleton h-20 rounded-lg"></div>
+          <div className="skeleton h-20 rounded-lg" style={{ background: 'var(--bg-700)' }}></div>
         </CardContent>
       </Card>
     );
   }
 
   const getScoreColor = (score) => {
-    if (score >= 85) return 'text-green-600 bg-green-50 border-green-200';
-    if (score >= 70) return 'text-blue-600 bg-blue-50 border-blue-200';
-    if (score >= 50) return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-    return 'text-red-600 bg-red-50 border-red-200';
+    if (score >= 85) return { text: '#22C55E', bg: 'rgba(34, 197, 94, 0.1)', border: 'rgba(34, 197, 94, 0.3)' };
+    if (score >= 70) return { text: '#32D3FF', bg: 'rgba(50, 211, 255, 0.1)', border: 'rgba(50, 211, 255, 0.3)' };
+    if (score >= 50) return { text: '#F59E0B', bg: 'rgba(245, 158, 11, 0.1)', border: 'rgba(245, 158, 11, 0.3)' };
+    return { text: '#EF4444', bg: 'rgba(239, 68, 68, 0.1)', border: 'rgba(239, 68, 68, 0.3)' };
   };
 
   const getScoreLabel = (score) => {
