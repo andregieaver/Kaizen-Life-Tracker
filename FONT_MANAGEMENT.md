@@ -5,12 +5,14 @@ The entire application now uses **Noto Sans** as the primary font, with **Inter*
 
 ## Font Files Location
 ```
-/app/frontend/public/fonts/
+/app/frontend/src/fonts/
 ├── NotoSans-Regular.ttf    (400 weight)
 ├── NotoSans-Medium.ttf     (500 weight)
 ├── NotoSans-SemiBold.ttf   (600 weight)
 └── NotoSans-Bold.ttf       (700 weight)
 ```
+
+**Note:** Fonts are in the `src` directory (not `public`) so webpack can properly process and bundle them.
 
 ## Single Source of Truth
 All font changes are managed through CSS variables in `/app/frontend/src/index.css`
