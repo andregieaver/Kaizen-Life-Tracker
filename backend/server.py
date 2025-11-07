@@ -2131,11 +2131,25 @@ Return only the JSON array, nothing else.
             avg_sleep = sum(s.get('total_sleep_hours', 0) for s in sleep_data) / len(sleep_data)
             sleep_summary += f"Average: {avg_sleep:.1f}h/night"
         
-        # Summarize journal
+        # Provide full journal entries (not just summary)
         journal_entries = context.get('journal_entries', [])
-        journal_summary = f"{len(journal_entries)} journal entries in last 30 days. " if journal_entries else "No journal entries. "
-        if journal_entries and len(journal_entries) > 0:
-            journal_summary += f"Latest: {journal_entries[0].get('entry', '')[:100]}..."
+        journal_summary = ""
+        if journal_entries:
+            journal_summary = f"\n\nJOURNAL ENTRIES ({len(journal_entries)} in last 30 days):\n"
+            # Include full content of recent entries (up to last 10)
+            for idx, entry in enumerate(journal_entries[:10]):
+                date = entry.get('date', 'Unknown date')
+                content = entry.get('entry', '')
+                entry_type = entry.get('entry_type', 'text')
+                transcription = entry.get('transcription', '')
+                
+                # Use transcription for voice/video entries if available
+                entry_text = transcription if entry_type in ['voice', 'video'] and transcription else content
+                
+                if entry_text:
+                    journal_summary += f"\n[{date}] ({entry_type}):\n{entry_text}\n"
+        else:
+            journal_summary = "\n\nNo journal entries available."
         
         # Summarize nutrition
         nutrition_entries = context.get('nutrition_entries', [])
