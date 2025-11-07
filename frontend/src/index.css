@@ -77,9 +77,11 @@
   --grad-success: linear-gradient(135deg, #22C55E, #19E5C5);
   --grad-alert: linear-gradient(135deg, #EF4444, #F59E0B);
   
-  /* Typography */
-  --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Typography - Single Source of Truth */
+  /* Change these variables to update fonts across the entire app */
+  --font-display: "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Noto Sans", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-logo: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; /* Logo uses different font */
   
   /* Glassmorphic Effects */
   --c-glass: #bbbbbc;
