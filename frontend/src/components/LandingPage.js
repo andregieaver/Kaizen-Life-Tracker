@@ -224,10 +224,14 @@ const LandingPage = () => {
     const fetchHeaderMenu = async () => {
       try {
         const response = await axios.get(`${API}/menus/public`);
+        console.log('Fetched menus:', response.data);
         if (response.data) {
           const headerLoggedOutMenu = response.data.find(menu => menu.menu_type === 'header_logged_out');
+          console.log('Found header_logged_out menu:', headerLoggedOutMenu);
           if (headerLoggedOutMenu && headerLoggedOutMenu.items) {
-            setHeaderMenu(headerLoggedOutMenu.items.sort((a, b) => (a.order || 0) - (b.order || 0)));
+            const sortedItems = headerLoggedOutMenu.items.sort((a, b) => (a.order || 0) - (b.order || 0));
+            console.log('Setting header menu items:', sortedItems);
+            setHeaderMenu(sortedItems);
           }
         }
       } catch (error) {
