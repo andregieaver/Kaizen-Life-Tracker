@@ -16076,11 +16076,23 @@ async def strava_auth_callback(
         frontend_url = f"https://{strava_service.system_settings['callbackDomain']}/dashboard/account?strava=connected"
         return RedirectResponse(url=frontend_url)
         
-    except HTTPException:
-        raise
+    except HTTPException as he:
+        logging.error(f"HTTPException in Strava callback: {he.detail}", exc_info=True)
+        # Redirect to frontend with error
+        await strava_service.load_settings()
+        frontend_url = f"https://{strava_service.system_settings['callbackDomain']}/dashboard/account?strava=error"
+        return RedirectResponse(url=frontend_url)
     except Exception as e:
         logging.error(f"Error in Strava callback: {e}", exc_info=True)
-        # Redirect to frontend with error
+        # Redirect to frontend with error - try to get callback domain
+        try:
+            settings_doc = await db.system_settings.find_one({"setting_type": "global"})
+            if settings_doc and "advanced" in settings_doc and "strava" in settings_doc["advanced"]:
+                callback_domain = settings_doc["advanced"]["strava"].get("callbackDomain", "trainsmart-ui.preview.emergentagent.com")
+                frontend_url = f"https://{callback_domain}/dashboard/account?strava=error"
+                return RedirectResponse(url=frontend_url)
+        except:
+            pass
         return RedirectResponse(url="/dashboard/account?strava=error")
 
 
