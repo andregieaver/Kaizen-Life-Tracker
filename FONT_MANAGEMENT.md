@@ -253,10 +253,19 @@ sans-serif               /* Generic fallback */
 - Ensure webpack compiled successfully (check frontend logs)
 
 ### Wrong font showing?
-- Inspect element to check computed `font-family`
-- Ensure CSS variables are properly set
+- **Check browser inspector** to see computed `font-family`
+- **Verify both locations** are updated:
+  - CSS variables in `index.css`
+  - Tailwind config in `tailwind.config.js`
+- **Clear cache and hard reload** (Cmd/Ctrl + Shift + R)
 - Check if component has inline font-family overrides
 - Verify font-weight matches available font files
+
+### Still seeing Inter or old font?
+This usually means the Tailwind config wasn't updated. Tailwind's font utilities override CSS variables, so **both files must be changed**:
+1. Update `fontFamily.sans` in `tailwind.config.js`
+2. Update `--font-body` in `index.css`
+3. Restart frontend: `sudo supervisorctl restart frontend`
 
 ### Logo still using Noto Sans?
 - Check if `style={{ fontFamily: 'var(--font-logo)' }}` is applied
