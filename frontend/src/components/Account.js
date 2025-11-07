@@ -319,7 +319,7 @@ const Account = ({ athleteId }) => {
       // Poll for payment status
       pollPaymentStatus(sessionId);
     }
-  }, [athleteId]);
+  }, [athleteId, location.search]);
 
   // Initialize push notifications
   useEffect(() => {
