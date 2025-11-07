@@ -24,7 +24,6 @@ import {
   MessageSquare,
   Heart,
   UserCheck,
-  Activity,
   UserPlus,
   Gift,
   Target,
