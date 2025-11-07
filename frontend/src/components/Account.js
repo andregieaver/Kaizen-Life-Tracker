@@ -322,6 +322,34 @@ const Account = ({ athleteId }) => {
     }
   }, [athleteId, location.search]);
 
+  // Update account tabs bubble position dynamically
+  useLayoutEffect(() => {
+    const updateAccountTabsBubble = () => {
+      const tabsContainer = document.querySelector('.account-tabs-switcher');
+      const activeButton = tabsContainer?.querySelector(`button[data-tab-value="${activeTab}"]`);
+      
+      if (tabsContainer && activeButton) {
+        const containerRect = tabsContainer.getBoundingClientRect();
+        const buttonRect = activeButton.getBoundingClientRect();
+        
+        const leftOffset = buttonRect.left - containerRect.left;
+        const width = buttonRect.width;
+        
+        tabsContainer.style.setProperty('--bubble-left', `${leftOffset}px`);
+        tabsContainer.style.setProperty('--bubble-width', `${width}px`);
+      }
+    };
+
+    updateAccountTabsBubble();
+    const timer1 = setTimeout(updateAccountTabsBubble, 50);
+    const timer2 = setTimeout(updateAccountTabsBubble, 200);
+    
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, [activeTab]);
+
   // Initialize push notifications
   useEffect(() => {
     const initPushNotifications = async () => {
