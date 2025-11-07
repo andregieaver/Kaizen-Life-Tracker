@@ -332,25 +332,28 @@ code {
 .account-tabs-switcher::after,
 .system-tabs-switcher::after {
   content: "" !important;
+  display: block !important;
   position: absolute !important;
   left: var(--bubble-left, 0) !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
   width: var(--bubble-width, 25%) !important;
   height: calc(100% - 8px) !important;
+  min-height: 32px !important;
   border-radius: 99em !important;
   z-index: 5 !important;
   pointer-events: none !important;
   
   /* Semi-transparent vibrant blue with radial gradient for backlit effect */
-  background: 
+  background-color: var(--c-brand-500) !important;
+  background-image: 
     radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 50%, var(--c-brand-500) 0%, color-mix(in srgb, var(--c-brand-500) 70%, transparent) 100%),
     linear-gradient(180deg, 
       color-mix(in srgb, var(--c-brand-500) 90%, white) 0%,
       var(--c-brand-500) 50%,
       color-mix(in srgb, var(--c-brand-500) 70%, black) 100%
-    );
+    ) !important;
   
   /* Shine on top and depth shadows for curved effect */
   box-shadow: 
