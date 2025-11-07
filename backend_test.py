@@ -11401,5 +11401,141 @@ def main():
     
     print("=" * 70)
 
+def test_strava_callback_domain_update():
+    """
+    TEST STRAVA CALLBACK DOMAIN UPDATE
+    
+    Review Request:
+    1. Check current callback domain in system_settings
+    2. Update to kaizenlifetracker.com if different
+    3. Verify the update
+    
+    Super Admin: andre@humanweb.no (ID: 77e6ef02-0c9e-4ede-a428-213b83eed1fe)
+    """
+    print("🔍 TESTING STRAVA CALLBACK DOMAIN UPDATE")
+    print("=" * 70)
+    
+    try:
+        super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"
+        super_admin_email = "andre@humanweb.no"
+        target_callback_domain = "kaizenlifetracker.com"
+        
+        print(f"   Using super admin: {super_admin_email}")
+        print(f"   Athlete ID: {super_admin_id}")
+        print(f"   Target callback domain: {target_callback_domain}")
+        print()
+        
+        # Step 1: Get current system settings
+        print("   Step 1: Get current system settings")
+        
+        get_settings_url = f"{BACKEND_URL}/system/settings?athlete_id={super_admin_id}"
+        print(f"   URL: {get_settings_url}")
+        
+        get_response = requests.get(get_settings_url)
+        
+        print(f"   Response Status: {get_response.status_code}")
+        
+        if get_response.status_code != 200:
+            print_test_result("Get System Settings", False, f"Failed to get settings: {get_response.status_code} - {get_response.text}")
+            return False
+        
+        settings_data = get_response.json()
+        print_test_result("Get System Settings", True, "Successfully retrieved system settings")
+        
+        # Extract current callback domain
+        current_callback_domain = None
+        if "advanced" in settings_data and "strava" in settings_data["advanced"]:
+            current_callback_domain = settings_data["advanced"]["strava"].get("callbackDomain")
+        
+        print(f"   Current callback domain: {repr(current_callback_domain)}")
+        print()
+        
+        # Step 2: Check if update is needed
+        print("   Step 2: Check if update is needed")
+        
+        if current_callback_domain == target_callback_domain:
+            print_test_result("Callback Domain Check", True, f"Callback domain is already set to '{target_callback_domain}' - no update needed")
+            print()
+            print("✅ STRAVA CALLBACK DOMAIN IS ALREADY CORRECT")
+            return True
+        else:
+            print_test_result("Callback Domain Check", True, f"Callback domain needs update: '{current_callback_domain}' -> '{target_callback_domain}'")
+            print()
+        
+        # Step 3: Update callback domain
+        print("   Step 3: Update callback domain to kaizenlifetracker.com")
+        
+        # Prepare update data - keep all existing settings and only update callbackDomain
+        update_data = settings_data.copy()
+        
+        # Ensure advanced.strava structure exists
+        if "advanced" not in update_data:
+            update_data["advanced"] = {}
+        if "strava" not in update_data["advanced"]:
+            update_data["advanced"]["strava"] = {}
+        
+        # Update only the callbackDomain
+        update_data["advanced"]["strava"]["callbackDomain"] = target_callback_domain
+        
+        print(f"   Updating callbackDomain to: {target_callback_domain}")
+        print(f"   Keeping other settings intact:")
+        if "advanced" in update_data and "strava" in update_data["advanced"]:
+            strava_settings = update_data["advanced"]["strava"]
+            print(f"      - clientId: {strava_settings.get('clientId', 'N/A')}")
+            print(f"      - clientSecret: {'***' if strava_settings.get('clientSecret') else 'N/A'}")
+            print(f"      - callbackDomain: {strava_settings.get('callbackDomain')}")
+        
+        post_settings_url = f"{BACKEND_URL}/system/settings?athlete_id={super_admin_id}"
+        
+        post_response = requests.post(
+            post_settings_url,
+            json=update_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        print(f"   Response Status: {post_response.status_code}")
+        
+        if post_response.status_code != 200:
+            print_test_result("Update Callback Domain", False, f"Failed to update: {post_response.status_code} - {post_response.text}")
+            return False
+        
+        print_test_result("Update Callback Domain", True, "Successfully updated callback domain")
+        print()
+        
+        # Step 4: Verify the update
+        print("   Step 4: Verify the update")
+        
+        verify_response = requests.get(get_settings_url)
+        
+        if verify_response.status_code != 200:
+            print_test_result("Verify Update", False, f"Failed to verify: {verify_response.status_code}")
+            return False
+        
+        verify_data = verify_response.json()
+        
+        # Extract updated callback domain
+        updated_callback_domain = None
+        if "advanced" in verify_data and "strava" in verify_data["advanced"]:
+            updated_callback_domain = verify_data["advanced"]["strava"].get("callbackDomain")
+        
+        print(f"   Updated callback domain: {repr(updated_callback_domain)}")
+        
+        if updated_callback_domain == target_callback_domain:
+            print_test_result("Verify Update", True, f"Callback domain successfully updated to '{target_callback_domain}'")
+            print()
+            print("✅ STRAVA CALLBACK DOMAIN UPDATE COMPLETED SUCCESSFULLY")
+            print(f"   System is now ready for OAuth flow with correct redirect URI")
+            return True
+        else:
+            print_test_result("Verify Update", False, f"Update verification failed - expected '{target_callback_domain}', got '{updated_callback_domain}'")
+            return False
+        
+    except Exception as e:
+        print_test_result("Strava Callback Domain Update - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 if __name__ == "__main__":
-    main()
+    # Run the specific test requested in review
+    test_strava_callback_domain_update()
