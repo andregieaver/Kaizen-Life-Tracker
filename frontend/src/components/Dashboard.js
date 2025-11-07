@@ -564,7 +564,7 @@ const Dashboard = ({ athleteId }) => {
                     className="w-8 h-8 object-contain mr-2"
                   />
                 )}
-                <h1 className="font-display text-2xl font-bold tracking-tight" style={{ color: 'var(--text-hi)' }}>
+                <h1 className="text-2xl font-bold tracking-tight" style={{ color: 'var(--text-hi)', fontFamily: 'var(--font-logo)' }}>
                   {siteTitle}
                 </h1>
               </div>
