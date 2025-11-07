@@ -673,9 +673,9 @@ const Account = ({ athleteId }) => {
       
       // Load integrations data from backend
       try {
-        // Load from both old integrations and new user_connections
+        // Load from new OAuth status and legacy integrations
         const [stravaStatusRes, ouraStatusRes, connectionsRes] = await Promise.all([
-          axios.get(`${API}/integrations/strava/${athleteId}/status`).catch(() => ({ data: { connected: false } })),
+          axios.get(`${API}/auth/strava/status`, { params: { user_id: athleteId } }).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/integrations/oura/${athleteId}/status`).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/me/connections?user_id=${athleteId}`).catch(() => ({ data: { connections: [] } }))
         ]);
@@ -684,12 +684,12 @@ const Account = ({ athleteId }) => {
         const ouraStatus = ouraStatusRes.data;
         const connectionsData = connectionsRes.data.connections || [];
         
-        // Initialize integrations state with legacy data
+        // Initialize integrations state with OAuth data
         const integrationsState = {
           strava: { 
             connected: stravaStatus.connected,
-            athlete_name: stravaStatus.connected ? `Athlete ${stravaStatus.strava_athlete_id}` : '',
-            last_sync: stravaStatus.last_sync
+            athlete_name: stravaStatus.athlete ? `${stravaStatus.athlete.firstname} ${stravaStatus.athlete.lastname}` : '',
+            last_sync: stravaStatus.last_sync_at
           },
           oura: { 
             connected: ouraStatus.connected,
