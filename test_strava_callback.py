@@ -76,8 +76,8 @@ def test_strava_authorization_callback_domain():
         auth_data = auth_response.json()
         print(f"   Response Data: {json.dumps(auth_data, indent=2)}")
         
-        # Extract authorization URL
-        authorization_url = auth_data.get('authUrl')
+        # Extract authorization URL (try both possible keys)
+        authorization_url = auth_data.get('authUrl') or auth_data.get('authorization_url')
         state = auth_data.get('state')
         
         if not authorization_url:
