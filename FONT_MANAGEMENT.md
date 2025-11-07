@@ -179,7 +179,7 @@ sans-serif               /* Generic fallback */
 ### Switching to a Different Font Family
 
 1. **Download font files** (Regular, Medium, SemiBold, Bold)
-2. **Replace files** in `/app/frontend/public/fonts/`
+2. **Replace files** in `/app/frontend/src/fonts/`
 3. **Update @font-face declarations** (family name, file paths)
 4. **Update CSS variables**:
 ```css
