@@ -269,12 +269,54 @@ const Account = ({ athleteId }) => {
   const [pushLoading, setPushLoading] = useState(false);
 
   useEffect(() => {
-    loadAccountData();
+    if (athleteId) {
+      loadAccountData();
+    }
+    
     loadSubscriptionStatus();
     loadPlanSettings();
     
-    // Check if returning from Stripe checkout
+    // Set active tab from URL
     const urlParams = new URLSearchParams(window.location.search);
+    const tab = urlParams.get('tab');
+    const action = urlParams.get('action');
+    
+    if (tab && ['personal', 'preferences', 'integrations', 'subscriptions'].includes(tab)) {
+      setActiveTab(tab);
+    }
+    
+    if (action === 'billing') {
+      setActiveTab('subscriptions');
+    }
+    
+    // Handle Strava OAuth callback
+    const stravaStatus = urlParams.get('strava');
+    if (stravaStatus === 'connected') {
+      setSaveStatus({ 
+        type: 'success', 
+        message: 'Strava connected successfully! Your activities will now sync automatically.' 
+      });
+      setTimeout(() => {
+        setSaveStatus({ type: '', message: '' });
+        // Clean URL
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 5000);
+      // Reload to show connection
+      if (athleteId) {
+        loadAccountData();
+      }
+    } else if (stravaStatus === 'error') {
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Failed to connect Strava. Please try again or check System Settings.' 
+      });
+      setTimeout(() => {
+        setSaveStatus({ type: '', message: '' });
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 5000);
+    }
+    
+    // Check if returning from Stripe checkout
     const sessionId = urlParams.get('session_id');
     const success = urlParams.get('success');
     
