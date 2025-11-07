@@ -383,7 +383,7 @@ const LandingPage = () => {
               ) : (
                 <Heart className="w-8 h-8 text-white" />
               )}
-              <span className="ml-2 text-xl font-bold text-white">{siteTitle}</span>
+              <span className="ml-2 text-xl font-bold text-white" style={{ fontFamily: 'var(--font-logo)' }}>{siteTitle}</span>
             </div>
             <div className="flex items-center gap-4">
               {(console.log('Header menu length:', headerMenu.length, 'Items:', headerMenu), headerMenu.length > 0) ? (
