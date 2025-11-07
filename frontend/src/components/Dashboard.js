@@ -116,6 +116,25 @@ const Dashboard = ({ athleteId }) => {
     }
   }, [activeTab, previousTab]);
 
+  // Update header menu bubble position and width dynamically
+  useEffect(() => {
+    const headerMenu = document.querySelector('.header-menu-switcher');
+    const activeButton = headerMenu?.querySelector('.header-menu-item[data-active="true"]');
+    
+    if (headerMenu && activeButton) {
+      const menuRect = headerMenu.getBoundingClientRect();
+      const buttonRect = activeButton.getBoundingClientRect();
+      
+      // Calculate position relative to menu container
+      const leftOffset = buttonRect.left - menuRect.left;
+      const width = buttonRect.width;
+      
+      // Update CSS custom properties for the sliding bubble
+      headerMenu.style.setProperty('--bubble-left', `${leftOffset}px`);
+      headerMenu.style.setProperty('--bubble-width', `${width}px`);
+    }
+  }, [activeTab, menuItems]);
+
   useEffect(() => {
     loadDashboardData();
     loadCommunityUnreadCount();
