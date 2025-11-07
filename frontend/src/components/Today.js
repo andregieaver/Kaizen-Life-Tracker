@@ -76,7 +76,7 @@ const Today = ({ athleteId }) => {
       });
 
     } catch (error) {
-      console.error('Error loading today data:', error);
+      // Silently fail - non-critical feature
     } finally {
       setIsLoading(false);
     }
