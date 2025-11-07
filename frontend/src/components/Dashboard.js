@@ -1829,12 +1829,20 @@ const Dashboard = ({ athleteId }) => {
           {/* Main FAB Button - Bottom Right */}
           <button
             onClick={() => setShowCreateMenu(!showCreateMenu)}
-            className={`fixed bottom-20 right-4 z-50 w-14 h-14 bg-gradient-to-br from-[#00C2A8] to-[#00a890] hover:from-[#00a890] hover:to-[#00C2A8] rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
-              showCreateMenu ? 'rotate-45 scale-110' : 'rotate-0'
-            } ${scrollDirection === 'down' ? 'translate-y-32' : 'translate-y-0'}`}
-            aria-label="Quick Actions"
+            className={`md:hidden fixed z-50 w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 ${
+              showCreateMenu ? 'rotate-45' : ''
+            }`}
+            style={{
+              bottom: '90px',
+              right: '16px',
+              background: showCreateMenu ? 'var(--grad-danger)' : 'var(--grad-brand)',
+              boxShadow: showCreateMenu 
+                ? '0 10px 40px rgba(255,100,100,.3)' 
+                : '0 10px 40px rgba(25,229,197,.3)'
+            }}
+            aria-label={showCreateMenu ? "Close menu" : "Create new entry"}
           >
-            <PlusCircle className="w-7 h-7 text-white" />
+            <PlusCircle className="w-7 h-7" style={{ color: 'var(--bg-950)' }} />
           </button>
 
           {/* Backdrop when menu is open */}
