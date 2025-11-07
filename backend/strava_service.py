@@ -15,7 +15,7 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 
 # Strava API URLs
 STRAVA_AUTHORIZE_URL = "https://www.strava.com/oauth/authorize"
-STRAVA_TOKEN_URL = "https://www.strava.com/oauth/token"
+STRAVA_TOKEN_URL = "https://www.strava.com/api/v3/oauth/token"
 STRAVA_DEAUTH_URL = "https://www.strava.com/oauth/deauthorize"
 STRAVA_API_BASE = "https://www.strava.com/api/v3"
 
