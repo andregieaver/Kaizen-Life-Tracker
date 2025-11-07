@@ -385,7 +385,7 @@ const LandingPage = () => {
               <span className="ml-2 text-xl font-bold text-white">{siteTitle}</span>
             </div>
             <div className="flex items-center gap-4">
-              {headerMenu.length > 0 ? (
+              {(console.log('Header menu length:', headerMenu.length, 'Items:', headerMenu), headerMenu.length > 0) ? (
                 // Render dynamic logged-out header menu from Menu Editor
                 headerMenu.map((item, index) => (
                   <Link key={index} to={item.url}>
