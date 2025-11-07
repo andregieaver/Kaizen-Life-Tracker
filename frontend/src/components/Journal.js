@@ -41,6 +41,34 @@ const Journal = ({ athleteId }) => {
     loadJournalEntries();
   }, [athleteId]);
 
+  // Update journal entry type bubble position dynamically
+  useLayoutEffect(() => {
+    const updateBubblePosition = () => {
+      const buttonContainer = document.querySelector('.journal-entry-type-switcher');
+      const activeButton = buttonContainer?.querySelector(`button[data-entry-type="${entryType}"]`);
+      
+      if (buttonContainer && activeButton) {
+        const containerRect = buttonContainer.getBoundingClientRect();
+        const buttonRect = activeButton.getBoundingClientRect();
+        
+        const leftOffset = buttonRect.left - containerRect.left;
+        const width = buttonRect.width;
+        
+        buttonContainer.style.setProperty('--bubble-left', `${leftOffset}px`);
+        buttonContainer.style.setProperty('--bubble-width', `${width}px`);
+      }
+    };
+
+    updateBubblePosition();
+    const timer1 = setTimeout(updateBubblePosition, 50);
+    const timer2 = setTimeout(updateBubblePosition, 200);
+    
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, [entryType]);
+
   // Check for action parameter in URL to auto-start voice recording
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
