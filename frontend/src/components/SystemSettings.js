@@ -4744,6 +4744,26 @@ const SystemSettings = ({ athleteId }) => {
                       />
                     </div>
 
+                    {/* Callback Domain */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Authorization Callback Domain
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g., multilingual-app-27.preview.emergentagent.com or kaizenlifetracker.com"
+                        className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FC4C02] focus:border-transparent"
+                        value={advancedSettings.strava.callbackDomain}
+                        onChange={(e) => setAdvancedSettings(prev => ({
+                          ...prev,
+                          strava: { ...prev.strava, callbackDomain: e.target.value }
+                        }))}
+                      />
+                      <p className="text-xs text-gray-400 mt-1">
+                        Enter the domain without https:// (for development: use your preview domain, for production: kaizenlifetracker.com)
+                      </p>
+                    </div>
+
                     {/* Client Secret */}
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
