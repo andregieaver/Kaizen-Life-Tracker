@@ -223,8 +223,9 @@ sans-serif               /* Generic fallback */
 
 ## Files Modified
 
-1. **`/app/frontend/public/fonts/`** (NEW)
+1. **`/app/frontend/src/fonts/`** (NEW DIRECTORY)
    - Added 4 Noto Sans font files
+   - Location in `src` allows webpack to bundle fonts properly
 
 2. **`/app/frontend/src/index.css`** (MODIFIED)
    - Lines 9-44: @font-face declarations
