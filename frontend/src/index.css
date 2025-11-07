@@ -381,6 +381,15 @@ code {
 .account-tab-item,
 .system-tab-item {
   transition: color 300ms ease;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.account-tab-item[data-state="active"],
+.system-tab-item[data-state="active"] {
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 }
