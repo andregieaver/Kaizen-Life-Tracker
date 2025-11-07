@@ -222,14 +222,7 @@ const Account = ({ athleteId }) => {
   const [activeTab, setActiveTab] = useState('personal');
   const location = window.location;
 
-  // Initialize active tab from URL parameter on mount
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const tab = urlParams.get('tab');
-    if (tab && ['personal', 'preferences', 'integrations', 'subscriptions'].includes(tab)) {
-      setActiveTab(tab);
-    }
-  }, [location.search]);
+  // Tab handling moved to main useEffect below
 
   // Update URL when tab changes
   const handleTabChange = (value) => {
