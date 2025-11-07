@@ -4707,6 +4707,108 @@ const SystemSettings = ({ athleteId }) => {
                   </div>
                 </div>
 
+                {/* Strava API Integration Section */}
+                <div className="space-y-4 p-6 bg-gray-800/50 rounded-lg border border-gray-700">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-[#FC4C02]/20 rounded-lg flex items-center justify-center">
+                      <Activity className="w-5 h-5 text-[#FC4C02]" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">
+                        Strava API Integration
+                      </h3>
+                      <p className="text-sm text-gray-400">
+                        Configure Strava API credentials for fitness activity synchronization
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {/* Client ID */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Client ID
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Enter your Strava Client ID"
+                        className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FC4C02] focus:border-transparent"
+                        value={advancedSettings.strava.clientId}
+                        onChange={(e) => setAdvancedSettings(prev => ({
+                          ...prev,
+                          strava: { ...prev.strava, clientId: e.target.value }
+                        }))}
+                      />
+                    </div>
+
+                    {/* Client Secret */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Client Secret
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={advancedSettings.showStravaSecret ? "text" : "password"}
+                          placeholder="Enter your Strava Client Secret"
+                          className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FC4C02] focus:border-transparent pr-10"
+                          value={advancedSettings.strava.clientSecret}
+                          onChange={(e) => setAdvancedSettings(prev => ({
+                            ...prev,
+                            strava: { ...prev.strava, clientSecret: e.target.value }
+                          }))}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setAdvancedSettings(prev => ({ ...prev, showStravaSecret: !prev.showStravaSecret }))}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                        >
+                          {advancedSettings.showStravaSecret ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Webhook Verify Token */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Webhook Verify Token
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={advancedSettings.showStravaVerifyToken ? "text" : "password"}
+                          placeholder="Enter webhook verification token"
+                          className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#FC4C02] focus:border-transparent pr-10"
+                          value={advancedSettings.strava.webhookVerifyToken}
+                          onChange={(e) => setAdvancedSettings(prev => ({
+                            ...prev,
+                            strava: { ...prev.strava, webhookVerifyToken: e.target.value }
+                          }))}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setAdvancedSettings(prev => ({ ...prev, showStravaVerifyToken: !prev.showStravaVerifyToken }))}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                        >
+                          {advancedSettings.showStravaVerifyToken ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-3 bg-orange-900/20 border border-orange-700/50 rounded-lg">
+                    <p className="text-xs text-orange-200">
+                      <strong>Setup Instructions:</strong>
+                    </p>
+                    <ol className="text-xs text-orange-200 mt-2 space-y-1 ml-4 list-decimal">
+                      <li>Go to <a href="https://www.strava.com/settings/api" target="_blank" rel="noopener noreferrer" className="text-[#FC4C02] hover:underline">Strava API Settings</a></li>
+                      <li>Create an application or use an existing one</li>
+                      <li>Set Authorization Callback Domain to: <code className="bg-gray-900 px-1 py-0.5 rounded text-[#FC4C02]">kaizenlifetracker.com</code></li>
+                      <li>Copy your Client ID and Client Secret</li>
+                      <li>Generate a secure Webhook Verify Token (random string)</li>
+                      <li>After saving, athletes can connect their Strava accounts in Account Settings</li>
+                    </ol>
+                  </div>
+                </div>
+
                 {/* Save Button */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-700">
                   <div>
