@@ -147,7 +147,7 @@ code {
 .header-menu-switcher {
   position: relative;
   --bubble-left: 0px;
-  --bubble-width: 80px;
+  --bubble-width: 120px;
 }
 
 .header-menu-item {
