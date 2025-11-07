@@ -390,19 +390,22 @@ const LandingPage = () => {
               {(console.log('Header menu length:', headerMenu.length, 'Items:', headerMenu), headerMenu.length > 0) ? (
                 // Render dynamic logged-out header menu from Menu Editor
                 headerMenu.map((item, index) => (
-                  <Link key={index} to={item.url}>
-                    <Button className="bg-white text-teal-600 hover:bg-gray-100">
-                      {item.label}
-                    </Button>
-                  </Link>
+                  <button
+                    key={index}
+                    onClick={() => navigate(item.url)}
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-teal-600 hover:bg-gray-100 h-9 px-4 py-2"
+                  >
+                    {item.label}
+                  </button>
                 ))
               ) : (
                 // Fallback to default Login button if no menu configured
-                <Link to="/login">
-                  <Button className="bg-white text-teal-600 hover:bg-gray-100">
-                    Login
-                  </Button>
-                </Link>
+                <button
+                  onClick={() => navigate('/login')}
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-teal-600 hover:bg-gray-100 h-9 px-4 py-2"
+                >
+                  Login
+                </button>
               )}
             </div>
           </div>
