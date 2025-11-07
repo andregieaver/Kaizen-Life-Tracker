@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Override font-display class to use Noto Sans */
+@layer utilities {
+  .font-display {
+    font-family: 'Noto Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  }
+  
+  .font-logo {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  }
+}
+
 /* =====================================================
    FONT LOADING - NOTO SANS (LOCAL)
    Single source of truth for all fonts in the app
