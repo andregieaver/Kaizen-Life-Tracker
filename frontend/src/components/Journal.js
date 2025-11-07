@@ -512,11 +512,12 @@ const Journal = ({ athleteId }) => {
                     if (isRecording) stopVideoRecording();
                     resetVideoState();
                   }}
-                  className={`flex-1 px-3 py-2 rounded-lg font-medium transition-all ${
-                    entryType === 'text'
-                      ? 'bg-teal-600 text-white shadow-md'
-                      : 'text-gray-300 hover:text-white'
-                  }`}
+                  style={{
+                    background: entryType === 'text' ? 'var(--c-brand-500)' : 'transparent',
+                    color: entryType === 'text' ? 'var(--bg-950)' : 'var(--text-med)',
+                    cursor: 'pointer'
+                  }}
+                  className="flex-1 px-3 py-2 rounded-lg font-medium transition-all hover:bg-opacity-80"
                 >
                   <FileText className="w-4 h-4 inline mr-1" />
                   {t('journal.text')}
@@ -526,11 +527,12 @@ const Journal = ({ athleteId }) => {
                     setEntryType('voice');
                     resetVideoState();
                   }}
-                  className={`flex-1 px-3 py-2 rounded-lg font-medium transition-all ${
-                    entryType === 'voice'
-                      ? 'bg-teal-600 text-white shadow-md'
-                      : 'text-gray-300 hover:text-white'
-                  }`}
+                  style={{
+                    background: entryType === 'voice' ? 'var(--c-brand-500)' : 'transparent',
+                    color: entryType === 'voice' ? 'var(--bg-950)' : 'var(--text-med)',
+                    cursor: 'pointer'
+                  }}
+                  className="flex-1 px-3 py-2 rounded-lg font-medium transition-all hover:bg-opacity-80"
                 >
                   <Mic className="w-4 h-4 inline mr-1" />
                   {t('journal.voice')}
@@ -540,11 +542,12 @@ const Journal = ({ athleteId }) => {
                     setEntryType('video');
                     if (isRecording) stopRecording();
                   }}
-                  className={`flex-1 px-3 py-2 rounded-lg font-medium transition-all ${
-                    entryType === 'video'
-                      ? 'bg-teal-600 text-white shadow-md'
-                      : 'text-gray-300 hover:text-white'
-                  }`}
+                  style={{
+                    background: entryType === 'video' ? 'var(--c-brand-500)' : 'transparent',
+                    color: entryType === 'video' ? 'var(--bg-950)' : 'var(--text-med)',
+                    cursor: 'pointer'
+                  }}
+                  className="flex-1 px-3 py-2 rounded-lg font-medium transition-all hover:bg-opacity-80"
                 >
                   <Video className="w-4 h-4 inline mr-1" />
                   {t('journal.video')}
