@@ -8,8 +8,9 @@ module.exports = {
   theme: {
   	extend: {
   		fontFamily: {
-  			sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-  			display: ['Space Grotesk', 'system-ui', 'sans-serif']
+  			sans: ['Noto Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+  			display: ['Noto Sans', 'system-ui', 'sans-serif'],
+  			logo: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
