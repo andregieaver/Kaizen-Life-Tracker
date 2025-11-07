@@ -16006,6 +16006,140 @@ async def update_index_html_meta(athlete_id: str):
         raise HTTPException(status_code=500, detail="Failed to update index.html")
 
 
+# ============================================================================
+# STRAVA INTEGRATION ENDPOINTS
+# ============================================================================
+
+@app.get("/api/auth/strava")
+async def strava_auth_start(user_id: str):
+    """
+    Initiate Strava OAuth flow
+    Returns authorization URL for user to visit
+    """
+    try:
+        strava_service = StravaService(db)
+        auth_data = await strava_service.get_authorization_url(user_id)
+        
+        # Return the authorization URL - frontend will redirect user
+        return {
+            'authUrl': auth_data['url'],
+            'state': auth_data['state']
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error starting Strava auth: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/auth/strava/callback")
+async def strava_auth_callback(
+    code: str = Query(...),
+    state: str = Query(...),
+    scope: Optional[str] = Query(None)
+):
+    """
+    Handle Strava OAuth callback
+    Exchange code for tokens and store connection
+    """
+    try:
+        # Extract user_id from state or session
+        # For now, we'll need to store user_id in the oauth_state collection
+        strava_service = StravaService(db)
+        
+        # Find the OAuth state to get user_id
+        oauth_state = await db.strava_oauth_state.find_one({'state': state})
+        if not oauth_state:
+            raise HTTPException(status_code=400, detail="Invalid OAuth state")
+        
+        user_id = oauth_state['user_id']
+        
+        # Exchange code for tokens
+        result = await strava_service.exchange_code_for_tokens(code, state, user_id)
+        
+        # Redirect back to frontend with success
+        await strava_service.load_settings()
+        frontend_url = f"https://{strava_service.system_settings['callbackDomain']}/dashboard/account?strava=connected"
+        return RedirectResponse(url=frontend_url)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error in Strava callback: {e}", exc_info=True)
+        # Redirect to frontend with error
+        return RedirectResponse(url="/dashboard/account?strava=error")
+
+
+@app.post("/api/auth/strava/disconnect")
+async def strava_disconnect(request: Request):
+    """
+    Disconnect Strava integration
+    Revokes tokens and removes connection
+    """
+    try:
+        data = await request.json()
+        user_id = data.get('user_id')
+        
+        if not user_id:
+            raise HTTPException(status_code=400, detail="user_id required")
+        
+        strava_service = StravaService(db)
+        result = await strava_service.disconnect(user_id)
+        
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error disconnecting Strava: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/auth/strava/status")
+async def strava_connection_status(user_id: str):
+    """
+    Get current Strava connection status
+    """
+    try:
+        strava_service = StravaService(db)
+        status = await strava_service.get_connection_status(user_id)
+        
+        if status is None:
+            return {'connected': False}
+        
+        return status
+        
+    except Exception as e:
+        logging.error(f"Error checking Strava status: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/strava/activities")
+async def fetch_strava_activities(
+    user_id: str,
+    page: int = Query(1, ge=1),
+    per_page: int = Query(30, ge=1, le=200)
+):
+    """
+    Fetch activities from Strava
+    """
+    try:
+        strava_service = StravaService(db)
+        activities = await strava_service.fetch_athlete_activities(user_id, page, per_page)
+        
+        return {
+            'activities': activities,
+            'page': page,
+            'per_page': per_page
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fetching Strava activities: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
