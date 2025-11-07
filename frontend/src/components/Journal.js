@@ -14,6 +14,7 @@ const Journal = ({ athleteId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [entryType, setEntryType] = useState('text'); // 'text' or 'voice'
+  const [previousEntryType, setPreviousEntryType] = useState('text'); // For animation
   const [textContent, setTextContent] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
