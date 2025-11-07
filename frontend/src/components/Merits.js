@@ -22,7 +22,7 @@ const Merits = ({ athleteId }) => {
       const response = await axios.get(`${API}/merits/${athleteId}`);
       setMerits(response.data);
     } catch (error) {
-      console.error('Error loading merits:', error);
+      // Silently fail - non-critical feature
       setMerits([]);
     } finally {
       setIsLoading(false);
