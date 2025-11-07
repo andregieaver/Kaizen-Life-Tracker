@@ -11407,18 +11407,21 @@ def test_strava_callback_domain_update():
     
     Review Request:
     1. Check current callback domain in system_settings
-    2. Update to kaizenlifetracker.com if different
+    2. Update to trainsmart-ui.preview.emergentagent.com for testing
     3. Verify the update
+    
+    Context: The callback is not reaching the backend because kaizenlifetracker.com 
+    is not pointing to the application server. Need to update back to preview URL for testing.
     
     Super Admin: andre@humanweb.no (ID: 77e6ef02-0c9e-4ede-a428-213b83eed1fe)
     """
-    print("🔍 TESTING STRAVA CALLBACK DOMAIN UPDATE")
+    print("🔍 TESTING STRAVA CALLBACK DOMAIN UPDATE TO PREVIEW URL")
     print("=" * 70)
     
     try:
         super_admin_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"
         super_admin_email = "andre@humanweb.no"
-        target_callback_domain = "kaizenlifetracker.com"
+        target_callback_domain = "trainsmart-ui.preview.emergentagent.com"
         
         print(f"   Using super admin: {super_admin_email}")
         print(f"   Athlete ID: {super_admin_id}")
