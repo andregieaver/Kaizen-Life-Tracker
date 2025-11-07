@@ -330,16 +330,16 @@ code {
 /* Glassmorphic sliding bubble with backlit effect for horizontal tabs */
 .account-tabs-switcher::after,
 .system-tabs-switcher::after {
-  content: "";
-  position: absolute;
-  left: var(--bubble-left, 0);
-  top: 50%;
-  transform: translateY(-50%);
-  width: var(--bubble-width, 25%);
-  height: calc(100% - 8px);
-  border-radius: 99em;
-  z-index: 0;
-  pointer-events: none;
+  content: "" !important;
+  position: absolute !important;
+  left: var(--bubble-left, 0) !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: var(--bubble-width, 25%) !important;
+  height: calc(100% - 8px) !important;
+  border-radius: 99em !important;
+  z-index: 5 !important;
+  pointer-events: none !important;
   
   /* Semi-transparent vibrant blue with radial gradient for backlit effect */
   background: 
