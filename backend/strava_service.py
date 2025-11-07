@@ -29,7 +29,7 @@ class StravaService:
     
     async def load_settings(self):
         """Load Strava credentials from system settings"""
-        settings_doc = await self.db.system_settings.find_one({})
+        settings_doc = await self.db.system_settings.find_one({"setting_type": "global"})
         if not settings_doc or 'advanced' not in settings_doc or 'strava' not in settings_doc['advanced']:
             raise HTTPException(
                 status_code=400,
