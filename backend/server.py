@@ -16071,6 +16071,8 @@ async def strava_auth_callback(
     Exchange code for tokens and store connection
     """
     try:
+        logging.info(f"Strava callback received: code={code[:10]}..., state={state[:20]}..., scope={scope}")
+        
         # Extract user_id from state or session
         # For now, we'll need to store user_id in the oauth_state collection
         strava_service = StravaService(db)
@@ -16078,26 +16080,34 @@ async def strava_auth_callback(
         # Find the OAuth state to get user_id
         oauth_state = await db.strava_oauth_state.find_one({'state': state})
         if not oauth_state:
+            logging.error(f"OAuth state not found for state: {state}")
             raise HTTPException(status_code=400, detail="Invalid OAuth state")
         
         user_id = oauth_state['user_id']
+        logging.info(f"Found user_id from OAuth state: {user_id}")
         
         # Exchange code for tokens
+        logging.info(f"Attempting to exchange code for tokens...")
         result = await strava_service.exchange_code_for_tokens(code, state, user_id)
+        logging.info(f"Successfully exchanged code for tokens")
         
         # Redirect back to frontend with success
         await strava_service.load_settings()
         frontend_url = f"https://{strava_service.system_settings['callbackDomain']}/dashboard/account?strava=connected"
+        logging.info(f"Redirecting to: {frontend_url}")
         return RedirectResponse(url=frontend_url)
         
     except HTTPException as he:
-        logging.error(f"HTTPException in Strava callback: {he.detail}", exc_info=True)
+        logging.error(f"HTTPException in Strava callback: status={he.status_code}, detail={he.detail}", exc_info=True)
         # Redirect to frontend with error
-        await strava_service.load_settings()
-        frontend_url = f"https://{strava_service.system_settings['callbackDomain']}/dashboard/account?strava=error"
+        try:
+            await strava_service.load_settings()
+            frontend_url = f"https://{strava_service.system_settings['callbackDomain']}/dashboard/account?strava=error"
+        except:
+            frontend_url = "/dashboard/account?strava=error"
         return RedirectResponse(url=frontend_url)
     except Exception as e:
-        logging.error(f"Error in Strava callback: {e}", exc_info=True)
+        logging.error(f"Unexpected error in Strava callback: {type(e).__name__}: {str(e)}", exc_info=True)
         # Redirect to frontend with error - try to get callback domain
         try:
             settings_doc = await db.system_settings.find_one({"setting_type": "global"})
