@@ -561,22 +561,22 @@ const Dashboard = ({ athleteId }) => {
     return (
       <button
         key={item.id}
+        data-menu-item="true"
+        data-active={isActive}
         onClick={() => {
+          setPreviousTab(activeTab);
           navigate(item.url);
           setIsMenuOpen(false);
         }}
-        className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+        className={`slideout-menu-item w-full flex items-center space-x-3 p-3 rounded-lg transition-colors relative ${
           item.highlighted ? 'font-semibold' : ''
         }`}
         style={{
-          background: item.highlighted && !isActive 
-            ? `${highlightColor}22` // 22 = 13% opacity in hex
-            : isActive 
-            ? 'var(--grad-brand)' 
-            : 'transparent',
+          background: 'transparent',
           color: isActive ? 'var(--bg-950)' : item.highlighted ? highlightColor : 'var(--text-med)',
           borderLeft: item.highlighted && !isActive ? `3px solid ${highlightColor}` : 'none',
-          paddingLeft: item.highlighted && !isActive ? 'calc(0.75rem - 3px)' : '0.75rem'
+          paddingLeft: item.highlighted && !isActive ? 'calc(0.75rem - 3px)' : '0.75rem',
+          zIndex: 1
         }}
       >
         <IconComponent className="w-5 h-5" />
