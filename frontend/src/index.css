@@ -50,6 +50,7 @@
   --c-dark: #000;
   --glass-reflex-dark: 1;
   --glass-reflex-light: 1;
+  --saturation: 150%;
 }
 
 /* Light Theme Override */
