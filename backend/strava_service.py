@@ -138,7 +138,9 @@ class StravaService:
             raise HTTPException(status_code=400, detail="OAuth state expired")
         
         # Exchange code for tokens
+        import logging
         async with httpx.AsyncClient() as client:
+            logging.info(f"Exchanging code with Strava API: URL={STRAVA_TOKEN_URL}")
             response = await client.post(
                 STRAVA_TOKEN_URL,
                 data={
@@ -149,7 +151,9 @@ class StravaService:
                 }
             )
             
+            logging.info(f"Strava token exchange response: status={response.status_code}")
             if response.status_code != 200:
+                logging.error(f"Strava token exchange failed: {response.text}")
                 raise HTTPException(
                     status_code=response.status_code,
                     detail=f"Strava token exchange failed: {response.text}"
