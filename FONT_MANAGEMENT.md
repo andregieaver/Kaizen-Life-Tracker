@@ -164,12 +164,12 @@ sans-serif               /* Generic fallback */
 ### Adding New Font Weights/Styles
 
 1. **Download font file** (e.g., `NotoSans-Italic.ttf`)
-2. **Place in** `/app/frontend/public/fonts/`
+2. **Place in** `/app/frontend/src/fonts/`
 3. **Add @font-face declaration** in `/app/frontend/src/index.css`:
 ```css
 @font-face {
   font-family: 'Noto Sans';
-  src: url('/fonts/NotoSans-Italic.ttf') format('truetype');
+  src: url('./fonts/NotoSans-Italic.ttf') format('truetype');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
