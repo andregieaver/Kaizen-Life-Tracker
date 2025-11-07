@@ -117,21 +117,55 @@ const Dashboard = ({ athleteId }) => {
   }, [activeTab, previousTab]);
 
   // Update header menu bubble position and width dynamically
-  useEffect(() => {
-    const headerMenu = document.querySelector('.header-menu-switcher');
-    const activeButton = headerMenu?.querySelector('.header-menu-item[data-active="true"]');
+  useLayoutEffect(() => {
+    const updateBubblePosition = () => {
+      const headerMenu = document.querySelector('.header-menu-switcher');
+      const activeButton = headerMenu?.querySelector('.header-menu-item[data-active="true"]');
+      
+      if (headerMenu && activeButton) {
+        const menuRect = headerMenu.getBoundingClientRect();
+        const buttonRect = activeButton.getBoundingClientRect();
+        
+        // Calculate position relative to menu container
+        const leftOffset = buttonRect.left - menuRect.left;
+        const width = buttonRect.width;
+        
+        // Update CSS custom properties for the sliding bubble
+        headerMenu.style.setProperty('--bubble-left', `${leftOffset}px`);
+        headerMenu.style.setProperty('--bubble-width', `${width}px`);
+      }
+    };
+
+    // Initial calculation with slight delay to ensure fonts are loaded
+    const timer = setTimeout(updateBubblePosition, 100);
     
-    if (headerMenu && activeButton) {
-      const menuRect = headerMenu.getBoundingClientRect();
-      const buttonRect = activeButton.getBoundingClientRect();
-      
-      // Calculate position relative to menu container
-      const leftOffset = buttonRect.left - menuRect.left;
-      const width = buttonRect.width;
-      
-      // Update CSS custom properties for the sliding bubble
-      headerMenu.style.setProperty('--bubble-left', `${leftOffset}px`);
-      headerMenu.style.setProperty('--bubble-width', `${width}px`);
+    // Also update on window resize
+    window.addEventListener('resize', updateBubblePosition);
+    
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', updateBubblePosition);
+    };
+  }, [activeTab, menuItems]);
+
+  // Additional effect to recalculate after fonts are loaded
+  useEffect(() => {
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        const headerMenu = document.querySelector('.header-menu-switcher');
+        const activeButton = headerMenu?.querySelector('.header-menu-item[data-active="true"]');
+        
+        if (headerMenu && activeButton) {
+          const menuRect = headerMenu.getBoundingClientRect();
+          const buttonRect = activeButton.getBoundingClientRect();
+          
+          const leftOffset = buttonRect.left - menuRect.left;
+          const width = buttonRect.width;
+          
+          headerMenu.style.setProperty('--bubble-left', `${leftOffset}px`);
+          headerMenu.style.setProperty('--bubble-width', `${width}px`);
+        }
+      });
     }
   }, [activeTab, menuItems]);
 
