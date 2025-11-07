@@ -56,7 +56,7 @@
 
 :root {
   /* Brand Colors */
-  --c-brand-500: #19E5C5;
+  --c-brand-500: #32D3FF;
   --c-brand-600: #12CDB0;
   --c-brand-700: #0FB99D;
   --c-sky-500: #32D3FF;
@@ -82,10 +82,10 @@
   --border: #1E2A37;
 
   /* Gradients */
-  --grad-brand: linear-gradient(135deg, #19E5C5 0%, #32D3FF 100%);
+  --grad-brand: linear-gradient(135deg, #32D3FF 0%, #32D3FF 100%);
   --grad-surface: linear-gradient(180deg, #0B1220 0%, #111A23 100%);
   --grad-cta-soft: linear-gradient(180deg, rgba(25,229,197,.16) 0%, rgba(50,211,255,.16) 100%);
-  --grad-success: linear-gradient(135deg, #22C55E, #19E5C5);
+  --grad-success: linear-gradient(135deg, #22C55E, #32D3FF);
   --grad-alert: linear-gradient(135deg, #EF4444, #F59E0B);
   
   /* Typography - Single Source of Truth */
