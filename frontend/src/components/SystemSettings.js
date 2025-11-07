@@ -155,7 +155,14 @@ const SystemSettings = ({ athleteId }) => {
     },
     microsoftClarity: {
       scriptCode: ''
-    }
+    },
+    strava: {
+      clientId: '',
+      clientSecret: '',
+      webhookVerifyToken: ''
+    },
+    showStravaSecret: false,
+    showStravaVerifyToken: false
   });
 
   // Modules State
