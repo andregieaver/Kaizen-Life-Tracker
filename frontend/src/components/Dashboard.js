@@ -1101,8 +1101,8 @@ const Dashboard = ({ athleteId }) => {
           : activeTab === 'system-settings' || activeTab === 'crm'
           ? 'w-full pt-20 md:pt-24'
           : activeTab === 'community'
-          ? 'w-full max-w-[1600px] mx-auto px-0 sm:px-6 lg:px-8 py-0 sm:py-8 pb-20 md:pb-8 pt-16 md:pt-24'
-          : 'w-full max-w-[1600px] mx-auto px-0 sm:px-6 lg:px-8 pt-16 md:pt-24 pb-0 md:pb-8'
+          ? 'w-full max-w-[1600px] mx-auto px-0 sm:px-6 lg:px-8 py-0 sm:py-8 pb-28 md:pb-8 pt-16 md:pt-24'
+          : 'w-full max-w-[1600px] mx-auto px-0 sm:px-6 lg:px-8 pt-16 md:pt-24 pb-28 md:pb-8'
       }>
         {activeTab === 'overview' && (
           <div className="space-y-0 md:space-y-6">
