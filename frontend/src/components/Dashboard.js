@@ -108,6 +108,14 @@ const Dashboard = ({ athleteId }) => {
   // Determine active tab from URL, default to overview
   const activeTab = tab || 'overview';
 
+  // Update the DOM attribute when activeTab changes (for CSS transform-origin)
+  useEffect(() => {
+    const tabSwitcher = document.querySelector('.bottom-tab-switcher');
+    if (tabSwitcher && previousTab) {
+      tabSwitcher.setAttribute('data-previous', previousTab);
+    }
+  }, [activeTab, previousTab]);
+
   useEffect(() => {
     loadDashboardData();
     loadCommunityUnreadCount();
