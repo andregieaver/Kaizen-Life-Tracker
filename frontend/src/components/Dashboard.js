@@ -583,10 +583,10 @@ const Dashboard = ({ athleteId }) => {
                         <button
                           key={index}
                           onClick={() => navigate(item.url)}
-                          className="text-sm font-medium transition-colors px-1 py-1"
+                          className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
+                          data-active={isActive}
                           style={{ 
-                            color: isActive ? 'var(--c-brand-500)' : 'var(--text-med)',
-                            borderBottom: isActive ? '2px solid var(--c-brand-500)' : 'none'
+                            color: isActive ? 'var(--c-brand-500)' : 'var(--text-med)'
                           }}
                         >
                           {item.label}
@@ -598,10 +598,10 @@ const Dashboard = ({ athleteId }) => {
                   <>
                     <button
                       onClick={() => navigate('/dashboard')}
-                      className="text-sm font-medium transition-colors px-1 py-1"
+                      className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
+                      data-active={activeTab === 'overview'}
                       style={{ 
-                        color: activeTab === 'overview' ? 'var(--c-brand-500)' : 'var(--text-med)',
-                        borderBottom: activeTab === 'overview' ? '2px solid var(--c-brand-500)' : 'none'
+                        color: activeTab === 'overview' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
                       data-testid="overview-tab"
                     >
@@ -609,10 +609,10 @@ const Dashboard = ({ athleteId }) => {
                     </button>
                     <button
                       onClick={() => navigate('/dashboard/coach')}
-                      className="text-sm font-medium transition-colors px-1 py-1"
+                      className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
+                      data-active={activeTab === 'coach'}
                       style={{ 
-                        color: activeTab === 'coach' ? 'var(--c-brand-500)' : 'var(--text-med)',
-                        borderBottom: activeTab === 'coach' ? '2px solid var(--c-brand-500)' : 'none'
+                        color: activeTab === 'coach' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
                       data-testid="coach-tab"
                     >
@@ -620,10 +620,10 @@ const Dashboard = ({ athleteId }) => {
                     </button>
                     <button
                       onClick={() => navigate('/dashboard/reports')}
-                      className="text-sm font-medium transition-colors px-1 py-1"
+                      className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
+                      data-active={activeTab === 'reports'}
                       style={{ 
-                        color: activeTab === 'reports' ? 'var(--c-brand-500)' : 'var(--text-med)',
-                        borderBottom: activeTab === 'reports' ? '2px solid var(--c-brand-500)' : 'none'
+                        color: activeTab === 'reports' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
                       data-testid="reports-tab"
                     >
@@ -631,10 +631,10 @@ const Dashboard = ({ athleteId }) => {
                     </button>
                     <button
                       onClick={() => navigate('/dashboard/calendar')}
-                      className="text-sm font-medium transition-colors px-1 py-1"
+                      className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
+                      data-active={activeTab === 'calendar'}
                       style={{ 
-                        color: activeTab === 'calendar' ? 'var(--c-brand-500)' : 'var(--text-med)',
-                        borderBottom: activeTab === 'calendar' ? '2px solid var(--c-brand-500)' : 'none'
+                        color: activeTab === 'calendar' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
                       data-testid="calendar-tab"
                     >
@@ -642,10 +642,10 @@ const Dashboard = ({ athleteId }) => {
                     </button>
                     <button
                       onClick={() => navigate('/dashboard/account')}
-                      className="text-sm font-medium transition-colors px-1 py-1"
+                      className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
+                      data-active={activeTab === 'account'}
                       style={{ 
-                        color: activeTab === 'account' ? 'var(--c-brand-500)' : 'var(--text-med)',
-                        borderBottom: activeTab === 'account' ? '2px solid var(--c-brand-500)' : 'none'
+                        color: activeTab === 'account' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
                       data-testid="account-tab"
                     >
