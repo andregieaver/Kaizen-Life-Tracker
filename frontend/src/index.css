@@ -83,6 +83,151 @@ code {
         monospace;
 }
 
+/* =====================================================
+   BOTTOM TAB BAR - LIQUID GLASS SWITCHER STYLE
+   ===================================================== */
+
+.bottom-tab-switcher {
+  position: relative;
+}
+
+/* Sliding indicator background */
+.bottom-tab-switcher::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  display: block;
+  width: calc(20% - 4px);
+  height: calc(100% - 10px);
+  border-radius: 99em;
+  background-color: color-mix(in srgb, var(--c-glass) 36%, transparent);
+  z-index: -1;
+  box-shadow: 
+    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+    inset 2px 1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent),
+    inset -1.5px -1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent),
+    inset -2px -6px 1px -5px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent),
+    inset -1px 2px 3px -1px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+    inset 0px -4px 1px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+    0px 3px 6px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+  transition: 
+    background-color 400ms cubic-bezier(1, 0, 0.4, 1),
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1),
+    translate 400ms cubic-bezier(1, 0, 0.4, 1);
+}
+
+/* Tab 1: Today - position 0 */
+.bottom-tab-switcher:has(button[data-active="true"]:nth-child(1))::after {
+  translate: 0 0;
+  transform-origin: right;
+  animation: scaleToggle 440ms ease;
+}
+
+/* Tab 2: Home - position 1 */
+.bottom-tab-switcher:has(button[data-active="true"]:nth-child(2))::after {
+  translate: calc(20% + 4px) 0;
+  animation: scaleToggle2 440ms ease;
+}
+
+/* Tab 3: Coach - position 2 (center) */
+.bottom-tab-switcher:has(button[data-active="true"]:nth-child(3))::after {
+  translate: calc(40% + 8px) 0;
+  animation: scaleToggle2 440ms ease;
+}
+
+/* Tab 4: Reports - position 3 */
+.bottom-tab-switcher:has(button[data-active="true"]:nth-child(4))::after {
+  translate: calc(60% + 12px) 0;
+  animation: scaleToggle2 440ms ease;
+}
+
+/* Tab 5: Account - position 4 */
+.bottom-tab-switcher:has(button[data-active="true"]:nth-child(5))::after {
+  translate: calc(80% + 16px) 0;
+  transform-origin: left;
+  animation: scaleToggle3 440ms ease;
+}
+
+/* Transform origin adjustments based on previous selection */
+.bottom-tab-switcher[data-previous="today"]:has(button[data-active="true"]:nth-child(2))::after,
+.bottom-tab-switcher[data-previous="today"]:has(button[data-active="true"]:nth-child(3))::after,
+.bottom-tab-switcher[data-previous="today"]:has(button[data-active="true"]:nth-child(4))::after,
+.bottom-tab-switcher[data-previous="today"]:has(button[data-active="true"]:nth-child(5))::after {
+  transform-origin: left;
+}
+
+.bottom-tab-switcher[data-previous="overview"]:has(button[data-active="true"]:nth-child(1))::after {
+  transform-origin: right;
+}
+.bottom-tab-switcher[data-previous="overview"]:has(button[data-active="true"]:nth-child(3))::after,
+.bottom-tab-switcher[data-previous="overview"]:has(button[data-active="true"]:nth-child(4))::after,
+.bottom-tab-switcher[data-previous="overview"]:has(button[data-active="true"]:nth-child(5))::after {
+  transform-origin: left;
+}
+
+.bottom-tab-switcher[data-previous="coach"]:has(button[data-active="true"]:nth-child(1))::after,
+.bottom-tab-switcher[data-previous="coach"]:has(button[data-active="true"]:nth-child(2))::after {
+  transform-origin: right;
+}
+.bottom-tab-switcher[data-previous="coach"]:has(button[data-active="true"]:nth-child(4))::after,
+.bottom-tab-switcher[data-previous="coach"]:has(button[data-active="true"]:nth-child(5))::after {
+  transform-origin: left;
+}
+
+.bottom-tab-switcher[data-previous="reports"]:has(button[data-active="true"]:nth-child(1))::after,
+.bottom-tab-switcher[data-previous="reports"]:has(button[data-active="true"]:nth-child(2))::after,
+.bottom-tab-switcher[data-previous="reports"]:has(button[data-active="true"]:nth-child(3))::after {
+  transform-origin: right;
+}
+.bottom-tab-switcher[data-previous="reports"]:has(button[data-active="true"]:nth-child(5))::after {
+  transform-origin: left;
+}
+
+.bottom-tab-switcher[data-previous="account"]:has(button[data-active="true"]:nth-child(1))::after,
+.bottom-tab-switcher[data-previous="account"]:has(button[data-active="true"]:nth-child(2))::after,
+.bottom-tab-switcher[data-previous="account"]:has(button[data-active="true"]:nth-child(3))::after,
+.bottom-tab-switcher[data-previous="account"]:has(button[data-active="true"]:nth-child(4))::after {
+  transform-origin: right;
+}
+
+/* Scale animations for sliding indicator */
+@keyframes scaleToggle {
+  0% {
+    scale: 1 1;
+  }
+  50% {
+    scale: 1.1 1;
+  }
+  100% {
+    scale: 1 1;
+  }
+}
+
+@keyframes scaleToggle2 {
+  0% {
+    scale: 1 1;
+  }
+  50% {
+    scale: 1.2 1;
+  }
+  100% {
+    scale: 1 1;
+  }
+}
+
+@keyframes scaleToggle3 {
+  0% {
+    scale: 1 1;
+  }
+  50% {
+    scale: 1.1 1;
+  }
+  100% {
+    scale: 1 1;
+  }
+}
+
 /* Mobile full-page modals */
 @media (max-width: 768px) {
   /* Target all modal/dialog containers */
