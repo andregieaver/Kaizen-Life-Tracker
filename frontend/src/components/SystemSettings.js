@@ -417,7 +417,14 @@ const SystemSettings = ({ athleteId }) => {
           },
           microsoftClarity: {
             scriptCode: response.data.advanced.microsoftClarity?.scriptCode || ''
-          }
+          },
+          strava: {
+            clientId: response.data.advanced.strava?.clientId || '',
+            clientSecret: response.data.advanced.strava?.clientSecret || '',
+            webhookVerifyToken: response.data.advanced.strava?.webhookVerifyToken || ''
+          },
+          showStravaSecret: false,
+          showStravaVerifyToken: false
         }));
       }
       
