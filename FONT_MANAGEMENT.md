@@ -15,9 +15,9 @@ The entire application now uses **Noto Sans** as the primary font, with **Inter*
 **Note:** Fonts are in the `src` directory (not `public`) so webpack can properly process and bundle them.
 
 ## Single Source of Truth
-All font changes are managed through CSS variables in `/app/frontend/src/index.css`
+All font changes are managed in **TWO locations**:
 
-### CSS Variables (Lines 81-85)
+### 1. CSS Variables in `/app/frontend/src/index.css` (Lines 81-85)
 ```css
 :root {
   /* Typography - Single Source of Truth */
@@ -27,6 +27,17 @@ All font changes are managed through CSS variables in `/app/frontend/src/index.c
   --font-logo: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 ```
+
+### 2. Tailwind Config in `/app/frontend/tailwind.config.js` (Lines 10-13)
+```javascript
+fontFamily: {
+  sans: ['Noto Sans', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+  display: ['Noto Sans', 'system-ui', 'sans-serif'],
+  logo: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+}
+```
+
+**Important:** Both locations must be updated when changing fonts to ensure consistency across all components.
 
 ## How to Change Fonts
 
