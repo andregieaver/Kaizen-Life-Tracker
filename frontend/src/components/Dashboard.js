@@ -126,53 +126,53 @@ const Dashboard = ({ athleteId }) => {
         const menuRect = headerMenu.getBoundingClientRect();
         const buttonRect = activeButton.getBoundingClientRect();
         
-        // Calculate position relative to menu container
         const leftOffset = buttonRect.left - menuRect.left;
         const width = buttonRect.width;
         
-        console.log('📏 Bubble measurement:', {
-          activeTab,
-          text: activeButton.textContent?.trim(),
-          leftOffset: Math.round(leftOffset),
-          width: Math.round(width),
-          menuWidth: Math.round(menuRect.width)
-        });
-        
-        // Update CSS custom properties for the sliding bubble
         headerMenu.style.setProperty('--bubble-left', `${leftOffset}px`);
         headerMenu.style.setProperty('--bubble-width', `${width}px`);
-      } else {
-        console.log('❌ Bubble elements not found:', {
-          hasMenu: !!headerMenu,
-          hasActiveButton: !!activeButton,
-          activeTab
-        });
       }
     };
 
-    // Run immediately
     updateBubblePosition();
-    
-    // Also run after a short delay for fonts
     const timer1 = setTimeout(updateBubblePosition, 50);
     const timer2 = setTimeout(updateBubblePosition, 200);
-    const timer3 = setTimeout(updateBubblePosition, 500);
     
-    // Also update on window resize
-    window.addEventListener('resize', updateBubblePosition);
-    
-    // Font loading detection
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(updateBubblePosition);
-    }
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, [activeTab, menuItems]);
+
+  // Update slideout menu bubble position dynamically
+  useLayoutEffect(() => {
+    const updateSlideoutBubble = () => {
+      const slideoutMenu = document.querySelector('.slideout-menu-switcher');
+      const activeItem = slideoutMenu?.querySelector('.slideout-menu-item[data-active="true"]');
+      
+      if (slideoutMenu && activeItem) {
+        const menuRect = slideoutMenu.getBoundingClientRect();
+        const itemRect = activeItem.getBoundingClientRect();
+        
+        const topOffset = itemRect.top - menuRect.top;
+        const height = itemRect.height;
+        
+        slideoutMenu.style.setProperty('--bubble-top', `${topOffset}px`);
+        slideoutMenu.style.setProperty('--bubble-height', `${height}px`);
+      }
+    };
+
+    updateSlideoutBubble();
+    const timer1 = setTimeout(updateSlideoutBubble, 50);
+    const timer2 = setTimeout(updateSlideoutBubble, 200);
+    const timer3 = setTimeout(updateSlideoutBubble, 500);
     
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
-      window.removeEventListener('resize', updateBubblePosition);
     };
-  }, [activeTab, menuItems]);
+  }, [activeTab, menuItems, isMenuOpen]);
 
   useEffect(() => {
     loadDashboardData();
