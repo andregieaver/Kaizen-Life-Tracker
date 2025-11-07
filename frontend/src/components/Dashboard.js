@@ -130,9 +130,23 @@ const Dashboard = ({ athleteId }) => {
         const leftOffset = buttonRect.left - menuRect.left;
         const width = buttonRect.width;
         
+        console.log('📏 Bubble measurement:', {
+          activeTab,
+          text: activeButton.textContent?.trim(),
+          leftOffset: Math.round(leftOffset),
+          width: Math.round(width),
+          menuWidth: Math.round(menuRect.width)
+        });
+        
         // Update CSS custom properties for the sliding bubble
         headerMenu.style.setProperty('--bubble-left', `${leftOffset}px`);
         headerMenu.style.setProperty('--bubble-width', `${width}px`);
+      } else {
+        console.log('❌ Bubble elements not found:', {
+          hasMenu: !!headerMenu,
+          hasActiveButton: !!activeButton,
+          activeTab
+        });
       }
     };
 
