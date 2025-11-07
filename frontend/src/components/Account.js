@@ -1560,20 +1560,71 @@ const Account = ({ athleteId }) => {
 
       {/* Account Tabs */}
       <Tabs value={activeTab} onValueChange={handleTabChange}>
-        <TabsList className="grid w-full grid-cols-4 mb-8 bg-gray-800 border border-gray-700 p-1.5 h-auto">
-          <TabsTrigger value="personal" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400" data-testid="personal-tab">
+        <TabsList 
+          className="account-tabs-switcher grid w-full grid-cols-4 mb-8 p-2 h-auto relative"
+          data-previous={previousAccountTab}
+          style={{
+            background: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
+            backdropFilter: 'blur(8px) saturate(150%)',
+            WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+            borderRadius: '99em',
+            boxShadow: `
+              inset 0 2px 4px -1px rgba(0,0,0,0.3),
+              inset 0 -1px 2px rgba(255,255,255,0.05)
+            `,
+            '--bubble-left': '0px',
+            '--bubble-width': '25%'
+          }}
+        >
+          <TabsTrigger 
+            value="personal" 
+            data-tab-value="personal"
+            onClick={() => setPreviousAccountTab(activeTab)}
+            className="account-tab-item text-xs md:text-sm relative z-10 bg-transparent border-none transition-colors"
+            style={{
+              color: activeTab === 'personal' ? 'var(--bg-950)' : 'var(--text-med)'
+            }}
+            data-testid="personal-tab"
+          >
             <span className="hidden sm:inline">{t('account.personalInfo')}</span>
             <span className="sm:hidden">{t('nav.account')}</span>
           </TabsTrigger>
-          <TabsTrigger value="preferences" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400" data-testid="preferences-tab">
+          <TabsTrigger 
+            value="preferences" 
+            data-tab-value="preferences"
+            onClick={() => setPreviousAccountTab(activeTab)}
+            className="account-tab-item text-xs md:text-sm relative z-10 bg-transparent border-none transition-colors"
+            style={{
+              color: activeTab === 'preferences' ? 'var(--bg-950)' : 'var(--text-med)'
+            }}
+            data-testid="preferences-tab"
+          >
             <span className="hidden sm:inline">{t('account.preferences')}</span>
             <span className="sm:hidden">{t('account.preferences')}</span>
           </TabsTrigger>
-          <TabsTrigger value="integrations" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400" data-testid="integrations-tab">
+          <TabsTrigger 
+            value="integrations" 
+            data-tab-value="integrations"
+            onClick={() => setPreviousAccountTab(activeTab)}
+            className="account-tab-item text-xs md:text-sm relative z-10 bg-transparent border-none transition-colors"
+            style={{
+              color: activeTab === 'integrations' ? 'var(--bg-950)' : 'var(--text-med)'
+            }}
+            data-testid="integrations-tab"
+          >
             <span className="hidden sm:inline">{t('account.integrations')}</span>
             <span className="sm:hidden">{t('account.integrations')}</span>
           </TabsTrigger>
-          <TabsTrigger value="subscriptions" className="text-xs md:text-sm data-[state=active]:bg-gray-700 data-[state=active]:text-white text-gray-400" data-testid="subscriptions-tab">
+          <TabsTrigger 
+            value="subscriptions" 
+            data-tab-value="subscriptions"
+            onClick={() => setPreviousAccountTab(activeTab)}
+            className="account-tab-item text-xs md:text-sm relative z-10 bg-transparent border-none transition-colors"
+            style={{
+              color: activeTab === 'subscriptions' ? 'var(--bg-950)' : 'var(--text-med)'
+            }}
+            data-testid="subscriptions-tab"
+          >
             <span className="hidden sm:inline">{t('account.subscription')}</span>
             <span className="sm:hidden">{t('account.subscription')}</span>
           </TabsTrigger>
