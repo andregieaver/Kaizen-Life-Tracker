@@ -11466,7 +11466,7 @@ def test_strava_callback_domain_update():
             print()
         
         # Step 3: Update callback domain
-        print("   Step 3: Update callback domain to kaizenlifetracker.com")
+        print("   Step 3: Update callback domain to trainsmart-ui.preview.emergentagent.com")
         
         # Prepare update data - keep all existing settings and only update callbackDomain
         update_data = settings_data.copy()
