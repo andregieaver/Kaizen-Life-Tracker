@@ -4824,11 +4824,19 @@ const SystemSettings = ({ athleteId }) => {
                     <ol className="text-xs text-orange-200 mt-2 space-y-1 ml-4 list-decimal">
                       <li>Go to <a href="https://www.strava.com/settings/api" target="_blank" rel="noopener noreferrer" className="text-[#FC4C02] hover:underline">Strava API Settings</a></li>
                       <li>Create an application or use an existing one</li>
-                      <li>Set Authorization Callback Domain to: <code className="bg-gray-900 px-1 py-0.5 rounded text-[#FC4C02]">kaizenlifetracker.com</code></li>
-                      <li>Copy your Client ID and Client Secret</li>
-                      <li>Generate a secure Webhook Verify Token (random string)</li>
-                      <li>After saving, athletes can connect their Strava accounts in Account Settings</li>
+                      <li>Set the Authorization Callback Domain in Strava to match the domain you entered above</li>
+                      <li>Copy your Client ID and Client Secret from Strava</li>
+                      <li>Generate a secure Webhook Verify Token (use a random string generator)</li>
+                      <li>Save these settings, then athletes can connect their Strava accounts from Account Settings</li>
                     </ol>
+                    <div className="mt-3 pt-3 border-t border-orange-700/50">
+                      <p className="text-xs text-orange-200">
+                        <strong>Development:</strong> Use your preview domain (e.g., multilingual-app-27.preview.emergentagent.com)
+                      </p>
+                      <p className="text-xs text-orange-200 mt-1">
+                        <strong>Production:</strong> Use kaizenlifetracker.com
+                      </p>
+                    </div>
                   </div>
                 </div>
 
