@@ -674,7 +674,9 @@ const LandingPage = () => {
             with {siteTitle}'s intelligent, data-driven platform.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
+            <Button 
+              size="lg" 
+              className="bg-teal-600 hover:bg-teal-700 text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
               onClick={() => {
                 const waitingListSection = document.querySelector('#waiting-list-section');
                 if (waitingListSection) {
@@ -682,14 +684,9 @@ const LandingPage = () => {
                 }
               }}
             >
-              <Button 
-                size="lg" 
-                className="bg-teal-600 hover:bg-teal-700 text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
-              >
-                Join the wait list today!
-                <ChevronRight className="w-5 h-5 ml-2" />
-              </Button>
-            </button>
+              Join the wait list today!
+              <ChevronRight className="w-5 h-5 ml-2" />
+            </Button>
           </div>
           <p className="mt-6 text-sm text-gray-400">
             No credit card required • Free to start • Cancel anytime
