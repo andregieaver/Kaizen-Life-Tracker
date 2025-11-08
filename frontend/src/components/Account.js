@@ -1573,7 +1573,9 @@ const Account = ({ athleteId }) => {
             inset 0 -1px 2px rgba(255,255,255,0.05)
           `,
           position: 'relative',
-          overflow: 'visible'
+          overflow: 'visible',
+          '--bubble-left': '0px',
+          '--bubble-width': '25%'
         }}
       >
         <button
