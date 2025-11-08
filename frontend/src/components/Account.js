@@ -1559,89 +1559,112 @@ const Account = ({ athleteId }) => {
       )}
 
       {/* Account Tabs */}
-      <Tabs value={activeTab} onValueChange={handleTabChange}>
-        <TabsList 
-          className="account-tabs-switcher grid w-full grid-cols-4 mb-8 p-2 h-auto"
-          data-previous={previousAccountTab}
-          style={{
-            background: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
-            backdropFilter: 'blur(8px) saturate(150%)',
-            WebkitBackdropFilter: 'blur(8px) saturate(150%)',
-            borderRadius: '99em',
-            boxShadow: `
-              inset 0 2px 4px -1px rgba(0,0,0,0.3),
-              inset 0 -1px 2px rgba(255,255,255,0.05)
-            `,
-            position: 'relative',
-            overflow: 'visible',
-            '--bubble-left': '0px',
-            '--bubble-width': '25%'
+      {/* Custom tab switcher wrapper */}
+      <div 
+        className="account-tabs-switcher grid w-full grid-cols-4 mb-8 p-2 h-auto"
+        data-previous={previousAccountTab}
+        style={{
+          background: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
+          backdropFilter: 'blur(8px) saturate(150%)',
+          WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+          borderRadius: '99em',
+          boxShadow: `
+            inset 0 2px 4px -1px rgba(0,0,0,0.3),
+            inset 0 -1px 2px rgba(255,255,255,0.05)
+          `,
+          position: 'relative',
+          overflow: 'visible'
+        }}
+      >
+        <button
+          data-tab-value="personal"
+          onClick={() => {
+            setPreviousAccountTab(activeTab);
+            handleTabChange('personal');
           }}
+          className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
+          style={{
+            color: activeTab === 'personal' ? 'var(--bg-950)' : 'var(--text-med)',
+            background: 'transparent',
+            boxShadow: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            zIndex: 10
+          }}
+          data-testid="personal-tab"
         >
-          <TabsTrigger 
-            value="personal" 
-            data-tab-value="personal"
-            onClick={() => setPreviousAccountTab(activeTab)}
-            className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
-            style={{
-              color: activeTab === 'personal' ? 'var(--bg-950)' : 'var(--text-med)',
-              background: 'transparent',
-              boxShadow: 'none',
-              zIndex: 10
-            }}
-            data-testid="personal-tab"
-          >
-            <span className="hidden sm:inline">{t('account.personalInfo')}</span>
-            <span className="sm:hidden">{t('nav.account')}</span>
-          </TabsTrigger>
-          <TabsTrigger 
-            value="preferences" 
-            data-tab-value="preferences"
-            onClick={() => setPreviousAccountTab(activeTab)}
-            className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
-            style={{
-              color: activeTab === 'preferences' ? 'var(--bg-950)' : 'var(--text-med)',
-              background: 'transparent',
-              boxShadow: 'none',
-              zIndex: 10
-            }}
-            data-testid="preferences-tab"
-          >
-            <span className="hidden sm:inline">{t('account.preferences')}</span>
-            <span className="sm:hidden">{t('account.preferences')}</span>
-          </TabsTrigger>
-          <TabsTrigger 
-            value="integrations" 
-            data-tab-value="integrations"
-            onClick={() => setPreviousAccountTab(activeTab)}
-            className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
-            style={{
-              color: activeTab === 'integrations' ? 'var(--bg-950)' : 'var(--text-med)',
-              background: 'transparent',
-              boxShadow: 'none',
-              zIndex: 10
-            }}
-            data-testid="integrations-tab"
-          >
-            <span className="hidden sm:inline">{t('account.integrations')}</span>
-            <span className="sm:hidden">{t('account.integrations')}</span>
-          </TabsTrigger>
-          <TabsTrigger 
-            value="subscriptions" 
-            data-tab-value="subscriptions"
-            onClick={() => setPreviousAccountTab(activeTab)}
-            className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
-            style={{
-              color: activeTab === 'subscriptions' ? 'var(--bg-950)' : 'var(--text-med)',
-              background: 'transparent',
-              boxShadow: 'none',
-              zIndex: 10
-            }}
-            data-testid="subscriptions-tab"
-          >
-            <span className="hidden sm:inline">{t('account.subscription')}</span>
-            <span className="sm:hidden">{t('account.subscription')}</span>
-          </TabsTrigger>
+          <span className="hidden sm:inline">{t('account.personalInfo')}</span>
+          <span className="sm:hidden">{t('nav.account')}</span>
+        </button>
+        <button
+          data-tab-value="preferences"
+          onClick={() => {
+            setPreviousAccountTab(activeTab);
+            handleTabChange('preferences');
+          }}
+          className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
+          style={{
+            color: activeTab === 'preferences' ? 'var(--bg-950)' : 'var(--text-med)',
+            background: 'transparent',
+            boxShadow: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            zIndex: 10
+          }}
+          data-testid="preferences-tab"
+        >
+          <span className="hidden sm:inline">{t('account.preferences')}</span>
+          <span className="sm:hidden">{t('account.preferences')}</span>
+        </button>
+        <button
+          data-tab-value="integrations"
+          onClick={() => {
+            setPreviousAccountTab(activeTab);
+            handleTabChange('integrations');
+          }}
+          className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
+          style={{
+            color: activeTab === 'integrations' ? 'var(--bg-950)' : 'var(--text-med)',
+            background: 'transparent',
+            boxShadow: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            zIndex: 10
+          }}
+          data-testid="integrations-tab"
+        >
+          <span className="hidden sm:inline">{t('account.integrations')}</span>
+          <span className="sm:hidden">{t('account.integrations')}</span>
+        </button>
+        <button
+          data-tab-value="subscriptions"
+          onClick={() => {
+            setPreviousAccountTab(activeTab);
+            handleTabChange('subscriptions');
+          }}
+          className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
+          style={{
+            color: activeTab === 'subscriptions' ? 'var(--bg-950)' : 'var(--text-med)',
+            background: 'transparent',
+            boxShadow: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            zIndex: 10
+          }}
+          data-testid="subscriptions-tab"
+        >
+          <span className="hidden sm:inline">{t('account.subscription')}</span>
+          <span className="sm:hidden">{t('account.subscription')}</span>
+        </button>
+      </div>
+      
+      {/* Keep Radix Tabs for content areas only */}
+      <Tabs value={activeTab} onValueChange={handleTabChange}>
+        <TabsList style={{ display: 'none' }}>
+          <TabsTrigger value="personal" />
+          <TabsTrigger value="preferences" />
+          <TabsTrigger value="integrations" />
+          <TabsTrigger value="subscriptions" />
         </TabsList>
 
         {/* Personal Information Tab */}
