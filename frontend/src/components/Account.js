@@ -1688,7 +1688,7 @@ const Account = ({ athleteId }) => {
         </TabsList>
 
         {/* Personal Information Tab */}
-        <TabsContent value="personal">
+        <TabsContent value="personal" className="bg-gray-900">
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6">
             <div className="mb-6">
               <h3 className="flex items-center text-white text-xl font-semibold">
