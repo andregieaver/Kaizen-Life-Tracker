@@ -2617,22 +2617,22 @@ const Account = ({ athleteId }) => {
         <TabsContent value="subscriptions">
           <div className="space-y-6">
             {/* Current Plan */}
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6">
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 md:p-6">
               <div className="mb-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="flex items-center text-white text-xl font-semibold">
-                      <Crown className="w-5 h-5 mr-2 text-[#00C2A8]" />
-                      Current Plan
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                  <div className="flex-1">
+                    <h3 className="flex items-center text-white text-lg md:text-xl font-semibold">
+                      <Crown className="w-5 h-5 mr-2 text-[#00C2A8] flex-shrink-0" />
+                      <span>Current Plan</span>
                     </h3>
-                    <p className="text-gray-400 mt-1">
+                    <p className="text-gray-400 mt-1 text-sm">
                       Manage your subscription and billing
                     </p>
                   </div>
                   <Button 
                     variant="ghost" 
                     size="sm"
-                    className="text-gray-300 hover:text-white hover:bg-gray-700"
+                    className="text-gray-300 hover:text-white hover:bg-gray-700 self-start sm:self-center"
                     onClick={() => {
                       loadSubscriptionStatus();
                       setSaveStatus({ type: '', message: 'Refreshing...' });
@@ -2640,7 +2640,7 @@ const Account = ({ athleteId }) => {
                     }}
                   >
                     <Repeat className="w-4 h-4 mr-1" />
-                    Refresh
+                    <span className="hidden sm:inline">Refresh</span>
                   </Button>
                 </div>
               </div>
