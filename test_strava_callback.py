@@ -10,7 +10,7 @@ import sys
 from urllib.parse import urlparse, parse_qs
 
 # Backend URL from environment
-BACKEND_URL = "https://trainsmart-ui.preview.emergentagent.com/api"
+BACKEND_URL = "https://smooth-trainer.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""
@@ -33,9 +33,9 @@ def test_strava_authorization_callback_domain():
     Updated StravaService.get_authorization_url to use callbackDomain from system_settings.
     
     Test Scenario:
-    1. Generate Authorization URL: GET /api/auth/strava?user_id=77e6ef02-0c9e-4ede-a428-213b83eed1fe
+    1. Generate Authorization URL: GET /api/auth/strava?user_id=smooth-trainer
     2. Verify Redirect URI: Parse the returned authorization URL and extract redirect_uri parameter
-    3. CRITICAL CHECK: redirect_uri should be https://trainsmart-ui.preview.emergentagent.com/api/auth/strava/callback
+    3. CRITICAL CHECK: redirect_uri should be https://smooth-trainer.preview.emergentagent.com/api/auth/strava/callback
        NOT http://localhost:8001/api/auth/strava/callback
     
     Success Criteria:

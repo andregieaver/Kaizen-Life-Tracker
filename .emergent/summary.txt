@@ -1,68 +1,85 @@
 <analysis>
-The previous AI engineer's work primarily focused on three major feature sets: implementing a dynamic, glassmorphic mobile navigation bar, a comprehensive font system overhaul, and the initial integration of Strava API.
-
-The mobile navbar task involved multiple iterations, starting from a basic 5-tab bottom bar to a pixel-perfect, pill-shaped, fixed navigation with sliding active indicators, replicating a CodePen example. This required extensive CSS work for glassmorphic effects, responsive positioning, and React state management for animations.
-
-Following this, a significant effort was made to standardize the application's typography. The entire app, except for the logo text, was migrated to Google Noto Sans, hosted locally. This involved fixing Webpack font resolution issues, managing CSS  declarations, and crucially, overriding Tailwind CSS's default font settings.
-
-The most recent work involved integrating Strava. The frontend UI for inputting Strava API credentials (Client ID, Client Secret, Callback Domain, Access Token, Refresh Token) was built into the  (Advanced tab). Concurrently, the backend was updated with  to handle the OAuth flow (authorization, token exchange, refresh, deauthorization) and webhook management endpoints. The current challenge is that the backend endpoints are accessible but fail to retrieve the credentials stored via the frontend, indicating a data persistence or retrieval issue.
+The trajectory details the work of an AI engineer on the TrainSmart application, focusing on bug fixes and UI/UX enhancements. Initial efforts revolved around debugging the Strava integration, which involved rectifying credential storage/retrieval, callback URL mismatches, and incorrect API endpoint usage (form data vs. JSON). Subsequently, significant UI/UX changes were implemented, applying a glassmorphic, sliding bubble effect to the header menu, journal entry mode selector, slideout menu, and account settings tabs. During this, a persistent white flash on tab navigation was fixed, and console error spam was suppressed. The AI coach's context was expanded to include full journal entry content. The most recent challenge involved the account settings tabs, where the glassmorphic bubble effect consistently failed to render, leading to a nuclear test with basic CSS to isolate the problem. The user then pivoted to a new UI bug: a white area appearing during tab content loading.
 </analysis>
 
 <product_requirements>
-The TrainSmart application aims to enhance user engagement and administrative control through several key features and fixes. The work done so far has addressed:
-1.  **Browser Header Theme Color**: The mobile browser header theme color has been updated to .
-2.  **Multi-Language Translation**: Systematic translation efforts were made across numerous components, focusing on Norwegian () and setting up a scalable system with extraction scripts.
-3.  **UI/UX Redesign (Kaizen Design System)**: Significant progress on a mobile-first Kaizen design. This includes removing quick links and Start Workout from the Dashboard, repositioning the Body Score section, removing global background colors, and most recently, implementing a **glassmorphic, fixed-bottom mobile navigation bar** with 5 icon-only tabs (Today, Home, AI Coach, Reports, Account) and a sliding indicator. The  card has also been updated to follow a dark theme.
-4.  **Flexible CMS for Pages** & **Menu Editor**: Dynamic header menus for both logged-in and logged-out states were implemented, fetching items from a CMS backend, resolving API response and React DOM nesting issues.
-5.  **Font System**: The entire application's font, except for the logo text, has been updated to use locally hosted **Google Noto Sans**, with a centralized management approach through CSS variables and Tailwind configuration overrides.
-6.  **Strava Integration**: Initial implementation of Strava OAuth integration, including a dedicated section in  (Advanced tab) for users to input , , , , and . Backend endpoints for the OAuth flow (authorization, callback, refresh, deauthorize) and webhook management have been created in  and integrated into .
+The TrainSmart application aims to improve user engagement and administration. Key features and fixes implemented or requested include:
+1.  **Browser Header Theme Color**: Updated to  for mobile.
+2.  **Multi-Language Translation**: Systematic translation, specifically for Norwegian, with scalable extraction scripts.
+3.  **UI/UX Redesign (Kaizen Design System)**: Mobile-first Kaizen design, including Dashboard simplification, repositioned Body Score, global background removal, and a glassmorphic, fixed-bottom mobile navigation bar with 5 tabs and a sliding indicator. The  card was updated for a dark theme.
+    *   **New**: Glassmorphic, liquid-glass bubble effect with sliding animation for active items in the logged-in header menu, journal entry type modal, slideout menu, and account/system settings tabs.
+    *   **New**: Ensure bubble width adjusts to text.
+    *   **Fix**: Resolve white area appearing during tab content loading.
+    *   **Fix**: Adjust subscription tab buttons and heading for mobile.
+4.  **Flexible CMS for Pages & Menu Editor**: Dynamic header menus for logged-in/out states, fetching items from a CMS backend.
+5.  **Font System**: Entire app (except logo) uses locally hosted Google Noto Sans, managed via CSS variables and Tailwind overrides.
+6.  **Strava Integration**: Initial OAuth implementation with  UI for credentials. Backend endpoints for OAuth flow (authorize, callback, refresh, deauthorize) and webhook management.
+    *   **Fix**: Correct backend credential retrieval and callback URL issues for production environment.
+    *   **Fix**: Ensure  and state are properly handled during token exchange.
+    *   **Fix**: Correct  and ensure data is sent as form data.
+7.  **System Settings Reorganization**: Remove Plan Features section from Coupons tab and ensure it's correctly located under the Plans tab.
+8.  **AI Coach Enhancement**: AI coach needs direct access to the full content of journal entries.
+9.  **General Fixes**: Replace color  with  codebase-wide. Remove page refresh on browser tab/window change. Fix non-critical console errors.
+10. **Drag & Drop**: Implement drag-and-drop for added features in the Edit Plan modal (mobile compatibility requested).
 </product_requirements>
 
 <key_technical_concepts>
 -   **Full-stack Development**: React.js (Frontend), FastAPI (Backend), MongoDB (Database).
--   **UI/UX**: Tailwind CSS, React Hooks (, , ), , Kaizen design system, Lucide React, glassmorphic design principles.
--   **Internationalization (i18n)**: , , JSON translation files.
--   **CMS Integration**: Dynamic content loading for pages and menus.
--   **External APIs**: Strava OAuth2 for third-party integration,  for backend HTTP requests.
--   **Font Management**: Local font hosting,  CSS declarations, Tailwind CSS  configuration.
+-   **UI/UX**: Tailwind CSS, React Hooks (, , ), , Lucide React, glassmorphic design.
+-   **Internationalization**: , .
+-   **External APIs**: Strava OAuth2,  for backend HTTP requests.
+-   **Font Management**: Local font hosting,  CSS declarations, Tailwind CSS .
+-   **State Management**: React Context, explicit state tracking for UI elements.
+-   **DOM Manipulation**:  and  for dynamic element positioning.
+-   **Styling**: CSS custom properties, pseudo-elements (), , .
+-   **API Error Handling**: Silencing non-critical API errors on the frontend.
 </key_technical_concepts>
 
 <code_architecture>
 
-
 -   : Core backend logic.
-    -   **Changes**: Imported  and registered new API routes for Strava OAuth and webhooks.
-    -   **Importance**: Centralizes backend API definitions and integrates the new Strava functionality.
--    (CREATED): Handles all Strava-related API interactions.
-    -   **Changes**: Contains logic for Strava OAuth (authorize, callback, refresh, deauthorize) and webhook creation/management. Uses  for requests.
-    -   **Importance**: Decouples Strava integration logic from the main server, making it modular and easier to maintain.
--    (MODIFIED): Global CSS for the frontend.
-    -   **Changes**: Added CSS variables and  declarations for Noto Sans, implemented glassmorphic styles for the bottom tab bar (including , , and  animations), and applied  to the bottom tab bar. Added Tailwind  directives to ensure font-family override.
-    -   **Importance**: Defines the app's global styling, including the new design system elements and custom fonts.
--    (MODIFIED): Application-wide CSS.
-    -   **Changes**: Removed  font import and usage, ensuring Noto Sans is used universally.
-    -   **Importance**: Overrides any lingering font definitions that might conflict with the global Noto Sans setting.
--    (MODIFIED): Tailwind CSS configuration.
-    -   **Changes**: Updated  to  to ensure Tailwind utilities apply the correct font by default.
-    -   **Importance**: Centralizes font configuration for Tailwind, resolving conflicts with custom fonts.
--    (MODIFIED): Central component for logged-in users.
-    -   **Changes**: Implemented the  component with 5 icon-only tabs, glassmorphic styling, and sliding active indicators. Adjusted content padding to accommodate the fixed bottom bar. Refactored  to ensure  is defined correctly.
-    -   **Importance**: The primary view for users, now features the new mobile navigation and reflects the font changes.
--    (MODIFIED): Frontend landing page.
-    -   **Changes**: Updated logo text to use the  CSS variable.
-    -   **Importance**: Ensures branding consistency on the public-facing landing page.
--    (MODIFIED): Admin configuration component.
-    -   **Changes**: Added UI elements and state management for Strava API , , , , , and  under the Advanced tab. Included  icon import.
-    -   **Importance**: Provides an administrative interface for managing external API credentials.
--    (MODIFIED): User account settings.
-    -   **Changes**: Updated  to initiate the OAuth flow,  to call the backend deauthorization endpoint, and  to fetch connection status. Added a  to handle the Strava OAuth callback.
-    -   **Importance**: Manages user-specific Strava connection logic and UI.
--    (MODIFIED): Dashboard component displaying user readiness.
-    -   **Changes**: Updated styling to match the dark theme requirements using CSS variables.
-    -   **Importance**: Aligns the component's appearance with the overall dark theme design system.
--    (CREATED): Directory for locally hosted font files.
-    -   **Changes**: Contains , , , .
-    -   **Importance**: Ensures reliable and offline-first font loading, reducing external dependencies.
+    -   **Importance**: Centralizes backend API definitions.
+    -   **Changes**:  updated to load credentials from  and store  in the database for callback validation. Enhanced AI coach's  to provide full journal entry content. Added detailed logging for Strava authorization callback.
+-   : Handles Strava API interactions.
+    -   **Importance**: Decouples Strava integration logic.
+    -   **Changes**:  filter updated to .  corrected to .  and refresh token logic updated to use form data (instead of ). Added detailed error logging.
+-   : Global CSS for frontend.
+    -   **Importance**: Defines global styling and design system elements.
+    -   **Changes**: Replaced color  with  (and RGB equivalents  with ). Added CSS for glassmorphic sliding bubbles for header menu, journal entry types, slideout menu, and account/system settings tabs, including , , and  animations. Enhanced header menu shine. Added debugging CSS (red background, yellow border) for  to test rendering.
+-   : Application-wide CSS.
+    -   **Importance**: Overrides lingering font definitions. (No further changes in trajectory).
+-   : Tailwind CSS configuration.
+    -   **Importance**: Centralizes font configuration. (No further changes in trajectory).
+-   : Central component for logged-in users.
+    -   **Importance**: Primary view for users, features navigation and data display.
+    -   **Changes**: Implemented header menu with glassmorphic sliding bubble effect using  and . Removed  event listener to prevent unwanted page refreshes. Implemented slideout menu with glassmorphic sliding bubble effect using  and .
+-   : Frontend landing page.
+    -   **Importance**: Ensures branding consistency. (No further changes in trajectory).
+-   : Admin configuration.
+    -   **Importance**: Administrative interface for managing external API credentials and system settings.
+    -   **Changes**: Refactored by removing Plan Features from the Coupons tab and relocating it conceptually to the Plans tab (by deleting incorrect content). Started implementing HTML5 drag and drop for plan features in the Edit Plan modal, with a note to add touch support.
+-   : User account settings.
+    -   **Importance**: Manages user-specific integrations, subscriptions, and profile settings.
+    -   **Changes**: Styled subscription section buttons and heading for mobile responsiveness. Attempted to implement glassmorphic sliding bubble for tabs, iteratively debugging CSS specificity and replacing Radix UI Tabs with a custom switcher wrapper. Fixed white skeleton loading background. Added CSS variables and direct style application for the bubble. Re-wrote account tabs to use flex layout mimicking Journal tabs.
+-   : Dashboard component.
+    -   **Importance**: Aligns with dark theme design. (No further changes in trajectory).
+-   : Directory for locally hosted font files.
+    -   **Importance**: Ensures reliable and offline-first font loading. (No further changes in trajectory).
+-   : User journal.
+    -   **Importance**: Allows users to log entries in various formats.
+    -   **Changes**: Fixed Voice entry mode selection by correcting  logic that was prematurely setting  back to 'text'. Styled entry mode buttons (Text/Voice/Video) with a glassmorphic sliding bubble effect using  and . Added console logging for debugging.
+-   : AI Coach interface.
+    -   **Importance**: Provides AI assistance based on user data.
+    -   **Changes**: Updated to include full journal entry content in the AI prompt for more informed responses.
+-   : User's daily overview.
+    -   **Importance**: Displays current day's activities and stats.
+    -   **Changes**: Silenced console errors related to loading data.
+-   : User's merits.
+    -   **Importance**: Displays user achievements.
+    -   **Changes**: Silenced console errors related to loading merits.
+-   : UI library component.
+    -   **Importance**: Reusable tab component.
+    -   **Changes**: Added  to  to prevent white background flash.
 </code_architecture>
 
 <pending_tasks>
@@ -80,16 +97,21 @@ The TrainSmart application aims to enhance user engagement and administrative co
 -   Ensure all Stripe-related endpoints use the Stripe key from .
 -   Investigate and fix why creating events in the deployed version of the app with custom domain fails.
 -   Create developer guidelines for future string creation and localization compliance.
--   **Strava Integration**:
-    -   Display synced activities in the frontend.
-    -   Implement webhook subscription via the UI (the API endpoints are done, but a UI for creation/management might be needed).
-    -   Add activity import/sync functionality to fetch and store activity data.
+-   **Strava Integration**: Display synced activities in the frontend. Implement webhook subscription via the UI. Add activity import/sync functionality.
+-   Complete drag and drop functionality for Edit Plan modal in , ensuring mobile compatibility.
+-   Fix the glassmorphic bubble effect not rendering on Account and System Settings tabs.
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer was actively debugging the Strava integration. The frontend UI for entering Strava credentials in  (Advanced tab) and the backend API endpoints for OAuth (initiate, callback, refresh, deauthorize) and webhooks were implemented. However, upon testing in a production environment, it was observed that while the Strava API endpoints were reachable (no longer 404), they returned an error indicating Strava credentials not found (400 Bad Request). This suggested a mismatch or failure in how the backend was retrieving the credentials that the user had successfully entered and saved via the frontend . The engineer had verified backend logs,  code, route registration, and , concluding that the issue likely lies in the credential retrieval mechanism from the database when the Strava service tries to access them.
+Immediately prior to this summary, the AI engineer was focused on resolving a persistent UI bug where the glassmorphic, backlit bubble effect was not rendering on the Account Settings tabs in . Despite numerous attempts to align the CSS and React component structure with the working Journal Entry Type buttons (which exhibit the desired effect), the bubble ( pseudo-element) remained invisible. The debugging efforts involved:
+1.  **CSS Overrides**: Applying  rules and higher specificity selectors in .
+2.  **Structural Changes**: Replacing the  components with a custom  and  structure to eliminate potential library interference, mimicking the successful Journal component's HTML.
+3.  **Layout Comparison**: Inspecting and replicating the flexbox layout, element classes, and CSS custom property assignments of the working Journal tabs to the Account tabs.
+4.  **Nuclear Test**: As a last resort, a highly visible debug CSS () was applied to the  pseudo-element of the  to ascertain if the pseudo-element itself was rendering.
+
+The  for  was confirmed to be running and correctly calculating  and  (as per  from ), indicating the issue is purely CSS-related in the rendering of the  element, not JavaScript logic. The nuclear test in Chat Message 625-630 was the last action on this specific issue before the user provided a new task.
 </current_work>
 
 <optional_next_step>
-Investigate why the Strava backend service is not finding the credentials stored in the database via the  UI.
+Investigate the white area appearing when navigating between tabs in Account settings.
 </optional_next_step>
