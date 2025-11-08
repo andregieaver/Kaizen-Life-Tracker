@@ -2007,7 +2007,30 @@ const SystemSettings = ({ athleteId }) => {
                       <label className="block text-gray-300 mb-2">Features</label>
                       <div className="space-y-2">
                         {editingPlan.features.map((feature, idx) => (
-                          <div key={idx} className="flex items-center gap-2">
+                          <div 
+                            key={idx} 
+                            draggable
+                            onDragStart={(e) => {
+                              e.dataTransfer.effectAllowed = 'move';
+                              e.dataTransfer.setData('text/plain', idx.toString());
+                            }}
+                            onDragOver={(e) => {
+                              e.preventDefault();
+                              e.dataTransfer.dropEffect = 'move';
+                            }}
+                            onDrop={(e) => {
+                              e.preventDefault();
+                              const draggedIdx = parseInt(e.dataTransfer.getData('text/plain'));
+                              if (draggedIdx !== idx) {
+                                const updated = [...editingPlan.features];
+                                const [removed] = updated.splice(draggedIdx, 1);
+                                updated.splice(idx, 0, removed);
+                                setEditingPlan({...editingPlan, features: updated});
+                              }
+                            }}
+                            className="flex items-center gap-2 cursor-move hover:bg-gray-700 rounded p-1 transition-colors"
+                          >
+                            <GripVertical className="w-4 h-4 text-gray-400 flex-shrink-0" />
                             <input
                               type="text"
                               value={feature}
