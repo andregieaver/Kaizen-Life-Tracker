@@ -1453,8 +1453,8 @@ const Account = ({ athleteId }) => {
   if (isLoading) {
     return (
       <div className="w-full max-w-[1600px] mx-auto px-2 sm:px-6 lg:px-8 py-6">
-        <div className="skeleton h-8 w-48 mb-6"></div>
-        <div className="skeleton h-96 rounded-lg"></div>
+        <div className="skeleton h-8 w-48 mb-6" style={{ background: 'var(--bg-800)', opacity: 0.5 }}></div>
+        <div className="skeleton h-96 rounded-lg" style={{ background: 'var(--bg-800)', opacity: 0.5 }}></div>
       </div>
     );
   }
