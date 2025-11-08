@@ -324,36 +324,32 @@ code {
 
 .account-tabs-switcher,
 .system-tabs-switcher {
-  position: relative !important;
-  overflow: visible !important;
+  position: relative;
 }
 
 /* Glassmorphic sliding bubble with backlit effect for horizontal tabs */
 .account-tabs-switcher::after,
 .system-tabs-switcher::after {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  left: var(--bubble-left, 0) !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  width: var(--bubble-width, 25%) !important;
-  height: calc(100% - 8px) !important;
-  min-height: 32px !important;
-  border-radius: 99em !important;
-  z-index: 5 !important;
-  pointer-events: none !important;
+  content: "";
+  position: absolute;
+  left: var(--bubble-left, 0);
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--bubble-width, 25%);
+  height: calc(100% - 8px);
+  border-radius: 99em;
+  z-index: 0;
+  pointer-events: none;
   
   /* Semi-transparent vibrant blue with radial gradient for backlit effect */
-  background-color: var(--c-brand-500) !important;
-  background-image: 
+  background: 
     radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 50%, var(--c-brand-500) 0%, color-mix(in srgb, var(--c-brand-500) 70%, transparent) 100%),
     linear-gradient(180deg, 
       color-mix(in srgb, var(--c-brand-500) 90%, white) 0%,
       var(--c-brand-500) 50%,
       color-mix(in srgb, var(--c-brand-500) 70%, black) 100%
-    ) !important;
+    );
   
   /* Shine on top and depth shadows for curved effect */
   box-shadow: 
@@ -367,18 +363,18 @@ code {
     inset 0 -2px 6px -2px rgba(0, 0, 0, 0.4),
     /* Outer glow for backlit effect */
     0 0 16px -4px var(--c-brand-500),
-    0 4px 12px -2px rgba(0, 0, 0, 0.3) !important;
+    0 4px 12px -2px rgba(0, 0, 0, 0.3);
   
   /* Glass effect */
-  backdrop-filter: blur(12px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
   
   /* Smooth transitions */
   transition: 
     left 400ms cubic-bezier(1, 0, 0.4, 1),
     width 400ms cubic-bezier(1, 0, 0.4, 1),
     background 400ms cubic-bezier(1, 0, 0.4, 1),
-    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1) !important;
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1);
 }
 
 /* Tab text gets darker when active (over bright background) */
