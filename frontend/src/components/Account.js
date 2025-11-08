@@ -335,18 +335,24 @@ const Account = ({ athleteId }) => {
         const leftOffset = buttonRect.left - containerRect.left;
         const width = buttonRect.width;
         
+        console.log('Account tabs bubble:', { activeTab, leftOffset, width });
+        
         tabsContainer.style.setProperty('--bubble-left', `${leftOffset}px`);
         tabsContainer.style.setProperty('--bubble-width', `${width}px`);
+      } else {
+        console.log('Account tabs not found:', { hasContainer: !!tabsContainer, hasButton: !!activeButton, activeTab });
       }
     };
 
     updateAccountTabsBubble();
     const timer1 = setTimeout(updateAccountTabsBubble, 50);
     const timer2 = setTimeout(updateAccountTabsBubble, 200);
+    const timer3 = setTimeout(updateAccountTabsBubble, 500);
     
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
+      clearTimeout(timer3);
     };
   }, [activeTab]);
 
