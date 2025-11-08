@@ -392,8 +392,6 @@ code {
   transition: color 300ms ease;
 }
 
-}
-
 /* Menu item text gets darker when active (over bright background) */
 .slideout-menu-item[data-active="true"] {
   color: var(--bg-950) !important;
