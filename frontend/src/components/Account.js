@@ -1679,7 +1679,7 @@ const Account = ({ athleteId }) => {
       </div>
       
       {/* Keep Radix Tabs for content areas only */}
-      <Tabs value={activeTab} onValueChange={handleTabChange}>
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="bg-transparent">
         <TabsList style={{ display: 'none' }}>
           <TabsTrigger value="personal" />
           <TabsTrigger value="preferences" />
