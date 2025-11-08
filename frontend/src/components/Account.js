@@ -1565,100 +1565,112 @@ const Account = ({ athleteId }) => {
       )}
 
       {/* Account Tabs */}
-      {/* Custom tab switcher wrapper */}
+      {/* Custom tab switcher wrapper - EXACT COPY OF JOURNAL STRUCTURE */}
       <div 
-        className="account-tabs-switcher"
+        className="account-tabs-switcher flex items-center space-x-2 p-2 relative mb-8"
         data-previous={previousAccountTab}
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          width: '100%',
-          marginBottom: '2rem',
-          padding: '0.5rem',
           background: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
           backdropFilter: 'blur(8px) saturate(150%)',
           WebkitBackdropFilter: 'blur(8px) saturate(150%)',
           borderRadius: '99em',
-          boxShadow: 'inset 0 2px 4px -1px rgba(0,0,0,0.3), inset 0 -1px 2px rgba(255,255,255,0.05)',
-          position: 'relative',
-          overflow: 'visible'
+          boxShadow: `
+            inset 0 2px 4px -1px rgba(0,0,0,0.3),
+            inset 0 -1px 2px rgba(255,255,255,0.05)
+          `
         }}
       >
         <button
+          type="button"
           data-tab-value="personal"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
             setPreviousAccountTab(activeTab);
             handleTabChange('personal');
           }}
-          className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
           style={{
             color: activeTab === 'personal' ? 'var(--bg-950)' : 'var(--text-med)',
-            background: 'transparent',
-            boxShadow: 'none',
-            border: 'none',
             cursor: 'pointer',
-            zIndex: 10
+            border: 'none',
+            outline: 'none',
+            background: 'transparent',
+            position: 'relative',
+            zIndex: 1
           }}
+          className="flex-1 px-4 py-2.5 rounded-full font-medium transition-colors flex items-center justify-center text-xs md:text-sm"
           data-testid="personal-tab"
         >
           <span className="hidden sm:inline">{t('account.personalInfo')}</span>
           <span className="sm:hidden">{t('nav.account')}</span>
         </button>
         <button
+          type="button"
           data-tab-value="preferences"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
             setPreviousAccountTab(activeTab);
             handleTabChange('preferences');
           }}
-          className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
           style={{
             color: activeTab === 'preferences' ? 'var(--bg-950)' : 'var(--text-med)',
-            background: 'transparent',
-            boxShadow: 'none',
-            border: 'none',
             cursor: 'pointer',
-            zIndex: 10
+            border: 'none',
+            outline: 'none',
+            background: 'transparent',
+            position: 'relative',
+            zIndex: 1
           }}
+          className="flex-1 px-4 py-2.5 rounded-full font-medium transition-colors flex items-center justify-center text-xs md:text-sm"
           data-testid="preferences-tab"
         >
           <span className="hidden sm:inline">{t('account.preferences')}</span>
           <span className="sm:hidden">{t('account.preferences')}</span>
         </button>
         <button
+          type="button"
           data-tab-value="integrations"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
             setPreviousAccountTab(activeTab);
             handleTabChange('integrations');
           }}
-          className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
           style={{
             color: activeTab === 'integrations' ? 'var(--bg-950)' : 'var(--text-med)',
-            background: 'transparent',
-            boxShadow: 'none',
-            border: 'none',
             cursor: 'pointer',
-            zIndex: 10
+            border: 'none',
+            outline: 'none',
+            background: 'transparent',
+            position: 'relative',
+            zIndex: 1
           }}
+          className="flex-1 px-4 py-2.5 rounded-full font-medium transition-colors flex items-center justify-center text-xs md:text-sm"
           data-testid="integrations-tab"
         >
           <span className="hidden sm:inline">{t('account.integrations')}</span>
           <span className="sm:hidden">{t('account.integrations')}</span>
         </button>
         <button
+          type="button"
           data-tab-value="subscriptions"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
             setPreviousAccountTab(activeTab);
             handleTabChange('subscriptions');
           }}
-          className="account-tab-item text-xs md:text-sm relative border-none transition-colors"
           style={{
             color: activeTab === 'subscriptions' ? 'var(--bg-950)' : 'var(--text-med)',
-            background: 'transparent',
-            boxShadow: 'none',
-            border: 'none',
             cursor: 'pointer',
-            zIndex: 10
+            border: 'none',
+            outline: 'none',
+            background: 'transparent',
+            position: 'relative',
+            zIndex: 1
           }}
+          className="flex-1 px-4 py-2.5 rounded-full font-medium transition-colors flex items-center justify-center text-xs md:text-sm"
           data-testid="subscriptions-tab"
         >
           <span className="hidden sm:inline">{t('account.subscription')}</span>
