@@ -3310,7 +3310,7 @@ const Account = ({ athleteId }) => {
         </TabsContent>
 
         {/* Integrations Tab */}
-        <TabsContent value="integrations">
+        <TabsContent value="integrations" className="bg-gray-900">
           <div className="space-y-6">
 
             {/* Third-Party Integrations */}
