@@ -367,18 +367,18 @@ code {
     inset 0 -2px 6px -2px rgba(0, 0, 0, 0.4),
     /* Outer glow for backlit effect */
     0 0 16px -4px var(--c-brand-500),
-    0 4px 12px -2px rgba(0, 0, 0, 0.3);
+    0 4px 12px -2px rgba(0, 0, 0, 0.3) !important;
   
   /* Glass effect */
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
   
   /* Smooth transitions */
   transition: 
     left 400ms cubic-bezier(1, 0, 0.4, 1),
     width 400ms cubic-bezier(1, 0, 0.4, 1),
     background 400ms cubic-bezier(1, 0, 0.4, 1),
-    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1);
+    box-shadow 400ms cubic-bezier(1, 0, 0.4, 1) !important;
 }
 
 /* Tab text gets darker when active (over bright background) */
