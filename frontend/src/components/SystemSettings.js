@@ -2004,56 +2004,97 @@ const SystemSettings = ({ athleteId }) => {
                     </div>
 
                     <div>
-                      <label className="block text-gray-300 mb-2">Features</label>
+                      <label className="block text-gray-300 mb-2">Features (drag to reorder)</label>
                       <div className="space-y-2">
-                        {editingPlan.features.map((feature, idx) => (
-                          <div 
-                            key={idx} 
-                            draggable
-                            onDragStart={(e) => {
-                              e.dataTransfer.effectAllowed = 'move';
-                              e.dataTransfer.setData('text/plain', idx.toString());
-                            }}
-                            onDragOver={(e) => {
-                              e.preventDefault();
-                              e.dataTransfer.dropEffect = 'move';
-                            }}
-                            onDrop={(e) => {
-                              e.preventDefault();
-                              const draggedIdx = parseInt(e.dataTransfer.getData('text/plain'));
-                              if (draggedIdx !== idx) {
-                                const updated = [...editingPlan.features];
-                                const [removed] = updated.splice(draggedIdx, 1);
-                                updated.splice(idx, 0, removed);
-                                setEditingPlan({...editingPlan, features: updated});
-                              }
-                            }}
-                            className="flex items-center gap-2 cursor-move hover:bg-gray-700 rounded p-1 transition-colors"
-                          >
-                            <GripVertical className="w-4 h-4 text-gray-400 flex-shrink-0" />
-                            <input
-                              type="text"
-                              value={feature}
-                              onChange={(e) => {
-                                const updated = [...editingPlan.features];
-                                updated[idx] = e.target.value;
-                                setEditingPlan({...editingPlan, features: updated});
+                        {editingPlan.features.map((feature, idx) => {
+                          let touchStartY = 0;
+                          let draggedElement = null;
+                          
+                          return (
+                            <div 
+                              key={idx} 
+                              draggable
+                              onDragStart={(e) => {
+                                e.dataTransfer.effectAllowed = 'move';
+                                e.dataTransfer.setData('text/plain', idx.toString());
+                                e.currentTarget.style.opacity = '0.5';
                               }}
-                              className="flex-1 bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 text-sm"
-                            />
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => {
-                                const updated = editingPlan.features.filter((_, i) => i !== idx);
-                                setEditingPlan({...editingPlan, features: updated});
+                              onDragEnd={(e) => {
+                                e.currentTarget.style.opacity = '1';
                               }}
-                              className="text-red-400 border-red-600"
+                              onDragOver={(e) => {
+                                e.preventDefault();
+                                e.dataTransfer.dropEffect = 'move';
+                              }}
+                              onDrop={(e) => {
+                                e.preventDefault();
+                                const draggedIdx = parseInt(e.dataTransfer.getData('text/plain'));
+                                if (draggedIdx !== idx) {
+                                  const updated = [...editingPlan.features];
+                                  const [removed] = updated.splice(draggedIdx, 1);
+                                  updated.splice(idx, 0, removed);
+                                  setEditingPlan({...editingPlan, features: updated});
+                                }
+                              }}
+                              onTouchStart={(e) => {
+                                touchStartY = e.touches[0].clientY;
+                                draggedElement = e.currentTarget;
+                                draggedElement.style.opacity = '0.5';
+                              }}
+                              onTouchMove={(e) => {
+                                if (!draggedElement) return;
+                                e.preventDefault();
+                                const touchY = e.touches[0].clientY;
+                                const elements = Array.from(e.currentTarget.parentElement.children);
+                                const overElement = elements.find(el => {
+                                  const rect = el.getBoundingClientRect();
+                                  return touchY >= rect.top && touchY <= rect.bottom && el !== draggedElement;
+                                });
+                                
+                                if (overElement) {
+                                  const draggedIdx = elements.indexOf(draggedElement);
+                                  const overIdx = elements.indexOf(overElement);
+                                  if (draggedIdx !== overIdx) {
+                                    const updated = [...editingPlan.features];
+                                    const [removed] = updated.splice(draggedIdx, 1);
+                                    updated.splice(overIdx, 0, removed);
+                                    setEditingPlan({...editingPlan, features: updated});
+                                  }
+                                }
+                              }}
+                              onTouchEnd={(e) => {
+                                if (draggedElement) {
+                                  draggedElement.style.opacity = '1';
+                                  draggedElement = null;
+                                }
+                              }}
+                              className="flex items-center gap-2 cursor-move hover:bg-gray-700 active:bg-gray-700 rounded p-1 transition-colors touch-none"
                             >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          </div>
-                        ))}
+                              <GripVertical className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                              <input
+                                type="text"
+                                value={feature}
+                                onChange={(e) => {
+                                  const updated = [...editingPlan.features];
+                                  updated[idx] = e.target.value;
+                                  setEditingPlan({...editingPlan, features: updated});
+                                }}
+                                className="flex-1 bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 text-sm"
+                              />
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  const updated = editingPlan.features.filter((_, i) => i !== idx);
+                                  setEditingPlan({...editingPlan, features: updated});
+                                }}
+                                className="text-red-400 border-red-600"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          );
+                        })}
                         <div className="flex gap-2">
                           <input
                             type="text"
