@@ -1561,21 +1561,21 @@ const Account = ({ athleteId }) => {
       {/* Account Tabs */}
       {/* Custom tab switcher wrapper */}
       <div 
-        className="account-tabs-switcher grid w-full grid-cols-4 mb-8 p-2 h-auto"
+        className="account-tabs-switcher"
         data-previous={previousAccountTab}
         style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          width: '100%',
+          marginBottom: '2rem',
+          padding: '0.5rem',
           background: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
           backdropFilter: 'blur(8px) saturate(150%)',
           WebkitBackdropFilter: 'blur(8px) saturate(150%)',
           borderRadius: '99em',
-          boxShadow: `
-            inset 0 2px 4px -1px rgba(0,0,0,0.3),
-            inset 0 -1px 2px rgba(255,255,255,0.05)
-          `,
+          boxShadow: 'inset 0 2px 4px -1px rgba(0,0,0,0.3), inset 0 -1px 2px rgba(255,255,255,0.05)',
           position: 'relative',
-          overflow: 'visible',
-          '--bubble-left': '0px',
-          '--bubble-width': '25%'
+          overflow: 'visible'
         }}
       >
         <button
