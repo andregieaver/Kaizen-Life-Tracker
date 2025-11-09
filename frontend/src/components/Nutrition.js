@@ -1171,11 +1171,11 @@ const Nutrition = ({ athleteId }) => {
                 <>
                   {/* Calories */}
                   <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-4">
-                    <div className="text-sm text-gray-300 mb-1">Calories</div>
+                    <div className="text-sm text-gray-300 mb-1">{t('nutrition.calories')}</div>
                     <div className="text-3xl font-bold text-white">
                       {viewType === 'week' ? weekStats.dailyAverage.calories : dayStats.totals.calories}
                     </div>
-                    <div className="text-xs text-gray-400">{viewType === 'week' ? t('nutrition.perDay') : 'total'}</div>
+                    <div className="text-xs text-gray-400">{viewType === 'week' ? t('nutrition.perDay') : t('nutrition.total')}</div>
                   </div>
 
                   {/* Macronutrients */}
