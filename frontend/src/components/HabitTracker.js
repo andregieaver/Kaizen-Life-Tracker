@@ -11,7 +11,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001'
 const API = `${BACKEND_URL}/api`;
 
 const HabitTracker = ({ athleteId }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   
   const DAYS_OF_WEEK = [
     { value: 'monday', label: t('habits.daysOfWeek.mon'), full: t('habits.daysOfWeek.monday') },
