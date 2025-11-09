@@ -739,7 +739,7 @@ const Journal = ({ athleteId }) => {
                               variant="destructive"
                             >
                               <VideoOff className="w-4 h-4 mr-2" />
-                              Stop Recording
+                              {t('journal.stopRecordingVideo')}
                             </Button>
                           </>
                         ) : (
