@@ -5268,13 +5268,22 @@ async def analyze_food_image(athlete_id: str, request: dict):
     import openai
     
     try:
-        # Get OpenAI API key for the athlete
+        # Get OpenAI API key for the athlete, fallback to Emergent LLM key
         openai_key = await ai_coach.get_user_openai_key(athlete_id)
-        if not openai_key:
-            raise HTTPException(status_code=400, detail="OpenAI API key required for food analysis. Please configure your API key in Account Settings.")
         
-        # Create OpenAI client
-        client = openai.OpenAI(api_key=openai_key)
+        if not openai_key:
+            # Try to use Emergent LLM key as fallback
+            try:
+                from emergentintegrations.openai import client as emergent_openai_client
+                client = emergent_openai_client
+                logging.info(f"Using Emergent LLM key for food analysis for athlete {athlete_id}")
+            except Exception as e:
+                logging.error(f"Failed to use Emergent LLM key: {e}")
+                raise HTTPException(status_code=400, detail="OpenAI API key required for food analysis. Please configure your API key in Account Settings or use the Emergent LLM key.")
+        else:
+            # Create OpenAI client with user's key
+            client = openai.OpenAI(api_key=openai_key)
+            logging.info(f"Using user's OpenAI key for food analysis for athlete {athlete_id}")
         
         # Get the base64 image data and optional description
         base64_image = request.get("image_data", "")
