@@ -1797,7 +1797,7 @@ const Nutrition = ({ athleteId }) => {
                   {/* Calories Always Visible */}
                   {entry.calories > 0 && (
                     <div className="bg-blue-50 rounded-lg p-3 mb-3">
-                      <div className="text-xs text-gray-500">Calories</div>
+                      <div className="text-xs text-gray-500">{t('nutrition.calories')}</div>
                       <div className="text-2xl font-bold text-blue-600">{entry.calories}</div>
                     </div>
                   )}
@@ -1815,7 +1815,7 @@ const Nutrition = ({ athleteId }) => {
                         }}
                         className="w-full flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors"
                       >
-                        <span className="text-sm font-semibold text-gray-700">Macronutrients</span>
+                        <span className="text-sm font-semibold text-gray-700">{t('nutrition.macronutrients')}</span>
                         {expandedMacros[entry.id] ? (
                           <ChevronUp className="w-4 h-4 text-gray-400" />
                         ) : (
@@ -1826,25 +1826,25 @@ const Nutrition = ({ athleteId }) => {
                         <div className="grid grid-cols-2 gap-2 mt-2">
                           {entry.protein > 0 && (
                             <div className="bg-orange-50 rounded-lg p-2">
-                              <div className="text-xs text-gray-500">Protein</div>
+                              <div className="text-xs text-gray-500">{t('nutrition.protein')}</div>
                               <div className="text-lg font-semibold text-orange-600">{entry.protein}g</div>
                             </div>
                           )}
                           {entry.carbs > 0 && (
                             <div className="bg-green-50 rounded-lg p-2">
-                              <div className="text-xs text-gray-500">Carbs</div>
+                              <div className="text-xs text-gray-500">{t('nutrition.carbs')}</div>
                               <div className="text-lg font-semibold text-green-600">{entry.carbs}g</div>
                             </div>
                           )}
                           {entry.fat > 0 && (
                             <div className="bg-purple-50 rounded-lg p-2">
-                              <div className="text-xs text-gray-500">Fat</div>
+                              <div className="text-xs text-gray-500">{t('nutrition.fat')}</div>
                               <div className="text-lg font-semibold text-purple-600">{entry.fat}g</div>
                             </div>
                           )}
                           {entry.fiber > 0 && (
                             <div className="bg-amber-50 rounded-lg p-2">
-                              <div className="text-xs text-gray-500">Fiber</div>
+                              <div className="text-xs text-gray-500">{t('nutrition.fiber')}</div>
                               <div className="text-lg font-semibold text-amber-600">{entry.fiber}g</div>
                             </div>
                           )}
