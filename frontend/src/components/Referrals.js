@@ -159,7 +159,7 @@ const Referrals = ({ athleteId }) => {
             }}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-xs md:text-sm mb-1">Total Clicks</p>
+                  <p className="text-gray-400 text-xs md:text-sm mb-1">{t('referrals.totalClicks')}</p>
                   <p className="text-2xl md:text-3xl font-bold text-white">{stats.totalClicks}</p>
                 </div>
                 <ExternalLink className="w-6 h-6 md:w-8 md:h-8 text-blue-400 opacity-50" />
@@ -178,7 +178,7 @@ const Referrals = ({ athleteId }) => {
             }}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-xs md:text-sm mb-1">Conversions</p>
+                  <p className="text-gray-400 text-xs md:text-sm mb-1">{t('referrals.conversions')}</p>
                   <p className="text-2xl md:text-3xl font-bold text-white">{stats.totalConversions}</p>
                 </div>
                 <UsersIcon className="w-6 h-6 md:w-8 md:h-8 text-green-400 opacity-50" />
@@ -197,7 +197,7 @@ const Referrals = ({ athleteId }) => {
             }}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-xs md:text-sm mb-1">Conversion Rate</p>
+                  <p className="text-gray-400 text-xs md:text-sm mb-1">{t('referrals.conversionRate')}</p>
                   <p className="text-2xl md:text-3xl font-bold text-white">
                     {stats.conversionRate.toFixed(1)}%
                   </p>
@@ -218,7 +218,7 @@ const Referrals = ({ athleteId }) => {
             }}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-xs md:text-sm mb-1">Available Discount</p>
+                  <p className="text-gray-400 text-xs md:text-sm mb-1">{t('referrals.availableDiscount')}</p>
                   <p className="text-2xl md:text-3xl font-bold text-white">{stats.availableDiscount || 0}%</p>
                 </div>
                 <Award className="w-6 h-6 md:w-8 md:h-8 opacity-50" style={{ color: '#32D3FF' }} />
