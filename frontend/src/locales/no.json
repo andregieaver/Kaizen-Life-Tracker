@@ -506,6 +506,7 @@
   },
   "nutrition": {
     "title": "Ernæringssporing",
+    "pageTitle": "Ernæringslogg",
     "subtitle": "Spor hva du spiser og drikker",
     "logSupplements": "Logg tilskudd",
     "logMeal": "Logg måltid",
