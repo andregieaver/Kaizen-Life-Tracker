@@ -25,7 +25,15 @@ const ReadinessCard = ({ readiness, onRefresh }) => {
   
   if (!readiness) {
     return (
-      <Card className="border-0 shadow-lg" style={{ background: 'var(--bg-800)', color: 'var(--text-hi)' }}>
+      <Card className="border-0 shadow-lg" style={{ 
+        background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+        backdropFilter: 'blur(12px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+        borderRadius: '8px',
+        color: 'var(--text-hi)'
+      }}>
         <CardHeader>
           <CardTitle className="text-lg font-display" style={{ color: 'var(--text-hi)' }}>{t('readiness.title')}</CardTitle>
           <CardDescription style={{ color: 'var(--text-muted)' }}>{t('common.loading')}</CardDescription>
