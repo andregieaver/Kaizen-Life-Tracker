@@ -2333,7 +2333,7 @@ const Nutrition = ({ athleteId }) => {
                 >
                   <div className="flex items-center mb-3">
                     <div className="flex-1">
-                      <h4 className="font-semibold text-white">AI Nutritional Analysis</h4>
+                      <h4 className="font-semibold text-white">{t('nutrition.mealModal.aiNutritionalAnalysis')}</h4>
                       {nutritionData.ai_analysis && (
                         <p className="text-xs text-gray-300 mt-1">{nutritionData.ai_analysis}</p>
                       )}
@@ -2349,7 +2349,7 @@ const Nutrition = ({ athleteId }) => {
                         borderRadius: '8px'
                       }}
                     >
-                      <div className="text-xs text-gray-300 mb-1">Calories</div>
+                      <div className="text-xs text-gray-300 mb-1">{t('nutrition.calories')}</div>
                       <div className="text-xl font-bold" style={{ color: '#32D3FF' }}>{nutritionData.calories}</div>
                     </div>
                     <div 
@@ -2361,7 +2361,7 @@ const Nutrition = ({ athleteId }) => {
                         borderRadius: '8px'
                       }}
                     >
-                      <div className="text-xs text-gray-300 mb-1">Protein</div>
+                      <div className="text-xs text-gray-300 mb-1">{t('nutrition.protein')}</div>
                       <div className="text-xl font-bold text-green-400">{nutritionData.protein}g</div>
                     </div>
                     <div 
@@ -2373,7 +2373,7 @@ const Nutrition = ({ athleteId }) => {
                         borderRadius: '8px'
                       }}
                     >
-                      <div className="text-xs text-gray-300 mb-1">Carbs</div>
+                      <div className="text-xs text-gray-300 mb-1">{t('nutrition.carbs')}</div>
                       <div className="text-xl font-bold text-orange-400">{nutritionData.carbs}g</div>
                     </div>
                     <div 
@@ -2385,7 +2385,7 @@ const Nutrition = ({ athleteId }) => {
                         borderRadius: '8px'
                       }}
                     >
-                      <div className="text-xs text-gray-300 mb-1">Fat</div>
+                      <div className="text-xs text-gray-300 mb-1">{t('nutrition.fat')}</div>
                       <div className="text-xl font-bold text-purple-400">{nutritionData.fat}g</div>
                     </div>
                   </div>
