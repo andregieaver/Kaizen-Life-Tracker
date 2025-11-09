@@ -415,22 +415,35 @@ const Dashboard = ({ athleteId }) => {
   // Load background image from localStorage or athlete data
   useEffect(() => {
     const loadBackgroundImage = () => {
-      // First try localStorage (most up-to-date)
+      // Check localStorage first
       const storedBgImage = localStorage.getItem('app_background_image');
+      
       if (storedBgImage) {
         setBackgroundImage(storedBgImage);
-        return;
-      }
-      
-      // Fall back to athlete data
-      if (athlete?.background_image) {
+      } else if (athlete?.background_image) {
+        // Fall back to athlete data if not in localStorage
         setBackgroundImage(athlete.background_image);
-        // Also store in localStorage for consistency
         localStorage.setItem('app_background_image', athlete.background_image);
+      } else {
+        // Explicitly set to null if no background image exists
+        setBackgroundImage(null);
       }
     };
     
     loadBackgroundImage();
+    
+    // Listen for localStorage changes (when image is removed in another tab/component)
+    const handleStorageChange = (e) => {
+      if (e.key === 'app_background_image') {
+        setBackgroundImage(e.newValue);
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, [athlete]);
 
   const calculateYTD = async (athleteData) => {
