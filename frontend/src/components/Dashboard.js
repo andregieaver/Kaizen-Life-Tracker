@@ -432,6 +432,11 @@ const Dashboard = ({ athleteId }) => {
     
     loadBackgroundImage();
     
+    // Listen for background image updates from Account settings
+    const handleBackgroundUpdate = (e) => {
+      setBackgroundImage(e.detail.backgroundImage);
+    };
+    
     // Listen for localStorage changes (when image is removed in another tab/component)
     const handleStorageChange = (e) => {
       if (e.key === 'app_background_image') {
@@ -439,9 +444,11 @@ const Dashboard = ({ athleteId }) => {
       }
     };
     
+    window.addEventListener('backgroundImageUpdated', handleBackgroundUpdate);
     window.addEventListener('storage', handleStorageChange);
     
     return () => {
+      window.removeEventListener('backgroundImageUpdated', handleBackgroundUpdate);
       window.removeEventListener('storage', handleStorageChange);
     };
   }, [athlete]);
