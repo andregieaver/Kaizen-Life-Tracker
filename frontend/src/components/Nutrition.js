@@ -1183,25 +1183,25 @@ const Nutrition = ({ athleteId }) => {
                     <h4 className="text-sm font-semibold text-white mb-3">{t('nutrition.macronutrients')}</h4>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3 text-center">
-                        <div className="text-xs text-gray-300 mb-1">Protein</div>
+                        <div className="text-xs text-gray-300 mb-1">{t('nutrition.protein')}</div>
                         <div className="text-2xl font-bold text-white">
                           {viewType === 'week' ? weekStats.dailyAverage.protein : dayStats.totals.protein}g
                         </div>
                       </div>
                       <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3 text-center">
-                        <div className="text-xs text-gray-300 mb-1">Carbs</div>
+                        <div className="text-xs text-gray-300 mb-1">{t('nutrition.carbs')}</div>
                         <div className="text-2xl font-bold text-white">
                           {viewType === 'week' ? weekStats.dailyAverage.carbs : dayStats.totals.carbs}g
                         </div>
                       </div>
                       <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3 text-center">
-                        <div className="text-xs text-gray-300 mb-1">Fat</div>
+                        <div className="text-xs text-gray-300 mb-1">{t('nutrition.fat')}</div>
                         <div className="text-2xl font-bold text-white">
                           {viewType === 'week' ? weekStats.dailyAverage.fat : dayStats.totals.fat}g
                         </div>
                       </div>
                       <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3 text-center">
-                        <div className="text-xs text-gray-300 mb-1">Fiber</div>
+                        <div className="text-xs text-gray-300 mb-1">{t('nutrition.fiber')}</div>
                         <div className="text-2xl font-bold text-white">
                           {viewType === 'week' ? weekStats.dailyAverage.fiber : dayStats.totals.fiber}g
                         </div>
