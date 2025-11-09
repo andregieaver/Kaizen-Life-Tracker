@@ -2130,7 +2130,7 @@ const Nutrition = ({ athleteId }) => {
                         setViewingEntry(null);
                       }}
                     >
-                      Close
+                      {t('nutrition.mealModal.close')}
                     </Button>
                     <Button
                       variant="outline"
@@ -2138,7 +2138,7 @@ const Nutrition = ({ athleteId }) => {
                       onClick={switchToEditMode}
                     >
                       <Edit3 className="w-4 h-4 mr-2" />
-                      Edit
+                      {t('nutrition.mealModal.edit')}
                     </Button>
                     <Button
                       variant="destructive"
@@ -2150,7 +2150,7 @@ const Nutrition = ({ athleteId }) => {
                       }}
                     >
                       <Trash2 className="w-4 h-4 mr-2" />
-                      Delete
+                      {t('nutrition.mealModal.delete')}
                     </Button>
                   </div>
                 </div>
