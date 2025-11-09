@@ -4750,16 +4750,17 @@ const SystemSettings = ({ athleteId }) => {
                     <ol className="text-xs text-purple-200 mt-2 space-y-1 ml-4 list-decimal">
                       <li>Go to <a href="https://cloud.ouraring.com/oauth/applications" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">Oura Developer Portal</a></li>
                       <li>Create a new application or use an existing one</li>
-                      <li>Set the Authorization Callback Domain to: https://[YOUR-DOMAIN]/oura/callback</li>
+                      <li>Set the Authorization Callback URL to: <code className="bg-purple-900/40 px-1 py-0.5 rounded">https://[YOUR-DOMAIN]/api/auth/oura/callback</code></li>
                       <li>Copy your Client ID and Client Secret from Oura</li>
-                      <li>Save these settings, then athletes can connect their Oura Ring from Account Settings</li>
+                      <li>Enter them below and Save</li>
+                      <li>Athletes can now connect their Oura Ring from Account Settings</li>
                     </ol>
                     <div className="mt-3 pt-3 border-t border-purple-700/50">
                       <p className="text-xs text-purple-200">
-                        <strong>Development:</strong> Use your preview domain (e.g., https://multilingual-app-27.preview.emergentagent.com/oura/callback)
+                        <strong>Production:</strong> Use <code className="bg-purple-900/40 px-1 py-0.5 rounded">https://kaizenlifetracker.com/api/auth/oura/callback</code>
                       </p>
                       <p className="text-xs text-purple-200 mt-1">
-                        <strong>Production:</strong> Use https://kaizenlifetracker.com/oura/callback
+                        <strong>Note:</strong> The Callback Domain field should contain only the domain (e.g., <code className="bg-purple-900/40 px-1 py-0.5 rounded">kaizenlifetracker.com</code>) without https:// or paths
                       </p>
                     </div>
                   </div>
