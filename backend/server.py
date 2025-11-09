@@ -7438,28 +7438,32 @@ async def save_oura_credentials(athlete_id: str, credentials: OuraCredentials):
 
 @api_router.get("/auth/oura/{athlete_id}")
 async def oura_auth_initiate(athlete_id: str):
-    """Initiate Oura OAuth authorization flow using user's credentials"""
-    # Get user's Oura credentials
-    integration = await db.integrations.find_one(
-        {"athlete_id": athlete_id, "integration_type": "oura"}, 
-        {"_id": 0}
-    )
+    """Initiate Oura OAuth authorization flow using system-wide credentials"""
+    # Get system-wide Oura credentials from system_settings
+    system_settings = await db.system_settings.find_one({"category": "advanced"})
     
-    if not integration or not integration.get("credentials"):
+    if not system_settings or not system_settings.get("oura"):
         raise HTTPException(
             status_code=404, 
-            detail="Oura credentials not found. Please configure your Oura credentials first."
+            detail="Oura credentials not configured in System Settings. Please configure them in System Settings > Advanced."
         )
     
-    credentials = integration["credentials"]
+    oura_config = system_settings["oura"]
+    if not oura_config.get("clientId") or not oura_config.get("clientSecret"):
+        raise HTTPException(
+            status_code=404,
+            detail="Oura Client ID or Secret missing in System Settings."
+        )
+    
     state = f"{athlete_id}_{secrets.token_urlsafe(16)}"
     
-    # Use user's redirect URI (can be configured per user or use a default)
-    redirect_uri = f"https://myhealthtracker.app/oura/callback"
+    # Use callback domain from system settings or default
+    callback_domain = oura_config.get("callbackDomain", "myhealthtracker.app")
+    redirect_uri = f"https://{callback_domain}/oura/callback"
     
     auth_params = {
         "response_type": "code",
-        "client_id": credentials["client_id"],
+        "client_id": oura_config["clientId"],
         "redirect_uri": redirect_uri,
         "scope": "email personal daily heartrate workout session tag spo2",
         "state": state
