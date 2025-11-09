@@ -95,7 +95,19 @@ const Today = ({ athleteId }) => {
 
   const formatDate = () => {
     const today = new Date();
-    return today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const preferences = {
+      date_format: athleteProfile?.date_format || 'MM/DD/YYYY',
+      timezone: athleteProfile?.timezone || 'UTC'
+    };
+    
+    // Get weekday name based on locale
+    const { i18n } = useTranslation();
+    const weekday = today.toLocaleDateString(i18n.language, { weekday: 'long' });
+    
+    // Get formatted date based on user's preference
+    const formattedDate = formatDateUtil(today.toISOString(), preferences);
+    
+    return `${weekday}, ${formattedDate}`;
   };
 
   if (isLoading) {
