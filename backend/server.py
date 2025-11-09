@@ -5292,6 +5292,20 @@ async def analyze_food_image(athlete_id: str, request: dict):
         if not base64_image:
             raise HTTPException(status_code=400, detail="No image data provided")
         
+        # Get athlete's language preference
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id})
+        user_language = athlete.get("language", "en") if athlete else "en"
+        
+        # Map language codes to language names
+        language_map = {
+            "en": "English",
+            "no": "Norwegian",
+            "sv": "Swedish", 
+            "de": "German",
+            "fr": "French"
+        }
+        language_name = language_map.get(user_language, "English")
+        
         # Create the prompt for nutritional analysis
         description_context = f"\n\nUser's description: {user_description}" if user_description else ""
         
@@ -5315,7 +5329,7 @@ MICRONUTRIENTS (estimate if possible, use 0 if uncertain):
 12. Iron (in milligrams)
 13. Potassium (in milligrams)
 
-14. A brief description of the food items you can see
+14. A brief description of the food items you can see IN {language_name.upper()}
 
 {f"The user described it as: '{user_description}'. Use this to help with your analysis." if user_description else ""}
 
@@ -5334,7 +5348,7 @@ Format your response as JSON with these exact keys:
   "calcium": <number>,
   "iron": <number>,
   "potassium": <number>,
-  "description": "<brief description>"
+  "description": "<brief description in {language_name}>"
 }}
 
 Be as accurate as possible based on visible portion sizes{" and the user's description" if user_description else ""}. Use 0 for micronutrients if you cannot accurately estimate them. If you cannot see the food clearly or if it's not a food image, return all values as 0 and mention this in the description."""
