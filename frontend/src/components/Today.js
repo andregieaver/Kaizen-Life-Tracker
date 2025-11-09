@@ -17,7 +17,7 @@ import { formatDate as formatDateUtil } from '../utils/formatters';
 const API = process.env.REACT_APP_BACKEND_URL ? `${process.env.REACT_APP_BACKEND_URL}/api` : 'http://localhost:8001/api';
 
 const Today = ({ athleteId }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [todayData, setTodayData] = useState({
     calorieNeed: 0,
     caloriesConsumed: 0,
