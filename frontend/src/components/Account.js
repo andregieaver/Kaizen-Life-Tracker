@@ -3384,7 +3384,7 @@ const Account = ({ athleteId }) => {
                   icon={<Heart className="w-8 h-8 text-purple-500" />}
                   connected={integrations.oura.connected}
                   connectionInfo={integrations.oura}
-                  onConnect={() => handleSimpleConnect('oura')}
+                  onConnect={handleOuraConnect}
                   onDisconnect={() => handleSimpleDisconnect('oura')}
                   t={t}
                 />
