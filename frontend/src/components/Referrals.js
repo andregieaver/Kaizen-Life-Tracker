@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { Gift, Copy, Check, Facebook, Mail, ExternalLink, TrendingUp, Users as UsersIcon, Award } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
@@ -9,15 +10,30 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Referrals = ({ athleteId }) => {
+  const { t } = useTranslation();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [copySuccess, setCopySuccess] = useState(false);
   const [referralCode, setReferralCode] = useState('');
+  const [siteTitle, setSiteTitle] = useState('TrainSmart');
 
   useEffect(() => {
+    loadSiteSettings();
     generateReferralCode();
   }, [athleteId]);
+
+  const loadSiteSettings = async () => {
+    try {
+      const response = await axios.get(`${API}/system-settings/all`);
+      const seo = response.data.find(s => s.category === 'seo');
+      if (seo?.siteTitle) {
+        setSiteTitle(seo.siteTitle);
+      }
+    } catch (err) {
+      console.error('Error loading site settings:', err);
+    }
+  };
 
   const generateReferralCode = async () => {
     try {
