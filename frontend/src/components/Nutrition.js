@@ -1175,7 +1175,7 @@ const Nutrition = ({ athleteId }) => {
                     <div className="text-3xl font-bold text-white">
                       {viewType === 'week' ? weekStats.dailyAverage.calories : dayStats.totals.calories}
                     </div>
-                    <div className="text-xs text-gray-400">{viewType === 'week' ? 'per day' : 'total'}</div>
+                    <div className="text-xs text-gray-400">{viewType === 'week' ? t('nutrition.perDay') : 'total'}</div>
                   </div>
 
                   {/* Macronutrients */}
