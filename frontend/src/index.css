@@ -283,33 +283,33 @@ code {
   z-index: 0;
   pointer-events: none;
   
-  /* Semi-transparent vibrant blue with radial gradient for backlit effect */
+  /* Semi-transparent darker blue with radial gradient for better text contrast */
   background: 
-    radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, var(--c-brand-500) 0%, color-mix(in srgb, var(--c-brand-500) 70%, transparent) 100%),
+    radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, color-mix(in srgb, var(--c-brand-500) 80%, black) 0%, color-mix(in srgb, var(--c-brand-500) 50%, transparent) 100%),
     linear-gradient(180deg, 
-      color-mix(in srgb, var(--c-brand-500) 90%, white) 0%,
-      var(--c-brand-500) 50%,
-      color-mix(in srgb, var(--c-brand-500) 70%, black) 100%
+      color-mix(in srgb, var(--c-brand-500) 70%, black) 0%,
+      color-mix(in srgb, var(--c-brand-500) 85%, black) 50%,
+      color-mix(in srgb, var(--c-brand-500) 50%, black) 100%
     );
   
-  /* Shine on top and depth shadows for curved effect */
+  /* Shine on top and depth shadows for curved effect - reduced brightness */
   box-shadow: 
-    /* Top shine - bright white highlight */
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
-    inset 0 2px 6px -2px rgba(255, 255, 255, 0.5),
+    /* Top shine - subtle white highlight */
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3),
+    inset 0 2px 6px -2px rgba(255, 255, 255, 0.25),
     /* Curved edges - lighter on sides */
-    inset 2px 0 4px -2px rgba(255, 255, 255, 0.3),
-    inset -2px 0 4px -2px rgba(255, 255, 255, 0.3),
+    inset 2px 0 4px -2px rgba(255, 255, 255, 0.15),
+    inset -2px 0 4px -2px rgba(255, 255, 255, 0.15),
     /* Bottom depth - darker blue shadow */
     inset 0 -2px 6px -2px rgba(0, 0, 0, 0.4),
     /* Outer glow for backlit effect */
     0 0 16px -4px var(--c-brand-500),
     0 4px 12px -2px rgba(0, 0, 0, 0.3);
   
-  /* Glass effect */
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  /* Glass effect - reduced saturation for better readability */
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
   
   /* Smooth transitions for vertical sliding */
   transition: 
