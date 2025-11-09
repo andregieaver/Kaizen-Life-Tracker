@@ -558,6 +558,8 @@
     "startTrackingMealsAndSupplements": "Begynn å logge måltidene og kosttilskuddene dine",
     "mealModal": {
       "title": "Logg måltid eller drikke",
+      "viewTitle": "Måltidsdetaljer",
+      "editTitle": "Rediger måltid eller drikke",
       "subtitle": "Legg til hva du spiste eller drakk",
       "mealType": "Måltidstype",
       "date": "Dato",
