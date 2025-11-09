@@ -5777,7 +5777,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
 );
 
 // AthletesModal Component
-const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose, onFollowToggle, onViewProfile }) => {
+const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose, onFollowToggle, onViewProfile, t }) => {
   const [nationalityFilter, setNationalityFilter] = React.useState('all');
   
   // Get unique nationalities
