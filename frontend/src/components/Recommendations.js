@@ -276,7 +276,7 @@ const Recommendations = ({ athleteId }) => {
                           {recommendation.title}
                         </h3>
                         {!recommendation.read && (
-                          <span className="inline-flex h-2 w-2 rounded-full" style={{ backgroundColor: '#00C2A8' }}></span>
+                          <span className="inline-flex h-2 w-2 rounded-full" style={{ backgroundColor: '#32D3FF' }}></span>
                         )}
                       </div>
                       <div className="flex items-center space-x-4 text-sm text-gray-300">
