@@ -2330,20 +2330,20 @@ const Nutrition = ({ athleteId }) => {
                           )}
                           {nutritionData.calcium > 0 && (
                             <li className="flex justify-between">
-                              <span className="text-gray-600">Calcium:</span>
-                              <span className="font-medium text-gray-900">{nutritionData.calcium}mg</span>
+                              <span className="text-gray-300">Calcium:</span>
+                              <span className="font-medium text-white">{nutritionData.calcium}mg</span>
                             </li>
                           )}
                           {nutritionData.iron > 0 && (
                             <li className="flex justify-between">
-                              <span className="text-gray-600">Iron:</span>
-                              <span className="font-medium text-gray-900">{nutritionData.iron}mg</span>
+                              <span className="text-gray-300">Iron:</span>
+                              <span className="font-medium text-white">{nutritionData.iron}mg</span>
                             </li>
                           )}
                           {nutritionData.potassium > 0 && (
                             <li className="flex justify-between">
-                              <span className="text-gray-600">Potassium:</span>
-                              <span className="font-medium text-gray-900">{nutritionData.potassium}mg</span>
+                              <span className="text-gray-300">Potassium:</span>
+                              <span className="font-medium text-white">{nutritionData.potassium}mg</span>
                             </li>
                           )}
                         </ul>
