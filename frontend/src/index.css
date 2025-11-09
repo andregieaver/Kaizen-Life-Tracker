@@ -274,8 +274,8 @@ code {
 .slideout-menu-switcher::after {
   content: "";
   position: absolute;
-  left: 12px;
-  right: 12px;
+  left: 0;
+  right: 0;
   top: var(--bubble-top, 0);
   width: auto;
   height: var(--bubble-height, 48px);
