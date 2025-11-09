@@ -275,12 +275,12 @@ const Referrals = ({ athleteId }) => {
                   {copySuccess ? (
                     <>
                       <Check className="w-5 h-5" />
-                      <span className="hidden sm:inline">Copied!</span>
+                      <span className="hidden sm:inline">{t('referrals.copied')}</span>
                     </>
                   ) : (
                     <>
                       <Copy className="w-5 h-5" />
-                      <span className="hidden sm:inline">Copy</span>
+                      <span className="hidden sm:inline">{t('referrals.copy')}</span>
                     </>
                   )}
                 </Button>
@@ -297,21 +297,21 @@ const Referrals = ({ athleteId }) => {
                     alt="X" 
                     className="w-5 h-5"
                   />
-                  Share on X
+                  {t('referrals.shareOnX')}
                 </Button>
                 <Button
                   onClick={shareOnFacebook}
                   className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
                 >
                   <Facebook className="w-5 h-5" />
-                  Share on Facebook
+                  {t('referrals.shareOnFacebook')}
                 </Button>
                 <Button
                   onClick={shareViaEmail}
                   className="w-full px-4 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors flex items-center justify-center gap-2"
                 >
                   <Mail className="w-5 h-5" />
-                  Share via Email
+                  {t('referrals.shareViaEmail')}
                 </Button>
               </div>
             </div>
