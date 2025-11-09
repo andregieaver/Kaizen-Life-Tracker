@@ -173,7 +173,7 @@ const Dashboard = ({ athleteId }) => {
       clearTimeout(timer2);
       clearTimeout(timer3);
     };
-  }, [activeTab, menuItems, isMenuOpen]);
+  }, [activeTab, menuItems, isMenuOpen, location.pathname]);
 
   useEffect(() => {
     loadDashboardData();
