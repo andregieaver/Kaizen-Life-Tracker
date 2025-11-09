@@ -1322,7 +1322,14 @@ const Dashboard = ({ athleteId }) => {
               <ReadinessCard athleteId={athleteId} readiness={readiness} />
 
               {/* Column 2: Progress - Recent Test Results */}
-              <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)', borderColor: 'var(--border)' }}>
+              <div className="border-0 shadow-lg overflow-hidden" style={{ 
+                background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+                backdropFilter: 'blur(12px) saturate(140%)',
+                WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+                borderRadius: '8px'
+              }}>
                 <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
                   <h2 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Progress</h2>
                   <p className="text-sm" style={{ color: 'var(--text-med)' }}>Recent test results</p>
