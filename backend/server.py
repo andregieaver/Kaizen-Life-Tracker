@@ -7568,20 +7568,32 @@ async def sync_oura_data(athlete_id: str):
 @api_router.get("/integrations/oura/{athlete_id}/status")
 async def get_oura_integration_status(athlete_id: str):
     """Get Oura integration status"""
+    # Check if system credentials are configured
+    system_settings = await db.system_settings.find_one({"category": "advanced"})
+    has_system_credentials = bool(
+        system_settings and 
+        system_settings.get("oura", {}).get("clientId") and 
+        system_settings.get("oura", {}).get("clientSecret")
+    )
+    
+    # Check user's integration status
     integration = await db.integrations.find_one({
         "athlete_id": athlete_id, 
         "integration_type": "oura"
     })
     
     if not integration:
-        return {"connected": False, "last_sync": None, "has_credentials": False}
+        return {
+            "connected": False, 
+            "last_sync": None, 
+            "has_credentials": has_system_credentials
+        }
     
-    has_credentials = bool(integration.get("credentials", {}).get("client_id"))
-    is_connected = integration.get("is_active", False) and integration.get("access_token")
+    is_connected = integration.get("is_active", False) and integration.get("credentials", {}).get("access_token")
     
     return {
         "connected": is_connected,
-        "has_credentials": has_credentials,
+        "has_credentials": has_system_credentials,
         "last_sync": integration.get("last_sync"),
         "settings": integration.get("settings", {})
     }
