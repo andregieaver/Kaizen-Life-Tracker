@@ -1222,7 +1222,7 @@ const Nutrition = ({ athleteId }) => {
               dayStats.totals.vitamin_d > 0 || dayStats.totals.calcium > 0 || 
               dayStats.totals.iron > 0 || dayStats.totals.potassium > 0))) && (
               <div className="border-t border-gray-700 pt-4">
-                <h4 className="text-sm font-semibold text-white mb-3">Micronutrients</h4>
+                <h4 className="text-sm font-semibold text-white mb-3">{t('nutrition.micronutrients')}</h4>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {((viewType === 'week' && weekStats.dailyAverage.sugar > 0) || (viewType === 'day' && dayStats.totals.sugar > 0)) && (
                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3">
