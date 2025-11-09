@@ -742,7 +742,8 @@ const Account = ({ athleteId }) => {
         coach_language: athleteRes.data.coach_language || 'en',
         voice_preference: athleteRes.data.voice_preference || 'alloy',
         coach_name: athleteRes.data.coach_name || 'Coach',
-        coach_avatar: athleteRes.data.coach_avatar || null
+        coach_avatar: athleteRes.data.coach_avatar || null,
+        background_image: athleteRes.data.background_image || null
       });
       
       // Set profile picture preview if available
