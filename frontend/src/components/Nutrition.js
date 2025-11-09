@@ -1951,7 +1951,7 @@ const Nutrition = ({ athleteId }) => {
       {/* Nutrition Entry Modal - View or Edit Mode */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-2 md:p-4">
-          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto relative z-50 rounded-none md:rounded-3xl border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
+          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto relative z-50 rounded-none md:rounded-3xl border-0 shadow-lg overflow-hidden custom-scrollbar" style={{ background: 'var(--grad-surface)' }}>
             <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
                 <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
@@ -1975,10 +1975,10 @@ const Nutrition = ({ athleteId }) => {
                 </button>
               </div>
               <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>
-                {viewMode ? 'View your meal or drink details' : (editingEntry ? 'Update your meal or drink entry' : t('nutrition.mealModal.subtitle'))}
+                {viewMode ? t('nutrition.mealModal.viewSubtitle') : (editingEntry ? t('nutrition.mealModal.editSubtitle') : t('nutrition.mealModal.subtitle'))}
               </p>
             </div>
-            <div className="p-6 space-y-4">
+            <div className="p-6 pb-24 space-y-4">
               
               {/* VIEW MODE - Read Only */}
               {viewMode && viewingEntry && (
