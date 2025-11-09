@@ -2038,7 +2038,7 @@ const Nutrition = ({ athleteId }) => {
                         viewingEntry.vitamin_a > 0 || viewingEntry.vitamin_c > 0 || viewingEntry.vitamin_d > 0 || 
                         viewingEntry.calcium > 0 || viewingEntry.iron > 0 || viewingEntry.potassium > 0) && (
                         <div className="pt-3 border-t border-gray-600">
-                          <h5 className="text-sm font-semibold text-gray-300 mb-2">Micronutrients</h5>
+                          <h5 className="text-sm font-semibold text-gray-300 mb-2">{t('nutrition.micronutrients')}</h5>
                           <div className="bg-gray-800 rounded-lg p-3 border border-gray-600">
                             <ul className="space-y-1 text-sm">
                               {viewingEntry.fiber > 0 && (
