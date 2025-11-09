@@ -2613,7 +2613,7 @@ const Account = ({ athleteId }) => {
                         <img
                           src={coachAvatarPreview}
                           alt="Coach Avatar"
-                          className="w-16 h-16 rounded-full object-cover border-2 border-[#00C2A8]"
+                          className="w-16 h-16 rounded-full object-cover border-2 border-[#32D3FF]"
                         />
                       ) : (
                         <div className="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center border-2 border-gray-600">
@@ -2630,11 +2630,66 @@ const Account = ({ athleteId }) => {
                         />
                         <label
                           htmlFor="coach-avatar-upload"
-                          className="inline-block px-4 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg cursor-pointer transition-colors text-sm"
+                          className="inline-block px-4 py-2 text-white rounded-lg cursor-pointer transition-colors text-sm"
+                          style={{ backgroundColor: '#32D3FF' }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                         >
                           {coachAvatarFile ? 'Change Avatar' : 'Upload Avatar'}
                         </label>
                         <p className="text-xs text-gray-500 mt-1">JPG, PNG or GIF (max 5MB)</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Background Image Upload */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-white">Background Image</Label>
+                    <p className="text-xs text-gray-500">Upload a custom background image for all pages (optional)</p>
+                    <div className="flex items-center gap-4">
+                      {backgroundImagePreview || personalForm.background_image ? (
+                        <img
+                          src={backgroundImagePreview || personalForm.background_image}
+                          alt="Background Preview"
+                          className="w-32 h-20 rounded-lg object-cover border-2 border-[#32D3FF]"
+                        />
+                      ) : (
+                        <div className="w-32 h-20 rounded-lg bg-gray-700 flex items-center justify-center border-2 border-gray-600">
+                          <span className="text-xs text-gray-400">No image</span>
+                        </div>
+                      )}
+                      <div className="flex-1">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleBackgroundImageChange}
+                          className="hidden"
+                          id="background-image-upload"
+                        />
+                        <label
+                          htmlFor="background-image-upload"
+                          className="inline-block px-4 py-2 text-white rounded-lg cursor-pointer transition-colors text-sm"
+                          style={{ backgroundColor: '#32D3FF' }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
+                        >
+                          {backgroundImageFile || personalForm.background_image ? 'Change Background' : 'Upload Background'}
+                        </label>
+                        {(backgroundImagePreview || personalForm.background_image) && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setBackgroundImageFile(null);
+                              setBackgroundImagePreview('');
+                              setPersonalForm(prev => ({...prev, background_image: null}));
+                            }}
+                            className="ml-2 px-4 py-2 text-white rounded-lg hover:bg-red-700 transition-colors text-sm"
+                            style={{ backgroundColor: '#dc2626' }}
+                          >
+                            Remove
+                          </button>
+                        )}
+                        <p className="text-xs text-gray-500 mt-1">JPG or PNG (max 5MB). Will replace gradient background.</p>
                       </div>
                     </div>
                   </div>
