@@ -1375,9 +1375,9 @@ const Nutrition = ({ athleteId }) => {
       ) : filteredEntries.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12">
           <Utensils className="w-16 h-16 text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-200 mb-2">No entries for this {viewType === 'day' ? 'day' : 'week'}</h3>
+          <h3 className="text-lg font-medium text-gray-200 mb-2">{t('nutrition.noEntriesThisWeek')}</h3>
           <p className="text-gray-400 text-center">
-            Start tracking your meals and supplements
+            {t('nutrition.startTrackingMealsAndSupplements')}
           </p>
         </div>
       ) : viewType === 'week' ? (
