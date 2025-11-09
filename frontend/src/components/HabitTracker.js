@@ -391,7 +391,7 @@ const HabitTracker = ({ athleteId }) => {
                     <div>
                       <div className="font-medium text-white">{habit.title}</div>
                       <div className="text-sm text-gray-300">
-                        {habit.times_per_day}x per day • {habit.days_of_week.map(d => 
+                        {habit.times_per_day}x {t('habits.perDay')} • {habit.days_of_week.map(d => 
                           DAYS_OF_WEEK.find(day => day.value === d)?.label
                         ).join(', ')}
                       </div>
