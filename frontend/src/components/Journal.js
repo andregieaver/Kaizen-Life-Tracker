@@ -815,7 +815,8 @@ const Journal = ({ athleteId }) => {
                               id="burnSubtitles"
                               checked={burnSubtitles}
                               onChange={(e) => setBurnSubtitles(e.target.checked)}
-                              className="w-5 h-5 text-teal-600 rounded focus:ring-blue-500 focus:ring-offset-gray-800"
+                              className="w-5 h-5 rounded focus:ring-blue-500 focus:ring-offset-gray-800"
+                              style={{ color: '#32D3FF' }}
                             />
                             <label htmlFor="burnSubtitles" className="text-white cursor-pointer flex-1">
                               <span className="font-medium">Burn subtitles into video</span>
