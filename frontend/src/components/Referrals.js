@@ -295,36 +295,43 @@ const Referrals = ({ athleteId }) => {
         </Card>
 
         {/* How It Works */}
-        <Card className="bg-gray-800 border-gray-700 mb-8">
+        <Card className="border-0 shadow-lg" style={{ 
+          background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+          backdropFilter: 'blur(12px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+          borderRadius: '8px'
+        }}>
           <CardHeader>
-            <CardTitle className="text-white text-xl">How It Works</CardTitle>
+            <CardTitle className="text-white text-lg md:text-xl">How It Works</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               <div className="text-center">
-                <div className="w-12 h-12 bg-[#00C2A8]/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <span className="text-[#00C2A8] font-bold text-xl">1</span>
+                <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: 'rgba(50, 211, 255, 0.2)' }}>
+                  <span className="font-bold text-xl" style={{ color: '#32D3FF' }}>1</span>
                 </div>
-                <h3 className="text-white font-semibold mb-2">Share Your Link</h3>
-                <p className="text-gray-400 text-sm">
+                <h3 className="text-white font-semibold mb-2 text-sm md:text-base">Share Your Link</h3>
+                <p className="text-gray-400 text-xs md:text-sm">
                   Share your unique referral link with friends via social media, email, or direct message.
                 </p>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 bg-[#00C2A8]/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <span className="text-[#00C2A8] font-bold text-xl">2</span>
+                <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: 'rgba(50, 211, 255, 0.2)' }}>
+                  <span className="font-bold text-xl" style={{ color: '#32D3FF' }}>2</span>
                 </div>
-                <h3 className="text-white font-semibold mb-2">Friend Signs Up</h3>
-                <p className="text-gray-400 text-sm">
+                <h3 className="text-white font-semibold mb-2 text-sm md:text-base">Friend Signs Up</h3>
+                <p className="text-gray-400 text-xs md:text-sm">
                   When they sign up using your link, they get 20% off their first month.
                 </p>
               </div>
               <div className="text-center">
-                <div className="w-12 h-12 bg-[#00C2A8]/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <span className="text-[#00C2A8] font-bold text-xl">3</span>
+                <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: 'rgba(50, 211, 255, 0.2)' }}>
+                  <span className="font-bold text-xl" style={{ color: '#32D3FF' }}>3</span>
                 </div>
-                <h3 className="text-white font-semibold mb-2">You Get Rewarded</h3>
-                <p className="text-gray-400 text-sm">
+                <h3 className="text-white font-semibold mb-2 text-sm md:text-base">You Get Rewarded</h3>
+                <p className="text-gray-400 text-xs md:text-sm">
                   You'll receive a 20% discount code to use on your next subscription renewal.
                 </p>
               </div>
@@ -334,11 +341,18 @@ const Referrals = ({ athleteId }) => {
 
         {/* Rewards Section */}
         {stats.availableRewards && stats.availableRewards.length > 0 ? (
-          <Card className="bg-gray-800 border-gray-700">
+          <Card className="border-0 shadow-lg" style={{ 
+            background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+            backdropFilter: 'blur(12px) saturate(140%)',
+            WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+            borderRadius: '8px'
+          }}>
             <CardHeader>
-              <CardTitle className="text-white text-xl">Your Available Rewards</CardTitle>
-              <p className="text-gray-400 text-sm mt-2">
-                You have <span className="font-bold text-[#00C2A8]">{stats.availableDiscount}%</span> discount available for your next renewal
+              <CardTitle className="text-white text-lg md:text-xl">Your Available Rewards</CardTitle>
+              <p className="text-gray-400 text-xs md:text-sm mt-2">
+                You have <span className="font-bold" style={{ color: '#32D3FF' }}>{stats.availableDiscount}%</span> discount available for your next renewal
                 {stats.availableDiscount >= 100 && <span className="text-yellow-400 ml-1">(Maximum reached! 🎉)</span>}
               </p>
             </CardHeader>
@@ -347,36 +361,43 @@ const Referrals = ({ athleteId }) => {
                 {stats.availableRewards.map((reward, index) => (
                   <div
                     key={index}
-                    className="flex justify-between items-center p-4 bg-green-900/20 border border-green-700 rounded-lg"
+                    className="flex justify-between items-center p-3 md:p-4 bg-green-900/20 border border-green-700 rounded-lg"
                   >
                     <div>
-                      <p className="font-semibold text-green-400">
+                      <p className="font-semibold text-green-400 text-sm md:text-base">
                         {reward.discount}% Discount
                       </p>
-                      <p className="text-sm text-gray-400">
+                      <p className="text-xs md:text-sm text-gray-400">
                         Expires: {new Date(reward.expires_at).toLocaleDateString()}
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="text-xs text-gray-400 mb-1">Applied automatically</p>
-                      <Badge className="bg-green-600 text-white">Ready to use</Badge>
+                      <Badge className="bg-green-600 text-white text-xs">Ready to use</Badge>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="mt-4 p-4 bg-blue-900/20 border border-blue-700 rounded-lg">
-                <p className="text-sm text-blue-300">
+              <div className="mt-4 p-3 md:p-4 bg-blue-900/20 border border-blue-700 rounded-lg">
+                <p className="text-xs md:text-sm text-blue-300">
                   💡 <strong>How it works:</strong> Your {stats.availableDiscount}% discount will be automatically applied at checkout on your next subscription renewal (max 100%).
                 </p>
               </div>
             </CardContent>
           </Card>
         ) : (
-          <Card className="bg-gray-800 border-gray-700">
-            <CardContent className="p-12 text-center">
-              <Gift className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-white text-xl font-semibold mb-2">No Rewards Yet</h3>
-              <p className="text-gray-400 mb-6">
+          <Card className="border-0 shadow-lg" style={{ 
+            background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+            backdropFilter: 'blur(12px) saturate(140%)',
+            WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+            borderRadius: '8px'
+          }}>
+            <CardContent className="p-8 md:p-12 text-center">
+              <Gift className="w-12 h-12 md:w-16 md:h-16 text-gray-600 mx-auto mb-4" />
+              <h3 className="text-white text-lg md:text-xl font-semibold mb-2">No Rewards Yet</h3>
+              <p className="text-gray-400 mb-6 text-sm md:text-base">
                 Start sharing your referral link to earn discount codes!
               </p>
               <Button
