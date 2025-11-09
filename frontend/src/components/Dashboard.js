@@ -597,7 +597,7 @@ const Dashboard = ({ athleteId }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-600 flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--grad-page)' }}>
       {/* Desktop Header */}
       <header className={`hidden md:block shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
         isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
