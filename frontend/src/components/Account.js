@@ -1036,6 +1036,38 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const handleBackgroundImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        setSaveStatus({ type: '', message: 'Compressing image...' });
+        
+        const compressedBlob = await compressImage(file);
+        
+        const filename = file.name.replace(/\.[^.]+$/, '.jpg');
+        const compressedFile = new File([compressedBlob], filename, { 
+          type: 'image/jpeg',
+          lastModified: Date.now()
+        });
+        setBackgroundImageFile(compressedFile);
+        
+        // Create preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setBackgroundImagePreview(e.target.result);
+        };
+        reader.readAsDataURL(compressedFile);
+        
+        setTimeout(() => {
+          setSaveStatus({ type: '', message: '' });
+        }, 1000);
+      } catch (error) {
+        console.error('Error processing background image:', error);
+        setSaveStatus({ type: 'error', message: 'Failed to process image. Please try a different image.' });
+      }
+    }
+  };
+
   const handleSavePersonalInfo = async (e) => {
     e.preventDefault();
     setIsLoading(true);
