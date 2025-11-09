@@ -2173,7 +2173,7 @@ const Nutrition = ({ athleteId }) => {
 
               {/* Image Upload/Camera */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   {t('nutrition.mealModal.addPhoto')}
                 </label>
                 
