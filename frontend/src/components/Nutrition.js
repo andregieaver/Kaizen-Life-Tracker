@@ -179,6 +179,17 @@ const Nutrition = ({ athleteId }) => {
     return formattedDate;
   };
 
+  // Get translated meal type label
+  const getMealTypeLabel = (mealType) => {
+    const mealTypeMap = {
+      'breakfast': t('nutrition.mealTypes.breakfast'),
+      'lunch': t('nutrition.mealTypes.lunch'),
+      'dinner': t('nutrition.mealTypes.dinner'),
+      'snack': t('nutrition.mealTypes.snack')
+    };
+    return mealTypeMap[mealType] || mealType;
+  };
+
   // Open modal for new entry
   const openNewEntryModal = () => {
     const { date, time } = getCurrentDateTime();
