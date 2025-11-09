@@ -2433,7 +2433,7 @@ const Nutrition = ({ athleteId }) => {
                     type="date"
                     value={supplementLogDate}
                     onChange={(e) => setSupplementLogDate(e.target.value)}
-                    className="w-full p-2 bg-gray-600 border border-gray-500 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    className="w-full p-2 bg-gray-600 border border-gray-500 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
                 <div className="space-y-2">
@@ -2442,7 +2442,7 @@ const Nutrition = ({ athleteId }) => {
                     type="time"
                     value={supplementLogTime}
                     onChange={(e) => setSupplementLogTime(e.target.value)}
-                    className="w-full p-2 bg-gray-600 border border-gray-500 text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    className="w-full p-2 bg-gray-600 border border-gray-500 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
               </div>
