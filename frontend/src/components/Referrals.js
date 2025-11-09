@@ -242,7 +242,12 @@ const Referrals = ({ athleteId }) => {
                   type="text"
                   value={stats.referralLink}
                   readOnly
-                  className="flex-1 px-3 py-3 border border-gray-700 rounded-lg bg-gray-900 text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#00C2A8] min-w-0"
+                  className="flex-1 px-3 py-3 border border-gray-700 rounded-lg bg-gray-900 text-white text-xs sm:text-sm focus:outline-none min-w-0"
+                  style={{ 
+                    '&:focus': { 
+                      boxShadow: '0 0 0 2px rgba(50, 211, 255, 0.5)'
+                    }
+                  }}
                 />
                 <Button
                   onClick={copyReferralLink}
