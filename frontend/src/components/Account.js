@@ -1361,19 +1361,6 @@ const Account = ({ athleteId }) => {
     await handleSimpleConnect('oura');
   };
 
-  const handleOuraCredentialsSuccess = async () => {
-    setShowOuraModal(false);
-    setSaveStatus({
-      type: 'success',
-      message: 'Oura credentials configured successfully! Now initiating connection...' 
-    });
-    
-    // After credentials are saved, proceed with OAuth
-    setTimeout(async () => {
-      await handleSimpleConnect('oura');
-    }, 1000);
-  };
-
   const handleDisconnectIntegration = async (integration) => {
     try {
       // Use new OAuth disconnect for Strava
