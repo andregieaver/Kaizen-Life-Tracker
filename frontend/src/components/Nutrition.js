@@ -2288,44 +2288,44 @@ const Nutrition = ({ athleteId }) => {
                   {(nutritionData.fiber > 0 || nutritionData.sodium > 0 || nutritionData.sugar > 0 || 
                     nutritionData.vitamin_a > 0 || nutritionData.vitamin_c > 0 || nutritionData.vitamin_d > 0 || 
                     nutritionData.calcium > 0 || nutritionData.iron > 0 || nutritionData.potassium > 0) && (
-                    <div className="mt-3 pt-3 border-t border-blue-200">
-                      <h5 className="text-sm font-semibold text-gray-800 mb-2">Micronutrients</h5>
-                      <div className="bg-white rounded-lg p-3 shadow-sm">
+                    <div className="mt-3 pt-3 border-t border-gray-600">
+                      <h5 className="text-sm font-semibold text-white mb-2">Micronutrients</h5>
+                      <div className="bg-gray-700 rounded-lg p-3">
                         <ul className="space-y-1 text-sm">
                           {nutritionData.fiber > 0 && (
                             <li className="flex justify-between">
-                              <span className="text-gray-600">Fiber:</span>
-                              <span className="font-medium text-gray-900">{nutritionData.fiber}g</span>
+                              <span className="text-gray-300">Fiber:</span>
+                              <span className="font-medium text-white">{nutritionData.fiber}g</span>
                             </li>
                           )}
                           {nutritionData.sugar > 0 && (
                             <li className="flex justify-between">
-                              <span className="text-gray-600">Sugar:</span>
-                              <span className="font-medium text-gray-900">{nutritionData.sugar}g</span>
+                              <span className="text-gray-300">Sugar:</span>
+                              <span className="font-medium text-white">{nutritionData.sugar}g</span>
                             </li>
                           )}
                           {nutritionData.sodium > 0 && (
                             <li className="flex justify-between">
-                              <span className="text-gray-600">Sodium:</span>
-                              <span className="font-medium text-gray-900">{nutritionData.sodium}mg</span>
+                              <span className="text-gray-300">Sodium:</span>
+                              <span className="font-medium text-white">{nutritionData.sodium}mg</span>
                             </li>
                           )}
                           {nutritionData.vitamin_a > 0 && (
                             <li className="flex justify-between">
-                              <span className="text-gray-600">Vitamin A:</span>
-                              <span className="font-medium text-gray-900">{nutritionData.vitamin_a}μg</span>
+                              <span className="text-gray-300">Vitamin A:</span>
+                              <span className="font-medium text-white">{nutritionData.vitamin_a}μg</span>
                             </li>
                           )}
                           {nutritionData.vitamin_c > 0 && (
                             <li className="flex justify-between">
-                              <span className="text-gray-600">Vitamin C:</span>
-                              <span className="font-medium text-gray-900">{nutritionData.vitamin_c}mg</span>
+                              <span className="text-gray-300">Vitamin C:</span>
+                              <span className="font-medium text-white">{nutritionData.vitamin_c}mg</span>
                             </li>
                           )}
                           {nutritionData.vitamin_d > 0 && (
                             <li className="flex justify-between">
-                              <span className="text-gray-600">Vitamin D:</span>
-                              <span className="font-medium text-gray-900">{nutritionData.vitamin_d}μg</span>
+                              <span className="text-gray-300">Vitamin D:</span>
+                              <span className="font-medium text-white">{nutritionData.vitamin_d}μg</span>
                             </li>
                           )}
                           {nutritionData.calcium > 0 && (
