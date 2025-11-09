@@ -3387,6 +3387,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 onEdit={handleOpenEditChallenge}
                 onClick={() => handleOpenChallengeDetail(challenge.id)}
                 isSuperAdmin={isSuperAdmin}
+                t={t}
               />
             ))}
           </div>
