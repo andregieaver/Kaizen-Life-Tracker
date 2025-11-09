@@ -2114,7 +2114,7 @@ const Nutrition = ({ athleteId }) => {
                       
                       {/* AI Analysis */}
                       {viewingEntry.ai_analysis && (
-                        <p className="text-xs text-gray-400 italic mt-3">AI: {viewingEntry.ai_analysis}</p>
+                        <p className="text-xs text-gray-400 italic mt-3">{t('nutrition.mealModal.aiPrefix')} {viewingEntry.ai_analysis}</p>
                       )}
                     </div>
                   )}
