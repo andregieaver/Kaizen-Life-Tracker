@@ -120,74 +120,109 @@ const Referrals = ({ athleteId }) => {
   }
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen py-6 px-2 md:py-10 md:px-8 pt-6 md:pt-10">
+      <div className="max-w-6xl mx-auto space-y-2 md:space-y-6">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-2 md:mb-4">
           <div className="flex items-center mb-2">
-            <Gift className="w-8 h-8 text-[#00C2A8] mr-3" />
-            <h1 className="text-3xl font-bold text-white">Referral Rewards</h1>
+            <Gift className="w-6 h-6 md:w-8 md:h-8 mr-3" style={{ color: '#32D3FF' }} />
+            <h1 className="text-2xl md:text-3xl font-bold text-white">Referral Rewards</h1>
           </div>
-          <p className="text-gray-400 ml-11">
+          <p className="text-gray-400 ml-9 md:ml-11 text-sm md:text-base">
             Share TrainSmart with friends and earn rewards! Get 20% off for each friend who signs up.
           </p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
           <Card className="bg-transparent border-none shadow-none">
-            <CardContent className="p-6 bg-gray-800 border border-gray-700 rounded-lg">
+            <CardContent className="p-4 md:p-6" style={{ 
+              background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+              backdropFilter: 'blur(12px) saturate(140%)',
+              WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+              borderRadius: '8px'
+            }}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm mb-1">Total Clicks</p>
-                  <p className="text-3xl font-bold text-white">{stats.totalClicks}</p>
+                  <p className="text-gray-400 text-xs md:text-sm mb-1">Total Clicks</p>
+                  <p className="text-2xl md:text-3xl font-bold text-white">{stats.totalClicks}</p>
                 </div>
-                <ExternalLink className="w-8 h-8 text-blue-400 opacity-50" />
+                <ExternalLink className="w-6 h-6 md:w-8 md:h-8 text-blue-400 opacity-50" />
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-transparent border-none shadow-none">
-            <CardContent className="p-6 bg-gray-800 border border-gray-700 rounded-lg">
+            <CardContent className="p-4 md:p-6" style={{ 
+              background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+              backdropFilter: 'blur(12px) saturate(140%)',
+              WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+              borderRadius: '8px'
+            }}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm mb-1">Conversions</p>
-                  <p className="text-3xl font-bold text-white">{stats.totalConversions}</p>
+                  <p className="text-gray-400 text-xs md:text-sm mb-1">Conversions</p>
+                  <p className="text-2xl md:text-3xl font-bold text-white">{stats.totalConversions}</p>
                 </div>
-                <UsersIcon className="w-8 h-8 text-green-400 opacity-50" />
+                <UsersIcon className="w-6 h-6 md:w-8 md:h-8 text-green-400 opacity-50" />
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-transparent border-none shadow-none">
-            <CardContent className="p-6 bg-gray-800 border border-gray-700 rounded-lg">
+            <CardContent className="p-4 md:p-6" style={{ 
+              background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+              backdropFilter: 'blur(12px) saturate(140%)',
+              WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+              borderRadius: '8px'
+            }}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm mb-1">Conversion Rate</p>
-                  <p className="text-3xl font-bold text-white">
+                  <p className="text-gray-400 text-xs md:text-sm mb-1">Conversion Rate</p>
+                  <p className="text-2xl md:text-3xl font-bold text-white">
                     {stats.conversionRate.toFixed(1)}%
                   </p>
                 </div>
-                <TrendingUp className="w-8 h-8 text-purple-400 opacity-50" />
+                <TrendingUp className="w-6 h-6 md:w-8 md:h-8 text-purple-400 opacity-50" />
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-transparent border-none shadow-none">
-            <CardContent className="p-6 bg-gray-800 border border-gray-700 rounded-lg">
+            <CardContent className="p-4 md:p-6" style={{ 
+              background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+              backdropFilter: 'blur(12px) saturate(140%)',
+              WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+              borderRadius: '8px'
+            }}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm mb-1">Available Discount</p>
-                  <p className="text-3xl font-bold text-white">{stats.availableDiscount || 0}%</p>
+                  <p className="text-gray-400 text-xs md:text-sm mb-1">Available Discount</p>
+                  <p className="text-2xl md:text-3xl font-bold text-white">{stats.availableDiscount || 0}%</p>
                 </div>
-                <Award className="w-8 h-8 text-[#00C2A8] opacity-50" />
+                <Award className="w-6 h-6 md:w-8 md:h-8 opacity-50" style={{ color: '#32D3FF' }} />
               </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Referral Link Section */}
-        <Card className="bg-gray-800 border-gray-700 mb-8">
+        <Card className="border-0 shadow-lg" style={{ 
+          background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+          backdropFilter: 'blur(12px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+          borderRadius: '8px'
+        }}>
           <CardHeader>
             <CardTitle className="text-white text-xl">Your Referral Link</CardTitle>
           </CardHeader>
