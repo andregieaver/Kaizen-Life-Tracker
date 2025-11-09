@@ -1587,6 +1587,8 @@ const Account = ({ athleteId }) => {
         className="account-tabs-switcher flex items-center space-x-2 p-2 relative mb-8"
         data-previous={previousAccountTab}
         style={{
+          '--bubble-left': '0px',
+          '--bubble-width': '100px',
           background: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
           backdropFilter: 'blur(8px) saturate(150%)',
           WebkitBackdropFilter: 'blur(8px) saturate(150%)',
