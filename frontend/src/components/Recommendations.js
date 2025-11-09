@@ -265,12 +265,9 @@ const Recommendations = ({ athleteId }) => {
               onClick={() => handleCardClick(recommendation)}
             >
               <CardContent className="p-4 md:p-6">
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
-                  {/* Mobile: Stack vertically, Desktop: Row layout */}
-                  <div className="flex items-start space-x-3 flex-1">
-                    <div className="mt-1 text-white flex-shrink-0">
-                      {getTypeIcon(recommendation.type)}
-                    </div>
+                <div className="flex flex-col gap-3">
+                  {/* Top row: Title and Badge */}
+                  <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
                         <h3 className="font-semibold text-white text-sm md:text-base">
@@ -285,26 +282,26 @@ const Recommendations = ({ athleteId }) => {
                         {formatTimeAgo(recommendation.generated_at)}
                       </div>
                     </div>
-                  </div>
-                  
-                  {/* Actions row - better mobile spacing */}
-                  <div className="flex items-center justify-between md:justify-end gap-2 md:gap-3 ml-9 md:ml-0">
+                    
+                    {/* Priority badge - upper right */}
                     <Badge 
-                      className={`${getPriorityColor(recommendation.priority)} border font-medium text-xs`}
+                      className={`${getPriorityColor(recommendation.priority)} border font-medium text-xs flex-shrink-0`}
                     >
                       {recommendation.priority}
                     </Badge>
-                    <div className="flex items-center gap-1">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={(e) => deleteRecommendation(recommendation.id, e)}
-                        className="text-red-400 hover:text-red-300 hover:bg-red-900/30 h-8 w-8 p-0"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                      <ChevronRight className="w-5 h-5 text-gray-400" />
-                    </div>
+                  </div>
+                  
+                  {/* Bottom row: Actions aligned right */}
+                  <div className="flex items-center justify-end gap-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={(e) => deleteRecommendation(recommendation.id, e)}
+                      className="text-red-400 hover:text-red-300 hover:bg-red-900/30 h-8 w-8 p-0"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                    <ChevronRight className="w-5 h-5 text-gray-400" />
                   </div>
                 </div>
               </CardContent>
