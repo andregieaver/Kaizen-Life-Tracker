@@ -2428,7 +2428,7 @@ const Nutrition = ({ athleteId }) => {
               {/* Date and Time */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white">Date</label>
+                  <label className="text-sm font-medium text-white">{t('nutrition.supplementModal.date')}</label>
                   <input
                     type="date"
                     value={supplementLogDate}
@@ -2437,7 +2437,7 @@ const Nutrition = ({ athleteId }) => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white">Time</label>
+                  <label className="text-sm font-medium text-white">{t('nutrition.supplementModal.time')}</label>
                   <input
                     type="time"
                     value={supplementLogTime}
@@ -2449,7 +2449,7 @@ const Nutrition = ({ athleteId }) => {
 
               {/* Supplements List */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white">Select Supplements</label>
+                <label className="text-sm font-medium text-white">{t('nutrition.supplementModal.supplements')}</label>
                 {supplements.length === 0 ? (
                   <div className="text-center py-8 text-gray-400">
                     <Pill className="w-8 h-8 mx-auto mb-2 opacity-50" />
