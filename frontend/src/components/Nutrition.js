@@ -1757,7 +1757,7 @@ const Nutrition = ({ athleteId }) => {
                   >
                     <img
                       src={entry.image_data}
-                      alt="Food"
+                      alt={t('nutrition.food')}
                       className="w-full h-full object-cover hover:scale-105 transition-transform"
                     />
                   </div>
