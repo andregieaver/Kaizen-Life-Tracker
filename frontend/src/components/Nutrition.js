@@ -1395,8 +1395,8 @@ const Nutrition = ({ athleteId }) => {
                             <div className="flex-1">
                               <div className="font-medium text-gray-900 text-sm">{supp.name}</div>
                               <div className="text-xs text-gray-600 mt-1">
-                                {viewType === 'week' && `${supp.count} time${supp.count > 1 ? 's' : ''} this week`}
-                                {viewType === 'day' && `${supp.count} time${supp.count > 1 ? 's' : ''} today`}
+                                {viewType === 'week' && `${supp.count} ${supp.count > 1 ? t('nutrition.times') : t('nutrition.time')} ${t('nutrition.thisWeek')}`}
+                                {viewType === 'day' && `${supp.count} ${supp.count > 1 ? t('nutrition.times') : t('nutrition.time')} ${t('nutrition.thisDay')}`}
                               </div>
                             </div>
                             <div className="text-right">
