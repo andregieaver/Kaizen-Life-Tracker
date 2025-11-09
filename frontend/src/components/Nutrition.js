@@ -1037,7 +1037,7 @@ const Nutrition = ({ athleteId }) => {
               {/* Title and Description */}
               <div className="flex-1">
                 <h3 className="text-lg text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
-                  {viewType === 'week' ? 'Daily Average' : 'Day Total'}
+                  {viewType === 'week' ? t('nutrition.dailyAverage') : 'Day Total'}
                 </h3>
                 <p className="text-gray-300" style={{ color: 'var(--text-med)' }}>
                   {viewType === 'week' 
