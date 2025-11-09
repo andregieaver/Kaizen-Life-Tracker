@@ -1714,10 +1714,10 @@ const Nutrition = ({ athleteId }) => {
                       </div>
                       <button
                         onClick={() => {
-                          if (window.confirm('Delete this supplement log?')) {
+                          if (window.confirm(t('nutrition.deleteSupplementLog'))) {
                             axios.delete(`${API}/supplement-logs/${entry.id}`)
                               .then(() => {
-                                setSaveStatus({ type: 'success', message: 'Supplement log deleted' });
+                                setSaveStatus({ type: 'success', message: t('nutrition.supplementLogDeleted') });
                                 loadSupplementLogs();
                               })
                               .catch(err => console.error('Error deleting log:', err));
