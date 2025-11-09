@@ -1230,6 +1230,9 @@ const Nutrition = ({ athleteId }) => {
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.sugar : dayStats.totals.sugar}g
                       </div>
+                      <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
+                        {calculateRDI('sugar', viewType === 'week' ? weekStats.dailyAverage.sugar : dayStats.totals.sugar)}% RDI
+                      </div>
                     </div>
                   )}
                   {((viewType === 'week' && weekStats.dailyAverage.sodium > 0) || (viewType === 'day' && dayStats.totals.sodium > 0)) && (
@@ -1237,6 +1240,9 @@ const Nutrition = ({ athleteId }) => {
                       <div className="text-xs text-gray-300">Sodium</div>
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.sodium : dayStats.totals.sodium}mg
+                      </div>
+                      <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
+                        {calculateRDI('sodium', viewType === 'week' ? weekStats.dailyAverage.sodium : dayStats.totals.sodium)}% RDI
                       </div>
                     </div>
                   )}
