@@ -2702,6 +2702,8 @@ const Account = ({ athleteId }) => {
                               setBackgroundImageFile(null);
                               setBackgroundImagePreview('');
                               setPersonalForm(prev => ({...prev, background_image: null}));
+                              // Clear from localStorage immediately
+                              localStorage.removeItem('app_background_image');
                             }}
                             className="ml-2 px-4 py-2 text-white rounded-lg hover:bg-red-700 transition-colors text-sm"
                             style={{ backgroundColor: '#dc2626' }}
