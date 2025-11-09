@@ -1118,7 +1118,7 @@ const Nutrition = ({ athleteId }) => {
                         onClick={goToCurrentWeek}
                         className="h-8 px-2 text-xs bg-gray-700 text-white border-0 hover:bg-gray-600"
                       >
-                        Today
+                        {t('nutrition.today')}
                       </Button>
                     )
                   ) : (
@@ -1128,7 +1128,7 @@ const Nutrition = ({ athleteId }) => {
                         onClick={goToToday}
                         className="h-8 px-2 text-xs bg-gray-700 text-white border-0 hover:bg-gray-600"
                       >
-                        Today
+                        {t('nutrition.today')}
                       </Button>
                     )
                   )}
