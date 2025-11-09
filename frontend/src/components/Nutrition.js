@@ -1523,7 +1523,7 @@ const Nutrition = ({ athleteId }) => {
                                 </Badge>
                               </div>
                               <h3 className="text-base line-clamp-2 text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
-                                {entry.description || 'No description'}
+                                {entry.description || t('nutrition.noDescription')}
                               </h3>
                               <p className="text-gray-300" style={{ color: 'var(--text-med)' }}>
                                 {formatDateTime(entry.entry_date || entry.created_at, entry.entry_time)}
