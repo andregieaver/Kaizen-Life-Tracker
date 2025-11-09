@@ -2503,7 +2503,10 @@ const Nutrition = ({ athleteId }) => {
                   Cancel
                 </Button>
                 <Button
-                  className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
+                  className="flex-1 text-white border-0"
+                  style={{ backgroundColor: '#32D3FF' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                   onClick={handleSaveSupplementLog}
                   disabled={selectedSupplements.length === 0}
                 >
