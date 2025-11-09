@@ -332,18 +332,24 @@ const HabitTracker = ({ athleteId }) => {
                         {!isComplete ? (
                           <Button
                             onClick={() => handleComplete(habit.id)}
-                            className="bg-green-600 hover:bg-green-700 min-w-[100px] border-0"
+                            className="min-w-[100px] border-0 text-white"
+                            style={{ 
+                              backgroundColor: '#32D3FF',
+                              '&:hover': { backgroundColor: '#1FC1FF' }
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                             size="lg"
                           >
                             <Plus className="w-5 h-5 mr-1" />
-                            Tap
+                            {t('habits.tap')}
                           </Button>
                         ) : (
                           <Button
                             onClick={() => handleUncomplete(habit.id)}
                             className="min-w-[100px] bg-gray-700 text-white border-0 hover:bg-gray-600"
                           >
-                            Undo
+                            {t('habits.undo')}
                           </Button>
                         )}
                         
