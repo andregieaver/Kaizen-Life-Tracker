@@ -574,6 +574,11 @@
   },
   "nutrition": {
     "title": "Nutrition Tracking",
+    "subtitle": "Track what you eat and drink",
+    "logSupplements": "Log Supplements",
+    "logMeal": "Log Meal",
+    "day": "Day",
+    "week": "Week",
     "mealTypes": {
       "breakfast": "Breakfast",
       "lunch": "Lunch",
@@ -603,6 +608,18 @@
       "vitaminD": "Vitamin D",
       "calcium": "Calcium",
       "iron": "Iron"
+    },
+    "supplementModal": {
+      "title": "Log Supplements",
+      "subtitle": "Select the supplements you took",
+      "date": "Date",
+      "time": "Time",
+      "supplements": "Supplements",
+      "noSupplementsConfigured": "No supplements configured yet",
+      "goToSupplements": "Go to Supplements page to add supplements",
+      "notes": "Notes (Optional)",
+      "cancel": "Cancel",
+      "saveLog": "Save Log"
     }
   },
   "habits": {
