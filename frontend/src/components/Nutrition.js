@@ -1252,6 +1252,9 @@ const Nutrition = ({ athleteId }) => {
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.vitamin_a : dayStats.totals.vitamin_a}μg
                       </div>
+                      <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
+                        {calculateRDI('vitamin_a', viewType === 'week' ? weekStats.dailyAverage.vitamin_a : dayStats.totals.vitamin_a)}% RDI
+                      </div>
                     </div>
                   )}
                   {((viewType === 'week' && weekStats.dailyAverage.vitamin_c > 0) || (viewType === 'day' && dayStats.totals.vitamin_c > 0)) && (
@@ -1259,6 +1262,9 @@ const Nutrition = ({ athleteId }) => {
                       <div className="text-xs text-gray-300">Vitamin C</div>
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.vitamin_c : dayStats.totals.vitamin_c}mg
+                      </div>
+                      <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
+                        {calculateRDI('vitamin_c', viewType === 'week' ? weekStats.dailyAverage.vitamin_c : dayStats.totals.vitamin_c)}% RDI
                       </div>
                     </div>
                   )}
@@ -1268,6 +1274,9 @@ const Nutrition = ({ athleteId }) => {
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.vitamin_d : dayStats.totals.vitamin_d}μg
                       </div>
+                      <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
+                        {calculateRDI('vitamin_d', viewType === 'week' ? weekStats.dailyAverage.vitamin_d : dayStats.totals.vitamin_d)}% RDI
+                      </div>
                     </div>
                   )}
                   {((viewType === 'week' && weekStats.dailyAverage.calcium > 0) || (viewType === 'day' && dayStats.totals.calcium > 0)) && (
@@ -1275,6 +1284,9 @@ const Nutrition = ({ athleteId }) => {
                       <div className="text-xs text-gray-300">Calcium</div>
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.calcium : dayStats.totals.calcium}mg
+                      </div>
+                      <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
+                        {calculateRDI('calcium', viewType === 'week' ? weekStats.dailyAverage.calcium : dayStats.totals.calcium)}% RDI
                       </div>
                     </div>
                   )}
@@ -1284,6 +1296,9 @@ const Nutrition = ({ athleteId }) => {
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.iron : dayStats.totals.iron}mg
                       </div>
+                      <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
+                        {calculateRDI('iron', viewType === 'week' ? weekStats.dailyAverage.iron : dayStats.totals.iron)}% RDI
+                      </div>
                     </div>
                   )}
                   {((viewType === 'week' && weekStats.dailyAverage.potassium > 0) || (viewType === 'day' && dayStats.totals.potassium > 0)) && (
@@ -1291,6 +1306,9 @@ const Nutrition = ({ athleteId }) => {
                       <div className="text-xs text-gray-300">Potassium</div>
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.potassium : dayStats.totals.potassium}mg
+                      </div>
+                      <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
+                        {calculateRDI('potassium', viewType === 'week' ? weekStats.dailyAverage.potassium : dayStats.totals.potassium)}% RDI
                       </div>
                     </div>
                   )}
