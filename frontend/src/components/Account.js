@@ -758,6 +758,11 @@ const Account = ({ athleteId }) => {
         setCoachAvatarPreview(athleteRes.data.coach_avatar);
       }
       
+      // Set background image preview if available
+      if (athleteRes.data.background_image) {
+        setBackgroundImagePreview(athleteRes.data.background_image);
+      }
+      
       // Load integrations data from backend
       try {
         // Load from new OAuth status and legacy integrations
