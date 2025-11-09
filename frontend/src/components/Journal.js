@@ -836,7 +836,7 @@ const Journal = ({ athleteId }) => {
                           className="w-full bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                         >
                           <Video className="w-4 h-4 mr-2" />
-                          Record Again
+                          {t('journal.recordAgain')}
                         </Button>
                       </div>
                     </>
