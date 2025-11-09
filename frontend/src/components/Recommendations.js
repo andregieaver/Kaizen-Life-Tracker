@@ -151,7 +151,7 @@ const Recommendations = ({ athleteId }) => {
   }
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto space-y-2 md:space-y-6 pt-2 md:pt-6">
+    <div className="w-full max-w-[1600px] mx-auto space-y-2 md:space-y-6 pt-6 md:pt-10 px-2 md:px-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
