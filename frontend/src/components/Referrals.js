@@ -16,7 +16,8 @@ const Referrals = ({ athleteId }) => {
   const [error, setError] = useState(null);
   const [copySuccess, setCopySuccess] = useState(false);
   const [referralCode, setReferralCode] = useState('');
-  const [siteTitle, setSiteTitle] = useState('TrainSmart');
+  const [siteTitle, setSiteTitle] = useState('');
+  const [settingsLoaded, setSettingsLoaded] = useState(false);
 
   useEffect(() => {
     loadSiteSettings();
@@ -29,9 +30,14 @@ const Referrals = ({ athleteId }) => {
       const seo = response.data.find(s => s.category === 'seo');
       if (seo?.siteTitle) {
         setSiteTitle(seo.siteTitle);
+      } else {
+        setSiteTitle('TrainSmart');
       }
+      setSettingsLoaded(true);
     } catch (err) {
       console.error('Error loading site settings:', err);
+      setSiteTitle('TrainSmart');
+      setSettingsLoaded(true);
     }
   };
 
