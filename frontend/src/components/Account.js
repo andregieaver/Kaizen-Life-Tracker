@@ -3637,14 +3637,6 @@ const Account = ({ athleteId }) => {
         onClose={() => setShowStravaModal(false)}
         onSuccess={handleStravaCredentialsSuccess}
       />
-
-      {/* Oura Credentials Modal */}
-      <OuraCredentialsModal
-        athleteId={athleteId}
-        isOpen={showOuraModal}
-        onClose={() => setShowOuraModal(false)}
-        onSuccess={handleOuraCredentialsSuccess}
-      />
     </div>
   );
 };
