@@ -552,6 +552,22 @@
       "notes": "Notater (valgfritt)",
       "cancel": "Avbryt",
       "saveLog": "Lagre logg"
+    },
+    "noEntriesThisWeek": "Ingen oppføringer denne uken",
+    "startTrackingMealsAndSupplements": "Begynn å logge måltidene og kosttilskuddene dine",
+    "mealModal": {
+      "title": "Logg måltid eller drikke",
+      "subtitle": "Legg til hva du spiste eller drakk",
+      "mealType": "Måltidstype",
+      "date": "Dato",
+      "time": "Tid",
+      "description": "Beskrivelse",
+      "descriptionPlaceholder": "Hva spiste du? (f.eks. Havregrøt med bær, Kyllingsalat)",
+      "addPhoto": "Legg til bilde (valgfritt)",
+      "uploadPhoto": "Last opp bilde",
+      "takePhoto": "Ta bilde",
+      "imageCompression": "Bilder automatisk komprimert • JPG, PNG, WEBP",
+      "snacks": "Snacks"
     }
   },
   "dashboard": {
