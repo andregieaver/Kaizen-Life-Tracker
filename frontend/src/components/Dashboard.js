@@ -840,8 +840,15 @@ const Dashboard = ({ athleteId }) => {
               {moduleSettings.affiliateProgram.enabled && (
                 <button 
                   onClick={() => navigate('/dashboard/referrals')}
-                  className="p-2 rounded-lg transition-all duration-200 active:scale-95"
-                  style={{ background: 'var(--grad-cta-soft)' }}
+                  className="p-2 transition-all duration-200 active:scale-95"
+                  style={{ 
+                    background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+                    backdropFilter: 'blur(12px) saturate(140%)',
+                    WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.2)',
+                    borderRadius: '8px'
+                  }}
                   aria-label="Referrals"
                 >
                   <Gift className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
@@ -850,8 +857,15 @@ const Dashboard = ({ athleteId }) => {
               {moduleSettings.community.enabled && (
                 <button 
                   onClick={() => activeTab === 'community' ? navigate('/dashboard') : navigate('/dashboard/community')}
-                  className="p-2 rounded-lg transition-all duration-200 active:scale-95 relative"
-                  style={{ background: 'var(--grad-cta-soft)' }}
+                  className="p-2 transition-all duration-200 active:scale-95 relative"
+                  style={{ 
+                    background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+                    backdropFilter: 'blur(12px) saturate(140%)',
+                    WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.2)',
+                    borderRadius: '8px'
+                  }}
                   aria-label={activeTab === 'community' ? 'Dashboard' : 'Community'}
                   title={activeTab === 'community' ? 'Back to Dashboard' : 'Community'}
                 >
@@ -865,8 +879,15 @@ const Dashboard = ({ athleteId }) => {
               {moduleSettings.community.enabled && (
                 <button 
                   onClick={() => setShowNotifications(!showNotifications)}
-                  className="p-2 rounded-lg transition-all duration-200 active:scale-95 relative"
-                  style={{ background: 'var(--grad-cta-soft)' }}
+                  className="p-2 transition-all duration-200 active:scale-95 relative"
+                  style={{ 
+                    background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+                    backdropFilter: 'blur(12px) saturate(140%)',
+                    WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.2)',
+                    borderRadius: '8px'
+                  }}
                   aria-label="Notifications"
                   title={t('dashboard.modals.notifications')}
                 >
@@ -880,8 +901,15 @@ const Dashboard = ({ athleteId }) => {
               )}
               <button 
                 onClick={() => setIsMenuOpen(true)}
-                className="p-2 rounded-lg transition-all duration-200 active:scale-95"
-                style={{ background: 'var(--grad-cta-soft)' }}
+                className="p-2 transition-all duration-200 active:scale-95"
+                style={{ 
+                  background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+                  backdropFilter: 'blur(12px) saturate(140%)',
+                  WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.2)',
+                  borderRadius: '8px'
+                }}
                 aria-label="Open menu"
               >
                 <Menu className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
