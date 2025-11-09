@@ -2467,7 +2467,8 @@ const Nutrition = ({ athleteId }) => {
                           type="checkbox"
                           checked={selectedSupplements.includes(supplement.id)}
                           onChange={() => handleSupplementToggle(supplement.id)}
-                          className="mt-1 h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-500 rounded"
+                          className="mt-1 h-4 w-4 border-gray-500 rounded"
+                          style={{ color: '#32D3FF' }}
                         />
                         <div className="flex-1">
                           <div className="font-medium text-white">{supplement.name}</div>
@@ -2488,7 +2489,7 @@ const Nutrition = ({ athleteId }) => {
                   value={supplementNotes}
                   onChange={(e) => setSupplementNotes(e.target.value)}
                   placeholder={t('placeholders.additionalNotes')}
-                  className="w-full h-20 p-3 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
+                  className="w-full h-20 p-3 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                 />
               </div>
 
