@@ -1151,7 +1151,7 @@ const Nutrition = ({ athleteId }) => {
                     <span className="text-xs bg-gray-700 text-white px-2 py-0.5 rounded-full">{t('nutrition.currentWeek')}</span>
                   )}
                   {viewType === 'day' && isToday(currentDay) && (
-                    <span className="text-xs bg-gray-700 text-white px-2 py-0.5 rounded-full">Today</span>
+                    <span className="text-xs bg-gray-700 text-white px-2 py-0.5 rounded-full">{t('nutrition.today')}</span>
                   )}
                 </div>
               </div>
