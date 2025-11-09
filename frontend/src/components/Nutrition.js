@@ -1456,7 +1456,7 @@ const Nutrition = ({ athleteId }) => {
                               <div className="flex items-center space-x-2 mb-1">
                                 <Badge className="bg-purple-100 text-purple-800 border-purple-200">
                                   <Pill className="w-3 h-3 mr-1" />
-                                  Supplements
+                                  {t('nutrition.supplements')}
                                 </Badge>
                               </div>
                               <h3 className="text-base text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
