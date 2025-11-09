@@ -859,7 +859,7 @@ const Journal = ({ athleteId }) => {
                   }}
                   disabled={isProcessingVideo}
                 >
-                  Cancel
+                  {t('journal.cancel')}
                 </Button>
                 <Button
                   className="flex-1 text-white border-0"
