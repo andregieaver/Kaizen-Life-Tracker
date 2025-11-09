@@ -748,7 +748,13 @@ const Journal = ({ athleteId }) => {
                               <Video className="w-10 h-10 text-white" />
                             </div>
                             <p className="text-gray-300 mb-4">Click to start video recording</p>
-                            <Button onClick={startVideoRecording} className="bg-teal-600 hover:bg-teal-700 text-white">
+                            <Button 
+                              onClick={startVideoRecording} 
+                              className="text-white border-0"
+                              style={{ backgroundColor: '#32D3FF' }}
+                              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
+                            >
                               <Video className="w-4 h-4 mr-2" />
                               Start Recording
                             </Button>
