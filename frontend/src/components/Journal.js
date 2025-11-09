@@ -797,7 +797,7 @@ const Journal = ({ athleteId }) => {
                         {videoTranscription && (
                           <div>
                             <label className="block text-sm font-medium text-white mb-2">
-                              Transcription (Editable)
+                              {t('journal.transcriptionEditable')}
                             </label>
                             <textarea
                               value={videoTranscription}
