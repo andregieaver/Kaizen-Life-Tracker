@@ -731,7 +731,7 @@ const Journal = ({ athleteId }) => {
                               muted
                               className="w-full max-w-md rounded-lg mb-4"
                             />
-                            <p className="text-lg font-semibold text-white mb-2">Recording...</p>
+                            <p className="text-lg font-semibold text-white mb-2">{t('journal.recording')}</p>
                             <p className="text-3xl font-mono text-red-400 mb-4">{recordingTime}s</p>
                             <Button
                               onClick={stopVideoRecording}
