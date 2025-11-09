@@ -448,7 +448,20 @@ const Journal = ({ athleteId }) => {
       ) : (
         <div className="space-y-4">
           {entries.map((entry) => (
-            <div key={entry.id} className="hover:shadow-lg transition-shadow border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+            <div 
+              key={entry.id} 
+              className="hover:shadow-lg transition-shadow border-0 shadow-lg overflow-hidden mx-4 my-3"
+              style={{ 
+                background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+                backdropFilter: 'blur(8px) saturate(150%)',
+                WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+                borderRadius: '8px',
+                boxShadow: `
+                  inset 0 1px 1px rgba(255, 255, 255, 0.1),
+                  0 2px 8px rgba(0, 0, 0, 0.3)
+                `
+              }}
+            >
               <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
