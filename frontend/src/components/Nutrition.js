@@ -2232,8 +2232,10 @@ const Nutrition = ({ athleteId }) => {
                       </button>
                     </div>
                     <Button
-                      variant="outline"
-                      className="w-full mt-3"
+                      className="w-full mt-3 text-white border-0"
+                      style={{ backgroundColor: '#32D3FF' }}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                       onClick={() => analyzeFoodImage(imageData, description)}
                       disabled={isAnalyzing}
                     >
