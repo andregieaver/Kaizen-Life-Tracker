@@ -2412,7 +2412,7 @@ const Nutrition = ({ athleteId }) => {
           <div className="w-full max-w-md max-h-[90vh] overflow-y-auto relative z-50 rounded-none md:rounded-3xl border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
             <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
-                <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Log Supplements</h3>
+                <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('nutrition.supplementModal.title')}</h3>
                 <button
                   onClick={() => setShowSupplementModal(false)}
                   className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-white"
@@ -2421,7 +2421,7 @@ const Nutrition = ({ athleteId }) => {
                 </button>
               </div>
               <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>
-                Select the supplements you took
+                {t('nutrition.supplementModal.subtitle')}
               </p>
             </div>
             <div className="p-6 space-y-4">
