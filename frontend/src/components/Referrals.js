@@ -82,7 +82,7 @@ const Referrals = ({ athleteId }) => {
 
   const shareOnX = () => {
     const text = encodeURIComponent(
-      `Join me on TrainSmart and get 20% off your first month! ${stats.referralLink}`
+      t('referrals.shareMessage', { appName: siteTitle, link: stats.referralLink })
     );
     window.open(
       `https://twitter.com/intent/tweet?text=${text}`,
@@ -98,12 +98,9 @@ const Referrals = ({ athleteId }) => {
   };
 
   const shareViaEmail = () => {
-    const subject = encodeURIComponent('Try TrainSmart with 20% off!');
+    const subject = encodeURIComponent(t('referrals.emailSubject', { appName: siteTitle }));
     const body = encodeURIComponent(
-      `I've been using TrainSmart and thought you might like it too!\n\n` +
-      `Sign up using my referral link to get 20% off your first month:\n` +
-      `${stats.referralLink}\n\n` +
-      `Happy training!`
+      t('referrals.emailBody', { appName: siteTitle, link: stats.referralLink })
     );
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   };
