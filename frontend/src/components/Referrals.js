@@ -111,7 +111,7 @@ const Referrals = ({ athleteId }) => {
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   };
 
-  if (loading) {
+  if (loading || !settingsLoaded) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--grad-page)' }}>
         <div className="text-center">
