@@ -967,7 +967,7 @@ const Nutrition = ({ athleteId }) => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-white">Nutrition Log</h1>
-          <p className="text-gray-300 mt-1">Track what you eat and drink</p>
+          <p className="text-gray-300 mt-1">{t('nutrition.subtitle')}</p>
         </div>
         <div className="flex gap-2 flex-wrap">
           <Button 
@@ -978,7 +978,7 @@ const Nutrition = ({ athleteId }) => {
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
           >
             <Pill className="w-4 h-4 mr-2" />
-            <span className="hidden sm:inline">Log </span>Supplements
+            {t('nutrition.logSupplements')}
           </Button>
           <Button 
             onClick={openNewEntryModal} 
@@ -988,7 +988,7 @@ const Nutrition = ({ athleteId }) => {
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
           >
             <Plus className="w-4 h-4 mr-2" />
-            <span className="hidden sm:inline">Log </span>Meal
+            {t('nutrition.logMeal')}
           </Button>
         </div>
       </div>
