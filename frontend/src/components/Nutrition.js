@@ -1943,7 +1943,7 @@ const Nutrition = ({ athleteId }) => {
             <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
               <div className="flex items-center justify-between">
                 <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
-                  {viewMode ? 'Meal Details' : (editingEntry ? 'Edit Meal or Drink' : t('nutrition.mealModal.title'))}
+                  {viewMode ? t('nutrition.mealModal.viewTitle') : (editingEntry ? t('nutrition.mealModal.editTitle') : t('nutrition.mealModal.title'))}
                 </h3>
                 <button
                   onClick={() => {
