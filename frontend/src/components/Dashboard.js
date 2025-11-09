@@ -1208,7 +1208,7 @@ const Dashboard = ({ athleteId }) => {
           : 'w-full max-w-[1600px] mx-auto px-0 sm:px-6 lg:px-8 pt-16 md:pt-24 pb-24 md:pb-8'
       }>
         {activeTab === 'overview' && (
-          <div className="space-y-0 md:space-y-6">
+          <div className="space-y-2 md:space-y-6">
             {/* Quick Actions Grid - Redesigned */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3">
               {/* Weekly Menu */}
