@@ -637,7 +637,15 @@
       "takePhoto": "Take Photo",
       "imageCompression": "Images automatically compressed • JPG, PNG, WEBP",
       "snacks": "Snacks"
-    }
+    },
+    "dailyAverage": "Daily Average",
+    "dayTracked": "day tracked",
+    "daysTracked": "days tracked",
+    "perDay": "per day",
+    "currentWeek": "Current Week",
+    "macronutrients": "Macronutrients",
+    "micronutrients": "Micronutrients",
+    "rdi": "RDI"
   },
   "habits": {
     "title": "Habit Tracker",
