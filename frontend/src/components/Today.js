@@ -12,6 +12,7 @@ import {
   AlertCircle,
   Flame
 } from 'lucide-react';
+import { formatDate as formatDateUtil } from '../utils/formatters';
 
 const API = process.env.REACT_APP_BACKEND_URL ? `${process.env.REACT_APP_BACKEND_URL}/api` : 'http://localhost:8001/api';
 
