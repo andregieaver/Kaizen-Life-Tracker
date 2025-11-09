@@ -250,7 +250,6 @@ const Account = ({ athleteId }) => {
   const [upgradeTarget, setUpgradeTarget] = useState(null);
   const [selectedBillingCycle, setSelectedBillingCycle] = useState('monthly');
   const [showStravaModal, setShowStravaModal] = useState(false);
-  const [showOuraModal, setShowOuraModal] = useState(false);
   const [profilePictureFile, setProfilePictureFile] = useState(null);
   const [profilePicturePreview, setProfilePicturePreview] = useState('');
   const [coachAvatarFile, setCoachAvatarFile] = useState(null);
