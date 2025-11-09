@@ -2134,7 +2134,7 @@ const Nutrition = ({ athleteId }) => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Date
+                      {t('nutrition.mealModal.date')}
                     </label>
                     <input
                       type="date"
@@ -2145,7 +2145,7 @@ const Nutrition = ({ athleteId }) => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Time
+                      {t('nutrition.mealModal.time')}
                     </label>
                     <input
                       type="time"
@@ -2160,7 +2160,7 @@ const Nutrition = ({ athleteId }) => {
               {/* Description */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Description
+                  {t('nutrition.mealModal.description')}
                 </label>
                 <textarea
                   value={description}
