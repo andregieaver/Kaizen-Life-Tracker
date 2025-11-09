@@ -1270,7 +1270,7 @@ const Account = ({ athleteId }) => {
         voice_preference: personalForm.voice_preference,
         coach_name: personalForm.coach_name,
         coach_avatar: newCoachAvatar || personalForm.coach_avatar,
-        background_image: newBackgroundImage || personalForm.background_image
+        background_image: newBackgroundImage !== null ? newBackgroundImage : personalForm.background_image
       };
       
       const response = await axios.put(`${API}/athlete/${athleteId}`, updatedData);
