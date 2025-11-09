@@ -101,7 +101,6 @@ const Today = ({ athleteId }) => {
     };
     
     // Get weekday name based on locale
-    const { i18n } = useTranslation();
     const weekday = today.toLocaleDateString(i18n.language, { weekday: 'long' });
     
     // Get formatted date based on user's preference
