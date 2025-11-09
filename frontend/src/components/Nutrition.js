@@ -8,6 +8,26 @@ import { Plus, Camera, Upload, Trash2, Edit3, Utensils, Coffee, UtensilsCrossed,
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 const API = `${BACKEND_URL}/api`;
 
+// RDI (Recommended Daily Intake) values for adults
+const RDI_VALUES = {
+  fiber: 28, // grams
+  sodium: 2300, // mg
+  sugar: 50, // grams (max recommended)
+  vitamin_a: 900, // mcg
+  vitamin_c: 90, // mg
+  vitamin_d: 20, // mcg
+  calcium: 1000, // mg
+  iron: 18, // mg
+  potassium: 3500 // mg
+};
+
+// Calculate RDI percentage
+const calculateRDI = (nutrient, value) => {
+  const rdi = RDI_VALUES[nutrient];
+  if (!rdi || !value) return 0;
+  return Math.round((value / rdi) * 100);
+};
+
 const Nutrition = ({ athleteId }) => {
   const { t } = useTranslation();
   const [entries, setEntries] = useState([]);
