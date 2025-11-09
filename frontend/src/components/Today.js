@@ -261,10 +261,16 @@ const Today = ({ athleteId }) => {
                 ))}
               </div>
             ) : (
-              <div className="p-6 text-center bg-gray-600 rounded-lg border border-gray-500">
-                <Activity className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                <p className="text-sm text-gray-300">{t('today.noWorkoutsToday')}</p>
-                <p className="text-xs text-gray-400 mt-1">{t('today.connectStravaOrLogManually')}</p>
+              <div className="p-6 text-center rounded-lg" style={{
+                background: 'color-mix(in srgb, var(--c-glass) 8%, transparent)',
+                backdropFilter: 'blur(8px) saturate(120%)',
+                WebkitBackdropFilter: 'blur(8px) saturate(120%)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                boxShadow: 'inset 0 1px 2px rgba(255, 255, 255, 0.05), 0 4px 12px rgba(0, 0, 0, 0.15)'
+              }}>
+                <Activity className="w-12 h-12 mx-auto mb-2" style={{ color: 'var(--text-muted)' }} />
+                <p className="text-sm" style={{ color: 'var(--text-med)' }}>{t('today.noWorkoutsToday')}</p>
+                <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>{t('today.connectStravaOrLogManually')}</p>
               </div>
             )}
           </div>
