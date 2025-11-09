@@ -2352,10 +2352,9 @@ const Nutrition = ({ athleteId }) => {
               )}
 
               {/* Action Buttons */}
-              <div className="flex gap-2 pt-4">
+              <div className="flex gap-2 pt-4 pb-24">
                 <Button
-                  variant="outline"
-                  className="flex-1"
+                  className="flex-1 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                   onClick={() => {
                     setShowModal(false);
                     setViewMode(false);
@@ -2371,7 +2370,10 @@ const Nutrition = ({ athleteId }) => {
                   Cancel
                 </Button>
                 <Button
-                  className="flex-1"
+                  className="flex-1 text-white border-0"
+                  style={{ backgroundColor: '#32D3FF' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                   onClick={handleSaveEntry}
                   disabled={!description.trim()}
                 >
