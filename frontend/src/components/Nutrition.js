@@ -2453,8 +2453,8 @@ const Nutrition = ({ athleteId }) => {
                 {supplements.length === 0 ? (
                   <div className="text-center py-8 text-gray-400">
                     <Pill className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                    <p className="text-sm">No supplements registered</p>
-                    <p className="text-xs mt-1">Add supplements in the Supplements page first</p>
+                    <p className="text-sm">{t('nutrition.supplementModal.noSupplementsConfigured')}</p>
+                    <p className="text-xs mt-1">{t('nutrition.supplementModal.goToSupplements')}</p>
                   </div>
                 ) : (
                   <div className="space-y-2 max-h-64 overflow-y-auto border border-gray-600 rounded-lg p-3 bg-gray-700">
