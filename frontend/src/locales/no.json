@@ -574,6 +574,12 @@
     "startTracking": "Begynn å bygge vaner for å forbedre rutinen din",
     "tap": "Trykk",
     "undo": "Angre",
+    "today": "I dag",
+    "goal": "Mål",
+    "otherHabits": "Andre vaner",
+    "perDay": "per dag",
+    "complete": "Fullført",
+    "daysPerWeek": "dager per uke",
     "daysOfWeek": {
       "monday": "Mandag",
       "tuesday": "Tirsdag",
