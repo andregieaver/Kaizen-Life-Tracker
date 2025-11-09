@@ -4703,7 +4703,7 @@ const SystemSettings = ({ athleteId }) => {
                       </label>
                       <input
                         type="text"
-                        placeholder="e.g., multilingual-app-27.preview.emergentagent.com or kaizenlifetracker.com"
+                        placeholder="e.g., kaizenlifetracker.com"
                         className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                         value={advancedSettings.oura.callbackDomain}
                         onChange={(e) => setAdvancedSettings(prev => ({
@@ -4712,7 +4712,7 @@ const SystemSettings = ({ athleteId }) => {
                         }))}
                       />
                       <p className="text-xs text-gray-400 mt-1">
-                        Enter the domain without https:// (for development: use your preview domain, for production: kaizenlifetracker.com)
+                        Enter only the domain without https:// or paths (e.g., kaizenlifetracker.com)
                       </p>
                     </div>
 
