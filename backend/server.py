@@ -2830,11 +2830,11 @@ class OuraTokenManager:
         if not oura_config.get("clientId") or not oura_config.get("clientSecret"):
             raise HTTPException(status_code=404, detail="Oura Client ID or Secret missing")
         
-        callback_domain = oura_config.get("callbackDomain", "myhealthtracker.app")
+        callback_domain = oura_config.get("callbackDomain", "kaizenlifetracker.com")
         return {
             "client_id": oura_config["clientId"],
             "client_secret": oura_config["clientSecret"],
-            "redirect_uri": f"https://{callback_domain}/oura/callback"
+            "redirect_uri": f"https://{callback_domain}/api/auth/oura/callback"
         }
         
     async def exchange_code_for_tokens(self, auth_code: str) -> Dict[str, Any]:
