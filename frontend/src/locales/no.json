@@ -506,6 +506,11 @@
   },
   "nutrition": {
     "title": "Ernæringssporing",
+    "subtitle": "Spor hva du spiser og drikker",
+    "logSupplements": "Logg tilskudd",
+    "logMeal": "Logg måltid",
+    "day": "Dag",
+    "week": "Uke",
     "mealTypes": {
       "breakfast": "Frokost",
       "lunch": "Lunsj",
@@ -535,6 +540,18 @@
       "vitaminD": "Vitamin D",
       "calcium": "Kalsium",
       "iron": "Jern"
+    },
+    "supplementModal": {
+      "title": "Logg tilskudd",
+      "subtitle": "Velg tilskuddene du tok",
+      "date": "Dato",
+      "time": "Tid",
+      "supplements": "Tilskudd",
+      "noSupplementsConfigured": "Ingen tilskudd konfigurert ennå",
+      "goToSupplements": "Gå til Tilskudd-siden for å legge til tilskudd",
+      "notes": "Notater (valgfritt)",
+      "cancel": "Avbryt",
+      "saveLog": "Lagre logg"
     }
   },
   "dashboard": {
