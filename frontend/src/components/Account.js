@@ -1288,6 +1288,16 @@ const Account = ({ athleteId }) => {
       setBackgroundImageFile(null);
       if (newBackgroundImage) {
         setBackgroundImagePreview(newBackgroundImage);
+        // Store in localStorage for immediate app-wide update
+        localStorage.setItem('app_background_image', newBackgroundImage);
+      }
+      
+      // Update localStorage with current background image
+      const currentBgImage = newBackgroundImage || personalForm.background_image;
+      if (currentBgImage) {
+        localStorage.setItem('app_background_image', currentBgImage);
+      } else {
+        localStorage.removeItem('app_background_image');
       }
       
       setSaveStatus({ type: 'success', message: 'Preferences updated successfully!' });
