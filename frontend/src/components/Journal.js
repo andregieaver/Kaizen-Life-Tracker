@@ -819,9 +819,9 @@ const Journal = ({ athleteId }) => {
                               style={{ color: '#32D3FF' }}
                             />
                             <label htmlFor="burnSubtitles" className="text-white cursor-pointer flex-1">
-                              <span className="font-medium">Burn subtitles into video</span>
+                              <span className="font-medium">{t('journal.burnSubtitles')}</span>
                               <p className="text-sm text-gray-400 mt-1">
-                                Add permanent white subtitles with black background to the video file
+                                {t('journal.burnSubtitlesDescription')}
                               </p>
                             </label>
                           </div>
