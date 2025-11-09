@@ -165,14 +165,15 @@ const Nutrition = ({ athleteId }) => {
     if (!dateString) return '';
     
     const date = new Date(dateString);
-    const formattedDate = date.toLocaleDateString('en-US', {
+    const locale = i18n.language === 'no' ? 'no-NO' : 'en-US';
+    const formattedDate = date.toLocaleDateString(locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric'
     });
     
     if (timeString) {
-      return `${formattedDate} at ${formatTime(timeString)}`;
+      return `${formattedDate} ${t('nutrition.at')} ${formatTime(timeString)}`;
     }
     
     return formattedDate;
