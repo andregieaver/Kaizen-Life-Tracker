@@ -2262,7 +2262,19 @@ const Nutrition = ({ athleteId }) => {
               )}
               
               {nutritionData && nutritionData.calories > 0 && !isAnalyzing && (
-                <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
+                <div 
+                  className="mx-4 rounded-lg p-4"
+                  style={{ 
+                    background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+                    backdropFilter: 'blur(8px) saturate(150%)',
+                    WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+                    borderRadius: '8px',
+                    boxShadow: `
+                      inset 0 1px 1px rgba(255, 255, 255, 0.1),
+                      0 2px 8px rgba(0, 0, 0, 0.3)
+                    `
+                  }}
+                >
                   <div className="flex items-center mb-3">
                     <div className="flex-1">
                       <h4 className="font-semibold text-white">AI Nutritional Analysis</h4>
@@ -2272,19 +2284,51 @@ const Nutrition = ({ athleteId }) => {
                     </div>
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    <div className="bg-gray-700 rounded-lg p-3 text-center">
+                    <div 
+                      className="rounded-lg p-3 text-center"
+                      style={{ 
+                        background: 'color-mix(in srgb, var(--c-glass) 15%, transparent)',
+                        backdropFilter: 'blur(4px)',
+                        WebkitBackdropFilter: 'blur(4px)',
+                        borderRadius: '8px'
+                      }}
+                    >
                       <div className="text-xs text-gray-300 mb-1">Calories</div>
                       <div className="text-xl font-bold" style={{ color: '#32D3FF' }}>{nutritionData.calories}</div>
                     </div>
-                    <div className="bg-gray-700 rounded-lg p-3 text-center">
+                    <div 
+                      className="rounded-lg p-3 text-center"
+                      style={{ 
+                        background: 'color-mix(in srgb, var(--c-glass) 15%, transparent)',
+                        backdropFilter: 'blur(4px)',
+                        WebkitBackdropFilter: 'blur(4px)',
+                        borderRadius: '8px'
+                      }}
+                    >
                       <div className="text-xs text-gray-300 mb-1">Protein</div>
                       <div className="text-xl font-bold text-green-400">{nutritionData.protein}g</div>
                     </div>
-                    <div className="bg-gray-700 rounded-lg p-3 text-center">
+                    <div 
+                      className="rounded-lg p-3 text-center"
+                      style={{ 
+                        background: 'color-mix(in srgb, var(--c-glass) 15%, transparent)',
+                        backdropFilter: 'blur(4px)',
+                        WebkitBackdropFilter: 'blur(4px)',
+                        borderRadius: '8px'
+                      }}
+                    >
                       <div className="text-xs text-gray-300 mb-1">Carbs</div>
                       <div className="text-xl font-bold text-orange-400">{nutritionData.carbs}g</div>
                     </div>
-                    <div className="bg-gray-700 rounded-lg p-3 text-center">
+                    <div 
+                      className="rounded-lg p-3 text-center"
+                      style={{ 
+                        background: 'color-mix(in srgb, var(--c-glass) 15%, transparent)',
+                        backdropFilter: 'blur(4px)',
+                        WebkitBackdropFilter: 'blur(4px)',
+                        borderRadius: '8px'
+                      }}
+                    >
                       <div className="text-xs text-gray-300 mb-1">Fat</div>
                       <div className="text-xl font-bold text-purple-400">{nutritionData.fat}g</div>
                     </div>
