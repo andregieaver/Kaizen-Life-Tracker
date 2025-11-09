@@ -2247,10 +2247,10 @@ const Nutrition = ({ athleteId }) => {
 
               {/* AI Nutritional Analysis */}
               {isAnalyzing && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
-                    <span className="text-blue-600 font-medium">Analyzing food image...</span>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2" style={{ borderBottomColor: '#32D3FF' }}></div>
+                    <span className="text-white font-medium">Analyzing food image...</span>
                   </div>
                 </div>
               )}
