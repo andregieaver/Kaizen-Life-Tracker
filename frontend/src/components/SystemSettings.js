@@ -425,8 +425,14 @@ const SystemSettings = ({ athleteId }) => {
             webhookVerifyToken: response.data.advanced.strava?.webhookVerifyToken || '',
             callbackDomain: response.data.advanced.strava?.callbackDomain || ''
           },
+          oura: {
+            clientId: response.data.advanced.oura?.clientId || '',
+            clientSecret: response.data.advanced.oura?.clientSecret || '',
+            callbackDomain: response.data.advanced.oura?.callbackDomain || ''
+          },
           showStravaSecret: false,
-          showStravaVerifyToken: false
+          showStravaVerifyToken: false,
+          showOuraSecret: false
         }));
       }
       
