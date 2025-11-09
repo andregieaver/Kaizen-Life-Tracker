@@ -1231,7 +1231,7 @@ const Nutrition = ({ athleteId }) => {
                         {viewType === 'week' ? weekStats.dailyAverage.sugar : dayStats.totals.sugar}g
                       </div>
                       <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
-                        {calculateRDI('sugar', viewType === 'week' ? weekStats.dailyAverage.sugar : dayStats.totals.sugar)}% RDI
+                        {calculateRDI('sugar', viewType === 'week' ? weekStats.dailyAverage.sugar : dayStats.totals.sugar)}% {t('nutrition.rdi')}
                       </div>
                     </div>
                   )}
