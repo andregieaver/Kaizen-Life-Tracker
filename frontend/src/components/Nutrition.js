@@ -1242,7 +1242,7 @@ const Nutrition = ({ athleteId }) => {
                         {viewType === 'week' ? weekStats.dailyAverage.sodium : dayStats.totals.sodium}mg
                       </div>
                       <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
-                        {calculateRDI('sodium', viewType === 'week' ? weekStats.dailyAverage.sodium : dayStats.totals.sodium)}% RDI
+                        {calculateRDI('sodium', viewType === 'week' ? weekStats.dailyAverage.sodium : dayStats.totals.sodium)}% {t('nutrition.rdi')}
                       </div>
                     </div>
                   )}
@@ -1253,7 +1253,7 @@ const Nutrition = ({ athleteId }) => {
                         {viewType === 'week' ? weekStats.dailyAverage.vitamin_a : dayStats.totals.vitamin_a}μg
                       </div>
                       <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
-                        {calculateRDI('vitamin_a', viewType === 'week' ? weekStats.dailyAverage.vitamin_a : dayStats.totals.vitamin_a)}% RDI
+                        {calculateRDI('vitamin_a', viewType === 'week' ? weekStats.dailyAverage.vitamin_a : dayStats.totals.vitamin_a)}% {t('nutrition.rdi')}
                       </div>
                     </div>
                   )}
@@ -1264,7 +1264,7 @@ const Nutrition = ({ athleteId }) => {
                         {viewType === 'week' ? weekStats.dailyAverage.vitamin_c : dayStats.totals.vitamin_c}mg
                       </div>
                       <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
-                        {calculateRDI('vitamin_c', viewType === 'week' ? weekStats.dailyAverage.vitamin_c : dayStats.totals.vitamin_c)}% RDI
+                        {calculateRDI('vitamin_c', viewType === 'week' ? weekStats.dailyAverage.vitamin_c : dayStats.totals.vitamin_c)}% {t('nutrition.rdi')}
                       </div>
                     </div>
                   )}
@@ -1275,7 +1275,7 @@ const Nutrition = ({ athleteId }) => {
                         {viewType === 'week' ? weekStats.dailyAverage.vitamin_d : dayStats.totals.vitamin_d}μg
                       </div>
                       <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
-                        {calculateRDI('vitamin_d', viewType === 'week' ? weekStats.dailyAverage.vitamin_d : dayStats.totals.vitamin_d)}% RDI
+                        {calculateRDI('vitamin_d', viewType === 'week' ? weekStats.dailyAverage.vitamin_d : dayStats.totals.vitamin_d)}% {t('nutrition.rdi')}
                       </div>
                     </div>
                   )}
@@ -1286,7 +1286,7 @@ const Nutrition = ({ athleteId }) => {
                         {viewType === 'week' ? weekStats.dailyAverage.calcium : dayStats.totals.calcium}mg
                       </div>
                       <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
-                        {calculateRDI('calcium', viewType === 'week' ? weekStats.dailyAverage.calcium : dayStats.totals.calcium)}% RDI
+                        {calculateRDI('calcium', viewType === 'week' ? weekStats.dailyAverage.calcium : dayStats.totals.calcium)}% {t('nutrition.rdi')}
                       </div>
                     </div>
                   )}
@@ -1297,7 +1297,7 @@ const Nutrition = ({ athleteId }) => {
                         {viewType === 'week' ? weekStats.dailyAverage.iron : dayStats.totals.iron}mg
                       </div>
                       <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
-                        {calculateRDI('iron', viewType === 'week' ? weekStats.dailyAverage.iron : dayStats.totals.iron)}% RDI
+                        {calculateRDI('iron', viewType === 'week' ? weekStats.dailyAverage.iron : dayStats.totals.iron)}% {t('nutrition.rdi')}
                       </div>
                     </div>
                   )}
@@ -1308,7 +1308,7 @@ const Nutrition = ({ athleteId }) => {
                         {viewType === 'week' ? weekStats.dailyAverage.potassium : dayStats.totals.potassium}mg
                       </div>
                       <div className="text-xs mt-1" style={{ color: '#32D3FF' }}>
-                        {calculateRDI('potassium', viewType === 'week' ? weekStats.dailyAverage.potassium : dayStats.totals.potassium)}% RDI
+                        {calculateRDI('potassium', viewType === 'week' ? weekStats.dailyAverage.potassium : dayStats.totals.potassium)}% {t('nutrition.rdi')}
                       </div>
                     </div>
                   )}
