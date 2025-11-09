@@ -13,7 +13,6 @@ import { Badge } from './ui/badge';
 import LanguageSelector from './LanguageSelector';
 import ChangePassword from './ChangePassword';
 import ChangeEmail from './ChangeEmail';
-import StravaCredentialsModal from './StravaCredentialsModal';
 import { useCountries } from '../utils/translationData';
 import { 
   registerServiceWorker,
