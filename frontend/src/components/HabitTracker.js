@@ -295,7 +295,6 @@ const HabitTracker = ({ athleteId }) => {
                               <Check className="w-4 h-4" />
                               {t('habits.complete')}
                             </span>
-                            </span>
                           )}
                         </div>
                         
