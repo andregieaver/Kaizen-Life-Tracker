@@ -1438,7 +1438,7 @@ const Nutrition = ({ athleteId }) => {
               {/* Day Separator */}
               <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-lg p-3 mb-4">
                 <div className="text-sm font-semibold text-white text-center">
-                  {new Date(date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
+                  {new Date(date).toLocaleDateString(i18n.language === 'no' ? 'no-NO' : 'en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
                 </div>
               </div>
               
