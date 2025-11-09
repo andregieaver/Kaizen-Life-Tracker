@@ -1180,7 +1180,7 @@ const Nutrition = ({ athleteId }) => {
 
                   {/* Macronutrients */}
                   <div>
-                    <h4 className="text-sm font-semibold text-white mb-3">Macronutrients</h4>
+                    <h4 className="text-sm font-semibold text-white mb-3">{t('nutrition.macronutrients')}</h4>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3 text-center">
                         <div className="text-xs text-gray-300 mb-1">Protein</div>
