@@ -151,15 +151,22 @@ const Dashboard = ({ athleteId }) => {
       const slideoutMenu = document.querySelector('.slideout-menu-switcher');
       const activeItem = slideoutMenu?.querySelector('.slideout-menu-item[data-active="true"]');
       
-      if (slideoutMenu && activeItem) {
-        const menuRect = slideoutMenu.getBoundingClientRect();
-        const itemRect = activeItem.getBoundingClientRect();
-        
-        const topOffset = itemRect.top - menuRect.top;
-        const height = itemRect.height;
-        
-        slideoutMenu.style.setProperty('--bubble-top', `${topOffset}px`);
-        slideoutMenu.style.setProperty('--bubble-height', `${height}px`);
+      if (slideoutMenu) {
+        if (activeItem) {
+          // Active item found - show and position the bubble
+          const menuRect = slideoutMenu.getBoundingClientRect();
+          const itemRect = activeItem.getBoundingClientRect();
+          
+          const topOffset = itemRect.top - menuRect.top;
+          const height = itemRect.height;
+          
+          slideoutMenu.style.setProperty('--bubble-top', `${topOffset}px`);
+          slideoutMenu.style.setProperty('--bubble-height', `${height}px`);
+          slideoutMenu.style.setProperty('--bubble-opacity', '1');
+        } else {
+          // No active item - hide the bubble
+          slideoutMenu.style.setProperty('--bubble-opacity', '0');
+        }
       }
     };
 
