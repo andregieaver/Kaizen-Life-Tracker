@@ -7479,8 +7479,8 @@ async def oura_auth_initiate(athlete_id: str):
     state = f"{athlete_id}_{secrets.token_urlsafe(16)}"
     
     # Use callback domain from system settings or default
-    callback_domain = oura_config.get("callbackDomain", "myhealthtracker.app")
-    redirect_uri = f"https://{callback_domain}/oura/callback"
+    callback_domain = oura_config.get("callbackDomain", "kaizenlifetracker.com")
+    redirect_uri = f"https://{callback_domain}/api/auth/oura/callback"
     
     auth_params = {
         "response_type": "code",
