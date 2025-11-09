@@ -60,7 +60,15 @@ const ReadinessCard = ({ readiness, onRefresh }) => {
   const scoreColors = getScoreColor(readiness.readiness_score);
 
   return (
-    <Card className="border-0 shadow-lg overflow-hidden" style={{ background: 'var(--bg-800)', color: 'var(--text-hi)', borderColor: 'var(--border)' }}>
+    <Card className="border-0 shadow-lg overflow-hidden" style={{ 
+      background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+      backdropFilter: 'blur(12px) saturate(140%)',
+      WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+      borderRadius: '8px',
+      color: 'var(--text-hi)'
+    }}>
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div>
