@@ -3628,14 +3628,6 @@ const Account = ({ athleteId }) => {
           </CardContent>
         </Card>
       </div>
-
-      {/* Strava Credentials Modal */}
-      <StravaCredentialsModal
-        athleteId={athleteId}
-        isOpen={showStravaModal}
-        onClose={() => setShowStravaModal(false)}
-        onSuccess={handleStravaCredentialsSuccess}
-      />
     </div>
   );
 };
