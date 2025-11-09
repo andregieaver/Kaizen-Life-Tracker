@@ -2338,9 +2338,17 @@ const Nutrition = ({ athleteId }) => {
                   {(nutritionData.fiber > 0 || nutritionData.sodium > 0 || nutritionData.sugar > 0 || 
                     nutritionData.vitamin_a > 0 || nutritionData.vitamin_c > 0 || nutritionData.vitamin_d > 0 || 
                     nutritionData.calcium > 0 || nutritionData.iron > 0 || nutritionData.potassium > 0) && (
-                    <div className="mt-3 pt-3 border-t border-gray-600">
+                    <div className="mt-3 pt-3" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
                       <h5 className="text-sm font-semibold text-white mb-2">Micronutrients</h5>
-                      <div className="bg-gray-700 rounded-lg p-3">
+                      <div 
+                        className="rounded-lg p-3"
+                        style={{ 
+                          background: 'color-mix(in srgb, var(--c-glass) 15%, transparent)',
+                          backdropFilter: 'blur(4px)',
+                          WebkitBackdropFilter: 'blur(4px)',
+                          borderRadius: '8px'
+                        }}
+                      >
                         <ul className="space-y-1 text-sm">
                           {nutritionData.fiber > 0 && (
                             <li className="flex justify-between">
