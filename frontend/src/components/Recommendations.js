@@ -240,7 +240,7 @@ const Recommendations = ({ athleteId }) => {
       </div>
 
       {/* Recommendations List */}
-      <div className="space-y-4">
+      <div className="space-y-2 md:space-y-4">
         {recommendations.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12">
             <Brain className="w-16 h-16 text-gray-400 mb-4" />
@@ -253,12 +253,15 @@ const Recommendations = ({ athleteId }) => {
           recommendations.map((recommendation) => (
             <Card 
               key={recommendation.id} 
-              className={`border-0 shadow-lg hover-lift cursor-pointer transition-all bg-gradient-to-br from-gray-600 to-gray-800 ${
-                !recommendation.read 
-                  ? '' 
-                  : 'hover:shadow-xl'
-              }`}
-              style={!recommendation.read ? { boxShadow: '0 0 0 2px #00C2A8' } : {}}
+              className="border-0 shadow-lg hover-lift cursor-pointer transition-all"
+              style={{
+                background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+                backdropFilter: 'blur(12px) saturate(140%)',
+                WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+                border: !recommendation.read ? '2px solid #32D3FF' : '1px solid rgba(255, 255, 255, 0.1)',
+                boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+                borderRadius: '8px'
+              }}
               onClick={() => handleCardClick(recommendation)}
             >
               <CardContent className="p-6">
