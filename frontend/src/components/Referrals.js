@@ -231,7 +231,7 @@ const Referrals = ({ athleteId }) => {
               {/* Referral Code Display */}
               <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
                 <p className="text-gray-400 text-sm mb-2">Your Referral Code</p>
-                <p className="text-2xl font-bold text-[#00C2A8] tracking-wider">
+                <p className="text-xl md:text-2xl font-bold tracking-wider" style={{ color: '#32D3FF' }}>
                   {referralCode}
                 </p>
               </div>
