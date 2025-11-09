@@ -786,7 +786,7 @@ const Journal = ({ athleteId }) => {
                           {isTranscribing && (
                             <div className="absolute inset-0 bg-black/70 flex items-center justify-center rounded-lg">
                               <div className="text-center">
-                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500 mx-auto mb-4"></div>
+                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderBottomColor: '#32D3FF' }}></div>
                                 <p className="text-white font-medium">Transcribing video...</p>
                               </div>
                             </div>
