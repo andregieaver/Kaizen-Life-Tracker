@@ -1358,23 +1358,9 @@ const Account = ({ athleteId }) => {
   };
 
   const handleOuraConnect = async () => {
-    // First check if credentials exist
-    try {
-      const statusResponse = await axios.get(`${API}/integrations/oura/${athleteId}/status`);
-      const hasCredentials = statusResponse.data.has_credentials;
-      
-      if (!hasCredentials) {
-        // Show credentials modal if not configured
-        setShowOuraModal(true);
-      } else {
-        // Credentials exist, proceed with OAuth
-        await handleSimpleConnect('oura');
-      }
-    } catch (error) {
-      console.error('Error checking Oura credentials:', error);
-      // If error checking, show modal to be safe
-      setShowOuraModal(true);
-    }
+    // Oura credentials are now system-wide in System Settings
+    // Just proceed with OAuth directly
+    await handleSimpleConnect('oura');
   };
 
   const handleOuraCredentialsSuccess = async () => {
