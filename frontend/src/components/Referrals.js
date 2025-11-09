@@ -107,10 +107,10 @@ const Referrals = ({ athleteId }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--grad-page)' }}>
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading your referral dashboard...</p>
+          <div className="w-12 h-12 border-4 border-t-transparent rounded-full animate-spin mx-auto mb-4" style={{ borderColor: '#32D3FF' }}></div>
+          <p className="text-gray-400">{t('referrals.loading')}</p>
         </div>
       </div>
     );
@@ -118,14 +118,14 @@ const Referrals = ({ athleteId }) => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'var(--grad-page)' }}>
         <div className="bg-red-900/20 border border-red-500 rounded-lg p-6 max-w-md">
           <p className="text-red-400 mb-4">{error}</p>
           <Button
             onClick={generateReferralCode}
             className="bg-red-600 hover:bg-red-700 text-white"
           >
-            Try Again
+            {t('referrals.tryAgain')}
           </Button>
         </div>
       </div>
