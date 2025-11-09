@@ -1279,10 +1279,15 @@ const Account = ({ athleteId }) => {
       setAthlete(response.data);
       setPersonalForm(response.data);
       
-      // Clear coach avatar file state after successful upload
+      // Clear file states after successful upload
       setCoachAvatarFile(null);
       if (newCoachAvatar) {
         setCoachAvatarPreview(newCoachAvatar);
+      }
+      
+      setBackgroundImageFile(null);
+      if (newBackgroundImage) {
+        setBackgroundImagePreview(newBackgroundImage);
       }
       
       setSaveStatus({ type: 'success', message: 'Preferences updated successfully!' });
