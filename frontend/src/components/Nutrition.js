@@ -2425,21 +2425,30 @@ const Nutrition = ({ athleteId }) => {
                             </li>
                           )}
                           {nutritionData.calcium > 0 && (
-                            <li className="flex justify-between">
+                            <li className="flex justify-between items-center">
                               <span className="text-gray-300">Calcium:</span>
-                              <span className="font-medium text-white">{nutritionData.calcium}mg</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-white">{nutritionData.calcium}mg</span>
+                                <span className="text-xs" style={{ color: '#32D3FF' }}>({calculateRDI('calcium', nutritionData.calcium)}%)</span>
+                              </div>
                             </li>
                           )}
                           {nutritionData.iron > 0 && (
-                            <li className="flex justify-between">
+                            <li className="flex justify-between items-center">
                               <span className="text-gray-300">Iron:</span>
-                              <span className="font-medium text-white">{nutritionData.iron}mg</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-white">{nutritionData.iron}mg</span>
+                                <span className="text-xs" style={{ color: '#32D3FF' }}>({calculateRDI('iron', nutritionData.iron)}%)</span>
+                              </div>
                             </li>
                           )}
                           {nutritionData.potassium > 0 && (
-                            <li className="flex justify-between">
+                            <li className="flex justify-between items-center">
                               <span className="text-gray-300">Potassium:</span>
-                              <span className="font-medium text-white">{nutritionData.potassium}mg</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-white">{nutritionData.potassium}mg</span>
+                                <span className="text-xs" style={{ color: '#32D3FF' }}>({calculateRDI('potassium', nutritionData.potassium)}%)</span>
+                              </div>
                             </li>
                           )}
                         </ul>
