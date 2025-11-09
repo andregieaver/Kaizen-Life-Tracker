@@ -1210,7 +1210,7 @@ const Dashboard = ({ athleteId }) => {
         {activeTab === 'overview' && (
           <div className="space-y-0 md:space-y-6">
             {/* Quick Actions Grid - Redesigned */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-0 md:gap-3">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-3">
               {/* Weekly Menu */}
               <div 
                 className="border-0 shadow-lg cursor-pointer transition-all duration-200 ease-out overflow-hidden group hover:scale-105"
