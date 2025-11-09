@@ -328,7 +328,7 @@ const Referrals = ({ athleteId }) => {
           borderRadius: '8px'
         }}>
           <CardHeader>
-            <CardTitle className="text-white text-lg md:text-xl">How It Works</CardTitle>
+            <CardTitle className="text-white text-lg md:text-xl">{t('referrals.howItWorks')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
@@ -336,27 +336,27 @@ const Referrals = ({ athleteId }) => {
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: 'rgba(50, 211, 255, 0.2)' }}>
                   <span className="font-bold text-xl" style={{ color: '#32D3FF' }}>1</span>
                 </div>
-                <h3 className="text-white font-semibold mb-2 text-sm md:text-base">Share Your Link</h3>
+                <h3 className="text-white font-semibold mb-2 text-sm md:text-base">{t('referrals.step1Title')}</h3>
                 <p className="text-gray-400 text-xs md:text-sm">
-                  Share your unique referral link with friends via social media, email, or direct message.
+                  {t('referrals.step1Description')}
                 </p>
               </div>
               <div className="text-center">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: 'rgba(50, 211, 255, 0.2)' }}>
                   <span className="font-bold text-xl" style={{ color: '#32D3FF' }}>2</span>
                 </div>
-                <h3 className="text-white font-semibold mb-2 text-sm md:text-base">Friend Signs Up</h3>
+                <h3 className="text-white font-semibold mb-2 text-sm md:text-base">{t('referrals.step2Title')}</h3>
                 <p className="text-gray-400 text-xs md:text-sm">
-                  When they sign up using your link, they get 20% off their first month.
+                  {t('referrals.step2Description')}
                 </p>
               </div>
               <div className="text-center">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: 'rgba(50, 211, 255, 0.2)' }}>
                   <span className="font-bold text-xl" style={{ color: '#32D3FF' }}>3</span>
                 </div>
-                <h3 className="text-white font-semibold mb-2 text-sm md:text-base">You Get Rewarded</h3>
+                <h3 className="text-white font-semibold mb-2 text-sm md:text-base">{t('referrals.step3Title')}</h3>
                 <p className="text-gray-400 text-xs md:text-sm">
-                  You'll receive a 20% discount code to use on your next subscription renewal.
+                  {t('referrals.step3Description')}
                 </p>
               </div>
             </div>
