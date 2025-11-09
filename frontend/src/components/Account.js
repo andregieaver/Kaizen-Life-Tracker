@@ -1004,6 +1004,31 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const uploadBackgroundImage = async () => {
+    if (!backgroundImageFile) return null;
+    
+    try {
+      const formData = new FormData();
+      formData.append('file', backgroundImageFile);
+      
+      const response = await fetch(`${API}/athlete/${athleteId}/background-image`, {
+        method: 'POST',
+        body: formData
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to upload background image');
+      }
+      
+      const result = await response.json();
+      return result.background_image;
+    } catch (error) {
+      console.error('Error uploading background image:', error);
+      throw error;
+    }
+  };
+
   const handleCoachAvatarChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
