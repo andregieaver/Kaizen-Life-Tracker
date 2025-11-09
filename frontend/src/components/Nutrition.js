@@ -1780,7 +1780,7 @@ const Nutrition = ({ athleteId }) => {
                       <div className="flex items-center space-x-2 mb-1">
                         <Badge className={getMealColor(entry.meal_type)}>
                           <MealIcon className="w-3 h-3 mr-1" />
-                          {entry.meal_type.charAt(0).toUpperCase() + entry.meal_type.slice(1)}
+                          {getMealTypeLabel(entry.meal_type)}
                         </Badge>
                       </div>
                       <span className="text-sm text-gray-300">
