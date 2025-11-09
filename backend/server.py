@@ -5292,9 +5292,9 @@ async def analyze_food_image(athlete_id: str, request: dict):
         if not base64_image:
             raise HTTPException(status_code=400, detail="No image data provided")
         
-        # Get athlete's language preference
+        # Get athlete's language preference (use coach_language for AI responses)
         athlete = await db.athlete_profiles.find_one({"id": athlete_id})
-        user_language = athlete.get("language", "en") if athlete else "en"
+        user_language = athlete.get("coach_language", athlete.get("language", "en")) if athlete else "en"
         
         # Map language codes to language names
         language_map = {
