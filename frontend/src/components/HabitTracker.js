@@ -299,18 +299,18 @@ const HabitTracker = ({ athleteId }) => {
                           )}
                         </div>
                         
-                        <div className="text-sm text-gray-300 mb-3">
-                          Goal: {habit.times_per_day}x today
+                        <div className="text-xs md:text-sm text-gray-300 mb-3">
+                          {t('habits.goal')}: {habit.times_per_day}x {t('habits.today').toLowerCase()}
                           <span className="mx-2">•</span>
-                          {habit.days_of_week.length} days/week
+                          {habit.days_of_week.length} {t('habits.daysPerWeek')}
                         </div>
 
                         {/* Progress Dots */}
-                        <div className="flex items-center gap-2 mb-3">
+                        <div className="flex items-center gap-2 mb-3 flex-wrap">
                           {Array.from({ length: habit.times_per_day }).map((_, i) => (
                             <div
                               key={i}
-                              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
+                              className={`w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-xs md:text-sm font-medium transition-all ${
                                 i < todayCount
                                   ? 'bg-green-500 text-white'
                                   : 'bg-gray-700 text-gray-400'
@@ -325,17 +325,17 @@ const HabitTracker = ({ athleteId }) => {
                         {streak > 0 && (
                           <div className="flex items-center gap-2 text-orange-400">
                             <Flame className="w-4 h-4" />
-                            <span className="text-sm font-medium">{streak} day streak</span>
+                            <span className="text-xs md:text-sm font-medium">{streak} {t('habits.dayStreak')}</span>
                           </div>
                         )}
                       </div>
 
-                      {/* Action Buttons */}
-                      <div className="flex flex-col gap-2">
+                      {/* Action Buttons - Better mobile layout */}
+                      <div className="flex md:flex-col gap-2 w-full md:w-auto">
                         {!isComplete ? (
                           <Button
                             onClick={() => handleComplete(habit.id)}
-                            className="min-w-[100px] border-0 text-white"
+                            className="flex-1 md:flex-none md:min-w-[100px] border-0 text-white text-sm md:text-base"
                             style={{ 
                               backgroundColor: '#32D3FF',
                               '&:hover': { backgroundColor: '#1FC1FF' }
@@ -344,13 +344,13 @@ const HabitTracker = ({ athleteId }) => {
                             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                             size="lg"
                           >
-                            <Plus className="w-5 h-5 mr-1" />
+                            <Plus className="w-4 h-4 md:w-5 md:h-5 mr-1" />
                             {t('habits.tap')}
                           </Button>
                         ) : (
                           <Button
                             onClick={() => handleUncomplete(habit.id)}
-                            className="min-w-[100px] bg-gray-700 text-white border-0 hover:bg-gray-600"
+                            className="flex-1 md:flex-none md:min-w-[100px] bg-gray-700 text-white border-0 hover:bg-gray-600 text-sm md:text-base"
                           >
                             {t('habits.undo')}
                           </Button>
