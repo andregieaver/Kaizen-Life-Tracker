@@ -2371,39 +2371,57 @@ const Nutrition = ({ athleteId }) => {
                       >
                         <ul className="space-y-1 text-sm">
                           {nutritionData.fiber > 0 && (
-                            <li className="flex justify-between">
+                            <li className="flex justify-between items-center">
                               <span className="text-gray-300">Fiber:</span>
-                              <span className="font-medium text-white">{nutritionData.fiber}g</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-white">{nutritionData.fiber}g</span>
+                                <span className="text-xs" style={{ color: '#32D3FF' }}>({calculateRDI('fiber', nutritionData.fiber)}%)</span>
+                              </div>
                             </li>
                           )}
                           {nutritionData.sugar > 0 && (
-                            <li className="flex justify-between">
+                            <li className="flex justify-between items-center">
                               <span className="text-gray-300">Sugar:</span>
-                              <span className="font-medium text-white">{nutritionData.sugar}g</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-white">{nutritionData.sugar}g</span>
+                                <span className="text-xs" style={{ color: '#32D3FF' }}>({calculateRDI('sugar', nutritionData.sugar)}%)</span>
+                              </div>
                             </li>
                           )}
                           {nutritionData.sodium > 0 && (
-                            <li className="flex justify-between">
+                            <li className="flex justify-between items-center">
                               <span className="text-gray-300">Sodium:</span>
-                              <span className="font-medium text-white">{nutritionData.sodium}mg</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-white">{nutritionData.sodium}mg</span>
+                                <span className="text-xs" style={{ color: '#32D3FF' }}>({calculateRDI('sodium', nutritionData.sodium)}%)</span>
+                              </div>
                             </li>
                           )}
                           {nutritionData.vitamin_a > 0 && (
-                            <li className="flex justify-between">
+                            <li className="flex justify-between items-center">
                               <span className="text-gray-300">Vitamin A:</span>
-                              <span className="font-medium text-white">{nutritionData.vitamin_a}μg</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-white">{nutritionData.vitamin_a}μg</span>
+                                <span className="text-xs" style={{ color: '#32D3FF' }}>({calculateRDI('vitamin_a', nutritionData.vitamin_a)}%)</span>
+                              </div>
                             </li>
                           )}
                           {nutritionData.vitamin_c > 0 && (
-                            <li className="flex justify-between">
+                            <li className="flex justify-between items-center">
                               <span className="text-gray-300">Vitamin C:</span>
-                              <span className="font-medium text-white">{nutritionData.vitamin_c}mg</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-white">{nutritionData.vitamin_c}mg</span>
+                                <span className="text-xs" style={{ color: '#32D3FF' }}>({calculateRDI('vitamin_c', nutritionData.vitamin_c)}%)</span>
+                              </div>
                             </li>
                           )}
                           {nutritionData.vitamin_d > 0 && (
-                            <li className="flex justify-between">
+                            <li className="flex justify-between items-center">
                               <span className="text-gray-300">Vitamin D:</span>
-                              <span className="font-medium text-white">{nutritionData.vitamin_d}μg</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-white">{nutritionData.vitamin_d}μg</span>
+                                <span className="text-xs" style={{ color: '#32D3FF' }}>({calculateRDI('vitamin_d', nutritionData.vitamin_d)}%)</span>
+                              </div>
                             </li>
                           )}
                           {nutritionData.calcium > 0 && (
