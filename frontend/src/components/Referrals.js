@@ -426,9 +426,15 @@ const Referrals = ({ athleteId }) => {
               </p>
               <Button
                 onClick={copyReferralLink}
-                className="px-6 py-3 bg-[#00C2A8] text-white rounded-lg hover:bg-[#00a890] transition-colors"
+                className="px-6 py-3 text-white rounded-lg transition-colors"
+                style={{ 
+                  backgroundColor: '#32D3FF',
+                  '&:hover': { backgroundColor: '#1FC1FF' }
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
               >
-                Copy Referral Link
+                {t('referrals.copyReferralLink')}
               </Button>
             </CardContent>
           </Card>
