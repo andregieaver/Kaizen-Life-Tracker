@@ -2212,7 +2212,7 @@ const Nutrition = ({ athleteId }) => {
                       className="hidden"
                     />
                     <p className="text-xs text-gray-500 text-center">
-                      Images automatically compressed • JPG, PNG, WEBP
+                      {t('nutrition.mealModal.imageCompression')}
                     </p>
                   </div>
                 ) : (
