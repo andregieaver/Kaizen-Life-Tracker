@@ -609,7 +609,8 @@
     "supplementLogDeleted": "Tilskuddslogg slettet",
     "supplements": "Tilskudd",
     "food": "Mat",
-    "noDescription": "Ingen beskrivelse"
+    "noDescription": "Ingen beskrivelse",
+    "at": "kl"
   },
   "dashboard": {
     "welcome": "Velkommen tilbake",
