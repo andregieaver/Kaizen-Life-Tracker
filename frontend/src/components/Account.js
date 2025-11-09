@@ -335,24 +335,41 @@ const Account = ({ athleteId }) => {
         const leftOffset = buttonRect.left - containerRect.left;
         const width = buttonRect.width;
         
-        console.log('Account tabs bubble:', { activeTab, leftOffset, width });
+        console.log('Account tabs bubble UPDATE:', { 
+          activeTab, 
+          leftOffset, 
+          width,
+          containerWidth: containerRect.width,
+          buttonLeft: buttonRect.left,
+          containerLeft: containerRect.left
+        });
         
         tabsContainer.style.setProperty('--bubble-left', `${leftOffset}px`);
         tabsContainer.style.setProperty('--bubble-width', `${width}px`);
       } else {
-        console.log('Account tabs not found:', { hasContainer: !!tabsContainer, hasButton: !!activeButton, activeTab });
+        console.log('Account tabs not found:', { 
+          hasContainer: !!tabsContainer, 
+          hasButton: !!activeButton, 
+          activeTab,
+          selector: `button[data-tab-value="${activeTab}"]`
+        });
       }
     };
 
+    // Initial update
     updateAccountTabsBubble();
+    
+    // Multiple timeouts to catch different render phases
     const timer1 = setTimeout(updateAccountTabsBubble, 50);
-    const timer2 = setTimeout(updateAccountTabsBubble, 200);
-    const timer3 = setTimeout(updateAccountTabsBubble, 500);
+    const timer2 = setTimeout(updateAccountTabsBubble, 100);
+    const timer3 = setTimeout(updateAccountTabsBubble, 200);
+    const timer4 = setTimeout(updateAccountTabsBubble, 500);
     
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
+      clearTimeout(timer4);
     };
   }, [activeTab]);
 
