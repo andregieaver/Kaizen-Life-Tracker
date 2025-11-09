@@ -2510,7 +2510,7 @@ const Nutrition = ({ athleteId }) => {
                     removeImage();
                   }}
                 >
-                  Cancel
+                  {t('nutrition.mealModal.cancel')}
                 </Button>
                 <Button
                   className="flex-1 text-white border-0"
@@ -2520,7 +2520,7 @@ const Nutrition = ({ athleteId }) => {
                   onClick={handleSaveEntry}
                   disabled={!description.trim()}
                 >
-                  {editingEntry ? 'Update Entry' : 'Save Entry'}
+                  {editingEntry ? t('nutrition.mealModal.updateEntry') : t('nutrition.mealModal.saveEntry')}
                 </Button>
               </div>
                 </div>
