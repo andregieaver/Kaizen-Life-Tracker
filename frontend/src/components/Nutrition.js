@@ -334,6 +334,12 @@ const Nutrition = ({ athleteId }) => {
       });
       
       setNutritionData(response.data);
+      
+      // Auto-populate description if AI returned one
+      if (response.data.description && !descriptionText) {
+        setDescription(response.data.description);
+      }
+      
       setSaveStatus({ type: 'success', message: 'Nutritional analysis complete!' });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 2000);
     } catch (error) {
