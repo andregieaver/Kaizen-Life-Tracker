@@ -1855,6 +1855,7 @@ const Dashboard = ({ athleteId }) => {
           onClick={() => {
             setPreviousTab(activeTab);
             navigate('/dashboard/account');
+            setIsMenuOpen(false);
           }}
           className="tab-option"
           data-active={activeTab === 'account'}
