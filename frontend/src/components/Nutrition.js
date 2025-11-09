@@ -29,7 +29,7 @@ const calculateRDI = (nutrient, value) => {
 };
 
 const Nutrition = ({ athleteId }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [entries, setEntries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
