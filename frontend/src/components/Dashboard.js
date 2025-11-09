@@ -1679,6 +1679,7 @@ const Dashboard = ({ athleteId }) => {
           onClick={() => {
             setPreviousTab(activeTab);
             navigate('/dashboard/today');
+            setIsMenuOpen(false);
           }}
           className="tab-option"
           data-active={activeTab === 'today'}
