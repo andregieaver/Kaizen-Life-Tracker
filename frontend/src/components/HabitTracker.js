@@ -488,8 +488,14 @@ const HabitTracker = ({ athleteId }) => {
                 </Button>
                 <Button
                   onClick={handleSubmit}
-                  className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
                   disabled={isLoading || !title.trim() || selectedDays.length === 0}
+                  className="flex-1 text-white border-0"
+                  style={{ 
+                    backgroundColor: '#32D3FF',
+                    '&:hover': { backgroundColor: '#1FC1FF' }
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                 >
                   {isLoading ? t('common.loading') : (editingHabit ? t('common.update') : t('common.create'))}
                 </Button>
