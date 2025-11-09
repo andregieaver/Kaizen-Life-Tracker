@@ -374,10 +374,10 @@ const Referrals = ({ athleteId }) => {
             borderRadius: '8px'
           }}>
             <CardHeader>
-              <CardTitle className="text-white text-lg md:text-xl">Your Available Rewards</CardTitle>
+              <CardTitle className="text-white text-lg md:text-xl">{t('referrals.yourAvailableRewards')}</CardTitle>
               <p className="text-gray-400 text-xs md:text-sm mt-2">
-                You have <span className="font-bold" style={{ color: '#32D3FF' }}>{stats.availableDiscount}%</span> discount available for your next renewal
-                {stats.availableDiscount >= 100 && <span className="text-yellow-400 ml-1">(Maximum reached! 🎉)</span>}
+                {t('referrals.discountAvailable', { discount: stats.availableDiscount })}
+                {stats.availableDiscount >= 100 && <span className="text-yellow-400 ml-1">{t('referrals.maximumReached')}</span>}
               </p>
             </CardHeader>
             <CardContent>
@@ -389,22 +389,22 @@ const Referrals = ({ athleteId }) => {
                   >
                     <div>
                       <p className="font-semibold text-green-400 text-sm md:text-base">
-                        {reward.discount}% Discount
+                        {t('referrals.discount', { percent: reward.discount })}
                       </p>
                       <p className="text-xs md:text-sm text-gray-400">
-                        Expires: {new Date(reward.expires_at).toLocaleDateString()}
+                        {t('referrals.expires', { date: new Date(reward.expires_at).toLocaleDateString() })}
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs text-gray-400 mb-1">Applied automatically</p>
-                      <Badge className="bg-green-600 text-white text-xs">Ready to use</Badge>
+                      <p className="text-xs text-gray-400 mb-1">{t('referrals.appliedAutomatically')}</p>
+                      <Badge className="bg-green-600 text-white text-xs">{t('referrals.readyToUse')}</Badge>
                     </div>
                   </div>
                 ))}
               </div>
               <div className="mt-4 p-3 md:p-4 bg-blue-900/20 border border-blue-700 rounded-lg">
                 <p className="text-xs md:text-sm text-blue-300">
-                  💡 <strong>How it works:</strong> Your {stats.availableDiscount}% discount will be automatically applied at checkout on your next subscription renewal (max 100%).
+                  {t('referrals.howItWorksInfo', { discount: stats.availableDiscount })}
                 </p>
               </div>
             </CardContent>
@@ -420,9 +420,9 @@ const Referrals = ({ athleteId }) => {
           }}>
             <CardContent className="p-8 md:p-12 text-center">
               <Gift className="w-12 h-12 md:w-16 md:h-16 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-white text-lg md:text-xl font-semibold mb-2">No Rewards Yet</h3>
+              <h3 className="text-white text-lg md:text-xl font-semibold mb-2">{t('referrals.noRewardsYet')}</h3>
               <p className="text-gray-400 mb-6 text-sm md:text-base">
-                Start sharing your referral link to earn discount codes!
+                {t('referrals.startSharing')}
               </p>
               <Button
                 onClick={copyReferralLink}
