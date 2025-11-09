@@ -622,8 +622,8 @@ const Dashboard = ({ athleteId }) => {
     <div 
       className="min-h-screen flex flex-col" 
       style={{ 
-        background: athlete?.background_image 
-          ? `url(${athlete.background_image}) center/cover fixed, var(--grad-page)` 
+        background: backgroundImage 
+          ? `url(${backgroundImage}) center/cover fixed, var(--grad-page)` 
           : 'var(--grad-page)' 
       }}
     >
