@@ -28,10 +28,14 @@ const Referrals = ({ athleteId }) => {
     try {
       const response = await axios.get(`${API}/system-settings/all`);
       const seo = response.data.find(s => s.category === 'seo');
+      console.log('SEO Settings:', seo);
+      console.log('Site Title:', seo?.siteTitle);
       if (seo?.siteTitle) {
         setSiteTitle(seo.siteTitle);
+        console.log('Site title set to:', seo.siteTitle);
       } else {
         setSiteTitle('TrainSmart');
+        console.log('Site title defaulted to TrainSmart');
       }
       setSettingsLoaded(true);
     } catch (err) {
