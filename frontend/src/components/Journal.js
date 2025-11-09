@@ -756,7 +756,7 @@ const Journal = ({ athleteId }) => {
                               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                             >
                               <Video className="w-4 h-4 mr-2" />
-                              Start Recording
+                              {t('journal.startRecording')}
                             </Button>
                           </>
                         )}
