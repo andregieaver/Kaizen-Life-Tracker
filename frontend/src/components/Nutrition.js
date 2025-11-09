@@ -1614,7 +1614,7 @@ const Nutrition = ({ athleteId }) => {
                                 }}
                                 className="w-full flex items-center justify-between p-2 hover:bg-gray-700 rounded-lg transition-colors"
                               >
-                                <span className="text-sm font-semibold text-white">Micronutrients</span>
+                                <span className="text-sm font-semibold text-white">{t('nutrition.micronutrients')}</span>
                                 {expandedMicros[entry.id] ? (
                                   <ChevronUp className="w-4 h-4 text-gray-400" />
                                 ) : (
@@ -1625,55 +1625,55 @@ const Nutrition = ({ athleteId }) => {
                                 <div className="grid grid-cols-2 gap-2 mt-2">
                                   {entry.fiber > 0 && (
                                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
-                                      <div className="text-xs text-gray-300">Fiber</div>
+                                      <div className="text-xs text-gray-300">{t('nutrition.fiber')}</div>
                                       <div className="text-sm font-semibold text-white">{entry.fiber}g</div>
                                     </div>
                                   )}
                                   {entry.sugar > 0 && (
                                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
-                                      <div className="text-xs text-gray-300">Sugar</div>
+                                      <div className="text-xs text-gray-300">{t('nutrition.sugar')}</div>
                                       <div className="text-sm font-semibold text-white">{entry.sugar}g</div>
                                     </div>
                                   )}
                                   {entry.sodium > 0 && (
                                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
-                                      <div className="text-xs text-gray-300">Sodium</div>
+                                      <div className="text-xs text-gray-300">{t('nutrition.sodium')}</div>
                                       <div className="text-sm font-semibold text-white">{entry.sodium}mg</div>
                                     </div>
                                   )}
                                   {entry.vitamin_a > 0 && (
                                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
-                                      <div className="text-xs text-gray-300">Vitamin A</div>
+                                      <div className="text-xs text-gray-300">{t('nutrition.vitaminA')}</div>
                                       <div className="text-sm font-semibold text-white">{entry.vitamin_a}μg</div>
                                     </div>
                                   )}
                                   {entry.vitamin_c > 0 && (
                                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
-                                      <div className="text-xs text-gray-300">Vitamin C</div>
+                                      <div className="text-xs text-gray-300">{t('nutrition.vitaminC')}</div>
                                       <div className="text-sm font-semibold text-white">{entry.vitamin_c}mg</div>
                                     </div>
                                   )}
                                   {entry.vitamin_d > 0 && (
                                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
-                                      <div className="text-xs text-gray-300">Vitamin D</div>
+                                      <div className="text-xs text-gray-300">{t('nutrition.vitaminD')}</div>
                                       <div className="text-sm font-semibold text-white">{entry.vitamin_d}μg</div>
                                     </div>
                                   )}
                                   {entry.calcium > 0 && (
                                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
-                                      <div className="text-xs text-gray-300">Calcium</div>
+                                      <div className="text-xs text-gray-300">{t('nutrition.calcium')}</div>
                                       <div className="text-sm font-semibold text-white">{entry.calcium}mg</div>
                                     </div>
                                   )}
                                   {entry.iron > 0 && (
                                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
-                                      <div className="text-xs text-gray-300">Iron</div>
+                                      <div className="text-xs text-gray-300">{t('nutrition.iron')}</div>
                                       <div className="text-sm font-semibold text-white">{entry.iron}mg</div>
                                     </div>
                                   )}
                                   {entry.potassium > 0 && (
                                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-2">
-                                      <div className="text-xs text-gray-300">Potassium</div>
+                                      <div className="text-xs text-gray-300">{t('nutrition.potassium')}</div>
                                       <div className="text-sm font-semibold text-white">{entry.potassium}mg</div>
                                     </div>
                                   )}
