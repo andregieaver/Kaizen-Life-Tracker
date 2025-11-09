@@ -1300,6 +1300,11 @@ const Account = ({ athleteId }) => {
         localStorage.removeItem('app_background_image');
       }
       
+      // Dispatch custom event to notify Dashboard of background change
+      window.dispatchEvent(new CustomEvent('backgroundImageUpdated', { 
+        detail: { backgroundImage: currentBgImage } 
+      }));
+      
       setSaveStatus({ type: 'success', message: 'Preferences updated successfully!' });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
     } catch (error) {
