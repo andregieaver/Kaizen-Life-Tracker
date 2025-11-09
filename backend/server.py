@@ -2817,17 +2817,36 @@ class StravaActivityManager:
 # Oura Service Classes
 class OuraTokenManager:
     def __init__(self):
-        self.client_id = os.environ.get('OURA_CLIENT_ID')
-        self.client_secret = os.environ.get('OURA_CLIENT_SECRET')
+        # Credentials will be loaded from system_settings at runtime
+        pass
+    
+    async def get_system_credentials(self):
+        """Get Oura credentials from system settings"""
+        system_settings = await db.system_settings.find_one({"category": "advanced"})
+        if not system_settings or not system_settings.get("oura"):
+            raise HTTPException(status_code=404, detail="Oura credentials not configured in System Settings")
+        
+        oura_config = system_settings["oura"]
+        if not oura_config.get("clientId") or not oura_config.get("clientSecret"):
+            raise HTTPException(status_code=404, detail="Oura Client ID or Secret missing")
+        
+        callback_domain = oura_config.get("callbackDomain", "myhealthtracker.app")
+        return {
+            "client_id": oura_config["clientId"],
+            "client_secret": oura_config["clientSecret"],
+            "redirect_uri": f"https://{callback_domain}/oura/callback"
+        }
         
     async def exchange_code_for_tokens(self, auth_code: str) -> Dict[str, Any]:
         """Exchange authorization code for access and refresh tokens"""
+        credentials = await self.get_system_credentials()
+        
         token_data = {
             "grant_type": "authorization_code",
             "code": auth_code,
-            "redirect_uri": os.environ.get('OURA_REDIRECT_URI'),
-            "client_id": self.client_id,
-            "client_secret": self.client_secret
+            "redirect_uri": credentials["redirect_uri"],
+            "client_id": credentials["client_id"],
+            "client_secret": credentials["client_secret"]
         }
         
         response = requests.post(
@@ -2843,11 +2862,13 @@ class OuraTokenManager:
     
     async def refresh_access_token(self, refresh_token: str) -> Dict[str, Any]:
         """Refresh expired access token"""
+        credentials = await self.get_system_credentials()
+        
         refresh_data = {
             "grant_type": "refresh_token",
             "refresh_token": refresh_token,
-            "client_id": self.client_id,
-            "client_secret": self.client_secret
+            "client_id": credentials["client_id"],
+            "client_secret": credentials["client_secret"]
         }
         
         response = requests.post(
