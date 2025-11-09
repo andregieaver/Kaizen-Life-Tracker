@@ -7463,6 +7463,10 @@ async def oura_auth_initiate(athlete_id: str):
     # Get system-wide Oura credentials from system_settings
     system_settings = await db.system_settings.find_one({"category": "advanced"})
     
+    print(f"DEBUG: System settings found: {system_settings is not None}")
+    if system_settings:
+        print(f"DEBUG: Oura config: {system_settings.get('oura')}")
+    
     if not system_settings or not system_settings.get("oura"):
         raise HTTPException(
             status_code=404, 
@@ -7482,6 +7486,9 @@ async def oura_auth_initiate(athlete_id: str):
     callback_domain = oura_config.get("callbackDomain", "kaizenlifetracker.com")
     redirect_uri = f"https://{callback_domain}/api/auth/oura/callback"
     
+    print(f"DEBUG: Callback domain: {callback_domain}")
+    print(f"DEBUG: Redirect URI: {redirect_uri}")
+    
     auth_params = {
         "response_type": "code",
         "client_id": oura_config["clientId"],
@@ -7491,6 +7498,7 @@ async def oura_auth_initiate(athlete_id: str):
     }
     
     auth_url = f"https://cloud.ouraring.com/oauth/authorize?{urlencode(auth_params)}"
+    print(f"DEBUG: Full auth URL: {auth_url}")
     return {"authorization_url": auth_url, "state": state}
 
 @api_router.get("/auth/oura/callback")
