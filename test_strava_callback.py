@@ -10,7 +10,7 @@ import sys
 from urllib.parse import urlparse, parse_qs
 
 # Backend URL from environment
-BACKEND_URL = "https://coach-glassmorphic.preview.emergentagent.com/api"
+BACKEND_URL = "https://global-wellness-1.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""
@@ -35,7 +35,7 @@ def test_strava_authorization_callback_domain():
     Test Scenario:
     1. Generate Authorization URL: GET /api/auth/strava?user_id=smooth-trainer
     2. Verify Redirect URI: Parse the returned authorization URL and extract redirect_uri parameter
-    3. CRITICAL CHECK: redirect_uri should be https://coach-glassmorphic.preview.emergentagent.com/api/auth/strava/callback
+    3. CRITICAL CHECK: redirect_uri should be https://global-wellness-1.preview.emergentagent.com/api/auth/strava/callback
        NOT http://localhost:8001/api/auth/strava/callback
     
     Success Criteria:

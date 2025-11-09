@@ -7,7 +7,7 @@ import requests
 import json
 
 # Backend URL from environment
-BACKEND_URL = "https://coach-glassmorphic.preview.emergentagent.com/api"
+BACKEND_URL = "https://global-wellness-1.preview.emergentagent.com/api"
 
 def debug_schedule_limit_issue():
     """Debug the specific schedule limit issue"""
