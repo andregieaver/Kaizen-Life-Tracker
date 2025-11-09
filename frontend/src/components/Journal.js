@@ -686,7 +686,13 @@ const Journal = ({ athleteId }) => {
                           <Mic className="w-10 h-10 text-white" />
                         </div>
                         <p className="text-gray-300 mb-4">{t('journal.clickToStart')}</p>
-                        <Button onClick={startRecording} className="bg-teal-600 hover:bg-teal-700 text-white">
+                        <Button 
+                          onClick={startRecording} 
+                          className="text-white border-0"
+                          style={{ backgroundColor: '#32D3FF' }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
+                        >
                           <Mic className="w-4 h-4 mr-2" />
                           {t('journal.startRecording')}
                         </Button>
