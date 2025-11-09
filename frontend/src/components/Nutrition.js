@@ -1148,7 +1148,7 @@ const Nutrition = ({ athleteId }) => {
                 <div className="flex items-center justify-between px-4 py-2 bg-gradient-to-r from-gray-900 to-gray-800 text-white text-sm font-medium rounded-lg">
                   <span>{viewType === 'week' ? formatWeekRange(currentWeekStart) : formatDayDisplay(currentDay)}</span>
                   {viewType === 'week' && isCurrentWeek(currentWeekStart) && (
-                    <span className="text-xs bg-gray-700 text-white px-2 py-0.5 rounded-full">Current Week</span>
+                    <span className="text-xs bg-gray-700 text-white px-2 py-0.5 rounded-full">{t('nutrition.currentWeek')}</span>
                   )}
                   {viewType === 'day' && isToday(currentDay) && (
                     <span className="text-xs bg-gray-700 text-white px-2 py-0.5 rounded-full">Today</span>
