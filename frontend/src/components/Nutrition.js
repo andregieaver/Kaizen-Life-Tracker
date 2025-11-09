@@ -2099,7 +2099,7 @@ const Nutrition = ({ athleteId }) => {
                 <div className="space-y-4">
               {/* Meal Type Selection */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   {t('nutrition.mealModal.mealType')}
                 </label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -2111,15 +2111,16 @@ const Nutrition = ({ athleteId }) => {
                         onClick={() => setMealType(meal.value)}
                         className={`flex flex-col items-center p-3 rounded-lg border-2 transition-all ${
                           mealType === meal.value
-                            ? 'border-blue-500 bg-blue-50'
-                            : 'border-gray-200 hover:border-gray-300'
+                            ? 'bg-gray-700 text-white'
+                            : 'border-gray-600 bg-gray-800 hover:bg-gray-700'
                         }`}
+                        style={mealType === meal.value ? { borderColor: '#32D3FF' } : { borderColor: 'transparent' }}
                       >
                         <Icon className={`w-6 h-6 mb-1 ${
-                          mealType === meal.value ? 'text-blue-600' : 'text-gray-600'
+                          mealType === meal.value ? 'text-white' : 'text-gray-400'
                         }`} />
                         <span className={`text-sm font-medium ${
-                          mealType === meal.value ? 'text-blue-600' : 'text-gray-700'
+                          mealType === meal.value ? 'text-white' : 'text-gray-300'
                         }`}>
                           {meal.label}
                         </span>
