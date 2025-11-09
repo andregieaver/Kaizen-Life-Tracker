@@ -708,7 +708,7 @@ const Journal = ({ athleteId }) => {
                       <textarea
                         value={textContent}
                         onChange={(e) => setTextContent(e.target.value)}
-                        className="w-full h-32 p-4 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
+                        className="w-full h-32 p-4 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                       />
                     </div>
                   )}
@@ -796,7 +796,7 @@ const Journal = ({ athleteId }) => {
                             <textarea
                               value={videoTranscription}
                               onChange={(e) => setVideoTranscription(e.target.value)}
-                              className="w-full h-32 p-4 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
+                              className="w-full h-32 p-4 bg-gray-600 border border-gray-500 text-white placeholder:text-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                             />
                           </div>
                         )}
@@ -809,7 +809,7 @@ const Journal = ({ athleteId }) => {
                               id="burnSubtitles"
                               checked={burnSubtitles}
                               onChange={(e) => setBurnSubtitles(e.target.checked)}
-                              className="w-5 h-5 text-teal-600 rounded focus:ring-teal-500 focus:ring-offset-gray-800"
+                              className="w-5 h-5 text-teal-600 rounded focus:ring-blue-500 focus:ring-offset-gray-800"
                             />
                             <label htmlFor="burnSubtitles" className="text-white cursor-pointer flex-1">
                               <span className="font-medium">Burn subtitles into video</span>
