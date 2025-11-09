@@ -2010,13 +2010,13 @@ const Nutrition = ({ athleteId }) => {
                   
                   {/* Date and Time */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">Date & Time</label>
+                    <label className="block text-sm font-medium text-gray-300 mb-1">{t('nutrition.mealModal.dateTime')}</label>
                     <p className="text-white">{formatDateTime(viewingEntry.entry_date || viewingEntry.created_at, viewingEntry.entry_time)}</p>
                   </div>
                   
                   {/* Description */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
+                    <label className="block text-sm font-medium text-gray-300 mb-1">{t('nutrition.mealModal.description')}</label>
                     <p className="text-white whitespace-pre-wrap">{viewingEntry.description}</p>
                   </div>
                   
