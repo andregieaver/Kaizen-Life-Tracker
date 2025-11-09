@@ -844,9 +844,9 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
                 type="submit" 
                 disabled={!newMessage.trim() || isLoading}
                 className="text-white btn-transition border-0"
-                style={{ backgroundColor: '#00C2A8', color: 'white' }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+                style={{ backgroundColor: '#32D3FF', color: 'white' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                 data-testid="send-message-btn"
               >
                 <Send className="w-4 h-4 mr-2" />
