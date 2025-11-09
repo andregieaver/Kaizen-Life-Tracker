@@ -620,6 +620,22 @@
       "notes": "Notes (Optional)",
       "cancel": "Cancel",
       "saveLog": "Save Log"
+    },
+    "noEntriesThisWeek": "No entries for this week",
+    "startTrackingMealsAndSupplements": "Start tracking your meals and supplements",
+    "mealModal": {
+      "title": "Log Meal or Drink",
+      "subtitle": "Add what you ate or drank",
+      "mealType": "Meal Type",
+      "date": "Date",
+      "time": "Time",
+      "description": "Description",
+      "descriptionPlaceholder": "What did you eat? (e.g. Oatmeal with berries, Chicken salad)",
+      "addPhoto": "Add Photo (Optional)",
+      "uploadPhoto": "Upload Photo",
+      "takePhoto": "Take Photo",
+      "imageCompression": "Images automatically compressed • JPG, PNG, WEBP",
+      "snacks": "Snacks"
     }
   },
   "habits": {
