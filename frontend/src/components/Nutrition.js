@@ -2256,31 +2256,31 @@ const Nutrition = ({ athleteId }) => {
               )}
               
               {nutritionData && nutritionData.calories > 0 && !isAnalyzing && (
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4">
+                <div className="bg-gray-800 border border-gray-600 rounded-lg p-4">
                   <div className="flex items-center mb-3">
                     <div className="flex-1">
-                      <h4 className="font-semibold text-gray-900">AI Nutritional Analysis</h4>
+                      <h4 className="font-semibold text-white">AI Nutritional Analysis</h4>
                       {nutritionData.ai_analysis && (
-                        <p className="text-xs text-gray-600 mt-1">{nutritionData.ai_analysis}</p>
+                        <p className="text-xs text-gray-300 mt-1">{nutritionData.ai_analysis}</p>
                       )}
                     </div>
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                    <div className="bg-white rounded-lg p-3 text-center shadow-sm">
-                      <div className="text-xs text-gray-600 mb-1">Calories</div>
-                      <div className="text-xl font-bold text-blue-600">{nutritionData.calories}</div>
+                    <div className="bg-gray-700 rounded-lg p-3 text-center">
+                      <div className="text-xs text-gray-300 mb-1">Calories</div>
+                      <div className="text-xl font-bold" style={{ color: '#32D3FF' }}>{nutritionData.calories}</div>
                     </div>
-                    <div className="bg-white rounded-lg p-3 text-center shadow-sm">
-                      <div className="text-xs text-gray-600 mb-1">Protein</div>
-                      <div className="text-xl font-bold text-green-600">{nutritionData.protein}g</div>
+                    <div className="bg-gray-700 rounded-lg p-3 text-center">
+                      <div className="text-xs text-gray-300 mb-1">Protein</div>
+                      <div className="text-xl font-bold text-green-400">{nutritionData.protein}g</div>
                     </div>
-                    <div className="bg-white rounded-lg p-3 text-center shadow-sm">
-                      <div className="text-xs text-gray-600 mb-1">Carbs</div>
-                      <div className="text-xl font-bold text-orange-600">{nutritionData.carbs}g</div>
+                    <div className="bg-gray-700 rounded-lg p-3 text-center">
+                      <div className="text-xs text-gray-300 mb-1">Carbs</div>
+                      <div className="text-xl font-bold text-orange-400">{nutritionData.carbs}g</div>
                     </div>
-                    <div className="bg-white rounded-lg p-3 text-center shadow-sm">
-                      <div className="text-xs text-gray-600 mb-1">Fat</div>
-                      <div className="text-xl font-bold text-purple-600">{nutritionData.fat}g</div>
+                    <div className="bg-gray-700 rounded-lg p-3 text-center">
+                      <div className="text-xs text-gray-300 mb-1">Fat</div>
+                      <div className="text-xl font-bold text-purple-400">{nutritionData.fat}g</div>
                     </div>
                   </div>
                   
