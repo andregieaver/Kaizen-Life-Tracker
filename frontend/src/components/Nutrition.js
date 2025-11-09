@@ -1913,7 +1913,7 @@ const Nutrition = ({ athleteId }) => {
                 </button>
               </div>
               <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>
-                {viewMode ? 'View your meal or drink details' : (editingEntry ? 'Update your meal or drink entry' : 'Add what you ate or drank')}
+                {viewMode ? 'View your meal or drink details' : (editingEntry ? 'Update your meal or drink entry' : t('nutrition.mealModal.subtitle'))}
               </p>
             </div>
             <div className="p-6 space-y-4">
