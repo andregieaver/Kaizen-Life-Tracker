@@ -139,10 +139,10 @@ const Referrals = ({ athleteId }) => {
         <div className="mb-2 md:mb-4">
           <div className="flex items-center mb-2">
             <Gift className="w-6 h-6 md:w-8 md:h-8 mr-3" style={{ color: '#32D3FF' }} />
-            <h1 className="text-2xl md:text-3xl font-bold text-white">Referral Rewards</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-white">{t('referrals.title')}</h1>
           </div>
           <p className="text-gray-400 ml-9 md:ml-11 text-sm md:text-base">
-            Share TrainSmart with friends and earn rewards! Get 20% off for each friend who signs up.
+            {t('referrals.description', { appName: siteTitle })}
           </p>
         </div>
 
