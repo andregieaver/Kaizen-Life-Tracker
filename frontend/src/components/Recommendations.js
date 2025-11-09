@@ -174,26 +174,47 @@ const Recommendations = ({ athleteId }) => {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="border-0 shadow-sm bg-gradient-to-br from-gray-600 to-gray-800">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+        <Card className="border-0 shadow-lg" style={{ 
+          background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+          backdropFilter: 'blur(12px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+          borderRadius: '8px'
+        }}>
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold" style={{ color: '#00C2A8' }}>
+            <div className="text-2xl font-bold" style={{ color: '#32D3FF' }}>
               {recommendations.length}
             </div>
             <div className="text-sm text-gray-200">{t('reports.totalReports')}</div>
           </CardContent>
         </Card>
-        <Card className="border-0 shadow-sm bg-gradient-to-br from-gray-600 to-gray-800">
+        <Card className="border-0 shadow-lg" style={{ 
+          background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+          backdropFilter: 'blur(12px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+          borderRadius: '8px'
+        }}>
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold" style={{ color: '#00C2A8' }}>
+            <div className="text-2xl font-bold" style={{ color: '#32D3FF' }}>
               {recommendations.filter(r => !r.read).length}
             </div>
             <div className="text-sm text-gray-200">Unread</div>
           </CardContent>
         </Card>
-        <Card className="border-0 shadow-sm bg-gradient-to-br from-gray-600 to-gray-800">
+        <Card className="border-0 shadow-lg" style={{ 
+          background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+          backdropFilter: 'blur(12px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+          borderRadius: '8px'
+        }}>
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold" style={{ color: '#00C2A8' }}>
+            <div className="text-2xl font-bold" style={{ color: '#32D3FF' }}>
               {recommendations.filter(r => 
                 new Date(r.generated_at) > new Date(Date.now() - 24 * 60 * 60 * 1000)
               ).length}
@@ -201,9 +222,16 @@ const Recommendations = ({ athleteId }) => {
             <div className="text-sm text-gray-200">{t('reports.today')}</div>
           </CardContent>
         </Card>
-        <Card className="border-0 shadow-sm bg-gradient-to-br from-gray-600 to-gray-800">
+        <Card className="border-0 shadow-lg" style={{ 
+          background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+          backdropFilter: 'blur(12px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+          borderRadius: '8px'
+        }}>
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold" style={{ color: '#00C2A8' }}>
+            <div className="text-2xl font-bold" style={{ color: '#32D3FF' }}>
               {new Set(recommendations.flatMap(r => r.tags || [])).size}
             </div>
             <div className="text-sm text-gray-200">{t('reports.topics')}</div>
