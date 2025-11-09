@@ -876,15 +876,15 @@ const Journal = ({ athleteId }) => {
                   {isProcessingVideo ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Processing...
+                      {t('journal.processing')}
                     </>
                   ) : isTranscribing ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Transcribing...
+                      {t('journal.transcribingShort')}
                     </>
                   ) : (
-                    'Save Entry'
+                    t('journal.saveEntry')
                   )}
                 </Button>
               </div>
