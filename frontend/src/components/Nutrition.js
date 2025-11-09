@@ -973,9 +973,9 @@ const Nutrition = ({ athleteId }) => {
           <Button 
             onClick={openSupplementModal} 
             className="flex-1 sm:flex-none text-white border-0"
-            style={{ backgroundColor: '#00C2A8' }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+            style={{ backgroundColor: '#32D3FF' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
           >
             <Pill className="w-4 h-4 mr-2" />
             <span className="hidden sm:inline">Log </span>Supplements
@@ -983,9 +983,9 @@ const Nutrition = ({ athleteId }) => {
           <Button 
             onClick={openNewEntryModal} 
             className="flex-1 sm:flex-none text-white border-0"
-            style={{ backgroundColor: '#00C2A8' }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+            style={{ backgroundColor: '#32D3FF' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
           >
             <Plus className="w-4 h-4 mr-2" />
             <span className="hidden sm:inline">Log </span>Meal
