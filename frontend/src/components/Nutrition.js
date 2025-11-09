@@ -1359,7 +1359,7 @@ const Nutrition = ({ athleteId }) => {
                 <div className="border-t pt-4 mt-4">
                   <div className="flex items-center gap-2 mb-3">
                     <Pill className="w-5 h-5 text-[#62D2C4]" />
-                    <h4 className="text-sm font-semibold text-gray-700">Supplements Taken</h4>
+                    <h4 className="text-sm font-semibold text-gray-700">{t('nutrition.supplementsTaken')}</h4>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {(() => {
