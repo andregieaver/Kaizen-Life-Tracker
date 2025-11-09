@@ -574,6 +574,7 @@
   },
   "nutrition": {
     "title": "Nutrition Tracking",
+    "pageTitle": "Nutrition Log",
     "subtitle": "Track what you eat and drink",
     "logSupplements": "Log Supplements",
     "logMeal": "Log Meal",
