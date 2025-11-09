@@ -677,7 +677,8 @@
     "supplementLogDeleted": "Supplement log deleted",
     "supplements": "Supplements",
     "food": "Food",
-    "noDescription": "No description"
+    "noDescription": "No description",
+    "at": "at"
   },
   "habits": {
     "title": "Habit Tracker",
