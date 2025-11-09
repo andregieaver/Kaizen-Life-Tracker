@@ -2173,7 +2173,7 @@ const Nutrition = ({ athleteId }) => {
               {/* Image Upload/Camera */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Add Photo (Optional)
+                  {t('nutrition.mealModal.addPhoto')}
                 </label>
                 
                 {!imagePreview ? (
@@ -2185,7 +2185,7 @@ const Nutrition = ({ athleteId }) => {
                         onClick={() => fileInputRef.current?.click()}
                       >
                         <Upload className="w-4 h-4 mr-2" />
-                        Upload Photo
+                        {t('nutrition.mealModal.uploadPhoto')}
                       </Button>
                       <Button
                         variant="outline"
@@ -2193,7 +2193,7 @@ const Nutrition = ({ athleteId }) => {
                         onClick={() => cameraInputRef.current?.click()}
                       >
                         <Camera className="w-4 h-4 mr-2" />
-                        Take Photo
+                        {t('nutrition.mealModal.takePhoto')}
                       </Button>
                     </div>
                     <input
