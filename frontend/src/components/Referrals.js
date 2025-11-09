@@ -246,7 +246,13 @@ const Referrals = ({ athleteId }) => {
                 />
                 <Button
                   onClick={copyReferralLink}
-                  className="px-3 sm:px-6 py-3 bg-[#00C2A8] text-white rounded-lg hover:bg-[#00a890] transition-colors flex items-center gap-1 sm:gap-2 flex-shrink-0"
+                  className="px-3 sm:px-6 py-3 text-white rounded-lg transition-colors flex items-center gap-1 sm:gap-2 flex-shrink-0"
+                  style={{ 
+                    backgroundColor: '#32D3FF',
+                    '&:hover': { backgroundColor: '#1FC1FF' }
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                 >
                   {copySuccess ? (
                     <>
