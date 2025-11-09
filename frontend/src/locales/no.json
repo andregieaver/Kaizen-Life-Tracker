@@ -1433,6 +1433,7 @@
     "readyToUse": "Klar til bruk",
     "howItWorksInfo": "💡 Hvordan det virker: Din {{discount}}% rabatt vil bli automatisk anvendt ved kassen ved neste abonnementsfornyelse (maks 100%).",
     "noRewardsYet": "Ingen belønninger ennå",
-    "startSharing": "Begynn å dele henvisningslenken din for å tjene rabattkoder!"
+    "startSharing": "Begynn å dele henvisningslenken din for å tjene rabattkoder!",
+    "copyReferralLink": "Kopier henvisningslenke"
   }
 }
