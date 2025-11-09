@@ -383,7 +383,7 @@ const HabitTracker = ({ athleteId }) => {
       {/* All Habits Section */}
       {habits.length > todayHabits.length && (
         <div>
-          <h3 className="text-lg font-semibold mb-3 text-white">Other Habits</h3>
+          <h3 className="text-lg font-semibold mb-3 text-white">{t('habits.otherHabits')}</h3>
           <div className="space-y-2">
             {habits.filter(h => !h.days_of_week.includes(todayDayName)).map(habit => (
               <div key={habit.id} className="bg-gradient-to-br from-gray-800 to-gray-900 p-3">
