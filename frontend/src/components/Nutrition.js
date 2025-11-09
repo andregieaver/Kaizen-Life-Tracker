@@ -1226,7 +1226,7 @@ const Nutrition = ({ athleteId }) => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {((viewType === 'week' && weekStats.dailyAverage.sugar > 0) || (viewType === 'day' && dayStats.totals.sugar > 0)) && (
                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3">
-                      <div className="text-xs text-gray-300">Sugar</div>
+                      <div className="text-xs text-gray-300">{t('nutrition.sugar')}</div>
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.sugar : dayStats.totals.sugar}g
                       </div>
@@ -1237,7 +1237,7 @@ const Nutrition = ({ athleteId }) => {
                   )}
                   {((viewType === 'week' && weekStats.dailyAverage.sodium > 0) || (viewType === 'day' && dayStats.totals.sodium > 0)) && (
                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3">
-                      <div className="text-xs text-gray-300">Sodium</div>
+                      <div className="text-xs text-gray-300">{t('nutrition.sodium')}</div>
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.sodium : dayStats.totals.sodium}mg
                       </div>
@@ -1248,7 +1248,7 @@ const Nutrition = ({ athleteId }) => {
                   )}
                   {((viewType === 'week' && weekStats.dailyAverage.vitamin_a > 0) || (viewType === 'day' && dayStats.totals.vitamin_a > 0)) && (
                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3">
-                      <div className="text-xs text-gray-300">Vitamin A</div>
+                      <div className="text-xs text-gray-300">{t('nutrition.vitaminA')}</div>
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.vitamin_a : dayStats.totals.vitamin_a}μg
                       </div>
@@ -1259,7 +1259,7 @@ const Nutrition = ({ athleteId }) => {
                   )}
                   {((viewType === 'week' && weekStats.dailyAverage.vitamin_c > 0) || (viewType === 'day' && dayStats.totals.vitamin_c > 0)) && (
                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3">
-                      <div className="text-xs text-gray-300">Vitamin C</div>
+                      <div className="text-xs text-gray-300">{t('nutrition.vitaminC')}</div>
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.vitamin_c : dayStats.totals.vitamin_c}mg
                       </div>
@@ -1270,7 +1270,7 @@ const Nutrition = ({ athleteId }) => {
                   )}
                   {((viewType === 'week' && weekStats.dailyAverage.vitamin_d > 0) || (viewType === 'day' && dayStats.totals.vitamin_d > 0)) && (
                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3">
-                      <div className="text-xs text-gray-300">Vitamin D</div>
+                      <div className="text-xs text-gray-300">{t('nutrition.vitaminD')}</div>
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.vitamin_d : dayStats.totals.vitamin_d}μg
                       </div>
@@ -1281,7 +1281,7 @@ const Nutrition = ({ athleteId }) => {
                   )}
                   {((viewType === 'week' && weekStats.dailyAverage.calcium > 0) || (viewType === 'day' && dayStats.totals.calcium > 0)) && (
                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3">
-                      <div className="text-xs text-gray-300">Calcium</div>
+                      <div className="text-xs text-gray-300">{t('nutrition.calcium')}</div>
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.calcium : dayStats.totals.calcium}mg
                       </div>
@@ -1292,7 +1292,7 @@ const Nutrition = ({ athleteId }) => {
                   )}
                   {((viewType === 'week' && weekStats.dailyAverage.iron > 0) || (viewType === 'day' && dayStats.totals.iron > 0)) && (
                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3">
-                      <div className="text-xs text-gray-300">Iron</div>
+                      <div className="text-xs text-gray-300">{t('nutrition.iron')}</div>
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.iron : dayStats.totals.iron}mg
                       </div>
@@ -1303,7 +1303,7 @@ const Nutrition = ({ athleteId }) => {
                   )}
                   {((viewType === 'week' && weekStats.dailyAverage.potassium > 0) || (viewType === 'day' && dayStats.totals.potassium > 0)) && (
                     <div className="bg-gradient-to-r from-gray-700 to-gray-800 rounded-lg p-3">
-                      <div className="text-xs text-gray-300">Potassium</div>
+                      <div className="text-xs text-gray-300">{t('nutrition.potassium')}</div>
                       <div className="text-lg font-semibold text-white">
                         {viewType === 'week' ? weekStats.dailyAverage.potassium : dayStats.totals.potassium}mg
                       </div>
