@@ -1420,7 +1420,7 @@ const Nutrition = ({ athleteId }) => {
       {/* Nutrition Entries List */}
       {isLoading ? (
         <div className="text-center py-8">
-          <p className="text-gray-500">Loading entries...</p>
+          <p className="text-gray-500">{t('nutrition.loadingEntries')}</p>
         </div>
       ) : filteredEntries.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12">
