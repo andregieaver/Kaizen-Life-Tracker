@@ -195,7 +195,8 @@ const Account = ({ athleteId }) => {
     coach_language: 'en', // AI Coach preferred language
     voice_preference: 'alloy',
     coach_name: 'Coach', // AI Coach custom name
-    coach_avatar: null // AI Coach custom avatar URL
+    coach_avatar: null, // AI Coach custom avatar URL
+    background_image: null // Custom background image URL
   });
 
   // Plan settings from system settings
