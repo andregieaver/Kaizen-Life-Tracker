@@ -286,19 +286,25 @@ const Today = ({ athleteId }) => {
           <div className="p-4">
             <div className="space-y-3">
               {todayData.meals.map((meal, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-600 rounded-lg border border-gray-500">
+                <div key={index} className="flex items-center justify-between p-3 rounded-lg" style={{
+                  background: 'color-mix(in srgb, var(--c-glass) 8%, transparent)',
+                  backdropFilter: 'blur(8px) saturate(120%)',
+                  WebkitBackdropFilter: 'blur(8px) saturate(120%)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  boxShadow: 'inset 0 1px 2px rgba(255, 255, 255, 0.05), 0 4px 12px rgba(0, 0, 0, 0.15)'
+                }}>
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-teal-700 rounded-full">
-                      <Utensils className="w-4 h-4 text-teal-200" />
+                    <div className="p-2 rounded-full" style={{ background: 'var(--c-brand-500)' }}>
+                      <Utensils className="w-4 h-4" style={{ color: 'white' }} />
                     </div>
                     <div>
-                      <p className="text-sm font-medium capitalize text-white">{meal.meal_type}</p>
-                      <p className="text-xs text-gray-300">{meal.description}</p>
+                      <p className="text-sm font-medium capitalize" style={{ color: 'var(--text-hi)' }}>{meal.meal_type}</p>
+                      <p className="text-xs" style={{ color: 'var(--text-med)' }}>{meal.description}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-white">{meal.calories || 0}</p>
-                    <p className="text-xs text-gray-400">{t('today.cal')}</p>
+                    <p className="text-sm font-bold" style={{ color: 'var(--text-hi)' }}>{meal.calories || 0}</p>
+                    <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('today.cal')}</p>
                   </div>
                 </div>
               ))}
