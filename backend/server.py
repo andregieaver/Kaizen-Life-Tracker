@@ -7545,15 +7545,18 @@ async def get_oura_integration_status(athlete_id: str):
     """Get Oura integration status"""
     integration = await db.integrations.find_one({
         "athlete_id": athlete_id, 
-        "integration_type": "oura",
-        "is_active": True
+        "integration_type": "oura"
     })
     
     if not integration:
-        return {"connected": False, "last_sync": None}
+        return {"connected": False, "last_sync": None, "has_credentials": False}
+    
+    has_credentials = bool(integration.get("credentials", {}).get("client_id"))
+    is_connected = integration.get("is_active", False) and integration.get("access_token")
     
     return {
-        "connected": True,
+        "connected": is_connected,
+        "has_credentials": has_credentials,
         "last_sync": integration.get("last_sync"),
         "settings": integration.get("settings", {})
     }
