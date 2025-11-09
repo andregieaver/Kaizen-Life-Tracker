@@ -1214,6 +1214,18 @@ const Account = ({ athleteId }) => {
         }
       }
       
+      // Upload background image if a new one is selected
+      let newBackgroundImage = null;
+      if (backgroundImageFile) {
+        try {
+          newBackgroundImage = await uploadBackgroundImage();
+        } catch (error) {
+          setSaveStatus({ type: 'error', message: error.message });
+          setIsLoading(false);
+          return;
+        }
+      }
+      
       const updatedData = {
         distance_unit: personalForm.distance_unit,
         measurement_system: personalForm.measurement_system,
@@ -1227,7 +1239,8 @@ const Account = ({ athleteId }) => {
         coach_language: personalForm.coach_language,
         voice_preference: personalForm.voice_preference,
         coach_name: personalForm.coach_name,
-        coach_avatar: newCoachAvatar || personalForm.coach_avatar
+        coach_avatar: newCoachAvatar || personalForm.coach_avatar,
+        background_image: newBackgroundImage || personalForm.background_image
       };
       
       const response = await axios.put(`${API}/athlete/${athleteId}`, updatedData);
