@@ -108,12 +108,12 @@ const Today = ({ athleteId }) => {
   return (
     <div className="min-h-screen p-2 md:p-6 space-y-6" style={{ background: 'var(--grad-page)' }}>
       {/* Header */}
-      <div>
+      <div className="flex items-center justify-between gap-2">
         <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
-          <Calendar className="w-8 h-8" style={{ color: 'var(--c-brand-500)' }} />
+          <Calendar className="w-6 h-6 md:w-8 md:h-8" style={{ color: 'var(--c-brand-500)' }} />
           {t('today.title')}
         </h1>
-        <p className="text-sm mt-1" style={{ color: 'var(--text-med)' }}>{formatDate()}</p>
+        <p className="text-xs md:text-sm text-right" style={{ color: 'var(--text-med)' }}>{formatDate()}</p>
       </div>
 
       {/* Main Overview Cards */}
