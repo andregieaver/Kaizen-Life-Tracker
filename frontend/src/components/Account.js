@@ -1286,17 +1286,14 @@ const Account = ({ athleteId }) => {
       }
       
       setBackgroundImageFile(null);
-      if (newBackgroundImage) {
-        setBackgroundImagePreview(newBackgroundImage);
-        // Store in localStorage for immediate app-wide update
-        localStorage.setItem('app_background_image', newBackgroundImage);
-      }
       
-      // Update localStorage with current background image
-      const currentBgImage = newBackgroundImage || personalForm.background_image;
+      // Update localStorage with current background image from response
+      const currentBgImage = response.data.background_image;
       if (currentBgImage) {
+        setBackgroundImagePreview(currentBgImage);
         localStorage.setItem('app_background_image', currentBgImage);
       } else {
+        setBackgroundImagePreview('');
         localStorage.removeItem('app_background_image');
       }
       
