@@ -2497,9 +2497,8 @@ const Nutrition = ({ athleteId }) => {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-2 pt-4">
+              <div className="flex gap-2 pt-4 pb-24">
                 <Button
-                  variant="outline"
                   className="flex-1 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                   onClick={() => setShowSupplementModal(false)}
                 >
