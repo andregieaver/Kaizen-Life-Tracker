@@ -282,6 +282,8 @@ code {
   border-radius: 8px;
   z-index: 0;
   pointer-events: none;
+  opacity: var(--bubble-opacity, 1);
+  transition: opacity 0.3s ease;
   
   /* Semi-transparent darker blue with radial gradient for better text contrast */
   background: 
