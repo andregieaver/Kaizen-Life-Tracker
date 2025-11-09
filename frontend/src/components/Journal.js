@@ -682,7 +682,7 @@ const Journal = ({ athleteId }) => {
                       </>
                     ) : (
                       <>
-                        <div className="w-20 h-20 bg-teal-600 rounded-full flex items-center justify-center mb-4">
+                        <div className="w-20 h-20 rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: '#32D3FF' }}>
                           <Mic className="w-10 h-10 text-white" />
                         </div>
                         <p className="text-gray-300 mb-4">{t('journal.clickToStart')}</p>
@@ -738,7 +738,7 @@ const Journal = ({ athleteId }) => {
                           </>
                         ) : (
                           <>
-                            <div className="w-20 h-20 bg-teal-600 rounded-full flex items-center justify-center mb-4">
+                            <div className="w-20 h-20 rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: '#32D3FF' }}>
                               <Video className="w-10 h-10 text-white" />
                             </div>
                             <p className="text-gray-300 mb-4">Click to start video recording</p>
