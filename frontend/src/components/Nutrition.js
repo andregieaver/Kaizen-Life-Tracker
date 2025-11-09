@@ -1059,15 +1059,15 @@ const Nutrition = ({ athleteId }) => {
                         ? 'text-white' 
                         : 'bg-gray-700 text-white hover:bg-gray-600'
                     }`}
-                    style={viewType === 'week' ? { backgroundColor: '#00C2A8' } : {}}
+                    style={viewType === 'week' ? { backgroundColor: '#32D3FF' } : {}}
                     onMouseEnter={(e) => {
                       if (viewType === 'week') {
-                        e.currentTarget.style.backgroundColor = '#009688';
+                        e.currentTarget.style.backgroundColor = '#1FC1FF';
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (viewType === 'week') {
-                        e.currentTarget.style.backgroundColor = '#00C2A8';
+                        e.currentTarget.style.backgroundColor = '#32D3FF';
                       }
                     }}
                   >
