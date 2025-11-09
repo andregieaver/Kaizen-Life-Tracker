@@ -222,12 +222,12 @@ code {
   
   /* Semi-transparent vibrant blue with radial gradient for backlit effect */
   background: 
-    radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, var(--c-brand-500) 0%, color-mix(in srgb, var(--c-brand-500) 70%, transparent) 100%),
+    radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, color-mix(in srgb, var(--c-brand-500) 80%, black) 0%, color-mix(in srgb, var(--c-brand-500) 50%, transparent) 100%),
     linear-gradient(180deg, 
-      color-mix(in srgb, var(--c-brand-500) 90%, white) 0%,
-      var(--c-brand-500) 50%,
-      color-mix(in srgb, var(--c-brand-500) 70%, black) 100%
+      color-mix(in srgb, var(--c-brand-500) 70%, black) 0%,
+      color-mix(in srgb, var(--c-brand-500) 85%, black) 50%,
+      color-mix(in srgb, var(--c-brand-500) 50%, black) 100%
     );
   
   /* Shine on top and depth shadows for curved effect */
