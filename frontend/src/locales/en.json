@@ -1407,6 +1407,7 @@
     "readyToUse": "Ready to use",
     "howItWorksInfo": "💡 How it works: Your {{discount}}% discount will be automatically applied at checkout on your next subscription renewal (max 100%).",
     "noRewardsYet": "No Rewards Yet",
-    "startSharing": "Start sharing your referral link to earn discount codes!"
+    "startSharing": "Start sharing your referral link to earn discount codes!",
+    "copyReferralLink": "Copy Referral Link"
   }
 }
