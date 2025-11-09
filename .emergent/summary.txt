@@ -1,5 +1,5 @@
 <analysis>
-The trajectory details the work of an AI engineer on the TrainSmart application, focusing on bug fixes and UI/UX enhancements. Initial efforts revolved around debugging the Strava integration, which involved rectifying credential storage/retrieval, callback URL mismatches, and incorrect API endpoint usage (form data vs. JSON). Subsequently, significant UI/UX changes were implemented, applying a glassmorphic, sliding bubble effect to the header menu, journal entry mode selector, slideout menu, and account settings tabs. During this, a persistent white flash on tab navigation was fixed, and console error spam was suppressed. The AI coach's context was expanded to include full journal entry content. The most recent challenge involved the account settings tabs, where the glassmorphic bubble effect consistently failed to render, leading to a nuclear test with basic CSS to isolate the problem. The user then pivoted to a new UI bug: a white area appearing during tab content loading.
+The AI engineer's work spanned several key areas, primarily focusing on UI/UX enhancements, bug fixes, and integration improvements for the TrainSmart application. Initial efforts centered on resolving a UI bug: the glassmorphic bubble effect on Account settings tabs was not rendering, alongside fixing a white area flash during tab navigation. This involved extensive CSS debugging, component refactoring, and precise handling of CSS variables in React . Concurrently, the Oura integration was overhauled, moving credential management to System Settings and streamlining the user-facing connection flow, which required fixing incorrect redirect URIs in both frontend and backend. Further work involved widespread application of the glassmorphic design and consistent border-radius to various dashboard pages (Today, Home, Reports, Referrals), adjusting mobile layouts, margins, and addressing translation errors in Community components (, ). The most recent task focused on enhancing the Habit Tracker page with blue buttons, glassmorphic styling, mobile-friendly layouts, and comprehensive translation updates.
 </analysis>
 
 <product_requirements>
@@ -27,63 +27,72 @@ The TrainSmart application aims to improve user engagement and administration. K
 -   **Full-stack Development**: React.js (Frontend), FastAPI (Backend), MongoDB (Database).
 -   **UI/UX**: Tailwind CSS, React Hooks (, , ), , Lucide React, glassmorphic design.
 -   **Internationalization**: , .
--   **External APIs**: Strava OAuth2,  for backend HTTP requests.
+-   **External APIs**: Strava OAuth2, Oura OAuth2,  for backend HTTP requests.
 -   **Font Management**: Local font hosting,  CSS declarations, Tailwind CSS .
 -   **State Management**: React Context, explicit state tracking for UI elements.
 -   **DOM Manipulation**:  and  for dynamic element positioning.
--   **Styling**: CSS custom properties, pseudo-elements (), , .
--   **API Error Handling**: Silencing non-critical API errors on the frontend.
+-   **Styling**: CSS custom properties, pseudo-elements (), , , z-index management.
 </key_technical_concepts>
 
 <code_architecture>
 
 -   : Core backend logic.
     -   **Importance**: Centralizes backend API definitions.
-    -   **Changes**:  updated to load credentials from  and store  in the database for callback validation. Enhanced AI coach's  to provide full journal entry content. Added detailed logging for Strava authorization callback.
+    -   **Changes**:  updated to load credentials from  and store  in the database for callback validation. Enhanced AI coach's  to provide full journal entry content. Added detailed logging for Strava authorization callback. Updated Oura OAuth endpoints (, , ) to load client credentials from , corrected redirect URI construction, and included  in status response. Added debug logging for Oura callback URL.
 -   : Handles Strava API interactions.
     -   **Importance**: Decouples Strava integration logic.
     -   **Changes**:  filter updated to .  corrected to .  and refresh token logic updated to use form data (instead of ). Added detailed error logging.
 -   : Global CSS for frontend.
     -   **Importance**: Defines global styling and design system elements.
-    -   **Changes**: Replaced color  with  (and RGB equivalents  with ). Added CSS for glassmorphic sliding bubbles for header menu, journal entry types, slideout menu, and account/system settings tabs, including , , and  animations. Enhanced header menu shine. Added debugging CSS (red background, yellow border) for  to test rendering.
--   : Application-wide CSS.
-    -   **Importance**: Overrides lingering font definitions. (No further changes in trajectory).
--   : Tailwind CSS configuration.
-    -   **Importance**: Centralizes font configuration. (No further changes in trajectory).
+    -   **Changes**: Replaced color  with . Added CSS for glassmorphic sliding bubbles for header menu, journal entry types, slideout menu, and account/system settings tabs, including , , and  animations. Enhanced header menu shine. Removed debugging CSS (red background, yellow border) for . Fixed missing closing brace for . Added  CSS variable for a darker background gradient matching the header. Updated header gradient to use blue brand color.
 -   : Central component for logged-in users.
     -   **Importance**: Primary view for users, features navigation and data display.
-    -   **Changes**: Implemented header menu with glassmorphic sliding bubble effect using  and . Removed  event listener to prevent unwanted page refreshes. Implemented slideout menu with glassmorphic sliding bubble effect using  and .
--   : Frontend landing page.
-    -   **Importance**: Ensures branding consistency. (No further changes in trajectory).
+    -   **Changes**: Implemented header menu with glassmorphic sliding bubble effect using  and . Removed  event listener. Implemented slideout menu with glassmorphic sliding bubble effect. Updated main background to use . Applied glassmorphic effect, 8px border-radius, and mobile margins to Quick Actions, Progress boxes. Applied glassmorphic styling to desktop and mobile header buttons. Adjusted top padding for quick links. Updated mobile navbar z-index to .
 -   : Admin configuration.
     -   **Importance**: Administrative interface for managing external API credentials and system settings.
-    -   **Changes**: Refactored by removing Plan Features from the Coupons tab and relocating it conceptually to the Plans tab (by deleting incorrect content). Started implementing HTML5 drag and drop for plan features in the Edit Plan modal, with a note to add touch support.
+    -   **Changes**: Refactored by removing Plan Features from Coupons tab and relocating it conceptually to the Plans tab. Started implementing HTML5 drag and drop for plan features. Added Oura Client ID and Client Secret input fields after the Strava section, managing their state and saving them to system settings. Updated Oura callback URL instructions and placeholder text.
 -   : User account settings.
     -   **Importance**: Manages user-specific integrations, subscriptions, and profile settings.
-    -   **Changes**: Styled subscription section buttons and heading for mobile responsiveness. Attempted to implement glassmorphic sliding bubble for tabs, iteratively debugging CSS specificity and replacing Radix UI Tabs with a custom switcher wrapper. Fixed white skeleton loading background. Added CSS variables and direct style application for the bubble. Re-wrote account tabs to use flex layout mimicking Journal tabs.
+    -   **Changes**: Styled subscription section buttons and heading for mobile. Attempted to implement glassmorphic sliding bubble for tabs, iteratively debugging CSS specificity. Fixed white skeleton loading background by adding  to  for all tabs. Added CSS variables and direct style application for the bubble. Added initial CSS variable values (, ) to the  container. Updated Oura connection to use  and removed  imports/usage. Removed legacy Strava, Oura, and COROS integration cards/credential inputs.
 -   : Dashboard component.
-    -   **Importance**: Aligns with dark theme design. (No further changes in trajectory).
--   : Directory for locally hosted font files.
-    -   **Importance**: Ensures reliable and offline-first font loading. (No further changes in trajectory).
+    -   **Importance**: Displays readiness score.
+    -   **Changes**: Applied glassmorphic effect and 8px border-radius to the card and its loading state.
 -   : User journal.
     -   **Importance**: Allows users to log entries in various formats.
-    -   **Changes**: Fixed Voice entry mode selection by correcting  logic that was prematurely setting  back to 'text'. Styled entry mode buttons (Text/Voice/Video) with a glassmorphic sliding bubble effect using  and . Added console logging for debugging.
+    -   **Changes**: Fixed Voice entry mode selection. Styled entry mode buttons (Text/Voice/Video) with a glassmorphic sliding bubble effect using  and .
 -   : AI Coach interface.
     -   **Importance**: Provides AI assistance based on user data.
-    -   **Changes**: Updated to include full journal entry content in the AI prompt for more informed responses.
+    -   **Changes**: Updated to include full journal entry content in the AI prompt. Adjusted message input  positioning (to ) and messages container  (to ) to clear the mobile navbar. Stretched message field container to bottom ( on parent). Changed send button color from green/teal to blue ().
 -   : User's daily overview.
     -   **Importance**: Displays current day's activities and stats.
-    -   **Changes**: Silenced console errors related to loading data.
+    -   **Changes**: Silenced console errors. Made title and date inline on mobile, aligned date to the right. Applied glassmorphic effect and 8px border-radius to Nutrition Overview, Training Load, and Meals Detail cards. Increased top padding ().
 -   : User's merits.
     -   **Importance**: Displays user achievements.
-    -   **Changes**: Silenced console errors related to loading merits.
+    -   **Changes**: Silenced console errors. Applied glassmorphic effect and 8px border-radius.
 -   : UI library component.
     -   **Importance**: Reusable tab component.
-    -   **Changes**: Added  to  to prevent white background flash.
+    -   **Changes**: Added  to  to prevent white background flash. (Initial change, later moved to  directly for consistency).
+-   : Community features.
+    -   **Importance**: Manages community posts, groups, challenges.
+    -   **Changes**: Fixed  in  and  by adding  hook to these components and passing  as a prop where they are rendered.
+-   : Referral program page.
+    -   **Importance**: Displays referral code and rewards.
+    -   **Changes**: Applied glassmorphic effect, 8px border-radius, and consistent margins/padding to all boxes. Updated copy button color, referral code display, and input field focus. Made description translatable and dynamic for . Added loading checks to ensure  is loaded before rendering description. Translated bottom referral link button and changed its color to blue.
+-   : English translation file.
+    -   **Importance**: Stores English strings for internationalization.
+    -   **Changes**: Added new  section translations. Added tap and undo translations for habits.
+-   : Norwegian translation file.
+    -   **Importance**: Stores Norwegian strings for internationalization.
+    -   **Changes**: Added new  section translations. Added tap and undo translations for habits.
+-   : Dashboard Reports page.
+    -   **Importance**: Displays user recommendations and stats.
+    -   **Changes**: Applied glassmorphic effect, 8px border-radius, and consistent margins/padding to Quick Stats cards and recommendations list cards. Replaced brand color  with . Increased top padding () and added side padding (). Improved mobile layout of report items, removed tags, removed calendar icon, and repositioned priority badge.
+-   : Habit tracking feature.
+    -   **Importance**: Allows users to track and manage habits.
+    -   **Changes**: Updated buttons to use blue color. Applied glassmorphic styling, 8px border-radius to habit cards. Added missing tap and undo translation keys. Started implementing mobile-friendly layout for habit items.
 </code_architecture>
 
 <pending_tasks>
--   Integrate Oura API credentials.
 -   Complete Nutrition page image/camera upload and delete functionality.
 -   Refactor hardcoded date formats.
 -   Resolve persistent profile picture upload failures.
@@ -99,19 +108,19 @@ The TrainSmart application aims to improve user engagement and administration. K
 -   Create developer guidelines for future string creation and localization compliance.
 -   **Strava Integration**: Display synced activities in the frontend. Implement webhook subscription via the UI. Add activity import/sync functionality.
 -   Complete drag and drop functionality for Edit Plan modal in , ensuring mobile compatibility.
--   Fix the glassmorphic bubble effect not rendering on Account and System Settings tabs.
+-   Investigate the white area appearing when navigating between tabs in Account settings.
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer was focused on resolving a persistent UI bug where the glassmorphic, backlit bubble effect was not rendering on the Account Settings tabs in . Despite numerous attempts to align the CSS and React component structure with the working Journal Entry Type buttons (which exhibit the desired effect), the bubble ( pseudo-element) remained invisible. The debugging efforts involved:
-1.  **CSS Overrides**: Applying  rules and higher specificity selectors in .
-2.  **Structural Changes**: Replacing the  components with a custom  and  structure to eliminate potential library interference, mimicking the successful Journal component's HTML.
-3.  **Layout Comparison**: Inspecting and replicating the flexbox layout, element classes, and CSS custom property assignments of the working Journal tabs to the Account tabs.
-4.  **Nuclear Test**: As a last resort, a highly visible debug CSS () was applied to the  pseudo-element of the  to ascertain if the pseudo-element itself was rendering.
+Immediately prior to this summary, the AI engineer was focused on improving the  component based on user feedback. The last set of instructions from the user (Chat Message 692) were: There are still a lot of translations missing. Also make the habit items mobile friendly.
 
-The  for  was confirmed to be running and correctly calculating  and  (as per  from ), indicating the issue is purely CSS-related in the rendering of the  element, not JavaScript logic. The nuclear test in Chat Message 625-630 was the last action on this specific issue before the user provided a new task.
+The AI engineer proceeded to address these by:
+1.  Reviewing the  component to identify areas needing mobile layout adjustments and further translation.
+2.  Executing an edit (Chat Message 698) to update the component for better mobile layout and to address the remaining translation issues.
+
+The current state is that these changes have been applied to , but their effect on mobile friendliness and the completeness of translations still needs verification against the user's explicit feedback.
 </current_work>
 
 <optional_next_step>
-Investigate the white area appearing when navigating between tabs in Account settings.
+Verify the mobile layout and translations in  after the last code edit.
 </optional_next_step>
