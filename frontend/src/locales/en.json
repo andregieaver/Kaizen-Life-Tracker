@@ -621,6 +621,12 @@
     "startTracking": "Start building habits to improve your routine",
     "tap": "Tap",
     "undo": "Undo",
+    "today": "Today",
+    "goal": "Goal",
+    "otherHabits": "Other Habits",
+    "perDay": "per day",
+    "complete": "Complete",
+    "daysPerWeek": "days per week",
     "daysOfWeek": {
       "monday": "Monday",
       "tuesday": "Tuesday",
