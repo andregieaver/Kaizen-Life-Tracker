@@ -626,6 +626,8 @@
     "startTrackingMealsAndSupplements": "Start tracking your meals and supplements",
     "mealModal": {
       "title": "Log Meal or Drink",
+      "viewTitle": "Meal Details",
+      "editTitle": "Edit Meal or Drink",
       "subtitle": "Add what you ate or drank",
       "mealType": "Meal Type",
       "date": "Date",
