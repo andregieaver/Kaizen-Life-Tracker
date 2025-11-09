@@ -1042,8 +1042,8 @@ const Nutrition = ({ athleteId }) => {
                 <p className="text-gray-300" style={{ color: 'var(--text-med)' }}>
                   {viewType === 'week' 
                     ? (weekStats.daysInWeek > 0 
-                        ? `${weekStats.daysInWeek} day${weekStats.daysInWeek > 1 ? 's' : ''} tracked`
-                        : 'No entries this week')
+                        ? `${weekStats.daysInWeek} ${weekStats.daysInWeek > 1 ? t('nutrition.daysTracked') : t('nutrition.dayTracked')}`
+                        : t('nutrition.noEntriesThisWeek'))
                     : (dayStats.entryCount > 0
                         ? `${dayStats.entryCount} entr${dayStats.entryCount > 1 ? 'ies' : 'y'} logged`
                         : 'No entries this day')
