@@ -264,14 +264,25 @@ const HabitTracker = ({ athleteId }) => {
             </p>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2 md:space-y-3">
             {todayHabits.map(habit => {
               const todayCount = getTodayCompletions(habit.id);
               const isComplete = todayCount >= habit.times_per_day;
               const streak = calculateStreak(habit);
               
               return (
-                <div key={habit.id} className={`transition-all bg-gradient-to-br from-gray-800 to-gray-900 p-4 ${isComplete ? 'ring-2 ring-green-400' : ''}`}>
+                <div 
+                  key={habit.id} 
+                  className={`transition-all p-4 ${isComplete ? 'ring-2 ring-green-400' : ''}`}
+                  style={{ 
+                    background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+                    backdropFilter: 'blur(12px) saturate(140%)',
+                    WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+                    borderRadius: '8px'
+                  }}
+                >
                   <div className="flex items-start justify-between gap-4">
                       {/* Main Content */}
                       <div className="flex-1">
