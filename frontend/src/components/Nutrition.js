@@ -2484,7 +2484,7 @@ const Nutrition = ({ athleteId }) => {
 
               {/* Notes */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white">Notes (Optional)</label>
+                <label className="text-sm font-medium text-white">{t('nutrition.supplementModal.notes')}</label>
                 <textarea
                   value={supplementNotes}
                   onChange={(e) => setSupplementNotes(e.target.value)}
@@ -2500,7 +2500,7 @@ const Nutrition = ({ athleteId }) => {
                   className="flex-1 bg-gray-700 text-white border-gray-600 hover:bg-gray-600"
                   onClick={() => setShowSupplementModal(false)}
                 >
-                  Cancel
+                  {t('nutrition.supplementModal.cancel')}
                 </Button>
                 <Button
                   className="flex-1 text-white border-0"
@@ -2510,7 +2510,7 @@ const Nutrition = ({ athleteId }) => {
                   onClick={handleSaveSupplementLog}
                   disabled={selectedSupplements.length === 0}
                 >
-                  Save Log
+                  {t('nutrition.supplementModal.saveLog')}
                 </Button>
               </div>
             </div>
