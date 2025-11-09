@@ -3710,6 +3710,67 @@ async def upload_coach_avatar(athlete_id: str, file: UploadFile = File(...)):
         logging.error(f"Error uploading coach avatar: {e}")
         raise HTTPException(status_code=500, detail="Failed to upload coach avatar")
 
+@api_router.post("/athlete/{athlete_id}/background-image")
+async def upload_background_image(athlete_id: str, file: UploadFile = File(...)):
+    """Upload and update custom background image"""
+    try:
+        # Validate file type
+        if not file.content_type or not file.content_type.startswith('image/'):
+            raise HTTPException(status_code=400, detail="File must be an image")
+        
+        # Check file size (limit to 5MB)
+        file_content = await file.read()
+        if len(file_content) > 5 * 1024 * 1024:  # 5MB
+            raise HTTPException(status_code=400, detail="File size must be less than 5MB")
+        
+        # Verify athlete exists
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id})
+        if not athlete:
+            raise HTTPException(status_code=404, detail="Athlete not found")
+        
+        # Process image - resize and convert to base64
+        try:
+            image = Image.open(io.BytesIO(file_content))
+            
+            # Convert to RGB if needed
+            if image.mode in ('RGBA', 'LA', 'P'):
+                background = Image.new('RGB', image.size, (255, 255, 255))
+                if image.mode == 'P':
+                    image = image.convert('RGBA')
+                background.paste(image, mask=image.split()[-1] if image.mode == 'RGBA' else None)
+                image = background
+            
+            # Resize to 1920px width (standard desktop size), maintaining aspect ratio
+            max_width = 1920
+            if image.width > max_width:
+                ratio = max_width / image.width
+                new_height = int(image.height * ratio)
+                image = image.resize((max_width, new_height), Image.Resampling.LANCZOS)
+            
+            # Convert to base64
+            buffer = io.BytesIO()
+            image.save(buffer, format='JPEG', quality=85)
+            image_data = base64.b64encode(buffer.getvalue()).decode('utf-8')
+            background_image = f"data:image/jpeg;base64,{image_data}"
+            
+        except Exception as e:
+            logging.error(f"Error processing background image: {e}")
+            raise HTTPException(status_code=400, detail="Invalid image file")
+        
+        # Update athlete profile with new background image
+        await db.athlete_profiles.update_one(
+            {"id": athlete_id},
+            {"$set": {"background_image": background_image}}
+        )
+        
+        return {"success": True, "message": "Background image updated successfully", "background_image": background_image}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error uploading background image: {e}")
+        raise HTTPException(status_code=500, detail="Failed to upload background image")
+
 # Subscription routes
 SUBSCRIPTION_PLANS = {
     "pro_monthly": {"price": 9.99, "interval": "month", "interval_count": 1, "tier": "pro", "name": "Pro Monthly"},
