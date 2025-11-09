@@ -84,6 +84,7 @@
   /* Gradients */
   --grad-brand: linear-gradient(135deg, #32D3FF 0%, #32D3FF 100%);
   --grad-surface: linear-gradient(180deg, #0B1220 0%, #111A23 100%);
+  --grad-page: linear-gradient(180deg, #0B1220 0%, #0D1825 50%, #111A23 100%);
   --grad-cta-soft: linear-gradient(180deg, rgba(50,211,255,.16) 0%, rgba(50,211,255,.16) 100%);
   --grad-success: linear-gradient(135deg, #22C55E, #32D3FF);
   --grad-alert: linear-gradient(135deg, #EF4444, #F59E0B);
