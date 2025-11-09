@@ -2301,7 +2301,7 @@ const Nutrition = ({ athleteId }) => {
                       onClick={() => analyzeFoodImage(imageData, description)}
                       disabled={isAnalyzing}
                     >
-                      {isAnalyzing ? 'Analyzing...' : 'Analyze Nutrition with AI'}
+                      {isAnalyzing ? t('nutrition.mealModal.analyzing') : t('nutrition.mealModal.analyzeNutritionAI')}
                     </Button>
                   </div>
                 )}
