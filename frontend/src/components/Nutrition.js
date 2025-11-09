@@ -2004,7 +2004,7 @@ const Nutrition = ({ athleteId }) => {
                   <div>
                     <Badge className={`${getMealColor(viewingEntry.meal_type)} text-lg px-3 py-1`}>
                       {React.createElement(getMealIcon(viewingEntry.meal_type), { className: 'w-4 h-4 mr-2 inline' })}
-                      {viewingEntry.meal_type.charAt(0).toUpperCase() + viewingEntry.meal_type.slice(1)}
+                      {getMealTypeLabel(viewingEntry.meal_type)}
                     </Badge>
                   </div>
                   
