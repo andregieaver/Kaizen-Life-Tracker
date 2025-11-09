@@ -253,7 +253,9 @@ const HabitTracker = ({ athleteId }) => {
 
       {/* Today's Habits */}
       <div>
-        <h3 className="text-lg font-semibold mb-3 text-white">Today - {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</h3>
+        <h3 className="text-lg font-semibold mb-3 text-white">
+          {t('habits.today')} - {new Date().toLocaleDateString(i18n.language, { weekday: 'long', month: 'long', day: 'numeric' })}
+        </h3>
         
         {todayHabits.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12">
@@ -283,15 +285,16 @@ const HabitTracker = ({ athleteId }) => {
                     borderRadius: '8px'
                   }}
                 >
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
                       {/* Main Content */}
                       <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <h4 className="text-lg font-semibold text-white">{habit.title}</h4>
+                        <div className="flex items-center gap-2 mb-2 flex-wrap">
+                          <h4 className="text-base md:text-lg font-semibold text-white">{habit.title}</h4>
                           {isComplete && (
-                            <span className="flex items-center gap-1 text-green-400 text-sm font-medium">
+                            <span className="flex items-center gap-1 text-green-400 text-xs md:text-sm font-medium">
                               <Check className="w-4 h-4" />
-                              Complete!
+                              {t('habits.complete')}
+                            </span>
                             </span>
                           )}
                         </div>
