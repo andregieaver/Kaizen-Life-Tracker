@@ -775,7 +775,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       )}
 
       {/* Message Input - Fixed at Bottom */}
-      <div className={`fixed bottom-16 md:bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-gray-800 border-t border-gray-700 z-50 transition-transform duration-300 ease-in-out md:translate-y-0 ${
+      <div className={`fixed bottom-24 md:bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 to-gray-800 border-t border-gray-700 z-50 transition-transform duration-300 ease-in-out md:translate-y-0 ${
         scrollDirection === 'down' ? 'translate-y-[calc(100%+4rem)] md:translate-y-0' : 'translate-y-0'
       }`}>
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
