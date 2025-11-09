@@ -3560,6 +3560,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           onClose={() => setShowAthletes(false)}
           onFollowToggle={handleAthletesFollowToggle}
           onViewProfile={loadAthleteProfile}
+          t={t}
         />
       )}
 
