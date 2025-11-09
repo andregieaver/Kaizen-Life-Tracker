@@ -1049,7 +1049,7 @@ const Nutrition = ({ athleteId }) => {
                       }
                     }}
                   >
-                    Day
+                    {t('nutrition.day')}
                   </Button>
                   <Button
                     size="sm"
@@ -1071,7 +1071,7 @@ const Nutrition = ({ athleteId }) => {
                       }
                     }}
                   >
-                    Week
+                    {t('nutrition.week')}
                   </Button>
                 </div>
                 
