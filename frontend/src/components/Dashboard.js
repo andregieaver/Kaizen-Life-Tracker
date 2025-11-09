@@ -412,6 +412,27 @@ const Dashboard = ({ athleteId }) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, [lastScrollY]);
 
+  // Load background image from localStorage or athlete data
+  useEffect(() => {
+    const loadBackgroundImage = () => {
+      // First try localStorage (most up-to-date)
+      const storedBgImage = localStorage.getItem('app_background_image');
+      if (storedBgImage) {
+        setBackgroundImage(storedBgImage);
+        return;
+      }
+      
+      // Fall back to athlete data
+      if (athlete?.background_image) {
+        setBackgroundImage(athlete.background_image);
+        // Also store in localStorage for consistency
+        localStorage.setItem('app_background_image', athlete.background_image);
+      }
+    };
+    
+    loadBackgroundImage();
+  }, [athlete]);
+
   const calculateYTD = async (athleteData) => {
     try {
       // Get all workouts for the current year
