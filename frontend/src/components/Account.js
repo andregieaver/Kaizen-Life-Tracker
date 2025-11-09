@@ -1343,16 +1343,6 @@ const Account = ({ athleteId }) => {
     }
   };
 
-  const handleStravaCredentialsSuccess = () => {
-    // Reload integrations data to show connected state
-    loadAccountData();
-    setSaveStatus({ 
-      type: 'success', 
-      message: 'Strava credentials configured successfully! You can now sync your activities.' 
-    });
-    setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
-  };
-
   const handleOuraConnect = async () => {
     // Oura credentials are now system-wide in System Settings
     // Just proceed with OAuth directly
