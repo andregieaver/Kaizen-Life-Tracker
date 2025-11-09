@@ -1920,7 +1920,7 @@ const Nutrition = ({ athleteId }) => {
                           )}
                           {entry.potassium > 0 && (
                             <div className="bg-gray-50 rounded-lg p-2">
-                              <div className="text-xs text-gray-500">Potassium</div>
+                              <div className="text-xs text-gray-500">{t('nutrition.potassium')}</div>
                               <div className="text-sm font-semibold text-gray-900">{entry.potassium}mg</div>
                             </div>
                           )}
