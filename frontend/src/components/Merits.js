@@ -54,7 +54,14 @@ const Merits = ({ athleteId }) => {
 
   if (isLoading) {
     return (
-      <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+      <div className="border-0 shadow-lg overflow-hidden" style={{ 
+        background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+        backdropFilter: 'blur(12px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+        borderRadius: '8px'
+      }}>
         <div className="p-4">
           <h2 className="flex items-center text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
             <Trophy className="w-5 h-5 mr-2" style={{ color: 'var(--c-warning)' }} />
