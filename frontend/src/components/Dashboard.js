@@ -1291,10 +1291,14 @@ const Dashboard = ({ athleteId }) => {
 
               {/* Training Calendar */}
               <div 
-                className="border-0 shadow-lg cursor-pointer transition-all duration-200 ease-out rounded-none md:rounded-3xl overflow-hidden group hover:scale-105"
+                className="border-0 shadow-lg cursor-pointer transition-all duration-200 ease-out overflow-hidden group hover:scale-105"
                 style={{ 
-                  background: 'var(--grad-surface)',
-                  borderColor: 'var(--border)'
+                  background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+                  backdropFilter: 'blur(12px) saturate(140%)',
+                  WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+                  borderRadius: '8px'
                 }}
                 onClick={() => navigate('/dashboard/calendar')}
               >
