@@ -1037,7 +1037,7 @@ const Nutrition = ({ athleteId }) => {
               {/* Title and Description */}
               <div className="flex-1">
                 <h3 className="text-lg text-white" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
-                  {viewType === 'week' ? t('nutrition.dailyAverage') : 'Day Total'}
+                  {viewType === 'week' ? t('nutrition.dailyAverage') : t('nutrition.dayTotal')}
                 </h3>
                 <p className="text-gray-300" style={{ color: 'var(--text-med)' }}>
                   {viewType === 'week' 
@@ -1045,8 +1045,8 @@ const Nutrition = ({ athleteId }) => {
                         ? `${weekStats.daysInWeek} ${weekStats.daysInWeek > 1 ? t('nutrition.daysTracked') : t('nutrition.dayTracked')}`
                         : t('nutrition.noEntriesThisWeek'))
                     : (dayStats.entryCount > 0
-                        ? `${dayStats.entryCount} entr${dayStats.entryCount > 1 ? 'ies' : 'y'} logged`
-                        : 'No entries this day')
+                        ? `${dayStats.entryCount} ${dayStats.entryCount > 1 ? t('nutrition.entriesLogged') : t('nutrition.entryLogged')}`
+                        : t('nutrition.noEntriesThisDay'))
                   }
                 </p>
               </div>
