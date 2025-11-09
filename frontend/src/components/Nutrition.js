@@ -2023,24 +2023,24 @@ const Nutrition = ({ athleteId }) => {
                   {/* Nutritional Information */}
                   {viewingEntry.calories > 0 && (
                     <div className="bg-gray-700 border border-gray-600 rounded-lg p-4">
-                      <h4 className="font-semibold text-white mb-3">Nutritional Information</h4>
+                      <h4 className="font-semibold text-white mb-3">{t('nutrition.mealModal.nutritionalInformation')}</h4>
                       
                       {/* Macronutrients */}
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
                         <div className="bg-gray-800 rounded-lg p-3 text-center border border-gray-600">
-                          <div className="text-xs text-gray-400 mb-1">Calories</div>
+                          <div className="text-xs text-gray-400 mb-1">{t('nutrition.calories')}</div>
                           <div className="text-xl font-bold text-blue-400">{viewingEntry.calories}</div>
                         </div>
                         <div className="bg-gray-800 rounded-lg p-3 text-center border border-gray-600">
-                          <div className="text-xs text-gray-400 mb-1">Protein</div>
+                          <div className="text-xs text-gray-400 mb-1">{t('nutrition.protein')}</div>
                           <div className="text-xl font-bold text-green-400">{viewingEntry.protein}g</div>
                         </div>
                         <div className="bg-gray-800 rounded-lg p-3 text-center border border-gray-600">
-                          <div className="text-xs text-gray-400 mb-1">Carbs</div>
+                          <div className="text-xs text-gray-400 mb-1">{t('nutrition.carbs')}</div>
                           <div className="text-xl font-bold text-orange-400">{viewingEntry.carbs}g</div>
                         </div>
                         <div className="bg-gray-800 rounded-lg p-3 text-center border border-gray-600">
-                          <div className="text-xs text-gray-400 mb-1">Fat</div>
+                          <div className="text-xs text-gray-400 mb-1">{t('nutrition.fat')}</div>
                           <div className="text-xl font-bold text-purple-400">{viewingEntry.fat}g</div>
                         </div>
                       </div>
