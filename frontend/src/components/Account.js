@@ -1357,18 +1357,37 @@ const Account = ({ athleteId }) => {
     setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
   };
 
-  const handleOuraConnect = () => {
-    setShowOuraModal(true);
+  const handleOuraConnect = async () => {
+    // First check if credentials exist
+    try {
+      const statusResponse = await axios.get(`${API}/integrations/oura/${athleteId}/status`);
+      const hasCredentials = statusResponse.data.has_credentials;
+      
+      if (!hasCredentials) {
+        // Show credentials modal if not configured
+        setShowOuraModal(true);
+      } else {
+        // Credentials exist, proceed with OAuth
+        await handleSimpleConnect('oura');
+      }
+    } catch (error) {
+      console.error('Error checking Oura credentials:', error);
+      // If error checking, show modal to be safe
+      setShowOuraModal(true);
+    }
   };
 
-  const handleOuraCredentialsSuccess = () => {
-    // Reload integrations data to show connected state
-    loadAccountData();
-    setSaveStatus({ 
-      type: 'success', 
-      message: 'Oura credentials configured successfully! You can now sync your sleep and recovery data.' 
+  const handleOuraCredentialsSuccess = async () => {
+    setShowOuraModal(false);
+    setSaveStatus({
+      type: 'success',
+      message: 'Oura credentials configured successfully! Now initiating connection...' 
     });
-    setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
+    
+    // After credentials are saved, proceed with OAuth
+    setTimeout(async () => {
+      await handleSimpleConnect('oura');
+    }, 1000);
   };
 
   const handleDisconnectIntegration = async (integration) => {
