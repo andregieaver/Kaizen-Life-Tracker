@@ -569,7 +569,15 @@
       "takePhoto": "Ta bilde",
       "imageCompression": "Bilder automatisk komprimert • JPG, PNG, WEBP",
       "snacks": "Snacks"
-    }
+    },
+    "dailyAverage": "Daglig gjennomsnitt",
+    "dayTracked": "dag sporet",
+    "daysTracked": "dager sporet",
+    "perDay": "per dag",
+    "currentWeek": "Gjeldende uke",
+    "macronutrients": "Makronæringsstoffer",
+    "micronutrients": "Mikronæringsstoffer",
+    "rdi": "ADI"
   },
   "dashboard": {
     "welcome": "Velkommen tilbake",
