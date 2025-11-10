@@ -855,7 +855,14 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
             </div>
 
             {/* Weekly Summary Column - Hidden on small mobile, shown on tablet+ */}
-            <div className="hidden md:block w-full lg:w-80 bg-gradient-to-b from-gray-700 to-gray-800 rounded-lg p-4 overflow-y-auto max-h-[400px] lg:max-h-[600px] border border-gray-600">
+            <div className="hidden md:block w-full lg:w-80 p-4 overflow-y-auto max-h-[400px] lg:max-h-[600px]" style={{
+              background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+              backdropFilter: 'blur(12px) saturate(140%)',
+              WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+              borderRadius: '8px'
+            }}>
               <WeeklySummaryColumn 
                 currentDate={currentDate}
                 currentView={currentView}
