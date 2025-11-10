@@ -3413,7 +3413,7 @@ const Account = ({ athleteId }) => {
                         onClick={handleDowngrade}
                         disabled={!selectedPrice}
                       >
-                        {t('account.continueToCheckout')}
+                        {t('account.confirmChange')}
                       </Button>
                     </div>
                   </CardContent>
