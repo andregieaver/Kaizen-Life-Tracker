@@ -124,7 +124,11 @@ const WaitingListSection = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     placeholder="John Doe"
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all placeholder-gray-400"
+                    className="w-full px-4 py-3 text-white rounded-lg focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent transition-all placeholder-gray-400"
+                    style={{
+                      background: 'rgba(17, 24, 39, 0.5)',
+                      border: '1px solid rgba(71, 85, 105, 0.3)'
+                    }}
                   />
                 </div>
 
