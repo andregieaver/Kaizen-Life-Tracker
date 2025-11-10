@@ -95,6 +95,70 @@ const Today = ({ athleteId }) => {
     return { color: 'text-green-600', bg: 'bg-green-50', icon: CheckCircle };
   };
 
+  // Habits functions
+  const loadHabits = async () => {
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      const [habitsRes, completionsRes] = await Promise.all([
+        axios.get(`${API}/habits/${athleteId}`),
+        axios.get(`${API}/habits/${athleteId}/completions`, {
+          params: {
+            start_date: today,
+            end_date: today
+          }
+        })
+      ]);
+      
+      setHabits(habitsRes.data.habits || []);
+      
+      // Convert completions to map
+      const completionsMap = {};
+      (completionsRes.data.completions || []).forEach(comp => {
+        const key = `${comp.habit_id}-${comp.date}`;
+        completionsMap[key] = comp.completions;
+      });
+      setHabitCompletions(completionsMap);
+    } catch (error) {
+      console.error('Error loading habits:', error);
+    }
+  };
+
+  const getTodayCompletions = (habitId) => {
+    const today = new Date().toISOString().split('T')[0];
+    const key = `${habitId}-${today}`;
+    return habitCompletions[key] || 0;
+  };
+
+  const handleCompleteHabit = async (habitId) => {
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      await axios.post(`${API}/habits/${habitId}/complete`, null, {
+        params: { athlete_id: athleteId, date: today }
+      });
+      await loadHabits();
+    } catch (error) {
+      console.error('Error logging habit completion:', error);
+    }
+  };
+
+  const handleUncompleteHabit = async (habitId) => {
+    try {
+      const today = new Date().toISOString().split('T')[0];
+      await axios.post(`${API}/habits/${habitId}/uncomplete`, null, {
+        params: { athlete_id: athleteId, date: today }
+      });
+      await loadHabits();
+    } catch (error) {
+      console.error('Error undoing habit completion:', error);
+    }
+  };
+
+  const getTodayHabits = () => {
+    const DAYS_OF_WEEK = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    const todayDayName = DAYS_OF_WEEK[new Date().getDay()];
+    return habits.filter(habit => habit.days_of_week && habit.days_of_week.includes(todayDayName));
+  };
+
   const calorieStatus = getCalorieStatus();
   const StatusIcon = calorieStatus.icon;
 
