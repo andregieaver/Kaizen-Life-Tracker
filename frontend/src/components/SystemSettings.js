@@ -1376,7 +1376,7 @@ const SystemSettings = ({ athleteId }) => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-[#32D3FF] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-400">{t('systemSettings.loadingSettings')}</p>
         </div>
       </div>
@@ -1390,12 +1390,12 @@ const SystemSettings = ({ athleteId }) => {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center">
-              <Settings className="w-8 h-8 text-[#00C2A8] mr-3" />
+              <Settings className="w-8 h-8 text-[#32D3FF] mr-3" />
               <h1 className="text-3xl font-display font-bold text-white">{t('systemSettings.title')}</h1>
             </div>
             <Button
               onClick={() => navigate('/dashboard/account')}
-              className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
+              className="bg-[#32D3FF] hover:bg-[#00a890] text-white px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
               title={t('systemSettings.accountSettings')}
             >
               <User className="w-5 h-5" />
@@ -1471,9 +1471,9 @@ const SystemSettings = ({ athleteId }) => {
                         <button
                           type="button"
                           onClick={() => toggleModule('affiliateProgram')}
-                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#00C2A8] focus:ring-offset-2 focus:ring-offset-gray-900 ${
+                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#32D3FF] focus:ring-offset-2 focus:ring-offset-gray-900 ${
                             moduleSettings.affiliateProgram.enabled 
-                              ? 'bg-[#00C2A8]' 
+                              ? 'bg-[#32D3FF]' 
                               : 'bg-gray-600'
                           }`}
                         >
@@ -1532,9 +1532,9 @@ const SystemSettings = ({ athleteId }) => {
                         <button
                           type="button"
                           onClick={() => toggleModule('community')}
-                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#00C2A8] focus:ring-offset-2 focus:ring-offset-gray-900 ${
+                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-[#32D3FF] focus:ring-offset-2 focus:ring-offset-gray-900 ${
                             moduleSettings.community.enabled 
-                              ? 'bg-[#00C2A8]' 
+                              ? 'bg-[#32D3FF]' 
                               : 'bg-gray-600'
                           }`}
                         >
@@ -1580,7 +1580,7 @@ const SystemSettings = ({ athleteId }) => {
                 <div className="pt-4">
                   <Button
                     onClick={handleSaveModuleSettings}
-                    className="w-full sm:w-auto px-6 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors flex items-center gap-2"
+                    className="w-full sm:w-auto px-6 py-2 bg-[#32D3FF] hover:bg-[#00a890] text-white rounded-lg transition-colors flex items-center gap-2"
                   >
                     <Save className="w-4 h-4" />
                     Save Module Settings
@@ -1637,7 +1637,7 @@ const SystemSettings = ({ athleteId }) => {
                     onClick={syncToStripe}
                     variant="outline"
                     disabled={loadingPlans}
-                    className="text-[#00C2A8] border-[#00C2A8] hover:bg-[#00C2A8]/10 w-full sm:w-auto"
+                    className="text-[#32D3FF] border-[#32D3FF] hover:bg-[#32D3FF]/10 w-full sm:w-auto"
                   >
                     <ArrowLeftRight className="w-4 h-4 mr-2 rotate-180" />
                     {loadingPlans ? t('systemSettings.plans.syncingToStripe') : t('systemSettings.plans.syncToStripe')}
@@ -1653,7 +1653,7 @@ const SystemSettings = ({ athleteId }) => {
                   </Button>
                   <Button 
                     onClick={() => setShowCreatePlanModal(true)}
-                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white w-full sm:w-auto"
+                    className="bg-[#32D3FF] hover:bg-[#00a890] text-white w-full sm:w-auto"
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     Create Custom Plan
@@ -1954,7 +1954,7 @@ const SystemSettings = ({ athleteId }) => {
                   <div className="px-6 pb-6 flex gap-3">
                     <Button
                       onClick={createPlan}
-                      className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                      className="flex-1 bg-[#32D3FF] hover:bg-[#00a890] text-white"
                     >
                       Create Plan
                     </Button>
@@ -2158,7 +2158,7 @@ const SystemSettings = ({ athleteId }) => {
                         });
                         setShowEditPlanModal(false);
                       }}
-                      className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                      className="flex-1 bg-[#32D3FF] hover:bg-[#00a890] text-white"
                     >
                       Save Changes
                     </Button>
@@ -2247,7 +2247,7 @@ const SystemSettings = ({ athleteId }) => {
                   <div className="px-6 pb-6 flex gap-3">
                     <Button
                       onClick={createVariation}
-                      className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                      className="flex-1 bg-[#32D3FF] hover:bg-[#00a890] text-white"
                     >
                       Create Variation
                     </Button>
@@ -2286,7 +2286,7 @@ const SystemSettings = ({ athleteId }) => {
                       placeholder={t('systemSettings.coupons.couponCodePlaceholder')}
                       value={newCoupon.code}
                       onChange={(e) => setNewCoupon({...newCoupon, code: e.target.value})}
-                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                       style={{ textTransform: 'uppercase' }}
                     />
                     <p className="text-gray-500 text-xs mt-1">Letters and numbers only, automatically uppercase</p>
@@ -2300,7 +2300,7 @@ const SystemSettings = ({ athleteId }) => {
                       placeholder={t('systemSettings.couponName')}
                       value={newCoupon.name}
                       onChange={(e) => setNewCoupon({...newCoupon, name: e.target.value})}
-                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                     />
                   </div>
                   
@@ -2310,7 +2310,7 @@ const SystemSettings = ({ athleteId }) => {
                     <select 
                       value={newCoupon.type}
                       onChange={(e) => setNewCoupon({...newCoupon, type: e.target.value})}
-                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                     >
                       <option value="percentage">{t('systemSettings.coupons.percentage')} ({t('systemSettings.coupons.percentageOff')})</option>
                       <option value="fixed">{t('systemSettings.coupons.fixedAmount')} ({t('systemSettings.coupons.amountOff')})</option>
@@ -2327,7 +2327,7 @@ const SystemSettings = ({ athleteId }) => {
                       placeholder="20"
                       value={newCoupon.value}
                       onChange={(e) => setNewCoupon({...newCoupon, value: e.target.value})}
-                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                     />
                     <p className="text-gray-500 text-xs mt-1">For percentage: 0-100, For fixed: amount in USD</p>
                   </div>
@@ -2341,7 +2341,7 @@ const SystemSettings = ({ athleteId }) => {
                       placeholder="100"
                       value={newCoupon.max_uses}
                       onChange={(e) => setNewCoupon({...newCoupon, max_uses: e.target.value})}
-                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                     />
                     <p className="text-gray-500 text-xs mt-1">Leave empty for {t('systemSettings.coupons.unlimited').toLowerCase()} uses</p>
                   </div>
@@ -2353,7 +2353,7 @@ const SystemSettings = ({ athleteId }) => {
                       type="datetime-local"
                       value={newCoupon.expires_at}
                       onChange={(e) => setNewCoupon({...newCoupon, expires_at: e.target.value})}
-                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                     />
                     <p className="text-gray-500 text-xs mt-1">Leave empty for no expiration</p>
                   </div>
@@ -2364,7 +2364,7 @@ const SystemSettings = ({ athleteId }) => {
                     <select 
                       value={newCoupon.applies_to}
                       onChange={(e) => setNewCoupon({...newCoupon, applies_to: e.target.value})}
-                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                     >
                       <option value="all">All Purchases</option>
                       <option value="subscriptions">Subscriptions Only</option>
@@ -2385,7 +2385,7 @@ const SystemSettings = ({ athleteId }) => {
                       placeholder="0"
                       value={newCoupon.min_purchase_amount}
                       onChange={(e) => setNewCoupon({...newCoupon, min_purchase_amount: e.target.value})}
-                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#00C2A8]"
+                      className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                     />
                     <p className="text-gray-500 text-xs mt-1">Minimum amount required to use coupon</p>
                   </div>
@@ -2438,7 +2438,7 @@ const SystemSettings = ({ athleteId }) => {
                 <div className="mt-6 flex justify-end">
                   <Button 
                     onClick={createCoupon}
-                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                    className="bg-[#32D3FF] hover:bg-[#00a890] text-white"
                   >
                     Create Coupon
                   </Button>
@@ -2482,7 +2482,7 @@ const SystemSettings = ({ athleteId }) => {
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
                             <div className="flex items-center gap-3 mb-2">
-                              <code className="text-lg font-mono text-[#00C2A8]">{coupon.code}</code>
+                              <code className="text-lg font-mono text-[#32D3FF]">{coupon.code}</code>
                               {!coupon.enabled && (
                                 <span className="text-xs px-2 py-1 bg-red-500/20 text-red-400 rounded">
                                   Disabled
@@ -2574,7 +2574,7 @@ const SystemSettings = ({ athleteId }) => {
               <CardHeader className="flex flex-col gap-4">
                 <div>
                   <CardTitle className="text-white text-lg sm:text-xl flex items-center">
-                    <Mail className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                    <Mail className="w-5 h-5 mr-2 text-[#32D3FF]" />
                     {t('systemSettings.waitingList.entries')}
                   </CardTitle>
                   <CardDescription className="text-gray-400 text-sm mt-1">
@@ -2588,7 +2588,7 @@ const SystemSettings = ({ athleteId }) => {
                       size="sm"
                       variant={waitingListFilter === 'all' ? 'default' : 'outline'}
                       onClick={() => setWaitingListFilter('all')}
-                      className={waitingListFilter === 'all' ? 'bg-[#00C2A8]' : 'text-gray-300 border-gray-600'}
+                      className={waitingListFilter === 'all' ? 'bg-[#32D3FF]' : 'text-gray-300 border-gray-600'}
                     >
                       {t('systemSettings.waitingList.all')}
                     </Button>
@@ -2596,7 +2596,7 @@ const SystemSettings = ({ athleteId }) => {
                       size="sm"
                       variant={waitingListFilter === 'pending' ? 'default' : 'outline'}
                       onClick={() => setWaitingListFilter('pending')}
-                      className={waitingListFilter === 'pending' ? 'bg-[#00C2A8]' : 'text-gray-300 border-gray-600'}
+                      className={waitingListFilter === 'pending' ? 'bg-[#32D3FF]' : 'text-gray-300 border-gray-600'}
                     >
                       {t('systemSettings.waitingList.pending')}
                     </Button>
@@ -2604,7 +2604,7 @@ const SystemSettings = ({ athleteId }) => {
                       size="sm"
                       variant={waitingListFilter === 'contacted' ? 'default' : 'outline'}
                       onClick={() => setWaitingListFilter('contacted')}
-                      className={waitingListFilter === 'contacted' ? 'bg-[#00C2A8]' : 'text-gray-300 border-gray-600'}
+                      className={waitingListFilter === 'contacted' ? 'bg-[#32D3FF]' : 'text-gray-300 border-gray-600'}
                     >
                       {t('systemSettings.waitingList.contacted')}
                     </Button>
@@ -2612,7 +2612,7 @@ const SystemSettings = ({ athleteId }) => {
                       size="sm"
                       variant={waitingListFilter === 'converted' ? 'default' : 'outline'}
                       onClick={() => setWaitingListFilter('converted')}
-                      className={waitingListFilter === 'converted' ? 'bg-[#00C2A8]' : 'text-gray-300 border-gray-600'}
+                      className={waitingListFilter === 'converted' ? 'bg-[#32D3FF]' : 'text-gray-300 border-gray-600'}
                     >
                       {t('systemSettings.waitingList.converted')}
                     </Button>
@@ -2704,7 +2704,7 @@ const SystemSettings = ({ athleteId }) => {
                   <div className="flex items-center justify-between">
                     <div>
                       <CardTitle className="text-white flex items-center">
-                        <Users className="w-6 h-6 mr-2 text-[#00C2A8]" />
+                        <Users className="w-6 h-6 mr-2 text-[#32D3FF]" />
                         Subscribers
                       </CardTitle>
                       <CardDescription className="text-gray-400 mt-2">
@@ -2741,7 +2741,7 @@ const SystemSettings = ({ athleteId }) => {
                                 size="sm"
                                 className={`text-xs sm:text-sm ${
                                   selectedPeriod === period.value
-                                    ? 'bg-[#00C2A8] text-white border-[#00C2A8] hover:bg-[#00a890]'
+                                    ? 'bg-[#32D3FF] text-white border-[#32D3FF] hover:bg-[#00a890]'
                                     : 'border-gray-600 text-gray-300 hover:bg-gray-700'
                                 }`}
                               >
@@ -2863,7 +2863,7 @@ const SystemSettings = ({ athleteId }) => {
                               datasets: [{
                                 label: 'Total Subscribers',
                                 data: subscriberStats.time_series.map(item => item.count),
-                                borderColor: '#00C2A8',
+                                borderColor: '#32D3FF',
                                 backgroundColor: (context) => {
                                   const ctx = context.chart.ctx;
                                   const gradient = ctx.createLinearGradient(0, 0, 0, 350);
@@ -2874,12 +2874,12 @@ const SystemSettings = ({ athleteId }) => {
                                 borderWidth: 3,
                                 fill: true,
                                 tension: 0.4,
-                                pointBackgroundColor: '#00C2A8',
+                                pointBackgroundColor: '#32D3FF',
                                 pointBorderColor: '#fff',
                                 pointBorderWidth: 3,
                                 pointRadius: 5,
                                 pointHoverRadius: 8,
-                                pointHoverBackgroundColor: '#00C2A8',
+                                pointHoverBackgroundColor: '#32D3FF',
                                 pointHoverBorderColor: '#fff',
                                 pointHoverBorderWidth: 3,
                               }]
@@ -2909,8 +2909,8 @@ const SystemSettings = ({ athleteId }) => {
                                 tooltip: {
                                   backgroundColor: 'rgba(0, 0, 0, 0.9)',
                                   titleColor: '#ffffff',
-                                  bodyColor: '#00C2A8',
-                                  borderColor: '#00C2A8',
+                                  bodyColor: '#32D3FF',
+                                  borderColor: '#32D3FF',
                                   borderWidth: 1,
                                   borderRadius: 12,
                                   padding: 16,
@@ -2982,7 +2982,7 @@ const SystemSettings = ({ athleteId }) => {
               <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
                 <CardHeader>
                   <CardTitle className="text-white flex items-center">
-                    <DollarSign className="w-6 h-6 mr-2 text-[#00C2A8]" />
+                    <DollarSign className="w-6 h-6 mr-2 text-[#32D3FF]" />
                     Business Metrics
                   </CardTitle>
                   <CardDescription className="text-gray-400 mt-2">
@@ -3110,7 +3110,7 @@ const SystemSettings = ({ athleteId }) => {
               <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
                 <CardHeader>
                   <CardTitle className="text-white flex items-center">
-                    <MessageSquare className="w-6 h-6 mr-2 text-[#00C2A8]" />
+                    <MessageSquare className="w-6 h-6 mr-2 text-[#32D3FF]" />
                     Community Metrics
                   </CardTitle>
                   <CardDescription className="text-gray-400 mt-2">
@@ -3235,7 +3235,7 @@ const SystemSettings = ({ athleteId }) => {
               <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
                 <CardHeader>
                   <CardTitle className="text-white flex items-center">
-                    <UserPlus className="w-6 h-6 mr-2 text-[#00C2A8]" />
+                    <UserPlus className="w-6 h-6 mr-2 text-[#32D3FF]" />
                     Referral Metrics
                   </CardTitle>
                   <CardDescription className="text-gray-400 mt-2">
@@ -3398,7 +3398,7 @@ const SystemSettings = ({ athleteId }) => {
                         ...cookieSettings,
                         enabled: e.target.checked
                       })}
-                      className="w-5 h-5 rounded border-gray-600 text-[#00C2A8] focus:ring-[#00C2A8]"
+                      className="w-5 h-5 rounded border-gray-600 text-[#32D3FF] focus:ring-[#32D3FF]"
                     />
                   </div>
 
@@ -3418,7 +3418,7 @@ const SystemSettings = ({ athleteId }) => {
                           ...cookieSettings,
                           auto_scan_enabled: e.target.checked
                         })}
-                        className="w-5 h-5 rounded border-gray-600 text-[#00C2A8] focus:ring-[#00C2A8]"
+                        className="w-5 h-5 rounded border-gray-600 text-[#32D3FF] focus:ring-[#32D3FF]"
                       />
                     </div>
 
@@ -3438,7 +3438,7 @@ const SystemSettings = ({ athleteId }) => {
                       <Button
                         onClick={handleScanCookies}
                         disabled={scanningCookies}
-                        className="bg-[#00C2A8] hover:bg-[#00a892] text-white"
+                        className="bg-[#32D3FF] hover:bg-[#00a892] text-white"
                       >
                         {scanningCookies ? (
                           <>
@@ -3462,7 +3462,7 @@ const SystemSettings = ({ athleteId }) => {
                         <Label className="text-white font-medium">
                           Detected Cookies ({cookieSettings.detected_cookies.length})
                         </Label>
-                        <Badge variant="secondary" className="bg-[#00C2A8] text-white">
+                        <Badge variant="secondary" className="bg-[#32D3FF] text-white">
                           {cookieSettings.last_scan?.scanned_at ? 
                             `Scanned ${new Date(cookieSettings.last_scan.scanned_at).toLocaleDateString()}` 
                             : 'Not scanned yet'}
@@ -3481,7 +3481,7 @@ const SystemSettings = ({ athleteId }) => {
                           return (
                             <div key={category} className="border border-gray-700 rounded-lg p-3">
                               <div className="flex items-center gap-2 mb-2">
-                                <Shield className="w-4 h-4 text-[#00C2A8]" />
+                                <Shield className="w-4 h-4 text-[#32D3FF]" />
                                 <span className="text-white font-medium capitalize">
                                   {category} ({categoryCookies.length})
                                 </span>
@@ -3792,7 +3792,7 @@ const SystemSettings = ({ athleteId }) => {
                             enabled: e.target.checked
                           }
                         })}
-                        className="w-5 h-5 rounded border-gray-600 text-[#00C2A8] focus:ring-[#00C2A8]"
+                        className="w-5 h-5 rounded border-gray-600 text-[#32D3FF] focus:ring-[#32D3FF]"
                       />
                     </div>
                   </div>
@@ -3802,7 +3802,7 @@ const SystemSettings = ({ athleteId }) => {
                     <Button
                       onClick={handleSaveCookieSettings}
                       disabled={loadingCookieSettings}
-                      className="bg-[#00C2A8] hover:bg-[#00a892] text-white"
+                      className="bg-[#32D3FF] hover:bg-[#00a892] text-white"
                     >
                       {loadingCookieSettings ? (
                         <>
@@ -3882,7 +3882,7 @@ const SystemSettings = ({ athleteId }) => {
                       }))}
                       placeholder="A brief description of your site for search engines and social media"
                       rows="3"
-                      className="w-full bg-gray-900 border border-gray-700 rounded-md px-3 py-2 text-white placeholder:text-gray-500 focus:outline-none focus:border-[#00C2A8]"
+                      className="w-full bg-gray-900 border border-gray-700 rounded-md px-3 py-2 text-white placeholder:text-gray-500 focus:outline-none focus:border-[#32D3FF]"
                     />
                     <p className="text-xs text-gray-400">
                       Displayed in search results and social media shares (recommended: 150-160 characters)
@@ -4032,7 +4032,7 @@ const SystemSettings = ({ athleteId }) => {
                     </Button>
                   </div>
                   <p className="text-xs text-gray-400 mt-1">
-                    Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">OpenAI Platform</a>
+                    Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-[#32D3FF] hover:underline">OpenAI Platform</a>
                   </p>
                 </div>
 
@@ -4309,9 +4309,9 @@ const SystemSettings = ({ athleteId }) => {
                   </div>
 
                   <p className="text-xs text-gray-400">
-                    Get your Stripe API keys from <a href="https://dashboard.stripe.com/apikeys" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">Stripe Dashboard → Developers → API keys</a>
+                    Get your Stripe API keys from <a href="https://dashboard.stripe.com/apikeys" target="_blank" rel="noopener noreferrer" className="text-[#32D3FF] hover:underline">Stripe Dashboard → Developers → API keys</a>
                     <br />
-                    Configure webhooks at <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">Stripe Dashboard → Developers → Webhooks</a>
+                    Configure webhooks at <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer" className="text-[#32D3FF] hover:underline">Stripe Dashboard → Developers → Webhooks</a>
                   </p>
                 </div>
 
@@ -4319,7 +4319,7 @@ const SystemSettings = ({ athleteId }) => {
                 <div className="space-y-4 pt-6 border-t border-gray-700">
                   <div>
                     <Label className="text-sm font-medium text-white flex items-center gap-2">
-                      <Mail className="w-4 h-4 text-[#00C2A8]" />
+                      <Mail className="w-4 h-4 text-[#32D3FF]" />
                       {t('systemSettings.advanced.emailSettings')}
                     </Label>
                     <p className="text-xs text-gray-400 mt-1">
@@ -4358,7 +4358,7 @@ const SystemSettings = ({ athleteId }) => {
                       </Button>
                     </div>
                     <p className="text-xs text-gray-400 mt-1">
-                      Get your API key from <a href="https://app.sendgrid.com/settings/api_keys" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">SendGrid Dashboard → Settings → API Keys</a>
+                      Get your API key from <a href="https://app.sendgrid.com/settings/api_keys" target="_blank" rel="noopener noreferrer" className="text-[#32D3FF] hover:underline">SendGrid Dashboard → Settings → API Keys</a>
                     </p>
                   </div>
 
@@ -4381,7 +4381,7 @@ const SystemSettings = ({ athleteId }) => {
                       className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 text-sm"
                     />
                     <p className="text-xs text-gray-400 mt-1">
-                      Must be a verified sender in SendGrid. Configure at <a href="https://app.sendgrid.com/settings/sender_auth" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">Sender Authentication</a>
+                      Must be a verified sender in SendGrid. Configure at <a href="https://app.sendgrid.com/settings/sender_auth" target="_blank" rel="noopener noreferrer" className="text-[#32D3FF] hover:underline">Sender Authentication</a>
                     </p>
                   </div>
 
@@ -4432,7 +4432,7 @@ const SystemSettings = ({ athleteId }) => {
                       GTM Head Code
                     </Label>
                     <p className="text-xs text-gray-400">
-                      Paste the GTM code that should be placed in the <code className="bg-gray-900 px-1 py-0.5 rounded text-[#00C2A8]">&lt;head&gt;</code> section
+                      Paste the GTM code that should be placed in the <code className="bg-gray-900 px-1 py-0.5 rounded text-[#32D3FF]">&lt;head&gt;</code> section
                     </p>
                     <Textarea
                       value={advancedSettings.googleTagManager.headCode}
@@ -4456,7 +4456,7 @@ const SystemSettings = ({ athleteId }) => {
                       GTM Body Code
                     </Label>
                     <p className="text-xs text-gray-400">
-                      Paste the GTM code that should be placed at the opening of the <code className="bg-gray-900 px-1 py-0.5 rounded text-[#00C2A8]">&lt;body&gt;</code> tag
+                      Paste the GTM code that should be placed at the opening of the <code className="bg-gray-900 px-1 py-0.5 rounded text-[#32D3FF]">&lt;body&gt;</code> tag
                     </p>
                     <Textarea
                       value={advancedSettings.googleTagManager.bodyCode}
@@ -4476,7 +4476,7 @@ const SystemSettings = ({ athleteId }) => {
 
                   <div className="p-3 bg-blue-900/20 border border-blue-700/50 rounded-lg">
                     <p className="text-xs text-blue-200">
-                      <strong>Note:</strong> Get your GTM container code from <a href="https://tagmanager.google.com" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">Google Tag Manager</a>. After saving, the codes will be automatically injected into your site's HTML.
+                      <strong>Note:</strong> Get your GTM container code from <a href="https://tagmanager.google.com" target="_blank" rel="noopener noreferrer" className="text-[#32D3FF] hover:underline">Google Tag Manager</a>. After saving, the codes will be automatically injected into your site's HTML.
                     </p>
                   </div>
                 </div>
@@ -4502,7 +4502,7 @@ const SystemSettings = ({ athleteId }) => {
                       Clarity Tracking Script
                     </Label>
                     <p className="text-xs text-gray-400">
-                      Paste your complete Microsoft Clarity tracking script (including <code className="bg-gray-900 px-1 py-0.5 rounded text-[#00C2A8]">&lt;script&gt;</code> tags)
+                      Paste your complete Microsoft Clarity tracking script (including <code className="bg-gray-900 px-1 py-0.5 rounded text-[#32D3FF]">&lt;script&gt;</code> tags)
                     </p>
                     <Textarea
                       value={advancedSettings.microsoftClarity.scriptCode}
@@ -4525,7 +4525,7 @@ const SystemSettings = ({ athleteId }) => {
 
                   <div className="p-3 bg-blue-900/20 border border-blue-700/50 rounded-lg">
                     <p className="text-xs text-blue-200">
-                      <strong>Note:</strong> Get your tracking script from <a href="https://clarity.microsoft.com" target="_blank" rel="noopener noreferrer" className="text-[#00C2A8] hover:underline">Microsoft Clarity</a>. Go to your project → Settings → Setup → Copy the tracking code. After saving, the script will be automatically injected into your site's <code className="bg-gray-900 px-1 py-0.5 rounded text-[#00C2A8]">&lt;head&gt;</code> section.
+                      <strong>Note:</strong> Get your tracking script from <a href="https://clarity.microsoft.com" target="_blank" rel="noopener noreferrer" className="text-[#32D3FF] hover:underline">Microsoft Clarity</a>. Go to your project → Settings → Setup → Copy the tracking code. After saving, the script will be automatically injected into your site's <code className="bg-gray-900 px-1 py-0.5 rounded text-[#32D3FF]">&lt;head&gt;</code> section.
                     </p>
                   </div>
                 </div>
@@ -4777,7 +4777,7 @@ const SystemSettings = ({ athleteId }) => {
                   </div>
                   <Button 
                     onClick={handleSaveAdvancedSettings}
-                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                    className="bg-[#32D3FF] hover:bg-[#00a890] text-white"
                   >
                     <Save className="w-4 h-4 mr-2" />
                     Save Advanced Settings
