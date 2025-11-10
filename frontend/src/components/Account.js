@@ -3008,12 +3008,12 @@ const Account = ({ athleteId }) => {
                                 </li>
                               ))
                             ) : (
-                              <li className="text-sm text-gray-400 italic">No features listed</li>
+                              <li className="text-sm text-gray-400 italic">{t('account.noFeaturesListed')}</li>
                             )}
                           </ul>
                           {isCurrentPlan ? (
                             <Button className="w-full border-gray-600 text-gray-400" variant="outline" disabled>
-                              Current Plan
+                              {t('account.currentPlanButton')}
                             </Button>
                           ) : isFree && !isCurrentPlan ? (
                             <Button 
@@ -3021,7 +3021,7 @@ const Account = ({ athleteId }) => {
                               variant="outline"
                               onClick={() => setShowCancelDialog(true)}
                             >
-                              Downgrade to Free
+                              {t('account.downgradeToFree')}
                             </Button>
                           ) : !isFree && subscriptionStatus.tier === 'free' ? (
                             <Button 
@@ -3033,7 +3033,7 @@ const Account = ({ athleteId }) => {
                                 setShowUpgradeDialog(true);
                               }}
                             >
-                              Upgrade to {plan.name}
+                              {t('account.upgradeTo')} {plan.name}
                             </Button>
                           ) : (
                             <Button 
@@ -3045,7 +3045,7 @@ const Account = ({ athleteId }) => {
                                 setShowDowngradeDialog(true);
                               }}
                             >
-                              Upgrade/Change Plan
+                              {t('account.upgradeChangePlan')}
                             </Button>
                           )}
                         </div>
