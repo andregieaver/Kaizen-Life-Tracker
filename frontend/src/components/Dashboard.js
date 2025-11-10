@@ -744,10 +744,10 @@ const Dashboard = ({ athleteId }) => {
                         navigate('/dashboard');
                       }}
                       className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
-                      data-active={activeTab === 'overview'}
+                      data-active={location.pathname === '/dashboard' || location.pathname === '/dashboard/overview'}
                       data-tab="overview"
                       style={{ 
-                        color: activeTab === 'overview' ? 'var(--c-brand-500)' : 'var(--text-med)'
+                        color: (location.pathname === '/dashboard' || location.pathname === '/dashboard/overview') ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
                       data-testid="overview-tab"
                     >
@@ -759,10 +759,10 @@ const Dashboard = ({ athleteId }) => {
                         navigate('/dashboard/coach');
                       }}
                       className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
-                      data-active={activeTab === 'coach'}
+                      data-active={location.pathname === '/dashboard/coach'}
                       data-tab="coach"
                       style={{ 
-                        color: activeTab === 'coach' ? 'var(--c-brand-500)' : 'var(--text-med)'
+                        color: location.pathname === '/dashboard/coach' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
                       data-testid="coach-tab"
                     >
@@ -774,10 +774,10 @@ const Dashboard = ({ athleteId }) => {
                         navigate('/dashboard/reports');
                       }}
                       className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
-                      data-active={activeTab === 'reports'}
+                      data-active={location.pathname === '/dashboard/reports'}
                       data-tab="reports"
                       style={{ 
-                        color: activeTab === 'reports' ? 'var(--c-brand-500)' : 'var(--text-med)'
+                        color: location.pathname === '/dashboard/reports' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
                       data-testid="reports-tab"
                     >
@@ -789,10 +789,10 @@ const Dashboard = ({ athleteId }) => {
                         navigate('/dashboard/calendar');
                       }}
                       className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
-                      data-active={activeTab === 'calendar'}
+                      data-active={location.pathname === '/dashboard/calendar'}
                       data-tab="calendar"
                       style={{ 
-                        color: activeTab === 'calendar' ? 'var(--c-brand-500)' : 'var(--text-med)'
+                        color: location.pathname === '/dashboard/calendar' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
                       data-testid="calendar-tab"
                     >
@@ -804,10 +804,10 @@ const Dashboard = ({ athleteId }) => {
                         navigate('/dashboard/account');
                       }}
                       className="header-menu-item text-sm font-medium transition-all px-3 py-2 relative"
-                      data-active={activeTab === 'account'}
+                      data-active={location.pathname === '/dashboard/account'}
                       data-tab="account"
                       style={{ 
-                        color: activeTab === 'account' ? 'var(--c-brand-500)' : 'var(--text-med)'
+                        color: location.pathname === '/dashboard/account' ? 'var(--c-brand-500)' : 'var(--text-med)'
                       }}
                       data-testid="account-tab"
                     >
