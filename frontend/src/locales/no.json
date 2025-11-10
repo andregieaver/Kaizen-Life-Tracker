@@ -373,7 +373,14 @@
     "loading": "Laster...",
     "weightUnit": "Vektenhet",
     "pounds": "Pund (lbs)",
-    "kilograms": "Kilogram (kg)"
+    "kilograms": "Kilogram (kg)",
+    "connectedApps": "Tilkoblede apper",
+    "connectedAppsDescription": "Koble til trenings-appene og treningsklokkene dine for å automatisk synkronisere dataene dine",
+    "stravaDescription": "Aktiviteter og prestasjonsdata",
+    "ouraDescription": "Søvn-, restitusjons- og beredskapsdata",
+    "corosDescription": "GPS-sportsklokker og treningsdata",
+    "hoursAgo": "{{hours}} timer siden",
+    "daysAgo": "{{days}} dager siden"
   },
   "community": {
     "tabs": {
