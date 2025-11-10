@@ -81,8 +81,8 @@ const IntegrationCard = ({
     const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
     
-    if (diffHours < 24) return `${diffHours} hours ago`;
-    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffHours < 24) return t('account.hoursAgo', { hours: diffHours });
+    if (diffDays < 7) return t('account.daysAgo', { days: diffDays });
     return syncDate.toLocaleDateString();
   };
 
