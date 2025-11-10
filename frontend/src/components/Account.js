@@ -2484,11 +2484,11 @@ const Account = ({ athleteId }) => {
                 <Separator className="opacity-10" />
 
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-white">Calendar & Time</h3>
+                  <h3 className="text-lg font-semibold text-white">{t('account.calendarTime')}</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label className="text-sm font-medium text-white">Week Starts On</Label>
+                      <Label className="text-sm font-medium text-white">{t('account.weekStartsOn')}</Label>
                       <Select
                         value={personalForm.week_starts_on || 'monday'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, week_starts_on: value}))}
@@ -2497,14 +2497,14 @@ const Account = ({ athleteId }) => {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="sunday">Sunday</SelectItem>
-                          <SelectItem value="monday">Monday</SelectItem>
+                          <SelectItem value="sunday">{t('account.sunday')}</SelectItem>
+                          <SelectItem value="monday">{t('account.monday')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-sm font-medium text-white">Time Format</Label>
+                      <Label className="text-sm font-medium text-white">{t('account.timeFormat')}</Label>
                       <Select
                         value={personalForm.time_format || '12h'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, time_format: value}))}
@@ -2513,8 +2513,8 @@ const Account = ({ athleteId }) => {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="12h">12 Hour (AM/PM)</SelectItem>
-                          <SelectItem value="24h">24 Hour</SelectItem>
+                          <SelectItem value="12h">{t('account.12Hour')}</SelectItem>
+                          <SelectItem value="24h">{t('account.24Hour')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
