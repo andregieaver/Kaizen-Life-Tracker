@@ -1537,5 +1537,13 @@
       "title": "Progress",
       "subtitle": "Recent test results"
     }
+  },
+  "account": {
+    "title": "Account Settings",
+    "manageProfile": "Manage your account settings and preferences",
+    "personalInfo": {
+      "title": "Personal Information",
+      "description": "Update your profile information and running goals"
+    }
   }
 }
