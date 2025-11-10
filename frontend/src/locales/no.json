@@ -80,7 +80,9 @@
     "signupHere": "Registrer deg her",
     "tokenExpires": "Token utløper om 1 time",
     "welcomeBack": "Velkommen tilbake",
-    "yourDataSecure": "Dataene dine er sikre hos oss"
+    "yourDataSecure": "Dataene dine er sikre hos oss",
+    "nationality": "Nasjonalitet",
+    "selectNationality": "Velg din nasjonalitet"
   },
   "onboarding": {
     "title": "Opprett din løpeprofil",
