@@ -967,18 +967,18 @@ textarea[class*="font-mono"]::-webkit-scrollbar-thumb:hover {
   background: #6b7280;
 }
 
-/* Checkbox Styling - Green for checked state */
+/* Checkbox Styling - Blue for checked state */
 input[type="checkbox"] {
-  accent-color: #22c55e; /* green-500 */
+  accent-color: #32D3FF; /* blue brand color */
   cursor: pointer;
 }
 
 input[type="checkbox"]:checked {
-  accent-color: #22c55e; /* green-500 */
+  accent-color: #32D3FF; /* blue brand color */
 }
 
 input[type="checkbox"]:focus {
-  outline: 2px solid #22c55e;
+  outline: 2px solid #32D3FF;
   outline-offset: 2px;
 }
 
