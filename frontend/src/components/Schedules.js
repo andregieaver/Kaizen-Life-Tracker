@@ -199,7 +199,14 @@ const Schedules = ({ athleteId }) => {
       )}
 
       {/* Header Card */}
-      <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+      <div className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-lg" style={{
+        background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+        backdropFilter: 'blur(12px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+        borderRadius: '8px'
+      }}>
         <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
