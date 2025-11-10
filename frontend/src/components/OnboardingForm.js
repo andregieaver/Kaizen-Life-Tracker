@@ -411,7 +411,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
               <Button 
                 type="submit" 
                 disabled={isLoading}
-                className="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#32D3FF] hover:bg-[#1FC1FF] text-white font-medium py-3 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 data-testid="create-profile-btn"
               >
                 {isLoading ? (
