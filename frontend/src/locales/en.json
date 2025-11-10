@@ -465,7 +465,19 @@
     "planWillChangeImmediately": "Your plan will change immediately",
     "proratedCredit": "You'll receive a prorated credit",
     "newBillingCycleStarts": "New billing cycle starts today",
-    "confirmChange": "Confirm Change"
+    "confirmChange": "Confirm Change",
+    "switchToBillingQuestion": "Switch to {billingType} Billing?",
+    "changeYourBillingCycle": "Change your billing cycle",
+    "switchingTo": "Switching to {billingType}:",
+    "saveWithAnnualBilling": "Save 17% with annual billing!",
+    "yearInsteadOf": "€{annualPrice}/year instead of €{monthlyTotal}",
+    "proratedChargeToday": "You'll be charged the prorated amount today",
+    "nextBillingYearFromToday": "Next billing: 1 year from today",
+    "switchToMonthlyBilling": "Switch to monthly billing",
+    "youllReceiveProratedCredit": "You'll receive a prorated credit",
+    "nextBillingMonthFromToday": "Next billing: 1 month from today",
+    "pricePerMonth": "€{price}/month",
+    "confirmSwitch": "Confirm Switch"
   },
   "community": {
     "tabs": {
