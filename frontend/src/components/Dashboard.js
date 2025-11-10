@@ -1364,15 +1364,18 @@ const Dashboard = ({ athleteId }) => {
       </>
 
       {/* Main Content */}
-      <main className={
-        activeTab === 'coach' 
-          ? 'flex-1 flex flex-col pt-16' 
-          : activeTab === 'system-settings' || activeTab === 'crm'
-          ? 'w-full pt-20 md:pt-24'
-          : activeTab === 'community'
-          ? 'w-full max-w-[1600px] mx-auto px-0 sm:px-6 lg:px-8 py-0 sm:py-8 pb-24 md:pb-8 pt-16 md:pt-24'
-          : 'w-full max-w-[1600px] mx-auto px-0 sm:px-6 lg:px-8 pt-16 md:pt-24 pb-24 md:pb-8'
-      }>
+      <main 
+        className={
+          activeTab === 'coach' 
+            ? 'flex-1 flex flex-col pt-16' 
+            : activeTab === 'system-settings' || activeTab === 'crm'
+            ? 'w-full pt-20 md:pt-24'
+            : activeTab === 'community'
+            ? 'w-full max-w-[1600px] mx-auto px-0 sm:px-6 lg:px-8 py-0 sm:py-8 pb-24 md:pb-8 pt-16 md:pt-24'
+            : 'w-full max-w-[1600px] mx-auto px-0 sm:px-6 lg:px-8 pt-16 md:pt-24 pb-24 md:pb-8'
+        }
+        style={{ minHeight: 'calc(100vh + 300px)' }}
+      >
         {activeTab === 'overview' && (
           <div className="space-y-2 md:space-y-6 pt-2 md:pt-6">
             {/* Quick Actions Grid - Redesigned */}
