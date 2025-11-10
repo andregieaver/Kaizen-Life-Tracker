@@ -416,7 +416,9 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-800 via-gray-900 to-gray-800">
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8" style={{ 
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)'
+      }}>
         <div className="max-w-7xl mx-auto">
           {/* Referral Banner */}
           {hasReferralCode && (
