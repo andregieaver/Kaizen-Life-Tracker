@@ -2131,23 +2131,36 @@ Return only the JSON array, nothing else.
             avg_sleep = sum(s.get('total_sleep_hours', 0) for s in sleep_data) / len(sleep_data)
             sleep_summary += f"Average: {avg_sleep:.1f}h/night"
         
-        # Provide full journal entries (not just summary)
+        # Provide detailed journal entries with full content
         journal_entries = context.get('journal_entries', [])
         journal_summary = ""
         if journal_entries:
             journal_summary = f"\n\nJOURNAL ENTRIES ({len(journal_entries)} in last 30 days):\n"
-            # Include full content of recent entries (up to last 10)
-            for idx, entry in enumerate(journal_entries[:10]):
+            # Include full content of recent entries (up to last 20 for consistency with nutrition)
+            for idx, entry in enumerate(journal_entries[:20]):
                 date = entry.get('date', 'Unknown date')
+                time = entry.get('time', '')
                 content = entry.get('entry', '')
                 entry_type = entry.get('entry_type', 'text')
                 transcription = entry.get('transcription', '')
+                mood = entry.get('mood', '')
+                tags = entry.get('tags', [])
                 
                 # Use transcription for voice/video entries if available
                 entry_text = transcription if entry_type in ['voice', 'video'] and transcription else content
                 
                 if entry_text:
-                    journal_summary += f"\n[{date}] ({entry_type}):\n{entry_text}\n"
+                    # Build metadata
+                    metadata = []
+                    if mood:
+                        metadata.append(f"Mood: {mood}")
+                    if tags:
+                        metadata.append(f"Tags: {', '.join(tags)}")
+                    
+                    time_str = f" at {time}" if time else ""
+                    metadata_str = f" [{', '.join(metadata)}]" if metadata else ""
+                    
+                    journal_summary += f"\n[{date}{time_str}] {entry_type.upper()}{metadata_str}:\n{entry_text}\n"
         else:
             journal_summary = "\n\nNo journal entries available."
         
