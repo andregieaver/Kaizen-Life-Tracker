@@ -220,13 +220,12 @@ const Memories = ({ athleteId }) => {
         </div>
         <Button 
           onClick={handleCreateMemory}
-          className="text-white border-0"
-          style={{ backgroundColor: '#32D3FF' }}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
+          className="text-white border-0 w-10 h-10 md:w-12 md:h-12 p-0 flex items-center justify-center"
+          style={{ backgroundColor: '#32D3FF', borderRadius: '99px' }}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
         >
-          <Plus className="w-4 h-4 mr-2" />
-          {t('memories.addMemory')}
+          <Plus className="w-5 h-5 md:w-6 md:h-6" />
         </Button>
       </div>
 
