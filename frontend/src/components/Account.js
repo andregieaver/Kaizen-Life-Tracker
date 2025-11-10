@@ -136,7 +136,7 @@ const IntegrationCard = ({
             className="bg-blue-600 hover:bg-blue-700"
           >
             <ExternalLink className="w-4 h-4 mr-2" />
-            {t('common.connect')} {name}
+            {t('account.connect')} {name}
           </Button>
         )}
       </div>
