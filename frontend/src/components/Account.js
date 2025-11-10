@@ -2338,8 +2338,15 @@ const Account = ({ athleteId }) => {
         </TabsContent>
 
         {/* Preferences Tab */}
-        <TabsContent value="preferences" className="bg-gray-900">
-          <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6">
+        <TabsContent value="preferences" className="bg-transparent">
+          <div className="p-4 md:p-6 mb-4" style={{
+            background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+            backdropFilter: 'blur(12px) saturate(140%)',
+            WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+            borderRadius: '8px'
+          }}>
             <div className="mb-6">
               <h3 className="flex items-center text-white text-xl font-semibold">
                 <Settings className="w-5 h-5 mr-2 text-[#00C2A8]" />
