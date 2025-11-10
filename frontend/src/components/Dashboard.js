@@ -2029,7 +2029,7 @@ const Dashboard = ({ athleteId }) => {
           <div className="md:hidden fixed top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-gray-900 to-gray-800 z-[9999] flex flex-col overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-700 flex-shrink-0">
-              <h3 className="text-white font-semibold text-lg">Notifications</h3>
+              <h3 className="text-white font-semibold text-lg">{t('notifications.notifications')}</h3>
               <button
                 onClick={() => setShowNotifications(false)}
                 className="text-gray-400 hover:text-white transition-colors"
@@ -2050,7 +2050,7 @@ const Dashboard = ({ athleteId }) => {
                 style={notificationTab === 'all' ? { borderBottomColor: '#00C2A8', color: '#00C2A8' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
               >
                 <Bell className="w-4 h-4" />
-                All
+                {t('notifications.all')}
               </button>
               <button
                 onClick={() => setNotificationTab('follows')}
@@ -2062,7 +2062,7 @@ const Dashboard = ({ athleteId }) => {
                 style={notificationTab === 'follows' ? { borderBottomColor: '#60A5FA', color: '#60A5FA' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
               >
                 <UserPlus className="w-4 h-4" />
-                Follows
+                {t('notifications.follows')}
               </button>
               <button
                 onClick={() => setNotificationTab('posts')}
@@ -2074,7 +2074,7 @@ const Dashboard = ({ athleteId }) => {
                 style={notificationTab === 'posts' ? { borderBottomColor: '#F87171', color: '#F87171' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
               >
                 <Heart className="w-4 h-4" />
-                Posts
+                {t('notifications.posts')}
               </button>
               <button
                 onClick={() => setNotificationTab('groups')}
@@ -2086,7 +2086,7 @@ const Dashboard = ({ athleteId }) => {
                 style={notificationTab === 'groups' ? { borderBottomColor: '#4ADE80', color: '#4ADE80' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
               >
                 <Users className="w-4 h-4" />
-                Groups
+                {t('notifications.groups')}
               </button>
               <button
                 onClick={() => setNotificationTab('events')}
@@ -2098,7 +2098,7 @@ const Dashboard = ({ athleteId }) => {
                 style={notificationTab === 'events' ? { borderBottomColor: '#FB923C', color: '#FB923C' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
               >
                 <Calendar className="w-4 h-4" />
-                Events
+                {t('notifications.events')}
               </button>
               <button
                 onClick={() => setNotificationTab('challenges')}
@@ -2110,7 +2110,7 @@ const Dashboard = ({ athleteId }) => {
                 style={notificationTab === 'challenges' ? { borderBottomColor: '#FACC15', color: '#FACC15' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
               >
                 <Trophy className="w-4 h-4" />
-                Challenges
+                {t('notifications.challenges')}
               </button>
             </div>
             
@@ -2120,8 +2120,8 @@ const Dashboard = ({ athleteId }) => {
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
                     <Bell className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                    <p className="text-lg" style={{ color: 'var(--text-med)' }}>No notifications</p>
-                    <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>You're all caught up!</p>
+                    <p className="text-lg" style={{ color: 'var(--text-med)' }}>{t('notifications.noNotifications')}</p>
+                    <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>{t('notifications.allCaughtUp')}</p>
                   </div>
                 </div>
               ) : (
