@@ -2134,6 +2134,8 @@ Return only the JSON array, nothing else.
         # Provide detailed journal entries with full content
         journal_entries = context.get('journal_entries', [])
         print(f"🔍 DEBUG: Found {len(journal_entries)} journal entries for athlete")
+        if journal_entries:
+            print(f"📋 First entry sample: {journal_entries[0]}")
         journal_summary = ""
         if journal_entries:
             journal_summary = f"\n\nJOURNAL ENTRIES ({len(journal_entries)} in last 30 days):\n"
@@ -2146,6 +2148,8 @@ Return only the JSON array, nothing else.
                 transcription = entry.get('transcription', '')
                 mood = entry.get('mood', '')
                 tags = entry.get('tags', [])
+                
+                print(f"📄 Entry {idx}: date={date}, type={entry_type}, content_len={len(content)}, transcription_len={len(transcription)}")
                 
                 # Use transcription for voice/video entries if available
                 entry_text = transcription if entry_type in ['voice', 'video'] and transcription else content
