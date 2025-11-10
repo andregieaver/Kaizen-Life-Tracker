@@ -464,7 +464,8 @@
     "changePlanTo": "Change Plan to {planName}?",
     "planWillChangeImmediately": "Your plan will change immediately",
     "proratedCredit": "You'll receive a prorated credit",
-    "newBillingCycleStarts": "New billing cycle starts today"
+    "newBillingCycleStarts": "New billing cycle starts today",
+    "confirmChange": "Confirm Change"
   },
   "community": {
     "tabs": {
