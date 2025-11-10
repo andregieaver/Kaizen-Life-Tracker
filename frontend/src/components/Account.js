@@ -3500,10 +3500,10 @@ const Account = ({ athleteId }) => {
               <CardHeader>
                 <h3 className="flex items-center text-white text-xl font-semibold">
                   <Zap className="w-5 h-5 mr-2 text-[#32D3FF]" />
-                  Connected Apps
+                  {t('account.connectedApps')}
                 </h3>
                 <p className="text-gray-400 mt-1">
-                  Connect your fitness apps and wearables to automatically sync your data
+                  {t('account.connectedAppsDescription')}
                 </p>
               </CardHeader>
               <CardContent className="space-y-4">
