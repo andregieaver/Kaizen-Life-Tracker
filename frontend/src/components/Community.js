@@ -4677,6 +4677,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
 
 // GroupCard Component
 const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onClick, isSuperAdmin = false }) => {
+  const { t } = useTranslation();
   const isAdmin = group.member_role === 'admin';
   const canEditDelete = isAdmin || isSuperAdmin;
   
