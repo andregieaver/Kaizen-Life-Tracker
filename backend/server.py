@@ -2151,18 +2151,46 @@ Return only the JSON array, nothing else.
         else:
             journal_summary = "\n\nNo journal entries available."
         
-        # Summarize nutrition
+        # Provide detailed nutrition entries (meals, drinks, supplements)
         nutrition_entries = context.get('nutrition_entries', [])
-        nutrition_summary = f"{len(nutrition_entries)} nutrition logs in last 7 days" if nutrition_entries else "No nutrition logs"
+        nutrition_summary = ""
         if nutrition_entries:
-            # Calculate average daily macros
+            nutrition_summary = f"\n\nNUTRITION LOG ({len(nutrition_entries)} entries in last 7 days):\n"
+            # Include full details of recent entries (up to last 20)
+            for idx, entry in enumerate(nutrition_entries[:20]):
+                entry_date = entry.get('entry_date', entry.get('date', 'Unknown date'))
+                entry_time = entry.get('entry_time', '')
+                entry_type = entry.get('entry_type', 'food')  # food, drink, supplement
+                description = entry.get('description', '')
+                
+                # Build entry details
+                details = []
+                if entry.get('calories'):
+                    details.append(f"{entry['calories']} cal")
+                if entry.get('protein'):
+                    details.append(f"{entry['protein']}g protein")
+                if entry.get('carbs'):
+                    details.append(f"{entry['carbs']}g carbs")
+                if entry.get('fat'):
+                    details.append(f"{entry['fat']}g fat")
+                if entry.get('quantity'):
+                    details.append(f"{entry['quantity']} {entry.get('unit', '')}")
+                
+                details_str = f" ({', '.join(details)})" if details else ""
+                time_str = f" at {entry_time}" if entry_time else ""
+                
+                nutrition_summary += f"\n[{entry_date}{time_str}] {entry_type.upper()}: {description}{details_str}\n"
+            
+            # Add summary statistics
             total_cals = sum(n.get('calories', 0) for n in nutrition_entries if n.get('calories'))
             total_protein = sum(n.get('protein', 0) for n in nutrition_entries if n.get('protein'))
             total_carbs = sum(n.get('carbs', 0) for n in nutrition_entries if n.get('carbs'))
             total_fat = sum(n.get('fat', 0) for n in nutrition_entries if n.get('fat'))
             days_tracked = len(set(n.get('entry_date') for n in nutrition_entries if n.get('entry_date')))
             if days_tracked > 0:
-                nutrition_summary += f". Avg: {total_cals/days_tracked:.0f}cal, {total_protein/days_tracked:.0f}g protein, {total_carbs/days_tracked:.0f}g carbs, {total_fat/days_tracked:.0f}g fat per day"
+                nutrition_summary += f"\n7-DAY AVERAGE: {total_cals/days_tracked:.0f}cal, {total_protein/days_tracked:.0f}g protein, {total_carbs/days_tracked:.0f}g carbs, {total_fat/days_tracked:.0f}g fat per day\n"
+        else:
+            nutrition_summary = "\n\nNo nutrition logs available."
         
         # Summarize supplements
         supplements = context.get('supplements', [])
