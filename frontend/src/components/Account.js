@@ -2944,14 +2944,14 @@ const Account = ({ athleteId }) => {
             {/* Available Plans */}
             <Card className="border-0 shadow-lg border-gray-700" style={{background: "transparent"}}>
               <CardHeader>
-                <h3 className="text-white">Available Plans</h3>
+                <h3 className="text-white">{t('account.availablePlans')}</h3>
                 <p className="text-gray-400 mt-1">
-                  Choose the plan that fits your needs
+                  {t('account.choosePlanThatFits')}
                 </p>
               </CardHeader>
               <CardContent>
                 {availablePlans.length === 0 ? (
-                  <div className="text-center py-8 text-gray-400">Loading plans...</div>
+                  <div className="text-center py-8 text-gray-400">{t('account.loadingPlans')}</div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {availablePlans.map((plan) => {
