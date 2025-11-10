@@ -71,7 +71,7 @@ const Support = ({ athleteId, athlete }) => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2 flex items-center">
-            <HelpCircle className="mr-3 text-teal-500" size={36} />
+            <HelpCircle className="mr-3 text-[#32D3FF]" size={36} />
             {t('support.title')}
           </h1>
           <p className="text-gray-400">
@@ -83,18 +83,18 @@ const Support = ({ athleteId, athlete }) => {
         <Card className="bg-gradient-to-br from-gray-800 to-gray-700 border-gray-600">
           <CardHeader>
             <CardTitle className="flex items-center text-white">
-              <Mail className="mr-2 text-teal-500" />
+              <Mail className="mr-2 text-[#32D3FF]" />
               {t('support.contactSupport')}
             </CardTitle>
           </CardHeader>
           <CardContent>
             {/* Success Message */}
             {submitStatus === 'success' && (
-              <div className="mb-6 p-4 bg-green-900/30 border border-green-500/50 rounded-lg flex items-start">
-                <CheckCircle className="mr-3 text-green-500 flex-shrink-0 mt-0.5" size={20} />
+              <div className="mb-6 p-4 bg-blue-900/30 border border-blue-500/50 rounded-lg flex items-start">
+                <CheckCircle className="mr-3 text-blue-500 flex-shrink-0 mt-0.5" size={20} />
                 <div>
-                  <p className="font-semibold text-green-400">{t('support.successTitle')}</p>
-                  <p className="text-green-300 text-sm mt-1">
+                  <p className="font-semibold text-blue-400">{t('support.successTitle')}</p>
+                  <p className="text-blue-300 text-sm mt-1">
                     {t('support.successMessage')}
                   </p>
                 </div>
