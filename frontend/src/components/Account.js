@@ -2881,7 +2881,7 @@ const Account = ({ athleteId }) => {
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm text-gray-400">Next billing date</p>
+                      <p className="text-sm text-gray-400">{t('account.nextBillingDate')}</p>
                       <p className="font-semibold text-white">
                         {subscriptionStatus.current_period_end 
                           ? new Date(subscriptionStatus.current_period_end).toLocaleDateString() 
