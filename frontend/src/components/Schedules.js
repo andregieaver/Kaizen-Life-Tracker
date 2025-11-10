@@ -356,7 +356,14 @@ const Schedules = ({ athleteId }) => {
           </div>
         ) : (
           schedules.map((schedule, index) => (
-            <div key={index} className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+            <div key={index} className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-lg" style={{
+              background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+              backdropFilter: 'blur(12px) saturate(140%)',
+              WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+              borderRadius: '8px'
+            }}>
               <div className="p-4">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center">
