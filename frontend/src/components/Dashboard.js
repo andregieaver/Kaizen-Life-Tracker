@@ -1692,7 +1692,7 @@ const Dashboard = ({ athleteId }) => {
             }
           }}
         >
-          <Zap 
+          <Power 
             className="w-6 h-6 transition-transform duration-200"
             style={{
               transform: activeTab === 'today' ? 'scale(1.1)' : 'scale(1)'
