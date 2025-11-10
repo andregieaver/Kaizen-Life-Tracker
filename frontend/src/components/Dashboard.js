@@ -1027,7 +1027,7 @@ const Dashboard = ({ athleteId }) => {
         <div className="px-4 py-3">
           <div className="flex justify-between items-center">
             <div 
-              className="flex items-center cursor-pointer active:opacity-80 transition-opacity"
+              className="flex items-center cursor-pointer active:opacity-80 transition-opacity relative"
               onClick={() => navigate('/dashboard')}
             >
               {logoUrl && (
@@ -1040,6 +1040,16 @@ const Dashboard = ({ athleteId }) => {
               <h1 className="hidden text-xl font-bold tracking-tight" style={{ color: 'var(--text-hi)', fontFamily: 'var(--font-logo)' }}>
                 {siteTitle}
               </h1>
+              <span 
+                className="absolute -top-1 -right-8 text-xs font-bold px-1.5 py-0.5 rounded"
+                style={{
+                  background: 'rgba(50, 211, 255, 0.2)',
+                  border: '1px solid rgba(50, 211, 255, 0.4)',
+                  color: '#32D3FF'
+                }}
+              >
+                BETA
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               {moduleSettings.affiliateProgram.enabled && (
