@@ -1613,7 +1613,7 @@ const Dashboard = ({ athleteId }) => {
         )}
 
         {activeTab === 'coach' && (
-          <CoachChat athleteId={athleteId} scrollDirection={scrollDirection} />
+          <CoachChat athleteId={athleteId} />
         )}
 
         {activeTab === 'reports' && (
