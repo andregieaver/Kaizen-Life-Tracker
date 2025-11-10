@@ -82,7 +82,15 @@ const Dashboard = ({ athleteId }) => {
   // Scroll animation state
   const [scrollDirection, setScrollDirection] = useState('none'); // 'none' on initial load to show elements
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  // Smooth scroll reveal for header and bottom navbar
+  const [headerProgress, setHeaderProgress] = useState(1); // 0..1 (1 = fully shown)
+  const [footerProgress, setFooterProgress] = useState(1); // 0..1 (1 = fully shown)
+  const [atTop, setAtTop] = useState(true);
+  
+  const lastScrollYRef = useRef(0);
+  const headerAccRef = useRef(240); // Start fully shown
+  const footerAccRef = useRef(240); // Start fully shown
+  const scrollTickingRef = useRef(false);
   
   // Floating Action Button state
   const [showCreateMenu, setShowCreateMenu] = useState(false);
