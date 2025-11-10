@@ -35,6 +35,7 @@ const Today = ({ athleteId }) => {
 
   useEffect(() => {
     loadTodayData();
+    loadHabits();
   }, [athleteId]);
 
   const loadTodayData = async () => {
