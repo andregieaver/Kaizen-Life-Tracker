@@ -1369,8 +1369,8 @@ const Dashboard = ({ athleteId }) => {
                       <ChefHat className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                     </div>
                     <div className="text-center md:text-left flex-1">
-                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Weekly Menu</h3>
-                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>View meal plans</p>
+                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('dashboard.quickLinks.weeklyMenu')}</h3>
+                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>{t('dashboard.quickLinks.weeklyMenuDesc')}</p>
                     </div>
                   </div>
                 </div>
