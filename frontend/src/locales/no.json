@@ -1222,7 +1222,11 @@
     "todaysMeals": "Dagens måltider",
     "cal": "kal",
     "min": "min",
-    "bpm": "slag/min"
+    "bpm": "slag/min",
+    "todayHabits": "Dagens vaner",
+    "trackHabitsSubtitle": "Fullfør dine daglige vaner",
+    "noHabitsScheduled": "Ingen vaner planlagt for i dag",
+    "completed": "Fullført"
   },
   "coachChat": {
     "defaultCoachName": "Trener",
