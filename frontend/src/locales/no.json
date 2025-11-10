@@ -453,7 +453,19 @@
     "planWillChangeImmediately": "Planen din endres umiddelbart",
     "proratedCredit": "Du vil motta en forholdsmessig kreditt",
     "newBillingCycleStarts": "Ny faktureringssyklus starter i dag",
-    "confirmChange": "Bekreft endring"
+    "confirmChange": "Bekreft endring",
+    "switchToBillingQuestion": "Bytt til {billingType} fakturering?",
+    "changeYourBillingCycle": "Endre faktureringssyklus",
+    "switchingTo": "Bytter til {billingType}:",
+    "saveWithAnnualBilling": "Spar 17% med årlig fakturering!",
+    "yearInsteadOf": "€{annualPrice}/år i stedet for €{monthlyTotal}",
+    "proratedChargeToday": "Du vil bli belastet et forholdsmessig beløp i dag",
+    "nextBillingYearFromToday": "Neste fakturering: 1 år fra i dag",
+    "switchToMonthlyBilling": "Bytt til månedlig fakturering",
+    "youllReceiveProratedCredit": "Du vil motta en forholdsmessig kreditt",
+    "nextBillingMonthFromToday": "Neste fakturering: 1 måned fra i dag",
+    "pricePerMonth": "€{price}/måned",
+    "confirmSwitch": "Bekreft bytte"
   },
   "community": {
     "tabs": {
