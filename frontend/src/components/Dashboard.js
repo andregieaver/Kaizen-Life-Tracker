@@ -276,35 +276,43 @@ const Dashboard = ({ athleteId }) => {
   useEffect(() => {
     const updateNavbarBubble = () => {
       const navbar = document.querySelector('.bottom-tab-switcher');
-      const allButtons = navbar?.querySelectorAll('.tab-option');
-      const activeButton = navbar?.querySelector('.tab-option[data-active="true"]');
+      
+      console.log('[Navbar Bubble] Navbar element found:', navbar ? 'YES' : 'NO');
+      
+      if (!navbar) {
+        console.log('[Navbar Bubble] ERROR: .bottom-tab-switcher not found in DOM!');
+        return;
+      }
+      
+      const allButtons = navbar.querySelectorAll('.tab-option');
+      const activeButton = navbar.querySelector('.tab-option[data-active="true"]');
       
       // Debug logging
       console.log('[Navbar Bubble] Current URL:', location.pathname);
+      console.log('[Navbar Bubble] Number of buttons found:', allButtons.length);
       console.log('[Navbar Bubble] All navbar buttons:');
-      allButtons?.forEach((btn, idx) => {
+      allButtons.forEach((btn, idx) => {
         const isActive = btn.getAttribute('data-active') === 'true';
         console.log(`  ${idx}: data-active="${isActive}"`);
       });
       console.log('[Navbar Bubble] Active button found:', activeButton ? 'YES' : 'NO');
       
-      if (navbar) {
-        if (activeButton) {
-          navbar.style.setProperty('--navbar-bubble-opacity', '1');
-          console.log('[Navbar Bubble] Setting opacity to 1 (visible)');
-        } else {
-          navbar.style.setProperty('--navbar-bubble-opacity', '0');
-          console.log('[Navbar Bubble] Setting opacity to 0 (hidden)');
-        }
+      if (activeButton) {
+        navbar.style.setProperty('--navbar-bubble-opacity', '1');
+        console.log('[Navbar Bubble] Setting opacity to 1 (visible)');
+      } else {
+        navbar.style.setProperty('--navbar-bubble-opacity', '0');
+        console.log('[Navbar Bubble] Setting opacity to 0 (hidden)');
       }
     };
 
-    // Use requestAnimationFrame to ensure DOM is updated
+    // Use multiple attempts with increasing delays
     requestAnimationFrame(() => {
       updateNavbarBubble();
-      setTimeout(updateNavbarBubble, 50);
-      setTimeout(updateNavbarBubble, 200);
     });
+    setTimeout(updateNavbarBubble, 100);
+    setTimeout(updateNavbarBubble, 300);
+    setTimeout(updateNavbarBubble, 500);
   }, [location.pathname]);
 
   useEffect(() => {
