@@ -367,9 +367,13 @@ const LandingPage = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-800 to-gray-900">
       {/* Navigation */}
       <nav 
-        className={`fixed top-0 left-0 right-0 bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 backdrop-blur-sm z-50 transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 right-0 backdrop-blur-md z-50 transition-transform duration-300 ease-in-out border-b ${
           isVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
+        style={{ 
+          background: 'rgba(17, 24, 39, 0.7)',
+          borderColor: 'rgba(55, 65, 81, 0.3)'
+        }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -381,7 +385,7 @@ const LandingPage = () => {
                   className="w-8 h-8 object-contain"
                 />
               ) : (
-                <Heart className="w-8 h-8 text-white" />
+                <Heart className="w-8 h-8 text-[#32D3FF]" />
               )}
               <span className="ml-2 text-xl font-bold text-white" style={{ fontFamily: 'var(--font-logo)' }}>{siteTitle}</span>
             </div>
@@ -392,7 +396,7 @@ const LandingPage = () => {
                   <button
                     key={index}
                     onClick={() => navigate(item.url)}
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-blue-600 hover:bg-gray-100 h-9 px-4 py-2"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#32D3FF] disabled:pointer-events-none disabled:opacity-50 bg-[#32D3FF] text-white hover:bg-[#1FC1FF] h-9 px-4 py-2 shadow-md hover:shadow-lg"
                   >
                     {item.label}
                   </button>
@@ -401,7 +405,7 @@ const LandingPage = () => {
                 // Fallback to default Login button if no menu configured
                 <button
                   onClick={() => navigate('/login')}
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-blue-600 hover:bg-gray-100 h-9 px-4 py-2"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#32D3FF] disabled:pointer-events-none disabled:opacity-50 bg-[#32D3FF] text-white hover:bg-[#1FC1FF] h-9 px-4 py-2 shadow-md hover:shadow-lg"
                 >
                   Login
                 </button>
