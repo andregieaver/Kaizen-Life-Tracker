@@ -5829,7 +5829,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
             onChange={(e) => setNationalityFilter(e.target.value)}
             className="w-full bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none text-sm"
           >
-            <option value="all">All Nationalities</option>
+            <option value="all">{t('community.post.allNationalities')}</option>
             {uniqueNationalities.map(nationality => (
               <option key={nationality} value={nationality}>{nationality}</option>
             ))}
