@@ -2826,24 +2826,24 @@ const Account = ({ athleteId }) => {
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-2">
                           <h3 className="text-2xl font-bold text-white capitalize">
-                            {subscriptionStatus.tier} Plan
+                            {subscriptionStatus.tier} {t('account.plan')}
                           </h3>
                           <Badge variant="destructive">
-                            Canceling
+                            {t('account.canceling')}
                           </Badge>
                         </div>
                         <p className="text-gray-300 font-medium mb-2">
-                          ⚠️ Your subscription will end on{' '}
+                          ⚠️ {t('account.subscriptionWillEnd')}{' '}
                           {subscriptionStatus.current_period_end 
                             ? new Date(subscriptionStatus.current_period_end).toLocaleDateString('en-US', {
                                 year: 'numeric',
                                 month: 'long',
                                 day: 'numeric'
                               })
-                            : 'the end of your billing period'}
+                            : t('account.endOfBillingPeriod')}
                         </p>
                         <p className="text-sm text-gray-400">
-                          You can reactivate your subscription anytime before it ends to continue enjoying all features.
+                          {t('account.reactivateAnytime')}
                         </p>
                       </div>
                     </div>
