@@ -141,7 +141,11 @@ const WaitingListSection = () => {
                     required
                     value={formData.nationality}
                     onChange={(e) => setFormData({...formData, nationality: e.target.value})}
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 text-white rounded-lg focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent transition-all"
+                    style={{
+                      background: 'rgba(17, 24, 39, 0.5)',
+                      border: '1px solid rgba(71, 85, 105, 0.3)'
+                    }}
                   >
                     <option value="" className="bg-gray-700">Select your language...</option>
                     {languages.map((lang) => (
