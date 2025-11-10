@@ -266,7 +266,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-teal-500 focus:ring-teal-500 ${errors.name ? 'border-red-400' : ''}`}
+                  className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-[#32D3FF] focus:ring-[#32D3FF] ${errors.name ? 'border-red-400' : ''}`}
                   placeholder={t('auth.fullNamePlaceholder')}
                   data-testid="name-input"
                   disabled={isLoading}
@@ -286,7 +286,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-teal-500 focus:ring-teal-500 ${errors.email ? 'border-red-400' : ''}`}
+                  className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-[#32D3FF] focus:ring-[#32D3FF] ${errors.email ? 'border-red-400' : ''}`}
                   placeholder={t('auth.emailPlaceholder')}
                   data-testid="email-input"
                   disabled={isLoading}
@@ -305,7 +305,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                   onValueChange={(value) => setFormData(prev => ({...prev, nationality: value}))}
                   disabled={isLoading}
                 >
-                  <SelectTrigger className="bg-gray-600 border-gray-500 text-white focus:border-teal-500 focus:ring-teal-500">
+                  <SelectTrigger className="bg-gray-600 border-gray-500 text-white focus:border-[#32D3FF] focus:ring-[#32D3FF]">
                     <SelectValue placeholder="Select your nationality" />
                   </SelectTrigger>
                   <SelectContent className="max-h-[300px]">
@@ -329,7 +329,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                     type={showPassword ? "text" : "password"}
                     value={formData.password}
                     onChange={handleChange}
-                    className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-teal-500 focus:ring-teal-500 pr-10 ${errors.password ? 'border-red-400' : ''}`}
+                    className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-[#32D3FF] focus:ring-[#32D3FF] pr-10 ${errors.password ? 'border-red-400' : ''}`}
                     placeholder={t('auth.passwordPlaceholder')}
                     data-testid="password-input"
                     disabled={isLoading}
@@ -360,7 +360,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                     type={showConfirmPassword ? "text" : "password"}
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-teal-500 focus:ring-teal-500 pr-10 ${errors.confirmPassword ? 'border-red-400' : ''}`}
+                    className={`bg-gray-600 border-gray-500 text-white placeholder:text-gray-400 focus:border-[#32D3FF] focus:ring-[#32D3FF] pr-10 ${errors.confirmPassword ? 'border-red-400' : ''}`}
                     placeholder={t('auth.confirmPasswordPlaceholder')}
                     data-testid="confirm-password-input"
                     disabled={isLoading}
