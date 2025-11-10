@@ -1626,7 +1626,7 @@ const Account = ({ athleteId }) => {
               </Button>
               <Button
                 onClick={() => navigate('/dashboard/system-settings')}
-                className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
+                className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white px-3 sm:px-4 py-2 rounded-lg flex items-center gap-2 flex-shrink-0"
                 title={t('account.systemSettings')}
               >
                 <Settings className="w-5 h-5" />
@@ -1792,7 +1792,7 @@ const Account = ({ athleteId }) => {
           }}>
             <div className="mb-6">
               <h3 className="flex items-center text-white text-xl font-semibold">
-                <User className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                <User className="w-5 h-5 mr-2 text-[#32D3FF]" />
                 Personal Information
               </h3>
               <p className="text-gray-400 mt-1">
@@ -1953,7 +1953,7 @@ const Account = ({ athleteId }) => {
                     name="running_goals"
                     value={personalForm.running_goals}
                     onChange={handlePersonalFormChange}
-                    className="w-full min-h-24 p-3 text-white placeholder:text-gray-500 rounded-md resize-none focus:ring-2 focus:ring-[#00C2A8] focus:border-transparent"
+                    className="w-full min-h-24 p-3 text-white placeholder:text-gray-500 rounded-md resize-none focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent"
                     style={{ backgroundColor: '#111827', borderColor: '#374151' }}
                     placeholder={t('onboarding.runningGoalsPlaceholder')}
                     data-testid="goals-textarea"
@@ -1965,7 +1965,7 @@ const Account = ({ athleteId }) => {
                 {/* Physical Information Section */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-medium text-white flex items-center">
-                    <User className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                    <User className="w-5 h-5 mr-2 text-[#32D3FF]" />
                     {t('account.physicalInformation')}
                   </h3>
                   
@@ -2055,7 +2055,7 @@ const Account = ({ athleteId }) => {
                       name="bio"
                       value={personalForm.bio}
                       onChange={handlePersonalFormChange}
-                      className="w-full min-h-20 p-3 text-white placeholder:text-gray-500 rounded-md resize-none focus:ring-2 focus:ring-[#00C2A8] focus:border-transparent"
+                      className="w-full min-h-20 p-3 text-white placeholder:text-gray-500 rounded-md resize-none focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent"
                       style={{ backgroundColor: '#111827', borderColor: '#374151' }}
                       placeholder={t('account.bioPlaceholder')}
                       maxLength="500"
@@ -2119,7 +2119,7 @@ const Account = ({ athleteId }) => {
                         className="w-5 h-5 rounded border-gray-700 text-blue-500 focus:ring-blue-500"
                       />
                       <div>
-                        <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">{t('account.showBio')}</span>
+                        <span className="text-sm font-medium text-white group-hover:text-[#32D3FF] transition-colors">{t('account.showBio')}</span>
                         <p className="text-xs text-gray-500">{t('account.showBioDescription')}</p>
                       </div>
                     </label>
@@ -2132,7 +2132,7 @@ const Account = ({ athleteId }) => {
                         className="w-5 h-5 rounded border-gray-700 text-blue-500 focus:ring-blue-500"
                       />
                       <div>
-                        <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">{t('account.showHealthGoals')}</span>
+                        <span className="text-sm font-medium text-white group-hover:text-[#32D3FF] transition-colors">{t('account.showHealthGoals')}</span>
                         <p className="text-xs text-gray-500">{t('account.showHealthGoalsDescription')}</p>
                       </div>
                     </label>
@@ -2145,7 +2145,7 @@ const Account = ({ athleteId }) => {
                         className="w-5 h-5 rounded border-gray-700 text-blue-500 focus:ring-blue-500"
                       />
                       <div>
-                        <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">{t('account.showInterests')}</span>
+                        <span className="text-sm font-medium text-white group-hover:text-[#32D3FF] transition-colors">{t('account.showInterests')}</span>
                         <p className="text-xs text-gray-500">{t('account.showInterestsDescription')}</p>
                       </div>
                     </label>
@@ -2224,7 +2224,7 @@ const Account = ({ athleteId }) => {
                                 : personalForm.health_goals.filter(g => g !== goal.value);
                               setPersonalForm(prev => ({...prev, health_goals: newGoals}));
                             }}
-                            className="mt-0.5 rounded border-gray-700 text-[#00C2A8] focus:ring-[#00C2A8]"
+                            className="mt-0.5 rounded border-gray-700 text-[#32D3FF] focus:ring-[#32D3FF]"
                           />
                           <span className="text-sm text-gray-300">{goal.label}</span>
                         </label>
@@ -2238,7 +2238,7 @@ const Account = ({ athleteId }) => {
                 {/* Dietary Restrictions & Preferences */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-medium text-white flex items-center">
-                    <Utensils className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                    <Utensils className="w-5 h-5 mr-2 text-[#32D3FF]" />
                     {t('account.dietaryRestrictionsPreferences')}
                   </h3>
                   
@@ -2269,7 +2269,7 @@ const Account = ({ athleteId }) => {
                                 : (personalForm.allergies || []).filter(a => a !== allergy.value);
                               setPersonalForm(prev => ({...prev, allergies: newAllergies}));
                             }}
-                            className="mt-0.5 rounded border-gray-700 text-[#00C2A8] focus:ring-[#00C2A8]"
+                            className="mt-0.5 rounded border-gray-700 text-[#32D3FF] focus:ring-[#32D3FF]"
                           />
                           <span className="text-sm text-gray-300">{allergy.label}</span>
                         </label>
@@ -2303,7 +2303,7 @@ const Account = ({ athleteId }) => {
                                 : (personalForm.dietary_preferences || []).filter(d => d !== diet.value);
                               setPersonalForm(prev => ({...prev, dietary_preferences: newPrefs}));
                             }}
-                            className="mt-0.5 rounded border-gray-700 text-[#00C2A8] focus:ring-[#00C2A8]"
+                            className="mt-0.5 rounded border-gray-700 text-[#32D3FF] focus:ring-[#32D3FF]"
                           />
                           <span className="text-sm text-gray-300">{diet.label}</span>
                         </label>
@@ -2315,7 +2315,7 @@ const Account = ({ athleteId }) => {
                 <div className="flex justify-end">
                   <Button 
                     type="submit" 
-                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white font-medium px-6 py-2"
+                    className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white font-medium px-6 py-2"
                     data-testid="save-personal-info-btn"
                   >
                     {t('account.saveChanges')}
@@ -2327,7 +2327,7 @@ const Account = ({ athleteId }) => {
               <Separator className="opacity-10 my-6" />
               <div className="space-y-4">
                 <h3 className="text-lg font-medium text-white flex items-center">
-                  <Shield className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                  <Shield className="w-5 h-5 mr-2 text-[#32D3FF]" />
                   {t('account.security')}
                 </h3>
                 <ChangeEmail athleteId={athleteId} currentEmail={personalForm.email} />
@@ -2349,7 +2349,7 @@ const Account = ({ athleteId }) => {
           }}>
             <div className="mb-6">
               <h3 className="flex items-center text-white text-xl font-semibold">
-                <Settings className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                <Settings className="w-5 h-5 mr-2 text-[#32D3FF]" />
                 {t('account.preferences')}
               </h3>
               <p className="text-gray-400 mt-1">
@@ -2436,7 +2436,7 @@ const Account = ({ athleteId }) => {
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
                           {pushSubscribed ? (
-                            <Bell className="w-5 h-5 text-[#00C2A8]" />
+                            <Bell className="w-5 h-5 text-[#32D3FF]" />
                           ) : (
                             <BellOff className="w-5 h-5 text-gray-400" />
                           )}
@@ -2458,7 +2458,7 @@ const Account = ({ athleteId }) => {
                           onClick={handleTogglePushNotifications}
                           disabled={pushLoading}
                           variant={pushSubscribed ? "outline" : "default"}
-                          className={pushSubscribed ? "border-gray-600 text-white hover:bg-gray-700" : "bg-[#00C2A8] hover:bg-[#00a890] text-white"}
+                          className={pushSubscribed ? "border-gray-600 text-white hover:bg-gray-700" : "bg-[#32D3FF] hover:bg-[#1FC1FF] text-white"}
                         >
                           {pushLoading ? 'Loading...' : pushSubscribed ? 'Disable' : 'Enable'}
                         </Button>
@@ -2636,7 +2636,7 @@ const Account = ({ athleteId }) => {
                       value={personalForm.coach_name || 'Coach'}
                       onChange={(e) => setPersonalForm(prev => ({...prev, coach_name: e.target.value}))}
                       placeholder="Coach"
-                      className="w-full bg-gray-900 border border-gray-700 text-white placeholder:text-gray-500 px-3 py-2 rounded-lg focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                      className="w-full bg-gray-900 border border-gray-700 text-white placeholder:text-gray-500 px-3 py-2 rounded-lg focus:border-[#32D3FF] focus:ring-2 focus:ring-[#32D3FF]/20 outline-none"
                     />
                   </div>
 
@@ -2760,7 +2760,7 @@ const Account = ({ athleteId }) => {
                   </Button>
                   <Button 
                     type="submit" 
-                    className="bg-[#00C2A8] hover:bg-[#00a890] text-white font-medium px-6 py-2"
+                    className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white font-medium px-6 py-2"
                     disabled={isLoading}
                   >
                     {isLoading ? 'Saving...' : 'Save Preferences'}
@@ -2797,7 +2797,7 @@ const Account = ({ athleteId }) => {
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <div className="flex-1">
                     <h3 className="flex items-center text-white text-lg md:text-xl font-semibold">
-                      <Crown className="w-5 h-5 mr-2 text-[#00C2A8] flex-shrink-0" />
+                      <Crown className="w-5 h-5 mr-2 text-[#32D3FF] flex-shrink-0" />
                       <span>Current Plan</span>
                     </h3>
                     <p className="text-gray-400 mt-1 text-sm">
@@ -2908,7 +2908,7 @@ const Account = ({ athleteId }) => {
                 </div>
 
                 {subscriptionStatus.tier === 'free' ? (
-                  <Button className="w-full text-white bg-gradient-to-r from-[#00C2A8] to-[#00D4B8] hover:from-[#00a890] hover:to-[#00C2A8] shadow-lg" onClick={() => navigate('/pricing')}>
+                  <Button className="w-full text-white bg-gradient-to-r from-[#32D3FF] to-[#32D3FF] hover:from-[#1FC1FF] hover:to-[#32D3FF] shadow-lg" onClick={() => navigate('/pricing')}>
                     <TrendingUp className="w-4 h-4 mr-2" />
                     Upgrade Your Plan
                   </Button>
@@ -2924,7 +2924,7 @@ const Account = ({ athleteId }) => {
                 ) : (
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Button 
-                      className="w-full sm:flex-1 bg-gradient-to-r from-[#00C2A8] to-[#00D4B8] hover:from-[#00a890] hover:to-[#00C2A8] text-white border-none shadow-lg"
+                      className="w-full sm:flex-1 bg-gradient-to-r from-[#32D3FF] to-[#32D3FF] hover:from-[#1FC1FF] hover:to-[#32D3FF] text-white border-none shadow-lg"
                       onClick={() => setShowBillingCycleDialog(true)}
                     >
                       <Repeat className="w-4 h-4 mr-2" />
@@ -3067,7 +3067,7 @@ const Account = ({ athleteId }) => {
             <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
               <CardHeader>
                 <h3 className="flex items-center text-white text-xl font-semibold">
-                  <CreditCard className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                  <CreditCard className="w-5 h-5 mr-2 text-[#32D3FF]" />
                   Billing Management
                 </h3>
                 <p className="text-gray-400 mt-1">
@@ -3148,7 +3148,7 @@ const Account = ({ athleteId }) => {
                               href={invoice.invoice_pdf || invoice.hosted_invoice_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[#00C2A8] hover:text-[#00a890] text-sm font-medium flex items-center"
+                              className="text-[#32D3FF] hover:text-[#1FC1FF] text-sm font-medium flex items-center"
                             >
                               Download
                               <ExternalLink className="w-3 h-3 ml-1" />
@@ -3436,16 +3436,16 @@ const Account = ({ athleteId }) => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="p-4 bg-green-900/20 border border-blue-700/50 rounded-lg">
-                    <p className="text-sm text-green-200 mb-2">
+                  <div className="p-4 bg-blue-900/20 border border-blue-700/50 rounded-lg">
+                    <p className="text-sm text-blue-200 mb-2">
                       <strong>Switching to {currentBillingCycle === 'monthly' ? 'Annual' : 'Monthly'}:</strong>
                     </p>
                     {currentBillingCycle === 'monthly' ? (
                       <>
-                        <p className="text-sm text-green-100 mb-2">
+                        <p className="text-sm text-blue-100 mb-2">
                           Save 17% with annual billing!
                         </p>
-                        <ul className="text-sm text-green-100 space-y-1 list-disc list-inside">
+                        <ul className="text-sm text-blue-100 space-y-1 list-disc list-inside">
                           <li>{subscriptionStatus.tier === 'pro' ? '€99/year instead of €119.88' : '€199/year instead of €239.88'}</li>
                           <li>You'll be charged the prorated amount today</li>
                           <li>Next billing: 1 year from today</li>
@@ -3453,7 +3453,7 @@ const Account = ({ athleteId }) => {
                       </>
                     ) : (
                       <>
-                        <ul className="text-sm text-green-100 space-y-1 list-disc list-inside">
+                        <ul className="text-sm text-blue-100 space-y-1 list-disc list-inside">
                           <li>Switch to monthly billing</li>
                           <li>You'll receive a prorated credit</li>
                           <li>Next billing: 1 month from today</li>
@@ -3499,7 +3499,7 @@ const Account = ({ athleteId }) => {
             }}>
               <CardHeader>
                 <h3 className="flex items-center text-white text-xl font-semibold">
-                  <Zap className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                  <Zap className="w-5 h-5 mr-2 text-[#32D3FF]" />
                   Connected Apps
                 </h3>
                 <p className="text-gray-400 mt-1">
