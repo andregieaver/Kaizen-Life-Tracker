@@ -150,12 +150,14 @@ const Login = ({ onAthleteLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ 
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)'
+    }}>
       <div className="w-full max-w-md">
         {/* Back to Home Link */}
         <Link 
           to="/" 
-          className="inline-flex items-center text-sm text-gray-300 hover:text-white mb-6 transition-colors"
+          className="inline-flex items-center text-sm text-gray-300 hover:text-[#32D3FF] mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t('auth.backToHome')}
@@ -170,20 +172,25 @@ const Login = ({ onAthleteLogin }) => {
           {/* View Pricing Plans Link - HIDDEN BUT NOT DELETED */}
           <Link 
             to="/pricing" 
-            className="hidden inline-block mt-3 text-sm font-medium transition-colors"
-            style={{ color: '#00C2A8' }}
-            onMouseEnter={(e) => e.currentTarget.style.color = '#009688'}
-            onMouseLeave={(e) => e.currentTarget.style.color = '#00C2A8'}
+            className="hidden inline-block mt-3 text-sm font-medium transition-colors text-[#32D3FF] hover:text-[#1FC1FF]"
           >
             View Pricing Plans →
           </Link>
         </div>
 
         {/* Login Form */}
-        <Card className="border-0 shadow-xl bg-gradient-to-br from-gray-600 to-gray-800">
+        <Card 
+          className="border-0 shadow-xl" 
+          style={{
+            background: 'rgba(30, 41, 59, 0.6)',
+            backdropFilter: 'blur(16px)',
+            border: '1px solid rgba(71, 85, 105, 0.3)',
+            borderRadius: '16px'
+          }}
+        >
           <CardHeader className="text-center">
             <CardTitle className="text-2xl flex items-center justify-center text-white">
-              <LogIn className="w-6 h-6 mr-2" style={{ color: '#00C2A8' }} />
+              <LogIn className="w-6 h-6 mr-2 text-[#32D3FF]" />
               {t('auth.login')}
             </CardTitle>
             <CardDescription className="text-gray-300">
