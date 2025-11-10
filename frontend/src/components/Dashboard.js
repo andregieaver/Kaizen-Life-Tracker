@@ -1470,8 +1470,8 @@ const Dashboard = ({ athleteId }) => {
                 borderRadius: '8px'
               }}>
                 <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
-                  <h2 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Progress</h2>
-                  <p className="text-sm" style={{ color: 'var(--text-med)' }}>Recent test results</p>
+                  <h2 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('dashboard.progress.title')}</h2>
+                  <p className="text-sm" style={{ color: 'var(--text-med)' }}>{t('dashboard.progress.subtitle')}</p>
                 </div>
                 <div className="p-4">
                   {testResults && testResults.length > 0 ? (
