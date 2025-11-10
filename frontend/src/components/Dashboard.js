@@ -135,19 +135,25 @@ const Dashboard = ({ athleteId }) => {
       });
       console.log('[Bubble Debug] Active button found:', activeButton ? activeButton.textContent.trim() : 'NONE');
       
-      if (headerMenu && activeButton) {
-        const menuRect = headerMenu.getBoundingClientRect();
-        const buttonRect = activeButton.getBoundingClientRect();
-        
-        const leftOffset = buttonRect.left - menuRect.left;
-        const width = buttonRect.width;
-        
-        headerMenu.style.setProperty('--bubble-left', `${leftOffset}px`);
-        headerMenu.style.setProperty('--bubble-width', `${width}px`);
-        
-        console.log(`[Bubble Debug] Positioning bubble: left=${leftOffset}px, width=${width}px`);
-      } else {
-        console.log('[Bubble Debug] ERROR: No active button found or no header menu!');
+      if (headerMenu) {
+        if (activeButton) {
+          // Active button found - show and position the bubble
+          const menuRect = headerMenu.getBoundingClientRect();
+          const buttonRect = activeButton.getBoundingClientRect();
+          
+          const leftOffset = buttonRect.left - menuRect.left;
+          const width = buttonRect.width;
+          
+          headerMenu.style.setProperty('--bubble-left', `${leftOffset}px`);
+          headerMenu.style.setProperty('--bubble-width', `${width}px`);
+          headerMenu.style.setProperty('--bubble-opacity', '1');
+          
+          console.log(`[Bubble Debug] Positioning bubble: left=${leftOffset}px, width=${width}px`);
+        } else {
+          // No active button - hide the bubble
+          headerMenu.style.setProperty('--bubble-opacity', '0');
+          console.log('[Bubble Debug] No active button found - hiding bubble');
+        }
       }
     };
 
