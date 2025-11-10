@@ -187,7 +187,7 @@ const Today = ({ athleteId }) => {
   }
 
   return (
-    <div className="min-h-screen p-2 pt-6 md:p-6 md:pt-10 space-y-6">
+    <div className="min-h-screen p-2 pt-6 md:p-6 md:pt-0 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between gap-2">
         <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
