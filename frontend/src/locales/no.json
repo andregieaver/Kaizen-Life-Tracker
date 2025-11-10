@@ -1547,5 +1547,17 @@
     "noRewardsYet": "Ingen belønninger ennå",
     "startSharing": "Begynn å dele henvisningslenken din for å tjene rabattkoder!",
     "copyReferralLink": "Kopier henvisningslenke"
+  },
+  "dashboard": {
+    "quickLinks": {
+      "weeklyMenu": "Ukesmeny",
+      "weeklyMenuDesc": "Se måltidsplaner",
+      "voiceJournal": "Stemmedagbok",
+      "voiceJournalDesc": "Ta opp tanker",
+      "habitTracker": "Vanesporer",
+      "habitTrackerDesc": "Spor daglige vaner",
+      "calendar": "Kalender",
+      "calendarDesc": "Din timeplan"
+    }
   }
 }
