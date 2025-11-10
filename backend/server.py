@@ -2161,7 +2161,9 @@ Return only the JSON array, nothing else.
                     time_str = f" at {time}" if time else ""
                     metadata_str = f" [{', '.join(metadata)}]" if metadata else ""
                     
-                    journal_summary += f"\n[{date}{time_str}] {entry_type.upper()}{metadata_str}:\n{entry_text}\n"
+                    entry_line = f"\n[{date}{time_str}] {entry_type.upper()}{metadata_str}:\n{entry_text}\n"
+                    journal_summary += entry_line
+                    print(f"📝 Adding journal entry: {entry_line[:100]}...")
         else:
             journal_summary = "\n\nNo journal entries available."
         
