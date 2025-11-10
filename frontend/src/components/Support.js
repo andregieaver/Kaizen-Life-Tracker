@@ -80,7 +80,14 @@ const Support = ({ athleteId, athlete }) => {
         </div>
 
         {/* Support Form Card */}
-        <Card className="bg-gradient-to-br from-gray-800 to-gray-700 border-gray-600">
+        <Card className="border-0 shadow-lg" style={{
+          background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+          backdropFilter: 'blur(12px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+          borderRadius: '8px'
+        }}>
           <CardHeader>
             <CardTitle className="flex items-center text-white">
               <Mail className="mr-2 text-[#32D3FF]" />
