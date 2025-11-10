@@ -695,10 +695,8 @@ const Dashboard = ({ athleteId }) => {
                   menuItems.header_logged_in
                     .sort((a, b) => (a.order || 0) - (b.order || 0))
                     .map((item, index) => {
-                      // Determine if this menu item is active
-                      const isActive = location.pathname === item.url || 
-                                      (item.url === '/dashboard' && activeTab === 'overview') ||
-                                      (item.url.includes('/dashboard/') && activeTab === item.url.replace('/dashboard/', ''));
+                      // Determine if this menu item is active - simplified to only compare pathname
+                      const isActive = location.pathname === item.url;
                       
                       return (
                         <button
