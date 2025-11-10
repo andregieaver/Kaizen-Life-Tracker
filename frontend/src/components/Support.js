@@ -217,7 +217,7 @@ const Support = ({ athleteId, athlete }) => {
             You can also email us directly at:{' '}
             <a 
               href="mailto:support@kaizenlifetracker.com" 
-              className="text-teal-500 hover:text-teal-400 underline"
+              className="text-[#32D3FF] hover:text-[#1FC1FF] underline"
             >
               support@kaizenlifetracker.com
             </a>
