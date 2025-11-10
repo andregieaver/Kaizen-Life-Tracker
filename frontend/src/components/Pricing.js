@@ -453,7 +453,7 @@ const Pricing = () => {
             <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
               <CardContent className="pt-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <Tag className="w-5 h-5 text-teal-400" />
+                  <Tag className="w-5 h-5 text-blue-400" />
                   <h3 className="text-white font-semibold">Have a coupon code?</h3>
                 </div>
                 
@@ -602,7 +602,7 @@ const Pricing = () => {
                     {plan.features && plan.features.length > 0 ? (
                       plan.features.map((feature, index) => (
                         <li key={index} className="flex items-start">
-                          <Check className="w-5 h-5 text-teal-400 mr-3 flex-shrink-0 mt-0.5" />
+                          <Check className="w-5 h-5 text-blue-400 mr-3 flex-shrink-0 mt-0.5" />
                           <span className="text-gray-200">{feature}</span>
                         </li>
                       ))
@@ -614,7 +614,7 @@ const Pricing = () => {
                   </ul>
 
                   <Button
-                    className={`w-full ${plan.ctaVariant === 'outline' ? 'bg-transparent border-teal-600 text-teal-400 hover:bg-teal-600 hover:text-white' : 'bg-teal-600 text-white hover:bg-teal-700'}`}
+                    className={`w-full ${plan.ctaVariant === 'outline' ? 'bg-transparent border-teal-600 text-blue-400 hover:bg-teal-600 hover:text-white' : 'bg-teal-600 text-white hover:bg-teal-700'}`}
                     size="lg"
                     onClick={() => handleSelectPlan(plan.id)}
                   >
@@ -724,12 +724,12 @@ const Pricing = () => {
           <h2 className="text-3xl font-display font-bold mb-4">
             Ready to Transform Your Training?
           </h2>
-          <p className="text-xl mb-8 text-teal-100">
+          <p className="text-xl mb-8 text-blue-100">
             Join thousands of athletes optimizing their performance with My Health Tracker
           </p>
           <Button
             size="lg"
-            className="bg-white text-teal-600 hover:bg-gray-100"
+            className="bg-white text-blue-600 hover:bg-gray-100"
             onClick={() => navigate('/onboarding')}
           >
             Start Your Free Trial Today
