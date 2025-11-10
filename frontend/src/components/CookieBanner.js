@@ -281,7 +281,7 @@ const CookieBanner = () => {
                 </Button>
                 <Button
                   onClick={handleSavePreferences}
-                  className="flex-1 bg-[#00C2A8] hover:bg-[#00a892] text-white"
+                  className="flex-1 bg-[#32D3FF] hover:bg-[#1FC1FF] text-white"
                 >
                   {texts.save_preferences_button || 'Save Preferences'}
                 </Button>
