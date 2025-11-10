@@ -2541,7 +2541,7 @@ const Account = ({ athleteId }) => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label className="text-sm font-medium text-white">Weight Unit</Label>
+                      <Label className="text-sm font-medium text-white">{t('account.weightUnit')}</Label>
                       <Select
                         value={personalForm.weight_unit || 'lbs'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, weight_unit: value}))}
@@ -2550,14 +2550,14 @@ const Account = ({ athleteId }) => {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="lbs">Pounds (lbs)</SelectItem>
-                          <SelectItem value="kg">Kilograms (kg)</SelectItem>
+                          <SelectItem value="lbs">{t('account.pounds')}</SelectItem>
+                          <SelectItem value="kg">{t('account.kilograms')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-sm font-medium text-white">Fluid Unit</Label>
+                      <Label className="text-sm font-medium text-white">{t('account.fluidUnit')}</Label>
                       <Select
                         value={personalForm.fluid_unit || 'fl oz'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, fluid_unit: value}))}
@@ -2566,8 +2566,8 @@ const Account = ({ athleteId }) => {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="fl oz">Fluid Ounces (fl oz)</SelectItem>
-                          <SelectItem value="ml">Milliliters (ml)</SelectItem>
+                          <SelectItem value="fl oz">{t('account.fluidOunces')}</SelectItem>
+                          <SelectItem value="ml">{t('account.milliliters')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
