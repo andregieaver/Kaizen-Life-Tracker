@@ -122,7 +122,7 @@ const IntegrationCard = ({
               onClick={onDisconnect}
               className="text-red-600 hover:text-red-700 hover:border-red-300"
             >
-              {t('common.disconnect')}
+              {t('account.disconnect')}
             </Button>
           </>
         ) : comingSoon ? (
