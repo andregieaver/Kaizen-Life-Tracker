@@ -3485,11 +3485,18 @@ const Account = ({ athleteId }) => {
         </TabsContent>
 
         {/* Integrations Tab */}
-        <TabsContent value="integrations" className="bg-gray-900">
-          <div className="space-y-6">
+        <TabsContent value="integrations" className="bg-transparent">
+          <div className="space-y-4">
 
             {/* Third-Party Integrations */}
-            <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
+            <Card className="border-0 shadow-lg border-gray-700" style={{
+              background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+              backdropFilter: 'blur(12px) saturate(140%)',
+              WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+              borderRadius: '8px'
+            }}>
               <CardHeader>
                 <h3 className="flex items-center text-white text-xl font-semibold">
                   <Zap className="w-5 h-5 mr-2 text-[#00C2A8]" />
