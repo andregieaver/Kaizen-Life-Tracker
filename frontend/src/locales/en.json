@@ -1532,6 +1532,10 @@
       "habitTrackerDesc": "Track daily habits",
       "calendar": "Calendar",
       "calendarDesc": "Your schedule"
+    },
+    "progress": {
+      "title": "Progress",
+      "subtitle": "Recent test results"
     }
   }
 }
