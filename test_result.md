@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Fix Strava integration credential retrieval issue. Backend endpoints are reachable but return 'Strava credentials not found' error even though credentials were saved via SystemSettings. Strava credentials: Client ID: 57985, Client Secret: fdd4b7044a78c10de1b65e201a4ca931719f27d2, Access Token: 01c0a16bf344978f3a3c690cab7f4acfd84e6788, Refresh Token: 2de99353b9bd554b5175f5922446da138cb336a8"
+user_problem_statement: "Fix active state glass bubble persistence bug in header and mobile navbar. When navigating from one page (e.g., Account) to another page (e.g., Today), the glass bubble active state indicator remains on the previously visited menu item instead of moving to the current page's menu item."
 
 backend:
   - task: "Strava Credential Retrieval Fix"
