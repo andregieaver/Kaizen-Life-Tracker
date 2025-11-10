@@ -2810,12 +2810,12 @@ const Account = ({ athleteId }) => {
                     className="text-gray-300 hover:text-white hover:bg-gray-700 self-start sm:self-center"
                     onClick={() => {
                       loadSubscriptionStatus();
-                      setSaveStatus({ type: '', message: 'Refreshing...' });
+                      setSaveStatus({ type: '', message: t('account.refreshing') });
                       setTimeout(() => setSaveStatus({ type: '', message: '' }), 1000);
                     }}
                   >
                     <Repeat className="w-4 h-4 mr-1" />
-                    <span className="hidden sm:inline">Refresh</span>
+                    <span className="hidden sm:inline">{t('account.refresh')}</span>
                   </Button>
                 </div>
               </div>
