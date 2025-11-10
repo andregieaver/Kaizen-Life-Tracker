@@ -1541,7 +1541,8 @@
   "account": {
     "title": "Account Settings",
     "manageProfile": "Manage your account settings and preferences",
-    "personalInfo": {
+    "personalInfo": "Personal",
+    "personalInfoSection": {
       "title": "Personal Information",
       "description": "Update your profile information and running goals"
     }
