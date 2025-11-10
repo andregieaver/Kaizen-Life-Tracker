@@ -2709,7 +2709,7 @@ const Account = ({ athleteId }) => {
                           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
                           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                         >
-                          {backgroundImageFile || personalForm.background_image ? 'Change Background' : 'Upload Background'}
+                          {backgroundImageFile || personalForm.background_image ? t('account.changeBackground') : t('account.uploadBackground')}
                         </label>
                         {(backgroundImagePreview || personalForm.background_image) && (
                           <button
@@ -2728,10 +2728,10 @@ const Account = ({ athleteId }) => {
                             className="ml-2 px-4 py-2 text-white rounded-lg hover:bg-red-700 transition-colors text-sm"
                             style={{ backgroundColor: '#dc2626' }}
                           >
-                            Remove
+                            {t('account.remove')}
                           </button>
                         )}
-                        <p className="text-xs text-gray-500 mt-1">JPG or PNG (max 5MB). Will replace gradient background.</p>
+                        <p className="text-xs text-gray-500 mt-1">{t('account.backgroundImageHint')}</p>
                       </div>
                     </div>
                   </div>
