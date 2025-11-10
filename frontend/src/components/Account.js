@@ -2892,7 +2892,7 @@ const Account = ({ athleteId }) => {
                 )}
 
                 <div className="space-y-3 mb-6">
-                  <h4 className="font-semibold text-white mb-2">Current Features:</h4>
+                  <h4 className="font-semibold text-white mb-2">{t('account.currentFeatures')}</h4>
                   {currentPlanDetails && currentPlanDetails.features && currentPlanDetails.features.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {currentPlanDetails.features.map((feature, idx) => (
@@ -2903,7 +2903,7 @@ const Account = ({ athleteId }) => {
                       ))}
                     </div>
                   ) : (
-                    <div className="text-gray-400 text-sm">Loading features...</div>
+                    <div className="text-gray-400 text-sm">{t('account.loadingFeatures')}</div>
                   )}
                 </div>
 
