@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ArrowLeft, Plus, GripVertical, Trash2, Save, Menu as MenuIcon } from 'lucide-react';
+import { ArrowLeft, Plus, GripVertical, Trash2, Save, Menu as MenuIcon, Languages } from 'lucide-react';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable } from '../utils/StrictModeDroppable';
 import IconPicker from './IconPicker';
