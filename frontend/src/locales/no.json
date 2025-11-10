@@ -1558,6 +1558,10 @@
       "habitTrackerDesc": "Spor daglige vaner",
       "calendar": "Kalender",
       "calendarDesc": "Din timeplan"
+    },
+    "progress": {
+      "title": "Fremgang",
+      "subtitle": "Nylige testresultater"
     }
   }
 }
