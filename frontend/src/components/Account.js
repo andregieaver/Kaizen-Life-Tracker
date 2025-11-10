@@ -3332,10 +3332,10 @@ const Account = ({ athleteId }) => {
                 <Card className="w-full max-w-lg bg-gradient-to-b from-gray-800 to-gray-900 border-gray-700 shadow-2xl">
                   <CardHeader>
                     <CardTitle className="text-white text-2xl">
-                      Change Plan to {targetPlan.name}?
+                      {t('account.changePlanTo', { planName: targetPlan.name })}
                     </CardTitle>
                     <CardDescription className="text-gray-300">
-                      Choose your billing cycle
+                      {t('account.chooseYourBillingCycle')}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -3350,7 +3350,7 @@ const Account = ({ athleteId }) => {
                               : 'text-gray-400 hover:text-white'
                           }`}
                         >
-                          Monthly
+                          {t('account.monthly')}
                         </button>
                         <button
                           onClick={() => setSelectedBillingCycle('annual')}
@@ -3360,10 +3360,10 @@ const Account = ({ athleteId }) => {
                               : 'text-gray-400 hover:text-white'
                           }`}
                         >
-                          Annual
+                          {t('account.annual')}
                           {savings > 0 && (
                             <Badge variant="default" className="ml-2 bg-[#32D3FF] text-white border-0">
-                              Save {savings}%
+                              {t('account.savePercentage', { percentage: savings })}
                             </Badge>
                           )}
                         </button>
@@ -3377,21 +3377,21 @@ const Account = ({ athleteId }) => {
                           <p className="text-4xl font-bold text-white">
                             €{selectedPrice.price}
                             <span className="text-xl text-gray-400">
-                              /{selectedPrice.interval === 'month' ? 'mo' : 'year'}
+                              /{selectedPrice.interval === 'month' ? t('account.mo') : t('account.year')}
                             </span>
                           </p>
                           {selectedBillingCycle === 'annual' && monthlyVar && savings > 0 && (
                             <p className="text-sm text-blue-400 mt-2">
-                              Save €{((monthlyVar.price * 12) - annualVar.price).toFixed(2)} per year!
+                              {t('account.savePerYear', { amount: ((monthlyVar.price * 12) - annualVar.price).toFixed(2) })}
                             </p>
                           )}
                         </div>
                         <div className="text-sm text-gray-300 bg-gray-950 rounded-lg p-4">
-                          <p className="font-semibold mb-2 text-white">What happens next:</p>
+                          <p className="font-semibold mb-2 text-white">{t('account.whatHappensNext')}</p>
                           <ul className="space-y-1 list-disc list-inside">
-                            <li>Your plan will change immediately</li>
-                            <li>You'll receive a prorated credit</li>
-                            <li>New billing cycle starts today</li>
+                            <li>{t('account.planWillChangeImmediately')}</li>
+                            <li>{t('account.proratedCredit')}</li>
+                            <li>{t('account.newBillingCycleStarts')}</li>
                           </ul>
                         </div>
                       </div>
@@ -3406,14 +3406,14 @@ const Account = ({ athleteId }) => {
                           setDowngradeTarget(null);
                         }}
                       >
-                        Cancel
+                        {t('account.cancel')}
                       </Button>
                       <Button 
                         className="flex-1 bg-[#32D3FF] hover:bg-[#1FC1FF] text-white"
                         onClick={handleDowngrade}
                         disabled={!selectedPrice}
                       >
-                        Confirm Change
+                        {t('account.continueToCheckout')}
                       </Button>
                     </div>
                   </CardContent>
