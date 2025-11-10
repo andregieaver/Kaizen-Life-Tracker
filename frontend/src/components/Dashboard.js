@@ -1739,7 +1739,10 @@ const Dashboard = ({ athleteId }) => {
         data-previous={previousTab}
         style={{
           bottom: '12px',
-          transform: 'translateX(-50%)',
+          transform: `translate3d(-50%, ${(1 - footerProgress) * 100}%, 0)`,
+          opacity: 0.08 + footerProgress * 0.92,
+          pointerEvents: footerProgress > 0.05 ? 'auto' : 'none',
+          willChange: 'transform, opacity',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
