@@ -176,7 +176,7 @@ const CookieBanner = () => {
                       type="checkbox"
                       checked={true}
                       disabled={true}
-                      className="w-5 h-5 rounded border-gray-600 text-[#00C2A8] opacity-50 cursor-not-allowed"
+                      className="w-5 h-5 rounded border-gray-600 text-[#32D3FF] opacity-50 cursor-not-allowed"
                     />
                   </div>
                 </div>
