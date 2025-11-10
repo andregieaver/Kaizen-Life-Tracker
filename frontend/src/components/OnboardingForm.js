@@ -216,7 +216,9 @@ const OnboardingForm = ({ onAthleteCreated }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ 
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)'
+    }}>
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
@@ -228,14 +230,22 @@ const OnboardingForm = ({ onAthleteCreated }) => {
           </p>
           <Link 
             to="/pricing" 
-            className="inline-block mt-3 text-sm text-teal-400 hover:text-teal-300 font-medium transition-colors"
+            className="inline-block mt-3 text-sm text-[#32D3FF] hover:text-[#1FC1FF] font-medium transition-colors"
           >
             View Pricing Plans →
           </Link>
         </div>
 
         {/* Form Card */}
-        <Card className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 shadow-xl">
+        <Card 
+          className="shadow-xl border-0" 
+          style={{
+            background: 'rgba(30, 41, 59, 0.6)',
+            backdropFilter: 'blur(16px)',
+            border: '1px solid rgba(71, 85, 105, 0.3)',
+            borderRadius: '16px'
+          }}
+        >
           <CardHeader className="text-center pb-4">
             <CardTitle className="text-2xl font-display font-semibold text-white">
               {t('onboarding.title')}
