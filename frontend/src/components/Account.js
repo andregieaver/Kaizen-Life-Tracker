@@ -3511,7 +3511,7 @@ const Account = ({ athleteId }) => {
                 <IntegrationCard
                   provider="strava"
                   name="Strava"
-                  description="Activities and performance data"
+                  description={t('account.stravaDescription')}
                   icon={<Activity className="w-8 h-8 text-orange-500" />}
                   connected={integrations.strava.connected}
                   connectionInfo={integrations.strava}
@@ -3524,7 +3524,7 @@ const Account = ({ athleteId }) => {
                 <IntegrationCard
                   provider="oura"
                   name="Oura Ring"
-                  description="Sleep, recovery, and readiness data"
+                  description={t('account.ouraDescription')}
                   icon={<Heart className="w-8 h-8 text-purple-500" />}
                   connected={integrations.oura.connected}
                   connectionInfo={integrations.oura}
@@ -3537,7 +3537,7 @@ const Account = ({ athleteId }) => {
                 <IntegrationCard
                   provider="coros"
                   name="COROS"
-                  description="GPS sports watches and training data"
+                  description={t('account.corosDescription')}
                   icon={<Mountain className="w-8 h-8 text-blue-600" />}
                   connected={integrations.coros.connected}
                   connectionInfo={integrations.coros}
