@@ -135,15 +135,18 @@ const Dashboard = ({ athleteId }) => {
       }
     };
 
-    updateBubblePosition();
-    const timer1 = setTimeout(updateBubblePosition, 50);
-    const timer2 = setTimeout(updateBubblePosition, 200);
-    
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-    };
-  }, [activeTab, menuItems]);
+    // Use requestAnimationFrame to ensure DOM has updated
+    requestAnimationFrame(() => {
+      updateBubblePosition();
+      const timer1 = setTimeout(updateBubblePosition, 50);
+      const timer2 = setTimeout(updateBubblePosition, 200);
+      
+      return () => {
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+      };
+    });
+  }, [activeTab, menuItems, location.pathname]);
 
   // Update slideout menu bubble position dynamically
   useLayoutEffect(() => {
