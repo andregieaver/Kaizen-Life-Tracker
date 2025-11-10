@@ -437,7 +437,7 @@ const Pricing = () => {
               onClick={() => setBillingCycle('annual')}
               className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
                 billingCycle === 'annual'
-                  ? 'bg-teal-600 text-white shadow-md'
+                  ? 'bg-[#32D3FF] text-white shadow-md'
                   : 'text-gray-300 hover:text-white'
               }`}
             >
