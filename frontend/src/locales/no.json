@@ -380,7 +380,9 @@
     "ouraDescription": "Søvn-, restitusjons- og beredskapsdata",
     "corosDescription": "GPS-sportsklokker og treningsdata",
     "hoursAgo": "{{hours}} timer siden",
-    "daysAgo": "{{days}} dager siden"
+    "daysAgo": "{{days}} dager siden",
+    "connect": "Koble til",
+    "disconnect": "Koble fra"
   },
   "community": {
     "tabs": {
