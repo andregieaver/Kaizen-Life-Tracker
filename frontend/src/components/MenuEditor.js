@@ -360,18 +360,18 @@ const MenuEditor = ({ athleteId, onBack }) => {
               <button
                 onClick={handleTranslate}
                 disabled={translating}
-                className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white p-3 sm:px-6 sm:py-3 rounded-full sm:rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Languages className="w-5 h-5" />
-                <span>{translating ? 'Translating...' : 'Translate All Menus'}</span>
+                <span className="hidden sm:inline">{translating ? 'Translating...' : 'Translate All Menus'}</span>
               </button>
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white p-3 sm:px-6 sm:py-3 rounded-full sm:rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save className="w-5 h-5" />
-                <span>{saving ? 'Saving...' : 'Save Menus'}</span>
+                <span className="hidden sm:inline">{saving ? 'Saving...' : 'Save Menus'}</span>
               </button>
             </div>
           </div>
