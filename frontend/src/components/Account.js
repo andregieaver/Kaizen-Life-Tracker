@@ -1793,10 +1793,10 @@ const Account = ({ athleteId }) => {
             <div className="mb-6">
               <h3 className="flex items-center text-white text-xl font-semibold">
                 <User className="w-5 h-5 mr-2 text-[#32D3FF]" />
-                {t('account.personalInfo.title')}
+                {t('account.personalInfoSection.title')}
               </h3>
               <p className="text-gray-400 mt-1">
-                {t('account.personalInfo.description')}
+                {t('account.personalInfoSection.description')}
               </p>
             </div>
             <div>
