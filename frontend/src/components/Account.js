@@ -3104,14 +3104,14 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   <div className="p-4 border border-gray-600 rounded-lg" style={{ backgroundColor: '#111827' }}>
-                    <h4 className="font-semibold text-white mb-2">Billing History</h4>
+                    <h4 className="font-semibold text-white mb-2">{t('account.billingHistory')}</h4>
                     {subscriptionStatus.tier === 'free' ? (
                       <p className="text-sm text-gray-400">
-                        No invoices yet
+                        {t('account.noInvoicesYet')}
                       </p>
                     ) : invoices.length === 0 ? (
                       <p className="text-sm text-gray-400">
-                        Loading invoices...
+                        {t('account.loadingInvoices')}
                       </p>
                     ) : (
                       <div className="space-y-3">
@@ -3149,7 +3149,7 @@ const Account = ({ athleteId }) => {
                               rel="noopener noreferrer"
                               className="text-[#32D3FF] hover:text-[#1FC1FF] text-sm font-medium flex items-center"
                             >
-                              Download
+                              {t('account.download')}
                               <ExternalLink className="w-3 h-3 ml-1" />
                             </a>
                           </div>
