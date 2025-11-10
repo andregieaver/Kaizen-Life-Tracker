@@ -158,7 +158,7 @@ const ChangePassword = ({ athleteId }) => {
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <Button
               type="submit"
-              className="flex-1 bg-[#00C2A8] hover:bg-[#00A693] text-white font-medium"
+              className="flex-1 bg-[#32D3FF] hover:bg-[#1FC1FF] text-white font-medium"
               disabled={isLoading}
             >
               {isLoading ? (
