@@ -1738,7 +1738,7 @@ const Dashboard = ({ athleteId }) => {
             setIsMenuOpen(false);
           }}
           className="tab-option"
-          data-active={activeTab === 'coach'}
+          data-active={location.pathname === '/dashboard/coach'}
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -1750,18 +1750,18 @@ const Dashboard = ({ athleteId }) => {
             borderRadius: '99em',
             opacity: 1,
             transition: 'all 160ms',
-            color: activeTab === 'coach' ? 'var(--c-brand-500)' : 'var(--text-med)',
+            color: location.pathname === '/dashboard/coach' ? 'var(--c-brand-500)' : 'var(--text-med)',
             cursor: 'pointer',
             border: 'none',
             background: 'transparent'
           }}
           onMouseEnter={(e) => {
-            if (activeTab !== 'coach') {
+            if (location.pathname !== '/dashboard/coach') {
               e.currentTarget.style.color = 'var(--c-brand-500)';
             }
           }}
           onMouseLeave={(e) => {
-            if (activeTab !== 'coach') {
+            if (location.pathname !== '/dashboard/coach') {
               e.currentTarget.style.color = 'var(--text-med)';
             }
           }}
@@ -1769,7 +1769,7 @@ const Dashboard = ({ athleteId }) => {
           <Sparkles 
             className="w-6 h-6 transition-transform duration-200"
             style={{
-              transform: activeTab === 'coach' ? 'scale(1.1)' : 'scale(1)'
+              transform: location.pathname === '/dashboard/coach' ? 'scale(1.1)' : 'scale(1)'
             }}
           />
         </button>
@@ -1782,7 +1782,7 @@ const Dashboard = ({ athleteId }) => {
             setIsMenuOpen(false);
           }}
           className="tab-option"
-          data-active={activeTab === 'today'}
+          data-active={location.pathname === '/dashboard/today'}
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -1794,18 +1794,18 @@ const Dashboard = ({ athleteId }) => {
             borderRadius: '99em',
             opacity: 1,
             transition: 'all 160ms',
-            color: activeTab === 'today' ? 'var(--c-brand-500)' : 'var(--text-med)',
+            color: location.pathname === '/dashboard/today' ? 'var(--c-brand-500)' : 'var(--text-med)',
             cursor: 'pointer',
             border: 'none',
             background: 'transparent'
           }}
           onMouseEnter={(e) => {
-            if (activeTab !== 'today') {
+            if (location.pathname !== '/dashboard/today') {
               e.currentTarget.style.color = 'var(--c-brand-500)';
             }
           }}
           onMouseLeave={(e) => {
-            if (activeTab !== 'today') {
+            if (location.pathname !== '/dashboard/today') {
               e.currentTarget.style.color = 'var(--text-med)';
             }
           }}
@@ -1813,7 +1813,7 @@ const Dashboard = ({ athleteId }) => {
           <Power 
             className="w-6 h-6 transition-transform duration-200"
             style={{
-              transform: activeTab === 'today' ? 'scale(1.1)' : 'scale(1)'
+              transform: location.pathname === '/dashboard/today' ? 'scale(1.1)' : 'scale(1)'
             }}
           />
         </button>
@@ -1826,7 +1826,7 @@ const Dashboard = ({ athleteId }) => {
             setIsMenuOpen(false);
           }}
           className="tab-option"
-          data-active={activeTab === 'reports'}
+          data-active={location.pathname === '/dashboard/reports'}
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -1838,18 +1838,18 @@ const Dashboard = ({ athleteId }) => {
             borderRadius: '99em',
             opacity: 1,
             transition: 'all 160ms',
-            color: activeTab === 'reports' ? 'var(--c-brand-500)' : 'var(--text-med)',
+            color: location.pathname === '/dashboard/reports' ? 'var(--c-brand-500)' : 'var(--text-med)',
             cursor: 'pointer',
             border: 'none',
             background: 'transparent'
           }}
           onMouseEnter={(e) => {
-            if (activeTab !== 'reports') {
+            if (location.pathname !== '/dashboard/reports') {
               e.currentTarget.style.color = 'var(--c-brand-500)';
             }
           }}
           onMouseLeave={(e) => {
-            if (activeTab !== 'reports') {
+            if (location.pathname !== '/dashboard/reports') {
               e.currentTarget.style.color = 'var(--text-med)';
             }
           }}
@@ -1857,7 +1857,7 @@ const Dashboard = ({ athleteId }) => {
           <Lightbulb 
             className="w-6 h-6 transition-transform duration-200"
             style={{
-              transform: activeTab === 'reports' ? 'scale(1.1)' : 'scale(1)'
+              transform: location.pathname === '/dashboard/reports' ? 'scale(1.1)' : 'scale(1)'
             }}
           />
         </button>
@@ -1870,7 +1870,7 @@ const Dashboard = ({ athleteId }) => {
             setIsMenuOpen(false);
           }}
           className="tab-option"
-          data-active={activeTab === 'account'}
+          data-active={location.pathname === '/dashboard/account'}
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -1882,18 +1882,18 @@ const Dashboard = ({ athleteId }) => {
             borderRadius: '99em',
             opacity: 1,
             transition: 'all 160ms',
-            color: activeTab === 'account' ? 'var(--c-brand-500)' : 'var(--text-med)',
+            color: location.pathname === '/dashboard/account' ? 'var(--c-brand-500)' : 'var(--text-med)',
             cursor: 'pointer',
             border: 'none',
             background: 'transparent'
           }}
           onMouseEnter={(e) => {
-            if (activeTab !== 'account') {
+            if (location.pathname !== '/dashboard/account') {
               e.currentTarget.style.color = 'var(--c-brand-500)';
             }
           }}
           onMouseLeave={(e) => {
-            if (activeTab !== 'account') {
+            if (location.pathname !== '/dashboard/account') {
               e.currentTarget.style.color = 'var(--text-med)';
             }
           }}
@@ -1901,7 +1901,7 @@ const Dashboard = ({ athleteId }) => {
           <User 
             className="w-6 h-6 transition-transform duration-200"
             style={{
-              transform: activeTab === 'account' ? 'scale(1.1)' : 'scale(1)'
+              transform: location.pathname === '/dashboard/account' ? 'scale(1.1)' : 'scale(1)'
             }}
           />
         </button>
