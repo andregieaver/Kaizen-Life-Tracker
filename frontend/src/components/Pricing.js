@@ -477,7 +477,7 @@ const Pricing = () => {
                           applyCoupon(price, planId);
                         }}
                         disabled={validatingCoupon || !couponCode.trim()}
-                        className="bg-teal-600 hover:bg-teal-700 text-white px-6"
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-6"
                       >
                         {validatingCoupon ? 'Checking...' : 'Apply'}
                       </Button>
@@ -550,7 +550,7 @@ const Pricing = () => {
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-teal-600 text-white px-4 py-1 border-0">
+                    <Badge className="bg-blue-600 text-white px-4 py-1 border-0">
                       Most Popular
                     </Badge>
                   </div>
@@ -614,7 +614,7 @@ const Pricing = () => {
                   </ul>
 
                   <Button
-                    className={`w-full ${plan.ctaVariant === 'outline' ? 'bg-transparent border-teal-600 text-blue-400 hover:bg-teal-600 hover:text-white' : 'bg-teal-600 text-white hover:bg-teal-700'}`}
+                    className={`w-full ${plan.ctaVariant === 'outline' ? 'bg-transparent border-teal-600 text-blue-400 hover:bg-blue-600 hover:text-white' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
                     size="lg"
                     onClick={() => handleSelectPlan(plan.id)}
                   >
@@ -634,7 +634,7 @@ const Pricing = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="mx-auto w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mb-4">
+              <div className="mx-auto w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
                 <Users className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-white">AI-Powered Coaching</h3>
@@ -643,7 +643,7 @@ const Pricing = () => {
               </p>
             </div>
             <div className="text-center">
-              <div className="mx-auto w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mb-4">
+              <div className="mx-auto w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
                 <TrendingUp className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-white">Comprehensive Analytics</h3>
@@ -652,7 +652,7 @@ const Pricing = () => {
               </p>
             </div>
             <div className="text-center">
-              <div className="mx-auto w-16 h-16 bg-teal-600 rounded-full flex items-center justify-center mb-4">
+              <div className="mx-auto w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
                 <Clock className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-white">Seamless Integrations</h3>
