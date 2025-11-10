@@ -669,6 +669,7 @@
     "goal": "Mål",
     "otherHabits": "Andre vaner",
     "perDay": "per dag",
+    "completedMessage": "Du har fullført {{habit}} {{count}} {{times}} i dag! Mål: {{goal}} ganger per dag",
     "complete": "Fullført",
     "daysPerWeek": "dager per uke",
     "daysOfWeek": {
