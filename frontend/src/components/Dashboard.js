@@ -119,6 +119,8 @@ const Dashboard = ({ athleteId }) => {
 
   // Update header menu bubble position and width dynamically
   useLayoutEffect(() => {
+    let timer1, timer2, rafId;
+    
     const updateBubblePosition = () => {
       const headerMenu = document.querySelector('.header-menu-switcher');
       const activeButton = headerMenu?.querySelector('.header-menu-item[data-active="true"]');
@@ -136,16 +138,17 @@ const Dashboard = ({ athleteId }) => {
     };
 
     // Use requestAnimationFrame to ensure DOM has updated
-    requestAnimationFrame(() => {
+    rafId = requestAnimationFrame(() => {
       updateBubblePosition();
-      const timer1 = setTimeout(updateBubblePosition, 50);
-      const timer2 = setTimeout(updateBubblePosition, 200);
-      
-      return () => {
-        clearTimeout(timer1);
-        clearTimeout(timer2);
-      };
+      timer1 = setTimeout(updateBubblePosition, 50);
+      timer2 = setTimeout(updateBubblePosition, 200);
     });
+    
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      if (timer1) clearTimeout(timer1);
+      if (timer2) clearTimeout(timer2);
+    };
   }, [activeTab, menuItems, location.pathname]);
 
   // Update slideout menu bubble position dynamically
