@@ -1521,5 +1521,17 @@
     "noRewardsYet": "No Rewards Yet",
     "startSharing": "Start sharing your referral link to earn discount codes!",
     "copyReferralLink": "Copy Referral Link"
+  },
+  "dashboard": {
+    "quickLinks": {
+      "weeklyMenu": "Weekly Menu",
+      "weeklyMenuDesc": "View meal plans",
+      "voiceJournal": "Voice Journal",
+      "voiceJournalDesc": "Record thoughts",
+      "habitTracker": "Habit Tracker",
+      "habitTrackerDesc": "Track daily habits",
+      "calendar": "Calendar",
+      "calendarDesc": "Your schedule"
+    }
   }
 }
