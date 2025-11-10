@@ -1649,11 +1649,11 @@ Return only the JSON array, nothing else.
             sort=[("date", -1)]
         )
         
-        # Get recent journal entries (last 30 days)
+        # Get recent journal entries (last 30 days) - sort by date DESC and time DESC to get newest first
         journal_entries = await db.journal_entries.find(
             {"athlete_id": athlete_id},
             {"_id": 0}
-        ).sort("date", -1).limit(30).to_list(length=None)
+        ).sort([("date", -1), ("time", -1)]).limit(30).to_list(length=None)
         
         # Get recent nutrition entries (last 7 days)
         nutrition_entries = await db.nutrition_entries.find(
