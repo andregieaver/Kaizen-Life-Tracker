@@ -693,7 +693,7 @@ const Dashboard = ({ athleteId }) => {
     if (!item.translations) return item.label;
     
     // Get user's language preference
-    const userLang = athletePreferences?.language || 'en';
+    const userLang = athlete?.language || 'en';
     
     // Return translated label if available, otherwise fallback to English
     return item.translations[userLang] || item.label;
