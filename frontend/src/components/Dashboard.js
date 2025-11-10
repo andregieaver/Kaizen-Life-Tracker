@@ -1288,24 +1288,6 @@ const Dashboard = ({ athleteId }) => {
                 )}
               </nav>
             </div>
-
-            {/* Account Settings - Fixed at Bottom */}
-            <div className="border-t border-gray-200">
-              <button
-                onClick={() => {
-                  navigate('/dashboard/account');
-                  setIsMenuOpen(false);
-                }}
-                className={`w-full flex items-center space-x-3 p-4 transition-colors ${
-                  activeTab === 'account'
-                    ? 'bg-blue-50 text-blue-600'
-                    : 'text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                <Settings className="w-5 h-5" />
-                <span className="font-medium">{t('nav.account')}</span>
-              </button>
-            </div>
           </div>
       </>
 
