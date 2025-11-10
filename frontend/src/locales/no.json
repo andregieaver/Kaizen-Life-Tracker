@@ -1531,5 +1531,16 @@
     "noRewardsYet": "Ingen belønninger ennå",
     "startSharing": "Begynn å dele henvisningslenken din for å tjene rabattkoder!",
     "copyReferralLink": "Kopier henvisningslenke"
+  },
+  "notifications": {
+    "notifications": "Varsler",
+    "all": "Alle",
+    "follows": "Følgere",
+    "posts": "Innlegg",
+    "groups": "Grupper",
+    "events": "Hendelser",
+    "challenges": "Utfordringer",
+    "noNotifications": "Ingen varsler",
+    "allCaughtUp": "Du er oppdatert!"
   }
 }
