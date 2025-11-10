@@ -313,7 +313,13 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                   onValueChange={(value) => setFormData(prev => ({...prev, nationality: value}))}
                   disabled={isLoading}
                 >
-                  <SelectTrigger className="bg-gray-600 border-gray-500 text-white focus:border-[#32D3FF] focus:ring-[#32D3FF]">
+                  <SelectTrigger 
+                    className="text-white focus:border-[#32D3FF] focus:ring-[#32D3FF]"
+                    style={{
+                      background: 'rgba(17, 24, 39, 0.5)',
+                      border: '1px solid rgba(71, 85, 105, 0.3)'
+                    }}
+                  >
                     <SelectValue placeholder="Select your nationality" />
                   </SelectTrigger>
                   <SelectContent className="max-h-[300px]">
