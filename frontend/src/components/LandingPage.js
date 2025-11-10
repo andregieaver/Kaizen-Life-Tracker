@@ -81,7 +81,7 @@ const WaitingListSection = () => {
               <CardTitle className="text-2xl sm:text-3xl font-bold text-white mb-2">
                 Join the Waiting List
               </CardTitle>
-              <CardDescription className="text-teal-100 text-base sm:text-lg">
+              <CardDescription className="text-blue-100 text-base sm:text-lg">
                 Be the first to know when we launch. Get early access and exclusive benefits!
               </CardDescription>
             </CardHeader>
@@ -102,7 +102,7 @@ const WaitingListSection = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
-                    <User className="w-4 h-4 mr-2 text-teal-400" />
+                    <User className="w-4 h-4 mr-2 text-blue-400" />
                     Full Name *
                   </label>
                   <input
@@ -117,7 +117,7 @@ const WaitingListSection = () => {
 
                 <div>
                   <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
-                    <Globe className="w-4 h-4 mr-2 text-teal-400" />
+                    <Globe className="w-4 h-4 mr-2 text-blue-400" />
                     Preferred Language *
                   </label>
                   <select
@@ -141,7 +141,7 @@ const WaitingListSection = () => {
 
               <div>
                 <label className="flex items-center text-sm font-medium text-gray-300 mb-2">
-                  <Mail className="w-4 h-4 mr-2 text-teal-400" />
+                  <Mail className="w-4 h-4 mr-2 text-blue-400" />
                   Email Address *
                 </label>
                 <input
@@ -392,7 +392,7 @@ const LandingPage = () => {
                   <button
                     key={index}
                     onClick={() => navigate(item.url)}
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-teal-600 hover:bg-gray-100 h-9 px-4 py-2"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-blue-600 hover:bg-gray-100 h-9 px-4 py-2"
                   >
                     {item.label}
                   </button>
@@ -401,7 +401,7 @@ const LandingPage = () => {
                 // Fallback to default Login button if no menu configured
                 <button
                   onClick={() => navigate('/login')}
-                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-teal-600 hover:bg-gray-100 h-9 px-4 py-2"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-blue-600 hover:bg-gray-100 h-9 px-4 py-2"
                 >
                   Login
                 </button>
@@ -435,7 +435,7 @@ const LandingPage = () => {
           )}
           
           <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-500/20 text-teal-400 rounded-full text-sm font-medium mb-6 border border-teal-500/30">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-500/20 text-blue-400 rounded-full text-sm font-medium mb-6 border border-teal-500/30">
               <Zap className="w-4 h-4" />
               <span>Your Journey to Better Health Starts Here</span>
             </div>
@@ -464,15 +464,15 @@ const LandingPage = () => {
             </div>
             <div className="flex items-center justify-center gap-8 text-sm text-gray-400">
               <div className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-teal-400" />
+                <Check className="w-4 h-4 text-blue-400" />
                 <span>No credit card required</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-teal-400" />
+                <Check className="w-4 h-4 text-blue-400" />
                 <span>Free to start</span>
               </div>
               <div className="hidden sm:flex items-center gap-2">
-                <Check className="w-4 h-4 text-teal-400" />
+                <Check className="w-4 h-4 text-blue-400" />
                 <span>Cancel anytime</span>
               </div>
             </div>
@@ -481,7 +481,7 @@ const LandingPage = () => {
           {/* Hero Stats */}
           <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="text-4xl font-bold text-teal-400 mb-2">24/7</div>
+              <div className="text-4xl font-bold text-blue-400 mb-2">24/7</div>
               <div className="text-gray-300">AI Coach Available</div>
             </div>
             <div className="text-center">
@@ -489,7 +489,7 @@ const LandingPage = () => {
               <div className="text-gray-300">Complete Health Platform</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-teal-400 mb-2">Data-Driven</div>
+              <div className="text-4xl font-bold text-blue-400 mb-2">Data-Driven</div>
               <div className="text-gray-300">Personalized Insights</div>
             </div>
           </div>
@@ -517,7 +517,7 @@ const LandingPage = () => {
               <Card key={index} className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 hover:border-teal-500 hover:shadow-lg transition-all">
                 <CardHeader>
                   <div className="w-12 h-12 bg-teal-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <feature.icon className="w-6 h-6 text-teal-400" />
+                    <feature.icon className="w-6 h-6 text-blue-400" />
                   </div>
                   <CardTitle className="text-xl text-white">{feature.title}</CardTitle>
                   <CardDescription className="text-base text-gray-300">{feature.description}</CardDescription>
@@ -552,7 +552,7 @@ const LandingPage = () => {
                 </div>
                 {index < howItWorks.length - 1 && (
                   <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2">
-                    <ChevronRight className="w-8 h-8 text-teal-400/50" />
+                    <ChevronRight className="w-8 h-8 text-blue-400/50" />
                   </div>
                 )}
               </div>
@@ -577,7 +577,7 @@ const LandingPage = () => {
                 {benefits.map((benefit, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <div className="flex-shrink-0 w-6 h-6 bg-teal-500/20 rounded-full flex items-center justify-center mt-1">
-                      <Check className="w-4 h-4 text-teal-400" />
+                      <Check className="w-4 h-4 text-blue-400" />
                     </div>
                     <p className="text-gray-200 text-lg">{benefit}</p>
                   </div>
@@ -588,7 +588,7 @@ const LandingPage = () => {
             <div className="grid grid-cols-2 gap-6">
               <Card className="bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600">
                 <CardHeader>
-                  <Brain className="w-10 h-10 text-teal-400 mb-2" />
+                  <Brain className="w-10 h-10 text-blue-400 mb-2" />
                   <CardTitle className="text-white">AI Coach</CardTitle>
                   <CardDescription className="text-gray-300">
                     24/7 personalized guidance from your intelligent training partner
@@ -653,11 +653,11 @@ const LandingPage = () => {
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">Automated</div>
-              <div className="text-teal-100">Intelligent Tracking</div>
+              <div className="text-blue-100">Intelligent Tracking</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">Easy</div>
-              <div className="text-teal-100">Simple to Use</div>
+              <div className="text-blue-100">Simple to Use</div>
             </div>
           </div>
         </div>
@@ -729,7 +729,7 @@ const LandingPage = () => {
                     className="w-6 h-6 object-contain"
                   />
                 ) : (
-                  <Heart className="w-6 h-6 text-teal-400" />
+                  <Heart className="w-6 h-6 text-blue-400" />
                 )}
                 <span className="ml-2 text-lg font-bold text-white" style={{ fontFamily: 'var(--font-logo)' }}>{siteTitle}</span>
               </div>
@@ -772,8 +772,8 @@ const LandingPage = () => {
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-400">
               <p>© {new Date().getFullYear()} {siteTitle}. All rights reserved.</p>
               <div className="flex gap-6">
-                <Link to="/privacy" className="hover:text-teal-400 transition-colors">Privacy Policy</Link>
-                <Link to="/terms" className="hover:text-teal-400 transition-colors">Terms & Conditions</Link>
+                <Link to="/privacy" className="hover:text-blue-400 transition-colors">Privacy Policy</Link>
+                <Link to="/terms" className="hover:text-blue-400 transition-colors">Terms & Conditions</Link>
               </div>
             </div>
           </div>
