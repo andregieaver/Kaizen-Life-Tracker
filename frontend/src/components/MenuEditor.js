@@ -41,6 +41,10 @@ const MenuEditor = ({ athleteId, onBack }) => {
     try {
       setSaving(true);
       await axios.put(`${API}/menus?athlete_id=${athleteId}`, menus);
+      
+      // Dispatch custom event to notify Dashboard to reload menus
+      window.dispatchEvent(new CustomEvent('menusUpdated'));
+      
       alert('Menus saved successfully');
     } catch (error) {
       console.error('Error saving menus:', error);
