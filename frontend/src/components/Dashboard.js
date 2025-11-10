@@ -123,18 +123,17 @@ const Dashboard = ({ athleteId }) => {
     
     const updateBubblePosition = () => {
       const headerMenu = document.querySelector('.header-menu-switcher');
-      const activeButtons = headerMenu?.querySelectorAll('.header-menu-item[data-active="true"]');
+      const allButtons = headerMenu?.querySelectorAll('.header-menu-item');
       const activeButton = headerMenu?.querySelector('.header-menu-item[data-active="true"]');
       
       // Debug logging
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`[Bubble Position] Active buttons count: ${activeButtons?.length || 0}`);
-        if (activeButtons && activeButtons.length > 0) {
-          activeButtons.forEach((btn, idx) => {
-            console.log(`[Bubble Position] Active button ${idx}: ${btn.textContent}`);
-          });
-        }
-      }
+      console.log('[Bubble Debug] Current URL:', location.pathname);
+      console.log('[Bubble Debug] All header buttons:');
+      allButtons?.forEach((btn, idx) => {
+        const isActive = btn.getAttribute('data-active') === 'true';
+        console.log(`  ${idx}: "${btn.textContent.trim()}" - data-active="${isActive}" - testid="${btn.getAttribute('data-testid')}"`);
+      });
+      console.log('[Bubble Debug] Active button found:', activeButton ? activeButton.textContent.trim() : 'NONE');
       
       if (headerMenu && activeButton) {
         const menuRect = headerMenu.getBoundingClientRect();
@@ -146,12 +145,15 @@ const Dashboard = ({ athleteId }) => {
         headerMenu.style.setProperty('--bubble-left', `${leftOffset}px`);
         headerMenu.style.setProperty('--bubble-width', `${width}px`);
         
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`[Bubble Position] Set to: ${activeButton.textContent}, left: ${leftOffset}px, width: ${width}px`);
-        }
+        console.log(`[Bubble Debug] Positioning bubble: left=${leftOffset}px, width=${width}px`);
+      } else {
+        console.log('[Bubble Debug] ERROR: No active button found or no header menu!');
       }
     };
 
+    // Immediate first update (no transition on mount)
+    updateBubblePosition();
+    
     // Use requestAnimationFrame to ensure DOM has updated
     rafId = requestAnimationFrame(() => {
       updateBubblePosition();
