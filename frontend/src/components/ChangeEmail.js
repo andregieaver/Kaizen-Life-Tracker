@@ -100,7 +100,7 @@ const ChangeEmail = ({ athleteId, currentEmail }) => {
           {status.message && (
             <div className={`p-3 rounded-lg text-sm flex items-center ${
               status.type === 'success' 
-                ? 'bg-green-900/30 border border-green-700 text-green-400'
+                ? 'bg-blue-900/30 border border-blue-700 text-blue-400'
                 : 'bg-red-900/30 border border-red-700 text-red-400'
             }`}>
               {status.type === 'success' ? (
