@@ -2414,7 +2414,7 @@ const Account = ({ athleteId }) => {
                     </div>
 
                     <div className="space-y-2">
-                      <Label className="text-sm font-medium text-white">Measurement System</Label>
+                      <Label className="text-sm font-medium text-white">{t('account.measurementSystem')}</Label>
                       <Select
                         value={personalForm.measurement_system || 'imperial'}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, measurement_system: value}))}
@@ -2423,8 +2423,8 @@ const Account = ({ athleteId }) => {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="imperial">Imperial (lbs, ft/in)</SelectItem>
-                          <SelectItem value="metric">Metric (kg, cm)</SelectItem>
+                          <SelectItem value="imperial">{t('account.imperial')}</SelectItem>
+                          <SelectItem value="metric">{t('account.metric')}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
