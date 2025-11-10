@@ -3428,35 +3428,38 @@ const Account = ({ athleteId }) => {
               <Card className="w-full max-w-md mx-4 bg-gradient-to-b from-gray-800 to-gray-900 border-gray-700 shadow-2xl">
                 <CardHeader>
                   <CardTitle className="text-white">
-                    Switch to {currentBillingCycle === 'monthly' ? 'Annual' : 'Monthly'} Billing?
+                    {t('account.switchToBillingQuestion', { billingType: currentBillingCycle === 'monthly' ? t('account.annual') : t('account.monthly') })}
                   </CardTitle>
                   <CardDescription className="text-gray-300">
-                    Change your billing cycle
+                    {t('account.changeYourBillingCycle')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="p-4 bg-blue-900/20 border border-blue-700/50 rounded-lg">
                     <p className="text-sm text-blue-200 mb-2">
-                      <strong>Switching to {currentBillingCycle === 'monthly' ? 'Annual' : 'Monthly'}:</strong>
+                      <strong>{t('account.switchingTo', { billingType: currentBillingCycle === 'monthly' ? t('account.annual') : t('account.monthly') })}:</strong>
                     </p>
                     {currentBillingCycle === 'monthly' ? (
                       <>
                         <p className="text-sm text-blue-100 mb-2">
-                          Save 17% with annual billing!
+                          {t('account.saveWithAnnualBilling')}
                         </p>
                         <ul className="text-sm text-blue-100 space-y-1 list-disc list-inside">
-                          <li>{subscriptionStatus.tier === 'pro' ? '€99/year instead of €119.88' : '€199/year instead of €239.88'}</li>
-                          <li>You'll be charged the prorated amount today</li>
-                          <li>Next billing: 1 year from today</li>
+                          <li>{t('account.yearInsteadOf', { 
+                            annualPrice: subscriptionStatus.tier === 'pro' ? '99' : '199',
+                            monthlyTotal: subscriptionStatus.tier === 'pro' ? '119.88' : '239.88'
+                          })}</li>
+                          <li>{t('account.proratedChargeToday')}</li>
+                          <li>{t('account.nextBillingYearFromToday')}</li>
                         </ul>
                       </>
                     ) : (
                       <>
                         <ul className="text-sm text-blue-100 space-y-1 list-disc list-inside">
-                          <li>Switch to monthly billing</li>
-                          <li>You'll receive a prorated credit</li>
-                          <li>Next billing: 1 month from today</li>
-                          <li>{subscriptionStatus.tier === 'pro' ? '€9.99/month' : '€19.99/month'}</li>
+                          <li>{t('account.switchToMonthlyBilling')}</li>
+                          <li>{t('account.youllReceiveProratedCredit')}</li>
+                          <li>{t('account.nextBillingMonthFromToday')}</li>
+                          <li>{t('account.pricePerMonth', { price: subscriptionStatus.tier === 'pro' ? '9.99' : '19.99' })}</li>
                         </ul>
                       </>
                     )}
@@ -3467,14 +3470,14 @@ const Account = ({ athleteId }) => {
                       className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white"
                       onClick={() => setShowBillingCycleDialog(false)}
                     >
-                      Cancel
+                      {t('account.cancel')}
                     </Button>
                     <Button 
                       variant="default" 
                       className="flex-1 bg-gray-900 hover:bg-black text-white border-gray-600"
                       onClick={handleChangeBillingCycle}
                     >
-                      Confirm Switch
+                      {t('account.confirmSwitch')}
                     </Button>
                   </div>
                 </CardContent>
