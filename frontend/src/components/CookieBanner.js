@@ -258,7 +258,7 @@ const CookieBanner = () => {
                 For more information, see our{' '}
                 <a 
                   href={texts.cookie_policy_link}
-                  className="text-[#00C2A8] hover:underline"
+                  className="text-[#32D3FF] hover:underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
