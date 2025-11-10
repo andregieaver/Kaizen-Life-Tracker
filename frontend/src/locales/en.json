@@ -82,7 +82,8 @@
     "passwordSecurityNote": "Your password is encrypted and stored securely. Use a strong password with at least 6 characters.",
     "resetSecurityNote": "Password reset links expire after 1 hour for security",
     "nationality": "Nationality",
-    "selectNationality": "Select your nationality"
+    "selectNationality": "Select your nationality",
+    "viewPricingPlans": "View Pricing Plans"
   },
   "onboarding": {
     "title": "Create Your Running Profile",
