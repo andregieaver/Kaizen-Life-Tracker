@@ -1531,5 +1531,16 @@
     "noRewardsYet": "No Rewards Yet",
     "startSharing": "Start sharing your referral link to earn discount codes!",
     "copyReferralLink": "Copy Referral Link"
+  },
+  "notifications": {
+    "notifications": "Notifications",
+    "all": "All",
+    "follows": "Follows",
+    "posts": "Posts",
+    "groups": "Groups",
+    "events": "Events",
+    "challenges": "Challenges",
+    "noNotifications": "No notifications",
+    "allCaughtUp": "You're all caught up!"
   }
 }
