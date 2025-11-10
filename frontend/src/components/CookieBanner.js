@@ -199,7 +199,7 @@ const CookieBanner = () => {
                         ...preferences,
                         analytics: e.target.checked
                       })}
-                      className="w-5 h-5 rounded border-gray-600 text-[#00C2A8] focus:ring-[#00C2A8]"
+                      className="w-5 h-5 rounded border-gray-600 text-[#32D3FF] focus:ring-[#32D3FF]"
                     />
                   </div>
                 </div>
@@ -222,7 +222,7 @@ const CookieBanner = () => {
                         ...preferences,
                         marketing: e.target.checked
                       })}
-                      className="w-5 h-5 rounded border-gray-600 text-[#00C2A8] focus:ring-[#00C2A8]"
+                      className="w-5 h-5 rounded border-gray-600 text-[#32D3FF] focus:ring-[#32D3FF]"
                     />
                   </div>
                 </div>
@@ -245,7 +245,7 @@ const CookieBanner = () => {
                         ...preferences,
                         functional: e.target.checked
                       })}
-                      className="w-5 h-5 rounded border-gray-600 text-[#00C2A8] focus:ring-[#00C2A8]"
+                      className="w-5 h-5 rounded border-gray-600 text-[#32D3FF] focus:ring-[#32D3FF]"
                     />
                   </div>
                 </div>
