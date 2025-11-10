@@ -716,6 +716,7 @@
     "goal": "Goal",
     "otherHabits": "Other Habits",
     "perDay": "per day",
+    "completedMessage": "You've completed {{habit}} {{count}} {{times}} today! Goal: {{goal}} times per day",
     "complete": "Complete",
     "daysPerWeek": "days per week",
     "daysOfWeek": {
