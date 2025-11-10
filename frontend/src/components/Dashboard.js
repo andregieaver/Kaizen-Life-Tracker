@@ -975,9 +975,18 @@ const Dashboard = ({ athleteId }) => {
       </header>
 
       {/* Mobile Header */}
-      <header className={`md:hidden shadow-lg fixed top-0 left-0 right-0 z-40 transition-transform duration-300 ease-in-out ${
-        isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
-      }`} style={{ background: 'var(--grad-surface)' }}>
+      <header 
+        className="md:hidden shadow-lg fixed top-0 left-0 right-0 z-40"
+        style={{ 
+          background: 'var(--grad-surface)',
+          transform: `translate3d(0, ${(1 - headerProgress) * -100}%, 0)`,
+          opacity: 0.08 + headerProgress * 0.92,
+          pointerEvents: headerProgress > 0.05 ? 'auto' : 'none',
+          willChange: 'transform, opacity',
+          transition: 'box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1)',
+          boxShadow: atTop ? 'none' : undefined
+        }}
+      >
         <div className="px-4 py-3">
           <div className="flex justify-between items-center">
             <div 
