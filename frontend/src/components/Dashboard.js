@@ -276,22 +276,35 @@ const Dashboard = ({ athleteId }) => {
   useEffect(() => {
     const updateNavbarBubble = () => {
       const navbar = document.querySelector('.bottom-tab-switcher');
+      const allButtons = navbar?.querySelectorAll('.tab-option');
       const activeButton = navbar?.querySelector('.tab-option[data-active="true"]');
+      
+      // Debug logging
+      console.log('[Navbar Bubble] Current URL:', location.pathname);
+      console.log('[Navbar Bubble] All navbar buttons:');
+      allButtons?.forEach((btn, idx) => {
+        const isActive = btn.getAttribute('data-active') === 'true';
+        console.log(`  ${idx}: data-active="${isActive}"`);
+      });
+      console.log('[Navbar Bubble] Active button found:', activeButton ? 'YES' : 'NO');
       
       if (navbar) {
         if (activeButton) {
           navbar.style.setProperty('--navbar-bubble-opacity', '1');
+          console.log('[Navbar Bubble] Setting opacity to 1 (visible)');
         } else {
           navbar.style.setProperty('--navbar-bubble-opacity', '0');
+          console.log('[Navbar Bubble] Setting opacity to 0 (hidden)');
         }
       }
     };
 
-    // Run immediately and after short delay to ensure DOM is updated
-    updateNavbarBubble();
-    const timer = setTimeout(updateNavbarBubble, 50);
-    
-    return () => clearTimeout(timer);
+    // Use requestAnimationFrame to ensure DOM is updated
+    requestAnimationFrame(() => {
+      updateNavbarBubble();
+      setTimeout(updateNavbarBubble, 50);
+      setTimeout(updateNavbarBubble, 200);
+    });
   }, [location.pathname]);
 
   useEffect(() => {
