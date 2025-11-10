@@ -419,12 +419,15 @@ const Pricing = () => {
           </p>
 
           {/* Billing Cycle Toggle */}
-          <div className="flex items-center justify-center space-x-4 bg-gradient-to-b from-gray-700 to-gray-800 rounded-full p-2 shadow-md inline-flex">
+          <div className="flex items-center justify-center space-x-4 rounded-full p-2 shadow-md inline-flex" style={{
+            background: 'rgba(30, 41, 59, 0.6)',
+            backdropFilter: 'blur(10px)'
+          }}>
             <button
               onClick={() => setBillingCycle('monthly')}
               className={`px-6 py-2 rounded-full font-medium transition-all ${
                 billingCycle === 'monthly'
-                  ? 'bg-teal-600 text-white shadow-md'
+                  ? 'bg-[#32D3FF] text-white shadow-md'
                   : 'text-gray-300 hover:text-white'
               }`}
             >
