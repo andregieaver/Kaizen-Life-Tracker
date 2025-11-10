@@ -2431,7 +2431,7 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   {/* Push Notifications */}
-                  <div className="space-y-4 p-4 border border-gray-700 rounded-lg bg-gray-800/50">
+                  <div className="space-y-4 border border-gray-700 rounded-lg">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
@@ -2465,7 +2465,7 @@ const Account = ({ athleteId }) => {
                       )}
                     </div>
                     {pushSupported && pushSubscribed && (
-                      <div className="text-xs text-gray-400 bg-gray-900/50 p-2 rounded border border-gray-700">
+                      <div className="text-xs text-gray-400 p-2 rounded border border-gray-700">
                         <div className="flex items-start gap-2">
                           <CheckCircle className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
                           <div>
