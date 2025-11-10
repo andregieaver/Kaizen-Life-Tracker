@@ -2440,15 +2440,15 @@ const Account = ({ athleteId }) => {
                           ) : (
                             <BellOff className="w-5 h-5 text-gray-400" />
                           )}
-                          <Label className="text-sm font-medium text-white">Push Notifications</Label>
+                          <Label className="text-sm font-medium text-white">{t('account.pushNotificationsTitle')}</Label>
                           {pushSubscribed && (
-                            <Badge className="bg-blue-900/30 text-blue-400">Enabled</Badge>
+                            <Badge className="bg-blue-900/30 text-blue-400">{t('account.enabled')}</Badge>
                           )}
                         </div>
                         <p className="text-xs text-gray-400">
                           {pushSupported 
-                            ? 'Get instant alerts for new AI-generated reports and recommendations'
-                            : 'Push notifications are not supported on this browser'
+                            ? t('account.getInstantAlerts')
+                            : t('account.notificationsNotSupported')
                           }
                         </p>
                       </div>
@@ -2460,7 +2460,7 @@ const Account = ({ athleteId }) => {
                           variant={pushSubscribed ? "outline" : "default"}
                           className={pushSubscribed ? "border-gray-600 text-white hover:bg-gray-700" : "bg-[#32D3FF] hover:bg-[#1FC1FF] text-white"}
                         >
-                          {pushLoading ? 'Loading...' : pushSubscribed ? 'Disable' : 'Enable'}
+                          {pushLoading ? t('account.loading') : pushSubscribed ? t('account.disable') : t('account.enable')}
                         </Button>
                       )}
                     </div>
@@ -2469,10 +2469,10 @@ const Account = ({ athleteId }) => {
                         <div className="flex items-start gap-2">
                           <CheckCircle className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
                           <div>
-                            <p className="font-medium text-white">You'll receive notifications for:</p>
+                            <p className="font-medium text-white">{t('account.youllReceiveNotificationsFor')}</p>
                             <ul className="mt-1 space-y-1 ml-2">
-                              <li>• New AI-generated reports</li>
-                              <li>• Scheduled analysis completions</li>
+                              <li>• {t('account.newAIReports')}</li>
+                              <li>• {t('account.scheduledAnalysisCompletions')}</li>
                             </ul>
                           </div>
                         </div>
