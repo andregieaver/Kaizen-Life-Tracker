@@ -3067,10 +3067,10 @@ const Account = ({ athleteId }) => {
               <CardHeader>
                 <h3 className="flex items-center text-white text-xl font-semibold">
                   <CreditCard className="w-5 h-5 mr-2 text-[#32D3FF]" />
-                  Billing Management
+                  {t('account.billingManagement')}
                 </h3>
                 <p className="text-gray-400 mt-1">
-                  Manage payment methods and view billing history
+                  {t('account.managePaymentMethodsHistory')}
                 </p>
               </CardHeader>
               <CardContent>
