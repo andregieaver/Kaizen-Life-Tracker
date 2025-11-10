@@ -149,6 +149,7 @@ code {
   position: relative;
   --bubble-left: 0px;
   --bubble-width: 120px;
+  --bubble-opacity: 1;
 }
 
 .header-menu-item {
