@@ -73,15 +73,28 @@ const WaitingListSection = () => {
   };
 
   return (
-    <section id="waiting-list-section" className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-900">
+    <section id="waiting-list-section" className="py-16 px-4 sm:px-6 lg:px-8" style={{ 
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)'
+    }}>
       <div className="max-w-4xl mx-auto">
-        <Card className="shadow-2xl border-0 overflow-hidden bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
-          <div className="bg-gradient-to-r from-blue-600 to-cyan-600 p-6 sm:p-8">
+        <Card 
+          className="shadow-2xl border-0 overflow-hidden"
+          style={{
+            background: 'rgba(30, 41, 59, 0.6)',
+            backdropFilter: 'blur(16px)',
+            borderRadius: '16px',
+            border: '1px solid rgba(71, 85, 105, 0.3)'
+          }}
+        >
+          <div className="p-6 sm:p-8" style={{
+            background: 'linear-gradient(135deg, rgba(50, 211, 255, 0.1) 0%, rgba(31, 193, 255, 0.05) 100%)',
+            borderBottom: '1px solid rgba(71, 85, 105, 0.3)'
+          }}>
             <CardHeader className="text-center p-0">
               <CardTitle className="text-2xl sm:text-3xl font-bold text-white mb-2">
                 Join the Waiting List
               </CardTitle>
-              <CardDescription className="text-blue-100 text-base sm:text-lg">
+              <CardDescription className="text-gray-300 text-base sm:text-lg">
                 Be the first to know when we launch. Get early access and exclusive benefits!
               </CardDescription>
             </CardHeader>
