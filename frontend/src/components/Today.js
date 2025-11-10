@@ -197,6 +197,107 @@ const Today = ({ athleteId }) => {
         <p className="text-xs md:text-sm text-right" style={{ color: 'var(--text-med)' }}>{formatDate()}</p>
       </div>
 
+      {/* Today's Habits Section */}
+      {getTodayHabits().length > 0 && (
+        <div className="border-0 shadow-lg overflow-hidden" style={{ 
+          background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+          backdropFilter: 'blur(12px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+          borderRadius: '8px'
+        }}>
+          <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+            <h3 className="flex items-center gap-2 text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
+              <Repeat className="w-5 h-5" style={{ color: 'var(--c-brand-500)' }} />
+              {t('today.todayHabits')}
+            </h3>
+            <p className="text-sm" style={{ color: 'var(--text-med)' }}>{t('today.trackHabitsSubtitle')}</p>
+          </div>
+          <div className="p-4 space-y-3">
+            {getTodayHabits().map(habit => {
+              const completions = getTodayCompletions(habit.id);
+              const goal = habit.times_per_day || 1;
+              const isComplete = completions >= goal;
+              
+              return (
+                <div 
+                  key={habit.id}
+                  className="flex items-center justify-between p-3 rounded-lg"
+                  style={{
+                    background: isComplete 
+                      ? 'rgba(50, 211, 255, 0.1)'
+                      : 'color-mix(in srgb, var(--c-glass) 8%, transparent)',
+                    border: isComplete 
+                      ? '1px solid rgba(50, 211, 255, 0.3)'
+                      : '1px solid rgba(255, 255, 255, 0.05)'
+                  }}
+                >
+                  <div className="flex items-center gap-3 flex-1">
+                    <div 
+                      className="w-10 h-10 rounded-full flex items-center justify-center"
+                      style={{
+                        background: isComplete 
+                          ? 'rgba(50, 211, 255, 0.2)'
+                          : 'rgba(255, 255, 255, 0.05)'
+                      }}
+                    >
+                      {isComplete ? (
+                        <Check className="w-5 h-5" style={{ color: '#32D3FF' }} />
+                      ) : (
+                        <Repeat className="w-5 h-5 text-gray-400" />
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-medium" style={{ color: 'var(--text-hi)' }}>{habit.title}</h4>
+                      <p className="text-xs" style={{ color: 'var(--text-med)' }}>
+                        {completions} / {goal} {t('habits.today')}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {completions < goal && (
+                      <button
+                        onClick={() => handleCompleteHabit(habit.id)}
+                        className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
+                        style={{
+                          backgroundColor: '#32D3FF',
+                          color: 'white'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
+                      >
+                        {t('habits.tap')}
+                      </button>
+                    )}
+                    {completions > 0 && (
+                      <button
+                        onClick={() => handleUncompleteHabit(habit.id)}
+                        className="px-3 py-2 rounded-lg text-sm font-medium transition-all"
+                        style={{
+                          backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                          color: 'var(--text-med)'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                          e.currentTarget.style.color = 'var(--text-hi)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                          e.currentTarget.style.color = 'var(--text-med)';
+                        }}
+                      >
+                        {t('habits.undo')}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Main Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
         {/* Nutrition Overview */}
