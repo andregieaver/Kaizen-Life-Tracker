@@ -192,7 +192,7 @@ const Support = ({ athleteId, athlete }) => {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-lg flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white px-6 py-2 rounded-lg flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
