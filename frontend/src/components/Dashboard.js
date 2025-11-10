@@ -119,7 +119,7 @@ const Dashboard = ({ athleteId }) => {
 
   // Update header menu bubble position and width dynamically
   useLayoutEffect(() => {
-    let timer1, timer2, rafId;
+    let timer1, timer2, timer3, rafId;
     
     const updateBubblePosition = () => {
       const headerMenu = document.querySelector('.header-menu-switcher');
@@ -160,17 +160,26 @@ const Dashboard = ({ athleteId }) => {
     // Immediate first update (no transition on mount)
     updateBubblePosition();
     
+    // Wait for fonts to load, then update multiple times
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        updateBubblePosition();
+      });
+    }
+    
     // Use requestAnimationFrame to ensure DOM has updated
     rafId = requestAnimationFrame(() => {
       updateBubblePosition();
       timer1 = setTimeout(updateBubblePosition, 50);
       timer2 = setTimeout(updateBubblePosition, 200);
+      timer3 = setTimeout(updateBubblePosition, 500); // Extra delay for font loading
     });
     
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
       if (timer1) clearTimeout(timer1);
       if (timer2) clearTimeout(timer2);
+      if (timer3) clearTimeout(timer3);
     };
   }, [activeTab, menuItems, location.pathname]);
 
