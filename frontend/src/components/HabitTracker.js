@@ -291,7 +291,7 @@ const HabitTracker = ({ athleteId }) => {
                         <div className="flex items-center gap-2 mb-2 flex-wrap">
                           <h4 className="text-base md:text-lg font-semibold text-white">{habit.title}</h4>
                           {isComplete && (
-                            <span className="flex items-center gap-1 text-green-400 text-xs md:text-sm font-medium">
+                            <span className="flex items-center gap-1 text-xs md:text-sm font-medium" style={{ color: '#32D3FF' }}>
                               <Check className="w-4 h-4" />
                               {t('habits.complete')}
                             </span>
