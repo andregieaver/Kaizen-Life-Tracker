@@ -166,21 +166,19 @@ const MenuEditor = ({ athleteId, onBack }) => {
               <button
                 type="button"
                 onClick={addSeparator}
-                className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-sm transition-colors whitespace-nowrap"
+                className="flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-600 text-white p-2 sm:px-3 sm:py-2 rounded-full sm:rounded-lg text-sm transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 <span className="hidden sm:inline">Add Separator</span>
-                <span className="sm:hidden">Separator</span>
               </button>
             )}
             <button
               type="button"
               onClick={() => addMenuItem(menuType)}
-              className="flex items-center gap-2 bg-[#00C2A8] hover:bg-[#00a890] text-white px-3 py-2 rounded-lg text-sm transition-colors whitespace-nowrap"
+              className="flex items-center justify-center gap-2 bg-[#32D3FF] hover:bg-[#1FC1FF] text-white p-2 sm:px-3 sm:py-2 rounded-full sm:rounded-lg text-sm transition-colors"
             >
               <Plus className="w-4 h-4" />
               <span className="hidden sm:inline">Add Menu Item</span>
-              <span className="sm:hidden">Add Item</span>
             </button>
           </div>
         </div>
