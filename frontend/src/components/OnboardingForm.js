@@ -232,7 +232,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
             to="/pricing" 
             className="inline-block mt-3 text-sm text-[#32D3FF] hover:text-[#1FC1FF] font-medium transition-colors"
           >
-            View Pricing Plans →
+            {t('auth.viewPricingPlans')} →
           </Link>
         </div>
 
