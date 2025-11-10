@@ -452,7 +452,8 @@
     "changePlanTo": "Endre plan til {planName}?",
     "planWillChangeImmediately": "Planen din endres umiddelbart",
     "proratedCredit": "Du vil motta en forholdsmessig kreditt",
-    "newBillingCycleStarts": "Ny faktureringssyklus starter i dag"
+    "newBillingCycleStarts": "Ny faktureringssyklus starter i dag",
+    "confirmChange": "Bekreft endring"
   },
   "community": {
     "tabs": {
