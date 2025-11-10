@@ -306,7 +306,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
 
               <div className="space-y-2">
                 <Label htmlFor="nationality" className="text-sm font-medium text-gray-200">
-                  Nationality
+                  {t('auth.nationality')}
                 </Label>
                 <Select
                   value={formData.nationality}
@@ -320,7 +320,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                       border: '1px solid rgba(71, 85, 105, 0.3)'
                     }}
                   >
-                    <SelectValue placeholder="Select your nationality" />
+                    <SelectValue placeholder={t('auth.selectNationality')} />
                   </SelectTrigger>
                   <SelectContent className="max-h-[300px]">
                     {countries.map(country => (
