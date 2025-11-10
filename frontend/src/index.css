@@ -412,6 +412,7 @@ code {
 
 .bottom-tab-switcher {
   position: fixed;
+  --navbar-bubble-opacity: 1;
 }
 
 /* Sliding indicator background */
@@ -425,6 +426,7 @@ code {
   height: 54px;
   border-radius: 99em;
   background-color: color-mix(in srgb, var(--c-glass) 36%, transparent);
+  opacity: var(--navbar-bubble-opacity, 1);
   z-index: -1;
   box-shadow: 
     inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
@@ -437,6 +439,7 @@ code {
   transition: 
     background-color 400ms cubic-bezier(1, 0, 0.4, 1),
     box-shadow 400ms cubic-bezier(1, 0, 0.4, 1),
+    opacity 200ms ease-out,
     translate 400ms cubic-bezier(1, 0, 0.4, 1);
 }
 
