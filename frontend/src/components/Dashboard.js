@@ -801,6 +801,7 @@ const Dashboard = ({ athleteId }) => {
                     .map((item, index) => {
                       // Determine if this menu item is active - simplified to only compare pathname
                       const isActive = location.pathname === item.url;
+                      const displayLabel = getMenuLabel(item);
                       
                       // Debug logging
                       console.log(`[Header Menu] Item: ${item.label}, URL: ${item.url}, Current: ${location.pathname}, Active: ${isActive}`);
@@ -818,7 +819,7 @@ const Dashboard = ({ athleteId }) => {
                             color: isActive ? 'var(--c-brand-500)' : 'var(--text-med)'
                           }}
                         >
-                          {item.label}
+                          {displayLabel}
                         </button>
                       );
                     })
