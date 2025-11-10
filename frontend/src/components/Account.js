@@ -2910,7 +2910,7 @@ const Account = ({ athleteId }) => {
                 {subscriptionStatus.tier === 'free' ? (
                   <Button className="w-full text-white bg-gradient-to-r from-[#32D3FF] to-[#32D3FF] hover:from-[#1FC1FF] hover:to-[#32D3FF] shadow-lg" onClick={() => navigate('/pricing')}>
                     <TrendingUp className="w-4 h-4 mr-2" />
-                    Upgrade Your Plan
+                    {t('account.upgradeYourPlan')}
                   </Button>
                 ) : subscriptionStatus.status === 'canceling' ? (
                   <Button 
@@ -2919,7 +2919,7 @@ const Account = ({ athleteId }) => {
                     onClick={handleReactivate}
                   >
                     <Repeat className="w-4 h-4 mr-2" />
-                    Resubscribe
+                    {t('account.resubscribe')}
                   </Button>
                 ) : (
                   <div className="flex flex-col sm:flex-row gap-3">
@@ -2928,13 +2928,13 @@ const Account = ({ athleteId }) => {
                       onClick={() => setShowBillingCycleDialog(true)}
                     >
                       <Repeat className="w-4 h-4 mr-2" />
-                      {currentBillingCycle === 'monthly' ? 'Switch to Annual' : 'Switch to Monthly'}
+                      {currentBillingCycle === 'monthly' ? t('account.switchToAnnual') : t('account.switchToMonthly')}
                     </Button>
                     <Button 
                       className="w-full sm:flex-1 bg-gray-700 hover:bg-gray-600 text-white border border-gray-600"
                       onClick={() => setShowCancelDialog(true)}
                     >
-                      Cancel Subscription
+                      {t('account.cancelSubscription')}
                     </Button>
                   </div>
                 )}
