@@ -2160,7 +2160,7 @@ const Dashboard = ({ athleteId }) => {
           <div className="hidden md:block fixed top-16 right-4 z-50">
             <div className="w-96 rounded-3xl shadow-xl max-h-[600px] flex flex-col overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
               <div className="p-4 flex items-center justify-between flex-shrink-0" style={{ borderBottom: '1px solid var(--border)' }}>
-                <h3 className="font-semibold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Notifications</h3>
+                <h3 className="font-semibold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('notifications.notifications')}</h3>
                 <button
                   onClick={() => setShowNotifications(false)}
                   className="text-gray-400 hover:text-white transition-colors"
@@ -2177,7 +2177,7 @@ const Dashboard = ({ athleteId }) => {
                   style={notificationTab === 'all' ? { borderBottomColor: '#00C2A8', color: '#00C2A8' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
                 >
                   <Bell className="w-4 h-4" />
-                  All
+                  {t('notifications.all')}
                 </button>
                 <button
                   onClick={() => setNotificationTab('follows')}
@@ -2185,7 +2185,7 @@ const Dashboard = ({ athleteId }) => {
                   style={notificationTab === 'follows' ? { borderBottomColor: '#60A5FA', color: '#60A5FA' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
                 >
                   <UserPlus className="w-4 h-4" />
-                  Follows
+                  {t('notifications.follows')}
                 </button>
                 <button
                   onClick={() => setNotificationTab('posts')}
@@ -2193,7 +2193,7 @@ const Dashboard = ({ athleteId }) => {
                   style={notificationTab === 'posts' ? { borderBottomColor: '#F87171', color: '#F87171' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
                 >
                   <Heart className="w-4 h-4" />
-                  Posts
+                  {t('notifications.posts')}
                 </button>
                 <button
                   onClick={() => setNotificationTab('groups')}
@@ -2201,7 +2201,7 @@ const Dashboard = ({ athleteId }) => {
                   style={notificationTab === 'groups' ? { borderBottomColor: '#4ADE80', color: '#4ADE80' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
                 >
                   <Users className="w-4 h-4" />
-                  Groups
+                  {t('notifications.groups')}
                 </button>
                 <button
                   onClick={() => setNotificationTab('events')}
@@ -2209,7 +2209,7 @@ const Dashboard = ({ athleteId }) => {
                   style={notificationTab === 'events' ? { borderBottomColor: '#FB923C', color: '#FB923C' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
                 >
                   <Calendar className="w-4 h-4" />
-                  Events
+                  {t('notifications.events')}
                 </button>
                 <button
                   onClick={() => setNotificationTab('challenges')}
@@ -2217,7 +2217,7 @@ const Dashboard = ({ athleteId }) => {
                   style={notificationTab === 'challenges' ? { borderBottomColor: '#FACC15', color: '#FACC15' } : { borderBottomColor: 'transparent', color: 'var(--text-muted)' }}
                 >
                   <Trophy className="w-4 h-4" />
-                  Challenges
+                  {t('notifications.challenges')}
                 </button>
               </div>
               
@@ -2226,7 +2226,7 @@ const Dashboard = ({ athleteId }) => {
                 {!notifications || getFilteredNotifications().length === 0 ? (
                   <div className="p-8 text-gray-400 text-center">
                     <Bell className="w-12 h-12 text-gray-600 mx-auto mb-2" />
-                    <p>No notifications</p>
+                    <p>{t('notifications.noNotifications')}</p>
                   </div>
                 ) : (
                   getFilteredNotifications().map(notification => (
