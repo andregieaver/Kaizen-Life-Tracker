@@ -435,7 +435,7 @@ const LandingPage = () => {
           )}
           
           <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-400 rounded-full text-sm font-medium mb-6 border border-teal-500/30">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-400 rounded-full text-sm font-medium mb-6 border border-blue-500/30">
               <Zap className="w-4 h-4" />
               <span>Your Journey to Better Health Starts Here</span>
             </div>
@@ -514,7 +514,7 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 hover:border-teal-500 hover:shadow-lg transition-all">
+              <Card key={index} className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 hover:border-blue-500 hover:shadow-lg transition-all">
                 <CardHeader>
                   <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
                     <feature.icon className="w-6 h-6 text-blue-400" />
@@ -696,7 +696,7 @@ const LandingPage = () => {
 
       {/* Mobile Bottom Navigation - HIDDEN BUT NOT DELETED */}
       <nav 
-        className={`hidden md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 border-t border-teal-500/30 shadow-lg z-50 transition-transform duration-300 ease-in-out ${
+        className={`hidden md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 border-t border-blue-500/30 shadow-lg z-50 transition-transform duration-300 ease-in-out ${
           scrollDirection === 'up' ? 'translate-y-full' : 'translate-y-0'
         }`}
       >
