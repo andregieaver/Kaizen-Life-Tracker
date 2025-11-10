@@ -2680,8 +2680,8 @@ const Account = ({ athleteId }) => {
 
                   {/* Background Image Upload */}
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium text-white">Background Image</Label>
-                    <p className="text-xs text-gray-500">Upload a custom background image for all pages (optional)</p>
+                    <Label className="text-sm font-medium text-white">{t('account.backgroundImage')}</Label>
+                    <p className="text-xs text-gray-500">{t('account.backgroundImageDescription')}</p>
                     <div className="flex items-center gap-4">
                       {backgroundImagePreview || personalForm.background_image ? (
                         <img
