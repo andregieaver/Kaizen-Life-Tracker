@@ -1447,8 +1447,8 @@ const Dashboard = ({ athleteId }) => {
                       <Calendar className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                     </div>
                     <div className="text-center md:text-left flex-1">
-                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Calendar</h3>
-                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>Your schedule</p>
+                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('dashboard.quickLinks.calendar')}</h3>
+                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>{t('dashboard.quickLinks.calendarDesc')}</p>
                     </div>
                   </div>
                 </div>
