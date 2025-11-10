@@ -309,40 +309,15 @@ const Today = ({ athleteId }) => {
           boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
           borderRadius: '8px'
         }}>
-          <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
-            <h3 className="flex items-center gap-2 text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
-              <Utensils className="w-5 h-5" style={{ color: 'var(--c-brand-500)' }} />
+          <div className="p-3 md:p-4 pb-2 md:pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+            <h3 className="flex items-center gap-2 text-base md:text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
+              <Utensils className="w-4 h-4 md:w-5 md:h-5" style={{ color: 'var(--c-brand-500)' }} />
               {t('nutrition.title')}
             </h3>
-            <p className="text-sm" style={{ color: 'var(--text-med)' }}>{t('today.dailyCalorieTracking')}</p>
           </div>
-          <div className="p-4 space-y-4">
-            {/* Calorie Need */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm" style={{ color: 'var(--text-med)' }}>{t('today.dailyNeed')}</span>
-                <span className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{todayData.calorieNeed}</span>
-              </div>
-              <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                {athleteProfile?.estimated_calorie_need 
-                  ? t('today.basedOnProfile')
-                  : t('today.defaultValue')}
-              </div>
-            </div>
-
-            {/* Calories Consumed */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm" style={{ color: 'var(--text-med)' }}>{t('today.consumed')}</span>
-                <span className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--c-brand-500)' }}>{todayData.caloriesConsumed}</span>
-              </div>
-              <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                {t('today.fromMeals', { count: todayData.meals.length })}
-              </div>
-            </div>
-
-            {/* Calories Remaining */}
-            <div className={`p-4 rounded-2xl`} style={{
+          <div className="p-3 md:p-4 space-y-2 md:space-y-3">
+            {/* Calories Remaining - Hero Stat */}
+            <div className={`p-3 md:p-4 rounded-lg`} style={{
               background: todayData.caloriesRemaining > 500 ? 'rgba(59, 130, 246, 0.15)' :
                          todayData.caloriesRemaining < -500 ? 'rgba(239, 68, 68, 0.15)' :
                          'rgba(34, 197, 94, 0.15)',
@@ -352,14 +327,14 @@ const Today = ({ athleteId }) => {
             }}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <StatusIcon className={`w-5 h-5`} style={{
+                  <StatusIcon className={`w-4 h-4 md:w-5 md:h-5`} style={{
                     color: todayData.caloriesRemaining > 500 ? 'var(--c-info)' :
                           todayData.caloriesRemaining < -500 ? 'var(--c-danger)' :
                           'var(--c-success)'
                   }} />
-                  <span className="text-sm font-medium" style={{ color: 'var(--text-med)' }}>{t('today.remaining')}</span>
+                  <span className="text-xs md:text-sm font-medium" style={{ color: 'var(--text-med)' }}>{t('today.remaining')}</span>
                 </div>
-                <span className={`text-2xl font-bold`} style={{ 
+                <span className={`text-xl md:text-2xl font-bold`} style={{ 
                   fontFamily: 'var(--font-display)',
                   color: todayData.caloriesRemaining > 500 ? 'var(--c-info)' :
                         todayData.caloriesRemaining < -500 ? 'var(--c-danger)' :
@@ -368,10 +343,17 @@ const Today = ({ athleteId }) => {
                   {todayData.caloriesRemaining > 0 ? '+' : ''}{todayData.caloriesRemaining}
                 </span>
               </div>
-              <div className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
-                {todayData.caloriesRemaining > 500 && t('today.needMoreCalories')}
-                {todayData.caloriesRemaining >= -500 && todayData.caloriesRemaining <= 500 && t('today.onTrack')}
-                {todayData.caloriesRemaining < -500 && t('today.exceededGoal')}
+            </div>
+
+            {/* Daily Need & Consumed - Compact Row */}
+            <div className="grid grid-cols-2 gap-2">
+              <div className="p-2 md:p-3 rounded-lg" style={{ background: 'rgba(255, 255, 255, 0.03)' }}>
+                <div className="text-xs" style={{ color: 'var(--text-med)' }}>{t('today.dailyNeed')}</div>
+                <div className="text-lg md:text-xl font-bold mt-1" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{todayData.calorieNeed}</div>
+              </div>
+              <div className="p-2 md:p-3 rounded-lg" style={{ background: 'rgba(255, 255, 255, 0.03)' }}>
+                <div className="text-xs" style={{ color: 'var(--text-med)' }}>{t('today.consumed')}</div>
+                <div className="text-lg md:text-xl font-bold mt-1" style={{ fontFamily: 'var(--font-display)', color: 'var(--c-brand-500)' }}>{todayData.caloriesConsumed}</div>
               </div>
             </div>
 
