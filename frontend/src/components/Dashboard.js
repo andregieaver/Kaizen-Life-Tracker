@@ -716,9 +716,7 @@ const Dashboard = ({ athleteId }) => {
                       const isActive = location.pathname === item.url;
                       
                       // Debug logging
-                      if (process.env.NODE_ENV === 'development') {
-                        console.log(`[Header Menu] Item: ${item.label}, URL: ${item.url}, Current: ${location.pathname}, Active: ${isActive}`);
-                      }
+                      console.log(`[Header Menu] Item: ${item.label}, URL: ${item.url}, Current: ${location.pathname}, Active: ${isActive}`);
                       
                       return (
                         <button
