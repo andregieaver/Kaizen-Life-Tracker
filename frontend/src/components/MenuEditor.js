@@ -62,6 +62,9 @@ const MenuEditor = ({ athleteId, onBack }) => {
       // Update menus with translations
       setMenus(response.data.menus);
       
+      // Dispatch custom event to notify Dashboard to reload menus
+      window.dispatchEvent(new CustomEvent('menusUpdated'));
+      
       alert(`Successfully translated ${response.data.translated_count} menu items into: ${response.data.languages.join(', ')}`);
     } catch (error) {
       console.error('Error translating menus:', error);
