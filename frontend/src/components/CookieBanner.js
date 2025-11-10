@@ -138,7 +138,7 @@ const CookieBanner = () => {
           <div className="p-6 border-b border-gray-700">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <Shield className="w-6 h-6 text-[#00C2A8]" />
+                <Shield className="w-6 h-6 text-[#32D3FF]" />
                 <h2 className="text-xl font-bold text-white">
                   {texts.banner_title || 'We value your privacy'}
                 </h2>
