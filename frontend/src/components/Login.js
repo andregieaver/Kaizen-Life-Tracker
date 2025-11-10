@@ -227,7 +227,11 @@ const Login = ({ onAthleteLogin }) => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder={t('auth.passwordPlaceholder')}
-                    className="input-focus pr-10 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    className="input-focus pr-10 text-white placeholder-gray-400"
+                    style={{
+                      background: 'rgba(17, 24, 39, 0.5)',
+                      border: '1px solid rgba(71, 85, 105, 0.3)'
+                    }}
                     disabled={isLoading}
                     data-testid="login-password-input"
                   />
