@@ -28,7 +28,7 @@ const Memories = ({ athleteId }) => {
   
   const CATEGORIES = [
     { value: 'goals', label: t('memories.categories.goals'), color: 'bg-blue-100 text-blue-800' },
-    { value: 'prs', label: t('memories.categories.prs'), color: 'bg-green-100 text-green-800' },
+    { value: 'prs', label: t('memories.categories.prs'), color: 'bg-blue-100 text-blue-800' },
     { value: 'injuries', label: t('memories.categories.injuries'), color: 'bg-red-100 text-red-800' },
     { value: 'preferences', label: t('memories.categories.preferences'), color: 'bg-purple-100 text-purple-800' },
     { value: 'progress', label: t('memories.categories.progress'), color: 'bg-yellow-100 text-yellow-800' },
@@ -211,7 +211,7 @@ const Memories = ({ athleteId }) => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-display font-bold text-white flex items-center gap-2">
-            <Brain className="w-7 h-7" style={{ color: '#00C2A8' }} />
+            <Brain className="w-7 h-7" style={{ color: '#32D3FF' }} />
             {t('memories.title')}
           </h2>
           <p className="text-sm text-gray-300 mt-1">
@@ -221,9 +221,9 @@ const Memories = ({ athleteId }) => {
         <Button 
           onClick={handleCreateMemory}
           className="text-white border-0"
-          style={{ backgroundColor: '#00C2A8' }}
+          style={{ backgroundColor: '#32D3FF' }}
           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
         >
           <Plus className="w-4 h-4 mr-2" />
           {t('memories.addMemory')}
@@ -234,7 +234,7 @@ const Memories = ({ athleteId }) => {
       {saveStatus.message && (
         <div className={`p-4 flex items-center gap-2 ${
           saveStatus.type === 'success' 
-            ? 'bg-green-900/30 text-green-400 border border-green-700' 
+            ? 'bg-blue-900/30 text-blue-400 border border-blue-700' 
             : 'bg-red-900/30 text-red-400 border border-red-700'
         }`}>
           {saveStatus.type === 'success' ? (
@@ -290,7 +290,7 @@ const Memories = ({ athleteId }) => {
       {/* Memories Grid */}
       {isLoading ? (
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00C2A8] mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#32D3FF] mx-auto"></div>
           <p className="text-gray-400 mt-4">Loading memories...</p>
         </div>
       ) : filteredMemories.length === 0 ? (
@@ -310,9 +310,9 @@ const Memories = ({ athleteId }) => {
               <Button 
                 onClick={handleCreateMemory}
                 className="text-white border-0"
-                style={{ backgroundColor: '#00C2A8' }}
+                style={{ backgroundColor: '#32D3FF' }}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Your First Memory
