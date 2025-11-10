@@ -13858,6 +13858,128 @@ async def update_menus(athlete_id: str, menu_data: MenuSettings):
         logging.error(f"Error updating menus: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to update menus: {str(e)}")
 
+@api_router.post("/system/translate-menus")
+async def translate_menus(athlete_id: str):
+    """Translate all menu items into available languages using OpenAI (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get OpenAI API key from system settings
+        settings = await db.system_settings.find_one({})
+        openai_key = settings.get('openai_key') if settings else None
+        
+        if not openai_key:
+            raise HTTPException(status_code=400, detail="OpenAI API key not configured in System Settings")
+        
+        # Detect available languages from frontend locales folder
+        locales_path = Path(__file__).parent.parent / "frontend" / "src" / "locales"
+        available_languages = []
+        language_names = {
+            'no': 'Norwegian',
+            'sv': 'Swedish', 
+            'de': 'German',
+            'fr': 'French'
+        }
+        
+        if locales_path.exists():
+            for file in locales_path.glob("*.json"):
+                lang_code = file.stem
+                if lang_code != 'en':  # Skip English (source language)
+                    available_languages.append({
+                        'code': lang_code,
+                        'name': language_names.get(lang_code, lang_code.upper())
+                    })
+        
+        if not available_languages:
+            raise HTTPException(status_code=400, detail="No translation languages found")
+        
+        logging.info(f"Detected languages for translation: {[l['name'] for l in available_languages]}")
+        
+        # Get current menus
+        settings = await db.system_settings.find_one({})
+        if not settings or 'menus' not in settings:
+            raise HTTPException(status_code=404, detail="No menus found to translate")
+        
+        menus = settings['menus']
+        translated_count = 0
+        
+        # Initialize OpenAI client
+        client = openai.OpenAI(api_key=openai_key)
+        
+        # Translate each menu type
+        for menu_type in ['header_logged_in', 'header_logged_out', 'slideout_menu']:
+            if menu_type not in menus:
+                continue
+                
+            menu_items = menus[menu_type]
+            
+            for item in menu_items:
+                # Skip if item has no label
+                if 'label' not in item or not item['label']:
+                    continue
+                
+                english_label = item['label']
+                
+                # Initialize translations dict if not exists
+                if 'translations' not in item:
+                    item['translations'] = {}
+                
+                # Translate to each language
+                for lang in available_languages:
+                    lang_code = lang['code']
+                    lang_name = lang['name']
+                    
+                    try:
+                        # Use OpenAI to translate
+                        response = client.chat.completions.create(
+                            model="gpt-4o-mini",
+                            messages=[
+                                {
+                                    "role": "system",
+                                    "content": f"You are a professional translator. Translate the given navigation menu item from English to {lang_name}. Return ONLY the translated text, nothing else. Keep it concise and appropriate for a navigation menu."
+                                },
+                                {
+                                    "role": "user",
+                                    "content": english_label
+                                }
+                            ],
+                            temperature=0.3,
+                            max_tokens=50
+                        )
+                        
+                        translated_text = response.choices[0].message.content.strip()
+                        item['translations'][lang_code] = translated_text
+                        translated_count += 1
+                        
+                        logging.info(f"Translated '{english_label}' to {lang_name}: '{translated_text}'")
+                        
+                    except Exception as e:
+                        logging.error(f"Error translating '{english_label}' to {lang_name}: {e}")
+                        # Continue with other translations even if one fails
+                        continue
+        
+        # Save updated menus back to database
+        await db.system_settings.update_one(
+            {},
+            {"$set": {"menus": menus}},
+            upsert=True
+        )
+        
+        logging.info(f"Successfully translated {translated_count} menu items")
+        
+        return {
+            "message": f"Successfully translated {translated_count} menu items",
+            "languages": [l['name'] for l in available_languages],
+            "translated_count": translated_count,
+            "menus": menus
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error translating menus: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to translate menus: {str(e)}")
+
 @api_router.post("/system/upload-seo-image")
 async def upload_seo_image(athlete_id: str, image_type: str, file: UploadFile = File(...)):
     """Upload favicon or logo for SEO settings (Super Admin only)"""
