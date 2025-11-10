@@ -1,91 +1,60 @@
 <analysis>
-The AI engineer's work in this trajectory was highly iterative, primarily focused on refining UI/UX, enhancing integrations, and ensuring comprehensive internationalization for the TrainSmart application. Initial efforts centered on fixing a UI bug where the glassmorphic bubble effect on  tabs was not rendering and resolving an  error. This involved meticulous CSS debugging, component refactoring, and proper  hook implementation. A major thread involved applying the glassmorphic design and consistent border-radius across numerous dashboard pages and modals, including  and , while also standardizing the brand color from green/teal to blue ().
-
-A significant feature addition was the global custom background image, allowing users to upload personal backgrounds via  which are then displayed across all pages by , utilizing  for state persistence and cross-component communication via custom events. The  page received extensive enhancements, including full internationalization with Norwegian translations, consistent dark theme styling for its modals and AI analysis results, dynamic date/time formatting based on user preferences, and the integration of AI food image analysis. The AI analysis was updated to fetch OpenAI API keys from , leverage the Emergent LLM key, auto-populate meal descriptions in the user's language, and display RDI percentages for micronutrients. The trajectory concludes with the AI engineer about to address further missing translations on the  page.
+The AI engineer's work in this trajectory was highly iterative, primarily focused on refining UI/UX, enhancing integrations, and ensuring comprehensive internationalization for the TrainSmart application. Initial efforts centered on fixing a UI bug where the glassmorphic bubble effect on  tabs was not rendering and resolving an  error. This involved meticulous CSS debugging, component refactoring, and proper  hook implementation. A major thread involved applying the glassmorphic design and consistent border-radius across numerous dashboard pages and modals, including  and , while also standardizing the brand color from green/teal to blue (). A significant feature addition was the global custom background image, allowing users to upload personal backgrounds via  which are then displayed across all pages by , utilizing  for state persistence and cross-component communication via custom events. The  page received extensive enhancements, including full internationalization with Norwegian translations, consistent dark theme styling for its modals and AI analysis results, dynamic date/time formatting based on user preferences, and the integration of AI food image analysis. The AI analysis was updated to fetch OpenAI API keys from , leverage the Emergent LLM key, auto-populate meal descriptions in the user's language, and display RDI percentages for micronutrients. The trajectory concludes with the AI engineer addressing an issue where the active state (blue glass bubble) persists on previously visited menu items in the header and mobile navbar, even after navigating to a different page.
 </analysis>
 
 <product_requirements>
-The TrainSmart application aims to improve user engagement and administration through a mobile-first Kaizen design system, multi-language support (Norwegian), and robust integrations.
-Key features and fixes from the trajectory include:
-1.  **UI/UX Redesign (Kaizen Design System)**: Glassmorphic, liquid-glass bubble effect with sliding animation for active items in header, journal entry type modal, slideout menu, account/system settings tabs. Ensure bubble width adjusts to text. Resolved white area during tab loading. Updated subscription tab buttons and heading for mobile. Applied glassmorphic feel, 8px border-radius, and consistent margins to various dashboard cards, journal entries, and nutrition modals. Fixed slideout menu text contrast and bubble centering.
-2.  **Multi-Language Translation**: Systematic translation for Norwegian across ,  modal,  page and its modals. Ensured all hardcoded strings are translatable.
-3.  **Theming Consistency**: Replace all instances of  and green/teal colors with  (blue) throughout the codebase, specifically in ,  modal, and  page/modals. Ensure AI analysis results follow a dark theme.
-4.  **Date/Time Formatting**: Implement dynamic date and time formatting on the  page based on user preferences configured in Account settings.
-5.  **Global Custom Background**: Allow users to upload a custom background image in Account settings. This image should replace the default gradient background across all application pages if uploaded, persisting across sessions. Implement removal functionality.
-6.  **AI Food Image Analysis**: Enhance the nutrition logging feature to analyze food images using AI. It should automatically populate the meal description in the user's preferred language. The AI key should be retrieved from  (or use Emergent LLM key). Display Recommended Daily Intake (RDI) percentages for micronutrients in analysis results and daily summary.
-7.  **General Fixes**: Resolve  error in .
+The TrainSmart application aims to improve user engagement and administration through a mobile-first Kaizen design system, multi-language support (Norwegian), and robust integrations. Key features and fixes implemented or addressed include:
+1.  **UI/UX Redesign (Kaizen Design System)**: Implemented glassmorphic, liquid-glass bubble effect with sliding animation for active items. Standardized blue brand color (), applied glassmorphic feel and 8px border-radius to various elements, and ensured mobile responsiveness.
+2.  **Multi-Language Translation**: Systematic translation for Norwegian across ,  modal,  page/modals, and .
+3.  **Theming Consistency**: Replaced all green/teal colors with  across , , , , , and global checkboxes. Ensured dark theme for AI analysis results and removed redundant backgrounds/borders.
+4.  **Date/Time Formatting**: Implemented dynamic date/time formatting on the  page and Nutrition entries based on user preferences.
+5.  **Global Custom Background**: Allowed user-uploaded custom background images, persisted via  and custom events, with robust removal functionality.
+6.  **AI Food Image Analysis**: Enhanced nutrition logging to analyze images using AI (OpenAI API/Emergent LLM), auto-populating descriptions in user's language and displaying RDI percentages.
+7.  **General Fixes & Enhancements**: Fixed . Added habit tracking to  page. Compacted various sections for mobile. Refined mobile navbar icons and order. Converted + buttons to circular, icon-only.
 </product_requirements>
 
 <key_technical_concepts>
 -   **Full-stack Development**: React.js (Frontend), FastAPI (Backend), MongoDB (Database).
--   **UI/UX**: Tailwind CSS, React Hooks (, , ), , , , glassmorphic design.
+-   **UI/UX**: Tailwind CSS, React Hooks (, , ), , , , glassmorphic design, custom DOM events.
 -   **External APIs**: OpenAI API (for food analysis), Emergent LLM key.
--   **State Management**: React Context, , custom DOM events for cross-component communication.
--   **Styling**: CSS custom properties, , , .
+-   **State Management**: , custom DOM events.
 </key_technical_concepts>
 
 <code_architecture>
 
 -   : Core backend logic.
-    -   **Importance**: Centralizes backend API definitions.
-    -   **Changes**:  updated for credential loading and state handling. AI coach updated to provide full journal content. Oura OAuth endpoints updated. **Added new endpoint  for uploading and updating user background images.** Modified  endpoint to fetch OpenAI key from  (checking system settings) and updated prompt to request description in the user's language.
--   : Handles Strava API interactions.
-    -   **Importance**: Decouples Strava integration logic.
-    -   **Changes**:  filter updated.  corrected.  uses form data.
+    -   **Importance**: Centralizes backend API definitions and AI integration.
+    -   **Changes**: Added  for user backgrounds. Modified  to fetch OpenAI key from system settings and request description in user's .
 -   : Global CSS for frontend.
-    -   **Importance**: Defines global styling and design system elements.
-    -   **Changes**: Replaced  with . Added/refined CSS for glassmorphic sliding bubbles for header menu, journal entry types, slideout menu, and account/system settings tabs.  adjusted for bubble positioning and reduced saturation for better contrast.
+    -   **Importance**: Defines global styling.
+    -   **Changes**: Standardized brand color to . Refined glassmorphic effects. Added custom scrollbar styles and updated global checkbox  to blue. Added  for menu active states.
 -   : Central component for logged-in users.
-    -   **Importance**: Primary view for users, features navigation and data display.
-    -   **Changes**: Implemented header and slideout menu glassmorphic effects. Updated active slideout menu item text color to . **Modified main background to dynamically use a user-uploaded  (from state/localStorage) or fall back to . Added  to listen for custom  events to refresh the background image.**
--   : Admin configuration.
-    -   **Importance**: Administrative interface for managing external API credentials.
-    -   **Changes**: Refactored Plan Features. Added Oura Client ID and Client Secret fields.
+    -   **Importance**: Primary user view, handles navigation and layout.
+    -   **Changes**: Implemented header/slideout glassmorphic effects. Dynamically loads user background image.  dependencies updated for correct active tab styling.  added to mobile navbar buttons. Removed fixed Account Settings link. Mobile navbar icons updated (Today, Coach, Reports) and reordered (Home, Coach, Today, Reports, Account). Removed bottom borders from header.
 -   : User account settings.
-    -   **Importance**: Manages user-specific integrations, subscriptions, and profile settings.
-    -   **Changes**: Styled subscription section buttons. Fixed white skeleton loading background. Updated Oura connection. **Added state variables, UI, and handlers for  upload, preview, and removal. Modified preference loading and saving to include , storing it in  and dispatching a custom  event on save/remove.**
--   : Dashboard component.
-    -   **Importance**: Displays readiness score.
-    -   **Changes**: Applied glassmorphic effect and 8px border-radius.
+    -   **Importance**: Manages user integrations, profile, and preferences.
+    -   **Changes**: Added  upload, preview, and removal functionality with  and custom events. Fixed background image deletion persistence bug. Replaced all green/teal colors with blue (). Applied glassmorphic styling, border-radius, and removed backgrounds/padding from inner containers in tab content.
 -   : User journal.
-    -   **Importance**: Allows users to log entries in various formats.
-    -   **Changes**: Styled entry mode buttons with glassmorphic sliding bubble. **Applied glassmorphic effect, 8px border-radius, and consistent margins to individual journal entries. Replaced all green/teal colors with blue () in the entry modal. Made all strings in the add journal entry modal translatable and updated to use  hook.**
--   : AI Coach interface.
-    -   **Importance**: Provides AI assistance.
-    -   **Changes**: Updated to include full journal entry content in AI prompt. Adjusted message input/container positioning and changed send button color to blue.
+    -   **Importance**: Allows users to log entries.
+    -   **Changes**: Styled entry mode buttons with glassmorphic sliding bubble. Applied glassmorphic effect, 8px border-radius to entries. Replaced green/teal with blue. Made all add entry modal strings translatable. + button converted to circular.
 -   : User's daily overview.
-    -   **Importance**: Displays current day's activities and stats.
-    -   **Changes**: Silenced console errors. Made title and date inline on mobile. Applied glassmorphic effect and 8px border-radius to cards. **Updated to dynamically format date and time based on user preferences loaded from athlete data.**
--   : User's merits.
-    -   **Importance**: Displays user achievements.
-    -   **Changes**: Silenced console errors. Applied glassmorphic effect and 8px border-radius.
--   : UI library component.
-    -   **Importance**: Reusable tab component.
-    -   **Changes**: Added  to  (initial fix, later moved).
--   : Community features.
-    -   **Importance**: Manages community posts, groups, challenges.
-    -   **Changes**: Fixed  by adding  hook.
--   : Referral program page.
-    -   **Importance**: Displays referral code and rewards.
-    -   **Changes**: Applied glassmorphic effect, 8px border-radius, and consistent margins/padding. Updated button color, referral code display. Made description translatable.
--   : English translation file.
-    -   **Importance**: Stores English strings for internationalization.
-    -   **Changes**: Added new ,  (title, today, goal, other habits, per day, tap, undo),  (modal strings like recording, stop recording, transcription, burn subtitles, save entry, cancel, processing), and extensive  translations.
--   : Norwegian translation file.
-    -   **Importance**: Stores Norwegian strings for internationalization.
-    -   **Changes**: Added corresponding Norwegian translations for all new keys in .
--   : Dashboard Reports page.
-    -   **Importance**: Displays user recommendations and stats.
-    -   **Changes**: Applied glassmorphic effect, 8px border-radius, and consistent margins/padding. Replaced  with . Improved mobile layout.
+    -   **Importance**: Displays daily activities and stats.
+    -   **Changes**: Dynamically formats date/time based on user preferences. Added new habits section with tracking functionality. Compacted Nutrition, Training Load, Meals, and Habits sections for mobile, removing descriptions.
 -   : Habit tracking feature.
-    -   **Importance**: Allows users to track and manage habits.
-    -   **Changes**: **Fixed  error by destructuring  from .** Updated buttons to blue color. Applied glassmorphic styling, 8px border-radius to habit cards. Added missing tap and undo translation keys. Implemented mobile-friendly layout for habit items. Updated to use new translation keys.
--   : Nutrition tracking and logging feature.
-    -   **Importance**: Allows users to log meals/supplements, view summaries, and analyze food images.
-    -   **Changes**: **Replaced all green/teal colors with blue () in the page and its modals. Made all strings in the page and modals translatable, using  hook. Synchronized styling of Log Meal modal to Log Supplement modal (dark theme, form fields). Added bottom padding to modals to clear mobile navbar. Integrated AI food image analysis: populated description in user's language, applied glassmorphic styling to results, ensured dark theme. Added RDI percentage display for micronutrients in both AI analysis results and daily summary.**
+    -   **Importance**: Allows users to track habits.
+    -   **Changes**: Fixed . Updated buttons to blue. Applied glassmorphic styling to cards. Added missing translation keys. Changed green completion status styling to blue. + button converted to circular.
+-    & : Translation files.
+    -   **Importance**: Store English and Norwegian strings for internationalization.
+    -   **Changes**: Extensive additions for , ,  modal,  page/modals (daily average, current week, macros, micros, RDI, meal details, AI analysis, various nutrients), and  page habit section.
+-   : Nutrition tracking and logging.
+    -   **Importance**: Allows users to log meals/supplements, analyze food images.
+    -   **Changes**: Replaced green/teal with blue. Made all strings translatable. Synchronized modal styling to dark theme. Added bottom padding to modals. Integrated AI food image analysis, populating description in user's language and displaying RDI. Fixed AI description population to use  field. Updated nutrient cards to dark theme. Converted meal type badges to use translated labels. + button converted to circular.
 -   : Utility functions.
     -   **Importance**: Centralizes formatting logic.
-    -   **Changes**: **Updated  function to accept and use user's  and  preferences.**
+    -   **Changes**:  updated to use user's  and .
+-   : Dashboard Memories page.
+    -   **Importance**: Displays user memories.
+    -   **Changes**: Replaced all green colors with blue (). + button converted to circular.
 </code_architecture>
 
 <pending_tasks>
@@ -104,14 +73,14 @@ Key features and fixes from the trajectory include:
 -   Create developer guidelines for future string creation and localization compliance.
 -   **Strava Integration**: Display synced activities in the frontend. Implement webhook subscription via the UI. Add activity import/sync functionality.
 -   Complete drag and drop functionality for Edit Plan modal in , ensuring mobile compatibility.
--   Investigate the white area appearing when navigating between tabs in Account settings (though some related issues were addressed with ).
--   Add all remaining missing translations to the nutrition page.
+-   Investigate the white area appearing when navigating between tabs in Account settings.
+-   Ensure the active state for menu items in the logged-in header and bottom navbar is removed when the link does not correspond with the current page.
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer was addressing a user request to add all missing translations to the nutrition page. This involved identifying untranslated strings on the Nutrition page, adding them to the  and  translation files, and then updating the  component to utilize these new translation keys. The AI engineer has just completed a batch of these translations, including Daily Average, per day, Current Week, Macronutrients, days tracked, and % RDI labels, but the user has reported Still strings in need of Norwegian translation, indicating that the task is not yet fully complete. The AI engineer is currently in the process of analyzing the latest screenshot provided by the user (Chat Message 779) to pinpoint the exact remaining untranslated strings on the Nutrition page.
+Immediately prior to this summary, the AI engineer was addressing a user request concerning the active state styling (a transparent button or glass button bubble effect) for menu items in the logged-in header and mobile navbar. The user reported a bug: Nor working. in this instance the current page is the dashboard today page. However since the prior page was the account page, the glass button remains active on the account menu item in the header. This means that after navigating from one page (e.g., Account) to another (e.g., Today), the visual indicator for the *previous* active page's menu item persists, causing a visual inconsistency. The AI engineer has initiated an investigation into , specifically examining how the  and  functions determine and apply the active state styling to understand why the deactivation of the old menu item's active state is not occurring as expected upon navigation. The goal is to ensure the active state styling correctly reflects only the *currently* viewed page.
 </current_work>
 
 <optional_next_step>
-Analyze the latest screenshot to identify remaining untranslated strings on the Nutrition page.
+Investigate  to ensure the glass bubble effect is correctly removed from inactive menu items in both the header and mobile navbar upon navigation.
 </optional_next_step>
