@@ -311,9 +311,10 @@ const HabitTracker = ({ athleteId }) => {
                               key={i}
                               className={`w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-xs md:text-sm font-medium transition-all ${
                                 i < todayCount
-                                  ? 'bg-green-500 text-white'
+                                  ? 'text-white'
                                   : 'bg-gray-700 text-gray-400'
                               }`}
+                              style={i < todayCount ? { backgroundColor: '#32D3FF' } : {}}
                             >
                               {i < todayCount ? '✓' : i + 1}
                             </div>
