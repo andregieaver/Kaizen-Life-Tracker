@@ -465,7 +465,7 @@ const Pricing = () => {
                         placeholder="Enter coupon code"
                         value={couponCode}
                         onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                        className="flex-1 bg-gray-600 text-white px-4 py-2 rounded border border-gray-500 focus:border-teal-500 focus:outline-none"
+                        className="flex-1 bg-gray-600 text-white px-4 py-2 rounded border border-gray-500 focus:border-blue-500 focus:outline-none"
                         disabled={validatingCoupon}
                       />
                       <Button
@@ -525,7 +525,7 @@ const Pricing = () => {
         {/* Pricing Cards */}
         {loadingPlans ? (
           <div className="text-center py-16">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
             <p className="text-gray-400 mt-4">Loading plans...</p>
           </div>
         ) : plans.length === 0 ? (
@@ -544,7 +544,7 @@ const Pricing = () => {
                 key={plan.id}
                 className={`relative bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 ${
                   plan.popular
-                    ? 'border-teal-500 border-2 shadow-xl scale-105 z-10'
+                    ? 'border-blue-500 border-2 shadow-xl scale-105 z-10'
                     : 'hover:shadow-lg transition-shadow'
                 }`}
               >
@@ -614,7 +614,7 @@ const Pricing = () => {
                   </ul>
 
                   <Button
-                    className={`w-full ${plan.ctaVariant === 'outline' ? 'bg-transparent border-teal-600 text-blue-400 hover:bg-blue-600 hover:text-white' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+                    className={`w-full ${plan.ctaVariant === 'outline' ? 'bg-transparent border-blue-600 text-blue-400 hover:bg-blue-600 hover:text-white' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
                     size="lg"
                     onClick={() => handleSelectPlan(plan.id)}
                   >
