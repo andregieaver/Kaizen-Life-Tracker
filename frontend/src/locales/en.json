@@ -372,7 +372,20 @@
     "savePreferences": "Save Preferences",
     "youllReceiveNotificationsFor": "You'll receive notifications for:",
     "newAIReports": "New AI-generated reports",
-    "scheduledAnalysisCompletions": "Scheduled analysis completions"
+    "scheduledAnalysisCompletions": "Scheduled analysis completions",
+    "measurementSystem": "Measurement System",
+    "imperial": "Imperial (lbs, ft/in)",
+    "metric": "Metric (kg, cm)",
+    "pushNotificationsTitle": "Push Notifications",
+    "enabled": "Enabled",
+    "getInstantAlerts": "Get instant alerts for new AI-generated reports and recommendations",
+    "notificationsNotSupported": "Push notifications are not supported on this browser",
+    "enable": "Enable",
+    "disable": "Disable",
+    "loading": "Loading...",
+    "weightUnit": "Weight Unit",
+    "pounds": "Pounds (lbs)",
+    "kilograms": "Kilograms (kg)"
   },
   "community": {
     "tabs": {
