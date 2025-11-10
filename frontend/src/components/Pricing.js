@@ -406,7 +406,7 @@ const Pricing = () => {
 
         {/* Hero Section */}
         <div className="text-center mb-12">
-          <Badge variant="secondary" className="mb-4 bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 text-white border-0">
+          <Badge variant="secondary" className="mb-4 bg-[#32D3FF]/20 text-[#32D3FF] border border-[#32D3FF]/30">
             <Zap className="w-3 h-3 mr-1" />
             Subscription Plans
           </Badge>
