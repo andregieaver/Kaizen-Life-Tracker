@@ -2671,9 +2671,9 @@ const Account = ({ athleteId }) => {
                           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
                           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
                         >
-                          {coachAvatarFile ? 'Change Avatar' : 'Upload Avatar'}
+                          {coachAvatarFile ? t('account.changeAvatar') : t('account.uploadAvatar')}
                         </label>
-                        <p className="text-xs text-gray-500 mt-1">JPG, PNG or GIF (max 5MB)</p>
+                        <p className="text-xs text-gray-500 mt-1">{t('account.imageFileHint')}</p>
                       </div>
                     </div>
                   </div>
