@@ -1824,7 +1824,7 @@ const Dashboard = ({ athleteId }) => {
             }
           }}
         >
-          <BarChart3 
+          <Lightbulb 
             className="w-6 h-6 transition-transform duration-200"
             style={{
               transform: activeTab === 'reports' ? 'scale(1.1)' : 'scale(1)'
