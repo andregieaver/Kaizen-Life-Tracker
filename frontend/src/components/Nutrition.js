@@ -1438,10 +1438,10 @@ const Nutrition = ({ athleteId }) => {
           <p className="text-gray-500">{t('nutrition.loadingEntries')}</p>
         </div>
       ) : filteredEntries.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-12">
+        <div className="flex flex-col items-center justify-center py-12" style={{ background: 'transparent' }}>
           <Utensils className="w-16 h-16 text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-200 mb-2">{t('nutrition.noEntriesThisWeek')}</h3>
-          <p className="text-gray-400 text-center">
+          <h3 className="text-lg font-medium text-white mb-2">{t('nutrition.noEntriesThisWeek')}</h3>
+          <p className="text-gray-300 text-center">
             {t('nutrition.startTrackingMealsAndSupplements')}
           </p>
         </div>
