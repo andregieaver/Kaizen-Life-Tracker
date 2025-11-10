@@ -228,13 +228,12 @@ const HabitTracker = ({ athleteId }) => {
         <h2 className="text-2xl font-bold text-white">{t('habits.title')}</h2>
         <Button 
           onClick={openAddModal} 
-          className="text-white border-0"
-          style={{ backgroundColor: '#32D3FF' }}
+          className="text-white border-0 w-10 h-10 md:w-12 md:h-12 p-0 flex items-center justify-center"
+          style={{ backgroundColor: '#32D3FF', borderRadius: '99px' }}
           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1FC1FF'}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#32D3FF'}
         >
-          <Plus className="w-4 h-4 mr-2" />
-          {t('habits.addHabit')}
+          <Plus className="w-5 h-5 md:w-6 md:h-6" />
         </Button>
       </div>
 
