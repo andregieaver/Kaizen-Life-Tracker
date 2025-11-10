@@ -238,8 +238,7 @@ const Login = ({ onAthleteLogin }) => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 rounded"
-                    style={{ '--tw-ring-color': '#00C2A8' }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#32D3FF] transition-colors focus:outline-none focus:ring-2 focus:ring-[#32D3FF] focus:ring-offset-1 rounded"
                     disabled={isLoading}
                     aria-label={showPassword ? "Hide password" : "Show password"}
                     data-testid="toggle-password-visibility"
