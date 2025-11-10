@@ -1196,7 +1196,11 @@
     "todaysMeals": "Today's Meals",
     "cal": "cal",
     "min": "min",
-    "bpm": "bpm"
+    "bpm": "bpm",
+    "todayHabits": "Today's Habits",
+    "trackHabitsSubtitle": "Complete your daily habits",
+    "noHabitsScheduled": "No habits scheduled for today",
+    "completed": "Completed"
   },
   "coachChat": {
     "defaultCoachName": "Coach",
