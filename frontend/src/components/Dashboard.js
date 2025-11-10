@@ -1421,8 +1421,8 @@ const Dashboard = ({ athleteId }) => {
                       <Check className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                     </div>
                     <div className="text-center md:text-left flex-1">
-                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Habit Tracker</h3>
-                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>Track daily habits</p>
+                      <h3 className="font-semibold text-base" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('dashboard.quickLinks.habitTracker')}</h3>
+                      <p className="text-sm" style={{ color: 'var(--text-med)' }}>{t('dashboard.quickLinks.habitTrackerDesc')}</p>
                     </div>
                   </div>
                 </div>
