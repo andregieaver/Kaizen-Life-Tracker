@@ -206,10 +206,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Country Flag Display in Community Feed"
-    - "Support Page with Email Form"
-  stuck_tasks:
-    - "Country Flag Display in Community Feed"
+    - "Active State Glass Bubble Fix"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
