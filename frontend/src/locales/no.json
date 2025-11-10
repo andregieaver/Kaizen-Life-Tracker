@@ -1567,7 +1567,8 @@
   "account": {
     "title": "Kontoinnstillinger",
     "manageProfile": "Administrer kontoinnstillinger og preferanser",
-    "personalInfo": {
+    "personalInfo": "Personlig",
+    "personalInfoSection": {
       "title": "Personlig informasjon",
       "description": "Oppdater profilinformasjon og løpemål"
     }
