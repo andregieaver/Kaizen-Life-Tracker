@@ -104,6 +104,19 @@
 
 user_problem_statement: "Fix active state glass bubble persistence bug in header and mobile navbar. When navigating from one page (e.g., Account) to another page (e.g., Today), the glass bubble active state indicator remains on the previously visited menu item instead of moving to the current page's menu item."
 
+frontend:
+  - task: "Active State Glass Bubble Fix"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Dashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "ACTIVE STATE PERSISTENCE BUG FIX - Glass bubble remains on previously visited menu item. ROOT CAUSE IDENTIFIED: The useLayoutEffect hooks that calculate bubble position (lines 121-152 for header menu, lines 154-193 for slideout menu) were running before the DOM fully updated with new data-active attributes after navigation. The hooks used querySelector to find active items with [data-active='true'], but this query executed before React finished re-rendering with updated attributes, causing the bubble to position on the old active item. FIX IMPLEMENTED: 1) ADDED location.pathname TO DEPENDENCIES: Updated useLayoutEffect dependencies from [activeTab, menuItems] to [activeTab, menuItems, location.pathname] (line 152 for header, line 193 for slideout) to ensure bubble recalculates when URL changes. 2) USED requestAnimationFrame: Wrapped updateBubblePosition calls in requestAnimationFrame to ensure DOM has fully updated before querying for active elements. This gives React time to apply new data-active attributes. 3) PROPER CLEANUP: Added proper cleanup for requestAnimationFrame in addition to setTimeout cleanups to prevent memory leaks. RESULT: The bubble position calculation now waits for DOM updates, ensuring it finds the correct active menu item after navigation. When navigating from Account to Today, the bubble will now correctly move to Today instead of staying on Account. Frontend compiled successfully. TESTING NEEDED: 1) Navigate from Dashboard to Account page (bubble should be on Account), 2) Navigate to Today page (bubble should move to Today, not stay on Account), 3) Navigate back to Account (bubble should return to Account), 4) Test with other menu items (Coach, Reports), 5) Test mobile navbar behavior."
+
 backend:
   - task: "Strava Credential Retrieval Fix"
     implemented: true
