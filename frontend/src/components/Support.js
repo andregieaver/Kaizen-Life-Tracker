@@ -128,7 +128,7 @@ const Support = ({ athleteId, athlete }) => {
                   value={formData.name}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent"
                   placeholder={t('support.namePlaceholder')}
                 />
               </div>
@@ -145,7 +145,7 @@ const Support = ({ athleteId, athlete }) => {
                   value={formData.email}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent"
                   placeholder={t('support.emailPlaceholder')}
                 />
               </div>
@@ -162,7 +162,7 @@ const Support = ({ athleteId, athlete }) => {
                   value={formData.subject}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#32D3FF] focus:border-transparent"
                   placeholder={t('support.subjectPlaceholder')}
                 />
               </div>
