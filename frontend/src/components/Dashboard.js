@@ -79,9 +79,6 @@ const Dashboard = ({ athleteId }) => {
     header_logged_in: []
   });
   
-  // Scroll animation state
-  const [scrollDirection, setScrollDirection] = useState('none'); // 'none' on initial load to show elements
-  const [lastScrollY, setLastScrollY] = useState(0);
   // Smooth scroll reveal for header and bottom navbar
   const [headerProgress, setHeaderProgress] = useState(1); // 0..1 (1 = fully shown)
   const [footerProgress, setFooterProgress] = useState(1); // 0..1 (1 = fully shown)
