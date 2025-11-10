@@ -430,7 +430,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                   <div className="w-full border-t border-gray-600"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-gray-700 text-gray-400">Or continue with</span>
+                  <span className="px-2 text-gray-400" style={{ background: 'rgba(30, 41, 59, 0.6)' }}>Or continue with</span>
                 </div>
               </div>
 
