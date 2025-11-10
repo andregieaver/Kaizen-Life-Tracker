@@ -435,7 +435,7 @@ const LandingPage = () => {
           )}
           
           <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-500/20 text-blue-400 rounded-full text-sm font-medium mb-6 border border-teal-500/30">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-400 rounded-full text-sm font-medium mb-6 border border-teal-500/30">
               <Zap className="w-4 h-4" />
               <span>Your Journey to Better Health Starts Here</span>
             </div>
@@ -450,7 +450,7 @@ const LandingPage = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
               <Button 
                 size="lg" 
-                className="bg-teal-600 hover:bg-teal-700 text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
+                className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
                 onClick={() => {
                   const waitingListSection = document.querySelector('#waiting-list-section');
                   if (waitingListSection) {
@@ -516,7 +516,7 @@ const LandingPage = () => {
             {features.map((feature, index) => (
               <Card key={index} className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 hover:border-teal-500 hover:shadow-lg transition-all">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-teal-500/20 rounded-lg flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
                     <feature.icon className="w-6 h-6 text-blue-400" />
                   </div>
                   <CardTitle className="text-xl text-white">{feature.title}</CardTitle>
@@ -576,7 +576,7 @@ const LandingPage = () => {
               <div className="space-y-4">
                 {benefits.map((benefit, index) => (
                   <div key={index} className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-6 h-6 bg-teal-500/20 rounded-full flex items-center justify-center mt-1">
+                    <div className="flex-shrink-0 w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center mt-1">
                       <Check className="w-4 h-4 text-blue-400" />
                     </div>
                     <p className="text-gray-200 text-lg">{benefit}</p>
@@ -676,7 +676,7 @@ const LandingPage = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button 
               size="lg" 
-              className="bg-teal-600 hover:bg-teal-700 text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
+              className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 h-auto shadow-lg hover:shadow-xl transition-all"
               onClick={() => {
                 const waitingListSection = document.querySelector('#waiting-list-section');
                 if (waitingListSection) {
