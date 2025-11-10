@@ -2521,7 +2521,7 @@ const Account = ({ athleteId }) => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium text-white">Date Format</Label>
+                    <Label className="text-sm font-medium text-white">{t('account.dateFormat')}</Label>
                     <Select
                       value={personalForm.date_format || 'MM/DD/YYYY'}
                       onValueChange={(value) => setPersonalForm(prev => ({...prev, date_format: value}))}
