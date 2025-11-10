@@ -459,30 +459,30 @@ const Today = ({ athleteId }) => {
           boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
           borderRadius: '8px'
         }}>
-          <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
-            <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('today.todaysMeals')}</h3>
+          <div className="p-3 md:p-4 pb-2 md:pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+            <h3 className="text-base md:text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('today.todaysMeals')}</h3>
           </div>
-          <div className="p-4">
-            <div className="space-y-3">
+          <div className="p-3 md:p-4">
+            <div className="space-y-2">
               {todayData.meals.map((meal, index) => (
-                <div key={index} className="flex items-center justify-between p-3 rounded-lg" style={{
+                <div key={index} className="flex items-center justify-between p-2 md:p-3 rounded-lg" style={{
                   background: 'color-mix(in srgb, var(--c-glass) 8%, transparent)',
                   backdropFilter: 'blur(8px) saturate(120%)',
                   WebkitBackdropFilter: 'blur(8px) saturate(120%)',
                   border: '1px solid rgba(255, 255, 255, 0.1)',
                   boxShadow: 'inset 0 1px 2px rgba(255, 255, 255, 0.05), 0 4px 12px rgba(0, 0, 0, 0.15)'
                 }}>
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-full" style={{ background: 'var(--c-brand-500)' }}>
-                      <Utensils className="w-4 h-4" style={{ color: 'white' }} />
+                  <div className="flex items-center gap-2 md:gap-3 flex-1 min-w-0">
+                    <div className="p-1.5 md:p-2 rounded-full flex-shrink-0" style={{ background: 'var(--c-brand-500)' }}>
+                      <Utensils className="w-3 h-3 md:w-4 md:h-4" style={{ color: 'white' }} />
                     </div>
-                    <div>
-                      <p className="text-sm font-medium capitalize" style={{ color: 'var(--text-hi)' }}>{meal.meal_type}</p>
-                      <p className="text-xs" style={{ color: 'var(--text-med)' }}>{meal.description}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs md:text-sm font-medium capitalize truncate" style={{ color: 'var(--text-hi)' }}>{meal.meal_type}</p>
+                      <p className="text-xs truncate" style={{ color: 'var(--text-med)' }}>{meal.description}</p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-bold" style={{ color: 'var(--text-hi)' }}>{meal.calories || 0}</p>
+                  <div className="text-right flex-shrink-0 ml-2">
+                    <p className="text-sm md:text-base font-bold" style={{ color: 'var(--text-hi)' }}>{meal.calories || 0}</p>
                     <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('today.cal')}</p>
                   </div>
                 </div>
