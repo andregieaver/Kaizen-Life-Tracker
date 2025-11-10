@@ -272,47 +272,46 @@ const Dashboard = ({ athleteId }) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Control bottom navbar bubble visibility based on active buttons
-  useEffect(() => {
-    const updateNavbarBubble = () => {
+  // Update bottom navbar bubble visibility dynamically
+  useLayoutEffect(() => {
+    let timer1, timer2, timer3, rafId;
+    
+    const updateBottomNavbarBubble = () => {
       const navbar = document.querySelector('.bottom-tab-switcher');
-      
-      console.log('[Navbar Bubble] Navbar element found:', navbar ? 'YES' : 'NO');
-      
-      if (!navbar) {
-        console.log('[Navbar Bubble] ERROR: .bottom-tab-switcher not found in DOM!');
-        return;
-      }
-      
-      const allButtons = navbar.querySelectorAll('.tab-option');
-      const activeButton = navbar.querySelector('.tab-option[data-active="true"]');
+      const activeButton = navbar?.querySelector('.tab-option[data-active="true"]');
       
       // Debug logging
-      console.log('[Navbar Bubble] Current URL:', location.pathname);
-      console.log('[Navbar Bubble] Number of buttons found:', allButtons.length);
-      console.log('[Navbar Bubble] All navbar buttons:');
-      allButtons.forEach((btn, idx) => {
-        const isActive = btn.getAttribute('data-active') === 'true';
-        console.log(`  ${idx}: data-active="${isActive}"`);
-      });
-      console.log('[Navbar Bubble] Active button found:', activeButton ? 'YES' : 'NO');
+      console.log('[Bottom Navbar Bubble] Current URL:', location.pathname);
+      console.log('[Bottom Navbar Bubble] Navbar found:', navbar ? 'YES' : 'NO');
+      console.log('[Bottom Navbar Bubble] Active button found:', activeButton ? activeButton.textContent || 'YES' : 'NONE');
       
-      if (activeButton) {
-        navbar.style.setProperty('--navbar-bubble-opacity', '1');
-        console.log('[Navbar Bubble] Setting opacity to 1 (visible)');
-      } else {
-        navbar.style.setProperty('--navbar-bubble-opacity', '0');
-        console.log('[Navbar Bubble] Setting opacity to 0 (hidden)');
+      if (navbar) {
+        if (activeButton) {
+          // Active button found - show the bubble
+          navbar.style.setProperty('--navbar-bubble-opacity', '1');
+          console.log('[Bottom Navbar Bubble] Setting opacity to 1 (visible)');
+        } else {
+          // No active button - hide the bubble
+          navbar.style.setProperty('--navbar-bubble-opacity', '0');
+          console.log('[Bottom Navbar Bubble] Setting opacity to 0 (hidden)');
+        }
       }
     };
 
-    // Use multiple attempts with increasing delays
-    requestAnimationFrame(() => {
-      updateNavbarBubble();
+    // Use requestAnimationFrame to ensure DOM has updated
+    rafId = requestAnimationFrame(() => {
+      updateBottomNavbarBubble();
+      timer1 = setTimeout(updateBottomNavbarBubble, 50);
+      timer2 = setTimeout(updateBottomNavbarBubble, 200);
+      timer3 = setTimeout(updateBottomNavbarBubble, 500);
     });
-    setTimeout(updateNavbarBubble, 100);
-    setTimeout(updateNavbarBubble, 300);
-    setTimeout(updateNavbarBubble, 500);
+    
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      if (timer1) clearTimeout(timer1);
+      if (timer2) clearTimeout(timer2);
+      if (timer3) clearTimeout(timer3);
+    };
   }, [location.pathname]);
 
   useEffect(() => {
