@@ -234,6 +234,47 @@ const Dashboard = ({ athleteId }) => {
     };
   }, [activeTab, menuItems, isMenuOpen, location.pathname]);
 
+  // Smooth scroll reveal/hide for header and bottom navbar
+  useEffect(() => {
+    const REVEAL_DISTANCE = 240; // px scrolled to fully reveal/hide
+    lastScrollYRef.current = window.scrollY || 0;
+
+    const onScroll = () => {
+      const y = window.scrollY || 0;
+      const dy = y - lastScrollYRef.current;
+      lastScrollYRef.current = y;
+
+      setAtTop(y < 8);
+
+      // Scroll DOWN => reveal footer (bottom navbar), hide header
+      if (dy > 0) {
+        footerAccRef.current += dy; // stays clamped at max (revealed)
+        headerAccRef.current -= dy; // move toward hidden
+      }
+      // Scroll UP => reveal header, hide footer (bottom navbar)
+      else if (dy < 0) {
+        headerAccRef.current += -dy; // add toward max
+        footerAccRef.current -= -dy; // move toward hidden
+      }
+
+      // Clamp to [0, REVEAL_DISTANCE]
+      headerAccRef.current = Math.max(0, Math.min(REVEAL_DISTANCE, headerAccRef.current));
+      footerAccRef.current = Math.max(0, Math.min(REVEAL_DISTANCE, footerAccRef.current));
+
+      if (!scrollTickingRef.current) {
+        scrollTickingRef.current = true;
+        requestAnimationFrame(() => {
+          setHeaderProgress(headerAccRef.current / REVEAL_DISTANCE);
+          setFooterProgress(footerAccRef.current / REVEAL_DISTANCE);
+          scrollTickingRef.current = false;
+        });
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   useEffect(() => {
     loadDashboardData();
     loadCommunityUnreadCount();
