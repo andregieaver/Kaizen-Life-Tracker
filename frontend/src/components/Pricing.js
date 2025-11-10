@@ -339,15 +339,23 @@ const Pricing = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-800 to-gray-900">
+    <div className="min-h-screen" style={{ 
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)'
+    }}>
       {/* Header */}
-      <header className="bg-gradient-to-br from-cyan-700 via-teal-600 to-cyan-600 shadow-sm">
+      <header 
+        className="backdrop-blur-md border-b shadow-sm" 
+        style={{ 
+          background: 'rgba(17, 24, 39, 0.7)',
+          borderColor: 'rgba(55, 65, 81, 0.3)'
+        }}
+      >
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => navigate('/')}
-                className="text-white hover:text-gray-200 transition-colors flex items-center"
+                className="text-white hover:text-[#32D3FF] transition-colors flex items-center"
               >
                 <ArrowLeft className="w-5 h-5 mr-2" />
                 Back
@@ -360,13 +368,13 @@ const Pricing = () => {
               <Button 
                 variant="outline" 
                 onClick={() => navigate('/login')}
-                className="border-white text-white hover:bg-white hover:text-teal-600"
+                className="border-gray-600 text-white hover:bg-gray-700"
               >
                 Log In
               </Button>
               <Button 
                 onClick={() => navigate('/onboarding')}
-                className="bg-white text-teal-600 hover:bg-gray-100"
+                className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white"
               >
                 Sign Up
               </Button>
