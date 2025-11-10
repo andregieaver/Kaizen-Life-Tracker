@@ -1780,7 +1780,7 @@ const Dashboard = ({ athleteId }) => {
             }
           }}
         >
-          <Brain 
+          <Sparkles 
             className="w-6 h-6 transition-transform duration-200"
             style={{
               transform: activeTab === 'coach' ? 'scale(1.1)' : 'scale(1)'
