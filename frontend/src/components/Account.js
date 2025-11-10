@@ -2756,14 +2756,14 @@ const Account = ({ athleteId }) => {
                       fluid_unit: athlete?.fluid_unit || 'fl oz'
                     })}
                   >
-                    Reset
+                    {t('account.reset')}
                   </Button>
                   <Button 
                     type="submit" 
                     className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white font-medium px-6 py-2"
                     disabled={isLoading}
                   >
-                    {isLoading ? 'Saving...' : 'Save Preferences'}
+                    {isLoading ? t('account.savingChanges') : t('account.savePreferences')}
                   </Button>
                 </div>
 
