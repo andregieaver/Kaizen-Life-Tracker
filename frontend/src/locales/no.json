@@ -1563,5 +1563,13 @@
       "title": "Fremgang",
       "subtitle": "Nylige testresultater"
     }
+  },
+  "account": {
+    "title": "Kontoinnstillinger",
+    "manageProfile": "Administrer kontoinnstillinger og preferanser",
+    "personalInfo": {
+      "title": "Personlig informasjon",
+      "description": "Oppdater profilinformasjon og løpemål"
+    }
   }
 }
