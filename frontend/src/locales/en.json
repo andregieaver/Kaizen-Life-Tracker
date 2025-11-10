@@ -385,7 +385,14 @@
     "loading": "Loading...",
     "weightUnit": "Weight Unit",
     "pounds": "Pounds (lbs)",
-    "kilograms": "Kilograms (kg)"
+    "kilograms": "Kilograms (kg)",
+    "connectedApps": "Connected Apps",
+    "connectedAppsDescription": "Connect your fitness apps and wearables to automatically sync your data",
+    "stravaDescription": "Activities and performance data",
+    "ouraDescription": "Sleep, recovery, and readiness data",
+    "corosDescription": "GPS sports watches and training data",
+    "hoursAgo": "{{hours}} hours ago",
+    "daysAgo": "{{days}} days ago"
   },
   "community": {
     "tabs": {
