@@ -109,13 +109,19 @@ frontend:
     implemented: true
     working: "NA"
     file: "/app/frontend/src/components/Dashboard.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
         comment: "ACTIVE STATE PERSISTENCE BUG FIX - Glass bubble remains on previously visited menu item. ROOT CAUSE IDENTIFIED: The useLayoutEffect hooks that calculate bubble position (lines 121-152 for header menu, lines 154-193 for slideout menu) were running before the DOM fully updated with new data-active attributes after navigation. The hooks used querySelector to find active items with [data-active='true'], but this query executed before React finished re-rendering with updated attributes, causing the bubble to position on the old active item. FIX IMPLEMENTED: 1) ADDED location.pathname TO DEPENDENCIES: Updated useLayoutEffect dependencies from [activeTab, menuItems] to [activeTab, menuItems, location.pathname] (line 152 for header, line 193 for slideout) to ensure bubble recalculates when URL changes. 2) USED requestAnimationFrame: Wrapped updateBubblePosition calls in requestAnimationFrame to ensure DOM has fully updated before querying for active elements. This gives React time to apply new data-active attributes. 3) PROPER CLEANUP: Added proper cleanup for requestAnimationFrame in addition to setTimeout cleanups to prevent memory leaks. RESULT: The bubble position calculation now waits for DOM updates, ensuring it finds the correct active menu item after navigation. When navigating from Account to Today, the bubble will now correctly move to Today instead of staying on Account. Frontend compiled successfully. TESTING NEEDED: 1) Navigate from Dashboard to Account page (bubble should be on Account), 2) Navigate to Today page (bubble should move to Today, not stay on Account), 3) Navigate back to Account (bubble should return to Account), 4) Test with other menu items (Coach, Reports), 5) Test mobile navbar behavior."
+      - working: "NA"
+        agent: "user"
+        comment: "USER REPORTED: Fix did not work. Glass button still remains on the last clicked item in the header despite navigating to a different page. Screenshot provided showing the issue."
+      - working: "NA"
+        agent: "main"
+        comment: "SECOND FIX ATTEMPT - Simplified isActive logic for header menu items. ROOT CAUSE ANALYSIS: The previous fix addressed timing issues but the underlying problem was the complex isActive determination logic (line 699-701). The original logic used three conditions: 1) location.pathname === item.url, 2) Special case for dashboard overview, 3) Complex string matching with activeTab. This complex logic could result in multiple items being marked as active simultaneously or the wrong item being marked active. SIMPLIFIED FIX IMPLEMENTED: Changed isActive logic from complex three-condition check to simple direct comparison: 'const isActive = location.pathname === item.url;' (line 699). This ensures only ONE menu item can be active at a time - the one whose URL exactly matches the current pathname. The slideout menu already used this simplified logic (line 619) which is why it wasn't experiencing the issue. Frontend recompiled successfully. RESULT: Now when user navigates from /dashboard/account to /dashboard/today, only the Today menu item will have data-active=true, and the glass bubble will position correctly. TESTING NEEDED: Manual testing by user to verify glass bubble moves correctly between menu items."
 
 backend:
   - task: "Strava Credential Retrieval Fix"
