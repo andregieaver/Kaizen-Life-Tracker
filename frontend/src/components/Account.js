@@ -3167,21 +3167,21 @@ const Account = ({ athleteId }) => {
             <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
               <Card className="w-full max-w-md mx-4 bg-gradient-to-b from-gray-800 to-gray-900 border-gray-700 shadow-2xl">
                 <CardHeader>
-                  <CardTitle className="text-red-400">Cancel Subscription?</CardTitle>
+                  <CardTitle className="text-red-400">{t('account.cancelSubscriptionQuestion')}</CardTitle>
                   <CardDescription className="text-gray-300">
-                    Are you sure you want to cancel your subscription?
+                    {t('account.areYouSureCancel')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="p-4 bg-amber-900/20 border border-amber-700/50 rounded-lg">
                     <p className="text-sm text-amber-200">
-                      <strong>What happens next:</strong>
+                      <strong>{t('account.whatHappensNext')}</strong>
                     </p>
                     <ul className="text-sm text-amber-100 mt-2 space-y-1 list-disc list-inside">
-                      <li>Your subscription will remain active until the end of your billing period</li>
-                      <li>You'll be downgraded to the Free plan automatically</li>
-                      <li>You won't be charged again</li>
-                      <li>You can resubscribe anytime</li>
+                      <li>{t('account.subscriptionRemainActive')}</li>
+                      <li>{t('account.downgradedToFree')}</li>
+                      <li>{t('account.wontBeCharged')}</li>
+                      <li>{t('account.canResubscribeAnytime')}</li>
                     </ul>
                   </div>
                   <div className="flex gap-2">
@@ -3190,14 +3190,14 @@ const Account = ({ athleteId }) => {
                       className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white"
                       onClick={() => setShowCancelDialog(false)}
                     >
-                      Keep Subscription
+                      {t('account.keepSubscription')}
                     </Button>
                     <Button 
                       variant="destructive" 
                       className="flex-1 bg-red-600 hover:bg-red-700 text-white"
                       onClick={handleCancelSubscription}
                     >
-                      Cancel Subscription
+                      {t('account.cancelSubscription')}
                     </Button>
                   </div>
                 </CardContent>
