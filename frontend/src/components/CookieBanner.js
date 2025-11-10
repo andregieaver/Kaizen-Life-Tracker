@@ -305,7 +305,7 @@ const CookieBanner = () => {
                 </Button>
                 <Button
                   onClick={handleAcceptAll}
-                  className="flex-1 bg-[#00C2A8] hover:bg-[#00a892] text-white"
+                  className="flex-1 bg-[#32D3FF] hover:bg-[#1FC1FF] text-white"
                 >
                   {texts.accept_all_button || 'Accept All'}
                 </Button>
