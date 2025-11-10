@@ -360,7 +360,20 @@
     "savePreferences": "Lagre preferanser",
     "youllReceiveNotificationsFor": "Du vil motta varsler for:",
     "newAIReports": "Nye AI-genererte rapporter",
-    "scheduledAnalysisCompletions": "Planlagte analysefullføringer"
+    "scheduledAnalysisCompletions": "Planlagte analysefullføringer",
+    "measurementSystem": "Målesystem",
+    "imperial": "Britisk (lbs, ft/in)",
+    "metric": "Metrisk (kg, cm)",
+    "pushNotificationsTitle": "Push-varsler",
+    "enabled": "Aktivert",
+    "getInstantAlerts": "Motta umiddelbare varsler om nye AI-genererte rapporter og anbefalinger",
+    "notificationsNotSupported": "Push-varsler støttes ikke i denne nettleseren",
+    "enable": "Aktiver",
+    "disable": "Deaktiver",
+    "loading": "Laster...",
+    "weightUnit": "Vektenhet",
+    "pounds": "Pund (lbs)",
+    "kilograms": "Kilogram (kg)"
   },
   "community": {
     "tabs": {
