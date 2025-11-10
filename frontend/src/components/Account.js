@@ -2981,22 +2981,22 @@ const Account = ({ athleteId }) => {
                             {isFree ? (
                               <div className="flex items-baseline">
                                 <span className="text-3xl font-bold text-white">€0</span>
-                                <span className="text-gray-400 ml-1">/month</span>
+                                <span className="text-gray-400 ml-1">{t('account.perMonth')}</span>
                               </div>
                             ) : monthlyVar ? (
                               <>
                                 <div className="flex items-baseline">
                                   <span className="text-3xl font-bold text-white">€{monthlyVar.price}</span>
-                                  <span className="text-gray-400 ml-1">/month</span>
+                                  <span className="text-gray-400 ml-1">{t('account.perMonth')}</span>
                                 </div>
                                 {annualVar && (
                                   <p className="text-sm text-blue-400 mt-1">
-                                    or €{annualVar.price}/year (save {Math.round((1 - (annualVar.price / (monthlyVar.price * 12))) * 100)}%)
+                                    {t('account.orPerYear')} €{annualVar.price}{t('account.perYear')} ({t('account.save')} {Math.round((1 - (annualVar.price / (monthlyVar.price * 12))) * 100)}%)
                                   </p>
                                 )}
                               </>
                             ) : (
-                              <div className="text-gray-400 text-sm">Contact us for pricing</div>
+                              <div className="text-gray-400 text-sm">{t('account.contactUsForPricing')}</div>
                             )}
                           </div>
                           <ul className="space-y-2 mb-4">
