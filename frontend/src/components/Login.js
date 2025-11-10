@@ -260,10 +260,7 @@ const Login = ({ onAthleteLogin }) => {
 
               <Button 
                 type="submit" 
-                className="w-full text-white font-medium py-3 btn-transition border-0"
-                style={{ backgroundColor: '#00C2A8' }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#009688'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
+                className="w-full text-white font-medium py-3 btn-transition border-0 bg-[#32D3FF] hover:bg-[#1FC1FF]"
                 disabled={isLoading}
                 data-testid="login-submit-btn"
               >
