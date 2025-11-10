@@ -392,7 +392,9 @@
     "ouraDescription": "Sleep, recovery, and readiness data",
     "corosDescription": "GPS sports watches and training data",
     "hoursAgo": "{{hours}} hours ago",
-    "daysAgo": "{{days}} days ago"
+    "daysAgo": "{{days}} days ago",
+    "connect": "Connect",
+    "disconnect": "Disconnect"
   },
   "community": {
     "tabs": {
