@@ -207,7 +207,11 @@ const Login = ({ onAthleteLogin }) => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t('auth.emailPlaceholder')}
-                  className="input-focus bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                  className="input-focus text-white placeholder-gray-400"
+                  style={{
+                    background: 'rgba(17, 24, 39, 0.5)',
+                    border: '1px solid rgba(71, 85, 105, 0.3)'
+                  }}
                   disabled={isLoading}
                   autoFocus
                   data-testid="login-email-input"
