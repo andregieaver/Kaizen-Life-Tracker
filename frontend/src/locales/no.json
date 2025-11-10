@@ -477,7 +477,8 @@
       "visibility": "Synlighet",
       "public": "Offentlig",
       "private": "Privat",
-      "filterByNationality": "Filtrer etter nasjonalitet"
+      "filterByNationality": "Filtrer etter nasjonalitet",
+      "allNationalities": "Alle nasjonaliteter"
     },
     "group": {
       "enterGroupName": "Skriv inn gruppenavn",
