@@ -474,43 +474,6 @@ const Dashboard = ({ athleteId }) => {
   // Removed: Auto-refresh on visibility change was causing unnecessary reloads
   // Data will still refresh when navigating between dashboard pages
 
-  // Scroll animation effect
-  useEffect(() => {
-    let ticking = false;
-
-    const updateScrollDirection = () => {
-      const scrollY = window.pageYOffset;
-
-      if (Math.abs(scrollY - lastScrollY) < 10) {
-        ticking = false;
-        return;
-      }
-
-      if (scrollY > lastScrollY && scrollY > 80) {
-        // Scrolling down - hide navigation
-        setScrollDirection('down');
-        setIsHeaderVisible(false);
-      } else if (scrollY < lastScrollY) {
-        // Scrolling up - show navigation
-        setScrollDirection('up');
-        setIsHeaderVisible(true);
-      }
-
-      setLastScrollY(scrollY > 0 ? scrollY : 0);
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateScrollDirection);
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', onScroll);
-
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [lastScrollY]);
 
   // Load background image from localStorage or athlete data
   useEffect(() => {
