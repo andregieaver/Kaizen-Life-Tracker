@@ -2853,7 +2853,7 @@ const Account = ({ athleteId }) => {
                     <div>
                       <div className="flex items-center space-x-2">
                         <h3 className="text-2xl font-bold text-white capitalize">
-                          {subscriptionStatus.tier} Plan
+                          {subscriptionStatus.tier} {t('account.plan')}
                         </h3>
                         <Badge variant={subscriptionStatus.status === 'active' ? 'secondary' : 'destructive'}>
                           {subscriptionStatus.status}
@@ -2863,20 +2863,20 @@ const Account = ({ athleteId }) => {
                         {currentPlanDetails ? (
                           <>
                             {subscriptionStatus.tier === 'free' ? (
-                              '€0/month • ' + (currentPlanDetails.description || 'Basic features')
+                              `€0${t('account.perMonth')} • ${currentPlanDetails.description || t('account.basicFeatures')}`
                             ) : (
                               <>
                                 {(() => {
                                   const variation = currentPlanDetails.variations?.find(v => v.interval === (currentBillingCycle === 'monthly' ? 'month' : 'year'));
-                                  return variation ? `€${variation.price}/${variation.interval === 'month' ? 'month' : 'year'}` : '';
+                                  return variation ? `€${variation.price}${variation.interval === 'month' ? t('account.perMonth') : t('account.perYear')}` : '';
                                 })()}
                                 {' • '}
-                                {currentPlanDetails.description || 'Enhanced features'}
+                                {currentPlanDetails.description || t('account.enhancedFeatures')}
                               </>
                             )}
                           </>
                         ) : (
-                          subscriptionStatus.tier === 'free' ? '€0/month • Basic features' : 'Loading...'
+                          subscriptionStatus.tier === 'free' ? `€0${t('account.perMonth')} • ${t('account.basicFeatures')}` : t('account.loading')
                         )}
                       </p>
                     </div>
