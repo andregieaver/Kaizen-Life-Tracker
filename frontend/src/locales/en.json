@@ -489,7 +489,8 @@
       "visibility": "Visibility",
       "public": "Public",
       "private": "Private",
-      "filterByNationality": "Filter by Nationality"
+      "filterByNationality": "Filter by Nationality",
+      "allNationalities": "All Nationalities"
     },
     "group": {
       "enterGroupName": "Enter group name",
