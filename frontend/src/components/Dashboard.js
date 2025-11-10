@@ -688,6 +688,17 @@ const Dashboard = ({ athleteId }) => {
     return iconMap[iconName] || Circle;
   };
 
+  // Helper function to get translated menu label
+  const getMenuLabel = (item) => {
+    if (!item.translations) return item.label;
+    
+    // Get user's language preference
+    const userLang = athletePreferences?.language || 'en';
+    
+    // Return translated label if available, otherwise fallback to English
+    return item.translations[userLang] || item.label;
+  };
+
   // Helper function to render menu item
   const renderMenuItem = (item, index) => {
     if (item.is_separator) {
@@ -701,6 +712,7 @@ const Dashboard = ({ athleteId }) => {
     const IconComponent = getIconComponent(item.icon);
     const isActive = location.pathname === item.url;
     const highlightColor = item.highlight_color || '#00C2A8';
+    const displayLabel = getMenuLabel(item);
 
     return (
       <button
@@ -724,7 +736,7 @@ const Dashboard = ({ athleteId }) => {
         }}
       >
         <IconComponent className="w-5 h-5" />
-        <span className="font-medium">{item.label}</span>
+        <span className="font-medium">{displayLabel}</span>
       </button>
     );
   };
