@@ -76,7 +76,7 @@ const WaitingListSection = () => {
     <section id="waiting-list-section" className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-900">
       <div className="max-w-4xl mx-auto">
         <Card className="shadow-2xl border-0 overflow-hidden bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600">
-          <div className="bg-gradient-to-r from-teal-600 to-cyan-600 p-6 sm:p-8">
+          <div className="bg-gradient-to-r from-blue-600 to-cyan-600 p-6 sm:p-8">
             <CardHeader className="text-center p-0">
               <CardTitle className="text-2xl sm:text-3xl font-bold text-white mb-2">
                 Join the Waiting List
@@ -157,7 +157,7 @@ const WaitingListSection = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold py-4 text-lg shadow-lg hover:shadow-xl transition-all"
+                className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold py-4 text-lg shadow-lg hover:shadow-xl transition-all"
               >
                 {isSubmitting ? (
                   <>Processing...</>
@@ -441,7 +441,7 @@ const LandingPage = () => {
             </div>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
               Optimize Your Health with
-              <span className="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent"> Data-Driven Insights</span>
+              <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"> Data-Driven Insights</span>
             </h1>
             <p className="text-xl sm:text-2xl text-gray-300 mb-8 leading-relaxed">
               Transform your wellbeing through intelligent tracking, personalized AI coaching, 
@@ -544,7 +544,7 @@ const LandingPage = () => {
             {howItWorks.map((item, index) => (
               <div key={index} className="relative">
                 <div className="bg-gradient-to-b from-gray-700 to-gray-800 border border-gray-600 rounded-xl p-6 shadow-md hover:shadow-xl transition-shadow">
-                  <div className="w-12 h-12 bg-gradient-to-br from-teal-600 to-cyan-600 rounded-full flex items-center justify-center text-white text-xl font-bold mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-full flex items-center justify-center text-white text-xl font-bold mb-4">
                     {item.step}
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
@@ -631,7 +631,7 @@ const LandingPage = () => {
       </section>
 
       {/* Social Proof / Trust - HIDDEN BUT NOT DELETED */}
-      <section className="hidden py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-teal-700 via-teal-600 to-cyan-600 text-white">
+      <section className="hidden py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-700 via-teal-600 to-cyan-600 text-white">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center gap-1 mb-4">
             {[...Array(5)].map((_, i) => (
