@@ -1656,51 +1656,7 @@ const Dashboard = ({ athleteId }) => {
           transition: 'background-color 400ms cubic-bezier(1, 0, 0.4, 1), box-shadow 400ms cubic-bezier(1, 0, 0.4, 1)'
         }}
       >
-        {/* Tab 1: Today */}
-        <button
-          onClick={() => {
-            setPreviousTab(activeTab);
-            navigate('/dashboard/today');
-            setIsMenuOpen(false);
-          }}
-          className="tab-option"
-          data-active={activeTab === 'today'}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '0 12px',
-            flex: 1,
-            height: '100%',
-            boxSizing: 'border-box',
-            borderRadius: '99em',
-            opacity: 1,
-            transition: 'all 160ms',
-            color: activeTab === 'today' ? 'var(--c-brand-500)' : 'var(--text-med)',
-            cursor: 'pointer',
-            border: 'none',
-            background: 'transparent'
-          }}
-          onMouseEnter={(e) => {
-            if (activeTab !== 'today') {
-              e.currentTarget.style.color = 'var(--c-brand-500)';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (activeTab !== 'today') {
-              e.currentTarget.style.color = 'var(--text-med)';
-            }
-          }}
-        >
-          <Power 
-            className="w-6 h-6 transition-transform duration-200"
-            style={{
-              transform: activeTab === 'today' ? 'scale(1.1)' : 'scale(1)'
-            }}
-          />
-        </button>
-
-        {/* Tab 2: Home */}
+        {/* Tab 1: Home */}
         <button
           onClick={() => {
             setPreviousTab(activeTab);
@@ -1744,7 +1700,7 @@ const Dashboard = ({ athleteId }) => {
           />
         </button>
 
-        {/* Tab 3: Coach */}
+        {/* Tab 2: Coach */}
         <button
           onClick={() => {
             setPreviousTab(activeTab);
@@ -1784,6 +1740,50 @@ const Dashboard = ({ athleteId }) => {
             className="w-6 h-6 transition-transform duration-200"
             style={{
               transform: activeTab === 'coach' ? 'scale(1.1)' : 'scale(1)'
+            }}
+          />
+        </button>
+
+        {/* Tab 3: Today */}
+        <button
+          onClick={() => {
+            setPreviousTab(activeTab);
+            navigate('/dashboard/today');
+            setIsMenuOpen(false);
+          }}
+          className="tab-option"
+          data-active={activeTab === 'today'}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '0 12px',
+            flex: 1,
+            height: '100%',
+            boxSizing: 'border-box',
+            borderRadius: '99em',
+            opacity: 1,
+            transition: 'all 160ms',
+            color: activeTab === 'today' ? 'var(--c-brand-500)' : 'var(--text-med)',
+            cursor: 'pointer',
+            border: 'none',
+            background: 'transparent'
+          }}
+          onMouseEnter={(e) => {
+            if (activeTab !== 'today') {
+              e.currentTarget.style.color = 'var(--c-brand-500)';
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (activeTab !== 'today') {
+              e.currentTarget.style.color = 'var(--text-med)';
+            }
+          }}
+        >
+          <Power 
+            className="w-6 h-6 transition-transform duration-200"
+            style={{
+              transform: activeTab === 'today' ? 'scale(1.1)' : 'scale(1)'
             }}
           />
         </button>
