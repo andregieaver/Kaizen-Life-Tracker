@@ -13864,12 +13864,23 @@ async def translate_menus(athlete_id: str):
     await verify_super_admin(athlete_id)
     
     try:
-        # Get OpenAI API key from system settings
-        settings = await db.system_settings.find_one({})
-        openai_key = settings.get('openai_key') if settings else None
+        # Get OpenAI API key from system settings (same logic as get_global_openai_key)
+        settings = await db.system_settings.find_one({"setting_type": "global"}, {"_id": 0})
         
+        if not settings:
+            raise HTTPException(status_code=400, detail="System settings not found")
+        
+        # Check for key in advanced settings (new location)
+        openai_key = settings.get("advanced", {}).get("openaiApiKey")
+        
+        # Fallback to old location for backwards compatibility
         if not openai_key:
+            openai_key = settings.get("openaiApiKey")
+        
+        if not openai_key or not openai_key.strip():
             raise HTTPException(status_code=400, detail="OpenAI API key not configured in System Settings")
+        
+        openai_key = openai_key.strip()
         
         # Detect available languages from frontend locales folder
         locales_path = Path(__file__).parent.parent / "frontend" / "src" / "locales"
