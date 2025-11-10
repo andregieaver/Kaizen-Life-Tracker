@@ -2798,10 +2798,10 @@ const Account = ({ athleteId }) => {
                   <div className="flex-1">
                     <h3 className="flex items-center text-white text-lg md:text-xl font-semibold">
                       <Crown className="w-5 h-5 mr-2 text-[#32D3FF] flex-shrink-0" />
-                      <span>Current Plan</span>
+                      <span>{t('account.currentPlan')}</span>
                     </h3>
                     <p className="text-gray-400 mt-1 text-sm">
-                      Manage your subscription and billing
+                      {t('account.manageSubscriptionBilling')}
                     </p>
                   </div>
                   <Button 
