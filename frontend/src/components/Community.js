@@ -2213,7 +2213,6 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   return (
     <div 
       className="min-h-screen max-w-5xl mx-auto space-y-0 sm:space-y-6 p-2 md:p-6"
-      style={{ background: 'var(--grad-page)' }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
