@@ -506,7 +506,9 @@ const LandingPage = () => {
       <WaitingListSection />
 
       {/* Features Grid */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-800">
+      <section className="py-20 px-4 sm:px-6 lg:px-8" style={{ 
+        background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)'
+      }}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
@@ -520,10 +522,22 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 hover:border-blue-500 hover:shadow-lg transition-all">
+              <Card 
+                key={index} 
+                className="border-0 transition-all hover:scale-105" 
+                style={{
+                  background: 'rgba(30, 41, 59, 0.4)',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(71, 85, 105, 0.3)'
+                }}
+              >
                 <CardHeader>
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <feature.icon className="w-6 h-6 text-blue-400" />
+                  <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-4" style={{
+                    background: 'rgba(50, 211, 255, 0.1)',
+                    border: '1px solid rgba(50, 211, 255, 0.2)'
+                  }}>
+                    <feature.icon className="w-6 h-6 text-[#32D3FF]" />
                   </div>
                   <CardTitle className="text-xl text-white">{feature.title}</CardTitle>
                   <CardDescription className="text-base text-gray-300">{feature.description}</CardDescription>
