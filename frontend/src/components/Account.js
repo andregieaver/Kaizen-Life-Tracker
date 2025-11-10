@@ -112,7 +112,7 @@ const IntegrationCard = ({
       <div className="flex items-center gap-2">
         {connected ? (
           <>
-            <Badge className="bg-green-900/30 text-green-400 border-green-700">
+            <Badge className="bg-blue-900/30 text-blue-400 border-blue-700">
               <CheckCircle className="w-3 h-3 mr-1" />
               {t('account.connected')}
             </Badge>
@@ -1567,7 +1567,7 @@ const Account = ({ athleteId }) => {
           <div className="mb-4">
             <Button
               onClick={() => navigate('/dashboard/support')}
-              className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+              className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white px-4 py-2 rounded-lg flex items-center gap-2"
               title={t('account.contactSupport')}
             >
               <HelpCircle className="w-5 h-5" />
@@ -1641,7 +1641,7 @@ const Account = ({ athleteId }) => {
       {saveStatus.message && (
         <div className={`mb-6 p-4 rounded-lg border ${
           saveStatus.type === 'success' 
-            ? 'bg-green-900/30 border-green-700 text-green-400'
+            ? 'bg-blue-900/30 border-blue-700 text-blue-400'
             : 'bg-red-900/30 border-red-700 text-red-400'
         }`}>
           <div className="flex items-center">
@@ -2087,7 +2087,7 @@ const Account = ({ athleteId }) => {
                                 : personalForm.interests.filter(i => i !== interest.key);
                               setPersonalForm(prev => ({...prev, interests: newInterests}));
                             }}
-                            className="rounded border-gray-700 text-green-500 focus:ring-green-500"
+                            className="rounded border-gray-700 text-blue-500 focus:ring-blue-500"
                           />
                           <span className="text-sm text-gray-300">{interest.label}</span>
                         </label>
@@ -2109,7 +2109,7 @@ const Account = ({ athleteId }) => {
                         type="checkbox"
                         checked={personalForm.share_bio || false}
                         onChange={(e) => setPersonalForm(prev => ({...prev, share_bio: e.target.checked}))}
-                        className="w-5 h-5 rounded border-gray-700 text-green-500 focus:ring-green-500"
+                        className="w-5 h-5 rounded border-gray-700 text-blue-500 focus:ring-blue-500"
                       />
                       <div>
                         <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">{t('account.showBio')}</span>
@@ -2122,7 +2122,7 @@ const Account = ({ athleteId }) => {
                         type="checkbox"
                         checked={personalForm.share_goals || false}
                         onChange={(e) => setPersonalForm(prev => ({...prev, share_goals: e.target.checked}))}
-                        className="w-5 h-5 rounded border-gray-700 text-green-500 focus:ring-green-500"
+                        className="w-5 h-5 rounded border-gray-700 text-blue-500 focus:ring-blue-500"
                       />
                       <div>
                         <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">{t('account.showHealthGoals')}</span>
@@ -2135,7 +2135,7 @@ const Account = ({ athleteId }) => {
                         type="checkbox"
                         checked={personalForm.share_interests || false}
                         onChange={(e) => setPersonalForm(prev => ({...prev, share_interests: e.target.checked}))}
-                        className="w-5 h-5 rounded border-gray-700 text-green-500 focus:ring-green-500"
+                        className="w-5 h-5 rounded border-gray-700 text-blue-500 focus:ring-blue-500"
                       />
                       <div>
                         <span className="text-sm font-medium text-white group-hover:text-[#00C2A8] transition-colors">{t('account.showInterests')}</span>
@@ -2428,7 +2428,7 @@ const Account = ({ athleteId }) => {
                           )}
                           <Label className="text-sm font-medium text-white">Push Notifications</Label>
                           {pushSubscribed && (
-                            <Badge className="bg-green-900/30 text-green-400">Enabled</Badge>
+                            <Badge className="bg-blue-900/30 text-blue-400">Enabled</Badge>
                           )}
                         </div>
                         <p className="text-xs text-gray-400">
@@ -2453,7 +2453,7 @@ const Account = ({ athleteId }) => {
                     {pushSupported && pushSubscribed && (
                       <div className="text-xs text-gray-400 bg-gray-900/50 p-2 rounded border border-gray-700">
                         <div className="flex items-start gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                          <CheckCircle className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
                           <div>
                             <p className="font-medium text-white">You'll receive notifications for:</p>
                             <ul className="mt-1 space-y-1 ml-2">
@@ -2756,7 +2756,7 @@ const Account = ({ athleteId }) => {
                 {saveStatus.type && (
                   <div className={`p-3 rounded-lg text-sm ${
                     saveStatus.type === 'success' 
-                      ? 'bg-green-900/30 text-green-400 border border-green-700' 
+                      ? 'bg-blue-900/30 text-blue-400 border border-blue-700' 
                       : 'bg-red-50 text-red-800 border border-red-200'
                   }`}>
                     {saveStatus.message}
@@ -2876,7 +2876,7 @@ const Account = ({ athleteId }) => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {currentPlanDetails.features.map((feature, idx) => (
                         <div key={idx} className="flex items-center text-sm text-gray-300">
-                          <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                          <Check className="w-4 h-4 text-blue-500 mr-2 flex-shrink-0" />
                           <span>{feature}</span>
                         </div>
                       ))}
@@ -2969,7 +2969,7 @@ const Account = ({ athleteId }) => {
                                   <span className="text-gray-400 ml-1">/month</span>
                                 </div>
                                 {annualVar && (
-                                  <p className="text-sm text-green-400 mt-1">
+                                  <p className="text-sm text-blue-400 mt-1">
                                     or €{annualVar.price}/year (save {Math.round((1 - (annualVar.price / (monthlyVar.price * 12))) * 100)}%)
                                   </p>
                                 )}
@@ -2982,7 +2982,7 @@ const Account = ({ athleteId }) => {
                             {plan.features && plan.features.length > 0 ? (
                               plan.features.map((feature, index) => (
                                 <li key={index} className="flex items-start text-sm text-gray-300">
-                                  <Check className="w-4 h-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                                  <Check className="w-4 h-4 text-blue-500 mr-2 flex-shrink-0 mt-0.5" />
                                   <span>{feature}</span>
                                 </li>
                               ))
@@ -3064,7 +3064,7 @@ const Account = ({ athleteId }) => {
                     ) : (
                       <>
                         <div className="flex items-center space-x-2 mb-3">
-                          <CreditCard className="w-4 h-4 text-green-500" />
+                          <CreditCard className="w-4 h-4 text-blue-500" />
                           <p className="text-sm text-gray-300">
                             Payment method active • Managed by Stripe
                           </p>
@@ -3107,7 +3107,7 @@ const Account = ({ athleteId }) => {
                                 </p>
                                 <span className={`text-xs px-2 py-1 rounded ${
                                   invoice.status === 'paid' 
-                                    ? 'bg-green-900/30 text-green-400' 
+                                    ? 'bg-blue-900/30 text-blue-400' 
                                     : invoice.status === 'open'
                                     ? 'bg-yellow-900/30 text-yellow-400'
                                     : 'bg-red-900/30 text-red-400'
@@ -3213,7 +3213,7 @@ const Account = ({ athleteId }) => {
                           onClick={() => setSelectedBillingCycle('monthly')}
                           className={`px-6 py-2 rounded-full font-medium transition-all ${
                             selectedBillingCycle === 'monthly'
-                              ? 'bg-teal-600 text-white shadow-lg'
+                              ? 'bg-[#32D3FF] text-white shadow-lg'
                               : 'text-gray-400 hover:text-white'
                           }`}
                         >
@@ -3223,13 +3223,13 @@ const Account = ({ athleteId }) => {
                           onClick={() => setSelectedBillingCycle('annual')}
                           className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
                             selectedBillingCycle === 'annual'
-                              ? 'bg-teal-600 text-white shadow-lg'
+                              ? 'bg-[#32D3FF] text-white shadow-lg'
                               : 'text-gray-400 hover:text-white'
                           }`}
                         >
                           Annual
                           {savings > 0 && (
-                            <Badge variant="default" className="ml-2 bg-green-500 text-white border-0">
+                            <Badge variant="default" className="ml-2 bg-[#32D3FF] text-white border-0">
                               Save {savings}%
                             </Badge>
                           )}
@@ -3239,7 +3239,7 @@ const Account = ({ athleteId }) => {
 
                     {/* Pricing Display */}
                     {selectedPrice && (
-                      <div className="p-6 bg-teal-500/10 border border-teal-500/30 rounded-lg">
+                      <div className="p-6 bg-blue-500/10 border border-blue-500/30 rounded-lg">
                         <div className="text-center">
                           <p className="text-4xl font-bold text-white">
                             €{selectedPrice.price}
@@ -3248,7 +3248,7 @@ const Account = ({ athleteId }) => {
                             </span>
                           </p>
                           {selectedBillingCycle === 'annual' && monthlyVar && savings > 0 && (
-                            <p className="text-sm text-green-400 mt-2">
+                            <p className="text-sm text-blue-400 mt-2">
                               Save €{((monthlyVar.price * 12) - annualVar.price).toFixed(2)} per year!
                             </p>
                           )}
@@ -3263,7 +3263,7 @@ const Account = ({ athleteId }) => {
                         <ul className="space-y-2">
                           {targetPlan.features.slice(0, 5).map((feature, idx) => (
                             <li key={idx} className="flex items-start text-sm text-gray-300">
-                              <Check className="w-4 h-4 text-teal-400 mr-2 flex-shrink-0 mt-0.5" />
+                              <Check className="w-4 h-4 text-blue-400 mr-2 flex-shrink-0 mt-0.5" />
                               <span>{feature}</span>
                             </li>
                           ))}
@@ -3283,7 +3283,7 @@ const Account = ({ athleteId }) => {
                         Cancel
                       </Button>
                       <Button 
-                        className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
+                        className="flex-1 bg-[#32D3FF] hover:bg-[#1FC1FF] text-white"
                         onClick={handleUpgrade}
                         disabled={!selectedPrice}
                       >
@@ -3326,7 +3326,7 @@ const Account = ({ athleteId }) => {
                           onClick={() => setSelectedBillingCycle('monthly')}
                           className={`px-6 py-2 rounded-full font-medium transition-all ${
                             selectedBillingCycle === 'monthly'
-                              ? 'bg-teal-600 text-white shadow-lg'
+                              ? 'bg-[#32D3FF] text-white shadow-lg'
                               : 'text-gray-400 hover:text-white'
                           }`}
                         >
@@ -3336,13 +3336,13 @@ const Account = ({ athleteId }) => {
                           onClick={() => setSelectedBillingCycle('annual')}
                           className={`px-6 py-2 rounded-full font-medium transition-all flex items-center ${
                             selectedBillingCycle === 'annual'
-                              ? 'bg-teal-600 text-white shadow-lg'
+                              ? 'bg-[#32D3FF] text-white shadow-lg'
                               : 'text-gray-400 hover:text-white'
                           }`}
                         >
                           Annual
                           {savings > 0 && (
-                            <Badge variant="default" className="ml-2 bg-green-500 text-white border-0">
+                            <Badge variant="default" className="ml-2 bg-[#32D3FF] text-white border-0">
                               Save {savings}%
                             </Badge>
                           )}
@@ -3361,7 +3361,7 @@ const Account = ({ athleteId }) => {
                             </span>
                           </p>
                           {selectedBillingCycle === 'annual' && monthlyVar && savings > 0 && (
-                            <p className="text-sm text-green-400 mt-2">
+                            <p className="text-sm text-blue-400 mt-2">
                               Save €{((monthlyVar.price * 12) - annualVar.price).toFixed(2)} per year!
                             </p>
                           )}
@@ -3389,7 +3389,7 @@ const Account = ({ athleteId }) => {
                         Cancel
                       </Button>
                       <Button 
-                        className="flex-1 bg-teal-600 hover:bg-teal-700 text-white"
+                        className="flex-1 bg-[#32D3FF] hover:bg-[#1FC1FF] text-white"
                         onClick={handleDowngrade}
                         disabled={!selectedPrice}
                       >
@@ -3415,7 +3415,7 @@ const Account = ({ athleteId }) => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="p-4 bg-green-900/20 border border-green-700/50 rounded-lg">
+                  <div className="p-4 bg-green-900/20 border border-blue-700/50 rounded-lg">
                     <p className="text-sm text-green-200 mb-2">
                       <strong>Switching to {currentBillingCycle === 'monthly' ? 'Annual' : 'Monthly'}:</strong>
                     </p>
@@ -3510,7 +3510,7 @@ const Account = ({ athleteId }) => {
                   provider="coros"
                   name="COROS"
                   description="GPS sports watches and training data"
-                  icon={<Mountain className="w-8 h-8 text-green-600" />}
+                  icon={<Mountain className="w-8 h-8 text-blue-600" />}
                   connected={integrations.coros.connected}
                   connectionInfo={integrations.coros}
                   onConnect={() => handleSimpleConnect('coros')}
