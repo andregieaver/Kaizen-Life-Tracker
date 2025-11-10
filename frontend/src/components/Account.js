@@ -2629,8 +2629,8 @@ const Account = ({ athleteId }) => {
 
                   {/* Coach Name */}
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium text-white">Coach Name</Label>
-                    <p className="text-xs text-gray-500">Personalize your AI coach with a custom name</p>
+                    <Label className="text-sm font-medium text-white">{t('account.coachName')}</Label>
+                    <p className="text-xs text-gray-500">{t('account.coachNameDescription')}</p>
                     <input
                       type="text"
                       value={personalForm.coach_name || 'Coach'}
@@ -2642,8 +2642,8 @@ const Account = ({ athleteId }) => {
 
                   {/* Coach Avatar Upload */}
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium text-white">Coach Avatar</Label>
-                    <p className="text-xs text-gray-500">Upload a custom avatar for your AI coach</p>
+                    <Label className="text-sm font-medium text-white">{t('account.coachAvatar')}</Label>
+                    <p className="text-xs text-gray-500">{t('account.coachAvatarDescription')}</p>
                     <div className="flex items-center gap-4">
                       {coachAvatarPreview ? (
                         <img
