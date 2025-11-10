@@ -272,6 +272,28 @@ const Dashboard = ({ athleteId }) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Control bottom navbar bubble visibility based on active buttons
+  useEffect(() => {
+    const updateNavbarBubble = () => {
+      const navbar = document.querySelector('.bottom-tab-switcher');
+      const activeButton = navbar?.querySelector('.tab-option[data-active="true"]');
+      
+      if (navbar) {
+        if (activeButton) {
+          navbar.style.setProperty('--navbar-bubble-opacity', '1');
+        } else {
+          navbar.style.setProperty('--navbar-bubble-opacity', '0');
+        }
+      }
+    };
+
+    // Run immediately and after short delay to ensure DOM is updated
+    updateNavbarBubble();
+    const timer = setTimeout(updateNavbarBubble, 50);
+    
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
+
   useEffect(() => {
     loadDashboardData();
     loadCommunityUnreadCount();
