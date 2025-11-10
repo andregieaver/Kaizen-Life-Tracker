@@ -123,7 +123,18 @@ const Dashboard = ({ athleteId }) => {
     
     const updateBubblePosition = () => {
       const headerMenu = document.querySelector('.header-menu-switcher');
+      const activeButtons = headerMenu?.querySelectorAll('.header-menu-item[data-active="true"]');
       const activeButton = headerMenu?.querySelector('.header-menu-item[data-active="true"]');
+      
+      // Debug logging
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`[Bubble Position] Active buttons count: ${activeButtons?.length || 0}`);
+        if (activeButtons && activeButtons.length > 0) {
+          activeButtons.forEach((btn, idx) => {
+            console.log(`[Bubble Position] Active button ${idx}: ${btn.textContent}`);
+          });
+        }
+      }
       
       if (headerMenu && activeButton) {
         const menuRect = headerMenu.getBoundingClientRect();
@@ -134,6 +145,10 @@ const Dashboard = ({ athleteId }) => {
         
         headerMenu.style.setProperty('--bubble-left', `${leftOffset}px`);
         headerMenu.style.setProperty('--bubble-width', `${width}px`);
+        
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`[Bubble Position] Set to: ${activeButton.textContent}, left: ${leftOffset}px, width: ${width}px`);
+        }
       }
     };
 
