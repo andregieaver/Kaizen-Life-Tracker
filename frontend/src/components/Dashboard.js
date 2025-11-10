@@ -354,6 +354,18 @@ const Dashboard = ({ athleteId }) => {
 
   useEffect(() => {
     loadMenus();
+    
+    // Listen for menu updates from MenuEditor
+    const handleMenusUpdated = () => {
+      console.log('[Dashboard] Menus updated event received, reloading...');
+      loadMenus();
+    };
+    
+    window.addEventListener('menusUpdated', handleMenusUpdated);
+    
+    return () => {
+      window.removeEventListener('menusUpdated', handleMenusUpdated);
+    };
   }, []);
 
   // Reload community unread count periodically
