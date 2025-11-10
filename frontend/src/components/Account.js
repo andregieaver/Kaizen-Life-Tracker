@@ -3056,8 +3056,7 @@ const Account = ({ athleteId }) => {
 
                 <div className="mt-6 p-4 rounded-lg border border-gray-600" style={{ backgroundColor: '#111827' }}>
                   <p className="text-sm text-gray-300 text-center">
-                    <strong className="text-white">Secure Payment:</strong> All payments are processed securely through Stripe. 
-                    Your payment information is never stored on our servers.
+                    <strong className="text-white">{t('account.securePayment')}</strong> {t('account.securePaymentDescription')}
                   </p>
                 </div>
               </CardContent>
