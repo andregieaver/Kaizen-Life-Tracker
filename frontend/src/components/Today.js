@@ -10,7 +10,9 @@ import {
   TrendingDown,
   CheckCircle,
   AlertCircle,
-  Flame
+  Flame,
+  Check,
+  Repeat
 } from 'lucide-react';
 import { formatDate as formatDateUtil } from '../utils/formatters';
 
@@ -28,6 +30,8 @@ const Today = ({ athleteId }) => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [athleteProfile, setAthleteProfile] = useState(null);
+  const [habits, setHabits] = useState([]);
+  const [habitCompletions, setHabitCompletions] = useState({});
 
   useEffect(() => {
     loadTodayData();
