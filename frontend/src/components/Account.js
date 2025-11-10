@@ -3220,9 +3220,9 @@ const Account = ({ athleteId }) => {
               <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                 <Card className="w-full max-w-lg bg-gradient-to-b from-gray-800 to-gray-900 border-gray-700 shadow-2xl">
                   <CardHeader>
-                    <CardTitle className="text-white text-2xl">Upgrade to {targetPlan.name}?</CardTitle>
+                    <CardTitle className="text-white text-2xl">{t('account.upgradeToQuestion', { planName: targetPlan.name })}</CardTitle>
                     <CardDescription className="text-gray-300">
-                      Choose your billing cycle
+                      {t('account.chooseYourBillingCycle')}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -3237,7 +3237,7 @@ const Account = ({ athleteId }) => {
                               : 'text-gray-400 hover:text-white'
                           }`}
                         >
-                          Monthly
+                          {t('account.monthly')}
                         </button>
                         <button
                           onClick={() => setSelectedBillingCycle('annual')}
@@ -3247,10 +3247,10 @@ const Account = ({ athleteId }) => {
                               : 'text-gray-400 hover:text-white'
                           }`}
                         >
-                          Annual
+                          {t('account.annual')}
                           {savings > 0 && (
                             <Badge variant="default" className="ml-2 bg-[#32D3FF] text-white border-0">
-                              Save {savings}%
+                              {t('account.savePercentage', { percentage: savings })}
                             </Badge>
                           )}
                         </button>
@@ -3264,12 +3264,12 @@ const Account = ({ athleteId }) => {
                           <p className="text-4xl font-bold text-white">
                             €{selectedPrice.price}
                             <span className="text-xl text-gray-400">
-                              /{selectedPrice.interval === 'month' ? 'mo' : 'year'}
+                              /{selectedPrice.interval === 'month' ? t('account.mo') : t('account.year')}
                             </span>
                           </p>
                           {selectedBillingCycle === 'annual' && monthlyVar && savings > 0 && (
                             <p className="text-sm text-blue-400 mt-2">
-                              Save €{((monthlyVar.price * 12) - annualVar.price).toFixed(2)} per year!
+                              {t('account.savePerYear', { amount: ((monthlyVar.price * 12) - annualVar.price).toFixed(2) })}
                             </p>
                           )}
                         </div>
@@ -3279,7 +3279,7 @@ const Account = ({ athleteId }) => {
                     {/* Features */}
                     {targetPlan.features && targetPlan.features.length > 0 && (
                       <div className="space-y-2">
-                        <h4 className="text-sm font-semibold text-gray-400 uppercase">What you'll get:</h4>
+                        <h4 className="text-sm font-semibold text-gray-400 uppercase">{t('account.whatYoullGet')}</h4>
                         <ul className="space-y-2">
                           {targetPlan.features.slice(0, 5).map((feature, idx) => (
                             <li key={idx} className="flex items-start text-sm text-gray-300">
@@ -3300,14 +3300,14 @@ const Account = ({ athleteId }) => {
                           setUpgradeTarget(null);
                         }}
                       >
-                        Cancel
+                        {t('account.cancel')}
                       </Button>
                       <Button 
                         className="flex-1 bg-[#32D3FF] hover:bg-[#1FC1FF] text-white"
                         onClick={handleUpgrade}
                         disabled={!selectedPrice}
                       >
-                        Continue to Checkout
+                        {t('account.continueToCheckout')}
                       </Button>
                     </div>
                   </CardContent>
