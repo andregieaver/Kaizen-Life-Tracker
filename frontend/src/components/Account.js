@@ -3076,17 +3076,17 @@ const Account = ({ athleteId }) => {
               <CardContent>
                 <div className="space-y-4">
                   <div className="p-4 border border-gray-600 rounded-lg" style={{ backgroundColor: '#111827' }}>
-                    <h4 className="font-semibold text-white mb-2">Payment Method</h4>
+                    <h4 className="font-semibold text-white mb-2">{t('account.paymentMethod')}</h4>
                     {subscriptionStatus.tier === 'free' ? (
                       <p className="text-sm text-gray-400">
-                        No payment method on file (Free plan)
+                        {t('account.noPaymentMethodFreePlan')}
                       </p>
                     ) : (
                       <>
                         <div className="flex items-center space-x-2 mb-3">
                           <CreditCard className="w-4 h-4 text-blue-500" />
                           <p className="text-sm text-gray-300">
-                            Payment method active • Managed by Stripe
+                            {t('account.paymentMethodActive')}
                           </p>
                         </div>
                         <Button
@@ -3097,7 +3097,7 @@ const Account = ({ athleteId }) => {
                           disabled={isLoading}
                         >
                           <CreditCard className="w-4 h-4 mr-2" />
-                          Manage Payment Method
+                          {t('account.managePaymentMethod')}
                         </Button>
                       </>
                     )}
