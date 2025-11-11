@@ -1757,6 +1757,7 @@ Return only the JSON array, nothing else.
             "garmin_activities": garmin_activities,
             "coros_activities": coros_activities,
             "whoop_activities": whoop_activities,
+            "suunto_activities": suunto_activities,
             "supplements": supplements,
             "supplement_logs": supplement_logs,
             "documents": documents,
