@@ -8902,6 +8902,30 @@ class WhoopConnector(ProviderConnector):
             logging.error(f"Traceback: {traceback.format_exc()}")
             raise HTTPException(status_code=500, detail=str(e))
 
+# Suunto Connector (delegates to SuuntoService)
+class SuuntoConnector(ProviderConnector):
+    def __init__(self):
+        super().__init__("suunto", "Suunto", "oauth2")
+    
+    async def begin_auth(self, user_id: str):
+        """Begin Suunto OAuth flow - delegates to SuuntoService"""
+        try:
+            logging.info(f"[SUUNTO CONNECTOR] Starting auth for user: {user_id}")
+            suunto_service = SuuntoService(db)
+            scopes = ["workout"]
+            auth_url = await suunto_service.get_authorization_url(user_id, scopes)
+            
+            logging.info(f"[SUUNTO CONNECTOR] Authorization URL generated: {auth_url}")
+            return {
+                "authorization_url": auth_url,
+                "provider": "suunto"
+            }
+        except Exception as e:
+            import traceback
+            logging.error(f"Error in SuuntoConnector.begin_auth: {e}")
+            logging.error(f"Traceback: {traceback.format_exc()}")
+            raise HTTPException(status_code=500, detail=str(e))
+
 # Initialize connectors
 strava_connector = StravaConnector()
 oura_connector = OuraConnector()
@@ -8910,6 +8934,7 @@ fitbit_connector = FitbitConnector()
 garmin_connector = GarminConnector()
 coros_connector = CorosConnector()
 whoop_connector = WhoopConnector()
+suunto_connector = SuuntoConnector()
 
 connectors = {
     "strava": strava_connector,
@@ -8918,7 +8943,8 @@ connectors = {
     "fitbit": fitbit_connector,
     "garmin": garmin_connector,
     "coros": coros_connector,
-    "whoop": whoop_connector
+    "whoop": whoop_connector,
+    "suunto": suunto_connector
 }
 
 # Hub API Endpoints
