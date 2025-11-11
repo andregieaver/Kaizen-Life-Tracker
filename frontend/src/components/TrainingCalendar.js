@@ -521,6 +521,12 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
               <span>{Math.round(block.coros_data.heart_rate_avg)}</span>
             </div>
           )}
+          {isWhoop && block.whoop_data?.heart_rate_avg && (
+            <div className="flex items-center gap-1">
+              <Heart className="w-3 h-3" />
+              <span>{Math.round(block.whoop_data.heart_rate_avg)}</span>
+            </div>
+          )}
           {isOura && block.oura_data?.score && (
             <div className="flex items-center gap-1">
               <span className="font-bold">Score: {block.oura_data.score}</span>
