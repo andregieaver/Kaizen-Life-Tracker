@@ -16577,7 +16577,7 @@ async def strava_webhook_verify(request: Request):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/api/webhook/strava")
+@api_router.post("/webhook/strava")
 async def strava_webhook_event(request: Request):
     """
     Handle Strava webhook events
