@@ -141,21 +141,31 @@ class BaseIntegrationService(ABC):
         
         # Exchange code for token
         async with httpx.AsyncClient() as client:
+            token_request_data = {
+                "client_id": provider_config["clientId"],
+                "client_secret": provider_config["clientSecret"],
+                "code": code,
+                "grant_type": "authorization_code",
+                "redirect_uri": callback_url
+            }
+            
+            logging.info(f"[{self.provider_name.upper()}] Token exchange request:")
+            logging.info(f"  URL: {self.oauth_token_url}")
+            logging.info(f"  client_id: {provider_config['clientId']}")
+            logging.info(f"  redirect_uri: {callback_url}")
+            logging.info(f"  grant_type: authorization_code")
+            logging.info(f"  code: {code[:20]}...")
+            
             response = await client.post(
                 self.oauth_token_url,
-                data={
-                    "client_id": provider_config["clientId"],
-                    "client_secret": provider_config["clientSecret"],
-                    "code": code,
-                    "grant_type": "authorization_code",
-                    "redirect_uri": callback_url
-                }
+                data=token_request_data
             )
             
             logging.info(f"[{self.provider_name.upper()}] Token exchange status: {response.status_code}")
             
             if response.status_code != 200:
                 logging.error(f"[{self.provider_name.upper()}] Token exchange failed: {response.text}")
+                logging.error(f"[{self.provider_name.upper()}] Response headers: {response.headers}")
                 raise HTTPException(status_code=400, detail=f"{self.provider_name.title()} token exchange failed")
             
             token_data = response.json()
