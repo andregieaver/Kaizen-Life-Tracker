@@ -408,9 +408,14 @@ class StravaService:
             
             return {'success': True}
     
-    async def sync_activities(self, user_id: str, since: Optional[datetime] = None) -> Dict[str, Any]:
+    async def sync_activities(self, user_id: str, since: Optional[datetime] = None, force_full_sync: bool = False) -> Dict[str, Any]:
         """
         Sync activities from Strava to database
+        
+        Args:
+            user_id: The user's ID
+            since: Optional start date for sync
+            force_full_sync: If True, sync all activities from connected_at, ignoring last_sync_at
         """
         connection = await self.db.strava_connections.find_one({'user_id': user_id})
         if not connection:
@@ -418,7 +423,12 @@ class StravaService:
         
         # Determine starting point
         if since is None:
-            since = connection.get('last_sync_at') or connection['connected_at']
+            if force_full_sync:
+                # Full sync from when account was connected
+                since = connection['connected_at']
+            else:
+                # Incremental sync from last sync or connection time
+                since = connection.get('last_sync_at') or connection['connected_at']
             # Ensure since is timezone-aware for timestamp() method
             if since and not since.tzinfo:
                 since = since.replace(tzinfo=timezone.utc)
