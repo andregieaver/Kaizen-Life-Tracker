@@ -6674,6 +6674,19 @@ async def get_training_blocks(athlete_id: str):
         oura_block = oura_service.transform_activity_to_calendar(activity)
         parsed_blocks.append(oura_block)
     
+    # Get Polar activities
+    polar_activities = await db.polar_activities.find(
+        {"user_id": athlete_id},
+        {"_id": 0}
+    ).sort("start_date", 1).to_list(length=None)
+    
+    # Convert Polar activities to training block format
+    polar_service = PolarService(db)
+    for activity in polar_activities:
+        polar_block = polar_service.transform_activity_to_calendar(activity)
+        polar_block["athlete_id"] = athlete_id  # Ensure athlete_id is set
+        parsed_blocks.append(polar_block)
+    
     # Sort all blocks by start_date
     parsed_blocks.sort(key=lambda x: x.get('start_date', ''))
     
