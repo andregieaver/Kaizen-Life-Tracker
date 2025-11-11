@@ -426,9 +426,15 @@ class StravaService:
             since: Optional start date for sync
             force_full_sync: If True, sync all activities from connected_at, ignoring last_sync_at
         """
+        import logging
+        logging.info(f"[SYNC START] user_id={user_id}, force_full_sync={force_full_sync}")
+        
         connection = await self.db.strava_connections.find_one({'user_id': user_id})
         if not connection:
+            logging.error(f"[SYNC ERROR] No Strava connection found for user: {user_id}")
             raise HTTPException(status_code=404, detail="Strava not connected")
+        
+        logging.info(f"[SYNC] Connection found: athlete_id={connection.get('athlete_id')}, connected_at={connection.get('connected_at')}, last_sync_at={connection.get('last_sync_at')}")
         
         # Determine starting point
         if since is None:
@@ -442,12 +448,15 @@ class StravaService:
             if since and not since.tzinfo:
                 since = since.replace(tzinfo=timezone.utc)
         
+        logging.info(f"[SYNC] Fetching activities since: {since} (timestamp: {int(since.timestamp())})")
+        
         # Fetch all activities since last sync
         all_activities = []
         page = 1
         per_page = 200  # Max allowed by Strava
         
         token = await self.get_valid_token(user_id)
+        logging.info(f"[SYNC] Got valid access token")
         
         async with httpx.AsyncClient() as client:
             while True:
