@@ -1291,20 +1291,23 @@ def test_nationality_field_review_request():
 
 def test_strava_oauth_integration_comprehensive():
     """
-    COMPREHENSIVE STRAVA OAUTH INTEGRATION TESTING
+    FINAL STRAVA OAUTH INTEGRATION COMPREHENSIVE TEST
     
-    Test the complete Strava OAuth flow end-to-end with comprehensive validation
-    as requested in the review request.
+    Test Complete Strava OAuth Flow End-to-End as requested in review request.
     
     Test Scenarios:
-    1. Prerequisites Check - Verify system_settings collection has Strava configuration
-    2. OAuth Initiation Test - GET /api/auth/strava?user_id=<test_user_id>
-    3. OAuth State Storage Test - Check strava_oauth_state collection
-    4. Callback Endpoint Accessibility - Test /api/auth/strava/callback endpoint
-    5. Status Endpoint Test - GET /api/auth/strava/status?user_id=<test_user_id>
-    6. Mock Full OAuth Flow (if possible)
+    1. OAuth Initiation - GET /api/auth/strava?user_id=77e6ef02-0c9e-4ede-a428-213b83eed1fe
+    2. Callback Endpoint Reachability - GET /api/auth/strava/callback?code=test_code&state=invalid_state
+    3. Status Endpoint - GET /api/auth/strava/status?user_id=77e6ef02-0c9e-4ede-a428-213b83eed1fe
+    4. Disconnect Endpoint - POST /api/auth/strava/disconnect with user_id
+    
+    Critical Validations:
+    ✅ All endpoints return JSON (not HTML or "404 page not found")
+    ✅ Callback URL in authorization URL includes /api/ prefix
+    ✅ No 404 errors for any Strava endpoint
+    ✅ OAuth state is properly created and stored
     """
-    print("🔍 COMPREHENSIVE STRAVA OAUTH INTEGRATION TESTING")
+    print("🔍 FINAL STRAVA OAUTH INTEGRATION COMPREHENSIVE TEST")
     print("=" * 70)
     
     try:
