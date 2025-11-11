@@ -10,10 +10,12 @@ const API = `${BACKEND_URL}/api`;
 const Merits = ({ athleteId }) => {
   const { t } = useTranslation();
   const [merits, setMerits] = useState([]);
+  const [stravaStats, setStravaStats] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     loadMerits();
+    loadStravaStats();
   }, [athleteId]);
 
   const loadMerits = async () => {
@@ -26,6 +28,16 @@ const Merits = ({ athleteId }) => {
       setMerits([]);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const loadStravaStats = async () => {
+    try {
+      const response = await axios.get(`${API}/integrations/strava/${athleteId}/stats`);
+      setStravaStats(response.data);
+    } catch (error) {
+      // Silently fail - Strava might not be connected
+      setStravaStats(null);
     }
   };
 
