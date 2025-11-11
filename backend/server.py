@@ -7827,19 +7827,28 @@ async def oura_auth_initiate(athlete_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.post("/integrations/oura/{athlete_id}/sync")
-async def sync_oura_data(athlete_id: str):
-    """Manually sync data from Oura Ring"""
+async def sync_oura_data(athlete_id: str, force_full: bool = False):
+    """
+    Manually sync data from Oura Ring - now uses OuraService
+    """
     try:
-        imported_sleep = await oura_data_manager.import_sleep_data_to_db(athlete_id)
-        return {
-            "message": "Oura sync completed", 
-            "imported_sleep_records": imported_sleep
-        }
+        logging.info(f"[OURA SYNC] Initiating sync for user: {athlete_id}, force_full={force_full}")
+        
+        service = OuraService(db)
+        await service.load_settings()
+        result = await service.sync_activities(athlete_id, force_full_sync=force_full)
+        
+        logging.info(f"[OURA SYNC] Completed: {result}")
+        return result
+        
     except HTTPException:
         raise
     except Exception as e:
+        import traceback
+        error_traceback = traceback.format_exc()
         logging.error(f"Oura sync error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Failed to sync Oura data")
+        logging.error(f"Traceback: {error_traceback}")
+        raise HTTPException(status_code=500, detail=str(e) or f"Sync failed: {type(e).__name__}")
 
 @api_router.get("/integrations/oura/{athlete_id}/status")
 async def get_oura_integration_status(athlete_id: str):
