@@ -16546,7 +16546,7 @@ async def sync_strava_activities(request: Request):
 # STRAVA WEBHOOKS
 # ============================================================================
 
-@app.get("/api/webhook/strava")
+@api_router.get("/webhook/strava")
 async def strava_webhook_verify(request: Request):
     """
     Verify webhook subscription (Strava's challenge)
