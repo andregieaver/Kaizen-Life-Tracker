@@ -7822,8 +7822,8 @@ async def oura_auth_callback(
     except HTTPException:
         raise
     except Exception as e:
-        logging.error(f"Oura callback error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Failed to complete Oura authorization")
+        logging.error(f"[OURA] Callback error: {e}", exc_info=True)
+        return RedirectResponse(url=f"/dashboard/account?tab=integrations&oura=error")
 
 @api_router.post("/integrations/oura/{athlete_id}/sync")
 async def sync_oura_data(athlete_id: str):
