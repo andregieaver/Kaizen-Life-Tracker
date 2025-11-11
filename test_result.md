@@ -130,6 +130,18 @@ frontend:
         comment: "THIRD FIX - ROOT CAUSE FINALLY IDENTIFIED! Console logs revealed NO debug output from dynamic menu items, meaning the app is using FALLBACK menu items (menuItems.header_logged_in.length === 0), not menu editor items. The fallback menu items (lines 740-830) were still using OLD logic: data-active={activeTab === 'account'} instead of location.pathname comparison. This is why Account remained highlighted - activeTab was still 'account' even after navigating to Today. COMPREHENSIVE FIX IMPLEMENTED: 1) Updated all 5 fallback header menu items (lines 747-829) to use location.pathname comparison instead of activeTab. 2) Updated all 5 bottom tab bar items (lines 1697-1897) to use location.pathname comparison. 3) Added special case for dashboard root (/dashboard or /dashboard/overview) to match overview tab. 4) Removed debug logging (no longer needed). RESULT: Both fallback header menu AND bottom navbar now use consistent location.pathname logic. When URL is /dashboard/today, only Today button gets data-active=true. When URL is /dashboard/account, only Account button gets data-active=true. Glass bubble will now position correctly on ALL navigation. Frontend recompiled successfully. TESTING NEEDED: Navigate between pages and verify glass bubble follows correctly."
 
 backend:
+  - task: "Polar Integration - Training Calendar, AI Coach, and Data Display"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py, /app/frontend/src/components/TrainingCalendar.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "POLAR INTEGRATION IMPLEMENTATION - Added Polar activities to training calendar, AI coach context, and frontend display. BACKEND CHANGES: 1) Updated training calendar endpoint (/api/training-calendar/{athlete_id}) to fetch polar_activities from database and transform them using PolarService.transform_activity_to_calendar() method, similar to Strava and Oura integration. 2) Added polar_activities to AI Coach context in get_athlete_context() method (last 50 activities). FRONTEND CHANGES: 1) Updated TrainingCalendar.js EventComponent to detect Polar activities (isPolar = block.source === 'polar'), 2) Added red background color (bg-red-500) for Polar activities, 3) Added snowflake emoji (❄️) as source icon for Polar, 4) Added heart rate display for Polar activities (block.polar_data?.heart_rate_avg). EXISTING INFRASTRUCTURE: Backend PolarService is fully implemented with all methods (fetch_user_profile, fetch_activities, transform_activity_to_calendar, get_stats), generic OAuth endpoints work for Polar (/api/auth/polar, /api/auth/polar/callback, /api/integrations/polar/{user_id}/sync), frontend Account.js has Polar integration card with sync buttons. Backend restarted successfully. TESTING NEEDED: 1) Verify Polar credentials can be set in System Settings, 2) Test Polar OAuth connection flow, 3) Test Polar data sync (incremental and full), 4) Verify Polar activities appear in training calendar with red color and heart rate data, 5) Verify AI Coach can access Polar activities in context."
+
   - task: "Strava Credential Retrieval Fix"
     implemented: true
     working: true
