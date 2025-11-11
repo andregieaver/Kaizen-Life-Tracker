@@ -46,6 +46,7 @@ from video_processor import process_and_save_video
 # Import integration services
 from strava_service import StravaService
 from oura_service import OuraService
+from polar_service import PolarService
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
