@@ -13049,18 +13049,18 @@ def test_strava_callback_domain_update():
         return False
 
 def main():
-    """Main function to run Suunto integration testing"""
-    print("🚀 STARTING SUUNTO INTEGRATION BACKEND TESTING")
+    """Main function to run Garmin OAuth 1.0a integration testing"""
+    print("🚀 STARTING GARMIN OAUTH 1.0a BACKEND TESTING")
     print("=" * 70)
     
-    success = test_suunto_integration_comprehensive()
+    success = test_garmin_oauth_1_0a_integration()
     
     if success:
-        print("\n🎉 ALL SUUNTO INTEGRATION TESTS PASSED!")
+        print("\n🎉 ALL GARMIN OAUTH 1.0a TESTS PASSED!")
     else:
-        print("\n❌ SOME SUUNTO INTEGRATION TESTS FAILED!")
+        print("\n❌ SOME GARMIN OAUTH 1.0a TESTS FAILED!")
         sys.exit(1)
 
 if __name__ == "__main__":
-    # Run the Suunto integration test as requested in review
+    # Run the Garmin OAuth 1.0a integration test as requested in review
     main()
