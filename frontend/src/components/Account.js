@@ -54,7 +54,8 @@ import {
   ShoppingCart,
   FileText,
   Menu,
-  HelpCircle
+  HelpCircle,
+  RefreshCw
 } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
