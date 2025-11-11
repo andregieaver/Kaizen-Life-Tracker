@@ -132,8 +132,13 @@ class StravaService:
         if not oauth_state:
             raise HTTPException(status_code=400, detail="Invalid or expired OAuth state")
         
-        # Check expiration
-        if datetime.now(timezone.utc) > oauth_state['expires_at']:
+        # Check expiration - ensure both datetimes are timezone-aware
+        expires_at = oauth_state['expires_at']
+        if not expires_at.tzinfo:
+            # If stored datetime is naive, assume UTC
+            expires_at = expires_at.replace(tzinfo=timezone.utc)
+        
+        if datetime.now(timezone.utc) > expires_at:
             await self.db.strava_oauth_state.delete_one({'_id': oauth_state['_id']})
             raise HTTPException(status_code=400, detail="OAuth state expired")
         
