@@ -1725,6 +1725,7 @@ Return only the JSON array, nothing else.
             "strava_activities": strava_activities,
             "oura_activities": oura_activities,
             "polar_activities": polar_activities,
+            "fitbit_activities": fitbit_activities,
             "supplements": supplements,
             "supplement_logs": supplement_logs,
             "documents": documents,
