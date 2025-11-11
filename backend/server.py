@@ -16303,8 +16303,15 @@ async def strava_auth_start(user_id: str):
     Returns authorization URL for user to visit
     """
     try:
+        print(f"🟢 [STRAVA AUTH START] user_id={user_id}")
+        logging.info(f"[STRAVA AUTH START] Initiating OAuth for user: {user_id}")
+        
         strava_service = StravaService(db)
         auth_data = await strava_service.get_authorization_url(user_id)
+        
+        print(f"🟢 [STRAVA AUTH START] Generated auth URL for user {user_id}")
+        print(f"🟢 [STRAVA AUTH START] Callback URL will be: {auth_data['url'].split('redirect_uri=')[1].split('&')[0] if 'redirect_uri=' in auth_data['url'] else 'N/A'}")
+        logging.info(f"[STRAVA AUTH START] Auth URL generated successfully")
         
         # Return the authorization URL - frontend will redirect user
         return {
@@ -16314,6 +16321,7 @@ async def strava_auth_start(user_id: str):
     except HTTPException:
         raise
     except Exception as e:
+        print(f"🔴 [STRAVA AUTH START ERROR] {type(e).__name__}: {str(e)}")
         logging.error(f"Error starting Strava auth: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
