@@ -7389,7 +7389,7 @@ async def save_voice_conversation(voice_conversation: VoiceConversation):
         raise HTTPException(status_code=500, detail=f"Failed to save voice conversation: {str(e)}")
 
 # Strava OAuth routes
-@api_router.get("/auth/strava/callback")
+@app.get("/auth/strava/callback")
 async def strava_auth_callback(
     code: str = Query(None),
     state: str = Query(None),
