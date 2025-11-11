@@ -16676,7 +16676,7 @@ async def strava_webhook_event(request: Request):
         return {'received': True, 'error': str(e)}
 
 
-@app.post("/api/strava/webhook/create")
+@api_router.post("/strava/webhook/create")
 async def create_strava_webhook():
     """
     Create a new webhook subscription (admin only)
