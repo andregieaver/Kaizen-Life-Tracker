@@ -2419,6 +2419,7 @@ RECENT ACTIVITY SUMMARY:
 - Journal: {journal_summary}
 - Nutrition: {nutrition_summary}
 - Strava: {strava_summary}
+- Oura Ring: {oura_summary}
 - Supplements: {supplement_summary}
 - Documents: {doc_summary}
 - Tests: {test_summary}
