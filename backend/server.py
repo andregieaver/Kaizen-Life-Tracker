@@ -7800,53 +7800,27 @@ async def oura_auth_callback(
     state: str = Query(None),
     error: str = Query(None)
 ):
-    """Handle Oura OAuth callback"""
-    if error:
-        raise HTTPException(status_code=400, detail=f"Oura authorization failed: {error}")
-    
-    if not code or not state:
-        raise HTTPException(status_code=400, detail="Missing authorization code or state")
-    
+    """
+    OLD ENDPOINT - Now uses new OuraService and redirects properly
+    Handle Oura OAuth callback
+    """
     try:
-        # Extract athlete_id from state
-        athlete_id = state.split('_')[0]
+        if error:
+            logging.error(f"[OURA] OAuth error: {error}")
+            return RedirectResponse(url=f"/dashboard/account?tab=integrations&oura=error")
         
-        # Exchange code for tokens
-        tokens = await oura_token_manager.exchange_code_for_tokens(code)
+        if not code or not state:
+            raise HTTPException(status_code=400, detail="Missing code or state parameter")
         
-        # Store Oura integration
-        integration = Integration(
-            athlete_id=athlete_id,
-            integration_type="oura",
-            credentials={
-                "access_token": tokens["access_token"],
-                "refresh_token": tokens["refresh_token"],
-                "expires_at": tokens["expires_at"],
-                "token_type": tokens.get("token_type", "Bearer")
-            },
-            settings={
-                "auto_sync": True,
-                "sync_sleep": True,
-                "sync_readiness": True,
-                "sync_heart_rate": True
-            }
-        )
+        # Use new OuraService
+        service = OuraService(db)
+        result = await service.exchange_code_for_tokens(code, state)
         
-        await db.integrations.update_one(
-            {"athlete_id": athlete_id, "integration_type": "oura"},
-            {"$set": prepare_for_mongo(integration.model_dump())},
-            upsert=True
-        )
+        logging.info(f"[OURA] Successfully connected for user: {result['user_id']}")
+        return RedirectResponse(url=f"/dashboard/account?tab=integrations&oura=connected")
         
-        # Import recent sleep and readiness data
-        imported_sleep = await oura_data_manager.import_sleep_data_to_db(athlete_id)
-        
-        return {
-            "message": "Oura connected successfully", 
-            "athlete_id": athlete_id,
-            "imported_sleep_records": imported_sleep
-        }
-        
+    except HTTPException:
+        raise
     except Exception as e:
         logging.error(f"Oura callback error: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to complete Oura authorization")
