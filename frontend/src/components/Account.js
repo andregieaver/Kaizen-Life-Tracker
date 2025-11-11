@@ -1567,6 +1567,35 @@ const Account = ({ athleteId }) => {
     }
   };
 
+  const handleGenericSync = async (provider, fullSync = false) => {
+    try {
+      const syncType = fullSync ? 'all data (full history)' : 'new data';
+      const providerName = provider.charAt(0).toUpperCase() + provider.slice(1);
+      setSaveStatus({ type: 'info', message: `Syncing ${syncType} from ${providerName}...` });
+      
+      // Use force_full parameter only when fullSync is true
+      const url = fullSync 
+        ? `${API}/integrations/${provider}/${athleteId}/sync?force_full=true`
+        : `${API}/integrations/${provider}/${athleteId}/sync`;
+      
+      const response = await axios.post(url);
+      const imported = response.data.imported || 0;
+      const total = response.data.total_activities || 0;
+      
+      setSaveStatus({ 
+        type: 'success', 
+        message: `Sync completed! Found ${total} activities, imported ${imported} new ones.` 
+      });
+      setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
+      
+      // Reload integrations to update last sync time
+      loadAccountData();
+    } catch (error) {
+      console.error(`Error syncing ${provider} data:`, error);
+      setSaveStatus({ type: 'error', message: `Failed to sync ${provider} data` });
+    }
+  };
+
   const handleCorosConnect = async () => {
     try {
       setSaveStatus({ type: 'info', message: 'Connecting to COROS...' });
