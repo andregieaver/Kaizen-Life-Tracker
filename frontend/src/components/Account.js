@@ -2152,7 +2152,9 @@ const Account = ({ athleteId }) => {
           data-testid="preferences-tab"
         >
           <span className="hidden sm:inline">{t('account.preferences')}</span>
-          <span className="sm:hidden">{t('account.preferences')}</span>
+          <span className="sm:hidden flex items-center justify-center">
+            <Settings className="w-5 h-5" />
+          </span>
         </button>
         <button
           type="button"
