@@ -1480,13 +1480,20 @@ const Account = ({ athleteId }) => {
     }
   };
 
-  const handleStravaSync = async () => {
+  const handleStravaSync = async (fullSync = false) => {
     try {
-      setSaveStatus({ type: 'info', message: 'Syncing all activities from Strava (including history)...' });
-      // Use force_full=true to sync ALL activities, not just recent ones
-      const response = await axios.post(`${API}/integrations/strava/${athleteId}/sync?force_full=true`);
+      const syncType = fullSync ? 'all activities (full history)' : 'new activities';
+      setSaveStatus({ type: 'info', message: `Syncing ${syncType} from Strava...` });
+      
+      // Use force_full parameter only when fullSync is true
+      const url = fullSync 
+        ? `${API}/integrations/strava/${athleteId}/sync?force_full=true`
+        : `${API}/integrations/strava/${athleteId}/sync`;
+      
+      const response = await axios.post(url);
       const imported = response.data.imported || 0;
       const total = response.data.total_activities || 0;
+      
       setSaveStatus({ 
         type: 'success', 
         message: `Sync completed! Found ${total} activities, imported ${imported} new ones.` 
