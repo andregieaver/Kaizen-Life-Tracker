@@ -118,7 +118,7 @@ const IntegrationCard = ({
               <CheckCircle className="w-3 h-3 mr-1" />
               {t('account.connected')}
             </Badge>
-            {onSync && (provider === 'strava' || provider === 'oura' || provider === 'polar' || provider === 'fitbit' || provider === 'garmin' || provider === 'coros' || provider === 'whoop') && (
+            {onSync && (provider === 'strava' || provider === 'oura' || provider === 'polar' || provider === 'fitbit' || provider === 'garmin' || provider === 'coros' || provider === 'whoop' || provider === 'suunto') && (
               <div className="relative">
                 <Button
                   variant="outline"
