@@ -1370,7 +1370,7 @@ def test_strava_oauth_integration_comprehensive():
             return False
         
         oauth_data = oauth_initiate_response.json()
-        auth_url = oauth_data.get("authUrl")
+        auth_url = oauth_data.get("authUrl") or oauth_data.get("authorization_url")
         state = oauth_data.get("state")
         
         if not auth_url or not state:
