@@ -8709,15 +8709,41 @@ class PolarConnector(ProviderConnector):
             logging.error(f"Traceback: {traceback.format_exc()}")
             raise HTTPException(status_code=500, detail=str(e))
 
+# Fitbit Connector (delegates to FitbitService)
+class FitbitConnector(ProviderConnector):
+    def __init__(self):
+        super().__init__("fitbit", "Fitbit", "oauth2")
+    
+    async def begin_auth(self, user_id: str):
+        """Begin Fitbit OAuth flow - delegates to FitbitService"""
+        try:
+            logging.info(f"[FITBIT CONNECTOR] Starting auth for user: {user_id}")
+            fitbit_service = FitbitService(db)
+            scopes = ["activity", "heartrate", "sleep", "profile", "weight", "nutrition"]
+            auth_url = await fitbit_service.get_authorization_url(user_id, scopes)
+            
+            logging.info(f"[FITBIT CONNECTOR] Authorization URL generated: {auth_url}")
+            return {
+                "authorization_url": auth_url,
+                "provider": "fitbit"
+            }
+        except Exception as e:
+            import traceback
+            logging.error(f"Error in FitbitConnector.begin_auth: {e}")
+            logging.error(f"Traceback: {traceback.format_exc()}")
+            raise HTTPException(status_code=500, detail=str(e))
+
 # Initialize connectors
 strava_connector = StravaConnector()
 oura_connector = OuraConnector()
 polar_connector = PolarConnector()
+fitbit_connector = FitbitConnector()
 
 connectors = {
     "strava": strava_connector,
     "oura": oura_connector,
-    "polar": polar_connector
+    "polar": polar_connector,
+    "fitbit": fitbit_connector
 }
 
 # Hub API Endpoints
