@@ -136,8 +136,7 @@ class BaseIntegrationService(ABC):
         user_id = oauth_state["user_id"]
         
         # Load settings
-        await self.load_settings()
-        provider_config = self.system_settings.get(self.provider_name.lower())
+        provider_config = await self.load_settings()
         callback_url = self.get_callback_url(provider_config)
         
         # Exchange code for token
