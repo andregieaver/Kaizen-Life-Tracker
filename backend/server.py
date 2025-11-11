@@ -8538,9 +8538,17 @@ class OuraConnector(ProviderConnector):
             service = OuraService(db)
             scopes = ["email", "personal", "daily", "heartrate", "workout", "session", "tag", "spo2"]
             auth_url = await service.get_authorization_url(user_id, scopes)
+            
+            if not auth_url:
+                raise HTTPException(status_code=500, detail="Failed to generate authorization URL")
+            
             return {"authorization_url": auth_url}
+        except HTTPException:
+            raise
         except Exception as e:
+            import traceback
             logging.error(f"Error in OuraConnector.begin_auth: {e}")
+            logging.error(f"Traceback: {traceback.format_exc()}")
             raise HTTPException(status_code=500, detail=str(e))
     
     async def normalize_daily(self, raw_event: dict) -> Optional[dict]:
