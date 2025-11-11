@@ -17081,7 +17081,8 @@ async def start_integration_auth(provider: str, user_id: str):
         # Provider-specific scopes
         scopes_map = {
             "strava": ["read", "activity:read_all", "profile:read_all"],
-            "oura": ["daily", "heartrate", "workout", "tag", "personal", "session"]
+            "oura": ["daily", "heartrate", "workout", "tag", "personal", "session"],
+            "polar": ["accesslink.read_all"]
         }
         
         scopes = scopes_map.get(provider, [])
