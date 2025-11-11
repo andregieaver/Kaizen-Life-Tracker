@@ -8530,33 +8530,18 @@ class OuraConnector(ProviderConnector):
         super().__init__("oura", "Oura Ring", "oauth2")
     
     async def begin_auth(self, user_id: str) -> dict:
-        state = f"{user_id}_{secrets.token_urlsafe(16)}"
-        
-        # Get client credentials
-        client_id = os.environ.get('OURA_CLIENT_ID')
-        if not client_id:
-            integration = await db.integrations.find_one({
-                "athlete_id": user_id, 
-                "integration_type": "oura"
-            })
-            if integration and integration.get("credentials"):
-                client_id = integration["credentials"].get("client_id")
-        
-        if not client_id:
-            raise HTTPException(status_code=400, detail="Oura credentials not configured")
-        
-        redirect_uri = f"{os.environ.get('BACKEND_URL', 'http://localhost:8001')}/api/auth/oura/callback"
-        
-        auth_params = {
-            "response_type": "code",
-            "client_id": client_id,
-            "redirect_uri": redirect_uri,
-            "scope": "email personal daily heartrate workout session tag spo2",
-            "state": state
-        }
-        
-        auth_url = f"https://cloud.ouraring.com/oauth/authorize?{urlencode(auth_params)}"
-        return {"authorization_url": auth_url, "state": state}
+        """
+        OLD CONNECTOR - This should use the new OuraService instead
+        Kept for backward compatibility, now delegates to OuraService
+        """
+        try:
+            service = OuraService(db)
+            scopes = ["email", "personal", "daily", "heartrate", "workout", "session", "tag", "spo2"]
+            auth_url = await service.get_authorization_url(user_id, scopes)
+            return {"authorization_url": auth_url}
+        except Exception as e:
+            logging.error(f"Error in OuraConnector.begin_auth: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
     
     async def normalize_daily(self, raw_event: dict) -> Optional[dict]:
         """Normalize Oura daily data to standard format"""
