@@ -7773,27 +7773,6 @@ async def save_oura_credentials(athlete_id: str, credentials: OuraCredentials):
         print(f"Error saving Oura credentials: {e}")
         raise HTTPException(status_code=500, detail="Failed to save Oura credentials")
 
-@api_router.get("/auth/oura/{athlete_id}")
-async def oura_auth_initiate(athlete_id: str):
-    """
-    OLD ENDPOINT - Redirect to new generic integration endpoint
-    This endpoint is kept for backward compatibility but uses the new OuraService
-    """
-    try:
-        # Use the new generic service
-        service = OuraService(db)
-        scopes = ["email", "personal", "daily", "heartrate", "workout", "session", "tag", "spo2"]
-        auth_url = await service.get_authorization_url(athlete_id, scopes)
-        
-        logging.info(f"[OURA] Authorization URL generated for user: {athlete_id}")
-        return {"authorization_url": auth_url}
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        logging.error(f"Error starting Oura auth: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
 @api_router.get("/auth/oura/callback")
 async def oura_auth_callback(
     code: str = Query(None),
