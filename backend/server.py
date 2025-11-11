@@ -8437,6 +8437,10 @@ async def begin_provider_auth(provider_key: str, user_id: str = Query(...)):
 @api_router.post("/auth/{provider_key}/callback")
 async def handle_provider_callback(provider_key: str, request: Request):
     """Handle OAuth callback from provider"""
+    # Skip Strava - it has its own dedicated callback handler
+    if provider_key == "strava":
+        raise HTTPException(status_code=404, detail="Use dedicated Strava callback endpoint")
+    
     if provider_key not in connectors:
         raise HTTPException(status_code=404, detail="Provider not found")
     
