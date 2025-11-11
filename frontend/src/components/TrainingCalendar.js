@@ -434,10 +434,17 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
   const EventComponent = ({ event }) => {
     const block = event.resource;
     const isTraining = block.block_type === 'training';
+    const isStrava = block.source === 'strava';
+    
+    // Different colors for different sources
+    const bgColor = isStrava ? 'bg-orange-500' : (isTraining ? 'bg-blue-500' : 'bg-green-500');
     
     return (
-      <div className={`p-2 text-xs ${isTraining ? 'bg-blue-500' : 'bg-green-500'} text-white rounded hover:shadow-lg transition-all cursor-pointer`}>
-        <div className="font-medium truncate">{block.title}</div>
+      <div className={`p-2 text-xs ${bgColor} text-white rounded hover:shadow-lg transition-all cursor-pointer`}>
+        <div className="flex items-center gap-1">
+          {isStrava && <span className="text-[10px] font-bold">🏃</span>}
+          <div className="font-medium truncate flex-1">{block.title}</div>
+        </div>
         <div className="flex items-center gap-2 text-xs mt-1 flex-wrap">
           {block.distance && (
             <div className="flex items-center gap-1">
@@ -455,6 +462,12 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
             <div className="flex items-center gap-1">
               <Timer className="w-3 h-3" />
               <span>{block.pace_per_unit}</span>
+            </div>
+          )}
+          {isStrava && block.strava_data?.average_heartrate && (
+            <div className="flex items-center gap-1">
+              <Heart className="w-3 h-3" />
+              <span>{Math.round(block.strava_data.average_heartrate)}</span>
             </div>
           )}
         </div>
