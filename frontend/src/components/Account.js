@@ -3715,6 +3715,20 @@ const Account = ({ athleteId }) => {
                   t={t}
                 />
                 
+                {/* Fitbit */}
+                <IntegrationCard
+                  provider="fitbit"
+                  name="Fitbit"
+                  description="Connect your Fitbit device to sync activities, sleep, heart rate, and health data"
+                  icon={<Activity className="w-8 h-8 text-teal-500" />}
+                  connected={integrations.fitbit?.connected || false}
+                  connectionInfo={integrations.fitbit}
+                  onConnect={() => handleSimpleConnect('fitbit')}
+                  onDisconnect={() => handleDisconnectIntegration('fitbit')}
+                  onSync={(fullSync) => handleGenericSync('fitbit', fullSync)}
+                  t={t}
+                />
+                
                 {/* COROS */}
                 <IntegrationCard
                   provider="coros"
