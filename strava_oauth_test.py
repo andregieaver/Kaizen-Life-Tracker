@@ -5,9 +5,9 @@ FINAL STRAVA OAUTH INTEGRATION COMPREHENSIVE TEST
 Test Complete Strava OAuth Flow End-to-End as requested in review request.
 
 Test Scenarios:
-1. OAuth Initiation - GET /api/auth/strava?user_id=77e6ef02-0c9e-4ede-a428-213b83eed1fe
+1. OAuth Initiation - GET /api/auth/strava?user_id=ai-coach-connect-1
 2. Callback Endpoint Reachability - GET /api/auth/strava/callback?code=test_code&state=invalid_state
-3. Status Endpoint - GET /api/auth/strava/status?user_id=77e6ef02-0c9e-4ede-a428-213b83eed1fe
+3. Status Endpoint - GET /api/auth/strava/status?user_id=ai-coach-connect-1
 4. Disconnect Endpoint - POST /api/auth/strava/disconnect with user_id
 
 Critical Validations:
@@ -23,7 +23,7 @@ import sys
 from urllib.parse import urlparse, parse_qs
 
 # Backend URL from environment
-BACKEND_URL = "https://train-multilingual.preview.emergentagent.com/api"
+BACKEND_URL = "https://ai-coach-connect-1.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""
@@ -42,7 +42,7 @@ def main():
         
         print(f"   Using test_user_id: {test_user_id}")
         
-        # Test 1: OAuth Initiation - GET /api/auth/strava?user_id=77e6ef02-0c9e-4ede-a428-213b83eed1fe
+        # Test 1: OAuth Initiation - GET /api/auth/strava?user_id=ai-coach-connect-1
         print("\n   Test 1: OAuth Initiation - GET /api/auth/strava?user_id={user_id}")
         
         oauth_url = f"{BACKEND_URL}/auth/strava?user_id={test_user_id}"
@@ -120,7 +120,7 @@ def main():
         else:
             print_test_result("Callback Endpoint Reachability", False, f"Unexpected response: {callback_response.status_code}")
         
-        # Test 3: Status Endpoint - GET /api/auth/strava/status?user_id=77e6ef02-0c9e-4ede-a428-213b83eed1fe
+        # Test 3: Status Endpoint - GET /api/auth/strava/status?user_id=ai-coach-connect-1
         print("\n   Test 3: Status Endpoint")
         
         status_url = f"{BACKEND_URL}/auth/strava/status?user_id={test_user_id}"

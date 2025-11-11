@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 from PIL import Image
 
 # Backend URL from environment
-BACKEND_URL = "https://train-multilingual.preview.emergentagent.com/api"
+BACKEND_URL = "https://ai-coach-connect-1.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""
@@ -1296,9 +1296,9 @@ def test_strava_oauth_integration_comprehensive():
     Test Complete Strava OAuth Flow End-to-End as requested in review request.
     
     Test Scenarios:
-    1. OAuth Initiation - GET /api/auth/strava?user_id=77e6ef02-0c9e-4ede-a428-213b83eed1fe
+    1. OAuth Initiation - GET /api/auth/strava?user_id=ai-coach-connect-1
     2. Callback Endpoint Reachability - GET /api/auth/strava/callback?code=test_code&state=invalid_state
-    3. Status Endpoint - GET /api/auth/strava/status?user_id=77e6ef02-0c9e-4ede-a428-213b83eed1fe
+    3. Status Endpoint - GET /api/auth/strava/status?user_id=ai-coach-connect-1
     4. Disconnect Endpoint - POST /api/auth/strava/disconnect with user_id
     
     Critical Validations:
@@ -1316,7 +1316,7 @@ def test_strava_oauth_integration_comprehensive():
         
         print(f"   Using test_user_id: {test_user_id}")
         
-        # Test 1: OAuth Initiation - GET /api/auth/strava?user_id=77e6ef02-0c9e-4ede-a428-213b83eed1fe
+        # Test 1: OAuth Initiation - GET /api/auth/strava?user_id=ai-coach-connect-1
         print("   Test 1: OAuth Initiation - GET /api/auth/strava?user_id={user_id}")
         
         oauth_url = f"{BACKEND_URL}/auth/strava?user_id={test_user_id}"
@@ -1392,7 +1392,7 @@ def test_strava_oauth_integration_comprehensive():
         else:
             print_test_result("Callback Endpoint Reachability", False, f"Unexpected response: {callback_response.status_code}")
         
-        # Test 3: Status Endpoint - GET /api/auth/strava/status?user_id=77e6ef02-0c9e-4ede-a428-213b83eed1fe
+        # Test 3: Status Endpoint - GET /api/auth/strava/status?user_id=ai-coach-connect-1
         print("\n   Test 3: Status Endpoint")
         
         status_url = f"{BACKEND_URL}/auth/strava/status?user_id={test_user_id}"
@@ -7540,7 +7540,7 @@ def test_image_upload_endpoint_with_processing():
         print("   Step 9: URL Format and Backend URL Verification")
         
         # Check if URLs use the correct backend URL from environment
-        backend_url = "https://train-multilingual.preview.emergentagent.com"  # From frontend/.env
+        backend_url = "https://ai-coach-connect-1.preview.emergentagent.com"  # From frontend/.env
         
         sample_url = single_image_url
         if sample_url.startswith(backend_url) and "/uploads/images/" in sample_url:
@@ -7695,7 +7695,7 @@ def test_referral_system_comprehensive_edge_cases():
         # Create checkout session with no rewards
         zero_rewards_checkout = {
             "plan_id": "pro_monthly",
-            "origin_url": "https://train-multilingual.preview.emergentagent.com",
+            "origin_url": "https://ai-coach-connect-1.preview.emergentagent.com",
             "athlete_id": referred_athlete_id
         }
         
@@ -7715,7 +7715,7 @@ def test_referral_system_comprehensive_edge_cases():
         
         invalid_checkout = {
             "plan_id": "pro_monthly",
-            "origin_url": "https://train-multilingual.preview.emergentagent.com",
+            "origin_url": "https://ai-coach-connect-1.preview.emergentagent.com",
             "athlete_id": referred_athlete_id,
             "referral_code": "INVALID_CODE_12345"
         }
@@ -7744,7 +7744,7 @@ def test_referral_system_comprehensive_edge_cases():
             # Try to use own referral code
             self_checkout = {
                 "plan_id": "pro_monthly",
-                "origin_url": "https://train-multilingual.preview.emergentagent.com",
+                "origin_url": "https://ai-coach-connect-1.preview.emergentagent.com",
                 "athlete_id": referrer_athlete_id,
                 "referral_code": self_referral_code
             }
@@ -7922,7 +7922,7 @@ def test_referral_system_comprehensive_edge_cases():
                     # We'll use the same referred_athlete_id but with different referral codes
                     additional_checkout_request = {
                         "plan_id": "pro_monthly",
-                        "origin_url": "https://train-multilingual.preview.emergentagent.com",
+                        "origin_url": "https://ai-coach-connect-1.preview.emergentagent.com",
                         "athlete_id": f"test-athlete-{i}",  # Fake athlete ID for testing
                         "referral_code": additional_referral_code
                     }
@@ -8018,7 +8018,7 @@ def test_referral_system_comprehensive_edge_cases():
         
         invalid_checkout_request = {
             "plan_id": "pro_monthly",
-            "origin_url": "https://train-multilingual.preview.emergentagent.com",
+            "origin_url": "https://ai-coach-connect-1.preview.emergentagent.com",
             "athlete_id": referred_athlete_id,
             "referral_code": "INVALID_CODE_123"
         }
@@ -8207,7 +8207,7 @@ def test_referral_discount_functionality():
         try:
             checkout_request_with_referral = {
                 "plan_id": "pro_monthly",
-                "origin_url": "https://train-multilingual.preview.emergentagent.com",
+                "origin_url": "https://ai-coach-connect-1.preview.emergentagent.com",
                 "athlete_id": referred_athlete_id,
                 "referral_code": test_referral_code
             }
@@ -8252,7 +8252,7 @@ def test_referral_discount_functionality():
             try:
                 checkout_request_without_referral = {
                     "plan_id": "pro_monthly",
-                    "origin_url": "https://train-multilingual.preview.emergentagent.com",
+                    "origin_url": "https://ai-coach-connect-1.preview.emergentagent.com",
                     "athlete_id": referred_athlete_id
                     # No referral_code field
                 }
@@ -8287,7 +8287,7 @@ def test_referral_discount_functionality():
             try:
                 checkout_request_invalid_referral = {
                     "plan_id": "pro_monthly",
-                    "origin_url": "https://train-multilingual.preview.emergentagent.com",
+                    "origin_url": "https://ai-coach-connect-1.preview.emergentagent.com",
                     "athlete_id": referred_athlete_id,
                     "referral_code": "INVALID_CODE_12345"
                 }
@@ -8345,7 +8345,7 @@ def test_referral_discount_functionality():
             # Test with referral_code
             valid_request_with_referral = {
                 "plan_id": "pro_monthly",
-                "origin_url": "https://train-multilingual.preview.emergentagent.com",
+                "origin_url": "https://ai-coach-connect-1.preview.emergentagent.com",
                 "athlete_id": referred_athlete_id,
                 "referral_code": test_referral_code
             }
@@ -8353,7 +8353,7 @@ def test_referral_discount_functionality():
             # Test without referral_code
             valid_request_without_referral = {
                 "plan_id": "pro_monthly", 
-                "origin_url": "https://train-multilingual.preview.emergentagent.com",
+                "origin_url": "https://ai-coach-connect-1.preview.emergentagent.com",
                 "athlete_id": referred_athlete_id
             }
             
