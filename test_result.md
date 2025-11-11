@@ -132,11 +132,11 @@ frontend:
 backend:
   - task: "Polar Integration - Training Calendar, AI Coach, and Data Display"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py, /app/frontend/src/components/TrainingCalendar.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
