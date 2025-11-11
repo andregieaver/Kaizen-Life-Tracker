@@ -245,8 +245,13 @@ class StravaService:
         if not connection:
             raise HTTPException(status_code=404, detail="Strava not connected")
         
+        # Ensure expires_at is timezone-aware
+        expires_at = connection['expires_at']
+        if not expires_at.tzinfo:
+            expires_at = expires_at.replace(tzinfo=timezone.utc)
+        
         # Check if token needs refresh (refresh 5 minutes before expiry)
-        if datetime.now(timezone.utc) >= connection['expires_at'] - timedelta(minutes=5):
+        if datetime.now(timezone.utc) >= expires_at - timedelta(minutes=5):
             token_data = await self.refresh_access_token(user_id)
             return token_data['access_token']
         
