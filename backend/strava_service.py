@@ -414,6 +414,9 @@ class StravaService:
         # Determine starting point
         if since is None:
             since = connection.get('last_sync_at') or connection['connected_at']
+            # Ensure since is timezone-aware for timestamp() method
+            if since and not since.tzinfo:
+                since = since.replace(tzinfo=timezone.utc)
         
         # Fetch all activities since last sync
         all_activities = []
