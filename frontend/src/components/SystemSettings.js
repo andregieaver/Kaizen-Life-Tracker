@@ -450,13 +450,19 @@ const SystemSettings = ({ athleteId }) => {
             clientSecret: response.data.advanced.coros?.clientSecret || '',
             callbackDomain: response.data.advanced.coros?.callbackDomain || ''
           },
+          whoop: {
+            clientId: response.data.advanced.whoop?.clientId || '',
+            clientSecret: response.data.advanced.whoop?.clientSecret || '',
+            callbackDomain: response.data.advanced.whoop?.callbackDomain || ''
+          },
           showStravaSecret: false,
           showStravaVerifyToken: false,
           showOuraSecret: false,
           showPolarSecret: false,
           showFitbitSecret: false,
           showGarminSecret: false,
-          showCorosSecret: false
+          showCorosSecret: false,
+          showWhoopSecret: false
         }));
       }
       
