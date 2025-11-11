@@ -2204,7 +2204,9 @@ const Account = ({ athleteId }) => {
           data-testid="subscriptions-tab"
         >
           <span className="hidden sm:inline">{t('account.subscription')}</span>
-          <span className="sm:hidden">{t('account.subscription')}</span>
+          <span className="sm:hidden flex items-center justify-center">
+            <CreditCard className="w-5 h-5" />
+          </span>
         </button>
       </div>
       
