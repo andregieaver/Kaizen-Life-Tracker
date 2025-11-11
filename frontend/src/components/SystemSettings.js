@@ -435,10 +435,16 @@ const SystemSettings = ({ athleteId }) => {
             clientSecret: response.data.advanced.polar?.clientSecret || '',
             callbackDomain: response.data.advanced.polar?.callbackDomain || ''
           },
+          fitbit: {
+            clientId: response.data.advanced.fitbit?.clientId || '',
+            clientSecret: response.data.advanced.fitbit?.clientSecret || '',
+            callbackDomain: response.data.advanced.fitbit?.callbackDomain || ''
+          },
           showStravaSecret: false,
           showStravaVerifyToken: false,
           showOuraSecret: false,
-          showPolarSecret: false
+          showPolarSecret: false,
+          showFitbitSecret: false
         }));
       }
       
