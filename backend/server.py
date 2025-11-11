@@ -16440,11 +16440,11 @@ async def strava_auth_callback_redirect(
             settings_doc = await db.system_settings.find_one({"setting_type": "global"})
             if settings_doc and "advanced" in settings_doc and "strava" in settings_doc["advanced"]:
                 callback_domain = settings_doc["advanced"]["strava"].get("callbackDomain", "trainsmart-ui.preview.emergentagent.com")
-                frontend_url = f"https://{callback_domain}/dashboard/account?strava=error"
+                frontend_url = f"https://{callback_domain}/dashboard/account?tab=integrations&strava=error"
                 return RedirectResponse(url=frontend_url)
         except:
             pass
-        return RedirectResponse(url="/dashboard/account?strava=error")
+        return RedirectResponse(url="/dashboard/account?tab=integrations&strava=error")
 
 
 @app.post("/api/auth/strava/disconnect")
