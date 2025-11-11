@@ -12047,5 +12047,5 @@ def test_strava_callback_domain_update():
         return False
 
 if __name__ == "__main__":
-    # Run the comprehensive Strava OAuth integration test as requested in review
-    test_strava_oauth_integration_comprehensive()
+    # Run the Strava sync endpoint test as requested in review
+    main()
