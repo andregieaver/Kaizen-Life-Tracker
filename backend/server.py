@@ -1733,6 +1733,7 @@ Return only the JSON array, nothing else.
             "oura_activities": oura_activities,
             "polar_activities": polar_activities,
             "fitbit_activities": fitbit_activities,
+            "garmin_activities": garmin_activities,
             "supplements": supplements,
             "supplement_logs": supplement_logs,
             "documents": documents,
