@@ -455,6 +455,11 @@ const SystemSettings = ({ athleteId }) => {
             clientSecret: response.data.advanced.whoop?.clientSecret || '',
             callbackDomain: response.data.advanced.whoop?.callbackDomain || ''
           },
+          suunto: {
+            clientId: response.data.advanced.suunto?.clientId || '',
+            clientSecret: response.data.advanced.suunto?.clientSecret || '',
+            callbackDomain: response.data.advanced.suunto?.callbackDomain || ''
+          },
           showStravaSecret: false,
           showStravaVerifyToken: false,
           showOuraSecret: false,
@@ -462,7 +467,8 @@ const SystemSettings = ({ athleteId }) => {
           showFitbitSecret: false,
           showGarminSecret: false,
           showCorosSecret: false,
-          showWhoopSecret: false
+          showWhoopSecret: false,
+          showSuuntoSecret: false
         }));
       }
       
