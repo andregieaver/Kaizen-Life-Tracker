@@ -141,7 +141,7 @@ const IntegrationCard = ({
                 </Button>
               </div>
             )}
-            {onSync && provider !== 'strava' && provider !== 'oura' && provider !== 'polar' && provider !== 'fitbit' && provider !== 'garmin' && (
+            {onSync && provider !== 'strava' && provider !== 'oura' && provider !== 'polar' && provider !== 'fitbit' && provider !== 'garmin' && provider !== 'coros' && (
               <Button
                 variant="outline"
                 size="sm"
