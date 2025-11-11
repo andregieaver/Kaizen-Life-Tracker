@@ -1584,20 +1584,8 @@ def test_polar_oauth_routing_fix():
         import traceback
         traceback.print_exc()
         return False
-            # which uses the same collection
-            if activities_response.status_code == 200:
-                print_test_result("AI Coach Context Integration", True, "Polar activities collection accessible for AI coach context")
-            else:
-                print_test_result("AI Coach Context Integration", True, "Polar activities collection structure in place")
-        except Exception as e:
-            print_test_result("AI Coach Context Integration", False, f"Error checking collection: {e}")
-        
-        # Test with fallback user if primary user had issues
-        if test_user_id != fallback_user_id:
-            print(f"\n   Testing with fallback user: {fallback_user_id}")
-            
-            fallback_status_url = f"{BACKEND_URL}/auth/polar/status?user_id={fallback_user_id}"
-            fallback_response = requests.get(fallback_status_url)
+
+def test_strava_oauth_integration_comprehensive():
             
             if fallback_response.status_code == 200:
                 print_test_result("Fallback User Test", True, f"Polar endpoints work with {fallback_user_id}")
