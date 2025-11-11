@@ -246,7 +246,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Active State Glass Bubble Fix"
+    - "Strava Sync Endpoint force_full_sync Parameter Fix"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
