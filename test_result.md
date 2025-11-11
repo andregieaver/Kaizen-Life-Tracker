@@ -306,7 +306,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Mobile-Friendly Integration Cards"
+    - "Mobile Account Tabs with Icons"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
