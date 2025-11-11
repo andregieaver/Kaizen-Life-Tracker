@@ -2178,7 +2178,9 @@ const Account = ({ athleteId }) => {
           data-testid="integrations-tab"
         >
           <span className="hidden sm:inline">{t('account.integrations')}</span>
-          <span className="sm:hidden">{t('account.integrations')}</span>
+          <span className="sm:hidden flex items-center justify-center">
+            <Zap className="w-5 h-5" />
+          </span>
         </button>
         <button
           type="button"
