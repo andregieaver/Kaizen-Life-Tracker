@@ -924,6 +924,11 @@ const Account = ({ athleteId }) => {
               connected: connection.status === 'active',
               last_sync: connection.last_sync_at || integrationsState.fitbit.last_sync
             };
+          } else if (connection.provider_key === 'garmin') {
+            integrationsState.garmin = {
+              connected: connection.status === 'active',
+              last_sync: connection.last_sync_at || integrationsState.garmin.last_sync
+            };
           } else if (connection.provider_key === 'coros') {
             integrationsState.coros = {
               connected: connection.status === 'active',
@@ -941,6 +946,7 @@ const Account = ({ athleteId }) => {
           oura: { connected: false, user_id: '', last_sync: null },
           polar: { connected: false, last_sync: null },
           fitbit: { connected: false, last_sync: null },
+          garmin: { connected: false, last_sync: null },
           coros: { connected: false, last_sync: null }
         });
       }
