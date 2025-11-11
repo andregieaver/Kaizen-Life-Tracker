@@ -12690,6 +12690,19 @@ def test_strava_callback_domain_update():
         traceback.print_exc()
         return False
 
+def main():
+    """Main function to run Suunto integration testing"""
+    print("🚀 STARTING SUUNTO INTEGRATION BACKEND TESTING")
+    print("=" * 70)
+    
+    success = test_suunto_integration_comprehensive()
+    
+    if success:
+        print("\n🎉 ALL SUUNTO INTEGRATION TESTS PASSED!")
+    else:
+        print("\n❌ SOME SUUNTO INTEGRATION TESTS FAILED!")
+        sys.exit(1)
+
 if __name__ == "__main__":
-    # Run the Strava sync endpoint test as requested in review
+    # Run the Suunto integration test as requested in review
     main()
