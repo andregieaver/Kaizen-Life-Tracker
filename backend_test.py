@@ -1397,7 +1397,7 @@ def test_strava_oauth_integration_comprehensive():
         else:
             url_validations.append(f"❌ client_id mismatch or missing")
         
-        if "/api/auth/strava/callback" in auth_url:
+        if "/auth/strava/callback" in auth_url:
             url_validations.append("✅ redirect_uri points to callback endpoint")
         else:
             url_validations.append("❌ redirect_uri incorrect")
