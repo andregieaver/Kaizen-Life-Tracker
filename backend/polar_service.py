@@ -5,9 +5,11 @@ Extends BaseIntegrationService for Polar fitness tracker data sync
 
 import httpx
 import logging
+import base64
 from datetime import datetime, timezone, timedelta
 from typing import Dict, Any, Optional, List
 from integration_service import BaseIntegrationService
+from fastapi import HTTPException
 
 
 class PolarService(BaseIntegrationService):
@@ -28,6 +30,94 @@ class PolarService(BaseIntegrationService):
     @property
     def api_base_url(self) -> str:
         return "https://www.polaraccesslink.com/v3"
+    
+    async def exchange_code_for_tokens(self, code: str, state: str) -> Dict[str, Any]:
+        """
+        Exchange authorization code for access token
+        Polar requires Basic Authentication (not body credentials)
+        """
+        # Verify state
+        oauth_state = await self.db[f"{self.provider_name}_oauth_state"].find_one({"state": state})
+        if not oauth_state:
+            raise HTTPException(status_code=400, detail="Invalid OAuth state")
+        
+        user_id = oauth_state["user_id"]
+        
+        # Load settings
+        provider_config = await self.load_settings()
+        callback_url = self.get_callback_url(provider_config)
+        
+        # Create Basic Auth header (Polar requirement)
+        credentials = f"{provider_config['clientId']}:{provider_config['clientSecret']}"
+        encoded_credentials = base64.b64encode(credentials.encode()).decode()
+        
+        logging.info(f"[POLAR] Token exchange with Basic Auth")
+        logging.info(f"  URL: {self.oauth_token_url}")
+        logging.info(f"  client_id: {provider_config['clientId']}")
+        logging.info(f"  redirect_uri: {callback_url}")
+        
+        # Exchange code for token with Basic Auth
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                self.oauth_token_url,
+                headers={
+                    "Authorization": f"Basic {encoded_credentials}",
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Accept": "application/json;charset=UTF-8"
+                },
+                data={
+                    "grant_type": "authorization_code",
+                    "code": code,
+                    "redirect_uri": callback_url
+                }
+            )
+            
+            logging.info(f"[POLAR] Token exchange status: {response.status_code}")
+            
+            if response.status_code != 200:
+                logging.error(f"[POLAR] Token exchange failed: {response.text}")
+                logging.error(f"[POLAR] Response headers: {response.headers}")
+                raise HTTPException(status_code=400, detail="Polar token exchange failed")
+            
+            token_data = response.json()
+        
+        # Fetch user profile
+        user_profile = await self.fetch_user_profile(token_data["access_token"])
+        
+        # Store connection
+        connection_data = {
+            "user_id": user_id,
+            "access_token": token_data["access_token"],
+            "refresh_token": token_data.get("refresh_token"),
+            "expires_at": datetime.fromtimestamp(
+                token_data["expires_at"] if "expires_at" in token_data else 
+                (datetime.now(timezone.utc).timestamp() + token_data.get("expires_in", 3600)),
+                tz=timezone.utc
+            ),
+            "user_profile": user_profile,
+            "scopes": token_data.get("scope", "").split(),
+            "connected_at": datetime.now(timezone.utc),
+            "last_sync_at": None,
+            "sync_status": "pending"
+        }
+        
+        logging.info(f"Saving {self.provider_name} connection to database for user: {user_id}")
+        result = await self.db[f"{self.provider_name}_connections"].update_one(
+            {"user_id": user_id},
+            {"$set": connection_data},
+            upsert=True
+        )
+        logging.info(f"Database save result: matched={result.matched_count}, modified={result.modified_count}")
+        
+        # Clean up OAuth state
+        await self.db[f"{self.provider_name}_oauth_state"].delete_one({"_id": oauth_state["_id"]})
+        
+        return {
+            "connected": True,
+            "user_id": user_id,
+            "profile": user_profile,
+            "connected_at": connection_data["connected_at"].isoformat()
+        }
     
     async def fetch_user_profile(self, access_token: str) -> Dict[str, Any]:
         """Fetch Polar user profile"""
