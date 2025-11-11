@@ -1265,6 +1265,11 @@ const SystemSettings = ({ athleteId }) => {
             clientId: advancedSettings.garmin.clientId,
             clientSecret: advancedSettings.garmin.clientSecret,
             callbackDomain: advancedSettings.garmin.callbackDomain
+          },
+          coros: {
+            clientId: advancedSettings.coros.clientId,
+            clientSecret: advancedSettings.coros.clientSecret,
+            callbackDomain: advancedSettings.coros.callbackDomain
           }
         }
       });
