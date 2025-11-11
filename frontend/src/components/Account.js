@@ -2126,7 +2126,9 @@ const Account = ({ athleteId }) => {
           data-testid="personal-tab"
         >
           <span className="hidden sm:inline">{t('account.personalInfo')}</span>
-          <span className="sm:hidden">{t('nav.account')}</span>
+          <span className="sm:hidden flex items-center justify-center">
+            <User className="w-5 h-5" />
+          </span>
         </button>
         <button
           type="button"
