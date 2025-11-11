@@ -7843,36 +7843,39 @@ async def sync_oura_data(athlete_id: str):
 
 @api_router.get("/integrations/oura/{athlete_id}/status")
 async def get_oura_integration_status(athlete_id: str):
-    """Get Oura integration status"""
-    # Check if system credentials are configured
-    system_settings = await db.system_settings.find_one({"category": "advanced"})
-    has_system_credentials = bool(
-        system_settings and 
-        system_settings.get("oura", {}).get("clientId") and 
-        system_settings.get("oura", {}).get("clientSecret")
-    )
-    
-    # Check user's integration status
-    integration = await db.integrations.find_one({
-        "athlete_id": athlete_id, 
-        "integration_type": "oura"
-    })
-    
-    if not integration:
+    """
+    Get Oura integration status - now uses OuraService
+    """
+    try:
+        service = OuraService(db)
+        status = await service.get_connection_status(athlete_id)
+        
+        # Check if system credentials are configured
+        system_settings = await db.system_settings.find_one({})
+        has_system_credentials = False
+        if system_settings:
+            oura_config = system_settings.get('oura') or system_settings.get('advanced', {}).get('oura')
+            has_system_credentials = bool(
+                oura_config and 
+                oura_config.get("clientId") and 
+                oura_config.get("clientSecret")
+            )
+        
         return {
-            "connected": False, 
-            "last_sync": None, 
-            "has_credentials": has_system_credentials
+            "connected": status.get("connected", False),
+            "has_credentials": has_system_credentials,
+            "last_sync": status.get("last_sync_at"),
+            "user_profile": status.get("user_profile"),
+            "connected_at": status.get("connected_at")
         }
-    
-    is_connected = integration.get("is_active", False) and integration.get("credentials", {}).get("access_token")
-    
-    return {
-        "connected": is_connected,
-        "has_credentials": has_system_credentials,
-        "last_sync": integration.get("last_sync"),
-        "settings": integration.get("settings", {})
-    }
+        
+    except Exception as e:
+        logging.error(f"Error getting Oura status: {e}")
+        return {
+            "connected": False,
+            "last_sync": None,
+            "has_credentials": False
+        }
 
 # COROS (via Terra API) routes
 @api_router.get("/auth/coros/{athlete_id}")
