@@ -16492,7 +16492,7 @@ async def strava_connection_status(user_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/api/strava/activities")
+@api_router.get("/strava/activities")
 async def fetch_strava_activities(
     user_id: str,
     page: int = Query(1, ge=1),
