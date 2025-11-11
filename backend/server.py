@@ -16448,7 +16448,7 @@ async def strava_auth_callback_redirect(
         return RedirectResponse(url="/dashboard/account?tab=integrations&strava=error")
 
 
-@app.post("/api/auth/strava/disconnect")
+@api_router.post("/auth/strava/disconnect")
 async def strava_disconnect(request: Request):
     """
     Disconnect Strava integration
