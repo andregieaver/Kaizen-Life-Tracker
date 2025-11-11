@@ -16705,7 +16705,7 @@ async def create_strava_webhook():
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/api/strava/webhook/list")
+@api_router.get("/strava/webhook/list")
 async def list_strava_webhooks():
     """
     List active webhook subscriptions
