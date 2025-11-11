@@ -1766,7 +1766,7 @@ def test_suunto_integration_comprehensive():
             except json.JSONDecodeError:
                 print_test_result("Training Calendar Integration", False, "Response is not valid JSON")
         else:
-            print_test_result("Training Calendar Integration", False, f"Status: {calendar_response.status_code}")e.status_code}")e.status_code}")
+            print_test_result("Training Calendar Integration", False, f"Status: {calendar_response.status_code}")
         
         # Step 8: AI Coach Context - Verify database structure supports Suunto activities
         print("\n   Step 8: AI Coach Context - Verify database structure")
