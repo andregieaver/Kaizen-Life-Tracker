@@ -462,35 +462,41 @@ class StravaService:
         
         async with httpx.AsyncClient() as client:
             while True:
-                logging.info(f"[SYNC] Requesting page {page} from Strava API...")
-                
-                # Build params - only include 'after' if it's not epoch 0 (to get all activities)
-                params = {
-                    'page': page,
-                    'per_page': per_page
-                }
-                
-                # Only add 'after' filter if we're not doing a full historical sync
-                after_timestamp = int(since.timestamp())
-                if after_timestamp > 0:
-                    params['after'] = after_timestamp
-                
-                logging.info(f"[SYNC] API params: {params}")
-                
-                response = await client.get(
-                    f"{STRAVA_API_BASE}/athlete/activities",
-                    headers={'Authorization': f'Bearer {token}'},
-                    params=params
-                )
-                
-                logging.info(f"[SYNC] Strava API response: status={response.status_code}")
-                
-                if response.status_code != 200:
-                    logging.error(f"[SYNC ERROR] Strava API returned {response.status_code}: {response.text[:200]}")
-                    break
-                
-                activities = response.json()
-                logging.info(f"[SYNC] Received {len(activities)} activities on page {page}")
+                try:
+                    logging.info(f"[SYNC] Requesting page {page} from Strava API...")
+                    
+                    # Build params - only include 'after' if it's not epoch 0 (to get all activities)
+                    params = {
+                        'page': page,
+                        'per_page': per_page
+                    }
+                    
+                    # Only add 'after' filter if we're not doing a full historical sync
+                    after_timestamp = int(since.timestamp())
+                    if after_timestamp > 0:
+                        params['after'] = after_timestamp
+                    
+                    logging.info(f"[SYNC] API params: {params}")
+                    
+                    response = await client.get(
+                        f"{STRAVA_API_BASE}/athlete/activities",
+                        headers={'Authorization': f'Bearer {token}'},
+                        params=params
+                    )
+                    
+                    logging.info(f"[SYNC] Strava API response: status={response.status_code}")
+                    
+                    if response.status_code != 200:
+                        logging.error(f"[SYNC ERROR] Strava API returned {response.status_code}: {response.text[:200]}")
+                        break
+                    
+                    activities = response.json()
+                    logging.info(f"[SYNC] Received {len(activities)} activities on page {page}")
+                except Exception as e:
+                    logging.error(f"[SYNC ERROR] Exception during API call: {type(e).__name__}: {str(e)}")
+                    import traceback
+                    logging.error(f"[SYNC ERROR] Traceback: {traceback.format_exc()}")
+                    raise
                 
                 if not activities:
                     break
