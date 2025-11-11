@@ -16518,7 +16518,7 @@ async def fetch_strava_activities(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/api/strava/sync")
+@api_router.post("/strava/sync")
 async def sync_strava_activities(request: Request):
     """
     Sync activities from Strava to database
