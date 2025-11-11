@@ -7391,16 +7391,26 @@ async def save_voice_conversation(voice_conversation: VoiceConversation):
 # Strava OAuth routes
 
 @api_router.post("/integrations/strava/{athlete_id}/sync")
-async def sync_strava_activities(athlete_id: str):
+async def sync_strava_activities_legacy(athlete_id: str):
     """Manually sync activities from Strava"""
     try:
-        imported_count = await strava_activity_manager.import_activities_to_workouts(athlete_id)
-        return {"message": "Sync completed", "imported_activities": imported_count}
+        print(f"🔄 [STRAVA SYNC] athlete_id/user_id={athlete_id}")
+        logging.info(f"[STRAVA SYNC] Initiating sync for user: {athlete_id}")
+        
+        # Use new StravaService instead of old activity manager
+        strava_service = StravaService(db)
+        result = await strava_service.sync_activities(athlete_id)
+        
+        print(f"🟢 [STRAVA SYNC SUCCESS] Synced {result.get('synced_count', 0)} activities")
+        logging.info(f"[STRAVA SYNC] Completed: {result}")
+        
+        return result
     except HTTPException:
         raise
     except Exception as e:
+        print(f"🔴 [STRAVA SYNC ERROR] {type(e).__name__}: {str(e)}")
         logging.error(f"Strava sync error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Failed to sync Strava activities")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/integrations/strava/{athlete_id}/status")
 async def get_strava_integration_status(athlete_id: str):
