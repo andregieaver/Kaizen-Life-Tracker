@@ -1482,11 +1482,14 @@ const Account = ({ athleteId }) => {
 
   const handleStravaSync = async () => {
     try {
-      setSaveStatus({ type: 'info', message: 'Syncing activities from Strava...' });
-      const response = await axios.post(`${API}/integrations/strava/${athleteId}/sync`);
+      setSaveStatus({ type: 'info', message: 'Syncing all activities from Strava (including history)...' });
+      // Use force_full=true to sync ALL activities, not just recent ones
+      const response = await axios.post(`${API}/integrations/strava/${athleteId}/sync?force_full=true`);
+      const imported = response.data.imported || 0;
+      const total = response.data.total_activities || 0;
       setSaveStatus({ 
         type: 'success', 
-        message: `Sync completed! Imported ${response.data.imported_activities} activities.` 
+        message: `Sync completed! Found ${total} activities, imported ${imported} new ones.` 
       });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
       
