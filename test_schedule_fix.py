@@ -7,7 +7,7 @@ import requests
 import json
 
 # Backend URL from environment
-BACKEND_URL = "https://fitness-oauth.preview.emergentagent.com/api"
+BACKEND_URL = "https://multi-device-sync.preview.emergentagent.com/api"
 
 def test_schedule_creation_with_pro_tier():
     """Test what would happen if the user had pro tier"""

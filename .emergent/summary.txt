@@ -1,99 +1,86 @@
 <analysis>
-The trajectory documents a comprehensive effort to stabilize and expand the TrainSmart application's third-party integrations. The initial task was to fix a series of complex, interconnected bugs plaguing the Strava integration. This involved deep debugging of the entire OAuth 2.0 flow, from frontend callbacks to backend routing and database persistence. Key issues resolved included FastAPI route ordering conflicts, where parameterized routes incorrectly shadowed static ones (e.g.,  matching ), timezone-naive datetime comparison errors, incorrect database targeting ( vs. ), and flawed API logic for historical data syncs.
+The trajectory details a systematic and expansive effort to build out the TrainSmart application's third-party integration capabilities. The work began by debugging and stabilizing existing Strava and Oura integrations, which suffered from routing conflicts, incorrect database targeting, and flawed authentication logic. A key architectural decision was to refactor this logic into a generic . This reusable framework abstracted common OAuth flows, token exchange, and data syncing, enabling the rapid and consistent addition of new services.
 
-A pivotal moment was the decision to refactor the integration logic into a generic, reusable framework. A  was created, abstracting common functionalities like OAuth authorization URL generation, token exchange, and connection status checks. This framework was then instrumental in fixing the equally problematic Oura integration and rapidly scaffolding a new Polar integration. The process revealed and corrected numerous legacy issues, such as hardcoded URLs, inconsistent data collection lookups, and multiple conflicting endpoint definitions. The final tasks involved extending these integrations into the application's core features, including the training calendar, the AI coach's context, and the user dashboard, culminating in the addition of a UI for Polar credential management in the system settings.
+Following this refactoring, the engineer methodically integrated a series of new providers: Polar, Fitbit, Garmin, COROS, and WHOOP. Each integration followed a repeatable pattern: obtaining an API playbook, creating a provider-specific service file, wiring it into the backend (), and building the corresponding UI in the frontend (, , ). The process included significant real-time debugging, notably fixing Polar's requirement for Basic Authentication during token exchange and resolving numerous frontend state management issues to ensure connection statuses were displayed correctly.
+
+The work concluded at the very beginning of the Suunto integration, having just created the  file after receiving the API playbook. The overall effort successfully transformed the application's integration capabilities from a buggy, hardcoded system into a scalable, robust, and feature-rich platform.
 </analysis>
 
 <product_requirements>
-The TrainSmart application is a comprehensive health and fitness coaching platform. The primary goal of the work was to build out and stabilize its third-party device integrations, making them robust, scalable, and fully featured.
+The primary objective is to establish the TrainSmart application as a central hub for user health and fitness data by integrating with a comprehensive list of third-party wearable device and service providers.
 
-**Implemented Features & Fixes:**
-1.  **Strava Integration (End-to-End):**
-    *   Fixed connection, disconnection, and sync functionalities, resolving numerous 500, 404, and silent failures.
-    *   Implemented both incremental (Sync Latest) and full historical (Sync All) data synchronization.
-    *   Integrated Strava data into key app areas:
-        *   **Merits Page:** Displaying Year-to-Date (YTD) statistics, recent activities, and calculated Personal Records (e.g., best 5k, 10k times).
-        *   **Training Calendar:** Visualizing completed Strava activities alongside planned workouts.
-        *   **AI Coach:** Providing activity data as context for personalized advice.
-
-2.  **Oura Integration (Refactor & Fix):**
-    *   Refactored the entire integration to use a new, streamlined framework.
-    *   Fixed connection failures caused by hardcoded URLs and incorrect API endpoint routing.
-    *   Enabled Sync Latest and Sync All functionalities.
-    *   Integrated Oura data:
-        *   **Dashboard:** A new Oura Vitals card displays key metrics.
-        *   **AI Coach:** Providing sleep and readiness data as context.
-
-3.  **Integration Framework:**
-    *   Created a generic, backend service-based architecture to simplify adding future integrations (e.g., Garmin, Coros).
-    *   Standardized OAuth flows, data syncing, and status checking.
-
-4.  **Polar Integration (New):**
-    *   Added Polar as a new integration option, including backend service and frontend UI components in the Account and System Settings pages.
+**Core Requirements & Implementation:**
+1.  **Multi-Provider Integration:** Implement end-to-end data integration for Strava, Oura, Polar, Fitbit, Garmin, COROS, WHOOP, and Suunto.
+2.  **Robust Authentication:** Build secure connection flows for each provider using OAuth 2.0 (and OAuth 1.0a for Garmin), allowing users to connect their accounts.
+3.  **Comprehensive Data Sync:** Enable both incremental (Sync Latest) and full historical (Sync All) data synchronization for activities, sleep, and key health vitals.
+4.  **Feature Integration:** Surface the synchronized data within the application's core features:
+    *   **Training Calendar:** Display completed activities from all connected providers.
+    *   **AI Coach:** Feed activity, sleep, and readiness data into the coach's context for more personalized advice.
+    *   **User Dashboards:** Show provider data on pages like Merits and Vitals cards.
+5.  **Admin Configuration:** Provide a UI in the System Settings for administrators to manage API credentials (Client ID, Secret) for each integration.
 </product_requirements>
 
 <key_technical_concepts>
 - **Full-stack Development**: React.js (Frontend), FastAPI (Backend), MongoDB (Database).
-- **External APIs & Auth**: Strava API, Oura API, Polar API, using OAuth 2.0 for authentication.
-- **Backend Architecture**:
-  - FastAPI  for modular routing.
-  - A generic  class to create a reusable framework for third-party integrations.
-  - Resolution of route ordering conflicts between static and parameterized paths.
-- **Asynchronous Programming**: Extensive use of / in Python for non-blocking I/O with the database and external APIs.
-- **Debugging Techniques**: Extensive use of backend logging, browser console analysis, and direct database inspection to diagnose and resolve complex issues.
+- **External APIs & Auth**: OAuth 2.0 and OAuth 1.0a for authenticating with Strava, Oura, Polar, Fitbit, Garmin, COROS, WHOOP, and Suunto APIs.
+- **Backend Architecture**: A generic  class provides a reusable framework for all third-party integrations, promoting code reuse and simplifying the addition of new providers.
+- **Debugging**: Solved complex issues including FastAPI routing conflicts, provider-specific OAuth requirements (e.g., Polar's Basic Auth), and database connection misconfigurations.
 </key_technical_concepts>
 
 <code_architecture>
-The application follows a standard monolithic repository structure with a separate  and .
+The application uses a monolithic repository with distinct  and  directories. A key architectural pattern is the use of a generic base service to manage all third-party integrations.
 
 
 
-- ****:
-  - **Importance**: This is the new, core framework for all third-party integrations. It defines a  class with abstract methods for authorization, callbacks, token exchange, and data syncing, promoting code reuse and simplifying the addition of new integrations.
-  - **Changes**: Created from scratch to solve the problem of repeated and inconsistent integration logic. It correctly handles loading credentials from nested objects () in the database.
+- ****
+  - **Importance**: Defines the , the core abstract class for all third-party integrations. It standardizes methods for generating authorization URLs, exchanging codes for tokens, and syncing data, which was crucial for scaling the number of integrations.
+  - **Changes**: This file was created to abstract away common logic. It was later updated with enhanced logging to debug a complex token exchange issue with the Polar API.
 
-- **, , **:
-  - **Importance**: These files contain the specific implementation details for each integration, inheriting from .
-  - **Changes**:  was heavily modified to fix bugs and add detailed logging.  and  were created as part of the new framework.
+- ** (e.g., , , etc.)**
+  - **Importance**: Each file contains the specific implementation for a single provider, inheriting from .
+  - **Changes**: All of these files were created or heavily modified. A critical change was in , which overrides the  method to use Basic Authentication, a specific requirement of the Polar API that was discovered during debugging.  had its  method added post-creation to fix a sync failure.
 
-- ****:
-  - **Importance**: The main FastAPI application file, defining all API endpoints. It was the source of many critical bugs.
-  - **Changes**:
-    - **Route Ordering:** Corrected the order of Oura endpoints ( was moved before ) to resolve a critical routing conflict where callback was being misinterpreted as an .
-    - **Endpoint Consolidation:** Old, buggy, and often hardcoded endpoints for Strava and Oura were identified and refactored to use the new, generic services in . This eliminated redundant code and fixed failures.
-    - **AI Coach Context:** The  and  functions were updated to query and include both Strava and Oura data, making the coach more knowledgeable.
-    - **Voice Chat Fix:** The  endpoint was fixed to use the global system OpenAI key as a fallback, enabling voice chat functionality.
+- ****
+  - **Importance**: The main FastAPI application file, routing all API requests. It was a frequent point of modification.
+  - **Changes**: This file was modified extensively to:
+    - Add imports and service instances for each new integration (Polar, Fitbit, Garmin, etc.).
+    - Update the  endpoint to aggregate data from all newly added providers.
+    - Enhance the  function to include data from new providers, making the AI Coach more knowledgeable.
+    - Resolve an OAuth routing conflict by adding a dummy  to an older, conflicting route.
 
-- ****:
-  - **Importance**: This component manages the UI for all user integrations, including connection, disconnection, and synchronization.
-  - **Changes**:
-    - The  component was significantly enhanced. It was modified to conditionally render either a single Sync button or a dropdown with Sync Latest and Sync All options for providers like Strava, Oura, and Polar.
-    - Event handlers like  and  were updated to accept a  parameter to call the correct backend functionality.
-    - A critical bug was fixed where the Strava disconnect button called the wrong function ( instead of ).
+- ****
+  - **Importance**: This component is the user-facing hub for managing all integrations.
+  - **Changes**: It was repeatedly updated to:
+    - Add an  for each new provider (Polar, Fitbit, etc.).
+    - Add logic to the  function to fetch the connection status for each new integration.
+    - Add success message handling in a  hook for OAuth redirects.
+    - Expand the condition for rendering dual Sync and Full Sync buttons to include new providers like Fitbit.
 
-- ****:
-  - **Importance**: The admin-level page for configuring application-wide settings, including the client IDs and secrets for third-party integrations.
-  - **Changes**: A new UI section for Polar Flow Integration was added to the Advanced tab, allowing administrators to input and save Polar API credentials. This involved updating the component's state, JSX, and save handler.
+- ****
+  - **Importance**: The admin page for configuring application-wide API credentials.
+  - **Changes**: This file was systematically updated to add a new UI section with input fields for the Client ID and Client Secret for each new provider (Polar, Fitbit, Garmin, COROS, WHOOP).
+
+- ****
+  - **Importance**: Renders planned and completed workouts.
+  - **Changes**: The event rendering logic was updated to recognize and display activities from each new provider, assigning them a unique background color for visual distinction.
 </code_architecture>
 
 <pending_tasks>
-- **Complete Polar Integration**:
-  - The framework and UI for Polar are in place, but the  methods for actual data syncing () and fetching user profiles () are likely stubs and need to be implemented with the specific Polar API logic.
-  - The functionality needs to be tested end-to-end after implementation.
-- **Further Integration Streamlining**: The trajectory mentions at least five more integrations are planned. The  should be populated, and the process documented for future work.
+- **Complete Suunto Integration**: The  file has been created, but the backend and frontend have not been updated to use it. This involves modifying , , , and .
+- **Populate **: The guide for adding future integrations needs to be written.
+- **Garmin OAuth 1.0a Implementation**: The Garmin service was scaffolded, but the playbook mentioned it uses OAuth 1.0a, which is different from the other providers and requires a specific implementation.
 </pending_tasks>
 
 <current_work>
-The most recent work focused on adding Polar as a new integration and enabling its configuration. After the user reported that they couldn't see a place to enter Polar credentials, the previous engineer took the following steps:
+The most recent task was the beginning of the Suunto integration. Following the established pattern, the AI engineer first gathered user requirements for the integration's scope. Next, the  was invoked to retrieve a detailed plan and best practices for the Suunto API.
 
-1.  **Analyzed **: This file was identified as the correct location for managing integration credentials.
-2.  **Updated Component State**: The component's initial state in  was modified to include an object for Polar settings ().
-3.  **Modified Save Handler**: The  function was updated to include the  settings object in the payload sent to the backend.
-4.  **Added UI Section**: A new block of JSX was added to the Advanced tab's render method. This new section, titled Polar Flow Integration, includes input fields for the Client ID and Client Secret, mirroring the existing UI for the Oura and Strava integrations.
+Based on the playbook's guidance, the immediate first step was taken: creating the service file for the new integration.
 
-The final action was creating a summary to inform the user that the UI for adding Polar credentials has been successfully implemented. The frontend hot reload should make these changes visible without a server restart. The application is now waiting for the user to input the Polar credentials to proceed with testing the full Polar connection flow.
+- **File Created**: 
+
+This file serves as the placeholder for all Suunto-specific logic, inheriting from the . The work was paused immediately after this file's creation, with the next logical steps being the full wiring of this service into the backend and frontend of the application. No code for handling requests, UI, or data processing for Suunto has been implemented yet.
 </current_work>
 
 <optional_next_step>
-I will now create a comprehensive summary of the work done to add the Polar integration UI, confirming that the user can now add their Polar credentials in the System Settings.
+Continue the Suunto integration by wiring up the  into the backend () and adding the necessary UI components to the frontend (, , and ).
 </optional_next_step>
