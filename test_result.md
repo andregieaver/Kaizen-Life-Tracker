@@ -129,6 +129,18 @@ frontend:
         agent: "main"
         comment: "THIRD FIX - ROOT CAUSE FINALLY IDENTIFIED! Console logs revealed NO debug output from dynamic menu items, meaning the app is using FALLBACK menu items (menuItems.header_logged_in.length === 0), not menu editor items. The fallback menu items (lines 740-830) were still using OLD logic: data-active={activeTab === 'account'} instead of location.pathname comparison. This is why Account remained highlighted - activeTab was still 'account' even after navigating to Today. COMPREHENSIVE FIX IMPLEMENTED: 1) Updated all 5 fallback header menu items (lines 747-829) to use location.pathname comparison instead of activeTab. 2) Updated all 5 bottom tab bar items (lines 1697-1897) to use location.pathname comparison. 3) Added special case for dashboard root (/dashboard or /dashboard/overview) to match overview tab. 4) Removed debug logging (no longer needed). RESULT: Both fallback header menu AND bottom navbar now use consistent location.pathname logic. When URL is /dashboard/today, only Today button gets data-active=true. When URL is /dashboard/account, only Account button gets data-active=true. Glass bubble will now position correctly on ALL navigation. Frontend recompiled successfully. TESTING NEEDED: Navigate between pages and verify glass bubble follows correctly."
 
+  - task: "Mobile-Friendly Integration Cards"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Account.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "MOBILE-RESPONSIVE INTEGRATION CARDS IMPLEMENTED - Updated IntegrationCard component in Account.js to have two responsive layouts: 1) DESKTOP (md and up): Horizontal layout with all info side-by-side, 2) MOBILE (below md): Vertical stacked layout with icon and title/description stacked vertically, connection info in column layout, buttons full-width or flex-1 for better touch targets, better spacing and wrapping. Component now uses hidden md:flex for desktop layout (lines 94-181) and md:hidden for mobile layout (lines 183-271). All 8 integration cards (Strava, Oura, Polar, Fitbit, Garmin, COROS, WHOOP, Suunto) use this responsive component. TESTING NEEDED: 1) Desktop view (1920x1080) - verify horizontal layout, 2) Mobile view (390x844) - verify vertical stacked layout, 3) Tablet view (768x1024) - verify appropriate layout at md breakpoint."
+
 backend:
   - task: "Garmin OAuth 1.0a Integration Backend Testing"
     implemented: true
