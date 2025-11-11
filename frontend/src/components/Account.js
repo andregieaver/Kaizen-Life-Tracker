@@ -3923,6 +3923,20 @@ const Account = ({ athleteId }) => {
                   onSync={(fullSync) => handleGenericSync('whoop', fullSync)}
                   t={t}
                 />
+                
+                {/* Suunto */}
+                <IntegrationCard
+                  provider="suunto"
+                  name="Suunto"
+                  description="Connect your Suunto watch to sync workout and training data"
+                  icon={<Activity className="w-8 h-8 text-cyan-500" />}
+                  connected={integrations.suunto?.connected || false}
+                  connectionInfo={integrations.suunto}
+                  onConnect={() => handleSimpleConnect('suunto')}
+                  onDisconnect={() => handleDisconnectIntegration('suunto')}
+                  onSync={(fullSync) => handleGenericSync('suunto', fullSync)}
+                  t={t}
+                />
               </CardContent>
             </Card>
           </div>
