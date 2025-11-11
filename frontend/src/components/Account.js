@@ -1087,7 +1087,8 @@ const Account = ({ athleteId }) => {
           fitbit: { connected: false, last_sync: null },
           garmin: { connected: false, last_sync: null },
           coros: { connected: false, last_sync: null },
-          whoop: { connected: false, last_sync: null }
+          whoop: { connected: false, last_sync: null },
+          suunto: { connected: false, last_sync: null }
         });
       }
       
