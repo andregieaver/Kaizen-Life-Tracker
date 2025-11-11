@@ -1063,6 +1063,16 @@ const Account = ({ athleteId }) => {
               connected: connection.status === 'active',
               last_sync: connection.last_sync_at || integrationsState.coros.last_sync
             };
+          } else if (connection.provider_key === 'whoop') {
+            integrationsState.whoop = {
+              connected: connection.status === 'active',
+              last_sync: connection.last_sync_at || integrationsState.whoop.last_sync
+            };
+          } else if (connection.provider_key === 'suunto') {
+            integrationsState.suunto = {
+              connected: connection.status === 'active',
+              last_sync: connection.last_sync_at || integrationsState.suunto.last_sync
+            };
           }
         });
         
