@@ -1232,6 +1232,11 @@ const SystemSettings = ({ athleteId }) => {
             clientId: advancedSettings.oura.clientId,
             clientSecret: advancedSettings.oura.clientSecret,
             callbackDomain: advancedSettings.oura.callbackDomain
+          },
+          polar: {
+            clientId: advancedSettings.polar.clientId,
+            clientSecret: advancedSettings.polar.clientSecret,
+            callbackDomain: advancedSettings.polar.callbackDomain
           }
         }
       });
