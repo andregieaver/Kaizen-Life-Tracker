@@ -1710,6 +1710,12 @@ Return only the JSON array, nothing else.
             {"_id": 0}
         ).sort("start_date", -1).limit(50).to_list(length=None)
         
+        # Get Suunto activities (last 30 days)
+        suunto_activities = await db.suunto_activities.find(
+            {"user_id": athlete_id},
+            {"_id": 0}
+        ).sort("start_date", -1).limit(50).to_list(length=None)
+        
         # Get supplements (active supplements the athlete is taking)
         supplements = await db.supplements.find(
             {"athlete_id": athlete_id},
