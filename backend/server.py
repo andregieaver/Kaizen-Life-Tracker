@@ -7454,9 +7454,9 @@ async def save_strava_credentials(athlete_id: str, credentials: StravaCredential
         print(f"Error saving Strava credentials: {e}")
         raise HTTPException(status_code=500, detail="Failed to save Strava credentials")
 
-@api_router.get("/auth/strava/{athlete_id}")
-async def strava_auth_initiate(athlete_id: str):
-    """Initiate Strava OAuth authorization flow using user's credentials"""
+@api_router.get("/auth/strava-old/{athlete_id}")
+async def strava_auth_initiate_legacy(athlete_id: str):
+    """[LEGACY] Initiate Strava OAuth authorization flow using user's credentials"""
     # Get user's Strava credentials
     integration = await db.integrations.find_one(
         {"athlete_id": athlete_id, "integration_type": "strava"}, 
