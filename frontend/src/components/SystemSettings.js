@@ -430,9 +430,15 @@ const SystemSettings = ({ athleteId }) => {
             clientSecret: response.data.advanced.oura?.clientSecret || '',
             callbackDomain: response.data.advanced.oura?.callbackDomain || ''
           },
+          polar: {
+            clientId: response.data.advanced.polar?.clientId || '',
+            clientSecret: response.data.advanced.polar?.clientSecret || '',
+            callbackDomain: response.data.advanced.polar?.callbackDomain || ''
+          },
           showStravaSecret: false,
           showStravaVerifyToken: false,
-          showOuraSecret: false
+          showOuraSecret: false,
+          showPolarSecret: false
         }));
       }
       
