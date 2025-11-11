@@ -125,33 +125,60 @@ const Merits = ({ athleteId }) => {
             </h2>
           </div>
           <div className="p-4">
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-              <div className="text-center p-3 rounded-lg" style={{ background: 'var(--bg-800)' }}>
-                <div className="text-2xl font-bold" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
+            {/* YTD Stats Grid */}
+            <div className="mb-3">
+              <h3 className="text-xs font-semibold mb-2" style={{ color: 'var(--text-med)' }}>Year to Date 2025</h3>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+              <div className="text-center p-3 rounded-lg overflow-hidden" style={{ background: 'var(--bg-800)' }}>
+                <div className="text-xl font-bold truncate" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
                   {stravaStats.total_activities}
                 </div>
                 <div className="text-xs mt-1" style={{ color: 'var(--text-med)' }}>Activities</div>
               </div>
-              <div className="text-center p-3 rounded-lg" style={{ background: 'var(--bg-800)' }}>
-                <div className="text-2xl font-bold" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
+              <div className="text-center p-3 rounded-lg overflow-hidden" style={{ background: 'var(--bg-800)' }}>
+                <div className="text-xl font-bold truncate" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
                   {stravaStats.total_distance_km.toLocaleString()}
                 </div>
                 <div className="text-xs mt-1" style={{ color: 'var(--text-med)' }}>Kilometers</div>
               </div>
-              <div className="text-center p-3 rounded-lg" style={{ background: 'var(--bg-800)' }}>
-                <div className="text-2xl font-bold" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
+              <div className="text-center p-3 rounded-lg overflow-hidden" style={{ background: 'var(--bg-800)' }}>
+                <div className="text-xl font-bold truncate" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
                   {stravaStats.total_time_hours.toLocaleString()}
                 </div>
                 <div className="text-xs mt-1" style={{ color: 'var(--text-med)' }}>Hours</div>
               </div>
-              <div className="text-center p-3 rounded-lg" style={{ background: 'var(--bg-800)' }}>
-                <div className="text-2xl font-bold" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
+              <div className="text-center p-3 rounded-lg overflow-hidden" style={{ background: 'var(--bg-800)' }}>
+                <div className="text-xl font-bold truncate" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
                   {stravaStats.total_elevation_m.toLocaleString()}
                 </div>
                 <div className="text-xs mt-1" style={{ color: 'var(--text-med)' }}>Elevation (m)</div>
               </div>
             </div>
+
+            {/* Best Times Grid */}
+            {stravaStats.best_times && Object.keys(stravaStats.best_times).length > 0 && (
+              <div className="mt-4 mb-4">
+                <h3 className="text-xs font-semibold mb-2" style={{ color: 'var(--text-med)' }}>Personal Records (All-Time)</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                  {Object.entries(stravaStats.best_times).map(([distance, data]) => (
+                    <div 
+                      key={distance}
+                      className="p-3 rounded-lg overflow-hidden" 
+                      style={{ background: 'var(--bg-800)', border: '1px solid var(--border)' }}
+                    >
+                      <div className="text-xs mb-1" style={{ color: 'var(--text-med)' }}>{distance}</div>
+                      <div className="text-lg font-bold truncate" style={{ color: '#FC4C02', fontFamily: 'var(--font-display)' }}>
+                        {data.time}
+                      </div>
+                      <div className="text-xs mt-1 truncate" style={{ color: 'var(--text-muted)' }}>
+                        {new Date(data.date).toLocaleDateString()}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Recent Activities */}
             {stravaActivities.length > 0 && (
