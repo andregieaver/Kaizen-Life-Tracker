@@ -1586,40 +1586,6 @@ def test_polar_oauth_routing_fix():
         return False
 
 def test_strava_oauth_integration_comprehensive():
-            
-            if fallback_response.status_code == 200:
-                print_test_result("Fallback User Test", True, f"Polar endpoints work with {fallback_user_id}")
-            else:
-                print_test_result("Fallback User Test", True, f"Polar endpoints accessible with {fallback_user_id}: {fallback_response.status_code}")
-        
-        # Summary
-        print("\n   POLAR INTEGRATION TESTING SUMMARY:")
-        print("   " + "="*50)
-        
-        summary_points = [
-            "✅ System Settings can store Polar credentials (clientId, clientSecret, callbackDomain)",
-            "✅ OAuth authorization endpoint generates Polar Flow URLs with correct parameters",
-            "✅ Connection status endpoint returns proper JSON responses",
-            "✅ Data sync endpoints are accessible and handle requests appropriately", 
-            "✅ Activities retrieval endpoint follows standard integration pattern",
-            "✅ Stats endpoint provides Polar statistics in expected format",
-            "✅ Training calendar integration includes Polar activities with source='polar'",
-            "✅ Database collections are accessible for AI coach context integration"
-        ]
-        
-        for point in summary_points:
-            print(f"      {point}")
-        
-        print("\n✅ POLAR INTEGRATION BACKEND COMPREHENSIVE TESTING COMPLETED")
-        return True
-        
-    except Exception as e:
-        print_test_result("Polar Integration Testing - Exception", False, f"Exception: {str(e)}")
-        import traceback
-        traceback.print_exc()
-        return False
-
-def test_strava_oauth_integration_comprehensive():
     """
     FINAL STRAVA OAUTH INTEGRATION COMPREHENSIVE TEST
     
