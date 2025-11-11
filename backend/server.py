@@ -7391,15 +7391,15 @@ async def save_voice_conversation(voice_conversation: VoiceConversation):
 # Strava OAuth routes
 
 @api_router.post("/integrations/strava/{athlete_id}/sync")
-async def sync_strava_activities_legacy(athlete_id: str):
+async def sync_strava_activities_legacy(athlete_id: str, force_full: bool = False):
     """Manually sync activities from Strava"""
     try:
-        print(f"🔄 [STRAVA SYNC] athlete_id/user_id={athlete_id}")
+        print(f"🔄 [STRAVA SYNC] athlete_id/user_id={athlete_id}, force_full={force_full}")
         logging.info(f"[STRAVA SYNC] Initiating sync for user: {athlete_id}")
         
         # Use new StravaService instead of old activity manager
         strava_service = StravaService(db)
-        result = await strava_service.sync_activities(athlete_id)
+        result = await strava_service.sync_activities(athlete_id, force_full_sync=force_full)
         
         print(f"🟢 [STRAVA SYNC SUCCESS] Synced {result.get('synced_count', 0)} activities")
         logging.info(f"[STRAVA SYNC] Completed: {result}")
@@ -7410,6 +7410,91 @@ async def sync_strava_activities_legacy(athlete_id: str):
     except Exception as e:
         print(f"🔴 [STRAVA SYNC ERROR] {type(e).__name__}: {str(e)}")
         logging.error(f"Strava sync error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/integrations/strava/{user_id}/activities")
+async def get_strava_activities(user_id: str, limit: int = 50):
+    """Get synced Strava activities for a user"""
+    try:
+        activities = await db.strava_activities.find(
+            {'user_id': user_id}
+        ).sort('start_date', -1).limit(limit).to_list(length=limit)
+        
+        # Convert MongoDB documents to JSON-serializable format
+        for activity in activities:
+            if '_id' in activity:
+                del activity['_id']
+        
+        return {
+            'activities': activities,
+            'count': len(activities),
+            'total': await db.strava_activities.count_documents({'user_id': user_id})
+        }
+    except Exception as e:
+        logging.error(f"Error fetching Strava activities: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@api_router.get("/integrations/strava/{user_id}/stats")
+async def get_strava_stats(user_id: str):
+    """Get Strava activity statistics for merits/achievements"""
+    try:
+        # Aggregate statistics
+        pipeline = [
+            {'$match': {'user_id': user_id}},
+            {'$group': {
+                '_id': None,
+                'total_activities': {'$sum': 1},
+                'total_distance': {'$sum': '$distance'},
+                'total_time': {'$sum': '$moving_time'},
+                'total_elevation': {'$sum': '$total_elevation_gain'},
+                'activities_by_type': {
+                    '$push': {
+                        'type': '$type',
+                        'distance': '$distance',
+                        'time': '$moving_time'
+                    }
+                }
+            }}
+        ]
+        
+        result = await db.strava_activities.aggregate(pipeline).to_list(length=1)
+        
+        if not result:
+            return {
+                'total_activities': 0,
+                'total_distance_km': 0,
+                'total_time_hours': 0,
+                'total_elevation_m': 0,
+                'activities_by_type': {}
+            }
+        
+        stats = result[0]
+        
+        # Count activities by type
+        activities_by_type = {}
+        for activity in stats.get('activities_by_type', []):
+            activity_type = activity.get('type', 'Unknown')
+            if activity_type not in activities_by_type:
+                activities_by_type[activity_type] = {
+                    'count': 0,
+                    'distance': 0,
+                    'time': 0
+                }
+            activities_by_type[activity_type]['count'] += 1
+            activities_by_type[activity_type]['distance'] += activity.get('distance', 0)
+            activities_by_type[activity_type]['time'] += activity.get('time', 0)
+        
+        return {
+            'total_activities': stats.get('total_activities', 0),
+            'total_distance_km': round((stats.get('total_distance', 0) / 1000), 2),
+            'total_time_hours': round((stats.get('total_time', 0) / 3600), 2),
+            'total_elevation_m': round(stats.get('total_elevation', 0), 2),
+            'activities_by_type': activities_by_type
+        }
+    except Exception as e:
+        logging.error(f"Error fetching Strava stats: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/integrations/strava/{athlete_id}/status")
