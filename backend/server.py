@@ -16337,34 +16337,49 @@ async def strava_auth_callback_redirect(
     Exchange code for tokens and store connection
     """
     try:
-        print(f"🔷 [STRAVA CALLBACK START] code={code[:10]}..., state={state[:20]}..., scope={scope}")
+        print(f"\n{'='*80}")
+        print(f"🔷 [STRAVA CALLBACK HIT!] Received OAuth callback from Strava")
+        print(f"🔷 [STRAVA CALLBACK] code={code[:15]}...")
+        print(f"🔷 [STRAVA CALLBACK] state={state[:30]}...")
+        print(f"🔷 [STRAVA CALLBACK] scope={scope}")
+        print(f"{'='*80}\n")
+        
         logging.info(f"[STRAVA CALLBACK] Received: code={code[:10]}..., state={state[:20]}..., scope={scope}")
         
         # Extract user_id from state or session
-        # For now, we'll need to store user_id in the oauth_state collection
         strava_service = StravaService(db)
         
+        print(f"🔷 [STRAVA CALLBACK] Looking up OAuth state in database...")
         # Find the OAuth state to get user_id
         oauth_state = await db.strava_oauth_state.find_one({'state': state})
         if not oauth_state:
+            print(f"🔴 [STRAVA CALLBACK ERROR] OAuth state not found for state: {state}")
             logging.error(f"OAuth state not found for state: {state}")
             raise HTTPException(status_code=400, detail="Invalid OAuth state")
         
         user_id = oauth_state['user_id']
+        print(f"🔷 [STRAVA CALLBACK] Found user_id: {user_id}")
         logging.info(f"Found user_id from OAuth state: {user_id}")
         
         # Exchange code for tokens
+        print(f"🔷 [STRAVA CALLBACK] Exchanging authorization code for access tokens...")
         logging.info(f"Attempting to exchange code for tokens...")
         result = await strava_service.exchange_code_for_tokens(code, state, user_id)
+        print(f"🟢 [STRAVA CALLBACK SUCCESS] Tokens exchanged successfully!")
+        print(f"🟢 [STRAVA CALLBACK SUCCESS] Athlete: {result.get('athlete', {}).get('firstname', 'Unknown')} {result.get('athlete', {}).get('lastname', '')}")
         logging.info(f"Successfully exchanged code for tokens")
         
         # Redirect back to frontend with success
         await strava_service.load_settings()
         frontend_url = f"https://{strava_service.system_settings['callbackDomain']}/dashboard/account?tab=integrations&strava=connected"
+        print(f"🟢 [STRAVA CALLBACK SUCCESS] Redirecting to: {frontend_url}")
+        print(f"{'='*80}\n")
         logging.info(f"Redirecting to: {frontend_url}")
         return RedirectResponse(url=frontend_url)
         
     except HTTPException as he:
+        print(f"🔴 [STRAVA CALLBACK ERROR] HTTPException: status={he.status_code}, detail={he.detail}")
+        print(f"{'='*80}\n")
         logging.error(f"HTTPException in Strava callback: status={he.status_code}, detail={he.detail}", exc_info=True)
         # Redirect to frontend with error
         try:
@@ -16374,6 +16389,8 @@ async def strava_auth_callback_redirect(
             frontend_url = "/dashboard/account?tab=integrations&strava=error"
         return RedirectResponse(url=frontend_url)
     except Exception as e:
+        print(f"🔴 [STRAVA CALLBACK ERROR] Unexpected: {type(e).__name__}: {str(e)}")
+        print(f"{'='*80}\n")
         logging.error(f"Unexpected error in Strava callback: {type(e).__name__}: {str(e)}", exc_info=True)
         # Redirect to frontend with error - try to get callback domain
         try:
