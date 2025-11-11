@@ -445,12 +445,18 @@ const SystemSettings = ({ athleteId }) => {
             clientSecret: response.data.advanced.garmin?.clientSecret || '',
             callbackDomain: response.data.advanced.garmin?.callbackDomain || ''
           },
+          coros: {
+            clientId: response.data.advanced.coros?.clientId || '',
+            clientSecret: response.data.advanced.coros?.clientSecret || '',
+            callbackDomain: response.data.advanced.coros?.callbackDomain || ''
+          },
           showStravaSecret: false,
           showStravaVerifyToken: false,
           showOuraSecret: false,
           showPolarSecret: false,
           showFitbitSecret: false,
-          showGarminSecret: false
+          showGarminSecret: false,
+          showCorosSecret: false
         }));
       }
       
