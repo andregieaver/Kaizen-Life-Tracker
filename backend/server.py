@@ -6716,6 +6716,19 @@ async def get_training_blocks(athlete_id: str):
         fitbit_block["athlete_id"] = athlete_id  # Ensure athlete_id is set
         parsed_blocks.append(fitbit_block)
     
+    # Get Garmin activities
+    garmin_activities = await db.garmin_activities.find(
+        {"user_id": athlete_id},
+        {"_id": 0}
+    ).sort("start_date", 1).to_list(length=None)
+    
+    # Convert Garmin activities to training block format
+    garmin_service = GarminService(db)
+    for activity in garmin_activities:
+        garmin_block = garmin_service.transform_activity_to_calendar(activity)
+        garmin_block["athlete_id"] = athlete_id  # Ensure athlete_id is set
+        parsed_blocks.append(garmin_block)
+    
     # Sort all blocks by start_date
     parsed_blocks.sort(key=lambda x: x.get('start_date', ''))
     
