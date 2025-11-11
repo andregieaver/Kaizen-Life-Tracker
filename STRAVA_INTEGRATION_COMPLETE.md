@@ -445,8 +445,8 @@ profile:read_all      - Read detailed profile
 ### Development
 ```
 Callback Domain: multilingual-app-27.preview.emergentagent.com
-OAuth Redirect: https://multi-fit.preview.emergentagent.com/api/auth/strava/callback
-Webhook URL: https://multi-fit.preview.emergentagent.com/api/webhook/strava
+OAuth Redirect: https://train-multilingual.preview.emergentagent.com/api/auth/strava/callback
+Webhook URL: https://train-multilingual.preview.emergentagent.com/api/webhook/strava
 ```
 
 ### Production
