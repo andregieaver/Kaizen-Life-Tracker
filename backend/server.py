@@ -7493,11 +7493,19 @@ async def get_strava_activities(user_id: str, limit: int = 50):
 
 @api_router.get("/integrations/strava/{user_id}/stats")
 async def get_strava_stats(user_id: str):
-    """Get Strava activity statistics for merits/achievements"""
+    """Get Strava activity statistics for merits/achievements (Year-to-Date)"""
     try:
-        # Aggregate statistics
+        from datetime import datetime, timezone
+        
+        # Get year-to-date activities only (2025)
+        ytd_start = datetime(2025, 1, 1, 0, 0, 0)
+        
+        # Aggregate YTD statistics
         pipeline = [
-            {'$match': {'user_id': user_id}},
+            {'$match': {
+                'user_id': user_id,
+                'start_date': {'$gte': ytd_start}
+            }},
             {'$group': {
                 '_id': None,
                 'total_activities': {'$sum': 1},
@@ -7522,7 +7530,8 @@ async def get_strava_stats(user_id: str):
                 'total_distance_km': 0,
                 'total_time_hours': 0,
                 'total_elevation_m': 0,
-                'activities_by_type': {}
+                'activities_by_type': {},
+                'best_times': {}
             }
         
         stats = result[0]
@@ -7541,12 +7550,54 @@ async def get_strava_stats(user_id: str):
             activities_by_type[activity_type]['distance'] += activity.get('distance', 0)
             activities_by_type[activity_type]['time'] += activity.get('time', 0)
         
+        # Calculate best times for standard race distances (all-time, not just YTD)
+        # Standard distances in meters with ±5% tolerance
+        race_distances = {
+            '1km': (950, 1050),
+            '5km': (4750, 5250),
+            '10km': (9500, 10500),
+            'Half Marathon': (20000, 22000),
+            'Marathon': (40000, 44000)
+        }
+        
+        best_times = {}
+        for race_name, (min_dist, max_dist) in race_distances.items():
+            # Find best time for this distance range (all-time)
+            best_activity = await db.strava_activities.find_one(
+                {
+                    'user_id': user_id,
+                    'type': 'Run',
+                    'distance': {'$gte': min_dist, '$lte': max_dist}
+                },
+                sort=[('moving_time', 1)]  # Fastest time (lowest)
+            )
+            
+            if best_activity:
+                time_seconds = best_activity.get('moving_time', 0)
+                hours = int(time_seconds // 3600)
+                minutes = int((time_seconds % 3600) // 60)
+                seconds = int(time_seconds % 60)
+                
+                if hours > 0:
+                    time_str = f"{hours}:{minutes:02d}:{seconds:02d}"
+                else:
+                    time_str = f"{minutes}:{seconds:02d}"
+                
+                best_times[race_name] = {
+                    'time': time_str,
+                    'time_seconds': time_seconds,
+                    'date': best_activity.get('start_date'),
+                    'name': best_activity.get('name'),
+                    'distance': round(best_activity.get('distance', 0) / 1000, 2)
+                }
+        
         return {
             'total_activities': stats.get('total_activities', 0),
-            'total_distance_km': round((stats.get('total_distance', 0) / 1000), 2),
-            'total_time_hours': round((stats.get('total_time', 0) / 3600), 2),
-            'total_elevation_m': round(stats.get('total_elevation', 0), 2),
-            'activities_by_type': activities_by_type
+            'total_distance_km': round((stats.get('total_distance', 0) / 1000), 1),
+            'total_time_hours': round((stats.get('total_time', 0) / 3600), 1),
+            'total_elevation_m': round(stats.get('total_elevation', 0), 0),
+            'activities_by_type': activities_by_type,
+            'best_times': best_times
         }
     except Exception as e:
         logging.error(f"Error fetching Strava stats: {e}")
