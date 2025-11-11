@@ -6758,6 +6758,19 @@ async def get_training_blocks(athlete_id: str):
         coros_block["athlete_id"] = athlete_id  # Ensure athlete_id is set
         parsed_blocks.append(coros_block)
     
+    # Get WHOOP activities
+    whoop_activities = await db.whoop_activities.find(
+        {"user_id": athlete_id},
+        {"_id": 0}
+    ).sort("start_date", 1).to_list(length=None)
+    
+    # Convert WHOOP activities to training block format
+    whoop_service = WhoopService(db)
+    for activity in whoop_activities:
+        whoop_block = whoop_service.transform_activity_to_calendar(activity)
+        whoop_block["athlete_id"] = athlete_id  # Ensure athlete_id is set
+        parsed_blocks.append(whoop_block)
+    
     # Sort all blocks by start_date
     parsed_blocks.sort(key=lambda x: x.get('start_date', ''))
     
