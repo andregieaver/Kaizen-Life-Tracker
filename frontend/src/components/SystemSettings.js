@@ -1243,6 +1243,11 @@ const SystemSettings = ({ athleteId }) => {
             clientId: advancedSettings.polar.clientId,
             clientSecret: advancedSettings.polar.clientSecret,
             callbackDomain: advancedSettings.polar.callbackDomain
+          },
+          fitbit: {
+            clientId: advancedSettings.fitbit.clientId,
+            clientSecret: advancedSettings.fitbit.clientSecret,
+            callbackDomain: advancedSettings.fitbit.callbackDomain
           }
         }
       });
