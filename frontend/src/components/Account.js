@@ -346,6 +346,33 @@ const Account = ({ athleteId }) => {
       }, 5000);
     }
     
+    // Handle Polar OAuth callback
+    const polarStatus = urlParams.get('polar');
+    if (polarStatus === 'connected') {
+      setSaveStatus({ 
+        type: 'success', 
+        message: 'Polar connected successfully! Your activities will now sync automatically.' 
+      });
+      setTimeout(() => {
+        setSaveStatus({ type: '', message: '' });
+        // Clean URL
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 5000);
+      // Reload to show connection
+      if (athleteId) {
+        loadAccountData();
+      }
+    } else if (polarStatus === 'error') {
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Failed to connect Polar. Please try again or check System Settings.' 
+      });
+      setTimeout(() => {
+        setSaveStatus({ type: '', message: '' });
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 5000);
+    }
+    
     // Check if returning from Stripe checkout
     const sessionId = urlParams.get('session_id');
     const success = urlParams.get('success');
