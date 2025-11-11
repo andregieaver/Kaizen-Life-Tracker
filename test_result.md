@@ -279,7 +279,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Polar Integration - Training Calendar, AI Coach, and Data Display"
+    - "Garmin OAuth 1.0a Integration Backend Testing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
