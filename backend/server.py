@@ -8685,13 +8685,39 @@ class OuraConnector(ProviderConnector):
             "sleep_total_min": payload.get("total_sleep_duration", 0) // 60  # Convert seconds to minutes
         }
 
+# Polar Connector (delegates to PolarService)
+class PolarConnector(ProviderConnector):
+    def __init__(self):
+        super().__init__("polar", "Polar Flow", "oauth2")
+    
+    async def begin_auth(self, user_id: str):
+        """Begin Polar OAuth flow - delegates to PolarService"""
+        try:
+            logging.info(f"[POLAR CONNECTOR] Starting auth for user: {user_id}")
+            polar_service = PolarService(db)
+            scopes = ["accesslink.read_all"]
+            auth_url = await polar_service.get_authorization_url(user_id, scopes)
+            
+            logging.info(f"[POLAR CONNECTOR] Authorization URL generated: {auth_url}")
+            return {
+                "authorization_url": auth_url,
+                "provider": "polar"
+            }
+        except Exception as e:
+            import traceback
+            logging.error(f"Error in PolarConnector.begin_auth: {e}")
+            logging.error(f"Traceback: {traceback.format_exc()}")
+            raise HTTPException(status_code=500, detail=str(e))
+
 # Initialize connectors
 strava_connector = StravaConnector()
 oura_connector = OuraConnector()
+polar_connector = PolarConnector()
 
 connectors = {
     "strava": strava_connector,
-    "oura": oura_connector
+    "oura": oura_connector,
+    "polar": polar_connector
 }
 
 # Hub API Endpoints
