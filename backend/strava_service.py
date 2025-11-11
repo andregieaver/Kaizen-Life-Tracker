@@ -183,11 +183,20 @@ class StravaService:
             'sync_status': 'pending'
         }
         
-        await self.db.strava_connections.update_one(
+        logging.info(f"Saving Strava connection to database for user: {user_id}, athlete_id: {token_data['athlete']['id']}")
+        result = await self.db.strava_connections.update_one(
             {'user_id': user_id},
             {'$set': connection_data},
             upsert=True
         )
+        logging.info(f"Database save result: matched={result.matched_count}, modified={result.modified_count}, upserted_id={result.upserted_id}")
+        
+        # Verify the save
+        saved_connection = await self.db.strava_connections.find_one({'user_id': user_id})
+        if saved_connection:
+            logging.info(f"✅ Connection verified in database for user: {user_id}")
+        else:
+            logging.error(f"❌ Connection NOT found in database after save for user: {user_id}")
         
         # Clean up OAuth state
         await self.db.strava_oauth_state.delete_one({'_id': oauth_state['_id']})
