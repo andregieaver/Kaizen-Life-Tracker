@@ -969,7 +969,7 @@ const Account = ({ athleteId }) => {
       // Load integrations data from backend
       try {
         // Load from new OAuth status and legacy integrations
-        const [stravaStatusRes, ouraStatusRes, polarStatusRes, fitbitStatusRes, garminStatusRes, corosStatusRes, whoopStatusRes, connectionsRes] = await Promise.all([
+        const [stravaStatusRes, ouraStatusRes, polarStatusRes, fitbitStatusRes, garminStatusRes, corosStatusRes, whoopStatusRes, suuntoStatusRes, connectionsRes] = await Promise.all([
           axios.get(`${API}/auth/strava/status`, { params: { user_id: athleteId } }).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/integrations/oura/${athleteId}/status`).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/auth/polar/status`, { params: { user_id: athleteId } }).catch(() => ({ data: { connected: false } })),
@@ -977,6 +977,7 @@ const Account = ({ athleteId }) => {
           axios.get(`${API}/auth/garmin/status`, { params: { user_id: athleteId } }).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/auth/coros/status`, { params: { user_id: athleteId } }).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/auth/whoop/status`, { params: { user_id: athleteId } }).catch(() => ({ data: { connected: false } })),
+          axios.get(`${API}/auth/suunto/status`, { params: { user_id: athleteId } }).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/me/connections?user_id=${athleteId}`).catch(() => ({ data: { connections: [] } }))
         ]);
         
@@ -987,6 +988,7 @@ const Account = ({ athleteId }) => {
         const garminStatus = garminStatusRes.data;
         const corosStatus = corosStatusRes.data;
         const whoopStatus = whoopStatusRes.data;
+        const suuntoStatus = suuntoStatusRes.data;
         const connectionsData = connectionsRes.data.connections || [];
         
         // Initialize integrations state with OAuth data
