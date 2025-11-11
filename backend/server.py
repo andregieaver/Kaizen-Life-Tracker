@@ -8187,6 +8187,32 @@ async def coros_oauth_callback(request: Request):
         logging.error(f"COROS OAuth error: {e}")
         raise HTTPException(status_code=500, detail="Failed to complete COROS authorization")
 
+@api_router.get("/auth/garmin/callback")
+async def garmin_oauth_callback(oauth_token: str = None, oauth_verifier: str = None, error: str = None):
+    """Handle Garmin OAuth 1.0a callback"""
+    try:
+        if error:
+            logging.error(f"[GARMIN] OAuth error: {error}")
+            return RedirectResponse(url=f"/dashboard/account?tab=integrations&garmin=error")
+        
+        if not oauth_token or not oauth_verifier:
+            logging.error(f"[GARMIN] Missing OAuth parameters")
+            raise HTTPException(status_code=400, detail="Missing oauth_token or oauth_verifier parameter")
+        
+        logging.info(f"[GARMIN] Callback received - token: {oauth_token[:20]}..., verifier: {oauth_verifier[:20]}...")
+        
+        garmin_service = GarminService(db)
+        result = await garmin_service.exchange_code_for_tokens(oauth_token, oauth_verifier)
+        
+        logging.info(f"[GARMIN] Successfully connected for user: {result['user_id']}")
+        return RedirectResponse(url=f"/dashboard/account?tab=integrations&garmin=connected")
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"[GARMIN] Callback error: {e}", exc_info=True)
+        return RedirectResponse(url=f"/dashboard/account?tab=integrations&garmin=error")
+
 @api_router.post("/integrations/coros/{athlete_id}/sync")
 async def sync_coros_activities(athlete_id: str):
     """Sync activities from COROS via Terra API"""
