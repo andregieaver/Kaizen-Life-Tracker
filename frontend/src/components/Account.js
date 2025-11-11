@@ -3593,6 +3593,20 @@ const Account = ({ athleteId }) => {
                   t={t}
                 />
                 
+                {/* Polar */}
+                <IntegrationCard
+                  provider="polar"
+                  name="Polar Flow"
+                  description="Connect your Polar watch to sync training data"
+                  icon={<Activity className="w-8 h-8 text-red-500" />}
+                  connected={integrations.polar?.connected || false}
+                  connectionInfo={integrations.polar}
+                  onConnect={() => handleSimpleConnect('polar')}
+                  onDisconnect={() => handleDisconnectIntegration('polar')}
+                  onSync={(fullSync) => handleGenericSync('polar', fullSync)}
+                  t={t}
+                />
+                
                 {/* COROS */}
                 <IntegrationCard
                   provider="coros"
