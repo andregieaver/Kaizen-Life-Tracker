@@ -1500,24 +1500,11 @@ def test_strava_oauth_integration_comprehensive():
         print("\n✅ STRAVA OAUTH INTEGRATION COMPREHENSIVE TEST COMPLETED")
         return success_criteria_met
         
-        # Step 3: OAuth State Storage Test - Check strava_oauth_state collection
-        print("   Step 3: OAuth State Storage Test")
-        
-        # We can't directly access MongoDB, but we can test the state by trying the callback
-        # The state should be stored and retrievable
-        print_test_result("OAuth State Storage", True, f"State generated and should be stored: {state[:20]}...")
-        
-        # Step 3a: Test StravaService Endpoint (alternative path)
-        print("   Step 3a: Test StravaService Endpoint - GET /api/auth/strava (StravaService)")
-        
-        strava_service_response = requests.get(f"{BACKEND_URL}/auth/strava?user_id={test_user_id}")
-        
-        print(f"      StravaService Status: {strava_service_response.status_code}")
-        print(f"      StravaService Response: {strava_service_response.text[:200]}...")
-        
-        if strava_service_response.status_code == 200:
-            service_data = strava_service_response.json()
-            service_auth_url = service_data.get("authUrl")
+    except Exception as e:
+        print_test_result("Strava OAuth Integration - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
             service_state = service_data.get("state")
             print_test_result("StravaService Endpoint", True, f"StravaService also working, state: {service_state[:20] if service_state else 'None'}...")
         else:
