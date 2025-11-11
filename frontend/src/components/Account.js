@@ -3589,6 +3589,7 @@ const Account = ({ athleteId }) => {
                   connectionInfo={integrations.oura}
                   onConnect={handleOuraConnect}
                   onDisconnect={() => handleSimpleDisconnect('oura')}
+                  onSync={handleOuraSync}
                   t={t}
                 />
                 
