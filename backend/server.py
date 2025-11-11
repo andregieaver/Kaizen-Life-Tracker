@@ -3242,13 +3242,25 @@ openai_realtime_chat = None
 
 async def get_realtime_chat_for_athlete(athlete_id: str):
     """Get or create OpenAI Realtime Chat instance for athlete"""
-    # Get user's OpenAI API key
+    # Try to get user's personal OpenAI API key first
     user_openai_key = await ai_coach.get_user_openai_key(athlete_id)
-    if not user_openai_key:
-        raise HTTPException(status_code=400, detail="OpenAI API key required for voice chat")
+    
+    if user_openai_key:
+        logging.info(f"Using personal OpenAI key for voice chat: {athlete_id}")
+        api_key = user_openai_key
+    else:
+        # Fall back to global/system OpenAI key (Emergent LLM key)
+        global_key = await ai_coach.get_global_openai_key()
+        if not global_key:
+            raise HTTPException(
+                status_code=400, 
+                detail="OpenAI API key required for voice chat. Please add your API key in Account Settings or configure system-wide key."
+            )
+        logging.info(f"Using global OpenAI key for voice chat: {athlete_id}")
+        api_key = global_key
     
     # Create realtime chat instance
-    realtime_chat = OpenAIChatRealtime(api_key=user_openai_key)
+    realtime_chat = OpenAIChatRealtime(api_key=api_key)
     return realtime_chat
 
 # API Routes
