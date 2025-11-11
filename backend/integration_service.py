@@ -221,8 +221,7 @@ class BaseIntegrationService(ABC):
         if not connection or not connection.get("refresh_token"):
             raise HTTPException(status_code=404, detail="Cannot refresh token")
         
-        await self.load_settings()
-        provider_config = self.system_settings.get(self.provider_name.lower())
+        provider_config = await self.load_settings()
         
         async with httpx.AsyncClient() as client:
             response = await client.post(
