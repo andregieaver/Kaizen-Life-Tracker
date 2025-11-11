@@ -80,6 +80,8 @@ class PolarService(BaseIntegrationService):
                 raise HTTPException(status_code=400, detail="Polar token exchange failed")
             
             token_data = response.json()
+            logging.info(f"[POLAR] Token response keys: {list(token_data.keys())}")
+            logging.info(f"[POLAR] Access token received: {token_data.get('access_token', 'MISSING')[:20]}...")
         
         # Fetch user profile
         user_profile = await self.fetch_user_profile(token_data["access_token"])
