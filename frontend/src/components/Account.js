@@ -884,12 +884,13 @@ const Account = ({ athleteId }) => {
       // Load integrations data from backend
       try {
         // Load from new OAuth status and legacy integrations
-        const [stravaStatusRes, ouraStatusRes, polarStatusRes, fitbitStatusRes, garminStatusRes, connectionsRes] = await Promise.all([
+        const [stravaStatusRes, ouraStatusRes, polarStatusRes, fitbitStatusRes, garminStatusRes, corosStatusRes, connectionsRes] = await Promise.all([
           axios.get(`${API}/auth/strava/status`, { params: { user_id: athleteId } }).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/integrations/oura/${athleteId}/status`).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/auth/polar/status`, { params: { user_id: athleteId } }).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/auth/fitbit/status`, { params: { user_id: athleteId } }).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/auth/garmin/status`, { params: { user_id: athleteId } }).catch(() => ({ data: { connected: false } })),
+          axios.get(`${API}/auth/coros/status`, { params: { user_id: athleteId } }).catch(() => ({ data: { connected: false } })),
           axios.get(`${API}/me/connections?user_id=${athleteId}`).catch(() => ({ data: { connections: [] } }))
         ]);
         
@@ -898,6 +899,7 @@ const Account = ({ athleteId }) => {
         const polarStatus = polarStatusRes.data;
         const fitbitStatus = fitbitStatusRes.data;
         const garminStatus = garminStatusRes.data;
+        const corosStatus = corosStatusRes.data;
         const connectionsData = connectionsRes.data.connections || [];
         
         // Initialize integrations state with OAuth data
@@ -924,7 +926,10 @@ const Account = ({ athleteId }) => {
             connected: garminStatus.connected,
             last_sync: garminStatus.last_sync_at
           },
-          coros: { connected: false, last_sync: null }
+          coros: { 
+            connected: corosStatus.connected,
+            last_sync: corosStatus.last_sync_at
+          }
         };
         
         // Update with new connections data (preferred)
