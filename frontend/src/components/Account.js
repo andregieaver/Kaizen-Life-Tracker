@@ -3820,13 +3820,13 @@ const Account = ({ athleteId }) => {
                 <IntegrationCard
                   provider="coros"
                   name="COROS"
-                  description={t('account.corosDescription')}
-                  icon={<Mountain className="w-8 h-8 text-blue-600" />}
-                  connected={integrations.coros.connected}
+                  description="Connect your COROS watch to sync comprehensive training data and metrics"
+                  icon={<Activity className="w-8 h-8 text-yellow-500" />}
+                  connected={integrations.coros?.connected || false}
                   connectionInfo={integrations.coros}
                   onConnect={() => handleSimpleConnect('coros')}
-                  onDisconnect={() => handleSimpleDisconnect('coros')}
-                  comingSoon={true}
+                  onDisconnect={() => handleDisconnectIntegration('coros')}
+                  onSync={(fullSync) => handleGenericSync('coros', fullSync)}
                   t={t}
                 />
               </CardContent>
