@@ -441,6 +441,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
     const isFitbit = block.source === 'fitbit';
     const isGarmin = block.source === 'garmin';
     const isCoros = block.source === 'coros';
+    const isWhoop = block.source === 'whoop';
     
     // Different colors for different sources
     let bgColor = 'bg-blue-500'; // Default for manual training
@@ -450,6 +451,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
     else if (isFitbit) bgColor = 'bg-teal-500';
     else if (isGarmin) bgColor = 'bg-blue-600';
     else if (isCoros) bgColor = 'bg-yellow-500';
+    else if (isWhoop) bgColor = 'bg-purple-600';
     else if (isHealth) bgColor = 'bg-green-500';
     
     // Icons for different sources
@@ -459,6 +461,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
     else if (isFitbit) sourceIcon = '📊';
     else if (isGarmin) sourceIcon = '⌚';
     else if (isCoros) sourceIcon = '🏔️';
+    else if (isWhoop) sourceIcon = '💪';
     else if (isOura && block.oura_data?.type === 'Sleep') sourceIcon = '😴';
     else if (isOura && block.oura_data?.type === 'Readiness') sourceIcon = '⚡';
     else if (isOura) sourceIcon = '💪';
