@@ -117,6 +117,17 @@ const IntegrationCard = ({
               <CheckCircle className="w-3 h-3 mr-1" />
               {t('account.connected')}
             </Badge>
+            {onSync && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onSync}
+                className="text-blue-600 hover:text-blue-700 hover:border-blue-300"
+              >
+                <RefreshCw className="w-4 h-4 mr-1" />
+                {t('account.sync')}
+              </Button>
+            )}
             <Button
               variant="outline"
               size="sm"
