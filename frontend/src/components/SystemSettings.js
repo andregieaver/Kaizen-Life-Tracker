@@ -1254,6 +1254,11 @@ const SystemSettings = ({ athleteId }) => {
             clientId: advancedSettings.fitbit.clientId,
             clientSecret: advancedSettings.fitbit.clientSecret,
             callbackDomain: advancedSettings.fitbit.callbackDomain
+          },
+          garmin: {
+            clientId: advancedSettings.garmin.clientId,
+            clientSecret: advancedSettings.garmin.clientSecret,
+            callbackDomain: advancedSettings.garmin.callbackDomain
           }
         }
       });
