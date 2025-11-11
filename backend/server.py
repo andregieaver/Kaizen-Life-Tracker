@@ -8799,19 +8799,45 @@ class GarminConnector(ProviderConnector):
             logging.error(f"Traceback: {traceback.format_exc()}")
             raise HTTPException(status_code=500, detail=str(e))
 
+# COROS Connector (delegates to CorosService)
+class CorosConnector(ProviderConnector):
+    def __init__(self):
+        super().__init__("coros", "COROS", "oauth2")
+    
+    async def begin_auth(self, user_id: str):
+        """Begin COROS OAuth flow - delegates to CorosService"""
+        try:
+            logging.info(f"[COROS CONNECTOR] Starting auth for user: {user_id}")
+            coros_service = CorosService(db)
+            scopes = ["activity", "sleep", "heart_rate"]
+            auth_url = await coros_service.get_authorization_url(user_id, scopes)
+            
+            logging.info(f"[COROS CONNECTOR] Authorization URL generated: {auth_url}")
+            return {
+                "authorization_url": auth_url,
+                "provider": "coros"
+            }
+        except Exception as e:
+            import traceback
+            logging.error(f"Error in CorosConnector.begin_auth: {e}")
+            logging.error(f"Traceback: {traceback.format_exc()}")
+            raise HTTPException(status_code=500, detail=str(e))
+
 # Initialize connectors
 strava_connector = StravaConnector()
 oura_connector = OuraConnector()
 polar_connector = PolarConnector()
 fitbit_connector = FitbitConnector()
 garmin_connector = GarminConnector()
+coros_connector = CorosConnector()
 
 connectors = {
     "strava": strava_connector,
     "oura": oura_connector,
     "polar": polar_connector,
     "fitbit": fitbit_connector,
-    "garmin": garmin_connector
+    "garmin": garmin_connector,
+    "coros": coros_connector
 }
 
 # Hub API Endpoints
