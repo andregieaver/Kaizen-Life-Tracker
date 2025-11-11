@@ -1287,6 +1287,11 @@ const SystemSettings = ({ athleteId }) => {
             clientId: advancedSettings.whoop.clientId,
             clientSecret: advancedSettings.whoop.clientSecret,
             callbackDomain: advancedSettings.whoop.callbackDomain
+          },
+          suunto: {
+            clientId: advancedSettings.suunto.clientId,
+            clientSecret: advancedSettings.suunto.clientSecret,
+            callbackDomain: advancedSettings.suunto.callbackDomain
           }
         }
       });
