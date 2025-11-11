@@ -2528,3 +2528,20 @@ backend:
         agent: "main"
         comment: "SUUNTO INTEGRATION COMPLETE - Full end-to-end integration implemented. BACKEND CHANGES (server.py): 1) Import added: from suunto_service import SuuntoService (line 54), 2) Training Calendar: Added suunto_activities fetch and transformation to calendar blocks using SuuntoService.transform_activity_to_calendar() (after WHOOP activities), 3) AI Coach Context: Added suunto_activities query (last 50 activities) to get_athlete_context for coach recommendations, 4) SuuntoConnector Class: Created connector that delegates to SuuntoService with 'workout' scope, following pattern of other connectors, 5) Integration Service Mapping: Added 'suunto': lambda: SuuntoService(db) to get_integration_service() function, 6) Scopes Mapping: Added 'suunto': ['workout'] to scopes_map for OAuth, 7) Connectors Dict: Added suunto_connector to connectors registry. FRONTEND CHANGES: 1) SystemSettings.js: Added Suunto configuration section with Client ID, Client Secret, Callback Domain fields, cyan color theme (bg-cyan-500), setup instructions pointing to Suunto API Zone (https://apizone.suunto.com/), state management for suunto credentials and showSuuntoSecret toggle, save logic updated to include suunto settings. 2) Account.js: Added suunto to integrations state initialization, OAuth callback handling for success/error states, status check in loadAccountData (axios.get for /api/auth/suunto/status), IntegrationCard for Suunto with cyan icon (Activity className w-8 h-8 text-cyan-500), connect/disconnect/sync handlers (handleSimpleConnect, handleDisconnectIntegration, handleGenericSync), sync button conditions updated to include suunto. 3) TrainingCalendar.js: Added isSuunto detection (block.source === 'suunto'), cyan background color (bg-cyan-500) for Suunto activities, compass emoji (🧭) as source icon, heart rate display from block.suunto_data?.heart_rate_avg. EXISTING SUUNTO INFRASTRUCTURE: suunto_service.py fully implemented with OAuth2 + Basic Auth token exchange (like Polar), all required methods (exchange_code_for_tokens, fetch_user_profile, sync_activities, fetch_activities, transform_activity_to_calendar, get_stats), BaseIntegrationService inheritance for consistency. GENERIC ENDPOINTS READY: /api/auth/suunto (authorization), /api/auth/suunto/callback (OAuth callback), /api/auth/suunto/status (connection status), /api/integrations/suunto/{user_id}/sync (data sync), /api/integrations/suunto/{user_id}/activities (get activities), /api/integrations/suunto/{user_id}/stats (get statistics). Backend and frontend restarted successfully. TESTING NEEDED: 1) Verify Suunto credentials can be saved in System Settings → Advanced tab, 2) Test Suunto OAuth connection flow (connect button → authorize on Suunto → callback to app), 3) Test Suunto data sync (incremental with Sync button, full with Full Sync button), 4) Verify Suunto activities display in training calendar with cyan color, compass icon, and heart rate data, 5) Verify AI Coach can access Suunto activities in context for personalized recommendations, 6) Test disconnect functionality."
 
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Suunto Integration - Complete Backend and Frontend Wiring"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "SUUNTO INTEGRATION COMPLETE - Implemented full end-to-end Suunto integration following the same pattern as WHOOP and COROS. Backend: Added SuuntoService import, training calendar integration, AI coach context, SuuntoConnector class, integration service mapping, and scopes. Frontend: Added SystemSettings UI with cyan theme, Account.js OAuth handling and IntegrationCard, TrainingCalendar.js activity rendering with compass icon. Backend and frontend restarted successfully and compiled. Ready for comprehensive backend testing."
