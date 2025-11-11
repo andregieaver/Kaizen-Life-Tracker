@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integration Cards Responsive Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    screens: {
+                        'md': '768px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8 text-center">Integration Cards Responsive Test</h1>
+        
+        <div class="space-y-4">
+            <!-- Strava Integration Card -->
+            <div class="p-4 border-0 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:shadow-lg transition-colors">
+                <!-- Desktop Layout: horizontal -->
+                <div class="hidden md:flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">S</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">Strava</h4>
+                            <p class="text-sm text-gray-300">Connect your Strava account to sync running activities and training data</p>
+                            <div class="flex items-center gap-4 mt-1 text-xs text-gray-400">
+                                <span>Connected as: Test User</span>
+                                <span>User ID: 12345678...</span>
+                                <span>Last Sync: 2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <span class="bg-blue-900/30 text-blue-400 border border-blue-700 px-2 py-1 rounded text-xs">
+                            ✓ Connected
+                        </span>
+                        <button class="border border-blue-600 text-blue-600 hover:text-blue-700 hover:border-blue-300 px-3 py-1 rounded text-sm">
+                            🔄 Sync
+                        </button>
+                        <button class="border border-blue-600 text-blue-600 hover:text-blue-700 hover:border-blue-300 px-2 py-1 rounded text-sm">
+                            🔄 Full
+                        </button>
+                        <button class="border border-red-600 text-red-600 hover:text-red-700 hover:border-red-300 px-3 py-1 rounded text-sm">
+                            Disconnect
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Layout: vertical stacked -->
+                <div class="md:hidden space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 mt-1">
+                            <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">S</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-white">Strava</h4>
+                            <p class="text-sm text-gray-300 line-clamp-2">Connect your Strava account to sync running activities and training data</p>
+                            <div class="flex flex-col gap-1 mt-2 text-xs text-gray-400">
+                                <span class="truncate">Connected as: Test User</span>
+                                <span class="truncate">User ID: 12345678...</span>
+                                <span>Last Sync: 2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="bg-blue-900/30 text-blue-400 border border-blue-700 px-2 py-1 rounded text-xs">
+                            ✓ Connected
+                        </span>
+                        <button class="border border-blue-600 text-blue-600 hover:text-blue-700 hover:border-blue-300 px-3 py-1 rounded text-sm flex-1">
+                            🔄 Sync
+                        </button>
+                        <button class="border border-blue-600 text-blue-600 hover:text-blue-700 hover:border-blue-300 px-2 py-1 rounded text-sm">
+                            🔄 Full
+                        </button>
+                        <button class="border border-red-600 text-red-600 hover:text-red-700 hover:border-red-300 px-3 py-1 rounded text-sm flex-1">
+                            Disconnect
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Oura Ring Integration Card -->
+            <div class="p-4 border-0 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:shadow-lg transition-colors">
+                <!-- Desktop Layout: horizontal -->
+                <div class="hidden md:flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">O</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">Oura Ring</h4>
+                            <p class="text-sm text-gray-300">Connect your Oura Ring to sync sleep, recovery, and readiness data</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white">
+                            🔗 Connect Oura Ring
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Layout: vertical stacked -->
+                <div class="md:hidden space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 mt-1">
+                            <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">O</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-white">Oura Ring</h4>
+                            <p class="text-sm text-gray-300 line-clamp-2">Connect your Oura Ring to sync sleep, recovery, and readiness data</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white w-full">
+                            🔗 Connect Oura Ring
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Polar Flow Integration Card -->
+            <div class="p-4 border-0 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:shadow-lg transition-colors">
+                <!-- Desktop Layout: horizontal -->
+                <div class="hidden md:flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">P</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">Polar Flow</h4>
+                            <p class="text-sm text-gray-300">Connect your Polar watch to sync training data</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white">
+                            🔗 Connect Polar Flow
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Layout: vertical stacked -->
+                <div class="md:hidden space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 mt-1">
+                            <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">P</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-white">Polar Flow</h4>
+                            <p class="text-sm text-gray-300 line-clamp-2">Connect your Polar watch to sync training data</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white w-full">
+                            🔗 Connect Polar Flow
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fitbit Integration Card -->
+            <div class="p-4 border-0 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:shadow-lg transition-colors">
+                <!-- Desktop Layout: horizontal -->
+                <div class="hidden md:flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">F</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">Fitbit</h4>
+                            <p class="text-sm text-gray-300">Connect your Fitbit device to sync activities, sleep, heart rate, and health data</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white">
+                            🔗 Connect Fitbit
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Layout: vertical stacked -->
+                <div class="md:hidden space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 mt-1">
+                            <div class="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">F</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-white">Fitbit</h4>
+                            <p class="text-sm text-gray-300 line-clamp-2">Connect your Fitbit device to sync activities, sleep, heart rate, and health data</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white w-full">
+                            🔗 Connect Fitbit
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Garmin Connect Integration Card -->
+            <div class="p-4 border-0 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:shadow-lg transition-colors">
+                <!-- Desktop Layout: horizontal -->
+                <div class="hidden md:flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">G</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">Garmin Connect</h4>
+                            <p class="text-sm text-gray-300">Connect your Garmin device to sync comprehensive fitness and health data</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white">
+                            🔗 Connect Garmin Connect
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Layout: vertical stacked -->
+                <div class="md:hidden space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 mt-1">
+                            <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">G</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-white">Garmin Connect</h4>
+                            <p class="text-sm text-gray-300 line-clamp-2">Connect your Garmin device to sync comprehensive fitness and health data</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white w-full">
+                            🔗 Connect Garmin Connect
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COROS Integration Card -->
+            <div class="p-4 border-0 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:shadow-lg transition-colors">
+                <!-- Desktop Layout: horizontal -->
+                <div class="hidden md:flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">C</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">COROS</h4>
+                            <p class="text-sm text-gray-300">Connect your COROS watch to sync comprehensive training data and metrics</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white">
+                            🔗 Connect COROS
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Layout: vertical stacked -->
+                <div class="md:hidden space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 mt-1">
+                            <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">C</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-white">COROS</h4>
+                            <p class="text-sm text-gray-300 line-clamp-2">Connect your COROS watch to sync comprehensive training data and metrics</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white w-full">
+                            🔗 Connect COROS
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WHOOP Integration Card -->
+            <div class="p-4 border-0 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:shadow-lg transition-colors">
+                <!-- Desktop Layout: horizontal -->
+                <div class="hidden md:flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">W</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">WHOOP</h4>
+                            <p class="text-sm text-gray-300">Connect your WHOOP device to sync recovery, strain, sleep, and performance data</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white">
+                            🔗 Connect WHOOP
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Layout: vertical stacked -->
+                <div class="md:hidden space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 mt-1">
+                            <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">W</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-white">WHOOP</h4>
+                            <p class="text-sm text-gray-300 line-clamp-2">Connect your WHOOP device to sync recovery, strain, sleep, and performance data</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white w-full">
+                            🔗 Connect WHOOP
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suunto Integration Card -->
+            <div class="p-4 border-0 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:shadow-lg transition-colors">
+                <!-- Desktop Layout: horizontal -->
+                <div class="hidden md:flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">S</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-white">Suunto</h4>
+                            <p class="text-sm text-gray-300">Connect your Suunto watch to sync workout and training data</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white">
+                            🔗 Connect Suunto
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Layout: vertical stacked -->
+                <div class="md:hidden space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 mt-1">
+                            <div class="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">S</span>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-white">Suunto</h4>
+                            <p class="text-sm text-gray-300 line-clamp-2">Connect your Suunto watch to sync workout and training data</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm text-white w-full">
+                            🔗 Connect Suunto
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center text-gray-400">
+            <p>Resize your browser window to test responsive behavior</p>
+            <p>Desktop: ≥768px (horizontal layout) | Mobile: <768px (vertical layout)</p>
+        </div>
+    </div>
+</body>
+</html>
