@@ -6737,6 +6737,19 @@ async def get_training_blocks(athlete_id: str):
         garmin_block["athlete_id"] = athlete_id  # Ensure athlete_id is set
         parsed_blocks.append(garmin_block)
     
+    # Get COROS activities
+    coros_activities = await db.coros_activities.find(
+        {"user_id": athlete_id},
+        {"_id": 0}
+    ).sort("start_date", 1).to_list(length=None)
+    
+    # Convert COROS activities to training block format
+    coros_service = CorosService(db)
+    for activity in coros_activities:
+        coros_block = coros_service.transform_activity_to_calendar(activity)
+        coros_block["athlete_id"] = athlete_id  # Ensure athlete_id is set
+        parsed_blocks.append(coros_block)
+    
     # Sort all blocks by start_date
     parsed_blocks.sort(key=lambda x: x.get('start_date', ''))
     
