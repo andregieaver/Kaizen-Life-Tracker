@@ -118,7 +118,7 @@ const IntegrationCard = ({
               <CheckCircle className="w-3 h-3 mr-1" />
               {t('account.connected')}
             </Badge>
-            {onSync && provider === 'strava' && (
+            {onSync && (provider === 'strava' || provider === 'oura') && (
               <div className="relative">
                 <Button
                   variant="outline"
@@ -134,14 +134,14 @@ const IntegrationCard = ({
                   size="sm"
                   onClick={() => onSync(true)}
                   className="ml-1 text-blue-600 hover:text-blue-700 hover:border-blue-300"
-                  title="Full sync - all activities"
+                  title="Full sync - all data"
                 >
                   <RefreshCw className="w-4 h-4" />
                   <span className="text-xs">Full</span>
                 </Button>
               </div>
             )}
-            {onSync && provider !== 'strava' && (
+            {onSync && provider !== 'strava' && provider !== 'oura' && (
               <Button
                 variant="outline"
                 size="sm"
