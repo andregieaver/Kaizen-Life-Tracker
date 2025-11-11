@@ -1703,6 +1703,12 @@ Return only the JSON array, nothing else.
             {"_id": 0}
         ).sort("start_date", -1).limit(50).to_list(length=None)
         
+        # Get WHOOP activities (last 30 days)
+        whoop_activities = await db.whoop_activities.find(
+            {"user_id": athlete_id},
+            {"_id": 0}
+        ).sort("start_date", -1).limit(50).to_list(length=None)
+        
         # Get supplements (active supplements the athlete is taking)
         supplements = await db.supplements.find(
             {"athlete_id": athlete_id},
