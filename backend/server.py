@@ -6555,6 +6555,12 @@ async def get_training_blocks(athlete_id: str):
         }
         parsed_blocks.append(strava_block)
     
+    # Convert Oura activities to training block format
+    oura_service = OuraService(db)
+    for activity in oura_activities:
+        oura_block = oura_service.transform_activity_to_calendar(activity)
+        parsed_blocks.append(oura_block)
+    
     # Sort all blocks by start_date
     parsed_blocks.sort(key=lambda x: x.get('start_date', ''))
     
