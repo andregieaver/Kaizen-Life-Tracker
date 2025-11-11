@@ -297,6 +297,7 @@ const Merits = ({ athleteId }) => {
             <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>{t('merits.completeWorkouts')}</p>
           </div>
         )}
+        </div>
       </div>
     </div>
   );
