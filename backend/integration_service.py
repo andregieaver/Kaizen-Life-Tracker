@@ -103,8 +103,7 @@ class BaseIntegrationService(ABC):
     
     async def get_authorization_url(self, user_id: str, scopes: List[str]) -> str:
         """Generate OAuth authorization URL"""
-        await self.load_settings()
-        provider_config = self.system_settings.get(self.provider_name.lower())
+        provider_config = await self.load_settings()
         
         # Store OAuth state
         state = f"{user_id}_{datetime.now(timezone.utc).timestamp()}"
