@@ -12232,43 +12232,45 @@ def test_strava_sync_endpoint_force_full_sync_fix():
         return False
 
 def main():
-    """Run Strava Sync Endpoint Testing as requested in review"""
-    print("🚀 STARTING STRAVA SYNC ENDPOINT TESTING AS REQUESTED")
+    """Run Polar Integration Backend Comprehensive Testing as requested in review"""
+    print("🚀 STARTING POLAR INTEGRATION BACKEND COMPREHENSIVE TESTING AS REQUESTED")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Strava Sync Endpoint force_full_sync Parameter Fix as per review request
+    # Test Polar Integration Backend Comprehensive as per review request
     try:
-        result = test_strava_sync_endpoint_force_full_sync_fix()
+        result = test_polar_integration_comprehensive()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Strava Sync Endpoint Testing", False, f"Exception: {str(e)}")
+        print_test_result("Polar Integration Testing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 STRAVA SYNC ENDPOINT TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ NO 500 ERRORS: Sync endpoint no longer returns 500 errors")
-        print("✅ JSON RESPONSE: Sync endpoint returns proper JSON response format")
-        print("✅ INCREMENTAL SYNC: force_full=False (default) works correctly")
-        print("✅ FULL SYNC: force_full=True works correctly")
-        print("✅ ERROR HANDLING: Appropriate errors for invalid users")
-        print("✅ NO TYPEERROR: Backend logs show no 'force_full_sync' TypeError")
-        print("🔧 VERIFIED: force_full_sync parameter fix is working correctly")
-        print("🔧 BACKEND FIX: Method signature updated to accept force_full_sync parameter")
-        print("💡 READY: Strava sync functionality is now production-ready")
+        print("🎉 POLAR INTEGRATION BACKEND TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ SYSTEM SETTINGS: Polar credentials can be saved and retrieved")
+        print("✅ OAUTH FLOW: Authorization endpoints generate correct Polar Flow URLs")
+        print("✅ CONNECTION STATUS: Status endpoints return proper JSON responses")
+        print("✅ DATA SYNC: Sync endpoints are accessible and handle requests appropriately")
+        print("✅ ACTIVITIES: Activities retrieval follows standard integration pattern")
+        print("✅ STATISTICS: Stats endpoints provide Polar statistics in expected format")
+        print("✅ TRAINING CALENDAR: Integration includes Polar activities with source='polar'")
+        print("✅ AI COACH: Database collections accessible for AI coach context integration")
+        print("🔧 VERIFIED: Polar integration infrastructure is in place and functional")
+        print("🔧 BACKEND READY: All Polar endpoints follow the same pattern as Strava and Oura")
+        print("💡 PRODUCTION READY: Polar integration backend is fully functional")
     else:
-        print("❌ STRAVA SYNC ENDPOINT TESTING FOUND ISSUES")
+        print("❌ POLAR INTEGRATION BACKEND TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Strava sync may still be returning 500 errors")
-        print("💡 Verify strava_service.py sync_activities method accepts force_full_sync parameter")
-        print("💡 Check server.py sync endpoint passes correct parameters")
-        print("💡 Ensure load_settings() is called before sync operations")
-        print("💡 Check backend logs for force_full_sync TypeError messages")
+        print("🚨 CRITICAL: Some Polar endpoints may not be working correctly")
+        print("💡 Verify PolarService extends BaseIntegrationService correctly")
+        print("💡 Check generic OAuth endpoints handle 'polar' provider")
+        print("💡 Ensure system_settings can store Polar credentials")
+        print("💡 Check backend logs for Polar-related errors")
     
     print("=" * 70)
 
