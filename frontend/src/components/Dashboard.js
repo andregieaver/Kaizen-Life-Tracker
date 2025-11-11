@@ -529,6 +529,9 @@ const Dashboard = ({ athleteId }) => {
   // Load background image from localStorage or athlete data
   useEffect(() => {
     const loadBackgroundImage = () => {
+      const API = process.env.REACT_APP_BACKEND_URL || '';
+      const defaultBackground = `${API}/uploaded_images/default-background.jpg`;
+      
       // Check localStorage first
       const storedBgImage = localStorage.getItem('app_background_image');
       
@@ -539,8 +542,8 @@ const Dashboard = ({ athleteId }) => {
         setBackgroundImage(athlete.background_image);
         localStorage.setItem('app_background_image', athlete.background_image);
       } else {
-        // Explicitly set to null if no background image exists
-        setBackgroundImage(null);
+        // Use default background if no custom background exists
+        setBackgroundImage(defaultBackground);
       }
     };
     
