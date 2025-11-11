@@ -440,11 +440,17 @@ const SystemSettings = ({ athleteId }) => {
             clientSecret: response.data.advanced.fitbit?.clientSecret || '',
             callbackDomain: response.data.advanced.fitbit?.callbackDomain || ''
           },
+          garmin: {
+            clientId: response.data.advanced.garmin?.clientId || '',
+            clientSecret: response.data.advanced.garmin?.clientSecret || '',
+            callbackDomain: response.data.advanced.garmin?.callbackDomain || ''
+          },
           showStravaSecret: false,
           showStravaVerifyToken: false,
           showOuraSecret: false,
           showPolarSecret: false,
-          showFitbitSecret: false
+          showFitbitSecret: false,
+          showGarminSecret: false
         }));
       }
       
