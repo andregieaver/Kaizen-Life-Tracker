@@ -87,6 +87,27 @@ const IntegrationCard = ({
     if (diffDays < 7) return t('account.daysAgo', { days: diffDays });
     return syncDate.toLocaleDateString();
   };
+  
+  // Get provider brand icon/logo
+  const getBrandIcon = () => {
+    const iconMap = {
+      'strava': { emoji: '🏃', bg: 'bg-orange-500' },
+      'oura': { emoji: '💍', bg: 'bg-purple-500' },
+      'polar': { emoji: '❄️', bg: 'bg-red-500' },
+      'fitbit': { emoji: '📊', bg: 'bg-teal-500' },
+      'garmin': { emoji: '⌚', bg: 'bg-blue-600' },
+      'coros': { emoji: '🏔️', bg: 'bg-yellow-500' },
+      'whoop': { emoji: '💪', bg: 'bg-purple-600' },
+      'suunto': { emoji: '🧭', bg: 'bg-cyan-500' }
+    };
+    
+    const providerIcon = iconMap[provider] || { emoji: '📱', bg: 'bg-gray-500' };
+    return (
+      <div className={`w-10 h-10 ${providerIcon.bg} rounded-full flex items-center justify-center text-xl md:hidden`}>
+        {providerIcon.emoji}
+      </div>
+    );
+  };
 
   return (
     <div className="p-4 border-0 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:shadow-lg transition-colors">
