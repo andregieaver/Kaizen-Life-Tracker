@@ -3532,6 +3532,7 @@ const Account = ({ athleteId }) => {
                   connectionInfo={integrations.strava}
                   onConnect={() => handleSimpleConnect('strava')}
                   onDisconnect={() => handleSimpleDisconnect('strava')}
+                  onSync={handleStravaSync}
                   t={t}
                 />
                 
