@@ -434,15 +434,27 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
   const EventComponent = ({ event }) => {
     const block = event.resource;
     const isTraining = block.block_type === 'training';
+    const isHealth = block.block_type === 'health';
     const isStrava = block.source === 'strava';
+    const isOura = block.source === 'oura';
     
     // Different colors for different sources
-    const bgColor = isStrava ? 'bg-orange-500' : (isTraining ? 'bg-blue-500' : 'bg-green-500');
+    let bgColor = 'bg-blue-500'; // Default for manual training
+    if (isStrava) bgColor = 'bg-orange-500';
+    else if (isOura) bgColor = 'bg-purple-500';
+    else if (isHealth) bgColor = 'bg-green-500';
+    
+    // Icons for different sources
+    let sourceIcon = null;
+    if (isStrava) sourceIcon = '🏃';
+    else if (isOura && block.oura_data?.type === 'Sleep') sourceIcon = '😴';
+    else if (isOura && block.oura_data?.type === 'Readiness') sourceIcon = '⚡';
+    else if (isOura) sourceIcon = '💪';
     
     return (
       <div className={`p-2 text-xs ${bgColor} text-white rounded hover:shadow-lg transition-all cursor-pointer`}>
         <div className="flex items-center gap-1">
-          {isStrava && <span className="text-[10px] font-bold">🏃</span>}
+          {sourceIcon && <span className="text-[10px] font-bold">{sourceIcon}</span>}
           <div className="font-medium truncate flex-1">{block.title}</div>
         </div>
         <div className="flex items-center gap-2 text-xs mt-1 flex-wrap">
@@ -468,6 +480,11 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
             <div className="flex items-center gap-1">
               <Heart className="w-3 h-3" />
               <span>{Math.round(block.strava_data.average_heartrate)}</span>
+            </div>
+          )}
+          {isOura && block.oura_data?.score && (
+            <div className="flex items-center gap-1">
+              <span className="font-bold">Score: {block.oura_data.score}</span>
             </div>
           )}
         </div>
