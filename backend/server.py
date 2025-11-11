@@ -16398,6 +16398,7 @@ async def strava_auth_callback_redirect(
     Exchange code for tokens and store connection
     """
     try:
+        print(f"🔷 [STRAVA CALLBACK START] code={code[:10]}..., state={state[:20]}..., scope={scope}")
         logging.info(f"[STRAVA CALLBACK] Received: code={code[:10]}..., state={state[:20]}..., scope={scope}")
         
         # Extract user_id from state or session
