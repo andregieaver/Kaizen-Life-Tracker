@@ -7775,47 +7775,24 @@ async def save_oura_credentials(athlete_id: str, credentials: OuraCredentials):
 
 @api_router.get("/auth/oura/{athlete_id}")
 async def oura_auth_initiate(athlete_id: str):
-    """Initiate Oura OAuth authorization flow using system-wide credentials"""
-    # Get system-wide Oura credentials from system_settings
-    system_settings = await db.system_settings.find_one({"category": "advanced"})
-    
-    print(f"DEBUG: System settings found: {system_settings is not None}")
-    if system_settings:
-        print(f"DEBUG: Oura config: {system_settings.get('oura')}")
-    
-    if not system_settings or not system_settings.get("oura"):
-        raise HTTPException(
-            status_code=404, 
-            detail="Oura credentials not configured in System Settings. Please configure them in System Settings > Advanced."
-        )
-    
-    oura_config = system_settings["oura"]
-    if not oura_config.get("clientId") or not oura_config.get("clientSecret"):
-        raise HTTPException(
-            status_code=404,
-            detail="Oura Client ID or Secret missing in System Settings."
-        )
-    
-    state = f"{athlete_id}_{secrets.token_urlsafe(16)}"
-    
-    # Use callback domain from system settings or default
-    callback_domain = oura_config.get("callbackDomain", "kaizenlifetracker.com")
-    redirect_uri = f"https://{callback_domain}/api/auth/oura/callback"
-    
-    print(f"DEBUG: Callback domain: {callback_domain}")
-    print(f"DEBUG: Redirect URI: {redirect_uri}")
-    
-    auth_params = {
-        "response_type": "code",
-        "client_id": oura_config["clientId"],
-        "redirect_uri": redirect_uri,
-        "scope": "email personal daily heartrate workout session tag spo2",
-        "state": state
-    }
-    
-    auth_url = f"https://cloud.ouraring.com/oauth/authorize?{urlencode(auth_params)}"
-    print(f"DEBUG: Full auth URL: {auth_url}")
-    return {"authorization_url": auth_url, "state": state}
+    """
+    OLD ENDPOINT - Redirect to new generic integration endpoint
+    This endpoint is kept for backward compatibility but uses the new OuraService
+    """
+    try:
+        # Use the new generic service
+        service = OuraService(db)
+        scopes = ["email", "personal", "daily", "heartrate", "workout", "session", "tag", "spo2"]
+        auth_url = await service.get_authorization_url(athlete_id, scopes)
+        
+        logging.info(f"[OURA] Authorization URL generated for user: {athlete_id}")
+        return {"authorization_url": auth_url}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error starting Oura auth: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.get("/auth/oura/callback")
 async def oura_auth_callback(
