@@ -89,92 +89,185 @@ const IntegrationCard = ({
   };
 
   return (
-    <div className="flex items-center justify-between p-4 border-0 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:shadow-lg transition-colors">
-      <div className="flex items-center gap-4">
-        <div className="flex-shrink-0">
-          {icon}
+    <div className="p-4 border-0 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg hover:shadow-lg transition-colors">
+      {/* Desktop Layout: horizontal */}
+      <div className="hidden md:flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="flex-shrink-0">
+            {icon}
+          </div>
+          <div>
+            <h4 className="font-semibold text-white">{name}</h4>
+            <p className="text-sm text-gray-300">{description}</p>
+            {connected && connectionInfo && (
+              <div className="flex items-center gap-4 mt-1 text-xs text-gray-400">
+                {connectionInfo.athlete_name && (
+                  <span>{t('account.connectedAs')}: {connectionInfo.athlete_name}</span>
+                )}
+                {connectionInfo.user_id && (
+                  <span>{t('account.userId')}: {connectionInfo.user_id.slice(0, 8)}...</span>
+                )}
+                <span>{t('account.lastSync')}: {formatLastSync(connectionInfo.last_sync)}</span>
+              </div>
+            )}
+          </div>
         </div>
-        <div>
-          <h4 className="font-semibold text-white">{name}</h4>
-          <p className="text-sm text-gray-300">{description}</p>
-          {connected && connectionInfo && (
-            <div className="flex items-center gap-4 mt-1 text-xs text-gray-400">
-              {connectionInfo.athlete_name && (
-                <span>{t('account.connectedAs')}: {connectionInfo.athlete_name}</span>
+        
+        <div className="flex items-center gap-2">
+          {connected ? (
+            <>
+              <Badge className="bg-blue-900/30 text-blue-400 border-blue-700">
+                <CheckCircle className="w-3 h-3 mr-1" />
+                {t('account.connected')}
+              </Badge>
+              {onSync && (provider === 'strava' || provider === 'oura' || provider === 'polar' || provider === 'fitbit' || provider === 'garmin' || provider === 'coros' || provider === 'whoop' || provider === 'suunto') && (
+                <div className="relative">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onSync(false)}
+                    className="text-blue-600 hover:text-blue-700 hover:border-blue-300"
+                  >
+                    <RefreshCw className="w-4 h-4 mr-1" />
+                    {t('account.sync')}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onSync(true)}
+                    className="ml-1 text-blue-600 hover:text-blue-700 hover:border-blue-300"
+                    title="Full sync - all data"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                    <span className="text-xs">Full</span>
+                  </Button>
+                </div>
               )}
-              {connectionInfo.user_id && (
-                <span>{t('account.userId')}: {connectionInfo.user_id.slice(0, 8)}...</span>
-              )}
-              <span>{t('account.lastSync')}: {formatLastSync(connectionInfo.last_sync)}</span>
-            </div>
-          )}
-        </div>
-      </div>
-      
-      <div className="flex items-center gap-2">
-        {connected ? (
-          <>
-            <Badge className="bg-blue-900/30 text-blue-400 border-blue-700">
-              <CheckCircle className="w-3 h-3 mr-1" />
-              {t('account.connected')}
-            </Badge>
-            {onSync && (provider === 'strava' || provider === 'oura' || provider === 'polar' || provider === 'fitbit' || provider === 'garmin' || provider === 'coros' || provider === 'whoop' || provider === 'suunto') && (
-              <div className="relative">
+              {onSync && provider !== 'strava' && provider !== 'oura' && provider !== 'polar' && provider !== 'fitbit' && provider !== 'garmin' && provider !== 'coros' && provider !== 'whoop' && provider !== 'suunto' && (
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => onSync(false)}
+                  onClick={onSync}
                   className="text-blue-600 hover:text-blue-700 hover:border-blue-300"
                 >
                   <RefreshCw className="w-4 h-4 mr-1" />
                   {t('account.sync')}
                 </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => onSync(true)}
-                  className="ml-1 text-blue-600 hover:text-blue-700 hover:border-blue-300"
-                  title="Full sync - all data"
-                >
-                  <RefreshCw className="w-4 h-4" />
-                  <span className="text-xs">Full</span>
-                </Button>
-              </div>
-            )}
-            {onSync && provider !== 'strava' && provider !== 'oura' && provider !== 'polar' && provider !== 'fitbit' && provider !== 'garmin' && provider !== 'coros' && provider !== 'whoop' && provider !== 'suunto' && (
+              )}
               <Button
                 variant="outline"
                 size="sm"
-                onClick={onSync}
-                className="text-blue-600 hover:text-blue-700 hover:border-blue-300"
+                onClick={onDisconnect}
+                className="text-red-600 hover:text-red-700 hover:border-red-300"
               >
-                <RefreshCw className="w-4 h-4 mr-1" />
-                {t('account.sync')}
+                {t('account.disconnect')}
               </Button>
-            )}
+            </>
+          ) : comingSoon ? (
+            <Badge variant="secondary" className="bg-gray-800 text-gray-400">
+              {t('account.comingSoon')}
+            </Badge>
+          ) : (
             <Button
-              variant="outline"
+              onClick={onConnect}
               size="sm"
-              onClick={onDisconnect}
-              className="text-red-600 hover:text-red-700 hover:border-red-300"
+              className="bg-blue-600 hover:bg-blue-700"
             >
-              {t('account.disconnect')}
+              <ExternalLink className="w-4 h-4 mr-2" />
+              {t('account.connect')} {name}
             </Button>
-          </>
-        ) : comingSoon ? (
-          <Badge variant="secondary" className="bg-gray-800 text-gray-400">
-            {t('account.comingSoon')}
-          </Badge>
-        ) : (
-          <Button
-            onClick={onConnect}
-            size="sm"
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            <ExternalLink className="w-4 h-4 mr-2" />
-            {t('account.connect')} {name}
-          </Button>
-        )}
+          )}
+        </div>
+      </div>
+
+      {/* Mobile Layout: vertical stacked */}
+      <div className="md:hidden space-y-3">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 mt-1">
+            {icon}
+          </div>
+          <div className="flex-1 min-w-0">
+            <h4 className="font-semibold text-white">{name}</h4>
+            <p className="text-sm text-gray-300 line-clamp-2">{description}</p>
+            {connected && connectionInfo && (
+              <div className="flex flex-col gap-1 mt-2 text-xs text-gray-400">
+                {connectionInfo.athlete_name && (
+                  <span className="truncate">{t('account.connectedAs')}: {connectionInfo.athlete_name}</span>
+                )}
+                {connectionInfo.user_id && (
+                  <span className="truncate">{t('account.userId')}: {connectionInfo.user_id.slice(0, 8)}...</span>
+                )}
+                <span>{t('account.lastSync')}: {formatLastSync(connectionInfo.last_sync)}</span>
+              </div>
+            )}
+          </div>
+        </div>
+        
+        <div className="flex flex-wrap items-center gap-2">
+          {connected ? (
+            <>
+              <Badge className="bg-blue-900/30 text-blue-400 border-blue-700">
+                <CheckCircle className="w-3 h-3 mr-1" />
+                {t('account.connected')}
+              </Badge>
+              {onSync && (provider === 'strava' || provider === 'oura' || provider === 'polar' || provider === 'fitbit' || provider === 'garmin' || provider === 'coros' || provider === 'whoop' || provider === 'suunto') && (
+                <>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onSync(false)}
+                    className="text-blue-600 hover:text-blue-700 hover:border-blue-300 flex-1"
+                  >
+                    <RefreshCw className="w-4 h-4 mr-1" />
+                    {t('account.sync')}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onSync(true)}
+                    className="text-blue-600 hover:text-blue-700 hover:border-blue-300"
+                    title="Full sync - all data"
+                  >
+                    <RefreshCw className="w-4 h-4 mr-1" />
+                    <span className="text-xs">Full</span>
+                  </Button>
+                </>
+              )}
+              {onSync && provider !== 'strava' && provider !== 'oura' && provider !== 'polar' && provider !== 'fitbit' && provider !== 'garmin' && provider !== 'coros' && provider !== 'whoop' && provider !== 'suunto' && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onSync}
+                  className="text-blue-600 hover:text-blue-700 hover:border-blue-300 flex-1"
+                >
+                  <RefreshCw className="w-4 h-4 mr-1" />
+                  {t('account.sync')}
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onDisconnect}
+                className="text-red-600 hover:text-red-700 hover:border-red-300 flex-1"
+              >
+                {t('account.disconnect')}
+              </Button>
+            </>
+          ) : comingSoon ? (
+            <Badge variant="secondary" className="bg-gray-800 text-gray-400">
+              {t('account.comingSoon')}
+            </Badge>
+          ) : (
+            <Button
+              onClick={onConnect}
+              size="sm"
+              className="bg-blue-600 hover:bg-blue-700 w-full"
+            >
+              <ExternalLink className="w-4 h-4 mr-2" />
+              {t('account.connect')} {name}
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );
