@@ -1498,9 +1498,7 @@ def test_strava_oauth_integration_comprehensive():
             print_test_result("Overall Strava OAuth Integration", False, "Some critical validations failed")
         
         print("\n✅ STRAVA OAUTH INTEGRATION COMPREHENSIVE TEST COMPLETED")
-        return success_criteria_metint_test_result("Backend OAuth Logging", False, "OAuth start messages not found in logs")
-        except Exception as log_e:
-            print_test_result("Backend OAuth Logging", False, f"Could not check logs: {log_e}")
+        return success_criteria_met
         
         # Step 3: OAuth State Storage Test - Check strava_oauth_state collection
         print("   Step 3: OAuth State Storage Test")
