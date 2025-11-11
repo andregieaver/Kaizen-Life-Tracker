@@ -7449,9 +7449,10 @@ async def sync_strava_activities_legacy(athlete_id: str, force_full: bool = Fals
         
         # Use new StravaService instead of old activity manager
         strava_service = StravaService(db)
+        await strava_service.load_settings()
         result = await strava_service.sync_activities(athlete_id, force_full_sync=force_full)
         
-        print(f"🟢 [STRAVA SYNC SUCCESS] Synced {result.get('synced_count', 0)} activities")
+        print(f"🟢 [STRAVA SYNC SUCCESS] Synced {result.get('imported', 0)} activities")
         logging.info(f"[STRAVA SYNC] Completed: {result}")
         
         return result
