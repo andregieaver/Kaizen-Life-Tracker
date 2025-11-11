@@ -11637,8 +11637,7 @@ def test_strava_sync_endpoint_force_full_sync_fix():
                     print_test_result("Strava Connection Status", True, f"User has Strava connected: {status_data}")
                 else:
                     print_test_result("Strava Connection Status", False, f"User does not have Strava connected: {status_data}")
-                    print("   ⚠️ Cannot test sync without Strava connection")
-                    return False
+                    print("   ⚠️ User not connected, but will test sync endpoint anyway to check for 500 errors")
             except json.JSONDecodeError:
                 print_test_result("Strava Connection Status", False, "Invalid JSON response")
                 return False
