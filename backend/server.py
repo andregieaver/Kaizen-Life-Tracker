@@ -17063,7 +17063,8 @@ def get_integration_service(provider: str):
     """Get the appropriate integration service"""
     services = {
         "strava": lambda: StravaService(db),
-        "oura": lambda: OuraService(db)
+        "oura": lambda: OuraService(db),
+        "polar": lambda: PolarService(db)
     }
     
     if provider not in services:
