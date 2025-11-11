@@ -468,7 +468,8 @@
     "youllReceiveProratedCredit": "Du vil motta en forholdsmessig kreditt",
     "nextBillingMonthFromToday": "Neste fakturering: 1 måned fra i dag",
     "pricePerMonth": "€{price}/måned",
-    "confirmSwitch": "Bekreft bytte"
+    "confirmSwitch": "Bekreft bytte",
+    "sync": "Synkroniser"
   },
   "community": {
     "tabs": {
