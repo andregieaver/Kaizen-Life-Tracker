@@ -400,6 +400,33 @@ const Account = ({ athleteId }) => {
       }, 5000);
     }
     
+    // Handle Garmin OAuth callback
+    const garminStatus = urlParams.get('garmin');
+    if (garminStatus === 'connected') {
+      setSaveStatus({ 
+        type: 'success', 
+        message: 'Garmin connected successfully! Your activities, sleep, and fitness data will now sync automatically.' 
+      });
+      setTimeout(() => {
+        setSaveStatus({ type: '', message: '' });
+        // Clean URL
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 5000);
+      // Reload to show connection
+      if (athleteId) {
+        loadAccountData();
+      }
+    } else if (garminStatus === 'error') {
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Failed to connect Garmin. Please try again or check System Settings.' 
+      });
+      setTimeout(() => {
+        setSaveStatus({ type: '', message: '' });
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 5000);
+    }
+    
     // Check if returning from Stripe checkout
     const sessionId = urlParams.get('session_id');
     const success = urlParams.get('success');
