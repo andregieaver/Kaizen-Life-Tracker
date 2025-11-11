@@ -6522,6 +6522,12 @@ async def get_training_blocks(athlete_id: str):
         {"_id": 0}
     ).sort("start_date", 1).to_list(length=None)
     
+    # Get Oura activities
+    oura_activities = await db.oura_activities.find(
+        {"user_id": athlete_id},
+        {"_id": 0}
+    ).sort("start_date", 1).to_list(length=None)
+    
     # Convert Strava activities to training block format
     for activity in strava_activities:
         # Create a unique ID for the Strava activity
