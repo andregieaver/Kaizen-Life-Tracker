@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Trophy, TrendingUp } from 'lucide-react';
+import { Trophy, TrendingUp, Activity, Calendar, MapPin, Clock, Zap } from 'lucide-react';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -11,11 +11,14 @@ const Merits = ({ athleteId }) => {
   const { t } = useTranslation();
   const [merits, setMerits] = useState([]);
   const [stravaStats, setStravaStats] = useState(null);
+  const [stravaActivities, setStravaActivities] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingActivities, setIsLoadingActivities] = useState(false);
 
   useEffect(() => {
     loadMerits();
     loadStravaStats();
+    loadRecentActivities();
   }, [athleteId]);
 
   const loadMerits = async () => {
@@ -38,6 +41,18 @@ const Merits = ({ athleteId }) => {
     } catch (error) {
       // Silently fail - Strava might not be connected
       setStravaStats(null);
+    }
+  };
+
+  const loadRecentActivities = async () => {
+    try {
+      setIsLoadingActivities(true);
+      const response = await axios.get(`${API}/integrations/strava/${athleteId}/activities?limit=5`);
+      setStravaActivities(response.data.activities || []);
+    } catch (error) {
+      setStravaActivities([]);
+    } finally {
+      setIsLoadingActivities(false);
     }
   };
 
