@@ -480,7 +480,8 @@
     "youllReceiveProratedCredit": "You'll receive a prorated credit",
     "nextBillingMonthFromToday": "Next billing: 1 month from today",
     "pricePerMonth": "€{price}/month",
-    "confirmSwitch": "Confirm Switch"
+    "confirmSwitch": "Confirm Switch",
+    "sync": "Sync"
   },
   "community": {
     "tabs": {
