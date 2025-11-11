@@ -825,6 +825,7 @@ const Account = ({ athleteId }) => {
             user_id: ouraStatus.connected ? 'Connected' : '',
             last_sync: ouraStatus.last_sync
           },
+          polar: { connected: false, last_sync: null },
           coros: { connected: false, last_sync: null }
         };
         
