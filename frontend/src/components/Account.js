@@ -1986,22 +1986,24 @@ const Account = ({ athleteId }) => {
       {/* Header */}
       <div className="mb-8 relative">
         <div className="flex flex-col">
-          <div className="w-full mb-4">
-            <h1 className="text-3xl font-display font-bold text-white mb-2">
-              {t('account.title')}
-            </h1>
-            <p className="text-gray-300">
-              {t('account.manageProfile')}
-            </p>
+          <div className="w-full mb-4 flex items-start justify-between">
+            <div>
+              <h1 className="text-3xl font-display font-bold text-white mb-2">
+                {t('account.title')}
+              </h1>
+              <p className="text-gray-300">
+                {t('account.manageProfile')}
+              </p>
+            </div>
+            {/* Support Button - Inline with heading on the right */}
+            <Button
+              onClick={() => navigate('/dashboard/support')}
+              className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white w-10 h-10 rounded-full flex items-center justify-center p-0 shadow-lg flex-shrink-0"
+              title={t('account.contactSupport')}
+            >
+              <span className="text-lg font-bold">?</span>
+            </Button>
           </div>
-          {/* Support Button (visible to all users) - Positioned absolute top right */}
-          <Button
-            onClick={() => navigate('/dashboard/support')}
-            className="fixed top-4 right-4 z-50 bg-[#32D3FF] hover:bg-[#1FC1FF] text-white w-10 h-10 rounded-full flex items-center justify-center p-0 shadow-lg"
-            title={t('account.contactSupport')}
-          >
-            <span className="text-lg font-bold">?</span>
-          </Button>
           {athlete?.is_super_admin && (
             <div className="flex items-center gap-2 sm:gap-3 flex-wrap w-full justify-between sm:justify-start">
               <Button
