@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Fix active state glass bubble persistence bug in header and mobile navbar. When navigating from one page (e.g., Account) to another page (e.g., Today), the glass bubble active state indicator remains on the previously visited menu item instead of moving to the current page's menu item."
+user_problem_statement: "Complete Polar integration: The Polar backend service is implemented, frontend UI is in place (Account page and System Settings), and generic endpoints are ready. Need to integrate Polar data into the training calendar (similar to Strava) and optionally into Dashboard, Merits, and AI Coach. Task is to complete the Polar integration and make it fully functional end-to-end."
 
 frontend:
   - task: "Active State Glass Bubble Fix"
