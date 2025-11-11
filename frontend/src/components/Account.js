@@ -843,6 +843,11 @@ const Account = ({ athleteId }) => {
               user_id: connection.external_user_id || integrationsState.oura.user_id,
               last_sync: connection.last_sync_at || integrationsState.oura.last_sync
             };
+          } else if (connection.provider_key === 'polar') {
+            integrationsState.polar = {
+              connected: connection.status === 'active',
+              last_sync: connection.last_sync_at || integrationsState.polar.last_sync
+            };
           } else if (connection.provider_key === 'coros') {
             integrationsState.coros = {
               connected: connection.status === 'active',
