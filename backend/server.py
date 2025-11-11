@@ -16420,7 +16420,7 @@ async def strava_auth_callback_redirect(
         
         # Redirect back to frontend with success
         await strava_service.load_settings()
-        frontend_url = f"https://{strava_service.system_settings['callbackDomain']}/dashboard/account?strava=connected"
+        frontend_url = f"https://{strava_service.system_settings['callbackDomain']}/dashboard/account?tab=integrations&strava=connected"
         logging.info(f"Redirecting to: {frontend_url}")
         return RedirectResponse(url=frontend_url)
         
