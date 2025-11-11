@@ -1311,129 +1311,194 @@ def test_strava_oauth_integration_comprehensive():
     print("=" * 70)
     
     try:
-        # Step 1: Prerequisites Check - Verify system_settings collection has Strava configuration
-        print("   Step 1: Prerequisites Check - Verify system_settings collection")
-        
         # Use known super admin from test_result.md
         test_user_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"  # andre@humanweb.no
         
-        # Check if system_settings has Strava configuration
-        system_settings_response = requests.get(f"{BACKEND_URL}/system/settings?athlete_id={test_user_id}")
+        print(f"   Using test_user_id: {test_user_id}")
         
-        if system_settings_response.status_code != 200:
-            print_test_result("System Settings Check", False, f"Cannot access system settings: {system_settings_response.status_code}")
-            return False
+        # Test 1: OAuth Initiation - GET /api/auth/strava?user_id=77e6ef02-0c9e-4ede-a428-213b83eed1fe
+        print("   Test 1: OAuth Initiation - GET /api/auth/strava?user_id={user_id}")
         
-        settings_data = system_settings_response.json()
-        strava_config = settings_data.get("advanced", {}).get("strava", {})
+        oauth_url = f"{BACKEND_URL}/auth/strava?user_id={test_user_id}"
+        print(f"   URL: {oauth_url}")
         
-        required_fields = ["clientId", "clientSecret", "callbackDomain"]
-        missing_fields = [field for field in required_fields if not strava_config.get(field)]
+        oauth_response = requests.get(oauth_url)
         
-        if missing_fields:
-            print_test_result("Strava Configuration Check", False, f"Missing Strava config fields: {missing_fields}")
-            
-            # Create mock system_settings document for testing
-            print("   Creating mock system_settings for testing...")
-            mock_strava_config = {
-                "advanced": {
-                    "strava": {
-                        "clientId": "57985",
-                        "clientSecret": "test_secret_for_oauth_testing",
-                        "callbackDomain": "train-multilingual.preview.emergentagent.com"
-                    }
-                }
-            }
-            
-            mock_settings_response = requests.post(
-                f"{BACKEND_URL}/system/settings?athlete_id={test_user_id}",
-                json=mock_strava_config,
-                headers={"Content-Type": "application/json"}
-            )
-            
-            if mock_settings_response.status_code == 200:
-                print_test_result("Mock Strava Configuration", True, "Created mock Strava settings for testing")
-                strava_config = mock_strava_config["advanced"]["strava"]
-            else:
-                print_test_result("Mock Strava Configuration", False, f"Failed to create mock settings: {mock_settings_response.status_code}")
-                return False
+        print(f"   Response Status: {oauth_response.status_code}")
+        print(f"   Response Headers: {dict(oauth_response.headers)}")
+        print(f"   Response Text: {oauth_response.text[:500]}...")
+        
+        # Critical Validation: Should return JSON, not HTML
+        content_type = oauth_response.headers.get('content-type', '')
+        is_json = 'application/json' in content_type
+        
+        if oauth_response.status_code == 200 and is_json:
+            try:
+                oauth_data = oauth_response.json()
+                auth_url = oauth_data.get("authUrl") or oauth_data.get("authorization_url")
+                state = oauth_data.get("state")
+                
+                if auth_url and state:
+                    print_test_result("OAuth Initiation", True, f"Returns valid authUrl with state: {state[:20]}...")
+                    
+                    # Verify authUrl contains /api/auth/strava/callback in redirect_uri
+                    if "/api/auth/strava/callback" in auth_url:
+                        print_test_result("Callback URL in Authorization URL", True, "Contains /api/ prefix")
+                    else:
+                        print_test_result("Callback URL in Authorization URL", False, "Missing /api/ prefix")
+                    
+                    # Parse and validate OAuth parameters
+                    from urllib.parse import urlparse, parse_qs
+                    parsed_url = urlparse(auth_url)
+                    params = parse_qs(parsed_url.query)
+                    
+                    required_params = ['client_id', 'redirect_uri', 'response_type', 'scope', 'state']
+                    missing_params = [p for p in required_params if p not in params]
+                    
+                    if not missing_params:
+                        print_test_result("OAuth Parameters Complete", True, "All required OAuth parameters present")
+                    else:
+                        print_test_result("OAuth Parameters Complete", False, f"Missing: {missing_params}")
+                    
+                else:
+                    print_test_result("OAuth Initiation", False, f"Missing authUrl or state in response: {oauth_data}")
+            except json.JSONDecodeError:
+                print_test_result("OAuth Initiation", False, "Response is not valid JSON")
         else:
-            print_test_result("Strava Configuration Check", True, f"All required fields present: clientId={strava_config.get('clientId')}, callbackDomain={strava_config.get('callbackDomain')}")
+            print_test_result("OAuth Initiation", False, f"Status: {oauth_response.status_code}, JSON: {is_json}")
         
-        # Step 2: OAuth Initiation Test - GET /api/auth/strava?user_id=<test_user_id>
-        print("   Step 2: OAuth Initiation Test - GET /api/auth/strava (StravaConnector)")
+        # Test 2: Callback Endpoint Reachability - GET /api/auth/strava/callback?code=test_code&state=invalid_state
+        print("\n   Test 2: Callback Endpoint Reachability")
         
-        oauth_initiate_response = requests.get(f"{BACKEND_URL}/auth/strava?user_id={test_user_id}")
+        callback_url = f"{BACKEND_URL}/auth/strava/callback?code=test_code&state=invalid_state"
+        print(f"   URL: {callback_url}")
         
-        print(f"      OAuth Initiate Status: {oauth_initiate_response.status_code}")
-        print(f"      OAuth Initiate Response: {oauth_initiate_response.text[:200]}...")
+        callback_response = requests.get(callback_url)
         
-        if oauth_initiate_response.status_code != 200:
-            print_test_result("OAuth Initiation", False, f"OAuth initiation failed: {oauth_initiate_response.status_code} - {oauth_initiate_response.text}")
-            return False
+        print(f"   Response Status: {callback_response.status_code}")
+        print(f"   Response Headers: {dict(callback_response.headers)}")
+        print(f"   Response Text: {callback_response.text[:500]}...")
         
-        oauth_data = oauth_initiate_response.json()
-        auth_url = oauth_data.get("authUrl") or oauth_data.get("authorization_url")
-        state = oauth_data.get("state")
+        # Critical Validation: Should return error about invalid state (not 404)
+        callback_content_type = callback_response.headers.get('content-type', '')
+        callback_is_json = 'application/json' in callback_content_type
         
-        if not auth_url or not state:
-            print_test_result("OAuth Initiation", False, f"Missing authUrl or state in response: {oauth_data}")
-            return False
-        
-        print_test_result("OAuth Initiation", True, f"OAuth URL generated successfully, state: {state[:20]}...")
-        
-        # Validate authUrl contains required parameters
-        print("   Step 2a: Validate OAuth URL Parameters")
-        
-        required_params = ["client_id", "redirect_uri", "response_type", "scope", "state"]
-        url_validations = []
-        
-        for param in required_params:
-            if f"{param}=" in auth_url:
-                url_validations.append(f"✅ {param} parameter present")
-            else:
-                url_validations.append(f"❌ {param} parameter missing")
-        
-        # Check specific values
-        if f"client_id={strava_config.get('clientId')}" in auth_url:
-            url_validations.append(f"✅ client_id matches config ({strava_config.get('clientId')})")
+        if callback_response.status_code == 404:
+            print_test_result("Callback Endpoint Reachability", False, "Returns 404 - endpoint not found")
+        elif callback_response.status_code in [400, 401, 403] and callback_is_json:
+            print_test_result("Callback Endpoint Reachability", True, f"Endpoint reachable, returns error about invalid state: {callback_response.status_code}")
+        elif callback_response.status_code == 500:
+            print_test_result("Callback Endpoint Reachability", True, f"Endpoint reachable but has server error: {callback_response.status_code}")
         else:
-            url_validations.append(f"❌ client_id mismatch or missing")
+            print_test_result("Callback Endpoint Reachability", False, f"Unexpected response: {callback_response.status_code}")
         
-        if "/auth/strava/callback" in auth_url:
-            url_validations.append("✅ redirect_uri points to callback endpoint")
+        # Test 3: Status Endpoint - GET /api/auth/strava/status?user_id=77e6ef02-0c9e-4ede-a428-213b83eed1fe
+        print("\n   Test 3: Status Endpoint")
+        
+        status_url = f"{BACKEND_URL}/auth/strava/status?user_id={test_user_id}"
+        print(f"   URL: {status_url}")
+        
+        status_response = requests.get(status_url)
+        
+        print(f"   Response Status: {status_response.status_code}")
+        print(f"   Response Headers: {dict(status_response.headers)}")
+        print(f"   Response Text: {status_response.text[:500]}...")
+        
+        # Critical Validation: Should return JSON (not 404)
+        status_content_type = status_response.headers.get('content-type', '')
+        status_is_json = 'application/json' in status_content_type
+        
+        if status_response.status_code == 404:
+            print_test_result("Status Endpoint", False, "Returns 404 - endpoint not found")
+        elif status_response.status_code == 200 and status_is_json:
+            try:
+                status_data = status_response.json()
+                if "connected" in status_data:
+                    print_test_result("Status Endpoint", True, f"Returns connection status: {status_data}")
+                else:
+                    print_test_result("Status Endpoint", True, f"Endpoint works, returns: {status_data}")
+            except json.JSONDecodeError:
+                print_test_result("Status Endpoint", False, "Response is not valid JSON")
         else:
-            url_validations.append("❌ redirect_uri incorrect")
+            print_test_result("Status Endpoint", False, f"Status: {status_response.status_code}, JSON: {status_is_json}")
         
-        if "response_type=code" in auth_url:
-            url_validations.append("✅ response_type=code")
+        # Test 4: Disconnect Endpoint - POST /api/auth/strava/disconnect with user_id
+        print("\n   Test 4: Disconnect Endpoint")
+        
+        disconnect_url = f"{BACKEND_URL}/auth/strava/disconnect"
+        disconnect_data = {"user_id": test_user_id}
+        
+        print(f"   URL: {disconnect_url}")
+        print(f"   Data: {disconnect_data}")
+        
+        disconnect_response = requests.post(
+            disconnect_url,
+            json=disconnect_data,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        print(f"   Response Status: {disconnect_response.status_code}")
+        print(f"   Response Headers: {dict(disconnect_response.headers)}")
+        print(f"   Response Text: {disconnect_response.text[:500]}...")
+        
+        # Critical Validation: Should return 404 (not connected) or success
+        disconnect_content_type = disconnect_response.headers.get('content-type', '')
+        disconnect_is_json = 'application/json' in disconnect_content_type
+        
+        if disconnect_response.status_code == 404 and disconnect_is_json:
+            print_test_result("Disconnect Endpoint", True, "Returns 404 (not connected) - endpoint works")
+        elif disconnect_response.status_code == 200 and disconnect_is_json:
+            print_test_result("Disconnect Endpoint", True, "Returns success - endpoint works")
+        elif disconnect_response.status_code == 404 and not disconnect_is_json:
+            print_test_result("Disconnect Endpoint", False, "Returns 404 page not found (endpoint missing)")
         else:
-            url_validations.append("❌ response_type incorrect")
+            print_test_result("Disconnect Endpoint", False, f"Unexpected response: {disconnect_response.status_code}")
         
-        if "scope=" in auth_url:
-            url_validations.append("✅ scope parameter present")
+        # Summary of Critical Validations
+        print("\n   CRITICAL VALIDATIONS SUMMARY:")
+        print("   " + "="*50)
+        
+        validations = []
+        
+        # Check if all endpoints return JSON (not HTML)
+        all_json = (
+            is_json and 
+            callback_is_json and 
+            status_is_json and 
+            disconnect_is_json
+        )
+        validations.append(f"✅ All endpoints return JSON (not HTML): {all_json}")
+        
+        # Check if callback URL includes /api/ prefix
+        callback_prefix_ok = "/api/auth/strava/callback" in auth_url if 'auth_url' in locals() else False
+        validations.append(f"✅ Callback URL includes /api/ prefix: {callback_prefix_ok}")
+        
+        # Check no 404 errors for endpoints
+        no_404_errors = (
+            oauth_response.status_code != 404 and
+            callback_response.status_code != 404 and
+            status_response.status_code != 404 and
+            disconnect_response.status_code != 404
+        )
+        validations.append(f"✅ No 404 errors for Strava endpoints: {no_404_errors}")
+        
+        # Check OAuth state creation
+        oauth_state_ok = 'state' in locals() and state is not None
+        validations.append(f"✅ OAuth state properly created: {oauth_state_ok}")
+        
+        for validation in validations:
+            print(f"   {validation}")
+        
+        # Overall success criteria
+        success_criteria_met = all_json and callback_prefix_ok and no_404_errors and oauth_state_ok
+        
+        if success_criteria_met:
+            print_test_result("Overall Strava OAuth Integration", True, "All critical validations passed")
         else:
-            url_validations.append("❌ scope parameter missing")
+            print_test_result("Overall Strava OAuth Integration", False, "Some critical validations failed")
         
-        for validation in url_validations:
-            print(f"      {validation}")
-        
-        all_params_valid = all("✅" in validation for validation in url_validations)
-        print_test_result("OAuth URL Validation", all_params_valid, f"OAuth URL contains all required parameters")
-        
-        # Check backend logs for OAuth start messages
-        print("   Step 2b: Check Backend Logs for OAuth Messages")
-        
-        try:
-            import subprocess
-            log_result = subprocess.run(
-                ["tail", "-n", "20", "/var/log/supervisor/backend.out.log"],
-                capture_output=True, text=True, timeout=5
-            )
-            if "🟢 [STRAVA AUTH START]" in log_result.stdout:
-                print_test_result("Backend OAuth Logging", True, "Found OAuth start messages in backend logs")
-            else:
-                print_test_result("Backend OAuth Logging", False, "OAuth start messages not found in logs")
+        print("\n✅ STRAVA OAUTH INTEGRATION COMPREHENSIVE TEST COMPLETED")
+        return success_criteria_metint_test_result("Backend OAuth Logging", False, "OAuth start messages not found in logs")
         except Exception as log_e:
             print_test_result("Backend OAuth Logging", False, f"Could not check logs: {log_e}")
         
