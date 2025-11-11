@@ -16502,6 +16502,31 @@ async def sync_strava_activities(request: Request):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@api_router.post("/integrations/strava/{user_id}/sync")
+async def sync_strava_activities_by_user(user_id: str):
+    """
+    Sync activities from Strava to database (frontend-compatible endpoint)
+    """
+    try:
+        print(f"🔄 [STRAVA SYNC] user_id={user_id}")
+        logging.info(f"[STRAVA SYNC] Initiating sync for user: {user_id}")
+        
+        strava_service = StravaService(db)
+        result = await strava_service.sync_activities(user_id)
+        
+        print(f"🟢 [STRAVA SYNC SUCCESS] Synced {result.get('synced_count', 0)} activities")
+        logging.info(f"[STRAVA SYNC] Completed: {result}")
+        
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"🔴 [STRAVA SYNC ERROR] {type(e).__name__}: {str(e)}")
+        logging.error(f"Error syncing Strava activities: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # ============================================================================
 # STRAVA WEBHOOKS
 # ============================================================================
