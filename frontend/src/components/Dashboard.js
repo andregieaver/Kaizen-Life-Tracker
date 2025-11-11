@@ -1652,7 +1652,7 @@ const Dashboard = ({ athleteId }) => {
                 </div>
               </div>
 
-              {/* Column 3: Merits - Running Distance Personal Records */}
+              {/* Column 2: Merits - Running Distance Personal Records */}
               <Merits athleteId={athleteId} />
             </div>
 
