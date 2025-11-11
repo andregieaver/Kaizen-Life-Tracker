@@ -16318,7 +16318,7 @@ async def strava_auth_start(user_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/auth/strava/callback")
+@api_router.get("/auth/strava/callback")
 async def strava_auth_callback_redirect(
     code: str = Query(...),
     state: str = Query(...),
