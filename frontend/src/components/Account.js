@@ -485,6 +485,33 @@ const Account = ({ athleteId }) => {
       }, 5000);
     }
     
+    // Handle Suunto OAuth callback
+    const suuntoStatus = urlParams.get('suunto');
+    if (suuntoStatus === 'connected') {
+      setSaveStatus({ 
+        type: 'success', 
+        message: 'Suunto connected successfully! Your workout data will now sync automatically.' 
+      });
+      setTimeout(() => {
+        setSaveStatus({ type: '', message: '' });
+        // Clean URL
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 5000);
+      // Reload to show connection
+      if (athleteId) {
+        loadAccountData();
+      }
+    } else if (suuntoStatus === 'error') {
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Failed to connect Suunto. Please try again or check System Settings.' 
+      });
+      setTimeout(() => {
+        setSaveStatus({ type: '', message: '' });
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 5000);
+    }
+    
     // Check if returning from Stripe checkout
     const sessionId = urlParams.get('session_id');
     const success = urlParams.get('success');
