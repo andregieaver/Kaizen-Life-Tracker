@@ -161,6 +161,68 @@ class FitbitService(BaseIntegrationService):
                 logging.error(f"[FITBIT] Profile fetch error: {e}")
                 return {"id": "unknown", "display_name": "Fitbit User"}
     
+    async def sync_activities(self, user_id: str, force_full_sync: bool = False) -> Dict[str, Any]:
+        """
+        Sync Fitbit activities to database
+        """
+        logging.info(f"[FITBIT SYNC] Starting sync for user: {user_id}, force_full={force_full_sync}")
+        
+        connection = await self.db[f"{self.provider_name}_connections"].find_one({"user_id": user_id})
+        if not connection:
+            raise HTTPException(status_code=404, detail=f"{self.provider_name.title()} not connected")
+        
+        # Determine date range
+        if force_full_sync:
+            start_date = (datetime.now(timezone.utc) - timedelta(days=365)).strftime("%Y-%m-%d")
+            logging.info(f"[FITBIT SYNC] Full sync - fetching last 365 days")
+        else:
+            last_sync = connection.get("last_sync_at")
+            if last_sync:
+                start_date = last_sync.strftime("%Y-%m-%d")
+                logging.info(f"[FITBIT SYNC] Incremental sync from: {start_date}")
+            else:
+                start_date = (datetime.now(timezone.utc) - timedelta(days=30)).strftime("%Y-%m-%d")
+                logging.info(f"[FITBIT SYNC] First sync - fetching last 30 days")
+        
+        end_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        
+        # Fetch activities
+        activities = await self.fetch_activities(user_id, start_date, end_date)
+        
+        # Store in database
+        imported_count = 0
+        for activity in activities:
+            activity["user_id"] = user_id
+            activity["synced_at"] = datetime.now(timezone.utc)
+            
+            # Upsert to avoid duplicates
+            result = await self.db[f"{self.provider_name}_activities"].update_one(
+                {"user_id": user_id, "id": activity["id"]},
+                {"$set": activity},
+                upsert=True
+            )
+            
+            if result.upserted_id or result.modified_count > 0:
+                imported_count += 1
+        
+        # Update last sync time
+        await self.db[f"{self.provider_name}_connections"].update_one(
+            {"user_id": user_id},
+            {"$set": {
+                "last_sync_at": datetime.now(timezone.utc),
+                "sync_status": "completed"
+            }}
+        )
+        
+        logging.info(f"[FITBIT SYNC] Completed: {imported_count} activities imported out of {len(activities)} total")
+        
+        return {
+            "success": True,
+            "imported": imported_count,
+            "total_activities": len(activities),
+            "message": f"Successfully synced {imported_count} activities"
+        }
+    
     async def fetch_activities(self, user_id: str, start_date: str = None, end_date: str = None) -> List[Dict[str, Any]]:
         """
         Fetch Fitbit activities (step counts, workouts, etc.)
