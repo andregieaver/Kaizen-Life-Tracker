@@ -97,7 +97,9 @@ class BaseIntegrationService(ABC):
     def get_callback_url(self, provider_config: Dict[str, Any]) -> str:
         """Get the OAuth callback URL"""
         callback_domain = provider_config.get("callbackDomain", "localhost:3000")
-        return f"https://{callback_domain}/api/auth/{self.provider_name}/callback"
+        # Use https for production domains, http for localhost
+        protocol = "http" if "localhost" in callback_domain else "https"
+        return f"{protocol}://{callback_domain}/api/auth/{self.provider_name}/callback"
     
     async def get_authorization_url(self, user_id: str, scopes: List[str]) -> str:
         """Generate OAuth authorization URL"""
