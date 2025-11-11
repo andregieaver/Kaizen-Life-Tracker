@@ -16387,8 +16387,8 @@ async def strava_auth_start(user_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/api/auth/strava/callback")
-async def strava_auth_callback(
+@app.get("/auth/strava/callback")
+async def strava_auth_callback_redirect(
     code: str = Query(...),
     state: str = Query(...),
     scope: Optional[str] = Query(None)
@@ -16398,7 +16398,7 @@ async def strava_auth_callback(
     Exchange code for tokens and store connection
     """
     try:
-        logging.info(f"Strava callback received: code={code[:10]}..., state={state[:20]}..., scope={scope}")
+        logging.info(f"[STRAVA CALLBACK] Received: code={code[:10]}..., state={state[:20]}..., scope={scope}")
         
         # Extract user_id from state or session
         # For now, we'll need to store user_id in the oauth_state collection
