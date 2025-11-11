@@ -16711,6 +16711,9 @@ async def debug_trigger_schedules():
     await check_and_execute_schedules()
     return {"message": "Schedule check triggered"}
 
+# Include API router - MUST BE BEFORE catch-all route
+app.include_router(api_router)
+
 # Catch-all route for React app with SEO support - MUST BE LAST
 @app.get("/{full_path:path}", response_class=HTMLResponse)
 async def serve_react_app(full_path: str, request: Request):
