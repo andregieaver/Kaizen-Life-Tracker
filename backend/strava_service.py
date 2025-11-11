@@ -91,7 +91,7 @@ class StravaService:
         )
         
         # Build authorization URL
-        callback_url = f"https://{self.system_settings['callbackDomain']}/api/auth/strava/callback"
+        callback_url = f"https://{self.system_settings['callbackDomain']}/auth/strava/callback"
         
         params = {
             'client_id': self.system_settings['clientId'],
