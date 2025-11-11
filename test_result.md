@@ -105,6 +105,18 @@
 user_problem_statement: "Complete Polar integration: The Polar backend service is implemented, frontend UI is in place (Account page and System Settings), and generic endpoints are ready. Need to integrate Polar data into the training calendar (similar to Strava) and optionally into Dashboard, Merits, and AI Coach. Task is to complete the Polar integration and make it fully functional end-to-end."
 
 frontend:
+  - task: "Mobile Account Tabs with Icons"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Account.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated Account page navigation tabs to display lucide-react icons on mobile devices instead of text labels. Implementation: 1) Personal/Account tab shows User icon (👤) on mobile, 2) Preferences tab shows Settings icon (⚙️) on mobile, 3) Integrations tab shows Zap icon (⚡) on mobile, 4) Subscription tab shows CreditCard icon (💳) on mobile. Desktop (sm and above) still shows full text labels. Uses responsive classes: hidden sm:inline for text, sm:hidden for icons. Icons are 20x20px (w-5 h-5). Active tab styling applies to icons correctly. Ready for mobile testing."
+
   - task: "Active State Glass Bubble Fix"
     implemented: true
     working: "NA"
