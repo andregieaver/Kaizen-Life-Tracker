@@ -2269,6 +2269,98 @@ Return only the JSON array, nothing else.
         else:
             strava_summary = "\n\nNo Strava activities synced."
         
+        # Provide Oura Ring data summary
+        oura_activities = context.get('oura_activities', [])
+        oura_summary = ""
+        if oura_activities:
+            # Separate by type
+            sleep_data = [a for a in oura_activities if a.get('type') == 'Sleep']
+            readiness_data = [a for a in oura_activities if a.get('type') == 'Readiness']
+            activity_data = [a for a in oura_activities if a.get('type') == 'Activity']
+            
+            oura_summary = f"\n\nOURA RING DATA ({len(oura_activities)} data points in last 30 days):\n"
+            
+            # Sleep summary
+            if sleep_data:
+                oura_summary += f"\nSLEEP ({len(sleep_data)} nights):\n"
+                for sleep in sleep_data[:10]:  # Show last 10 nights
+                    sleep_date = sleep.get('start_date')
+                    if isinstance(sleep_date, str):
+                        sleep_date = sleep_date.split('T')[0]
+                    elif hasattr(sleep_date, 'strftime'):
+                        sleep_date = sleep_date.strftime('%Y-%m-%d')
+                    
+                    score = sleep.get('score', 'N/A')
+                    duration_sec = sleep.get('duration', 0)
+                    duration_hr = duration_sec / 3600 if duration_sec else 0
+                    deep_min = sleep.get('deep_sleep', 0) / 60 if sleep.get('deep_sleep') else 0
+                    rem_min = sleep.get('rem_sleep', 0) / 60 if sleep.get('rem_sleep') else 0
+                    efficiency = sleep.get('efficiency', 0)
+                    
+                    details = [f"Score: {score}"]
+                    if duration_hr > 0:
+                        details.append(f"{duration_hr:.1f}h total")
+                    if deep_min > 0:
+                        details.append(f"{int(deep_min)}m deep")
+                    if rem_min > 0:
+                        details.append(f"{int(rem_min)}m REM")
+                    if efficiency > 0:
+                        details.append(f"{efficiency}% efficiency")
+                    
+                    oura_summary += f"[{sleep_date}] {', '.join(details)}\n"
+                
+                # Sleep averages
+                avg_score = sum(s.get('score', 0) for s in sleep_data if s.get('score')) / len(sleep_data)
+                avg_duration = sum(s.get('duration', 0) for s in sleep_data) / len(sleep_data) / 3600
+                oura_summary += f"AVERAGES: Score {avg_score:.0f}, {avg_duration:.1f}h sleep\n"
+            
+            # Readiness summary
+            if readiness_data:
+                oura_summary += f"\nREADINESS ({len(readiness_data)} days):\n"
+                for readiness in readiness_data[:10]:  # Show last 10 days
+                    ready_date = readiness.get('start_date')
+                    if isinstance(ready_date, str):
+                        ready_date = ready_date.split('T')[0]
+                    elif hasattr(ready_date, 'strftime'):
+                        ready_date = ready_date.strftime('%Y-%m-%d')
+                    
+                    score = readiness.get('score', 'N/A')
+                    temp_dev = readiness.get('temperature_deviation', 0)
+                    
+                    details = [f"Score: {score}"]
+                    if temp_dev:
+                        details.append(f"Temp: {temp_dev:+.1f}°C")
+                    
+                    oura_summary += f"[{ready_date}] {', '.join(details)}\n"
+                
+                # Readiness average
+                avg_readiness = sum(r.get('score', 0) for r in readiness_data if r.get('score')) / len(readiness_data)
+                oura_summary += f"AVERAGE: Score {avg_readiness:.0f}\n"
+            
+            # Activity summary
+            if activity_data:
+                oura_summary += f"\nACTIVITY ({len(activity_data)} days):\n"
+                recent_activity = activity_data[0] if activity_data else None
+                if recent_activity:
+                    act_date = recent_activity.get('start_date')
+                    if isinstance(act_date, str):
+                        act_date = act_date.split('T')[0]
+                    elif hasattr(act_date, 'strftime'):
+                        act_date = act_date.strftime('%Y-%m-%d')
+                    
+                    score = recent_activity.get('score', 'N/A')
+                    steps = recent_activity.get('steps', 0)
+                    calories = recent_activity.get('active_calories', 0)
+                    
+                    oura_summary += f"Latest [{act_date}]: Score {score}, {steps:,} steps, {calories} cal\n"
+                
+                # Activity averages
+                avg_activity_score = sum(a.get('score', 0) for a in activity_data if a.get('score')) / len(activity_data)
+                avg_steps = sum(a.get('steps', 0) for a in activity_data if a.get('steps')) / len(activity_data)
+                oura_summary += f"AVERAGES: Score {avg_activity_score:.0f}, {int(avg_steps):,} steps/day\n"
+        else:
+            oura_summary = "\n\nNo Oura Ring data synced."
+        
         # Summarize supplements
         supplements = context.get('supplements', [])
         supplement_logs = context.get('supplement_logs', [])
