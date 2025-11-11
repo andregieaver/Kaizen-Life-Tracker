@@ -1581,6 +1581,9 @@ const Dashboard = ({ athleteId }) => {
               {/* Column 1: Body Score */}
               <ReadinessCard athleteId={athleteId} readiness={readiness} />
 
+              {/* Column 1.5: Oura Vitals */}
+              <OuraVitalsCard athleteId={athleteId} />
+
               {/* Column 2: Progress - Recent Test Results */}
               <div className="border-0 shadow-lg overflow-hidden" style={{ 
                 background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
