@@ -1,101 +1,99 @@
 <analysis>
-The trajectory details the iterative development of the TrainSmart application, focusing on UI/UX enhancements, internationalization, and new feature integrations. The AI engineer systematically addressed user requests, starting with standardizing a glassmorphic design and blue branding across the app, followed by extensive Norwegian translation efforts for various components and pages like Account settings, Dashboard, and Nutrition. Key feature additions included dynamic date formatting, a global custom background, AI-powered nutrition image analysis, smooth scroll effects for the header/navbar, and AI menu translation.
+The trajectory documents a comprehensive effort to stabilize and expand the TrainSmart application's third-party integrations. The initial task was to fix a series of complex, interconnected bugs plaguing the Strava integration. This involved deep debugging of the entire OAuth 2.0 flow, from frontend callbacks to backend routing and database persistence. Key issues resolved included FastAPI route ordering conflicts, where parameterized routes incorrectly shadowed static ones (e.g.,  matching ), timezone-naive datetime comparison errors, incorrect database targeting ( vs. ), and flawed API logic for historical data syncs.
 
-Significant debugging efforts were made for the AI menu translation, tracing an OpenAI API key issue to backend retrieval logic. Later, the AI engineer tackled user-reported issues with the Strava integration, which involved fixing callback routing and ensuring UI elements like the sync button and connected status were correctly displayed. The most recent focus has been on debugging why the Strava integration's connected state isn't reflecting in the UI, leading to the addition of comprehensive console logging. The process demonstrates a robust approach to identifying, isolating, and fixing issues across the full stack.
+A pivotal moment was the decision to refactor the integration logic into a generic, reusable framework. A  was created, abstracting common functionalities like OAuth authorization URL generation, token exchange, and connection status checks. This framework was then instrumental in fixing the equally problematic Oura integration and rapidly scaffolding a new Polar integration. The process revealed and corrected numerous legacy issues, such as hardcoded URLs, inconsistent data collection lookups, and multiple conflicting endpoint definitions. The final tasks involved extending these integrations into the application's core features, including the training calendar, the AI coach's context, and the user dashboard, culminating in the addition of a UI for Polar credential management in the system settings.
 </analysis>
 
 <product_requirements>
-The TrainSmart application is designed as an engaging, mobile-first platform using a Kaizen design system with multi-language (Norwegian) support and robust integrations.
-The user's explicit requests and implemented features include:
-1.  **UI/UX Redesign:** Consistent glassmorphic, liquid-glass bubble effects, standardized blue branding (), and an 8px border-radius across components, including landing, login, pricing, and onboarding pages.
-2.  **Multi-Language Translation (Norwegian):** Comprehensive translation for ,  modals,  page/modals,  page,  (Personal Info, Preferences, Integrations, Subscriptions tabs), Dashboard quick links, Progress, Notifications Modal, Community Nationality filter, and Onboarding form's nationality field and pricing link.
-3.  **Theming Consistency:** Replaced all green/teal colors with blue () across various components and ensured dark theme styling for AI results. Extended to logged-out pages and cookie banner.
-4.  **Dynamic Formatting:** Date/time formatting on  page and Nutrition entries based on user preferences.
-5.  **Global Custom Background:** User-uploaded backgrounds with persistence and removal. A default background image was also set.
-6.  **AI Food Image Analysis:** OpenAI/Emergent LLM for meal description auto-population and RDI percentages.
-7.  **Scroll Reveal/Hide:** Smooth header/bottom navbar animation.
-8.  **AI Menu Management:** AI-powered translation for menu items (Norwegian via OpenAI), with dynamic menu reloading in the UI.
-9.  **AI Coach Enhancement:** Detailed access to nutrition and journal entries for improved query responses, with sorting by  for accuracy.
-10. **Integration Fixes:** Addressed Strava integration callback failures, incorrect redirects, and ensured connected status and sync buttons are visible and functional.
+The TrainSmart application is a comprehensive health and fitness coaching platform. The primary goal of the work was to build out and stabilize its third-party device integrations, making them robust, scalable, and fully featured.
+
+**Implemented Features & Fixes:**
+1.  **Strava Integration (End-to-End):**
+    *   Fixed connection, disconnection, and sync functionalities, resolving numerous 500, 404, and silent failures.
+    *   Implemented both incremental (Sync Latest) and full historical (Sync All) data synchronization.
+    *   Integrated Strava data into key app areas:
+        *   **Merits Page:** Displaying Year-to-Date (YTD) statistics, recent activities, and calculated Personal Records (e.g., best 5k, 10k times).
+        *   **Training Calendar:** Visualizing completed Strava activities alongside planned workouts.
+        *   **AI Coach:** Providing activity data as context for personalized advice.
+
+2.  **Oura Integration (Refactor & Fix):**
+    *   Refactored the entire integration to use a new, streamlined framework.
+    *   Fixed connection failures caused by hardcoded URLs and incorrect API endpoint routing.
+    *   Enabled Sync Latest and Sync All functionalities.
+    *   Integrated Oura data:
+        *   **Dashboard:** A new Oura Vitals card displays key metrics.
+        *   **AI Coach:** Providing sleep and readiness data as context.
+
+3.  **Integration Framework:**
+    *   Created a generic, backend service-based architecture to simplify adding future integrations (e.g., Garmin, Coros).
+    *   Standardized OAuth flows, data syncing, and status checking.
+
+4.  **Polar Integration (New):**
+    *   Added Polar as a new integration option, including backend service and frontend UI components in the Account and System Settings pages.
 </product_requirements>
 
 <key_technical_concepts>
--   **Full-stack Development**: React.js (Frontend), FastAPI (Backend), MongoDB (Database).
--   **UI/UX**: Tailwind CSS, React Hooks, , , , glassmorphic design, custom DOM events, , font loading detection.
--   **External APIs**: OpenAI API (food analysis, menu translation), Emergent LLM key, Strava API.
--   **State Management**: , custom DOM events.
+- **Full-stack Development**: React.js (Frontend), FastAPI (Backend), MongoDB (Database).
+- **External APIs & Auth**: Strava API, Oura API, Polar API, using OAuth 2.0 for authentication.
+- **Backend Architecture**:
+  - FastAPI  for modular routing.
+  - A generic  class to create a reusable framework for third-party integrations.
+  - Resolution of route ordering conflicts between static and parameterized paths.
+- **Asynchronous Programming**: Extensive use of / in Python for non-blocking I/O with the database and external APIs.
+- **Debugging Techniques**: Extensive use of backend logging, browser console analysis, and direct database inspection to diagnose and resolve complex issues.
 </key_technical_concepts>
 
 <code_architecture>
+The application follows a standard monolithic repository structure with a separate  and .
 
--   : Core backend logic, centralizes API definitions and AI integration.
-    -   **Changes**: Modified OpenAI key retrieval for menu translation endpoint (). Enhanced AI coach context in  to include detailed nutrition and journal entries. Updated sorting for journal/nutrition queries to . Fixed Strava callback routing (removed duplicate, adjusted  definition, removed  from ). Corrected Strava success/error redirects. Added console logging for debugging Strava.
--   : Global CSS for frontend.
-    -   **Changes**: Standardized brand color to , refined glassmorphic effects, border-radius, custom scrollbars, and active state bubble opacity.
--   : Central component for logged-in users.
-    -   **Changes**: Implemented header/slideout glassmorphic effects, dynamic background, active tab styling fixes, scroll reveal/hide, font loading detection. Added an event listener for  to reload menus after translation. Added BETA badge to header logo. Translated notifications modal.
--   : User account settings.
-    -   **Changes**: Added background image upload/preview/removal. Replaced green/teal with blue, applied glassmorphic styling. Made numerous strings in Preferences, Integrations, and Subscriptions tabs translatable. Fixed  to . Enhanced  component to support  prop and render a sync button. Fixed / keys to  namespace.
--   : User's daily overview.
-    -   **Changes**: Dynamically formats date/time. Added new habits section, compacted for mobile. Removed inline background/top padding.
--   : User journal.
-    -   **Changes**: Glassmorphic styling, blue branding, translatable modal strings, circular + button.
--    & : Translation files.
-    -   **Changes**: Extensive additions for , , , , , ,  (including detailed keys for Preferences, Integrations, Subscriptions tabs, connect/disconnect, Confirm Change, Switch to Annual Billing). Added translations for Community nationality filter and Onboarding nationality field and pricing link.
--   : Nutrition tracking and logging.
-    -   **Changes**: Blue branding, translatable strings, dark theme modal styling, AI analysis integration. Removed dark background from no entries yet section by making its background transparent.
--   : Utility functions.
-    -   **Changes**:  uses user's  and .
--   , , , , , :
-    -   **Changes**: Applied blue branding and glassmorphic styling, replaced green/teal colors.
--   : Community page.
-    -   **Changes**: Removed background styles. Fixed  in . Translated All Nationalities option.
--   : Menu editing page.
-    -   **Changes**: Added Translate All Menus button, , circular buttons. Dispatched  CustomEvent after translations are saved.
--   : Marketing landing page.
-    -   **Changes**: Updated color scheme to blue. Matched design/layout to dashboard (header, hero, features, waiting list, form inputs/buttons) with glassmorphic elements.
--   : Cookie consent modal.
-    -   **Changes**: Updated color scheme from teal/green to blue.
--   : Login page.
-    -   **Changes**: Updated to match glassmorphic design.
--   : Pricing page.
-    -   **Changes**: Updated to match glassmorphic design.
--   : User onboarding form.
-    -   **Changes**: Updated to match glassmorphic design (colors, inputs). Added BETA badge to title. Translated nationality field and pricing link.
+
+
+- ****:
+  - **Importance**: This is the new, core framework for all third-party integrations. It defines a  class with abstract methods for authorization, callbacks, token exchange, and data syncing, promoting code reuse and simplifying the addition of new integrations.
+  - **Changes**: Created from scratch to solve the problem of repeated and inconsistent integration logic. It correctly handles loading credentials from nested objects () in the database.
+
+- **, , **:
+  - **Importance**: These files contain the specific implementation details for each integration, inheriting from .
+  - **Changes**:  was heavily modified to fix bugs and add detailed logging.  and  were created as part of the new framework.
+
+- ****:
+  - **Importance**: The main FastAPI application file, defining all API endpoints. It was the source of many critical bugs.
+  - **Changes**:
+    - **Route Ordering:** Corrected the order of Oura endpoints ( was moved before ) to resolve a critical routing conflict where callback was being misinterpreted as an .
+    - **Endpoint Consolidation:** Old, buggy, and often hardcoded endpoints for Strava and Oura were identified and refactored to use the new, generic services in . This eliminated redundant code and fixed failures.
+    - **AI Coach Context:** The  and  functions were updated to query and include both Strava and Oura data, making the coach more knowledgeable.
+    - **Voice Chat Fix:** The  endpoint was fixed to use the global system OpenAI key as a fallback, enabling voice chat functionality.
+
+- ****:
+  - **Importance**: This component manages the UI for all user integrations, including connection, disconnection, and synchronization.
+  - **Changes**:
+    - The  component was significantly enhanced. It was modified to conditionally render either a single Sync button or a dropdown with Sync Latest and Sync All options for providers like Strava, Oura, and Polar.
+    - Event handlers like  and  were updated to accept a  parameter to call the correct backend functionality.
+    - A critical bug was fixed where the Strava disconnect button called the wrong function ( instead of ).
+
+- ****:
+  - **Importance**: The admin-level page for configuring application-wide settings, including the client IDs and secrets for third-party integrations.
+  - **Changes**: A new UI section for Polar Flow Integration was added to the Advanced tab, allowing administrators to input and save Polar API credentials. This involved updating the component's state, JSX, and save handler.
 </code_architecture>
 
 <pending_tasks>
--   Complete Nutrition page image/camera upload and delete functionality (beyond just analysis).
--   Refactor hardcoded date formats (beyond what was done on Today and Nutrition pages).
--   Resolve persistent profile picture upload failures.
--   Implement Race Predictor calculator logic.
--   Address CORS issues for Posthog.
--   Extend file processing to all uploads.
--   Complete Referral Metrics UI in .
--   Complete the UI for the individual CRM user page ().
--   Implement refund order partially or in full functionality.
--   Complete the UI for the Subscriptions list page ().
--   Ensure all Stripe-related endpoints use the Stripe key from .
--   Investigate and fix why creating events in the deployed version of the app with custom domain fails.
--   Create developer guidelines for future string creation and localization compliance.
--   **Strava Integration**: Display synced activities in the frontend. Implement webhook subscription via the UI. Add activity import/sync functionality.
--   Complete drag and drop functionality for Edit Plan modal in , ensuring mobile compatibility.
--   Investigate the white area appearing when navigating between tabs in Account settings.
+- **Complete Polar Integration**:
+  - The framework and UI for Polar are in place, but the  methods for actual data syncing () and fetching user profiles () are likely stubs and need to be implemented with the specific Polar API logic.
+  - The functionality needs to be tested end-to-end after implementation.
+- **Further Integration Streamlining**: The trajectory mentions at least five more integrations are planned. The  should be populated, and the process documented for future work.
 </pending_tasks>
 
 <current_work>
-Immediately before this summary request, the AI engineer was addressing a persistent issue with the Strava integration. The user reported that after connecting Strava, they were redirected to the  page instead of , and the Strava connected badge or sync button was not displayed. The Connect Strava button remained visible, which was misleading. Crucially, the user stated, No errors in console.
+The most recent work focused on adding Polar as a new integration and enabling its configuration. After the user reported that they couldn't see a place to enter Polar credentials, the previous engineer took the following steps:
 
-The AI engineer's previous actions to fix the Strava integration included:
-1.  **Backend Routing:** Fixed a duplicate Strava callback endpoint in  and adjusted the primary one to correctly handle the  prefix with Kubernetes ingress rules.
-2.  **Redirect URI:** Removed the  prefix from the  construction in the backend to ensure the Strava OAuth flow worked correctly.
-3.  **Frontend Redirect:** Corrected the success redirect URL in  to  to ensure the user landed on the correct tab after authorization.
-4.  **Frontend UI:** Enhanced the  component in  to accept an  prop and render a Sync button, and updated the Strava  usage to pass the  function.
-5.  **Translations:** Added sync, connect, and disconnect keys to English and Norwegian locale files for the integration cards.
+1.  **Analyzed **: This file was identified as the correct location for managing integration credentials.
+2.  **Updated Component State**: The component's initial state in  was modified to include an object for Polar settings ().
+3.  **Modified Save Handler**: The  function was updated to include the  settings object in the payload sent to the backend.
+4.  **Added UI Section**: A new block of JSX was added to the Advanced tab's render method. This new section, titled Polar Flow Integration, includes input fields for the Client ID and Client Secret, mirroring the existing UI for the Oura and Strava integrations.
 
-Despite these fixes, the user still reported that no changes were visible and no errors were in the console. To diagnose the root cause of the missing connected badge and sync button, the AI engineer's last action was to add comprehensive console logging to both the backend Strava callback endpoint and the frontend integration loading logic. This is to gather more detailed information about the flow and identify where the connection status might be failing to propagate or render. The next step is to analyze these logs.
+The final action was creating a summary to inform the user that the UI for adding Polar credentials has been successfully implemented. The frontend hot reload should make these changes visible without a server restart. The application is now waiting for the user to input the Polar credentials to proceed with testing the full Polar connection flow.
 </current_work>
 
 <optional_next_step>
-I'll analyze the console logs after you attempt to connect to Strava again to diagnose the issue with the missing connected badge and sync button.
+I will now create a comprehensive summary of the work done to add the Polar integration UI, confirming that the user can now add their Polar credentials in the System Settings.
 </optional_next_step>
