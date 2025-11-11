@@ -373,6 +373,33 @@ const Account = ({ athleteId }) => {
       }, 5000);
     }
     
+    // Handle Fitbit OAuth callback
+    const fitbitStatus = urlParams.get('fitbit');
+    if (fitbitStatus === 'connected') {
+      setSaveStatus({ 
+        type: 'success', 
+        message: 'Fitbit connected successfully! Your activities, sleep, and health data will now sync automatically.' 
+      });
+      setTimeout(() => {
+        setSaveStatus({ type: '', message: '' });
+        // Clean URL
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 5000);
+      // Reload to show connection
+      if (athleteId) {
+        loadAccountData();
+      }
+    } else if (fitbitStatus === 'error') {
+      setSaveStatus({ 
+        type: 'error', 
+        message: 'Failed to connect Fitbit. Please try again or check System Settings.' 
+      });
+      setTimeout(() => {
+        setSaveStatus({ type: '', message: '' });
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 5000);
+    }
+    
     // Check if returning from Stripe checkout
     const sessionId = urlParams.get('session_id');
     const success = urlParams.get('success');
