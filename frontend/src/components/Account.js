@@ -205,7 +205,7 @@ const IntegrationCard = ({
       <div className="md:hidden space-y-3">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0 mt-1">
-            {icon}
+            {getBrandIcon()}
           </div>
           <div className="flex-1 min-w-0">
             <h4 className="font-semibold text-white">{name}</h4>
