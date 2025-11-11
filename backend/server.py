@@ -6779,6 +6779,19 @@ async def get_training_blocks(athlete_id: str):
         whoop_block["athlete_id"] = athlete_id  # Ensure athlete_id is set
         parsed_blocks.append(whoop_block)
     
+    # Get Suunto activities
+    suunto_activities = await db.suunto_activities.find(
+        {"user_id": athlete_id},
+        {"_id": 0}
+    ).sort("start_date", 1).to_list(length=None)
+    
+    # Convert Suunto activities to training block format
+    suunto_service = SuuntoService(db)
+    for activity in suunto_activities:
+        suunto_block = suunto_service.transform_activity_to_calendar(activity)
+        suunto_block["athlete_id"] = athlete_id  # Ensure athlete_id is set
+        parsed_blocks.append(suunto_block)
+    
     # Sort all blocks by start_date
     parsed_blocks.sort(key=lambda x: x.get('start_date', ''))
     
