@@ -1358,7 +1358,7 @@ def test_strava_oauth_integration_comprehensive():
             print_test_result("Strava Configuration Check", True, f"All required fields present: clientId={strava_config.get('clientId')}, callbackDomain={strava_config.get('callbackDomain')}")
         
         # Step 2: OAuth Initiation Test - GET /api/auth/strava?user_id=<test_user_id>
-        print("   Step 2: OAuth Initiation Test - GET /api/auth/strava")
+        print("   Step 2: OAuth Initiation Test - GET /api/auth/strava (StravaConnector)")
         
         oauth_initiate_response = requests.get(f"{BACKEND_URL}/auth/strava?user_id={test_user_id}")
         
