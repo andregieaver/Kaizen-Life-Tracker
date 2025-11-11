@@ -1531,13 +1531,23 @@ const Account = ({ athleteId }) => {
     }
   };
 
-  const handleOuraSync = async () => {
+  const handleOuraSync = async (fullSync = false) => {
     try {
-      setSaveStatus({ type: 'info', message: 'Syncing sleep and recovery data from Oura...' });
-      const response = await axios.post(`${API}/integrations/oura/${athleteId}/sync`);
+      const syncType = fullSync ? 'all data (full history)' : 'new data';
+      setSaveStatus({ type: 'info', message: `Syncing ${syncType} from Oura...` });
+      
+      // Use force_full parameter only when fullSync is true
+      const url = fullSync 
+        ? `${API}/integrations/oura/${athleteId}/sync?force_full=true`
+        : `${API}/integrations/oura/${athleteId}/sync`;
+      
+      const response = await axios.post(url);
+      const imported = response.data.imported || 0;
+      const total = response.data.total_activities || 0;
+      
       setSaveStatus({ 
         type: 'success', 
-        message: `Sync completed! Imported ${response.data.imported_sleep_records} sleep records.` 
+        message: `Sync completed! Found ${total} data points, imported ${imported} new ones.` 
       });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
       
