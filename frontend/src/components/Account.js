@@ -3768,6 +3768,20 @@ const Account = ({ athleteId }) => {
                   t={t}
                 />
                 
+                {/* Garmin */}
+                <IntegrationCard
+                  provider="garmin"
+                  name="Garmin Connect"
+                  description="Connect your Garmin device to sync comprehensive fitness and health data"
+                  icon={<Activity className="w-8 h-8 text-blue-500" />}
+                  connected={integrations.garmin?.connected || false}
+                  connectionInfo={integrations.garmin}
+                  onConnect={() => handleSimpleConnect('garmin')}
+                  onDisconnect={() => handleDisconnectIntegration('garmin')}
+                  onSync={(fullSync) => handleGenericSync('garmin', fullSync)}
+                  t={t}
+                />
+                
                 {/* COROS */}
                 <IntegrationCard
                   provider="coros"
