@@ -7804,6 +7804,28 @@ async def oura_auth_callback(
         logging.error(f"[OURA] Callback error: {e}", exc_info=True)
         return RedirectResponse(url=f"/dashboard/account?tab=integrations&oura=error")
 
+
+@api_router.get("/auth/oura/{athlete_id}")
+async def oura_auth_initiate(athlete_id: str):
+    """
+    OLD ENDPOINT - Redirect to new generic integration endpoint
+    This endpoint is kept for backward compatibility but uses the new OuraService
+    """
+    try:
+        # Use the new generic service
+        service = OuraService(db)
+        scopes = ["email", "personal", "daily", "heartrate", "workout", "session", "tag", "spo2"]
+        auth_url = await service.get_authorization_url(athlete_id, scopes)
+        
+        logging.info(f"[OURA] Authorization URL generated for user: {athlete_id}")
+        return {"authorization_url": auth_url}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error starting Oura auth: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.post("/integrations/oura/{athlete_id}/sync")
 async def sync_oura_data(athlete_id: str):
     """Manually sync data from Oura Ring"""
