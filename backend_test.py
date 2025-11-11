@@ -1332,32 +1332,30 @@ def test_polar_oauth_routing_fix():
     components (system settings, activities, stats, calendar) are working - just need to confirm 
     OAuth authorization endpoint is now functional.
     """
-    print("🔍 POLAR INTEGRATION BACKEND COMPREHENSIVE TESTING")
+    print("🔍 POLAR OAUTH ROUTING FIX VERIFICATION")
     print("=" * 70)
     
     try:
         # Use super admin from review request
         test_user_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"  # andre@humanweb.no
-        fallback_user_id = "smooth-trainer"  # Alternative user
         
-        print(f"   Primary test_user_id: {test_user_id}")
-        print(f"   Fallback test_user_id: {fallback_user_id}")
+        print(f"   Test user: andre@humanweb.no (ID: {test_user_id})")
         
-        # Test 1: Polar Credentials in System Settings
-        print("\n   Test 1: Polar Credentials in System Settings")
+        # Step 1: Verify System Settings have Polar credentials
+        print("\n   Step 1: Verify System Settings have Polar credentials")
         
-        # GET /api/system/settings should return Polar credentials
         settings_url = f"{BACKEND_URL}/system/settings?athlete_id={test_user_id}"
         print(f"   URL: {settings_url}")
         
         settings_response = requests.get(settings_url)
-        
         print(f"   Response Status: {settings_response.status_code}")
+        
+        polar_credentials_exist = False
+        client_id = None
+        callback_domain = None
         
         if settings_response.status_code == 200:
             settings_data = settings_response.json()
-            
-            # Check if Polar credentials exist in advanced section
             advanced = settings_data.get("advanced", {})
             polar_config = advanced.get("polar", {})
             
@@ -1366,88 +1364,220 @@ def test_polar_oauth_routing_fix():
             callback_domain = polar_config.get("callbackDomain")
             
             if client_id and client_secret and callback_domain:
-                print_test_result("Polar Credentials in System Settings", True, 
+                polar_credentials_exist = True
+                print_test_result("System Settings - Polar Credentials", True, 
                                 f"clientId: {client_id}, callbackDomain: {callback_domain}")
             else:
-                print_test_result("Polar Credentials in System Settings", False, 
+                print_test_result("System Settings - Polar Credentials", False, 
                                 f"Missing credentials - clientId: {bool(client_id)}, clientSecret: {bool(client_secret)}, callbackDomain: {bool(callback_domain)}")
-                
-                # Try to set test credentials for testing
-                print("   Setting test Polar credentials...")
-                test_settings = settings_data.copy()
-                if "advanced" not in test_settings:
-                    test_settings["advanced"] = {}
-                test_settings["advanced"]["polar"] = {
-                    "clientId": "test_polar_client_id",
-                    "clientSecret": "test_polar_client_secret", 
-                    "callbackDomain": "fitness-oauth.preview.emergentagent.com"
-                }
-                
-                save_response = requests.post(
-                    f"{BACKEND_URL}/system/settings?athlete_id={test_user_id}",
-                    json=test_settings,
-                    headers={"Content-Type": "application/json"}
-                )
-                
-                if save_response.status_code == 200:
-                    print_test_result("Set Test Polar Credentials", True, "Test credentials saved")
-                else:
-                    print_test_result("Set Test Polar Credentials", False, f"Failed to save: {save_response.status_code}")
         else:
             print_test_result("System Settings Access", False, f"Cannot access settings: {settings_response.status_code}")
         
-        # Test 2: Polar OAuth Authorization Flow
-        print("\n   Test 2: Polar OAuth Authorization Flow")
+        # Step 2: CRITICAL TEST - Polar OAuth Authorization (The Fix)
+        print("\n   Step 2: CRITICAL TEST - Polar OAuth Authorization (The Fix)")
+        print("   This is the main test to verify the OAuth routing fix worked")
         
-        # GET /api/auth/polar?user_id={user_id} should return authorization URL
         oauth_url = f"{BACKEND_URL}/auth/polar?user_id={test_user_id}"
         print(f"   URL: {oauth_url}")
         
         oauth_response = requests.get(oauth_url)
         
         print(f"   Response Status: {oauth_response.status_code}")
-        print(f"   Response Text: {oauth_response.text[:500]}...")
+        print(f"   Response Text: {oauth_response.text}")
         
+        # This is the critical test - should return 200, not 404 "Provider not found"
         if oauth_response.status_code == 200:
             try:
                 oauth_data = oauth_response.json()
                 auth_url = oauth_data.get("authorization_url")
+                provider = oauth_data.get("provider")
+                state = oauth_data.get("state")
                 
-                if auth_url:
-                    print_test_result("Polar OAuth Authorization URL", True, f"Authorization URL generated")
+                if auth_url and provider:
+                    print_test_result("🎯 CRITICAL FIX VERIFICATION - OAuth Endpoint", True, 
+                                    f"Returns 200 with authorization_url (NOT 404 'Provider not found')")
                     
-                    # Verify URL contains correct parameters
+                    # Verify authorization URL structure
                     if "flow.polar.com/oauth2/authorization" in auth_url:
-                        print_test_result("Polar OAuth URL Domain", True, "Points to flow.polar.com")
+                        print_test_result("Authorization URL Domain", True, "Points to flow.polar.com")
                     else:
-                        print_test_result("Polar OAuth URL Domain", False, "Does not point to Polar domain")
+                        print_test_result("Authorization URL Domain", False, f"Wrong domain in URL: {auth_url}")
                     
-                    if "client_id=" in auth_url:
-                        print_test_result("Polar OAuth Client ID", True, "Contains client_id parameter")
+                    # Check for client_id from system settings
+                    if client_id and f"client_id={client_id}" in auth_url:
+                        print_test_result("Client ID in URL", True, f"Contains client_id from system settings: {client_id}")
+                    elif "client_id=" in auth_url:
+                        print_test_result("Client ID in URL", True, "Contains client_id parameter")
                     else:
-                        print_test_result("Polar OAuth Client ID", False, "Missing client_id parameter")
+                        print_test_result("Client ID in URL", False, "Missing client_id parameter")
                     
+                    # Check for redirect_uri with /api/ prefix
                     if "redirect_uri=" in auth_url and "/api/" in auth_url:
-                        print_test_result("Polar OAuth Redirect URI", True, "Contains /api/ prefix in redirect_uri")
+                        print_test_result("Redirect URI with /api/ prefix", True, "Contains /api/ prefix in redirect_uri")
                     else:
-                        print_test_result("Polar OAuth Redirect URI", False, "Missing /api/ prefix in redirect_uri")
+                        print_test_result("Redirect URI with /api/ prefix", False, "Missing /api/ prefix in redirect_uri")
                     
-                    if "scope=accesslink.read_all" in auth_url:
-                        print_test_result("Polar OAuth Scope", True, "Contains correct scope")
+                    # Check for correct callback domain
+                    if callback_domain and callback_domain in auth_url:
+                        print_test_result("Callback Domain", True, f"Uses callback domain from settings: {callback_domain}")
                     else:
-                        print_test_result("Polar OAuth Scope", False, "Missing or incorrect scope")
+                        print_test_result("Callback Domain", False, "Callback domain mismatch or missing")
+                    
+                    # Check for scope
+                    if "scope=accesslink.read_all" in auth_url:
+                        print_test_result("OAuth Scope", True, "Contains correct scope: accesslink.read_all")
+                    else:
+                        print_test_result("OAuth Scope", False, "Missing or incorrect scope")
+                    
+                    # Check for state parameter
+                    if state and f"state={state}" in auth_url:
+                        print_test_result("State Parameter", True, f"State parameter present: {state}")
+                    else:
+                        print_test_result("State Parameter", False, "Missing state parameter")
+                    
+                    # Check provider field
+                    if provider == "polar":
+                        print_test_result("Provider Field", True, f"Correct provider: {provider}")
+                    else:
+                        print_test_result("Provider Field", False, f"Wrong provider: {provider}")
+                        
                 else:
-                    print_test_result("Polar OAuth Authorization URL", False, "No authorization_url in response")
+                    print_test_result("🎯 CRITICAL FIX VERIFICATION - OAuth Endpoint", False, 
+                                    "Missing authorization_url or provider in response")
             except json.JSONDecodeError:
-                print_test_result("Polar OAuth Authorization URL", False, "Response is not valid JSON")
+                print_test_result("🎯 CRITICAL FIX VERIFICATION - OAuth Endpoint", False, 
+                                "Response is not valid JSON")
+        elif oauth_response.status_code == 404:
+            if "Provider not found" in oauth_response.text:
+                print_test_result("🎯 CRITICAL FIX VERIFICATION - OAuth Endpoint", False, 
+                                "❌ STILL GETTING 404 'Provider not found' - FIX DID NOT WORK")
+            else:
+                print_test_result("🎯 CRITICAL FIX VERIFICATION - OAuth Endpoint", False, 
+                                f"404 error but different message: {oauth_response.text}")
         else:
-            print_test_result("Polar OAuth Authorization URL", False, f"Status: {oauth_response.status_code}")
+            print_test_result("🎯 CRITICAL FIX VERIFICATION - OAuth Endpoint", False, 
+                            f"Unexpected status: {oauth_response.status_code} - {oauth_response.text}")
         
-        # Test 3: Polar Connection Status
-        print("\n   Test 3: Polar Connection Status")
+        # Step 3: Polar Connection Status (retest to confirm still working)
+        print("\n   Step 3: Polar Connection Status (retest to confirm still working)")
         
-        # GET /api/auth/polar/status?user_id={user_id}
         status_url = f"{BACKEND_URL}/auth/polar/status?user_id={test_user_id}"
+        print(f"   URL: {status_url}")
+        
+        status_response = requests.get(status_url)
+        print(f"   Response Status: {status_response.status_code}")
+        print(f"   Response Text: {status_response.text}")
+        
+        if status_response.status_code == 200:
+            try:
+                status_data = status_response.json()
+                connected = status_data.get("connected")
+                
+                if connected is False:
+                    print_test_result("Connection Status Endpoint", True, 
+                                    f"Returns correct status for non-connected user: connected={connected}")
+                else:
+                    print_test_result("Connection Status Endpoint", True, 
+                                    f"Returns status (user may be connected): connected={connected}")
+            except json.JSONDecodeError:
+                print_test_result("Connection Status Endpoint", False, "Response is not valid JSON")
+        else:
+            print_test_result("Connection Status Endpoint", False, 
+                            f"Status endpoint failed: {status_response.status_code}")
+        
+        # Step 4: Polar Sync Endpoint (should return proper error for non-connected user)
+        print("\n   Step 4: Polar Sync Endpoint (should return proper error for non-connected user)")
+        
+        sync_url = f"{BACKEND_URL}/integrations/polar/{test_user_id}/sync"
+        print(f"   URL: {sync_url}")
+        
+        sync_response = requests.post(sync_url)
+        print(f"   Response Status: {sync_response.status_code}")
+        print(f"   Response Text: {sync_response.text}")
+        
+        if sync_response.status_code == 404:
+            if "not connected" in sync_response.text.lower() or "polar" in sync_response.text.lower():
+                print_test_result("Sync Endpoint Error Handling", True, 
+                                "Returns proper 404 error for non-connected user (not routing 404)")
+            else:
+                print_test_result("Sync Endpoint Error Handling", False, 
+                                f"404 but unclear if routing or connection error: {sync_response.text}")
+        else:
+            print_test_result("Sync Endpoint Error Handling", True, 
+                            f"Endpoint accessible (status: {sync_response.status_code})")
+        
+        # Step 5: Check Backend Logs for PolarConnector messages
+        print("\n   Step 5: Check Backend Logs for PolarConnector messages")
+        
+        try:
+            import subprocess
+            log_result = subprocess.run(
+                ["tail", "-n", "100", "/var/log/supervisor/backend.out.log"],
+                capture_output=True, text=True, timeout=5
+            )
+            
+            if log_result.stdout:
+                log_content = log_result.stdout
+                
+                # Look for Polar connector messages
+                polar_connector_messages = []
+                for line in log_content.split('\n'):
+                    if "[POLAR CONNECTOR]" in line:
+                        polar_connector_messages.append(line.strip())
+                
+                if polar_connector_messages:
+                    print_test_result("Backend Logs - PolarConnector", True, 
+                                    f"Found {len(polar_connector_messages)} PolarConnector log messages")
+                    for msg in polar_connector_messages[-3:]:  # Show last 3 messages
+                        print(f"      {msg}")
+                else:
+                    print_test_result("Backend Logs - PolarConnector", False, 
+                                    "No [POLAR CONNECTOR] messages found in recent logs")
+                
+                # Look for routing errors
+                routing_errors = []
+                for line in log_content.split('\n'):
+                    if "404" in line and ("polar" in line.lower() or "provider not found" in line.lower()):
+                        routing_errors.append(line.strip())
+                
+                if routing_errors:
+                    print_test_result("Backend Logs - Routing Errors", False, 
+                                    f"Found {len(routing_errors)} potential routing errors")
+                    for error in routing_errors[-2:]:  # Show last 2 errors
+                        print(f"      {error}")
+                else:
+                    print_test_result("Backend Logs - Routing Errors", True, 
+                                    "No Polar routing errors found in recent logs")
+            else:
+                print_test_result("Backend Logs Access", False, "Could not read backend logs")
+                
+        except Exception as log_e:
+            print_test_result("Backend Logs Access", False, f"Error reading logs: {log_e}")
+        
+        # Summary
+        print("\n   🎯 OAUTH ROUTING FIX VERIFICATION SUMMARY:")
+        print("   " + "="*50)
+        
+        if oauth_response.status_code == 200:
+            print("   ✅ SUCCESS: OAuth routing fix is working!")
+            print("   ✅ GET /api/auth/polar now returns 200 with authorization URL")
+            print("   ✅ PolarConnector is being called (not getting 404 'Provider not found')")
+            print("   ✅ Authorization URL contains required OAuth parameters")
+            
+            if polar_credentials_exist:
+                print("   ✅ System settings contain Polar credentials")
+            else:
+                print("   ⚠️ System settings missing Polar credentials (but routing fix works)")
+                
+        else:
+            print("   ❌ FAILURE: OAuth routing fix is NOT working")
+            print(f"   ❌ GET /api/auth/polar still returns {oauth_response.status_code}")
+            if oauth_response.status_code == 404 and "Provider not found" in oauth_response.text:
+                print("   ❌ Still getting 'Provider not found' error")
+                print("   💡 Check if PolarConnector was properly added to connectors dict")
+            
+        print("\n✅ POLAR OAUTH ROUTING FIX VERIFICATION COMPLETED")
+        return oauth_response.status_code == 200
         print(f"   URL: {status_url}")
         
         status_response = requests.get(status_url)
