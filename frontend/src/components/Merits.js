@@ -107,21 +107,130 @@ const Merits = ({ athleteId }) => {
   }
 
   return (
-    <div className="border-0 shadow-lg overflow-hidden" style={{ 
-      background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
-      backdropFilter: 'blur(12px) saturate(140%)',
-      WebkitBackdropFilter: 'blur(12px) saturate(140%)',
-      border: '1px solid rgba(255, 255, 255, 0.1)',
-      boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
-      borderRadius: '8px'
-    }}>
-      <div className="p-4 pb-3">
-        <h2 className="flex items-center text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
-          <Trophy className="w-5 h-5 mr-2" style={{ color: 'var(--c-warning)' }} />
-          {t('merits.title')}
-        </h2>
-      </div>
-      <div className="px-4 pb-4">
+    <div className="space-y-4">
+      {/* Strava Stats Overview */}
+      {stravaStats && stravaStats.total_activities > 0 && (
+        <div className="border-0 shadow-lg overflow-hidden" style={{ 
+          background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+          backdropFilter: 'blur(12px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+          borderRadius: '8px'
+        }}>
+          <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+            <h2 className="flex items-center text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
+              <Activity className="w-5 h-5 mr-2" style={{ color: '#FC4C02' }} />
+              Strava Statistics
+            </h2>
+          </div>
+          <div className="p-4">
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+              <div className="text-center p-3 rounded-lg" style={{ background: 'var(--bg-800)' }}>
+                <div className="text-2xl font-bold" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
+                  {stravaStats.total_activities}
+                </div>
+                <div className="text-xs mt-1" style={{ color: 'var(--text-med)' }}>Activities</div>
+              </div>
+              <div className="text-center p-3 rounded-lg" style={{ background: 'var(--bg-800)' }}>
+                <div className="text-2xl font-bold" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
+                  {stravaStats.total_distance_km.toLocaleString()}
+                </div>
+                <div className="text-xs mt-1" style={{ color: 'var(--text-med)' }}>Kilometers</div>
+              </div>
+              <div className="text-center p-3 rounded-lg" style={{ background: 'var(--bg-800)' }}>
+                <div className="text-2xl font-bold" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
+                  {stravaStats.total_time_hours.toLocaleString()}
+                </div>
+                <div className="text-xs mt-1" style={{ color: 'var(--text-med)' }}>Hours</div>
+              </div>
+              <div className="text-center p-3 rounded-lg" style={{ background: 'var(--bg-800)' }}>
+                <div className="text-2xl font-bold" style={{ color: 'var(--c-brand-500)', fontFamily: 'var(--font-display)' }}>
+                  {stravaStats.total_elevation_m.toLocaleString()}
+                </div>
+                <div className="text-xs mt-1" style={{ color: 'var(--text-med)' }}>Elevation (m)</div>
+              </div>
+            </div>
+
+            {/* Recent Activities */}
+            {stravaActivities.length > 0 && (
+              <div className="mt-4">
+                <h3 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-hi)' }}>Recent Activities</h3>
+                <div className="space-y-2">
+                  {stravaActivities.map((activity, index) => (
+                    <div 
+                      key={activity.id || index}
+                      className="p-3 rounded-lg transition-colors duration-150" 
+                      style={{ 
+                        background: 'var(--bg-800)',
+                        border: '1px solid var(--border)'
+                      }}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-xs px-2 py-0.5 rounded-full" style={{ 
+                              background: 'rgba(252, 76, 2, 0.2)',
+                              color: '#FC4C02'
+                            }}>
+                              {activity.type}
+                            </span>
+                            <h4 className="text-sm font-medium" style={{ color: 'var(--text-hi)' }}>
+                              {activity.name}
+                            </h4>
+                          </div>
+                          <div className="flex flex-wrap gap-3 text-xs" style={{ color: 'var(--text-med)' }}>
+                            <span className="flex items-center gap-1">
+                              <Calendar className="w-3 h-3" />
+                              {new Date(activity.start_date).toLocaleDateString()}
+                            </span>
+                            {activity.distance > 0 && (
+                              <span className="flex items-center gap-1">
+                                <MapPin className="w-3 h-3" />
+                                {(activity.distance / 1000).toFixed(2)} km
+                              </span>
+                            )}
+                            {activity.moving_time > 0 && (
+                              <span className="flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                {Math.floor(activity.moving_time / 60)} min
+                              </span>
+                            )}
+                            {activity.average_heartrate && (
+                              <span className="flex items-center gap-1">
+                                <Zap className="w-3 h-3" />
+                                {Math.round(activity.average_heartrate)} bpm
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Merits Table */}
+      <div className="border-0 shadow-lg overflow-hidden" style={{ 
+        background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+        backdropFilter: 'blur(12px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.2)',
+        borderRadius: '8px'
+      }}>
+        <div className="p-4 pb-3">
+          <h2 className="flex items-center text-lg font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
+            <Trophy className="w-5 h-5 mr-2" style={{ color: 'var(--c-warning)' }} />
+            {t('merits.title')}
+          </h2>
+        </div>
+        <div className="px-4 pb-4">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
