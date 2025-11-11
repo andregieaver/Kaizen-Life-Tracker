@@ -460,6 +460,7 @@ class StravaService:
         
         async with httpx.AsyncClient() as client:
             while True:
+                logging.info(f"[SYNC] Requesting page {page} from Strava API...")
                 response = await client.get(
                     f"{STRAVA_API_BASE}/athlete/activities",
                     headers={'Authorization': f'Bearer {token}'},
@@ -470,10 +471,15 @@ class StravaService:
                     }
                 )
                 
+                logging.info(f"[SYNC] Strava API response: status={response.status_code}")
+                
                 if response.status_code != 200:
+                    logging.error(f"[SYNC ERROR] Strava API returned {response.status_code}: {response.text[:200]}")
                     break
                 
                 activities = response.json()
+                logging.info(f"[SYNC] Received {len(activities)} activities on page {page}")
+                
                 if not activities:
                     break
                 
@@ -483,6 +489,8 @@ class StravaService:
                     break
                 
                 page += 1
+        
+        logging.info(f"[SYNC] Total activities fetched: {len(all_activities)}")
         
         # Store activities in database
         imported_count = 0
