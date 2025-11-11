@@ -1022,6 +1022,10 @@ const Account = ({ athleteId }) => {
           whoop: { 
             connected: whoopStatus.connected,
             last_sync: whoopStatus.last_sync_at
+          },
+          suunto: { 
+            connected: suuntoStatus.connected,
+            last_sync: suuntoStatus.last_sync_at
           }
         };
         
