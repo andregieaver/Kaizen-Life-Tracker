@@ -8755,17 +8755,42 @@ class FitbitConnector(ProviderConnector):
             logging.error(f"Traceback: {traceback.format_exc()}")
             raise HTTPException(status_code=500, detail=str(e))
 
+# Garmin Connector (delegates to GarminService)
+class GarminConnector(ProviderConnector):
+    def __init__(self):
+        super().__init__("garmin", "Garmin Connect", "oauth1")
+    
+    async def begin_auth(self, user_id: str):
+        """Begin Garmin OAuth flow - delegates to GarminService"""
+        try:
+            logging.info(f"[GARMIN CONNECTOR] Starting auth for user: {user_id}")
+            garmin_service = GarminService(db)
+            auth_url = await garmin_service.get_authorization_url(user_id)
+            
+            logging.info(f"[GARMIN CONNECTOR] Authorization URL generated: {auth_url}")
+            return {
+                "authorization_url": auth_url,
+                "provider": "garmin"
+            }
+        except Exception as e:
+            import traceback
+            logging.error(f"Error in GarminConnector.begin_auth: {e}")
+            logging.error(f"Traceback: {traceback.format_exc()}")
+            raise HTTPException(status_code=500, detail=str(e))
+
 # Initialize connectors
 strava_connector = StravaConnector()
 oura_connector = OuraConnector()
 polar_connector = PolarConnector()
 fitbit_connector = FitbitConnector()
+garmin_connector = GarminConnector()
 
 connectors = {
     "strava": strava_connector,
     "oura": oura_connector,
     "polar": polar_connector,
-    "fitbit": fitbit_connector
+    "fitbit": fitbit_connector,
+    "garmin": garmin_connector
 }
 
 # Hub API Endpoints
