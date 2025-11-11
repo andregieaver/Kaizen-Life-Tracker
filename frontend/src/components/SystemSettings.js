@@ -1276,6 +1276,11 @@ const SystemSettings = ({ athleteId }) => {
             clientId: advancedSettings.coros.clientId,
             clientSecret: advancedSettings.coros.clientSecret,
             callbackDomain: advancedSettings.coros.callbackDomain
+          },
+          whoop: {
+            clientId: advancedSettings.whoop.clientId,
+            clientSecret: advancedSettings.whoop.clientSecret,
+            callbackDomain: advancedSettings.whoop.callbackDomain
           }
         }
       });
