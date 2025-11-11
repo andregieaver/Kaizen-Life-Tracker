@@ -2219,6 +2219,48 @@ Return only the JSON array, nothing else.
         else:
             nutrition_summary = "\n\nNo nutrition logs available."
         
+        # Provide Strava activities summary
+        strava_activities = context.get('strava_activities', [])
+        strava_summary = ""
+        if strava_activities:
+            strava_summary = f"\n\nSTRAVA ACTIVITIES ({len(strava_activities)} in last 30 days):\n"
+            for activity in strava_activities[:20]:  # Show last 20
+                activity_date = activity.get('start_date_local', activity.get('start_date', 'Unknown'))
+                if isinstance(activity_date, str):
+                    activity_date = activity_date.split('T')[0]  # Extract date part
+                elif hasattr(activity_date, 'strftime'):
+                    activity_date = activity_date.strftime('%Y-%m-%d')
+                
+                activity_name = activity.get('name', 'Untitled')
+                activity_type = activity.get('type', 'Unknown')
+                distance_m = activity.get('distance', 0)
+                distance_km = distance_m / 1000 if distance_m else 0
+                duration_sec = activity.get('moving_time', 0)
+                duration_min = duration_sec / 60 if duration_sec else 0
+                elevation_m = activity.get('total_elevation_gain', 0)
+                
+                # Build activity details
+                details = []
+                if distance_km > 0:
+                    details.append(f"{distance_km:.2f}km")
+                if duration_min > 0:
+                    details.append(f"{int(duration_min)}min")
+                if elevation_m > 0:
+                    details.append(f"{int(elevation_m)}m elevation")
+                if activity.get('average_heartrate'):
+                    details.append(f"{int(activity['average_heartrate'])} avg HR")
+                
+                details_str = f" ({', '.join(details)})" if details else ""
+                strava_summary += f"\n[{activity_date}] {activity_type}: {activity_name}{details_str}\n"
+            
+            # Add summary statistics
+            total_distance_km = sum(a.get('distance', 0) for a in strava_activities) / 1000
+            total_time_hours = sum(a.get('moving_time', 0) for a in strava_activities) / 3600
+            total_elevation_m = sum(a.get('total_elevation_gain', 0) for a in strava_activities)
+            strava_summary += f"\n30-DAY TOTALS: {total_distance_km:.1f}km, {total_time_hours:.1f}hrs, {int(total_elevation_m)}m elevation\n"
+        else:
+            strava_summary = "\n\nNo Strava activities synced."
+        
         # Summarize supplements
         supplements = context.get('supplements', [])
         supplement_logs = context.get('supplement_logs', [])
