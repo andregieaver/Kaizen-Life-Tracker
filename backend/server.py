@@ -16365,7 +16365,7 @@ async def update_index_html_meta(athlete_id: str):
 # STRAVA INTEGRATION ENDPOINTS
 # ============================================================================
 
-@app.get("/api/auth/strava")
+@api_router.get("/auth/strava")
 async def strava_auth_start(user_id: str):
     """
     Initiate Strava OAuth flow
@@ -16387,7 +16387,7 @@ async def strava_auth_start(user_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/auth/strava/callback")
+@api_router.get("/auth/strava/callback")
 async def strava_auth_callback_redirect(
     code: str = Query(...),
     state: str = Query(...),
