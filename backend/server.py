@@ -16723,7 +16723,7 @@ async def list_strava_webhooks():
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.delete("/api/strava/webhook/{subscription_id}")
+@api_router.delete("/strava/webhook/{subscription_id}")
 async def delete_strava_webhook(subscription_id: int):
     """
     Delete a webhook subscription
