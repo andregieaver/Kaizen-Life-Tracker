@@ -80,7 +80,11 @@ class BaseIntegrationService(ABC):
             )
         
         self.system_settings = settings_doc
+        
+        # Check both top level and under 'advanced' key for backward compatibility
         provider_config = settings_doc.get(self.provider_name.lower())
+        if not provider_config and 'advanced' in settings_doc:
+            provider_config = settings_doc['advanced'].get(self.provider_name.lower())
         
         if not provider_config or not provider_config.get("clientId") or not provider_config.get("clientSecret"):
             raise HTTPException(
