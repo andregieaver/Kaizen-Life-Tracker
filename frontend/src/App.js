@@ -387,10 +387,6 @@ function App() {
             } 
           />
           <Route 
-            path="/auth/strava/callback" 
-            element={<StravaCallback />} 
-          />
-          <Route 
             path="/auth/oura/callback" 
             element={<OuraCallback />} 
           />
