@@ -17348,7 +17348,8 @@ def get_integration_service(provider: str):
         "fitbit": lambda: FitbitService(db),
         "garmin": lambda: GarminService(db),
         "coros": lambda: CorosService(db),
-        "whoop": lambda: WhoopService(db)
+        "whoop": lambda: WhoopService(db),
+        "suunto": lambda: SuuntoService(db)
     }
     
     if provider not in services:
