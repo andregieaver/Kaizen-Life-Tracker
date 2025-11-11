@@ -439,8 +439,10 @@ class StravaService:
         # Determine starting point
         if since is None:
             if force_full_sync:
-                # Full sync from when account was connected
-                since = connection['connected_at']
+                # Full sync: get ALL activities ever (use epoch 0 = Jan 1, 1970)
+                # This ensures we get all historical activities
+                since = datetime.fromtimestamp(0, tz=timezone.utc)
+                logging.info(f"[SYNC] FULL SYNC MODE: Fetching ALL historical activities")
             else:
                 # Incremental sync from last sync or connection time
                 since = connection.get('last_sync_at') or connection['connected_at']
@@ -461,14 +463,24 @@ class StravaService:
         async with httpx.AsyncClient() as client:
             while True:
                 logging.info(f"[SYNC] Requesting page {page} from Strava API...")
+                
+                # Build params - only include 'after' if it's not epoch 0 (to get all activities)
+                params = {
+                    'page': page,
+                    'per_page': per_page
+                }
+                
+                # Only add 'after' filter if we're not doing a full historical sync
+                after_timestamp = int(since.timestamp())
+                if after_timestamp > 0:
+                    params['after'] = after_timestamp
+                
+                logging.info(f"[SYNC] API params: {params}")
+                
                 response = await client.get(
                     f"{STRAVA_API_BASE}/athlete/activities",
                     headers={'Authorization': f'Bearer {token}'},
-                    params={
-                        'after': int(since.timestamp()),
-                        'page': page,
-                        'per_page': per_page
-                    }
+                    params=params
                 )
                 
                 logging.info(f"[SYNC] Strava API response: status={response.status_code}")
