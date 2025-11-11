@@ -5124,6 +5124,109 @@ const SystemSettings = ({ athleteId }) => {
                   </div>
                 </div>
 
+                {/* COROS Integration */}
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3 pb-3 border-b border-gray-700">
+                    <div className="w-10 h-10 bg-yellow-900/30 rounded-lg flex items-center justify-center">
+                      <Activity className="w-6 h-6 text-yellow-500" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">COROS Integration</h3>
+                      <p className="text-sm text-gray-400">Connect COROS watches for comprehensive training data</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {/* Client ID */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Client ID
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Enter your COROS Client ID"
+                        className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:border-transparent"
+                        value={advancedSettings.coros.clientId}
+                        onChange={(e) => setAdvancedSettings(prev => ({
+                          ...prev,
+                          coros: { ...prev.coros, clientId: e.target.value }
+                        }))}
+                      />
+                    </div>
+
+                    {/* Callback Domain */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Authorization Callback Domain
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g., kaizenlifetracker.com"
+                        className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:border-transparent"
+                        value={advancedSettings.coros.callbackDomain}
+                        onChange={(e) => setAdvancedSettings(prev => ({
+                          ...prev,
+                          coros: { ...prev.coros, callbackDomain: e.target.value }
+                        }))}
+                      />
+                      <p className="text-xs text-gray-400 mt-1">
+                        Enter only the domain without https:// or paths
+                      </p>
+                    </div>
+
+                    {/* Client Secret */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Client Secret
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={advancedSettings.showCorosSecret ? 'text' : 'password'}
+                          placeholder="Enter your COROS Client Secret"
+                          className="w-full px-3 py-2 pr-10 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:border-transparent"
+                          value={advancedSettings.coros.clientSecret}
+                          onChange={(e) => setAdvancedSettings(prev => ({
+                            ...prev,
+                            coros: { ...prev.coros, clientSecret: e.target.value }
+                          }))}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setAdvancedSettings(prev => ({
+                            ...prev,
+                            showCorosSecret: !prev.showCorosSecret
+                          }))}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                        >
+                          {advancedSettings.showCorosSecret ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-3 bg-yellow-900/20 border border-yellow-700/50 rounded-lg">
+                    <p className="text-xs text-yellow-200">
+                      <strong>Setup Instructions:</strong>
+                    </p>
+                    <ol className="text-xs text-yellow-200 mt-2 space-y-1 ml-4 list-decimal">
+                      <li>Go to <a href="https://open.coros.com/" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:underline">COROS Open Platform</a></li>
+                      <li>Register a new application or use an existing one</li>
+                      <li>Set the Callback URL to: <code className="bg-yellow-900/40 px-1 py-0.5 rounded">https://[YOUR-DOMAIN]/api/auth/coros/callback</code></li>
+                      <li>Copy your Client ID and Client Secret</li>
+                      <li>Enter them below and Save</li>
+                      <li>Athletes can now connect their COROS device from Account Settings</li>
+                    </ol>
+                    <div className="mt-3 pt-3 border-t border-yellow-700/50">
+                      <p className="text-xs text-yellow-200">
+                        <strong>Production:</strong> Use <code className="bg-yellow-900/40 px-1 py-0.5 rounded">https://kaizenlifetracker.com/api/auth/coros/callback</code>
+                      </p>
+                      <p className="text-xs text-yellow-200 mt-1">
+                        <strong>Scopes:</strong> Request activity, sleep, and heart_rate scopes for full functionality
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
 
                 {/* Save Button */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-700">
