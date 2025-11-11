@@ -1289,23 +1289,48 @@ def test_nationality_field_review_request():
         traceback.print_exc()
         return False
 
-def test_polar_integration_comprehensive():
+def test_polar_oauth_routing_fix():
     """
-    POLAR INTEGRATION BACKEND COMPREHENSIVE TESTING
+    POLAR OAUTH ROUTING FIX VERIFICATION
     
-    Test Complete Polar Integration Flow as requested in review request.
-    
-    Test Scenarios:
-    1. Polar Credentials in System Settings
-    2. Polar OAuth Authorization Flow
-    3. Polar Connection Status
-    4. Polar Data Sync (if connected)
-    5. Polar Activities Retrieval
-    6. Polar Stats
-    7. Training Calendar Integration
-    8. AI Coach Context Integration
-    
-    Test User: super admin andre@humanweb.no (ID: 77e6ef02-0c9e-4ede-a428-213b83eed1fe)
+    **Context**: Fixed OAuth routing conflict by adding PolarConnector to the connectors dict. 
+    The old OAuth endpoint (line 8769) now has Polar support. Need to verify the fix worked.
+
+    **Test Scope**:
+    1. **Polar OAuth Authorization - CRITICAL FIX VERIFICATION**:
+       - GET /api/auth/polar?user_id={user_id} should now return 200 (not 404)
+       - Should return authorization_url and provider fields
+       - Authorization URL should contain:
+         * client_id from system settings
+         * redirect_uri with correct callback domain and /api/ prefix
+         * scope=accesslink.read_all
+         * state parameter
+       - Verify PolarConnector is being called (check backend logs for "[POLAR CONNECTOR]" messages)
+
+    2. **Polar Connection Status** (retest to confirm still working):
+       - GET /api/auth/polar/status?user_id={user_id} should return connection status
+       - Should return {"connected": false} for non-connected users
+
+    3. **Polar Sync Endpoint** (if user has Polar connected):
+       - POST /api/integrations/polar/{user_id}/sync should work
+       - If not connected, should return proper 404 error message (not routing 404)
+
+    4. **Backend Logs Verification**:
+       - Check for "[POLAR CONNECTOR] Starting auth for user" messages
+       - Check for "[POLAR CONNECTOR] Authorization URL generated" messages
+       - Verify no routing errors or 404 Provider not found errors
+
+    **Test User**: Use super admin andre@humanweb.no (ID: 77e6ef02-0c9e-4ede-a428-213b83eed1fe)
+
+    **Success Criteria**:
+    - GET /api/auth/polar returns 200 with valid authorization URL (NOT 404 "Provider not found")
+    - Authorization URL contains all required OAuth parameters
+    - Backend logs show PolarConnector being invoked
+    - No routing conflicts or 404 errors for Polar endpoints
+
+    **Focus**: This is a targeted retest to verify the OAuth routing fix. We already know other 
+    components (system settings, activities, stats, calendar) are working - just need to confirm 
+    OAuth authorization endpoint is now functional.
     """
     print("🔍 POLAR INTEGRATION BACKEND COMPREHENSIVE TESTING")
     print("=" * 70)
