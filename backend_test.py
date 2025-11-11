@@ -1117,35 +1117,40 @@ def test_group_edit_endpoint_failure():
         traceback.print_exc()
         return False
 
-def test_suunto_integration_comprehensive():
+def test_garmin_oauth_1_0a_integration():
     """
-    SUUNTO INTEGRATION BACKEND TESTING
+    GARMIN OAUTH 1.0a BACKEND TESTING
     
-    Comprehensive backend testing for the newly implemented Suunto integration.
-    Test all endpoints and verify they follow the same pattern as other integrations 
-    (WHOOP, COROS, Polar, Fitbit).
+    Comprehensive backend testing for the newly implemented Garmin OAuth 1.0a integration.
+    This is a COMPLETE REWRITE using proper OAuth 1.0a with request signing.
+
+    **Important OAuth 1.0a Differences:**
+    - Uses THREE-STEP flow: Request Token → Authorization → Access Token
+    - Callback uses `oauth_token` and `oauth_verifier` (NOT `code` and `state`)
+    - Every API request must be signed with HMAC-SHA1
+    - Requires both access_token AND token_secret
+    - Tokens never expire (long-lived)
 
     **Test Scope:**
-    1. System Settings - Verify Suunto credentials can be saved and retrieved
-    2. OAuth Authorization - Test GET /api/auth/suunto?user_id={user_id} returns authorization URL
-    3. Connection Status - Test GET /api/auth/suunto/status returns connection status
-    4. Activities Endpoint - Test GET /api/integrations/suunto/{user_id}/activities returns proper structure  
-    5. Statistics Endpoint - Test GET /api/integrations/suunto/{user_id}/stats returns expected fields
-    6. Sync Endpoint - Test POST /api/integrations/suunto/{user_id}/sync endpoint accessibility
-    7. Training Calendar - Verify /api/training-calendar/{athlete_id} is ready for Suunto activities
-    8. AI Coach Context - Verify database structure supports Suunto activities
+    1. System Settings - Verify Garmin credentials (Consumer Key/Secret)
+    2. OAuth Authorization URL - Test GET /api/auth/garmin?user_id={user_id}
+    3. OAuth Callback Endpoint - Test GET /api/auth/garmin/callback
+    4. Connection Status - Test GET /api/auth/garmin/status
+    5. Activities Endpoint - Test GET /api/integrations/garmin/{user_id}/activities
+    6. Statistics Endpoint - Test GET /api/integrations/garmin/{user_id}/stats
+    7. Sync Endpoint - Test POST /api/integrations/garmin/{user_id}/sync
+    8. Training Calendar Integration - Verify Garmin activities supported
 
     **Test User:** andre@humanweb.no (ID: 77e6ef02-0c9e-4ede-a428-213b83eed1fe)
 
     **Success Criteria:**
-    - All endpoints return JSON (not 404 HTML)
-    - Authorization URL contains correct OAuth parameters (client_id, redirect_uri with /api/ prefix, scope, state)
-    - Connection status returns proper boolean
-    - Activities and stats endpoints return correct data structure
-    - No 500 errors or routing conflicts
-    - Suunto follows same patterns as WHOOP/COROS/Fitbit/Polar/Garmin
+    - Authorization URL contains oauth_callback parameter (not redirect_uri)
+    - All endpoints accessible and return JSON
+    - OAuth flow uses correct OAuth 1.0a parameters
+    - Request signing implemented (OAuth1Session library)
+    - No confusion between OAuth 2.0 and OAuth 1.0a patterns
     """
-    print("🔍 SUUNTO INTEGRATION COMPREHENSIVE BACKEND TESTING")
+    print("🔍 GARMIN OAUTH 1.0a COMPREHENSIVE BACKEND TESTING")
     print("=" * 70)
     
     try:
