@@ -291,7 +291,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Garmin OAuth 1.0a Integration Backend Testing"
+    - "Mobile-Friendly Integration Cards"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
