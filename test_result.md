@@ -132,7 +132,7 @@ frontend:
 backend:
   - task: "Polar Integration - Training Calendar, AI Coach, and Data Display"
     implemented: true
-    working: false
+    working: "NA"
     file: "/app/backend/server.py, /app/frontend/src/components/TrainingCalendar.js"
     stuck_count: 0
     priority: "high"
@@ -1135,7 +1135,7 @@ backend:
 
   - task: "Schedule Execution Failure Investigation"
     implemented: true
-    working: false
+    working: "NA"
     file: "/app/backend/server.py"
     stuck_count: 1
     priority: "high"
@@ -1549,7 +1549,7 @@ frontend:
 
   - task: "Documents Page Upload Modal Mobile Fix"
     implemented: true
-    working: false
+    working: "NA"
     file: "/app/frontend/src/components/Documents.js"
     stuck_count: 4
     priority: "critical"
@@ -1861,7 +1861,7 @@ agent_communication:
 
   - task: "AI Coach Sequential Function Calling - Calendar Management"
     implemented: true
-    working: false
+    working: "NA"
     file: "/app/backend/server.py"
     stuck_count: 1
     priority: "high"
