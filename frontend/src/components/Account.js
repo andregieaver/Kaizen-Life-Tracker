@@ -70,6 +70,7 @@ const IntegrationCard = ({
   connectionInfo, 
   onConnect, 
   onDisconnect,
+  onSync,
   comingSoon = false,
   t
 }) => {
