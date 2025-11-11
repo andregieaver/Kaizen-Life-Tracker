@@ -7459,9 +7459,13 @@ async def sync_strava_activities_legacy(athlete_id: str, force_full: bool = Fals
     except HTTPException:
         raise
     except Exception as e:
+        import traceback
+        error_traceback = traceback.format_exc()
         print(f"🔴 [STRAVA SYNC ERROR] {type(e).__name__}: {str(e)}")
+        print(f"🔴 [STRAVA SYNC TRACEBACK]\n{error_traceback}")
         logging.error(f"Strava sync error: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+        logging.error(f"Traceback: {error_traceback}")
+        raise HTTPException(status_code=500, detail=str(e) or f"Sync failed: {type(e).__name__}")
 
 
 @api_router.get("/integrations/strava/{user_id}/activities")
