@@ -16971,6 +16971,167 @@ async def delete_strava_webhook(subscription_id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+
+# ============================================================================
+# GENERIC INTEGRATION ENDPOINTS (Works for Oura, future integrations)
+# ============================================================================
+
+# Helper function to get service instance
+def get_integration_service(provider: str):
+    """Get the appropriate integration service"""
+    services = {
+        "strava": lambda: StravaService(db),
+        "oura": lambda: OuraService(db)
+    }
+    
+    if provider not in services:
+        raise HTTPException(status_code=404, detail=f"Provider '{provider}' not supported")
+    
+    return services[provider]()
+
+@api_router.get("/auth/{provider}")
+async def start_integration_auth(provider: str, user_id: str):
+    """Generic OAuth start for any provider"""
+    try:
+        service = get_integration_service(provider)
+        
+        # Provider-specific scopes
+        scopes_map = {
+            "strava": ["read", "activity:read_all", "profile:read_all"],
+            "oura": ["daily", "heartrate", "workout", "tag", "personal", "session"]
+        }
+        
+        scopes = scopes_map.get(provider, [])
+        auth_url = await service.get_authorization_url(user_id, scopes)
+        
+        logging.info(f"[{provider.upper()}] Authorization URL generated for user: {user_id}")
+        return {"authorization_url": auth_url}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error starting {provider} auth: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/auth/{provider}/callback")
+async def integration_callback(provider: str, code: str = None, state: str = None, error: str = None):
+    """Generic OAuth callback for any provider"""
+    try:
+        if error:
+            logging.error(f"[{provider.upper()}] OAuth error: {error}")
+            return RedirectResponse(url=f"/dashboard/account?tab=integrations&{provider}=error")
+        
+        if not code or not state:
+            raise HTTPException(status_code=400, detail="Missing code or state parameter")
+        
+        service = get_integration_service(provider)
+        result = await service.exchange_code_for_tokens(code, state)
+        
+        logging.info(f"[{provider.upper()}] Successfully connected for user: {result['user_id']}")
+        return RedirectResponse(url=f"/dashboard/account?tab=integrations&{provider}=connected")
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"[{provider.upper()}] Callback error: {e}", exc_info=True)
+        return RedirectResponse(url=f"/dashboard/account?tab=integrations&{provider}=error")
+
+@api_router.post("/auth/{provider}/disconnect")
+async def disconnect_integration(provider: str, user_id: str = None, request: Request = None):
+    """Generic disconnect for any provider"""
+    try:
+        # Get user_id from request body if not in query
+        if not user_id:
+            body = await request.json()
+            user_id = body.get("user_id")
+        
+        if not user_id:
+            raise HTTPException(status_code=400, detail="user_id required")
+        
+        service = get_integration_service(provider)
+        result = await service.disconnect(user_id)
+        
+        logging.info(f"[{provider.upper()}] Disconnected for user: {user_id}")
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error disconnecting {provider}: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/auth/{provider}/status")
+async def get_integration_status(provider: str, user_id: str):
+    """Generic status check for any provider"""
+    try:
+        service = get_integration_service(provider)
+        status = await service.get_connection_status(user_id)
+        return status
+        
+    except Exception as e:
+        logging.error(f"Error getting {provider} status: {e}")
+        return {"connected": False}
+
+@api_router.post("/integrations/{provider}/{user_id}/sync")
+async def sync_integration_data(provider: str, user_id: str, force_full: bool = False):
+    """Generic sync for any provider"""
+    try:
+        logging.info(f"[{provider.upper()} SYNC] Initiating sync for user: {user_id}, force_full={force_full}")
+        
+        service = get_integration_service(provider)
+        await service.load_settings()
+        result = await service.sync_activities(user_id, force_full_sync=force_full)
+        
+        logging.info(f"[{provider.upper()} SYNC] Completed: {result}")
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        error_traceback = traceback.format_exc()
+        logging.error(f"{provider.title()} sync error: {str(e)}")
+        logging.error(f"Traceback: {error_traceback}")
+        raise HTTPException(status_code=500, detail=str(e) or f"Sync failed: {type(e).__name__}")
+
+@api_router.get("/integrations/{provider}/{user_id}/activities")
+async def get_integration_activities(provider: str, user_id: str, limit: int = 50):
+    """Generic activities endpoint for any provider"""
+    try:
+        activities = await db[f"{provider}_activities"].find(
+            {"user_id": user_id},
+            {"_id": 0}
+        ).sort("start_date", -1).limit(limit).to_list(length=limit)
+        
+        return {
+            "activities": activities,
+            "total": await db[f"{provider}_activities"].count_documents({"user_id": user_id})
+        }
+        
+    except Exception as e:
+        logging.error(f"Error fetching {provider} activities: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/integrations/{provider}/{user_id}/stats")
+async def get_integration_stats(provider: str, user_id: str):
+    """Generic stats endpoint for any provider"""
+    try:
+        service = get_integration_service(provider)
+        
+        # Check if service has a get_stats method
+        if hasattr(service, 'get_stats'):
+            stats = await service.get_stats(user_id)
+            return stats
+        else:
+            # Generic stats
+            count = await db[f"{provider}_activities"].count_documents({"user_id": user_id})
+            return {"total_activities": count}
+        
+    except Exception as e:
+        logging.error(f"Error fetching {provider} stats: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
