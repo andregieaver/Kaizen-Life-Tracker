@@ -8323,9 +8323,9 @@ class StravaConnector(ProviderConnector):
         
         # Use callback domain from settings if available, otherwise fall back to BACKEND_URL
         if callback_domain:
-            redirect_uri = f"https://{callback_domain}/api/auth/strava/callback"
+            redirect_uri = f"https://{callback_domain}/auth/strava/callback"
         else:
-            redirect_uri = f"{os.environ.get('BACKEND_URL', 'http://localhost:8001')}/api/auth/strava/callback"
+            redirect_uri = f"{os.environ.get('BACKEND_URL', 'http://localhost:8001')}/auth/strava/callback"
         
         auth_params = {
             "client_id": client_id,
