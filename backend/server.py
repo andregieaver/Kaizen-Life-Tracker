@@ -16150,6 +16150,8 @@ async def get_html_with_seo_tags(slug: str, backend_url: str):
         with open(index_path, 'r') as f:
             return f.read()
 
+app.include_router(api_router)
+
 
 # =====================================================
 # DYNAMIC OG METADATA API - For Pre-rendering / SSR
