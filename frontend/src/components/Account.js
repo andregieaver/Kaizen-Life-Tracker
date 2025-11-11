@@ -3611,6 +3611,7 @@ const Account = ({ athleteId }) => {
                   connectionInfo={integrations.polar}
                   onConnect={() => handleSimpleConnect('polar')}
                   onDisconnect={() => handleDisconnectIntegration('polar')}
+                  onSync={(fullSync) => handleGenericSync('polar', fullSync)}
                   t={t}
                 />
                 
