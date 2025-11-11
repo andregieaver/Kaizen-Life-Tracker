@@ -8844,6 +8844,30 @@ class CorosConnector(ProviderConnector):
             logging.error(f"Traceback: {traceback.format_exc()}")
             raise HTTPException(status_code=500, detail=str(e))
 
+# WHOOP Connector (delegates to WhoopService)
+class WhoopConnector(ProviderConnector):
+    def __init__(self):
+        super().__init__("whoop", "WHOOP", "oauth2")
+    
+    async def begin_auth(self, user_id: str):
+        """Begin WHOOP OAuth flow - delegates to WhoopService"""
+        try:
+            logging.info(f"[WHOOP CONNECTOR] Starting auth for user: {user_id}")
+            whoop_service = WhoopService(db)
+            scopes = ["read:cycles", "read:recovery", "read:sleep", "read:workout", "read:profile", "offline"]
+            auth_url = await whoop_service.get_authorization_url(user_id, scopes)
+            
+            logging.info(f"[WHOOP CONNECTOR] Authorization URL generated: {auth_url}")
+            return {
+                "authorization_url": auth_url,
+                "provider": "whoop"
+            }
+        except Exception as e:
+            import traceback
+            logging.error(f"Error in WhoopConnector.begin_auth: {e}")
+            logging.error(f"Traceback: {traceback.format_exc()}")
+            raise HTTPException(status_code=500, detail=str(e))
+
 # Initialize connectors
 strava_connector = StravaConnector()
 oura_connector = OuraConnector()
@@ -8851,6 +8875,7 @@ polar_connector = PolarConnector()
 fitbit_connector = FitbitConnector()
 garmin_connector = GarminConnector()
 coros_connector = CorosConnector()
+whoop_connector = WhoopConnector()
 
 connectors = {
     "strava": strava_connector,
@@ -8858,7 +8883,8 @@ connectors = {
     "polar": polar_connector,
     "fitbit": fitbit_connector,
     "garmin": garmin_connector,
-    "coros": coros_connector
+    "coros": coros_connector,
+    "whoop": whoop_connector
 }
 
 # Hub API Endpoints
