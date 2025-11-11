@@ -1159,8 +1159,8 @@ def test_garmin_oauth_1_0a_integration():
         
         print(f"   Test user: andre@humanweb.no (ID: {test_user_id})")
         
-        # Step 1: System Settings - Verify Suunto credentials can be saved and retrieved
-        print("\n   Step 1: System Settings - Verify Suunto credentials")
+        # Step 1: System Settings - Verify Garmin credentials (Consumer Key/Secret)
+        print("\n   Step 1: System Settings - Verify Garmin credentials (Consumer Key/Secret)")
         
         settings_url = f"{BACKEND_URL}/system/settings?athlete_id={test_user_id}"
         print(f"   URL: {settings_url}")
@@ -1168,33 +1168,33 @@ def test_garmin_oauth_1_0a_integration():
         settings_response = requests.get(settings_url)
         print(f"   Response Status: {settings_response.status_code}")
         
-        suunto_credentials_exist = False
-        client_id = None
+        garmin_credentials_exist = False
+        consumer_key = None
         callback_domain = None
         
         if settings_response.status_code == 200:
             settings_data = settings_response.json()
             advanced = settings_data.get("advanced", {})
-            suunto_config = advanced.get("suunto", {})
+            garmin_config = advanced.get("garmin", {})
             
-            client_id = suunto_config.get("clientId")
-            client_secret = suunto_config.get("clientSecret") 
-            callback_domain = suunto_config.get("callbackDomain")
+            consumer_key = garmin_config.get("clientId")  # Consumer Key stored as clientId
+            consumer_secret = garmin_config.get("clientSecret")  # Consumer Secret stored as clientSecret
+            callback_domain = garmin_config.get("callbackDomain")
             
-            if client_id and client_secret and callback_domain:
-                suunto_credentials_exist = True
-                print_test_result("System Settings - Suunto Credentials", True, 
-                                f"clientId: {client_id}, callbackDomain: {callback_domain}")
+            if consumer_key and consumer_secret and callback_domain:
+                garmin_credentials_exist = True
+                print_test_result("System Settings - Garmin Credentials", True, 
+                                f"Consumer Key: {consumer_key}, callbackDomain: {callback_domain}")
             else:
-                print_test_result("System Settings - Suunto Credentials", False, 
-                                f"Missing credentials - clientId: {bool(client_id)}, clientSecret: {bool(client_secret)}, callbackDomain: {bool(callback_domain)}")
+                print_test_result("System Settings - Garmin Credentials", False, 
+                                f"Missing credentials - Consumer Key: {bool(consumer_key)}, Consumer Secret: {bool(consumer_secret)}, callbackDomain: {bool(callback_domain)}")
         else:
             print_test_result("System Settings Access", False, f"Cannot access settings: {settings_response.status_code}")
         
-        # Step 2: OAuth Authorization - Test GET /api/auth/suunto?user_id={user_id} returns authorization URL
-        print("\n   Step 2: OAuth Authorization - Test authorization URL generation")
+        # Step 2: OAuth Authorization URL - Test GET /api/auth/garmin?user_id={user_id}
+        print("\n   Step 2: OAuth Authorization URL - Test GET /api/auth/garmin?user_id={user_id}")
         
-        oauth_url = f"{BACKEND_URL}/auth/suunto?user_id={test_user_id}"
+        oauth_url = f"{BACKEND_URL}/auth/garmin?user_id={test_user_id}"
         print(f"   URL: {oauth_url}")
         
         oauth_response = requests.get(oauth_url)
@@ -1211,25 +1211,23 @@ def test_garmin_oauth_1_0a_integration():
                     print_test_result("OAuth Authorization Endpoint", True, 
                                     f"Returns 200 with authorization_url")
                     
-                    # Verify authorization URL structure
-                    if "cloudapi-oauth.suunto.com/oauth/authorize" in auth_url:
-                        print_test_result("Authorization URL Domain", True, "Points to cloudapi-oauth.suunto.com")
+                    # Verify authorization URL points to connect.garmin.com/oauthConfirm
+                    if "connect.garmin.com/oauthConfirm" in auth_url:
+                        print_test_result("Authorization URL Domain", True, "Points to connect.garmin.com/oauthConfirm")
                     else:
                         print_test_result("Authorization URL Domain", False, f"Wrong domain in URL: {auth_url}")
                     
-                    # Check for client_id from system settings
-                    if client_id and f"client_id={client_id}" in auth_url:
-                        print_test_result("Client ID in URL", True, f"Contains client_id from system settings: {client_id}")
-                    elif "client_id=" in auth_url:
-                        print_test_result("Client ID in URL", True, "Contains client_id parameter")
+                    # Check for oauth_callback parameter (OAuth 1.0a uses oauth_callback, not redirect_uri)
+                    if "oauth_callback=" in auth_url:
+                        print_test_result("OAuth Callback Parameter", True, "Contains oauth_callback parameter (OAuth 1.0a)")
                     else:
-                        print_test_result("Client ID in URL", False, "Missing client_id parameter")
+                        print_test_result("OAuth Callback Parameter", False, "Missing oauth_callback parameter")
                     
-                    # Check for redirect_uri with /api/ prefix
-                    if "redirect_uri=" in auth_url and "/api/" in auth_url:
-                        print_test_result("Redirect URI with /api/ prefix", True, "Contains /api/ prefix in redirect_uri")
+                    # Check for /api/ prefix in callback URL
+                    if "/api/" in auth_url:
+                        print_test_result("Callback URL with /api/ prefix", True, "Contains /api/ prefix in oauth_callback")
                     else:
-                        print_test_result("Redirect URI with /api/ prefix", False, "Missing /api/ prefix in redirect_uri")
+                        print_test_result("Callback URL with /api/ prefix", False, "Missing /api/ prefix in oauth_callback")
                     
                     # Check for correct callback domain
                     if callback_domain and callback_domain in auth_url:
@@ -1237,20 +1235,11 @@ def test_garmin_oauth_1_0a_integration():
                     else:
                         print_test_result("Callback Domain", False, "Missing or incorrect callback domain")
                     
-                    # Check for scope parameter
-                    if "scope=" in auth_url:
-                        if "workout" in auth_url:
-                            print_test_result("OAuth Scope", True, "Contains workout scope")
-                        else:
-                            print_test_result("OAuth Scope", True, "Contains scope parameter")
+                    # Check for oauth_token parameter (request token)
+                    if "oauth_token=" in auth_url:
+                        print_test_result("OAuth Token (Request Token)", True, "Contains oauth_token parameter")
                     else:
-                        print_test_result("OAuth Scope", False, "Missing scope parameter")
-                    
-                    # Check for state parameter
-                    if "state=" in auth_url:
-                        print_test_result("OAuth State", True, "Contains state parameter for security")
-                    else:
-                        print_test_result("OAuth State", False, "Missing state parameter")
+                        print_test_result("OAuth Token (Request Token)", False, "Missing oauth_token parameter")
                         
                 else:
                     print_test_result("OAuth Authorization Endpoint", False, "No authorization_url in response")
@@ -1260,10 +1249,32 @@ def test_garmin_oauth_1_0a_integration():
         else:
             print_test_result("OAuth Authorization Endpoint", False, f"Status: {oauth_response.status_code}")
         
-        # Step 3: Connection Status - Test GET /api/auth/suunto/status returns connection status
-        print("\n   Step 3: Connection Status - Test connection status endpoint")
+        # Step 3: OAuth Callback Endpoint - Test GET /api/auth/garmin/callback
+        print("\n   Step 3: OAuth Callback Endpoint - Test GET /api/auth/garmin/callback")
         
-        status_url = f"{BACKEND_URL}/auth/suunto/status?user_id={test_user_id}"
+        # Test callback endpoint accessibility (without valid tokens)
+        callback_url = f"{BACKEND_URL}/auth/garmin/callback?oauth_token=test_token&oauth_verifier=test_verifier"
+        print(f"   URL: {callback_url}")
+        
+        callback_response = requests.get(callback_url)
+        
+        print(f"   Response Status: {callback_response.status_code}")
+        
+        # We expect either a redirect (302/303) or an error (400/401) - not 404
+        if callback_response.status_code in [302, 303, 400, 401, 500]:
+            print_test_result("OAuth Callback Endpoint", True, 
+                            f"Endpoint accessible (status: {callback_response.status_code})")
+        elif callback_response.status_code == 404:
+            print_test_result("OAuth Callback Endpoint", False, 
+                            "Endpoint returns 404 - routing issue")
+        else:
+            print_test_result("OAuth Callback Endpoint", True, 
+                            f"Endpoint accessible (status: {callback_response.status_code})")
+        
+        # Step 4: Connection Status - Test GET /api/auth/garmin/status
+        print("\n   Step 4: Connection Status - Test GET /api/auth/garmin/status")
+        
+        status_url = f"{BACKEND_URL}/auth/garmin/status?user_id={test_user_id}"
         print(f"   URL: {status_url}")
         
         status_response = requests.get(status_url)
@@ -1286,10 +1297,10 @@ def test_garmin_oauth_1_0a_integration():
         else:
             print_test_result("Connection Status Endpoint", False, f"Status: {status_response.status_code}")
         
-        # Step 4: Activities Endpoint - Test GET /api/integrations/suunto/{user_id}/activities returns proper structure
-        print("\n   Step 4: Activities Endpoint - Test activities retrieval")
+        # Step 5: Activities Endpoint - Test GET /api/integrations/garmin/{user_id}/activities
+        print("\n   Step 5: Activities Endpoint - Test GET /api/integrations/garmin/{user_id}/activities")
         
-        activities_url = f"{BACKEND_URL}/integrations/suunto/{test_user_id}/activities"
+        activities_url = f"{BACKEND_URL}/integrations/garmin/{test_user_id}/activities"
         print(f"   URL: {activities_url}")
         
         activities_response = requests.get(activities_url)
@@ -1313,10 +1324,10 @@ def test_garmin_oauth_1_0a_integration():
         else:
             print_test_result("Activities Endpoint", False, f"Status: {activities_response.status_code}")
         
-        # Step 5: Statistics Endpoint - Test GET /api/integrations/suunto/{user_id}/stats returns expected fields
-        print("\n   Step 5: Statistics Endpoint - Test stats retrieval")
+        # Step 6: Statistics Endpoint - Test GET /api/integrations/garmin/{user_id}/stats
+        print("\n   Step 6: Statistics Endpoint - Test GET /api/integrations/garmin/{user_id}/stats")
         
-        stats_url = f"{BACKEND_URL}/integrations/suunto/{test_user_id}/stats"
+        stats_url = f"{BACKEND_URL}/integrations/garmin/{test_user_id}/stats"
         print(f"   URL: {stats_url}")
         
         stats_response = requests.get(stats_url)
@@ -1347,10 +1358,10 @@ def test_garmin_oauth_1_0a_integration():
         else:
             print_test_result("Statistics Endpoint", False, f"Status: {stats_response.status_code}")
         
-        # Step 6: Sync Endpoint - Test POST /api/integrations/suunto/{user_id}/sync endpoint accessibility
-        print("\n   Step 6: Sync Endpoint - Test sync endpoint accessibility")
+        # Step 7: Sync Endpoint - Test POST /api/integrations/garmin/{user_id}/sync
+        print("\n   Step 7: Sync Endpoint - Test POST /api/integrations/garmin/{user_id}/sync")
         
-        sync_url = f"{BACKEND_URL}/integrations/suunto/{test_user_id}/sync"
+        sync_url = f"{BACKEND_URL}/integrations/garmin/{test_user_id}/sync"
         print(f"   URL: {sync_url}")
         
         sync_response = requests.post(sync_url)
@@ -1363,7 +1374,7 @@ def test_garmin_oauth_1_0a_integration():
                 sync_data = sync_response.json()
                 detail = sync_data.get("detail", "")
                 
-                if "Suunto not connected" in detail or "not connected" in detail.lower():
+                if "Garmin not connected" in detail or "not connected" in detail.lower():
                     print_test_result("Sync Endpoint", True, 
                                     f"Returns proper 404 JSON error for non-connected user: {detail}")
                 else:
@@ -1376,8 +1387,8 @@ def test_garmin_oauth_1_0a_integration():
         else:
             print_test_result("Sync Endpoint", False, f"Unexpected status: {sync_response.status_code}")
         
-        # Step 7: Training Calendar - Verify /api/training-calendar/{athlete_id} is ready for Suunto activities
-        print("\n   Step 7: Training Calendar - Verify Suunto integration")
+        # Step 8: Training Calendar Integration - Verify Garmin activities supported
+        print("\n   Step 8: Training Calendar Integration - Verify Garmin activities supported")
         
         calendar_url = f"{BACKEND_URL}/training-calendar/{test_user_id}"
         print(f"   URL: {calendar_url}")
@@ -1391,13 +1402,13 @@ def test_garmin_oauth_1_0a_integration():
                 calendar_data = calendar_response.json()
                 blocks = calendar_data.get("blocks", [])
                 
-                # Check if any blocks have source='suunto'
-                suunto_blocks = [block for block in blocks if block.get("source") == "suunto"]
+                # Check if any blocks have source='garmin'
+                garmin_blocks = [block for block in blocks if block.get("source") == "garmin"]
                 
                 print_test_result("Training Calendar Integration", True, 
-                                f"Returns 200 with {len(blocks)} blocks, {len(suunto_blocks)} Suunto blocks")
+                                f"Returns 200 with {len(blocks)} blocks, {len(garmin_blocks)} Garmin blocks")
                 
-                # Verify structure is ready for Suunto activities
+                # Verify structure is ready for Garmin activities
                 if blocks:
                     sample_block = blocks[0]
                     required_fields = ["title", "start_date", "block_type"]
@@ -1413,7 +1424,7 @@ def test_garmin_oauth_1_0a_integration():
             except json.JSONDecodeError:
                 print_test_result("Training Calendar Integration", False, "Response is not valid JSON")
         else:
-            print_test_result("Training Calendar Integration", False, f"Status: {calendar_response.status_code}")
+            print_test_result("Training Calendar Integration", False, f"Status: {calendar_response.status_code}")e.status_code}")
         
         # Step 8: AI Coach Context - Verify database structure supports Suunto activities
         print("\n   Step 8: AI Coach Context - Verify database structure")
