@@ -1709,6 +1709,7 @@ Return only the JSON array, nothing else.
             "journal_entries": journal_entries,
             "nutrition_entries": nutrition_entries,
             "strava_activities": strava_activities,
+            "oura_activities": oura_activities,
             "supplements": supplements,
             "supplement_logs": supplement_logs,
             "documents": documents,
