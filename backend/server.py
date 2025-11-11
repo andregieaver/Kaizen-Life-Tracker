@@ -43,8 +43,9 @@ import stripe
 from image_processor import process_and_save_image, process_multiple_images
 from video_processor import process_and_save_video
 
-# Import Strava service
+# Import integration services
 from strava_service import StravaService
+from oura_service import OuraService
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
