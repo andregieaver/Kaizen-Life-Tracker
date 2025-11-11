@@ -16473,7 +16473,7 @@ async def strava_disconnect(request: Request):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/api/auth/strava/status")
+@api_router.get("/auth/strava/status")
 async def strava_connection_status(user_id: str):
     """
     Get current Strava connection status
