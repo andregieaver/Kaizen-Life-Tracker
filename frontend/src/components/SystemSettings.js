@@ -5238,6 +5238,109 @@ const SystemSettings = ({ athleteId }) => {
                   </div>
                 </div>
 
+                {/* WHOOP Integration */}
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3 pb-3 border-b border-gray-700">
+                    <div className="w-10 h-10 bg-purple-900/30 rounded-lg flex items-center justify-center">
+                      <Activity className="w-6 h-6 text-purple-500" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">WHOOP Integration</h3>
+                      <p className="text-sm text-gray-400">Connect WHOOP for recovery, strain, and performance metrics</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {/* Client ID */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Client ID
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Enter your WHOOP Client ID"
+                        className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                        value={advancedSettings.whoop.clientId}
+                        onChange={(e) => setAdvancedSettings(prev => ({
+                          ...prev,
+                          whoop: { ...prev.whoop, clientId: e.target.value }
+                        }))}
+                      />
+                    </div>
+
+                    {/* Callback Domain */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Authorization Callback Domain
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g., kaizenlifetracker.com"
+                        className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                        value={advancedSettings.whoop.callbackDomain}
+                        onChange={(e) => setAdvancedSettings(prev => ({
+                          ...prev,
+                          whoop: { ...prev.whoop, callbackDomain: e.target.value }
+                        }))}
+                      />
+                      <p className="text-xs text-gray-400 mt-1">
+                        Enter only the domain without https:// or paths
+                      </p>
+                    </div>
+
+                    {/* Client Secret */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Client Secret
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={advancedSettings.showWhoopSecret ? 'text' : 'password'}
+                          placeholder="Enter your WHOOP Client Secret"
+                          className="w-full px-3 py-2 pr-10 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                          value={advancedSettings.whoop.clientSecret}
+                          onChange={(e) => setAdvancedSettings(prev => ({
+                            ...prev,
+                            whoop: { ...prev.whoop, clientSecret: e.target.value }
+                          }))}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setAdvancedSettings(prev => ({
+                            ...prev,
+                            showWhoopSecret: !prev.showWhoopSecret
+                          }))}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                        >
+                          {advancedSettings.showWhoopSecret ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-3 bg-purple-900/20 border border-purple-700/50 rounded-lg">
+                    <p className="text-xs text-purple-200">
+                      <strong>Setup Instructions:</strong>
+                    </p>
+                    <ol className="text-xs text-purple-200 mt-2 space-y-1 ml-4 list-decimal">
+                      <li>Go to <a href="https://developer.whoop.com/" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">WHOOP Developer Platform</a></li>
+                      <li>Create a new application or use an existing one</li>
+                      <li>Set the Redirect URI to: <code className="bg-purple-900/40 px-1 py-0.5 rounded">https://[YOUR-DOMAIN]/api/auth/whoop/callback</code></li>
+                      <li>Copy your Client ID and Client Secret</li>
+                      <li>Enter them below and Save</li>
+                      <li>Athletes can now connect their WHOOP device from Account Settings</li>
+                    </ol>
+                    <div className="mt-3 pt-3 border-t border-purple-700/50">
+                      <p className="text-xs text-purple-200">
+                        <strong>Production:</strong> Use <code className="bg-purple-900/40 px-1 py-0.5 rounded">https://kaizenlifetracker.com/api/auth/whoop/callback</code>
+                      </p>
+                      <p className="text-xs text-purple-200 mt-1">
+                        <strong>Scopes:</strong> Request read:cycles, read:recovery, read:sleep, read:workout, read:profile, offline scopes
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
 
                 {/* Save Button */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-700">
