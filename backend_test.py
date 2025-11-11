@@ -12009,36 +12009,37 @@ def main():
     
     all_tests_passed = True
     
-    # Test CMS Flexible Content Feature as per review request
+    # Test Strava Sync Endpoint force_full_sync Parameter Fix as per review request
     try:
-        result = test_cms_flexible_content_feature()
+        result = test_strava_sync_endpoint_force_full_sync_fix()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("CMS Flexible Content Feature Testing", False, f"Exception: {str(e)}")
+        print_test_result("Strava Sync Endpoint Testing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 CMS FLEXIBLE CONTENT FEATURE TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ PUT ENDPOINT: Accepts use_cms_content and content_blocks fields")
-        print("✅ DATA PERSISTENCE: Data persists correctly in database")
-        print("✅ GET ENDPOINT: Returns saved use_cms_content and content_blocks")
-        print("✅ TOGGLE STATE: True/false persists across updates")
-        print("✅ HTML CONTENT: Content blocks with HTML stored and retrieved correctly")
-        print("🔧 VERIFIED: CMS flexible content feature is working correctly")
-        print("🔧 BACKEND FIX: use_cms_content and content_blocks fields added to Pydantic models")
-        print("💡 READY: Frontend can now save and persist CMS content blocks")
+        print("🎉 STRAVA SYNC ENDPOINT TESTING COMPLETED SUCCESSFULLY!")
+        print("✅ NO 500 ERRORS: Sync endpoint no longer returns 500 errors")
+        print("✅ JSON RESPONSE: Sync endpoint returns proper JSON response format")
+        print("✅ INCREMENTAL SYNC: force_full=False (default) works correctly")
+        print("✅ FULL SYNC: force_full=True works correctly")
+        print("✅ ERROR HANDLING: Appropriate errors for invalid users")
+        print("✅ NO TYPEERROR: Backend logs show no 'force_full_sync' TypeError")
+        print("🔧 VERIFIED: force_full_sync parameter fix is working correctly")
+        print("🔧 BACKEND FIX: Method signature updated to accept force_full_sync parameter")
+        print("💡 READY: Strava sync functionality is now production-ready")
     else:
-        print("❌ CMS FLEXIBLE CONTENT FEATURE TESTING FOUND ISSUES")
+        print("❌ STRAVA SYNC ENDPOINT TESTING FOUND ISSUES")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: CMS content blocks may not be saving correctly")
-        print("💡 Verify PageCreate and PageUpdate models have use_cms_content field")
-        print("💡 Verify PageCreate and PageUpdate models have content_blocks field")
-        print("💡 Check if MongoDB pages collection accepts these fields")
-        print("💡 Ensure PUT /api/pages/{page_id} endpoint processes these fields")
+        print("🚨 CRITICAL: Strava sync may still be returning 500 errors")
+        print("💡 Verify strava_service.py sync_activities method accepts force_full_sync parameter")
+        print("💡 Check server.py sync endpoint passes correct parameters")
+        print("💡 Ensure load_settings() is called before sync operations")
+        print("💡 Check backend logs for force_full_sync TypeError messages")
     
     print("=" * 70)
 
