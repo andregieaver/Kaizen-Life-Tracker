@@ -103,13 +103,27 @@ class PolarService(BaseIntegrationService):
             "sync_status": "pending"
         }
         
-        logging.info(f"Saving {self.provider_name} connection to database for user: {user_id}")
-        result = await self.db[f"{self.provider_name}_connections"].update_one(
-            {"user_id": user_id},
-            {"$set": connection_data},
-            upsert=True
-        )
-        logging.info(f"Database save result: matched={result.matched_count}, modified={result.modified_count}")
+        try:
+            logging.info(f"Saving {self.provider_name} connection to database for user: {user_id}")
+            logging.info(f"Connection data keys: {list(connection_data.keys())}")
+            result = await self.db[f"{self.provider_name}_connections"].update_one(
+                {"user_id": user_id},
+                {"$set": connection_data},
+                upsert=True
+            )
+            logging.info(f"Database save result: matched={result.matched_count}, modified={result.modified_count}, upserted_id={result.upserted_id}")
+            
+            # Verify it was saved
+            saved_connection = await self.db[f"{self.provider_name}_connections"].find_one({"user_id": user_id})
+            if saved_connection:
+                logging.info(f"[POLAR] Connection verified in database for user: {user_id}")
+            else:
+                logging.error(f"[POLAR] Connection NOT found in database after save!")
+        except Exception as e:
+            logging.error(f"[POLAR] Error saving connection: {e}")
+            import traceback
+            traceback.print_exc()
+            raise
         
         # Clean up OAuth state
         await self.db[f"{self.provider_name}_oauth_state"].delete_one({"_id": oauth_state["_id"]})
