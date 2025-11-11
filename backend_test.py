@@ -12209,45 +12209,45 @@ def test_strava_sync_endpoint_force_full_sync_fix():
         return False
 
 def main():
-    """Run Polar Integration Backend Comprehensive Testing as requested in review"""
-    print("🚀 STARTING POLAR INTEGRATION BACKEND COMPREHENSIVE TESTING AS REQUESTED")
+    """Run Polar OAuth Routing Fix Verification as requested in review"""
+    print("🚀 STARTING POLAR OAUTH ROUTING FIX VERIFICATION AS REQUESTED")
     print("=" * 70)
     
     all_tests_passed = True
     
-    # Test Polar Integration Backend Comprehensive as per review request
+    # Test Polar OAuth Routing Fix as per review request
     try:
-        result = test_polar_integration_comprehensive()
+        result = test_polar_oauth_routing_fix()
         if not result:
             all_tests_passed = False
     except Exception as e:
-        print_test_result("Polar Integration Testing", False, f"Exception: {str(e)}")
+        print_test_result("Polar OAuth Routing Fix Testing", False, f"Exception: {str(e)}")
         all_tests_passed = False
     
     print("\n" + "=" * 70)
     
     # Final Results
     if all_tests_passed:
-        print("🎉 POLAR INTEGRATION BACKEND TESTING COMPLETED SUCCESSFULLY!")
-        print("✅ SYSTEM SETTINGS: Polar credentials can be saved and retrieved")
-        print("✅ OAUTH FLOW: Authorization endpoints generate correct Polar Flow URLs")
-        print("✅ CONNECTION STATUS: Status endpoints return proper JSON responses")
-        print("✅ DATA SYNC: Sync endpoints are accessible and handle requests appropriately")
-        print("✅ ACTIVITIES: Activities retrieval follows standard integration pattern")
-        print("✅ STATISTICS: Stats endpoints provide Polar statistics in expected format")
-        print("✅ TRAINING CALENDAR: Integration includes Polar activities with source='polar'")
-        print("✅ AI COACH: Database collections accessible for AI coach context integration")
-        print("🔧 VERIFIED: Polar integration infrastructure is in place and functional")
-        print("🔧 BACKEND READY: All Polar endpoints follow the same pattern as Strava and Oura")
-        print("💡 PRODUCTION READY: Polar integration backend is fully functional")
+        print("🎉 POLAR OAUTH ROUTING FIX VERIFICATION COMPLETED SUCCESSFULLY!")
+        print("✅ OAUTH ENDPOINT: GET /api/auth/polar now returns 200 (not 404 'Provider not found')")
+        print("✅ AUTHORIZATION URL: Contains all required OAuth parameters")
+        print("✅ CLIENT ID: Uses client_id from system settings")
+        print("✅ REDIRECT URI: Contains /api/ prefix and correct callback domain")
+        print("✅ SCOPE: Contains correct scope (accesslink.read_all)")
+        print("✅ STATE PARAMETER: State parameter present for security")
+        print("✅ CONNECTION STATUS: Status endpoint still working correctly")
+        print("✅ SYNC ENDPOINT: Sync endpoint accessible and returns proper errors")
+        print("🔧 VERIFIED: PolarConnector successfully added to connectors dict")
+        print("🔧 ROUTING FIX: OAuth routing conflict resolved")
+        print("💡 PRODUCTION READY: Polar OAuth authorization is now functional")
     else:
-        print("❌ POLAR INTEGRATION BACKEND TESTING FOUND ISSUES")
+        print("❌ POLAR OAUTH ROUTING FIX VERIFICATION FAILED")
         print("⚠️ Check individual test results above for details")
-        print("🚨 CRITICAL: Some Polar endpoints may not be working correctly")
-        print("💡 Verify PolarService extends BaseIntegrationService correctly")
-        print("💡 Check generic OAuth endpoints handle 'polar' provider")
-        print("💡 Ensure system_settings can store Polar credentials")
-        print("💡 Check backend logs for Polar-related errors")
+        print("🚨 CRITICAL: OAuth routing fix did not work as expected")
+        print("💡 Verify PolarConnector was properly added to connectors dict in server.py")
+        print("💡 Check if PolarConnector.begin_auth() method is implemented correctly")
+        print("💡 Ensure PolarConnector delegates to PolarService.get_authorization_url()")
+        print("💡 Check backend logs for routing errors or 'Provider not found' messages")
     
     print("=" * 70)
 
