@@ -2561,3 +2561,17 @@ agent_communication:
     message: "SUUNTO INTEGRATION COMPLETE - Implemented full end-to-end Suunto integration following the same pattern as WHOOP and COROS. Backend: Added SuuntoService import, training calendar integration, AI coach context, SuuntoConnector class, integration service mapping, and scopes. Frontend: Added SystemSettings UI with cyan theme, Account.js OAuth handling and IntegrationCard, TrainingCalendar.js activity rendering with compass icon. Backend and frontend restarted successfully and compiled. Ready for comprehensive backend testing."
   - agent: "testing"
     message: "✅ SUUNTO INTEGRATION BACKEND TESTING COMPLETE - ALL TESTS PASSED! Comprehensive testing of all Suunto integration endpoints completed successfully. System settings configured with test credentials, OAuth authorization URL generation working correctly with proper parameters, connection status endpoint functional, activities and statistics endpoints returning proper JSON structure, sync endpoint accessible with correct error handling, training calendar integration ready, and AI coach context verified. Suunto integration follows the same patterns as other integrations (WHOOP, COROS, Polar, Fitbit) and is ready for production use. No critical issues found - all endpoints return JSON responses and handle authentication states correctly."
+
+frontend:
+  - task: "Suunto Integration - Frontend UI Testing"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/SystemSettings.js, /app/frontend/src/components/Account.js, /app/frontend/src/components/TrainingCalendar.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "FRONTEND TESTING INITIATED - Suunto integration frontend components implemented and ready for testing. Components include: SystemSettings.js (Suunto config section with cyan theme), Account.js (IntegrationCard with OAuth handling), TrainingCalendar.js (activity rendering with compass icon and cyan color). Calling frontend testing agent to verify UI functionality."
+
