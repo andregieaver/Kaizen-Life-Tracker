@@ -6506,13 +6506,52 @@ async def get_weekly_menu_details(menu_id: str):
 # Training Calendar routes
 @api_router.get("/training-calendar/{athlete_id}")
 async def get_training_blocks(athlete_id: str):
-    """Get all training blocks for an athlete"""
+    """Get all training blocks for an athlete, including Strava activities"""
+    # Get manual training blocks
     blocks = await db.training_blocks.find(
         {"athlete_id": athlete_id},
         {"_id": 0}
     ).sort("start_date", 1).to_list(length=None)
     
-    return {"blocks": [parse_from_mongo(block) for block in blocks]}
+    parsed_blocks = [parse_from_mongo(block) for block in blocks]
+    
+    # Get Strava activities and convert them to training blocks
+    strava_activities = await db.strava_activities.find(
+        {"user_id": athlete_id},
+        {"_id": 0}
+    ).sort("start_date", 1).to_list(length=None)
+    
+    # Convert Strava activities to training block format
+    for activity in strava_activities:
+        # Create a unique ID for the Strava activity
+        strava_block = {
+            "id": f"strava_{activity.get('activity_id')}",
+            "athlete_id": athlete_id,
+            "title": activity.get('name', 'Strava Activity'),
+            "description": f"Type: {activity.get('type')}\nFrom Strava",
+            "block_type": "training",
+            "workout_type": activity.get('type', '').lower(),
+            "start_date": activity.get('start_date').strftime('%Y-%m-%d') if isinstance(activity.get('start_date'), datetime) else str(activity.get('start_date', ''))[:10],
+            "end_date": activity.get('start_date').strftime('%Y-%m-%d') if isinstance(activity.get('start_date'), datetime) else str(activity.get('start_date', ''))[:10],
+            "distance": round(activity.get('distance', 0) / 1000, 2) if activity.get('distance') else None,  # Convert meters to km
+            "duration_minutes": round(activity.get('moving_time', 0) / 60) if activity.get('moving_time') else None,
+            "pace_per_unit": None,  # Could calculate from distance/time if needed
+            "unit_system": "km",
+            "source": "strava",  # Mark this as from Strava
+            "strava_data": {
+                "activity_id": activity.get('activity_id'),
+                "average_heartrate": activity.get('average_heartrate'),
+                "max_heartrate": activity.get('max_heartrate'),
+                "total_elevation_gain": activity.get('total_elevation_gain'),
+                "kudos_count": activity.get('kudos_count', 0)
+            }
+        }
+        parsed_blocks.append(strava_block)
+    
+    # Sort all blocks by start_date
+    parsed_blocks.sort(key=lambda x: x.get('start_date', ''))
+    
+    return {"blocks": parsed_blocks}
 
 @api_router.post("/training-calendar")
 async def create_training_block(block: TrainingBlock):
