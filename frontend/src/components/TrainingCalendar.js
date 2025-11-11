@@ -437,16 +437,19 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
     const isHealth = block.block_type === 'health';
     const isStrava = block.source === 'strava';
     const isOura = block.source === 'oura';
+    const isPolar = block.source === 'polar';
     
     // Different colors for different sources
     let bgColor = 'bg-blue-500'; // Default for manual training
     if (isStrava) bgColor = 'bg-orange-500';
     else if (isOura) bgColor = 'bg-purple-500';
+    else if (isPolar) bgColor = 'bg-red-500';
     else if (isHealth) bgColor = 'bg-green-500';
     
     // Icons for different sources
     let sourceIcon = null;
     if (isStrava) sourceIcon = '🏃';
+    else if (isPolar) sourceIcon = '❄️';
     else if (isOura && block.oura_data?.type === 'Sleep') sourceIcon = '😴';
     else if (isOura && block.oura_data?.type === 'Readiness') sourceIcon = '⚡';
     else if (isOura) sourceIcon = '💪';
