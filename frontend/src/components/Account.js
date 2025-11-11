@@ -3863,6 +3863,20 @@ const Account = ({ athleteId }) => {
                   onSync={(fullSync) => handleGenericSync('coros', fullSync)}
                   t={t}
                 />
+                
+                {/* WHOOP */}
+                <IntegrationCard
+                  provider="whoop"
+                  name="WHOOP"
+                  description="Connect your WHOOP device to sync recovery, strain, sleep, and performance data"
+                  icon={<Activity className="w-8 h-8 text-purple-500" />}
+                  connected={integrations.whoop?.connected || false}
+                  connectionInfo={integrations.whoop}
+                  onConnect={() => handleSimpleConnect('whoop')}
+                  onDisconnect={() => handleDisconnectIntegration('whoop')}
+                  onSync={(fullSync) => handleGenericSync('whoop', fullSync)}
+                  t={t}
+                />
               </CardContent>
             </Card>
           </div>
