@@ -51,6 +51,7 @@ from fitbit_service import FitbitService
 from garmin_service import GarminService
 from coros_service import CorosService
 from whoop_service import WhoopService
+from suunto_service import SuuntoService
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
