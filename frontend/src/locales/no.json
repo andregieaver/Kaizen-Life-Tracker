@@ -619,7 +619,8 @@
       "challengeCreator": "Utfordringsskaper",
       "recurringChallenge": "Gjentakende utfordring",
       "addMedia": "Legg til bilder eller video (maks 5, 1 video)",
-      "maxMediaItems": "Maksimalt 5 medieelementer"
+      "maxMediaItems": "Maksimalt 5 medieelementer",
+      "addPhoto": "Legg til bilde"
     },
     "emptyStates": {
       "noPostsYet": "Ingen innlegg ennå",
