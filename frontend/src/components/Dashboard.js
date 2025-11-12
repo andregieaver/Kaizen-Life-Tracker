@@ -1195,7 +1195,13 @@ const Dashboard = ({ athleteId }) => {
             </div>
 
             {/* Menu Content */}
-            <div className="flex-1 p-4">
+            <div className="flex-1 p-4 overflow-y-auto pb-24" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <style>{`
+                .flex-1.overflow-y-auto::-webkit-scrollbar {
+                  width: 0px;
+                  display: none;
+                }
+              `}</style>
               <nav 
                 className="slideout-menu-switcher space-y-1 relative"
                 data-previous={previousTab}
@@ -1209,6 +1215,7 @@ const Dashboard = ({ athleteId }) => {
                     inset 0 -1px 2px rgba(255,255,255,0.05)
                   `,
                   padding: '8px 12px',
+                  paddingBottom: '82px',
                   '--bubble-top': '0px',
                   '--bubble-height': '48px'
                 }}
