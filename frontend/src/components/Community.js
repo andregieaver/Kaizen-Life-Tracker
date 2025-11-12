@@ -7059,7 +7059,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
               <label className="cursor-pointer">
                 <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'profile_image')} className="hidden" />
                 <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
-                  {eventData.profile_image ? 'Change' : 'Upload'}
+                  {eventData.profile_image ? t('common.change') : t('common.upload')}
                 </div>
               </label>
               {eventData.profile_image && (
@@ -7235,7 +7235,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
               <label className="cursor-pointer">
                 <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'profile_image')} className="hidden" />
                 <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
-                  {eventData.profile_image ? 'Change' : 'Upload'}
+                  {eventData.profile_image ? t('common.change') : t('common.upload')}
                 </div>
               </label>
               {eventData.profile_image && (
