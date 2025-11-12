@@ -7072,7 +7072,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
 
           {/* Banner */}
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Banner</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.banner')}</label>
             {eventData.cover_photo && (
               <div className="relative mb-2">
                 <img src={eventData.cover_photo} alt="Banner" className="w-full h-32 object-cover rounded-lg" />
