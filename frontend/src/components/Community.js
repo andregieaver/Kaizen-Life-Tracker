@@ -7417,7 +7417,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                 <div className="space-y-1">
                   <div className="flex items-center text-gray-300 text-xs sm:text-sm">
                     <Clock className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                    <span className="break-words">{new Date(eventData.event_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} {t('community.event.at')} {eventData.event_time}</span>
+                    <span className="break-words">{new Date(eventData.event_date).toLocaleDateString(i18n.language === 'no' ? 'nb-NO' : 'en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} {t('community.event.at')} {eventData.event_time}</span>
                   </div>
                   {eventData.location && (
                     <div className="flex items-center text-gray-300 text-xs sm:text-sm">
