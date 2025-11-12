@@ -521,7 +521,26 @@
     "event": {
       "enterEventName": "Enter event name",
       "describeEvent": "Describe the event",
-      "eventLocation": "Event location"
+      "eventLocation": "Event location",
+      "eventIcon": "Event Icon",
+      "eventName": "Event Name",
+      "date": "Date",
+      "time": "Time",
+      "location": "Location (Optional)",
+      "visibility": "Visibility",
+      "visibilityOpen": "Open - Shows in main feed",
+      "visibilityPrivate": "Private - Only in connected group",
+      "connectToGroup": "Connect to Group (Optional)",
+      "noGroup": "No Group",
+      "groupNotificationHelp": "If connected, all group members will be notified",
+      "loadingEventDetails": "Loading event details...",
+      "aboutThisEvent": "About This Event",
+      "going": "Going",
+      "interested": "Interested",
+      "noParticipantsYet": "No participants yet. Be the first to RSVP!",
+      "writeComment": "Write a comment...",
+      "noCommentsYet": "No comments yet. Be the first to comment!",
+      "at": "at"
     },
     "challenge": {
       "enterChallengeName": "e.g., Run 100km in January",
