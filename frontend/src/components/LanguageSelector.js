@@ -22,7 +22,6 @@ const LanguageSelector = ({ athleteId }) => {
 
   const changeLanguage = async (lng) => {
     console.log(`[LanguageSelector] Changing language to: ${lng}`);
-    console.log(`[LanguageSelector] athleteId:`, athleteId);
     
     // Change UI language immediately
     i18n.changeLanguage(lng);
@@ -30,22 +29,25 @@ const LanguageSelector = ({ athleteId }) => {
     // Save language preference to athlete profile in database
     if (athleteId) {
       try {
-        const url = `${API}/athlete/${athleteId}`;
-        console.log(`[LanguageSelector] Making PUT request to:`, url);
-        console.log(`[LanguageSelector] With data:`, { language: lng });
+        const url = `${API}/system/set-language?athlete_id=${athleteId}&language=${lng}`;
+        console.log(`[LanguageSelector] Calling set-language endpoint:`, url);
         
-        const response = await axios.put(url, { language: lng });
-        console.log(`[LanguageSelector] Language preference saved successfully:`, response.data);
+        const response = await axios.post(url);
+        console.log(`[LanguageSelector] Language saved:`, response.data);
         
         // Trigger menu reload to apply new translations
         window.dispatchEvent(new Event('menusUpdated'));
-        console.log(`[LanguageSelector] Dispatched menusUpdated event`);
+        
+        // Also reload the page after a short delay to ensure everything updates
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       } catch (error) {
-        console.error('[LanguageSelector] Error saving language preference:', error);
+        console.error('[LanguageSelector] Error saving language:', error);
         console.error('[LanguageSelector] Error details:', error.response?.data);
       }
     } else {
-      console.warn('[LanguageSelector] No athleteId provided, language not saved to database');
+      console.warn('[LanguageSelector] No athleteId provided, language not saved');
     }
   };
 
