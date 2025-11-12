@@ -6460,14 +6460,14 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Visibility</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.visibility')}</label>
                 <select
                   value={challengeData.visibility}
                   onChange={(e) => setChallengeData({ ...challengeData, visibility: e.target.value })}
                   className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
                 >
-                  <option value="public">Public</option>
-                  <option value="private">Private</option>
+                  <option value="public">{t('community.challenge.visibilityPublic')}</option>
+                  <option value="private">{t('community.challenge.visibilityPrivate')}</option>
                 </select>
               </div>
 
