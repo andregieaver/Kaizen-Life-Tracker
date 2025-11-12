@@ -6355,7 +6355,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold flex items-center" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
               <Trophy className="w-6 h-6 mr-2 text-[#00C2A8]" />
-              Create Challenge
+              {t('common.createChallenge')}
             </h2>
             <button onClick={onClose} className="text-gray-400 hover:text-white">
               <X className="w-6 h-6" />
