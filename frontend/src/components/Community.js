@@ -6744,7 +6744,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
               <div className="p-4" className="p-4">
                 <h3 className="text-white font-semibold mb-4 flex items-center">
                   <Award className="w-5 h-5 mr-2 text-yellow-500" />
-                  Leaderboard
+                  {t('community.challenge.leaderboard')}
                 </h3>
                 <div className="space-y-2">
                   {challengeData.leaderboard.slice(0, 10).map((participant, index) => (
