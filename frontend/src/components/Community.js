@@ -7537,7 +7537,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
 
           {/* Comments Section */}
           <div className="border-t border-gray-600 pt-4 sm:pt-6">
-            <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Comments ({eventData.comments_count || 0})</h3>
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">{t('community.challenge.comments')} ({eventData.comments_count || 0})</h3>
             
             {/* Comments List */}
             <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6 max-h-48 sm:max-h-60 overflow-y-auto">
