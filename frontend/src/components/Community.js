@@ -6366,7 +6366,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
         <div className="p-6">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-white mb-2">Title *</label>
+              <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.title')}</label>
               <input
                 type="text"
                 value={challengeData.title}
