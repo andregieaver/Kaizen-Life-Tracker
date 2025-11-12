@@ -1,86 +1,96 @@
 <analysis>
-The trajectory details a systematic and expansive effort to build out the TrainSmart application's third-party integration capabilities. The work began by debugging and stabilizing existing Strava and Oura integrations, which suffered from routing conflicts, incorrect database targeting, and flawed authentication logic. A key architectural decision was to refactor this logic into a generic . This reusable framework abstracted common OAuth flows, token exchange, and data syncing, enabling the rapid and consistent addition of new services.
+The trajectory chronicles an extensive development and debugging cycle on the TrainSmart application. The work began by resolving a frontend bug where the live video preview in  was failing. This was fixed by correctly invoking the  method on the video element.
 
-Following this refactoring, the engineer methodically integrated a series of new providers: Polar, Fitbit, Garmin, COROS, and WHOOP. Each integration followed a repeatable pattern: obtaining an API playbook, creating a provider-specific service file, wiring it into the backend (), and building the corresponding UI in the frontend (, , ). The process included significant real-time debugging, notably fixing Polar's requirement for Basic Authentication during token exchange and resolving numerous frontend state management issues to ensure connection statuses were displayed correctly.
+The focus then shifted to a series of complex, intertwined issues. First, a Strava full-sync failure, initially thought to be a frontend timeout, was traced to a 500 error. Investigation revealed the backend endpoint in  was not correctly parsing the  query parameter.
 
-The work concluded at the very beginning of the Suunto integration, having just created the  file after receiving the API playbook. The overall effort successfully transformed the application's integration capabilities from a buggy, hardcoded system into a scalable, robust, and feature-rich platform.
+The most significant effort was dedicated to fixing the menu translation system. This involved a deep and iterative debugging process, uncovering multiple root causes:
+1.  The language selector in  only updated the UI state () but didn't persist the preference to the user's profile in the database.
+2.  Backend endpoints for updating athlete profiles and menus were using inconsistent document queries ( vs. uid=0(root) gid=0(root) groups=0(root), or an empty filter  vs. a specific filter ).
+3.  A critical discovery was that the development and production environments were using different MongoDB databases ( vs.  and a separate production DB), which was the source of major discrepancies.
+4.  Saving menus from the  overwrote existing translations.
+
+Following the menu fixes, the work pivoted to translating the Community feature based on user screenshots. This involved adding Norwegian translations to numerous modals (, , , , ). This process introduced a recurring runtime error, , which was systematically fixed by adding the  hook to each affected modal component. The work concluded mid-way through fixing this exact error in the .
 </analysis>
 
 <product_requirements>
-The primary objective is to establish the TrainSmart application as a central hub for user health and fitness data by integrating with a comprehensive list of third-party wearable device and service providers.
+The primary goal is to enhance the TrainSmart application, a centralized health and fitness data platform, by improving its internationalization (i18n) capabilities and fixing critical bugs.
 
-**Core Requirements & Implementation:**
-1.  **Multi-Provider Integration:** Implement end-to-end data integration for Strava, Oura, Polar, Fitbit, Garmin, COROS, WHOOP, and Suunto.
-2.  **Robust Authentication:** Build secure connection flows for each provider using OAuth 2.0 (and OAuth 1.0a for Garmin), allowing users to connect their accounts.
-3.  **Comprehensive Data Sync:** Enable both incremental (Sync Latest) and full historical (Sync All) data synchronization for activities, sleep, and key health vitals.
-4.  **Feature Integration:** Surface the synchronized data within the application's core features:
-    *   **Training Calendar:** Display completed activities from all connected providers.
-    *   **AI Coach:** Feed activity, sleep, and readiness data into the coach's context for more personalized advice.
-    *   **User Dashboards:** Show provider data on pages like Merits and Vitals cards.
-5.  **Admin Configuration:** Provide a UI in the System Settings for administrators to manage API credentials (Client ID, Secret) for each integration.
+**Completed Tasks:**
+- **Bug Fixes:**
+  - Resolved a failing live video preview in the Journal feature.
+  - Fixed a Strava full-sync failure by correcting backend parameter handling and frontend timeouts.
+- **Menu Translation System:**
+  - Implemented a robust menu translation system that correctly saves and applies user language preferences from the database.
+  - Added a feature for translating individual menu items directly from the .
+  - Resolved complex database inconsistencies between development and production environments.
+- **UI Internationalization:**
+  - Fully translated multiple modals within the Community feature (Profile, Create Group, Create Event, Create Challenge, Share) into Norwegian based on user feedback.
+  - Internationalized the emoji picker component.
+  - Addressed a series of runtime errors () caused by missing  hooks in newly translated components.
+
+**Current Problem:**
+The application is still plagued by a recurring runtime error () in various modal components within the Community feature, which appears after adding translations. The immediate task is to resolve this for the .
 </product_requirements>
 
 <key_technical_concepts>
-- **Full-stack Development**: React.js (Frontend), FastAPI (Backend), MongoDB (Database).
-- **External APIs & Auth**: OAuth 2.0 and OAuth 1.0a for authenticating with Strava, Oura, Polar, Fitbit, Garmin, COROS, WHOOP, and Suunto APIs.
-- **Backend Architecture**: A generic  class provides a reusable framework for all third-party integrations, promoting code reuse and simplifying the addition of new providers.
-- **Debugging**: Solved complex issues including FastAPI routing conflicts, provider-specific OAuth requirements (e.g., Polar's Basic Auth), and database connection misconfigurations.
+- **Full-stack:** React.js (Frontend) with  for i18n, and FastAPI (Backend) with Python.
+- **Database:** MongoDB, accessed asynchronously via the  library.
+- **API & Authentication:** OAuth 1.0a/2.0 for third-party services, RESTful APIs for internal communication.
+- **Styling:** TailwindCSS and custom CSS.
+- **Debugging:** Involved heavy use of frontend console inspection, backend log analysis (backend                          RUNNING   pid 28, uptime 0:00:04
+code-server                      RUNNING   pid 30, uptime 0:00:04
+frontend                         STOPPED   Nov 12 09:04 PM
+mongodb                          RUNNING   pid 33, uptime 0:00:04
+supervisor> ), and direct MongoDB database queries to diagnose issues across environments.
+- **UI Libraries:**  for emojis,  for drag-and-drop.
 </key_technical_concepts>
 
 <code_architecture>
-The application uses a monolithic repository with distinct  and  directories. A key architectural pattern is the use of a generic base service to manage all third-party integrations.
+The application is a monolith with a  and  directory. The backend uses a service-oriented pattern for integrations, and the frontend is built with React components.
 
 
 
 - ****
-  - **Importance**: Defines the , the core abstract class for all third-party integrations. It standardizes methods for generating authorization URLs, exchanging codes for tokens, and syncing data, which was crucial for scaling the number of integrations.
-  - **Changes**: This file was created to abstract away common logic. It was later updated with enhanced logging to debug a complex token exchange issue with the Polar API.
-
-- ** (e.g., , , etc.)**
-  - **Importance**: Each file contains the specific implementation for a single provider, inheriting from .
-  - **Changes**: All of these files were created or heavily modified. A critical change was in , which overrides the  method to use Basic Authentication, a specific requirement of the Polar API that was discovered during debugging.  had its  method added post-creation to fix a sync failure.
+  - **Importance**: The core FastAPI application handling all API logic.
+  - **Summary of changes**: This file was heavily modified. A fix was added to the Strava sync endpoint to correctly handle the  query parameter. Multiple endpoints related to menu translation were created and fixed (, , ), including logic to preserve existing translations. The athlete profile update endpoint () was fixed to correctly query by  or . A temporary admin endpoint () was added to resolve a production data issue.
 
 - ****
-  - **Importance**: The main FastAPI application file, routing all API requests. It was a frequent point of modification.
-  - **Changes**: This file was modified extensively to:
-    - Add imports and service instances for each new integration (Polar, Fitbit, Garmin, etc.).
-    - Update the  endpoint to aggregate data from all newly added providers.
-    - Enhance the  function to include data from new providers, making the AI Coach more knowledgeable.
-    - Resolve an OAuth routing conflict by adding a dummy  to an older, conflicting route.
+  - **Importance**: A large component containing the UI for all community features, including numerous modals.
+  - **Summary of changes**: This file underwent extensive changes. The  hook () was added to multiple modal sub-components (, , , , , , ) to fix a recurring  runtime error. Hardcoded English text in these modals was replaced with  keys for i18n. Logic was added to translate interest tags.
 
 - ****
-  - **Importance**: This component is the user-facing hub for managing all integrations.
-  - **Changes**: It was repeatedly updated to:
-    - Add an  for each new provider (Polar, Fitbit, etc.).
-    - Add logic to the  function to fetch the connection status for each new integration.
-    - Add success message handling in a  hook for OAuth redirects.
-    - Expand the condition for rendering dual Sync and Full Sync buttons to include new providers like Fitbit.
+  - **Importance**: The UI component for changing the application's language.
+  - **Summary of changes**: It was updated to not only change the i18n state but also to make a backend call to a new, reliable endpoint () to persist the user's language preference in their database profile.
 
 - ****
-  - **Importance**: The admin page for configuring application-wide API credentials.
-  - **Changes**: This file was systematically updated to add a new UI section with input fields for the Client ID and Client Secret for each new provider (Polar, Fitbit, Garmin, COROS, WHOOP).
+  - **Importance**: The admin interface for managing navigation menus.
+  - **Summary of changes**: A translation icon and  function were added to each menu item, allowing for individual translations. A temporary Fix Language button was also added to trigger the backend script for the user.
 
 - ****
-  - **Importance**: Renders planned and completed workouts.
-  - **Changes**: The event rendering logic was updated to recognize and display activities from each new provider, assigning them a unique background color for visual distinction.
+  - **Importance**: The locale file containing Norwegian translations.
+  - **Summary of changes**: This file was updated multiple times to add new translation keys for the Community feature modals (groups, events, challenges, etc.) as they were being internationalized.
+
+- ****
+    - **Importance**: The component that renders the emoji picker.
+    - **Summary of changes**: It was modified to pass custom Norwegian translations ( prop) to the   component, ensuring the picker's UI (categories, search) is also translated.
 </code_architecture>
 
 <pending_tasks>
-- **Complete Suunto Integration**: The  file has been created, but the backend and frontend have not been updated to use it. This involves modifying , , , and .
-- **Populate **: The guide for adding future integrations needs to be written.
-- **Garmin OAuth 1.0a Implementation**: The Garmin service was scaffolded, but the playbook mentioned it uses OAuth 1.0a, which is different from the other providers and requires a specific implementation.
+- Fix the  runtime error that occurs when opening the .
 </pending_tasks>
 
 <current_work>
-The most recent task was the beginning of the Suunto integration. Following the established pattern, the AI engineer first gathered user requirements for the integration's scope. Next, the  was invoked to retrieve a detailed plan and best practices for the Suunto API.
+Immediately before this summary, the AI engineer was addressing a series of  () that appeared sequentially as different UI modals in the Community feature were being tested. This error was consistently caused by a component using the translation function  without first initializing the  hook.
 
-Based on the playbook's guidance, the immediate first step was taken: creating the service file for the new integration.
+The engineer had successfully fixed this issue in , , and . The very last action was encountering the same error, this time originating from the  component. The work stopped just as the engineer was about to diagnose and apply the now-standard fix to this new component. The pattern of work was:
+1.  User reports a runtime error.
+2.  The engineer identifies the component from the error stack trace (e.g., ).
+3.  The engineer locates the component within .
+4.  The engineer adds  to the component to resolve the error.
 
-- **File Created**: 
-
-This file serves as the placeholder for all Suunto-specific logic, inheriting from the . The work was paused immediately after this file's creation, with the next logical steps being the full wiring of this service into the backend and frontend of the application. No code for handling requests, UI, or data processing for Suunto has been implemented yet.
+This process was iterative, tackling one modal at a time as errors were discovered. The current focus is on the .
 </current_work>
 
 <optional_next_step>
-Continue the Suunto integration by wiring up the  into the backend () and adding the necessary UI components to the frontend (, , and ).
+My immediate next step is to fix the  in  by finding the component in  and adding the  hook.
 </optional_next_step>
