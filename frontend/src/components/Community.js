@@ -6377,7 +6377,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white mb-2">Description</label>
+              <label className="block text-sm font-medium text-white mb-2">{t('common.description')}</label>
               <textarea
                 value={challengeData.description}
                 onChange={(e) => setChallengeData({ ...challengeData, description: e.target.value })}
