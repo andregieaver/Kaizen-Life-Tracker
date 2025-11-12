@@ -5271,15 +5271,15 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="text-center">
                     <p className="text-2xl font-bold text-[#00C2A8]">{profile.posts_count || 0}</p>
-                    <p className="text-gray-400 text-sm">Posts</p>
+                    <p className="text-gray-400 text-sm">{t('community.posts')}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-2xl font-bold text-[#00C2A8]">{profile.followers_count || 0}</p>
-                    <p className="text-gray-400 text-sm">Followers</p>
+                    <p className="text-gray-400 text-sm">{t('community.followers')}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-2xl font-bold text-[#00C2A8]">{profile.following_count || 0}</p>
-                    <p className="text-gray-400 text-sm">Following</p>
+                    <p className="text-gray-400 text-sm">{t('community.following')}</p>
                   </div>
                 </div>
               </>
