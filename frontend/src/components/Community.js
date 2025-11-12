@@ -4904,7 +4904,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
             </select>
           </div>
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Group Rules (Optional)</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.groupRules')}</label>
             <textarea
               value={groupData.rules}
               onChange={(e) => setGroupData({ ...groupData, rules: e.target.value })}
@@ -4912,7 +4912,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
               rows="4"
             />
-            <p className="text-gray-400 text-xs mt-1">If set, users must accept these rules before joining</p>
+            <p className="text-gray-400 text-xs mt-1">{t('community.group.rulesHelpText')}</p>
           </div>
         </div>
         
@@ -5067,7 +5067,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
             </select>
           </div>
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Group Rules (Optional)</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.groupRules')}</label>
             <textarea
               value={groupData.rules}
               onChange={(e) => setGroupData({ ...groupData, rules: e.target.value })}
@@ -5075,7 +5075,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
               rows="4"
             />
-            <p className="text-gray-400 text-xs mt-1">If set, users must accept these rules before joining</p>
+            <p className="text-gray-400 text-xs mt-1">{t('community.group.rulesHelpText')}</p>
           </div>
         </div>
         
