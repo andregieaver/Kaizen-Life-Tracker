@@ -526,7 +526,14 @@
       "visibilityPrivate": "Privat - Kun i tilkoblet gruppe",
       "connectToGroup": "Koble til gruppe (Valgfritt)",
       "noGroup": "Ingen gruppe",
-      "groupNotificationHelp": "Hvis tilkoblet, vil alle gruppemedlemmer bli varslet"
+      "groupNotificationHelp": "Hvis tilkoblet, vil alle gruppemedlemmer bli varslet",
+      "loadingEventDetails": "Laster arrangementsdetaljer...",
+      "aboutThisEvent": "Om dette arrangementet",
+      "going": "Deltar",
+      "interested": "Interessert",
+      "noParticipantsYet": "Ingen deltakere ennå. Vær den første til å svare ja!",
+      "writeComment": "Skriv en kommentar...",
+      "noCommentsYet": "Ingen kommentarer ennå. Vær den første til å kommentere!"
     },
     "challenge": {
       "enterChallengeName": "f.eks., Løp 100km i januar",
