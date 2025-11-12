@@ -2705,3 +2705,19 @@ frontend:
         agent: "main"
         comment: "CONTACT SUPPORT BUTTON REDESIGN COMPLETE - Moved support button to absolute top right with circular design and icon-only display. CHANGES: 1) POSITION: Changed from inline element to fixed positioning at top-4 right-4 with z-50 to ensure visibility above all content, 2) CIRCULAR DESIGN: Button is now perfectly circular (w-10 h-10 rounded-full) instead of rounded rectangle, 3) ICON-ONLY: Removed text label 'Kontakt support', now shows only '?' symbol in center, 4) SIMPLIFIED ICON: Changed from HelpCircle (circle with question mark) to plain '?' text (text-lg font-bold) for cleaner look, 5) STYLING: Maintained cyan brand color (bg-[#32D3FF] hover:bg-[#1FC1FF]), added shadow-lg for elevation, centered content with flex items-center justify-center, removed padding gap, 6) ACCESSIBILITY: Title attribute preserved for tooltip on hover showing full support text. Button is now a floating action button (FAB) style element always visible in top right corner of Account page. Frontend restarted and compiled successfully."
 
+
+frontend:
+  - task: "Community ChallengeDetailModal Translation Error Fix"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/Community.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "CRITICAL BUG FIX - Fixed recurring 'ReferenceError: t is not defined' runtime error in ChallengeDetailModal component. ROOT CAUSE: The ChallengeDetailModal component was using the translation function t() on line 6638 (t('community.actions.recurringChallenge')) without importing the useTranslation hook. This caused a runtime error when opening any challenge detail modal. FIX IMPLEMENTED: Added 'const { t } = useTranslation();' at line 6594, immediately after the component declaration. This follows the same pattern that was successfully applied to other modal components (CommentsModal, GroupDetailView, EventDetailModal, CreateGroupModal, CreateEventModal, CreateChallengeModal, etc.). VERIFICATION: All modal components in Community.js now have the useTranslation hook properly imported. Screenshot verification shows no runtime errors. The Norwegian translation key 'community.actions.recurringChallenge' exists in /app/frontend/src/locales/no.json (line 557 and 585). Frontend compiled successfully with hot reload. RESULT: ChallengeDetailModal now displays correctly without runtime errors. Users can view challenge details including recurring challenge indicators with proper translations."
+      - working: true
+        agent: "main"
+        comment: "VERIFICATION COMPLETE - Confirmed all major modal components in Community.js have useTranslation hook: CreateGroupModal ✅, EditGroupModal ✅, AthleteProfileModal ✅, CreateChallengeModal ✅, ChallengeDetailModal ✅, EditChallengeModal ✅, CreateEventModal ✅, EditEventModal ✅, EventDetailModal ✅, CommentsModal ✅, GroupDetailView ✅. No more 't is not defined' errors should occur in the Community feature. All components are ready for full internationalization."
