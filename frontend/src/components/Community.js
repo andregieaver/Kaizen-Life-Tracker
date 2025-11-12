@@ -6201,7 +6201,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
                 }}
                 className="flex-1 px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors"
               >
-                Leave Challenge
+                {translate('community.challenge.leaveChallenge')}
               </button>
             ) : (
               <button
@@ -6212,7 +6212,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
                 className="flex-1 px-4 py-2 rounded-lg bg-[#00C2A8] hover:bg-[#00a890] text-white transition-colors"
               >
                 <Trophy className="w-4 h-4 inline mr-2" />
-                Join Challenge
+                {translate('community.challenge.joinChallenge')}
               </button>
             )}
           </div>
