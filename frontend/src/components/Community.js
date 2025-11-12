@@ -6975,7 +6975,7 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Trophy Badge</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.trophyBadge')}</label>
                 <input
                   type="file"
                   accept="image/*"
