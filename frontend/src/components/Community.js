@@ -6174,7 +6174,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
           {hasJoined && (
             <div className="mb-4">
               <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-400">Your Progress</span>
+                <span className="text-gray-400">{translate('community.challenge.yourProgress')}</span>
                 <span className="text-[#00C2A8] font-semibold">
                   {progress.toFixed(1)} / {goalValue} {challenge.goal_unit}
                 </span>
@@ -6186,7 +6186,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
                 />
               </div>
               <div className="text-right text-xs text-gray-400 mt-1">
-                {percentage.toFixed(1)}% complete
+                {percentage.toFixed(1)}% {translate('community.challenge.complete')}
               </div>
             </div>
           )}
