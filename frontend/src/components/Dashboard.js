@@ -2462,9 +2462,10 @@ const Dashboard = ({ athleteId }) => {
               bottom: '90px',
               right: '16px',
               transform: showCreateMenu 
-                ? `translate(0px, ${-110}px)` // 90° (12 o'clock - straight up)
-                : 'translate(0, 0) scale(0)',
+                ? `translate(0px, calc(${-110}px + ${(1 - footerProgress) * 100}%))` // 90° (12 o'clock - straight up) + scroll animation
+                : `translate(0, ${(1 - footerProgress) * 100}%) scale(0)`,
               transitionDelay: showCreateMenu ? '200ms' : '0ms',
+              willChange: 'transform',
               backgroundColor: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
               backdropFilter: 'blur(8px) saturate(150%)',
               WebkitBackdropFilter: 'blur(8px) saturate(150%)',
