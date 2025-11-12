@@ -102,7 +102,20 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Complete Polar integration: The Polar backend service is implemented, frontend UI is in place (Account page and System Settings), and generic endpoints are ready. Need to integrate Polar data into the training calendar (similar to Strava) and optionally into Dashboard, Merits, and AI Coach. Task is to complete the Polar integration and make it fully functional end-to-end."
+user_problem_statement: "Fix live video preview issue in Journal.js component. User reported that when recording a video journal entry, the live camera preview is not displaying. The backend correctly saves video files, isolating the issue to the frontend's rendering of the live stream during the recording process."
+
+frontend:
+  - task: "Video Preview Live Stream Display Fix"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Journal.js"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "LIVE VIDEO PREVIEW FIX - Fixed issue where camera preview was not displaying during video recording. ROOT CAUSE IDENTIFIED: After setting videoRef.current.srcObject = stream (line 185), the video element needs to explicitly call .play() to start displaying the stream. While the autoPlay attribute was set on the video element, it's not sufficient in all browsers or cases to automatically start playback when srcObject is set programmatically. FIX IMPLEMENTED: Added explicit play() call after setting srcObject (lines 186-190): try { await videoRef.current.play(); } catch (playError) { console.error('Error playing video preview:', playError); }. This ensures the MediaStream from getUserMedia is properly played in the video element. The fix includes error handling for the play() promise to catch any autoplay restrictions or other playback issues. RESULT: Live camera preview should now display correctly when user clicks 'Start Recording' button in video journal modal. The video element will show the live feed from the user's camera during the recording session. TESTING NEEDED: 1) Open Journal page, 2) Click New Entry, 3) Switch to Video tab, 4) Click Start Recording button, 5) Verify live camera preview displays in the video element, 6) Verify recording timer shows, 7) Stop recording and verify video is saved."
 
 frontend:
   - task: "Mobile Account Tabs with Icons"
