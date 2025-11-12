@@ -2300,14 +2300,13 @@ const Dashboard = ({ athleteId }) => {
           {/* Main FAB Button - Bottom Right */}
           <button
             onClick={() => setShowCreateMenu(!showCreateMenu)}
-            className={`md:hidden fixed z-50 w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 ${
+            className={`md:hidden fixed z-50 w-14 h-14 rounded-full shadow-2xl flex items-center justify-center ${
               showCreateMenu ? 'rotate-45' : ''
             }`}
             style={{
-              bottom: '96px',
+              bottom: `calc(96px - ${(1 - footerProgress) * 100}px)`,
               right: '16px',
-              transform: `translateY(${(1 - footerProgress) * 100}%)`,
-              willChange: 'transform',
+              transition: 'transform 300ms, background 300ms, box-shadow 300ms',
               background: showCreateMenu ? 'var(--grad-danger)' : 'var(--grad-brand)',
               boxShadow: showCreateMenu 
                 ? '0 10px 40px rgba(255,100,100,.3)' 
