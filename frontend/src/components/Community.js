@@ -5287,7 +5287,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                           key={idx}
                           className="px-3 py-1 bg-[#00C2A8]/20 text-[#00C2A8] rounded-full text-sm"
                         >
-                          {interest}
+                          {translateInterest(interest)}
                         </span>
                       ))}
                     </div>
