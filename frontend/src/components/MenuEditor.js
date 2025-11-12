@@ -352,13 +352,23 @@ const MenuEditor = ({ athleteId, onBack }) => {
                                 </div>
                               </div>
 
-                              <button
-                                type="button"
-                                onClick={() => removeMenuItem(menuType, item.id)}
-                                className="text-red-400 hover:text-red-300 transition-colors"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
+                              <div className="flex gap-2">
+                                <button
+                                  type="button"
+                                  onClick={() => handleTranslateItem(menuType, item.id, item.label)}
+                                  className="text-blue-400 hover:text-blue-300 transition-colors"
+                                  title="Translate this item to all languages"
+                                >
+                                  <Languages className="w-4 h-4" />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => removeMenuItem(menuType, item.id)}
+                                  className="text-red-400 hover:text-red-300 transition-colors"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
                             </div>
                           )}
                         </div>
