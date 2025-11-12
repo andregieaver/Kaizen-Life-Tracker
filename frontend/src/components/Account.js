@@ -2313,7 +2313,7 @@ const Account = ({ athleteId }) => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="nationality" className="text-sm font-medium text-white">Nationality</Label>
+                      <Label htmlFor="nationality" className="text-sm font-medium text-white">{t('account.nationality')}</Label>
                       <Select
                         value={personalForm.nationality}
                         onValueChange={(value) => setPersonalForm(prev => ({...prev, nationality: value}))}
