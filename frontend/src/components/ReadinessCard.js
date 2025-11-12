@@ -27,8 +27,8 @@ const ReadinessCard = ({ readiness, onRefresh }) => {
     return (
       <Card className="border-0 shadow-lg" style={{ 
         background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
-        backdropFilter: 'blur(12px) saturate(140%)',
-        WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+        backdropFilter: 'blur(24px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(140%)',
         border: '1px solid rgba(255, 255, 255, 0.1)',
         boxShadow: `
           inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
