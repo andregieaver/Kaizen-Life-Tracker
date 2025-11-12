@@ -7161,18 +7161,18 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
           </div>
 
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Connect to Group (Optional)</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.connectToGroup')}</label>
             <select
               value={eventData.group_id || ''}
               onChange={(e) => setEventData({ ...eventData, group_id: e.target.value || null })}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             >
-              <option value="">No group</option>
+              <option value="">{t('community.event.noGroup')}</option>
               {myGroups.map(group => (
                 <option key={group.id} value={group.id}>{group.name}</option>
               ))}
             </select>
-            <p className="text-gray-400 text-xs mt-1">If connected, all group members will be notified</p>
+            <p className="text-gray-400 text-xs mt-1">{t('community.event.groupNotificationHelp')}</p>
           </div>
         </div>
         
