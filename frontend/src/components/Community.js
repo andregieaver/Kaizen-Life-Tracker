@@ -4829,7 +4829,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
                   className="hidden"
                 />
                 <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
-                  {groupData.profile_image ? 'Change Image' : 'Upload Image'}
+                  {groupData.profile_image ? t('common.changeImage') : t('common.uploadImage')}
                 </div>
               </label>
               {groupData.profile_image && (
@@ -4992,7 +4992,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
                   className="hidden"
                 />
                 <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
-                  {groupData.profile_image ? 'Change Image' : 'Upload Image'}
+                  {groupData.profile_image ? t('common.changeImage') : t('common.uploadImage')}
                 </div>
               </label>
               {groupData.profile_image && (
