@@ -2300,21 +2300,23 @@ const Dashboard = ({ athleteId }) => {
           {/* Main FAB Button - Bottom Right */}
           <button
             onClick={() => setShowCreateMenu(!showCreateMenu)}
-            className={`md:hidden fixed z-50 w-14 h-14 rounded-full shadow-2xl flex items-center justify-center ${
-              showCreateMenu ? 'rotate-45' : ''
-            }`}
+            className="md:hidden fixed z-50 w-14 h-14 rounded-full flex items-center justify-center"
             style={{
               bottom: `calc(96px - ${(1 - footerProgress) * 100}px)`,
               right: '16px',
-              transition: 'transform 300ms, background 300ms, box-shadow 300ms',
+              transition: 'background 300ms',
               background: showCreateMenu ? 'var(--grad-danger)' : 'var(--grad-brand)',
               boxShadow: showCreateMenu 
-                ? '0 10px 40px rgba(255,100,100,.3)' 
+                ? 'none' 
                 : '0 10px 40px rgba(50,211,255,.3)'
             }}
             aria-label={showCreateMenu ? "Close menu" : "Create new entry"}
           >
-            <PlusCircle className="w-7 h-7" style={{ color: 'var(--bg-950)' }} />
+            {showCreateMenu ? (
+              <X className="w-7 h-7 text-white" />
+            ) : (
+              <Plus className="w-7 h-7 text-white" />
+            )}
           </button>
 
           {/* Backdrop when menu is open */}
