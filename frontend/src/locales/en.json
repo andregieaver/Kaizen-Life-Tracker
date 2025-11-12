@@ -516,6 +516,9 @@
       "groupProfileImage": "Group Profile Image",
       "groupCoverPhoto": "Group Cover Photo",
       "members": "members",
+      "admin": "admin",
+      "backToGroups": "Back to Groups",
+      "groupMembers": "Group Members",
       "noPostsYet": "No posts yet. Be the first to share something!"
     },
     "event": {
