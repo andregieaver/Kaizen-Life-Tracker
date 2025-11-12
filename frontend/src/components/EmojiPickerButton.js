@@ -9,18 +9,58 @@ const EmojiPickerButton = ({ onEmojiSelect }) => {
   const [showPicker, setShowPicker] = useState(false);
   const pickerRef = useRef(null);
   
-  // Map i18n language codes to emoji-mart locale codes
-  const getEmojiPickerLocale = () => {
-    const langMap = {
-      'no': 'nb',  // Norwegian Bokmål
-      'en': 'en',
-      'de': 'de',
-      'sv': 'sv',
-      'da': 'da',
-      'fr': 'fr',
-      'es': 'es'
+  // Custom translations for emoji picker
+  const getEmojiPickerTranslations = () => {
+    const translations = {
+      'no': {
+        search: 'Søk',
+        search_no_results_1: 'Åh nei!',
+        search_no_results_2: 'Ingen emoji funnet',
+        pick: 'Velg en emoji…',
+        add_custom: 'Legg til egen emoji',
+        categories: {
+          activity: 'Aktivitet',
+          custom: 'Tilpasset',
+          flags: 'Flagg',
+          foods: 'Mat og drikke',
+          frequent: 'Ofte brukt',
+          nature: 'Dyr og natur',
+          objects: 'Objekter',
+          people: 'Smilefjes og personer',
+          places: 'Reise og steder',
+          search: 'Søkeresultater',
+          symbols: 'Symboler'
+        },
+        skins: {
+          choose: 'Velg standard hudtone',
+          1: 'Standard',
+          2: 'Lys',
+          3: 'Middels-lys',
+          4: 'Middels',
+          5: 'Middels-mørk',
+          6: 'Mørk'
+        }
+      },
+      'en': {
+        search: 'Search',
+        search_no_results_1: 'Oh no!',
+        search_no_results_2: 'That emoji couldn\'t be found',
+        pick: 'Pick an emoji…',
+        categories: {
+          activity: 'Activity',
+          flags: 'Flags',
+          foods: 'Food & Drink',
+          frequent: 'Frequently used',
+          nature: 'Animals & Nature',
+          objects: 'Objects',
+          people: 'Smileys & People',
+          places: 'Travel & Places',
+          symbols: 'Symbols'
+        }
+      }
     };
-    return langMap[i18n.language] || 'en';
+    
+    return translations[i18n.language] || translations['en'];
   };
 
   useEffect(() => {
