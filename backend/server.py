@@ -3791,8 +3791,11 @@ async def cascade_profile_picture_update(athlete_id: str, new_profile_picture: s
 @api_router.put("/athlete/{athlete_id}", response_model=AthleteProfile)
 async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
     """Update athlete profile with partial data"""
-    # Get current athlete
+    # Get current athlete - try by id first, then by email as fallback
     athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    if not athlete:
+        # Fallback: treat athlete_id as email if id field doesn't exist
+        athlete = await db.athlete_profiles.find_one({"email": athlete_id}, {"_id": 0})
     if not athlete:
         raise HTTPException(status_code=404, detail="Athlete not found")
     
