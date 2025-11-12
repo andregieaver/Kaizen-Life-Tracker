@@ -515,7 +515,18 @@
     "event": {
       "enterEventName": "Skriv inn arrangementsnavn",
       "describeEvent": "Beskriv arrangementet",
-      "eventLocation": "Arrangementssted"
+      "eventLocation": "Arrangementssted",
+      "eventIcon": "Arrangementsikon",
+      "eventName": "Arrangementsnavn",
+      "date": "Dato",
+      "time": "Tid",
+      "location": "Sted (Valgfritt)",
+      "visibility": "Synlighet",
+      "visibilityOpen": "Åpen - Vises i hovedfeed",
+      "visibilityPrivate": "Privat - Kun i tilkoblet gruppe",
+      "connectToGroup": "Koble til gruppe (Valgfritt)",
+      "noGroup": "Ingen gruppe",
+      "groupNotificationHelp": "Hvis tilkoblet, vil alle gruppemedlemmer bli varslet"
     },
     "challenge": {
       "enterChallengeName": "f.eks., Løp 100km i januar",
