@@ -7127,7 +7127,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
               />
             </div>
             <div>
-              <label className="text-white text-sm font-semibold mb-2 block">Time</label>
+              <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.time')}</label>
               <input
                 type="time"
                 value={eventData.event_time}
@@ -7295,7 +7295,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
               />
             </div>
             <div>
-              <label className="text-white text-sm font-semibold mb-2 block">Time</label>
+              <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.time')}</label>
               <input
                 type="time"
                 value={eventData.event_time}
