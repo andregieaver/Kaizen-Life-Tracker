@@ -6849,7 +6849,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                     onClick={onLeave}
                     className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
                   >
-                    Leave Challenge
+                    {t('community.challenge.leaveChallenge')}
                   </button>
                 ) : (
                   <button
@@ -6857,7 +6857,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                     className="px-6 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors"
                   >
                     <Trophy className="w-4 h-4 inline mr-2" />
-                    Join Challenge
+                    {t('community.challenge.joinChallenge')}
                   </button>
                 )
               )}
@@ -6868,7 +6868,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                 className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
               >
                 <Trash2 className="w-4 h-4 inline mr-2" />
-                Delete Challenge
+                {t('community.challenge.deleteChallenge')}
               </button>
             )}
           </div>
