@@ -75,8 +75,8 @@ const OuraVitalsCard = ({ athleteId }) => {
     return (
       <Card className="border-0 shadow-lg" style={{ 
         background: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
-        backdropFilter: 'blur(8px) saturate(150%)',
-        WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+        backdropFilter: 'blur(16px) saturate(150%)',
+        WebkitBackdropFilter: 'blur(16px) saturate(150%)',
         borderRadius: '12px',
         boxShadow: `
           inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
@@ -110,8 +110,8 @@ const OuraVitalsCard = ({ athleteId }) => {
     return (
       <Card className="border-0 shadow-lg" style={{ 
         background: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
-        backdropFilter: 'blur(8px) saturate(150%)',
-        WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+        backdropFilter: 'blur(16px) saturate(150%)',
+        WebkitBackdropFilter: 'blur(16px) saturate(150%)',
         borderRadius: '12px',
         boxShadow: `
           inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
