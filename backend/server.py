@@ -14500,6 +14500,45 @@ async def update_menus(athlete_id: str, menu_data: MenuSettings):
         logging.error(f"Error updating menus: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to update menus: {str(e)}")
 
+@api_router.post("/system/fix-language")
+async def fix_language(athlete_id: str = Query(..., description="Athlete ID for super admin verification")):
+    """Fix language setting to Norwegian for the current admin user (Super Admin only, TEMPORARY DEBUG)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get the athlete by ID
+        athlete = await db.athlete_profiles.find_one({"id": athlete_id})
+        if not athlete:
+            # Try finding by email if ID doesn't work
+            athlete = await db.athlete_profiles.find_one({"email": "andre@humanweb.no"})
+        
+        if not athlete:
+            raise HTTPException(status_code=404, detail="Athlete profile not found")
+        
+        # Update language to Norwegian
+        email = athlete.get('email')
+        result = await db.athlete_profiles.update_one(
+            {"email": email},
+            {"$set": {"language": "no"}}
+        )
+        
+        # Verify update
+        updated = await db.athlete_profiles.find_one({"email": email})
+        
+        logging.info(f"[FIX LANGUAGE] Updated language for {email} to 'no'")
+        
+        return {
+            "success": True,
+            "email": email,
+            "old_language": athlete.get('language', 'en'),
+            "new_language": updated.get('language'),
+            "message": f"Language updated to Norwegian for {email}. Please refresh your browser."
+        }
+        
+    except Exception as e:
+        logging.error(f"[FIX LANGUAGE] Error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.post("/system/translate-menus")
 async def translate_menus(athlete_id: str = Query(..., description="Athlete ID for super admin verification")):
     """Translate all menu items into available languages using OpenAI (Super Admin only)"""
