@@ -4893,14 +4893,14 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
           </div>
           
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Privacy</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.privacy')}</label>
             <select
               value={groupData.privacy}
               onChange={(e) => setGroupData({ ...groupData, privacy: e.target.value })}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             >
-              <option value="public">Public - Anyone can join</option>
-              <option value="private">Private - Requires approval</option>
+              <option value="public">{t('community.group.privacyPublic')}</option>
+              <option value="private">{t('community.group.privacyPrivate')}</option>
             </select>
           </div>
           <div>
@@ -5056,14 +5056,14 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
           </div>
           
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Privacy</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.privacy')}</label>
             <select
               value={groupData.privacy}
               onChange={(e) => setGroupData({ ...groupData, privacy: e.target.value })}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             >
-              <option value="public">Public - Anyone can join</option>
-              <option value="private">Private - Requires approval</option>
+              <option value="public">{t('community.group.privacyPublic')}</option>
+              <option value="private">{t('community.group.privacyPrivate')}</option>
             </select>
           </div>
           <div>
