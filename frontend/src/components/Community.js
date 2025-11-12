@@ -6325,6 +6325,8 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
 
 // CreateChallengeModal Component
 const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCreate }) => {
+  const { t } = useTranslation();
+  
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
