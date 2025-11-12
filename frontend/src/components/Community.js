@@ -6656,7 +6656,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
               <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
                   <Target className="w-5 h-5 mr-2 text-[#00C2A8]" />
-                  <span className="font-semibold">Goal</span>
+                  <span className="font-semibold">{t('community.challenge.goal')}</span>
                 </div>
                 <p className="text-gray-300 text-lg">
                   {goalValue} {challengeData.goal_unit}
@@ -6671,13 +6671,13 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
               <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
                   <Calendar className="w-5 h-5 mr-2 text-[#00C2A8]" />
-                  <span className="font-semibold">Duration</span>
+                  <span className="font-semibold">{t('community.challenge.duration')}</span>
                 </div>
                 <p className="text-gray-300 text-sm">
                   {new Date(challengeData.start_date).toLocaleDateString()} - {new Date(challengeData.end_date).toLocaleDateString()}
                 </p>
                 <p className={`text-sm mt-1 ${isActive ? 'text-green-400' : 'text-gray-400'}`}>
-                  {isActive ? 'Active' : 'Completed'}
+                  {isActive ? t('community.challenge.active') : t('community.challenge.completed')}
                 </p>
               </div>
             </div>
@@ -6686,7 +6686,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
               <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
                   <UsersIcon className="w-5 h-5 mr-2 text-[#00C2A8]" />
-                  <span className="font-semibold">Participants</span>
+                  <span className="font-semibold">{t('community.challenge.participants')}</span>
                 </div>
                 <p className="text-gray-300 text-2xl">
                   {challengeData.participants_count || 0}
@@ -6698,7 +6698,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
               <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
                   {challengeData.visibility === 'public' ? <Globe className="w-5 h-5 mr-2 text-[#00C2A8]" /> : <Lock className="w-5 h-5 mr-2 text-[#00C2A8]" />}
-                  <span className="font-semibold">Visibility</span>
+                  <span className="font-semibold">{t('community.challenge.visibility')}</span>
                 </div>
                 <p className="text-gray-300 capitalize">
                   {challengeData.visibility} / {challengeData.competition_type}
