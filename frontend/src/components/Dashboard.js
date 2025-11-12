@@ -2372,19 +2372,19 @@ const Dashboard = ({ athleteId }) => {
               navigate('/dashboard/drinks');
               setShowCreateMenu(false);
             }}
-            className={`fixed z-40 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
+            className={`fixed z-40 w-12 h-12 rounded-full flex items-center justify-center ${
               showCreateMenu 
                 ? 'opacity-100 translate-x-0 translate-y-0' 
                 : 'opacity-0 scale-0 pointer-events-none'
             }`}
             style={{
-              bottom: '90px',
+              bottom: `calc(90px - ${(1 - footerProgress) * 100}px)`,
               right: '16px',
               transform: showCreateMenu 
-                ? `translate(${Math.cos(5 * Math.PI / 6) * 110}px, calc(${-Math.sin(5 * Math.PI / 6) * 110}px + ${(1 - footerProgress) * 100}%))` // 150° (10 o'clock) + scroll animation
-                : `translate(0, ${(1 - footerProgress) * 100}%) scale(0)`,
+                ? `translate(${Math.cos(5 * Math.PI / 6) * 110}px, ${-Math.sin(5 * Math.PI / 6) * 110}px)` // 150° (10 o'clock)
+                : 'translate(0, 0) scale(0)',
+              transition: 'transform 300ms, opacity 300ms',
               transitionDelay: showCreateMenu ? '100ms' : '0ms',
-              willChange: 'transform',
               backgroundColor: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
               backdropFilter: 'blur(8px) saturate(150%)',
               WebkitBackdropFilter: 'blur(8px) saturate(150%)',
