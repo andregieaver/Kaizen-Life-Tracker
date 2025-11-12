@@ -14518,12 +14518,32 @@ async def translate_menus(athlete_id: str = Query(..., description="Athlete ID f
         
         logging.info(f"Detected languages for translation: {[l['name'] for l in available_languages]}")
         
-        # Get current menus
+        # Get current menus from database
         settings = await db.system_settings.find_one({})
-        if not settings or 'menus' not in settings:
-            raise HTTPException(status_code=404, detail="No menus found to translate")
         
-        menus = settings['menus']
+        # If no menus in database, use defaults from GET endpoint
+        if not settings or 'menus' not in settings:
+            logging.info("[TRANSLATE] No custom menus found, using defaults")
+            default_menus = {
+                "header_logged_out": [
+                    {"id": str(uuid.uuid4()), "label": "Home", "url": "/", "order": 0},
+                    {"id": str(uuid.uuid4()), "label": "Pricing", "url": "/pricing", "order": 1},
+                    {"id": str(uuid.uuid4()), "label": "Login", "url": "/login", "order": 2}
+                ],
+                "header_logged_in": [
+                    {"id": str(uuid.uuid4()), "label": "Dashboard", "url": "/dashboard", "order": 0},
+                    {"id": str(uuid.uuid4()), "label": "Account", "url": "/dashboard/account", "order": 1}
+                ],
+                "slideout_menu": [
+                    {"id": str(uuid.uuid4()), "label": "Home", "url": "/dashboard/home", "order": 0, "icon": "Home"},
+                    {"id": str(uuid.uuid4()), "label": "Coach Chat", "url": "/dashboard/coach", "order": 1, "icon": "MessageSquare"},
+                    {"id": str(uuid.uuid4()), "label": "", "url": "", "order": 2, "is_separator": True},
+                    {"id": str(uuid.uuid4()), "label": "Account", "url": "/dashboard/account", "order": 3, "icon": "User"}
+                ]
+            }
+            menus = default_menus
+        else:
+            menus = settings['menus']
         translated_count = 0
         
         # Initialize OpenAI client
