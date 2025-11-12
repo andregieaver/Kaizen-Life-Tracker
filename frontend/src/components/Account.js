@@ -2812,7 +2812,7 @@ const Account = ({ athleteId }) => {
                   <h3 className="text-lg font-semibold text-white">{t('account.languageRegion')}</h3>
                   <div className="space-y-2">
                     <Label htmlFor="language" className="text-sm font-medium text-white">{t('account.language')}</Label>
-                    <LanguageSelector />
+                    <LanguageSelector athleteId={athleteId} />
                   </div>
                   
                   <div className="space-y-2">
