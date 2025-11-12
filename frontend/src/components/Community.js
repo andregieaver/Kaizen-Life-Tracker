@@ -6149,10 +6149,10 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
             <div className="flex items-center text-gray-400 text-sm">
               {getChallengeIcon()}
               <span className="ml-2">
-                Goal: {goalValue} {challenge.goal_unit}
+                {translate('community.challenge.goal')}: {goalValue} {challenge.goal_unit}
               </span>
               {challenge.is_recurring && (
-                <RefreshCw className="w-4 h-4 ml-2 text-blue-400" title={t('community.actions.recurringChallenge')} />
+                <RefreshCw className="w-4 h-4 ml-2 text-blue-400" title={translate('community.actions.recurringChallenge')} />
               )}
             </div>
             <div className="flex items-center text-gray-400 text-sm">
@@ -6160,9 +6160,9 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
               {new Date(challenge.start_date).toLocaleDateString()} - {new Date(challenge.end_date).toLocaleDateString()}
             </div>
             <div className="flex items-center space-x-3 text-sm">
-              <span className="text-gray-400">{challenge.participants_count || 0} participants</span>
+              <span className="text-gray-400">{challenge.participants_count || 0} {translate('community.challenge.participants')}</span>
               <span className={`px-2 py-1 rounded text-xs ${isActive ? 'bg-green-500/20 text-green-400' : 'bg-gray-600 text-gray-400'}`}>
-                {isActive ? 'Active' : 'Completed'}
+                {isActive ? translate('community.challenge.active') : translate('community.challenge.completed')}
               </span>
               {challenge.visibility === 'private' && (
                 <Lock className="w-4 h-4 text-gray-400" />
