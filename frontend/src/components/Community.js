@@ -4845,7 +4845,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
 
           {/* Banner Image */}
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Banner Image</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.bannerImage')}</label>
             {groupData.cover_photo && (
               <div className="relative mb-2">
                 <img src={groupData.cover_photo} alt="Banner" className="w-full h-32 object-cover rounded-lg" />
@@ -5008,7 +5008,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
 
           {/* Banner Image */}
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Banner Image</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.bannerImage')}</label>
             {groupData.cover_photo && (
               <div className="relative mb-2">
                 <img src={groupData.cover_photo} alt="Banner" className="w-full h-32 object-cover rounded-lg" />
