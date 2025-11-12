@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global dark theme background for html and body */
+html,
+body {
+  background-color: #0B1220;
+  background: linear-gradient(180deg, #0B1220 0%, #0D1825 50%, #111A23 100%);
+  min-height: 100vh;
+}
+
 /* Override font-display class to use Noto Sans */
 @layer utilities {
   .font-display {
