@@ -6328,7 +6328,8 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
       </div>
     </div>
   </div>
-);
+  );
+};
 
 // CreateChallengeModal Component
 const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCreate }) => {
