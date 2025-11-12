@@ -102,7 +102,20 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Fix live video preview issue in Journal.js component. User reported that when recording a video journal entry, the live camera preview is not displaying. The backend correctly saves video files, isolating the issue to the frontend's rendering of the live stream during the recording process."
+user_problem_statement: "Fix two critical issues: 1) Live video preview not displaying during video journal recording, 2) Strava full sync failing on deployed version with custom domain (while connection and incremental sync work fine)."
+
+frontend:
+  - task: "Strava Full Sync Timeout Fix"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Account.js"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "STRAVA FULL SYNC TIMEOUT FIX - Fixed issue where full sync fails on deployed version with custom domain while incremental sync works. ROOT CAUSE IDENTIFIED: Full sync processes ALL historical activities (from epoch 0) synchronously, which can take several minutes for users with lots of data. The axios.post() request had default timeout (~60s) which caused premature request cancellation. Custom domain deployments have nginx/load balancer timeout limits that terminate long-running requests. Incremental sync works because it only fetches recent activities and completes quickly within timeout window. FIX IMPLEMENTED: Added explicit timeout configuration to all sync handlers (handleStravaSync, handleOuraSync, handleGenericSync) in Account.js: 1) Full sync: 600000ms (10 minutes) timeout to allow processing of large historical datasets, 2) Incremental sync: 120000ms (2 minutes) timeout for normal operations, 3) Applied to all three sync handlers for consistency across all integrations (Strava, Oura, Polar, Fitbit, Garmin, COROS, WHOOP, Suunto). IMPLEMENTATION DETAILS: axios.post(url, {}, { timeout: fullSync ? 600000 : 120000 }). Frontend compiled successfully. TESTING NEEDED: 1) Navigate to Account page on deployed version with custom domain, 2) Connect Strava if not connected, 3) Click 'Full' sync button for Strava, 4) Wait for full sync to complete (may take several minutes depending on activity count), 5) Verify sync completes successfully without timeout error, 6) Verify incremental sync still works with 'Sync' button."
 
 frontend:
   - task: "Video Preview Live Stream Display Fix"
