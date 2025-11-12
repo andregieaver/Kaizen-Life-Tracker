@@ -1116,7 +1116,10 @@
     "bannerImage": "Bannerbilde",
     "uploadBanner": "Last opp banner",
     "changeBanner": "Endre banner",
-    "description": "Beskrivelse"
+    "description": "Beskrivelse",
+    "upload": "Last opp",
+    "change": "Endre",
+    "banner": "Banner"
   },
   "validation": {
     "nameRequired": "Navn er påkrevd",
