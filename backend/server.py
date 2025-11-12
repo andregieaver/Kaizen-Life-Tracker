@@ -3823,8 +3823,12 @@ async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
     if update_data:
         prepared_data = prepare_for_mongo(update_data)
         logging.info(f"[ATHLETE UPDATE] Prepared data for MongoDB: {prepared_data}")
+        
+        # Determine which field to use for update (id or email)
+        update_filter = {"id": athlete_id} if "id" in athlete else {"email": athlete["email"]}
+        
         await db.athlete_profiles.update_one(
-            {"id": athlete_id},
+            update_filter,
             {"$set": prepared_data}
         )
         
@@ -3834,8 +3838,9 @@ async def update_athlete_profile(athlete_id: str, updates: AthleteUpdate):
             if cascade_result:
                 logging.info(f"[PROFILE PICTURE CASCADE] Updated across collections: {cascade_result}")
     
-    # Return updated athlete
-    updated_athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+    # Return updated athlete - use same filter
+    update_filter = {"id": athlete_id} if "id" in athlete else {"email": athlete["email"]}
+    updated_athlete = await db.athlete_profiles.find_one(update_filter, {"_id": 0})
     logging.info(f"[ATHLETE UPDATE] Updated allergies: {updated_athlete.get('allergies')}")
     logging.info(f"[ATHLETE UPDATE] Updated dietary_preferences: {updated_athlete.get('dietary_preferences')}")
     return parse_from_mongo(updated_athlete)
