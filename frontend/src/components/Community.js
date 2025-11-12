@@ -7361,6 +7361,8 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
 
 // EventDetailModal Component
 const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin, loadAthleteProfile, onAddComment, commentText, setCommentText, onEmojiSelect, formatMentions, onDeleteComment }) => {
+  const { t } = useTranslation();
+  
   if (loading || !eventData) {
     return (
       <div 
