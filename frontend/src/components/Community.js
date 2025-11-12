@@ -7090,7 +7090,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
           </div>
 
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Event Name</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.eventName')}</label>
             <input
               type="text"
               value={eventData.name}
