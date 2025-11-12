@@ -6492,7 +6492,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                   onChange={(e) => setChallengeData({ ...challengeData, is_recurring: e.target.checked })}
                   className="mr-2"
                 />
-                <label className="text-sm font-medium text-white">Recurring Challenge</label>
+                <label className="text-sm font-medium text-white">{t('community.challenge.recurringChallenge')}</label>
               </div>
 
               {challengeData.is_recurring && (
