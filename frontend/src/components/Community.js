@@ -6705,7 +6705,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                   <span className="font-semibold">{t('community.challenge.visibility')}</span>
                 </div>
                 <p className="text-gray-300 capitalize">
-                  {challengeData.visibility} / {challengeData.competition_type}
+                  {t(`community.challenge.${challengeData.visibility}`)} / {t(`community.challenge.${challengeData.competition_type}`)}
                 </p>
               </div>
             </div>
