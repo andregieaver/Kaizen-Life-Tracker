@@ -7047,7 +7047,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
         <div className="p-6 space-y-4">
           {/* Profile Image */}
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Event Icon</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.eventIcon')}</label>
             <div className="flex items-center space-x-4">
               {eventData.profile_image ? (
                 <img src={eventData.profile_image} alt="Icon" className="w-20 h-20 rounded-full object-cover" />
