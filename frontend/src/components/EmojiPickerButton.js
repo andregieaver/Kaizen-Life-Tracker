@@ -1,11 +1,27 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { Smile } from 'lucide-react';
 
 const EmojiPickerButton = ({ onEmojiSelect }) => {
+  const { i18n } = useTranslation();
   const [showPicker, setShowPicker] = useState(false);
   const pickerRef = useRef(null);
+  
+  // Map i18n language codes to emoji-mart locale codes
+  const getEmojiPickerLocale = () => {
+    const langMap = {
+      'no': 'nb',  // Norwegian Bokmål
+      'en': 'en',
+      'de': 'de',
+      'sv': 'sv',
+      'da': 'da',
+      'fr': 'fr',
+      'es': 'es'
+    };
+    return langMap[i18n.language] || 'en';
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
