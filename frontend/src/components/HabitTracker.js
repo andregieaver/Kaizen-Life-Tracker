@@ -277,8 +277,8 @@ const HabitTracker = ({ athleteId }) => {
                   className={`transition-all p-4 ${isComplete ? 'ring-2 ring-green-400' : ''}`}
                   style={{ 
                     background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
-                    backdropFilter: 'blur(12px) saturate(140%)',
-                    WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+                    backdropFilter: 'blur(24px) saturate(140%)',
+                    WebkitBackdropFilter: 'blur(24px) saturate(140%)',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     boxShadow: `
                       inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
