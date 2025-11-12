@@ -5254,7 +5254,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                 {/* Interests Section */}
                 {profile.interests && profile.interests.length > 0 && profile.share_interests && (
                   <div className="mb-6">
-                    <h3 className="text-white font-semibold mb-2">Interests</h3>
+                    <h3 className="text-white font-semibold mb-2">{t('community.interests')}</h3>
                     <div className="flex flex-wrap gap-2">
                       {profile.interests.map((interest, idx) => (
                         <span
