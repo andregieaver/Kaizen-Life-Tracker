@@ -4871,7 +4871,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
           </div>
 
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Group Name</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.groupName')}</label>
             <input
               type="text"
               value={groupData.name}
@@ -5034,7 +5034,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
           </div>
 
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Group Name</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.groupName')}</label>
             <input
               type="text"
               value={groupData.name}
