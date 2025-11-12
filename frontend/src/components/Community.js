@@ -6711,7 +6711,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
           {challengeData.description && (
             <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
               <div className="p-4" className="p-4">
-                <h3 className="text-white font-semibold mb-2">Description</h3>
+                <h3 className="text-white font-semibold mb-2">{t('community.challenge.description')}</h3>
                 <p className="text-gray-300">{challengeData.description}</p>
               </div>
             </div>
