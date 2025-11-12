@@ -7191,6 +7191,8 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
 
 // EditEventModal Component (similar to Create but for editing)
 const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) => {
+  const { t } = useTranslation();
+  
   const handleImageUpload = async (e, type) => {
     const file = e.target.files[0];
     if (file) {
