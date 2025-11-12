@@ -533,7 +533,8 @@
       "interested": "Interessert",
       "noParticipantsYet": "Ingen deltakere ennå. Vær den første til å svare ja!",
       "writeComment": "Skriv en kommentar...",
-      "noCommentsYet": "Ingen kommentarer ennå. Vær den første til å kommentere!"
+      "noCommentsYet": "Ingen kommentarer ennå. Vær den første til å kommentere!",
+      "at": "kl."
     },
     "challenge": {
       "enterChallengeName": "f.eks., Løp 100km i januar",
