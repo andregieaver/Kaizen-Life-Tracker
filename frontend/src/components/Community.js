@@ -6591,6 +6591,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
 
 // ChallengeDetailModal Component
 const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJoin, onLeave, onDelete, onAddComment }) => {
+  const { t } = useTranslation();
   const [commentText, setCommentText] = useState('');
 
   if (loading || !challengeData) {
