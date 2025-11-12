@@ -226,6 +226,7 @@
     "changePasswordDescription": "Oppdater passordet til kontoen din",
     "nationality": "Nasjonalitet",
     "selectCountry": "Velg land",
+    "selectLanguage": "Velg språk",
     "dateOfBirth": "Fødselsdato",
     "birthDay": "Dag",
     "birthMonth": "Måned",
