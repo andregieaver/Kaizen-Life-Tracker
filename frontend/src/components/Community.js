@@ -7530,7 +7530,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
           {(!eventData.going_users || eventData.going_users.length === 0) && 
            (!eventData.interested_users || eventData.interested_users.length === 0) && (
             <div className="text-center py-4 sm:py-6">
-              <p className="text-gray-400 text-sm sm:text-base">No participants yet. Be the first to RSVP!</p>
+              <p className="text-gray-400 text-sm sm:text-base">{t('community.event.noParticipantsYet')}</p>
             </div>
           )}
 
