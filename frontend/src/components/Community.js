@@ -7422,8 +7422,8 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                     </div>
                   )}
                   <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm mt-2">
-                    <span className="text-[#00C2A8] font-semibold">{eventData.going_count || 0} Going</span>
-                    <span className="text-yellow-400 font-semibold">{eventData.interested_count || 0} Interested</span>
+                    <span className="text-[#00C2A8] font-semibold">{eventData.going_count || 0} {t('community.event.going')}</span>
+                    <span className="text-yellow-400 font-semibold">{eventData.interested_count || 0} {t('community.event.interested')}</span>
                   </div>
                 </div>
               </div>
