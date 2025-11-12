@@ -6402,7 +6402,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Goal Value *</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.goalValue')}</label>
                 <div className="flex space-x-2">
                   <input
                     type="number"
