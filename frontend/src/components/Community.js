@@ -4687,7 +4687,7 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
       style={{ background: 'var(--grad-surface)' }}
       onClick={onClick}
     >
-      <div className="p-4" className="p-0 sm:p-6">
+      <div className="p-0 sm:p-6">
         {group.cover_photo && (
           <div className="mb-4 sm:mb-4">
             <img src={group.cover_photo} alt={group.name} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
@@ -6091,7 +6091,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
       style={{ background: 'var(--grad-surface)' }}
       onClick={() => onClick(challenge.id)}
     >
-      <div className="p-4" className="p-0 sm:p-6">
+      <div className="p-0 sm:p-6">
         {challenge.cover_photo && (
           <div className="mb-4 sm:mb-4 relative">
             <img src={challenge.cover_photo} alt={challenge.title} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
@@ -6230,7 +6230,7 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
     style={{ background: 'var(--grad-surface)' }}
     onClick={() => onClick(event.id)}
   >
-    <div className="p-4" className="p-0 sm:p-6">
+    <div className="p-0 sm:p-6">
       {event.cover_photo && (
         <div className="mb-4 sm:mb-4 relative">
           <img src={event.cover_photo} alt={event.name} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
