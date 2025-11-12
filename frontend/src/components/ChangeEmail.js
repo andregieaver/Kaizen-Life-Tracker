@@ -187,7 +187,7 @@ const ChangeEmail = ({ athleteId, currentEmail }) => {
               }}
               disabled={isLoading}
             >
-              Cancel
+              {t('account.cancel')}
             </Button>
           </div>
         </form>
