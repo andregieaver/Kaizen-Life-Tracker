@@ -7592,7 +7592,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                   </div>
                 ))
               ) : (
-                <p className="text-gray-400 text-center py-3 sm:py-4 text-sm sm:text-base">No comments yet. Be the first to comment!</p>
+                <p className="text-gray-400 text-center py-3 sm:py-4 text-sm sm:text-base">{t('community.event.noCommentsYet')}</p>
               )}
             </div>
 
@@ -7603,7 +7603,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                 type="text"
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
-                placeholder="Write a comment..."
+                placeholder={t('community.event.writeComment')}
                 className="flex-1 bg-gray-700 text-white rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
                 onKeyPress={(e) => e.key === 'Enter' && onAddComment()}
               />
