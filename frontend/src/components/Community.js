@@ -4771,6 +4771,8 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
 
 // CreateGroupModal Component
 const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
+  const { t } = useTranslation();
+  
   const handleImageUpload = async (e, type) => {
     const file = e.target.files[0];
     if (file) {
