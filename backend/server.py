@@ -14554,6 +14554,123 @@ async def set_language(
         logging.error(f"[SET LANGUAGE] Error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/system/translate-menu-item")
+async def translate_single_menu_item(
+    athlete_id: str = Query(..., description="Athlete ID for super admin verification"),
+    menu_type: str = Query(..., description="Menu type: header_logged_out, header_logged_in, or slideout_menu"),
+    item_id: str = Query(..., description="Menu item ID to translate")
+):
+    """Translate a single menu item into available languages using OpenAI (Super Admin only)"""
+    await verify_super_admin(athlete_id)
+    
+    try:
+        # Get OpenAI key
+        openai_key = os.environ.get('OPENAI_API_KEY')
+        if not openai_key:
+            raise HTTPException(status_code=500, detail="OpenAI API key not configured")
+        
+        openai_key = openai_key.strip()
+        
+        # Get current menus
+        settings = await db.system_settings.find_one({})
+        
+        if not settings or 'menus' not in settings:
+            raise HTTPException(status_code=400, detail="No menus found. Please save menus first.")
+        
+        menus = settings['menus']
+        
+        # Find the specific menu item
+        if menu_type not in menus:
+            raise HTTPException(status_code=400, detail=f"Invalid menu type: {menu_type}")
+        
+        menu_items = menus[menu_type]
+        target_item = None
+        item_index = None
+        
+        for idx, item in enumerate(menu_items):
+            if item.get('id') == item_id:
+                target_item = item
+                item_index = idx
+                break
+        
+        if not target_item:
+            raise HTTPException(status_code=404, detail=f"Menu item with ID {item_id} not found")
+        
+        # Skip separators
+        if target_item.get('is_separator'):
+            raise HTTPException(status_code=400, detail="Cannot translate separator items")
+        
+        label = target_item.get('label', '')
+        if not label:
+            raise HTTPException(status_code=400, detail="Menu item has no label to translate")
+        
+        # Get available languages from locale files
+        locales_dir = os.path.join(os.path.dirname(__file__), '../frontend/src/locales')
+        available_languages = []
+        
+        if os.path.exists(locales_dir):
+            for filename in os.listdir(locales_dir):
+                if filename.endswith('.json') and filename != 'en.json':
+                    lang_code = filename.replace('.json', '')
+                    available_languages.append(lang_code)
+        
+        if not available_languages:
+            available_languages = ['no', 'sv', 'da', 'de', 'es', 'fr']
+        
+        logging.info(f"[TRANSLATE ITEM] Translating '{label}' to {len(available_languages)} languages")
+        
+        # Initialize OpenAI client
+        client = openai.OpenAI(api_key=openai_key)
+        
+        # Translate to each language
+        if 'translations' not in target_item:
+            target_item['translations'] = {}
+        
+        for lang_code in available_languages:
+            try:
+                response = client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {"role": "system", "content": f"You are a translator. Translate the following menu item label to {lang_code}. Return ONLY the translated text, nothing else."},
+                        {"role": "user", "content": label}
+                    ],
+                    max_tokens=50,
+                    temperature=0.3
+                )
+                
+                translated_text = response.choices[0].message.content.strip()
+                target_item['translations'][lang_code] = translated_text
+                logging.info(f"Translated '{label}' to {lang_code.upper()}: '{translated_text}'")
+                
+            except Exception as e:
+                logging.error(f"Failed to translate '{label}' to {lang_code}: {e}")
+        
+        # Update the menu item in the database
+        menus[menu_type][item_index] = target_item
+        
+        await db.system_settings.update_one(
+            {},
+            {"$set": {"menus": menus}},
+            upsert=True
+        )
+        
+        logging.info(f"[TRANSLATE ITEM] Successfully translated menu item: {label}")
+        
+        return {
+            "success": True,
+            "item_id": item_id,
+            "label": label,
+            "translations": target_item['translations'],
+            "languages": list(target_item['translations'].keys()),
+            "message": f"Translated '{label}' to {len(target_item['translations'])} languages"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"[TRANSLATE ITEM] Error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.post("/system/translate-menus")
 async def translate_menus(athlete_id: str = Query(..., description="Athlete ID for super admin verification")):
     """Translate all menu items into available languages using OpenAI (Super Admin only)"""
