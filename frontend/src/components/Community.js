@@ -4882,7 +4882,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
           </div>
           
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Description</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.description')}</label>
             <textarea
               value={groupData.description}
               onChange={(e) => setGroupData({ ...groupData, description: e.target.value })}
@@ -5045,7 +5045,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
           </div>
           
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Description</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.description')}</label>
             <textarea
               value={groupData.description}
               onChange={(e) => setGroupData({ ...groupData, description: e.target.value })}
@@ -7275,7 +7275,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
           </div>
           
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Description</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.description')}</label>
             <textarea
               value={eventData.description}
               onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
