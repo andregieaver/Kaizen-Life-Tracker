@@ -10,7 +10,7 @@ import sys
 from datetime import datetime, timezone, timedelta
 
 # Backend URL from environment
-BACKEND_URL = "https://multi-device-sync.preview.emergentagent.com/api"
+BACKEND_URL = "https://vitals-dash-1.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""
