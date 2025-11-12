@@ -6389,15 +6389,15 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Challenge Type *</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.challengeType')}</label>
                 <select
                   value={challengeData.challenge_type}
                   onChange={(e) => handleChallengeTypeChange(e.target.value)}
                   className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
                 >
-                  <option value="distance">Distance</option>
-                  <option value="activity_count">Activity Count</option>
-                  <option value="duration">Duration</option>
+                  <option value="distance">{t('community.challenge.typeDistance')}</option>
+                  <option value="activity_count">{t('community.challenge.typeActivityCount')}</option>
+                  <option value="duration">{t('community.challenge.typeDuration')}</option>
                 </select>
               </div>
 
