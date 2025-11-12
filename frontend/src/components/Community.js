@@ -5437,8 +5437,11 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
 const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage, newPostImagePreview,
   editingPost, editContent, showComments, commentText, setNewPostContent, setNewPostImage, 
   setNewPostImagePreview, setEditingPost, setEditContent, setCommentText,
-  handleCreateGroupPost, handleImageSelect, onBack, onLeave, onEditGroup, loadAthleteProfile }) => (
-  <div className="space-y-6 pt-12 md:pt-0">
+  handleCreateGroupPost, handleImageSelect, onBack, onLeave, onEditGroup, loadAthleteProfile }) => {
+  const { t } = useTranslation();
+  
+  return (
+    <div className="space-y-6 pt-12 md:pt-0">
     {/* Group Header */}
     <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
       <div className="p-4" className="p-6">
