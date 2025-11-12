@@ -7439,7 +7439,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
 
           {/* Description */}
           <div className="mb-4 sm:mb-6">
-            <h3 className="text-base sm:text-lg font-semibold text-white mb-2">About This Event</h3>
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-2">{t('community.event.aboutThisEvent')}</h3>
             <p className="text-gray-300 text-sm sm:text-base whitespace-pre-wrap">{eventData.description}</p>
           </div>
 
