@@ -238,6 +238,7 @@
     "changePasswordDescription": "Update your account password",
     "nationality": "Nationality",
     "selectCountry": "Select Country",
+    "selectLanguage": "Select Language",
     "dateOfBirth": "Date of Birth",
     "birthDay": "Day",
     "birthMonth": "Month",
