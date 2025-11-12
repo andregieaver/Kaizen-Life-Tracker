@@ -5414,12 +5414,12 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                   {profile.is_following ? (
                     <>
                       <UserMinus className="w-4 h-4 mr-2" />
-                      Unfollow
+                      {t('athlete.unfollow')}
                     </>
                   ) : (
                     <>
                       <UserPlus className="w-4 h-4 mr-2" />
-                      Follow
+                      {t('athlete.follow')}
                     </>
                   )}
                 </Button>
