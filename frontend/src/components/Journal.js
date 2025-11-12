@@ -183,6 +183,12 @@ const Journal = ({ athleteId }) => {
       // Show live preview
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        // Explicitly play the video to ensure preview shows
+        try {
+          await videoRef.current.play();
+        } catch (playError) {
+          console.error('Error playing video preview:', playError);
+        }
       }
       
       // Start recording
