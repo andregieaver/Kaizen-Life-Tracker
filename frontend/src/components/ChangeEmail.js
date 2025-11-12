@@ -194,7 +194,7 @@ const ChangeEmail = ({ athleteId, currentEmail }) => {
 
         <div className="mt-4 p-3 bg-gray-700/50 border border-gray-600 rounded-lg">
           <p className="text-sm text-gray-300">
-            <strong>Note:</strong> After changing your email, you'll need to log in again using your new email address.
+            <strong>{t('account.note')}:</strong> {t('account.emailChangeNote')}
           </p>
         </div>
       </CardContent>
