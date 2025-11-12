@@ -1104,7 +1104,13 @@
     "createEvent": "Opprett arrangement",
     "createChallenge": "Opprett utfordring",
     "createGroup": "Opprett gruppe",
-    "saveChanges": "Lagre endringer"
+    "saveChanges": "Lagre endringer",
+    "uploadImage": "Last opp bilde",
+    "changeImage": "Endre bilde",
+    "bannerImage": "Bannerbilde",
+    "uploadBanner": "Last opp banner",
+    "changeBanner": "Endre banner",
+    "description": "Beskrivelse"
   },
   "validation": {
     "nameRequired": "Navn er påkrevd",
