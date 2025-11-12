@@ -335,8 +335,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Mobile Account Tabs with Icons"
-    - "Share Post Modal and Rendering"
+    - "Video Preview Live Stream Display Fix"
+    - "Strava Full Sync Timeout Fix"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -346,6 +346,8 @@ agent_communication:
     message: "VIDEO PREVIEW FIX IMPLEMENTED - Fixed critical bug where live camera preview was not displaying during video journal recording. ROOT CAUSE: After setting srcObject on video element, explicit play() call was missing. SOLUTION: Added await videoRef.current.play() after setting srcObject to ensure MediaStream displays correctly. Includes error handling for play() promise. Frontend will hot-reload changes. TESTING NEEDED: 1) Navigate to Journal page, 2) Open New Entry modal, 3) Switch to Video tab, 4) Click Start Recording, 5) Verify live camera preview shows during recording. Ready for frontend testing to verify fix works correctly."
   - agent: "testing"
     message: "✅ VIDEO PREVIEW FIX VERIFIED - Code analysis confirms the fix is correctly implemented. The explicit play() call after setting srcObject addresses the root cause where autoPlay attribute alone is insufficient for programmatically set MediaStreams. Authentication system issues (bcrypt warnings, 401 errors) prevented full browser testing, but the code structure verification shows the fix follows browser best practices and should resolve the live camera preview issue. The implementation includes proper error handling and async/await patterns. Fix is production-ready."
+  - agent: "main"
+    message: "STRAVA FULL SYNC TIMEOUT FIX IMPLEMENTED - User reported full sync failing on deployed version with custom domain while incremental sync works. Called troubleshoot_agent for RCA. ROOT CAUSE: Full sync processes ALL historical activities synchronously (from epoch 0) which takes several minutes, but axios.post() had default timeout (~60s) and deployment nginx/proxy has timeout limits that terminate long requests. Incremental sync works because it completes quickly. FIX: Added explicit timeout configuration to all sync handlers (handleStravaSync, handleOuraSync, handleGenericSync): 10 minutes for full sync, 2 minutes for incremental. Applied to all 8 integrations. Frontend compiled successfully. TESTING NEEDED: Test full sync on deployed version with custom domain to verify it completes without timeout error."
 
 agent_communication:
   - agent: "main"
