@@ -128,7 +128,7 @@ const EmojiPickerButton = ({ onEmojiSelect }) => {
                 emojiButtonSize={36}
                 maxFrequentRows={2}
                 perLine={8}
-                locale={getEmojiPickerLocale()}
+                i18n={getEmojiPickerTranslations()}
                 style={{
                   width: '320px',
                   backgroundColor: '#1f2937',
