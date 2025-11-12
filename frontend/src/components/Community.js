@@ -6280,7 +6280,7 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
           <div className="space-y-1">
             <div className="flex items-center text-gray-400 text-sm">
               <Clock className="w-4 h-4 mr-2" />
-              {new Date(event.event_date).toLocaleDateString()} at {event.event_time}
+              {new Date(event.event_date).toLocaleDateString()} {t('community.event.at')} {event.event_time}
             </div>
             {event.location && (
               <div className="flex items-center text-gray-400 text-sm">
