@@ -8,7 +8,7 @@ import { Droppable } from 'react-beautiful-dnd';
  * React 18's StrictMode causes double-mounting which breaks react-beautiful-dnd.
  * This wrapper delays the enablement of the droppable until after initial mount.
  */
-export const StrictModeDroppable = ({ children, ...props }) => {
+export const StrictModeDroppable = ({ children, isDropDisabled = false, ...props }) => {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
@@ -23,5 +23,5 @@ export const StrictModeDroppable = ({ children, ...props }) => {
     return null;
   }
 
-  return <Droppable {...props}>{children}</Droppable>;
+  return <Droppable {...props} isDropDisabled={isDropDisabled}>{children}</Droppable>;
 };
