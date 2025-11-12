@@ -6538,7 +6538,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Trophy Badge (Square)</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.trophyBadge')}</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -6559,7 +6559,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                 {challengeData.trophy_image && (
                   <img src={challengeData.trophy_image} alt="Trophy preview" className="mt-2 w-32 h-32 object-cover rounded-lg mx-auto" />
                 )}
-                <p className="text-xs text-gray-400 mt-1">Awarded to users who complete this challenge</p>
+                <p className="text-xs text-gray-400 mt-1">{t('community.challenge.trophyHelp')}</p>
               </div>
             </div>
 
