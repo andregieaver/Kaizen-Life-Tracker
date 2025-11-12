@@ -7446,7 +7446,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
           {/* Participants Going */}
           {eventData.going_users && eventData.going_users.length > 0 && (
             <div className="mb-4 sm:mb-6">
-              <h3 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3">Going ({eventData.going_count || 0})</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3">{t('community.event.going')} ({eventData.going_count || 0})</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {eventData.going_users.map((user) => (
                   <div 
