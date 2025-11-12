@@ -14457,6 +14457,31 @@ async def update_menus(athlete_id: str, menu_data: MenuSettings):
         # Convert Pydantic models to dict
         menus_dict = menu_data.model_dump()
         
+        # PRESERVE EXISTING TRANSLATIONS when updating menus
+        # Get existing menus from database
+        existing_settings = await db.system_settings.find_one({})
+        if existing_settings and 'menus' in existing_settings:
+            existing_menus = existing_settings['menus']
+            
+            # For each menu type, preserve translations
+            for menu_type in ['header_logged_out', 'header_logged_in', 'slideout_menu']:
+                if menu_type in menus_dict and menu_type in existing_menus:
+                    new_items = menus_dict[menu_type]
+                    old_items = existing_menus[menu_type]
+                    
+                    # Create a map of old items by ID for quick lookup
+                    old_items_map = {item.get('id'): item for item in old_items if item.get('id')}
+                    
+                    # Preserve translations for matching items
+                    for new_item in new_items:
+                        item_id = new_item.get('id')
+                        if item_id and item_id in old_items_map:
+                            old_item = old_items_map[item_id]
+                            # Copy translations from old item to new item
+                            if 'translations' in old_item:
+                                new_item['translations'] = old_item['translations']
+                                logging.info(f"Preserved translations for item: {new_item.get('label', 'unknown')}")
+        
         # Update or create system settings with menus
         await db.system_settings.update_one(
             {},
