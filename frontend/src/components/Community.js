@@ -7101,7 +7101,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
           </div>
           
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Description</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.description')}</label>
             <div className="relative">
               <textarea
                 value={eventData.description}
