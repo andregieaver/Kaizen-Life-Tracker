@@ -5116,6 +5116,32 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
 
   const age = profile?.date_of_birth ? calculateAge(profile.date_of_birth) : null;
 
+  // Translate interest names using account settings translations
+  const translateInterest = (interest) => {
+    // Map interest names to translation keys
+    const interestKeyMap = {
+      'Running': 'account.interestRunning',
+      'Cycling': 'account.interestCycling',
+      'Swimming': 'account.interestSwimming',
+      'Triathlon': 'account.interestTriathlon',
+      'Marathon': 'account.interestMarathon',
+      'Ultramarathon': 'account.interestUltramarathon',
+      'Trail Running': 'account.interestTrailRunning',
+      'Strength Training': 'account.interestStrengthTraining',
+      'Yoga': 'account.interestYoga',
+      'CrossFit': 'account.interestCrossFit',
+      'Hiking': 'account.interestHiking',
+      'Basketball': 'account.interestBasketball',
+      'Tennis': 'account.interestTennis',
+      'Rock Climbing': 'account.interestRockClimbing',
+      'Fitness': 'account.interestFitness',
+      'Nutrition': 'account.interestNutrition'
+    };
+
+    const key = interestKeyMap[interest];
+    return key ? t(key) : interest; // Fallback to original if no translation found
+  };
+
   // Load user posts when Posts tab is clicked
   useEffect(() => {
     if (activeTab === 'posts' && profile?.id) {
