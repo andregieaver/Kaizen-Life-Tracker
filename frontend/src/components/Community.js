@@ -6834,7 +6834,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500 text-center py-4">No comments yet. Be the first to comment!</p>
+                  <p className="text-gray-500 text-center py-4">{t('community.challenge.noCommentsYet')}</p>
                 )}
               </div>
             </div>
