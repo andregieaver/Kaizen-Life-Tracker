@@ -6448,7 +6448,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">End Date *</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.endDate')}</label>
                 <input
                   type="date"
                   value={challengeData.end_date}
