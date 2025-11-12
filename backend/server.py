@@ -17469,7 +17469,7 @@ async def get_integration_status(provider: str, user_id: str):
         return {"connected": False}
 
 @api_router.post("/integrations/{provider}/{user_id}/sync")
-async def sync_integration_data(provider: str, user_id: str, force_full: bool = False):
+async def sync_integration_data(provider: str, user_id: str, force_full: bool = Query(False, description="Force full sync from epoch 0")):
     """Generic sync for any provider"""
     try:
         logging.info(f"[{provider.upper()} SYNC] Initiating sync for user: {user_id}, force_full={force_full}")
