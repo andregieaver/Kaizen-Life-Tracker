@@ -2332,19 +2332,19 @@ const Dashboard = ({ athleteId }) => {
               navigate('/dashboard/journal?action=voice');
               setShowCreateMenu(false);
             }}
-            className={`fixed z-40 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
+            className={`fixed z-40 w-12 h-12 rounded-full flex items-center justify-center ${
               showCreateMenu 
                 ? 'opacity-100 translate-x-0 translate-y-0' 
                 : 'opacity-0 scale-0 pointer-events-none'
             }`}
             style={{
-              bottom: '90px',
+              bottom: `calc(90px - ${(1 - footerProgress) * 100}px)`,
               right: '16px',
               transform: showCreateMenu 
-                ? `translate(${-110}px, ${(1 - footerProgress) * 100}%)` // 180° (9 o'clock - straight left) + scroll animation
-                : `translate(0, ${(1 - footerProgress) * 100}%) scale(0)`,
+                ? `translate(${-110}px, 0px)` // 180° (9 o'clock - straight left)
+                : 'translate(0, 0) scale(0)',
+              transition: 'transform 300ms, opacity 300ms',
               transitionDelay: showCreateMenu ? '50ms' : '0ms',
-              willChange: 'transform',
               backgroundColor: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
               backdropFilter: 'blur(8px) saturate(150%)',
               WebkitBackdropFilter: 'blur(8px) saturate(150%)',
