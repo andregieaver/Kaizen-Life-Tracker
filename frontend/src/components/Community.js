@@ -5931,8 +5931,8 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
                       <p className="text-gray-400 text-sm line-clamp-1">{athlete.bio}</p>
                     )}
                     <div className="flex items-center space-x-4 mt-1">
-                      <span className="text-gray-400 text-xs">{athlete.posts_count} posts</span>
-                      <span className="text-gray-400 text-xs">{athlete.followers_count} followers</span>
+                      <span className="text-gray-400 text-xs">{athlete.posts_count} {t('community.posts').toLowerCase()}</span>
+                      <span className="text-gray-400 text-xs">{athlete.followers_count} {t('community.followers').toLowerCase()}</span>
                     </div>
                   </div>
 
