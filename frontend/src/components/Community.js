@@ -7138,7 +7138,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
           </div>
 
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Location (Optional)</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.location')}</label>
             <input
               type="text"
               value={eventData.location}
