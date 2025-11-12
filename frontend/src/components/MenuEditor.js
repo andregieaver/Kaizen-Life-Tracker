@@ -79,6 +79,27 @@ const MenuEditor = ({ athleteId, onBack }) => {
     }
   };
 
+  const handleFixLanguage = async () => {
+    if (!confirm('TEMPORARY DEBUG: This will set your language to Norwegian. Continue?')) {
+      return;
+    }
+    
+    try {
+      const response = await axios.post(`${API}/system/fix-language?athlete_id=${athleteId}`);
+      
+      alert(`✅ ${response.data.message}\n\nOld: ${response.data.old_language}\nNew: ${response.data.new_language}\n\nPlease REFRESH your browser now!`);
+      
+      // Give user time to read message before auto-refresh
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } catch (error) {
+      console.error('Error fixing language:', error);
+      const errorMsg = error.response?.data?.detail || 'Failed to fix language';
+      alert(errorMsg);
+    }
+  };
+
   const addMenuItem = (menuType) => {
     const newItem = {
       id: `item-${Date.now()}`,
