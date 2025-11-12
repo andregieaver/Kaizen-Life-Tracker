@@ -1891,7 +1891,11 @@ const Account = ({ athleteId }) => {
         ? `${API}/integrations/oura/${athleteId}/sync?force_full=true`
         : `${API}/integrations/oura/${athleteId}/sync`;
       
-      const response = await axios.post(url);
+      // Full sync can take several minutes for users with lots of historical data
+      // Set longer timeout to prevent premature request cancellation
+      const response = await axios.post(url, {}, {
+        timeout: fullSync ? 600000 : 120000 // 10 minutes for full sync, 2 minutes for incremental
+      });
       const imported = response.data.imported || 0;
       const total = response.data.total_activities || 0;
       
