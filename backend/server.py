@@ -17136,16 +17136,16 @@ async def sync_strava_activities(request: Request):
 
 
 @api_router.post("/integrations/strava/{user_id}/sync")
-async def sync_strava_activities_by_user(user_id: str):
+async def sync_strava_activities_by_user(user_id: str, force_full: bool = Query(False, description="Force full sync from epoch 0")):
     """
     Sync activities from Strava to database (frontend-compatible endpoint)
     """
     try:
-        print(f"🔄 [STRAVA SYNC] user_id={user_id}")
-        logging.info(f"[STRAVA SYNC] Initiating sync for user: {user_id}")
+        print(f"🔄 [STRAVA SYNC] user_id={user_id}, force_full={force_full}")
+        logging.info(f"[STRAVA SYNC] Initiating sync for user: {user_id}, force_full={force_full}")
         
         strava_service = StravaService(db)
-        result = await strava_service.sync_activities(user_id)
+        result = await strava_service.sync_activities(user_id, force_full_sync=force_full)
         
         print(f"🟢 [STRAVA SYNC SUCCESS] Synced {result.get('synced_count', 0)} activities")
         logging.info(f"[STRAVA SYNC] Completed: {result}")
