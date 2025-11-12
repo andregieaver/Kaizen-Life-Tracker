@@ -3368,7 +3368,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                       : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
                   }`}
                 >
-                  {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                  {t(`community.challenge.${filter}`)}
                 </button>
               ))}
             </div>
