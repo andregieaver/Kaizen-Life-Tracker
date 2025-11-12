@@ -6599,7 +6599,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg p-8">
           <RefreshCw className="w-8 h-8 text-[#00C2A8] animate-spin mx-auto" />
-          <p className="text-white mt-4">Loading challenge...</p>
+          <p className="text-white mt-4">{t('community.challenge.loadingChallenge')}</p>
         </div>
       </div>
     );
