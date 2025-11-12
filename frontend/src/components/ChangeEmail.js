@@ -113,7 +113,7 @@ const ChangeEmail = ({ athleteId, currentEmail }) => {
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="currentEmail" className="text-sm font-medium text-white">Current Email</Label>
+            <Label htmlFor="currentEmail" className="text-sm font-medium text-white">{t('account.currentEmail')}</Label>
             <Input
               id="currentEmail"
               type="email"
@@ -124,14 +124,14 @@ const ChangeEmail = ({ athleteId, currentEmail }) => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="newEmail" className="text-sm font-medium text-white">New Email Address</Label>
+            <Label htmlFor="newEmail" className="text-sm font-medium text-white">{t('account.newEmailAddress')}</Label>
             <Input
               id="newEmail"
               name="newEmail"
               type="email"
               value={formData.newEmail}
               onChange={handleInputChange}
-              placeholder="Enter your new email"
+              placeholder={t('account.enterNewEmail')}
               className="text-white placeholder:text-gray-500"
               style={{ backgroundColor: '#111827', borderColor: '#374151' }}
               required
@@ -140,14 +140,14 @@ const ChangeEmail = ({ athleteId, currentEmail }) => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-sm font-medium text-white">Confirm Password</Label>
+            <Label htmlFor="password" className="text-sm font-medium text-white">{t('account.confirmPassword')}</Label>
             <Input
               id="password"
               name="password"
               type="password"
               value={formData.password}
               onChange={handleInputChange}
-              placeholder="Enter your password to confirm"
+              placeholder={t('account.enterPasswordConfirm')}
               className="text-white placeholder:text-gray-500"
               style={{ backgroundColor: '#111827', borderColor: '#374151' }}
               required
