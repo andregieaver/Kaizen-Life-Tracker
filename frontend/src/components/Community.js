@@ -6789,7 +6789,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
           {/* Comments */}
           <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
             <div className="p-4" className="p-4">
-              <h3 className="text-white font-semibold mb-4">Comments</h3>
+              <h3 className="text-white font-semibold mb-4">{t('community.challenge.comments')}</h3>
               
               {/* Add Comment */}
               <div className="flex space-x-2 mb-4">
