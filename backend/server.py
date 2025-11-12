@@ -14483,12 +14483,17 @@ async def update_menus(athlete_id: str, menu_data: MenuSettings):
                                 logging.info(f"Preserved translations for item: {new_item.get('label', 'unknown')}")
         
         # Update or create system settings with menus
-        await db.system_settings.update_one(
+        logging.info(f"[MENU SAVE] Saving menus for {athlete_id}")
+        logging.info(f"[MENU SAVE] Menu types: {list(menus_dict.keys())}")
+        logging.info(f"[MENU SAVE] Total items: {sum(len(menus_dict.get(k, [])) for k in menus_dict.keys())}")
+        
+        result = await db.system_settings.update_one(
             {},
             {"$set": {"menus": menus_dict}},
             upsert=True
         )
         
+        logging.info(f"[MENU SAVE] MongoDB result: matched={result.matched_count}, modified={result.modified_count}")
         logging.info(f"Menus updated by {athlete_id}")
         return {"message": "Menus updated successfully", "menus": menus_dict}
     except Exception as e:
