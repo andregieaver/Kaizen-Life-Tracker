@@ -224,6 +224,8 @@
     "note": "Merk",
     "changePassword": "Endre passord",
     "changePasswordDescription": "Oppdater passordet til kontoen din",
+    "nationality": "Nasjonalitet",
+    "selectCountry": "Velg land",
     "dateOfBirth": "Fødselsdato",
     "birthDay": "Dag",
     "birthMonth": "Måned",
