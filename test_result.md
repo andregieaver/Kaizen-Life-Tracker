@@ -322,7 +322,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Video Preview Live Stream Display Fix"
+    - "Mobile Account Tabs with Icons"
+    - "Share Post Modal and Rendering"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
