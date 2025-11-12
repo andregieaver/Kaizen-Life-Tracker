@@ -5192,7 +5192,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                   {profile.name}
                   <SubscriptionBadge subscriptionTier={profile.subscription_tier} />
                 </h2>
-                {age && <p className="text-gray-400 text-sm">{age} years old</p>}
+                {age && <p className="text-gray-400 text-sm">{t('community.yearsOld', { age })}</p>}
               </div>
             </div>
             
