@@ -5449,7 +5449,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
           onClick={onBack}
           className="text-[#00C2A8] hover:underline mb-4 flex items-center"
         >
-          ← Back to Groups
+          ← {t('community.group.backToGroups')}
         </button>
         
         {group.cover_photo && (
