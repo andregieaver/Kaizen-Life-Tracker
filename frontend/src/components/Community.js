@@ -6875,6 +6875,8 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
 
 // EditChallengeModal Component
 const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }) => {
+  const { t } = useTranslation();
+  
   const handleImageUpload = async (e, type) => {
     const file = e.target.files[0];
     if (file) {
