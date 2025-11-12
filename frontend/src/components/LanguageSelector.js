@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Label } from './ui/label';
 import { Globe } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+const API = `${BACKEND_URL}/api`;
 
 const LanguageSelector = () => {
   const { i18n, t } = useTranslation();
+  const { athleteId } = useContext(AuthContext);
 
   const languages = [
     { code: 'en', name: 'English', flag: '🇬🇧' },
@@ -16,8 +22,22 @@ const LanguageSelector = () => {
     { code: 'fr', name: 'Français', flag: '🇫🇷' }
   ];
 
-  const changeLanguage = (lng) => {
+  const changeLanguage = async (lng) => {
+    // Change UI language immediately
     i18n.changeLanguage(lng);
+    
+    // Save language preference to athlete profile in database
+    if (athleteId) {
+      try {
+        await axios.put(`${API}/athlete/${athleteId}`, { language: lng });
+        console.log(`Language preference saved: ${lng}`);
+        
+        // Trigger menu reload to apply new translations
+        window.dispatchEvent(new Event('menusUpdated'));
+      } catch (error) {
+        console.error('Error saving language preference:', error);
+      }
+    }
   };
 
   return (
