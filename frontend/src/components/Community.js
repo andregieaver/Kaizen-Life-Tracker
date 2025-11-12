@@ -7004,6 +7004,8 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
 
 // CreateEventModal Component
 const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups, onEmojiSelect }) => {
+  const { t } = useTranslation();
+  
   const handleImageUpload = async (e, type) => {
     const file = e.target.files[0];
     if (file) {
