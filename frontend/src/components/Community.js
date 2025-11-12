@@ -5602,7 +5602,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
     {group.members && group.member_role && ['admin', 'manager'].includes(group.member_role) && (
       <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
         <div className="p-4" className="p-6">
-          <h3 className="text-xl font-bold text-white mb-4">Group Members</h3>
+          <h3 className="text-xl font-bold text-white mb-4">{t('community.group.groupMembers')}</h3>
           <div className="space-y-3">
             {group.members.map(member => (
               <div key={member.id} className="flex items-center justify-between bg-gray-600 rounded-lg p-4">
