@@ -100,6 +100,29 @@ const MenuEditor = ({ athleteId, onBack }) => {
     }
   };
 
+  const handleTranslateItem = async (menuType, itemId, itemLabel) => {
+    if (!confirm(`Translate "${itemLabel}" to all available languages?`)) {
+      return;
+    }
+    
+    try {
+      const response = await axios.post(
+        `${API}/system/translate-menu-item?athlete_id=${athleteId}&menu_type=${menuType}&item_id=${itemId}`
+      );
+      
+      // Show translation results
+      const languages = response.data.languages.join(', ');
+      alert(`✅ Successfully translated "${itemLabel}" to:\n${languages}\n\nTranslations:\n${JSON.stringify(response.data.translations, null, 2)}`);
+      
+      // Reload menus to show updated translations
+      await loadMenus();
+    } catch (error) {
+      console.error('Error translating item:', error);
+      const errorMsg = error.response?.data?.detail || 'Failed to translate menu item';
+      alert(errorMsg);
+    }
+  };
+
   const addMenuItem = (menuType) => {
     const newItem = {
       id: `item-${Date.now()}`,
