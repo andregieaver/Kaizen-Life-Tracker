@@ -517,6 +517,7 @@
       "groupCoverPhoto": "Group Cover Photo",
       "members": "members",
       "admin": "admin",
+      "moderator": "moderator",
       "backToGroups": "Back to Groups",
       "groupMembers": "Group Members",
       "noPostsYet": "No posts yet. Be the first to share something!"
