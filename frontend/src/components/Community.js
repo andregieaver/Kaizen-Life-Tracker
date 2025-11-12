@@ -5721,7 +5721,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               />
               <div className="flex items-center space-x-2 px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg transition-colors">
                 <Camera className="w-5 h-5 text-[#00C2A8]" />
-                <span className="text-white text-sm">Add Photo</span>
+                <span className="text-white text-sm">{t('community.actions.addPhoto')}</span>
               </div>
             </label>
             
