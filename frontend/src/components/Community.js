@@ -7149,14 +7149,14 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
           </div>
           
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Visibility</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.visibility')}</label>
             <select
               value={eventData.visibility}
               onChange={(e) => setEventData({ ...eventData, visibility: e.target.value })}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             >
-              <option value="open">Open - Appears in main feed</option>
-              <option value="private">Private - Only in connected group</option>
+              <option value="open">{t('community.event.visibilityOpen')}</option>
+              <option value="private">{t('community.event.visibilityPrivate')}</option>
             </select>
           </div>
 
