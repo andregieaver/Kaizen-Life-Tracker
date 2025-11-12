@@ -4165,9 +4165,9 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 </Button>
                 <Button
                   onClick={submitSharePost}
-                  className="px-6 py-2 bg-[#00C2A8] hover:bg-[#00A896] text-white rounded-lg transition-colors"
+                  className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
                 >
-                  Share
+                  {t('common.share')}
                 </Button>
               </div>
             </div>
