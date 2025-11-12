@@ -4937,6 +4937,8 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
 
 // EditGroupModal Component (same as CreateGroupModal but for editing)
 const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
+  const { t } = useTranslation();
+  
   const handleImageUpload = async (e, type) => {
     const file = e.target.files[0];
     if (file) {
