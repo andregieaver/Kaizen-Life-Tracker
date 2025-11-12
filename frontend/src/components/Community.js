@@ -6309,7 +6309,7 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
             }`}
           >
             <Star className={`w-4 h-4 inline mr-2 ${event.user_status === 'interested' ? 'fill-current' : ''}`} />
-            Interested
+            {t('community.event.interested')}
           </button>
           <button
             onClick={(e) => {
@@ -6322,7 +6322,7 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
                 : 'bg-gray-600 hover:bg-gray-500 text-white'
             }`}
           >
-            I'm Going!
+            {t('community.event.going')}!
           </button>
         </div>
       </div>
