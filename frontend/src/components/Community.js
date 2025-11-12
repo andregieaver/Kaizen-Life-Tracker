@@ -6722,7 +6722,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
             <div className="border-0 bg-gradient-to-r from-[#00C2A8]/20 to-green-500/20 mb-6" style={{ background: 'var(--grad-surface)' }}>
               <div className="p-4" className="p-4">
                 <div className="flex justify-between items-center mb-2">
-                  <h3 className="text-white font-semibold">Your Progress</h3>
+                  <h3 className="text-white font-semibold">{t('community.challenge.yourProgress')}</h3>
                   <span className="text-[#00C2A8] font-bold text-lg">
                     {progress.toFixed(1)} / {goalValue} {challengeData.goal_unit}
                   </span>
@@ -6733,7 +6733,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                     style={{ width: `${percentage}%` }}
                   />
                 </div>
-                <p className="text-right text-gray-300 text-sm">{percentage.toFixed(1)}% complete</p>
+                <p className="text-right text-gray-300 text-sm">{percentage.toFixed(1)}% {t('community.challenge.complete')}</p>
               </div>
             </div>
           )}
