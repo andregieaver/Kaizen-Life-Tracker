@@ -7118,7 +7118,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-white text-sm font-semibold mb-2 block">Date</label>
+              <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.date')}</label>
               <input
                 type="date"
                 value={eventData.event_date}
@@ -7286,7 +7286,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-white text-sm font-semibold mb-2 block">Date</label>
+              <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.date')}</label>
               <input
                 type="date"
                 value={eventData.event_date}
