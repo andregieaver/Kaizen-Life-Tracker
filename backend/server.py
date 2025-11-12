@@ -3371,8 +3371,11 @@ async def login_athlete(login_data: LoginRequest):
     if not pwd_context.verify(login_data.password, athlete["password"]):
         raise HTTPException(status_code=401, detail="Invalid email or password")
     
+    # Use id if it exists, otherwise use email as identifier
+    athlete_identifier = athlete.get("id") or athlete.get("email")
+    
     return {
-        "athlete_id": athlete["id"],
+        "athlete_id": athlete_identifier,
         "name": athlete["name"],
         "email": athlete["email"]
     }
