@@ -5206,7 +5206,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                About
+                {t('community.about')}
               </button>
               <button
                 onClick={() => setActiveTab('posts')}
@@ -5216,7 +5216,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                Posts ({profile.posts_count || 0})
+                {t('community.posts')} ({profile.posts_count || 0})
               </button>
             </div>
 
