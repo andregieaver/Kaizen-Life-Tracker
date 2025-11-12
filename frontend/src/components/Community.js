@@ -5943,7 +5943,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
                         ? 'bg-gray-600 hover:bg-gray-500'
                         : 'bg-[#00C2A8] hover:bg-[#00a890]'
                     } text-white text-sm p-2`}
-                    title={athlete.is_following ? 'Unfollow' : 'Follow'}
+                    title={athlete.is_following ? t('athlete.unfollow') : t('athlete.follow')}
                   >
                     {athlete.is_following ? (
                       <UserMinus className="w-5 h-5" />
