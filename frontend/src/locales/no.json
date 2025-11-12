@@ -554,7 +554,10 @@
       "competitionType": "Konkurransetype",
       "typeIndividual": "Individuell",
       "typeTeam": "Lag",
-      "recurringChallenge": "Gjentakende utfordring"
+      "recurringChallenge": "Gjentakende utfordring",
+      "coverPhoto": "Forsidebilde",
+      "trophyBadge": "Trofémerke (Firkantet)",
+      "trophyHelp": "Tildeles brukere som fullfører denne utfordringen"
     },
     "modals": {
       "createChallenge": "Opprett utfordring",
