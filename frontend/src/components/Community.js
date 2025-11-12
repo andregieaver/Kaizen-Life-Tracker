@@ -6472,14 +6472,14 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Competition Type</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.competitionType')}</label>
                 <select
                   value={challengeData.competition_type}
                   onChange={(e) => setChallengeData({ ...challengeData, competition_type: e.target.value })}
                   className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
                 >
-                  <option value="individual">Individual</option>
-                  <option value="team">Team</option>
+                  <option value="individual">{t('community.challenge.typeIndividual')}</option>
+                  <option value="team">{t('community.challenge.typeTeam')}</option>
                 </select>
               </div>
             </div>
