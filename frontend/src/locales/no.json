@@ -504,7 +504,13 @@
       "groupProfileImage": "Gruppeprofilbilde",
       "groupCoverPhoto": "Gruppens omslagsfoto",
       "members": "medlemmer",
-      "noPostsYet": "Ingen innlegg ennå. Vær den første til å dele noe!"
+      "noPostsYet": "Ingen innlegg ennå. Vær den første til å dele noe!",
+      "groupName": "Gruppenavn",
+      "privacy": "Personvern",
+      "privacyPublic": "Offentlig - Alle kan bli med",
+      "privacyPrivate": "Privat - Krever godkjenning",
+      "groupRules": "Grupperegler (Valgfritt)",
+      "rulesHelpText": "Hvis satt, må brukere akseptere disse reglene før de blir med"
     },
     "event": {
       "enterEventName": "Skriv inn arrangementsnavn",
