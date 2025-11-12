@@ -14471,7 +14471,7 @@ async def update_menus(athlete_id: str, menu_data: MenuSettings):
         raise HTTPException(status_code=500, detail=f"Failed to update menus: {str(e)}")
 
 @api_router.post("/system/translate-menus")
-async def translate_menus(athlete_id: str):
+async def translate_menus(athlete_id: str = Query(..., description="Athlete ID for super admin verification")):
     """Translate all menu items into available languages using OpenAI (Super Admin only)"""
     await verify_super_admin(athlete_id)
     
