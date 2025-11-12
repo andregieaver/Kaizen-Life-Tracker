@@ -7373,7 +7373,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
         <div className="bg-gray-800 rounded-lg p-8 text-white">
           <div className="flex items-center space-x-3">
             <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#00C2A8]"></div>
-            <p>Loading event details...</p>
+            <p>{t('community.event.loadingEventDetails')}</p>
           </div>
         </div>
       </div>
