@@ -6053,6 +6053,7 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
 // EventCard Component
 // ChallengeCard Component
 const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit, onClick, isSuperAdmin = false, t }) => {
+  const { t: translate } = useTranslation();
   const progress = challenge.user_progress || 0;
   const goalValue = challenge.goal_value;
   const percentage = Math.min((progress / goalValue) * 100, 100);
