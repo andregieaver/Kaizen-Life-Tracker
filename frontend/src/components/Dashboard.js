@@ -2306,6 +2306,8 @@ const Dashboard = ({ athleteId }) => {
             style={{
               bottom: '96px',
               right: '16px',
+              transform: `translateY(${(1 - footerProgress) * 100}%)`,
+              willChange: 'transform',
               background: showCreateMenu ? 'var(--grad-danger)' : 'var(--grad-brand)',
               boxShadow: showCreateMenu 
                 ? '0 10px 40px rgba(255,100,100,.3)' 
