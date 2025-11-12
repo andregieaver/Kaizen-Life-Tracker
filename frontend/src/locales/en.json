@@ -236,6 +236,8 @@
     "note": "Note",
     "changePassword": "Change Password",
     "changePasswordDescription": "Update your account password",
+    "nationality": "Nationality",
+    "selectCountry": "Select Country",
     "dateOfBirth": "Date of Birth",
     "birthDay": "Day",
     "birthMonth": "Month",
