@@ -5226,7 +5226,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                 {/* Bio Section */}
                 {profile.bio && profile.share_bio && (
                   <div className="mb-6 p-4 bg-gray-700/50 rounded-lg">
-                    <h3 className="text-white font-semibold mb-2">About</h3>
+                    <h3 className="text-white font-semibold mb-2">{t('community.about')}</h3>
                     <p className="text-gray-300 text-sm">{profile.bio}</p>
                   </div>
                 )}
@@ -5234,7 +5234,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                 {/* Health/Training Goals Section */}
                 {profile.running_goals && profile.share_goals && (
                   <div className="mb-6 p-4 bg-gray-700/50 rounded-lg">
-                    <h3 className="text-white font-semibold mb-2">Health & Training Goals</h3>
+                    <h3 className="text-white font-semibold mb-2">{t('community.healthTrainingGoals')}</h3>
                     <p className="text-gray-300 text-sm">{profile.running_goals}</p>
                     {profile.health_goals && profile.health_goals.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-2">
