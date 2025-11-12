@@ -4865,7 +4865,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
                 className="hidden"
               />
               <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm inline-block">
-                {groupData.cover_photo ? 'Change Banner' : 'Upload Banner'}
+                {groupData.cover_photo ? t('common.changeBanner') : t('common.uploadBanner')}
               </div>
             </label>
           </div>
@@ -5028,7 +5028,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
                 className="hidden"
               />
               <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm inline-block">
-                {groupData.cover_photo ? 'Change Banner' : 'Upload Banner'}
+                {groupData.cover_photo ? t('common.changeBanner') : t('common.uploadBanner')}
               </div>
             </label>
           </div>
