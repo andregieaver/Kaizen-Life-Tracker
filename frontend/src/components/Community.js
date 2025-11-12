@@ -6419,19 +6419,19 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Time Period *</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.timePeriod')}</label>
                 <select
                   value={challengeData.time_period}
                   onChange={(e) => setChallengeData({ ...challengeData, time_period: e.target.value })}
                   className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
                 >
-                  <option value="total">Total (entire challenge duration)</option>
-                  <option value="daily">Per Day</option>
-                  <option value="weekly">Per Week</option>
-                  <option value="monthly">Per Month</option>
+                  <option value="total">{t('community.challenge.periodTotal')}</option>
+                  <option value="daily">{t('community.challenge.periodDaily')}</option>
+                  <option value="weekly">{t('community.challenge.periodWeekly')}</option>
+                  <option value="monthly">{t('community.challenge.periodMonthly')}</option>
                 </select>
                 <p className="text-xs text-gray-400 mt-1">
-                  How often participants need to reach the goal
+                  {t('community.challenge.timePeriodHelp')}
                 </p>
               </div>
             </div>
