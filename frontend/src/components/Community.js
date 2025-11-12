@@ -7624,6 +7624,8 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
 
 // CommentsModal Component
 const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentText, commentRef, athleteId, isSuperAdmin, formatMentions, loadAthleteProfile, onEmojiSelect, onDeleteComment, onToggleCommentLike }) => {
+  const { t } = useTranslation();
+  
   if (!post) return null;
 
   return (
