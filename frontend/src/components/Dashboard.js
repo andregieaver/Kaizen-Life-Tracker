@@ -2331,7 +2331,7 @@ const Dashboard = ({ athleteId }) => {
               navigate('/dashboard/journal?action=voice');
               setShowCreateMenu(false);
             }}
-            className={`fixed z-40 w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+            className={`fixed z-40 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
               showCreateMenu 
                 ? 'opacity-100 translate-x-0 translate-y-0' 
                 : 'opacity-0 scale-0 pointer-events-none'
@@ -2342,7 +2342,22 @@ const Dashboard = ({ athleteId }) => {
               transform: showCreateMenu 
                 ? `translate(${-110}px, 0px)` // 180° (9 o'clock - straight left)
                 : 'translate(0, 0) scale(0)',
-              transitionDelay: showCreateMenu ? '50ms' : '0ms'
+              transitionDelay: showCreateMenu ? '50ms' : '0ms',
+              backgroundColor: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
+              backdropFilter: 'blur(8px) saturate(150%)',
+              WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+              boxShadow: `
+                inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+                inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent),
+                inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent),
+                inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent),
+                inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent),
+                inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+                inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+                inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+                0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+                0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent)
+              `
             }}
             title={t('dashboard.modals.addJournalEntry')}
           >
