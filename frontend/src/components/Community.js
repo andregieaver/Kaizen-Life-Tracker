@@ -5809,7 +5809,8 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
       )}
     </div>
   </div>
-);
+  );
+};
 
 // AthletesModal Component
 const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose, onFollowToggle, onViewProfile, t }) => {
