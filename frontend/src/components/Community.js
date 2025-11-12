@@ -5477,12 +5477,12 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             </div>
             <p className="text-gray-300 mb-4">{group.description}</p>
             <div className="flex items-center space-x-4 text-sm">
-              <span className="text-gray-400">{group.members_count} members</span>
+              <span className="text-gray-400">{group.members_count} {t('community.group.members')}</span>
               {group.member_role && (
                 <span className="text-[#00C2A8] font-semibold flex items-center">
                   {group.member_role === 'admin' && <Crown className="w-4 h-4 mr-1" />}
                   {group.member_role === 'moderator' && <Shield className="w-4 h-4 mr-1" />}
-                  {group.member_role}
+                  {t(`community.group.${group.member_role}`)}
                 </span>
               )}
             </div>
