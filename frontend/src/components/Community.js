@@ -6666,7 +6666,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                   {goalValue} {challengeData.goal_unit}
                 </p>
                 <p className="text-gray-400 text-sm capitalize">
-                  {challengeData.challenge_type.replace('_', ' ')}
+                  {t(`community.challenge.type${challengeData.challenge_type.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('')}`)}
                 </p>
               </div>
             </div>
