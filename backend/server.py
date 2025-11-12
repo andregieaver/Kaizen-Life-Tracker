@@ -14511,43 +14511,47 @@ async def update_menus(athlete_id: str, menu_data: MenuSettings):
         logging.error(f"Error updating menus: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to update menus: {str(e)}")
 
-@api_router.post("/system/fix-language")
-async def fix_language(athlete_id: str = Query(..., description="Athlete ID for super admin verification")):
-    """Fix language setting to Norwegian for the current admin user (Super Admin only, TEMPORARY DEBUG)"""
-    await verify_super_admin(athlete_id)
-    
+@api_router.post("/system/set-language")
+async def set_language(
+    athlete_id: str = Query(..., description="Athlete ID for verification"),
+    language: str = Query(..., description="Language code (en, no, de, sv, etc.)")
+):
+    """Set language preference for the current user - Works with any identifier"""
     try:
-        # Get the athlete by ID
+        # Get the athlete by ID, email, or any identifier
         athlete = await db.athlete_profiles.find_one({"id": athlete_id})
         if not athlete:
             # Try finding by email if ID doesn't work
-            athlete = await db.athlete_profiles.find_one({"email": "andre@humanweb.no"})
+            athlete = await db.athlete_profiles.find_one({"email": athlete_id})
         
         if not athlete:
             raise HTTPException(status_code=404, detail="Athlete profile not found")
         
-        # Update language to Norwegian
+        # Store old language for response
+        old_language = athlete.get('language', 'en')
+        
+        # Update language
         email = athlete.get('email')
         result = await db.athlete_profiles.update_one(
             {"email": email},
-            {"$set": {"language": "no"}}
+            {"$set": {"language": language}}
         )
         
         # Verify update
         updated = await db.athlete_profiles.find_one({"email": email})
         
-        logging.info(f"[FIX LANGUAGE] Updated language for {email} to 'no'")
+        logging.info(f"[SET LANGUAGE] Updated language for {email} from '{old_language}' to '{language}'")
         
         return {
             "success": True,
             "email": email,
-            "old_language": athlete.get('language', 'en'),
+            "old_language": old_language,
             "new_language": updated.get('language'),
-            "message": f"Language updated to Norwegian for {email}. Please refresh your browser."
+            "message": f"Language updated to {language}"
         }
         
     except Exception as e:
-        logging.error(f"[FIX LANGUAGE] Error: {e}")
+        logging.error(f"[SET LANGUAGE] Error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @api_router.post("/system/translate-menus")
