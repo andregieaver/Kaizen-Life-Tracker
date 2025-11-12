@@ -625,7 +625,8 @@
       "challengeCreator": "Challenge Creator",
       "recurringChallenge": "Recurring Challenge",
       "addMedia": "Add images or video (max 5, 1 video)",
-      "maxMediaItems": "Maximum 5 media items"
+      "maxMediaItems": "Maximum 5 media items",
+      "addPhoto": "Add Photo"
     },
     "emptyStates": {
       "noPostsYet": "No posts yet",
