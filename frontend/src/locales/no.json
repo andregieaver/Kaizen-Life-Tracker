@@ -572,7 +572,14 @@
       "challengeCreated": "Utfordring opprettet!",
       "joinedGroup": "Ble med i gruppe!",
       "leftGroup": "Forlot gruppe!"
-    }
+    },
+    "yearsOld": "{{age}} år gammel",
+    "about": "Om",
+    "healthTrainingGoals": "Helse- og treningsmål",
+    "interests": "Interesser",
+    "posts": "Innlegg",
+    "followers": "Følgere",
+    "following": "Følger"
   },
   "nutrition": {
     "title": "Ernæringssporing",
