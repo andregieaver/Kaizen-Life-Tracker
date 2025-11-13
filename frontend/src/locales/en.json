@@ -391,7 +391,11 @@
       "addComment": "Add a comment...",
       "noCommentsYet": "No comments yet. Be the first to comment!",
       "all": "All Challenges",
-      "joined": "Joined Challenges"
+      "joined": "Joined Challenges",
+      "noChallengesAll": "No challenges yet. Create the first challenge!",
+      "noChallengesActive": "No active challenges",
+      "noChallengesCompleted": "No completed challenges",
+      "noChallengesJoined": "You haven't joined any challenges yet"
     },
     "event": {
       "enterEventName": "Enter event name",

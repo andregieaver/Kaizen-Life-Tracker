@@ -391,7 +391,11 @@
       "addComment": "Legg til en kommentar...",
       "noCommentsYet": "Ingen kommentarer ennå. Bli den første til å kommentere!",
       "all": "Alle utfordringer",
-      "joined": "Dine utfordringer"
+      "joined": "Dine utfordringer",
+      "noChallengesAll": "Ingen utfordringer ennå. Opprett den første utfordringen!",
+      "noChallengesActive": "Ingen aktive utfordringer",
+      "noChallengesCompleted": "Ingen fullførte utfordringer",
+      "noChallengesJoined": "Du har ikke blitt med i noen utfordringer ennå"
     },
     "event": {
       "enterEventName": "Skriv inn arrangementsnavn",
