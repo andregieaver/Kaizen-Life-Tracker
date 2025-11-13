@@ -34,3 +34,13 @@ Sections to translate:
 [ 7/43] Translating: progress             ✅
 [ 8/43] Translating: community            ✅
 [ 9/43] Translating: account              
+[1;31mGive Feedback / Get Help: https://github.com/BerriAI/litellm/issues/new[0m
+LiteLLM.Info: If you need to debug this error, use `litellm._turn_on_debug()'.
+
+  ❌ Translation error: Failed to generate chat completion: litellm.APIError: APIError: OpenAIException - Error code: 502
+❌ Failed: Failed to generate chat completion: litellm.APIError: APIError: OpenAIException - Error code: 502
+     Saving progress and stopping...
+
+
+❌ Translation failed: Failed to generate chat completion: litellm.APIError: APIError: OpenAIException - Error code: 502
+Check the error above and try again.
