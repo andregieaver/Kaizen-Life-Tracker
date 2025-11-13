@@ -421,7 +421,7 @@ const Emails = () => {
                     size="sm"
                   >
                     <Edit3 className="w-4 h-4 mr-1" />
-                    Edit
+                    {t('emails.edit')}
                   </Button>
                 </div>
               </CardHeader>
