@@ -105,17 +105,17 @@
 user_problem_statement: "Implement light/dark theme support for TrainSmart application, starting with the Dashboard home page. Fine-tune light theme to use dark blue accent colors instead of teal and whiter gradient backgrounds."
 
 frontend:
-  - task: "Strava Full Sync Timeout Fix"
+  - task: "Light/Dark Theme Infrastructure"
     implemented: true
     working: "NA"
-    file: "/app/frontend/src/components/Account.js"
+    file: "/app/frontend/src/contexts/ThemeContext.js, /app/frontend/src/components/ThemeToggle.js, /app/frontend/src/App.js, /app/frontend/src/index.css"
     stuck_count: 0
-    priority: "critical"
+    priority: "high"
     needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "STRAVA FULL SYNC TIMEOUT FIX - Fixed issue where full sync fails on deployed version with custom domain while incremental sync works. ROOT CAUSE IDENTIFIED: Full sync processes ALL historical activities (from epoch 0) synchronously, which can take several minutes for users with lots of data. The axios.post() request had default timeout (~60s) which caused premature request cancellation. Custom domain deployments have nginx/load balancer timeout limits that terminate long-running requests. Incremental sync works because it only fetches recent activities and completes quickly within timeout window. FIX IMPLEMENTED: Added explicit timeout configuration to all sync handlers (handleStravaSync, handleOuraSync, handleGenericSync) in Account.js: 1) Full sync: 600000ms (10 minutes) timeout to allow processing of large historical datasets, 2) Incremental sync: 120000ms (2 minutes) timeout for normal operations, 3) Applied to all three sync handlers for consistency across all integrations (Strava, Oura, Polar, Fitbit, Garmin, COROS, WHOOP, Suunto). IMPLEMENTATION DETAILS: axios.post(url, {}, { timeout: fullSync ? 600000 : 120000 }). Frontend compiled successfully. TESTING NEEDED: 1) Navigate to Account page on deployed version with custom domain, 2) Connect Strava if not connected, 3) Click 'Full' sync button for Strava, 4) Wait for full sync to complete (may take several minutes depending on activity count), 5) Verify sync completes successfully without timeout error, 6) Verify incremental sync still works with 'Sync' button."
+        comment: "THEME SYSTEM IMPLEMENTATION - Created comprehensive light/dark theme infrastructure. COMPONENTS CREATED: 1) ThemeContext (/frontend/src/contexts/ThemeContext.js) - React context for theme state management with localStorage persistence and system preference detection, 2) ThemeToggle component (/frontend/src/components/ThemeToggle.js) - Sun/Moon icon button for theme switching, 3) Wrapped App.js with ThemeProvider. CSS VARIABLES UPDATED (index.css): Dark theme (default) uses deep blue-grays (#0B1220, #0E1824) with teal accents (#32D3FF). Light theme uses: 1) BACKGROUNDS - Whiter gradients: --bg-950: #FFFFFF (pure white), --bg-900: #FAFBFC (almost white), --bg-800: #F5F7FA (very light), --grad-page: linear-gradient(180deg, #FEFEFF 0%, #FAFBFC 50%, #F5F7FA 100%), 2) TEXT - Dark for contrast: --text-hi: #0A0F14, --text-med: #485568, --text-muted: #6B7A8C, 3) ACCENT COLORS - Dark blue instead of teal: --c-brand-500: #1E40AF (rich dark blue), --c-brand-600: #1E3A8A (darker blue), --c-sky-500: #3B82F6 (medium blue), --c-focus: #3B82F6, --grad-cta-soft: rgba(30,64,175,.06) (subtle dark blue accent). DASHBOARD INTEGRATION: ThemeToggle button added to Dashboard.js header (top-right, before menu button). Dashboard home page already theme-aware as it uses CSS variables throughout (Quick Action cards, Readiness cards, Progress sections). FEATURES: Theme persists across sessions via localStorage, respects system preference on first visit, smooth transitions between themes, accessible and mobile-responsive. TESTING NEEDED: 1) Log in to /dashboard, 2) Click Sun/Moon toggle button in header, 3) Verify page transforms between light and dark themes, 4) Check light theme uses dark blue accents (not teal), 5) Verify backgrounds are crisp white with subtle gradients, 6) Refresh page to confirm theme persists, 7) Test readability and contrast in both themes."
 
 frontend:
   - task: "Video Preview Live Stream Display Fix"
