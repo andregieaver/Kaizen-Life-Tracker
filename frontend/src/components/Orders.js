@@ -393,7 +393,7 @@ const Orders = ({ athleteId }) => {
       {totalPages > 1 && (
         <div className="flex items-center justify-between mt-6">
           <div className="text-gray-300 text-sm">
-            Showing {startIndex + 1} to {Math.min(endIndex, filteredOrders.length)} of {filteredOrders.length} orders
+            {t('orders.page')} {startIndex + 1} to {Math.min(endIndex, filteredOrders.length)} {t('orders.of')} {filteredOrders.length}
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -401,7 +401,7 @@ const Orders = ({ athleteId }) => {
               disabled={currentPage === 1}
               className="bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed border-0"
             >
-              Previous
+              {t('orders.previous')}
             </Button>
             <div className="flex items-center gap-1">
               {[...Array(totalPages)].map((_, i) => {
