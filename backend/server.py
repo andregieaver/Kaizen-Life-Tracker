@@ -16129,14 +16129,18 @@ async def get_subscriber_stats(
         avg_comments_per_post = total_comments / max(total_posts, 1)
         engagement_rate = (unique_posters / max(total_subscribers, 1)) * 100
         
-        # Get top contributors (most posts)
-        poster_counts = {}
-        for post in posts:
-            athlete_id = post.get("athlete_id")
-            if athlete_id:
-                poster_counts[athlete_id] = poster_counts.get(athlete_id, 0) + 1
+        # Get top contributors (most posts) using aggregation
+        top_contributors_result = await db.community_posts.aggregate([
+            {"$match": posts_query},
+            {"$group": {
+                "_id": "$athlete_id",
+                "count": {"$sum": 1}
+            }},
+            {"$sort": {"count": -1}},
+            {"$limit": 5}
+        ]).to_list(length=5)
         
-        top_contributors = sorted(poster_counts.items(), key=lambda x: x[1], reverse=True)[:5]
+        top_contributors = [(item["_id"], item["count"]) for item in top_contributors_result]
         
         # Calculate daily post distribution for time series
         daily_posts = {}
