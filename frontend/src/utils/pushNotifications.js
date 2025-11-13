@@ -1,6 +1,6 @@
 // Push Notification Utilities
 
-const API = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+const API = process.env.REACT_APP_BACKEND_URL;
 
 // Convert base64 URL-safe string to Uint8Array
 function urlBase64ToUint8Array(base64String) {
