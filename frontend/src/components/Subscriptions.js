@@ -25,6 +25,7 @@ const API = `${BACKEND_URL}/api`;
 
 const Subscriptions = ({ athleteId }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [subscriptions, setSubscriptions] = useState([]);
   const [filteredSubscriptions, setFilteredSubscriptions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
