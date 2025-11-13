@@ -190,11 +190,11 @@ const AnimatedMetrics = () => {
           </div>
           
           {/* Expandable Integration List */}
-          <div className={`overflow-hidden transition-all duration-300 ${expanded.integrations ? 'max-h-96 mt-4' : 'max-h-0'}`}>
-            <div className="bg-gray-800/50 rounded-xl p-4 border border-blue-500/20">
+          <div className={`overflow-hidden transition-all duration-500 ${expanded.integrations ? 'max-h-[600px] mt-4' : 'max-h-0'}`}>
+            <div className="bg-gray-800/50 rounded-xl p-4 border border-blue-500/20 overflow-y-auto max-h-[550px]">
               <div className="grid grid-cols-1 gap-2 text-left">
                 {metrics.integrationsList.map((integration, idx) => (
-                  <div key={idx} className="flex items-center gap-2 text-sm text-gray-300 py-1">
+                  <div key={idx} className="flex items-center gap-2 text-sm text-gray-300 py-2">
                     <Check className="w-4 h-4 text-blue-400 flex-shrink-0" />
                     <span>{integration}</span>
                   </div>
