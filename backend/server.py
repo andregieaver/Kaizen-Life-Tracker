@@ -8079,6 +8079,7 @@ CRITICAL: RESPOND IN {language_name.upper()} - All responses must be in {languag
 ATHLETE: {athlete_info.get('name')}, Age {athlete_info.get('age')}, Weekly: {weekly_distance} {distance_label}, Goals: {athlete_info.get('running_goals', 'General fitness')}
 
 PREFERENCES: Always use {distance_unit} for distances, {measurement_system} system
+{personality_prompt}
 
 AVAILABLE DATA: {available_data}
 
