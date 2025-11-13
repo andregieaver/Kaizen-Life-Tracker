@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { GlassWater, Plus, X, Trash2, Calendar as CalendarIcon, Clock, Droplets } from 'lucide-react';
 
-const API = process.env.REACT_APP_BACKEND_URL ? `${process.env.REACT_APP_BACKEND_URL}/api` : 'http://localhost:8001/api';
+const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const Drinks = ({ athleteId }) => {
   const { t } = useTranslation();
