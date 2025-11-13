@@ -2729,9 +2729,9 @@ const SystemSettings = ({ athleteId }) => {
                                 onChange={(e) => updateWaitingListStatus(entry.id, e.target.value)}
                                 className="bg-gray-700 text-white text-xs px-2 py-1 rounded border border-gray-600"
                               >
-                                <option value="pending">Pending</option>
-                                <option value="contacted">Contacted</option>
-                                <option value="converted">Converted</option>
+                                <option value="pending">{t('systemSettings.waitingList.pending')}</option>
+                                <option value="contacted">{t('systemSettings.waitingList.contacted')}</option>
+                                <option value="converted">{t('systemSettings.waitingList.converted')}</option>
                               </select>
                             </td>
                             <td className="px-4 py-3 text-gray-400 text-xs hidden lg:table-cell">
