@@ -303,8 +303,8 @@ const Emails = () => {
     <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-display font-bold text-white mb-2">Email Management</h1>
-        <p className="text-gray-300">Customize transactional emails and send custom campaigns</p>
+        <h1 className="text-3xl font-display font-bold text-white mb-2">{t('emails.title')}</h1>
+        <p className="text-gray-300">{t('emails.description')}</p>
       </div>
 
       {/* Custom Emails Section */}
