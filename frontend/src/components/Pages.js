@@ -279,21 +279,21 @@ const Pages = ({ athleteId }) => {
                         <button
                           onClick={() => window.open(page.url_slug, '_blank')}
                           className="p-2 hover:bg-gray-700 rounded transition-colors"
-                          title="View"
+                          title={t('pages.view')}
                         >
                           <Eye className="w-4 h-4 text-gray-400" />
                         </button>
                         <button
                           onClick={() => navigate(`/dashboard/pages/edit/${page.id}`)}
                           className="p-2 hover:bg-gray-700 rounded transition-colors"
-                          title="Edit"
+                          title={t('pages.edit')}
                         >
                           <Edit className="w-4 h-4 text-[#00C2A8]" />
                         </button>
                         <button
                           onClick={() => handleDelete(page.id, page.title)}
                           className="p-2 hover:bg-gray-700 rounded transition-colors"
-                          title="Delete"
+                          title={t('pages.delete')}
                         >
                           <Trash2 className="w-4 h-4 text-red-500" />
                         </button>
