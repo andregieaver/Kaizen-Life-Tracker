@@ -70,11 +70,19 @@ const AnimatedMetrics = () => {
   const [metrics, setMetrics] = useState({
     languages: 10,
     personalities: 10,
-    integrations: 6
+    integrations: 6,
+    languagesList: [],
+    personalitiesList: [],
+    integrationsList: []
+  });
+  const [expanded, setExpanded] = useState({
+    languages: false,
+    personalities: false,
+    integrations: false
   });
 
   useEffect(() => {
-    // Fetch actual counts from API
+    // Fetch actual counts and lists from API
     const fetchMetrics = async () => {
       try {
         const response = await axios.get(`${API}/platform-metrics`);
@@ -90,27 +98,111 @@ const AnimatedMetrics = () => {
     fetchMetrics();
   }, []);
 
+  const toggleExpand = (section) => {
+    setExpanded(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
   return (
-    <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-      <div className="text-center p-8 rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:transform hover:scale-105">
-        <Globe className="w-12 h-12 text-blue-400 mx-auto mb-4" />
-        <AnimatedCounter end={metrics.languages} suffix="+" />
-        <div className="text-lg font-semibold text-white mb-1">Language Translations</div>
-        <div className="text-sm text-gray-400">Available worldwide</div>
-      </div>
-      
-      <div className="text-center p-8 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 hover:border-cyan-400/40 transition-all duration-300 hover:transform hover:scale-105">
-        <Brain className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
-        <AnimatedCounter end={metrics.personalities} suffix="+" />
-        <div className="text-lg font-semibold text-white mb-1">AI Coach Personalities</div>
-        <div className="text-sm text-gray-400">Find your perfect match</div>
-      </div>
-      
-      <div className="text-center p-8 rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:transform hover:scale-105">
-        <Activity className="w-12 h-12 text-blue-400 mx-auto mb-4" />
-        <AnimatedCounter end={metrics.integrations} suffix="+" />
-        <div className="text-lg font-semibold text-white mb-1">Device Integrations</div>
-        <div className="text-sm text-gray-400">Connect your devices</div>
+    <div className="mt-20 space-y-8 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Languages Card */}
+        <div className="text-center">
+          <div className="p-8 rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:transform hover:scale-105">
+            <Globe className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+            <AnimatedCounter end={metrics.languages} suffix="+" />
+            <div className="text-lg font-semibold text-white mb-1">Language Translations</div>
+            <div className="text-sm text-gray-400 mb-4">Available worldwide</div>
+            <button
+              onClick={() => toggleExpand('languages')}
+              className="text-blue-400 hover:text-blue-300 text-sm font-medium flex items-center justify-center gap-1 mx-auto transition-colors"
+            >
+              {expanded.languages ? 'Hide' : 'Show'} Languages
+              <ChevronRight className={`w-4 h-4 transition-transform ${expanded.languages ? 'rotate-90' : ''}`} />
+            </button>
+          </div>
+          
+          {/* Expandable Language List */}
+          <div className={`overflow-hidden transition-all duration-300 ${expanded.languages ? 'max-h-96 mt-4' : 'max-h-0'}`}>
+            <div className="bg-gray-800/50 rounded-xl p-4 border border-blue-500/20">
+              <div className="grid grid-cols-1 gap-2 text-left">
+                {metrics.languagesList.map((lang, idx) => (
+                  <div key={idx} className="flex items-center gap-2 text-sm text-gray-300 py-1">
+                    <Check className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                    <span>{lang}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Personalities Card */}
+        <div className="text-center">
+          <div className="p-8 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 hover:border-cyan-400/40 transition-all duration-300 hover:transform hover:scale-105">
+            <Brain className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
+            <AnimatedCounter end={metrics.personalities} suffix="+" />
+            <div className="text-lg font-semibold text-white mb-1">AI Coach Personalities</div>
+            <div className="text-sm text-gray-400 mb-4">Find your perfect match</div>
+            <button
+              onClick={() => toggleExpand('personalities')}
+              className="text-cyan-400 hover:text-cyan-300 text-sm font-medium flex items-center justify-center gap-1 mx-auto transition-colors"
+            >
+              {expanded.personalities ? 'Hide' : 'Show'} Personalities
+              <ChevronRight className={`w-4 h-4 transition-transform ${expanded.personalities ? 'rotate-90' : ''}`} />
+            </button>
+          </div>
+          
+          {/* Expandable Personality List */}
+          <div className={`overflow-hidden transition-all duration-300 ${expanded.personalities ? 'max-h-[500px] mt-4' : 'max-h-0'}`}>
+            <div className="bg-gray-800/50 rounded-xl p-4 border border-cyan-500/20">
+              <div className="grid grid-cols-1 gap-2 text-left">
+                {metrics.personalitiesList.map((personality, idx) => (
+                  <div key={idx} className="flex items-start gap-2 text-sm text-gray-300 py-1">
+                    <span className="text-lg flex-shrink-0">{personality.icon}</span>
+                    <div>
+                      <div className="font-medium text-white">{personality.name}</div>
+                      <div className="text-xs text-gray-400">{personality.description}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Integrations Card */}
+        <div className="text-center">
+          <div className="p-8 rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:transform hover:scale-105">
+            <Activity className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+            <AnimatedCounter end={metrics.integrations} suffix="+" />
+            <div className="text-lg font-semibold text-white mb-1">Device Integrations</div>
+            <div className="text-sm text-gray-400 mb-4">Connect your devices</div>
+            <button
+              onClick={() => toggleExpand('integrations')}
+              className="text-blue-400 hover:text-blue-300 text-sm font-medium flex items-center justify-center gap-1 mx-auto transition-colors"
+            >
+              {expanded.integrations ? 'Hide' : 'Show'} Integrations
+              <ChevronRight className={`w-4 h-4 transition-transform ${expanded.integrations ? 'rotate-90' : ''}`} />
+            </button>
+          </div>
+          
+          {/* Expandable Integration List */}
+          <div className={`overflow-hidden transition-all duration-300 ${expanded.integrations ? 'max-h-96 mt-4' : 'max-h-0'}`}>
+            <div className="bg-gray-800/50 rounded-xl p-4 border border-blue-500/20">
+              <div className="grid grid-cols-1 gap-2 text-left">
+                {metrics.integrationsList.map((integration, idx) => (
+                  <div key={idx} className="flex items-center gap-2 text-sm text-gray-300 py-1">
+                    <Check className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                    <span>{integration}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
