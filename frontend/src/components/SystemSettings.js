@@ -3808,7 +3808,7 @@ const SystemSettings = ({ athleteId }) => {
 
                       {/* Functional */}
                       <div>
-                        <Label className="text-gray-300 text-sm">Functional Cookies Title</Label>
+                        <Label className="text-gray-300 text-sm">{t('systemSettings.cookies.functionalCookiesTitle')}</Label>
                         <Input
                           value={cookieSettings?.consent_texts?.functional_title || ''}
                           onChange={(e) => setCookieSettings({
@@ -3831,6 +3831,7 @@ const SystemSettings = ({ athleteId }) => {
                           })}
                           className="bg-gray-800 border-gray-700 text-white"
                           rows={2}
+                          placeholder={t('systemSettings.cookies.functionalCookiesDescription')}
                         />
                       </div>
                     </div>
