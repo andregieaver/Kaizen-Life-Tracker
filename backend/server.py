@@ -16100,11 +16100,21 @@ async def get_subscriber_stats(
         if days:
             posts_query["created_at"] = {"$gte": current_period_start.isoformat()}
         
-        posts = await db.community_posts.find(posts_query).to_list(length=None)
-        total_posts = len(posts)
+        # Use aggregation for better performance instead of loading all posts
+        total_posts = await db.community_posts.count_documents(posts_query)
         
-        # Calculate engagement metrics
-        total_likes = sum(post.get("likes_count", 0) for post in posts)
+        # Calculate engagement metrics using aggregation
+        likes_result = await db.community_posts.aggregate([
+            {"$match": posts_query},
+            {"$group": {
+                "_id": None,
+                "total_likes": {"$sum": "$likes_count"},
+                "total_comments": {"$sum": "$comments_count"}
+            }}
+        ]).to_list(length=1)
+        
+        total_likes = likes_result[0]["total_likes"] if likes_result else 0
+        total_comments = likes_result[0]["total_comments"] if likes_result else 0
         total_comments = sum(post.get("comments_count", 0) for post in posts)
         
         # Get unique posters
