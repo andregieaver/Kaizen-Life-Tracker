@@ -4559,10 +4559,10 @@ const SystemSettings = ({ athleteId }) => {
                         <rect width="24" height="24" rx="4" fill="#0078D4"/>
                         <path d="M7 7h10v10H7z" fill="white"/>
                       </svg>
-                      Microsoft Clarity
+                      {t('systemSettings.advanced.clarityIntegration')}
                     </Label>
                     <p className="text-xs text-gray-400 mt-1">
-                      Add your Microsoft Clarity tracking script for session recording and heatmaps
+                      {t('systemSettings.advanced.clarityDescription')}
                     </p>
                   </div>
 
