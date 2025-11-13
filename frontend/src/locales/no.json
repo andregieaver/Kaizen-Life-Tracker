@@ -3,6 +3,30 @@
     "fullName": "Fullt navn",
     "logout": "Logg ut"
   },
+  "dashboard": {
+    "quickLinks": {
+      "weeklyMenu": "Ukesmeny",
+      "weeklyMenuDesc": "Planlegg ernæringen din",
+      "voiceJournal": "Stemmejurnal",
+      "voiceJournalDesc": "Ta opp tankene dine",
+      "habitTracker": "Vanesporing",
+      "habitTrackerDesc": "Spor daglige vaner",
+      "calendar": "Treningskalender",
+      "calendarDesc": "Planlegg treningsøktene dine"
+    },
+    "progress": {
+      "title": "Fremgang",
+      "subtitle": "Nylige testresultater"
+    },
+    "modals": {
+      "referralRewards": "Henvisningsbelønninger",
+      "notifications": "Varsler",
+      "addJournalEntry": "Legg til journaloppføring",
+      "logDrink": "Logg drikke",
+      "logSupplement": "Logg kosttilskudd",
+      "logMeal": "Logg måltid"
+    }
+  },
   "nav": {
     "today": "I dag",
     "dashboard": "Dashbord",
