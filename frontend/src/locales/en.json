@@ -389,7 +389,9 @@
       "loadingChallenge": "Loading challenge...",
       "comments": "Comments",
       "addComment": "Add a comment...",
-      "noCommentsYet": "No comments yet. Be the first to comment!"
+      "noCommentsYet": "No comments yet. Be the first to comment!",
+      "all": "All Challenges",
+      "joined": "Joined Challenges"
     },
     "event": {
       "enterEventName": "Enter event name",

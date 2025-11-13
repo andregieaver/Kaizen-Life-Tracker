@@ -389,7 +389,9 @@
       "loadingChallenge": "Laster utfordring...",
       "comments": "Kommentarer",
       "addComment": "Legg til en kommentar...",
-      "noCommentsYet": "Ingen kommentarer ennå. Bli den første til å kommentere!"
+      "noCommentsYet": "Ingen kommentarer ennå. Bli den første til å kommentere!",
+      "all": "Alle utfordringer",
+      "joined": "Dine utfordringer"
     },
     "event": {
       "enterEventName": "Skriv inn arrangementsnavn",
