@@ -3526,11 +3526,11 @@ const SystemSettings = ({ athleteId }) => {
                     <div className="p-4 bg-gray-900 rounded-lg space-y-4">
                       <div className="flex items-center justify-between">
                         <Label className="text-white font-medium">
-                          Detected Cookies ({cookieSettings.detected_cookies.length})
+                          {t('systemSettings.cookies.detectedCookies')} ({cookieSettings.detected_cookies.length})
                         </Label>
                         <Badge variant="secondary" className="bg-[#32D3FF] text-white">
                           {cookieSettings.last_scan?.scanned_at ? 
-                            `Scanned ${new Date(cookieSettings.last_scan.scanned_at).toLocaleDateString()}` 
+                            `${t('systemSettings.cookies.scanned')} ${new Date(cookieSettings.last_scan.scanned_at).toLocaleDateString()}` 
                             : 'Not scanned yet'}
                         </Badge>
                       </div>
