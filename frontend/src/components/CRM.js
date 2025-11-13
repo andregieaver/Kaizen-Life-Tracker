@@ -361,7 +361,7 @@ const CRM = ({ athleteId }) => {
                             setShowDeleteConfirm(true);
                           }}
                           className="p-2 hover:bg-red-600/20 rounded-lg transition-colors"
-                          title="Delete user"
+                          title={t('crm.deleteUser')}
                         >
                           <Trash2 className="w-4 h-4 text-red-500 hover:text-red-400" />
                         </button>
