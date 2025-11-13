@@ -226,9 +226,9 @@ const Subscriptions = ({ athleteId }) => {
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
           <Users className="w-8 h-8 text-[#00C2A8]" />
-          Subscriptions Management
+          {t('subscriptions.title')}
         </h1>
-        <p className="text-gray-400">Manage and monitor all customer subscriptions</p>
+        <p className="text-gray-400">{t('subscriptions.description')}</p>
       </div>
 
       {/* Stats Cards */}
