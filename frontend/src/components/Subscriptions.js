@@ -312,7 +312,7 @@ const Subscriptions = ({ athleteId }) => {
               className="border-gray-600 text-white hover:bg-gray-700"
             >
               <Filter className="w-4 h-4 mr-2" />
-              Filters
+              {t('subscriptions.filters')}
             </Button>
           </div>
 
