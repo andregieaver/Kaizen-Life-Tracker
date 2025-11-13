@@ -2278,7 +2278,7 @@ const SystemSettings = ({ athleteId }) => {
                       <input
                         type="number"
                         step="0.01"
-                        placeholder="49.99"
+                        placeholder={t('systemSettings.plans.pricePlaceholder')}
                         value={newVariation.price}
                         onChange={(e) => setNewVariation({...newVariation, price: e.target.value})}
                         className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
@@ -2287,19 +2287,19 @@ const SystemSettings = ({ athleteId }) => {
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-gray-300 mb-2">Billing Interval *</label>
+                        <label className="block text-gray-300 mb-2">{t('systemSettings.plans.billingIntervalRequired')}</label>
                         <select
                           value={newVariation.interval}
                           onChange={(e) => setNewVariation({...newVariation, interval: e.target.value})}
                           className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
                         >
-                          <option value="month">Monthly</option>
-                          <option value="year">Yearly</option>
+                          <option value="month">{t('systemSettings.plans.monthly')}</option>
+                          <option value="year">{t('systemSettings.plans.yearly')}</option>
                         </select>
                       </div>
 
                       <div>
-                        <label className="block text-gray-300 mb-2">Interval Count</label>
+                        <label className="block text-gray-300 mb-2">{t('systemSettings.plans.intervalCount')}</label>
                         <input
                           type="number"
                           min="1"
