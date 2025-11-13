@@ -4077,10 +4077,10 @@ const SystemSettings = ({ athleteId }) => {
                 {/* OpenAI API Key */}
                 <div className="space-y-2">
                   <Label className="text-sm font-medium text-white">
-                    OpenAI API Key
+                    {t('systemSettings.advanced.openaiIntegration')}
                   </Label>
                   <p className="text-xs text-gray-400 mb-2">
-                    Global OpenAI API key used for all AI Coach features across all users
+                    {t('systemSettings.advanced.openaiApiKeyHelp')}
                   </p>
                   <div className="flex gap-2">
                     <Input
