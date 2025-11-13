@@ -893,5 +893,67 @@
     "step4": "Step 4: Paste them here",
     "learnMore": "Learn More",
     "securityNote": "Your credentials are stored securely"
+  },
+  "placeholders": {
+    "whatDidYouHave": "What did you have?",
+    "additionalNotes": "Additional notes..."
+  },
+  "onboarding": {
+    "title": "Welcome to TrainSmart",
+    "description": "Let's get started with your training journey",
+    "runningGoalsPlaceholder": "What are your running goals?",
+    "startCoaching": "Start Coaching",
+    "insightMessage": "We'll use this information to personalize your experience"
+  },
+  "reports": {
+    "title": "Reports",
+    "description": "View your generated reports",
+    "noReports": "No reports yet",
+    "setupSchedules": "Setup schedules to generate reports automatically",
+    "today": "Today",
+    "topics": "Topics",
+    "totalReports": "Total Reports"
+  },
+  "schedules": {
+    "analyzePrompt": "Analyze Prompt",
+    "presets": {
+      "dailyRecovery": {
+        "name": "Daily Recovery",
+        "prompt": "Analyze my recovery status for today"
+      },
+      "weeklyTraining": {
+        "name": "Weekly Training",
+        "prompt": "Summarize my training week"
+      },
+      "nutrition": {
+        "name": "Nutrition",
+        "prompt": "Review my nutrition habits"
+      },
+      "racePrep": {
+        "name": "Race Preparation",
+        "prompt": "How ready am I for the race?"
+      }
+    }
+  },
+  "voiceChat": {
+    "startVoice": "Start Voice Chat",
+    "stopVoice": "Stop Voice Chat",
+    "speakNow": "Speak now...",
+    "connecting": "Connecting...",
+    "connected": "Connected",
+    "micPermissionRequired": "Microphone permission required",
+    "micPermissionDenied": "Microphone permission denied",
+    "apiKeyRequired": "API key required"
+  },
+  "history": {
+    "title": "History",
+    "description": "View your activity history",
+    "workouts": "Workouts",
+    "sleep": "Sleep",
+    "noWorkouts": "No workouts recorded",
+    "noSleep": "No sleep data available",
+    "duration": "Duration",
+    "type": "Type",
+    "avgHR": "Avg HR"
   }
 }
