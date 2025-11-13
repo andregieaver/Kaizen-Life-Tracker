@@ -3995,14 +3995,14 @@ const SystemSettings = ({ athleteId }) => {
                       </div>
                     </div>
                     <p className="text-xs text-gray-400">
-                      Small icon that appears in browser tabs
+                      {t('systemSettings.advanced.faviconHelp')}
                     </p>
                   </div>
 
                   {/* Logo Upload */}
                   <div className="space-y-2">
                     <Label className="text-xs font-medium text-gray-300">
-                      {t('systemSettings.advanced.logo')} (Square format recommended)
+                      {t('systemSettings.advanced.logoLabel')}
                     </Label>
                     <div className="flex items-center gap-4">
                       {advancedSettings.seo.logoUrl && (
