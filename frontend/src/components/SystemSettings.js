@@ -2904,7 +2904,7 @@ const SystemSettings = ({ athleteId }) => {
 
                         {/* Free Subscribers */}
                         <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
-                          <p className="text-sm font-medium text-gray-400">Free Subscribers</p>
+                          <p className="text-sm font-medium text-gray-400">{t('systemSettings.statistics.freeUsers')}</p>
                           <p className="text-3xl font-bold text-white mt-2">{subscriberStats.free_subscribers.toLocaleString()}</p>
                           <div className="flex items-center mt-3">
                             <span className="text-sm text-gray-400">
