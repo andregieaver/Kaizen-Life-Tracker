@@ -1862,7 +1862,7 @@ const SystemSettings = ({ athleteId }) => {
                                         className="text-gray-300 border-gray-500 flex-1 sm:flex-none"
                                       >
                                         <DollarSign className="w-4 h-4 sm:mr-1" />
-                                        <span className="hidden sm:inline">Edit Price</span>
+                                        <span className="hidden sm:inline">{t('systemSettings.plans.editPrice')}</span>
                                       </Button>
                                       <Button
                                         size="sm"
@@ -1871,7 +1871,7 @@ const SystemSettings = ({ athleteId }) => {
                                         className="text-red-400 border-red-600 flex-1 sm:flex-none"
                                       >
                                         <Trash2 className="w-4 h-4 sm:mr-1" />
-                                        <span className="hidden sm:inline">Delete</span>
+                                        <span className="hidden sm:inline">{t('systemSettings.plans.delete')}</span>
                                       </Button>
                                     </div>
                                   </div>
