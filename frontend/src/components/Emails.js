@@ -311,15 +311,15 @@ const Emails = () => {
       <div className="mb-12">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-2xl font-bold text-white">Custom Emails</h2>
-            <p className="text-gray-400 text-sm mt-1">Create and send targeted email campaigns</p>
+            <h2 className="text-2xl font-bold text-white">{t('emails.customEmails')}</h2>
+            <p className="text-gray-400 text-sm mt-1">{t('emails.customEmailsDesc')}</p>
           </div>
           <Button
             onClick={handleCreateNewEmail}
             className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
           >
             <Plus className="w-4 h-4 mr-2" />
-            Create Email
+            {t('emails.createEmail')}
           </Button>
         </div>
 
