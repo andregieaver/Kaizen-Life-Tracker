@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Badge } from './ui/badge';
 import { Plus, Upload, Trash2, FileText, File, X, Activity, Clipboard, FlaskConical, BookOpen, FolderOpen, Download, RefreshCw, Camera } from 'lucide-react';
 
-const API = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+const API = process.env.REACT_APP_BACKEND_URL;
 
 const Documents = ({ athleteId }) => {
   const [documents, setDocuments] = useState([]);
