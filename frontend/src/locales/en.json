@@ -1439,7 +1439,16 @@
       "lastScan": "Last scan",
       "detectedCookies": "Detected Cookies",
       "necessary": "Necessary",
-      "scanned": "Scanned"
+      "scanned": "Scanned",
+      "functional": "Functional",
+      "domain": "Domain",
+      "expiry": "Expiry",
+      "source": "Source",
+      "thirdParty": "third-party",
+      "frontend": "frontend",
+      "backend": "backend",
+      "cookieBannerCustomization": "Cookie Banner Customization",
+      "cookieBannerCustomizationDesc": "Customize the text displayed in the cookie consent banner"
     },
     "coupons": {
       "description": "Manage discount coupons",

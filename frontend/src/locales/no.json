@@ -1439,7 +1439,16 @@
       "lastScan": "Siste skanning",
       "detectedCookies": "Oppdagede informasjonskapsler",
       "necessary": "Nødvendige",
-      "scanned": "Skannet"
+      "scanned": "Skannet",
+      "functional": "Funksjonelle",
+      "domain": "Domene",
+      "expiry": "Utløp",
+      "source": "Kilde",
+      "thirdParty": "tredjepartstjeneste",
+      "frontend": "frontend",
+      "backend": "backend",
+      "cookieBannerCustomization": "Tilpasning av informasjonskapsel-banner",
+      "cookieBannerCustomizationDesc": "Tilpass teksten som vises i samtykkebaneret for informasjonskapsler"
     },
     "coupons": {
       "description": "Administrer rabattkuponger",
