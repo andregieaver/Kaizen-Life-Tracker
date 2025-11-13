@@ -138,7 +138,20 @@
     "submit": "Submit",
     "reset": "Reset",
     "apply": "Apply",
-    "clear": "Clear"
+    "clear": "Clear",
+    "upload": "Upload",
+    "uploadImage": "Upload Image",
+    "uploadBanner": "Upload Banner",
+    "change": "Change",
+    "changeImage": "Change Image",
+    "changeBanner": "Change Banner",
+    "banner": "Banner",
+    "bannerImage": "Banner Image",
+    "description": "Description",
+    "createChallenge": "Create Challenge",
+    "createEvent": "Create Event",
+    "saveChanges": "Save Changes",
+    "share": "Share"
   },
   "training": {
     "title": "Training Calendar",
