@@ -367,7 +367,7 @@ const Emails = () => {
                 <CardContent>
                   <div className="space-y-3">
                     <div>
-                      <p className="text-xs text-gray-500 mb-1">Subject:</p>
+                      <p className="text-xs text-gray-500 mb-1">{t('emails.subject')}:</p>
                       <p className="text-sm text-gray-300 font-medium">{email.subject}</p>
                     </div>
                     <Button
