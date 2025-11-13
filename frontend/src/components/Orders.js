@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Search, Filter, ChevronUp, ChevronDown, ShoppingCart, Download, RefreshCw, Sparkles } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
 import { Input } from './ui/input';
