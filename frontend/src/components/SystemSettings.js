@@ -3106,7 +3106,7 @@ const SystemSettings = ({ athleteId }) => {
                           <p className="text-2xl font-bold text-white">
                             €{subscriberStats.business_metrics?.ltv?.toLocaleString() || '0'}
                           </p>
-                          <p className="text-xs text-gray-400 mt-2">Customer Lifetime Value</p>
+                          <p className="text-xs text-gray-400 mt-2">{t('systemSettings.statistics.customerLifetimeValue')}</p>
                         </div>
                       </div>
 
@@ -3116,18 +3116,18 @@ const SystemSettings = ({ athleteId }) => {
                         <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
                           <div className="flex items-center justify-between">
                             <div>
-                              <p className="text-sm font-medium text-gray-400 mb-1">ARPU</p>
+                              <p className="text-sm font-medium text-gray-400 mb-1">{t('systemSettings.statistics.arpu')}</p>
                               <p className="text-xl font-bold text-white">
                                 €{subscriberStats.business_metrics?.arpu?.toFixed(2) || '0.00'}
                               </p>
-                              <p className="text-xs text-gray-400 mt-1">Average Revenue Per User</p>
+                              <p className="text-xs text-gray-400 mt-1">{t('systemSettings.statistics.averageRevenuePerUser')}</p>
                             </div>
                             <div className="text-right">
-                              <p className="text-sm font-medium text-gray-400 mb-1">ARPPU</p>
+                              <p className="text-sm font-medium text-gray-400 mb-1">{t('systemSettings.statistics.arppu')}</p>
                               <p className="text-xl font-bold text-white">
                                 €{subscriberStats.business_metrics?.arppu?.toFixed(2) || '0.00'}
                               </p>
-                              <p className="text-xs text-gray-400 mt-1">Per Paid User</p>
+                              <p className="text-xs text-gray-400 mt-1">{t('systemSettings.statistics.averageRevenuePerPaidUser')}</p>
                             </div>
                           </div>
                         </div>
