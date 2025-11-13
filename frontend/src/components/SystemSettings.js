@@ -3474,7 +3474,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div>
                         <Label className="text-white font-medium">{t('systemSettings.cookies.autoScanEnabled')}</Label>
                         <p className="text-xs text-gray-400 mt-1">
-                          Automatically scan for new cookies every week (Monday 2 AM)
+                          {t('systemSettings.cookies.autoScanDescription')}
                         </p>
                       </div>
                       <input
