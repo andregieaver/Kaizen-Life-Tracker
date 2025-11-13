@@ -1452,7 +1452,9 @@
       "gtmConsentModeTitle": "Google Consent Mode v2 Integration",
       "gtmConsentModeDescription": "Integrates with Google Tag Manager for consent management. Make sure you've added your GTM snippet in the Advanced tab.",
       "enableGtmConsentModeLabel": "Enable GTM Consent Mode",
-      "enableGtmConsentModeDescription": "Sends consent signals to GTM container"
+      "enableGtmConsentModeDescription": "Sends consent signals to GTM container",
+      "functionalCookiesTitle": "Functional Cookies Title",
+      "functionalCookiesDescription": "Functional Cookies Description"
     },
     "coupons": {
       "description": "Manage discount coupons",
