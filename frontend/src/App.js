@@ -416,6 +416,7 @@ function App() {
         <CookieBanner />
       </BrowserRouter>
     </div>
+    </ThemeProvider>
   );
 }
 
