@@ -114,21 +114,35 @@ body {
 
 /* Light Theme Override */
 :root.light {
+  /* Backgrounds - Whiter with subtle gradients */
   --bg-950: #FFFFFF;
-  --bg-900: #F8FAFC;
-  --bg-800: #F1F5F9;
-  --bg-700: #E2E8F0;
-  --bg-600: #CBD5E1;
-  --bg-500: #F8FAFC;
+  --bg-900: #FAFBFC;
+  --bg-800: #F5F7FA;
+  --bg-700: #EFF2F7;
+  --bg-600: #E5E9F0;
+  --bg-500: #FAFBFC;
+  
+  /* Text Colors */
   --text-hi: #0A0F14;
   --text-med: #485568;
   --text-muted: #6B7A8C;
-  --border: #E2E8F0;
   
-  /* Light Theme Gradients */
-  --grad-surface: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
-  --grad-page: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 50%, #E8EEF5 100%);
-  --grad-cta-soft: linear-gradient(180deg, rgba(50,211,255,.08) 0%, rgba(50,211,255,.08) 100%);
+  /* Border */
+  --border: #E8ECF2;
+  
+  /* Brand Colors - Dark Blue Accent for Light Theme */
+  --c-brand-500: #1E40AF;  /* Dark blue instead of teal */
+  --c-brand-600: #1E3A8A;  /* Darker blue */
+  --c-brand-700: #1E3A8A;
+  --c-sky-500: #3B82F6;    /* Lighter blue for variety */
+  --c-sky-700: #2563EB;
+  --c-focus: #3B82F6;
+  
+  /* Light Theme Gradients - Whiter to White */
+  --grad-surface: linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 100%);
+  --grad-page: linear-gradient(180deg, #FEFEFF 0%, #FAFBFC 50%, #F5F7FA 100%);
+  --grad-cta-soft: linear-gradient(180deg, rgba(30,64,175,.06) 0%, rgba(30,64,175,.06) 100%);
+  --grad-brand: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
 }
 
 @layer base {
