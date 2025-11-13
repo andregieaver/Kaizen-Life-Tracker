@@ -2819,6 +2819,7 @@ USER PREFERENCES (CRITICAL - ALWAYS RESPECT THESE):
 - Timezone: {timezone_pref}
 - Week Starts On: {week_starts_on}
 - Preferred Language: {language_name} (RESPOND IN {language_name.upper()} - all responses must be in this language)
+{personality_prompt}
 {memory_summary}
 
 RECENT ACTIVITY SUMMARY:
