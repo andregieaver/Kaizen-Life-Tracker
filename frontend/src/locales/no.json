@@ -138,7 +138,20 @@
     "submit": "Send inn",
     "reset": "Tilbakestill",
     "apply": "Bruk",
-    "clear": "Tøm"
+    "clear": "Tøm",
+    "upload": "Last opp",
+    "uploadImage": "Last opp bilde",
+    "uploadBanner": "Last opp banner",
+    "change": "Endre",
+    "changeImage": "Endre bilde",
+    "changeBanner": "Endre banner",
+    "banner": "Banner",
+    "bannerImage": "Bannerbilde",
+    "description": "Beskrivelse",
+    "createChallenge": "Opprett utfordring",
+    "createEvent": "Opprett arrangement",
+    "saveChanges": "Lagre endringer",
+    "share": "Del"
   },
   "training": {
     "title": "Treningskalender",
