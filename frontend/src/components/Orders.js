@@ -439,7 +439,7 @@ const Orders = ({ athleteId }) => {
               disabled={currentPage === totalPages}
               className="bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed border-0"
             >
-              Next
+              {t('orders.next')}
             </Button>
           </div>
         </div>
