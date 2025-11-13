@@ -41,6 +41,7 @@ import MenuEditor from './MenuEditor';
 import Emails from './Emails';
 import Drinks from './Drinks';
 import Support from './Support';
+import ThemeToggle from './ThemeToggle';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
