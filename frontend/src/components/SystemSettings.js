@@ -2595,7 +2595,7 @@ const SystemSettings = ({ athleteId }) => {
                             </div>
                             {coupon.specific_plans && coupon.specific_plans.length > 0 && (
                               <div className="mt-2 flex flex-wrap gap-1">
-                                <span className="text-xs text-gray-400">Valid for:</span>
+                                <span className="text-xs text-gray-400">{t('systemSettings.coupons.validFor')}:</span>
                                 {coupon.specific_plans.map(planId => {
                                   const plan = availablePlans.find(p => p.id === planId);
                                   return plan ? (
