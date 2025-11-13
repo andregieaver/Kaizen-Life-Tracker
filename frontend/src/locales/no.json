@@ -1408,7 +1408,14 @@
       "metaDescription": "Meta-beskrivelse",
       "metaDescriptionPlaceholder": "En kort beskrivelse av nettstedet ditt for søkemotorer og sosiale medier",
       "metaDescriptionHelp": "Vises i søkeresultater og delinger på sosiale medier (anbefalt: 150-160 tegn)",
-      "faviconLabel": "Favicon (16x16 eller 32x32 anbefalt)"
+      "faviconLabel": "Favicon (16x16 eller 32x32 anbefalt)",
+      "faviconHelp": "Lite ikon som vises i nettleserfaner",
+      "logoLabel": "Logo (Kvadratisk format anbefalt)",
+      "logoHelp": "Vises i topptekster og bunntekster på hele nettstedet",
+      "ogImageLabel": "Open Graph-bilde (1200x630 anbefalt)",
+      "uploadOgImage": "Last opp OG-bilde",
+      "ogImageHelp": "Vises når nettstedet ditt deles på sosiale medier (Facebook, Twitter, LinkedIn, osv.)",
+      "openaiApiKeyHelp": "Global OpenAI API-nøkkel brukt for alle AI Coach-funksjoner for alle brukere"
     },
     "logoPreview": "Logo-forhåndsvisning",
     "faviconPreview": "Favicon-forhåndsvisning",

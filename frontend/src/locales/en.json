@@ -1408,7 +1408,14 @@
       "metaDescription": "Meta Description",
       "metaDescriptionPlaceholder": "A brief description of your site for search engines and social media",
       "metaDescriptionHelp": "Displayed in search results and social media shares (recommended: 150-160 characters)",
-      "faviconLabel": "Favicon (16x16 or 32x32 recommended)"
+      "faviconLabel": "Favicon (16x16 or 32x32 recommended)",
+      "faviconHelp": "Small icon that appears in browser tabs",
+      "logoLabel": "Logo (Square format recommended)",
+      "logoHelp": "Appears in headers and footers throughout the site",
+      "ogImageLabel": "Open Graph Image (1200x630 recommended)",
+      "uploadOgImage": "Upload OG Image",
+      "ogImageHelp": "Displayed when sharing your site on social media (Facebook, Twitter, LinkedIn, etc.)",
+      "openaiApiKeyHelp": "Global OpenAI API key used for all AI Coach features across all users"
     },
     "logoPreview": "Logo Preview",
     "faviconPreview": "Favicon Preview",
