@@ -176,9 +176,9 @@ const Pages = ({ athleteId }) => {
                 onChange={(e) => setIndexFilter(e.target.value)}
                 className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#00C2A8]"
               >
-                <option value="">All Index Status</option>
-                <option value="indexed">Indexed</option>
-                <option value="no-index">No-Index</option>
+                <option value="">{t('pages.allIndexStatus')}</option>
+                <option value="indexed">{t('pages.indexed')}</option>
+                <option value="no-index">{t('pages.noIndex')}</option>
               </select>
             </div>
           </div>
