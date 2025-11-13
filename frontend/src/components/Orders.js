@@ -191,10 +191,10 @@ const Orders = ({ athleteId }) => {
         <div>
           <h1 className="text-2xl md:text-3xl font-display font-bold text-white flex items-center gap-2">
             <ShoppingCart className="w-8 h-8" style={{ color: '#00C2A8' }} />
-            Stripe Orders
+            {t('orders.title')}
           </h1>
           <p className="text-gray-300 mt-1">
-            View and manage all subscription orders
+            {t('orders.description')}
           </p>
         </div>
         <div className="flex items-center gap-2">
