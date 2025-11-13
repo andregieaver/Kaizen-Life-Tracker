@@ -17325,13 +17325,19 @@ async def get_platform_metrics():
         
         if os.path.exists(locale_path):
             language_files = glob.glob(os.path.join(locale_path, '*.json'))
-            language_count = len(language_files)
             
             # Extract language codes and map to readable names
             for file_path in sorted(language_files):
                 lang_code = os.path.basename(file_path).replace('.json', '')
+                
+                # Skip internal/test files
+                if lang_code.upper() == 'EN-FULL':
+                    continue
+                    
                 lang_name = language_map.get(lang_code, f'{lang_code.upper()}')
                 languages_list.append(lang_name)
+            
+            language_count = len(languages_list)
         
         # AI Coach personalities with descriptions
         personalities_list = [
