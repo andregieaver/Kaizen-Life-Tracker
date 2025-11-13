@@ -203,32 +203,32 @@ const Pages = ({ athleteId }) => {
             <table className="w-full">
               <thead className="bg-gray-900 border-b border-gray-700">
                 <tr>
-                  <th className="text-left p-4 text-sm font-medium text-gray-400">Thumbnail</th>
+                  <th className="text-left p-4 text-sm font-medium text-gray-400">{t('pages.thumbnail')}</th>
                   <th 
                     className="text-left p-4 text-sm font-medium text-gray-400 cursor-pointer hover:text-white"
                     onClick={() => handleSort('title')}
                   >
-                    Page Title {sortField === 'title' && (sortOrder === 'asc' ? '↑' : '↓')}
+                    {t('pages.pageTitle')} {sortField === 'title' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
                   <th 
                     className="text-left p-4 text-sm font-medium text-gray-400 cursor-pointer hover:text-white"
                     onClick={() => handleSort('status')}
                   >
-                    Status {sortField === 'status' && (sortOrder === 'asc' ? '↑' : '↓')}
+                    {t('pages.status')} {sortField === 'status' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
                   <th 
                     className="text-left p-4 text-sm font-medium text-gray-400 cursor-pointer hover:text-white"
                     onClick={() => handleSort('index_status')}
                   >
-                    Index Status {sortField === 'index_status' && (sortOrder === 'asc' ? '↑' : '↓')}
+                    {t('pages.indexStatus')} {sortField === 'index_status' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
                   <th 
                     className="text-left p-4 text-sm font-medium text-gray-400 cursor-pointer hover:text-white"
                     onClick={() => handleSort('updated_at')}
                   >
-                    Last Modified {sortField === 'updated_at' && (sortOrder === 'asc' ? '↑' : '↓')}
+                    {t('pages.lastModified')} {sortField === 'updated_at' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th className="text-left p-4 text-sm font-medium text-gray-400">Actions</th>
+                  <th className="text-left p-4 text-sm font-medium text-gray-400">{t('pages.actions')}</th>
                 </tr>
               </thead>
               <tbody>
