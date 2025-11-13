@@ -199,10 +199,10 @@ const Orders = ({ athleteId }) => {
         </div>
         <div className="flex items-center gap-2">
           <Badge className="bg-gray-700 text-white">
-            {filteredOrders.length} / {orders.length} orders
+            {t('orders.ordersCount', { filtered: filteredOrders.length, total: orders.length })}
           </Badge>
           <Badge className="bg-[#00C2A8] text-white">
-            {formatAmount(calculateTotalRevenue(), 'EUR')} total
+            {t('orders.totalRevenue', { amount: formatAmount(calculateTotalRevenue(), 'EUR') })}
           </Badge>
           <Button
             onClick={exportToCSV}
@@ -212,7 +212,7 @@ const Orders = ({ athleteId }) => {
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
           >
             <Download className="w-4 h-4 mr-2" />
-            Export CSV
+            {t('orders.exportCSV')}
           </Button>
         </div>
       </div>
