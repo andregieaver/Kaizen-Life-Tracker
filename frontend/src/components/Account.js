@@ -348,6 +348,7 @@ const Account = ({ athleteId }) => {
     fluid_unit: 'fl oz',
     language: 'en',
     coach_language: 'en', // AI Coach preferred language
+    coach_personality: null, // AI Coach personality type
     voice_preference: 'alloy',
     coach_name: 'Coach', // AI Coach custom name
     coach_avatar: null, // AI Coach custom avatar URL
