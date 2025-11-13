@@ -3064,31 +3064,31 @@ const SystemSettings = ({ athleteId }) => {
                         {/* Monthly Recurring Revenue */}
                         <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
                           <div className="flex items-center justify-between mb-2">
-                            <p className="text-sm font-medium text-gray-400">MRR</p>
+                            <p className="text-sm font-medium text-gray-400">{t('systemSettings.statistics.mrr')}</p>
                             <DollarSign className="w-5 h-5 text-green-400" />
                           </div>
                           <p className="text-2xl font-bold text-white">
                             €{subscriberStats.business_metrics?.mrr?.toLocaleString() || '0'}
                           </p>
-                          <p className="text-xs text-gray-400 mt-2">Monthly Recurring Revenue</p>
+                          <p className="text-xs text-gray-400 mt-2">{t('systemSettings.statistics.monthlyRecurringRevenue')}</p>
                         </div>
 
                         {/* Annual Recurring Revenue */}
                         <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
                           <div className="flex items-center justify-between mb-2">
-                            <p className="text-sm font-medium text-gray-400">ARR</p>
+                            <p className="text-sm font-medium text-gray-400">{t('systemSettings.statistics.arr')}</p>
                             <DollarSign className="w-5 h-5 text-blue-400" />
                           </div>
                           <p className="text-2xl font-bold text-white">
                             €{subscriberStats.business_metrics?.arr?.toLocaleString() || '0'}
                           </p>
-                          <p className="text-xs text-gray-400 mt-2">Annual Recurring Revenue</p>
+                          <p className="text-xs text-gray-400 mt-2">{t('systemSettings.statistics.annualRecurringRevenue')}</p>
                         </div>
 
                         {/* Conversion Rate */}
                         <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
                           <div className="flex items-center justify-between mb-2">
-                            <p className="text-sm font-medium text-gray-400">Conversion Rate</p>
+                            <p className="text-sm font-medium text-gray-400">{t('systemSettings.statistics.conversionRate')}</p>
                             <Percent className="w-5 h-5 text-purple-400" />
                           </div>
                           <p className="text-2xl font-bold text-white">
