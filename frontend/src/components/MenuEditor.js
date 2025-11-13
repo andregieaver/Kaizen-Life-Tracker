@@ -359,7 +359,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
                                   type="button"
                                   onClick={() => handleTranslateItem(menuType, item.id, item.label)}
                                   className="text-blue-400 hover:text-blue-300 transition-colors"
-                                  title="Translate this item to all languages"
+                                  title={t('menus.translateItem')}
                                 >
                                   <Languages className="w-4 h-4" />
                                 </button>
