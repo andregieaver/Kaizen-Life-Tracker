@@ -408,13 +408,13 @@ const MenuEditor = ({ athleteId, onBack }) => {
             className="flex items-center gap-2 text-gray-400 hover:text-white mb-4 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Account
+            {t('menus.backToAccount')}
           </button>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white">Menu Editor</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">{t('menus.title')}</h1>
               <p className="text-gray-400 mt-1 text-sm">
-                Manage navigation menus for your application
+                {t('menus.description')}
               </p>
             </div>
             <div className="flex gap-3">
