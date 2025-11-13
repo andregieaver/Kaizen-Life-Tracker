@@ -2529,7 +2529,7 @@ const SystemSettings = ({ athleteId }) => {
               </CardHeader>
               <CardContent>
                 {loadingCoupons ? (
-                  <div className="text-gray-400 text-center py-8">Loading coupons...</div>
+                  <div className="text-gray-400 text-center py-8">{t('systemSettings.coupons.loadingCoupons')}</div>
                 ) : coupons.length === 0 ? (
                   <div className="text-gray-400 text-center py-8">
                     No coupons created yet. Create your first coupon above.
