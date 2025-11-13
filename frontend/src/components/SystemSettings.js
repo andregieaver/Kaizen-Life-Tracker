@@ -5059,11 +5059,11 @@ const SystemSettings = ({ athleteId }) => {
                     {/* Client ID */}
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Consumer Key (Client ID)
+                        {t('systemSettings.advanced.garminConsumerKey')}
                       </label>
                       <input
                         type="text"
-                        placeholder="Enter your Garmin Consumer Key"
+                        placeholder={t('systemSettings.advanced.garminConsumerKeyPlaceholder')}
                         className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                         value={advancedSettings.garmin.clientId}
                         onChange={(e) => setAdvancedSettings(prev => ({
@@ -5076,7 +5076,7 @@ const SystemSettings = ({ athleteId }) => {
                     {/* Callback Domain */}
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Authorization Callback Domain
+                        {t('systemSettings.advanced.authCallbackDomain')}
                       </label>
                       <input
                         type="text"
@@ -5096,12 +5096,12 @@ const SystemSettings = ({ athleteId }) => {
                     {/* Client Secret */}
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Consumer Secret (Client Secret)
+                        {t('systemSettings.advanced.garminConsumerSecret')}
                       </label>
                       <div className="relative">
                         <input
                           type={advancedSettings.showGarminSecret ? 'text' : 'password'}
-                          placeholder="Enter your Garmin Consumer Secret"
+                          placeholder={t('systemSettings.advanced.garminConsumerSecretPlaceholder')}
                           className="w-full px-3 py-2 pr-10 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                           value={advancedSettings.garmin.clientSecret}
                           onChange={(e) => setAdvancedSettings(prev => ({
