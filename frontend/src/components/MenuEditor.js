@@ -71,10 +71,10 @@ const MenuEditor = ({ athleteId, onBack }) => {
       // Dispatch custom event to notify Dashboard to reload menus
       window.dispatchEvent(new CustomEvent('menusUpdated'));
       
-      alert(`Successfully translated ${response.data.translated_count} menu items into: ${response.data.languages.join(', ')}`);
+      alert(t('menus.translateSuccess', { count: response.data.translated_count, languages: response.data.languages.join(', ') }));
     } catch (error) {
       console.error('Error translating menus:', error);
-      const errorMsg = error.response?.data?.detail || 'Failed to translate menus';
+      const errorMsg = error.response?.data?.detail || t('menus.translateFailed');
       alert(errorMsg);
     } finally {
       setTranslating(false);
