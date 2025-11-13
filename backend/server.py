@@ -16165,7 +16165,7 @@ async def get_subscriber_stats(
         for item in daily_posts_result:
             post_time_series.append({
                 "date": item["_id"],
-                "count": daily_posts[date]
+                "count": item["count"]
             })
         
         result["community_metrics"] = {
