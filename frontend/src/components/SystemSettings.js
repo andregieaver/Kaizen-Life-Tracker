@@ -2426,15 +2426,15 @@ const SystemSettings = ({ athleteId }) => {
                   
                   {/* Applies To */}
                   <div>
-                    <label className="block text-gray-300 mb-2">Applies To</label>
+                    <label className="block text-gray-300 mb-2">{t('systemSettings.coupons.appliesTo')}</label>
                     <select 
                       value={newCoupon.applies_to}
                       onChange={(e) => setNewCoupon({...newCoupon, applies_to: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                     >
-                      <option value="all">All Purchases</option>
-                      <option value="subscriptions">Subscriptions Only</option>
-                      <option value="one_time">One-Time Purchases Only</option>
+                      <option value="all">{t('systemSettings.coupons.allPurchases')}</option>
+                      <option value="subscriptions">{t('systemSettings.coupons.subscriptionsOnly')}</option>
+                      <option value="one_time">{t('systemSettings.coupons.oneTimePurchases')}</option>
                     </select>
                     <p className="text-gray-500 text-xs mt-1">
                       💡 Select "Subscriptions Only" to specify which plans this coupon applies to
