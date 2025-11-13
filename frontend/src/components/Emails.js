@@ -156,7 +156,7 @@ const Emails = () => {
     setSaveStatus({ type: '', message: '' });
 
     if (!customEmailForm.name.trim()) {
-      setSaveStatus({ type: 'error', message: 'Email name is required' });
+      setSaveStatus({ type: 'error', message: t('emails.emailNameRequired') });
       return;
     }
     if (!customEmailForm.subject.trim()) {
