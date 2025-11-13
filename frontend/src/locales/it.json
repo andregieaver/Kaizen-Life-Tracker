@@ -2149,5 +2149,64 @@
     "sending": "Invio in corso...",
     "startConversation": "Inizia una conversazione",
     "title": "Coach AI"
+  },
+  "coachChat": {
+    "archiveConversation": "Archivia conversazione",
+    "archived": "Archiviato",
+    "confirmDeleteConversation": "Sei sicuro di voler eliminare questa conversazione?",
+    "connectionTrouble": "Problema di connessione. Per favore riprova.",
+    "conversationPreview": "Anteprima conversazione",
+    "defaultCoachName": "Coach AI",
+    "deleteConversation": "Elimina conversazione",
+    "failedArchive": "Impossibile archiviare la conversazione",
+    "failedCheckout": "Impossibile avviare il checkout",
+    "failedDelete": "Impossibile eliminare la conversazione",
+    "failedUnarchive": "Impossibile rimuovere dall'archivio la conversazione",
+    "noArchivedConversations": "Nessuna conversazione archiviata"
+  },
+  "drinks": {
+    "confirmDelete": "Sei sicuro di voler eliminare questo registro delle bevande?",
+    "drinkDeletedSuccess": "Registro delle bevande eliminato con successo",
+    "drinkLoggedSuccess": "Bevanda registrata con successo",
+    "drinkTypes": {
+      "coffee": "Caffè",
+      "juice": "Succo",
+      "milk": "Latte",
+      "other": "Altro",
+      "smoothie": "Frullato",
+      "sports_drink": "Bevanda sportiva",
+      "tea": "Tè",
+      "water": "Acqua"
+    },
+    "failedToDelete": "Impossibile eliminare il registro delle bevande",
+    "failedToLoad": "Impossibile caricare le bevande",
+    "failedToLog": "Impossibile registrare la bevanda"
+  },
+  "notifications": {
+    "all": "Tutti",
+    "allCaughtUp": "Hai completato tutto!",
+    "challenges": "Sfide",
+    "events": "Eventi",
+    "follows": "Seguiti",
+    "groups": "Gruppi",
+    "noNotifications": "Nessuna notifica",
+    "notifications": "Notifiche",
+    "posts": "Post"
+  },
+  "today": {
+    "bpm": "BPM",
+    "cal": "cal",
+    "consumed": "Consumate",
+    "dailyNeed": "Fabbisogno Giornaliero",
+    "min": "min",
+    "noWorkoutsToday": "Nessun allenamento programmato per oggi",
+    "progress": "Progresso",
+    "remaining": "Rimanente",
+    "title": "Oggi",
+    "todayHabits": "Abitudini di Oggi",
+    "todaysMeals": "Pasti di Oggi",
+    "totalLoad": "Carico Totale",
+    "trainingLoad": "Carico di Allenamento",
+    "workout": "Allenamento"
   }
 }
