@@ -33,7 +33,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
       setMenus(response.data);
     } catch (error) {
       console.error('Error loading menus:', error);
-      alert('Failed to load menus');
+      alert(t('menus.loadFailed'));
     } finally {
       setLoading(false);
     }
