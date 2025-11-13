@@ -224,5 +224,11 @@
     "processing": "Procesando...",
     "importedActivities": "Se importaron {{count}} actividades",
     "importedSleepRecords": "Se importaron {{count}} registros de sueño"
+  },
+  "training": {
+    "title": "Calendario de Entrenamiento",
+    "addWorkout": "Agregar Entrenamiento",
+    "viewCalendar": "Ver Calendario",
+    "upcomingWorkouts": "Próximos Entrenamientos"
   }
 }
