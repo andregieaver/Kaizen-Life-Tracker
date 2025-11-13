@@ -398,7 +398,12 @@
     "cancelMessage": "Are you sure you want to cancel this order?",
     "refundMessage": "Are you sure you want to refund this order?",
     "errorUpdating": "Error updating order",
-    "errorLoading": "Error loading orders"
+    "errorLoading": "Error loading orders",
+    "showing": "Showing {{start}} to {{end}} of {{total}} orders",
+    "page": "Page",
+    "of": "of",
+    "previous": "Previous",
+    "next": "Next"
   },
   "coupons": {
     "createCoupon": {
