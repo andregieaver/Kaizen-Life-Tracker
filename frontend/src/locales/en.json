@@ -1703,8 +1703,8 @@
     "next": "Next"
   },
   "emails": {
-    "title": "Email Campaigns",
-    "description": "Send bulk emails to subscribers",
+    "title": "Email Management",
+    "description": "Customize transactional emails and send custom campaigns",
     "customEmails": "Custom Emails",
     "customEmailsDesc": "Create and send targeted email campaigns",
     "createEmail": "Create Email",
