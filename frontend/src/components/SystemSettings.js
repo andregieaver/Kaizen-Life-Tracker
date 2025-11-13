@@ -2203,14 +2203,14 @@ const SystemSettings = ({ athleteId }) => {
                     </div>
 
                     <div>
-                      <label className="block text-gray-300 mb-2">Sort Order</label>
+                      <label className="block text-gray-300 mb-2">{t('systemSettings.plans.sortOrder')}</label>
                       <input
                         type="number"
                         value={editingPlan.sort_order}
                         onChange={(e) => setEditingPlan({...editingPlan, sort_order: parseInt(e.target.value) || 0})}
                         className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
                       />
-                      <p className="text-gray-500 text-xs mt-1">Lower numbers appear first</p>
+                      <p className="text-gray-500 text-xs mt-1">{t('systemSettings.plans.sortOrderHelp')}</p>
                     </div>
                   </CardContent>
                   <div className="px-6 pb-6 flex gap-3">
