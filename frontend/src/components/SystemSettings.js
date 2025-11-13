@@ -3454,7 +3454,7 @@ const SystemSettings = ({ athleteId }) => {
                     <div>
                       <Label className="text-white font-medium">{t('systemSettings.cookies.enableCookieConsent')}</Label>
                       <p className="text-xs text-gray-400 mt-1">
-                        Show cookie consent banner to visitors (Google Consent Mode v2 compliant)
+                        {t('systemSettings.cookies.enableCookieConsentDescription')}
                       </p>
                     </div>
                     <input
