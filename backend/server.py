@@ -16142,27 +16142,29 @@ async def get_subscriber_stats(
         
         top_contributors = [(item["_id"], item["count"]) for item in top_contributors_result]
         
-        # Calculate daily post distribution for time series
-        daily_posts = {}
-        for post in posts:
-            created_at = post.get("created_at")
-            if created_at:
-                try:
-                    if isinstance(created_at, str):
-                        date_obj = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
-                    else:
-                        date_obj = created_at
-                    date_key = date_obj.strftime('%Y-%m-%d')
-                    daily_posts[date_key] = daily_posts.get(date_key, 0) + 1
-                except Exception:
-                    continue
+        # Calculate daily post distribution for time series using aggregation
+        daily_posts_result = await db.community_posts.aggregate([
+            {"$match": posts_query},
+            {"$project": {
+                "date": {
+                    "$dateToString": {
+                        "format": "%Y-%m-%d",
+                        "date": {"$toDate": "$created_at"}
+                    }
+                }
+            }},
+            {"$group": {
+                "_id": "$date",
+                "count": {"$sum": 1}
+            }},
+            {"$sort": {"_id": 1}}
+        ]).to_list(length=None)
         
         # Create time series for posts
-        sorted_post_dates = sorted(daily_posts.keys())
         post_time_series = []
-        for date in sorted_post_dates:
+        for item in daily_posts_result:
             post_time_series.append({
-                "date": date,
+                "date": item["_id"],
                 "count": daily_posts[date]
             })
         
