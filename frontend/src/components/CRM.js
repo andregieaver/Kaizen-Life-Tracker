@@ -343,12 +343,12 @@ const CRM = ({ athleteId }) => {
                         </Badge>
                       </td>
                       <td className="px-4 py-3 text-gray-300">
-                        {user.subscription_tier === 'free' ? 'N/A' : 
-                          user.subscription_interval === 'month' ? 'Monthly' :
-                          user.subscription_interval === 'year' ? 'Annually' : 'N/A'}
+                        {user.subscription_tier === 'free' ? t('crm.na') : 
+                          user.subscription_interval === 'month' ? t('crm.monthly') :
+                          user.subscription_interval === 'year' ? t('crm.annually') : t('crm.na')}
                       </td>
                       <td className="px-4 py-3 text-gray-300">
-                        {user.nationality || 'N/A'}
+                        {user.nationality || t('crm.na')}
                       </td>
                       <td className="px-4 py-3 text-gray-300">
                         {formatDate(user.created_at)}
