@@ -309,7 +309,7 @@ const Pages = ({ athleteId }) => {
         {/* Total count */}
         {!loading && sortedPages.length > 0 && (
           <div className="mt-4 text-gray-400 text-sm">
-            Showing {sortedPages.length} page{sortedPages.length !== 1 ? 's' : ''}
+            {t('pages.showing', { count: sortedPages.length })}
           </div>
         )}
       </div>
