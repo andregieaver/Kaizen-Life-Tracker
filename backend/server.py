@@ -476,10 +476,13 @@ Behavior:
         
         # Call OpenAI API using standard openai library
         openai_client = openai.OpenAI(api_key=openai_key)
+        system_message = "You are an AI running coach providing personalized training analysis and recommendations. You have access to the athlete's comprehensive data including nutrition, supplements, workouts, sleep, and journal entries. Use this data to provide specific, personalized insights."
+        system_message += personality_prompt
+        
         response = openai_client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are an AI running coach providing personalized training analysis and recommendations. You have access to the athlete's comprehensive data including nutrition, supplements, workouts, sleep, and journal entries. Use this data to provide specific, personalized insights."},
+                {"role": "system", "content": system_message},
                 {"role": "user", "content": context}
             ],
             temperature=0.7,
