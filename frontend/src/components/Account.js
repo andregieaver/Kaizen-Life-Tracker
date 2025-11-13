@@ -1651,6 +1651,7 @@ const Account = ({ athleteId }) => {
         fluid_unit: personalForm.fluid_unit,
         language: personalForm.language,
         coach_language: personalForm.coach_language,
+        coach_personality: personalForm.coach_personality,
         voice_preference: personalForm.voice_preference,
         coach_name: personalForm.coach_name,
         coach_avatar: newCoachAvatar || personalForm.coach_avatar,
