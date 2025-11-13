@@ -17297,23 +17297,75 @@ async def get_platform_metrics():
         import os
         import glob
         
-        # Count available language translations
+        # Language mappings
+        language_map = {
+            'en': '🇬🇧 English',
+            'no': '🇳🇴 Norwegian (Norsk)',
+            'sv': '🇸🇪 Swedish (Svenska)',
+            'da': '🇩🇰 Danish (Dansk)',
+            'de': '🇩🇪 German (Deutsch)',
+            'es': '🇪🇸 Spanish (Español)',
+            'fr': '🇫🇷 French (Français)',
+            'it': '🇮🇹 Italian (Italiano)',
+            'ja': '🇯🇵 Japanese (日本語)',
+            'zh': '🇨🇳 Chinese (中文)',
+            'pt': '🇵🇹 Portuguese (Português)',
+            'nl': '🇳🇱 Dutch (Nederlands)',
+            'pl': '🇵🇱 Polish (Polski)',
+            'fi': '🇫🇮 Finnish (Suomi)',
+            'ru': '🇷🇺 Russian (Русский)',
+            'ko': '🇰🇷 Korean (한국어)',
+            'ar': '🇸🇦 Arabic (العربية)'
+        }
+        
+        # Get available language translations
         locale_path = os.path.join(os.path.dirname(__file__), '../frontend/src/locales')
+        languages_list = []
         language_count = 0
+        
         if os.path.exists(locale_path):
             language_files = glob.glob(os.path.join(locale_path, '*.json'))
             language_count = len(language_files)
+            
+            # Extract language codes and map to readable names
+            for file_path in sorted(language_files):
+                lang_code = os.path.basename(file_path).replace('.json', '')
+                lang_name = language_map.get(lang_code, f'{lang_code.upper()}')
+                languages_list.append(lang_name)
         
-        # Count AI coach personalities (hardcoded in system)
-        personality_count = 10  # zen, science, tough, cheerleader, therapist, stoic, gamified, recovery, executive, realist
+        # AI Coach personalities with descriptions
+        personalities_list = [
+            {"icon": "🧘‍♂️", "name": "Zen Minimalist", "description": "Calm & simple approach"},
+            {"icon": "🔬", "name": "Science Geek", "description": "Data-driven insights"},
+            {"icon": "🪖", "name": "Tough Love", "description": "Direct & challenging"},
+            {"icon": "🎉", "name": "Cheerleader", "description": "Energetic & positive"},
+            {"icon": "🛋️", "name": "Therapist", "description": "Empathetic & supportive"},
+            {"icon": "⚔️", "name": "Stoic", "description": "Philosophical & disciplined"},
+            {"icon": "🎮", "name": "Gamified", "description": "XP & quest-based"},
+            {"icon": "🌿", "name": "Recovery Sage", "description": "Long-term health focus"},
+            {"icon": "⏱️", "name": "Executive", "description": "Time-efficient workouts"},
+            {"icon": "🧢", "name": "Realist", "description": "Down-to-earth guidance"}
+        ]
+        personality_count = len(personalities_list)
         
-        # Count device integrations (from system settings)
-        integration_count = 6  # Strava, Oura, Polar, Fitbit, Garmin, Whoop
+        # Device integrations
+        integrations_list = [
+            "Strava - Running & Cycling",
+            "Oura Ring - Sleep & Recovery",
+            "Polar - Heart Rate Monitors",
+            "Fitbit - Activity Tracking",
+            "Garmin - GPS & Fitness",
+            "Whoop - Strain & Recovery"
+        ]
+        integration_count = len(integrations_list)
         
         return {
             "languages": language_count,
             "personalities": personality_count,
-            "integrations": integration_count
+            "integrations": integration_count,
+            "languagesList": languages_list,
+            "personalitiesList": personalities_list,
+            "integrationsList": integrations_list
         }
     except Exception as e:
         logging.error(f"Error fetching platform metrics: {e}")
@@ -17321,7 +17373,21 @@ async def get_platform_metrics():
         return {
             "languages": 10,
             "personalities": 10,
-            "integrations": 6
+            "integrations": 6,
+            "languagesList": ["English", "Norwegian", "Swedish", "Danish", "German", "Spanish", "French", "Italian", "Japanese", "Chinese"],
+            "personalitiesList": [
+                {"icon": "🧘‍♂️", "name": "Zen Minimalist", "description": "Calm & simple"},
+                {"icon": "🔬", "name": "Science Geek", "description": "Data-driven"},
+                {"icon": "🪖", "name": "Tough Love", "description": "Direct & challenging"},
+                {"icon": "🎉", "name": "Cheerleader", "description": "Energetic"},
+                {"icon": "🛋️", "name": "Therapist", "description": "Supportive"},
+                {"icon": "⚔️", "name": "Stoic", "description": "Disciplined"},
+                {"icon": "🎮", "name": "Gamified", "description": "Quest-based"},
+                {"icon": "🌿", "name": "Recovery Sage", "description": "Health focus"},
+                {"icon": "⏱️", "name": "Executive", "description": "Time-efficient"},
+                {"icon": "🧢", "name": "Realist", "description": "Down-to-earth"}
+            ],
+            "integrationsList": ["Strava", "Oura", "Polar", "Fitbit", "Garmin", "Whoop"]
         }
 
 @api_router.post("/waiting-list")
