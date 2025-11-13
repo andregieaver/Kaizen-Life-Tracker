@@ -630,8 +630,8 @@ const Emails = () => {
             <div className="sticky top-0 bg-gray-800 border-b border-gray-700 p-6 z-10">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-2xl font-bold text-white">{isCreatingNew ? 'Create Custom Email' : 'Edit Custom Email'}</h2>
-                  <p className="text-gray-400 text-sm mt-1">Create targeted email campaigns for your users</p>
+                  <h2 className="text-2xl font-bold text-white">{isCreatingNew ? t('emails.createCustomEmail') : t('emails.editCustomEmail')}</h2>
+                  <p className="text-gray-400 text-sm mt-1">{t('emails.createTargetedCampaigns')}</p>
                 </div>
                 <button
                   onClick={() => setShowCustomEmailModal(false)}
@@ -646,50 +646,50 @@ const Emails = () => {
               <div className="space-y-6">
                 {/* Email Name */}
                 <div>
-                  <Label htmlFor="email-name" className="text-white mb-2">Email Name *</Label>
+                  <Label htmlFor="email-name" className="text-white mb-2">{t('emails.emailName')} *</Label>
                   <Input
                     id="email-name"
                     value={customEmailForm.name}
                     onChange={(e) => setCustomEmailForm({ ...customEmailForm, name: e.target.value })}
-                    placeholder="e.g., Waitlist Welcome Series - Email 1"
+                    placeholder={t('emails.emailNamePlaceholder')}
                     className="bg-gray-700 border-gray-600 text-white"
                     required
                   />
-                  <p className="text-xs text-gray-400 mt-1">Internal name to identify this email</p>
+                  <p className="text-xs text-gray-400 mt-1">{t('emails.internalNameHint')}</p>
                 </div>
 
                 {/* Target Audience */}
                 <div>
-                  <Label htmlFor="target-audience" className="text-white mb-2">Target Audience *</Label>
+                  <Label htmlFor="target-audience" className="text-white mb-2">{t('emails.targetAudience')} *</Label>
                   <select
                     id="target-audience"
                     value={customEmailForm.targetAudience}
                     onChange={(e) => setCustomEmailForm({ ...customEmailForm, targetAudience: e.target.value })}
                     className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
                   >
-                    <option value="all">All Users</option>
-                    <option value="waitlist">Waitlist Users</option>
-                    <option value="free">Free Plan Users</option>
-                    <option value="pro">Pro Plan Users</option>
-                    <option value="premium">Premium Plan Users</option>
+                    <option value="all">{t('emails.allUsers')}</option>
+                    <option value="waitlist">{t('emails.waitlistUsers')}</option>
+                    <option value="free">{t('emails.freePlanUsers')}</option>
+                    <option value="pro">{t('emails.proPlanUsers')}</option>
+                    <option value="premium">{t('emails.premiumPlanUsers')}</option>
                   </select>
                   <p className="text-xs text-gray-400 mt-1">
-                    {customEmailForm.targetAudience === 'waitlist' && 'Email will be sent to users with subscription_status = "waitlist"'}
-                    {customEmailForm.targetAudience === 'free' && 'Email will be sent to users with subscription_tier = "free"'}
-                    {customEmailForm.targetAudience === 'pro' && 'Email will be sent to users with subscription_tier = "pro"'}
-                    {customEmailForm.targetAudience === 'premium' && 'Email will be sent to users with subscription_tier = "premium"'}
-                    {customEmailForm.targetAudience === 'all' && 'Email will be sent to all registered users'}
+                    {customEmailForm.targetAudience === 'waitlist' && t('emails.waitlistHint')}
+                    {customEmailForm.targetAudience === 'free' && t('emails.freeHint')}
+                    {customEmailForm.targetAudience === 'pro' && t('emails.proHint')}
+                    {customEmailForm.targetAudience === 'premium' && t('emails.premiumHint')}
+                    {customEmailForm.targetAudience === 'all' && t('emails.allUsersHint')}
                   </p>
                 </div>
 
                 {/* Subject */}
                 <div>
-                  <Label htmlFor="custom-subject" className="text-white mb-2">Subject Line *</Label>
+                  <Label htmlFor="custom-subject" className="text-white mb-2">{t('emails.subjectLine')} *</Label>
                   <Input
                     id="custom-subject"
                     value={customEmailForm.subject}
                     onChange={(e) => setCustomEmailForm({ ...customEmailForm, subject: e.target.value })}
-                    placeholder="Enter email subject"
+                    placeholder={t('emails.subjectPlaceholderCustom')}
                     className="bg-gray-700 border-gray-600 text-white"
                     required
                   />
@@ -697,31 +697,31 @@ const Emails = () => {
 
                 {/* Plain Text Body */}
                 <div>
-                  <Label htmlFor="custom-body" className="text-white mb-2">Plain Text Body *</Label>
+                  <Label htmlFor="custom-body" className="text-white mb-2">{t('emails.plainTextBody')} *</Label>
                   <textarea
                     id="custom-body"
                     value={customEmailForm.body}
                     onChange={(e) => setCustomEmailForm({ ...customEmailForm, body: e.target.value })}
-                    placeholder="Enter plain text email body..."
+                    placeholder={t('emails.plainTextBodyPlaceholder')}
                     className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
                     rows="8"
                     required
                   />
-                  <p className="text-xs text-gray-400 mt-1">Available variables: {'{{'} user_name {'}}' }, {'{{'} user_email {'}}' }</p>
+                  <p className="text-xs text-gray-400 mt-1">{t('emails.availableVariablesHint')}</p>
                 </div>
 
                 {/* HTML Body */}
                 <div>
-                  <Label htmlFor="custom-html-body" className="text-white mb-2">HTML Body (Optional)</Label>
+                  <Label htmlFor="custom-html-body" className="text-white mb-2">{t('emails.htmlBody')}</Label>
                   <textarea
                     id="custom-html-body"
                     value={customEmailForm.htmlBody}
                     onChange={(e) => setCustomEmailForm({ ...customEmailForm, htmlBody: e.target.value })}
-                    placeholder="<p>Enter HTML email body...</p>"
+                    placeholder={t('emails.htmlBodyPlaceholder')}
                     className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-4 py-2 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none font-mono text-sm"
                     rows="8"
                   />
-                  <p className="text-xs text-gray-400 mt-1">HTML version for email clients that support it</p>
+                  <p className="text-xs text-gray-400 mt-1">{t('emails.htmlVersionHint')}</p>
                 </div>
 
                 {/* Status Messages */}
