@@ -2355,15 +2355,15 @@ const SystemSettings = ({ athleteId }) => {
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                       style={{ textTransform: 'uppercase' }}
                     />
-                    <p className="text-gray-500 text-xs mt-1">Letters and numbers only, automatically uppercase</p>
+                    <p className="text-gray-500 text-xs mt-1">{t('systemSettings.coupons.couponCodeHelp')}</p>
                   </div>
                   
                   {/* Coupon Name */}
                   <div>
-                    <label className="block text-gray-300 mb-2">Display Name *</label>
+                    <label className="block text-gray-300 mb-2">{t('systemSettings.coupons.displayNameRequired')}</label>
                     <input
                       type="text"
-                      placeholder={t('systemSettings.couponName')}
+                      placeholder={t('systemSettings.coupons.displayNamePlaceholder')}
                       value={newCoupon.name}
                       onChange={(e) => setNewCoupon({...newCoupon, name: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
