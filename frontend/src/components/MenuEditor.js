@@ -238,7 +238,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
 
         {items.length === 0 ? (
           <div className="bg-gray-900 border border-gray-700 rounded-lg p-8 text-center">
-            <p className="text-gray-400">No menu items yet. Click "Add Menu Item" to start.</p>
+            <p className="text-gray-400">{t('menus.noMenuItems')}</p>
           </div>
         ) : (
           <DragDropContext onDragEnd={(result) => handleDragEnd(menuType, result)}>
