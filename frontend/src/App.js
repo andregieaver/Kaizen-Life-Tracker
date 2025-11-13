@@ -294,10 +294,11 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <BrowserRouter>
-        <AnalyticsProvider />
-        <Routes>
+    <ThemeProvider>
+      <div className="App">
+        <BrowserRouter>
+          <AnalyticsProvider />
+          <Routes>
           <Route 
             path="/" 
             element={
