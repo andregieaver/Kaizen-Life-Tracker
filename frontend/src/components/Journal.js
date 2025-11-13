@@ -5,7 +5,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Plus, Mic, MicOff, Trash2, Edit3, FileText, Volume2, X, BookOpen, Video, VideoOff, Play, Check } from 'lucide-react';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Journal = ({ athleteId }) => {
