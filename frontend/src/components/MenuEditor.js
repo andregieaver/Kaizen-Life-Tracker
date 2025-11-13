@@ -282,51 +282,51 @@ const MenuEditor = ({ athleteId, onBack }) => {
                               
                               <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-3">
                                 <div>
-                                  <label className="block text-xs text-gray-400 mb-1">Label</label>
+                                  <label className="block text-xs text-gray-400 mb-1">{t('menus.label')}</label>
                                   <input
                                     type="text"
                                     value={item.label}
                                     onChange={(e) => updateMenuItem(menuType, item.id, 'label', e.target.value)}
                                     className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#00C2A8]"
-                                    placeholder="Menu Label"
+                                    placeholder={t('menus.menuLabelPlaceholder')}
                                   />
                                 </div>
                                 
                                 <div>
-                                  <label className="block text-xs text-gray-400 mb-1">URL</label>
+                                  <label className="block text-xs text-gray-400 mb-1">{t('menus.url')}</label>
                                   <input
                                     type="text"
                                     value={item.url}
                                     onChange={(e) => updateMenuItem(menuType, item.id, 'url', e.target.value)}
                                     className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#00C2A8]"
-                                    placeholder="/path"
+                                    placeholder={t('menus.urlPlaceholder')}
                                   />
                                 </div>
 
                                 <div>
-                                  <label className="block text-xs text-gray-400 mb-1">Icon</label>
+                                  <label className="block text-xs text-gray-400 mb-1">{t('menus.icon')}</label>
                                   <div className="flex gap-2">
                                     <input
                                       type="text"
                                       value={item.icon || ''}
                                       onChange={(e) => updateMenuItem(menuType, item.id, 'icon', e.target.value)}
                                       className="flex-1 bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm focus:outline-none focus:border-[#00C2A8]"
-                                      placeholder="Home, User, etc."
+                                      placeholder={t('menus.iconPlaceholder')}
                                     />
                                     <button
                                       type="button"
                                       onClick={() => openIconPicker(menuType, item.id)}
                                       className="px-3 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded text-sm transition-colors whitespace-nowrap"
-                                      title="Choose from icon library"
+                                      title={t('menus.chooseIconTitle')}
                                     >
-                                      <span className="hidden sm:inline">Pick</span>
+                                      <span className="hidden sm:inline">{t('menus.pickIcon')}</span>
                                       <span className="sm:hidden">🎨</span>
                                     </button>
                                   </div>
                                 </div>
 
                                 <div>
-                                  <label className="block text-xs text-gray-400 mb-1">Highlight</label>
+                                  <label className="block text-xs text-gray-400 mb-1">{t('menus.highlight')}</label>
                                   <div className="flex items-center gap-2">
                                     <button
                                       type="button"
