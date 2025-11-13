@@ -118,16 +118,27 @@ async def translate_locale_file():
     total_sections = len(sections)
     remaining_sections = [s for s in sections if s not in translated_data]
     
-    print(f"✅ Loaded {total_sections} sections")
-    print(f"\nSections to translate:")
-    for i, section in enumerate(sections[:10], 1):
-        print(f"  {i}. {section}")
-    if total_sections > 10:
-        print(f"  ... and {total_sections - 10} more")
+    print(f"✅ Loaded {total_sections} sections (English)")
+    
+    if len(translated_data) > 0:
+        print(f"✅ Already translated: {len(translated_data)} sections")
+        print(f"⏳ Remaining: {len(remaining_sections)} sections")
+        print(f"\nSections to translate:")
+        for i, section in enumerate(remaining_sections[:10], 1):
+            print(f"  {i}. {section}")
+        if len(remaining_sections) > 10:
+            print(f"  ... and {len(remaining_sections) - 10} more")
+    else:
+        print(f"\nSections to translate:")
+        for i, section in enumerate(sections[:10], 1):
+            print(f"  {i}. {section}")
+        if total_sections > 10:
+            print(f"  ... and {total_sections - 10} more")
     
     # Confirm before starting
     print(f"\n⚡ Starting translation with Emergent LLM (GPT-4o)...")
-    print(f"⏱️  Estimated time: 15-25 minutes")
+    estimated_minutes = (len(remaining_sections) * 30) // 60  # ~30 seconds per section
+    print(f"⏱️  Estimated time: {estimated_minutes}-{estimated_minutes+5} minutes")
     print()
     
     # Translation contexts for better quality
