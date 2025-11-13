@@ -17290,6 +17290,40 @@ async def reset_stripe_ids(athlete_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 # Waiting List Endpoints
+@api_router.get("/platform-metrics")
+async def get_platform_metrics():
+    """Get platform metrics for landing page (public endpoint, no auth required)"""
+    try:
+        import os
+        import glob
+        
+        # Count available language translations
+        locale_path = os.path.join(os.path.dirname(__file__), '../frontend/src/locales')
+        language_count = 0
+        if os.path.exists(locale_path):
+            language_files = glob.glob(os.path.join(locale_path, '*.json'))
+            language_count = len(language_files)
+        
+        # Count AI coach personalities (hardcoded in system)
+        personality_count = 10  # zen, science, tough, cheerleader, therapist, stoic, gamified, recovery, executive, realist
+        
+        # Count device integrations (from system settings)
+        integration_count = 6  # Strava, Oura, Polar, Fitbit, Garmin, Whoop
+        
+        return {
+            "languages": language_count,
+            "personalities": personality_count,
+            "integrations": integration_count
+        }
+    except Exception as e:
+        logging.error(f"Error fetching platform metrics: {e}")
+        # Return fallback values
+        return {
+            "languages": 10,
+            "personalities": 10,
+            "integrations": 6
+        }
+
 @api_router.post("/waiting-list")
 async def add_to_waiting_list(entry_data: dict):
     """Add entry to waiting list (public endpoint, no auth required)"""
