@@ -293,7 +293,7 @@ const Emails = () => {
       setTestEmailStatus({ type: 'success', message: `Test email sent successfully to ${testEmail}!` });
     } catch (error) {
       console.error('Error sending test email:', error);
-      setTestEmailStatus({ type: 'error', message: 'Failed to send test email' });
+      setTestEmailStatus({ type: 'error', message: t('emails.failedSendTest') });
     } finally {
       setSendingTest(false);
     }
