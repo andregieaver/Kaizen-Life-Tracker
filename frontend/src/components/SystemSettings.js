@@ -3493,11 +3493,11 @@ const SystemSettings = ({ athleteId }) => {
                       <div>
                         <Label className="text-white font-medium">{t('systemSettings.cookies.scanCookies')}</Label>
                         <p className="text-xs text-gray-400 mt-1">
-                          Scan for cookies from frontend, backend, and third-party services
+                          {t('systemSettings.cookies.scanCookiesDescription')}
                         </p>
                         {cookieSettings.last_scan && (
                           <p className="text-xs text-gray-500 mt-1">
-                            Last scan: {new Date(cookieSettings.last_scan.scanned_at).toLocaleString()}
+                            {t('systemSettings.cookies.lastScan')}: {new Date(cookieSettings.last_scan.scanned_at).toLocaleString()}
                           </p>
                         )}
                       </div>
