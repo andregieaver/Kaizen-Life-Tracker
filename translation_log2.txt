@@ -1,0 +1,31 @@
+============================================================
+🇸🇪 Swedish Translation Script - TrainSmart Application
+============================================================
+
+Input:  frontend/src/locales/en.json
+Output: frontend/src/locales/sv.json
+
+📖 Loading English locale file...
+📂 Found existing translation file, loading progress...
+✅ Loaded 8 already-translated sections
+✅ Loaded 43 sections (English)
+✅ Already translated: 8 sections
+⏳ Remaining: 35 sections
+
+Sections to translate:
+  1. account
+  2. pages
+  3. menus
+  4. crm
+  5. orders
+  6. coupons
+  7. subscriptions
+  8. emails
+  9. systemSettings
+  10. merits
+  ... and 25 more
+
+⚡ Starting translation with Emergent LLM (GPT-4o)...
+⏱️  Estimated time: 17-22 minutes
+
+[ 9/43] Translating: account              
