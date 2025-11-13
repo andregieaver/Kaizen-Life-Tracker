@@ -295,14 +295,14 @@ const Orders = ({ athleteId }) => {
         <CardContent className="p-0">
           {isLoading ? (
             <div className="text-center py-12 text-gray-300">
-              Loading orders...
+              t("orders.loadingOrders")
             </div>
           ) : filteredOrders.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12">
               <ShoppingCart className="w-16 h-16 text-gray-400 mb-4" />
-              <h3 className="text-lg font-medium text-gray-200 mb-2">No orders found</h3>
+              <h3 className="text-lg font-medium text-gray-200 mb-2">t("orders.noOrdersFound")</h3>
               <p className="text-gray-400 text-center">
-                Try adjusting your search or filters
+                t("orders.adjustFilters")
               </p>
             </div>
           ) : (
