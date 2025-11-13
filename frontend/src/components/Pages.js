@@ -268,7 +268,7 @@ const Pages = ({ athleteId }) => {
                           ? 'bg-green-900 text-green-300' 
                           : 'bg-red-900 text-red-300'
                       }`}>
-                        {page.index_status === 'indexed' ? 'Indexed' : 'No-Index'}
+                        {page.index_status === 'indexed' ? t('pages.indexed') : t('pages.noIndex')}
                       </span>
                     </td>
                     <td className="p-4 text-sm text-gray-400">
