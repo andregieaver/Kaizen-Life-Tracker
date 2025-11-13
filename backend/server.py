@@ -11922,9 +11922,15 @@ async def get_athlete_profile(target_athlete_id: str, viewer_athlete_id: str = Q
         # Get stats
         posts_count = await db.community_posts.count_documents({"athlete_id": target_athlete_id})
         
-        # Count likes received on all posts
-        posts = await db.community_posts.find({"athlete_id": target_athlete_id}, {"_id": 0, "likes_count": 1}).to_list(length=None)
-        likes_received = sum(post.get("likes_count", 0) for post in posts)
+        # Count likes received on all posts using aggregation
+        likes_result = await db.community_posts.aggregate([
+            {"$match": {"athlete_id": target_athlete_id}},
+            {"$group": {
+                "_id": None,
+                "total_likes": {"$sum": "$likes_count"}
+            }}
+        ]).to_list(length=1)
+        likes_received = likes_result[0]["total_likes"] if likes_result else 0
         
         # Get followers/following counts
         followers_count = await db.community_follows.count_documents({"following_id": target_athlete_id})
