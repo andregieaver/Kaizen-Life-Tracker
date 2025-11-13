@@ -65,7 +65,7 @@ const CRM = ({ athleteId }) => {
       setDeleteUserId(null);
     } catch (error) {
       console.error('Error deleting user:', error);
-      alert('Failed to delete user. Please try again.');
+      alert(t('crm.deleteUserFailed'));
     }
   };
 
