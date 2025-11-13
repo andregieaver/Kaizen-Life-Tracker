@@ -168,14 +168,17 @@ async def translate_locale_file():
             translated_data[section] = translated_section
             print("✅")
             
-            # Save progress every 5 sections
-            if i % 5 == 0:
+            # Save progress every 3 sections
+            if idx % 3 == 0:
                 with open(output_file, 'w', encoding='utf-8') as f:
                     json.dump(translated_data, f, indent=2, ensure_ascii=False)
                 elapsed = time.time() - start_time
-                avg_time = elapsed / i
-                remaining = (total_sections - i) * avg_time
-                print(f"     💾 Progress saved | ⏱️  {int(remaining/60)}m {int(remaining%60)}s remaining")
+                completed_this_run = idx - start_index
+                if completed_this_run > 0:
+                    avg_time = elapsed / completed_this_run
+                    remaining_sections_count = total_sections - idx
+                    remaining = remaining_sections_count * avg_time
+                    print(f"     💾 Progress saved | ⏱️  {int(remaining/60)}m {int(remaining%60)}s remaining")
             
             # Rate limiting - avoid hitting API limits
             await asyncio.sleep(1)
