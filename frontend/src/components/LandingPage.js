@@ -156,16 +156,16 @@ const AnimatedMetrics = () => {
           </div>
           
           {/* Expandable Personality List */}
-          <div className={`overflow-hidden transition-all duration-300 ${expanded.personalities ? 'max-h-[500px] mt-4' : 'max-h-0'}`}>
-            <div className="bg-gray-800/50 rounded-xl p-4 border border-cyan-500/20">
+          <div className={`overflow-hidden transition-all duration-500 ${expanded.personalities ? 'max-h-[600px] mt-4' : 'max-h-0'}`}>
+            <div className="bg-gray-800/50 rounded-xl p-4 border border-cyan-500/20 overflow-y-auto max-h-[550px]">
               <div className="grid grid-cols-1 gap-2 text-left">
                 {metrics.personalitiesList.map((personality, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-sm text-gray-300 py-1">
-                    <span className="text-lg flex-shrink-0">{personality.icon}</span>
-                    <div>
-                      <div className="font-medium text-white">{personality.name}</div>
-                      <div className="text-xs text-gray-400">{personality.description}</div>
-                    </div>
+                  <div key={idx} className="flex items-center gap-2 text-sm text-gray-300 py-2">
+                    <Check className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                    <span>
+                      <span className="font-medium text-white">{personality.name}</span>
+                      <span className="text-gray-400"> - {personality.description}</span>
+                    </span>
                   </div>
                 ))}
               </div>
