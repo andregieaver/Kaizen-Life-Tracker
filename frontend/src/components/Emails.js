@@ -745,13 +745,13 @@ const Emails = () => {
                   onClick={() => setShowCustomEmailModal(false)}
                   className="bg-gray-700 hover:bg-gray-600 text-white"
                 >
-                  Cancel
+                  {t('emails.cancel')}
                 </Button>
                 <Button
                   type="submit"
                   className="bg-[#00C2A8] hover:bg-[#00a890] text-white"
                 >
-                  {isCreatingNew ? 'Create Email' : 'Update Email'}
+                  {isCreatingNew ? t('emails.createEmailButton') : t('emails.updateEmail')}
                 </Button>
               </div>
             </form>
