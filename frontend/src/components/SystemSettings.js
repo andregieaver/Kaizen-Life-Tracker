@@ -3683,7 +3683,7 @@ const SystemSettings = ({ athleteId }) => {
                     {/* Cookie Policy Link */}
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <Label className="text-gray-300 text-sm">Cookie Policy Text</Label>
+                        <Label className="text-gray-300 text-sm">{t('systemSettings.cookies.cookiePolicyLink')}</Label>
                         <Input
                           value={cookieSettings?.consent_texts?.cookie_policy_text || ''}
                           onChange={(e) => setCookieSettings({
@@ -3697,7 +3697,7 @@ const SystemSettings = ({ athleteId }) => {
                         />
                       </div>
                       <div>
-                        <Label className="text-gray-300 text-sm">Cookie Policy Link</Label>
+                        <Label className="text-gray-300 text-sm">{t('systemSettings.cookies.cookiePolicyLink')}</Label>
                         <Input
                           value={cookieSettings?.consent_texts?.cookie_policy_link || ''}
                           onChange={(e) => setCookieSettings({
@@ -3708,14 +3708,14 @@ const SystemSettings = ({ athleteId }) => {
                             }
                           })}
                           className="bg-gray-800 border-gray-700 text-white mt-1"
-                          placeholder="/cookie-policy"
+                          placeholder={t('systemSettings.cookies.cookiePolicyPlaceholder')}
                         />
                       </div>
                     </div>
 
                     {/* Category Descriptions */}
                     <div className="space-y-4 pt-4 border-t border-gray-700">
-                      <Label className="text-white font-medium">Cookie Category Descriptions</Label>
+                      <Label className="text-white font-medium">{t('systemSettings.cookies.cookieCategoryDescriptions')}</Label>
                       
                       {/* Necessary */}
                       <div>
