@@ -388,8 +388,8 @@ const Emails = () => {
 
       {/* Transactional Email Templates Section */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-white mb-4">Transactional Email Templates</h2>
-        <p className="text-gray-400 text-sm mb-4">Customize automated system emails</p>
+        <h2 className="text-2xl font-bold text-white mb-4">{t('emails.transactionalTemplates')}</h2>
+        <p className="text-gray-400 text-sm mb-4">{t('emails.transactionalDesc')}</p>
       </div>
 
       {/* Email Templates List */}
