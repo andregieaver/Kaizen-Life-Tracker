@@ -3586,7 +3586,7 @@ const SystemSettings = ({ athleteId }) => {
 
                     {/* Banner Title */}
                     <div>
-                      <Label className="text-gray-300 text-sm">Banner Title</Label>
+                      <Label className="text-gray-300 text-sm">{t('systemSettings.cookies.bannerTitle')}</Label>
                       <Input
                         value={cookieSettings?.consent_texts?.banner_title || ''}
                         onChange={(e) => setCookieSettings({
@@ -3597,13 +3597,13 @@ const SystemSettings = ({ athleteId }) => {
                           }
                         })}
                         className="bg-gray-800 border-gray-700 text-white mt-1"
-                        placeholder="We value your privacy"
+                        placeholder={t('systemSettings.cookies.bannerTitlePlaceholder')}
                       />
                     </div>
 
                     {/* Banner Description */}
                     <div>
-                      <Label className="text-gray-300 text-sm">Banner Description</Label>
+                      <Label className="text-gray-300 text-sm">{t('systemSettings.cookies.bannerDescription')}</Label>
                       <Textarea
                         value={cookieSettings?.consent_texts?.banner_description || ''}
                         onChange={(e) => setCookieSettings({
@@ -3615,14 +3615,14 @@ const SystemSettings = ({ athleteId }) => {
                         })}
                         className="bg-gray-800 border-gray-700 text-white mt-1"
                         rows={3}
-                        placeholder="We use cookies to enhance your browsing experience..."
+                        placeholder={t('systemSettings.cookies.bannerDescriptionPlaceholder')}
                       />
                     </div>
 
                     {/* Button Labels */}
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <Label className="text-gray-300 text-sm">Accept All Button</Label>
+                        <Label className="text-gray-300 text-sm">{t('systemSettings.cookies.acceptAllButton')}</Label>
                         <Input
                           value={cookieSettings?.consent_texts?.accept_all_button || ''}
                           onChange={(e) => setCookieSettings({
