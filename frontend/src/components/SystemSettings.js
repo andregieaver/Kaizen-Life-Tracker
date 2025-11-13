@@ -2395,7 +2395,7 @@ const SystemSettings = ({ athleteId }) => {
                       onChange={(e) => setNewCoupon({...newCoupon, value: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                     />
-                    <p className="text-gray-500 text-xs mt-1">For percentage: 0-100, For fixed: amount in USD</p>
+                    <p className="text-gray-500 text-xs mt-1">{t('systemSettings.coupons.discountValueHelp')}</p>
                   </div>
                   
                   {/* Max Uses */}
@@ -2409,7 +2409,7 @@ const SystemSettings = ({ athleteId }) => {
                       onChange={(e) => setNewCoupon({...newCoupon, max_uses: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                     />
-                    <p className="text-gray-500 text-xs mt-1">Leave empty for {t('systemSettings.coupons.unlimited').toLowerCase()} uses</p>
+                    <p className="text-gray-500 text-xs mt-1">{t('systemSettings.coupons.maxUsesPlaceholder')}</p>
                   </div>
                   
                   {/* Expiration Date */}
@@ -2421,7 +2421,7 @@ const SystemSettings = ({ athleteId }) => {
                       onChange={(e) => setNewCoupon({...newCoupon, expires_at: e.target.value})}
                       className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600 focus:border-[#32D3FF]"
                     />
-                    <p className="text-gray-500 text-xs mt-1">Leave empty for no expiration</p>
+                    <p className="text-gray-500 text-xs mt-1">{t('systemSettings.coupons.expiryPlaceholder')}</p>
                   </div>
                   
                   {/* Applies To */}
