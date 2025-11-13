@@ -119,11 +119,16 @@ body {
   --bg-800: #F1F5F9;
   --bg-700: #E2E8F0;
   --bg-600: #CBD5E1;
-  --bg-500: #FFFFFF;
+  --bg-500: #F8FAFC;
   --text-hi: #0A0F14;
   --text-med: #485568;
   --text-muted: #6B7A8C;
-  --border: #E4EBF3;
+  --border: #E2E8F0;
+  
+  /* Light Theme Gradients */
+  --grad-surface: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  --grad-page: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 50%, #E8EEF5 100%);
+  --grad-cta-soft: linear-gradient(180deg, rgba(50,211,255,.08) 0%, rgba(50,211,255,.08) 100%);
 }
 
 @layer base {
