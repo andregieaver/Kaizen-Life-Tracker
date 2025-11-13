@@ -103,7 +103,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
   };
 
   const handleTranslateItem = async (menuType, itemId, itemLabel) => {
-    if (!confirm(`Translate "${itemLabel}" to all available languages?`)) {
+    if (!confirm(t('menus.translateItemConfirm', { label: itemLabel }))) {
       return;
     }
     
@@ -114,7 +114,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
       
       // Show translation results
       const languages = response.data.languages.join(', ');
-      alert(`✅ Successfully translated "${itemLabel}" to:\n${languages}\n\nTranslations:\n${JSON.stringify(response.data.translations, null, 2)}`);
+      alert(t('menus.translateItemSuccess', { label: itemLabel, languages, translations: JSON.stringify(response.data.translations, null, 2) }));
       
       // Reload menus to show updated translations
       await loadMenus();
