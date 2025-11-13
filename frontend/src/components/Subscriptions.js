@@ -215,7 +215,7 @@ const Subscriptions = ({ athleteId }) => {
   if (isLoading) {
     return (
       <div className="w-full max-w-[1600px] mx-auto p-6">
-        <div className="text-center text-gray-300 py-12">Loading subscriptions...</div>
+        <div className="text-center text-gray-300 py-12">{t('subscriptions.loadingSubscriptions')}</div>
       </div>
     );
   }
