@@ -1448,7 +1448,11 @@
       "frontend": "frontend",
       "backend": "backend",
       "cookieBannerCustomization": "Cookie Banner Customization",
-      "cookieBannerCustomizationDesc": "Customize the text displayed in the cookie consent banner"
+      "cookieBannerCustomizationDesc": "Customize the text displayed in the cookie consent banner",
+      "gtmConsentModeTitle": "Google Consent Mode v2 Integration",
+      "gtmConsentModeDescription": "Integrates with Google Tag Manager for consent management. Make sure you've added your GTM snippet in the Advanced tab.",
+      "enableGtmConsentModeLabel": "Enable GTM Consent Mode",
+      "enableGtmConsentModeDescription": "Sends consent signals to GTM container"
     },
     "coupons": {
       "description": "Manage discount coupons",

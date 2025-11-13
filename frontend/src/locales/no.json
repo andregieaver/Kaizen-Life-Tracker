@@ -1448,7 +1448,11 @@
       "frontend": "frontend",
       "backend": "backend",
       "cookieBannerCustomization": "Tilpasning av informasjonskapsel-banner",
-      "cookieBannerCustomizationDesc": "Tilpass teksten som vises i samtykkebaneret for informasjonskapsler"
+      "cookieBannerCustomizationDesc": "Tilpass teksten som vises i samtykkebaneret for informasjonskapsler",
+      "gtmConsentModeTitle": "Integrasjon med Google Consent Mode v2",
+      "gtmConsentModeDescription": "Integrerer med Google Tag Manager for samtykkehåndtering. Forsikre deg om at du har lagt til GTM-snutten din i Avansert-fanen.",
+      "enableGtmConsentModeLabel": "Aktiver GTM-samtykkemodus",
+      "enableGtmConsentModeDescription": "Sender samtykkesignaler til GTM-beholderen"
     },
     "coupons": {
       "description": "Administrer rabattkuponger",
