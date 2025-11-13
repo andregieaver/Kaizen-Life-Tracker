@@ -250,7 +250,7 @@ const Pages = ({ athleteId }) => {
                     <td className="p-4">
                       <div>
                         <div className="font-medium text-white flex items-center gap-2">
-                          {page.is_home && <span className="text-xl" title="Home Page">🏠</span>}
+                          {page.is_home && <span className="text-xl" title={t('pages.homePage')}>🏠</span>}
                           {page.title}
                         </div>
                         <div className="text-sm text-gray-400">{page.url_slug}</div>
