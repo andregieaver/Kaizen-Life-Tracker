@@ -16115,7 +16115,6 @@ async def get_subscriber_stats(
         
         total_likes = likes_result[0]["total_likes"] if likes_result else 0
         total_comments = likes_result[0]["total_comments"] if likes_result else 0
-        total_comments = sum(post.get("comments_count", 0) for post in posts)
         
         # Get unique posters
         unique_posters = len(set(post.get("athlete_id") for post in posts if post.get("athlete_id")))
