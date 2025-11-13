@@ -43,4 +43,12 @@ LiteLLM.Info: If you need to debug this error, use `litellm._turn_on_debug()'.
 [14/43] Translating: coupons              ✅
 [15/43] Translating: subscriptions        ✅
      💾 Progress saved | ⏱️  20m 26s remaining
-[16/43] Translating: emails               
+[16/43] Translating: emails               ✅
+[17/43] Translating: systemSettings       ✅
+[18/43] Translating: merits               ✅
+     💾 Progress saved | ⏱️  16m 5s remaining
+[19/43] Translating: recipeBrowser        ✅
+[20/43] Translating: athlete              ✅
+[21/43] Translating: habits               ✅
+     💾 Progress saved | ⏱️  11m 12s remaining
+[22/43] Translating: journal              
