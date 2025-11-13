@@ -793,5 +793,105 @@
       "halfMarathon": "Halvmaraton",
       "marathon": "Maraton"
     }
+  },
+  "athlete": {
+    "follow": "Følg",
+    "unfollow": "Slutt å følge"
+  },
+  "habits": {
+    "addHabit": "Legg til vane",
+    "complete": "Fullført",
+    "currentStreak": "Nåværende rekke",
+    "dayStreak": "Dagers rekke",
+    "days": "dager",
+    "daysPerWeek": "Dager per uke",
+    "daysOfWeek": {
+      "mon": "Man",
+      "monday": "Mandag",
+      "tue": "Tir",
+      "tuesday": "Tirsdag",
+      "wed": "Ons",
+      "wednesday": "Onsdag",
+      "thu": "Tor",
+      "thursday": "Torsdag",
+      "fri": "Fre",
+      "friday": "Fredag",
+      "sat": "Lør",
+      "saturday": "Lørdag",
+      "sun": "Søn",
+      "sunday": "Søndag"
+    }
+  },
+  "journal": {
+    "entryTypes": {
+      "text": "Tekst",
+      "voice": "Stemme",
+      "video": "Video"
+    },
+    "chooseInputType": "Velg inndata type",
+    "enterContent": "Skriv inn journaloppføringen din...",
+    "clickToStart": "Klikk for å starte opptak",
+    "clickToStartVideo": "Klikk for å starte videoopptak",
+    "cancel": "Avbryt",
+    "confirmDeleteEntry": "Er du sikker på at du vil slette denne oppføringen?",
+    "entryDeleted": "Oppføring slettet",
+    "audioTranscribedSuccess": "Lyd transkribert",
+    "burnSubtitles": "Brenn inn undertekster",
+    "burnSubtitlesDescription": "Bygg inn undertekster direkte i videoen",
+    "failedToAccessMicrophone": "Kunne ikke få tilgang til mikrofon",
+    "failedToAccessCamera": "Kunne ikke få tilgang til kamera",
+    "failedToSaveEntry": "Kunne ikke lagre oppføring",
+    "failedToSaveVideo": "Kunne ikke lagre video",
+    "failedToDeleteEntry": "Kunne ikke slette oppføring",
+    "failedToLoadEntries": "Kunne ikke laste oppføringer",
+    "failedToTranscribe": "Kunne ikke transkribere lyd"
+  },
+  "validation": {
+    "emailRequired": "E-post er påkrevd",
+    "emailInvalid": "E-postadressen er ugyldig",
+    "passwordRequired": "Passord er påkrevd",
+    "passwordTooShort": "Passordet må være minst 8 tegn",
+    "passwordsDoNotMatch": "Passordene stemmer ikke overens",
+    "confirmPasswordRequired": "Vennligst bekreft passordet ditt",
+    "nameRequired": "Navn er påkrevd",
+    "submitError": "En feil oppstod. Vennligst prøv igjen."
+  },
+  "oura": {
+    "setupCredentials": "Sett opp Oura legitimasjon",
+    "credentialsDescription": "Konfigurer Oura API-legitimasjon",
+    "clientId": "Klient-ID",
+    "clientSecret": "Klienthemmelighet",
+    "allFieldsRequired": "Alle felt er påkrevd",
+    "saveCredentials": "Lagre legitimasjon",
+    "saving": "Lagrer...",
+    "credentialsSaved": "Legitimasjon lagret",
+    "credentialsError": "Kunne ikke lagre legitimasjon",
+    "howToGetCredentials": "Hvordan få Oura API-legitimasjon",
+    "step1": "Steg 1: Besøk Oura Cloud",
+    "step2": "Steg 2: Opprett en applikasjon",
+    "step3": "Steg 3: Kopier Klient-ID og hemmelighet",
+    "step4": "Steg 4: Lim dem inn her",
+    "learnMore": "Lær mer",
+    "securityNote": "Legitimasjonen din lagres sikkert"
+  },
+  "strava": {
+    "setupCredentials": "Sett opp Strava legitimasjon",
+    "credentialsDescription": "Konfigurer Strava API-legitimasjon",
+    "clientId": "Klient-ID",
+    "clientSecret": "Klienthemmelighet",
+    "accessToken": "Tilgangstoken",
+    "refreshToken": "Oppdateringstoken",
+    "allFieldsRequired": "Alle felt er påkrevd",
+    "saveCredentials": "Lagre legitimasjon",
+    "saving": "Lagrer...",
+    "credentialsSaved": "Legitimasjon lagret",
+    "credentialsError": "Kunne ikke lagre legitimasjon",
+    "howToGetCredentials": "Hvordan få Strava API-legitimasjon",
+    "step1": "Steg 1: Besøk Strava-innstillinger",
+    "step2": "Steg 2: Opprett en API-applikasjon",
+    "step3": "Steg 3: Kopier legitimasjonen din",
+    "step4": "Steg 4: Lim dem inn her",
+    "learnMore": "Lær mer",
+    "securityNote": "Legitimasjonen din lagres sikkert"
   }
 }
