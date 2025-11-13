@@ -2167,6 +2167,7 @@ Return only the JSON array, nothing else.
         timezone_pref = athlete_info.get('timezone', 'UTC')
         week_starts_on = athlete_info.get('week_starts_on', 'sunday')
         coach_language = athlete_info.get('coach_language', 'en')
+        coach_personality = athlete_info.get('coach_personality', None)
         
         # Language name mapping for system prompt
         language_names = {
