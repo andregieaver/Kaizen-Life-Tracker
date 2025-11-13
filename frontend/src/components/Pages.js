@@ -65,7 +65,7 @@ const Pages = ({ athleteId }) => {
   };
 
   const handleDelete = async (pageId, pageTitle) => {
-    if (!window.confirm(`Are you sure you want to delete "${pageTitle}"?`)) {
+    if (!window.confirm(t('pages.deleteConfirm', { title: pageTitle }))) {
       return;
     }
 
@@ -74,7 +74,7 @@ const Pages = ({ athleteId }) => {
       loadPages();
     } catch (error) {
       console.error('Error deleting page:', error);
-      alert('Failed to delete page');
+      alert(t('pages.deleteFailed'));
     }
   };
 
