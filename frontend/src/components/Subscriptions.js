@@ -237,7 +237,7 @@ const Subscriptions = ({ athleteId }) => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Total Subscriptions</p>
+                <p className="text-gray-400 text-sm">{t('subscriptions.totalSubscriptions')}</p>
                 <p className="text-3xl font-bold text-white mt-1">{filteredSubscriptions.length}</p>
               </div>
               <Users className="w-12 h-12 text-[#00C2A8] opacity-50" />
@@ -249,7 +249,7 @@ const Subscriptions = ({ athleteId }) => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Active Subscriptions</p>
+                <p className="text-gray-400 text-sm">{t('subscriptions.activeSubscriptions')}</p>
                 <p className="text-3xl font-bold text-green-400 mt-1">{activeCount}</p>
               </div>
               <CheckCircle className="w-12 h-12 text-green-500 opacity-50" />
@@ -261,7 +261,7 @@ const Subscriptions = ({ athleteId }) => {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm">Total Revenue</p>
+                <p className="text-gray-400 text-sm">{t('subscriptions.totalRevenue')}</p>
                 <p className="text-3xl font-bold text-[#00C2A8] mt-1">{formatCurrency(totalRevenue)}</p>
               </div>
               <DollarSign className="w-12 h-12 text-[#00C2A8] opacity-50" />
