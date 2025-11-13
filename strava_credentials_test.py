@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # Backend URL from environment
-BACKEND_URL = "https://translate-react-app.preview.emergentagent.com/api"
+BACKEND_URL = "https://i18n-trainsmart.preview.emergentagent.com/api"
 
 # Test credentials from review request
 STRAVA_CREDENTIALS = {
