@@ -16116,8 +16116,13 @@ async def get_subscriber_stats(
         total_likes = likes_result[0]["total_likes"] if likes_result else 0
         total_comments = likes_result[0]["total_comments"] if likes_result else 0
         
-        # Get unique posters
-        unique_posters = len(set(post.get("athlete_id") for post in posts if post.get("athlete_id")))
+        # Get unique posters using aggregation
+        unique_posters_result = await db.community_posts.aggregate([
+            {"$match": posts_query},
+            {"$group": {"_id": "$athlete_id"}},
+            {"$count": "unique_count"}
+        ]).to_list(length=1)
+        unique_posters = unique_posters_result[0]["unique_count"] if unique_posters_result else 0
         
         # Calculate averages
         avg_likes_per_post = total_likes / max(total_posts, 1)
