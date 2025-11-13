@@ -3965,7 +3965,7 @@ const SystemSettings = ({ athleteId }) => {
                   {/* Favicon Upload */}
                   <div className="space-y-2">
                     <Label className="text-xs font-medium text-gray-300">
-                      {t('systemSettings.advanced.favicon')} (16x16 or 32x32 recommended)
+                      {t('systemSettings.advanced.faviconLabel')}
                     </Label>
                     <div className="flex items-center gap-4">
                       {advancedSettings.seo.faviconUrl && (
