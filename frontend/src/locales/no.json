@@ -1402,7 +1402,13 @@
       "authCallbackDomain": "Autorisasjonssamtaledomene",
       "apiSecretKey": "API-hemmelig nøkkel",
       "successMessage": "Atleter kan nå koble til sin {device} enhet fra kontoinnstillinger",
-      "createApplication": "Opprett en applikasjon eller bruk en eksisterende"
+      "createApplication": "Opprett en applikasjon eller bruk en eksisterende",
+      "brandingDescription": "Konfigurer nettstedstittel, favicon og logo for applikasjonen din",
+      "appNameHelp": "Vises i nettleserfaner, topptekster og bunntekster",
+      "metaDescription": "Meta-beskrivelse",
+      "metaDescriptionPlaceholder": "En kort beskrivelse av nettstedet ditt for søkemotorer og sosiale medier",
+      "metaDescriptionHelp": "Vises i søkeresultater og delinger på sosiale medier (anbefalt: 150-160 tegn)",
+      "faviconLabel": "Favicon (16x16 eller 32x32 anbefalt)"
     },
     "logoPreview": "Logo-forhåndsvisning",
     "faviconPreview": "Favicon-forhåndsvisning",

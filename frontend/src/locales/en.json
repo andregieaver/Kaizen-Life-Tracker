@@ -1402,7 +1402,13 @@
       "authCallbackDomain": "Authorization Callback Domain",
       "apiSecretKey": "API Secret Key",
       "successMessage": "Athletes can now connect their {device} device from Account Settings",
-      "createApplication": "Create an application or use an existing one"
+      "createApplication": "Create an application or use an existing one",
+      "brandingDescription": "Configure site title, favicon, and logo for your application",
+      "appNameHelp": "Appears in browser tabs, headers, and footers",
+      "metaDescription": "Meta Description",
+      "metaDescriptionPlaceholder": "A brief description of your site for search engines and social media",
+      "metaDescriptionHelp": "Displayed in search results and social media shares (recommended: 150-160 characters)",
+      "faviconLabel": "Favicon (16x16 or 32x32 recommended)"
     },
     "logoPreview": "Logo Preview",
     "faviconPreview": "Favicon Preview",
