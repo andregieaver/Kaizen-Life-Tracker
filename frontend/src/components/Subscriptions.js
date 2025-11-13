@@ -383,28 +383,28 @@ const Subscriptions = ({ athleteId }) => {
                 <thead>
                   <tr className="border-b border-gray-600">
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('customer_name')}>
-                      Customer <SortIcon columnKey="customer_name" />
+                      {t('subscriptions.customer')} <SortIcon columnKey="customer_name" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('plan')}>
-                      Plan <SortIcon columnKey="plan" />
+                      {t('subscriptions.plan')} <SortIcon columnKey="plan" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('interval')}>
-                      Interval <SortIcon columnKey="interval" />
+                      {t('subscriptions.interval')} <SortIcon columnKey="interval" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('status')}>
-                      Status <SortIcon columnKey="status" />
+                      {t('subscriptions.status')} <SortIcon columnKey="status" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('start_date')}>
-                      Start <SortIcon columnKey="start_date" />
+                      {t('subscriptions.startDate')} <SortIcon columnKey="start_date" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('end_date')}>
-                      End <SortIcon columnKey="end_date" />
+                      {t('subscriptions.endDate')} <SortIcon columnKey="end_date" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('next_renewal')}>
-                      Next Renewal <SortIcon columnKey="next_renewal" />
+                      {t('subscriptions.nextRenewal')} <SortIcon columnKey="next_renewal" />
                     </th>
                     <th className="px-4 py-3 text-right text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('lifetime_value')}>
-                      Lifetime Value <SortIcon columnKey="lifetime_value" />
+                      {t('subscriptions.lifetimeValue')} <SortIcon columnKey="lifetime_value" />
                     </th>
                   </tr>
                 </thead>
