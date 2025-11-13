@@ -16191,29 +16191,55 @@ async def get_subscriber_stats(
                 date_threshold = current_period_start
             referrals_query["created_at"] = {"$gte": date_threshold}
         
-        referrals = await db.referrals.find(referrals_query).to_list(length=None)
-        total_referrals = len(referrals)
+        # Use aggregation for better performance
+        total_referrals = await db.referrals.count_documents(referrals_query)
         
-        # Count successful referrals (where referred user signed up)
-        successful_referrals = sum(1 for ref in referrals if ref.get("status") in ["converted", "rewarded"] or ref.get("referred_user_id"))
+        # Count successful referrals using aggregation
+        successful_referrals_result = await db.referrals.aggregate([
+            {"$match": referrals_query},
+            {"$match": {
+                "$or": [
+                    {"status": {"$in": ["converted", "rewarded"]}},
+                    {"referred_user_id": {"$exists": True, "$ne": None}}
+                ]
+            }},
+            {"$count": "successful_count"}
+        ]).to_list(length=1)
+        successful_referrals = successful_referrals_result[0]["successful_count"] if successful_referrals_result else 0
         
         # Calculate referral conversion rate
         referral_conversion_rate = (successful_referrals / max(total_referrals, 1)) * 100
         
-        # Get unique referrers
-        unique_referrers = len(set(ref.get("referrer_id") for ref in referrals if ref.get("referrer_id")))
+        # Get unique referrers using aggregation
+        unique_referrers_result = await db.referrals.aggregate([
+            {"$match": referrals_query},
+            {"$group": {"_id": "$referrer_id"}},
+            {"$count": "unique_count"}
+        ]).to_list(length=1)
+        unique_referrers = unique_referrers_result[0]["unique_count"] if unique_referrers_result else 0
         
-        # Calculate total rewards distributed
-        total_rewards = sum(ref.get("reward_amount", 0) for ref in referrals if ref.get("status") == "rewarded")
+        # Calculate total rewards using aggregation
+        total_rewards_result = await db.referrals.aggregate([
+            {"$match": {**referrals_query, "status": "rewarded"}},
+            {"$group": {
+                "_id": None,
+                "total": {"$sum": "$reward_amount"}
+            }}
+        ]).to_list(length=1)
+        total_rewards = total_rewards_result[0]["total"] if total_rewards_result else 0
         
-        # Get top referrers (most referrals)
-        referrer_counts = {}
-        for ref in referrals:
-            referrer_id = ref.get("referrer_id")
-            if referrer_id:
-                referrer_counts[referrer_id] = referrer_counts.get(referrer_id, 0) + 1
+        # Get top referrers using aggregation
+        top_referrers_result = await db.referrals.aggregate([
+            {"$match": referrals_query},
+            {"$group": {
+                "_id": "$referrer_id",
+                "count": {"$sum": 1}
+            }},
+            {"$sort": {"count": -1}},
+            {"$limit": 5}
+        ]).to_list(length=5)
         
-        top_referrers = sorted(referrer_counts.items(), key=lambda x: x[1], reverse=True)[:5]
+        top_referrers = [(item["_id"], item["count"]) for item in top_referrers_result]
         top_referrers_count = len(top_referrers)
         
         # Calculate average referrals per referrer
