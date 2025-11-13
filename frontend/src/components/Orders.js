@@ -248,41 +248,41 @@ const Orders = ({ athleteId }) => {
           {showFilters && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 pt-4 border-t border-gray-600">
               <div>
-                <label className="text-sm font-medium text-gray-300 mb-2 block">Plan</label>
+                <label className="text-sm font-medium text-gray-300 mb-2 block">{t('orders.plan')}</label>
                 <select
                   value={filters.plan}
                   onChange={(e) => setFilters(prev => ({ ...prev, plan: e.target.value }))}
                   className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg"
                 >
-                  <option value="all">All Plans</option>
-                  <option value="pro">Pro</option>
-                  <option value="premium">Premium</option>
+                  <option value="all">{t('orders.allPlans')}</option>
+                  <option value="pro">{t('orders.pro')}</option>
+                  <option value="premium">{t('orders.premium')}</option>
                 </select>
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-300 mb-2 block">Interval</label>
+                <label className="text-sm font-medium text-gray-300 mb-2 block">{t('orders.interval')}</label>
                 <select
                   value={filters.interval}
                   onChange={(e) => setFilters(prev => ({ ...prev, interval: e.target.value }))}
                   className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg"
                 >
-                  <option value="all">All Intervals</option>
-                  <option value="month">Monthly</option>
-                  <option value="year">Annually</option>
+                  <option value="all">{t('orders.allIntervals')}</option>
+                  <option value="month">{t('orders.monthly')}</option>
+                  <option value="year">{t('orders.annually')}</option>
                 </select>
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-300 mb-2 block">Order Type</label>
+                <label className="text-sm font-medium text-gray-300 mb-2 block">{t('orders.orderType')}</label>
                 <select
                   value={filters.orderType}
                   onChange={(e) => setFilters(prev => ({ ...prev, orderType: e.target.value }))}
                   className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg"
                 >
-                  <option value="all">All Types</option>
-                  <option value="first">First Time</option>
-                  <option value="renewal">Renewal</option>
+                  <option value="all">{t('orders.allTypes')}</option>
+                  <option value="first">{t('orders.firstTime')}</option>
+                  <option value="renewal">{t('orders.renewal')}</option>
                 </select>
               </div>
             </div>
