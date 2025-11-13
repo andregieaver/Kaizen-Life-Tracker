@@ -29,3 +29,7 @@ Sections to translate:
 ⏱️  Estimated time: 17-22 minutes
 
 [ 9/43] Translating: account              
+[1;31mGive Feedback / Get Help: https://github.com/BerriAI/litellm/issues/new[0m
+LiteLLM.Info: If you need to debug this error, use `litellm._turn_on_debug()'.
+
+  ⚠️  Error (attempt 1/3): Failed to generate chat completion: litellm.APIError: APIError: OpenAIException - Error code: 502
