@@ -4400,7 +4400,7 @@ const SystemSettings = ({ athleteId }) => {
                   {/* SendGrid API Key */}
                   <div className="space-y-2">
                     <Label className="text-xs font-medium text-gray-300">
-                      SendGrid API Key
+                      {t('systemSettings.advanced.sendgridApiKey')}
                     </Label>
                     <div className="flex gap-2">
                       <Input
@@ -4413,7 +4413,7 @@ const SystemSettings = ({ athleteId }) => {
                             apiKey: e.target.value
                           }
                         }))}
-                        placeholder="SG...."
+                        placeholder={t('systemSettings.advanced.sendgridApiKeyPlaceholder')}
                         className="flex-1 bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 text-sm"
                       />
                       <Button
