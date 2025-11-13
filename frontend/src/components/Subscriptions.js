@@ -320,45 +320,45 @@ const Subscriptions = ({ athleteId }) => {
           {showFilters && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 pt-4 border-t border-gray-600">
               <div>
-                <label className="text-sm font-medium text-gray-300 mb-2 block">Plan</label>
+                <label className="text-sm font-medium text-gray-300 mb-2 block">{t('subscriptions.plan')}</label>
                 <select
                   value={filters.plan}
                   onChange={(e) => setFilters(prev => ({ ...prev, plan: e.target.value }))}
                   className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg"
                 >
-                  <option value="all">All Plans</option>
+                  <option value="all">{t('subscriptions.allPlans')}</option>
                   <option value="free">Free</option>
-                  <option value="pro">Pro</option>
-                  <option value="premium">Premium</option>
+                  <option value="pro">{t('subscriptions.pro')}</option>
+                  <option value="premium">{t('subscriptions.premium')}</option>
                 </select>
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-300 mb-2 block">Interval</label>
+                <label className="text-sm font-medium text-gray-300 mb-2 block">{t('subscriptions.interval')}</label>
                 <select
                   value={filters.interval}
                   onChange={(e) => setFilters(prev => ({ ...prev, interval: e.target.value }))}
                   className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg"
                 >
-                  <option value="all">All Intervals</option>
-                  <option value="month">Monthly</option>
-                  <option value="year">Annually</option>
+                  <option value="all">{t('subscriptions.allIntervals')}</option>
+                  <option value="month">{t('subscriptions.monthly')}</option>
+                  <option value="year">{t('subscriptions.annually')}</option>
                 </select>
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-300 mb-2 block">Status</label>
+                <label className="text-sm font-medium text-gray-300 mb-2 block">{t('subscriptions.status')}</label>
                 <select
                   value={filters.status}
                   onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
                   className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg"
                 >
-                  <option value="all">All Statuses</option>
-                  <option value="active">Active</option>
-                  <option value="cancelled">Cancelled</option>
-                  <option value="past_due">Past Due</option>
-                  <option value="trialing">Trialing</option>
-                  <option value="inactive">Inactive</option>
+                  <option value="all">{t('subscriptions.allStatuses')}</option>
+                  <option value="active">{t('subscriptions.active')}</option>
+                  <option value="cancelled">{t('subscriptions.canceled')}</option>
+                  <option value="past_due">{t('subscriptions.paused')}</option>
+                  <option value="trialing">{t('subscriptions.paused')}</option>
+                  <option value="inactive">{t('subscriptions.paused')}</option>
                 </select>
               </div>
             </div>
