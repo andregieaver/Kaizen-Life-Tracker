@@ -763,5 +763,35 @@
     "smtpPassword": "SMTP-passord",
     "fromEmail": "Fra-e-post",
     "fromName": "Fra-navn"
+  },
+  "merits": {
+    "title": "Meritter",
+    "distance": "Distanse",
+    "last12Months": "Siste 12 måneder",
+    "allTimeBest": "All tids beste",
+    "noData": "Ingen data tilgjengelig",
+    "noRecords": "Ingen oppføringer ennå",
+    "personalBest": "Personlig rekord",
+    "completeWorkouts": "Fullfør treningsøkter for å se statistikken din"
+  },
+  "recipeBrowser": {
+    "title": "Oppskriftsutforsker",
+    "subtitle": "Bla gjennom og administrer oppskrifter",
+    "loadingRecipes": "Laster oppskrifter...",
+    "noRecipesFound": "Ingen oppskrifter funnet",
+    "adjustFilters": "Prøv å justere filtrene dine",
+    "mealType": "Måltidstype",
+    "minimumRating": "Minimum vurdering",
+    "allRatings": "Alle vurderinger",
+    "confirmDelete": "Er du sikker på at du vil slette denne oppskriften?",
+    "failedToDelete": "Kunne ikke slette oppskrift",
+    "distances": {
+      "1km": "1 km",
+      "1mile": "1 mil",
+      "5km": "5 km",
+      "10km": "10 km",
+      "halfMarathon": "Halvmaraton",
+      "marathon": "Maraton"
+    }
   }
 }
