@@ -1097,7 +1097,9 @@
   },
   "systemSettings": {
     "title": "System Settings",
+    "subtitle": "Manage your application configuration",
     "description": "Configure application settings",
+    "accountSettings": "Account Settings",
     "general": "General",
     "integrations": "Integrations",
     "payment": "Payment",
@@ -1106,6 +1108,7 @@
     "cancel": "Cancel",
     "settingsSaved": "Settings saved successfully",
     "errorSaving": "Error saving settings",
+    "loadingSettings": "Loading settings...",
     "siteName": "Site Name",
     "siteDescription": "Site Description",
     "siteUrl": "Site URL",
@@ -1116,12 +1119,104 @@
     "stripeSecretKey": "Stripe Secret Key",
     "stripeWebhookSecret": "Stripe Webhook Secret",
     "emailProvider": "Email Provider",
+    "emailFromName": "From Name",
     "smtpHost": "SMTP Host",
     "smtpPort": "SMTP Port",
     "smtpUsername": "SMTP Username",
     "smtpPassword": "SMTP Password",
     "fromEmail": "From Email",
-    "fromName": "From Name"
+    "fromName": "From Name",
+    "tabs": {
+      "advanced": "Advanced",
+      "cookies": "Cookies",
+      "coupons": "Coupons",
+      "plans": "Plans",
+      "modules": "Modules",
+      "statistics": "Statistics",
+      "waitingList": "Waiting List"
+    },
+    "advanced": {
+      "title": "Advanced Settings",
+      "description": "Configure advanced application settings",
+      "branding": "Branding",
+      "emailSettings": "Email Settings",
+      "appName": "Application Name",
+      "appNamePlaceholder": "Enter application name",
+      "logo": "Logo",
+      "uploadLogo": "Upload Logo",
+      "favicon": "Favicon",
+      "uploadFavicon": "Upload Favicon",
+      "emailFromAddress": "Email From Address",
+      "emailFromAddressPlaceholder": "noreply@yourdomain.com"
+    },
+    "logoPreview": "Logo Preview",
+    "faviconPreview": "Favicon Preview",
+    "cookies": {
+      "title": "Cookie Settings",
+      "description": "Manage cookie consent and tracking",
+      "enableCookieConsent": "Enable Cookie Consent",
+      "autoScanEnabled": "Auto-scan enabled",
+      "scanCookies": "Scan Cookies",
+      "scanningCookies": "Scanning cookies..."
+    },
+    "coupons": {
+      "description": "Manage discount coupons",
+      "addCoupon": "Add Coupon",
+      "couponCode": "Coupon Code",
+      "couponCodePlaceholder": "Enter coupon code",
+      "discountType": "Discount Type",
+      "discountValue": "Discount Value",
+      "percentage": "Percentage",
+      "percentageOff": "Percentage Off",
+      "fixedAmount": "Fixed Amount",
+      "amountOff": "Amount Off",
+      "expiryDate": "Expiry Date",
+      "maxUses": "Maximum Uses",
+      "unlimited": "Unlimited"
+    },
+    "couponName": "Coupon Name",
+    "plans": {
+      "title": "Subscription Plans",
+      "description": "Manage subscription plans and pricing",
+      "planName": "Plan Name",
+      "planNamePlaceholder": "Enter plan name",
+      "planDescription": "Plan Description",
+      "addFeature": "Add Feature",
+      "pricingVariationsInstructions": "Configure different pricing for monthly/annual billing",
+      "syncToStripe": "Sync to Stripe",
+      "syncingToStripe": "Syncing to Stripe...",
+      "resetStripe": "Reset Stripe",
+      "resetStripeWarning": "This will reset all Stripe configurations"
+    },
+    "modules": {
+      "title": "Modules",
+      "description": "Enable or disable application modules",
+      "affiliateProgram": {
+        "title": "Affiliate Program",
+        "description": "Enable affiliate tracking and commissions"
+      }
+    },
+    "waitingList": {
+      "description": "Manage waiting list entries",
+      "entries": "Entries",
+      "loadingEntries": "Loading entries...",
+      "noEntries": "No entries yet",
+      "exportCSV": "Export CSV",
+      "name": "Name",
+      "email": "Email",
+      "nationality": "Nationality",
+      "status": "Status",
+      "source": "Source",
+      "created": "Created",
+      "actions": "Actions",
+      "all": "All",
+      "pending": "Pending",
+      "contacted": "Contacted",
+      "converted": "Converted"
+    },
+    "messages": {
+      "syncError": "Failed to sync settings"
+    }
   },
   "merits": {
     "title": "Merits",
