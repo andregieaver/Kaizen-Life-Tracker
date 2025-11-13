@@ -161,11 +161,11 @@ const Pages = ({ athleteId }) => {
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-[#00C2A8]"
               >
-                <option value="">All Status</option>
-                <option value="draft">Draft</option>
-                <option value="pending">Pending</option>
-                <option value="published">Published</option>
-                <option value="scheduled">Scheduled</option>
+                <option value="">{t('pages.allStatus')}</option>
+                <option value="draft">{t('pages.draft')}</option>
+                <option value="pending">{t('pages.pending')}</option>
+                <option value="published">{t('pages.published')}</option>
+                <option value="scheduled">{t('pages.scheduled')}</option>
               </select>
             </div>
 
