@@ -2070,9 +2070,9 @@ const SystemSettings = ({ athleteId }) => {
                     </div>
 
                     <div>
-                      <label className="block text-gray-300 mb-2">Description</label>
+                      <label className="block text-gray-300 mb-2">{t('systemSettings.plans.description')}</label>
                       <textarea
-                        placeholder="Plan description..."
+                        placeholder={t('systemSettings.plans.descriptionPlaceholder')}
                         value={editingPlan.description}
                         onChange={(e) => setEditingPlan({...editingPlan, description: e.target.value})}
                         className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
@@ -2081,7 +2081,7 @@ const SystemSettings = ({ athleteId }) => {
                     </div>
 
                     <div>
-                      <label className="block text-gray-300 mb-2">Features (drag to reorder)</label>
+                      <label className="block text-gray-300 mb-2">{t('systemSettings.plans.featuresDragHelp')}</label>
                       <div className="space-y-2">
                         {editingPlan.features.map((feature, idx) => {
                           let touchStartY = 0;
