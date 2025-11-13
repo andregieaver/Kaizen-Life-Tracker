@@ -481,7 +481,11 @@ const Subscriptions = ({ athleteId }) => {
       {totalPages > 1 && (
         <div className="flex items-center justify-between mt-6">
           <div className="text-gray-300 text-sm">
-            Showing {startIndex + 1} to {Math.min(endIndex, filteredSubscriptions.length)} of {filteredSubscriptions.length} subscriptions
+            {t('subscriptions.showing', { 
+              start: startIndex + 1, 
+              end: Math.min(endIndex, filteredSubscriptions.length), 
+              total: filteredSubscriptions.length 
+            })}
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -489,7 +493,7 @@ const Subscriptions = ({ athleteId }) => {
               disabled={currentPage === 1}
               className="bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed border-0"
             >
-              Previous
+              {t('subscriptions.previous')}
             </Button>
             <div className="flex items-center gap-1">
               {[...Array(totalPages)].map((_, i) => {
@@ -526,7 +530,7 @@ const Subscriptions = ({ athleteId }) => {
               disabled={currentPage === totalPages}
               className="bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed border-0"
             >
-              Next
+              {t('subscriptions.next')}
             </Button>
           </div>
         </div>
