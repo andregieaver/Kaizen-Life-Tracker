@@ -347,7 +347,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
                                         value={item.highlight_color || '#00C2A8'}
                                         onChange={(e) => updateMenuItem(menuType, item.id, 'highlight_color', e.target.value)}
                                         className="w-8 h-8 rounded border border-gray-700 cursor-pointer"
-                                        title="Choose highlight color"
+                                        title={t('menus.chooseHighlightColor')}
                                       />
                                     )}
                                   </div>
