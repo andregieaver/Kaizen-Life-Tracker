@@ -151,7 +151,13 @@
     "createChallenge": "Opprett utfordring",
     "createEvent": "Opprett arrangement",
     "saveChanges": "Lagre endringer",
-    "share": "Del"
+    "share": "Del",
+    "connect": "Koble til",
+    "disconnect": "Koble fra",
+    "km": "km",
+    "note": "Notat",
+    "processing": "Behandler...",
+    "update": "Oppdater"
   },
   "training": {
     "title": "Treningskalender",
