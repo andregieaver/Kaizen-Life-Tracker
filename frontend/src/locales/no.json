@@ -1,4 +1,8 @@
 {
+  "auth": {
+    "fullName": "Fullt navn",
+    "logout": "Logg ut"
+  },
   "nav": {
     "today": "I dag",
     "dashboard": "Dashbord",
