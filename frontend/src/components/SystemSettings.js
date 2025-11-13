@@ -1735,9 +1735,9 @@ const SystemSettings = ({ athleteId }) => {
                       No subscription plans yet.
                     </div>
                     <div className="text-gray-500 text-sm space-y-2">
-                      <p>👆 Click <strong className="text-purple-400">"Quick Setup"</strong> to create Free, Pro, Premium tiers</p>
+                      <p>{t('systemSettings.plans.quickSetupHelp')}</p>
                       <p>or</p>
-                      <p>Click <strong className="text-teal-400">"Create Custom Plan"</strong> to build from scratch</p>
+                      <p>{t('systemSettings.plans.createCustomHelp')}</p>
                     </div>
                   </div>
                 ) : (
