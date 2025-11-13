@@ -50,6 +50,18 @@
       "logMeal": "Log Meal"
     }
   },
+  "readiness": {
+    "title": "Readiness",
+    "maxScore": "100",
+    "excellent": "Excellent",
+    "good": "Good",
+    "fair": "Fair",
+    "poor": "Poor",
+    "contributingFactors": "Contributing Factors",
+    "todaysRecommendations": "Today's Recommendations",
+    "insufficientData": "Insufficient data for accurate calculation",
+    "logMoreData": "Log more workout and sleep data for better insights"
+  },
   "common": {
     "loading": "Loading...",
     "error": "Error",
