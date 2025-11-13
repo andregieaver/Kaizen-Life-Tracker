@@ -495,7 +495,7 @@ const Emails = () => {
 
               {/* Available Variables */}
               <div className="bg-gray-900 border border-gray-700 rounded-lg p-4">
-                <p className="text-white font-semibold mb-2">Available Variables:</p>
+                <p className="text-white font-semibold mb-2">{t('emails.availableVariables')}:</p>
                 <div className="flex flex-wrap gap-2">
                   {selectedTemplate.variables.map((variable) => (
                     <code key={variable} className="text-sm bg-gray-800 text-[#00C2A8] px-3 py-1 rounded border border-gray-700">
@@ -503,12 +503,12 @@ const Emails = () => {
                     </code>
                   ))}
                 </div>
-                <p className="text-gray-500 text-xs mt-2">Copy and paste these variables into your email content</p>
+                <p className="text-gray-500 text-xs mt-2">{t('emails.copyPasteVariables')}</p>
               </div>
 
               {/* Send Test Email */}
               <div className="bg-blue-900/20 border border-blue-700 rounded-lg p-4">
-                <p className="text-white font-semibold mb-3">Send Test Email</p>
+                <p className="text-white font-semibold mb-3">{t('emails.sendTestEmail')}</p>
                 {testEmailStatus.message && (
                   <div className={`mb-3 p-3 rounded border text-sm ${
                     testEmailStatus.type === 'success' 
@@ -528,7 +528,7 @@ const Emails = () => {
                 <div className="flex gap-2">
                   <Input
                     type="email"
-                    placeholder="Enter email address to send test"
+                    placeholder={t('emails.enterEmailAddress')}
                     value={testEmail}
                     onChange={(e) => setTestEmail(e.target.value)}
                     className="flex-1 bg-gray-700 border-gray-600 text-white"
@@ -542,22 +542,22 @@ const Emails = () => {
                     {sendingTest ? (
                       <>
                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                        Sending...
+                        {t('emails.sending')}
                       </>
                     ) : (
                       <>
                         <Mail className="w-4 h-4 mr-2" />
-                        Send Test
+                        {t('emails.sendTest')}
                       </>
                     )}
                   </Button>
                 </div>
-                <p className="text-gray-400 text-xs mt-2">Variables will be replaced with sample data</p>
+                <p className="text-gray-400 text-xs mt-2">{t('emails.variablesReplacedHint')}</p>
               </div>
 
               {/* Subject */}
               <div className="space-y-2">
-                <Label htmlFor="subject" className="text-white font-semibold">Email Subject</Label>
+                <Label htmlFor="subject" className="text-white font-semibold">{t('emails.emailSubject')}</Label>
                 <Input
                   id="subject"
                   value={editForm.subject}
@@ -569,7 +569,7 @@ const Emails = () => {
 
               {/* Plain Text Body */}
               <div className="space-y-2">
-                <Label htmlFor="body" className="text-white font-semibold">Plain Text Body</Label>
+                <Label htmlFor="body" className="text-white font-semibold">{t('emails.plainTextBody')}</Label>
                 <textarea
                   id="body"
                   value={editForm.body}
@@ -577,7 +577,7 @@ const Emails = () => {
                   className="w-full min-h-[200px] p-3 bg-gray-700 border border-gray-600 text-white rounded-md resize-vertical focus:ring-2 focus:ring-[#00C2A8] focus:border-transparent"
                   required
                 />
-                <p className="text-gray-500 text-xs">Plain text version for email clients that don't support HTML</p>
+                <p className="text-gray-500 text-xs">{t('emails.plainTextVersionHint')}</p>
               </div>
 
               {/* HTML Body */}
