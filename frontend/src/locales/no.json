@@ -50,6 +50,18 @@
       "logMeal": "Logg måltid"
     }
   },
+  "readiness": {
+    "title": "Beredskap",
+    "maxScore": "100",
+    "excellent": "Utmerket",
+    "good": "God",
+    "fair": "Grei",
+    "poor": "Dårlig",
+    "contributingFactors": "Bidragende faktorer",
+    "todaysRecommendations": "Dagens anbefalinger",
+    "insufficientData": "Utilstrekkelige data for nøyaktig beregning",
+    "logMoreData": "Logg flere trenings- og søvndata for bedre innsikt"
+  },
   "common": {
     "loading": "Laster...",
     "error": "Feil",
