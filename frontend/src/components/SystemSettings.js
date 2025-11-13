@@ -3564,9 +3564,9 @@ const SystemSettings = ({ athleteId }) => {
                                       <div className="text-white font-mono">{cookie.name}</div>
                                       <div className="text-gray-400 mt-1">{cookie.description}</div>
                                       <div className="flex gap-4 mt-1 text-gray-500">
-                                        <span>Domain: {cookie.domain}</span>
-                                        <span>Expiry: {cookie.expiry}</span>
-                                        <span>Source: {cookie.source}</span>
+                                        <span>{t('systemSettings.cookies.domain')}: {cookie.domain}</span>
+                                        <span>{t('systemSettings.cookies.expiry')}: {cookie.expiry}</span>
+                                        <span>{t('systemSettings.cookies.source')}: {cookie.source}</span>
                                       </div>
                                     </div>
                                   </div>
