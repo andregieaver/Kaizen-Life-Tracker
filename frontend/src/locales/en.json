@@ -1,4 +1,8 @@
 {
+  "auth": {
+    "fullName": "Full Name",
+    "logout": "Logout"
+  },
   "nav": {
     "today": "Today",
     "dashboard": "Dashboard",
