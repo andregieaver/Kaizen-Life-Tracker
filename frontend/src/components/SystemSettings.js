@@ -1728,7 +1728,7 @@ const SystemSettings = ({ athleteId }) => {
               </CardHeader>
               <CardContent>
                 {loadingPlans ? (
-                  <div className="text-center py-8 text-gray-400">Loading plans...</div>
+                  <div className="text-center py-8 text-gray-400">{t('systemSettings.plans.loadingPlans')}</div>
                 ) : subscriptionPlans.length === 0 ? (
                   <div className="text-center py-12">
                     <div className="text-gray-400 mb-4">
