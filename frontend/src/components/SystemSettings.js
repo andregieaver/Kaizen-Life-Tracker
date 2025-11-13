@@ -3272,7 +3272,7 @@ const SystemSettings = ({ athleteId }) => {
                           <p className="text-sm font-medium text-gray-400 mb-3">Community Activity</p>
                           <div className="space-y-3">
                             <div className="flex items-center justify-between">
-                              <span className="text-sm text-gray-300">Total Likes</span>
+                              <span className="text-sm text-gray-300">{t('systemSettings.statistics.totalLikes')}</span>
                               <div className="flex items-center gap-2">
                                 <Heart className="w-4 h-4 text-red-400" />
                                 <span className="text-lg font-semibold text-white">
@@ -3281,7 +3281,7 @@ const SystemSettings = ({ athleteId }) => {
                               </div>
                             </div>
                             <div className="flex items-center justify-between">
-                              <span className="text-sm text-gray-300">Total Comments</span>
+                              <span className="text-sm text-gray-300">{t('systemSettings.statistics.totalComments')}</span>
                               <div className="flex items-center gap-2">
                                 <MessageSquare className="w-4 h-4 text-blue-400" />
                                 <span className="text-lg font-semibold text-white">
