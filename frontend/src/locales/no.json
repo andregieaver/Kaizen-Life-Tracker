@@ -1379,7 +1379,15 @@
       "affiliateProgram": {
         "title": "Partnerprogrammet",
         "description": "Aktiver partnersporing og provisjoner"
-      }
+      },
+      "community": {
+        "title": "Samfunn",
+        "description": "Aktiver samfunnsfunksjoner og ikon i toppteksten"
+      },
+      "configAffiliateProgram": "Konfigurasjonsalternativer for partnerprogrammet vil vises her...",
+      "configCommunity": "Konfigurasjonsalternativer for samfunn vil vises her...",
+      "enabled": "Aktivert",
+      "disabled": "Deaktivert"
     },
     "waitingList": {
       "description": "Administrer ventelisteoppføringer",

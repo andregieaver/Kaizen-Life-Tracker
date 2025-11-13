@@ -1379,7 +1379,15 @@
       "affiliateProgram": {
         "title": "Affiliate Program",
         "description": "Enable affiliate tracking and commissions"
-      }
+      },
+      "community": {
+        "title": "Community",
+        "description": "Enable community features and icon in header"
+      },
+      "configAffiliateProgram": "Configuration options for Affiliate Program will appear here...",
+      "configCommunity": "Configuration options for Community will appear here...",
+      "enabled": "Enabled",
+      "disabled": "Disabled"
     },
     "waitingList": {
       "description": "Manage waiting list entries",
