@@ -893,5 +893,67 @@
     "step4": "Steg 4: Lim dem inn her",
     "learnMore": "Lær mer",
     "securityNote": "Legitimasjonen din lagres sikkert"
+  },
+  "placeholders": {
+    "whatDidYouHave": "Hva hadde du?",
+    "additionalNotes": "Tilleggsmerknader..."
+  },
+  "onboarding": {
+    "title": "Velkommen til TrainSmart",
+    "description": "La oss komme i gang med treningsreisen din",
+    "runningGoalsPlaceholder": "Hva er løpemålene dine?",
+    "startCoaching": "Start coaching",
+    "insightMessage": "Vi vil bruke denne informasjonen til å tilpasse opplevelsen din"
+  },
+  "reports": {
+    "title": "Rapporter",
+    "description": "Vis genererte rapporter",
+    "noReports": "Ingen rapporter ennå",
+    "setupSchedules": "Sett opp tidsplaner for å generere rapporter automatisk",
+    "today": "I dag",
+    "topics": "Emner",
+    "totalReports": "Totalt antall rapporter"
+  },
+  "schedules": {
+    "analyzePrompt": "Analyser prompt",
+    "presets": {
+      "dailyRecovery": {
+        "name": "Daglig restitusjon",
+        "prompt": "Analyser restitusjonsstatusen min for i dag"
+      },
+      "weeklyTraining": {
+        "name": "Ukentlig trening",
+        "prompt": "Oppsummer treningsuken min"
+      },
+      "nutrition": {
+        "name": "Ernæring",
+        "prompt": "Gjennomgå ernæringsvanene mine"
+      },
+      "racePrep": {
+        "name": "Løpsforberedelse",
+        "prompt": "Hvor klar er jeg for løpet?"
+      }
+    }
+  },
+  "voiceChat": {
+    "startVoice": "Start stemmechat",
+    "stopVoice": "Stopp stemmechat",
+    "speakNow": "Snakk nå...",
+    "connecting": "Kobler til...",
+    "connected": "Tilkoblet",
+    "micPermissionRequired": "Mikrofontillatelse påkrevd",
+    "micPermissionDenied": "Mikrofontillatelse nektet",
+    "apiKeyRequired": "API-nøkkel påkrevd"
+  },
+  "history": {
+    "title": "Historikk",
+    "description": "Vis aktivitetshistorikken din",
+    "workouts": "Treningsøkter",
+    "sleep": "Søvn",
+    "noWorkouts": "Ingen treningsøkter registrert",
+    "noSleep": "Ingen søvndata tilgjengelig",
+    "duration": "Varighet",
+    "type": "Type",
+    "avgHR": "Gj.snitt HR"
   }
 }
