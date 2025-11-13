@@ -1717,10 +1717,11 @@ class AICoachService:
     
     async def get_memories(self, athlete_id: str) -> Dict[str, List[Dict]]:
         """Get athlete memories organized by category"""
+        # Limit to most recent 1000 memories to prevent unbounded queries
         memories = await db.athlete_memories.find(
             {"athlete_id": athlete_id},
             {"_id": 0}
-        ).sort("importance", -1).to_list(length=None)
+        ).sort("importance", -1).limit(1000).to_list(length=1000)
         
         # Organize by category
         organized = {
