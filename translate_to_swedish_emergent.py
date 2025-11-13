@@ -154,13 +154,14 @@ async def translate_locale_file():
         'cookies': 'GDPR cookie consent management'
     }
     
-    translated_data = {}
     start_time = time.time()
+    sections_to_process = remaining_sections if len(translated_data) > 0 else sections
+    start_index = len(translated_data)
     
-    for i, section in enumerate(sections, 1):
+    for idx, section in enumerate(sections_to_process, start_index + 1):
         section_context = contexts.get(section, '')
         
-        print(f"[{i:2d}/{total_sections}] Translating: {section:<20} ", end='', flush=True)
+        print(f"[{idx:2d}/{total_sections}] Translating: {section:<20} ", end='', flush=True)
         
         try:
             translated_section = await translate_section(section, en_data[section], api_key, section_context)
