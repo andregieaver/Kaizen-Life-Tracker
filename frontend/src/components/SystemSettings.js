@@ -2245,17 +2245,17 @@ const SystemSettings = ({ athleteId }) => {
               <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
                 <Card className="bg-gray-800 border-gray-700 w-full max-w-lg">
                   <CardHeader>
-                    <CardTitle className="text-white">Add Pricing Variation</CardTitle>
+                    <CardTitle className="text-white">{t('systemSettings.plans.addPricingVariation')}</CardTitle>
                     <CardDescription className="text-gray-400">
                       Add a new pricing option for {selectedPlan.name}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div>
-                      <label className="block text-gray-300 mb-2">Variation ID *</label>
+                      <label className="block text-gray-300 mb-2">{t('systemSettings.plans.variationIdRequired')}</label>
                       <input
                         type="text"
-                        placeholder="e.g., pro_monthly, premium_annual"
+                        placeholder={t('systemSettings.plans.variationIdPlaceholder')}
                         value={newVariation.plan_id}
                         onChange={(e) => setNewVariation({...newVariation, plan_id: e.target.value})}
                         className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
@@ -2263,10 +2263,10 @@ const SystemSettings = ({ athleteId }) => {
                     </div>
 
                     <div>
-                      <label className="block text-gray-300 mb-2">Display Name *</label>
+                      <label className="block text-gray-300 mb-2">{t('systemSettings.plans.displayNameRequired')}</label>
                       <input
                         type="text"
-                        placeholder="e.g., Pro Monthly, Premium Annual"
+                        placeholder={t('systemSettings.plans.displayNamePlaceholder')}
                         value={newVariation.name}
                         onChange={(e) => setNewVariation({...newVariation, name: e.target.value})}
                         className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
@@ -2274,7 +2274,7 @@ const SystemSettings = ({ athleteId }) => {
                     </div>
 
                     <div>
-                      <label className="block text-gray-300 mb-2">Price (USD) *</label>
+                      <label className="block text-gray-300 mb-2">{t('systemSettings.plans.priceRequired')}</label>
                       <input
                         type="number"
                         step="0.01"
