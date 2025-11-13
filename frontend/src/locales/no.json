@@ -1725,8 +1725,8 @@
     "next": "Neste"
   },
   "emails": {
-    "title": "E-postkampanjer",
-    "description": "Send masseutsendelser til abonnenter",
+    "title": "E-posthåndtering",
+    "description": "Tilpass transaksjons-e-poster og send tilpassede kampanjer",
     "customEmails": "Tilpassede e-poster",
     "customEmailsDesc": "Opprett og send målrettede e-postkampanjer",
     "createEmail": "Opprett e-post",
