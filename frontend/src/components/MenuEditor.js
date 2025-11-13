@@ -424,7 +424,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
                 title="TEMPORARY DEBUG: Click to fix Norwegian language"
               >
                 <Languages className="w-5 h-5" />
-                <span className="hidden sm:inline">🔧 Fix Language (NO)</span>
+                <span className="hidden sm:inline">{t('menus.fixLanguage')}</span>
               </button>
               <button
                 onClick={handleTranslate}
@@ -432,7 +432,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
                 className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white p-3 sm:px-6 sm:py-3 rounded-full sm:rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Languages className="w-5 h-5" />
-                <span className="hidden sm:inline">{translating ? 'Translating...' : 'Translate All Menus'}</span>
+                <span className="hidden sm:inline">{translating ? t('menus.translating') : t('menus.translateAll')}</span>
               </button>
               <button
                 onClick={handleSave}
@@ -440,7 +440,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
                 className="bg-[#32D3FF] hover:bg-[#1FC1FF] text-white p-3 sm:px-6 sm:py-3 rounded-full sm:rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save className="w-5 h-5" />
-                <span className="hidden sm:inline">{saving ? 'Saving...' : 'Save Menus'}</span>
+                <span className="hidden sm:inline">{saving ? t('menus.saving') : t('menus.saveMenus')}</span>
               </button>
             </div>
           </div>
