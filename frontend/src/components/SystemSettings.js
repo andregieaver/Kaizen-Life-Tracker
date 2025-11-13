@@ -3912,7 +3912,7 @@ const SystemSettings = ({ athleteId }) => {
                       {t('systemSettings.advanced.branding')}
                     </Label>
                     <p className="text-xs text-gray-400 mt-1">
-                      Configure site title, favicon, and logo for your application
+                      {t('systemSettings.advanced.brandingDescription')}
                     </p>
                   </div>
 
@@ -3935,14 +3935,14 @@ const SystemSettings = ({ athleteId }) => {
                       className="bg-gray-900 border-gray-700 text-white placeholder:text-gray-500"
                     />
                     <p className="text-xs text-gray-400">
-                      Appears in browser tabs, headers, and footers
+                      {t('systemSettings.advanced.appNameHelp')}
                     </p>
                   </div>
 
                   {/* Meta Description */}
                   <div className="space-y-2">
                     <Label className="text-xs font-medium text-gray-300">
-                      Meta Description
+                      {t('systemSettings.advanced.metaDescription')}
                     </Label>
                     <textarea
                       value={advancedSettings.seo.metaDescription}
@@ -3953,12 +3953,12 @@ const SystemSettings = ({ athleteId }) => {
                           metaDescription: e.target.value
                         }
                       }))}
-                      placeholder="A brief description of your site for search engines and social media"
+                      placeholder={t('systemSettings.advanced.metaDescriptionPlaceholder')}
                       rows="3"
                       className="w-full bg-gray-900 border border-gray-700 rounded-md px-3 py-2 text-white placeholder:text-gray-500 focus:outline-none focus:border-[#32D3FF]"
                     />
                     <p className="text-xs text-gray-400">
-                      Displayed in search results and social media shares (recommended: 150-160 characters)
+                      {t('systemSettings.advanced.metaDescriptionHelp')}
                     </p>
                   </div>
 
