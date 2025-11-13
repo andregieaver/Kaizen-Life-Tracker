@@ -778,6 +778,21 @@
         "description": "Descrizione",
         "interests": "Interessi"
       }
+    },
+    "aiCoach": {
+      "personality": "Personalità del coach IA",
+      "personalityDescription": "Scegli lo stile di comunicazione del tuo coach",
+      "personalityNone": "Nessuna personalità selezionata",
+      "personalityZen": "🧘‍♂️ Minimalista Zen - Calmo e semplice",
+      "personalityScience": "🔬 Nerd della scienza - Basato sui dati",
+      "personalityTough": "🪖 Amore duro - Diretto e impegnativo",
+      "personalityCheerleader": "🎉 Cheerleader - Energico e positivo",
+      "personalityTherapist": "🛋️ Terapeuta - Empatico e di supporto",
+      "personalityStoic": "⚔️ Stoico - Filosofico e disciplinato",
+      "personalityGamified": "🎮 Gamificato - XP e missioni",
+      "personalityRecovery": "🌿 Saggio del recupero - Salute a lungo termine",
+      "personalityExecutive": "⏱️ Esecutivo - Efficiente nel tempo",
+      "personalityRealist": "🧢 Realista - Con i piedi per terra"
     }
   },
   "pages": {

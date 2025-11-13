@@ -188,7 +188,22 @@
     "createFirstSchedule": "Erstellen Sie Ihren ersten automatisierten Zeitplan für regelmäßige Erkenntnisse von Ihrem KI-Trainer",
     "logoutTitle": "Abmelden",
     "logoutDescription": "Melden Sie sich von Ihrem Konto ab und kehren Sie zur Anmeldeseite zurück",
-    "disconnectConfirm": "Sind Sie sicher, dass Sie die Verbindung trennen möchten?"
+    "disconnectConfirm": "Sind Sie sicher, dass Sie die Verbindung trennen möchten?",
+    "aiCoach": {
+      "personality": "KI-Trainer Persönlichkeit",
+      "personalityDescription": "Wählen Sie den Kommunikationsstil Ihres Trainers",
+      "personalityNone": "Keine Persönlichkeit ausgewählt",
+      "personalityZen": "🧘‍♂️ Zen-Minimalist - Ruhig und einfach",
+      "personalityScience": "🔬 Wissenschafts-Nerd - Datengetrieben",
+      "personalityTough": "🪖 Strenge Liebe - Direkt und fordernd",
+      "personalityCheerleader": "🎉 Cheerleader - Energetisch und positiv",
+      "personalityTherapist": "🛋️ Therapeut - Empathisch und unterstützend",
+      "personalityStoic": "⚔️ Stoisch - Philosophisch und diszipliniert",
+      "personalityGamified": "🎮 Spielifiziert - XP und Quests",
+      "personalityRecovery": "🌿 Erholungsweise - Langfristige Gesundheit",
+      "personalityExecutive": "⏱️ Geschäftsführer - Zeiteffizient",
+      "personalityRealist": "🧢 Realist - Bodenständig"
+    }
   },
   "merits": {
     "title": "Verdienste",

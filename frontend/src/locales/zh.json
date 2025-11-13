@@ -778,6 +778,21 @@
         "description": "描述",
         "interests": "兴趣"
       }
+    },
+    "aiCoach": {
+      "personality": "AI教练个性",
+      "personalityDescription": "选择教练的沟通风格",
+      "personalityNone": "未选择个性",
+      "personalityZen": "🧘‍♂️ 禅宗极简主义 - 平静简单",
+      "personalityScience": "🔬 科学极客 - 数据驱动",
+      "personalityTough": "🪖 严格的爱 - 直接挑战",
+      "personalityCheerleader": "🎉 啦啦队 - 充满活力和积极",
+      "personalityTherapist": "🛋️ 治疗师 - 富有同情心和支持",
+      "personalityStoic": "⚔️ 斯多葛 - 哲学和纪律",
+      "personalityGamified": "🎮 游戏化 - 经验值和任务",
+      "personalityRecovery": "🌿 恢复智者 - 长期健康",
+      "personalityExecutive": "⏱️ 高管 - 时间高效",
+      "personalityRealist": "🧢 现实主义者 - 脚踏实地"
     }
   },
   "pages": {

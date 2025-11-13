@@ -778,6 +778,21 @@
         "description": "Beskrivning",
         "interests": "Intressen"
       }
+    },
+    "aiCoach": {
+      "personality": "AI-coach personlighet",
+      "personalityDescription": "Välj din tränares kommunikationsstil och tillvägagångssätt",
+      "personalityNone": "Ingen personlighet vald",
+      "personalityZen": "🧘‍♂️ Zen-minimalist - Lugn och enkel",
+      "personalityScience": "🔬 Vetenskapsnörd - Datadriven",
+      "personalityTough": "🪖 Tough Love - Direkt och utmanande",
+      "personalityCheerleader": "🎉 Hejaklack - Energisk och positiv",
+      "personalityTherapist": "🛋️ Terapeut - Empatisk och stödjande",
+      "personalityStoic": "⚔️ Stoisk - Filosofisk och disciplinerad",
+      "personalityGamified": "🎮 Spelifierad - XP och uppdrag",
+      "personalityRecovery": "🌿 Återhämtningsguide - Långsiktig hälsa",
+      "personalityExecutive": "⏱️ Chefstyp - Tidseffektiv",
+      "personalityRealist": "🧢 Realist - Jordnära"
     }
   },
   "pages": {

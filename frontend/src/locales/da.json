@@ -188,7 +188,22 @@
     "createFirstSchedule": "Opret din første automatiserede tidsplan for regelmæssige indsigter fra din AI-træner",
     "logoutTitle": "Log ud",
     "logoutDescription": "Log ud af din konto og returner til login-siden",
-    "disconnectConfirm": "Er du sikker på, du vil afbryde forbindelsen?"
+    "disconnectConfirm": "Er du sikker på, du vil afbryde forbindelsen?",
+    "aiCoach": {
+      "personality": "AI-coach personlighed",
+      "personalityDescription": "Vælg din coachs kommunikationsstil og tilgang",
+      "personalityNone": "Ingen personlighed valgt",
+      "personalityZen": "🧘‍♂️ Zen-minimalist - Rolig og enkel",
+      "personalityScience": "🔬 Videnskabsnørd - Datadrevet",
+      "personalityTough": "🪖 Hård kærlighed - Direkte og udfordrende",
+      "personalityCheerleader": "🎉 Cheerleader - Energisk og positiv",
+      "personalityTherapist": "🛋️ Terapeut - Empatisk og støttende",
+      "personalityStoic": "⚔️ Stoisk - Filosofisk og disciplineret",
+      "personalityGamified": "🎮 Gamificeret - XP og quests",
+      "personalityRecovery": "🌿 Restitutionsvejleder - Langsigtet sundhed",
+      "personalityExecutive": "⏱️ Leder - Tidseffektiv",
+      "personalityRealist": "🧢 Realist - Jordnær"
+    }
   },
   "merits": {
     "title": "Meritter",

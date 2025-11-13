@@ -188,7 +188,22 @@
     "createFirstSchedule": "Crea tu primer programa automatizado para obtener insights regulares de tu entrenador IA",
     "logoutTitle": "Cerrar sesión",
     "logoutDescription": "Cierra sesión de tu cuenta y regresa a la página de inicio",
-    "disconnectConfirm": "¿Estás seguro de que quieres desconectar?"
+    "disconnectConfirm": "¿Estás seguro de que quieres desconectar?",
+    "aiCoach": {
+      "personality": "Personalidad del entrenador IA",
+      "personalityDescription": "Elige el estilo de comunicación de tu entrenador",
+      "personalityNone": "Sin personalidad seleccionada",
+      "personalityZen": "🧘‍♂️ Minimalista Zen - Tranquilo y simple",
+      "personalityScience": "🔬 Científico - Basado en datos",
+      "personalityTough": "🪖 Amor duro - Directo y desafiante",
+      "personalityCheerleader": "🎉 Animador - Enérgico y positivo",
+      "personalityTherapist": "🛋️ Terapeuta - Empático y de apoyo",
+      "personalityStoic": "⚔️ Estoico - Filosófico y disciplinado",
+      "personalityGamified": "🎮 Gamificado - XP y misiones",
+      "personalityRecovery": "🌿 Sabio de recuperación - Salud a largo plazo",
+      "personalityExecutive": "⏱️ Ejecutivo - Eficiente en tiempo",
+      "personalityRealist": "🧢 Realista - Con los pies en la tierra"
+    }
   },
   "merits": {
     "title": "Méritos",

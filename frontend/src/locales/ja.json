@@ -778,6 +778,21 @@
         "description": "説明",
         "interests": "興味"
       }
+    },
+    "aiCoach": {
+      "personality": "AIコーチのパーソナリティ",
+      "personalityDescription": "コーチのコミュニケーションスタイルを選択",
+      "personalityNone": "パーソナリティ未選択",
+      "personalityZen": "🧘‍♂️ 禅ミニマリスト - 穏やかでシンプル",
+      "personalityScience": "🔬 科学オタク - データ駆動型",
+      "personalityTough": "🪖 厳しい愛 - 直接的で挑戦的",
+      "personalityCheerleader": "🎉 チアリーダー - エネルギッシュでポジティブ",
+      "personalityTherapist": "🛋️ セラピスト - 共感的でサポート的",
+      "personalityStoic": "⚔️ ストイック - 哲学的で規律正しい",
+      "personalityGamified": "🎮 ゲーミフィケーション - XPとクエスト",
+      "personalityRecovery": "🌿 回復の賢者 - 長期的な健康",
+      "personalityExecutive": "⏱️ エグゼクティブ - 時間効率的",
+      "personalityRealist": "🧢 リアリスト - 現実的"
     }
   },
   "pages": {
