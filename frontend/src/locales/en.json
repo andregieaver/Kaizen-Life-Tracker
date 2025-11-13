@@ -1432,7 +1432,14 @@
       "marketingCookiesTitle": "Marketing Cookies Title",
       "marketingCookiesDescription": "Marketing Cookies Description",
       "autoScan": "Automatically scan for new cookies every week (Monday 2 AM)",
-      "enableGtmConsentMode": "Enable GTM Consent Mode"
+      "enableGtmConsentMode": "Enable GTM Consent Mode",
+      "enableCookieConsentDescription": "Show cookie consent banner to visitors (Google Consent Mode v2 compliant)",
+      "autoScanDescription": "Automatically scan for new cookies every week (Monday 2 AM)",
+      "scanCookiesDescription": "Scan for cookies from frontend, backend, and third-party services",
+      "lastScan": "Last scan",
+      "detectedCookies": "Detected Cookies",
+      "necessary": "Necessary",
+      "scanned": "Scanned"
     },
     "coupons": {
       "description": "Manage discount coupons",

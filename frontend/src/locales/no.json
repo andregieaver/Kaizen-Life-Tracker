@@ -1432,7 +1432,14 @@
       "marketingCookiesTitle": "Markedsføringsinformasjonskapsler tittel",
       "marketingCookiesDescription": "Markedsføringsinformasjonskapsler beskrivelse",
       "autoScan": "Skann automatisk for nye informasjonskapsler hver uke (mandag kl. 02:00)",
-      "enableGtmConsentMode": "Aktiver GTM-samtykkemodus"
+      "enableGtmConsentMode": "Aktiver GTM-samtykkemodus",
+      "enableCookieConsentDescription": "Vis samtykkebanner for informasjonskapsler til besøkende (Google Consent Mode v2-kompatibel)",
+      "autoScanDescription": "Skann automatisk etter nye informasjonskapsler hver uke (mandag kl. 02:00)",
+      "scanCookiesDescription": "Skann etter informasjonskapsler fra frontend, backend og tredjepartstjenester",
+      "lastScan": "Siste skanning",
+      "detectedCookies": "Oppdagede informasjonskapsler",
+      "necessary": "Nødvendige",
+      "scanned": "Skannet"
     },
     "coupons": {
       "description": "Administrer rabattkuponger",
