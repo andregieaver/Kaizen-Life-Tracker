@@ -3839,19 +3839,19 @@ const SystemSettings = ({ athleteId }) => {
                   {/* GTM Integration Settings */}
                   <div className="p-4 bg-gray-900 rounded-lg space-y-4">
                     <div className="flex items-center gap-2">
-                      <Label className="text-white font-medium">Google Consent Mode v2 Integration</Label>
+                      <Label className="text-white font-medium">{t('systemSettings.cookies.gtmConsentModeTitle')}</Label>
                       <Badge variant="secondary" className="bg-blue-600 text-white text-xs">
                         GTM
                       </Badge>
                     </div>
                     <p className="text-xs text-gray-400">
-                      Integrates with Google Tag Manager for consent management. Make sure you've added your GTM snippet in the Advanced tab.
+                      {t('systemSettings.cookies.gtmConsentModeDescription')}
                     </p>
                     <div className="flex items-center justify-between p-3 bg-gray-800 rounded">
                       <div>
-                        <Label className="text-gray-300 text-sm">Enable GTM Consent Mode</Label>
+                        <Label className="text-gray-300 text-sm">{t('systemSettings.cookies.enableGtmConsentModeLabel')}</Label>
                         <p className="text-xs text-gray-500 mt-1">
-                          Sends consent signals to GTM container
+                          {t('systemSettings.cookies.enableGtmConsentModeDescription')}
                         </p>
                       </div>
                       <input
