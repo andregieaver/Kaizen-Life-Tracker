@@ -51,4 +51,46 @@ LiteLLM.Info: If you need to debug this error, use `litellm._turn_on_debug()'.
 [20/43] Translating: athlete              ✅
 [21/43] Translating: habits               ✅
      💾 Progress saved | ⏱️  11m 12s remaining
-[22/43] Translating: journal              
+[22/43] Translating: journal              ✅
+[23/43] Translating: validation           ✅
+[24/43] Translating: oura                 ✅
+     💾 Progress saved | ⏱️  8m 16s remaining
+[25/43] Translating: strava               ✅
+[26/43] Translating: placeholders         ✅
+[27/43] Translating: onboarding           ✅
+     💾 Progress saved | ⏱️  5m 59s remaining
+[28/43] Translating: reports              ✅
+[29/43] Translating: schedules            ✅
+[30/43] Translating: voiceChat            ✅
+     💾 Progress saved | ⏱️  4m 18s remaining
+[31/43] Translating: history              ✅
+[32/43] Translating: memories             ✅
+[33/43] Translating: referrals            ✅
+     💾 Progress saved | ⏱️  3m 1s remaining
+[34/43] Translating: calculators          ✅
+[35/43] Translating: weeklyMenu           ✅
+[36/43] Translating: support              ✅
+     💾 Progress saved | ⏱️  1m 57s remaining
+[37/43] Translating: nutrition            ✅
+[38/43] Translating: recipes              ✅
+[39/43] Translating: coach                ✅
+     💾 Progress saved | ⏱️  1m 4s remaining
+[40/43] Translating: coachChat            ✅
+[41/43] Translating: drinks               ✅
+[42/43] Translating: notifications        ✅
+     💾 Progress saved | ⏱️  0m 14s remaining
+[43/43] Translating: today                ✅
+
+============================================================
+🎉 Translation Complete!
+============================================================
+✅ Output saved to: frontend/src/locales/sv.json
+⏱️  Total time: 8m 34s
+📊 Translated sections: 43/43
+🔑 Total translation keys: 2020
+
+✨ Next steps:
+1. Run validation: python3 validate_swedish.py
+2. Update i18n.js to include Swedish
+3. Test in application
+
