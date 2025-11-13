@@ -1097,7 +1097,9 @@
   },
   "systemSettings": {
     "title": "Systeminnstillinger",
+    "subtitle": "Administrer applikasjonskonfigurasjonen din",
     "description": "Konfigurer applikasjonsinnstillinger",
+    "accountSettings": "Kontoinnstillinger",
     "general": "Generelt",
     "integrations": "Integrasjoner",
     "payment": "Betaling",
@@ -1106,6 +1108,7 @@
     "cancel": "Avbryt",
     "settingsSaved": "Innstillinger lagret",
     "errorSaving": "Feil ved lagring av innstillinger",
+    "loadingSettings": "Laster innstillinger...",
     "siteName": "Nettstedsnavn",
     "siteDescription": "Nettstedsbeskrivelse",
     "siteUrl": "Nettstedsadresse",
@@ -1116,12 +1119,104 @@
     "stripeSecretKey": "Stripe hemmelig nøkkel",
     "stripeWebhookSecret": "Stripe webhook-hemmelighet",
     "emailProvider": "E-postleverandør",
+    "emailFromName": "Fra-navn",
     "smtpHost": "SMTP-vert",
     "smtpPort": "SMTP-port",
     "smtpUsername": "SMTP-brukernavn",
     "smtpPassword": "SMTP-passord",
     "fromEmail": "Fra-e-post",
-    "fromName": "Fra-navn"
+    "fromName": "Fra-navn",
+    "tabs": {
+      "advanced": "Avansert",
+      "cookies": "Informasjonskapsler",
+      "coupons": "Kuponger",
+      "plans": "Planer",
+      "modules": "Moduler",
+      "statistics": "Statistikk",
+      "waitingList": "Venteliste"
+    },
+    "advanced": {
+      "title": "Avanserte innstillinger",
+      "description": "Konfigurer avanserte applikasjonsinnstillinger",
+      "branding": "Merkevarebygging",
+      "emailSettings": "E-postinnstillinger",
+      "appName": "Applikasjonsnavn",
+      "appNamePlaceholder": "Skriv inn applikasjonsnavn",
+      "logo": "Logo",
+      "uploadLogo": "Last opp logo",
+      "favicon": "Favicon",
+      "uploadFavicon": "Last opp favicon",
+      "emailFromAddress": "E-post fra-adresse",
+      "emailFromAddressPlaceholder": "noreply@dindomene.no"
+    },
+    "logoPreview": "Logo-forhåndsvisning",
+    "faviconPreview": "Favicon-forhåndsvisning",
+    "cookies": {
+      "title": "Informasjonskapsler innstillinger",
+      "description": "Administrer samtykke og sporing av informasjonskapsler",
+      "enableCookieConsent": "Aktiver informasjonskapsel-samtykke",
+      "autoScanEnabled": "Automatisk skanning aktivert",
+      "scanCookies": "Skann informasjonskapsler",
+      "scanningCookies": "Skanner informasjonskapsler..."
+    },
+    "coupons": {
+      "description": "Administrer rabattkuponger",
+      "addCoupon": "Legg til kupong",
+      "couponCode": "Kupongkode",
+      "couponCodePlaceholder": "Skriv inn kupongkode",
+      "discountType": "Rabatttype",
+      "discountValue": "Rabattverdi",
+      "percentage": "Prosent",
+      "percentageOff": "Prosent avslag",
+      "fixedAmount": "Fast beløp",
+      "amountOff": "Beløp avslag",
+      "expiryDate": "Utløpsdato",
+      "maxUses": "Maksimalt antall bruk",
+      "unlimited": "Ubegrenset"
+    },
+    "couponName": "Kupongnavn",
+    "plans": {
+      "title": "Abonnementsplaner",
+      "description": "Administrer abonnementsplaner og priser",
+      "planName": "Plannavn",
+      "planNamePlaceholder": "Skriv inn plannavn",
+      "planDescription": "Planbeskrivelse",
+      "addFeature": "Legg til funksjon",
+      "pricingVariationsInstructions": "Konfigurer forskjellige priser for månedlig/årlig fakturering",
+      "syncToStripe": "Synkroniser til Stripe",
+      "syncingToStripe": "Synkroniserer til Stripe...",
+      "resetStripe": "Tilbakestill Stripe",
+      "resetStripeWarning": "Dette vil tilbakestille alle Stripe-konfigurasjoner"
+    },
+    "modules": {
+      "title": "Moduler",
+      "description": "Aktiver eller deaktiver applikasjonsmoduler",
+      "affiliateProgram": {
+        "title": "Partnerprogrammet",
+        "description": "Aktiver partnersporing og provisjoner"
+      }
+    },
+    "waitingList": {
+      "description": "Administrer ventelisteoppføringer",
+      "entries": "Oppføringer",
+      "loadingEntries": "Laster oppføringer...",
+      "noEntries": "Ingen oppføringer ennå",
+      "exportCSV": "Eksporter CSV",
+      "name": "Navn",
+      "email": "E-post",
+      "nationality": "Nasjonalitet",
+      "status": "Status",
+      "source": "Kilde",
+      "created": "Opprettet",
+      "actions": "Handlinger",
+      "all": "Alle",
+      "pending": "Ventende",
+      "contacted": "Kontaktet",
+      "converted": "Konvertert"
+    },
+    "messages": {
+      "syncError": "Kunne ikke synkronisere innstillinger"
+    }
   },
   "merits": {
     "title": "Meritter",
