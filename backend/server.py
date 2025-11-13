@@ -17341,16 +17341,16 @@ async def get_platform_metrics():
         
         # AI Coach personalities with descriptions
         personalities_list = [
-            {"icon": "🧘‍♂️", "name": "Zen Minimalist", "description": "Calm & simple approach"},
-            {"icon": "🔬", "name": "Science Geek", "description": "Data-driven insights"},
-            {"icon": "🪖", "name": "Tough Love", "description": "Direct & challenging"},
-            {"icon": "🎉", "name": "Cheerleader", "description": "Energetic & positive"},
-            {"icon": "🛋️", "name": "Therapist", "description": "Empathetic & supportive"},
-            {"icon": "⚔️", "name": "Stoic", "description": "Philosophical & disciplined"},
-            {"icon": "🎮", "name": "Gamified", "description": "XP & quest-based"},
-            {"icon": "🌿", "name": "Recovery Sage", "description": "Long-term health focus"},
-            {"icon": "⏱️", "name": "Executive", "description": "Time-efficient workouts"},
-            {"icon": "🧢", "name": "Realist", "description": "Down-to-earth guidance"}
+            {"name": "Zen Minimalist", "description": "Calm & simple approach"},
+            {"name": "Science Geek", "description": "Data-driven insights"},
+            {"name": "Tough Love", "description": "Direct & challenging"},
+            {"name": "Cheerleader", "description": "Energetic & positive"},
+            {"name": "Therapist", "description": "Empathetic & supportive"},
+            {"name": "Stoic", "description": "Philosophical & disciplined"},
+            {"name": "Gamified", "description": "XP & quest-based"},
+            {"name": "Recovery Sage", "description": "Long-term health focus"},
+            {"name": "Executive", "description": "Time-efficient workouts"},
+            {"name": "Realist", "description": "Down-to-earth guidance"}
         ]
         personality_count = len(personalities_list)
         
