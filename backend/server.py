@@ -575,6 +575,7 @@ class AthleteProfile(BaseModel):
     fluid_unit: str = Field(default="fl oz")  # 'fl oz' or 'ml'
     language: str = Field(default="en")  # Language code (e.g., "en", "no", "sv")
     coach_language: str = Field(default="en")  # Preferred language for AI coach responses
+    coach_personality: Optional[str] = Field(default=None)  # AI Coach personality: 'zen', 'science', 'tough', 'cheerleader', 'therapist', 'stoic', 'gamified', 'recovery', 'executive', 'realist'
     voice_preference: str = Field(default="alloy")  # OpenAI voice: 'alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'
     coach_name: str = Field(default="Coach")  # Custom name for AI coach
     coach_avatar: Optional[str] = None  # Custom avatar URL for AI coach
