@@ -47,10 +47,10 @@ const MenuEditor = ({ athleteId, onBack }) => {
       // Dispatch custom event to notify Dashboard to reload menus
       window.dispatchEvent(new CustomEvent('menusUpdated'));
       
-      alert('Menus saved successfully');
+      alert(t('menus.saveSuccess'));
     } catch (error) {
       console.error('Error saving menus:', error);
-      alert('Failed to save menus');
+      alert(t('menus.saveFailed'));
     } finally {
       setSaving(false);
     }
