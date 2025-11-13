@@ -314,25 +314,25 @@ const Orders = ({ athleteId }) => {
                       Order ID <SortIcon columnKey="order_id" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('plan')}>
-                      Plan <SortIcon columnKey="plan" />
+                      {t('orders.plan')} <SortIcon columnKey="plan" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('interval')}>
-                      Interval <SortIcon columnKey="interval" />
+                      {t('orders.interval')} <SortIcon columnKey="interval" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('athlete_name')}>
-                      Customer <SortIcon columnKey="athlete_name" />
+                      {t('orders.customer')} <SortIcon columnKey="athlete_name" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('order_date')}>
-                      Order Date <SortIcon columnKey="order_date" />
+                      {t('orders.orderDate')} <SortIcon columnKey="order_date" />
                     </th>
                     <th className="px-4 py-3 text-center text-sm font-medium text-gray-300">
-                      Type
+                      {t('orders.type')}
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('payment_status')}>
                       Payment Status <SortIcon columnKey="payment_status" />
                     </th>
                     <th className="px-4 py-3 text-right text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('amount')}>
-                      Amount <SortIcon columnKey="amount" />
+                      {t('orders.amount')} <SortIcon columnKey="amount" />
                     </th>
                   </tr>
                 </thead>
