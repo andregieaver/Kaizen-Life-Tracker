@@ -10,9 +10,9 @@ import time
 import asyncio
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 
-async def translate_section(section_name, section_data, api_key, context=""):
+async def translate_section(section_name, section_data, api_key, context="", max_retries=3):
     """
-    Translate a single section using GPT-4 via Emergent LLM
+    Translate a single section using GPT-4 via Emergent LLM with retry logic
     """
     prompt = f"""You are a professional Swedish translator specializing in software localization for fitness and health applications.
 
@@ -41,36 +41,45 @@ JSON to translate:
 
 IMPORTANT: Return ONLY the valid JSON with translated values. No explanations, no markdown, just pure JSON."""
 
-    try:
-        # Initialize chat with unique session for this section
-        chat = LlmChat(
-            api_key=api_key,
-            session_id=f"translate-{section_name}-{int(time.time())}",
-            system_message="You are a professional Swedish translator. You respond ONLY with valid JSON. You maintain technical accuracy while providing natural Swedish translations appropriate for a fitness application."
-        ).with_model("openai", "gpt-4o")
-        
-        # Create user message
-        user_message = UserMessage(text=prompt)
-        
-        # Send message and get response
-        response = await chat.send_message(user_message)
-        translated_text = response.strip()
-        
-        # Remove markdown code blocks if present
-        if translated_text.startswith('```'):
-            lines = translated_text.split('\n')
-            translated_text = '\n'.join(lines[1:-1]) if len(lines) > 2 else translated_text
-        
-        translated_json = json.loads(translated_text)
-        return translated_json
-        
-    except json.JSONDecodeError as e:
-        print(f"  ⚠️  JSON decode error: {e}")
-        print(f"  Response: {translated_text[:200]}")
-        raise
-    except Exception as e:
-        print(f"  ❌ Translation error: {e}")
-        raise
+    for attempt in range(max_retries):
+        try:
+            # Initialize chat with unique session for this section
+            chat = LlmChat(
+                api_key=api_key,
+                session_id=f"translate-{section_name}-{int(time.time())}-{attempt}",
+                system_message="You are a professional Swedish translator. You respond ONLY with valid JSON. You maintain technical accuracy while providing natural Swedish translations appropriate for a fitness application."
+            ).with_model("openai", "gpt-4o")
+            
+            # Create user message
+            user_message = UserMessage(text=prompt)
+            
+            # Send message and get response
+            response = await chat.send_message(user_message)
+            translated_text = response.strip()
+            
+            # Remove markdown code blocks if present
+            if translated_text.startswith('```'):
+                lines = translated_text.split('\n')
+                translated_text = '\n'.join(lines[1:-1]) if len(lines) > 2 else translated_text
+            
+            translated_json = json.loads(translated_text)
+            return translated_json
+            
+        except json.JSONDecodeError as e:
+            if attempt < max_retries - 1:
+                print(f"  ⚠️  JSON decode error (attempt {attempt+1}/{max_retries}): {e}")
+                await asyncio.sleep(3)
+            else:
+                print(f"  ❌ JSON decode error after {max_retries} attempts: {e}")
+                print(f"  Response: {translated_text[:200]}")
+                raise
+        except Exception as e:
+            if attempt < max_retries - 1:
+                print(f"  ⚠️  Error (attempt {attempt+1}/{max_retries}): {e}")
+                await asyncio.sleep(5)  # Wait longer for API errors
+            else:
+                print(f"  ❌ Translation error after {max_retries} attempts: {e}")
+                raise
 
 async def translate_locale_file():
     """
