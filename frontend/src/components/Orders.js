@@ -13,6 +13,7 @@ const API = `${BACKEND_URL}/api`;
 
 const Orders = ({ athleteId }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
