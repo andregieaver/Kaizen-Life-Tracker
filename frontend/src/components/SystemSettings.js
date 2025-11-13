@@ -2872,7 +2872,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {/* Total Subscribers */}
                         <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
-                          <p className="text-sm font-medium text-gray-400">Total Subscribers</p>
+                          <p className="text-sm font-medium text-gray-400">{t('systemSettings.statistics.activeSubscribers')}</p>
                           <p className="text-3xl font-bold text-white mt-2">{subscriberStats.total_subscribers.toLocaleString()}</p>
                           <div className="flex items-center mt-3">
                             {subscriberStats.growth_percentage >= 0 ? (
