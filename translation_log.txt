@@ -1,0 +1,27 @@
+============================================================
+🇸🇪 Swedish Translation Script - TrainSmart Application
+============================================================
+
+Input:  frontend/src/locales/en.json
+Output: frontend/src/locales/sv.json
+
+📖 Loading English locale file...
+✅ Loaded 43 sections
+
+Sections to translate:
+  1. auth
+  2. nav
+  3. dashboard
+  4. readiness
+  5. common
+  6. training
+  7. progress
+  8. community
+  9. account
+  10. pages
+  ... and 33 more
+
+⚡ Starting translation with Emergent LLM (GPT-4o)...
+⏱️  Estimated time: 15-25 minutes
+
+[ 1/43] Translating: auth                 
