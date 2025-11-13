@@ -1780,7 +1780,7 @@ const SystemSettings = ({ athleteId }) => {
                                 className="text-gray-300 border-gray-600"
                               >
                                 <Pencil className="w-4 h-4 sm:mr-1" />
-                                <span className="hidden sm:inline">Edit</span>
+                                <span className="hidden sm:inline">{t('systemSettings.plans.edit')}</span>
                               </Button>
                               <Button
                                 size="sm"
