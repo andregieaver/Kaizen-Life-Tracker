@@ -106,8 +106,17 @@ async def translate_locale_file():
     with open(input_file, 'r', encoding='utf-8') as f:
         en_data = json.load(f)
     
+    # Load existing translations if file exists
+    translated_data = {}
+    if os.path.exists(output_file):
+        print(f"📂 Found existing translation file, loading progress...")
+        with open(output_file, 'r', encoding='utf-8') as f:
+            translated_data = json.load(f)
+        print(f"✅ Loaded {len(translated_data)} already-translated sections")
+    
     sections = list(en_data.keys())
     total_sections = len(sections)
+    remaining_sections = [s for s in sections if s not in translated_data]
     
     print(f"✅ Loaded {total_sections} sections")
     print(f"\nSections to translate:")
