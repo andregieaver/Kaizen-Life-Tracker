@@ -120,7 +120,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
       await loadMenus();
     } catch (error) {
       console.error('Error translating item:', error);
-      const errorMsg = error.response?.data?.detail || 'Failed to translate menu item';
+      const errorMsg = error.response?.data?.detail || t('menus.translateItemFailed');
       alert(errorMsg);
     }
   };
