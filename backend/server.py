@@ -828,6 +828,7 @@ class AthleteUpdate(BaseModel):
     fluid_unit: Optional[str] = None
     language: Optional[str] = None
     coach_language: Optional[str] = None
+    coach_personality: Optional[str] = None
     voice_preference: Optional[str] = None
 
 class Integration(BaseModel):
