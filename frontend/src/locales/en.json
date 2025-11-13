@@ -793,5 +793,105 @@
       "halfMarathon": "Half Marathon",
       "marathon": "Marathon"
     }
+  },
+  "athlete": {
+    "follow": "Follow",
+    "unfollow": "Unfollow"
+  },
+  "habits": {
+    "addHabit": "Add Habit",
+    "complete": "Complete",
+    "currentStreak": "Current Streak",
+    "dayStreak": "Day Streak",
+    "days": "days",
+    "daysPerWeek": "Days per Week",
+    "daysOfWeek": {
+      "mon": "Mon",
+      "monday": "Monday",
+      "tue": "Tue",
+      "tuesday": "Tuesday",
+      "wed": "Wed",
+      "wednesday": "Wednesday",
+      "thu": "Thu",
+      "thursday": "Thursday",
+      "fri": "Fri",
+      "friday": "Friday",
+      "sat": "Sat",
+      "saturday": "Saturday",
+      "sun": "Sun",
+      "sunday": "Sunday"
+    }
+  },
+  "journal": {
+    "entryTypes": {
+      "text": "Text",
+      "voice": "Voice",
+      "video": "Video"
+    },
+    "chooseInputType": "Choose Input Type",
+    "enterContent": "Enter your journal entry...",
+    "clickToStart": "Click to start recording",
+    "clickToStartVideo": "Click to start video recording",
+    "cancel": "Cancel",
+    "confirmDeleteEntry": "Are you sure you want to delete this entry?",
+    "entryDeleted": "Entry deleted successfully",
+    "audioTranscribedSuccess": "Audio transcribed successfully",
+    "burnSubtitles": "Burn Subtitles",
+    "burnSubtitlesDescription": "Embed subtitles directly into the video",
+    "failedToAccessMicrophone": "Failed to access microphone",
+    "failedToAccessCamera": "Failed to access camera",
+    "failedToSaveEntry": "Failed to save entry",
+    "failedToSaveVideo": "Failed to save video",
+    "failedToDeleteEntry": "Failed to delete entry",
+    "failedToLoadEntries": "Failed to load entries",
+    "failedToTranscribe": "Failed to transcribe audio"
+  },
+  "validation": {
+    "emailRequired": "Email is required",
+    "emailInvalid": "Email is invalid",
+    "passwordRequired": "Password is required",
+    "passwordTooShort": "Password must be at least 8 characters",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "confirmPasswordRequired": "Please confirm your password",
+    "nameRequired": "Name is required",
+    "submitError": "An error occurred. Please try again."
+  },
+  "oura": {
+    "setupCredentials": "Setup Oura Credentials",
+    "credentialsDescription": "Configure your Oura API credentials",
+    "clientId": "Client ID",
+    "clientSecret": "Client Secret",
+    "allFieldsRequired": "All fields are required",
+    "saveCredentials": "Save Credentials",
+    "saving": "Saving...",
+    "credentialsSaved": "Credentials saved successfully",
+    "credentialsError": "Failed to save credentials",
+    "howToGetCredentials": "How to get your Oura API credentials",
+    "step1": "Step 1: Visit Oura Cloud",
+    "step2": "Step 2: Create an application",
+    "step3": "Step 3: Copy your Client ID and Secret",
+    "step4": "Step 4: Paste them here",
+    "learnMore": "Learn More",
+    "securityNote": "Your credentials are stored securely"
+  },
+  "strava": {
+    "setupCredentials": "Setup Strava Credentials",
+    "credentialsDescription": "Configure your Strava API credentials",
+    "clientId": "Client ID",
+    "clientSecret": "Client Secret",
+    "accessToken": "Access Token",
+    "refreshToken": "Refresh Token",
+    "allFieldsRequired": "All fields are required",
+    "saveCredentials": "Save Credentials",
+    "saving": "Saving...",
+    "credentialsSaved": "Credentials saved successfully",
+    "credentialsError": "Failed to save credentials",
+    "howToGetCredentials": "How to get your Strava API credentials",
+    "step1": "Step 1: Visit Strava Settings",
+    "step2": "Step 2: Create an API application",
+    "step3": "Step 3: Copy your credentials",
+    "step4": "Step 4: Paste them here",
+    "learnMore": "Learn More",
+    "securityNote": "Your credentials are stored securely"
   }
 }
