@@ -509,21 +509,8 @@ const LandingPage = () => {
             </div>
           </div>
 
-          {/* Hero Stats */}
-          <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-400 mb-2">24/7</div>
-              <div className="text-gray-300">AI Coach Available</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-cyan-400 mb-2">All-in-One</div>
-              <div className="text-gray-300">Complete Health Platform</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-400 mb-2">Data-Driven</div>
-              <div className="text-gray-300">Personalized Insights</div>
-            </div>
-          </div>
+          {/* Animated Platform Metrics */}
+          <AnimatedMetrics />
         </div>
       </section>
 
