@@ -224,5 +224,11 @@
     "processing": "Behandler...",
     "importedActivities": "Importerede {{count}} aktiviteter",
     "importedSleepRecords": "Importerede {{count}} søvnregistreringer"
+  },
+  "training": {
+    "title": "Træningskalender",
+    "addWorkout": "Tilføj træning",
+    "viewCalendar": "Se kalender",
+    "upcomingWorkouts": "Kommende træninger"
   }
 }
