@@ -3880,12 +3880,12 @@ const SystemSettings = ({ athleteId }) => {
                       {loadingCookieSettings ? (
                         <>
                           <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                          Saving...
+                          {t('systemSettings.cookies.scanningCookies')}
                         </>
                       ) : (
                         <>
                           <Save className="w-4 h-4 mr-2" />
-                          Save Cookie Settings
+                          {t('systemSettings.cookies.saveCookieSettings')}
                         </>
                       )}
                     </Button>
