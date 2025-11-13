@@ -3080,6 +3080,33 @@ const Account = ({ athleteId }) => {
                     </Select>
                   </div>
 
+                  {/* AI Coach Personality */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-white">{t('account.aiCoach.personality')}</Label>
+                    <p className="text-xs text-gray-500">{t('account.aiCoach.personalityDescription')}</p>
+                    <Select
+                      value={personalForm.coach_personality || ''}
+                      onValueChange={(value) => setPersonalForm(prev => ({...prev, coach_personality: value || null}))}
+                    >
+                      <SelectTrigger className="text-white" style={{ backgroundColor: '#111827', borderColor: '#374151' }}>
+                        <SelectValue placeholder={t('account.aiCoach.personalityNone')} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">{t('account.aiCoach.personalityNone')}</SelectItem>
+                        <SelectItem value="zen">{t('account.aiCoach.personalityZen')}</SelectItem>
+                        <SelectItem value="science">{t('account.aiCoach.personalityScience')}</SelectItem>
+                        <SelectItem value="tough">{t('account.aiCoach.personalityTough')}</SelectItem>
+                        <SelectItem value="cheerleader">{t('account.aiCoach.personalityCheerleader')}</SelectItem>
+                        <SelectItem value="therapist">{t('account.aiCoach.personalityTherapist')}</SelectItem>
+                        <SelectItem value="stoic">{t('account.aiCoach.personalityStoic')}</SelectItem>
+                        <SelectItem value="gamified">{t('account.aiCoach.personalityGamified')}</SelectItem>
+                        <SelectItem value="recovery">{t('account.aiCoach.personalityRecovery')}</SelectItem>
+                        <SelectItem value="executive">{t('account.aiCoach.personalityExecutive')}</SelectItem>
+                        <SelectItem value="realist">{t('account.aiCoach.personalityRealist')}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
                   {/* Coach Name */}
                   <div className="space-y-2">
                     <Label className="text-sm font-medium text-white">{t('account.coachName')}</Label>
