@@ -263,7 +263,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
                                   <GripVertical className="w-5 h-5 text-gray-400" />
                                 </div>
                                 <div className="flex-1 border-t-2 border-gray-600" />
-                                <span className="text-xs text-gray-500 uppercase">Separator</span>
+                                <span className="text-xs text-gray-500 uppercase">{t('menus.separator')}</span>
                               </div>
                               <button
                                 type="button"
