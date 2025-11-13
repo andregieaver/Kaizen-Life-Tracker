@@ -32,4 +32,5 @@ Sections to translate:
      💾 Progress saved | ⏱️  3m 58s remaining
 [ 6/43] Translating: training             ✅
 [ 7/43] Translating: progress             ✅
-[ 8/43] Translating: community            
+[ 8/43] Translating: community            ✅
+[ 9/43] Translating: account              
