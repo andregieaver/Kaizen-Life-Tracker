@@ -1639,5 +1639,67 @@
     "noRecords": "Nessun record ancora",
     "personalBest": "Record Personale",
     "completeWorkouts": "Completa allenamenti per vedere le tue statistiche"
+  },
+  "recipeBrowser": {
+    "title": "Ricettario",
+    "subtitle": "Sfoglia e gestisci le ricette",
+    "loadingRecipes": "Caricamento ricette...",
+    "noRecipesFound": "Nessuna ricetta trovata",
+    "adjustFilters": "Prova a modificare i filtri",
+    "mealType": "Tipo di pasto",
+    "minimumRating": "Valutazione minima",
+    "allRatings": "Tutte le valutazioni",
+    "confirmDelete": "Sei sicuro di voler eliminare questa ricetta?",
+    "failedToDelete": "Eliminazione ricetta non riuscita",
+    "distances": {
+      "1km": "1 km",
+      "1mile": "1 miglio",
+      "5km": "5 km",
+      "10km": "10 km",
+      "halfMarathon": "Mezza Maratona",
+      "marathon": "Maratona"
+    }
+  },
+  "athlete": {
+    "follow": "Segui",
+    "unfollow": "Smetti di seguire"
+  },
+  "habits": {
+    "title": "Abitudini",
+    "addHabit": "Aggiungi Abitudine",
+    "editHabit": "Modifica Abitudine",
+    "habitTitle": "Titolo Abitudine",
+    "habitTitlePlaceholder": "Inserisci il nome dell'abitudine",
+    "complete": "Completa",
+    "currentStreak": "Serie Attuale",
+    "dayStreak": "Serie Giorni",
+    "days": "giorni",
+    "daysPerWeek": "Giorni per Settimana",
+    "selectDays": "Seleziona Giorni",
+    "timesPerDay": "Volte al Giorno",
+    "perDay": "al giorno",
+    "goal": "Obiettivo",
+    "today": "Oggi",
+    "tap": "Tocca",
+    "undo": "Annulla",
+    "startTracking": "Inizia a monitorare le tue abitudini quotidiane",
+    "noHabitsYet": "Nessuna abitudine ancora",
+    "otherHabits": "Altre Abitudini",
+    "daysOfWeek": {
+      "mon": "Lun",
+      "monday": "Lunedì",
+      "tue": "Mar",
+      "tuesday": "Martedì",
+      "wed": "Mer",
+      "wednesday": "Mercoledì",
+      "thu": "Gio",
+      "thursday": "Giovedì",
+      "fri": "Ven",
+      "friday": "Venerdì",
+      "sat": "Sab",
+      "saturday": "Sabato",
+      "sun": "Dom",
+      "sunday": "Domenica"
+    }
   }
 }
