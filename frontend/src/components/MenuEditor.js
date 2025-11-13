@@ -57,7 +57,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
   };
 
   const handleTranslate = async () => {
-    if (!confirm('This will translate all menu items into available languages using AI. Continue?')) {
+    if (!confirm(t('menus.translateAllConfirm'))) {
       return;
     }
     
