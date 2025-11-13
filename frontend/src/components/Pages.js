@@ -147,7 +147,7 @@ const Pages = ({ athleteId }) => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                  placeholder="Search pages..."
+                  placeholder={t('pages.searchPlaceholder')}
                   className="w-full bg-gray-900 border border-gray-700 rounded-lg pl-10 pr-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-[#00C2A8]"
                 />
                 <Search className="w-5 h-5 text-gray-500 absolute left-3 top-2.5" />
