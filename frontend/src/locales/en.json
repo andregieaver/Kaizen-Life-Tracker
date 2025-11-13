@@ -3,30 +3,6 @@
     "fullName": "Full Name",
     "logout": "Logout"
   },
-  "dashboard": {
-    "quickLinks": {
-      "weeklyMenu": "Weekly Menu",
-      "weeklyMenuDesc": "Plan your nutrition",
-      "voiceJournal": "Voice Journal",
-      "voiceJournalDesc": "Record your thoughts",
-      "habitTracker": "Habit Tracker",
-      "habitTrackerDesc": "Track daily habits",
-      "calendar": "Training Calendar",
-      "calendarDesc": "Plan your workouts"
-    },
-    "progress": {
-      "title": "Progress",
-      "subtitle": "Recent test results"
-    },
-    "modals": {
-      "referralRewards": "Referral Rewards",
-      "notifications": "Notifications",
-      "addJournalEntry": "Add Journal Entry",
-      "logDrink": "Log Drink",
-      "logSupplement": "Log Supplement",
-      "logMeal": "Log Meal"
-    }
-  },
   "nav": {
     "today": "Today",
     "dashboard": "Dashboard",
@@ -50,7 +26,29 @@
     "welcome": "Welcome back",
     "overviewTitle": "Overview",
     "recentActivity": "Recent Activity",
-    "quickStats": "Quick Stats"
+    "quickStats": "Quick Stats",
+    "quickLinks": {
+      "weeklyMenu": "Weekly Menu",
+      "weeklyMenuDesc": "Plan your nutrition",
+      "voiceJournal": "Voice Journal",
+      "voiceJournalDesc": "Record your thoughts",
+      "habitTracker": "Habit Tracker",
+      "habitTrackerDesc": "Track daily habits",
+      "calendar": "Training Calendar",
+      "calendarDesc": "Plan your workouts"
+    },
+    "progress": {
+      "title": "Progress",
+      "subtitle": "Recent test results"
+    },
+    "modals": {
+      "referralRewards": "Referral Rewards",
+      "notifications": "Notifications",
+      "addJournalEntry": "Add Journal Entry",
+      "logDrink": "Log Drink",
+      "logSupplement": "Log Supplement",
+      "logMeal": "Log Meal"
+    }
   },
   "common": {
     "loading": "Loading...",
