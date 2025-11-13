@@ -17,7 +17,10 @@ const LanguageSelector = ({ athleteId }) => {
     { code: 'da', name: 'Dansk', flag: '🇩🇰' },
     { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
     { code: 'es', name: 'Español', flag: '🇪🇸' },
-    { code: 'fr', name: 'Français', flag: '🇫🇷' }
+    { code: 'fr', name: 'Français', flag: '🇫🇷' },
+    { code: 'it', name: 'Italiano', flag: '🇮🇹' },
+    { code: 'ja', name: '日本語', flag: '🇯🇵' },
+    { code: 'zh', name: '中文', flag: '🇨🇳' }
   ];
 
   const changeLanguage = async (lng) => {
