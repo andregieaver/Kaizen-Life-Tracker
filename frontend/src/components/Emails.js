@@ -428,11 +428,11 @@ const Emails = () => {
               <CardContent>
                 <div className="space-y-2">
                   <div>
-                    <p className="text-xs text-gray-500 mb-1">Subject:</p>
+                    <p className="text-xs text-gray-500 mb-1">{t('emails.subject')}:</p>
                     <p className="text-sm text-gray-300 font-medium">{template.subject}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 mb-1">Available Variables:</p>
+                    <p className="text-xs text-gray-500 mb-1">{t('emails.availableVariables')}:</p>
                     <div className="flex flex-wrap gap-1">
                       {template.variables.map((variable) => (
                         <code key={variable} className="text-xs bg-gray-900 text-[#00C2A8] px-2 py-1 rounded">
