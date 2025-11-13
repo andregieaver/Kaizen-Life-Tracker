@@ -3396,10 +3396,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               <div className="p-4" className="p-12 text-center">
                 <Trophy className="w-16 h-16 mx-auto mb-4 text-gray-600" />
                 <p className="text-gray-400 text-lg">
-                  {challengeFilter === 'all' && 'No challenges yet. Create the first challenge!'}
-                  {challengeFilter === 'active' && 'No active challenges'}
-                  {challengeFilter === 'completed' && 'No completed challenges'}
-                  {challengeFilter === 'joined' && "You haven't joined any challenges yet"}
+                  {challengeFilter === 'all' && t('community.challenge.noChallengesAll')}
+                  {challengeFilter === 'active' && t('community.challenge.noChallengesActive')}
+                  {challengeFilter === 'completed' && t('community.challenge.noChallengesCompleted')}
+                  {challengeFilter === 'joined' && t('community.challenge.noChallengesJoined')}
                 </p>
               </div>
             </div>
