@@ -3581,9 +3581,9 @@ const SystemSettings = ({ athleteId }) => {
 
                   {/* Banner Text Customization */}
                   <div className="p-4 bg-gray-900 rounded-lg space-y-4">
-                    <Label className="text-white font-medium">Cookie Banner Customization</Label>
+                    <Label className="text-white font-medium">{t('systemSettings.cookies.cookieBannerCustomization')}</Label>
                     <p className="text-xs text-gray-400">
-                      Customize the text displayed in the cookie consent banner
+                      {t('systemSettings.cookies.cookieBannerCustomizationDesc')}
                     </p>
 
                     {/* Banner Title */}
