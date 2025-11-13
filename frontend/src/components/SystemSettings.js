@@ -4032,14 +4032,14 @@ const SystemSettings = ({ athleteId }) => {
                       </div>
                     </div>
                     <p className="text-xs text-gray-400">
-                      Appears in headers and footers throughout the site
+                      {t('systemSettings.advanced.logoHelp')}
                     </p>
                   </div>
 
                   {/* OG Image Upload */}
                   <div className="space-y-2">
                     <Label className="text-xs font-medium text-gray-300">
-                      Open Graph Image (1200x630 recommended)
+                      {t('systemSettings.advanced.ogImageLabel')}
                     </Label>
                     <div className="flex items-center gap-4">
                       {advancedSettings.seo.ogImage && (
@@ -4064,12 +4064,12 @@ const SystemSettings = ({ athleteId }) => {
                           className="inline-flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded cursor-pointer transition-colors"
                         >
                           <Upload className="w-4 h-4" />
-                          Upload OG Image
+                          {t('systemSettings.advanced.uploadOgImage')}
                         </label>
                       </div>
                     </div>
                     <p className="text-xs text-gray-400">
-                      Displayed when sharing your site on social media (Facebook, Twitter, LinkedIn, etc.)
+                      {t('systemSettings.advanced.ogImageHelp')}
                     </p>
                   </div>
                 </div>
