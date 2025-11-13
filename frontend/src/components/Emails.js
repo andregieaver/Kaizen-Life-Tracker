@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -10,6 +11,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Emails = () => {
+  const { t } = useTranslation();
   const [emailTemplates, setEmailTemplates] = useState([]);
   const [customEmails, setCustomEmails] = useState([]);
   const [loading, setLoading] = useState(true);
