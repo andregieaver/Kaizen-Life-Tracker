@@ -17382,16 +17382,16 @@ async def get_platform_metrics():
             "integrations": 6,
             "languagesList": ["English", "Norwegian", "Swedish", "Danish", "German", "Spanish", "French", "Italian", "Japanese", "Chinese"],
             "personalitiesList": [
-                {"icon": "🧘‍♂️", "name": "Zen Minimalist", "description": "Calm & simple"},
-                {"icon": "🔬", "name": "Science Geek", "description": "Data-driven"},
-                {"icon": "🪖", "name": "Tough Love", "description": "Direct & challenging"},
-                {"icon": "🎉", "name": "Cheerleader", "description": "Energetic"},
-                {"icon": "🛋️", "name": "Therapist", "description": "Supportive"},
-                {"icon": "⚔️", "name": "Stoic", "description": "Disciplined"},
-                {"icon": "🎮", "name": "Gamified", "description": "Quest-based"},
-                {"icon": "🌿", "name": "Recovery Sage", "description": "Health focus"},
-                {"icon": "⏱️", "name": "Executive", "description": "Time-efficient"},
-                {"icon": "🧢", "name": "Realist", "description": "Down-to-earth"}
+                {"name": "Zen Minimalist", "description": "Calm & simple"},
+                {"name": "Science Geek", "description": "Data-driven"},
+                {"name": "Tough Love", "description": "Direct & challenging"},
+                {"name": "Cheerleader", "description": "Energetic"},
+                {"name": "Therapist", "description": "Supportive"},
+                {"name": "Stoic", "description": "Disciplined"},
+                {"name": "Gamified", "description": "Quest-based"},
+                {"name": "Recovery Sage", "description": "Health focus"},
+                {"name": "Executive", "description": "Time-efficient"},
+                {"name": "Realist", "description": "Down-to-earth"}
             ],
             "integrationsList": ["Strava", "Oura", "Polar", "Fitbit", "Garmin", "Whoop"]
         }
