@@ -3719,7 +3719,7 @@ const SystemSettings = ({ athleteId }) => {
                       
                       {/* Necessary */}
                       <div>
-                        <Label className="text-gray-300 text-sm">Necessary Cookies Title</Label>
+                        <Label className="text-gray-300 text-sm">{t('systemSettings.cookies.necessaryCookiesTitle')}</Label>
                         <Input
                           value={cookieSettings?.consent_texts?.necessary_title || ''}
                           onChange={(e) => setCookieSettings({
@@ -3742,12 +3742,13 @@ const SystemSettings = ({ athleteId }) => {
                           })}
                           className="bg-gray-800 border-gray-700 text-white"
                           rows={2}
+                          placeholder={t('systemSettings.cookies.necessaryCookiesDescription')}
                         />
                       </div>
 
                       {/* Analytics */}
                       <div>
-                        <Label className="text-gray-300 text-sm">Analytics Cookies Title</Label>
+                        <Label className="text-gray-300 text-sm">{t('systemSettings.cookies.analyticsCookiesTitle')}</Label>
                         <Input
                           value={cookieSettings?.consent_texts?.analytics_title || ''}
                           onChange={(e) => setCookieSettings({
