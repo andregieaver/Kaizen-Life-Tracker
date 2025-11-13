@@ -763,5 +763,35 @@
     "smtpPassword": "SMTP Password",
     "fromEmail": "From Email",
     "fromName": "From Name"
+  },
+  "merits": {
+    "title": "Merits",
+    "distance": "Distance",
+    "last12Months": "Last 12 Months",
+    "allTimeBest": "All-Time Best",
+    "noData": "No data available",
+    "noRecords": "No records yet",
+    "personalBest": "Personal Best",
+    "completeWorkouts": "Complete workouts to see your stats"
+  },
+  "recipeBrowser": {
+    "title": "Recipe Browser",
+    "subtitle": "Browse and manage recipes",
+    "loadingRecipes": "Loading recipes...",
+    "noRecipesFound": "No recipes found",
+    "adjustFilters": "Try adjusting your filters",
+    "mealType": "Meal Type",
+    "minimumRating": "Minimum Rating",
+    "allRatings": "All Ratings",
+    "confirmDelete": "Are you sure you want to delete this recipe?",
+    "failedToDelete": "Failed to delete recipe",
+    "distances": {
+      "1km": "1 km",
+      "1mile": "1 mile",
+      "5km": "5 km",
+      "10km": "10 km",
+      "halfMarathon": "Half Marathon",
+      "marathon": "Marathon"
+    }
   }
 }
