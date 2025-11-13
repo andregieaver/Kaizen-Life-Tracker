@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { 
   Search, 
   Eye, 
@@ -19,6 +20,7 @@ const API = `${BACKEND_URL}/api`;
 
 const Pages = ({ athleteId }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [pages, setPages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
