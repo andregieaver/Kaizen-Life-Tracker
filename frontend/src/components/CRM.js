@@ -177,15 +177,15 @@ const CRM = ({ athleteId }) => {
         <div>
           <h1 className="text-2xl md:text-3xl font-display font-bold text-white flex items-center gap-2">
             <Users className="w-8 h-8" style={{ color: '#00C2A8' }} />
-            User Management
+            {t('crm.title')}
           </h1>
           <p className="text-gray-300 mt-1">
-            Manage and overview all platform users
+            {t('crm.description')}
           </p>
         </div>
         <div className="flex items-center gap-2">
           <Badge className="bg-gray-700 text-white">
-            {filteredUsers.length} / {users.length} users
+            {t('crm.usersCount', { filtered: filteredUsers.length, total: users.length })}
           </Badge>
           <Button
             onClick={exportToCSV}
@@ -195,7 +195,7 @@ const CRM = ({ athleteId }) => {
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
           >
             <Download className="w-4 h-4 mr-2" />
-            Export CSV
+            {t('crm.exportCSV')}
           </Button>
         </div>
       </div>
