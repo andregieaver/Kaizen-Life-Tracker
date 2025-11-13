@@ -151,7 +151,13 @@
     "createChallenge": "Create Challenge",
     "createEvent": "Create Event",
     "saveChanges": "Save Changes",
-    "share": "Share"
+    "share": "Share",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "km": "km",
+    "note": "Note",
+    "processing": "Processing...",
+    "update": "Update"
   },
   "training": {
     "title": "Training Calendar",
