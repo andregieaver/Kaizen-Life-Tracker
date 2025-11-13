@@ -4489,10 +4489,10 @@ const SystemSettings = ({ athleteId }) => {
                 <div className="space-y-4 pt-6 border-t border-gray-700">
                   <div>
                     <Label className="text-sm font-medium text-white">
-                      Google Tag Manager
+                      {t('systemSettings.advanced.gtmIntegration')}
                     </Label>
                     <p className="text-xs text-gray-400 mt-1">
-                      Add your Google Tag Manager (GTM) tracking codes
+                      {t('systemSettings.advanced.gtmDescription')}
                     </p>
                   </div>
 
