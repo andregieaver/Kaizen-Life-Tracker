@@ -3636,7 +3636,7 @@ const SystemSettings = ({ athleteId }) => {
                         />
                       </div>
                       <div>
-                        <Label className="text-gray-300 text-sm">Reject All Button</Label>
+                        <Label className="text-gray-300 text-sm">{t('systemSettings.cookies.rejectAllButton')}</Label>
                         <Input
                           value={cookieSettings?.consent_texts?.reject_all_button || ''}
                           onChange={(e) => setCookieSettings({
@@ -3647,6 +3647,7 @@ const SystemSettings = ({ athleteId }) => {
                             }
                           })}
                           className="bg-gray-800 border-gray-700 text-white mt-1"
+                          placeholder={t('systemSettings.cookies.rejectAllPlaceholder')}
                         />
                       </div>
                       <div>
