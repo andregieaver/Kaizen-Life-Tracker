@@ -4752,11 +4752,11 @@ const SystemSettings = ({ athleteId }) => {
                     {/* Client ID */}
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Client ID
+                        {t('systemSettings.advanced.ouraClientId')}
                       </label>
                       <input
                         type="text"
-                        placeholder="Enter your Oura Client ID"
+                        placeholder={t('systemSettings.advanced.stravaClientIdPlaceholder')}
                         className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                         value={advancedSettings.oura.clientId}
                         onChange={(e) => setAdvancedSettings(prev => ({
@@ -4769,7 +4769,7 @@ const SystemSettings = ({ athleteId }) => {
                     {/* Callback Domain */}
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Authorization Callback Domain
+                        {t('systemSettings.advanced.authCallbackDomain')}
                       </label>
                       <input
                         type="text"
@@ -4789,12 +4789,12 @@ const SystemSettings = ({ athleteId }) => {
                     {/* Client Secret */}
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Client Secret
+                        {t('systemSettings.advanced.ouraClientSecret')}
                       </label>
                       <div className="relative">
                         <input
                           type={advancedSettings.showOuraSecret ? "text" : "password"}
-                          placeholder="Enter your Oura Client Secret"
+                          placeholder={t('systemSettings.advanced.stravaClientSecretPlaceholder')}
                           className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent pr-10"
                           value={advancedSettings.oura.clientSecret}
                           onChange={(e) => setAdvancedSettings(prev => ({
