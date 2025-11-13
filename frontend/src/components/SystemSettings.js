@@ -3771,12 +3771,13 @@ const SystemSettings = ({ athleteId }) => {
                           })}
                           className="bg-gray-800 border-gray-700 text-white"
                           rows={2}
+                          placeholder={t('systemSettings.cookies.analyticsCookiesDescription')}
                         />
                       </div>
 
                       {/* Marketing */}
                       <div>
-                        <Label className="text-gray-300 text-sm">Marketing Cookies Title</Label>
+                        <Label className="text-gray-300 text-sm">{t('systemSettings.cookies.marketingCookiesTitle')}</Label>
                         <Input
                           value={cookieSettings?.consent_texts?.marketing_title || ''}
                           onChange={(e) => setCookieSettings({
@@ -3798,6 +3799,7 @@ const SystemSettings = ({ athleteId }) => {
                             }
                           })}
                           className="bg-gray-800 border-gray-700 text-white"
+                          placeholder={t('systemSettings.cookies.marketingCookiesDescription')}
                           rows={2}
                         />
                       </div>
