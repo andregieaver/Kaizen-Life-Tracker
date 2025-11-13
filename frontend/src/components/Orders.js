@@ -393,7 +393,11 @@ const Orders = ({ athleteId }) => {
       {totalPages > 1 && (
         <div className="flex items-center justify-between mt-6">
           <div className="text-gray-300 text-sm">
-            {t('orders.page')} {startIndex + 1} to {Math.min(endIndex, filteredOrders.length)} {t('orders.of')} {filteredOrders.length}
+            {t('orders.showing', { 
+              start: startIndex + 1, 
+              end: Math.min(endIndex, filteredOrders.length), 
+              total: filteredOrders.length 
+            })}
           </div>
           <div className="flex items-center gap-2">
             <Button
