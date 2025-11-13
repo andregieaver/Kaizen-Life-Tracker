@@ -1789,7 +1789,7 @@ const SystemSettings = ({ athleteId }) => {
                                 className="text-red-400 border-red-600"
                               >
                                 <Trash2 className="w-4 h-4 sm:mr-1" />
-                                <span className="hidden sm:inline">Delete</span>
+                                <span className="hidden sm:inline">{t('systemSettings.plans.delete')}</span>
                               </Button>
                             </div>
                           </div>
