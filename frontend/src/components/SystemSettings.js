@@ -2041,28 +2041,28 @@ const SystemSettings = ({ athleteId }) => {
               <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
                 <Card className="bg-gray-800 border-gray-700 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
                   <CardHeader>
-                    <CardTitle className="text-white">Edit Plan: {selectedPlan.name}</CardTitle>
+                    <CardTitle className="text-white">{t('systemSettings.plans.editPlan')}: {selectedPlan.name}</CardTitle>
                     <CardDescription className="text-gray-400">
                       Update plan details (Stripe product will be updated)
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div>
-                      <label className="block text-gray-300 mb-2">Tier ID</label>
+                      <label className="block text-gray-300 mb-2">{t('systemSettings.plans.tierId')}</label>
                       <input
                         type="text"
                         value={selectedPlan.tier}
                         disabled
                         className="w-full bg-gray-600 text-gray-400 px-4 py-2 rounded border border-gray-600 cursor-not-allowed"
                       />
-                      <p className="text-gray-500 text-xs mt-1">Cannot change tier ID</p>
+                      <p className="text-gray-500 text-xs mt-1">{t('systemSettings.plans.tierIdCannotChange')}</p>
                     </div>
 
                     <div>
-                      <label className="block text-gray-300 mb-2">Plan Name *</label>
+                      <label className="block text-gray-300 mb-2">{t('systemSettings.plans.planName')} *</label>
                       <input
                         type="text"
-                        placeholder="e.g., Professional, Premium"
+                        placeholder={t('systemSettings.plans.planNamePlaceholder')}
                         value={editingPlan.name}
                         onChange={(e) => setEditingPlan({...editingPlan, name: e.target.value})}
                         className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
