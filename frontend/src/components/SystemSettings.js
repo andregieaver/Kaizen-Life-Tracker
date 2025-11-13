@@ -5170,7 +5170,7 @@ const SystemSettings = ({ athleteId }) => {
                       </label>
                       <input
                         type="text"
-                        placeholder="Enter your COROS Client ID"
+                        placeholder={t('systemSettings.advanced.stravaClientIdPlaceholder')}
                         className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:border-transparent"
                         value={advancedSettings.coros.clientId}
                         onChange={(e) => setAdvancedSettings(prev => ({
@@ -5208,7 +5208,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div className="relative">
                         <input
                           type={advancedSettings.showCorosSecret ? 'text' : 'password'}
-                          placeholder="Enter your COROS Client Secret"
+                          placeholder={t('systemSettings.advanced.stravaClientSecretPlaceholder')}
                           className="w-full px-3 py-2 pr-10 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:border-transparent"
                           value={advancedSettings.coros.clientSecret}
                           onChange={(e) => setAdvancedSettings(prev => ({
@@ -5273,7 +5273,7 @@ const SystemSettings = ({ athleteId }) => {
                       </label>
                       <input
                         type="text"
-                        placeholder="Enter your WHOOP Client ID"
+                        placeholder={t('systemSettings.advanced.stravaClientIdPlaceholder')}
                         className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                         value={advancedSettings.whoop.clientId}
                         onChange={(e) => setAdvancedSettings(prev => ({
@@ -5311,7 +5311,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div className="relative">
                         <input
                           type={advancedSettings.showWhoopSecret ? 'text' : 'password'}
-                          placeholder="Enter your WHOOP Client Secret"
+                          placeholder={t('systemSettings.advanced.stravaClientSecretPlaceholder')}
                           className="w-full px-3 py-2 pr-10 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                           value={advancedSettings.whoop.clientSecret}
                           onChange={(e) => setAdvancedSettings(prev => ({
@@ -5376,7 +5376,7 @@ const SystemSettings = ({ athleteId }) => {
                       </label>
                       <input
                         type="text"
-                        placeholder="Enter your Suunto Client ID"
+                        placeholder={t('systemSettings.advanced.stravaClientIdPlaceholder')}
                         className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:border-transparent"
                         value={advancedSettings.suunto.clientId}
                         onChange={(e) => setAdvancedSettings(prev => ({
@@ -5414,7 +5414,7 @@ const SystemSettings = ({ athleteId }) => {
                       <div className="relative">
                         <input
                           type={advancedSettings.showSuuntoSecret ? 'text' : 'password'}
-                          placeholder="Enter your Suunto Client Secret"
+                          placeholder={t('systemSettings.advanced.stravaClientSecretPlaceholder')}
                           className="w-full px-3 py-2 pr-10 bg-gray-900 border border-gray-700 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:border-transparent"
                           value={advancedSettings.suunto.clientSecret}
                           onChange={(e) => setAdvancedSettings(prev => ({
