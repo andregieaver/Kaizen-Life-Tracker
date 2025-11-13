@@ -376,7 +376,7 @@ const Emails = () => {
                       disabled={sendingEmail}
                     >
                       <Send className="w-4 h-4 mr-2" />
-                      {sendingEmail ? 'Sending...' : 'Send to Audience'}
+                      {sendingEmail ? t('emails.sending') : t('emails.send')}
                     </Button>
                   </div>
                 </CardContent>
