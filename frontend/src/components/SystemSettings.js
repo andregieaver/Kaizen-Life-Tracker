@@ -2894,7 +2894,7 @@ const SystemSettings = ({ athleteId }) => {
 
                         {/* Paid Subscribers */}
                         <div className="p-4 rounded-lg" style={{ backgroundColor: '#111827', borderColor: '#374151', border: '1px solid' }}>
-                          <p className="text-sm font-medium text-gray-400">Paid Subscribers</p>
+                          <p className="text-sm font-medium text-gray-400">{t('systemSettings.statistics.paidSubscribers')}</p>
                           <p className="text-3xl font-bold text-white mt-2">{subscriberStats.paid_subscribers.toLocaleString()}</p>
                           <div className="flex items-center mt-3 space-x-2">
                             <Badge className="bg-blue-600 text-white text-xs">Pro: {subscriberStats.pro_subscribers}</Badge>
