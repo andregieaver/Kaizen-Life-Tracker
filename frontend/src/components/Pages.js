@@ -187,7 +187,7 @@ const Pages = ({ athleteId }) => {
             onClick={handleSearch}
             className="mt-4 bg-[#00C2A8] hover:bg-[#00a890] text-white px-6 py-2 rounded-lg transition-colors"
           >
-            Search
+            {t('pages.search')}
           </button>
         </div>
 
