@@ -1587,10 +1587,10 @@ const SystemSettings = ({ athleteId }) => {
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <h3 className="text-lg font-semibold text-white mb-1">
-                          Community
+                          {t('systemSettings.modules.community.title')}
                         </h3>
                         <p className="text-sm text-gray-400">
-                          Enable community features and icon in header
+                          {t('systemSettings.modules.community.description')}
                         </p>
                       </div>
                       <div className="flex items-center gap-3">
@@ -1613,7 +1613,7 @@ const SystemSettings = ({ athleteId }) => {
                           />
                         </button>
                         <span className="text-sm font-medium text-white min-w-[60px]">
-                          {moduleSettings.community.enabled ? 'Enabled' : 'Disabled'}
+                          {moduleSettings.community.enabled ? t('systemSettings.modules.enabled') : t('systemSettings.modules.disabled')}
                         </span>
                         {moduleSettings.community.enabled && (
                           <button
