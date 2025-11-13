@@ -194,10 +194,10 @@ const Pages = ({ athleteId }) => {
         {/* Pages Table */}
         <div className="bg-gray-800 rounded-lg overflow-hidden">
           {loading ? (
-            <div className="p-8 text-center text-gray-400">Loading pages...</div>
+            <div className="p-8 text-center text-gray-400">{t('pages.loadingPages')}</div>
           ) : sortedPages.length === 0 ? (
             <div className="p-8 text-center text-gray-400">
-              No pages found. Create your first page!
+              {t('pages.noPagesFound')}
             </div>
           ) : (
             <table className="w-full">
