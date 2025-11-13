@@ -383,8 +383,8 @@ const CRM = ({ athleteId }) => {
           setDeleteUserId(null);
         }}
         onConfirm={handleDeleteUser}
-        title="Delete User"
-        message="Are you sure you want to delete this user? This action cannot be undone and will permanently remove all their data including posts, comments, and subscriptions."
+        title={t('crm.deleteUserTitle')}
+        message={t('crm.deleteUserMessage')}
       />
     </div>
   );
