@@ -16248,20 +16248,25 @@ async def get_subscriber_stats(
         # Calculate referral participation rate (users who made at least 1 referral)
         referral_participation = (unique_referrers / max(total_subscribers, 1)) * 100
         
-        # Daily referral distribution
-        daily_referrals = {}
-        for ref in referrals:
-            created_at = ref.get("created_at")
-            if created_at:
-                try:
-                    if isinstance(created_at, str):
-                        date_obj = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
-                    else:
-                        date_obj = created_at
-                    date_key = date_obj.strftime('%Y-%m-%d')
-                    daily_referrals[date_key] = daily_referrals.get(date_key, 0) + 1
-                except Exception:
-                    continue
+        # Daily referral distribution using aggregation
+        daily_referrals_result = await db.referrals.aggregate([
+            {"$match": referrals_query},
+            {"$project": {
+                "date": {
+                    "$dateToString": {
+                        "format": "%Y-%m-%d",
+                        "date": {"$toDate": "$created_at"}
+                    }
+                }
+            }},
+            {"$group": {
+                "_id": "$date",
+                "count": {"$sum": 1}
+            }},
+            {"$sort": {"_id": 1}}
+        ]).to_list(length=None)
+        
+        daily_referrals = {item["_id"]: item["count"] for item in daily_referrals_result}
         
         result["referral_metrics"] = {
             "total_referrals": total_referrals,
