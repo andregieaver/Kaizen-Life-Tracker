@@ -231,40 +231,40 @@ const CRM = ({ athleteId }) => {
           {showFilters && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 pt-4 border-t border-gray-600">
               <div>
-                <label className="text-sm font-medium text-gray-300 mb-2 block">Subscription Plan</label>
+                <label className="text-sm font-medium text-gray-300 mb-2 block">{t('crm.subscriptionPlan')}</label>
                 <select
                   value={filters.subscription}
                   onChange={(e) => setFilters(prev => ({ ...prev, subscription: e.target.value }))}
                   className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg"
                 >
-                  <option value="all">All Plans</option>
-                  <option value="free">Free</option>
-                  <option value="pro">Pro</option>
-                  <option value="premium">Premium</option>
+                  <option value="all">{t('crm.allPlans')}</option>
+                  <option value="free">{t('crm.free')}</option>
+                  <option value="pro">{t('crm.pro')}</option>
+                  <option value="premium">{t('crm.premium')}</option>
                 </select>
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-300 mb-2 block">Renewal Type</label>
+                <label className="text-sm font-medium text-gray-300 mb-2 block">{t('crm.renewalType')}</label>
                 <select
                   value={filters.renewal}
                   onChange={(e) => setFilters(prev => ({ ...prev, renewal: e.target.value }))}
                   className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg"
                 >
-                  <option value="all">All Types</option>
-                  <option value="month">Monthly</option>
-                  <option value="year">Annually</option>
+                  <option value="all">{t('crm.allTypes')}</option>
+                  <option value="month">{t('crm.monthly')}</option>
+                  <option value="year">{t('crm.annually')}</option>
                 </select>
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-300 mb-2 block">Nationality</label>
+                <label className="text-sm font-medium text-gray-300 mb-2 block">{t('crm.nationality')}</label>
                 <select
                   value={filters.nationality}
                   onChange={(e) => setFilters(prev => ({ ...prev, nationality: e.target.value }))}
                   className="w-full px-3 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg"
                 >
-                  <option value="all">All Nationalities</option>
+                  <option value="all">{t('crm.allNationalities')}</option>
                   {uniqueNationalities.map(nat => (
                     <option key={nat} value={nat}>{nat}</option>
                   ))}
