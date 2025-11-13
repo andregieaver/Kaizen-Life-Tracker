@@ -1575,7 +1575,7 @@ const SystemSettings = ({ athleteId }) => {
                   {moduleSettings.affiliateProgram.enabled && moduleSettings.affiliateProgram.expanded && (
                     <div className="p-4 bg-gray-900/50 border-t border-gray-700">
                       <p className="text-gray-400 text-sm">
-                        Configuration options for Affiliate Program will appear here...
+                        {t('systemSettings.modules.configAffiliateProgram')}
                       </p>
                     </div>
                   )}
