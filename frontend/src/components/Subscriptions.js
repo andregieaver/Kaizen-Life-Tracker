@@ -298,7 +298,7 @@ const Subscriptions = ({ athleteId }) => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <Input
                 type="text"
-                placeholder="Search by customer name, email, or user ID..."
+                placeholder={t('subscriptions.searchPlaceholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10 bg-gray-800 border-gray-600 text-white placeholder:text-gray-400"
