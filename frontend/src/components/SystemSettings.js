@@ -3549,7 +3549,9 @@ const SystemSettings = ({ athleteId }) => {
                               <div className="flex items-center gap-2 mb-2">
                                 <Shield className="w-4 h-4 text-[#32D3FF]" />
                                 <span className="text-white font-medium capitalize">
-                                  {category === 'necessary' ? t('systemSettings.cookies.necessary') : category} ({categoryCookies.length})
+                                  {category === 'necessary' ? t('systemSettings.cookies.necessary') : 
+                                   category === 'functional' ? t('systemSettings.cookies.functional') : 
+                                   category} ({categoryCookies.length})
                                 </span>
                               </div>
                               <div className="space-y-2">
