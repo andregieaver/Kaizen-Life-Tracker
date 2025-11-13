@@ -448,21 +448,21 @@ const MenuEditor = ({ athleteId, onBack }) => {
 
         {/* Menu Sections */}
         {renderMenuSection(
-          'Header Menu (Logged Out)',
+          t('menus.headerLoggedOut'),
           'header_logged_out',
-          'Navigation menu shown to users who are not logged in'
+          t('menus.headerLoggedOutDesc')
         )}
 
         {renderMenuSection(
-          'Header Menu (Logged In)',
+          t('menus.headerLoggedIn'),
           'header_logged_in',
-          'Navigation menu shown to authenticated users'
+          t('menus.headerLoggedInDesc')
         )}
 
         {renderMenuSection(
-          'Slideout Menu',
+          t('menus.slideoutMenu'),
           'slideout_menu',
-          'Side navigation menu with icons and separators'
+          t('menus.slideoutMenuDesc')
         )}
       </div>
 
