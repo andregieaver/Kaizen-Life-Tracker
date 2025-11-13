@@ -398,7 +398,12 @@
     "cancelMessage": "Er du sikker på at du vil kansellere denne bestillingen?",
     "refundMessage": "Er du sikker på at du vil refundere denne bestillingen?",
     "errorUpdating": "Feil ved oppdatering av bestilling",
-    "errorLoading": "Feil ved lasting av bestillinger"
+    "errorLoading": "Feil ved lasting av bestillinger",
+    "showing": "Viser {{start}} til {{end}} av {{total}} bestillinger",
+    "page": "Side",
+    "of": "av",
+    "previous": "Forrige",
+    "next": "Neste"
   },
   "coupons": {
     "createCoupon": {
