@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Fix two critical issues: 1) Live video preview not displaying during video journal recording, 2) Strava full sync failing on deployed version with custom domain (while connection and incremental sync work fine)."
+user_problem_statement: "Implement light/dark theme support for TrainSmart application, starting with the Dashboard home page. Fine-tune light theme to use dark blue accent colors instead of teal and whiter gradient backgrounds."
 
 frontend:
   - task: "Strava Full Sync Timeout Fix"
