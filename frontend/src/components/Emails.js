@@ -406,13 +406,17 @@ const Emails = () => {
                   <div className="flex-1">
                     <CardTitle className="text-white flex items-center gap-2">
                       <Mail className="w-5 h-5 text-[#00C2A8]" />
-                      {template.name}
+                      {template.id === 'reset_password' ? t('emails.passwordReset') :
+                       template.id === 'welcome' ? t('emails.welcomeEmail') :
+                       template.id === 'email_changed' ? t('emails.emailChanged') : template.name}
                       {template.isCustomized && (
                         <span className="text-xs bg-[#00C2A8] text-white px-2 py-1 rounded">Customized</span>
                       )}
                     </CardTitle>
                     <CardDescription className="text-gray-400 mt-1">
-                      {template.description}
+                      {template.id === 'reset_password' ? t('emails.passwordResetDesc') :
+                       template.id === 'welcome' ? t('emails.welcomeEmailDesc') :
+                       template.id === 'email_changed' ? t('emails.emailChangedDesc') : template.description}
                     </CardDescription>
                   </div>
                   <Button
