@@ -2776,7 +2776,7 @@ Respond as a knowledgeable coach who truly knows this athlete's training history
                 
                 # First API call
                 completion_params = {
-                    "model": "gpt-4o",
+                    "model": "gpt-4o",  # Using latest OpenAI model
                     "messages": messages,
                     "max_tokens": 2000,
                     "temperature": 0.7
