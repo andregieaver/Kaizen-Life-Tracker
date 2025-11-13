@@ -296,22 +296,22 @@ const CRM = ({ athleteId }) => {
                 <thead>
                   <tr className="border-b border-gray-600">
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('name')}>
-                      Name <SortIcon columnKey="name" />
+                      {t('crm.name')} <SortIcon columnKey="name" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('subscription_tier')}>
-                      Plan <SortIcon columnKey="subscription_tier" />
+                      {t('crm.plan')} <SortIcon columnKey="subscription_tier" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('subscription_interval')}>
-                      Renewal <SortIcon columnKey="subscription_interval" />
+                      {t('crm.renewal')} <SortIcon columnKey="subscription_interval" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('nationality')}>
-                      Nationality <SortIcon columnKey="nationality" />
+                      {t('crm.nationality')} <SortIcon columnKey="nationality" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300 cursor-pointer hover:text-white" onClick={() => handleSort('created_at')}>
-                      Registration <SortIcon columnKey="created_at" />
+                      {t('crm.registration')} <SortIcon columnKey="created_at" />
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-300">
-                      Actions
+                      {t('crm.actions')}
                     </th>
                   </tr>
                 </thead>
