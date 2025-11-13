@@ -284,7 +284,7 @@ const Subscriptions = ({ athleteId }) => {
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00C2A8'}
           >
             <Download className="w-4 h-4 mr-2" />
-            Export CSV
+            {t('subscriptions.exportCSV')}
           </Button>
         </div>
       </div>
