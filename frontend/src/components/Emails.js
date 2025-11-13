@@ -343,7 +343,7 @@ const Emails = () => {
                         {email.name}
                       </CardTitle>
                       <CardDescription className="text-gray-400 mt-1">
-                        Target: <span className="font-semibold capitalize">{email.target_audience}</span>
+                        {t('emails.target')}: <span className="font-semibold capitalize">{t(`emails.${email.target_audience}`)}</span>
                       </CardDescription>
                     </div>
                     <div className="flex gap-2">
