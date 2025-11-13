@@ -74,7 +74,13 @@
     "coupons": "Kuponger",
     "emails": "E-poster",
     "systemSettings": "Systeminnstillinger",
-    "subscriptions": "Abonnementer"
+    "subscriptions": "Abonnementer",
+    "calendar": "Kalender",
+    "habitTracker": "Vanesporing",
+    "history": "Historikk",
+    "recipes": "Oppskrifter",
+    "reports": "Rapporter",
+    "trainingCalendar": "Treningskalender"
   },
   "dashboard": {
     "welcome": "Velkommen tilbake",
@@ -518,7 +524,6 @@
     "october": "Oktober",
     "november": "November",
     "december": "Desember",
-    "title": "Kontoinnstillinger",
     "manageProfile": "Administrer profilen og preferansene dine",
     "contactSupport": "Kontakt support",
     "orders": "Bestillinger",
@@ -750,7 +755,24 @@
     "wontBeCharged": "Du blir ikke belastet før",
     "year": "år",
     "youllReceiveNotificationsFor": "Du vil motta varsler for",
-    "youllReceiveProratedCredit": "Du vil motta en forholdsmessig kreditt på"
+    "youllReceiveProratedCredit": "Du vil motta en forholdsmessig kreditt på",
+    "changeEmail": "Endre e-post",
+    "changeEmailButton": "Endre e-post",
+    "changeEmailDescription": "Oppdater e-postadressen din",
+    "changePasswordDescription": "Endre kontopassordet ditt",
+    "changingEmail": "Endrer e-post...",
+    "currentEmail": "Nåværende e-post",
+    "emailChangeNote": "Du vil motta en bekreftelse på din nye adresse",
+    "enterNewEmail": "Skriv inn ny e-postadresse",
+    "enterPasswordConfirm": "Skriv inn passordet ditt for å bekrefte",
+    "newEmailAddress": "Ny e-postadresse",
+    "note": "Notat",
+    "tabs": {
+      "profile": {
+        "description": "Beskrivelse",
+        "interests": "Interesser"
+      }
+    }
   },
   "pages": {
     "title": "Sidehåndtering",
@@ -786,7 +808,24 @@
     "delete": "Slett",
     "duplicate": "Dupliser",
     "statusFilter": "Status",
-    "allStatuses": "Alle statuser"
+    "allStatuses": "Alle statuser",
+    "allIndexStatus": "All indeksstatus",
+    "allStatus": "All status",
+    "deleteFailed": "Kunne ikke slette side",
+    "homePage": "Hjemmeside",
+    "indexStatus": "Indeksstatus",
+    "indexed": "Indeksert",
+    "lastModified": "Sist endret",
+    "loadingPages": "Laster sider...",
+    "newPage": "Ny side",
+    "noIndex": "Ikke indeksert",
+    "noPagesFound": "Ingen sider funnet",
+    "pageTitle": "Sidetittel",
+    "pending": "Venter",
+    "scheduled": "Planlagt",
+    "search": "Søk etter sider...",
+    "status": "Status",
+    "thumbnail": "Miniatyrbilde"
   },
   "menus": {
     "title": "Menyredigering",
@@ -894,7 +933,22 @@
     "lastActive": "Sist aktiv",
     "email": "E-post",
     "name": "Navn",
-    "subscription": "Abonnement"
+    "subscription": "Abonnement",
+    "allNationalities": "Alle nasjonaliteter",
+    "allPlans": "Alle planer",
+    "allTypes": "Alle typer",
+    "annually": "Årlig",
+    "deleteUserFailed": "Kunne ikke slette bruker",
+    "deleteUserTitle": "Slett bruker",
+    "exportCSV": "Eksporter CSV",
+    "monthly": "Månedlig",
+    "na": "I/T",
+    "nationality": "Nasjonalitet",
+    "plan": "Plan",
+    "registration": "Registrering",
+    "renewal": "Fornyelse",
+    "renewalType": "Fornyelsestype",
+    "subscriptionPlan": "Abonnementsplan"
   },
   "orders": {
     "title": "Bestillingshåndtering",
@@ -950,7 +1004,22 @@
     "page": "Side",
     "of": "av",
     "previous": "Forrige",
-    "next": "Neste"
+    "next": "Neste",
+    "allIntervals": "Alle intervaller",
+    "allPlans": "Alle planer",
+    "allTypes": "Alle typer",
+    "annually": "Årlig",
+    "exportCSV": "Eksporter CSV",
+    "firstTime": "Første gang",
+    "interval": "Intervall",
+    "monthly": "Månedlig",
+    "orderDate": "Bestillingsdato",
+    "orderType": "Bestillingstype",
+    "plan": "Plan",
+    "premium": "Premium",
+    "pro": "Pro",
+    "renewal": "Fornyelse",
+    "type": "Type"
   },
   "coupons": {
     "createCoupon": {
@@ -1198,7 +1267,12 @@
     "sendTest": "Send test",
     "variablesReplacedHint": "Variabler vil bli erstattet med eksempeldata",
     "copyPasteVariables": "Kopier og lim inn disse variablene i e-postinnholdet ditt",
-    "failedSendTest": "Kunne ikke sende test-e-post"
+    "failedSendTest": "Kunne ikke sende test-e-post",
+    "emailChanged": "E-post endret",
+    "emailChangedDesc": "E-postadressen din er endret",
+    "passwordResetDesc": "Instruksjoner for å tilbakestille passordet ditt",
+    "transactionalTemplates": "Transaksjonsmaler",
+    "welcomeEmailDesc": "Velkommen til TrainSmart"
   },
   "systemSettings": {
     "title": "Systeminnstillinger",
@@ -1830,5 +1904,76 @@
     "ingredients": "Ingredienser",
     "preparationInstructions": "Tilberedningsinstruksjoner",
     "rateThisRecipe": "Vurder denne oppskriften"
+  },
+  "coach": {
+    "archive": "Arkiv",
+    "messages": "Meldinger",
+    "newChat": "Ny chat",
+    "noPastConversations": "Ingen tidligere samtaler",
+    "pastConversations": "Tidligere samtaler",
+    "placeholder": "Spør meg om hva som helst...",
+    "send": "Send",
+    "sending": "Sender...",
+    "startConversation": "Start en samtale",
+    "title": "AI-trener"
+  },
+  "coachChat": {
+    "archiveConversation": "Arkiver samtale",
+    "archived": "Arkivert",
+    "confirmDeleteConversation": "Er du sikker på at du vil slette denne samtalen?",
+    "connectionTrouble": "Tilkoblingsproblemer. Vennligst prøv igjen.",
+    "conversationPreview": "Samtaleforhåndsvisning",
+    "defaultCoachName": "AI-trener",
+    "deleteConversation": "Slett samtale",
+    "failedArchive": "Kunne ikke arkivere samtale",
+    "failedCheckout": "Kunne ikke starte utsjekking",
+    "failedDelete": "Kunne ikke slette samtale",
+    "failedUnarchive": "Kunne ikke fjerne fra arkiv",
+    "noArchivedConversations": "Ingen arkiverte samtaler"
+  },
+  "drinks": {
+    "confirmDelete": "Er du sikker på at du vil slette denne drikkeloggen?",
+    "drinkDeletedSuccess": "Drikkelogg slettet",
+    "drinkLoggedSuccess": "Drikke logget",
+    "drinkTypes": {
+      "coffee": "Kaffe",
+      "juice": "Juice",
+      "milk": "Melk",
+      "other": "Annet",
+      "smoothie": "Smoothie",
+      "sports_drink": "Sportsdrikk",
+      "tea": "Te",
+      "water": "Vann"
+    },
+    "failedToDelete": "Kunne ikke slette drikkelogg",
+    "failedToLoad": "Kunne ikke laste drikker",
+    "failedToLog": "Kunne ikke logge drikke"
+  },
+  "notifications": {
+    "all": "Alle",
+    "allCaughtUp": "Du er oppdatert!",
+    "challenges": "Utfordringer",
+    "events": "Arrangementer",
+    "follows": "Følger",
+    "groups": "Grupper",
+    "noNotifications": "Ingen varsler",
+    "notifications": "Varsler",
+    "posts": "Innlegg"
+  },
+  "today": {
+    "bpm": "BPM",
+    "cal": "kal",
+    "consumed": "Konsumert",
+    "dailyNeed": "Daglig behov",
+    "min": "min",
+    "noWorkoutsToday": "Ingen treningsøkter planlagt i dag",
+    "progress": "Fremgang",
+    "remaining": "Gjenstående",
+    "title": "I dag",
+    "todayHabits": "Dagens vaner",
+    "todaysMeals": "Dagens måltider",
+    "totalLoad": "Total belastning",
+    "trainingLoad": "Treningsbelastning",
+    "workout": "Treningsøkt"
   }
 }

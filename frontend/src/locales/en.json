@@ -74,7 +74,13 @@
     "coupons": "Coupons",
     "emails": "Emails",
     "systemSettings": "System Settings",
-    "subscriptions": "Subscriptions"
+    "subscriptions": "Subscriptions",
+    "calendar": "Calendar",
+    "habitTracker": "Habit Tracker",
+    "history": "History",
+    "recipes": "Recipes",
+    "reports": "Reports",
+    "trainingCalendar": "Training Calendar"
   },
   "dashboard": {
     "welcome": "Welcome back",
@@ -518,7 +524,6 @@
     "october": "October",
     "november": "November",
     "december": "December",
-    "title": "Account Settings",
     "manageProfile": "Manage your profile and preferences",
     "contactSupport": "Contact Support",
     "orders": "Orders",
@@ -750,7 +755,24 @@
     "wontBeCharged": "You won't be charged until",
     "year": "year",
     "youllReceiveNotificationsFor": "You'll receive notifications for",
-    "youllReceiveProratedCredit": "You'll receive a prorated credit of"
+    "youllReceiveProratedCredit": "You'll receive a prorated credit of",
+    "changeEmail": "Change Email",
+    "changeEmailButton": "Change Email",
+    "changeEmailDescription": "Update your email address",
+    "changePasswordDescription": "Change your account password",
+    "changingEmail": "Changing email...",
+    "currentEmail": "Current Email",
+    "emailChangeNote": "You will receive a confirmation email at your new address",
+    "enterNewEmail": "Enter your new email address",
+    "enterPasswordConfirm": "Enter your password to confirm",
+    "newEmailAddress": "New Email Address",
+    "note": "Note",
+    "tabs": {
+      "profile": {
+        "description": "Description",
+        "interests": "Interests"
+      }
+    }
   },
   "pages": {
     "title": "Page Management",
@@ -786,7 +808,24 @@
     "delete": "Delete",
     "duplicate": "Duplicate",
     "statusFilter": "Status",
-    "allStatuses": "All Statuses"
+    "allStatuses": "All Statuses",
+    "allIndexStatus": "All Index Status",
+    "allStatus": "All Status",
+    "deleteFailed": "Failed to delete page",
+    "homePage": "Home Page",
+    "indexStatus": "Index Status",
+    "indexed": "Indexed",
+    "lastModified": "Last Modified",
+    "loadingPages": "Loading pages...",
+    "newPage": "New Page",
+    "noIndex": "No Index",
+    "noPagesFound": "No pages found",
+    "pageTitle": "Page Title",
+    "pending": "Pending",
+    "scheduled": "Scheduled",
+    "search": "Search pages...",
+    "status": "Status",
+    "thumbnail": "Thumbnail"
   },
   "menus": {
     "title": "Menu Editor",
@@ -894,7 +933,22 @@
     "lastActive": "Last Active",
     "email": "Email",
     "name": "Name",
-    "subscription": "Subscription"
+    "subscription": "Subscription",
+    "allNationalities": "All Nationalities",
+    "allPlans": "All Plans",
+    "allTypes": "All Types",
+    "annually": "Annually",
+    "deleteUserFailed": "Failed to delete user",
+    "deleteUserTitle": "Delete User",
+    "exportCSV": "Export CSV",
+    "monthly": "Monthly",
+    "na": "N/A",
+    "nationality": "Nationality",
+    "plan": "Plan",
+    "registration": "Registration",
+    "renewal": "Renewal",
+    "renewalType": "Renewal Type",
+    "subscriptionPlan": "Subscription Plan"
   },
   "orders": {
     "title": "Order Management",
@@ -950,7 +1004,22 @@
     "page": "Page",
     "of": "of",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "allIntervals": "All Intervals",
+    "allPlans": "All Plans",
+    "allTypes": "All Types",
+    "annually": "Annually",
+    "exportCSV": "Export CSV",
+    "firstTime": "First Time",
+    "interval": "Interval",
+    "monthly": "Monthly",
+    "orderDate": "Order Date",
+    "orderType": "Order Type",
+    "plan": "Plan",
+    "premium": "Premium",
+    "pro": "Pro",
+    "renewal": "Renewal",
+    "type": "Type"
   },
   "coupons": {
     "createCoupon": {
@@ -1198,7 +1267,12 @@
     "sendTest": "Send Test",
     "variablesReplacedHint": "Variables will be replaced with sample data",
     "copyPasteVariables": "Copy and paste these variables into your email content",
-    "failedSendTest": "Failed to send test email"
+    "failedSendTest": "Failed to send test email",
+    "emailChanged": "Email Changed",
+    "emailChangedDesc": "Your email address has been changed",
+    "passwordResetDesc": "Instructions to reset your password",
+    "transactionalTemplates": "Transactional Templates",
+    "welcomeEmailDesc": "Welcome to TrainSmart"
   },
   "systemSettings": {
     "title": "System Settings",
@@ -1830,5 +1904,76 @@
     "ingredients": "Ingredients",
     "preparationInstructions": "Preparation Instructions",
     "rateThisRecipe": "Rate this recipe"
+  },
+  "coach": {
+    "archive": "Archive",
+    "messages": "Messages",
+    "newChat": "New Chat",
+    "noPastConversations": "No past conversations",
+    "pastConversations": "Past Conversations",
+    "placeholder": "Ask me anything...",
+    "send": "Send",
+    "sending": "Sending...",
+    "startConversation": "Start a conversation",
+    "title": "AI Coach"
+  },
+  "coachChat": {
+    "archiveConversation": "Archive Conversation",
+    "archived": "Archived",
+    "confirmDeleteConversation": "Are you sure you want to delete this conversation?",
+    "connectionTrouble": "Connection trouble. Please try again.",
+    "conversationPreview": "Conversation Preview",
+    "defaultCoachName": "AI Coach",
+    "deleteConversation": "Delete Conversation",
+    "failedArchive": "Failed to archive conversation",
+    "failedCheckout": "Failed to start checkout",
+    "failedDelete": "Failed to delete conversation",
+    "failedUnarchive": "Failed to unarchive conversation",
+    "noArchivedConversations": "No archived conversations"
+  },
+  "drinks": {
+    "confirmDelete": "Are you sure you want to delete this drink log?",
+    "drinkDeletedSuccess": "Drink log deleted successfully",
+    "drinkLoggedSuccess": "Drink logged successfully",
+    "drinkTypes": {
+      "coffee": "Coffee",
+      "juice": "Juice",
+      "milk": "Milk",
+      "other": "Other",
+      "smoothie": "Smoothie",
+      "sports_drink": "Sports Drink",
+      "tea": "Tea",
+      "water": "Water"
+    },
+    "failedToDelete": "Failed to delete drink log",
+    "failedToLoad": "Failed to load drinks",
+    "failedToLog": "Failed to log drink"
+  },
+  "notifications": {
+    "all": "All",
+    "allCaughtUp": "You're all caught up!",
+    "challenges": "Challenges",
+    "events": "Events",
+    "follows": "Follows",
+    "groups": "Groups",
+    "noNotifications": "No notifications",
+    "notifications": "Notifications",
+    "posts": "Posts"
+  },
+  "today": {
+    "bpm": "BPM",
+    "cal": "cal",
+    "consumed": "Consumed",
+    "dailyNeed": "Daily Need",
+    "min": "min",
+    "noWorkoutsToday": "No workouts scheduled for today",
+    "progress": "Progress",
+    "remaining": "Remaining",
+    "title": "Today",
+    "todayHabits": "Today's Habits",
+    "todaysMeals": "Today's Meals",
+    "totalLoad": "Total Load",
+    "trainingLoad": "Training Load",
+    "workout": "Workout"
   }
 }
