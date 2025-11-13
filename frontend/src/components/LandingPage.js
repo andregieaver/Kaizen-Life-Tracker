@@ -14,6 +14,108 @@ import { useScrollDepth, useTimeOnPage } from '../lib/useViewTracker';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
+// Animated Counter Component
+const AnimatedCounter = ({ end, duration = 2000, suffix = '' }) => {
+  const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const counterRef = React.useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          
+          const startTime = Date.now();
+          const startValue = 0;
+          const endValue = end;
+          
+          const animate = () => {
+            const now = Date.now();
+            const progress = Math.min((now - startTime) / duration, 1);
+            
+            // Easing function for smooth animation
+            const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+            const currentValue = Math.floor(startValue + (endValue - startValue) * easeOutQuart);
+            
+            setCount(currentValue);
+            
+            if (progress < 1) {
+              requestAnimationFrame(animate);
+            }
+          };
+          
+          animate();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (counterRef.current) {
+      observer.observe(counterRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [end, duration, hasAnimated]);
+
+  return (
+    <div ref={counterRef} className="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent mb-3">
+      {count}{suffix}
+    </div>
+  );
+};
+
+// Animated Metrics Section
+const AnimatedMetrics = () => {
+  const [metrics, setMetrics] = useState({
+    languages: 10,
+    personalities: 10,
+    integrations: 6
+  });
+
+  useEffect(() => {
+    // Fetch actual counts from API
+    const fetchMetrics = async () => {
+      try {
+        const response = await axios.get(`${API}/platform-metrics`);
+        if (response.data) {
+          setMetrics(response.data);
+        }
+      } catch (error) {
+        // Fallback to hardcoded values if API fails
+        console.log('Using default metrics');
+      }
+    };
+    
+    fetchMetrics();
+  }, []);
+
+  return (
+    <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <div className="text-center p-8 rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:transform hover:scale-105">
+        <Globe className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+        <AnimatedCounter end={metrics.languages} suffix="+" />
+        <div className="text-lg font-semibold text-white mb-1">Language Translations</div>
+        <div className="text-sm text-gray-400">Available worldwide</div>
+      </div>
+      
+      <div className="text-center p-8 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 hover:border-cyan-400/40 transition-all duration-300 hover:transform hover:scale-105">
+        <Brain className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
+        <AnimatedCounter end={metrics.personalities} suffix="+" />
+        <div className="text-lg font-semibold text-white mb-1">AI Coach Personalities</div>
+        <div className="text-sm text-gray-400">Find your perfect match</div>
+      </div>
+      
+      <div className="text-center p-8 rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/20 hover:border-blue-400/40 transition-all duration-300 hover:transform hover:scale-105">
+        <Activity className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+        <AnimatedCounter end={metrics.integrations} suffix="+" />
+        <div className="text-lg font-semibold text-white mb-1">Device Integrations</div>
+        <div className="text-sm text-gray-400">Connect your devices</div>
+      </div>
+    </div>
+  );
+};
+
 const WaitingListSection = () => {
   // Track scroll depth on landing page
   useScrollDepth();
