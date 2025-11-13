@@ -82,14 +82,14 @@ const MenuEditor = ({ athleteId, onBack }) => {
   };
 
   const handleFixLanguage = async () => {
-    if (!confirm('TEMPORARY DEBUG: This will set your language to Norwegian. Continue?')) {
+    if (!confirm(t('menus.fixLanguageConfirm'))) {
       return;
     }
     
     try {
       const response = await axios.post(`${API}/system/fix-language?athlete_id=${athleteId}`);
       
-      alert(`✅ ${response.data.message}\n\nOld: ${response.data.old_language}\nNew: ${response.data.new_language}\n\nPlease REFRESH your browser now!`);
+      alert(t('menus.fixLanguageSuccess', { message: response.data.message, old: response.data.old_language, new: response.data.new_language }));
       
       // Give user time to read message before auto-refresh
       setTimeout(() => {
