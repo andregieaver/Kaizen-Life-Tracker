@@ -1454,7 +1454,8 @@
       "enableGtmConsentModeLabel": "Enable GTM Consent Mode",
       "enableGtmConsentModeDescription": "Sends consent signals to GTM container",
       "functionalCookiesTitle": "Functional Cookies Title",
-      "functionalCookiesDescription": "Functional Cookies Description"
+      "functionalCookiesDescription": "Functional Cookies Description",
+      "saveCookieSettings": "Save Cookie Settings"
     },
     "coupons": {
       "description": "Manage discount coupons",

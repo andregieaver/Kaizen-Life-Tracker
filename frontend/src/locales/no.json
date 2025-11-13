@@ -1454,7 +1454,8 @@
       "enableGtmConsentModeLabel": "Aktiver GTM-samtykkemodus",
       "enableGtmConsentModeDescription": "Sender samtykkesignaler til GTM-beholderen",
       "functionalCookiesTitle": "Tittel for funksjonelle informasjonskapsler",
-      "functionalCookiesDescription": "Beskrivelse av funksjonelle informasjonskapsler"
+      "functionalCookiesDescription": "Beskrivelse av funksjonelle informasjonskapsler",
+      "saveCookieSettings": "Lagre informasjonskapselinnstillinger"
     },
     "coupons": {
       "description": "Administrer rabattkuponger",
