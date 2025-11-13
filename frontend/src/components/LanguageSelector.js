@@ -4,7 +4,7 @@ import { Label } from './ui/label';
 import { Globe } from 'lucide-react';
 import axios from 'axios';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const LanguageSelector = ({ athleteId }) => {
