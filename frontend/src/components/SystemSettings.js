@@ -1908,22 +1908,22 @@ const SystemSettings = ({ athleteId }) => {
               <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
                 <Card className="bg-gray-800 border-gray-700 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
                   <CardHeader>
-                    <CardTitle className="text-white">Create New Subscription Plan</CardTitle>
+                    <CardTitle className="text-white">{t('systemSettings.plans.createNewPlan')}</CardTitle>
                     <CardDescription className="text-gray-400">
                       This will create a Stripe Product and sync it to your database
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div>
-                      <label className="block text-gray-300 mb-2">Tier ID *</label>
+                      <label className="block text-gray-300 mb-2">{t('systemSettings.plans.tierId')} *</label>
                       <input
                         type="text"
-                        placeholder="e.g., pro, premium, enterprise"
+                        placeholder={t('systemSettings.plans.tierIdPlaceholder')}
                         value={newPlan.tier}
                         onChange={(e) => setNewPlan({...newPlan, tier: e.target.value.toLowerCase().replace(/\s+/g, '_')})}
                         className="w-full bg-gray-700 text-white px-4 py-2 rounded border border-gray-600"
                       />
-                      <p className="text-gray-500 text-xs mt-1">Unique identifier (lowercase, no spaces)</p>
+                      <p className="text-gray-500 text-xs mt-1">{t('systemSettings.plans.tierIdHelp')}</p>
                     </div>
 
                     <div>
