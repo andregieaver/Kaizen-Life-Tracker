@@ -14702,7 +14702,12 @@ async def translate_menus(athlete_id: str = Query(..., description="Athlete ID f
             'no': 'Norwegian',
             'sv': 'Swedish', 
             'de': 'German',
-            'fr': 'French'
+            'fr': 'French',
+            'es': 'Spanish',
+            'da': 'Danish',
+            'it': 'Italian',
+            'ja': 'Japanese',
+            'zh': 'Chinese'
         }
         
         if locales_path.exists():
