@@ -1887,7 +1887,7 @@ const SystemSettings = ({ athleteId }) => {
                           {/* Features */}
                           {plan.features && plan.features.length > 0 && (
                             <div>
-                              <h4 className="text-white font-semibold mb-2">Features</h4>
+                              <h4 className="text-white font-semibold mb-2">{t('systemSettings.plans.features')}</h4>
                               <ul className="list-disc list-inside text-gray-300 text-sm space-y-1">
                                 {plan.features.map((feature, idx) => (
                                   <li key={idx}>{feature}</li>
