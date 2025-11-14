@@ -6916,7 +6916,8 @@ async def get_recipes(athlete_id: str, week_start_date: Optional[str] = None, in
     if not include_images:
         projection["image_base64"] = 0
     
-    recipes = await db.recipes.find(query, projection).sort("day_of_week", 1).to_list(length=None)
+    # Limit recipes (weekly menu typically has 7-21 recipes max)
+    recipes = await db.recipes.find(query, projection).sort("day_of_week", 1).limit(50).to_list(length=50)
     return {"recipes": [parse_from_mongo(recipe) for recipe in recipes]}
 
 @api_router.get("/recipe/{recipe_id}")
