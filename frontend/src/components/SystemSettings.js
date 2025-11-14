@@ -2700,9 +2700,11 @@ const SystemSettings = ({ athleteId }) => {
               onChangePeriod={statsHook.changePeriod}
               onToggleCompare={statsHook.toggleCompare}
             />
-                          </div>
-                          <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-2">
-                            {[
+          </TabsContent>
+
+
+          {/* Cookies Tab */}
+          <TabsContent value="cookies">
                               { value: '7d', label: '7 Days' },
                               { value: '30d', label: '30 Days' },
                               { value: '90d', label: '90 Days' },
