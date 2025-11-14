@@ -5,6 +5,7 @@ import { Heart, ArrowLeft } from 'lucide-react';
 import axios from 'axios';
 import { loadAndInjectPageSEO } from '../utils/seoUtils';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const TermsConditions = () => {
@@ -18,7 +19,7 @@ const TermsConditions = () => {
           setSiteTitle(response.data.seo.siteTitle);
         }
       } catch (error) {
-        console.error('Error fetching site title:', error);
+        logger.error(null, 'Error fetching site title:', error);
       }
     };
     

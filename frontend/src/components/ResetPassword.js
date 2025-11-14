@@ -8,6 +8,7 @@ import { Label } from './ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { ArrowLeft, Lock, CheckCircle } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -30,11 +31,11 @@ const ResetPassword = () => {
     const emailFromUrl = searchParams.get('email');
     const tokenFromUrl = searchParams.get('token');
     
-    console.log('Reset Password - Email from URL:', emailFromUrl);
-    console.log('Reset Password - Token from URL:', tokenFromUrl);
+    logger.debug(null, 'Reset Password - Email from URL:', emailFromUrl);
+    logger.debug(null, 'Reset Password - Token from URL:', tokenFromUrl);
     
     if (emailFromUrl && tokenFromUrl) {
-      console.log('Valid reset link detected');
+      logger.debug(null, 'Valid reset link detected');
       setFormData(prev => ({ 
         ...prev, 
         email: emailFromUrl,
@@ -42,7 +43,7 @@ const ResetPassword = () => {
       }));
       setError(''); // Clear any previous errors
     } else {
-      console.log('Invalid reset link - missing parameters');
+      logger.debug(null, 'Invalid reset link - missing parameters');
       setError('Invalid reset link. Please request a new password reset from the login page.');
     }
   }, [searchParams]);
@@ -86,7 +87,7 @@ const ResetPassword = () => {
       
       setIsSuccess(true);
     } catch (error) {
-      console.error('Error resetting password:', error);
+      logger.error(null, 'Error resetting password:', error);
       setError(error.response?.data?.detail || 'Failed to reset password. Please try again.');
     } finally {
       setIsLoading(false);

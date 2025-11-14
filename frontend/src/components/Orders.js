@@ -8,6 +8,7 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -44,7 +45,7 @@ const Orders = ({ athleteId }) => {
       });
       setOrders(response.data.orders || []);
     } catch (error) {
-      console.error('Error fetching orders:', error);
+      logger.error(null, 'Error fetching orders:', error);
     } finally {
       setIsLoading(false);
     }

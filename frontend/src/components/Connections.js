@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
+import { logger } from '../utils/logger';
 import { 
   Zap, 
   Heart, 
@@ -42,7 +43,7 @@ const Connections = ({ athleteId }) => {
       setProviders(providersRes.data.providers || []);
       setConnections(connectionsRes.data.connections || []);
     } catch (error) {
-      console.error('Error loading connections data:', error);
+      logger.error(null, 'Error loading connections data:', error);
     } finally {
       setLoading(false);
     }
@@ -91,7 +92,7 @@ const Connections = ({ athleteId }) => {
         window.location.href = response.data.authorization_url;
       }
     } catch (error) {
-      console.error(`Error connecting to ${providerKey}:`, error);
+      logger.error(null, `Error connecting to ${providerKey}:`, error);
       alert(`Failed to connect to ${providerKey}. Please try again.`);
     } finally {
       setConnectingProvider(null);
@@ -107,7 +108,7 @@ const Connections = ({ athleteId }) => {
       await axios.post(`${API}/me/connections/${providerKey}/disconnect?user_id=${athleteId}`);
       await loadData();
     } catch (error) {
-      console.error(`Error disconnecting ${providerKey}:`, error);
+      logger.error(null, `Error disconnecting ${providerKey}:`, error);
       alert(`Failed to disconnect ${providerKey}. Please try again.`);
     }
   };

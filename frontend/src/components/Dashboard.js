@@ -43,6 +43,7 @@ import Drinks from './Drinks';
 import Support from './Support';
 import ThemeToggle from './ThemeToggle';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -134,13 +135,13 @@ const Dashboard = ({ athleteId }) => {
       const activeButton = headerMenu?.querySelector('.header-menu-item[data-active="true"]');
       
       // Debug logging
-      console.log('[Bubble Debug] Current URL:', location.pathname);
-      console.log('[Bubble Debug] All header buttons:');
+      logger.debug(null, '[Bubble Debug] Current URL:', location.pathname);
+      logger.debug(null, '[Bubble Debug] All header buttons:');
       allButtons?.forEach((btn, idx) => {
         const isActive = btn.getAttribute('data-active') === 'true';
-        console.log(`  ${idx}: "${btn.textContent.trim()}" - data-active="${isActive}" - testid="${btn.getAttribute('data-testid')}"`);
+        logger.debug(null, `  ${idx}: "${btn.textContent.trim()}" - data-active="${isActive}" - testid="${btn.getAttribute('data-testid')}"`);
       });
-      console.log('[Bubble Debug] Active button found:', activeButton ? activeButton.textContent.trim() : 'NONE');
+      logger.debug(null, '[Bubble Debug] Active button found:', activeButton ? activeButton.textContent.trim() : 'NONE');
       
       if (headerMenu) {
         if (activeButton) {
@@ -155,11 +156,11 @@ const Dashboard = ({ athleteId }) => {
           headerMenu.style.setProperty('--bubble-width', `${width}px`);
           headerMenu.style.setProperty('--bubble-opacity', '1');
           
-          console.log(`[Bubble Debug] Positioning bubble: left=${leftOffset}px, width=${width}px`);
+          logger.debug(null, `[Bubble Debug] Positioning bubble: left=${leftOffset}px, width=${width}px`);
         } else {
           // No active button - hide the bubble
           headerMenu.style.setProperty('--bubble-opacity', '0');
-          console.log('[Bubble Debug] No active button found - hiding bubble');
+          logger.debug(null, '[Bubble Debug] No active button found - hiding bubble');
         }
       }
     };
@@ -283,19 +284,19 @@ const Dashboard = ({ athleteId }) => {
       const activeButton = navbar?.querySelector('.tab-option[data-active="true"]');
       
       // Debug logging
-      console.log('[Bottom Navbar Bubble] Current URL:', location.pathname);
-      console.log('[Bottom Navbar Bubble] Navbar found:', navbar ? 'YES' : 'NO');
-      console.log('[Bottom Navbar Bubble] Active button found:', activeButton ? activeButton.textContent || 'YES' : 'NONE');
+      logger.debug(null, '[Bottom Navbar Bubble] Current URL:', location.pathname);
+      logger.debug(null, '[Bottom Navbar Bubble] Navbar found:', navbar ? 'YES' : 'NO');
+      logger.debug(null, '[Bottom Navbar Bubble] Active button found:', activeButton ? activeButton.textContent || 'YES' : 'NONE');
       
       if (navbar) {
         if (activeButton) {
           // Active button found - show the bubble
           navbar.style.setProperty('--navbar-bubble-opacity', '1');
-          console.log('[Bottom Navbar Bubble] Setting opacity to 1 (visible)');
+          logger.debug(null, '[Bottom Navbar Bubble] Setting opacity to 1 (visible)');
         } else {
           // No active button - hide the bubble
           navbar.style.setProperty('--navbar-bubble-opacity', '0');
-          console.log('[Bottom Navbar Bubble] Setting opacity to 0 (hidden)');
+          logger.debug(null, '[Bottom Navbar Bubble] Setting opacity to 0 (hidden)');
         }
       }
     };
@@ -336,7 +337,7 @@ const Dashboard = ({ athleteId }) => {
         }
       }
     } catch (error) {
-      console.error('Error loading SEO settings:', error);
+      logger.error(null, 'Error loading SEO settings:', error);
       // Keep defaults
     }
   };
@@ -349,7 +350,7 @@ const Dashboard = ({ athleteId }) => {
         header_logged_in: response.data.header_logged_in || []
       });
     } catch (error) {
-      console.error('Error loading menus:', error);
+      logger.error(null, 'Error loading menus:', error);
       // Keep defaults (empty arrays)
     }
   };
@@ -359,7 +360,7 @@ const Dashboard = ({ athleteId }) => {
     
     // Listen for menu updates from MenuEditor
     const handleMenusUpdated = () => {
-      console.log('[Dashboard] Menus updated event received, reloading...');
+      logger.debug(null, '[Dashboard] Menus updated event received, reloading...');
       loadMenus();
     };
     
@@ -401,7 +402,7 @@ const Dashboard = ({ athleteId }) => {
       const unreadCount = notificationsList.filter(n => !n.read).length;
       setNotificationsUnreadCount(unreadCount);
     } catch (error) {
-      console.error('Error loading notifications:', error);
+      logger.error(null, 'Error loading notifications:', error);
       setNotifications([]); // Set to empty array on error
     }
   };
@@ -441,7 +442,7 @@ const Dashboard = ({ athleteId }) => {
         navigate('/dashboard/community');
       }
     } catch (error) {
-      console.error('Error handling notification click:', error);
+      logger.error(null, 'Error handling notification click:', error);
     }
   };
   
@@ -597,7 +598,7 @@ const Dashboard = ({ athleteId }) => {
       
       setYtdDistance(totalDistance);
     } catch (error) {
-      console.error('Error calculating YTD:', error);
+      logger.error(null, 'Error calculating YTD:', error);
       setYtdDistance(0);
     }
   };
@@ -650,20 +651,20 @@ const Dashboard = ({ athleteId }) => {
       
       return; // Skip the old Promise.all code
 
-      console.log('Raw API response for athlete:', athleteRes.data);
-      console.log('Setting athlete state to:', athleteRes.data);
+      logger.debug(null, 'Raw API response for athlete:', athleteRes.data);
+      logger.debug(null, 'Setting athlete state to:', athleteRes.data);
       
       // Force a clean state update
       setAthlete(null); // Clear first
       setTimeout(() => {
         setAthlete(athleteRes.data); // Then set new data
-        console.log('Athlete state updated');
+        logger.debug(null, 'Athlete state updated');
       }, 100);
       
       setReadiness(readinessRes.data);
       setRecentWorkouts(workoutsRes.data);
     } catch (error) {
-      console.error('Error loading dashboard data:', error);
+      logger.error(null, 'Error loading dashboard data:', error);
     } finally {
       setIsLoading(false);
     }
@@ -677,7 +678,7 @@ const Dashboard = ({ athleteId }) => {
       }
     } catch (error) {
       // If error (e.g., not super admin or endpoint not accessible), use defaults
-      console.log('Using default module settings');
+      logger.debug(null, 'Using default module settings');
     }
   };
 
@@ -831,7 +832,7 @@ const Dashboard = ({ athleteId }) => {
                       const displayLabel = getMenuLabel(item);
                       
                       // Debug logging
-                      console.log(`[Header Menu] Item: ${item.label}, URL: ${item.url}, Current: ${location.pathname}, Active: ${isActive}`);
+                      logger.debug(null, `[Header Menu] Item: ${item.label}, URL: ${item.url}, Current: ${location.pathname}, Active: ${isActive}`);
                       
                       return (
                         <button

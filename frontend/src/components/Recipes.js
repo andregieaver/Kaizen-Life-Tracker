@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Clock, Users, ChefHat, Star, Sparkles, Loader2, X, Flame, Beef, Wheat, Droplet } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -29,7 +30,7 @@ const Recipes = ({ athleteId }) => {
         });
         setRecipes(response.data.recipes || []);
       } catch (error) {
-        console.error('Error loading recipes:', error);
+        logger.error(null, 'Error loading recipes:', error);
         setRecipes([]);
       }
     };
@@ -44,7 +45,7 @@ const Recipes = ({ athleteId }) => {
       });
       setRecipes(response.data.recipes || []);
     } catch (error) {
-      console.error('Error loading recipes:', error);
+      logger.error(null, 'Error loading recipes:', error);
       setRecipes([]);
     }
   };
@@ -54,13 +55,13 @@ const Recipes = ({ athleteId }) => {
     setStatusMessage({ type: 'info', message: t('recipes.generatingMessage', { mealType: selectedMealType }) });
     
     try {
-      console.log('[RECIPE] Starting generation for:', selectedMealType);
+      logger.debug(null, '[RECIPE] Starting generation for:', selectedMealType);
       
       const response = await axios.post(`${API}/recipes/generate/${athleteId}`, {
         meal_type: selectedMealType
       });
       
-      console.log('[RECIPE] Success! Generated recipe:', response.data);
+      logger.debug(null, '[RECIPE] Success! Generated recipe:', response.data);
       setStatusMessage({ type: 'success', message: t('recipes.recipeGenerated', { name: response.data.recipe_name || 'Success' }) });
       
       // Add the new recipe to the list
@@ -71,7 +72,7 @@ const Recipes = ({ athleteId }) => {
       // Clear success message after 5 seconds
       setTimeout(() => setStatusMessage({ type: '', message: '' }), 5000);
     } catch (error) {
-      console.error('[RECIPE] Error generating recipe:', error);
+      logger.error(null, '[RECIPE] Error generating recipe:', error);
       
       // Show detailed error to user
       const errorDetail = error.response?.data?.detail || error.message || 'Unknown error';
@@ -83,7 +84,7 @@ const Recipes = ({ athleteId }) => {
       });
       
       // Log full error details
-      console.error('[RECIPE] Full error object:', {
+      logger.error(null, '[RECIPE] Full error object:', {
         status: error.response?.status,
         statusText: error.response?.statusText,
         data: error.response?.data,
@@ -103,7 +104,7 @@ const Recipes = ({ athleteId }) => {
         r.id === recipeId ? { ...r, user_rating: rating } : r
       ));
     } catch (error) {
-      console.error('Error rating recipe:', error);
+      logger.error(null, 'Error rating recipe:', error);
     }
   };
 
@@ -114,7 +115,7 @@ const Recipes = ({ athleteId }) => {
       await axios.delete(`${API}/recipes/${recipeId}`);
       setRecipes(recipes.filter(r => r.id !== recipeId));
     } catch (error) {
-      console.error('Error deleting recipe:', error);
+      logger.error(null, 'Error deleting recipe:', error);
     }
   };
 

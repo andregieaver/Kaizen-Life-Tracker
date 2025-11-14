@@ -11,6 +11,7 @@ import { Separator } from './ui/separator';
 import { Badge } from './ui/badge';
 import LanguageSelector from './LanguageSelector';
 import ChangePassword from './ChangePassword';
+import { logger } from '../utils/logger';
 import { 
   User, 
   Key, 
@@ -43,7 +44,7 @@ const Account = ({ athleteId }) => {
       const response = await axios.get(`${API}/athlete/${athleteId}`);
       setAthlete(response.data);
     } catch (error) {
-      console.error('Error loading athlete:', error);
+      logger.error(null, 'Error loading athlete:', error);
     } finally {
       setIsLoading(false);
     }
@@ -54,7 +55,7 @@ const Account = ({ athleteId }) => {
       const response = await axios.get(`${API}/subscription-status/${athleteId}`);
       setSubscriptionData(response.data);
     } catch (error) {
-      console.error('Error loading subscription:', error);
+      logger.error(null, 'Error loading subscription:', error);
     }
   };
 

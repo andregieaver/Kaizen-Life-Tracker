@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Badge } from './ui/badge';
 import { Plus, Upload, Trash2, FileText, File, X, Activity, Clipboard, FlaskConical, BookOpen, FolderOpen, Download, RefreshCw, Camera } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const API = process.env.REACT_APP_BACKEND_URL;
 
 const Documents = ({ athleteId }) => {
@@ -100,7 +101,7 @@ const Documents = ({ athleteId }) => {
         const docs = response.data || [];
         setDocuments(Array.isArray(docs) ? docs : []);
       } catch (error) {
-        console.error('Error loading documents:', error);
+        logger.error(null, 'Error loading documents:', error);
         setDocuments([]);
       } finally {
         setIsLoadingDocs(false);
@@ -222,7 +223,7 @@ const Documents = ({ athleteId }) => {
           
           setSaveStatus({ type: 'success', message: '✓ Image ready' });
         } catch (error) {
-          console.error('Error processing image:', error);
+          logger.error(null, 'Error processing image:', error);
           setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
         }
       } else {
@@ -260,7 +261,7 @@ const Documents = ({ athleteId }) => {
         
         setSaveStatus({ type: 'success', message: '✓ Image ready' });
       } catch (error) {
-        console.error('Error processing image:', error);
+        logger.error(null, 'Error processing image:', error);
         setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
       }
     }
@@ -357,7 +358,7 @@ const Documents = ({ athleteId }) => {
       }, 1000);
       
     } catch (error) {
-      console.error('Upload error:', error);
+      logger.error(null, 'Upload error:', error);
       
       let errorMessage = 'Upload failed';
       if (error.code === 'ECONNABORTED') {
@@ -384,7 +385,7 @@ const Documents = ({ athleteId }) => {
       // Remove document from state immediately (no reload)
       setDocuments(prev => prev.filter(doc => doc.id !== docId));
     } catch (error) {
-      console.error('Error deleting document:', error);
+      logger.error(null, 'Error deleting document:', error);
       setSaveStatus({ type: 'error', message: 'Failed to delete document' });
     }
   };

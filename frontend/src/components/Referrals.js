@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -28,18 +29,18 @@ const Referrals = ({ athleteId }) => {
     try {
       const response = await axios.get(`${API}/system-settings/all`);
       const seo = response.data.find(s => s.category === 'seo');
-      console.log('SEO Settings:', seo);
-      console.log('Site Title:', seo?.siteTitle);
+      logger.debug(null, 'SEO Settings:', seo);
+      logger.debug(null, 'Site Title:', seo?.siteTitle);
       if (seo?.siteTitle) {
         setSiteTitle(seo.siteTitle);
-        console.log('Site title set to:', seo.siteTitle);
+        logger.debug(null, 'Site title set to:', seo.siteTitle);
       } else {
         setSiteTitle('TrainSmart');
-        console.log('Site title defaulted to TrainSmart');
+        logger.debug(null, 'Site title defaulted to TrainSmart');
       }
       setSettingsLoaded(true);
     } catch (err) {
-      console.error('Error loading site settings:', err);
+      logger.error(null, 'Error loading site settings:', err);
       setSiteTitle('TrainSmart');
       setSettingsLoaded(true);
     }
@@ -76,7 +77,7 @@ const Referrals = ({ athleteId }) => {
       
       setLoading(false);
     } catch (err) {
-      console.error('Error generating referral code:', err);
+      logger.error(null, 'Error generating referral code:', err);
       setError('Failed to generate referral code');
       setLoading(false);
     }

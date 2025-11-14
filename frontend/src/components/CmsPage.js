@@ -6,6 +6,7 @@ import axios from 'axios';
 import { loadAndInjectPageSEO } from '../utils/seoUtils';
 import HtmlRenderer from '../utils/HtmlRenderer';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const CmsPage = () => {
@@ -34,10 +35,10 @@ const CmsPage = () => {
         const pagesResponse = await axios.get(`${BACKEND_URL}/api/pages/public/by-slug?slug=${urlSlug}`);
         if (pagesResponse.data) {
           setPageData(pagesResponse.data);
-          console.log('CMS Page data:', pagesResponse.data);
+          logger.debug(null, 'CMS Page data:', pagesResponse.data);
         }
       } catch (error) {
-        console.error('Error fetching page data:', error);
+        logger.error(null, 'Error fetching page data:', error);
         if (error.response?.status === 404) {
           setNotFound(true);
         }

@@ -9,6 +9,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import ConfirmationModal from './ConfirmationModal';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -45,7 +46,7 @@ const CRM = ({ athleteId }) => {
       });
       setUsers(response.data.users || []);
     } catch (error) {
-      console.error('Error fetching users:', error);
+      logger.error(null, 'Error fetching users:', error);
     } finally {
       setIsLoading(false);
     }
@@ -64,7 +65,7 @@ const CRM = ({ athleteId }) => {
       setShowDeleteConfirm(false);
       setDeleteUserId(null);
     } catch (error) {
-      console.error('Error deleting user:', error);
+      logger.error(null, 'Error deleting user:', error);
       alert(t('crm.deleteUserFailed'));
     }
   };

@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Clock, Users, Star, Filter, ChefHat, Flame, Beef, Wheat, Droplet, X } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -28,27 +29,27 @@ const RecipeBrowser = ({ athleteId }) => {
 
   const fetchRecipes = async () => {
     if (!athleteId) {
-      console.log('[RecipeBrowser] No athleteId provided, setting loading to false');
+      logger.debug(null, '[RecipeBrowser] No athleteId provided, setting loading to false');
       setIsLoading(false);
       return;
     }
     
-    console.log('[RecipeBrowser] Fetching recipes for athleteId:', athleteId);
-    console.log('[RecipeBrowser] API URL:', `${API}/recipes/${athleteId}`);
+    logger.debug(null, '[RecipeBrowser] Fetching recipes for athleteId:', athleteId);
+    logger.debug(null, '[RecipeBrowser] API URL:', `${API}/recipes/${athleteId}`);
     
     try {
       setIsLoading(true);
       const response = await axios.get(`${API}/recipes/${athleteId}`, {
         timeout: 30000 // 30 seconds timeout for large response with images
       });
-      console.log('[RecipeBrowser] Recipes loaded successfully:', response.data.recipes?.length || 0);
+      logger.debug(null, '[RecipeBrowser] Recipes loaded successfully:', response.data.recipes?.length || 0);
       setRecipes(response.data.recipes || []);
     } catch (error) {
-      console.error('[RecipeBrowser] Error loading recipes:', error);
-      console.error('[RecipeBrowser] Error details:', error.response || error.message);
+      logger.error(null, '[RecipeBrowser] Error loading recipes:', error);
+      logger.error(null, '[RecipeBrowser] Error details:', error.response || error.message);
       setRecipes([]);
     } finally {
-      console.log('[RecipeBrowser] Setting loading to false');
+      logger.debug(null, '[RecipeBrowser] Setting loading to false');
       setIsLoading(false);
     }
   };
@@ -63,7 +64,7 @@ const RecipeBrowser = ({ athleteId }) => {
         setSelectedRecipe({ ...selectedRecipe, user_rating: rating });
       }
     } catch (error) {
-      console.error('Error rating recipe:', error);
+      logger.error(null, 'Error rating recipe:', error);
     }
   };
 
@@ -81,7 +82,7 @@ const RecipeBrowser = ({ athleteId }) => {
         setSelectedRecipe(null);
       }
     } catch (error) {
-      console.error('Error deleting recipe:', error);
+      logger.error(null, 'Error deleting recipe:', error);
       alert(t('recipeBrowser.failedToDelete'));
     }
   };

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { logger } from '../utils/logger';
 // Map country names AND nationalities to their ISO 3166-1 alpha-2 codes for flag emojis
 const countryToCode = {
   // Common countries and their nationalities
@@ -347,18 +348,18 @@ const getFlagEmoji = (countryName) => {
 };
 
 const FlagIcon = ({ nationality, className = '', size = 'normal' }) => {
-  console.log('[FlagIcon] Received nationality:', nationality, 'Type:', typeof nationality);
+  logger.debug(null, '[FlagIcon] Received nationality:', nationality, 'Type:', typeof nationality);
   
   if (!nationality) {
-    console.log('[FlagIcon] ❌ No nationality provided, returning null');
+    logger.debug(null, '[FlagIcon] ❌ No nationality provided, returning null');
     return null;
   }
   
   const flag = getFlagEmoji(nationality);
-  console.log('[FlagIcon] Generated flag:', flag, 'Flag type:', typeof flag, 'Flag length:', flag?.length);
+  logger.debug(null, '[FlagIcon] Generated flag:', flag, 'Flag type:', typeof flag, 'Flag length:', flag?.length);
   
   if (!flag) {
-    console.log('[FlagIcon] ❌ No flag emoji generated for nationality:', nationality);
+    logger.debug(null, '[FlagIcon] ❌ No flag emoji generated for nationality:', nationality);
     return null;
   }
   
@@ -366,7 +367,7 @@ const FlagIcon = ({ nationality, className = '', size = 'normal' }) => {
   const fontSize = size === 'large' ? '1.8em' : size === 'medium' ? '1.2em' : '0.9em';
   const bottomOffset = size === 'large' ? '-5px' : size === 'medium' ? '-8px' : '-5px';
   
-  console.log('[FlagIcon] ✅ Rendering flag:', flag, 'for nationality:', nationality, 'Position:', `right:-5px, bottom:${bottomOffset}`, 'Font size:', fontSize);
+  logger.debug(null, '[FlagIcon] ✅ Rendering flag:', flag, 'for nationality:', nationality, 'Position:', `right:-5px, bottom:${bottomOffset}`, 'Font size:', fontSize);
   
   // Positioned absolutely in bottom-right corner, sticking out
   return (

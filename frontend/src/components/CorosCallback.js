@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -38,7 +39,7 @@ const CorosCallback = () => {
         setStatus('✅ Successfully connected to COROS!');
         setTimeout(() => navigate('/dashboard'), 2000);
       } catch (error) {
-        console.error('COROS callback error:', error);
+        logger.error(null, 'COROS callback error:', error);
         setStatus('Failed to complete COROS connection');
         setTimeout(() => navigate('/dashboard'), 3000);
       }

@@ -7,6 +7,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Badge } from './ui/badge';
+import { logger } from '../utils/logger';
 import { 
   Brain, 
   Search, 
@@ -69,7 +70,7 @@ const Memories = ({ athleteId }) => {
       const response = await axios.get(`${API}/api/memories/${athleteId}`);
       setMemories(response.data.memories || []);
     } catch (error) {
-      console.error('Error loading memories:', error);
+      logger.error(null, 'Error loading memories:', error);
       setSaveStatus({ type: 'error', message: t('memories.errorLoading') });
     } finally {
       setIsLoading(false);
@@ -81,7 +82,7 @@ const Memories = ({ athleteId }) => {
       const response = await axios.get(`${API}/api/memories/${athleteId}/categories`);
       setCategories(response.data.categories || []);
     } catch (error) {
-      console.error('Error loading categories:', error);
+      logger.error(null, 'Error loading categories:', error);
     }
   };
 
@@ -151,7 +152,7 @@ const Memories = ({ athleteId }) => {
       loadCategories();
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
     } catch (error) {
-      console.error('Error saving memory:', error);
+      logger.error(null, 'Error saving memory:', error);
       setSaveStatus({ 
         type: 'error', 
         message: error.response?.data?.detail || t('memories.errorSaving')
@@ -171,7 +172,7 @@ const Memories = ({ athleteId }) => {
       loadCategories();
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
     } catch (error) {
-      console.error('Error deleting memory:', error);
+      logger.error(null, 'Error deleting memory:', error);
       setSaveStatus({ 
         type: 'error', 
         message: error.response?.data?.detail || t('memories.errorDeleting')

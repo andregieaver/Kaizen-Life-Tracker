@@ -10,6 +10,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable } from '../utils/StrictModeDroppable';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -51,7 +52,7 @@ const PageEditor = ({ athleteId, pageId }) => {
       setLoading(true);
       const response = await axios.get(`${API}/pages/${pageId}?athlete_id=${athleteId}`);
       
-      console.log('Loaded page data:', {
+      logger.debug(null, 'Loaded page data:', {
         use_cms_content: response.data.use_cms_content,
         content_blocks_count: (response.data.content_blocks || []).length
       });
@@ -76,7 +77,7 @@ const PageEditor = ({ athleteId, pageId }) => {
         content_blocks: contentBlocks
       };
       
-      console.log('Setting form data with use_cms_content:', pageData.use_cms_content);
+      logger.debug(null, 'Setting form data with use_cms_content:', pageData.use_cms_content);
       setFormData(pageData);
       
       if (response.data.thumbnail) {
@@ -86,7 +87,7 @@ const PageEditor = ({ athleteId, pageId }) => {
         setOgImagePreview(`${BACKEND_URL}${response.data.og_image}`);
       }
     } catch (error) {
-      console.error('Error loading page:', error);
+      logger.error(null, 'Error loading page:', error);
       alert('Failed to load page');
       navigate('/dashboard/pages');
     } finally {
@@ -188,7 +189,7 @@ const PageEditor = ({ athleteId, pageId }) => {
 
         alert(`${type === 'thumbnail' ? 'Thumbnail' : 'OG Image'} uploaded successfully`);
       } catch (error) {
-        console.error('Error uploading image:', error);
+        logger.error(null, 'Error uploading image:', error);
         alert('Failed to upload image');
       } finally {
         if (type === 'thumbnail') {
@@ -245,7 +246,7 @@ const PageEditor = ({ athleteId, pageId }) => {
         })
       };
 
-      console.log('Saving page data:', {
+      logger.debug(null, 'Saving page data:', {
         use_cms_content: saveData.use_cms_content,
         content_blocks_count: saveData.content_blocks.length,
         content_blocks: saveData.content_blocks
@@ -257,7 +258,7 @@ const PageEditor = ({ athleteId, pageId }) => {
           `${API}/pages/${pageId}?athlete_id=${athleteId}`,
           saveData
         );
-        console.log('Page update response:', response.data);
+        logger.debug(null, 'Page update response:', response.data);
         alert('Page updated successfully');
       } else {
         // Create new page
@@ -265,13 +266,13 @@ const PageEditor = ({ athleteId, pageId }) => {
           `${API}/pages?athlete_id=${athleteId}`,
           saveData
         );
-        console.log('Page create response:', response.data);
+        logger.debug(null, 'Page create response:', response.data);
         alert('Page created successfully');
         navigate(`/dashboard/pages/edit/${response.data.page.id}`);
       }
     } catch (error) {
-      console.error('Error saving page:', error);
-      console.error('Error response:', error.response?.data);
+      logger.error(null, 'Error saving page:', error);
+      logger.error(null, 'Error response:', error.response?.data);
       alert(error.response?.data?.detail || 'Failed to save page');
     } finally {
       setSaving(false);
@@ -324,7 +325,7 @@ const PageEditor = ({ athleteId, pageId }) => {
         editorState = EditorState.createWithContent(contentState);
       }
     } catch (error) {
-      console.error('Error parsing HTML:', error);
+      logger.error(null, 'Error parsing HTML:', error);
     }
     
     setFormData(prev => ({

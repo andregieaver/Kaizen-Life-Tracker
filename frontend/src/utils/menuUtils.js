@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -26,7 +27,7 @@ export const useMenus = () => {
           loading: false
         });
       } catch (error) {
-        console.log('Using default menus');
+        logger.debug(null, 'Using default menus');
         // Use defaults if API fails
         setMenus({
           header_logged_out: [],

@@ -7,6 +7,7 @@
 import { useEffect, useRef } from 'react';
 import { track, hasAnalyticsConsent } from './analytics';
 
+import { logger } from '../utils/logger';
 /**
  * Hook to track when an element comes into view
  * @param {string} eventName - Event name to track (e.g., 'section_view')
@@ -55,7 +56,7 @@ export function useViewTracker(
             element_height: entry.boundingClientRect.height
           });
           
-          console.log(`👁️ View tracked: ${eventName}`, eventProps);
+          logger.debug(null, `👁️ View tracked: ${eventName}`, eventProps);
           
           // Unobserve after tracking (track only once)
           observer.unobserve(element);
@@ -116,7 +117,7 @@ export function useScrollDepth() {
             viewport_height: windowHeight
           });
           
-          console.log(`📜 Scroll depth: ${milestone}%`);
+          logger.debug(null, `📜 Scroll depth: ${milestone}%`);
         }
       });
     };
@@ -169,7 +170,7 @@ export function useTimeOnPage(threshold = 30) {
           threshold_seconds: threshold
         });
         
-        console.log(`⏱️ Engaged time: ${timeSpent}s`);
+        logger.debug(null, `⏱️ Engaged time: ${timeSpent}s`);
       }
     };
 

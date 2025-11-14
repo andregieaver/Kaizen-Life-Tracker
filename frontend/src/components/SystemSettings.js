@@ -44,6 +44,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
+import { logger } from '../utils/logger';
 import {
   Line as ChartLine
 } from 'react-chartjs-2';
@@ -83,7 +84,7 @@ const SystemSettings = ({ athleteId }) => {
   const [activeTab, setActiveTab] = useState(() => {
     // First try localStorage
     const savedTab = localStorage.getItem('systemSettings_activeTab');
-    console.log('🔍 Loading tab from localStorage:', savedTab);
+    logger.debug(null, '🔍 Loading tab from localStorage:', savedTab);
     if (savedTab && ['modules', 'plans', 'coupons', 'waitinglist', 'statistics', 'cookies', 'advanced'].includes(savedTab)) {
       // Also update hash to match
       window.location.hash = savedTab;
@@ -91,12 +92,12 @@ const SystemSettings = ({ athleteId }) => {
     }
     // Then try URL hash
     const hash = location.hash.replace('#', '');
-    console.log('🔍 Loading tab from hash:', hash);
+    logger.debug(null, '🔍 Loading tab from hash:', hash);
     if (['modules', 'plans', 'coupons', 'waitinglist', 'statistics', 'cookies', 'advanced'].includes(hash)) {
       return hash;
     }
     // Default to 'modules'
-    console.log('🔍 Using default tab: modules');
+    logger.debug(null, '🔍 Using default tab: modules');
     return 'modules';
   });
   const [loading, setLoading] = useState(true);
@@ -326,7 +327,7 @@ const SystemSettings = ({ athleteId }) => {
       });
       setSubscriberStats(response.data);
     } catch (error) {
-      console.error('Error loading subscriber stats:', error);
+      logger.error(null, 'Error loading subscriber stats:', error);
     } finally {
       setLoadingStats(false);
     }
@@ -474,7 +475,7 @@ const SystemSettings = ({ athleteId }) => {
       
       setLoading(false);
     } catch (error) {
-      console.error('Error loading system settings:', error);
+      logger.error(null, 'Error loading system settings:', error);
       setLoading(false);
     }
   };
@@ -491,7 +492,7 @@ const SystemSettings = ({ athleteId }) => {
       });
       setCoupons(response.data.coupons || []);
     } catch (error) {
-      console.error('Error loading coupons:', error);
+      logger.error(null, 'Error loading coupons:', error);
       alert('Failed to load coupons');
     } finally {
       setLoadingCoupons(false);
@@ -561,7 +562,7 @@ const SystemSettings = ({ athleteId }) => {
       // Reload coupons
       loadCoupons();
     } catch (error) {
-      console.error('Error creating coupon:', error);
+      logger.error(null, 'Error creating coupon:', error);
       const errorMessage = error.response?.data?.detail || error.message || 'Failed to create coupon';
       alert(errorMessage);
     }
@@ -575,7 +576,7 @@ const SystemSettings = ({ athleteId }) => {
       );
       loadCoupons();
     } catch (error) {
-      console.error('Error toggling coupon:', error);
+      logger.error(null, 'Error toggling coupon:', error);
       alert('Failed to update coupon status');
     }
   };
@@ -590,7 +591,7 @@ const SystemSettings = ({ athleteId }) => {
       alert('Coupon deleted successfully');
       loadCoupons();
     } catch (error) {
-      console.error('Error deleting coupon:', error);
+      logger.error(null, 'Error deleting coupon:', error);
       alert('Failed to delete coupon');
     }
   };
@@ -634,7 +635,7 @@ const SystemSettings = ({ athleteId }) => {
       });
       setSubscriptionPlans(response.data.plans || []);
     } catch (error) {
-      console.error('Error loading subscription plans:', error);
+      logger.error(null, 'Error loading subscription plans:', error);
       alert('Failed to load subscription plans');
     } finally {
       setLoadingPlans(false);
@@ -661,19 +662,19 @@ const SystemSettings = ({ athleteId }) => {
       });
       loadSubscriptionPlans();
     } catch (error) {
-      console.error('Error creating plan:', error);
+      logger.error(null, 'Error creating plan:', error);
       alert(error.response?.data?.detail || 'Failed to create plan');
     }
   };
 
   const updatePlan = async (tier, updates) => {
     try {
-      console.log('Updating plan:', tier, 'with updates:', updates);
+      logger.debug(null, 'Updating plan:', tier, 'with updates:', updates);
       await axios.put(`${API}/subscription-plans/${tier}?athlete_id=${athleteId}`, updates);
       alert('Plan updated successfully');
       loadSubscriptionPlans();
     } catch (error) {
-      console.error('Error updating plan:', error);
+      logger.error(null, 'Error updating plan:', error);
       alert('Failed to update plan');
     }
   };
@@ -688,7 +689,7 @@ const SystemSettings = ({ athleteId }) => {
       alert('Plan deleted successfully');
       loadSubscriptionPlans();
     } catch (error) {
-      console.error('Error deleting plan:', error);
+      logger.error(null, 'Error deleting plan:', error);
       alert('Failed to delete plan');
     }
   };
@@ -725,7 +726,7 @@ const SystemSettings = ({ athleteId }) => {
       });
       loadSubscriptionPlans();
     } catch (error) {
-      console.error('Error creating variation:', error);
+      logger.error(null, 'Error creating variation:', error);
       alert(error.response?.data?.detail || 'Failed to create variation');
     }
   };
@@ -739,7 +740,7 @@ const SystemSettings = ({ athleteId }) => {
       alert('Variation updated successfully');
       loadSubscriptionPlans();
     } catch (error) {
-      console.error('Error updating variation:', error);
+      logger.error(null, 'Error updating variation:', error);
       alert('Failed to update variation');
     }
   };
@@ -754,7 +755,7 @@ const SystemSettings = ({ athleteId }) => {
       alert('Variation deleted successfully');
       loadSubscriptionPlans();
     } catch (error) {
-      console.error('Error deleting variation:', error);
+      logger.error(null, 'Error deleting variation:', error);
       alert('Failed to delete variation');
     }
   };
@@ -773,7 +774,7 @@ const SystemSettings = ({ athleteId }) => {
       alert(`Quick setup completed!\n\nCreated plans: ${response.data.created_plans.join(', ')}\nCreated variations: ${response.data.created_variations.join(', ')}\n\nYou can now edit features, prices, and add more variations.`);
       loadSubscriptionPlans();
     } catch (error) {
-      console.error('Error in quick setup:', error);
+      logger.error(null, 'Error in quick setup:', error);
       alert(error.response?.data?.detail || 'Failed to complete quick setup');
     } finally {
       setLoadingPlans(false);
@@ -803,7 +804,7 @@ const SystemSettings = ({ athleteId }) => {
       alert(message);
       loadSubscriptionPlans();
     } catch (error) {
-      console.error('Error syncing with Stripe:', error);
+      logger.error(null, 'Error syncing with Stripe:', error);
       alert(error.response?.data?.detail || 'Failed to sync with Stripe');
     } finally {
       setLoadingPlans(false);
@@ -835,7 +836,7 @@ const SystemSettings = ({ athleteId }) => {
       alert(message);
       loadSubscriptionPlans();
     } catch (error) {
-      console.error('Error syncing to Stripe:', error);
+      logger.error(null, 'Error syncing to Stripe:', error);
       alert(error.response?.data?.detail || t('systemSettings.messages.syncError'));
     } finally {
       setLoadingPlans(false);
@@ -856,7 +857,7 @@ const SystemSettings = ({ athleteId }) => {
       alert(`Reset complete!\n\n${response.data.message}\nPlans affected: ${response.data.plans_updated}`);
       loadSubscriptionPlans();
     } catch (error) {
-      console.error('Error resetting Stripe IDs:', error);
+      logger.error(null, 'Error resetting Stripe IDs:', error);
       alert(error.response?.data?.detail || 'Failed to reset Stripe IDs');
     } finally {
       setLoadingPlans(false);
@@ -871,7 +872,7 @@ const SystemSettings = ({ athleteId }) => {
       const response = await axios.get(`${API}/waiting-list?athlete_id=${athleteId}${statusParam}`);
       setWaitingListEntries(response.data.entries || []);
     } catch (error) {
-      console.error('Error loading waiting list:', error);
+      logger.error(null, 'Error loading waiting list:', error);
       alert('Failed to load waiting list');
     } finally {
       setLoadingWaitingList(false);
@@ -894,7 +895,7 @@ const SystemSettings = ({ athleteId }) => {
       link.click();
       link.remove();
     } catch (error) {
-      console.error('Error exporting waiting list:', error);
+      logger.error(null, 'Error exporting waiting list:', error);
       alert('Failed to export waiting list');
     }
   };
@@ -907,7 +908,7 @@ const SystemSettings = ({ athleteId }) => {
       );
       loadWaitingList();
     } catch (error) {
-      console.error('Error updating entry:', error);
+      logger.error(null, 'Error updating entry:', error);
       alert('Failed to update entry');
     }
   };
@@ -921,13 +922,13 @@ const SystemSettings = ({ athleteId }) => {
       await axios.delete(`${API}/waiting-list/${entryId}?athlete_id=${athleteId}`);
       loadWaitingList();
     } catch (error) {
-      console.error('Error deleting entry:', error);
+      logger.error(null, 'Error deleting entry:', error);
       alert('Failed to delete entry');
     }
   };
 
   const handleTabChange = (value) => {
-    console.log('📝 Saving tab to localStorage:', value);
+    logger.debug(null, '📝 Saving tab to localStorage:', value);
     setActiveTab(value);
     // Update URL hash and localStorage immediately
     window.location.hash = value;
@@ -999,7 +1000,7 @@ const SystemSettings = ({ athleteId }) => {
         setSaveStatus({ message: '', type: '' });
       }, 3000);
     } catch (error) {
-      console.error('Error saving SEO settings:', error);
+      logger.error(null, 'Error saving SEO settings:', error);
       setSaveStatus({
         message: 'Failed to save SEO settings',
         type: 'error'
@@ -1091,7 +1092,7 @@ const SystemSettings = ({ athleteId }) => {
         setSaveStatus({ message: '', type: '' });
       }, 3000);
     } catch (error) {
-      console.error('Error saving module settings:', error);
+      logger.error(null, 'Error saving module settings:', error);
       setSaveStatus({
         message: 'Failed to save module settings',
         type: 'error'
@@ -1207,7 +1208,7 @@ const SystemSettings = ({ athleteId }) => {
         setSaveStatus({ message: '', type: '' });
       }, 3000);
     } catch (error) {
-      console.error('Error saving plan settings:', error);
+      logger.error(null, 'Error saving plan settings:', error);
       setSaveStatus({
         message: 'Failed to save plan settings',
         type: 'error'
@@ -1305,7 +1306,7 @@ const SystemSettings = ({ athleteId }) => {
         setSaveStatus({ message: '', type: '' });
       }, 3000);
     } catch (error) {
-      console.error('Error saving advanced settings:', error);
+      logger.error(null, 'Error saving advanced settings:', error);
       setSaveStatus({
         message: 'Failed to save advanced settings',
         type: 'error'
@@ -1318,11 +1319,11 @@ const SystemSettings = ({ athleteId }) => {
   const handleScanCookies = async () => {
     try {
       setScanningCookies(true);
-      console.log('🍪 Scanning for cookies...');
+      logger.debug(null, '🍪 Scanning for cookies...');
       
       const response = await axios.post(`${API}/cookies/scan?athlete_id=${athleteId}`);
       
-      console.log('🍪 Cookie scan result:', response.data);
+      logger.debug(null, '🍪 Cookie scan result:', response.data);
       
       // Update cookie settings with scan results
       setCookieSettings(prev => ({
@@ -1344,7 +1345,7 @@ const SystemSettings = ({ athleteId }) => {
         setSaveStatus({ message: '', type: '' });
       }, 3000);
     } catch (error) {
-      console.error('Error scanning cookies:', error);
+      logger.error(null, 'Error scanning cookies:', error);
       setSaveStatus({
         message: 'Failed to scan cookies',
         type: 'error'
@@ -1357,7 +1358,7 @@ const SystemSettings = ({ athleteId }) => {
   const handleSaveCookieSettings = async () => {
     try {
       setLoadingCookieSettings(true);
-      console.log('💾 Saving cookie settings...');
+      logger.debug(null, '💾 Saving cookie settings...');
       
       await axios.post(`${API}/cookies/settings?athlete_id=${athleteId}`, cookieSettings);
       
@@ -1370,7 +1371,7 @@ const SystemSettings = ({ athleteId }) => {
         setSaveStatus({ message: '', type: '' });
       }, 3000);
     } catch (error) {
-      console.error('Error saving cookie settings:', error);
+      logger.error(null, 'Error saving cookie settings:', error);
       setSaveStatus({
         message: 'Failed to save cookie settings',
         type: 'error'
@@ -1382,13 +1383,13 @@ const SystemSettings = ({ athleteId }) => {
 
   const loadCookieSettings = async () => {
     try {
-      console.log('📥 Loading cookie settings...');
+      logger.debug(null, '📥 Loading cookie settings...');
       const response = await axios.get(`${API}/cookies/settings?athlete_id=${athleteId}`);
-      console.log('📥 Cookie settings loaded:', response.data);
+      logger.debug(null, '📥 Cookie settings loaded:', response.data);
       
       setCookieSettings(response.data);
     } catch (error) {
-      console.error('Error loading cookie settings:', error);
+      logger.error(null, 'Error loading cookie settings:', error);
     }
   };
 
@@ -1433,7 +1434,7 @@ const SystemSettings = ({ athleteId }) => {
 
       alert(`${imageType === 'favicon' ? 'Favicon' : imageType === 'logo' ? 'Logo' : 'OG Image'} uploaded successfully!`);
     } catch (error) {
-      console.error('Error uploading image:', error);
+      logger.error(null, 'Error uploading image:', error);
       alert('Failed to upload image');
     }
   };

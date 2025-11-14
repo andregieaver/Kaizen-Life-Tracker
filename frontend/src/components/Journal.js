@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Plus, Mic, MicOff, Trash2, Edit3, FileText, Volume2, X, BookOpen, Video, VideoOff, Play, Check } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -95,7 +96,7 @@ const Journal = ({ athleteId }) => {
       const response = await axios.get(`${API}/journal/${athleteId}`);
       setEntries(response.data.entries || []);
     } catch (error) {
-      console.error('Error loading journal entries:', error);
+      logger.error(null, 'Error loading journal entries:', error);
       setSaveStatus({ type: 'error', message: t('journal.failedToLoadEntries') });
     } finally {
       setIsLoading(false);
@@ -135,7 +136,7 @@ const Journal = ({ athleteId }) => {
           setTextContent(response.data.transcription);
           setSaveStatus({ type: 'success', message: t('journal.audioTranscribedSuccess') });
         } catch (error) {
-          console.error('Error transcribing audio:', error);
+          logger.error(null, 'Error transcribing audio:', error);
           const errorMessage = error.response?.data?.detail || t('journal.failedToTranscribe');
           setSaveStatus({ type: 'error', message: errorMessage });
           
@@ -157,7 +158,7 @@ const Journal = ({ athleteId }) => {
         setRecordingTime(prev => prev + 1);
       }, 1000);
     } catch (error) {
-      console.error('Error starting recording:', error);
+      logger.error(null, 'Error starting recording:', error);
       setSaveStatus({ type: 'error', message: t('journal.failedToAccessMicrophone') });
     }
   };
@@ -187,7 +188,7 @@ const Journal = ({ athleteId }) => {
         try {
           await videoRef.current.play();
         } catch (playError) {
-          console.error('Error playing video preview:', playError);
+          logger.error(null, 'Error playing video preview:', playError);
         }
       }
       
@@ -237,7 +238,7 @@ const Journal = ({ athleteId }) => {
       setSaveStatus({ type: '', message: t('journal.recordingVideo') });
       
     } catch (error) {
-      console.error('Error starting video recording:', error);
+      logger.error(null, 'Error starting video recording:', error);
       setSaveStatus({ type: 'error', message: t('journal.failedToAccessCamera') });
     }
   };
@@ -280,7 +281,7 @@ const Journal = ({ athleteId }) => {
       setSaveStatus({ type: 'success', message: t('journal.videoTranscribedSuccess') });
       
     } catch (error) {
-      console.error('Error transcribing video:', error);
+      logger.error(null, 'Error transcribing video:', error);
       setSaveStatus({ 
         type: 'error', 
         message: error.response?.data?.detail || t('journal.failedToTranscribeVideo')
@@ -328,7 +329,7 @@ const Journal = ({ athleteId }) => {
       await loadJournalEntries();
       
     } catch (error) {
-      console.error('Error saving video entry:', error);
+      logger.error(null, 'Error saving video entry:', error);
       setSaveStatus({ 
         type: 'error', 
         message: error.response?.data?.detail || t('journal.failedToSaveVideo')
@@ -371,7 +372,7 @@ const Journal = ({ athleteId }) => {
       setEntryType('text');
       await loadJournalEntries();
     } catch (error) {
-      console.error('Error saving journal entry:', error);
+      logger.error(null, 'Error saving journal entry:', error);
       setSaveStatus({ type: 'error', message: t('journal.failedToSaveEntry') });
     }
   };
@@ -386,7 +387,7 @@ const Journal = ({ athleteId }) => {
       setSaveStatus({ type: 'success', message: t('journal.entryDeleted') });
       await loadJournalEntries();
     } catch (error) {
-      console.error('Error deleting entry:', error);
+      logger.error(null, 'Error deleting entry:', error);
       setSaveStatus({ type: 'error', message: t('journal.failedToDeleteEntry') });
     }
   };

@@ -7,6 +7,7 @@ import { Label } from './ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { X, ExternalLink, CheckCircle, AlertCircle } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -69,7 +70,7 @@ const StravaCredentialsModal = ({ athleteId, isOpen, onClose, onSuccess }) => {
       }, 1500);
       
     } catch (error) {
-      console.error('Error saving Strava credentials:', error);
+      logger.error(null, 'Error saving Strava credentials:', error);
       const errorMessage = error.response?.data?.detail || t('strava.credentialsError');
       setStatus({ type: 'error', message: errorMessage });
     } finally {

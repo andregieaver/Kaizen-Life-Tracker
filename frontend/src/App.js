@@ -20,6 +20,7 @@ import CmsPage from './components/CmsPage';
 import CookieBanner from './components/CookieBanner';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { usePageViews } from './lib/usePageViews';
+import { logger } from './utils/logger';
 import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -77,7 +78,7 @@ function App() {
       }
     } catch (error) {
       // If endpoint doesn't exist or fails, use defaults
-      console.log('Using default SEO settings');
+      logger.debug(null, 'Using default SEO settings');
     }
   };
 
@@ -110,7 +111,7 @@ function App() {
           document.head.appendChild(newScript);
         });
         
-        console.log('✅ Microsoft Clarity tracking code injected');
+        logger.debug(null, '✅ Microsoft Clarity tracking code injected');
       }
     }
   };
@@ -144,7 +145,7 @@ function App() {
           document.head.appendChild(newScript);
         });
         
-        console.log('✅ GTM head code injected');
+        logger.debug(null, '✅ GTM head code injected');
       }
     }
     
@@ -163,7 +164,7 @@ function App() {
           document.body.appendChild(bodyDiv);
         }
         
-        console.log('✅ GTM body code injected');
+        logger.debug(null, '✅ GTM body code injected');
       }
     }
   };
@@ -268,7 +269,7 @@ function App() {
       await axios.get(`${API}/athlete/${id}`);
       setAthleteId(id);
     } catch (error) {
-      console.error('Invalid athlete ID, clearing localStorage');
+      logger.error(null, 'Invalid athlete ID, clearing localStorage');
       localStorage.removeItem('athleteId');
       setAthleteId(null);
     }

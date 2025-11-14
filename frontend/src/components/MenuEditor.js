@@ -6,6 +6,7 @@ import { DragDropContext, Draggable } from 'react-beautiful-dnd';
 import { StrictModeDroppable } from '../utils/StrictModeDroppable';
 import IconPicker from './IconPicker';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -32,7 +33,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
       const response = await axios.get(`${API}/menus?athlete_id=${athleteId}`);
       setMenus(response.data);
     } catch (error) {
-      console.error('Error loading menus:', error);
+      logger.error(null, 'Error loading menus:', error);
       alert(t('menus.loadFailed'));
     } finally {
       setLoading(false);
@@ -49,7 +50,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
       
       alert(t('menus.saveSuccess'));
     } catch (error) {
-      console.error('Error saving menus:', error);
+      logger.error(null, 'Error saving menus:', error);
       alert(t('menus.saveFailed'));
     } finally {
       setSaving(false);
@@ -73,7 +74,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
       
       alert(t('menus.translateSuccess', { count: response.data.translated_count, languages: response.data.languages.join(', ') }));
     } catch (error) {
-      console.error('Error translating menus:', error);
+      logger.error(null, 'Error translating menus:', error);
       const errorMsg = error.response?.data?.detail || t('menus.translateFailed');
       alert(errorMsg);
     } finally {
@@ -96,7 +97,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
         window.location.reload();
       }, 3000);
     } catch (error) {
-      console.error('Error fixing language:', error);
+      logger.error(null, 'Error fixing language:', error);
       const errorMsg = error.response?.data?.detail || 'Failed to fix language';
       alert(errorMsg);
     }
@@ -119,7 +120,7 @@ const MenuEditor = ({ athleteId, onBack }) => {
       // Reload menus to show updated translations
       await loadMenus();
     } catch (error) {
-      console.error('Error translating item:', error);
+      logger.error(null, 'Error translating item:', error);
       const errorMsg = error.response?.data?.detail || t('menus.translateItemFailed');
       alert(errorMsg);
     }

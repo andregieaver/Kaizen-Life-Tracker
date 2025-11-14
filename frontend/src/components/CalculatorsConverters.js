@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { Button } from './ui/button';
 import { Calculator, Activity, Target, Ruler, X } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const CalculatorsConverters = ({ athleteId }) => {
   const { t } = useTranslation();
   const [selectedCalculator, setSelectedCalculator] = useState(null);
@@ -20,7 +21,7 @@ const CalculatorsConverters = ({ athleteId }) => {
       const response = await axios.get(`${API_URL}/api/athlete/${athleteId}`);
       setAthletePreferences(response.data);
     } catch (error) {
-      console.error('Error loading athlete preferences:', error);
+      logger.error(null, 'Error loading athlete preferences:', error);
     }
   };
 
@@ -1076,7 +1077,7 @@ const BodyFatCalculator = ({ athletePreferences }) => {
         caliperSites: method === 'caliper' ? caliperSites : null,
       });
     } catch (error) {
-      console.error('Calculation error:', error);
+      logger.error(null, 'Calculation error:', error);
     }
   };
 

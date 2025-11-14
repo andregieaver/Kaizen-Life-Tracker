@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Plus, Camera, Upload, Trash2, Edit3, X, ImageIcon, ChevronLeft, ChevronRight, FileText, File, Image } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -62,7 +63,7 @@ const Files = ({ athleteId }) => {
       const response = await axios.get(`${API}/athlete/${athleteId}`);
       setAthlete(response.data);
     } catch (error) {
-      console.error('Error loading athlete data:', error);
+      logger.error(null, 'Error loading athlete data:', error);
     }
   };
 
@@ -72,7 +73,7 @@ const Files = ({ athleteId }) => {
       const response = await axios.get(`${API}/files/${athleteId}`);
       setEntries(response.data.entries || []);
     } catch (error) {
-      console.error('Error loading file entries:', error);
+      logger.error(null, 'Error loading file entries:', error);
       setSaveStatus({ type: 'error', message: 'Failed to load file entries' });
     } finally {
       setIsLoading(false);
@@ -139,11 +140,11 @@ const Files = ({ athleteId }) => {
     event.stopPropagation();
     
     if (!file) {
-      console.log('No file selected');
+      logger.debug(null, 'No file selected');
       return;
     }
     
-    console.log('File selected:', file.name, file.type, file.size);
+    logger.debug(null, 'File selected:', file.name, file.type, file.size);
     
     // Ensure modal stays open
     setShowUploadForm(true);
@@ -164,20 +165,20 @@ const Files = ({ athleteId }) => {
 
   const processImage = async (file) => {
     try {
-      console.log('Processing image...');
+      logger.debug(null, 'Processing image...');
       setSaveStatus({ type: '', message: 'Processing image...' });
       setShowUploadForm(true); // Keep modal open
       
       const compressedImage = await compressImage(file);
       
-      console.log('Image compressed successfully');
+      logger.debug(null, 'Image compressed successfully');
       setFileData(compressedImage);
       setFilePreview(compressedImage);
       setFileName(file.name);
       setSaveStatus({ type: 'success', message: '✓ Image ready' });
       setShowUploadForm(true); // Ensure modal stays open
     } catch (error) {
-      console.error('Image processing error:', error);
+      logger.error(null, 'Image processing error:', error);
       setSaveStatus({ type: 'error', message: error.message || 'Failed to process image' });
       setShowUploadForm(true); // Keep modal open even on error
     }
@@ -190,14 +191,14 @@ const Files = ({ athleteId }) => {
       return;
     }
 
-    console.log('Processing non-image file...');
+    logger.debug(null, 'Processing non-image file...');
     setSaveStatus({ type: '', message: 'Loading file...' });
     setShowUploadForm(true); // Keep modal open
     
     const reader = new FileReader();
     
     reader.onload = (e) => {
-      console.log('File loaded successfully');
+      logger.debug(null, 'File loaded successfully');
       setFileData(e.target.result);
       setFilePreview(null);
       setFileName(file.name);
@@ -206,7 +207,7 @@ const Files = ({ athleteId }) => {
     };
     
     reader.onerror = () => {
-      console.error('File reading error');
+      logger.error(null, 'File reading error');
       setSaveStatus({ type: 'error', message: 'Failed to read file' });
       setShowUploadForm(true); // Keep modal open even on error
     };
@@ -314,7 +315,7 @@ const Files = ({ athleteId }) => {
         closeModals();
       }, 1500);
     } catch (error) {
-      console.error('Error saving file entry:', error);
+      logger.error(null, 'Error saving file entry:', error);
       setSaveStatus({ type: 'error', message: error.response?.data?.detail || 'Failed to save file entry' });
     }
   };
@@ -330,7 +331,7 @@ const Files = ({ athleteId }) => {
       setSaveStatus({ type: 'success', message: 'File entry deleted successfully!' });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
     } catch (error) {
-      console.error('Error deleting file entry:', error);
+      logger.error(null, 'Error deleting file entry:', error);
       setSaveStatus({ type: 'error', message: 'Failed to delete file entry' });
     }
   };
@@ -734,14 +735,14 @@ const Files = ({ athleteId }) => {
                           onChange={handleFileUpload}
                           onClick={(e) => {
                             e.stopPropagation();
-                            console.log('File input clicked');
+                            logger.debug(null, 'File input clicked');
                           }}
                           onFocus={() => {
-                            console.log('File input focused - keeping modal open');
+                            logger.debug(null, 'File input focused - keeping modal open');
                             setShowUploadForm(true);
                           }}
                           onBlur={() => {
-                            console.log('File input blurred - but keeping modal open');
+                            logger.debug(null, 'File input blurred - but keeping modal open');
                             // Don't close the modal on blur
                           }}
                           className="hidden"

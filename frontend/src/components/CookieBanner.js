@@ -4,6 +4,7 @@ import { Button } from './ui/button';
 import axios from 'axios';
 import { updateConsent } from '../lib/analytics';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -26,7 +27,7 @@ const CookieBanner = () => {
   const loadCookieSettings = async () => {
     try {
       const response = await axios.get(`${API}/cookies/consent/public`);
-      console.log('🍪 Cookie consent settings loaded:', response.data);
+      logger.debug(null, '🍪 Cookie consent settings loaded:', response.data);
       
       setCookieSettings(response.data);
       
@@ -45,7 +46,7 @@ const CookieBanner = () => {
       
       setLoading(false);
     } catch (error) {
-      console.error('Error loading cookie settings:', error);
+      logger.error(null, 'Error loading cookie settings:', error);
       setLoading(false);
     }
   };
@@ -60,7 +61,7 @@ const CookieBanner = () => {
         'personalization_storage': prefs.functional ? 'granted' : 'denied',
         'security_storage': 'granted' // Always granted for necessary cookies
       });
-      console.log('🍪 GTM Consent updated:', prefs);
+      logger.debug(null, '🍪 GTM Consent updated:', prefs);
     } else if (window.dataLayer && cookieSettings?.gtm_integration?.enabled) {
       // Fallback for GTM via dataLayer
       window.dataLayer = window.dataLayer || [];
@@ -72,7 +73,7 @@ const CookieBanner = () => {
         personalization_storage: prefs.functional ? 'granted' : 'denied',
         security_storage: 'granted'
       });
-      console.log('🍪 GTM Consent (dataLayer) updated:', prefs);
+      logger.debug(null, '🍪 GTM Consent (dataLayer) updated:', prefs);
     }
   };
 
@@ -117,7 +118,7 @@ const CookieBanner = () => {
       timestamp: new Date().toISOString()
     };
     localStorage.setItem('cookie_consent', JSON.stringify(consent));
-    console.log('🍪 Cookie consent saved:', consent);
+    logger.debug(null, '🍪 Cookie consent saved:', consent);
     
     // Update analytics consent via GTM
     updateConsent(prefs);

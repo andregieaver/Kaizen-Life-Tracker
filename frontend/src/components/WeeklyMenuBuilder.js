@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Plus, Save, Trash2, Calendar, Check, X, ChefHat, Star, Clock, Users } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -38,12 +39,12 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
 
   const fetchData = async () => {
     if (!athleteId) {
-      console.log('[WeeklyMenuBuilder] No athleteId provided, setting loading to false');
+      logger.debug(null, '[WeeklyMenuBuilder] No athleteId provided, setting loading to false');
       setIsLoading(false);
       return;
     }
     
-    console.log('[WeeklyMenuBuilder] Fetching data for athleteId:', athleteId);
+    logger.debug(null, '[WeeklyMenuBuilder] Fetching data for athleteId:', athleteId);
     
     try {
       setIsLoading(true);
@@ -52,15 +53,15 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
         axios.get(`${API}/recipes/${athleteId}`, { timeout: 30000 }),
         axios.get(`${API}/nutrition/${athleteId}`, { timeout: 30000 })
       ]);
-      console.log('[WeeklyMenuBuilder] Data loaded successfully');
-      console.log('[WeeklyMenuBuilder] Menus:', menusRes.data.menus?.length || 0);
-      console.log('[WeeklyMenuBuilder] Recipes:', recipesRes.data.recipes?.length || 0);
-      console.log('[WeeklyMenuBuilder] Nutrition Entries:', nutritionRes.data.entries?.length || 0);
+      logger.debug(null, '[WeeklyMenuBuilder] Data loaded successfully');
+      logger.debug(null, '[WeeklyMenuBuilder] Menus:', menusRes.data.menus?.length || 0);
+      logger.debug(null, '[WeeklyMenuBuilder] Recipes:', recipesRes.data.recipes?.length || 0);
+      logger.debug(null, '[WeeklyMenuBuilder] Nutrition Entries:', nutritionRes.data.entries?.length || 0);
       
       const loadedRecipes = recipesRes.data.recipes || [];
       const loadedNutrition = nutritionRes.data.entries || [];
       
-      console.log('[WeeklyMenuBuilder] Setting state with:', {
+      logger.debug(null, '[WeeklyMenuBuilder] Setting state with:', {
         menus: menusRes.data.menus?.length || 0,
         recipes: loadedRecipes.length,
         nutrition: loadedNutrition.length
@@ -70,12 +71,12 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
       setRecipes(loadedRecipes);
       setNutritionEntries(loadedNutrition);
       
-      console.log('[WeeklyMenuBuilder] State set complete');
+      logger.debug(null, '[WeeklyMenuBuilder] State set complete');
     } catch (error) {
-      console.error('[WeeklyMenuBuilder] Error loading data:', error);
-      console.error('[WeeklyMenuBuilder] Error details:', error.response || error.message);
+      logger.error(null, '[WeeklyMenuBuilder] Error loading data:', error);
+      logger.error(null, '[WeeklyMenuBuilder] Error details:', error.response || error.message);
     } finally {
-      console.log('[WeeklyMenuBuilder] Setting loading to false');
+      logger.debug(null, '[WeeklyMenuBuilder] Setting loading to false');
       setIsLoading(false);
     }
   };
@@ -135,8 +136,8 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
       setMenuName('');
       setMenuDescription('');
     } catch (error) {
-      console.error('Error saving menu:', error);
-      console.error('Error details:', error.response?.data || error.message);
+      logger.error(null, 'Error saving menu:', error);
+      logger.error(null, 'Error details:', error.response?.data || error.message);
       alert(`${t('weeklyMenu.failedToSaveMenu')}: ${error.response?.data?.detail || error.message}`);
     }
   };
@@ -148,7 +149,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
       await axios.delete(`${API}/weekly-menus/${menuId}`);
       await fetchData();
     } catch (error) {
-      console.error('Error deleting menu:', error);
+      logger.error(null, 'Error deleting menu:', error);
     }
   };
 
@@ -160,7 +161,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
       });
       await fetchData();
     } catch (error) {
-      console.error('Error setting active menu:', error);
+      logger.error(null, 'Error setting active menu:', error);
     }
   };
 
@@ -259,7 +260,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
       const response = await axios.get(`${API_URL}/api/nutrition/entry/${entryId}`);
       setSelectedNutritionEntry(response.data);
     } catch (error) {
-      console.error('Error fetching nutrition entry:', error);
+      logger.error(null, 'Error fetching nutrition entry:', error);
     }
   };
 
@@ -667,19 +668,19 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                 </h3>
                 {(() => {
                   // Filter recipes by meal type and search term
-                  console.log('[Modal] Total recipes available:', recipes.length);
-                  console.log('[Modal] Selected meal type:', selectedSlot.mealType);
-                  console.log('[Modal] Search term:', searchTerm);
+                  logger.debug(null, '[Modal] Total recipes available:', recipes.length);
+                  logger.debug(null, '[Modal] Selected meal type:', selectedSlot.mealType);
+                  logger.debug(null, '[Modal] Search term:', searchTerm);
                   
                   const filteredRecipes = recipes.filter(r => {
                     const matchesMealType = r.meal_type === selectedSlot.mealType;
                     const matchesSearch = !searchTerm || 
                       r.recipe_name.toLowerCase().includes(searchTerm.toLowerCase());
-                    console.log(`[Modal] Recipe "${r.recipe_name}" (${r.meal_type}): mealType=${matchesMealType}, search=${matchesSearch}`);
+                    logger.debug(null, `[Modal] Recipe "${r.recipe_name}" (${r.meal_type}): mealType=${matchesMealType}, search=${matchesSearch}`);
                     return matchesMealType && matchesSearch;
                   });
                   
-                  console.log('[Modal] Filtered recipes count:', filteredRecipes.length);
+                  logger.debug(null, '[Modal] Filtered recipes count:', filteredRecipes.length);
 
                   return filteredRecipes.length === 0 ? (
                     <div className="text-center py-8 bg-gray-800 p-4">
@@ -727,7 +728,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                 </h3>
                 {(() => {
                   // Filter nutrition entries by search term
-                  console.log('[Modal] Total nutrition entries available:', nutritionEntries.length);
+                  logger.debug(null, '[Modal] Total nutrition entries available:', nutritionEntries.length);
                   
                   const filteredEntries = nutritionEntries.filter(entry => {
                     if (!searchTerm) return true;
@@ -735,7 +736,7 @@ const WeeklyMenuBuilder = ({ athleteId }) => {
                     return description.toLowerCase().includes(searchTerm.toLowerCase());
                   });
                   
-                  console.log('[Modal] Filtered nutrition entries count:', filteredEntries.length);
+                  logger.debug(null, '[Modal] Filtered nutrition entries count:', filteredEntries.length);
 
                   return filteredEntries.length === 0 ? (
                     <div className="text-center py-8 bg-gray-800 p-4">
@@ -968,7 +969,7 @@ const NutritionEntryDetailModal = ({ entry, onClose }) => {
         });
       }
     } catch (error) {
-      console.error('Error reanalyzing entry:', error);
+      logger.error(null, 'Error reanalyzing entry:', error);
       setReanalyzeError(error.response?.data?.detail || 'Failed to analyze meal. Please try again.');
     } finally {
       setIsReanalyzing(false);

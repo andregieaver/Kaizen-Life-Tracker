@@ -1,5 +1,7 @@
 // Push Notification Utilities
 
+import { logger } from '../utils/logger';
+
 const API = process.env.REACT_APP_BACKEND_URL;
 
 // Convert base64 URL-safe string to Uint8Array
@@ -23,10 +25,10 @@ export async function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
     try {
       const registration = await navigator.serviceWorker.register('/service-worker.js');
-      console.log('Service Worker registered:', registration);
+      logger.debug(null, 'Service Worker registered:', registration);
       return registration;
     } catch (error) {
-      console.error('Service Worker registration failed:', error);
+      logger.error(null, 'Service Worker registration failed:', error);
       throw error;
     }
   } else {
@@ -48,7 +50,7 @@ export async function getCurrentSubscription() {
     const subscription = await registration.pushManager.getSubscription();
     return subscription;
   } catch (error) {
-    console.error('Error getting subscription:', error);
+    logger.error(null, 'Error getting subscription:', error);
     return null;
   }
 }
@@ -101,11 +103,11 @@ export async function subscribeToPush(athleteId) {
       throw new Error('Failed to save subscription to backend');
     }
 
-    console.log('Successfully subscribed to push notifications');
+    logger.debug(null, 'Successfully subscribed to push notifications');
     return subscription;
 
   } catch (error) {
-    console.error('Error subscribing to push:', error);
+    logger.error(null, 'Error subscribing to push:', error);
     throw error;
   }
 }
@@ -124,10 +126,10 @@ export async function unsubscribeFromPush(athleteId) {
         method: 'DELETE'
       });
       
-      console.log('Successfully unsubscribed from push notifications');
+      logger.debug(null, 'Successfully unsubscribed from push notifications');
     }
   } catch (error) {
-    console.error('Error unsubscribing from push:', error);
+    logger.error(null, 'Error unsubscribing from push:', error);
     throw error;
   }
 }
@@ -151,7 +153,7 @@ export async function testPushNotification(athleteId) {
     
     return await response.json();
   } catch (error) {
-    console.error('Error sending test notification:', error);
+    logger.error(null, 'Error sending test notification:', error);
     throw error;
   }
 }

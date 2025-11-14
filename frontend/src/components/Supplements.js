@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Badge } from './ui/badge';
 import { Plus, Edit3, Trash2, X, Pill } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -49,7 +50,7 @@ const Supplements = ({ athleteId }) => {
       const response = await axios.get(`${API}/athlete/${athleteId}`);
       setAthlete(response.data);
     } catch (error) {
-      console.error('Error loading athlete data:', error);
+      logger.error(null, 'Error loading athlete data:', error);
     }
   };
 
@@ -59,7 +60,7 @@ const Supplements = ({ athleteId }) => {
       const response = await axios.get(`${API}/supplements/${athleteId}`);
       setSupplements(response.data.supplements || []);
     } catch (error) {
-      console.error('Error loading supplements:', error);
+      logger.error(null, 'Error loading supplements:', error);
       setSaveStatus({ type: 'error', message: 'Failed to load supplements' });
     } finally {
       setIsLoading(false);
@@ -129,7 +130,7 @@ const Supplements = ({ athleteId }) => {
       });
       await loadSupplements();
     } catch (error) {
-      console.error('Error saving supplement:', error);
+      logger.error(null, 'Error saving supplement:', error);
       setSaveStatus({ type: 'error', message: 'Failed to save supplement' });
     }
   };
@@ -144,7 +145,7 @@ const Supplements = ({ athleteId }) => {
       setSaveStatus({ type: 'success', message: 'Supplement deleted' });
       await loadSupplements();
     } catch (error) {
-      console.error('Error deleting supplement:', error);
+      logger.error(null, 'Error deleting supplement:', error);
       setSaveStatus({ type: 'error', message: 'Failed to delete supplement' });
     }
   };

@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { GlassWater, Plus, X, Trash2, Calendar as CalendarIcon, Clock, Droplets } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const Drinks = ({ athleteId }) => {
@@ -49,7 +50,7 @@ const Drinks = ({ athleteId }) => {
       const response = await axios.get(`${API}/drinks/${athleteId}?date=${selectedDate}`);
       setDrinks(response.data.drinks || []);
     } catch (error) {
-      console.error('Error loading drinks:', error);
+      logger.error(null, 'Error loading drinks:', error);
       setSaveStatus({ type: 'error', message: t('drinks.failedToLoad') });
     } finally {
       setIsLoading(false);
@@ -76,7 +77,7 @@ const Drinks = ({ athleteId }) => {
         });
       }
     } catch (error) {
-      console.error('Error adding drink:', error);
+      logger.error(null, 'Error adding drink:', error);
       setSaveStatus({ type: 'error', message: t('drinks.failedToLog') });
     }
   };
@@ -89,7 +90,7 @@ const Drinks = ({ athleteId }) => {
       setSaveStatus({ type: 'success', message: t('drinks.drinkDeletedSuccess') });
       loadDrinks();
     } catch (error) {
-      console.error('Error deleting drink:', error);
+      logger.error(null, 'Error deleting drink:', error);
       setSaveStatus({ type: 'error', message: t('drinks.failedToDelete') });
     }
   };

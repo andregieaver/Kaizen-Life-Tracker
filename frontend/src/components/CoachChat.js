@@ -10,6 +10,7 @@ import { Send, MessageCircle, Bot, User, Plus, Archive, X, Trash2, ArchiveRestor
 import ChartRenderer from './ChartRenderer';
 import VoiceChat from './VoiceChat';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -67,7 +68,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
           // Clean up URL
           window.history.replaceState({}, '', window.location.pathname);
         } catch (error) {
-          console.error('Error auto-starting voice chat:', error);
+          logger.error(null, 'Error auto-starting voice chat:', error);
         }
       }, 500);
     }
@@ -80,18 +81,18 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
   // Check subscription tier
   const checkSubscription = async () => {
     try {
-      console.log('🔍 Checking subscription for athlete:', athleteId);
+      logger.debug(null, '🔍 Checking subscription for athlete:', athleteId);
       const response = await axios.get(`${API}/subscriptions/status/${athleteId}`);
-      console.log('📊 Subscription response:', response.data);
+      logger.debug(null, '📊 Subscription response:', response.data);
       setSubscriptionTier(response.data.tier);
       
       // If free tier, show upgrade dialog immediately
       if (response.data.tier === 'free') {
-        console.log('🚫 Free tier detected - showing upgrade dialog');
+        logger.debug(null, '🚫 Free tier detected - showing upgrade dialog');
         setShowUpgradeDialog(true);
       }
     } catch (error) {
-      console.error('❌ Error checking subscription:', error);
+      logger.error(null, '❌ Error checking subscription:', error);
     }
   };
 
@@ -103,7 +104,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       setCoachAvatar(athlete.coach_avatar);
       setCoachName(athlete.coach_name || t('coachChat.defaultCoachName'));
     } catch (error) {
-      console.error('Error loading athlete profile:', error);
+      logger.error(null, 'Error loading athlete profile:', error);
     }
   };
 
@@ -120,7 +121,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
         window.location.href = response.data.url;
       }
     } catch (error) {
-      console.error('Error creating checkout session:', error);
+      logger.error(null, 'Error creating checkout session:', error);
       alert(t('coachChat.failedCheckout'));
     }
   };
@@ -135,7 +136,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       ]).flat());
       setChatHistory(history);
     } catch (error) {
-      console.error('Error loading chat history:', error);
+      logger.error(null, 'Error loading chat history:', error);
     }
   };
 
@@ -172,7 +173,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
 
       setMessages(prev => [...prev, coachMessage]);
     } catch (error) {
-      console.error('Error sending message:', error);
+      logger.error(null, 'Error sending message:', error);
       const errorMessage = {
         type: 'coach',
         content: t('coachChat.connectionTrouble'),
@@ -211,7 +212,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
           data: chartData
         });
       } catch (e) {
-        console.error('Failed to parse chart JSON:', e);
+        logger.error(null, 'Failed to parse chart JSON:', e);
         parts.push({
           type: 'text',
           content: match[0] // Show raw content if parse fails
@@ -245,7 +246,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       const response = await axios.get(`${API}/coach/conversations/${athleteId}?archived=false`);
       setConversations(response.data);
     } catch (error) {
-      console.error('Failed to load conversations:', error);
+      logger.error(null, 'Failed to load conversations:', error);
     }
   };
 
@@ -268,7 +269,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       setSessionId(convSessionId);
       setShowArchive(false);
     } catch (error) {
-      console.error('Failed to load conversation:', error);
+      logger.error(null, 'Failed to load conversation:', error);
     }
   };
 
@@ -281,7 +282,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       await loadConversations();
       await loadArchivedConversations();
     } catch (error) {
-      console.error('Failed to archive conversation:', error);
+      logger.error(null, 'Failed to archive conversation:', error);
       alert(t('coachChat.failedArchive'));
     }
   };
@@ -295,7 +296,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       await loadConversations();
       await loadArchivedConversations();
     } catch (error) {
-      console.error('Failed to unarchive conversation:', error);
+      logger.error(null, 'Failed to unarchive conversation:', error);
       alert(t('coachChat.failedUnarchive'));
     }
   };
@@ -320,7 +321,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
         startNewConversation();
       }
     } catch (error) {
-      console.error('Failed to delete conversation:', error);
+      logger.error(null, 'Failed to delete conversation:', error);
       alert(t('coachChat.failedDelete'));
     }
   };
@@ -331,7 +332,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
       const response = await axios.get(`${API}/coach/conversations/${athleteId}?archived=true`);
       setArchivedConversations(response.data);
     } catch (error) {
-      console.error('Failed to load archived conversations:', error);
+      logger.error(null, 'Failed to load archived conversations:', error);
     }
   };
 
@@ -703,7 +704,7 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
           ref={voiceChatRef}
           backendUrl={BACKEND_URL}
           athleteId={athleteId}
-          onError={(error) => console.error('Voice chat error:', error)}
+          onError={(error) => logger.error(null, 'Voice chat error:', error)}
         />
       </div>
 
@@ -754,14 +755,14 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
           <div className="p-6 flex justify-center">
             <Button
               onClick={async () => {
-                console.log('End voice mode clicked');
+                logger.debug(null, 'End voice mode clicked');
                 try {
                   if (voiceChatRef.current) {
                     await voiceChatRef.current.stopVoiceChat();
                   }
                   setIsVoiceActive(false);
                 } catch (error) {
-                  console.error('Error stopping voice chat:', error);
+                  logger.error(null, 'Error stopping voice chat:', error);
                   setIsVoiceActive(false);
                 }
               }}
@@ -805,30 +806,30 @@ const CoachChat = ({ athleteId, scrollDirection = 'none' }) => {
               <Button
                 type="button"
                 onClick={async () => {
-                  console.log('=== MIC BUTTON CLICKED ===');
-                  console.log('voiceChatRef.current:', voiceChatRef.current);
-                  console.log('isVoiceActive:', isVoiceActive);
+                  logger.debug(null, '=== MIC BUTTON CLICKED ===');
+                  logger.debug(null, 'voiceChatRef.current:', voiceChatRef.current);
+                  logger.debug(null, 'isVoiceActive:', isVoiceActive);
                   
                   if (!voiceChatRef.current) {
-                    console.error('❌ VoiceChat ref is null!');
+                    logger.error(null, '❌ VoiceChat ref is null!');
                     alert('Voice chat component not initialized. Please refresh the page.');
                     return;
                   }
                   
                   try {
                     if (isVoiceActive) {
-                      console.log('🛑 Stopping voice chat...');
+                      logger.debug(null, '🛑 Stopping voice chat...');
                       await voiceChatRef.current.stopVoiceChat();
                       setIsVoiceActive(false);
-                      console.log('✅ Voice chat stopped');
+                      logger.debug(null, '✅ Voice chat stopped');
                     } else {
-                      console.log('🎤 Starting voice chat...');
+                      logger.debug(null, '🎤 Starting voice chat...');
                       await voiceChatRef.current.startVoiceChat();
                       setIsVoiceActive(true);
-                      console.log('✅ Voice chat started');
+                      logger.debug(null, '✅ Voice chat started');
                     }
                   } catch (error) {
-                    console.error('❌ Error toggling voice chat:', error);
+                    logger.error(null, '❌ Error toggling voice chat:', error);
                     alert(`Voice chat error: ${error.message}`);
                     setIsVoiceActive(false);
                   }

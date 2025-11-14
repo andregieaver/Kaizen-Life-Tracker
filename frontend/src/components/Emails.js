@@ -7,6 +7,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Mail, Edit3, X, CheckCircle, XCircle, Plus, Trash2, Send } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -99,7 +100,7 @@ const Emails = () => {
       });
       setEmailTemplates(templates);
     } catch (error) {
-      console.error('Error loading email templates:', error);
+      logger.error(null, 'Error loading email templates:', error);
       // Use default templates if API fails
       setEmailTemplates(defaultTemplates.map(t => ({
         ...t,
@@ -118,7 +119,7 @@ const Emails = () => {
       const response = await axios.get(`${API}/custom-emails`);
       setCustomEmails(response.data.emails || []);
     } catch (error) {
-      console.error('Error loading custom emails:', error);
+      logger.error(null, 'Error loading custom emails:', error);
       setCustomEmails([]);
     }
   };
@@ -188,7 +189,7 @@ const Emails = () => {
         setSelectedCustomEmail(null);
       }, 1500);
     } catch (error) {
-      console.error('Error saving custom email:', error);
+      logger.error(null, 'Error saving custom email:', error);
       setSaveStatus({ type: 'error', message: error.response?.data?.detail || 'Failed to save custom email' });
     }
   };
@@ -200,7 +201,7 @@ const Emails = () => {
       await axios.delete(`${API}/custom-emails/${emailId}`);
       await loadCustomEmails();
     } catch (error) {
-      console.error('Error deleting custom email:', error);
+      logger.error(null, 'Error deleting custom email:', error);
       alert('Failed to delete custom email');
     }
   };
@@ -213,7 +214,7 @@ const Emails = () => {
       const response = await axios.post(`${API}/custom-emails/${emailId}/send`);
       alert(`Email sent successfully to ${response.data.sent_count} recipients!`);
     } catch (error) {
-      console.error('Error sending custom email:', error);
+      logger.error(null, 'Error sending custom email:', error);
       alert(error.response?.data?.detail || 'Failed to send email');
     } finally {
       setSendingEmail(false);
@@ -256,7 +257,7 @@ const Emails = () => {
         setSelectedTemplate(null);
       }, 1500);
     } catch (error) {
-      console.error('Error saving email template:', error);
+      logger.error(null, 'Error saving email template:', error);
       setSaveStatus({ type: 'error', message: 'Failed to save email template' });
     }
   };
@@ -292,7 +293,7 @@ const Emails = () => {
 
       setTestEmailStatus({ type: 'success', message: `Test email sent successfully to ${testEmail}!` });
     } catch (error) {
-      console.error('Error sending test email:', error);
+      logger.error(null, 'Error sending test email:', error);
       setTestEmailStatus({ type: 'error', message: t('emails.failedSendTest') });
     } finally {
       setSendingTest(false);

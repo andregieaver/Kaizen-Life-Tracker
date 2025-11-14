@@ -1,4 +1,6 @@
 /**
+import { logger } from '../utils/logger';
+
  * Logger Utility
  * Provides environment-aware logging that only outputs in development
  * Prevents console pollution in production
@@ -38,7 +40,7 @@ export const logger = {
    */
   debug: (context, ...args) => {
     if (config.enableDebug && !isTest) {
-      console.log(...formatMessage('DEBUG', context, ...args));
+      logger.debug(null, ...formatMessage('DEBUG', context, ...args));
     }
   },
 
@@ -48,7 +50,7 @@ export const logger = {
    */
   info: (context, ...args) => {
     if (config.enableInfo && !isTest) {
-      console.info(...formatMessage('INFO', context, ...args));
+      logger.info(null, ...formatMessage('INFO', context, ...args));
     }
   },
 
@@ -58,7 +60,7 @@ export const logger = {
    */
   warn: (context, ...args) => {
     if (config.enableWarn && !isTest) {
-      console.warn(...formatMessage('WARN', context, ...args));
+      logger.warn(null, ...formatMessage('WARN', context, ...args));
     }
   },
 
@@ -68,7 +70,7 @@ export const logger = {
    */
   error: (context, ...args) => {
     if (config.enableError && !isTest) {
-      console.error(...formatMessage('ERROR', context, ...args));
+      logger.error(null, ...formatMessage('ERROR', context, ...args));
     }
     
     // In production, you might want to send errors to a service

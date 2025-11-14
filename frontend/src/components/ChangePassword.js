@@ -7,6 +7,7 @@ import { Label } from './ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Lock, CheckCircle, AlertCircle } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -71,7 +72,7 @@ const ChangePassword = ({ athleteId }) => {
         confirmPassword: ''
       });
     } catch (error) {
-      console.error('Error changing password:', error);
+      logger.error(null, 'Error changing password:', error);
       const errorMessage = error.response?.data?.detail || t('auth.passwordChangeError');
       setStatus({ type: 'error', message: errorMessage });
     } finally {

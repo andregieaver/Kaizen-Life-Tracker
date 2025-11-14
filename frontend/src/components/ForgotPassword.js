@@ -8,6 +8,7 @@ import { Label } from './ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { ArrowLeft, Mail, CheckCircle } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -35,7 +36,7 @@ const ForgotPassword = () => {
         setResetToken(response.data.reset_token);
       }
     } catch (error) {
-      console.error('Error requesting password reset:', error);
+      logger.error(null, 'Error requesting password reset:', error);
       setError(error.response?.data?.detail || 'Failed to send reset email. Please try again.');
     } finally {
       setIsLoading(false);

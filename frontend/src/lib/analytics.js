@@ -1,4 +1,6 @@
 /**
+import { logger } from '../utils/logger';
+
  * Analytics Library for TrainSmart
  * Integrates with Google Tag Manager and Google Analytics 4
  * Supports Consent Mode v2 and privacy-first tracking
@@ -36,7 +38,7 @@ export function track(event, props = {}) {
   // Push to dataLayer
   dlPush(eventData);
   
-  console.log('📊 Analytics Event:', event, eventData);
+  logger.debug(null, '📊 Analytics Event:', event, eventData);
 }
 
 /**
@@ -55,10 +57,10 @@ export function setUserId(userId) {
   try {
     localStorage.setItem('analytics_user_id', userId);
   } catch (e) {
-    console.error('Failed to store user_id:', e);
+    logger.error(null, 'Failed to store user_id:', e);
   }
   
-  console.log('👤 User ID set:', userId);
+  logger.debug(null, '👤 User ID set:', userId);
 }
 
 /**
@@ -75,10 +77,10 @@ export function clearUserId() {
   try {
     localStorage.removeItem('analytics_user_id');
   } catch (e) {
-    console.error('Failed to remove user_id:', e);
+    logger.error(null, 'Failed to remove user_id:', e);
   }
   
-  console.log('👤 User ID cleared');
+  logger.debug(null, '👤 User ID cleared');
 }
 
 /**
@@ -108,14 +110,14 @@ export function bootUtmAndAnon() {
     // Save updated UTM parameters
     if (hasNewUtm) {
       localStorage.setItem('utm', JSON.stringify(stored));
-      console.log('🎯 UTM parameters captured:', stored);
+      logger.debug(null, '🎯 UTM parameters captured:', stored);
     }
     
     // Generate anonymous ID if not exists
     if (!localStorage.getItem('anon_id')) {
       const anonId = generateUUID();
       localStorage.setItem('anon_id', anonId);
-      console.log('🔑 Anonymous ID generated:', anonId);
+      logger.debug(null, '🔑 Anonymous ID generated:', anonId);
     }
     
     // Track first session timestamp
@@ -123,7 +125,7 @@ export function bootUtmAndAnon() {
       localStorage.setItem('first_session', new Date().toISOString());
     }
   } catch (e) {
-    console.error('Failed to boot UTM and Anon ID:', e);
+    logger.error(null, 'Failed to boot UTM and Anon ID:', e);
   }
 }
 
@@ -147,7 +149,7 @@ export function baseProps() {
       ...(first_session && { first_session })
     };
   } catch (e) {
-    console.error('Failed to get base props:', e);
+    logger.error(null, 'Failed to get base props:', e);
     return {};
   }
 }
@@ -179,7 +181,7 @@ export function updateConsent(consent) {
     window.gtag('consent', 'update', consentState);
   }
   
-  console.log('🍪 Consent updated:', consentState);
+  logger.debug(null, '🍪 Consent updated:', consentState);
 }
 
 /**

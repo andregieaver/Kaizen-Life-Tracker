@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { logger } from '../utils/logger';
 class RealtimeAudioChat {
     constructor(backendUrl, athleteId, onTranscriptUpdate) {
         this.backendUrl = backendUrl;
@@ -80,10 +81,10 @@ class RealtimeAudioChat {
             };
 
             await this.peerConnection.setRemoteDescription(answer);
-            console.log("WebRTC connection established");
+            logger.debug(null, "WebRTC connection established");
             return true;
         } catch (error) {
-            console.error("Failed to initialize audio chat:", error);
+            logger.error(null, "Failed to initialize audio chat:", error);
             throw error;
         }
     }
@@ -95,7 +96,7 @@ class RealtimeAudioChat {
         document.body.appendChild(this.audioElement);
 
         this.peerConnection.ontrack = (event) => {
-            console.log("Received remote audio track");
+            logger.debug(null, "Received remote audio track");
             this.audioElement.srcObject = event.streams[0];
         };
     }
@@ -113,20 +114,20 @@ class RealtimeAudioChat {
             this.peerConnection.addTrack(track, this.localStream);
         });
         
-        console.log("Local audio stream setup complete");
+        logger.debug(null, "Local audio stream setup complete");
     }
 
     setupDataChannel() {
         this.dataChannel = this.peerConnection.createDataChannel("oai-events");
         
         this.dataChannel.onopen = () => {
-            console.log("Data channel opened");
+            logger.debug(null, "Data channel opened");
         };
         
         this.dataChannel.onmessage = (event) => {
             try {
                 const eventData = JSON.parse(event.data);
-                console.log("Received event:", eventData);
+                logger.debug(null, "Received event:", eventData);
                 
                 // Handle transcript events from OpenAI Realtime API
                 if (eventData.type === 'conversation.item.input_audio_transcription.completed') {
@@ -148,12 +149,12 @@ class RealtimeAudioChat {
                     }
                 }
             } catch (error) {
-                console.error("Error parsing data channel event:", error);
+                logger.error(null, "Error parsing data channel event:", error);
             }
         };
         
         this.dataChannel.onerror = (error) => {
-            console.error("Data channel error:", error);
+            logger.error(null, "Data channel error:", error);
         };
     }
     
@@ -166,7 +167,7 @@ class RealtimeAudioChat {
             };
             
             this.transcript.push(transcriptEntry);
-            console.log(`Added to transcript [${role}]: ${content.trim()}`);
+            logger.debug(null, `Added to transcript [${role}]: ${content.trim()}`);
             
             // Notify parent component of transcript update
             if (this.onTranscriptUpdate) {
@@ -196,15 +197,15 @@ class RealtimeAudioChat {
                 document.body.removeChild(this.audioElement);
             }
             
-            console.log("Voice chat disconnected");
+            logger.debug(null, "Voice chat disconnected");
         } catch (error) {
-            console.error("Error disconnecting:", error);
+            logger.error(null, "Error disconnecting:", error);
         }
     }
     
     async saveConversation() {
         if (!this.transcript || this.transcript.length === 0) {
-            console.log("No transcript to save");
+            logger.debug(null, "No transcript to save");
             return;
         }
         
@@ -219,7 +220,7 @@ class RealtimeAudioChat {
                 duration_seconds: durationSeconds
             };
             
-            console.log("Saving voice conversation:", conversationData);
+            logger.debug(null, "Saving voice conversation:", conversationData);
             
             const response = await fetch(`${this.backendUrl}/api/coach/voice/save-conversation`, {
                 method: "POST",
@@ -230,13 +231,13 @@ class RealtimeAudioChat {
             });
             
             if (response.ok) {
-                console.log("Voice conversation saved successfully");
+                logger.debug(null, "Voice conversation saved successfully");
             } else {
                 const errorData = await response.json();
-                console.error("Failed to save voice conversation:", errorData);
+                logger.error(null, "Failed to save voice conversation:", errorData);
             }
         } catch (error) {
-            console.error("Error saving voice conversation:", error);
+            logger.error(null, "Error saving voice conversation:", error);
         }
     }
 }
@@ -262,7 +263,7 @@ const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError }, ref) => 
                     setMicPermission(permissionStatus.state);
                 });
             } catch (error) {
-                console.log("Could not check microphone permission:", error);
+                logger.debug(null, "Could not check microphone permission:", error);
             }
         };
         
@@ -270,15 +271,15 @@ const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError }, ref) => 
     }, []);
 
     const startVoiceChat = useCallback(async () => {
-        console.log('=== VOICECHAT: startVoiceChat called ===');
-        console.log('VoiceChat: athleteId:', athleteId);
-        console.log('VoiceChat: backendUrl:', backendUrl);
-        console.log('VoiceChat: isConnecting:', isConnecting);
-        console.log('VoiceChat: isConnected:', isConnected);
-        console.log('VoiceChat: micPermission:', micPermission);
+        logger.debug(null, '=== VOICECHAT: startVoiceChat called ===');
+        logger.debug(null, 'VoiceChat: athleteId:', athleteId);
+        logger.debug(null, 'VoiceChat: backendUrl:', backendUrl);
+        logger.debug(null, 'VoiceChat: isConnecting:', isConnecting);
+        logger.debug(null, 'VoiceChat: isConnected:', isConnected);
+        logger.debug(null, 'VoiceChat: micPermission:', micPermission);
         
         if (isConnecting || isConnected) {
-            console.log('⚠️ VoiceChat: Already connecting or connected, returning');
+            logger.debug(null, '⚠️ VoiceChat: Already connecting or connected, returning');
             return;
         }
         
@@ -286,7 +287,7 @@ const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError }, ref) => 
         setError(null);
         
         try {
-            console.log('🎤 VoiceChat: Checking microphone permission...');
+            logger.debug(null, '🎤 VoiceChat: Checking microphone permission...');
             // Check for microphone permission first
             if (micPermission === 'denied') {
                 throw new Error("Microphone permission is required for voice chat. Please enable it in your browser settings.");
@@ -298,7 +299,7 @@ const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError }, ref) => 
             setIsConnected(true);
             setIsConnecting(false);
         } catch (error) {
-            console.error("Voice chat error:", error);
+            logger.error(null, "Voice chat error:", error);
             setError(error.message);
             setIsConnecting(false);
             if (onError) onError(error.message);
@@ -324,14 +325,14 @@ const VoiceChat = React.forwardRef(({ backendUrl, athleteId, onError }, ref) => 
             setError(null);
             setTranscript([]); // Clear transcript when stopping
         } catch (error) {
-            console.error("Error stopping voice chat:", error);
+            logger.error(null, "Error stopping voice chat:", error);
             setError("Error stopping voice chat");
         }
     }, [isConnected]);
 
     // Expose startVoiceChat and stopVoiceChat to parent component
     React.useImperativeHandle(ref, () => {
-        console.log('VoiceChat: useImperativeHandle called, exposing functions');
+        logger.debug(null, 'VoiceChat: useImperativeHandle called, exposing functions');
         return {
             startVoiceChat,
             stopVoiceChat,

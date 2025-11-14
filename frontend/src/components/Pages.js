@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { logger } from '../utils/logger';
 import { 
   Search, 
   Eye, 
@@ -45,7 +46,7 @@ const Pages = ({ athleteId }) => {
       const response = await axios.get(`${API}/pages?${params.toString()}`);
       setPages(response.data.pages || []);
     } catch (error) {
-      console.error('Error loading pages:', error);
+      logger.error(null, 'Error loading pages:', error);
     } finally {
       setLoading(false);
     }
@@ -73,7 +74,7 @@ const Pages = ({ athleteId }) => {
       await axios.delete(`${API}/pages/${pageId}?athlete_id=${athleteId}`);
       loadPages();
     } catch (error) {
-      console.error('Error deleting page:', error);
+      logger.error(null, 'Error deleting page:', error);
       alert(t('pages.deleteFailed'));
     }
   };

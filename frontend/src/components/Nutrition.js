@@ -5,6 +5,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Plus, Camera, Upload, Trash2, Edit3, Utensils, Coffee, UtensilsCrossed, Apple, X, ImageIcon, ChevronLeft, ChevronRight, Pill, ChevronDown, ChevronUp } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -99,7 +100,7 @@ const Nutrition = ({ athleteId }) => {
       const response = await axios.get(`${API}/athlete/${athleteId}`);
       setAthlete(response.data);
     } catch (error) {
-      console.error('Error loading athlete data:', error);
+      logger.error(null, 'Error loading athlete data:', error);
     }
   };
 
@@ -109,7 +110,7 @@ const Nutrition = ({ athleteId }) => {
       const response = await axios.get(`${API}/nutrition/${athleteId}`);
       setEntries(response.data.entries || []);
     } catch (error) {
-      console.error('Error loading nutrition entries:', error);
+      logger.error(null, 'Error loading nutrition entries:', error);
       setSaveStatus({ type: 'error', message: 'Failed to load nutrition entries' });
     } finally {
       setIsLoading(false);
@@ -121,7 +122,7 @@ const Nutrition = ({ athleteId }) => {
       const response = await axios.get(`${API}/supplements/${athleteId}`);
       setSupplements(response.data.supplements || []);
     } catch (error) {
-      console.error('Error loading supplements:', error);
+      logger.error(null, 'Error loading supplements:', error);
     }
   };
 
@@ -130,7 +131,7 @@ const Nutrition = ({ athleteId }) => {
       const response = await axios.get(`${API}/supplement-logs/${athleteId}`);
       setSupplementLogs(response.data.logs || []);
     } catch (error) {
-      console.error('Error loading supplement logs:', error);
+      logger.error(null, 'Error loading supplement logs:', error);
     }
   };
 
@@ -288,7 +289,7 @@ const Nutrition = ({ athleteId }) => {
       await loadSupplementLogs();
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
     } catch (error) {
-      console.error('Error saving supplement log:', error);
+      logger.error(null, 'Error saving supplement log:', error);
       setSaveStatus({ type: 'error', message: 'Failed to log supplements' });
     }
   };
@@ -379,7 +380,7 @@ const Nutrition = ({ athleteId }) => {
       setSaveStatus({ type: 'success', message: 'Nutritional analysis complete!' });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 2000);
     } catch (error) {
-      console.error('Error analyzing food image:', error);
+      logger.error(null, 'Error analyzing food image:', error);
       const errorMessage = error.response?.data?.detail || 'Failed to analyze image';
       setSaveStatus({ type: 'error', message: errorMessage });
       // Set default nutrition data on error
@@ -408,7 +409,7 @@ const Nutrition = ({ athleteId }) => {
         // Automatically analyze the image with description if available
         await analyzeFoodImage(compressedImage, description);
       } catch (error) {
-        console.error('Error processing image:', error);
+        logger.error(null, 'Error processing image:', error);
         setSaveStatus({ type: 'error', message: error.message });
       }
     }
@@ -427,7 +428,7 @@ const Nutrition = ({ athleteId }) => {
         // Automatically analyze the image with description if available
         await analyzeFoodImage(compressedImage, description);
       } catch (error) {
-        console.error('Error processing image:', error);
+        logger.error(null, 'Error processing image:', error);
         setSaveStatus({ type: 'error', message: error.message });
       }
     }
@@ -532,7 +533,7 @@ const Nutrition = ({ athleteId }) => {
       setNutritionData(null);
       await loadNutritionEntries();
     } catch (error) {
-      console.error('Error saving nutrition entry:', error);
+      logger.error(null, 'Error saving nutrition entry:', error);
       setSaveStatus({ type: 'error', message: 'Failed to save entry' });
     }
   };
@@ -547,7 +548,7 @@ const Nutrition = ({ athleteId }) => {
       setSaveStatus({ type: 'success', message: 'Entry deleted' });
       await loadNutritionEntries();
     } catch (error) {
-      console.error('Error deleting entry:', error);
+      logger.error(null, 'Error deleting entry:', error);
       setSaveStatus({ type: 'error', message: 'Failed to delete entry' });
     }
   };
@@ -1336,10 +1337,10 @@ const Nutrition = ({ athleteId }) => {
               let filteredSupplementLogs = [];
               let hasSupplements = false;
               
-              console.log('[Supplements Summary] Total supplement logs:', supplementLogs?.length || 0);
-              console.log('[Supplements Summary] View type:', viewType);
-              console.log('[Supplements Summary] Selected week start:', selectedWeekStart);
-              console.log('[Supplements Summary] Selected day:', selectedDay);
+              logger.debug(null, '[Supplements Summary] Total supplement logs:', supplementLogs?.length || 0);
+              logger.debug(null, '[Supplements Summary] View type:', viewType);
+              logger.debug(null, '[Supplements Summary] Selected week start:', selectedWeekStart);
+              logger.debug(null, '[Supplements Summary] Selected day:', selectedDay);
               
               if (viewType === 'week') {
                 const weekStart = new Date(selectedWeekStart);
@@ -1348,24 +1349,24 @@ const Nutrition = ({ athleteId }) => {
                 filteredSupplementLogs = (supplementLogs || []).filter(log => {
                   const logDate = new Date(log.log_date);
                   const matches = logDate >= weekStart && logDate <= weekEnd && log.supplement_ids && log.supplement_ids.length > 0;
-                  if (matches) console.log('[Supplements Summary] Matched log:', log);
+                  if (matches) logger.debug(null, '[Supplements Summary] Matched log:', log);
                   return matches;
                 });
                 hasSupplements = filteredSupplementLogs.length > 0;
-                console.log('[Supplements Summary] Filtered supplements for week:', filteredSupplementLogs.length);
+                logger.debug(null, '[Supplements Summary] Filtered supplements for week:', filteredSupplementLogs.length);
               } else if (viewType === 'day' && selectedDay) {
                 filteredSupplementLogs = (supplementLogs || []).filter(log => {
                   const logDateStr = new Date(log.log_date).toDateString();
                   const selectedDateStr = selectedDay.toDateString();
                   const matches = logDateStr === selectedDateStr && log.supplement_ids && log.supplement_ids.length > 0;
-                  if (matches) console.log('[Supplements Summary] Matched log:', log);
+                  if (matches) logger.debug(null, '[Supplements Summary] Matched log:', log);
                   return matches;
                 });
                 hasSupplements = filteredSupplementLogs.length > 0;
-                console.log('[Supplements Summary] Filtered supplements for day:', filteredSupplementLogs.length);
+                logger.debug(null, '[Supplements Summary] Filtered supplements for day:', filteredSupplementLogs.length);
               }
               
-              console.log('[Supplements Summary] Has supplements:', hasSupplements);
+              logger.debug(null, '[Supplements Summary] Has supplements:', hasSupplements);
               
               // Show section if there are supplements
               if (!hasSupplements) return null;
@@ -1402,7 +1403,7 @@ const Nutrition = ({ athleteId }) => {
                         }
                       });
                       
-                      console.log('[Supplements Summary] Summary:', supplementSummary);
+                      logger.debug(null, '[Supplements Summary] Summary:', supplementSummary);
                       
                       return Object.values(supplementSummary).map((supp, idx) => (
                         <div key={idx} className="bg-gradient-to-br from-[#D4F0E9] to-[#b8e6db] rounded-lg p-3 border border-[#62D2C4]/20">
@@ -1486,7 +1487,7 @@ const Nutrition = ({ athleteId }) => {
                                       setSaveStatus({ type: 'success', message: 'Supplement log deleted' });
                                       loadSupplementLogs();
                                     })
-                                    .catch(err => console.error('Error deleting log:', err));
+                                    .catch(err => logger.error(null, 'Error deleting log:', err));
                                 }
                               }}
                               className="p-2 hover:bg-red-900/30 rounded-lg transition-colors text-red-400"
@@ -1735,7 +1736,7 @@ const Nutrition = ({ athleteId }) => {
                                 setSaveStatus({ type: 'success', message: t('nutrition.supplementLogDeleted') });
                                 loadSupplementLogs();
                               })
-                              .catch(err => console.error('Error deleting log:', err));
+                              .catch(err => logger.error(null, 'Error deleting log:', err));
                           }
                         }}
                         className="p-2 hover:bg-red-900/30 rounded-lg transition-colors text-red-400"

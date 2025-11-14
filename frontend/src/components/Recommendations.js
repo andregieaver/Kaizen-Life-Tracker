@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
+import { logger } from '../utils/logger';
 import { 
   Brain, 
   Calendar, 
@@ -41,7 +42,7 @@ const Recommendations = ({ athleteId }) => {
       const response = await axios.get(`${API}/recommendations/${athleteId}`);
       setRecommendations(response.data);
     } catch (error) {
-      console.error('Error loading recommendations:', error);
+      logger.error(null, 'Error loading recommendations:', error);
       setRecommendations([]);
     } finally {
       setIsLoading(false);
@@ -62,7 +63,7 @@ const Recommendations = ({ athleteId }) => {
         setSelectedRecommendation(null);
       }
     } catch (error) {
-      console.error('Error deleting recommendation:', error);
+      logger.error(null, 'Error deleting recommendation:', error);
       alert('Failed to delete report. Please try again.');
     }
   };
@@ -74,7 +75,7 @@ const Recommendations = ({ athleteId }) => {
         r.id === recommendationId ? { ...r, read: true } : r
       ));
     } catch (error) {
-      console.error('Error marking as read:', error);
+      logger.error(null, 'Error marking as read:', error);
     }
   };
 

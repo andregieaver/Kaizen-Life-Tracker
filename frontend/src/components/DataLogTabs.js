@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Calendar, Moon, Dumbbell } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -81,7 +82,7 @@ const DataLogTabs = ({ athleteId, onDataLogged }) => {
       onDataLogged();
       // Show success feedback (could add toast here)
     } catch (error) {
-      console.error('Error logging workout:', error);
+      logger.error(null, 'Error logging workout:', error);
     } finally {
       setIsLoading(prev => ({ ...prev, workout: false }));
     }
@@ -117,7 +118,7 @@ const DataLogTabs = ({ athleteId, onDataLogged }) => {
       onDataLogged();
       // Show success feedback (could add toast here)
     } catch (error) {
-      console.error('Error logging sleep data:', error);
+      logger.error(null, 'Error logging sleep data:', error);
     } finally {
       setIsLoading(prev => ({ ...prev, sleep: false }));
     }

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { RefreshCw, Moon, Zap, Activity, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -37,7 +38,7 @@ const OuraVitalsCard = ({ athleteId }) => {
           // Wait a moment for sync to complete
           await new Promise(resolve => setTimeout(resolve, 2000));
         } catch (syncError) {
-          console.error('Error syncing Oura data:', syncError);
+          logger.error(null, 'Error syncing Oura data:', syncError);
         }
       }
 
@@ -45,16 +46,16 @@ const OuraVitalsCard = ({ athleteId }) => {
       const activitiesResponse = await axios.get(`${API}/integrations/oura/${athleteId}/activities?limit=30`);
       const activities = activitiesResponse.data.activities || [];
       
-      console.log('[OURA] Fetched activities:', activities);
+      logger.debug(null, '[OURA] Fetched activities:', activities);
       
       // Find most recent of each type
       const latestSleep = activities.find(a => a.type === 'Sleep');
       const latestReadiness = activities.find(a => a.type === 'Readiness');
       const latestActivity = activities.find(a => a.type === 'Activity');
       
-      console.log('[OURA] Latest Sleep:', latestSleep);
-      console.log('[OURA] Latest Readiness:', latestReadiness);
-      console.log('[OURA] Latest Activity:', latestActivity);
+      logger.debug(null, '[OURA] Latest Sleep:', latestSleep);
+      logger.debug(null, '[OURA] Latest Readiness:', latestReadiness);
+      logger.debug(null, '[OURA] Latest Activity:', latestActivity);
       
       setOuraData({
         sleep: latestSleep,
@@ -64,7 +65,7 @@ const OuraVitalsCard = ({ athleteId }) => {
       
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading Oura data:', error);
+      logger.error(null, 'Error loading Oura data:', error);
       setIsLoading(false);
     }
   };

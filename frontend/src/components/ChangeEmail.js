@@ -7,6 +7,7 @@ import { Label } from './ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Mail, CheckCircle, AlertCircle } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -76,7 +77,7 @@ const ChangeEmail = ({ athleteId, currentEmail }) => {
         window.location.href = '/';
       }, 3000);
     } catch (error) {
-      console.error('Error changing email:', error);
+      logger.error(null, 'Error changing email:', error);
       const errorMessage = error.response?.data?.detail || 'Failed to change email. Please try again.';
       setStatus({ type: 'error', message: errorMessage });
     } finally {

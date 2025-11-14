@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Heart, MessageCircle, Share2, Send, Edit2, Trash2, Camera, X, Bell } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -32,7 +33,7 @@ const Community = ({ athleteId }) => {
       setPosts(response.data.posts);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading posts:', error);
+      logger.error(null, 'Error loading posts:', error);
       setIsLoading(false);
     }
   };
@@ -43,7 +44,7 @@ const Community = ({ athleteId }) => {
       setNotifications(response.data.notifications);
       setUnreadCount(response.data.notifications.filter(n => !n.read).length);
     } catch (error) {
-      console.error('Error loading notifications:', error);
+      logger.error(null, 'Error loading notifications:', error);
     }
   };
 
@@ -74,7 +75,7 @@ const Community = ({ athleteId }) => {
       setNewPostImagePreview(null);
       loadPosts();
     } catch (error) {
-      console.error('Error creating post:', error);
+      logger.error(null, 'Error creating post:', error);
       alert('Failed to create post');
     }
   };
@@ -90,7 +91,7 @@ const Community = ({ athleteId }) => {
       setEditContent('');
       loadPosts();
     } catch (error) {
-      console.error('Error editing post:', error);
+      logger.error(null, 'Error editing post:', error);
       alert('Failed to edit post');
     }
   };
@@ -102,7 +103,7 @@ const Community = ({ athleteId }) => {
       await axios.delete(`${API}/community/posts/${postId}?athlete_id=${athleteId}`);
       loadPosts();
     } catch (error) {
-      console.error('Error deleting post:', error);
+      logger.error(null, 'Error deleting post:', error);
       alert('Failed to delete post');
     }
   };
@@ -116,7 +117,7 @@ const Community = ({ athleteId }) => {
           : post
       ));
     } catch (error) {
-      console.error('Error toggling like:', error);
+      logger.error(null, 'Error toggling like:', error);
     }
   };
 
@@ -132,7 +133,7 @@ const Community = ({ athleteId }) => {
       loadComments(postId);
       loadPosts(); // Refresh to update comment count
     } catch (error) {
-      console.error('Error adding comment:', error);
+      logger.error(null, 'Error adding comment:', error);
     }
   };
 
@@ -145,7 +146,7 @@ const Community = ({ athleteId }) => {
           : post
       ));
     } catch (error) {
-      console.error('Error loading comments:', error);
+      logger.error(null, 'Error loading comments:', error);
     }
   };
 
@@ -155,7 +156,7 @@ const Community = ({ athleteId }) => {
       loadPosts(); // Refresh to update share count
       alert('Post shared successfully!');
     } catch (error) {
-      console.error('Error sharing post:', error);
+      logger.error(null, 'Error sharing post:', error);
       alert('Failed to share post');
     }
   };
@@ -172,7 +173,7 @@ const Community = ({ athleteId }) => {
       await axios.put(`${API}/community/notifications/${notificationId}/read`);
       loadNotifications();
     } catch (error) {
-      console.error('Error marking notification as read:', error);
+      logger.error(null, 'Error marking notification as read:', error);
     }
   };
 

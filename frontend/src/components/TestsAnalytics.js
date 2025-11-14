@@ -42,6 +42,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
+import { logger } from '../utils/logger';
 // Register Chart.js components
 ChartJS.register(
   CategoryScale,
@@ -171,7 +172,7 @@ const TestsAnalytics = ({ athleteId }) => {
         setTestOrder(JSON.parse(savedOrder));
       }
     } catch (error) {
-      console.error('Error loading test order:', error);
+      logger.error(null, 'Error loading test order:', error);
     }
   };
 
@@ -180,7 +181,7 @@ const TestsAnalytics = ({ athleteId }) => {
       localStorage.setItem(`testOrder_${athleteId}`, JSON.stringify(order));
       setTestOrder(order);
     } catch (error) {
-      console.error('Error saving test order:', error);
+      logger.error(null, 'Error saving test order:', error);
     }
   };
 
@@ -192,7 +193,7 @@ const TestsAnalytics = ({ athleteId }) => {
         status: response.data.subscription_status || 'active'
       });
     } catch (error) {
-      console.error('Error loading subscription status:', error);
+      logger.error(null, 'Error loading subscription status:', error);
     }
   };
 
@@ -207,7 +208,7 @@ const TestsAnalytics = ({ athleteId }) => {
       setTestResults(resultsRes.data.results || []);
       setTestNames(namesRes.data.test_names || []);
     } catch (error) {
-      console.error('Error loading test data:', error);
+      logger.error(null, 'Error loading test data:', error);
       setSaveStatus({ type: 'error', message: 'Failed to load test data' });
     } finally {
       setIsLoading(false);
@@ -317,7 +318,7 @@ const TestsAnalytics = ({ athleteId }) => {
       // Reload data
       loadData();
     } catch (error) {
-      console.error('Error saving test result:', error);
+      logger.error(null, 'Error saving test result:', error);
       setSaveStatus({ type: 'error', message: 'Failed to save test result' });
     }
   };
@@ -364,7 +365,7 @@ const TestsAnalytics = ({ athleteId }) => {
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
       loadData();
     } catch (error) {
-      console.error('Error deleting test result:', error);
+      logger.error(null, 'Error deleting test result:', error);
       setSaveStatus({ type: 'error', message: 'Failed to delete test result' });
     }
   };
@@ -432,7 +433,7 @@ const TestsAnalytics = ({ athleteId }) => {
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
       loadData();
     } catch (error) {
-      console.error('Error deleting all tests:', error);
+      logger.error(null, 'Error deleting all tests:', error);
       setSaveStatus({ type: 'error', message: 'Failed to delete test results' });
     }
   };

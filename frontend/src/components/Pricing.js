@@ -8,6 +8,7 @@ import { Badge } from './ui/badge';
 import { loadAndInjectPageSEO } from '../utils/seoUtils';
 import { ecommerce, track } from '../lib/analytics';
 
+import { logger } from '../utils/logger';
 const Pricing = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -37,7 +38,7 @@ const Pricing = () => {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/subscription-plans-public`);
         const data = await response.json();
         
-        console.log('Loaded plans from API:', data.plans);
+        logger.debug(null, 'Loaded plans from API:', data.plans);
         
         // Transform API data to component format
         const transformedPlans = data.plans.map(plan => {
@@ -53,7 +54,7 @@ const Pricing = () => {
           // Ensure features is an array
           const features = Array.isArray(plan.features) ? plan.features : [];
           
-          console.log(`Plan ${plan.name} features:`, features);
+          logger.debug(null, `Plan ${plan.name} features:`, features);
           
           return {
             id: plan.tier,
@@ -73,7 +74,7 @@ const Pricing = () => {
         // Sort by sort_order
         transformedPlans.sort((a, b) => a.sort_order - b.sort_order);
         
-        console.log('Transformed plans:', transformedPlans);
+        logger.debug(null, 'Transformed plans:', transformedPlans);
         setPlans(transformedPlans);
         
         // Track view_item_list event (ecommerce)
@@ -87,7 +88,7 @@ const Pricing = () => {
           ecommerce.viewItemList(items, 'Subscription Plans');
         }
       } catch (error) {
-        console.error('Error loading plans:', error);
+        logger.error(null, 'Error loading plans:', error);
         // Fallback to empty array or default plans
         setPlans([]);
       } finally {
@@ -104,7 +105,7 @@ const Pricing = () => {
     if (storedRefCode) {
       setReferralCode(storedRefCode);
       setDiscount(20); // 20% discount for referrals
-      console.log('Referral discount applied:', storedRefCode);
+      logger.debug(null, 'Referral discount applied:', storedRefCode);
     }
   }, []);
 
@@ -152,9 +153,9 @@ const Pricing = () => {
       const data = await response.json();
       setAppliedCoupon(data);
       setCouponError('');
-      console.log('Coupon applied:', data);
+      logger.debug(null, 'Coupon applied:', data);
     } catch (error) {
-      console.error('Coupon validation error:', error);
+      logger.error(null, 'Coupon validation error:', error);
       setCouponError(error.message || 'Failed to apply coupon');
       setAppliedCoupon(null);
     } finally {
@@ -255,7 +256,7 @@ const Pricing = () => {
     }
     
     if (!plan_id) {
-      console.error('No plan_id found for selected plan');
+      logger.error(null, 'No plan_id found for selected plan');
       return;
     }
     
@@ -325,7 +326,7 @@ const Pricing = () => {
         throw new Error('No checkout URL received');
       }
     } catch (error) {
-      console.error('Checkout error:', error);
+      logger.error(null, 'Checkout error:', error);
       
       // Track checkout error
       track('checkout_error', {

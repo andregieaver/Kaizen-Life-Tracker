@@ -11,6 +11,7 @@ import axios from 'axios';
 import { loadAndInjectPageSEO } from '../utils/seoUtils';
 import { useScrollDepth, useTimeOnPage } from '../lib/useViewTracker';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -91,7 +92,7 @@ const AnimatedMetrics = () => {
         }
       } catch (error) {
         // Fallback to hardcoded values if API fails
-        console.log('Using default metrics');
+        logger.debug(null, 'Using default metrics');
       }
     };
     
@@ -435,7 +436,7 @@ const LandingPage = () => {
           }
         }
       } catch (error) {
-        console.error('Error fetching SEO settings:', error);
+        logger.error(null, 'Error fetching SEO settings:', error);
         // Keep defaults
       }
     };
@@ -443,19 +444,19 @@ const LandingPage = () => {
     const fetchHeaderMenu = async () => {
       try {
         const response = await axios.get(`${API}/menus/public`);
-        console.log('Fetched menus:', response.data);
+        logger.debug(null, 'Fetched menus:', response.data);
         if (response.data && response.data.header_logged_out) {
           // Response.data has menu types as keys with arrays as values
           const menuItems = response.data.header_logged_out;
-          console.log('Found header_logged_out menu items:', menuItems);
+          logger.debug(null, 'Found header_logged_out menu items:', menuItems);
           if (Array.isArray(menuItems) && menuItems.length > 0) {
             const sortedItems = menuItems.sort((a, b) => (a.order || 0) - (b.order || 0));
-            console.log('Setting header menu items:', sortedItems);
+            logger.debug(null, 'Setting header menu items:', sortedItems);
             setHeaderMenu(sortedItems);
           }
         }
       } catch (error) {
-        console.error('Error fetching header menu:', error);
+        logger.error(null, 'Error fetching header menu:', error);
         // Keep empty menu as default
       }
     };
@@ -474,7 +475,7 @@ const LandingPage = () => {
       // Store referral code in localStorage
       localStorage.setItem('referralCode', refCode);
       setHasReferralCode(true);
-      console.log('Referral code captured:', refCode);
+      logger.debug(null, 'Referral code captured:', refCode);
     }
   }, [searchParams]);
 
@@ -609,7 +610,7 @@ const LandingPage = () => {
               <span className="ml-2 text-xl font-bold text-white" style={{ fontFamily: 'var(--font-logo)' }}>{siteTitle}</span>
             </div>
             <div className="flex items-center gap-4">
-              {(console.log('Header menu length:', headerMenu.length, 'Items:', headerMenu), headerMenu.length > 0) ? (
+              {(logger.debug(null, 'Header menu length:', headerMenu.length, 'Items:', headerMenu), headerMenu.length > 0) ? (
                 // Render dynamic logged-out header menu from Menu Editor
                 headerMenu.map((item, index) => (
                   <button

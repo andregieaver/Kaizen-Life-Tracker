@@ -14,6 +14,7 @@ import LanguageSelector from './LanguageSelector';
 import ChangePassword from './ChangePassword';
 import ChangeEmail from './ChangeEmail';
 import { useCountries } from '../utils/translationData';
+import { logger } from '../utils/logger';
 import { 
   registerServiceWorker,
   isPushSupported,
@@ -652,7 +653,7 @@ const Account = ({ athleteId }) => {
         const leftOffset = buttonRect.left - containerRect.left;
         const width = buttonRect.width;
         
-        console.log('Account tabs bubble UPDATE:', { 
+        logger.debug(null, 'Account tabs bubble UPDATE:', { 
           activeTab, 
           leftOffset, 
           width,
@@ -664,7 +665,7 @@ const Account = ({ athleteId }) => {
         tabsContainer.style.setProperty('--bubble-left', `${leftOffset}px`);
         tabsContainer.style.setProperty('--bubble-width', `${width}px`);
       } else {
-        console.log('Account tabs not found:', { 
+        logger.debug(null, 'Account tabs not found:', { 
           hasContainer: !!tabsContainer, 
           hasButton: !!activeButton, 
           activeTab,
@@ -705,7 +706,7 @@ const Account = ({ athleteId }) => {
           const subscribed = await isSubscribed();
           setPushSubscribed(subscribed);
         } catch (error) {
-          console.error('Error initializing push notifications:', error);
+          logger.error(null, 'Error initializing push notifications:', error);
         }
       }
     };
@@ -715,14 +716,14 @@ const Account = ({ athleteId }) => {
 
   const loadAvailablePlans = async () => {
     try {
-      console.log('Loading available plans from API...');
+      logger.debug(null, 'Loading available plans from API...');
       const response = await axios.get(`${API}/subscription-plans-public`);
       const plans = response.data.plans || [];
-      console.log('Loaded plans:', plans);
+      logger.debug(null, 'Loaded plans:', plans);
       setAvailablePlans(plans);
       return plans;
     } catch (error) {
-      console.error('Error loading available plans:', error);
+      logger.error(null, 'Error loading available plans:', error);
       return [];
     }
   };
@@ -733,7 +734,7 @@ const Account = ({ athleteId }) => {
       const plans = await loadAvailablePlans();
       
       const response = await axios.get(`${API}/subscriptions/status/${athleteId}`);
-      console.log('Subscription status response:', response.data);
+      logger.debug(null, 'Subscription status response:', response.data);
       
       const tier = response.data.subscription_tier || 'free';
       
@@ -745,8 +746,8 @@ const Account = ({ athleteId }) => {
       
       // Find current plan details
       const currentPlan = plans.find(p => p.tier === tier);
-      console.log('Current plan details:', currentPlan);
-      console.log('Looking for tier:', tier);
+      logger.debug(null, 'Current plan details:', currentPlan);
+      logger.debug(null, 'Looking for tier:', tier);
       setCurrentPlanDetails(currentPlan);
       
       // Detect billing cycle from subscription_interval if available
@@ -759,18 +760,18 @@ const Account = ({ athleteId }) => {
         loadInvoices();
       }
     } catch (error) {
-      console.error('Error loading subscription status:', error);
+      logger.error(null, 'Error loading subscription status:', error);
     }
   };
 
   const loadInvoices = async () => {
     try {
-      console.log('Fetching invoices for athlete:', athleteId);
+      logger.debug(null, 'Fetching invoices for athlete:', athleteId);
       const response = await axios.get(`${API}/subscriptions/invoices/${athleteId}`);
-      console.log('Invoices response:', response.data);
+      logger.debug(null, 'Invoices response:', response.data);
       setInvoices(response.data.invoices || []);
     } catch (error) {
-      console.error('Error loading invoices:', error);
+      logger.error(null, 'Error loading invoices:', error);
       setInvoices([]); // Set empty array on error
     }
   };
@@ -782,7 +783,7 @@ const Account = ({ athleteId }) => {
         setPlanSettings(response.data.plans);
       }
     } catch (error) {
-      console.log('Using default plan settings');
+      logger.debug(null, 'Using default plan settings');
     }
   };
 
@@ -827,7 +828,7 @@ const Account = ({ athleteId }) => {
       });
       setTimeout(() => pollPaymentStatus(sessionId, attempts + 1), pollInterval);
     } catch (error) {
-      console.error('Error checking payment status:', error);
+      logger.error(null, 'Error checking payment status:', error);
       setSaveStatus({ 
         type: 'error', 
         message: 'Error checking payment status. Please refresh the page.' 
@@ -855,7 +856,7 @@ const Account = ({ athleteId }) => {
         throw new Error('No checkout URL received');
       }
     } catch (error) {
-      console.error('Checkout error:', error);
+      logger.error(null, 'Checkout error:', error);
       setSaveStatus({ 
         type: 'error', 
         message: 'Failed to start checkout. Please try again.' 
@@ -878,7 +879,7 @@ const Account = ({ athleteId }) => {
         await loadSubscriptionStatus();
       }
     } catch (error) {
-      console.error('Cancel error:', error);
+      logger.error(null, 'Cancel error:', error);
       setSaveStatus({ 
         type: 'error', 
         message: 'Failed to cancel subscription. Please try again.' 
@@ -899,7 +900,7 @@ const Account = ({ athleteId }) => {
         window.location.href = response.data.url;
       }
     } catch (error) {
-      console.error('Portal session error:', error);
+      logger.error(null, 'Portal session error:', error);
       setSaveStatus({ 
         type: 'error', 
         message: 'Failed to open payment management. Please try again.' 
@@ -938,7 +939,7 @@ const Account = ({ athleteId }) => {
         }, 1500);
       }
     } catch (error) {
-      console.error('Downgrade error:', error);
+      logger.error(null, 'Downgrade error:', error);
       setSaveStatus({ 
         type: 'error', 
         message: 'Failed to update subscription. Please try again.' 
@@ -960,7 +961,7 @@ const Account = ({ athleteId }) => {
         await loadSubscriptionStatus();
       }
     } catch (error) {
-      console.error('Reactivate error:', error);
+      logger.error(null, 'Reactivate error:', error);
       setSaveStatus({ 
         type: 'error', 
         message: 'Failed to reactivate subscription. Please try again.' 
@@ -996,7 +997,7 @@ const Account = ({ athleteId }) => {
         }, 1500);
       }
     } catch (error) {
-      console.error('Billing cycle change error:', error);
+      logger.error(null, 'Billing cycle change error:', error);
       setSaveStatus({ 
         type: 'error', 
         message: 'Failed to change billing cycle. Please try again.' 
@@ -1194,7 +1195,7 @@ const Account = ({ athleteId }) => {
         
         setIntegrations(integrationsState);
       } catch (error) {
-        console.error('Error loading integrations:', error);
+        logger.error(null, 'Error loading integrations:', error);
         // Set default values if loading fails
         setIntegrations({
           strava: { connected: false, athlete_name: '', last_sync: null },
@@ -1209,7 +1210,7 @@ const Account = ({ athleteId }) => {
       }
       
     } catch (error) {
-      console.error('Error loading account data:', error);
+      logger.error(null, 'Error loading account data:', error);
       setSaveStatus({ type: 'error', message: 'Failed to load account data' });
     } finally {
       setIsLoading(false);
@@ -1308,7 +1309,7 @@ const Account = ({ athleteId }) => {
         });
         setProfilePictureFile(compressedFile);
         
-        console.log('Compressed file:', {
+        logger.debug(null, 'Compressed file:', {
           name: compressedFile.name,
           type: compressedFile.type,
           size: compressedFile.size
@@ -1326,7 +1327,7 @@ const Account = ({ athleteId }) => {
           setSaveStatus({ type: '', message: '' });
         }, 1500);
       } catch (error) {
-        console.error('Error processing image:', error);
+        logger.error(null, 'Error processing image:', error);
         setSaveStatus({ type: 'error', message: error.message });
       }
     }
@@ -1336,7 +1337,7 @@ const Account = ({ athleteId }) => {
     if (!profilePictureFile || !athleteId) return null;
     
     try {
-      console.log('Uploading profile picture:', {
+      logger.debug(null, 'Uploading profile picture:', {
         fileName: profilePictureFile.name,
         fileType: profilePictureFile.type,
         fileSize: profilePictureFile.size,
@@ -1351,19 +1352,19 @@ const Account = ({ athleteId }) => {
         body: formData
       });
       
-      console.log('Upload response status:', response.status);
+      logger.debug(null, 'Upload response status:', response.status);
       
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Upload error response:', errorData);
+        logger.error(null, 'Upload error response:', errorData);
         throw new Error(errorData.detail || 'Failed to upload profile picture');
       }
       
       const result = await response.json();
-      console.log('Upload successful:', result);
+      logger.debug(null, 'Upload successful:', result);
       return result.profile_picture;
     } catch (error) {
-      console.error('Error uploading profile picture:', error);
+      logger.error(null, 'Error uploading profile picture:', error);
       throw error;
     }
   };
@@ -1388,7 +1389,7 @@ const Account = ({ athleteId }) => {
       const result = await response.json();
       return result.coach_avatar;
     } catch (error) {
-      console.error('Error uploading coach avatar:', error);
+      logger.error(null, 'Error uploading coach avatar:', error);
       throw error;
     }
   };
@@ -1413,7 +1414,7 @@ const Account = ({ athleteId }) => {
       const result = await response.json();
       return result.background_image;
     } catch (error) {
-      console.error('Error uploading background image:', error);
+      logger.error(null, 'Error uploading background image:', error);
       throw error;
     }
   };
@@ -1444,7 +1445,7 @@ const Account = ({ athleteId }) => {
           setSaveStatus({ type: '', message: '' });
         }, 1000);
       } catch (error) {
-        console.error('Error processing coach avatar:', error);
+        logger.error(null, 'Error processing coach avatar:', error);
         setSaveStatus({ type: 'error', message: 'Failed to process image. Please try a different image.' });
       }
     }
@@ -1476,7 +1477,7 @@ const Account = ({ athleteId }) => {
           setSaveStatus({ type: '', message: '' });
         }, 1000);
       } catch (error) {
-        console.error('Error processing background image:', error);
+        logger.error(null, 'Error processing background image:', error);
         setSaveStatus({ type: 'error', message: 'Failed to process image. Please try a different image.' });
       }
     }
@@ -1536,8 +1537,8 @@ const Account = ({ athleteId }) => {
       };
       
       // Debug logging
-      console.log('📤 Sending update data:', updatedData);
-      console.log('🔍 Boolean values:', {
+      logger.debug(null, '📤 Sending update data:', updatedData);
+      logger.debug(null, '🔍 Boolean values:', {
         share_bio: updatedData.share_bio,
         share_goals: updatedData.share_goals,
         share_interests: updatedData.share_interests
@@ -1568,9 +1569,9 @@ const Account = ({ athleteId }) => {
         detail: { athleteId, profilePictureUpdated: !!newProfilePicture }
       }));
     } catch (error) {
-      console.error('Error updating personal info:', error);
-      console.error('Error response:', error.response?.data);
-      console.error('Error status:', error.response?.status);
+      logger.error(null, 'Error updating personal info:', error);
+      logger.error(null, 'Error response:', error.response?.data);
+      logger.error(null, 'Error status:', error.response?.status);
       
       // Handle FastAPI validation errors - ALWAYS ensure string output
       let errorMsg = 'Failed to update personal information';
@@ -1597,7 +1598,7 @@ const Account = ({ athleteId }) => {
           errorMsg = String(error.message);
         }
       } catch (parseError) {
-        console.error('Error parsing error message:', parseError);
+        logger.error(null, 'Error parsing error message:', parseError);
         errorMsg = 'An error occurred while updating personal information';
       }
       
@@ -1690,7 +1691,7 @@ const Account = ({ athleteId }) => {
       setSaveStatus({ type: 'success', message: 'Preferences updated successfully!' });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
     } catch (error) {
-      console.error('Error updating preferences:', error);
+      logger.error(null, 'Error updating preferences:', error);
       setSaveStatus({ type: 'error', message: 'Failed to update preferences' });
     } finally {
       setIsLoading(false);
@@ -1710,7 +1711,7 @@ const Account = ({ athleteId }) => {
         setSaveStatus({ type: 'success', message: 'Push notifications disabled' });
       } else {
         // Subscribe - first ensure service worker is registered
-        console.log('Starting push notification subscription...');
+        logger.debug(null, 'Starting push notification subscription...');
         
         // Check if service worker is supported
         if (!('serviceWorker' in navigator)) {
@@ -1725,13 +1726,13 @@ const Account = ({ athleteId }) => {
         // Register service worker if not already registered
         let registration = await navigator.serviceWorker.getRegistration();
         if (!registration) {
-          console.log('Registering service worker...');
+          logger.debug(null, 'Registering service worker...');
           registration = await registerServiceWorker();
         }
-        console.log('Service worker ready:', registration);
+        logger.debug(null, 'Service worker ready:', registration);
         
         // Now request permission and subscribe
-        console.log('Requesting notification permission...');
+        logger.debug(null, 'Requesting notification permission...');
         await subscribeToPush(athleteId);
         
         setPushSubscribed(true);
@@ -1739,7 +1740,7 @@ const Account = ({ athleteId }) => {
       }
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 5000);
     } catch (error) {
-      console.error('Error toggling push notifications:', error);
+      logger.error(null, 'Error toggling push notifications:', error);
       let errorMessage = 'Failed to update push notifications';
       
       if (error.message === 'Notification permission denied') {
@@ -1770,7 +1771,7 @@ const Account = ({ athleteId }) => {
         window.location.href = response.data.authorization_url;
       }
     } catch (error) {
-      console.error(`Error connecting to ${providerKey}:`, error);
+      logger.error(null, `Error connecting to ${providerKey}:`, error);
       setSaveStatus({ 
         type: 'error', 
         message: `Failed to connect to ${providerKey}. Please ensure credentials are configured.` 
@@ -1796,7 +1797,7 @@ const Account = ({ athleteId }) => {
       setSaveStatus({ type: 'success', message: `${providerKey} disconnected successfully` });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
     } catch (error) {
-      console.error(`Error disconnecting ${providerKey}:`, error);
+      logger.error(null, `Error disconnecting ${providerKey}:`, error);
       setSaveStatus({ 
         type: 'error', 
         message: `Failed to disconnect ${providerKey}. Please try again.` 
@@ -1815,7 +1816,7 @@ const Account = ({ athleteId }) => {
       // Redirect to Strava authorization page
       window.location.href = response.data.authUrl;
     } catch (error) {
-      console.error('Error connecting to strava:', error);
+      logger.error(null, 'Error connecting to strava:', error);
       setSaveStatus({ 
         type: 'error', 
         message: error.response?.data?.detail || 'Failed to connect to Strava. Please check System Settings for API credentials.' 
@@ -1847,7 +1848,7 @@ const Account = ({ athleteId }) => {
       setSaveStatus({ type: 'success', message: `${integration.charAt(0).toUpperCase() + integration.slice(1)} disconnected successfully!` });
       setTimeout(() => setSaveStatus({ type: '', message: '' }), 3000);
     } catch (error) {
-      console.error(`Error disconnecting ${integration}:`, error);
+      logger.error(null, `Error disconnecting ${integration}:`, error);
       setSaveStatus({ type: 'error', message: `Failed to disconnect ${integration}` });
     }
   };
@@ -1879,7 +1880,7 @@ const Account = ({ athleteId }) => {
       // Reload integrations to update last sync time
       loadAccountData();
     } catch (error) {
-      console.error('Error syncing Strava activities:', error);
+      logger.error(null, 'Error syncing Strava activities:', error);
       setSaveStatus({ type: 'error', message: 'Failed to sync Strava activities' });
     }
   };
@@ -1911,7 +1912,7 @@ const Account = ({ athleteId }) => {
       // Reload integrations to update last sync time
       loadAccountData();
     } catch (error) {
-      console.error('Error syncing Oura data:', error);
+      logger.error(null, 'Error syncing Oura data:', error);
       setSaveStatus({ type: 'error', message: 'Failed to sync Oura data' });
     }
   };
@@ -1944,7 +1945,7 @@ const Account = ({ athleteId }) => {
       // Reload integrations to update last sync time
       loadAccountData();
     } catch (error) {
-      console.error(`Error syncing ${provider} data:`, error);
+      logger.error(null, `Error syncing ${provider} data:`, error);
       setSaveStatus({ type: 'error', message: `Failed to sync ${provider} data` });
     }
   };
@@ -1957,7 +1958,7 @@ const Account = ({ athleteId }) => {
         window.location.href = response.data.auth_url;
       }
     } catch (error) {
-      console.error('Error connecting to COROS:', error);
+      logger.error(null, 'Error connecting to COROS:', error);
       setSaveStatus({ type: 'error', message: 'Failed to connect to COROS' });
     }
   };
@@ -1975,7 +1976,7 @@ const Account = ({ athleteId }) => {
       // Reload integrations to update last sync time
       loadAccountData();
     } catch (error) {
-      console.error('Error syncing COROS data:', error);
+      logger.error(null, 'Error syncing COROS data:', error);
       setSaveStatus({ type: 'error', message: 'Failed to sync COROS data' });
     }
   };

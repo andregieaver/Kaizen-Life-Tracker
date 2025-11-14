@@ -1,3 +1,5 @@
+import { logger } from '../utils/logger';
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 /**
@@ -166,7 +168,7 @@ export const injectPageSEO = (pageData) => {
     }
   }
 
-  console.log('✅ Page SEO meta tags injected:', {
+  logger.debug(null, '✅ Page SEO meta tags injected:', {
     title: title,
     description: description,
     ogImage: ogImagePath ? `${BACKEND_URL}${ogImagePath}` : 'none',
@@ -188,11 +190,11 @@ export const loadAndInjectPageSEO = async (urlSlug) => {
       injectPageSEO(pageData);
       return pageData;
     } else {
-      console.log(`Page not found for slug: ${urlSlug}, using default SEO`);
+      logger.debug(null, `Page not found for slug: ${urlSlug}, using default SEO`);
       return null;
     }
   } catch (error) {
-    console.error('Error loading page SEO:', error);
+    logger.error(null, 'Error loading page SEO:', error);
     return null;
   }
 };

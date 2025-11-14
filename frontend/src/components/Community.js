@@ -13,6 +13,7 @@ import Picker from '@emoji-mart/react';
 import SubscriptionBadge from './SubscriptionBadge';
 import FlagIcon from './FlagIcon';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -373,7 +374,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       
       // If profile picture was updated and it's the current user, reload community data
       if (profilePictureUpdated && updatedAthleteId === athleteId) {
-        console.log('[Community] Profile picture updated, refreshing community data...');
+        logger.debug(null, '[Community] Profile picture updated, refreshing community data...');
         
         // Reload posts to show updated profile pictures
         if (activeTab === 'feed' && postsLoaded) {
@@ -444,22 +445,22 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setIsLoading(true);
       // Load 10 posts WITH compressed images
       const response = await axios.get(`${API}/community/feed/${athleteId}?limit=10`);
-      console.log('Posts loaded:', response.data);
-      console.log('First post full data:', JSON.stringify(response.data.posts?.[0], null, 2));
-      console.log('First post comments_count:', response.data.posts?.[0]?.comments_count);
+      logger.debug(null, 'Posts loaded:', response.data);
+      logger.debug(null, 'First post full data:', JSON.stringify(response.data.posts?.[0], null, 2));
+      logger.debug(null, 'First post comments_count:', response.data.posts?.[0]?.comments_count);
       
       if (response.data && response.data.posts) {
         setPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
       } else {
-        console.error('No posts in response:', response.data);
+        logger.error(null, 'No posts in response:', response.data);
         setPosts([]);
       }
       
       setPostsLoaded(true);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading posts:', error);
-      console.error('Error details:', error.response?.data);
+      logger.error(null, 'Error loading posts:', error);
+      logger.error(null, 'Error details:', error.response?.data);
       setPosts([]);
       setIsLoading(false);
     }
@@ -470,20 +471,20 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setIsLoading(true);
       // Load posts from people the user follows
       const response = await axios.get(`${API}/community/following-feed/${athleteId}?limit=10`);
-      console.log('Following posts loaded:', response.data);
+      logger.debug(null, 'Following posts loaded:', response.data);
       
       if (response.data && response.data.posts) {
         setFollowingPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
       } else {
-        console.error('No following posts in response:', response.data);
+        logger.error(null, 'No following posts in response:', response.data);
         setFollowingPosts([]);
       }
       
       setFollowingPostsLoaded(true);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading following posts:', error);
-      console.error('Error details:', error.response?.data);
+      logger.error(null, 'Error loading following posts:', error);
+      logger.error(null, 'Error details:', error.response?.data);
       setFollowingPosts([]);
       setIsLoading(false);
     }
@@ -522,7 +523,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setGroupsLoaded(true);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading groups:', error);
+      logger.error(null, 'Error loading groups:', error);
       setIsLoading(false);
     }
   };
@@ -535,7 +536,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setMyGroupsLoaded(true);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading my groups:', error);
+      logger.error(null, 'Error loading my groups:', error);
       setIsLoading(false);
     }
   };
@@ -551,7 +552,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       }
       setNotificationsLoaded(true);
     } catch (error) {
-      console.error('Error loading notifications:', error);
+      logger.error(null, 'Error loading notifications:', error);
     }
   };
 
@@ -585,7 +586,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setProfileData(response.data);
       setShowProfile(true);
     } catch (error) {
-      console.error('Error loading profile:', error);
+      logger.error(null, 'Error loading profile:', error);
       alert(t('community.messages.failedToLoadProfile'));
     } finally {
       setProfileLoading(false);
@@ -601,7 +602,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         followers_count: response.data.followers_count
       });
     } catch (error) {
-      console.error('Error toggling follow:', error);
+      logger.error(null, 'Error toggling follow:', error);
     }
   };
 
@@ -612,7 +613,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       const response = await axios.get(`${API}/community/athletes?viewer_athlete_id=${athleteId}&search=${searchQuery}`);
       setAthletes(response.data.athletes);
     } catch (error) {
-      console.error('Error loading athletes:', error);
+      logger.error(null, 'Error loading athletes:', error);
     } finally {
       setAthletesLoading(false);
     }
@@ -628,7 +629,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           : athlete
       ));
     } catch (error) {
-      console.error('Error toggling follow:', error);
+      logger.error(null, 'Error toggling follow:', error);
     }
   };
 
@@ -653,7 +654,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         setNewPostImage(compressed);
         setNewPostImagePreview(compressed);
       } catch (error) {
-        console.error('Error compressing image:', error);
+        logger.error(null, 'Error compressing image:', error);
         alert(t('community.messages.failedToProcessImage'));
       }
     }
@@ -737,7 +738,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
       setSelectedMedia(prev => [...prev, ...newMedia]);
     } catch (error) {
-      console.error('Error uploading media:', error);
+      logger.error(null, 'Error uploading media:', error);
       alert(`Failed to upload media: ${error.response?.data?.detail || error.message}`);
     } finally {
       setIsUploadingMedia(false);
@@ -847,7 +848,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
       setEditMedia(prev => [...prev, ...newMedia]);
     } catch (error) {
-      console.error('Error uploading edit media:', error);
+      logger.error(null, 'Error uploading edit media:', error);
       alert(`Failed to upload: ${error.response?.data?.detail || error.message}`);
     } finally {
       setIsUploadingEditMedia(false);
@@ -878,7 +879,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       const response = await axios.get(`${API}/community/athletes/search?q=${searchText}`);
       setMentionResults(response.data.athletes || []);
     } catch (error) {
-      console.error('Error searching athletes:', error);
+      logger.error(null, 'Error searching athletes:', error);
       setMentionResults([]);
     }
   };
@@ -1047,7 +1048,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setPostsLoaded(false); // Reset cache to reload posts
       loadPosts();
     } catch (error) {
-      console.error('Error creating post:', error);
+      logger.error(null, 'Error creating post:', error);
       alert('Failed to create post');
     }
   };
@@ -1077,7 +1078,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           setYoutubePreview(response.data);
           urlToRemove = youtubeMatch[0];
         } catch (error) {
-          console.error('Error fetching YouTube metadata:', error);
+          logger.error(null, 'Error fetching YouTube metadata:', error);
         }
       }
       
@@ -1092,7 +1093,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             setUrlPreview(response.data);
             urlToRemove = nonYoutubeUrl;
           } catch (error) {
-            console.error('Error fetching URL preview:', error);
+            logger.error(null, 'Error fetching URL preview:', error);
           }
         }
       }
@@ -1167,7 +1168,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         loadFollowingPosts();
       }
     } catch (error) {
-      console.error('Error creating post:', error);
+      logger.error(null, 'Error creating post:', error);
       alert(`Failed to create post: ${error.response?.data?.detail || error.message}`);
     }
   };
@@ -1181,7 +1182,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setWritePostImage(compressed);
       setWritePostImagePreview(URL.createObjectURL(file));
     } catch (error) {
-      console.error('Error processing image:', error);
+      logger.error(null, 'Error processing image:', error);
       alert('Failed to process image');
     }
   };
@@ -1215,7 +1216,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       loadPosts();
       loadFollowingPosts();
     } catch (error) {
-      console.error('Error editing post:', error);
+      logger.error(null, 'Error editing post:', error);
       alert('Failed to edit post');
     }
   };
@@ -1236,7 +1237,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           loadPosts();
           loadFollowingPosts();
         } catch (error) {
-          console.error('Error deleting post:', error);
+          logger.error(null, 'Error deleting post:', error);
           alert('Failed to delete post');
         }
       }
@@ -1262,7 +1263,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           : post
       ));
     } catch (error) {
-      console.error('Error toggling like:', error);
+      logger.error(null, 'Error toggling like:', error);
     }
   };
 
@@ -1279,8 +1280,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         content: content
       });
 
-      console.log('Comment added, backend response:', response.data);
-      console.log('Updated comments_count from backend:', response.data.comments_count);
+      logger.debug(null, 'Comment added, backend response:', response.data);
+      logger.debug(null, 'Updated comments_count from backend:', response.data.comments_count);
 
       // Reload comments
       const commentsResponse = await axios.get(`${API}/community/posts/${targetPostId}/comments`);
@@ -1288,7 +1289,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       // Update posts with new comments and count - USING FUNCTIONAL UPDATE
       setPosts(currentPosts => currentPosts.map(post => {
         if (post.id === targetPostId) {
-          console.log('Updating post in feed, old count:', post.comments_count, 'new count:', response.data.comments_count);
+          logger.debug(null, 'Updating post in feed, old count:', post.comments_count, 'new count:', response.data.comments_count);
           return { ...post, comments: commentsResponse.data.comments, comments_count: response.data.comments_count };
         }
         return post;
@@ -1314,7 +1315,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       // Clear comment text
       setCommentText({ ...commentText, [targetPostId]: '' });
     } catch (error) {
-      console.error('Error adding comment:', error);
+      logger.error(null, 'Error adding comment:', error);
       alert('Failed to add comment');
     }
   };
@@ -1350,7 +1351,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             });
           }
         } catch (error) {
-          console.error('Error deleting comment:', error);
+          logger.error(null, 'Error deleting comment:', error);
           alert('Failed to delete comment');
         }
       }
@@ -1397,7 +1398,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             });
           }
         } catch (error) {
-          console.error('Error deleting event comment:', error);
+          logger.error(null, 'Error deleting event comment:', error);
           alert('Failed to delete event comment');
         }
       }
@@ -1450,7 +1451,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       // Clear comment text
       setCommentText({ ...commentText, [targetEventId]: '' });
     } catch (error) {
-      console.error('Error adding event comment:', error);
+      logger.error(null, 'Error adding event comment:', error);
       alert('Failed to add comment');
     }
   };
@@ -1471,7 +1472,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         event.comments = response.data.comments;
         event.comments_count = response.data.comments.length;
       } catch (error) {
-        console.error('Error loading event comments:', error);
+        logger.error(null, 'Error loading event comments:', error);
       }
     }
     
@@ -1489,7 +1490,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           : post
       ));
     } catch (error) {
-      console.error('Error loading comments:', error);
+      logger.error(null, 'Error loading comments:', error);
     }
   };
 
@@ -1538,7 +1539,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       
       alert('Post shared successfully!');
     } catch (error) {
-      console.error('Error sharing post:', error);
+      logger.error(null, 'Error sharing post:', error);
       alert('Failed to share post');
     }
   };
@@ -1573,7 +1574,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         post.comments = response.data.comments;
         post.comments_count = response.data.comments.length;
       } catch (error) {
-        console.error('Error loading comments:', error);
+        logger.error(null, 'Error loading comments:', error);
       }
     }
     
@@ -1615,7 +1616,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }));
       }
     } catch (error) {
-      console.error('Error toggling comment like:', error);
+      logger.error(null, 'Error toggling comment like:', error);
       alert('Failed to like/unlike comment. Please try again.');
     }
   };
@@ -1636,7 +1637,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       ));
       setUnreadCount(Math.max(0, unreadCount - 1));
     } catch (error) {
-      console.error('Error marking notification as read:', error);
+      logger.error(null, 'Error marking notification as read:', error);
     }
   };
 
@@ -1677,7 +1678,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           }
         }
       } catch (error) {
-        console.error('Error loading post from notification:', error);
+        logger.error(null, 'Error loading post from notification:', error);
         alert('Could not load the post');
       }
     } else if (notification.post_id) {
@@ -1696,7 +1697,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           setPosts([{ ...post, type: 'post' }, ...posts]);
         }
       } catch (error) {
-        console.error('Error loading post:', error);
+        logger.error(null, 'Error loading post:', error);
       }
     }
   };
@@ -1716,7 +1717,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setGroupsLoaded(false); // Reset cache
       loadMyGroups();
     } catch (error) {
-      console.error('Error creating group:', error);
+      logger.error(null, 'Error creating group:', error);
       alert('Failed to create group');
     }
   };
@@ -1733,7 +1734,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setShowEditGroup(false);
       loadGroupDetails(selectedGroup.id); // Reload group to show updates
     } catch (error) {
-      console.error('Error editing group:', error);
+      logger.error(null, 'Error editing group:', error);
       if (error.response?.status === 403) {
         alert('Only group admins can edit groups');
       } else {
@@ -1759,7 +1760,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       loadGroups();
       loadMyGroups();
     } catch (error) {
-      console.error('Error deleting group:', error);
+      logger.error(null, 'Error deleting group:', error);
       if (error.response?.status === 403) {
         alert('Only group admins and super admins can delete groups');
       } else {
@@ -1796,7 +1797,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       alert(response.data.message);
       loadAllGroups();
     } catch (error) {
-      console.error('Error joining group:', error);
+      logger.error(null, 'Error joining group:', error);
       alert(error.response?.data?.detail || 'Failed to join group');
     }
   };
@@ -1817,7 +1818,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setJoiningGroup(null);
       loadAllGroups();
     } catch (error) {
-      console.error('Error joining group:', error);
+      logger.error(null, 'Error joining group:', error);
       alert(error.response?.data?.detail || 'Failed to join group');
     }
   };
@@ -1830,7 +1831,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setSelectedGroup(null);
       loadMyGroups();
     } catch (error) {
-      console.error('Error leaving group:', error);
+      logger.error(null, 'Error leaving group:', error);
       alert(error.response?.data?.message || 'Failed to leave group');
     }
   };
@@ -1844,7 +1845,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setSelectedGroup(groupResponse.data);
       setGroupPosts(postsResponse.data.posts);
     } catch (error) {
-      console.error('Error loading group details:', error);
+      logger.error(null, 'Error loading group details:', error);
       alert('Failed to load group');
     }
   };
@@ -1862,7 +1863,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setNewPostImagePreview(null);
       loadGroupDetails(selectedGroup.id);
     } catch (error) {
-      console.error('Error creating group post:', error);
+      logger.error(null, 'Error creating group post:', error);
       alert('Failed to create post');
     }
   };
@@ -1877,7 +1878,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setEventsLoaded(true);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading events:', error);
+      logger.error(null, 'Error loading events:', error);
       setIsLoading(false);
     }
   };
@@ -1898,7 +1899,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setEventsLoaded(false); // Reset cache
       loadEvents();
     } catch (error) {
-      console.error('Error creating event:', error);
+      logger.error(null, 'Error creating event:', error);
       alert('Failed to create event');
     }
   };
@@ -1916,7 +1917,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       loadEvents();
       setSelectedEvent(null);
     } catch (error) {
-      console.error('Error editing event:', error);
+      logger.error(null, 'Error editing event:', error);
       alert(error.response?.data?.detail || 'Failed to edit event');
     }
   };
@@ -1929,7 +1930,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setEventsLoaded(false); // Reset cache
       loadEvents();
     } catch (error) {
-      console.error('Error deleting event:', error);
+      logger.error(null, 'Error deleting event:', error);
       alert('Failed to delete event');
     }
   };
@@ -1945,15 +1946,15 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setChallengesLoaded(true);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading challenges:', error);
+      logger.error(null, 'Error loading challenges:', error);
       setIsLoading(false);
     }
   };
 
   const handleCreateChallenge = async () => {
-    console.log('🔍 DEBUG: handleCreateChallenge called');
-    console.log('🔍 DEBUG: athleteId:', athleteId);
-    console.log('🔍 DEBUG: newChallengeData:', JSON.stringify(newChallengeData, null, 2));
+    logger.debug(null, '🔍 DEBUG: handleCreateChallenge called');
+    logger.debug(null, '🔍 DEBUG: athleteId:', athleteId);
+    logger.debug(null, '🔍 DEBUG: newChallengeData:', JSON.stringify(newChallengeData, null, 2));
     
     if (!newChallengeData.title.trim()) {
       alert('Challenge title is required');
@@ -1968,12 +1969,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       return;
     }
 
-    console.log('🔍 DEBUG: Validation passed, sending request to:', `${API}/community/challenges?athlete_id=${athleteId}`);
-    console.log('🔍 DEBUG: Request payload:', newChallengeData);
+    logger.debug(null, '🔍 DEBUG: Validation passed, sending request to:', `${API}/community/challenges?athlete_id=${athleteId}`);
+    logger.debug(null, '🔍 DEBUG: Request payload:', newChallengeData);
 
     try {
       const response = await axios.post(`${API}/community/challenges?athlete_id=${athleteId}`, newChallengeData);
-      console.log('✅ DEBUG: Challenge created successfully:', response.data);
+      logger.debug(null, '✅ DEBUG: Challenge created successfully:', response.data);
       setShowCreateChallenge(false);
       setNewChallengeData({
         title: '', description: '', challenge_type: 'distance', goal_value: '', goal_unit: 'km',
@@ -1983,10 +1984,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setChallengesLoaded(false);
       loadChallenges(challengeFilter);
     } catch (error) {
-      console.error('❌ DEBUG: Error creating challenge:', error);
-      console.error('❌ DEBUG: Error response:', error.response?.data);
-      console.error('❌ DEBUG: Error status:', error.response?.status);
-      console.error('❌ DEBUG: Error headers:', error.response?.headers);
+      logger.error(null, '❌ DEBUG: Error creating challenge:', error);
+      logger.error(null, '❌ DEBUG: Error response:', error.response?.data);
+      logger.error(null, '❌ DEBUG: Error status:', error.response?.status);
+      logger.error(null, '❌ DEBUG: Error headers:', error.response?.headers);
       alert(`Failed to create challenge: ${error.response?.data?.detail || error.message}`);
     }
   };
@@ -2015,17 +2016,17 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         handleOpenChallengeDetail(editChallengeData.id);
       }
     } catch (error) {
-      console.error('Error editing challenge:', error);
+      logger.error(null, 'Error editing challenge:', error);
       alert('Failed to edit challenge');
     }
   };
 
   const handleJoinChallenge = async (challengeId) => {
-    console.log('🔍 DEBUG: Joining challenge:', challengeId);
-    console.log('🔍 DEBUG: AthleteId:', athleteId);
+    logger.debug(null, '🔍 DEBUG: Joining challenge:', challengeId);
+    logger.debug(null, '🔍 DEBUG: AthleteId:', athleteId);
     try {
       const response = await axios.post(`${API}/community/challenges/${challengeId}/join?athlete_id=${athleteId}`);
-      console.log('✅ DEBUG: Successfully joined challenge:', response.data);
+      logger.debug(null, '✅ DEBUG: Successfully joined challenge:', response.data);
       alert('Successfully joined challenge!');
       setChallengesLoaded(false);
       loadChallenges(challengeFilter);
@@ -2033,8 +2034,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         handleOpenChallengeDetail(challengeId);
       }
     } catch (error) {
-      console.error('❌ DEBUG: Error joining challenge:', error);
-      console.error('❌ DEBUG: Error response:', error.response?.data);
+      logger.error(null, '❌ DEBUG: Error joining challenge:', error);
+      logger.error(null, '❌ DEBUG: Error response:', error.response?.data);
       alert(error.response?.data?.detail || 'Failed to join challenge');
     }
   };
@@ -2042,11 +2043,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   const handleLeaveChallenge = async (challengeId) => {
     if (!window.confirm('Are you sure you want to leave this challenge?')) return;
 
-    console.log('🔍 DEBUG: Leaving challenge:', challengeId);
-    console.log('🔍 DEBUG: AthleteId:', athleteId);
+    logger.debug(null, '🔍 DEBUG: Leaving challenge:', challengeId);
+    logger.debug(null, '🔍 DEBUG: AthleteId:', athleteId);
     try {
       const response = await axios.post(`${API}/community/challenges/${challengeId}/leave?athlete_id=${athleteId}`);
-      console.log('✅ DEBUG: Successfully left challenge:', response.data);
+      logger.debug(null, '✅ DEBUG: Successfully left challenge:', response.data);
       alert('Successfully left challenge!');
       setChallengesLoaded(false);
       loadChallenges(challengeFilter);
@@ -2054,8 +2055,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         handleOpenChallengeDetail(challengeId);
       }
     } catch (error) {
-      console.error('❌ DEBUG: Error leaving challenge:', error);
-      console.error('❌ DEBUG: Error response:', error.response?.data);
+      logger.error(null, '❌ DEBUG: Error leaving challenge:', error);
+      logger.error(null, '❌ DEBUG: Error response:', error.response?.data);
       alert('Failed to leave challenge');
     }
   };
@@ -2069,7 +2070,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       loadChallenges(challengeFilter);
       setShowChallengeDetail(false);
     } catch (error) {
-      console.error('Error deleting challenge:', error);
+      logger.error(null, 'Error deleting challenge:', error);
       alert('Failed to delete challenge');
     }
   };
@@ -2085,13 +2086,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         const commentsResponse = await axios.get(`${API}/community/challenges/${challengeId}/comments`);
         response.data.comments = commentsResponse.data.comments;
       } catch (commentError) {
-        console.error('Error loading challenge comments:', commentError);
+        logger.error(null, 'Error loading challenge comments:', commentError);
         response.data.comments = [];
       }
       
       setChallengeDetailData(response.data);
     } catch (error) {
-      console.error('Error loading challenge details:', error);
+      logger.error(null, 'Error loading challenge details:', error);
       alert('Failed to load challenge details');
       setShowChallengeDetail(false);
     } finally {
@@ -2109,7 +2110,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       // Reload challenge details to show new comment
       handleOpenChallengeDetail(challengeId);
     } catch (error) {
-      console.error('Error adding challenge comment:', error);
+      logger.error(null, 'Error adding challenge comment:', error);
       alert('Failed to add comment');
     }
   };
@@ -2126,13 +2127,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         const commentsResponse = await axios.get(`${API}/community/events/${eventId}/comments`);
         response.data.comments = commentsResponse.data.comments;
       } catch (commentError) {
-        console.error('Error loading event comments:', commentError);
+        logger.error(null, 'Error loading event comments:', commentError);
         response.data.comments = []; // Set empty array if comments fail to load
       }
       
       setEventDetailData(response.data);
     } catch (error) {
-      console.error('Error loading event details:', error);
+      logger.error(null, 'Error loading event details:', error);
       alert('Failed to load event details');
       setShowEventDetail(false);
     } finally {
@@ -2180,7 +2181,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         await handleOpenEventDetail(eventId);
       }
     } catch (error) {
-      console.error('Error RSVP:', error);
+      logger.error(null, 'Error RSVP:', error);
       alert('Failed to RSVP');
     }
   };
@@ -2642,7 +2643,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                           
                           {/* Display media (images and videos) */}
                           {(() => {
-                            console.log('🔍 Post media check:', {
+                            logger.debug(null, '🔍 Post media check:', {
                               postId: post.id,
                               hasMedia: !!post.media,
                               mediaLength: post.media?.length,
@@ -4783,7 +4784,7 @@ const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
           : await compressBannerImage(file);
         setGroupData({ ...groupData, [type]: compressed });
       } catch (error) {
-        console.error('Error compressing image:', error);
+        logger.error(null, 'Error compressing image:', error);
         alert(t('community.messages.failedToProcessImage'));
       }
     }
@@ -4949,7 +4950,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
           : await compressBannerImage(file);
         setGroupData({ ...groupData, [type]: compressed });
       } catch (error) {
-        console.error('Error compressing image:', error);
+        logger.error(null, 'Error compressing image:', error);
         alert(t('community.messages.failedToProcessImage'));
       }
     }
@@ -5161,7 +5162,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
       const response = await axios.get(`${API}/community/user/${profile.id}/posts?viewer_athlete_id=${athleteId}&limit=20`);
       setUserPosts(response.data.posts || []);
     } catch (error) {
-      console.error('Error loading user posts:', error);
+      logger.error(null, 'Error loading user posts:', error);
     } finally {
       setPostsLoading(false);
     }
@@ -5564,7 +5565,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                         });
                         window.location.reload(); // Reload to show updated member list
                       } catch (error) {
-                        console.error('Error approving member:', error);
+                        logger.error(null, 'Error approving member:', error);
                         alert('Failed to approve member');
                       }
                     }}
@@ -5581,7 +5582,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                         });
                         window.location.reload(); // Reload to show updated list
                       } catch (error) {
-                        console.error('Error rejecting member:', error);
+                        logger.error(null, 'Error rejecting member:', error);
                         alert('Failed to reject member');
                       }
                     }}
@@ -5664,7 +5665,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                           });
                           window.location.reload();
                         } catch (error) {
-                          console.error('Error changing role:', error);
+                          logger.error(null, 'Error changing role:', error);
                           alert(error.response?.data?.detail || 'Failed to change role');
                         }
                       }}
@@ -5788,7 +5789,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               <div className="flex items-center space-x-2 text-gray-400">
                 <MessageCircle className="w-5 h-5" />
                 <span key={`comment-count-${post.id}-${post.comments_count}`}>
-                  {console.log(`[Group Posts] Rendering comment count for post ${post.id}:`, post.comments_count) || (post.comments_count || 0)}
+                  {logger.debug(null, `[Group Posts] Rendering comment count for post ${post.id}:`, post.comments_count) || (post.comments_count || 0)}
                 </span>
               </div>
               <div className="flex items-center space-x-2 text-gray-400">
@@ -5973,7 +5974,7 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
         const response = await axios.get(`${API}/community/groups/${groupId}`);
         setGroup(response.data);
       } catch (error) {
-        console.error('Error loading group rules:', error);
+        logger.error(null, 'Error loading group rules:', error);
       } finally {
         setLoading(false);
       }
@@ -6061,7 +6062,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
   const hasJoined = challenge.has_joined;
   
   // Debug logging
-  console.log('🔍 ChallengeCard DEBUG:', {
+  logger.debug(null, '🔍 ChallengeCard DEBUG:', {
     challengeTitle: challenge.title,
     athleteId,
     creatorId: challenge.creator_id,
@@ -6342,7 +6343,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
         const compressed = await compressBannerImage(file);
         setChallengeData({ ...challengeData, cover_photo: compressed });
       } catch (error) {
-        console.error('Error compressing image:', error);
+        logger.error(null, 'Error compressing image:', error);
         alert(t('community.messages.failedToProcessImage'));
       }
     }
@@ -6557,7 +6558,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                         const compressed = await compressBannerImage(file);
                         setChallengeData({ ...challengeData, trophy_image: compressed });
                       } catch (error) {
-                        console.error('Error compressing trophy image:', error);
+                        logger.error(null, 'Error compressing trophy image:', error);
                         alert('Failed to process trophy image');
                       }
                     }
@@ -6893,7 +6894,7 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
         const compressed = await compressBannerImage(file);
         setChallengeData({ ...challengeData, [type]: compressed });
       } catch (error) {
-        console.error('Error compressing image:', error);
+        logger.error(null, 'Error compressing image:', error);
         alert(t('community.messages.failedToProcessImage'));
       }
     }
@@ -7033,7 +7034,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
           : await compressBannerImage(file);
         setEventData({ ...eventData, [type]: compressed });
       } catch (error) {
-        console.error('Error compressing image:', error);
+        logger.error(null, 'Error compressing image:', error);
         alert(t('community.messages.failedToProcessImage'));
       }
     }
@@ -7212,7 +7213,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
           : await compressBannerImage(file);
         setEventData({ ...eventData, [type]: compressed });
       } catch (error) {
-        console.error('Error compressing image:', error);
+        logger.error(null, 'Error compressing image:', error);
         alert(t('community.messages.failedToProcessImage'));
       }
     }

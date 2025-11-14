@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import * as LucideIcons from 'lucide-react';
 
+import { logger } from '../utils/logger';
 // Import commonly used icons explicitly for the fallback
 import {
   Home, User, Settings, Menu, Search, Bell, Heart, Star,
@@ -54,8 +55,8 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
   // Get all available Lucide icons (exclude React components that aren't icons)
   const availableIcons = useMemo(() => {
     try {
-      console.log('Loading Lucide icons...');
-      console.log('Total LucideIcons keys:', Object.keys(LucideIcons).length);
+      logger.debug(null, 'Loading Lucide icons...');
+      logger.debug(null, 'Total LucideIcons keys:', Object.keys(LucideIcons).length);
       
       // Exclude these non-icon exports
       const excludeList = new Set([
@@ -86,18 +87,18 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
         })
         .sort();
 
-      console.log('Available icons loaded:', iconNames.length);
-      console.log('Sample icons:', iconNames.slice(0, 20));
+      logger.debug(null, 'Available icons loaded:', iconNames.length);
+      logger.debug(null, 'Sample icons:', iconNames.slice(0, 20));
       
       // Return all icons if we have a good amount, otherwise use fallback
       if (iconNames.length > 50) {
         return iconNames;
       }
       
-      console.warn('Not enough icons found, using fallback list');
+      logger.warn(null, 'Not enough icons found, using fallback list');
       return FALLBACK_ICONS;
     } catch (error) {
-      console.error('Error loading icons:', error);
+      logger.error(null, 'Error loading icons:', error);
       return FALLBACK_ICONS;
     }
   }, []);
@@ -160,7 +161,7 @@ const IconPicker = ({ isOpen, onClose, onSelect, currentIcon }) => {
               
               // Debug first render
               if (iconName === 'Home') {
-                console.log('Home icon:', IconComponent, typeof IconComponent);
+                logger.debug(null, 'Home icon:', IconComponent, typeof IconComponent);
               }
               
               return (

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { formatDate as formatDateUtil } from '../utils/formatters';
 
+import { logger } from '../utils/logger';
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 const Today = ({ athleteId }) => {
@@ -119,7 +120,7 @@ const Today = ({ athleteId }) => {
       });
       setHabitCompletions(completionsMap);
     } catch (error) {
-      console.error('Error loading habits:', error);
+      logger.error(null, 'Error loading habits:', error);
     }
   };
 
@@ -137,7 +138,7 @@ const Today = ({ athleteId }) => {
       });
       await loadHabits();
     } catch (error) {
-      console.error('Error logging habit completion:', error);
+      logger.error(null, 'Error logging habit completion:', error);
     }
   };
 
@@ -149,7 +150,7 @@ const Today = ({ athleteId }) => {
       });
       await loadHabits();
     } catch (error) {
-      console.error('Error undoing habit completion:', error);
+      logger.error(null, 'Error undoing habit completion:', error);
     }
   };
 

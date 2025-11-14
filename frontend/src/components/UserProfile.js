@@ -21,6 +21,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -47,7 +48,7 @@ const UserProfile = ({ athleteId }) => {
       });
       setUserData(response.data);
     } catch (error) {
-      console.error('Error fetching user profile:', error);
+      logger.error(null, 'Error fetching user profile:', error);
       setError('Failed to load user profile');
     } finally {
       setIsLoading(false);

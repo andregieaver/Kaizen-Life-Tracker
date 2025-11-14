@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { ArrowLeft, LogIn, Eye, EyeOff } from 'lucide-react';
 import { track, setUserId, forms } from '../lib/analytics';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -65,7 +66,7 @@ const Login = ({ onAthleteLogin }) => {
             navigate('/dashboard');
           }
         } catch (error) {
-          console.error('Google auth error:', error);
+          logger.error(null, 'Google auth error:', error);
           track('login_error', { 
             method: 'google',
             error_message: 'Google authentication failed'
@@ -118,7 +119,7 @@ const Login = ({ onAthleteLogin }) => {
         navigate('/dashboard');
       }
     } catch (error) {
-      console.error('Login error:', error);
+      logger.error(null, 'Login error:', error);
       
       const errorMessage = error.response?.status === 401 
         ? 'Invalid credentials' 

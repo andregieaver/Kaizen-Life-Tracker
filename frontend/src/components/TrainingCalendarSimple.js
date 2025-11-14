@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { Calendar as CalendarIcon, Plus } from 'lucide-react';
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
+import { logger } from '../utils/logger';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -32,7 +33,7 @@ const TrainingCalendar = ({ athleteId }) => {
       const response = await axios.get(`${API}/training-calendar/${athleteId}`);
       setTrainingBlocks(response.data.blocks || []);
     } catch (error) {
-      console.error('Error loading training blocks:', error);
+      logger.error(null, 'Error loading training blocks:', error);
       setTrainingBlocks([]);
     } finally {
       setIsLoading(false);

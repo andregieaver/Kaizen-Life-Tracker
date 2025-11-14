@@ -6,6 +6,7 @@ import axios from 'axios';
 import { loadAndInjectPageSEO } from '../utils/seoUtils';
 import HtmlRenderer from '../utils/HtmlRenderer';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const PrivacyPolicy = () => {
@@ -26,10 +27,10 @@ const PrivacyPolicy = () => {
         const pagesResponse = await axios.get(`${BACKEND_URL}/api/pages/public/by-slug?slug=/privacy-policy`);
         if (pagesResponse.data) {
           setPageData(pagesResponse.data);
-          console.log('Privacy page data:', pagesResponse.data);
+          logger.debug(null, 'Privacy page data:', pagesResponse.data);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        logger.error(null, 'Error fetching data:', error);
         // If page not found in CMS, we'll use hard-coded content
       } finally {
         setLoading(false);

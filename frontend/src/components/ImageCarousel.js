@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, X, Maximize2, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
   // Get backend URL from environment
   const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
@@ -26,7 +27,7 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
     : images.map(url => ({ type: 'image', url: normalizeUrl(url) }));
   
   // Debug logging
-  console.log('🔍 ImageCarousel received:', { 
+  logger.debug(null, '🔍 ImageCarousel received:', { 
     images, 
     media, 
     mediaItems,
@@ -53,11 +54,11 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
 
   // Early return if no media
   if (!mediaItems || mediaItems.length === 0) {
-    console.log('❌ ImageCarousel: No media items to display');
+    logger.debug(null, '❌ ImageCarousel: No media items to display');
     return null;
   }
   
-  console.log('✅ ImageCarousel: Rendering', mediaItems.length, 'items');
+  logger.debug(null, '✅ ImageCarousel: Rendering', mediaItems.length, 'items');
 
   // Handle keyboard navigation
   useEffect(() => {
@@ -105,7 +106,7 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
             videoElement.play().then(() => {
               setVideoPlaying(true);
             }).catch((error) => {
-              console.log('Auto-play prevented:', error);
+              logger.debug(null, 'Auto-play prevented:', error);
               setVideoPlaying(false);
             });
           } else {
@@ -326,8 +327,8 @@ const ImageCarousel = ({ images = [], media = [], alt = "Media" }) => {
                   }}
                   onClick={() => !inFullscreen && setIsFullscreen(true)}
                   onError={(e) => {
-                    console.error('❌ Image failed to load:', item.url);
-                    console.error('Error details:', e);
+                    logger.error(null, '❌ Image failed to load:', item.url);
+                    logger.error(null, 'Error details:', e);
                   }}
                 />
               )}

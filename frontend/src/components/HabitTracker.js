@@ -7,6 +7,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Plus, X, Edit3, Trash2, Check, Flame } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -46,7 +47,7 @@ const HabitTracker = ({ athleteId }) => {
       const response = await axios.get(`${API}/habits/${athleteId}`);
       setHabits(response.data.habits || []);
     } catch (error) {
-      console.error('Error loading habits:', error);
+      logger.error(null, 'Error loading habits:', error);
     }
   };
 
@@ -73,7 +74,7 @@ const HabitTracker = ({ athleteId }) => {
       
       setCompletions(completionsMap);
     } catch (error) {
-      console.error('Error loading completions:', error);
+      logger.error(null, 'Error loading completions:', error);
     }
   };
 
@@ -137,7 +138,7 @@ const HabitTracker = ({ athleteId }) => {
       await loadHabits();
       closeModal();
     } catch (error) {
-      console.error('Error saving habit:', error);
+      logger.error(null, 'Error saving habit:', error);
       alert('Failed to save habit');
     } finally {
       setIsLoading(false);
@@ -154,7 +155,7 @@ const HabitTracker = ({ athleteId }) => {
       await loadHabits();
       await loadCompletions();
     } catch (error) {
-      console.error('Error deleting habit:', error);
+      logger.error(null, 'Error deleting habit:', error);
       alert('Failed to delete habit');
     }
   };
@@ -166,7 +167,7 @@ const HabitTracker = ({ athleteId }) => {
       });
       await loadCompletions();
     } catch (error) {
-      console.error('Error logging completion:', error);
+      logger.error(null, 'Error logging completion:', error);
     }
   };
 
@@ -177,7 +178,7 @@ const HabitTracker = ({ athleteId }) => {
       });
       await loadCompletions();
     } catch (error) {
-      console.error('Error undoing completion:', error);
+      logger.error(null, 'Error undoing completion:', error);
     }
   };
 

@@ -17,6 +17,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './TrainingCalendar.css';
 import { formatDistance, formatPace, getDistanceUnitLabel, convertDistanceUnits } from '../utils/formatters';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -285,7 +286,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
       const response = await axios.get(`${API}/training-calendar/${athleteId}`);
       setTrainingBlocks(response.data.blocks || []);
     } catch (error) {
-      console.error('Error loading training blocks:', error);
+      logger.error(null, 'Error loading training blocks:', error);
       setTrainingBlocks([]);
     } finally {
       setIsLoading(false);
@@ -299,7 +300,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
       const response = await axios.get(`${API}/training-calendar/${athleteId}/weekly-summary?year=${year}&week=${week}`);
       setWeeklySummary(response.data);
     } catch (error) {
-      console.error('Error loading weekly summary:', error);
+      logger.error(null, 'Error loading weekly summary:', error);
       setWeeklySummary(null);
     }
   };
@@ -356,7 +357,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
         await loadTrainingBlocks();
         await loadWeeklySummary();
       } catch (error) {
-        console.error('Error deleting training block:', error);
+        logger.error(null, 'Error deleting training block:', error);
       }
     }
   };
@@ -403,7 +404,7 @@ const TrainingCalendar = ({ athleteId, athletePreferences }) => {
         unit_system: distanceUnit
       });
     } catch (error) {
-      console.error('Error saving training block:', error);
+      logger.error(null, 'Error saving training block:', error);
     }
   };
 

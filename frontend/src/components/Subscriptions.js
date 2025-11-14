@@ -20,6 +20,7 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -56,7 +57,7 @@ const Subscriptions = ({ athleteId }) => {
       });
       setSubscriptions(response.data.subscriptions || []);
     } catch (error) {
-      console.error('Error fetching subscriptions:', error);
+      logger.error(null, 'Error fetching subscriptions:', error);
     } finally {
       setIsLoading(false);
     }

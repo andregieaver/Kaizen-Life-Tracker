@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Eye, EyeOff } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -68,7 +69,7 @@ const OnboardingForm = ({ onAthleteCreated }) => {
             navigate('/dashboard');
           }
         } catch (error) {
-          console.error('Google auth error:', error);
+          logger.error(null, 'Google auth error:', error);
           setErrors({ submit: 'Google authentication failed. Please try again.' });
           setIsLoading(false);
         }
@@ -139,16 +140,16 @@ const OnboardingForm = ({ onAthleteCreated }) => {
       const selectedPlanStr = localStorage.getItem('selectedPlan');
       const referralCode = localStorage.getItem('referralCode');
       
-      console.log('After signup - selectedPlan:', selectedPlanStr);
-      console.log('After signup - referralCode:', referralCode);
+      logger.debug(null, 'After signup - selectedPlan:', selectedPlanStr);
+      logger.debug(null, 'After signup - referralCode:', referralCode);
       
       if (selectedPlanStr) {
         // User came from pricing page, redirect to Stripe checkout
         const selectedPlan = JSON.parse(selectedPlanStr);
         const plan_id = `${selectedPlan.planId}_${selectedPlan.billingCycle}`;
         
-        console.log('Creating checkout for plan:', plan_id);
-        console.log('With referral code:', referralCode);
+        logger.debug(null, 'Creating checkout for plan:', plan_id);
+        logger.debug(null, 'With referral code:', referralCode);
         
         try {
           // Create Stripe checkout session
@@ -172,39 +173,39 @@ const OnboardingForm = ({ onAthleteCreated }) => {
           
           if (!checkoutResponse.ok) {
             const errorData = await checkoutResponse.json();
-            console.error('Checkout creation failed:', errorData);
+            logger.error(null, 'Checkout creation failed:', errorData);
             throw new Error(`Checkout failed: ${errorData.detail || 'Unknown error'}`);
           }
           
           const checkoutData = await checkoutResponse.json();
-          console.log('Checkout session created:', checkoutData);
+          logger.debug(null, 'Checkout session created:', checkoutData);
           
           if (checkoutData.url) {
             // Clear localStorage items
             localStorage.removeItem('selectedPlan');
             localStorage.removeItem('referralCode');
             
-            console.log('Redirecting to Stripe:', checkoutData.url);
+            logger.debug(null, 'Redirecting to Stripe:', checkoutData.url);
             
             // Redirect to Stripe
             window.location.href = checkoutData.url;
             return; // IMPORTANT: Stop execution here
           } else {
-            console.error('No checkout URL received:', checkoutData);
+            logger.error(null, 'No checkout URL received:', checkoutData);
           }
         } catch (checkoutError) {
-          console.error('Error creating checkout session:', checkoutError);
+          logger.error(null, 'Error creating checkout session:', checkoutError);
           alert(`Failed to create checkout: ${checkoutError.message}`);
           setIsLoading(false);
           return; // Don't redirect to account on error
         }
       }
       
-      console.log('No selected plan, redirecting to account');
+      logger.debug(null, 'No selected plan, redirecting to account');
       // Default: Redirect to account settings for new registrations
       navigate('/account');
     } catch (error) {
-      console.error('Error creating athlete profile:', error);
+      logger.error(null, 'Error creating athlete profile:', error);
       setErrors({ submit: t('validation.submitError') });
       setIsLoading(false);
     }

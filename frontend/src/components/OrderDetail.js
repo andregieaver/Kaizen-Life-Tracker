@@ -20,6 +20,7 @@ import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -51,7 +52,7 @@ const OrderDetail = ({ athleteId }) => {
       setOrderData(response.data.order);
       setOrderHistory(response.data.order_history || []);
     } catch (error) {
-      console.error('Error fetching order details:', error);
+      logger.error(null, 'Error fetching order details:', error);
       setError('Failed to load order details');
     } finally {
       setIsLoading(false);
@@ -89,7 +90,7 @@ const OrderDetail = ({ athleteId }) => {
         setRefundAmount('');
       }, 2000);
     } catch (error) {
-      console.error('Error processing refund:', error);
+      logger.error(null, 'Error processing refund:', error);
       alert('Failed to process refund: ' + (error.response?.data?.detail || error.message));
     } finally {
       setIsRefunding(false);

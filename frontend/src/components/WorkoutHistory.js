@@ -6,6 +6,7 @@ import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Calendar, Clock, MapPin, Heart, Zap } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -31,7 +32,7 @@ const WorkoutHistory = ({ athleteId }) => {
       setWorkouts(workoutsRes.data);
       setSleepData(sleepRes.data);
     } catch (error) {
-      console.error('Error loading history data:', error);
+      logger.error(null, 'Error loading history data:', error);
     } finally {
       setIsLoading(false);
     }

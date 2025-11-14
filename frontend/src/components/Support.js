@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Mail, Send, CheckCircle, AlertCircle, HelpCircle } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -54,7 +55,7 @@ const Support = ({ athleteId, athlete }) => {
         }, 5000);
       }
     } catch (error) {
-      console.error('Error submitting support form:', error);
+      logger.error(null, 'Error submitting support form:', error);
       setSubmitStatus('error');
       setErrorMessage(
         error.response?.data?.detail || 

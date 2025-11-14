@@ -4,6 +4,7 @@ import { Label } from './ui/label';
 import { Globe } from 'lucide-react';
 import axios from 'axios';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
@@ -24,7 +25,7 @@ const LanguageSelector = ({ athleteId }) => {
   ];
 
   const changeLanguage = async (lng) => {
-    console.log(`[LanguageSelector] Changing language to: ${lng}`);
+    logger.debug(null, `[LanguageSelector] Changing language to: ${lng}`);
     
     // Change UI language immediately
     i18n.changeLanguage(lng);
@@ -33,10 +34,10 @@ const LanguageSelector = ({ athleteId }) => {
     if (athleteId) {
       try {
         const url = `${API}/system/set-language?athlete_id=${athleteId}&language=${lng}`;
-        console.log(`[LanguageSelector] Calling set-language endpoint:`, url);
+        logger.debug(null, `[LanguageSelector] Calling set-language endpoint:`, url);
         
         const response = await axios.post(url);
-        console.log(`[LanguageSelector] Language saved:`, response.data);
+        logger.debug(null, `[LanguageSelector] Language saved:`, response.data);
         
         // Trigger menu reload to apply new translations
         window.dispatchEvent(new Event('menusUpdated'));
@@ -46,11 +47,11 @@ const LanguageSelector = ({ athleteId }) => {
           window.location.reload();
         }, 500);
       } catch (error) {
-        console.error('[LanguageSelector] Error saving language:', error);
-        console.error('[LanguageSelector] Error details:', error.response?.data);
+        logger.error(null, '[LanguageSelector] Error saving language:', error);
+        logger.error(null, '[LanguageSelector] Error details:', error.response?.data);
       }
     } else {
-      console.warn('[LanguageSelector] No athleteId provided, language not saved');
+      logger.warn(null, '[LanguageSelector] No athleteId provided, language not saved');
     }
   };
 

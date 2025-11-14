@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom';
 import { trackPageView, bootUtmAndAnon, hasAnalyticsConsent } from './analytics';
 import { initAutoCapture, cleanupAutoCapture } from './autoCapture';
 
+import { logger } from '../utils/logger';
 /**
  * Hook to track page views on route changes
  * Should be mounted once in the root component (App.js)
@@ -20,7 +21,7 @@ export function usePageViews() {
   useEffect(() => {
     bootUtmAndAnon();
     initAutoCapture();
-    console.log('🚀 Analytics initialized');
+    logger.debug(null, '🚀 Analytics initialized');
 
     // Cleanup auto-capture on unmount
     return () => {
@@ -32,7 +33,7 @@ export function usePageViews() {
   useEffect(() => {
     // Only track if analytics consent is granted
     if (!hasAnalyticsConsent()) {
-      console.log('⏸️  Page view not tracked (no analytics consent)');
+      logger.debug(null, '⏸️  Page view not tracked (no analytics consent)');
       return;
     }
 

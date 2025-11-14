@@ -5,6 +5,7 @@
 
 import { track, hasAnalyticsConsent } from './analytics';
 
+import { logger } from '../utils/logger';
 /**
  * Initialize auto-capture click tracking
  * Listens for clicks on elements with data-track attribute
@@ -15,7 +16,7 @@ export function initAutoCapture() {
   // Add click listener to document
   document.addEventListener('click', handleAutoCapture, true);
   
-  console.log('🎯 Auto-capture click tracking initialized');
+  logger.debug(null, '🎯 Auto-capture click tracking initialized');
 }
 
 /**
@@ -44,7 +45,7 @@ function handleAutoCapture(event) {
         try {
           props = JSON.parse(element.dataset.props);
         } catch (e) {
-          console.error('Failed to parse data-props:', e);
+          logger.error(null, 'Failed to parse data-props:', e);
         }
       }
       
@@ -79,7 +80,7 @@ export function cleanupAutoCapture() {
   if (typeof window === 'undefined') return;
   
   document.removeEventListener('click', handleAutoCapture, true);
-  console.log('🎯 Auto-capture click tracking cleaned up');
+  logger.debug(null, '🎯 Auto-capture click tracking cleaned up');
 }
 
 export default {

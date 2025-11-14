@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
+import { logger } from '../utils/logger';
 import { 
   Calendar, 
   Clock, 
@@ -45,7 +46,7 @@ const Schedules = ({ athleteId }) => {
       const response = await axios.get(`${API}/schedules/${athleteId}`);
       setSchedules(response.data);
     } catch (error) {
-      console.error('Error loading schedules:', error);
+      logger.error(null, 'Error loading schedules:', error);
     }
   };
 
@@ -59,7 +60,7 @@ const Schedules = ({ athleteId }) => {
         ...response.data
       });
     } catch (error) {
-      console.error('Error loading subscription:', error);
+      logger.error(null, 'Error loading subscription:', error);
       setSubscriptionStatus({ tier: 'free' });
     }
   };
@@ -109,7 +110,7 @@ const Schedules = ({ athleteId }) => {
       }
       handleCancelScheduleForm();
     } catch (error) {
-      console.error('Error saving schedule:', error);
+      logger.error(null, 'Error saving schedule:', error);
       // Check if it's a subscription limit error
       if (error.response && error.response.status === 403) {
         setSaveStatus({ type: 'error', message: error.response.data.detail || 'Schedule limit reached. Please upgrade your plan.' });
@@ -141,7 +142,7 @@ const Schedules = ({ athleteId }) => {
       setSchedules(prev => prev.filter(s => s.id !== scheduleId));
       setSaveStatus({ type: 'success', message: 'Schedule deleted successfully' });
     } catch (error) {
-      console.error('Error deleting schedule:', error);
+      logger.error(null, 'Error deleting schedule:', error);
       setSaveStatus({ type: 'error', message: 'Failed to delete schedule' });
     }
   };

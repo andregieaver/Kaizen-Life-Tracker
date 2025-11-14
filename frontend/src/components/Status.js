@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
+import { logger } from '../utils/logger';
 import { 
   Activity, 
   Calendar, 
@@ -46,7 +47,7 @@ const Status = ({ athleteId }) => {
       setDailyMetrics(dailyRes.data.daily_metrics || []);
       setHealthStatus(healthRes.data);
     } catch (error) {
-      console.error('Error loading status data:', error);
+      logger.error(null, 'Error loading status data:', error);
     } finally {
       setLoading(false);
     }

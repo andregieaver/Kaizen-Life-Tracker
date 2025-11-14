@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { CheckCircle, XCircle, Loader2, Heart } from 'lucide-react';
 
+import { logger } from '../utils/logger';
 const OuraCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const OuraCallback = () => {
       }, 2000);
       
     } catch (error) {
-      console.error('Callback error:', error);
+      logger.error(null, 'Callback error:', error);
       setStatus('error');
       setMessage('Failed to complete Oura Ring connection');
     }
