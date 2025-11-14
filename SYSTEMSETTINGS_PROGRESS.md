@@ -128,7 +128,9 @@
 ├── index.js ✅
 ├── useModuleSettings.js ✅
 ├── useWaitingList.js ✅
-└── useCookieSettings.js ✅
+├── useCookieSettings.js ✅
+├── useCouponManagement.js ✅
+└── useSubscriptionStats.js ✅
 ```
 
 ---
