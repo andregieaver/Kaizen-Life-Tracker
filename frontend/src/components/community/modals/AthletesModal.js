@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { X, UserPlus, UserMinus, Search } from 'lucide-react';
 import { Button } from '../../ui/button';
 import SubscriptionBadge from '../../SubscriptionBadge';
 import FlagIcon from '../../FlagIcon';
 
 const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose, onFollowToggle, onViewProfile, t }) => {
-  const [nationalityFilter, setNationalityFilter] = React.useState('all');
+  const [nationalityFilter, setNationalityFilter] = useState('all');
   
   // Get unique nationalities
-  const uniqueNationalities = React.useMemo(() => {
+  const uniqueNationalities = useMemo(() => {
     return [...new Set(athletes.map(a => a.nationality).filter(n => n))].sort();
   }, [athletes]);
   
