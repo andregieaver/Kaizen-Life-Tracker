@@ -328,7 +328,8 @@ function App() {
       <div className="App">
         <BrowserRouter>
           <AnalyticsProvider />
-          <Routes>
+          <Suspense fallback={<LoadingFallback />}>
+            <Routes>
           <Route 
             path="/" 
             element={
