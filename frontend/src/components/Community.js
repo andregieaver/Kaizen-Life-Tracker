@@ -13,6 +13,10 @@ import Picker from '@emoji-mart/react';
 import SubscriptionBadge from './SubscriptionBadge';
 import FlagIcon from './FlagIcon';
 import CommentsModal from './community/modals/CommentsModal';
+import EventDetailModal from './community/modals/EventDetailModal';
+import CreateEventModal from './community/modals/CreateEventModal';
+import EditEventModal from './community/modals/EditEventModal';
+import CreateGroupModal from './community/modals/CreateGroupModal';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
