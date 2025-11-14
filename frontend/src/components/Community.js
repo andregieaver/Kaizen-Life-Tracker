@@ -21,6 +21,9 @@ import EditGroupModal from './community/modals/EditGroupModal';
 import CreateChallengeModal from './community/modals/CreateChallengeModal';
 import EditChallengeModal from './community/modals/EditChallengeModal';
 import ChallengeDetailModal from './community/modals/ChallengeDetailModal';
+import AthleteProfileModal from './community/modals/AthleteProfileModal';
+import AthletesModal from './community/modals/AthletesModal';
+import GroupRulesModal from './community/modals/GroupRulesModal';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
