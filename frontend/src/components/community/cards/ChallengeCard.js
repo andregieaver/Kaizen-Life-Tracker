@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Trophy, Target, Calendar, Users, Edit3, Trash2 } from 'lucide-react';
 import { Button } from '../../ui/button';
+import { logger } from '../../../utils/logger';
 
 const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit, onClick, isSuperAdmin = false, t }) => {
   const { t: translate } = useTranslation();
