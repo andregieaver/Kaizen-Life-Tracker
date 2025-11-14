@@ -196,8 +196,7 @@ const SystemSettings = ({ athleteId }) => {
   }
 
   return (
-          ...prev,
-          seo: {
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ width: '100vw', maxWidth: '100vw' }}>
             siteTitle: response.data.advanced.seo?.siteTitle || '',
             metaDescription: response.data.advanced.seo?.metaDescription || '',
             faviconUrl: response.data.advanced.seo?.faviconUrl || '',
