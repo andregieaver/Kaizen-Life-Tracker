@@ -45,6 +45,28 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Badge } from './ui/badge';
 import { logger } from '../utils/logger';
+
+// Custom hooks
+import {
+  useModuleSettings,
+  useWaitingList,
+  useCookieSettings,
+  useCouponManagement,
+  useSubscriptionStats,
+  usePlanSettings,
+  useAdvancedSettings
+} from '../hooks/systemSettings';
+
+// Tab components
+import {
+  ModulesTab,
+  WaitingListTab,
+  CookiesTab,
+  CouponsTab,
+  StatisticsTab,
+  PlansTab,
+  AdvancedTab
+} from './systemSettings/tabs';
 import {
   Line as ChartLine
 } from 'react-chartjs-2';
