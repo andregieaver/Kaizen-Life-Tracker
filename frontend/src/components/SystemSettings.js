@@ -2719,7 +2719,7 @@ const SystemSettings = ({ athleteId }) => {
 
           {/* Plans Tab */}
           <TabsContent value="plans">
-                              { value: '90d', label: '90 Days' },
+            <PlansTab
                               { value: '1y', label: '1 Year' },
                               { value: 'all', label: 'All Time' }
                             ].map((period) => (
