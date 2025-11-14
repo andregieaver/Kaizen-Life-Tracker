@@ -79,7 +79,7 @@
 |--------|--------|---------|--------|
 | Hooks Created | 9 | 2 | 22% |
 | Lines Extracted | ~1,500 | ~390 | 26% |
-| Community.js Size | ~500 lines | 4,373 lines | 0% |
+| Community.js Size | ~500 lines | 4,189 lines | 4% (184 lines reduced) |
 
 ---
 
