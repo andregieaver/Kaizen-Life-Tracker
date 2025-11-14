@@ -116,12 +116,12 @@
 ## 📋 Phase 2B Progress
 
 ### Tab Components (6 components)
-- [x] ✅ **CommunityEvents.js** (Created + Integrated)
-- [x] ✅ **CommunityChallenges.js** (Created + Integrated)
-- [ ] CommunityGroups.js
-- [ ] CommunityMyGroups.js
-- [ ] CommunityFollowing.js
-- [ ] CommunityFeed.js
+- [x] ✅ **CommunityEvents.js** (Created + Integrated) - ~36 lines
+- [x] ✅ **CommunityChallenges.js** (Created + Integrated) - ~72 lines
+- [x] ✅ **CommunityGroups.js** (Created + Integrated) - ~38 lines
+- [x] ✅ **CommunityMyGroups.js** (Created + Integrated) - ~40 lines
+- [ ] ⏳ CommunityFollowing.js (Complex - requires PostsList refactoring)
+- [ ] ⏳ CommunityFeed.js (Complex - requires PostsList refactoring)
 
 ### Final: Refactor Main Component
 - [ ] Reduce Community.js to orchestrator (~500 lines)
