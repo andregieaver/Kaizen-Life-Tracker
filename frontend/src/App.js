@@ -1,27 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import Dashboard from './components/Dashboard';
-import OnboardingForm from './components/OnboardingForm';
-import Login from './components/Login';
-import ForgotPassword from './components/ForgotPassword';
-import ResetPassword from './components/ResetPassword';
-import Pricing from './components/Pricing';
-import Journal from './components/Journal';
-import Supplements from './components/Supplements';
-import Schedules from './components/Schedules';
-import OuraCallback from './components/OuraCallback';
-import CorosCallback from './components/CorosCallback';
+
+// Core components - loaded immediately
 import LandingPage from './components/LandingPage';
-import PrivacyPolicy from './components/PrivacyPolicy';
-import TermsConditions from './components/TermsConditions';
-import CmsPage from './components/CmsPage';
+import Login from './components/Login';
 import CookieBanner from './components/CookieBanner';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { usePageViews } from './lib/usePageViews';
 import { logger } from './utils/logger';
 import './App.css';
+
+// Lazy loaded components - loaded on demand
+const Dashboard = lazy(() => import('./components/Dashboard'));
+const OnboardingForm = lazy(() => import('./components/OnboardingForm'));
+const ForgotPassword = lazy(() => import('./components/ForgotPassword'));
+const ResetPassword = lazy(() => import('./components/ResetPassword'));
+const Pricing = lazy(() => import('./components/Pricing'));
+const Journal = lazy(() => import('./components/Journal'));
+const Supplements = lazy(() => import('./components/Supplements'));
+const Schedules = lazy(() => import('./components/Schedules'));
+const OuraCallback = lazy(() => import('./components/OuraCallback'));
+const CorosCallback = lazy(() => import('./components/CorosCallback'));
+const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy'));
+const TermsConditions = lazy(() => import('./components/TermsConditions'));
+const CmsPage = lazy(() => import('./components/CmsPage'));
+
+// Loading component shown during code splitting
+const LoadingFallback = () => (
+  <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100vh',
+    background: 'var(--bg-950)',
+    color: 'var(--text-hi)'
+  }}>
+    <div style={{ textAlign: 'center' }}>
+      <div style={{
+        width: '40px',
+        height: '40px',
+        border: '4px solid var(--c-brand-500)',
+        borderTopColor: 'transparent',
+        borderRadius: '50%',
+        animation: 'spin 1s linear infinite',
+        margin: '0 auto 16px'
+      }} />
+      <p>Loading...</p>
+    </div>
+  </div>
+);
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
