@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../../ui/button';
 import { Camera, Crown, Users as UsersIcon, Lock, Globe, X, Send } from 'lucide-react';
 import EmojiPickerButton from '../../EmojiPickerButton';
