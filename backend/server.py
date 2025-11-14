@@ -13899,7 +13899,7 @@ async def get_analytics_stats(athlete_id: str, days: int = 30):
             }
         ]
         
-        event_counts = await db.analytics_events.aggregate(pipeline).to_list(length=None)
+        event_counts = await db.analytics_events.aggregate(pipeline).to_list(length=500)  # Max 500 event types
         
         # Get total events
         total_events = sum(item["count"] for item in event_counts)
