@@ -115,8 +115,8 @@
 
 | Metric | Target | Current | Status |
 |--------|--------|---------|--------|
-| Hooks Created | 7 | 3 | 43% |
-| Lines Extracted | ~1,130 | ~515 | 46% |
+| Hooks Created | 7 | 5 | 71% ✅ |
+| Lines Extracted | ~1,130 | ~935 | 83% ✅ |
 | SystemSettings.js Size | ~500 lines | 5,493 lines | 0% (integration pending) |
 
 ---
