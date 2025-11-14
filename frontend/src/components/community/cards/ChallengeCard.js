@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Trophy, Target, Calendar, Users, Edit3, Trash2 } from 'lucide-react';
 import { Button } from '../../ui/button';
 
