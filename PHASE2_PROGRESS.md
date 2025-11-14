@@ -82,13 +82,38 @@
 
 ---
 
-## 📋 Remaining Work
+## ✅ Batch 3: Feature Hooks (4/4) - COMPLETE
+7. ✅ **useGroupActions.js** (~200 lines)
+   - Created: `/app/frontend/src/hooks/community/useGroupActions.js`
+   - Functions extracted:
+     - loadAllGroups, loadMyGroups
+     - createGroup, updateGroup, deleteGroup
+     - joinGroup, leaveGroup
+   - State managed: groups, myGroups, isLoading, isCreating, isUpdating, isDeleting, isJoining, isLeaving
 
-### Batch 3: Feature Hooks (4 hooks)
-- [ ] useGroupActions.js
-- [ ] useEventActions.js
-- [ ] useChallengeActions.js
-- [ ] useAthleteProfile.js
+8. ✅ **useEventActions.js** (~170 lines)
+   - Created: `/app/frontend/src/hooks/community/useEventActions.js`
+   - Functions extracted:
+     - loadEvents, createEvent, updateEvent, deleteEvent
+     - handleRSVP, loadEventDetails
+   - State managed: events, isLoading, isCreating, isUpdating, isDeleting, isRSVPing
+
+9. ✅ **useChallengeActions.js** (~180 lines)
+   - Created: `/app/frontend/src/hooks/community/useChallengeActions.js`
+   - Functions extracted:
+     - loadChallenges, createChallenge, updateChallenge, deleteChallenge
+     - joinChallenge, leaveChallenge, loadChallengeDetails
+   - State managed: challenges, isLoading, isCreating, isUpdating, isDeleting, isJoining, isLeaving
+
+10. ✅ **useAthleteProfile.js** (~170 lines)
+    - Created: `/app/frontend/src/hooks/community/useAthleteProfile.js`
+    - Functions extracted:
+      - loadProfile, toggleFollow, searchAthletes
+      - loadAthletePosts, loadFollowCounts
+      - clearProfile, clearAthletes
+    - State managed: profile, athletes, isLoadingProfile, isLoadingAthletes, isFollowing
+
+## 📋 Remaining Work
 
 ### Phase 2B: Tab Components (6 components)
 - [ ] CommunityFeed.js
