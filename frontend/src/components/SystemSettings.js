@@ -338,10 +338,43 @@ const SystemSettings = ({ athleteId }) => {
   });
 
   // Load settings on mount
+  // Initialize all hooks on mount
   useEffect(() => {
-    loadSystemSettings();
-    loadSubscriberStats();
+    const initializeSettings = async () => {
+      try {
+        setLoading(true);
+        
+        // Load settings for all tabs
+        await Promise.all([
+          moduleHook.loadModuleSettings(),
+          planHook.loadPlanSettings(),
+          advancedHook.loadAdvancedSettings()
+        ]);
+        
+      } catch (error) {
+        logger.error(null, 'Error initializing system settings:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    initializeSettings();
   }, [athleteId]);
+
+  // Load data when specific tabs become active
+  useEffect(() => {
+    if (activeTab === 'coupons') {
+      couponHook.loadCoupons();
+    } else if (activeTab === 'plans') {
+      planHook.loadPlans();
+    } else if (activeTab === 'waitinglist') {
+      waitingListHook.loadWaitingList();
+    } else if (activeTab === 'cookies') {
+      cookieHook.loadCookieSettings();
+    } else if (activeTab === 'statistics') {
+      statsHook.loadStats();
+    }
+  }, [activeTab]);
 
   const loadSubscriberStats = async (period = selectedPeriod, compare = compareEnabled) => {
     setLoadingStats(true);
