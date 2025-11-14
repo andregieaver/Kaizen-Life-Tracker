@@ -136,11 +136,53 @@ const SystemSettings = ({ athleteId }) => {
   // Get save status from advanced hook (shown in UI for all tabs)
   const saveStatus = advancedHook.saveStatus || { message: '', type: '' };
 
-  // Load settings on mount
+  // Initialize all hooks on mount
   useEffect(() => {
-    loadSystemSettings();
-    loadSubscriberStats();
+    const initializeSettings = async () => {
+      try {
+        setLoading(true);
+        
+        // Load settings for all tabs
+        await Promise.all([
+          moduleHook.loadModuleSettings(),
+          planHook.loadPlanSettings(),
+          advancedHook.loadAdvancedSettings()
+        ]);
+        
+      } catch (error) {
+        logger.error(null, 'Error initializing system settings:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    initializeSettings();
   }, [athleteId]);
+
+  // Load data when specific tabs become active
+  useEffect(() => {
+    if (activeTab === 'coupons') {
+      couponHook.loadCoupons();
+    } else if (activeTab === 'plans') {
+      planHook.loadPlans();
+    } else if (activeTab === 'waitinglist') {
+      waitingListHook.loadWaitingList();
+    } else if (activeTab === 'cookies') {
+      cookieHook.loadCookieSettings();
+    } else if (activeTab === 'statistics') {
+      statsHook.loadStats();
+    }
+  }, [activeTab]);
+
+  // Tab change handler
+  const handleTabChange = (value) => {
+    setActiveTab(value);
+    // Update localStorage
+    localStorage.setItem('systemSettings_activeTab', value);
+    // Update URL hash
+    window.location.hash = value;
+    logger.debug(null, '✨ Tab changed to:', value);
+  };
 
   const loadSubscriberStats = async (period = selectedPeriod, compare = compareEnabled) => {
     setLoadingStats(true);
