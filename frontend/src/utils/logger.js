@@ -1,6 +1,4 @@
 /**
-import { logger } from '../utils/logger';
-
  * Logger Utility
  * Provides environment-aware logging that only outputs in development
  * Prevents console pollution in production
