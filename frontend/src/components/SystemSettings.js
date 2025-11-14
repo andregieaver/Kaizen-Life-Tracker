@@ -196,10 +196,34 @@ const SystemSettings = ({ athleteId }) => {
   }
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ width: '100vw', maxWidth: '100vw' }}>
-      <div className="w-full">
-        {/* Header with Account Settings Button */}
-        <div className="mb-8">
+        setSeoSettings({
+          siteTitle: response.data.seo.siteTitle || '',
+          favicon: null,
+          metaTitle: response.data.seo.metaTitle || '',
+          metaDescription: response.data.seo.metaDescription || '',
+          focusKeyword: response.data.seo.focusKeyword || ''
+        });
+        
+        if (response.data.seo.faviconUrl) {
+          setFaviconPreview(response.data.seo.faviconUrl);
+        }
+        
+        // Apply SEO settings on load
+        applySeoSettings(response.data.seo);
+      }
+      
+      // Load plan settings
+      if (response.data.plans) {
+        setPlanSettings(response.data.plans);
+      }
+      
+      // Load advanced settings (SEO, OpenAI key, Stripe, SendGrid, and GTM)
+      if (response.data.advanced) {
+        setAdvancedSettings(prev => ({
+          ...prev,
+          seo: {
+            siteTitle: response.data.advanced.seo?.siteTitle || '',
+            metaDescription: response.data.advanced.seo?.metaDescription || '',
             faviconUrl: response.data.advanced.seo?.faviconUrl || '',
             logoUrl: response.data.advanced.seo?.logoUrl || '',
             ogImage: response.data.advanced.seo?.ogImage || ''
