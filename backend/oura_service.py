@@ -87,6 +87,9 @@ class OuraService(BaseIntegrationService):
                             "rem_sleep": sleep.get("rem_sleep_duration"),
                             "light_sleep": sleep.get("light_sleep_duration"),
                             "efficiency": sleep.get("efficiency"),
+                            "lowest_heart_rate": sleep.get("lowest_heart_rate"),
+                            "average_heart_rate": sleep.get("average_heart_rate"),
+                            "average_hrv": sleep.get("average_hrv"),
                             "raw_data": sleep
                         })
                 else:
