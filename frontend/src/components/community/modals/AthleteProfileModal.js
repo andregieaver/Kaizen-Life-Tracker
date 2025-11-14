@@ -343,8 +343,4 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
   );
 };
 
-// GroupDetailView Component  
-const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage, newPostImagePreview,
-
-
 export default AthleteProfileModal;
