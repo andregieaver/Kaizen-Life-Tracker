@@ -77,12 +77,17 @@ class OuraService(BaseIntegrationService):
                 if sleep_response.status_code == 200:
                     sleep_data = sleep_response.json()
                     for sleep in sleep_data.get("data", []):
+                        # Extract sleep score - Oura v2 may have it in readiness sub-object or top-level
+                        sleep_score = sleep.get("score")
+                        if sleep_score is None and "readiness" in sleep:
+                            sleep_score = sleep.get("readiness", {}).get("score")
+                        
                         activities.append({
                             "activity_id": f"sleep_{sleep['id']}",
                             "type": "Sleep",
                             "start_date": datetime.fromisoformat(sleep["bedtime_start"].replace("Z", "+00:00")),
                             "duration": sleep.get("total_sleep_duration"),
-                            "score": sleep.get("score"),
+                            "score": sleep_score,
                             "deep_sleep": sleep.get("deep_sleep_duration"),
                             "rem_sleep": sleep.get("rem_sleep_duration"),
                             "light_sleep": sleep.get("light_sleep_duration"),
