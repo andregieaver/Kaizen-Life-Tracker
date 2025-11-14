@@ -9934,10 +9934,11 @@ async def create_habit(habit: Habit):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/habits/{athlete_id}")
-async def get_habits(athlete_id: str):
+async def get_habits(athlete_id: str, limit: Optional[int] = Query(None, description="Max habits to return")):
     """Get all habits for an athlete"""
     try:
-        habits = await db.habits.find({"athlete_id": athlete_id}, {"_id": 0}).to_list(length=None)
+        query_limit = apply_query_limit(limit, max_limit=200)  # Max 200 habits per athlete
+        habits = await db.habits.find({"athlete_id": athlete_id}, {"_id": 0}).limit(query_limit).to_list(length=query_limit)
         return {"habits": habits}
     except Exception as e:
         logging.error(f"Error fetching habits: {e}")
