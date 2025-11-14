@@ -113,15 +113,15 @@
       - clearProfile, clearAthletes
     - State managed: profile, athletes, isLoadingProfile, isLoadingAthletes, isFollowing
 
-## 📋 Remaining Work
+## 📋 Phase 2B Progress
 
-### Phase 2B: Tab Components (6 components)
-- [ ] CommunityFeed.js
-- [ ] CommunityFollowing.js
+### Tab Components (6 components)
+- [x] ✅ **CommunityEvents.js** (Created + Integrated)
+- [x] ✅ **CommunityChallenges.js** (Created + Integrated)
 - [ ] CommunityGroups.js
 - [ ] CommunityMyGroups.js
-- [ ] CommunityEvents.js
-- [ ] CommunityChallenges.js
+- [ ] CommunityFollowing.js
+- [ ] CommunityFeed.js
 
 ### Final: Refactor Main Component
 - [ ] Reduce Community.js to orchestrator (~500 lines)
