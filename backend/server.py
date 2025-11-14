@@ -167,7 +167,7 @@ async def send_push_notification(athlete_id: str, title: str, body: str, url: st
         subscriptions = await db.push_subscriptions.find(
             {"athlete_id": athlete_id},
             {"_id": 0}
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         if not subscriptions:
             logging.info(f"No push subscriptions found for athlete {athlete_id}")
@@ -1852,13 +1852,13 @@ Return only the JSON array, nothing else.
         workouts = await db.workouts.find(
             {"athlete_id": athlete_id}, 
             {"_id": 0}
-        ).sort("date", -1).limit(14).to_list(length=None)
+        ).sort("date", -1).limit(14).limit(100).to_list(length=100)
         
         # Get recent sleep data (last 7 days)
         sleep_data = await db.sleep_data.find(
             {"athlete_id": athlete_id}, 
             {"_id": 0}
-        ).sort("date", -1).limit(7).to_list(length=None)
+        ).sort("date", -1).limit(7).limit(100).to_list(length=100)
         
         # Get latest readiness score
         readiness = await db.readiness_scores.find_one(
@@ -1871,85 +1871,85 @@ Return only the JSON array, nothing else.
         journal_entries = await db.journal_entries.find(
             {"athlete_id": athlete_id},
             {"_id": 0}
-        ).sort("created_at", -1).limit(30).to_list(length=None)
+        ).sort("created_at", -1).limit(30).limit(100).to_list(length=100)
         
         # Get recent nutrition entries (last 7 days) - sort by created_at DESC to get newest first
         nutrition_entries = await db.nutrition_entries.find(
             {"athlete_id": athlete_id},
             {"_id": 0}
-        ).sort("created_at", -1).limit(50).to_list(length=None)
+        ).sort("created_at", -1).limit(50).limit(100).to_list(length=100)
         
         # Get Strava activities (last 30 days)
         strava_activities = await db.strava_activities.find(
             {"user_id": athlete_id},
             {"_id": 0}
-        ).sort("start_date", -1).limit(50).to_list(length=None)
+        ).sort("start_date", -1).limit(50).limit(100).to_list(length=100)
         
         # Get Oura data (last 30 days)
         oura_activities = await db.oura_activities.find(
             {"user_id": athlete_id},
             {"_id": 0}
-        ).sort("start_date", -1).limit(50).to_list(length=None)
+        ).sort("start_date", -1).limit(50).limit(100).to_list(length=100)
         
         # Get Polar activities (last 30 days)
         polar_activities = await db.polar_activities.find(
             {"user_id": athlete_id},
             {"_id": 0}
-        ).sort("start_date", -1).limit(50).to_list(length=None)
+        ).sort("start_date", -1).limit(50).limit(100).to_list(length=100)
         
         # Get Fitbit activities (last 30 days)
         fitbit_activities = await db.fitbit_activities.find(
             {"user_id": athlete_id},
             {"_id": 0}
-        ).sort("start_date", -1).limit(50).to_list(length=None)
+        ).sort("start_date", -1).limit(50).limit(100).to_list(length=100)
         
         # Get Garmin activities (last 30 days)
         garmin_activities = await db.garmin_activities.find(
             {"user_id": athlete_id},
             {"_id": 0}
-        ).sort("start_date", -1).limit(50).to_list(length=None)
+        ).sort("start_date", -1).limit(50).limit(100).to_list(length=100)
         
         # Get COROS activities (last 30 days)
         coros_activities = await db.coros_activities.find(
             {"user_id": athlete_id},
             {"_id": 0}
-        ).sort("start_date", -1).limit(50).to_list(length=None)
+        ).sort("start_date", -1).limit(50).limit(100).to_list(length=100)
         
         # Get WHOOP activities (last 30 days)
         whoop_activities = await db.whoop_activities.find(
             {"user_id": athlete_id},
             {"_id": 0}
-        ).sort("start_date", -1).limit(50).to_list(length=None)
+        ).sort("start_date", -1).limit(50).limit(100).to_list(length=100)
         
         # Get Suunto activities (last 30 days)
         suunto_activities = await db.suunto_activities.find(
             {"user_id": athlete_id},
             {"_id": 0}
-        ).sort("start_date", -1).limit(50).to_list(length=None)
+        ).sort("start_date", -1).limit(50).limit(100).to_list(length=100)
         
         # Get supplements (active supplements the athlete is taking)
         supplements = await db.supplements.find(
             {"athlete_id": athlete_id},
             {"_id": 0}
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         # Get recent supplement logs (last 7 days)
         supplement_logs = await db.supplement_logs.find(
             {"athlete_id": athlete_id},
             {"_id": 0}
-        ).sort("date", -1).limit(50).to_list(length=None)
+        ).sort("date", -1).limit(50).limit(100).to_list(length=100)
         
         # Get all documents (relevant for medical history, test results, etc.)
         documents = await db.documents.find(
             {"athlete_id": athlete_id},
             {"_id": 0}
-        ).sort("upload_date", -1).to_list(length=None)
+        ).sort("upload_date", -1).limit(100).to_list(length=100)
         
         # Get recent test results (all tests, latest 10 per test type)
         test_results = await db.test_results.find(
             {"athlete_id": athlete_id},
             {"_id": 0}
-        ).sort("test_date", -1).limit(50).to_list(length=None)
+        ).sort("test_date", -1).limit(50).limit(500).to_list(length=500)
         
         # Get memories
         memories = await self.get_memories(athlete_id)
@@ -2192,7 +2192,7 @@ Return only the JSON array, nothing else.
                         {"end_date": {"$gte": end_date}}
                     ]}
                 ]
-            }, {"_id": 0}).to_list(length=None)
+            }, {"_id": 0}).limit(100).to_list(length=100)
             
             return {
                 "success": True,
@@ -2343,7 +2343,7 @@ Return only the JSON array, nothing else.
             history_messages = await db.chat_messages.find(
                 {"athlete_id": athlete_id, "session_id": session_id},
                 {"_id": 0}
-            ).sort("timestamp", 1).to_list(length=None)
+            ).sort("timestamp", 1).limit(100).to_list(length=100)
             
             logging.info(f"Loaded {len(history_messages)} messages from session {session_id}")
             
@@ -4520,7 +4520,7 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
     stripe.api_key = stripe_secret_key
     
     # Fetch subscription plans from database to get synced Stripe price IDs
-    all_plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).to_list(length=None)
+    all_plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).limit(50).to_list(length=50)
     
     # Find the matching variation by plan_id (format: tier_interval, e.g., "pro_monthly" or "pro_annual")
     # Normalize interval: "monthly" -> "month", "annual" -> "year"
@@ -4627,7 +4627,7 @@ async def create_checkout_session(request: CheckoutRequest, http_request: Reques
                 rewards = await db.referral_rewards.find({
                     "athlete_id": request.athlete_id,
                     "status": "pending"
-                }).to_list(length=None)
+                }).limit(100).to_list(length=100)
                 
                 if rewards:
                     # Calculate total discount (cap at 100%, max 5 rewards)
@@ -5147,7 +5147,7 @@ async def update_subscription_plan(request: dict):
     stripe.api_key = stripe_secret_key
     
     # Fetch subscription plans from database to get synced Stripe price IDs
-    all_plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).to_list(length=None)
+    all_plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).limit(50).to_list(length=50)
     
     # Find the matching variation by plan_id
     # Normalize interval: "monthly" -> "month", "annual" -> "year"
@@ -5321,7 +5321,7 @@ async def get_journal_entries(athlete_id: str):
     entries = await db.journal_entries.find(
         {"athlete_id": athlete_id},
         {"_id": 0}
-    ).sort("created_at", -1).to_list(length=None)
+    ).sort("created_at", -1).limit(100).to_list(length=100)
     
     return {"entries": [parse_from_mongo(entry) for entry in entries]}
 
@@ -5636,7 +5636,7 @@ async def get_nutrition_entries(athlete_id: str, date: Optional[str] = None):
     entries = await db.nutrition_entries.find(
         query,
         {"_id": 0}
-    ).to_list(length=None)
+    ).limit(100).to_list(length=100)
     
     # Parse entries and sort by entry_date and entry_time (most recent first)
     parsed_entries = [parse_from_mongo(entry) for entry in entries]
@@ -6100,7 +6100,7 @@ async def get_supplements(athlete_id: str):
     supplements = await db.supplements.find(
         {"athlete_id": athlete_id},
         {"_id": 0}
-    ).sort("created_at", -1).to_list(length=None)
+    ).sort("created_at", -1).limit(100).to_list(length=100)
     
     return {"supplements": supplements}
 
@@ -6147,7 +6147,7 @@ async def get_supplement_logs(athlete_id: str):
     logs = await db.supplement_logs.find(
         {"athlete_id": athlete_id},
         {"_id": 0}
-    ).sort("log_date", -1).to_list(length=None)
+    ).sort("log_date", -1).limit(100).to_list(length=100)
     
     # Parse date and time from strings
     for log in logs:
@@ -6297,7 +6297,7 @@ async def get_files(athlete_id: str):
     entries = await db.file_entries.find(
         {"athlete_id": athlete_id},
         {"_id": 0}
-    ).to_list(length=None)
+    ).limit(100).to_list(length=100)
     
     # Parse entries and sort by entry_date and entry_time (most recent first)
     parsed_entries = [parse_from_mongo(entry) for entry in entries]
@@ -6384,7 +6384,7 @@ async def get_documents(athlete_id: str, category: Optional[str] = None):
     documents = await db.documents.find(
         query,
         {"_id": 0}
-    ).sort("created_at", -1).to_list(length=None)
+    ).sort("created_at", -1).limit(100).to_list(length=100)
     
     return {"documents": [parse_from_mongo(doc) for doc in documents]}
 
@@ -6509,7 +6509,7 @@ async def get_file_entries(athlete_id: str):
     entries = await db.file_entries.find(
         {"athlete_id": athlete_id}, 
         {"_id": 0}
-    ).sort("entry_date", -1).to_list(length=None)
+    ).sort("entry_date", -1).limit(100).to_list(length=100)
     
     # Parse dates
     for entry in entries:
@@ -6552,7 +6552,7 @@ async def get_test_results(athlete_id: str, test_name: Optional[str] = None):
     results = await db.test_results.find(
         query,
         {"_id": 0}
-    ).sort("test_date", 1).to_list(length=None)
+    ).sort("test_date", 1).limit(500).to_list(length=500)
     
     return {"results": [parse_from_mongo(result) for result in results]}
 
@@ -6562,7 +6562,7 @@ async def get_test_names(athlete_id: str):
     results = await db.test_results.find(
         {"athlete_id": athlete_id},
         {"test_name": 1, "_id": 0}
-    ).to_list(length=None)
+    ).limit(100).to_list(length=100)
     
     unique_names = list(set([r["test_name"] for r in results]))
     return {"test_names": sorted(unique_names)}
@@ -6648,13 +6648,13 @@ async def generate_recipe(athlete_id: str, recipe_request: dict):
         nutrition_entries = await db.nutrition_entries.find(
             {"athlete_id": athlete_id, "entry_date": {"$gte": two_weeks_ago}},
             {"_id": 0}
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         # Get supplements
         supplements = await db.supplements.find(
             {"athlete_id": athlete_id},
             {"_id": 0}
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         # Calculate average daily nutrition
         total_cals = sum(n.get('calories', 0) for n in nutrition_entries if n.get('calories'))
@@ -6965,7 +6965,7 @@ async def get_weekly_menus(athlete_id: str):
     menus = await db.weekly_menus.find(
         {"athlete_id": athlete_id},
         {"_id": 0}
-    ).sort("created_at", -1).to_list(length=None)
+    ).sort("created_at", -1).limit(100).to_list(length=100)
     
     return {"menus": [parse_from_mongo(menu) for menu in menus]}
 
@@ -7056,7 +7056,7 @@ async def get_weekly_menu_details(menu_id: str):
         recipe_list = await db.recipes.find(
             {"id": {"$in": recipe_ids}},
             {"_id": 0}
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         for recipe in recipe_list:
             recipes[recipe['id']] = parse_from_mongo(recipe)
@@ -7075,7 +7075,7 @@ async def get_training_blocks(athlete_id: str):
     blocks = await db.training_blocks.find(
         {"athlete_id": athlete_id},
         {"_id": 0}
-    ).sort("start_date", 1).to_list(length=None)
+    ).sort("start_date", 1).limit(100).to_list(length=100)
     
     parsed_blocks = [parse_from_mongo(block) for block in blocks]
     
@@ -7083,13 +7083,13 @@ async def get_training_blocks(athlete_id: str):
     strava_activities = await db.strava_activities.find(
         {"user_id": athlete_id},
         {"_id": 0}
-    ).sort("start_date", 1).to_list(length=None)
+    ).sort("start_date", 1).limit(100).to_list(length=100)
     
     # Get Oura activities
     oura_activities = await db.oura_activities.find(
         {"user_id": athlete_id},
         {"_id": 0}
-    ).sort("start_date", 1).to_list(length=None)
+    ).sort("start_date", 1).limit(100).to_list(length=100)
     
     # Convert Strava activities to training block format
     for activity in strava_activities:
@@ -7128,7 +7128,7 @@ async def get_training_blocks(athlete_id: str):
     polar_activities = await db.polar_activities.find(
         {"user_id": athlete_id},
         {"_id": 0}
-    ).sort("start_date", 1).to_list(length=None)
+    ).sort("start_date", 1).limit(100).to_list(length=100)
     
     # Convert Polar activities to training block format
     polar_service = PolarService(db)
@@ -7141,7 +7141,7 @@ async def get_training_blocks(athlete_id: str):
     fitbit_activities = await db.fitbit_activities.find(
         {"user_id": athlete_id},
         {"_id": 0}
-    ).sort("start_date", 1).to_list(length=None)
+    ).sort("start_date", 1).limit(100).to_list(length=100)
     
     # Convert Fitbit activities to training block format
     fitbit_service = FitbitService(db)
@@ -7154,7 +7154,7 @@ async def get_training_blocks(athlete_id: str):
     garmin_activities = await db.garmin_activities.find(
         {"user_id": athlete_id},
         {"_id": 0}
-    ).sort("start_date", 1).to_list(length=None)
+    ).sort("start_date", 1).limit(100).to_list(length=100)
     
     # Convert Garmin activities to training block format
     garmin_service = GarminService(db)
@@ -7167,7 +7167,7 @@ async def get_training_blocks(athlete_id: str):
     coros_activities = await db.coros_activities.find(
         {"user_id": athlete_id},
         {"_id": 0}
-    ).sort("start_date", 1).to_list(length=None)
+    ).sort("start_date", 1).limit(100).to_list(length=100)
     
     # Convert COROS activities to training block format
     coros_service = CorosService(db)
@@ -7180,7 +7180,7 @@ async def get_training_blocks(athlete_id: str):
     whoop_activities = await db.whoop_activities.find(
         {"user_id": athlete_id},
         {"_id": 0}
-    ).sort("start_date", 1).to_list(length=None)
+    ).sort("start_date", 1).limit(100).to_list(length=100)
     
     # Convert WHOOP activities to training block format
     whoop_service = WhoopService(db)
@@ -7193,7 +7193,7 @@ async def get_training_blocks(athlete_id: str):
     suunto_activities = await db.suunto_activities.find(
         {"user_id": athlete_id},
         {"_id": 0}
-    ).sort("start_date", 1).to_list(length=None)
+    ).sort("start_date", 1).limit(100).to_list(length=100)
     
     # Convert Suunto activities to training block format
     suunto_service = SuuntoService(db)
@@ -7299,7 +7299,7 @@ async def get_weekly_summary(athlete_id: str, year: int = Query(2025), month: in
             ]
         },
         {"_id": 0}
-    ).to_list(length=None)
+    ).limit(100).to_list(length=100)
     
     # Group blocks by week
     weeks = {}
@@ -7534,7 +7534,7 @@ async def get_athlete_integrations(athlete_id: str):
     integrations = await db.integrations.find(
         {"athlete_id": athlete_id, "is_active": True},
         {"_id": 0, "credentials": 0}  # Don't return sensitive credentials
-    ).to_list(length=None)
+    ).limit(100).to_list(length=100)
     
     return {"integrations": [parse_from_mongo(i) for i in integrations]}
 
@@ -7571,7 +7571,7 @@ async def get_workouts(athlete_id: str, limit: int = 20, date: Optional[str] = N
     workouts = await db.workouts.find(
         query, 
         {"_id": 0}
-    ).sort("date", -1).limit(limit).to_list(length=None)
+    ).sort("date", -1).limit(limit).limit(100).to_list(length=100)
     return [parse_from_mongo(w) for w in workouts]
 
 # Sleep data routes
@@ -7586,7 +7586,7 @@ async def get_sleep_data(athlete_id: str, limit: int = 14):
     sleep_data = await db.sleep_data.find(
         {"athlete_id": athlete_id}, 
         {"_id": 0}
-    ).sort("date", -1).limit(limit).to_list(length=None)
+    ).sort("date", -1).limit(limit).limit(100).to_list(length=100)
     return [parse_from_mongo(s) for s in sleep_data]
 
 # Readiness score routes
@@ -7735,7 +7735,7 @@ async def get_chat_history(athlete_id: str, limit: int = 20):
     messages = await db.chat_messages.find(
         {"athlete_id": athlete_id}, 
         {"_id": 0}
-    ).sort("timestamp", -1).limit(limit).to_list(length=None)
+    ).sort("timestamp", -1).limit(limit).limit(100).to_list(length=100)
     return [parse_from_mongo(m) for m in messages]
 
 @api_router.get("/coach/conversations/{athlete_id}")
@@ -7757,7 +7757,7 @@ async def get_conversations(athlete_id: str, archived: Optional[bool] = None):
         {"$limit": 50}
     ]
     
-    conversations = await db.chat_messages.aggregate(pipeline).to_list(length=None)
+    conversations = await db.chat_messages.aggregate(pipeline).limit(200).to_list(length=200)
     
     # Filter by archived status after aggregation (to handle missing archived field)
     result = []
@@ -7793,7 +7793,7 @@ async def get_conversation(athlete_id: str, session_id: str):
     messages = await db.chat_messages.find(
         {"athlete_id": athlete_id, "session_id": session_id}, 
         {"_id": 0}
-    ).sort("timestamp", 1).to_list(length=None)
+    ).sort("timestamp", 1).limit(100).to_list(length=100)
     return [parse_from_mongo(m) for m in messages]
 
 @api_router.delete("/coach/{athlete_id}/{session_id}")
@@ -8901,7 +8901,7 @@ async def get_athlete_schedules(athlete_id: str):
     schedules = await db.schedules.find(
         {"athlete_id": athlete_id, "active": True}, 
         {"_id": 0}
-    ).to_list(length=None)
+    ).limit(100).to_list(length=100)
     return schedules
 
 @api_router.put("/schedules/{schedule_id}", response_model=Schedule)
@@ -8969,7 +8969,7 @@ async def get_athlete_recommendations(athlete_id: str, limit: int = 20):
     recommendations = await db.recommendations.find(
         {"athlete_id": athlete_id}, 
         {"_id": 0}
-    ).sort("generated_at", -1).limit(limit).to_list(length=None)
+    ).sort("generated_at", -1).limit(limit).limit(100).to_list(length=100)
     return [parse_from_mongo(r) for r in recommendations]
 
 @api_router.post("/recommendations/{athlete_id}/generate")
@@ -9045,7 +9045,7 @@ async def get_athlete_memories(athlete_id: str, category: str = None, search: st
     memories = await db.athlete_memories.find(
         query,
         {"_id": 0}
-    ).sort("importance", -1).sort("created_at", -1).to_list(length=None)
+    ).sort("importance", -1).sort("created_at", -1).limit(100).to_list(length=100)
     
     return {"memories": [parse_from_mongo(m) for m in memories]}
 
@@ -9095,7 +9095,7 @@ async def get_memory_categories(athlete_id: str):
         {"$sort": {"count": -1}}
     ]
     
-    results = await db.athlete_memories.aggregate(pipeline).to_list(length=None)
+    results = await db.athlete_memories.aggregate(pipeline).limit(100).to_list(length=100)
     
     categories = [{"category": r["_id"], "count": r["count"]} for r in results]
     
@@ -9166,7 +9166,7 @@ async def get_push_subscriptions(athlete_id: str):
     subscriptions = await db.push_subscriptions.find(
         {"athlete_id": athlete_id},
         {"_id": 0}
-    ).to_list(length=None)
+    ).limit(100).to_list(length=100)
     return {"subscriptions": subscriptions}
 
 @api_router.post("/push/test/{athlete_id}")
@@ -9188,7 +9188,7 @@ async def execute_scheduled_analyses():
     
     try:
         # Get all active schedules
-        schedules = await db.schedules.find({"active": True}).to_list(length=None)
+        schedules = await db.schedules.find({"active": True}).limit(100).to_list(length=100)
         
         for schedule in schedules:
             # Simple daily execution logic (would be enhanced with proper scheduling)
@@ -9617,7 +9617,7 @@ async def get_user_connections(user_id: str = Query(...)):
     connections = await db.user_connections.find(
         {"user_id": user_id},
         {"_id": 0, "access_token": 0, "refresh_token": 0}  # Don't return sensitive tokens
-    ).to_list(length=None)
+    ).limit(100).to_list(length=100)
     
     return {"connections": [parse_from_mongo(conn) for conn in connections]}
 
@@ -9722,7 +9722,7 @@ async def get_user_activities(
     activities = await db.normalized_activities.find(
         query,
         {"_id": 0}
-    ).sort("start_time", -1).limit(limit).to_list(length=None)
+    ).sort("start_time", -1).limit(limit).limit(100).to_list(length=100)
     
     return {"activities": [parse_from_mongo(activity) for activity in activities]}
 
@@ -9746,7 +9746,7 @@ async def get_user_daily_metrics(
     daily_metrics = await db.normalized_daily.find(
         query,
         {"_id": 0}
-    ).sort("date", -1).limit(limit).to_list(length=None)
+    ).sort("date", -1).limit(limit).limit(100).to_list(length=100)
     
     return {"daily_metrics": [parse_from_mongo(metric) for metric in daily_metrics]}
 
@@ -10450,7 +10450,7 @@ async def get_following_feed(athlete_id: str, limit: int = Query(50), skip: int 
         follows = await db.community_follows.find(
             {"follower_id": athlete_id},
             {"_id": 0, "following_id": 1}
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         following_ids = [f["following_id"] for f in follows]
         # Add user's own ID to see their own posts
@@ -10893,7 +10893,7 @@ async def search_athletes_for_mention(q: str = Query(..., min_length=1)):
         athletes = await db.athlete_profiles.find(
             {"name": {"$regex": q, "$options": "i"}},
             {"_id": 0, "id": 1, "name": 1}
-        ).limit(10).to_list(length=None)
+        ).limit(10).limit(100).to_list(length=100)
         
         return {"athletes": athletes}
     except Exception as e:
@@ -10938,7 +10938,7 @@ async def get_comments(post_id: str, athlete_id: str = Query(None)):
             liked_comments = await db.community_comment_likes.find({
                 "comment_id": {"$in": comment_ids},
                 "athlete_id": athlete_id
-            }).to_list(length=None)
+            }).limit(100).to_list(length=100)
             liked_comment_ids = {like["comment_id"] for like in liked_comments}
             
             for comment in comments:
@@ -11367,7 +11367,7 @@ async def get_challenges(
             participations = await db.community_challenge_participants.find(
                 {"athlete_id": athlete_id},
                 {"_id": 0, "challenge_id": 1}
-            ).to_list(length=None)
+            ).limit(100).to_list(length=100)
             challenge_ids = [p["challenge_id"] for p in participations]
             query["id"] = {"$in": challenge_ids}
         
@@ -11375,7 +11375,7 @@ async def get_challenges(
         challenges = await db.community_challenges.find(
             query,
             {"_id": 0}
-        ).sort("created_at", -1).skip(skip).limit(limit).to_list(length=None)
+        ).sort("created_at", -1).skip(skip).limit(limit).limit(100).to_list(length=100)
         
         # For each challenge, check if user has joined and get their progress
         for challenge in challenges:
@@ -11658,7 +11658,7 @@ async def update_challenge_progress(challenge_id: str, athlete_id: str = Query(.
                     "date": {"$gte": start_date, "$lte": end_date}
                 },
                 {"_id": 0, "distance": 1}
-            ).to_list(length=None)
+            ).limit(100).to_list(length=100)
             progress = sum(float(w.get("distance", 0)) for w in workouts)
         
         elif challenge_type == "activity_count":
@@ -11677,7 +11677,7 @@ async def update_challenge_progress(challenge_id: str, athlete_id: str = Query(.
                     "date": {"$gte": start_date, "$lte": end_date}
                 },
                 {"_id": 0, "duration": 1}
-            ).to_list(length=None)
+            ).limit(100).to_list(length=100)
             # Convert duration to minutes
             total_minutes = 0.0
             for w in workouts:
@@ -11833,7 +11833,7 @@ async def get_athlete_achievements(athlete_id: str):
         achievements = await db.community_challenge_achievements.find(
             {"athlete_id": athlete_id},
             {"_id": 0}
-        ).sort("completed_at", -1).to_list(length=None)
+        ).sort("completed_at", -1).limit(100).to_list(length=100)
         
         return {"achievements": achievements}
     except Exception as e:
@@ -11851,7 +11851,7 @@ async def get_notifications(athlete_id: str, unread_only: bool = Query(False)):
         notifications = await db.community_notifications.find(
             query,
             {"_id": 0}
-        ).sort("created_at", -1).limit(50).to_list(length=None)
+        ).sort("created_at", -1).limit(50).limit(100).to_list(length=100)
         
         return {"notifications": notifications}
     except Exception as e:
@@ -12007,7 +12007,7 @@ async def get_followers(athlete_id: str):
         follows = await db.community_follows.find(
             {"following_id": athlete_id},
             {"_id": 0}
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         # Get athlete info for each follower
         follower_ids = [f["follower_id"] for f in follows]
@@ -12033,7 +12033,7 @@ async def get_following(athlete_id: str):
         follows = await db.community_follows.find(
             {"follower_id": athlete_id},
             {"_id": 0}
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         # Get athlete info for each following
         following_ids = [f["following_id"] for f in follows]
@@ -12067,7 +12067,7 @@ async def get_all_athletes(viewer_athlete_id: str = Query(...), search: str = Qu
         athletes = await db.athlete_profiles.find(
             query,
             {"_id": 0, "id": 1, "name": 1, "profile_picture": 1, "bio": 1, "nationality": 1, "subscription_tier": 1}
-        ).limit(limit).to_list(length=None)
+        ).limit(limit).limit(100).to_list(length=100)
         
         # For each athlete, check if viewer is following them and get their stats
         result = []
@@ -12282,7 +12282,7 @@ async def get_group_details(group_id: str, athlete_id: str = Query(...)):
         memberships = await db.community_group_memberships.find({
             "group_id": group_id,
             "status": "approved"
-        }, {"_id": 0}).to_list(length=None)
+        }, {"_id": 0}).limit(100).to_list(length=100)
         
         members = []
         for m in memberships:
@@ -12304,7 +12304,7 @@ async def get_group_details(group_id: str, athlete_id: str = Query(...)):
             pending_memberships = await db.community_group_memberships.find({
                 "group_id": group_id,
                 "status": "pending"
-            }, {"_id": 0}).to_list(length=None)
+            }, {"_id": 0}).limit(100).to_list(length=100)
             
             pending_members = []
             for m in pending_memberships:
@@ -12695,7 +12695,7 @@ async def create_event(event_data: dict, athlete_id: str = Query(...)):
             group_memberships = await db.community_group_memberships.find({
                 "group_id": event["group_id"],
                 "status": "approved"
-            }, {"_id": 0}).to_list(length=None)
+            }, {"_id": 0}).limit(100).to_list(length=100)
             
             creator = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
             
@@ -12828,7 +12828,7 @@ async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(Non
                 projection_stage
             ]
         
-        events = await db.community_events.aggregate(pipeline).to_list(length=None)
+        events = await db.community_events.aggregate(pipeline).limit(100).to_list(length=100)
         
         return {"events": events}
     except Exception as e:
@@ -12903,7 +12903,7 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...), exclude
             }
         ]
         
-        interested = await db.community_event_attendance.aggregate(interested_pipeline).to_list(length=None)
+        interested = await db.community_event_attendance.aggregate(interested_pipeline).limit(100).to_list(length=100)
         going = await db.community_event_attendance.aggregate(going_pipeline).to_list(length=None)
         
         event["interested_users"] = interested
@@ -13240,7 +13240,7 @@ async def get_available_discount(athlete_id: str):
         rewards = await db.referral_rewards.find({
             "athlete_id": athlete_id,
             "status": "pending"
-        }).to_list(length=None)
+        }).limit(100).to_list(length=100)
         
         # Calculate total discount (cap at 100%)
         total_discount = min(sum(r.get("discount_percentage", 0) for r in rewards), 100)
@@ -13266,7 +13266,7 @@ async def apply_referral_discount(athlete_id: str = Query(...)):
         rewards = await db.referral_rewards.find({
             "athlete_id": athlete_id,
             "status": "pending"
-        }).sort("created_at", 1).limit(5).to_list(length=None)
+        }).sort("created_at", 1).limit(5).limit(100).to_list(length=100)
         
         if not rewards:
             return {"success": False, "message": "No rewards available"}
@@ -13345,7 +13345,7 @@ async def get_system_stats(athlete_id: str):
 async def get_email_templates():
     """Get all email templates"""
     try:
-        templates = await db.email_templates.find({}, {"_id": 0}).to_list(length=None)
+        templates = await db.email_templates.find({}, {"_id": 0}).limit(100).to_list(length=100)
         return templates
     except Exception as e:
         logging.error(f"Error getting email templates: {e}")
@@ -13564,7 +13564,7 @@ class CustomEmail(BaseModel):
 async def get_custom_emails():
     """Get all custom email campaigns"""
     try:
-        emails = await db.custom_emails.find({}, {"_id": 0}).to_list(length=None)
+        emails = await db.custom_emails.find({}, {"_id": 0}).limit(100).to_list(length=100)
         return {"emails": emails}
     except Exception as e:
         logging.error(f"Error fetching custom emails: {e}")
@@ -13850,7 +13850,7 @@ async def get_analytics_events(
         events = await db.analytics_events.find(
             query,
             {"_id": 0}
-        ).sort("timestamp", -1).limit(limit).to_list(length=None)
+        ).sort("timestamp", -1).limit(limit).limit(100).to_list(length=100)
         
         return {
             "success": True,
@@ -14051,7 +14051,7 @@ async def get_all_users(athlete_id: str):
                 "date_of_birth": 1,
                 "gender": 1
             }
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         # Format the data for CRM
         formatted_users = []
@@ -14094,7 +14094,7 @@ async def get_user_profile(user_id: str, athlete_id: str):
         transactions = await db.payment_transactions.find(
             {"athlete_id": user_id, "payment_status": "paid"},
             {"_id": 0, "amount": 1}
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         lifetime_value = sum([t.get("amount", 0) for t in transactions])
         
@@ -14113,7 +14113,7 @@ async def get_user_profile(user_id: str, athlete_id: str):
         referrals = await db.referrals.find(
             {"referrer_athlete_id": user_id},
             {"_id": 0, "referred_athlete_id": 1}
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         referrals_count = len(referrals)
         
@@ -14128,7 +14128,7 @@ async def get_user_profile(user_id: str, athlete_id: str):
                 referred_payments = await db.payment_transactions.find(
                     {"athlete_id": referred_user_id, "payment_status": "paid"},
                     {"_id": 0, "amount": 1}
-                ).to_list(length=None)
+                ).limit(100).to_list(length=100)
                 
                 referred_total = sum([p.get("amount", 0) for p in referred_payments])
                 generated_revenue += referred_total
@@ -14143,7 +14143,7 @@ async def get_user_profile(user_id: str, athlete_id: str):
         payment_interactions = await db.payment_transactions.find(
             {"athlete_id": user_id, "payment_status": "paid"},
             {"_id": 0, "tier": 1, "interval": 1, "created_at": 1, "updated_at": 1}
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         for payment in payment_interactions:
             interactions.append({
@@ -14212,7 +14212,7 @@ async def get_all_orders(athlete_id: str):
                 "created_at": 1,
                 "updated_at": 1
             }
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         # Get athlete names for each transaction and determine if renewal
         formatted_orders = []
@@ -14392,7 +14392,7 @@ async def get_order_details(order_id: str, athlete_id: str):
         customer_orders = await db.payment_transactions.find(
             {"athlete_id": athlete_id_val},
             {"_id": 0, "id": 1, "tier": 1, "interval": 1, "amount": 1, "currency": 1, "payment_status": 1, "created_at": 1, "updated_at": 1}
-        ).sort("created_at", -1).to_list(length=None)
+        ).sort("created_at", -1).limit(100).to_list(length=100)
         
         # Format order history
         order_history = []
@@ -14549,7 +14549,7 @@ async def get_all_subscriptions(athlete_id: str):
                 "stripe_customer_id": 1,
                 "stripe_subscription_id": 1
             }
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         subscriptions = []
         for user in users:
@@ -14559,7 +14559,7 @@ async def get_all_subscriptions(athlete_id: str):
             transactions = await db.payment_transactions.find(
                 {"athlete_id": user_id, "payment_status": "paid"},
                 {"_id": 0, "amount": 1}
-            ).to_list(length=None)
+            ).limit(100).to_list(length=100)
             
             lifetime_value = sum([t.get("amount", 0) for t in transactions])
             
@@ -14626,7 +14626,7 @@ async def get_all_pages(athlete_id: str, search: str = "", status: str = "", ind
             query["index_status"] = index_status
         
         # Fetch pages
-        pages = await db.pages.find(query, {"_id": 0}).sort("updated_at", -1).to_list(length=None)
+        pages = await db.pages.find(query, {"_id": 0}).sort("updated_at", -1).limit(100).to_list(length=100)
         
         return {"pages": pages, "total": len(pages)}
     except Exception as e:
@@ -15989,7 +15989,7 @@ async def get_subscriber_stats(
         athletes = await db.athletes.find(
             {},
             {"_id": 0, "created_at": 1, "subscription_tier": 1}
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         print(f"Found {len(athletes)} total athletes", flush=True)
         
@@ -16203,7 +16203,7 @@ async def get_subscriber_stats(
                 "count": {"$sum": 1}
             }},
             {"$sort": {"_id": 1}}
-        ]).to_list(length=None)
+        ]).limit(100).to_list(length=100)
         
         # Create time series for posts
         post_time_series = []
@@ -16309,7 +16309,7 @@ async def get_subscriber_stats(
                 "count": {"$sum": 1}
             }},
             {"$sort": {"_id": 1}}
-        ]).to_list(length=None)
+        ]).limit(100).to_list(length=100)
         
         daily_referrals = {item["_id"]: item["count"] for item in daily_referrals_result}
         
@@ -16415,7 +16415,7 @@ async def list_coupons(athlete_id: str, include_disabled: bool = False):
     
     try:
         query = {} if include_disabled else {"enabled": True}
-        coupons = await db.coupons.find(query, {"_id": 0}).to_list(length=None)
+        coupons = await db.coupons.find(query, {"_id": 0}).limit(100).to_list(length=100)
         
         # Sort by created_at desc
         coupons.sort(key=lambda x: x.get("created_at", ""), reverse=True)
@@ -16574,7 +16574,7 @@ async def get_coupon_usage(code: str, athlete_id: str):
         usage_records = await db.coupon_usage.find(
             {"coupon_code": code}, 
             {"_id": 0}
-        ).to_list(length=None)
+        ).limit(100).to_list(length=100)
         
         # Calculate stats
         total_uses = len(usage_records)
@@ -16609,7 +16609,7 @@ async def get_subscription_plans_public():
         plans = await db.subscription_plans.find(
             {"enabled": {"$ne": False}},
             {"_id": 0}
-        ).sort("sort_order", 1).to_list(length=None)
+        ).sort("sort_order", 1).limit(100).to_list(length=100)
         
         return {"plans": plans}
     except Exception as e:
@@ -16621,7 +16621,7 @@ async def get_subscription_plans(athlete_id: str = None):
     """Get all subscription plans and their variations"""
     try:
         # Get plans from database (variations are now embedded in the plans)
-        plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).to_list(length=None)
+        plans = await db.subscription_plans.find({"enabled": True}, {"_id": 0}).limit(50).to_list(length=50)
         
         # Sort by sort_order
         plans.sort(key=lambda x: x.get("sort_order", 0))
@@ -17229,7 +17229,7 @@ async def push_plans_to_stripe(athlete_id: str):
         }
         
         # Get all local subscription plans
-        plans = await db.subscription_plans.find({}, {"_id": 0}).to_list(length=None)
+        plans = await db.subscription_plans.find({}, {"_id": 0}).limit(50).to_list(length=50)
         
         if not plans:
             return {
@@ -17346,7 +17346,7 @@ async def reset_stripe_ids(athlete_id: str):
     
     try:
         # Get all plans
-        plans = await db.subscription_plans.find({}, {"_id": 0}).to_list(length=None)
+        plans = await db.subscription_plans.find({}, {"_id": 0}).limit(50).to_list(length=50)
         
         if not plans:
             return {
@@ -17553,7 +17553,7 @@ async def get_waiting_list(
         entries = await db.waiting_list.find(
             query,
             {"_id": 0}
-        ).sort("created_at", -1).skip(skip).limit(limit).to_list(length=None)
+        ).sort("created_at", -1).skip(skip).limit(limit).limit(100).to_list(length=100)
         
         # Get total count
         total_count = await db.waiting_list.count_documents(query)
@@ -17584,7 +17584,7 @@ async def export_waiting_list_csv(athlete_id: str, status: Optional[str] = None)
         entries = await db.waiting_list.find(
             query,
             {"_id": 0}
-        ).sort("created_at", -1).to_list(length=None)
+        ).sort("created_at", -1).limit(100).to_list(length=100)
         
         # Create CSV content
         csv_lines = []
