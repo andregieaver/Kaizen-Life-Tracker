@@ -13185,8 +13185,8 @@ async def convert_referral(athlete_id: str = Query(...), referral_code: Optional
 async def get_referral_stats(athlete_id: str):
     """Get referral statistics for an athlete"""
     try:
-        # Get all referrals by this athlete
-        referrals = await db.referrals.find({"referrer_id": athlete_id}).to_list(length=None)
+        # Get referrals by this athlete (limited to reasonable max)
+        referrals = await db.referrals.find({"referrer_id": athlete_id}).limit(500).to_list(length=500)
         
         # Calculate stats
         total_clicks = sum(r.get("click_count", 0) for r in referrals)
@@ -13194,11 +13194,11 @@ async def get_referral_stats(athlete_id: str):
         total_conversions = len(converted_referrals)
         conversion_rate = (total_conversions / total_clicks * 100) if total_clicks > 0 else 0
         
-        # Get rewards
+        # Get rewards (limited to reasonable max)
         rewards = await db.referral_rewards.find({
             "athlete_id": athlete_id,
             "status": "pending"
-        }).to_list(length=None)
+        }).limit(100).to_list(length=100)
         
         # Calculate total discount available (cap at 100%)
         total_discount = min(sum(r.get("discount_percentage", 0) for r in rewards), 100)
