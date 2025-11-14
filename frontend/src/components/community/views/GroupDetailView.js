@@ -5,6 +5,7 @@ import { Camera, Crown, Users as UsersIcon, Lock, Globe, X, Send } from 'lucide-
 import EmojiPickerButton from '../../EmojiPickerButton';
 import { compressPostImage } from '../../../utils/imageCompression';
 import { logger } from '../../../utils/logger';
+import axios from 'axios';
 
 const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage, newPostImagePreview,
   editingPost, editContent, showComments, commentText, setNewPostContent, setNewPostImage, 
