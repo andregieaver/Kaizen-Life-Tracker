@@ -95,9 +95,5 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
     </div>
   );
 };
-      </div>
-    </div>
-  );
-
 
 export default GroupCard;
