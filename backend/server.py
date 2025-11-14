@@ -12828,7 +12828,7 @@ async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(Non
                 projection_stage
             ]
         
-        events = await db.community_events.aggregate(pipeline).limit(100).to_list(length=100)
+        events = await db.community_events.aggregate(pipeline).to_list(length=None)
         
         return {"events": events}
     except Exception as e:
