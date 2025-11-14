@@ -2739,7 +2739,23 @@ const SystemSettings = ({ athleteId }) => {
 
           {/* Coupons Tab */}
           <TabsContent value="coupons">
-                              { value: 'all', label: 'All Time' }
+            <CouponsTab
+              coupons={couponHook.coupons}
+              newCoupon={couponHook.newCoupon}
+              showDisabledCoupons={couponHook.showDisabledCoupons}
+              isLoading={couponHook.isLoading}
+              availablePlans={couponHook.availablePlans}
+              onUpdateNewCoupon={couponHook.updateNewCoupon}
+              onCreateCoupon={couponHook.createCoupon}
+              onToggleCoupon={couponHook.toggleCoupon}
+              onDeleteCoupon={couponHook.deleteCoupon}
+              onToggleShowDisabled={couponHook.toggleShowDisabled}
+            />
+          </TabsContent>
+
+
+          {/* Waiting List Tab */}
+          <TabsContent value="waitinglist">
                             ].map((period) => (
                               <Button
                                 key={period.value}
