@@ -39,11 +39,11 @@
 ## 🔄 In Progress
 
 ### Update Community.js to use new hooks
-- [ ] Import new hooks
-- [ ] Replace media upload functions with useMediaUpload
-- [ ] Replace mention functions with useMentions
-- [ ] Test compilation
-- [ ] Test functionality
+- ✅ Import new hooks
+- ✅ Replace media upload functions with useMediaUpload
+- ✅ Replace mention functions with useMentions  
+- ✅ Test compilation
+- [ ] Test functionality (needs manual verification)
 
 ---
 
