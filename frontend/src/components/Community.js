@@ -17,6 +17,10 @@ import EventDetailModal from './community/modals/EventDetailModal';
 import CreateEventModal from './community/modals/CreateEventModal';
 import EditEventModal from './community/modals/EditEventModal';
 import CreateGroupModal from './community/modals/CreateGroupModal';
+import EditGroupModal from './community/modals/EditGroupModal';
+import CreateChallengeModal from './community/modals/CreateChallengeModal';
+import EditChallengeModal from './community/modals/EditChallengeModal';
+import ChallengeDetailModal from './community/modals/ChallengeDetailModal';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
