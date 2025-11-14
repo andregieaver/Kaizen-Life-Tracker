@@ -779,64 +779,18 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     setDraggedIndex(null);
   };
 
-  // Mention handling functions
-  const searchAthletes = async (searchText) => {
-    if (!searchText || searchText.length < 1) {
-      setMentionResults([]);
-      return;
-    }
-    
-    try {
-      const response = await axios.get(`${API}/community/athletes/search?q=${searchText}`);
-      setMentionResults(response.data.athletes || []);
-    } catch (error) {
-      logger.error(null, 'Error searching athletes:', error);
-      setMentionResults([]);
-    }
-  };
-
+  // Mention handling functions - using useMentions hook
   const handlePostContentChange = (e) => {
     const text = e.target.value;
     const cursorPosition = e.target.selectionStart;
     
     setNewPostContent(text);
-    
-    // Check for mention trigger
-    const mentionTrigger = findMentionTrigger(text, cursorPosition);
-    
-    if (mentionTrigger.triggered) {
-      setShowMentionDropdown(true);
-      setMentionSearchText(mentionTrigger.searchText);
-      searchAthletes(mentionTrigger.searchText);
-      
-      // Calculate dropdown position
-      const textarea = e.target;
-      const rect = textarea.getBoundingClientRect();
-      setMentionPosition({
-        top: rect.bottom,
-        left: rect.left
-      });
-    } else {
-      setShowMentionDropdown(false);
-      setMentionResults([]);
-    }
+    handleMentionTextChange(text, cursorPosition, e.target, 'newPost');
   };
 
   const handleSelectMention = (athlete) => {
-    const textarea = newPostRef.current;
-    const cursorPosition = textarea.selectionStart;
-    
-    const result = insertMention(newPostContent, cursorPosition, athlete.id, athlete.name);
-    setNewPostContent(result.text);
-    setShowMentionDropdown(false);
-    setMentionResults([]);
-    
-    // Set cursor position after mention
-    setTimeout(() => {
-      textarea.focus();
-      textarea.selectionStart = result.cursorPosition;
-      textarea.selectionEnd = result.cursorPosition;
-    }, 0);
+    const newText = selectMention(newPostContent, newPostRef.current.selectionStart, athlete, newPostRef);
+    setNewPostContent(newText);
   };
 
   const handleCommentContentChange = (postId, e) => {
@@ -844,46 +798,14 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     const cursorPosition = e.target.selectionStart;
     
     setCommentText({ ...commentText, [postId]: text });
-    
-    // Check for mention trigger
-    const mentionTrigger = findMentionTrigger(text, cursorPosition);
-    
-    if (mentionTrigger.triggered) {
-      setShowMentionDropdown(postId); // Use postId to track which comment box
-      setMentionSearchText(mentionTrigger.searchText);
-      searchAthletes(mentionTrigger.searchText);
-      
-      // Calculate dropdown position
-      const textarea = e.target;
-      const rect = textarea.getBoundingClientRect();
-      setMentionPosition({
-        top: rect.bottom,
-        left: rect.left
-      });
-    } else {
-      if (showMentionDropdown === postId) {
-        setShowMentionDropdown(false);
-        setMentionResults([]);
-      }
-    }
+    handleMentionTextChange(text, cursorPosition, e.target, `comment-${postId}`);
   };
 
   const handleSelectCommentMention = (postId, athlete) => {
-    const textarea = commentRefs.current[postId];
-    const cursorPosition = textarea.selectionStart;
     const currentText = commentText[postId] || '';
-    
-    const result = insertMention(currentText, cursorPosition, athlete.id, athlete.name);
-    setCommentText({ ...commentText, [postId]: result.text });
-    setShowMentionDropdown(false);
-    setMentionResults([]);
-    
-    // Set cursor position after mention
-    setTimeout(() => {
-      textarea.focus();
-      textarea.selectionStart = result.cursorPosition;
-      textarea.selectionEnd = result.cursorPosition;
-    }, 0);
+    const textarea = commentRefs.current[postId];
+    const newText = selectMention(currentText, textarea.selectionStart, athlete, { current: textarea });
+    setCommentText({ ...commentText, [postId]: newText });
   };
 
 
