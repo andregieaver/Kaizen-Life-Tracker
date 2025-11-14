@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Loading spinner animation for code splitting */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* Global theme-aware background for html and body */
 html,
 body {
