@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Calendar, Clock, MapPin, Edit3, Trash2 } from 'lucide-react';
+import { Calendar, Clock, MapPin, Edit3, Edit2, Trash2, Star } from 'lucide-react';
 
 const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSuperAdmin = false }) => {
   const { t } = useTranslation();

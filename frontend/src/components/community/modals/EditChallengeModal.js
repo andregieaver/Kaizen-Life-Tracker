@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../ui/button';
-import { X, Trophy } from 'lucide-react';
+import { X, Trophy, Edit2 } from 'lucide-react';
 import { compressBannerImage } from '../../../utils/imageCompression';
 import { logger } from '../../../utils/logger';
 

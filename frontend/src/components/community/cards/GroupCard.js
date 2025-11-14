@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../ui/button';
-import { Users as UsersIcon, Lock, Globe, Edit3, Trash2 } from 'lucide-react';
+import { Users as UsersIcon, Lock, Globe, Edit3, Edit2, Trash2, Crown, Shield } from 'lucide-react';
 
 const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onClick, isSuperAdmin = false }) => {
   const { t } = useTranslation();
