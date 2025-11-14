@@ -585,7 +585,6 @@ async def check_and_execute_schedules():
             
             # Get athlete's timezone from cached map
             athlete_timezone_str = athlete_timezones.get(athlete_id, 'UTC')
-            athlete_timezone_str = athlete.get('timezone', 'UTC') if athlete else 'UTC'
             
             # Convert current UTC time to athlete's timezone
             try:
