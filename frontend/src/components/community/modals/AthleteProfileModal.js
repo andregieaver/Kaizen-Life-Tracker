@@ -5,6 +5,7 @@ import { X, UserPlus, UserMinus, Heart, Share2, MapPin, Calendar } from 'lucide-
 import SubscriptionBadge from '../../SubscriptionBadge';
 import FlagIcon from '../../FlagIcon';
 import axios from 'axios';
+import { logger } from '../../../utils/logger';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
