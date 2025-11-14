@@ -12,6 +12,7 @@ import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import SubscriptionBadge from './SubscriptionBadge';
 import FlagIcon from './FlagIcon';
+import CommentsModal from './community/modals/CommentsModal';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
