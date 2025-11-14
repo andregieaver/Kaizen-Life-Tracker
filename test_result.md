@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Implement light/dark theme support for TrainSmart application, starting with the Dashboard home page. Fine-tune light theme to use dark blue accent colors instead of teal and whiter gradient backgrounds."
+user_problem_statement: "Ensure Oura Ring data (sleep score, readiness score, activity score) fetches properly on dashboard. Add three additional metrics below activity score: lowest resting heart rate, total sleep time, and average HRV from last night. Make refresh button actively sync latest data from Oura API."
 
 frontend:
   - task: "Light/Dark Theme Infrastructure"
