@@ -563,10 +563,19 @@ async def check_and_execute_schedules():
         
         print(f"[SCHEDULER] Checking schedules at {now_utc.strftime('%H:%M')} UTC")
         
-        # Find active schedules that are due
-        schedules = await db.schedules.find({"active": True}).to_list(length=None)
+        # Find active schedules that are due (limited to prevent memory issues)
+        schedules = await db.schedules.find({"active": True}).limit(500).to_list(length=500)
         
         print(f"[SCHEDULER] Found {len(schedules)} active schedules")
+        
+        # Batch fetch athlete timezones to avoid N+1 queries
+        athlete_ids = list(set(s.get('athlete_id') for s in schedules if s.get('athlete_id')))
+        athletes_cursor = db.athlete_profiles.find(
+            {"id": {"$in": athlete_ids}},
+            {"_id": 0, "id": 1, "timezone": 1}
+        )
+        athletes = await athletes_cursor.to_list(length=len(athlete_ids))
+        athlete_timezones = {a['id']: a.get('timezone', 'UTC') for a in athletes}
         
         for schedule in schedules:
             schedule_time = schedule.get('time', '')
@@ -574,8 +583,8 @@ async def check_and_execute_schedules():
             last_executed = schedule.get('last_executed')
             athlete_id = schedule.get('athlete_id')
             
-            # Get athlete's timezone preference
-            athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0, "timezone": 1})
+            # Get athlete's timezone from cached map
+            athlete_timezone_str = athlete_timezones.get(athlete_id, 'UTC')
             athlete_timezone_str = athlete.get('timezone', 'UTC') if athlete else 'UTC'
             
             # Convert current UTC time to athlete's timezone
