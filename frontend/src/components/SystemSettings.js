@@ -185,11 +185,15 @@ const SystemSettings = ({ athleteId }) => {
   };
 
   if (loading) {
-      
-      // Load module settings
-      if (response.data.modules) {
-        setModuleSettings(response.data.modules);
-      }
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-[#32D3FF] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-400">{t('systemSettings.loadingSettings')}</p>
+        </div>
+      </div>
+    );
+  }
       
       // Load SEO settings
       if (response.data.seo) {
