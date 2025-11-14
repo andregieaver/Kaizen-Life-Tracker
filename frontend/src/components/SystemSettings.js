@@ -2720,7 +2720,25 @@ const SystemSettings = ({ athleteId }) => {
           {/* Plans Tab */}
           <TabsContent value="plans">
             <PlansTab
-                              { value: '1y', label: '1 Year' },
+              planSettings={planHook.planSettings}
+              onUpdatePlanField={planHook.updatePlanField}
+              onAddFeature={planHook.addFeature}
+              onRemoveFeature={planHook.removeFeature}
+              onUpdateFeature={planHook.updateFeature}
+              onSavePlanSettings={planHook.savePlanSettings}
+              dragHandlers={{
+                handleFeatureDragStart: planHook.handleFeatureDragStart,
+                handleFeatureDragOver: planHook.handleFeatureDragOver,
+                handleFeatureDrop: planHook.handleFeatureDrop,
+                handleFeatureDragEnd: planHook.handleFeatureDragEnd
+              }}
+              isSaving={planHook.isSaving}
+            />
+          </TabsContent>
+
+
+          {/* Coupons Tab */}
+          <TabsContent value="coupons">
                               { value: 'all', label: 'All Time' }
                             ].map((period) => (
                               <Button
