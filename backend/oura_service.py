@@ -66,10 +66,10 @@ class OuraService(BaseIntegrationService):
         end_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         
         async with httpx.AsyncClient() as client:
-            # Fetch sleep data
+            # Fetch daily sleep data (includes sleep score)
             try:
                 sleep_response = await client.get(
-                    f"{self.api_base_url}/sleep",
+                    f"{self.api_base_url}/daily_sleep",
                     headers={"Authorization": f"Bearer {access_token}"},
                     params={"start_date": start_date, "end_date": end_date}
                 )
@@ -77,17 +77,24 @@ class OuraService(BaseIntegrationService):
                 if sleep_response.status_code == 200:
                     sleep_data = sleep_response.json()
                     for sleep in sleep_data.get("data", []):
-                        # Extract sleep score - Oura v2 may have it in readiness sub-object or top-level
-                        sleep_score = sleep.get("score")
-                        if sleep_score is None and "readiness" in sleep:
-                            sleep_score = sleep.get("readiness", {}).get("score")
+                        # daily_sleep endpoint has timestamp instead of bedtime_start
+                        timestamp_str = sleep.get("timestamp") or sleep.get("day")
+                        if timestamp_str:
+                            # Parse the timestamp or use day as date
+                            try:
+                                start_date_parsed = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
+                            except:
+                                # Fallback to day field
+                                start_date_parsed = datetime.fromisoformat(sleep["day"] + "T00:00:00+00:00")
+                        else:
+                            start_date_parsed = datetime.now()
                         
                         activities.append({
                             "activity_id": f"sleep_{sleep['id']}",
                             "type": "Sleep",
-                            "start_date": datetime.fromisoformat(sleep["bedtime_start"].replace("Z", "+00:00")),
+                            "start_date": start_date_parsed,
                             "duration": sleep.get("total_sleep_duration"),
-                            "score": sleep_score,
+                            "score": sleep.get("score"),  # daily_sleep has score!
                             "deep_sleep": sleep.get("deep_sleep_duration"),
                             "rem_sleep": sleep.get("rem_sleep_duration"),
                             "light_sleep": sleep.get("light_sleep_duration"),
@@ -98,9 +105,9 @@ class OuraService(BaseIntegrationService):
                             "raw_data": sleep
                         })
                 else:
-                    logging.warning(f"Failed to fetch Oura sleep: {sleep_response.status_code}")
+                    logging.warning(f"Failed to fetch Oura daily_sleep: {sleep_response.status_code}")
             except Exception as e:
-                logging.error(f"Error fetching Oura sleep data: {e}")
+                logging.error(f"Error fetching Oura daily_sleep data: {e}")
             
             # Fetch readiness data
             try:
