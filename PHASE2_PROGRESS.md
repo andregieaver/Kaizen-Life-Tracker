@@ -84,11 +84,6 @@
 
 ## 📋 Remaining Work
 
-### Batch 2: Action Hooks (3 hooks)
-- [ ] usePostActions.js
-- [ ] useComments.js
-- [ ] useNotifications.js
-
 ### Batch 3: Feature Hooks (4 hooks)
 - [ ] useGroupActions.js
 - [ ] useEventActions.js
