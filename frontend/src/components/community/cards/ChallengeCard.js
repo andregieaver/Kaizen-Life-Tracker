@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Trophy, Target, Calendar, Users, Edit3, Trash2, Crown } from 'lucide-react';
+import { Trophy, Target, Calendar, Users, Edit3, Edit2, Trash2, Crown, Lock, Clock, RefreshCw, TrendingUp } from 'lucide-react';
 import { Button } from '../../ui/button';
 import { logger } from '../../../utils/logger';
 
