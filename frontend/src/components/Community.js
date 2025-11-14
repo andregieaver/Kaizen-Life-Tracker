@@ -24,6 +24,11 @@ import ChallengeDetailModal from './community/modals/ChallengeDetailModal';
 import AthleteProfileModal from './community/modals/AthleteProfileModal';
 import AthletesModal from './community/modals/AthletesModal';
 import GroupRulesModal from './community/modals/GroupRulesModal';
+import GroupCard from './community/cards/GroupCard';
+import ChallengeCard from './community/cards/ChallengeCard';
+import EventCard from './community/cards/EventCard';
+import PostsList from './community/views/PostsList';
+import GroupDetailView from './community/views/GroupDetailView';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
