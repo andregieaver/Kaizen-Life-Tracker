@@ -6219,7 +6219,8 @@ async def get_drink_logs(athlete_id: str, date: Optional[str] = None):
         except ValueError:
             raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD")
     
-    drinks = await db.drink_logs.find(query, {"_id": 0}).sort("log_time", -1).to_list(length=None)
+    # Limit drink logs to reasonable daily max (100 drinks per day is more than enough)
+    drinks = await db.drink_logs.find(query, {"_id": 0}).sort("log_time", -1).limit(100).to_list(length=100)
     
     # Parse drinks from MongoDB format
     parsed_drinks = [parse_from_mongo(drink) for drink in drinks]
