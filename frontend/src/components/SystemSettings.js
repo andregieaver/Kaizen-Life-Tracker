@@ -2705,7 +2705,7 @@ const SystemSettings = ({ athleteId }) => {
 
           {/* Cookies Tab */}
           <TabsContent value="cookies">
-                              { value: '7d', label: '7 Days' },
+            <CookiesTab
                               { value: '30d', label: '30 Days' },
                               { value: '90d', label: '90 Days' },
                               { value: '1y', label: '1 Year' },
