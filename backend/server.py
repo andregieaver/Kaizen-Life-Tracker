@@ -10432,7 +10432,8 @@ async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int 
             projection_stage
         ]
         
-        posts = await db.community_posts.aggregate(pipeline).to_list(length=None)
+        # Apply limit to aggregation pipeline (already has $limit stage, but ensure bounded)
+        posts = await db.community_posts.aggregate(pipeline).to_list(length=limit + skip)
         
         return {"posts": posts}
     except Exception as e:
@@ -10510,7 +10511,8 @@ async def get_following_feed(athlete_id: str, limit: int = Query(50), skip: int 
             projection_stage
         ]
         
-        posts = await db.community_posts.aggregate(pipeline).to_list(length=None)
+        # Apply limit to aggregation pipeline (already has $limit stage, but ensure bounded)
+        posts = await db.community_posts.aggregate(pipeline).to_list(length=limit + skip)
         
         return {"posts": posts}
     except Exception as e:
@@ -10579,7 +10581,8 @@ async def get_user_posts(target_athlete_id: str, viewer_athlete_id: str = Query(
             projection_stage
         ]
         
-        posts = await db.community_posts.aggregate(pipeline).to_list(length=None)
+        # Apply limit to aggregation pipeline (already has $limit stage, but ensure bounded)
+        posts = await db.community_posts.aggregate(pipeline).to_list(length=limit + skip)
         
         return {"posts": posts}
     except Exception as e:
