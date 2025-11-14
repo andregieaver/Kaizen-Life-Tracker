@@ -25,8 +25,8 @@ Fill in the following information:
   RunWisely AI running coach integration that imports sleep, HRV, 
   and readiness data from Oura Ring for personalized training recommendations.
   ```
-- **Website URL**: `https://ts-fullstack-tune.preview.emergentagent.com`
-- **Redirect URI**: `https://ts-fullstack-tune.preview.emergentagent.com/auth/oura/callback`
+- **Website URL**: `https://reactrefactor.preview.emergentagent.com`
+- **Redirect URI**: `https://reactrefactor.preview.emergentagent.com/auth/oura/callback`
 - **Scopes Requested**:
   - `email` - Basic profile information
   - `personal` - Personal information access
@@ -51,7 +51,7 @@ Update your backend `.env` file with your Oura credentials:
 ```env
 OURA_CLIENT_ID=your_actual_oura_client_id_here
 OURA_CLIENT_SECRET=your_actual_oura_client_secret_here
-OURA_REDIRECT_URI=https://ts-fullstack-tune.preview.emergentagent.com/auth/oura/callback
+OURA_REDIRECT_URI=https://reactrefactor.preview.emergentagent.com/auth/oura/callback
 ```
 
 **Important**: Replace `your_actual_oura_client_id_here` and `your_actual_oura_client_secret_here` with your real Oura app credentials.
