@@ -1,10 +1,10 @@
 /**
-import { logger } from '../utils/logger';
-
  * Analytics Library for TrainSmart
  * Integrates with Google Tag Manager and Google Analytics 4
  * Supports Consent Mode v2 and privacy-first tracking
  */
+
+import { logger } from '../utils/logger';
 
 /**
  * Push data to GTM dataLayer
