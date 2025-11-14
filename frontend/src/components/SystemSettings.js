@@ -2700,14 +2700,6 @@ const SystemSettings = ({ athleteId }) => {
               onChangePeriod={statsHook.changePeriod}
               onToggleCompare={statsHook.toggleCompare}
             />
-                    <div className="space-y-6">
-                      {/* Filter Controls */}
-                      <div className="flex flex-col gap-4 pb-4 border-b border-gray-700">
-                        {/* Period Selector */}
-                        <div className="flex flex-col gap-2">
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-5 h-5 text-gray-400" />
-                            <Label className="text-sm font-medium text-white">Period:</Label>
                           </div>
                           <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-2">
                             {[
