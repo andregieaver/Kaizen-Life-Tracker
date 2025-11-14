@@ -124,78 +124,260 @@ const SystemSettings = ({ athleteId }) => {
   });
   const [loading, setLoading] = useState(true);
   
-  // Initialize all custom hooks
-  const moduleHook = useModuleSettings(athleteId);
-  const planHook = usePlanSettings(athleteId);
-  const couponHook = useCouponManagement(athleteId);
-  const waitingListHook = useWaitingList(athleteId);
-  const cookieHook = useCookieSettings(athleteId);
-  const statsHook = useSubscriptionStats(athleteId);
-  const advancedHook = useAdvancedSettings(athleteId);
+  // Drag state for feature reordering
+  const [draggedFeature, setDraggedFeature] = useState({ plan: null, index: null });
   
-  // Get save status from advanced hook (shown in UI for all tabs)
-  const saveStatus = advancedHook.saveStatus || { message: '', type: '' };
+  // SEO State
+  const [seoSettings, setSeoSettings] = useState({
+    siteTitle: '',
+    favicon: null,
+    metaTitle: '',
+    metaDescription: '',
+    focusKeyword: ''
+  });
+  const [faviconPreview, setFaviconPreview] = useState(null);
+  const [saveStatus, setSaveStatus] = useState({ message: '', type: '' });
 
-  // Initialize all hooks on mount
-  useEffect(() => {
-    const initializeSettings = async () => {
-      try {
-        setLoading(true);
-        
-        // Load settings for all tabs
-        await Promise.all([
-          moduleHook.loadModuleSettings(),
-          planHook.loadPlanSettings(),
-          advancedHook.loadAdvancedSettings()
-        ]);
-        
-      } catch (error) {
-        logger.error(null, 'Error initializing system settings:', error);
-      } finally {
-        setLoading(false);
+  // Advanced Settings State
+  const [advancedSettings, setAdvancedSettings] = useState({
+    seo: {
+      siteTitle: '',
+      metaDescription: '',
+      faviconUrl: '',
+      logoUrl: '',
+      ogImage: ''
+    },
+    openaiApiKey: '',
+    showKey: false,
+    stripe: {
+      mode: 'test', // 'test' or 'live'
+      live: {
+        publishableKey: '',
+        apiKey: '',
+        webhookSecret: ''
+      },
+      sandbox: {
+        publishableKey: '',
+        apiKey: '',
+        webhookSecret: ''
       }
-    };
-    
-    initializeSettings();
+    },
+    showStripeLiveKey: false,
+    showStripeLiveWebhook: false,
+    showStripeSandboxKey: false,
+    showStripeSandboxWebhook: false,
+    sendgrid: {
+      apiKey: '',
+      senderEmail: '',
+      senderName: ''
+    },
+    showSendgridKey: false,
+    googleTagManager: {
+      headCode: '',
+      bodyCode: ''
+    },
+    microsoftClarity: {
+      scriptCode: ''
+    },
+    strava: {
+      clientId: '',
+      clientSecret: '',
+      webhookVerifyToken: '',
+      callbackDomain: ''
+    },
+    showStravaSecret: false,
+    showStravaVerifyToken: false
+  });
+
+  // Modules State
+  const [moduleSettings, setModuleSettings] = useState({
+    affiliateProgram: {
+      enabled: true,
+      expanded: true
+    },
+    community: {
+      enabled: true,
+      expanded: true
+    }
+  });
+
+  // Plan Settings State
+  const [planSettings, setPlanSettings] = useState({
+    free: {
+      title: 'Free',
+      description: 'Get started with basic features',
+      features: ['Basic training plans', '30-day history', 'Community access']
+    },
+    pro: {
+      title: 'Pro',
+      description: 'Advanced features for serious runners',
+      features: ['Everything in Free', 'Unlimited history', 'AI coach chat', 'Advanced analytics']
+    },
+    premium: {
+      title: 'Premium',
+      description: 'Complete running coaching experience',
+      features: ['Everything in Pro', 'Custom training plans', 'Nutrition guidance', 'Priority support']
+    }
+  });
+
+  // Statistics State
+  const [subscriberStats, setSubscriberStats] = useState({
+    total_subscribers: 0,
+    paid_subscribers: 0,
+    free_subscribers: 0,
+    pro_subscribers: 0,
+    premium_subscribers: 0,
+    growth_count: 0,
+    growth_percentage: 0,
+    time_series: [],
+    period: "90d",
+    comparison: null
+  });
+  const [loadingStats, setLoadingStats] = useState(false);
+  const [selectedPeriod, setSelectedPeriod] = useState("90d");
+  const [compareEnabled, setCompareEnabled] = useState(false);
+  
+  // Coupon management state
+  const [coupons, setCoupons] = useState([]);
+  const [loadingCoupons, setLoadingCoupons] = useState(false);
+  const [showDisabledCoupons, setShowDisabledCoupons] = useState(false);
+  const [newCoupon, setNewCoupon] = useState({
+    code: '',
+    name: '',
+    type: 'percentage',
+    value: '',
+    max_uses: '',
+    expires_at: '',
+    applies_to: 'all',
+    specific_plans: [],
+    min_purchase_amount: ''
+  });
+
+  // Available plans for coupon selection
+  const availablePlans = [
+    { id: 'pro_monthly', name: 'Pro Monthly' },
+    { id: 'pro_annual', name: 'Pro Annual' },
+    { id: 'premium_monthly', name: 'Premium Monthly' },
+    { id: 'premium_annual', name: 'Premium Annual' }
+  ];
+
+  // Subscription plan management state
+  const [subscriptionPlans, setSubscriptionPlans] = useState([]);
+  const [loadingPlans, setLoadingPlans] = useState(false);
+  const [showCreatePlanModal, setShowCreatePlanModal] = useState(false);
+  const [showEditPlanModal, setShowEditPlanModal] = useState(false);
+  const [showCreateVariationModal, setShowCreateVariationModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
+
+  // Waiting list state
+  const [waitingListEntries, setWaitingListEntries] = useState([]);
+  const [loadingWaitingList, setLoadingWaitingList] = useState(false);
+  const [waitingListFilter, setWaitingListFilter] = useState('all');
+  const [newPlan, setNewPlan] = useState({
+    tier: '',
+    name: '',
+    description: '',
+    features: [],
+    sort_order: 0
+  });
+  const [editingPlan, setEditingPlan] = useState({
+    tier: '',
+    name: '',
+    description: '',
+    features: [],
+    sort_order: 0
+  });
+
+  // Cookie Management State
+  const [cookieSettings, setCookieSettings] = useState({
+    enabled: false,
+    consent_mode: 'gtm',
+    auto_scan_enabled: true,
+    auto_scan_frequency: 'weekly',
+    last_scan: null,
+    detected_cookies: [],
+    consent_texts: {
+      banner_title: 'We value your privacy',
+      banner_description: 'We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking \'Accept All\', you consent to our use of cookies.',
+      accept_all_button: 'Accept All',
+      reject_all_button: 'Reject All',
+      customize_button: 'Customize',
+      save_preferences_button: 'Save Preferences',
+      cookie_policy_link: '/cookie-policy',
+      cookie_policy_text: 'Cookie Policy',
+      necessary_title: 'Necessary Cookies',
+      necessary_description: 'These cookies are essential for the website to function properly.',
+      analytics_title: 'Analytics Cookies',
+      analytics_description: 'These cookies help us understand how visitors interact with our website.',
+      marketing_title: 'Marketing Cookies',
+      marketing_description: 'These cookies are used to track visitors across websites for advertising purposes.',
+      functional_title: 'Functional Cookies',
+      functional_description: 'These cookies enable enhanced functionality and personalization.'
+    },
+    gtm_integration: {
+      enabled: true,
+      container_id: ''
+    }
+  });
+  const [loadingCookieSettings, setLoadingCookieSettings] = useState(false);
+  const [scanningCookies, setScanningCookies] = useState(false);
+
+  const [newFeature, setNewFeature] = useState('');
+  const [newVariation, setNewVariation] = useState({
+    plan_id: '',
+    name: '',
+    price: '',
+    interval: 'month',
+    interval_count: 1
+  });
+
+  // Load settings on mount
+  useEffect(() => {
+    loadSystemSettings();
+    loadSubscriberStats();
   }, [athleteId]);
 
-  // Load data when specific tabs become active
-  useEffect(() => {
-    if (activeTab === 'coupons') {
-      couponHook.loadCoupons();
-    } else if (activeTab === 'plans') {
-      planHook.loadPlans();
-    } else if (activeTab === 'waitinglist') {
-      waitingListHook.loadWaitingList();
-    } else if (activeTab === 'cookies') {
-      cookieHook.loadCookieSettings();
-    } else if (activeTab === 'statistics') {
-      statsHook.loadStats();
+  const loadSubscriberStats = async (period = selectedPeriod, compare = compareEnabled) => {
+    setLoadingStats(true);
+    try {
+      const response = await axios.get(`${API}/system/subscriber-stats`, {
+        params: { 
+          athlete_id: athleteId,
+          period: period,
+          compare: compare
+        }
+      });
+      setSubscriberStats(response.data);
+    } catch (error) {
+      logger.error(null, 'Error loading subscriber stats:', error);
+    } finally {
+      setLoadingStats(false);
     }
-  }, [activeTab]);
-
-  // Tab change handler
-  const handleTabChange = (value) => {
-    setActiveTab(value);
-    // Update localStorage
-    localStorage.setItem('systemSettings_activeTab', value);
-    // Update URL hash
-    window.location.hash = value;
-    logger.debug(null, '✨ Tab changed to:', value);
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#32D3FF] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-400">{t('systemSettings.loadingSettings')}</p>
-        </div>
-      </div>
-    );
-  }
+  const handlePeriodChange = (newPeriod) => {
+    setSelectedPeriod(newPeriod);
+    loadSubscriberStats(newPeriod, compareEnabled);
+  };
 
-  return (
+  const handleCompareToggle = () => {
+    const newCompareValue = !compareEnabled;
+    setCompareEnabled(newCompareValue);
+    loadSubscriberStats(selectedPeriod, newCompareValue);
+  };
+
+  const loadSystemSettings = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API}/system/settings?athlete_id=${athleteId}`);
+      
+      // Load module settings
+      if (response.data.modules) {
+        setModuleSettings(response.data.modules);
+      }
+      
+      // Load SEO settings
+      if (response.data.seo) {
         setSeoSettings({
           siteTitle: response.data.seo.siteTitle || '',
           favicon: null,
