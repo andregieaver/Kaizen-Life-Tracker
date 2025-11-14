@@ -206,7 +206,32 @@ const OuraVitalsCard = ({ athleteId }) => {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Readiness Score - Full Width on Top */}
+        {ouraData.readiness && (
+          <div className="flex flex-col p-4 rounded-lg mb-4" style={{ 
+            background: getScoreColor(ouraData.readiness.score).bg,
+            border: `1px solid ${getScoreColor(ouraData.readiness.score).border}`
+          }}>
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <Zap className="w-5 h-5" style={{ color: getScoreColor(ouraData.readiness.score).text }} />
+                <span className="text-sm font-medium" style={{ color: 'var(--text-hi)' }}>Readiness</span>
+              </div>
+              {getScoreIcon(ouraData.readiness.score)}
+            </div>
+            <div className="text-3xl font-bold font-display" style={{ color: getScoreColor(ouraData.readiness.score).text }}>
+              {ouraData.readiness.score || '--'}
+            </div>
+            {ouraData.readiness.temperature_deviation !== undefined && ouraData.readiness.temperature_deviation !== null && (
+              <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                {ouraData.readiness.temperature_deviation > 0 ? '+' : ''}{ouraData.readiness.temperature_deviation.toFixed(1)}°C
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Sleep and Activity - Side by Side */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Sleep Score */}
           {ouraData.sleep && (
             <div className="flex flex-col p-4 rounded-lg" style={{ 
@@ -226,30 +251,6 @@ const OuraVitalsCard = ({ athleteId }) => {
               {ouraData.sleep.duration && (
                 <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
                   {Math.floor(ouraData.sleep.duration / 3600)}h {Math.floor((ouraData.sleep.duration % 3600) / 60)}m
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Readiness Score */}
-          {ouraData.readiness && (
-            <div className="flex flex-col p-4 rounded-lg" style={{ 
-              background: getScoreColor(ouraData.readiness.score).bg,
-              border: `1px solid ${getScoreColor(ouraData.readiness.score).border}`
-            }}>
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <Zap className="w-5 h-5" style={{ color: getScoreColor(ouraData.readiness.score).text }} />
-                  <span className="text-sm font-medium" style={{ color: 'var(--text-hi)' }}>Readiness</span>
-                </div>
-                {getScoreIcon(ouraData.readiness.score)}
-              </div>
-              <div className="text-3xl font-bold font-display" style={{ color: getScoreColor(ouraData.readiness.score).text }}>
-                {ouraData.readiness.score || '--'}
-              </div>
-              {ouraData.readiness.temperature_deviation !== undefined && (
-                <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
-                  {ouraData.readiness.temperature_deviation > 0 ? '+' : ''}{ouraData.readiness.temperature_deviation.toFixed(1)}°C
                 </div>
               )}
             </div>
