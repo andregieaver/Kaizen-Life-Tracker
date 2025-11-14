@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../ui/button';
 import { X, Trophy, Target, TrendingUp, Award, Users as UsersIcon, Calendar, Clock, Send, Trash2, Lock, Globe, RefreshCw } from 'lucide-react';
