@@ -91,11 +91,38 @@
 
 ---
 
-## 📋 Remaining Work
+### Phase 1, Batch 3: Complex Hooks (2/2) - COMPLETE ✅
 
-### Phase 1, Batch 3: Complex Hooks (2 hooks)
-- [ ] usePlanSettings.js
-- [ ] useAdvancedSettings.js
+7. ✅ **usePlanSettings.js** (~270 lines)
+   - Created: `/app/frontend/src/hooks/systemSettings/usePlanSettings.js`
+   - Functions extracted:
+     - loadPlans, loadPlanSettings, savePlanSettings
+     - updatePlanField, addFeature, removeFeature, updateFeature
+     - Drag & drop handlers (start, over, drop, end)
+     - clearSaveStatus
+   - State managed: planSettings, subscriptionPlans, isLoading, isSaving, draggedFeature, saveStatus
+   - Modal states: showCreatePlanModal, showEditPlanModal, selectedPlan
+   - Includes: Feature drag-and-drop reordering, nested state management
+
+8. ✅ **useAdvancedSettings.js** (~310 lines)
+   - Created: `/app/frontend/src/hooks/systemSettings/useAdvancedSettings.js`
+   - Functions extracted:
+     - loadAdvancedSettings, saveAdvancedSettings
+     - updateSEOSetting, updateStripeMode, updateStripeCredentials
+     - updateIntegration, toggleVisibility
+     - uploadSEOImage
+     - getIntegrationStatus
+   - State managed: advancedSettings (SEO, Stripe, integrations), isLoading, isSaving, saveStatus
+   - Integrations: Stripe, SendGrid, GTM, Clarity, Strava, Oura, Polar, Fitbit, Garmin, Coros, Whoop, Suunto
+   - Includes: Multiple subsections, visibility toggles, image uploads
+
+---
+
+## ✅ Phase 1 Complete! All Hooks Extracted
+
+---
+
+## 📋 Remaining Work
 
 ### Phase 2: Tab Components (7 components)
 - [ ] ModulesTab.js
