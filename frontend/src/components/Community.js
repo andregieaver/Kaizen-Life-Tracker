@@ -5445,15 +5445,22 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
   );
 };
 
-// Extracted Modals (now in /app/frontend/src/components/community/modals/):
-// - CommentsModal.js
-// - CreateEventModal.js
-// - EditEventModal.js  
-// - EventDetailModal.js
-// - CreateGroupModal.js
-// - EditGroupModal.js
-// - CreateChallengeModal.js
-// - EditChallengeModal.js
-// - ChallengeDetailModal.js
+// ============================================================================
+// EXTRACTED MODALS - Now in /app/frontend/src/components/community/modals/
+// ============================================================================
+// ✅ CommentsModal.js (254 lines)
+// ✅ CreateEventModal.js (179 lines)
+// ✅ EditEventModal.js (167 lines)
+// ✅ EventDetailModal.js (267 lines)
+// ✅ CreateGroupModal.js (165 lines)
+// ✅ EditGroupModal.js (161 lines)
+// ✅ CreateChallengeModal.js (262 lines)
+// ✅ EditChallengeModal.js (135 lines)
+// ✅ ChallengeDetailModal.js (289 lines)
+// ✅ AthleteProfileModal.js (336 lines)
+// ✅ AthletesModal.js (150 lines)
+// ✅ GroupRulesModal.js (88 lines)
+// TOTAL: 12 modals extracted, 2,453 lines removed
+// ============================================================================
 
 export default Community;
