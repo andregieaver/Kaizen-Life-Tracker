@@ -3168,42 +3168,27 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
       {/* Groups Tab */}
       {activeTab === 'groups' && !selectedGroup && (
-        <div className="space-y-6 pt-12 md:pt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {groups.map(group => (
-              <GroupCard
-                key={group.id}
-                group={group}
-                athleteId={athleteId}
-                onJoin={handleJoinGroup}
-                onEdit={handleOpenEditGroup}
-                onDelete={handleDeleteGroup}
-                onClick={() => loadGroupDetails(group.id)}
-                isSuperAdmin={isSuperAdmin}
-              />
-            ))}
-          </div>
-        </div>
+        <CommunityGroups
+          groups={groups}
+          athleteId={athleteId}
+          isSuperAdmin={isSuperAdmin}
+          onJoin={handleJoinGroup}
+          onEdit={handleOpenEditGroup}
+          onDelete={handleDeleteGroup}
+          onClick={(groupId) => loadGroupDetails(groupId)}
+        />
       )}
 
       {/* My Groups Tab */}
       {activeTab === 'mygroups' && !selectedGroup && (
-        <div className="space-y-6 pt-12 md:pt-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {myGroups.map(group => (
-              <GroupCard
-                key={group.id}
-                group={group}
-                athleteId={athleteId}
-                isMember={true}
-                onEdit={handleOpenEditGroup}
-                onDelete={handleDeleteGroup}
-                onClick={() => loadGroupDetails(group.id)}
-                isSuperAdmin={isSuperAdmin}
-              />
-            ))}
-          </div>
-        </div>
+        <CommunityMyGroups
+          myGroups={myGroups}
+          athleteId={athleteId}
+          isSuperAdmin={isSuperAdmin}
+          onEdit={handleOpenEditGroup}
+          onDelete={handleDeleteGroup}
+          onClick={(groupId) => loadGroupDetails(groupId)}
+        />
       )}
 
 
