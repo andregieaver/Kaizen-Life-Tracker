@@ -360,8 +360,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Video Preview Live Stream Display Fix"
-    - "Strava Full Sync Timeout Fix"
+    - "Oura Card Data Display and Refresh Enhancement"
+    - "Oura Sleep Score Fix - API Endpoint Update"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
