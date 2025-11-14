@@ -7757,7 +7757,7 @@ async def get_conversations(athlete_id: str, archived: Optional[bool] = None):
         {"$limit": 50}
     ]
     
-    conversations = await db.chat_messages.aggregate(pipeline).limit(200).to_list(length=200)
+    conversations = await db.chat_messages.aggregate(pipeline).to_list(length=200)
     
     # Filter by archived status after aggregation (to handle missing archived field)
     result = []
