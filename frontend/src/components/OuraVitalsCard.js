@@ -161,9 +161,16 @@ const OuraVitalsCard = ({ athleteId }) => {
           </div>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-center py-6" style={{ color: 'var(--text-muted)' }}>
-            No recent Oura data. Sync your ring to see vitals.
-          </p>
+          <div className="text-center py-6">
+            <p className="text-sm mb-3" style={{ color: 'var(--text-muted)' }}>
+              No recent Oura data available.
+            </p>
+            {!isConnected && (
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                Connect your Oura Ring in Account → Integrations to see your sleep, readiness, and activity metrics.
+              </p>
+            )}
+          </div>
         </CardContent>
       </Card>
     );
