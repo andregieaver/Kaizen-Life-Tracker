@@ -199,7 +199,7 @@ const SystemSettings = ({ athleteId }) => {
     <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8" style={{ width: '100vw', maxWidth: '100vw' }}>
       <div className="w-full">
         {/* Header with Account Settings Button */}
-            metaDescription: response.data.advanced.seo?.metaDescription || '',
+        <div className="mb-8">
             faviconUrl: response.data.advanced.seo?.faviconUrl || '',
             logoUrl: response.data.advanced.seo?.logoUrl || '',
             ogImage: response.data.advanced.seo?.ogImage || ''
