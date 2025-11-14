@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, UserPlus, UserMinus, Search } from 'lucide-react';
+import { Button } from '../../ui/button';
 import SubscriptionBadge from '../../SubscriptionBadge';
 import FlagIcon from '../../FlagIcon';
 
