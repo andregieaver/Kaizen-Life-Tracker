@@ -133,22 +133,8 @@ const SystemSettings = ({ athleteId }) => {
   const statsHook = useSubscriptionStats(athleteId);
   const advancedHook = useAdvancedSettings(athleteId);
   
-  // Drag state for feature reordering
-  const [draggedFeature, setDraggedFeature] = useState({ plan: null, index: null });
-  
-  // SEO State
-  const [seoSettings, setSeoSettings] = useState({
-    siteTitle: '',
-    favicon: null,
-    metaTitle: '',
-    metaDescription: '',
-    focusKeyword: ''
-  });
-  const [faviconPreview, setFaviconPreview] = useState(null);
-  const [saveStatus, setSaveStatus] = useState({ message: '', type: '' });
-
-  // Advanced Settings State
-  const [advancedSettings, setAdvancedSettings] = useState({
+  // Get save status from advanced hook (shown in UI for all tabs)
+  const saveStatus = advancedHook.saveStatus || { message: '', type: '' };
     seo: {
       siteTitle: '',
       metaDescription: '',
