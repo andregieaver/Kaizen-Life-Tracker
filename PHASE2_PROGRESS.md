@@ -9,7 +9,7 @@
 
 ## ✅ Completed
 
-### Batch 1: Standalone Hooks (2/2)
+### Batch 1: Standalone Hooks (2/2) - COMPLETE
 1. ✅ **useMediaUpload.js** (~220 lines)
    - Created: `/app/frontend/src/hooks/community/useMediaUpload.js`
    - Functions extracted:
@@ -31,8 +31,39 @@
      - MentionDropdown component
    - State managed: mentionResults, showMentionDropdown, mentionSearchText, mentionPosition
 
-3. ✅ **index.js** (Barrel export)
-   - Created: `/app/frontend/src/hooks/community/index.js`
+### Batch 2: Action Hooks (3/3) - COMPLETE
+3. ✅ **usePostActions.js** (~160 lines)
+   - Created: `/app/frontend/src/hooks/community/usePostActions.js`
+   - Functions extracted:
+     - createPost
+     - updatePost
+     - deletePost
+     - toggleLike
+     - sharePost
+     - loadPosts
+   - State managed: isCreating, isUpdating, isDeleting, isLiking, isSharing
+
+4. ✅ **useComments.js** (~130 lines)
+   - Created: `/app/frontend/src/hooks/community/useComments.js`
+   - Functions extracted:
+     - loadComments
+     - addComment
+     - deleteComment
+     - getPostComments
+     - clearPostComments
+   - State managed: comments, isLoading, isAdding, isDeleting
+
+5. ✅ **useNotifications.js** (~120 lines)
+   - Created: `/app/frontend/src/hooks/community/useNotifications.js`
+   - Functions extracted:
+     - loadNotifications
+     - markAsRead
+     - markAllAsRead
+     - clearNotifications
+   - State managed: notifications, unreadCount, isLoading
+
+6. ✅ **index.js** (Updated barrel export)
+   - Updated: `/app/frontend/src/hooks/community/index.js`
 
 ---
 
