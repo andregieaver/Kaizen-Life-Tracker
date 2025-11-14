@@ -13295,16 +13295,16 @@ def test_strava_callback_domain_update():
         return False
 
 def main():
-    """Main function to run Garmin OAuth 1.0a integration testing"""
-    print("🚀 STARTING GARMIN OAUTH 1.0a BACKEND TESTING")
+    """Main function to run Community Events API endpoint testing"""
+    print("🚀 STARTING COMMUNITY EVENTS API ENDPOINT TESTING")
     print("=" * 70)
     
-    success = test_garmin_oauth_1_0a_integration()
+    success = test_community_events_api_endpoint()
     
     if success:
-        print("\n🎉 ALL GARMIN OAUTH 1.0a TESTS PASSED!")
+        print("\n🎉 COMMUNITY EVENTS API ENDPOINT TEST PASSED!")
     else:
-        print("\n❌ SOME GARMIN OAUTH 1.0a TESTS FAILED!")
+        print("\n❌ COMMUNITY EVENTS API ENDPOINT TEST FAILED!")
         sys.exit(1)
 
 if __name__ == "__main__":
