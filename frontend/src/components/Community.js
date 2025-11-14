@@ -6017,10 +6017,14 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
 };
 
 // Extracted Modals (now in /app/frontend/src/components/community/modals/):
+// - CommentsModal.js
 // - CreateEventModal.js
 // - EditEventModal.js  
 // - EventDetailModal.js
 // - CreateGroupModal.js
-// - CommentsModal.js
+// - EditGroupModal.js
+// - CreateChallengeModal.js
+// - EditChallengeModal.js
+// - ChallengeDetailModal.js
 
 export default Community;
