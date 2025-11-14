@@ -8,7 +8,8 @@ async def migrate_page_image_paths():
     # Connect to MongoDB
     mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
     client = AsyncIOMotorClient(mongo_url)
-    db = client['trainsmart']
+    db_name = os.environ.get('DB_NAME', 'trainsmart')
+    db = client[db_name]
     
     print("Migrating page image paths...")
     
