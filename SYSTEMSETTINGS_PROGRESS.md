@@ -45,8 +45,39 @@
      - clearSaveStatus
    - State managed: cookieSettings, isLoading, isSaving, isScanning, saveStatus
 
-4. ✅ **index.js** (Barrel export)
+4. ✅ **index.js** (Barrel export updated)
    - Created: `/app/frontend/src/hooks/systemSettings/index.js`
+
+### Phase 1, Batch 2: Medium Complexity Hooks (2/2) - COMPLETE ✅
+
+5. ✅ **useCouponManagement.js** (~205 lines)
+   - Created: `/app/frontend/src/hooks/systemSettings/useCouponManagement.js`
+   - Functions extracted:
+     - loadCoupons
+     - createCoupon
+     - toggleCoupon (enable/disable)
+     - deleteCoupon
+     - updateNewCoupon
+     - resetNewCoupon
+     - toggleShowDisabled
+     - getFilteredCoupons
+   - State managed: coupons, isLoading, showDisabledCoupons, newCoupon
+   - Includes: Validation, filtering, coupon stats
+
+6. ✅ **useSubscriptionStats.js** (~215 lines)
+   - Created: `/app/frontend/src/hooks/systemSettings/useSubscriptionStats.js`
+   - Functions extracted:
+     - loadSubscriberStats
+     - changePeriod
+     - toggleCompare
+     - getChartData (Chart.js formatted)
+     - getChartOptions
+     - getPeriodLabel
+     - getComparisonPeriodLabel
+     - getGrowthRate
+     - isPositiveGrowth
+   - State managed: subscriberStats, isLoading, selectedPeriod, compareEnabled
+   - Includes: Chart.js integration, period comparison, growth calculations
 
 ---
 
@@ -61,10 +92,6 @@
 ---
 
 ## 📋 Remaining Work
-
-### Phase 1, Batch 2: Medium Complexity Hooks (2 hooks)
-- [ ] useCouponManagement.js
-- [ ] useSubscriptionStats.js
 
 ### Phase 1, Batch 3: Complex Hooks (2 hooks)
 - [ ] usePlanSettings.js
