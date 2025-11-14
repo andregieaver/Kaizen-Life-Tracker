@@ -441,7 +441,8 @@ function App() {
             element={<CmsPage />} 
           />
           <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            </Routes>
+          </Suspense>
         
         {/* Cookie Consent Banner - Google Consent Mode v2 */}
         <CookieBanner />
