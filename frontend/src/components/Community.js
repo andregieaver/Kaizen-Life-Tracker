@@ -29,6 +29,7 @@ import ChallengeCard from './community/cards/ChallengeCard';
 import EventCard from './community/cards/EventCard';
 import PostsList from './community/views/PostsList';
 import GroupDetailView from './community/views/GroupDetailView';
+import { useMediaUpload, useMentions } from '../hooks/community';
 
 import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
