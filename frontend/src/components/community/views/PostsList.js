@@ -1,4 +1,5 @@
 import React from 'react';
+import { Heart, Share2, Send, Edit2, Trash2, Lock, Globe, MessageCircle } from 'lucide-react';
 import { Button } from '../../ui/button';
 
 const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility, showComments, commentText,
