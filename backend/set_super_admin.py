@@ -11,7 +11,8 @@ async def set_super_admin():
     
     # Connect to MongoDB
     client = AsyncIOMotorClient(mongo_url)
-    db = client.health_coach
+    db_name = os.environ.get('DB_NAME', 'health_coach')
+    db = client[db_name]
     
     # Update andre@humanweb.no to be super admin
     result = await db.athletes.update_one(
