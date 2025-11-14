@@ -4,6 +4,7 @@ import { Button } from '../../ui/button';
 import { X, UserPlus, UserMinus, Heart, Share2, MapPin, Calendar } from 'lucide-react';
 import SubscriptionBadge from '../../SubscriptionBadge';
 import FlagIcon from '../../FlagIcon';
+import ImageCarousel from '../../ImageCarousel';
 import axios from 'axios';
 import { logger } from '../../../utils/logger';
 
