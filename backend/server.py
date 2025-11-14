@@ -10930,7 +10930,7 @@ async def get_comments(post_id: str, athlete_id: str = Query(None)):
             }
         ]
         
-        comments = await db.community_comments.aggregate(pipeline).to_list(length=None)
+        comments = await db.community_comments.aggregate(pipeline).to_list(length=200)  # Max 200 comments per post
         
         # If athlete_id provided, check which comments are liked by this user
         if athlete_id:
@@ -11169,7 +11169,7 @@ async def get_event_comments(event_id: str):
             }
         ]
         
-        comments = await db.community_event_comments.aggregate(pipeline).to_list(length=None)
+        comments = await db.community_event_comments.aggregate(pipeline).to_list(length=200)  # Max 200 comments per event
         
         return {"comments": comments}
     except Exception as e:
@@ -11440,7 +11440,7 @@ async def get_challenge_details(challenge_id: str, athlete_id: str = Query(...))
             }
         ]
         
-        leaderboard = await db.community_challenge_participants.aggregate(leaderboard_pipeline).to_list(length=None)
+        leaderboard = await db.community_challenge_participants.aggregate(leaderboard_pipeline).to_list(length=500)  # Max 500 participants
         
         # Update ranks
         for idx, participant in enumerate(leaderboard, 1):
@@ -11819,7 +11819,7 @@ async def get_challenge_comments(challenge_id: str):
             }
         ]
         
-        comments = await db.community_challenge_comments.aggregate(pipeline).to_list(length=None)
+        comments = await db.community_challenge_comments.aggregate(pipeline).to_list(length=200)  # Max 200 challenge comments
         
         return {"comments": comments}
     except Exception as e:
@@ -12201,7 +12201,7 @@ async def get_all_groups(athlete_id: str = Query(...), limit: int = Query(50), s
             projection_stage
         ]
         
-        groups = await db.community_groups.aggregate(pipeline).to_list(length=None)
+        groups = await db.community_groups.aggregate(pipeline).to_list(length=100)  # Max 100 groups
         
         return {"groups": groups}
     except Exception as e:
@@ -12253,7 +12253,7 @@ async def get_my_groups(athlete_id: str, limit: int = Query(50), skip: int = Que
             projection_stage
         ]
         
-        groups = await db.community_group_memberships.aggregate(pipeline).to_list(length=None)
+        groups = await db.community_group_memberships.aggregate(pipeline).to_list(length=100)  # Max 100 groups per user
         
         return {"groups": groups}
     except Exception as e:
@@ -12643,7 +12643,7 @@ async def get_group_posts(group_id: str, athlete_id: str = Query(...), limit: in
             }
         ]
         
-        posts = await db.community_group_posts.aggregate(pipeline).to_list(length=None)
+        posts = await db.community_group_posts.aggregate(pipeline).to_list(length=100)  # Max 100 group posts
         
         # For each post, check if current user has liked it
         for post in posts:
@@ -12779,7 +12779,7 @@ async def get_all_events(athlete_id: str = Query(...), group_id: str = Query(Non
             user_groups = await db.community_group_memberships.find({
                 "athlete_id": athlete_id,
                 "status": "approved"
-            }, {"_id": 0, "group_id": 1}).to_list(length=None)
+            }, {"_id": 0, "group_id": 1}).limit(100).to_list(length=100)  # Max 100 groups
             
             group_ids = [m["group_id"] for m in user_groups]
             
