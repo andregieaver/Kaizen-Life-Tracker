@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '../../ui/button';
 import { Camera, Crown, Users as UsersIcon, Lock, Globe, X, Send, Heart, Share2, Edit2, Shield, ThumbsUp, ThumbsDown, MessageCircle, Trash2 } from 'lucide-react';
 import EmojiPickerButton from '../../EmojiPickerButton';
+import FlagIcon from '../../FlagIcon';
+import SubscriptionBadge from '../../SubscriptionBadge';
 import { compressPostImage } from '../../../utils/imageCompression';
 import { logger } from '../../../utils/logger';
 import axios from 'axios';
