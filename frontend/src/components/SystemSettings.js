@@ -2770,9 +2770,22 @@ const SystemSettings = ({ athleteId }) => {
 
           {/* Advanced Tab */}
           <TabsContent value="advanced">
-                              <Button
-                                key={period.value}
-                                onClick={() => handlePeriodChange(period.value)}
+            <AdvancedTab
+              advancedSettings={advancedHook.advancedSettings}
+              onUpdateSettings={advancedHook.updateSettings}
+              onToggleKeyVisibility={advancedHook.toggleKeyVisibility}
+              onSave={advancedHook.saveAdvancedSettings}
+              onUploadImage={advancedHook.uploadSEOImage}
+              isSaving={advancedHook.isSaving}
+            />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+};
+
+export default SystemSettings;
                                 variant="outline"
                                 size="sm"
                                 className={`text-xs sm:text-sm ${
