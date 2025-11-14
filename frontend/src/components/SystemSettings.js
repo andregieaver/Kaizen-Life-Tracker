@@ -2756,7 +2756,20 @@ const SystemSettings = ({ athleteId }) => {
 
           {/* Waiting List Tab */}
           <TabsContent value="waitinglist">
-                            ].map((period) => (
+            <WaitingListTab
+              entries={waitingListHook.entries}
+              filter={waitingListHook.filter}
+              isLoading={waitingListHook.isLoading}
+              onChangeFilter={waitingListHook.changeFilter}
+              onApprove={waitingListHook.approveEntry}
+              onReject={waitingListHook.rejectEntry}
+              onDelete={waitingListHook.deleteEntry}
+            />
+          </TabsContent>
+
+
+          {/* Advanced Tab */}
+          <TabsContent value="advanced">
                               <Button
                                 key={period.value}
                                 onClick={() => handlePeriodChange(period.value)}
