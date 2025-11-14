@@ -155,11 +155,15 @@
 ```
 /app/frontend/src/hooks/systemSettings/
 ├── index.js ✅
-├── useModuleSettings.js ✅
-├── useWaitingList.js ✅
-├── useCookieSettings.js ✅
-├── useCouponManagement.js ✅
-└── useSubscriptionStats.js ✅
+├── useModuleSettings.js ✅ (135 lines)
+├── useWaitingList.js ✅ (155 lines)
+├── useCookieSettings.js ✅ (225 lines)
+├── useCouponManagement.js ✅ (205 lines)
+├── useSubscriptionStats.js ✅ (215 lines)
+├── usePlanSettings.js ✅ (270 lines)
+└── useAdvancedSettings.js ✅ (310 lines)
+
+Total: ~1,515 lines across 8 files
 ```
 
 ---
