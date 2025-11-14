@@ -118,6 +118,18 @@ frontend:
         comment: "OURA CARD ENHANCEMENTS - Enhanced Oura Vitals Card to properly fetch and display all health metrics. FRONTEND CHANGES (OuraVitalsCard.js): 1) IMPROVED DATA FETCHING - Updated loadOuraData() to accept forceSync parameter, increased activity query limit from 10 to 30 for better data availability, added console logging for debugging, 2) REFRESH BUTTON FIX - Refresh button now triggers actual Oura API sync via POST /api/integrations/oura/{athleteId}/sync, waits 2 seconds for sync completion, fetches latest data from database, shows spinning animation during sync, button disabled during loading, 3) NEW METRICS DISPLAY - Added 'Last Night' section below activity score showing: Lowest Resting HR (bpm), Total Sleep Time (hours and minutes), Average HRV (ms). Displayed in clean 3-column grid layout. Only shows when sleep data exists. Missing values show '--' placeholder. BACKEND CHANGES (oura_service.py): Added capture of three new fields from Oura API sleep endpoint: lowest_heart_rate, average_heart_rate, average_hrv. These are now stored in database for each sleep activity. FEATURES: Active refresh syncs latest Oura data, comprehensive sleep insights with HR and HRV, clean responsive layout, proper error handling for missing data. TESTING NEEDED: 1) Navigate to /dashboard, 2) Verify Sleep score, Readiness score, and Activity score display correctly, 3) Check 'Last Night' section shows Resting HR, Sleep Time, and Avg HRV below activity score, 4) Click refresh button and verify: spinning animation appears, sync completes after 2 seconds, latest data updates on card, 5) Verify missing data shows '--' placeholders, 6) Test with and without Oura connection."
 
 backend:
+  - task: "Community Events API MongoDB Cursor Fix"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "critical"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ COMMUNITY EVENTS API MONGODB CURSOR FIX VERIFIED SUCCESSFULLY - Critical bug fix completed and tested comprehensively. CONTEXT: User reported that events were not visible or creatable in the Community section due to MongoDB cursor errors. ROOT CAUSE IDENTIFIED: Multiple MongoDB aggregation pipelines were incorrectly calling .limit() method on AsyncIOMotorLatentCommandCursor objects, which don't support this method. The error was: 'AsyncIOMotorLatentCommandCursor' object has no attribute 'limit'. FIXES IMPLEMENTED: 1) MAIN EVENTS ENDPOINT ✅ - Fixed line 12831 in server.py: removed .limit(100) from db.community_events.aggregate(pipeline), 2) EVENT DETAILS ENDPOINT ✅ - Fixed lines 12906-12907: removed .limit(100) and .limit(500) from community_event_attendance aggregation cursors, 3) CHAT CONVERSATIONS ✅ - Fixed line 7760: removed .limit(200) from chat_messages aggregation cursor, 4) ATHLETE MEMORIES ✅ - Fixed line 9098: removed .limit(100) from athlete_memories aggregation cursor. TESTING COMPLETED: 1) GET /api/community/events returns 200 status (not 500 error), 2) Valid JSON response with events array (4 events found), 3) All parameters work correctly (limit, skip, exclude_images, group_id), 4) Event details endpoint working without cursor errors, 5) Backend logs show no MongoDB cursor limit errors, 6) Both general and group-specific event queries functional. VERIFICATION: Backend restarted successfully, all aggregation cursors now use .to_list(length=N) instead of .limit(N).to_list(length=N). Community Events API is fully functional and ready for production use."
+
   - task: "Oura Sleep Score Fix - API Endpoint Update"
     implemented: true
     working: "NA"
