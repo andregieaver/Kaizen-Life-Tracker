@@ -11,11 +11,18 @@
 
 ## ✅ Completed Extractions
 
-### Modals Extracted (1/12)
+### Modals Extracted (9/12)
 1. ✅ **CommentsModal** - 254 lines
-   - Location: `/app/frontend/src/components/community/modals/CommentsModal.js`
-   - Functionality: Display and manage post comments
-   - Status: Extracted successfully, import updated in main file
+2. ✅ **CreateEventModal** - 179 lines
+3. ✅ **EditEventModal** - 167 lines
+4. ✅ **EventDetailModal** - 267 lines
+5. ✅ **CreateGroupModal** - 165 lines
+6. ✅ **EditGroupModal** - 161 lines
+7. ✅ **CreateChallengeModal** - 262 lines
+8. ✅ **EditChallengeModal** - 135 lines
+9. ✅ **ChallengeDetailModal** - 289 lines
+   
+   All located in: `/app/frontend/src/components/community/modals/`
 
 ---
 
