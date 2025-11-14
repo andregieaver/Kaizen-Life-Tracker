@@ -194,9 +194,8 @@ const SystemSettings = ({ athleteId }) => {
       </div>
     );
   }
-      
-      // Load SEO settings
-      if (response.data.seo) {
+
+  return (
         setSeoSettings({
           siteTitle: response.data.seo.siteTitle || '',
           favicon: null,
