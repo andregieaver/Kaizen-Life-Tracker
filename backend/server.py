@@ -12904,7 +12904,7 @@ async def get_event_details(event_id: str, athlete_id: str = Query(...), exclude
         ]
         
         interested = await db.community_event_attendance.aggregate(interested_pipeline).limit(100).to_list(length=100)
-        going = await db.community_event_attendance.aggregate(going_pipeline).to_list(length=None)
+        going = await db.community_event_attendance.aggregate(going_pipeline).limit(500).to_list(length=500)  # Max 500 attendees
         
         event["interested_users"] = interested
         event["going_users"] = going
