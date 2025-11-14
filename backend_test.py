@@ -13308,5 +13308,5 @@ def main():
         sys.exit(1)
 
 if __name__ == "__main__":
-    # Run the Garmin OAuth 1.0a integration test as requested in review
+    # Run the Community Events API endpoint test as requested in review
     main()
