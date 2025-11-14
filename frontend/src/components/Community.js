@@ -108,20 +108,67 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   // Expanded posts state for "Show more/less"
   const [expandedPosts, setExpandedPosts] = useState({});
   
-  // Refs for text areas
-  const newPostRef = useRef(null);
-  const commentRefs = useRef({});
-  const newEventDescRef = useRef(null);
+  // Custom hooks for post actions, comments, and notifications
+  const postActions = usePostActions(athleteId);
+  const {
+    createPost,
+    updatePost,
+    deletePost,
+    toggleLike,
+    sharePost,
+    loadPosts: loadPostsFromHook,
+    isCreating,
+    isUpdating,
+    isDeleting,
+    isLiking,
+    isSharing
+  } = postActions;
+
+  const commentsHook = useComments(athleteId);
+  const {
+    comments: commentsFromHook,
+    loadComments: loadCommentsFromHook,
+    addComment,
+    deleteComment: deleteCommentFromHook,
+    getPostComments,
+    clearPostComments,
+    isAdding: isAddingComment,
+    isDeleting: isDeletingComment
+  } = commentsHook;
+
+  const notificationsHook = useNotifications(athleteId, false);
+  const {
+    notifications: notificationsFromHook,
+    unreadCount: unreadCountFromHook,
+    loadNotifications: loadNotificationsFromHook,
+    markAsRead,
+    markAllAsRead,
+    isLoading: isLoadingNotifications
+  } = notificationsHook;
   
-  // Notifications state
+  // Use hook values or manage locally
   const [notifications, setNotifications] = useState([]);
   const [notificationsLoaded, setNotificationsLoaded] = useState(false);
   const [showNotifications, setShowNotifications] = useState(externalShowNotifications !== undefined ? externalShowNotifications : false);
   const [unreadCount, setUnreadCount] = useState(0);
   
+  // Sync hook notifications with local state
+  useEffect(() => {
+    if (notificationsFromHook.length > 0) {
+      setNotifications(notificationsFromHook);
+      setUnreadCount(unreadCountFromHook);
+      setNotificationsLoaded(true);
+    }
+  }, [notificationsFromHook, unreadCountFromHook]);
+  
   // Use external controls if provided
   const effectiveShowNotifications = externalShowNotifications !== undefined ? externalShowNotifications : showNotifications;
   const effectiveSetShowNotifications = externalSetShowNotifications || setShowNotifications;
+  
+  // Refs for text areas
+  const newPostRef = useRef(null);
+  const commentRefs = useRef({});
+  const newEventDescRef = useRef(null);
   
   // Profile state
   const [showProfile, setShowProfile] = useState(false);
