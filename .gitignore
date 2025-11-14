@@ -124,3 +124,5 @@ frontend/node_modules/.cache/default-development/36.pack
 frontend/node_modules/.cache/default-development/37.pack
 frontend/node_modules/.cache/default-development/38.pack
 frontend/node_modules/.cache/default-development/39.pack
+frontend/node_modules/.cache/default-production/0.pack
+frontend/build/bundle-stats.json
