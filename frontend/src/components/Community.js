@@ -4801,3 +4801,2679 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
                 </div>
               )}
             </div>
+        // Prevent closing when clicking on backdrop (only close with Cancel button)
+        e.stopPropagation();
+      }}
+    >
+      <div 
+        className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => {
+          // Prevent backdrop click from propagating
+          e.stopPropagation();
+        }}
+      >
+        <h2 className="text-2xl font-bold text-white mb-4">{t('community.modals.editGroup')}</h2>
+        
+        <div className="space-y-4">
+          {/* Profile Image */}
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.groupProfileImage')}</label>
+            <div className="flex items-center space-x-4">
+              {groupData.profile_image ? (
+                <img src={groupData.profile_image} alt="Profile" className="w-20 h-20 rounded-full object-cover" />
+              ) : (
+                <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center">
+                  <UsersIcon className="w-10 h-10 text-gray-400" />
+                </div>
+              )}
+              <label className="cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, 'profile_image')}
+                  className="hidden"
+                />
+                <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
+                  {groupData.profile_image ? t('common.changeImage') : t('common.uploadImage')}
+                </div>
+              </label>
+              {groupData.profile_image && (
+                <button
+                  onClick={() => setGroupData({ ...groupData, profile_image: null })}
+                  className="p-2 bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
+                >
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Banner Image */}
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.bannerImage')}</label>
+            {groupData.cover_photo && (
+              <div className="relative mb-2">
+                <img src={groupData.cover_photo} alt="Banner" className="w-full h-32 object-cover rounded-lg" />
+                <button
+                  onClick={() => setGroupData({ ...groupData, cover_photo: null })}
+                  className="absolute top-2 right-2 p-1 bg-red-500 hover:bg-red-600 rounded-full transition-colors"
+                >
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            )}
+            <label className="cursor-pointer">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageUpload(e, 'cover_photo')}
+                className="hidden"
+              />
+              <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm inline-block">
+                {groupData.cover_photo ? t('common.changeBanner') : t('common.uploadBanner')}
+              </div>
+            </label>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.groupName')}</label>
+            <input
+              type="text"
+              value={groupData.name}
+              onChange={(e) => setGroupData({ ...groupData, name: e.target.value })}
+              placeholder={t('community.group.enterGroupName')}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            />
+          </div>
+          
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.description')}</label>
+            <textarea
+              value={groupData.description}
+              onChange={(e) => setGroupData({ ...groupData, description: e.target.value })}
+              placeholder={t('community.group.describeGroup')}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+              rows="3"
+            />
+          </div>
+          
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.privacy')}</label>
+            <select
+              value={groupData.privacy}
+              onChange={(e) => setGroupData({ ...groupData, privacy: e.target.value })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            >
+              <option value="public">{t('community.group.privacyPublic')}</option>
+              <option value="private">{t('community.group.privacyPrivate')}</option>
+            </select>
+          </div>
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.groupRules')}</label>
+            <textarea
+              value={groupData.rules}
+              onChange={(e) => setGroupData({ ...groupData, rules: e.target.value })}
+              placeholder={t('community.group.enterGroupRules')}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+              rows="4"
+            />
+            <p className="text-gray-400 text-xs mt-1">{t('community.group.rulesHelpText')}</p>
+          </div>
+        </div>
+        
+        <div className="flex space-x-3 mt-6">
+          <Button
+            onClick={onSave}
+            className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+          >
+            Save Changes
+          </Button>
+          <Button
+            onClick={onClose}
+            className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
+          >
+            {t('common.cancel')}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// AthleteProfileModal Component
+const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athleteId, loadAthleteProfile, handleLike, handleShare, setFullSizeImageUrl, setShowFullSizeImage }) => {
+  const { t } = useTranslation();
+  const [activeTab, setActiveTab] = useState('about'); // 'about' or 'posts'
+  const [userPosts, setUserPosts] = useState([]);
+  const [postsLoading, setPostsLoading] = useState(false);
+  
+  // Calculate age from date of birth
+  const calculateAge = (dob) => {
+    if (!dob) return null;
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  const age = profile?.date_of_birth ? calculateAge(profile.date_of_birth) : null;
+
+  // Translate interest names using account settings translations
+  const translateInterest = (interest) => {
+    // Map interest names to translation keys
+    const interestKeyMap = {
+      'Running': 'account.interestRunning',
+      'Cycling': 'account.interestCycling',
+      'Swimming': 'account.interestSwimming',
+      'Triathlon': 'account.interestTriathlon',
+      'Marathon': 'account.interestMarathon',
+      'Ultramarathon': 'account.interestUltramarathon',
+      'Trail Running': 'account.interestTrailRunning',
+      'Strength Training': 'account.interestStrengthTraining',
+      'Yoga': 'account.interestYoga',
+      'CrossFit': 'account.interestCrossFit',
+      'Hiking': 'account.interestHiking',
+      'Basketball': 'account.interestBasketball',
+      'Tennis': 'account.interestTennis',
+      'Rock Climbing': 'account.interestRockClimbing',
+      'Fitness': 'account.interestFitness',
+      'Nutrition': 'account.interestNutrition'
+    };
+
+    const key = interestKeyMap[interest];
+    return key ? t(key) : interest; // Fallback to original if no translation found
+  };
+
+  // Load user posts when Posts tab is clicked
+  useEffect(() => {
+    if (activeTab === 'posts' && profile?.id) {
+      loadUserPosts();
+    }
+  }, [activeTab, profile?.id]);
+
+  const loadUserPosts = async () => {
+    if (!profile?.id) return;
+    
+    setPostsLoading(true);
+    try {
+      const response = await axios.get(`${API}/community/user/${profile.id}/posts?viewer_athlete_id=${athleteId}&limit=20`);
+      setUserPosts(response.data.posts || []);
+    } catch (error) {
+      logger.error(null, 'Error loading user posts:', error);
+    } finally {
+      setPostsLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4" onClick={onClose}>
+      <div className="rounded-none md:rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }} onClick={(e) => e.stopPropagation()}>
+        {/* Close button - X icon in top-right */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 hover:bg-gray-700 rounded-full transition-colors z-10"
+          title="Close"
+        >
+          <X className="w-5 h-5 text-white" />
+        </button>
+
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          <>
+            <div className="p-6">
+            <div className="flex items-center space-x-4 mb-6">
+              <div 
+                className="relative cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => {
+                  if (profile.profile_picture) {
+                    setFullSizeImageUrl(profile.profile_picture);
+                    setShowFullSizeImage(true);
+                  }
+                }}
+                title="Click to view full size"
+              >
+                {profile.profile_picture ? (
+                  <>
+                    <img
+                      src={profile.profile_picture}
+                      alt={profile.name}
+                      className="w-20 h-20 rounded-full object-cover"
+                    />
+                    <FlagIcon nationality={profile.nationality} size="large" />
+                  </>
+                ) : (
+                  <>
+                    <div className="w-20 h-20 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                      <span className="text-white font-bold text-2xl">
+                        {profile.name?.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                    <FlagIcon nationality={profile.nationality} size="large" />
+                  </>
+                )}
+              </div>
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold text-white flex items-center">
+                  {profile.name}
+                  <SubscriptionBadge subscriptionTier={profile.subscription_tier} />
+                </h2>
+                {age && <p className="text-gray-400 text-sm">{t('community.yearsOld', { age })}</p>}
+              </div>
+            </div>
+            
+            {/* Tabs */}
+            <div className="flex space-x-2 mb-6 border-b border-gray-700">
+              <button
+                onClick={() => setActiveTab('about')}
+                className={`px-4 py-2 font-semibold transition-colors ${
+                  activeTab === 'about'
+                    ? 'text-[#00C2A8] border-b-2 border-[#00C2A8]'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                {t('community.about')}
+              </button>
+              <button
+                onClick={() => setActiveTab('posts')}
+                className={`px-4 py-2 font-semibold transition-colors ${
+                  activeTab === 'posts'
+                    ? 'text-[#00C2A8] border-b-2 border-[#00C2A8]'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                {t('community.posts')} ({profile.posts_count || 0})
+              </button>
+            </div>
+
+            {/* About Tab Content */}
+            {activeTab === 'about' && (
+              <>
+                {/* Bio Section */}
+                {profile.bio && profile.share_bio && (
+                  <div className="mb-6 p-4 bg-gray-700/50 rounded-lg">
+                    <h3 className="text-white font-semibold mb-2">{t('community.about')}</h3>
+                    <p className="text-gray-300 text-sm">{profile.bio}</p>
+                  </div>
+                )}
+
+                {/* Health/Training Goals Section */}
+                {profile.running_goals && profile.share_goals && (
+                  <div className="mb-6 p-4 bg-gray-700/50 rounded-lg">
+                    <h3 className="text-white font-semibold mb-2">{t('community.healthTrainingGoals')}</h3>
+                    <p className="text-gray-300 text-sm">{profile.running_goals}</p>
+                    {profile.health_goals && profile.health_goals.length > 0 && (
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {profile.health_goals.map((goal, idx) => (
+                          <span
+                            key={idx}
+                            className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs"
+                          >
+                            {goal.replace('_', ' ')}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Interests Section */}
+                {profile.interests && profile.interests.length > 0 && profile.share_interests && (
+                  <div className="mb-6">
+                    <h3 className="text-white font-semibold mb-2">{t('community.interests')}</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {profile.interests.map((interest, idx) => (
+                        <span
+                          key={idx}
+                          className="px-3 py-1 bg-[#00C2A8]/20 text-[#00C2A8] rounded-full text-sm"
+                        >
+                          {translateInterest(interest)}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-[#00C2A8]">{profile.posts_count || 0}</p>
+                    <p className="text-gray-400 text-sm">{t('community.posts')}</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-[#00C2A8]">{profile.followers_count || 0}</p>
+                    <p className="text-gray-400 text-sm">{t('community.followers')}</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-[#00C2A8]">{profile.following_count || 0}</p>
+                    <p className="text-gray-400 text-sm">{t('community.following')}</p>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Posts Tab Content */}
+            {activeTab === 'posts' && (
+              <div className="space-y-4">
+                {postsLoading ? (
+                  <div className="flex justify-center py-12">
+                    <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                ) : userPosts.length > 0 ? (
+                  userPosts.map(post => (
+                    <div key={post.id} className="bg-gray-700/50 rounded-lg p-4">
+                      {/* Post Header */}
+                      <div className="flex items-center space-x-3 mb-3">
+                        {post.athlete_profile_picture ? (
+                          <img
+                            src={post.athlete_profile_picture}
+                            alt={post.athlete_name}
+                            className="w-10 h-10 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                            <span className="text-white font-bold">
+                              {post.athlete_name?.charAt(0).toUpperCase()}
+                            </span>
+                          </div>
+                        )}
+                        <div>
+                          <p className="text-white font-semibold flex items-center">
+                            {post.athlete_name}
+                            <SubscriptionBadge subscriptionTier={post.subscription_tier} />
+                          </p>
+                          <p className="text-gray-400 text-xs">
+                            {new Date(post.created_at).toLocaleString()}
+                            {post.is_edited && <span className="ml-2">(edited)</span>}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Post Content */}
+                      <p className="text-white whitespace-pre-wrap mb-3">{formatMentions(post.content)}</p>
+                      
+                      {/* Display media (images and videos) */}
+                      {post.media && post.media.length > 0 ? (
+                        <div className="mb-3">
+                          <ImageCarousel media={post.media} alt="Post media" />
+                        </div>
+                      ) : post.image_urls && post.image_urls.length > 0 ? (
+                        <div className="mb-3">
+                          <ImageCarousel images={post.image_urls} alt="Post images" />
+                        </div>
+                      ) : post.image_data ? (
+                        <img 
+                          src={post.image_data} 
+                          alt="Post" 
+                          className="w-full rounded-lg max-h-96 object-cover mb-3" 
+                        />
+                      ) : null}
+
+                      {/* Post Actions */}
+                      <div className="flex items-center space-x-6 text-gray-400">
+                        <button
+                          onClick={() => handleLike(post.id)}
+                          className="flex items-center space-x-2 hover:text-red-500 transition-colors"
+                        >
+                          <Heart className={`w-5 h-5 ${post.liked_by_user ? 'fill-red-500 text-red-500' : ''}`} />
+                          <span className="text-sm">{post.likes_count || 0}</span>
+                        </button>
+                        <div className="flex items-center space-x-2">
+                          <MessageCircle className="w-5 h-5" />
+                          <span className="text-sm">{post.comments_count || 0}</span>
+                        </div>
+                        <button
+                          onClick={() => handleShare(post.id)}
+                          className="flex items-center space-x-2 hover:text-[#00C2A8] transition-colors"
+                        >
+                          <Share2 className="w-5 h-5" />
+                          <span className="text-sm">{post.shares_count || 0}</span>
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-400 text-center py-12">No posts yet</p>
+                )}
+              </div>
+            )}
+            
+            <div className="flex space-x-3 mt-6">
+              {!profile.is_own_profile && (
+                <Button
+                  onClick={onFollowToggle}
+                  className={`flex-1 ${
+                    profile.is_following
+                      ? 'bg-gray-700 hover:bg-gray-600'
+                      : 'bg-[#00C2A8] hover:bg-[#00a890]'
+                  } text-white`}
+                >
+                  {profile.is_following ? (
+                    <>
+                      <UserMinus className="w-4 h-4 mr-2" />
+                      {t('athlete.unfollow')}
+                    </>
+                  ) : (
+                    <>
+                      <UserPlus className="w-4 h-4 mr-2" />
+                      {t('athlete.follow')}
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// GroupDetailView Component  
+const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage, newPostImagePreview,
+  editingPost, editContent, showComments, commentText, setNewPostContent, setNewPostImage, 
+  setNewPostImagePreview, setEditingPost, setEditContent, setCommentText,
+  handleCreateGroupPost, handleImageSelect, onBack, onLeave, onEditGroup, loadAthleteProfile }) => {
+  const { t } = useTranslation();
+  
+  return (
+    <div className="space-y-6 pt-12 md:pt-0">
+    {/* Group Header */}
+    <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+      <div className="p-4" className="p-6">
+        <button
+          onClick={onBack}
+          className="text-[#00C2A8] hover:underline mb-4 flex items-center"
+        >
+          ← {t('community.group.backToGroups')}
+        </button>
+        
+        {group.cover_photo && (
+          <img src={group.cover_photo} alt={group.name} className="w-full h-48 object-cover rounded-lg mb-4" />
+        )}
+        
+        <div className="flex items-start space-x-4">
+          {/* Group Profile Image */}
+          {group.profile_image ? (
+            <img src={group.profile_image} alt={group.name} className="w-24 h-24 rounded-full object-cover flex-shrink-0" />
+          ) : (
+            <div className="w-24 h-24 bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <UsersIcon className="w-12 h-12 text-gray-400" />
+            </div>
+          )}
+
+          <div className="flex-1">
+            <div className="flex items-center space-x-2 mb-2">
+              <h2 className="text-3xl font-bold text-white">{group.name}</h2>
+              {group.privacy === 'private' ? (
+                <Lock className="w-6 h-6 text-gray-400" />
+              ) : (
+                <Globe className="w-6 h-6 text-gray-400" />
+              )}
+            </div>
+            <p className="text-gray-300 mb-4">{group.description}</p>
+            <div className="flex items-center space-x-4 text-sm">
+              <span className="text-gray-400">{group.members_count} {t('community.group.members')}</span>
+              {group.member_role && (
+                <span className="text-[#00C2A8] font-semibold flex items-center">
+                  {group.member_role === 'admin' && <Crown className="w-4 h-4 mr-1" />}
+                  {group.member_role === 'moderator' && <Shield className="w-4 h-4 mr-1" />}
+                  {t(`community.group.${group.member_role}`)}
+                </span>
+              )}
+            </div>
+          </div>
+          
+          <div className="flex flex-col space-y-2">
+            {group.member_role === 'admin' && (
+              <button
+                onClick={onEditGroup}
+                className="p-2 bg-[#00C2A8] hover:bg-[#00a890] rounded-lg transition-colors"
+                title={t('community.actions.editGroup')}
+              >
+                <Edit2 className="w-5 h-5 text-white" />
+              </button>
+            )}
+            {group.is_member && group.member_role !== 'admin' && (
+              <Button
+                onClick={() => onLeave(group.id)}
+                className="bg-red-500 hover:bg-red-600 text-white"
+              >
+                Leave Group
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Pending Requests (admin/moderator only) */}
+    {group.pending_members && group.pending_members.length > 0 && (
+      <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4" className="p-6">
+          <h3 className="text-xl font-bold text-white mb-4">Pending Join Requests</h3>
+          <div className="space-y-3">
+            {group.pending_members.map(member => (
+              <div key={member.id} className="flex items-center justify-between bg-gray-600 rounded-lg p-4">
+                <div 
+                  className="flex items-center space-x-3 cursor-pointer"
+                  onClick={() => loadAthleteProfile(member.id)}
+                >
+                  <div className="relative">
+                    {member.profile_picture ? (
+                      <>
+                        <img
+                          src={member.profile_picture}
+                          alt={member.name}
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
+                        <FlagIcon nationality={member.nationality} />
+                      </>
+                    ) : (
+                      <>
+                        <div className="w-12 h-12 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                          <span className="text-white font-bold text-lg">
+                            {member.name?.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                        <FlagIcon nationality={member.nationality} />
+                      </>
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold hover:underline flex items-center">
+                      {member.name}
+                      <SubscriptionBadge subscriptionTier={member.subscription_tier} />
+                    </p>
+                    <p className="text-gray-400 text-xs">
+                      Requested {new Date(member.requested_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex space-x-2">
+                  <button
+                    onClick={async () => {
+                      try {
+                        await axios.put(`${API}/community/groups/${group.id}/members/${member.id}?athlete_id=${athleteId}`, {
+                          action: 'approve'
+                        });
+                        window.location.reload(); // Reload to show updated member list
+                      } catch (error) {
+                        logger.error(null, 'Error approving member:', error);
+                        alert('Failed to approve member');
+                      }
+                    }}
+                    className="p-2 bg-[#00C2A8] hover:bg-[#00a890] rounded-lg transition-colors"
+                    title="Approve"
+                  >
+                    <ThumbsUp className="w-5 h-5 text-white" />
+                  </button>
+                  <button
+                    onClick={async () => {
+                      try {
+                        await axios.put(`${API}/community/groups/${group.id}/members/${member.id}?athlete_id=${athleteId}`, {
+                          action: 'reject'
+                        });
+                        window.location.reload(); // Reload to show updated list
+                      } catch (error) {
+                        logger.error(null, 'Error rejecting member:', error);
+                        alert('Failed to reject member');
+                      }
+                    }}
+                    className="p-2 bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
+                    title="Reject"
+                  >
+                    <ThumbsDown className="w-5 h-5 text-white" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* Members List (admin/manager only) */}
+    {group.members && group.member_role && ['admin', 'manager'].includes(group.member_role) && (
+      <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4" className="p-6">
+          <h3 className="text-xl font-bold text-white mb-4">{t('community.group.groupMembers')}</h3>
+          <div className="space-y-3">
+            {group.members.map(member => (
+              <div key={member.id} className="flex items-center justify-between bg-gray-600 rounded-lg p-4">
+                <div 
+                  className="flex items-center space-x-3 cursor-pointer flex-1"
+                  onClick={() => loadAthleteProfile(member.id)}
+                >
+                  <div className="relative">
+                    {member.profile_picture ? (
+                      <>
+                        <img
+                          src={member.profile_picture}
+                          alt={member.name}
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
+                        <FlagIcon nationality={member.nationality} />
+                      </>
+                    ) : (
+                      <>
+                        <div className="w-12 h-12 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                          <span className="text-white font-bold text-lg">
+                            {member.name?.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                        <FlagIcon nationality={member.nationality} />
+                      </>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-white font-semibold hover:underline flex items-center">
+                      {member.name}
+                      <SubscriptionBadge subscriptionTier={member.subscription_tier} />
+                    </p>
+                    <div className="flex items-center space-x-2">
+                      <span className={`text-xs font-semibold ${
+                        member.role === 'admin' ? 'text-yellow-400' :
+                        member.role === 'manager' ? 'text-blue-400' :
+                        member.role === 'moderator' ? 'text-purple-400' :
+                        'text-gray-400'
+                      }`}>
+                        {member.role === 'admin' && <Crown className="w-3 h-3 inline mr-1" />}
+                        {member.role === 'manager' && <Shield className="w-3 h-3 inline mr-1" />}
+                        {member.role === 'moderator' && <Shield className="w-3 h-3 inline mr-1" />}
+                        {member.role.toUpperCase()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                {member.id !== athleteId && member.role !== 'admin' && (
+                  <div className="relative group">
+                    <select
+                      value={member.role}
+                      onChange={async (e) => {
+                        try {
+                          await axios.put(`${API}/community/groups/${group.id}/members/${member.id}?athlete_id=${athleteId}`, {
+                            action: 'change_role',
+                            role: e.target.value
+                          });
+                          window.location.reload();
+                        } catch (error) {
+                          logger.error(null, 'Error changing role:', error);
+                          alert(error.response?.data?.detail || 'Failed to change role');
+                        }
+                      }}
+                      className="bg-gray-700 text-white text-sm rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                    >
+                      <option value="member">Member</option>
+                      <option value="moderator">Moderator</option>
+                      <option value="manager">Manager</option>
+                      {group.member_role === 'admin' && <option value="admin">Admin</option>}
+                    </select>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* Create Post (if member) */}
+    {group.is_member && (
+      <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4" className="p-6">
+          <textarea
+            value={newPostContent}
+            onChange={(e) => setNewPostContent(e.target.value)}
+            placeholder={t('community.post.shareWithGroup')}
+            className="w-full bg-gray-600 text-white rounded-lg p-4 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+            rows="3"
+          />
+          
+          {newPostImagePreview && (
+            <div className="mt-4 relative">
+              <img src={newPostImagePreview} alt="Preview" className="w-full rounded-lg max-h-96 object-cover" />
+              <button
+                onClick={() => {
+                  setNewPostImage(null);
+                  setNewPostImagePreview(null);
+                }}
+                className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 rounded-full p-2 transition-colors"
+              >
+                <X className="w-4 h-4 text-white" />
+              </button>
+            </div>
+          )}
+
+          <div className="flex justify-between items-center mt-4">
+            <label className="cursor-pointer">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageSelect}
+                className="hidden"
+              />
+              <div className="flex items-center space-x-2 px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg transition-colors">
+                <Camera className="w-5 h-5 text-[#00C2A8]" />
+                <span className="text-white text-sm">{t('community.actions.addPhoto')}</span>
+              </div>
+            </label>
+            
+            <Button
+              onClick={handleCreateGroupPost}
+              disabled={!newPostContent.trim()}
+              className="bg-[#00C2A8] hover:bg-[#00a890] text-white px-6 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Send className="w-4 h-4 mr-2" />
+              Post
+            </Button>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {/* Group Posts - Reuse PostsList but without edit/delete for non-members */}
+    <div className="space-y-6">
+      {posts.map(post => (
+        <div key={post.id} className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+          <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} className="pb-3">
+            <div className="flex items-center justify-between">
+              <div 
+                className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
+                onClick={() => loadAthleteProfile(post.athlete_id)}
+              >
+                {post.athlete_profile_picture ? (
+                  <img
+                    src={post.athlete_profile_picture}
+                    alt={post.athlete_name}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold">
+                      {post.athlete_name?.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                )}
+                <div>
+                  <p className="text-white font-semibold hover:underline flex items-center">
+                    {post.athlete_name}
+                    <SubscriptionBadge subscriptionTier={post.subscription_tier} />
+                  </p>
+                  <p className="text-gray-400 text-xs">
+                    {new Date(post.created_at).toLocaleString()}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="p-4">
+            <p className="text-white mb-4">{post.content}</p>
+            {post.image_data && (
+              <img src={post.image_data} alt="Post" className="w-full rounded-lg mb-4" />
+            )}
+            
+            <div className="flex items-center space-x-4 border-t border-gray-600 pt-3 mt-3">
+              <div className="flex items-center space-x-2 text-gray-400">
+                <Heart className="w-5 h-5" />
+                <span>{post.likes_count || 0}</span>
+              </div>
+              <div className="flex items-center space-x-2 text-gray-400">
+                <MessageCircle className="w-5 h-5" />
+                <span key={`comment-count-${post.id}-${post.comments_count}`}>
+                  {logger.debug(null, `[Group Posts] Rendering comment count for post ${post.id}:`, post.comments_count) || (post.comments_count || 0)}
+                </span>
+              </div>
+              <div className="flex items-center space-x-2 text-gray-400">
+                <Share2 className="w-5 h-5" />
+                <span>{post.shares_count || 0}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {posts.length === 0 && (
+        <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+          <div className="p-4" className="p-12 text-center">
+            <p className="text-gray-400 text-lg">No posts in this group yet.</p>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+  );
+};
+
+// AthletesModal Component
+const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose, onFollowToggle, onViewProfile, t }) => {
+  const [nationalityFilter, setNationalityFilter] = React.useState('all');
+  
+  // Get unique nationalities
+  const uniqueNationalities = React.useMemo(() => {
+    return [...new Set(athletes.map(a => a.nationality).filter(n => n))].sort();
+  }, [athletes]);
+  
+  // Filter athletes by nationality
+  const filteredAthletes = React.useMemo(() => {
+    if (nationalityFilter === 'all') return athletes;
+    return athletes.filter(a => a.nationality === nationalityFilter);
+  }, [athletes, nationalityFilter]);
+  
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4">
+      <div className="rounded-none md:rounded-3xl max-w-2xl w-full max-h-[80vh] flex flex-col border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Find Athletes</h2>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-gray-700 rounded-full transition-colors"
+            >
+              <X className="w-6 h-6 text-white" />
+            </button>
+          </div>
+        </div>
+        
+        <div className="p-6 flex-1 flex flex-col overflow-hidden">
+        {/* Search Input */}
+        <div className="mb-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={onSearchChange}
+              placeholder={t('community.group.searchByName')}
+              className="w-full bg-gray-700 text-white rounded-lg pl-10 pr-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            />
+          </div>
+        </div>
+
+        {/* Nationality Filter */}
+        <div className="mb-4">
+          <select
+            value={nationalityFilter}
+            onChange={(e) => setNationalityFilter(e.target.value)}
+            className="w-full bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none text-sm"
+          >
+            <option value="all">{t('community.post.allNationalities')}</option>
+            {uniqueNationalities.map(nationality => (
+              <option key={nationality} value={nationality}>{nationality}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Athletes List */}
+        <div className="flex-1 overflow-y-auto space-y-3">
+          {loading ? (
+            <div className="flex justify-center py-12">
+              <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : filteredAthletes.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-400">No athletes found</p>
+            </div>
+          ) : (
+            filteredAthletes.map(athlete => (
+              <div
+                key={athlete.id}
+                className="bg-gray-700 rounded-lg p-4 flex items-center justify-between hover:bg-gray-600 transition-colors"
+              >
+                <div className="flex items-center space-x-4 flex-1">
+                  <div
+                    className="cursor-pointer relative"
+                    onClick={() => {
+                      onViewProfile(athlete.id);
+                      onClose();
+                    }}
+                  >
+                    {athlete.profile_picture ? (
+                      <>
+                        <img
+                          src={athlete.profile_picture}
+                          alt={athlete.name}
+                          className="w-14 h-14 rounded-full object-cover"
+                        />
+                        <FlagIcon nationality={athlete.nationality} size="medium" />
+                      </>
+                    ) : (
+                      <>
+                        <div className="w-14 h-14 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                          <span className="text-white font-bold text-xl">
+                            {athlete.name?.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                        <FlagIcon nationality={athlete.nationality} size="medium" />
+                      </>
+                    )}
+                  </div>
+                  
+                  <div 
+                    className="flex-1 cursor-pointer"
+                    onClick={() => {
+                      onViewProfile(athlete.id);
+                      onClose();
+                    }}
+                  >
+                    <p className="text-white font-semibold hover:underline flex items-center">
+                      {athlete.name}
+                      <SubscriptionBadge subscriptionTier={athlete.subscription_tier} />
+                    </p>
+                    {athlete.bio && (
+                      <p className="text-gray-400 text-sm line-clamp-1">{athlete.bio}</p>
+                    )}
+                    <div className="flex items-center space-x-4 mt-1">
+                      <span className="text-gray-400 text-xs">{athlete.posts_count} {t('community.posts').toLowerCase()}</span>
+                      <span className="text-gray-400 text-xs">{athlete.followers_count} {t('community.followers').toLowerCase()}</span>
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={() => onFollowToggle(athlete.id)}
+                    className={`${
+                      athlete.is_following
+                        ? 'bg-gray-600 hover:bg-gray-500'
+                        : 'bg-[#00C2A8] hover:bg-[#00a890]'
+                    } text-white text-sm p-2`}
+                    title={athlete.is_following ? t('athlete.unfollow') : t('athlete.follow')}
+                  >
+                    {athlete.is_following ? (
+                      <UserMinus className="w-5 h-5" />
+                    ) : (
+                      <UserPlus className="w-5 h-5" />
+                    )}
+                  </Button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// GroupRulesModal Component
+const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesAccepted }) => {
+  const [group, setGroup] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadGroupRules = async () => {
+      try {
+        const response = await axios.get(`${API}/community/groups/${groupId}`);
+        setGroup(response.data);
+      } catch (error) {
+        logger.error(null, 'Error loading group rules:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadGroupRules();
+  }, [groupId]);
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4">
+        <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
+          <div className="flex justify-center py-12">
+            <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4">
+      <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <h2 className="text-2xl font-bold text-white mb-4">Group Rules</h2>
+        
+        {group && (
+          <>
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold text-white mb-2">{group.name}</h3>
+              <p className="text-gray-300 text-sm mb-4">{group.description}</p>
+            </div>
+
+            {group.rules && (
+              <div className="mb-6">
+                <h4 className="text-white font-semibold mb-2">Rules:</h4>
+                <div className="bg-gray-700 rounded-lg p-4 max-h-60 overflow-y-auto">
+                  <p className="text-gray-300 whitespace-pre-wrap">{group.rules}</p>
+                </div>
+              </div>
+            )}
+
+            <div className="mb-6">
+              <label className="flex items-center space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={rulesAccepted}
+                  onChange={(e) => setRulesAccepted(e.target.checked)}
+                  className="w-5 h-5 text-[#00C2A8] bg-gray-700 border-gray-600 rounded focus:ring-[#00C2A8] focus:ring-2"
+                />
+                <span className="text-white">I agree to follow the group rules</span>
+              </label>
+            </div>
+
+            <div className="flex space-x-3">
+              <Button
+                onClick={onAccept}
+                disabled={!rulesAccepted}
+                className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Join Group
+              </Button>
+              <Button
+                onClick={onCancel}
+                className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
+              >
+                {t('common.cancel')}
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
+
+// EventCard Component
+// ChallengeCard Component
+const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit, onClick, isSuperAdmin = false, t }) => {
+  const { t: translate } = useTranslation();
+  const progress = challenge.user_progress || 0;
+  const goalValue = challenge.goal_value;
+  const percentage = Math.min((progress / goalValue) * 100, 100);
+  const isCreator = challenge.creator_id === athleteId;
+  const hasJoined = challenge.has_joined;
+  
+  // Debug logging
+  logger.debug(null, '🔍 ChallengeCard DEBUG:', {
+    challengeTitle: challenge.title,
+    athleteId,
+    creatorId: challenge.creator_id,
+    isCreator,
+    hasJoined,
+    challenge
+  });
+  
+  // Check if challenge is active
+  const now = new Date();
+  const endDate = new Date(challenge.end_date);
+  const isActive = endDate > now;
+  
+  // Get challenge type icon and label
+  const getChallengeIcon = () => {
+    switch (challenge.challenge_type) {
+      case 'distance': return <Target className="w-8 h-8 text-gray-400" />;
+      case 'activity_count': return <TrendingUp className="w-8 h-8 text-gray-400" />;
+      case 'duration': return <Clock className="w-8 h-8 text-gray-400" />;
+      default: return <Trophy className="w-8 h-8 text-gray-400" />;
+    }
+  };
+
+  return (
+    <div 
+      className="border-0 shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow rounded-none md:rounded-3xl"
+      style={{ background: 'var(--grad-surface)' }}
+      onClick={() => onClick(challenge.id)}
+    >
+      <div className="p-0 sm:p-6">
+        {challenge.cover_photo && (
+          <div className="mb-4 sm:mb-4 relative">
+            <img src={challenge.cover_photo} alt={challenge.title} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
+            
+            {/* Trophy Icon - Positioned on Banner */}
+            <div className="absolute bottom-3 left-3">
+              {challenge.trophy_image ? (
+                <img src={challenge.trophy_image} alt="Trophy" className="w-16 h-16 rounded-full object-cover border-4 border-gray-800 shadow-lg" />
+              ) : (
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center border-4 border-gray-800 shadow-lg">
+                  <Trophy className="w-8 h-8 text-white" />
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+        
+        <div className="px-3 sm:px-0">
+          <div className="mb-3">
+            <div className="flex items-start justify-between mb-1">
+              <div className="flex items-center gap-2">
+                <h3 className="text-xl font-bold text-white truncate">{challenge.title}</h3>
+                {isCreator && (
+                  <Crown className="w-5 h-5 text-yellow-400 flex-shrink-0" title={t('community.actions.challengeCreator')} />
+                )}
+              </div>
+              {(isCreator || isSuperAdmin) && (
+                <div className="flex space-x-1 flex-shrink-0">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEdit(challenge);
+                    }}
+                    className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                  >
+                    <Edit2 className="w-4 h-4 text-blue-400" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDelete(challenge.id);
+                    }}
+                    className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                  >
+                    <Trash2 className="w-4 h-4 text-red-400" />
+                  </button>
+                </div>
+              )}
+            </div>
+            <p className="text-gray-300 text-sm line-clamp-2 mb-2">{challenge.description}</p>
+          </div>
+
+          {/* Challenge Info */}
+          <div className="space-y-2 mb-4">
+            <div className="flex items-center text-gray-400 text-sm">
+              {getChallengeIcon()}
+              <span className="ml-2">
+                {translate('community.challenge.goal')}: {goalValue} {challenge.goal_unit}
+              </span>
+              {challenge.is_recurring && (
+                <RefreshCw className="w-4 h-4 ml-2 text-blue-400" title={translate('community.actions.recurringChallenge')} />
+              )}
+            </div>
+            <div className="flex items-center text-gray-400 text-sm">
+              <Calendar className="w-4 h-4 mr-2" />
+              {new Date(challenge.start_date).toLocaleDateString()} - {new Date(challenge.end_date).toLocaleDateString()}
+            </div>
+            <div className="flex items-center space-x-3 text-sm">
+              <span className="text-gray-400">{challenge.participants_count || 0} {translate('community.challenge.participants')}</span>
+              <span className={`px-2 py-1 rounded text-xs ${isActive ? 'bg-green-500/20 text-green-400' : 'bg-gray-600 text-gray-400'}`}>
+                {isActive ? translate('community.challenge.active') : translate('community.challenge.completed')}
+              </span>
+              {challenge.visibility === 'private' && (
+                <Lock className="w-4 h-4 text-gray-400" />
+              )}
+            </div>
+          </div>
+
+          {/* Progress Bar (if joined) */}
+          {hasJoined && (
+            <div className="mb-4">
+              <div className="flex justify-between text-sm mb-1">
+                <span className="text-gray-400">{translate('community.challenge.yourProgress')}</span>
+                <span className="text-[#00C2A8] font-semibold">
+                  {progress.toFixed(1)} / {goalValue} {challenge.goal_unit}
+                </span>
+              </div>
+              <div className="w-full bg-gray-600 rounded-full h-2">
+                <div 
+                  className="bg-gradient-to-r from-[#00C2A8] to-green-500 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${percentage}%` }}
+                />
+              </div>
+              <div className="text-right text-xs text-gray-400 mt-1">
+                {percentage.toFixed(1)}% {translate('community.challenge.complete')}
+              </div>
+            </div>
+          )}
+
+          {/* Action Buttons */}
+          <div className="flex space-x-2 pb-3 sm:pb-0">
+            {hasJoined ? (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onLeave();
+                }}
+                className="flex-1 px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors"
+              >
+                {translate('community.challenge.leaveChallenge')}
+              </button>
+            ) : (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onJoin();
+                }}
+                className="flex-1 px-4 py-2 rounded-lg bg-[#00C2A8] hover:bg-[#00a890] text-white transition-colors"
+              >
+                <Trophy className="w-4 h-4 inline mr-2" />
+                {translate('community.challenge.joinChallenge')}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSuperAdmin = false }) => {
+  const { t } = useTranslation();
+  return (
+  <div 
+    className="border-0 shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow rounded-none md:rounded-3xl"
+    style={{ background: 'var(--grad-surface)' }}
+    onClick={() => onClick(event.id)}
+  >
+    <div className="p-0 sm:p-6">
+      {event.cover_photo && (
+        <div className="mb-4 sm:mb-4 relative">
+          <img src={event.cover_photo} alt={event.name} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
+          
+          {/* Event Icon - Positioned on Banner */}
+          <div className="absolute bottom-3 left-3">
+            {event.profile_image ? (
+              <img src={event.profile_image} alt={event.name} className="w-16 h-16 rounded-full object-cover border-4 border-gray-800 shadow-lg" />
+            ) : (
+              <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center border-4 border-gray-800 shadow-lg">
+                <Calendar className="w-8 h-8 text-[#00C2A8]" />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      
+      <div className="px-3 sm:px-0">
+        <div className="mb-3">
+          <div className="flex items-start justify-between mb-1">
+            <h3 className="text-xl font-bold text-white truncate">{event.name}</h3>
+            {(event.creator_id === athleteId || isSuperAdmin) && (
+              <div className="flex space-x-1 ml-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEdit(event);
+                  }}
+                  className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                >
+                  <Edit2 className="w-4 h-4 text-blue-400" />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete(event.id);
+                  }}
+                  className="p-1 hover:bg-gray-600 rounded-full transition-colors"
+                >
+                  <Trash2 className="w-4 h-4 text-red-400" />
+                </button>
+              </div>
+            )}
+          </div>
+          <p className="text-gray-300 text-sm line-clamp-2 mb-2">{event.description}</p>
+          
+          <div className="space-y-1">
+            <div className="flex items-center text-gray-400 text-sm">
+              <Clock className="w-4 h-4 mr-2" />
+              {new Date(event.event_date).toLocaleDateString()} {t('community.event.at')} {event.event_time}
+            </div>
+            {event.location && (
+              <div className="flex items-center text-gray-400 text-sm">
+                <MapPin className="w-4 h-4 mr-2" />
+                {event.location}
+              </div>
+            )}
+            <div className="flex items-center space-x-3 text-sm">
+              <span className="text-gray-400">{event.interested_count || 0} {t('community.event.interested')}</span>
+              <span className="text-gray-400">{event.going_count || 0} {t('community.event.going')}</span>
+              <span className="text-gray-400">{event.comments_count || 0} {t('community.challenge.comments')}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex space-x-2 mt-4 pb-3 sm:pb-0">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onRSVP(event.id, event.user_status === 'interested' ? 'not_going' : 'interested');
+            }}
+            className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+              event.user_status === 'interested'
+                ? 'bg-yellow-500 text-white'
+                : 'bg-gray-600 hover:bg-gray-500 text-white'
+            }`}
+          >
+            <Star className={`w-4 h-4 inline mr-2 ${event.user_status === 'interested' ? 'fill-current' : ''}`} />
+            {t('community.event.interested')}
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onRSVP(event.id, event.user_status === 'going' ? 'not_going' : 'going');
+            }}
+            className={`flex-1 px-4 py-2 rounded-lg transition-colors ${
+              event.user_status === 'going'
+                ? 'bg-[#00C2A8] text-white'
+                : 'bg-gray-600 hover:bg-gray-500 text-white'
+            }`}
+          >
+            {t('community.event.going')}!
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  );
+};
+
+// CreateChallengeModal Component
+const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCreate }) => {
+  const { t } = useTranslation();
+  
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const compressed = await compressBannerImage(file);
+        setChallengeData({ ...challengeData, cover_photo: compressed });
+      } catch (error) {
+        logger.error(null, 'Error compressing image:', error);
+        alert(t('community.messages.failedToProcessImage'));
+      }
+    }
+  };
+
+  const handleChallengeTypeChange = (type) => {
+    let unit = 'km';
+    if (type === 'activity_count') unit = 'activities';
+    if (type === 'duration') unit = 'minutes';
+    
+    setChallengeData({ ...challengeData, challenge_type: type, goal_unit: unit });
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 md:p-4">
+      <div className="rounded-none md:rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-bold flex items-center" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
+              <Trophy className="w-6 h-6 mr-2 text-[#00C2A8]" />
+              {t('common.createChallenge')}
+            </h2>
+            <button onClick={onClose} className="text-gray-400 hover:text-white">
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+
+        <div className="p-6">
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.title')}</label>
+              <input
+                type="text"
+                value={challengeData.title}
+                onChange={(e) => setChallengeData({ ...challengeData, title: e.target.value })}
+                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+                placeholder={t('community.challenge.enterChallengeName')}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">{t('common.description')}</label>
+              <textarea
+                value={challengeData.description}
+                onChange={(e) => setChallengeData({ ...challengeData, description: e.target.value })}
+                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+                rows="3"
+                placeholder={t('community.challenge.describeChallenge')}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.challengeType')}</label>
+                <select
+                  value={challengeData.challenge_type}
+                  onChange={(e) => handleChallengeTypeChange(e.target.value)}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+                >
+                  <option value="distance">{t('community.challenge.typeDistance')}</option>
+                  <option value="activity_count">{t('community.challenge.typeActivityCount')}</option>
+                  <option value="duration">{t('community.challenge.typeDuration')}</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.goalValue')}</label>
+                <div className="flex space-x-2">
+                  <input
+                    type="number"
+                    value={challengeData.goal_value}
+                    onChange={(e) => setChallengeData({ ...challengeData, goal_value: e.target.value })}
+                    className="flex-1 px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+                    placeholder={t('community.challenge.targetValue')}
+                    step="any"
+                  />
+                  <span className="px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-gray-400">
+                    {challengeData.goal_unit}
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.timePeriod')}</label>
+                <select
+                  value={challengeData.time_period}
+                  onChange={(e) => setChallengeData({ ...challengeData, time_period: e.target.value })}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+                >
+                  <option value="total">{t('community.challenge.periodTotal')}</option>
+                  <option value="daily">{t('community.challenge.periodDaily')}</option>
+                  <option value="weekly">{t('community.challenge.periodWeekly')}</option>
+                  <option value="monthly">{t('community.challenge.periodMonthly')}</option>
+                </select>
+                <p className="text-xs text-gray-400 mt-1">
+                  {t('community.challenge.timePeriodHelp')}
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.startDate')}</label>
+                <input
+                  type="date"
+                  value={challengeData.start_date}
+                  onChange={(e) => setChallengeData({ ...challengeData, start_date: e.target.value })}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.endDate')}</label>
+                <input
+                  type="date"
+                  value={challengeData.end_date}
+                  onChange={(e) => setChallengeData({ ...challengeData, end_date: e.target.value })}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.visibility')}</label>
+                <select
+                  value={challengeData.visibility}
+                  onChange={(e) => setChallengeData({ ...challengeData, visibility: e.target.value })}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+                >
+                  <option value="public">{t('community.challenge.visibilityPublic')}</option>
+                  <option value="private">{t('community.challenge.visibilityPrivate')}</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.competitionType')}</label>
+                <select
+                  value={challengeData.competition_type}
+                  onChange={(e) => setChallengeData({ ...challengeData, competition_type: e.target.value })}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+                >
+                  <option value="individual">{t('community.challenge.typeIndividual')}</option>
+                  <option value="team">{t('community.challenge.typeTeam')}</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-600 pt-4">
+              <div className="flex items-center mb-2">
+                <input
+                  type="checkbox"
+                  checked={challengeData.is_recurring}
+                  onChange={(e) => setChallengeData({ ...challengeData, is_recurring: e.target.checked })}
+                  className="mr-2"
+                />
+                <label className="text-sm font-medium text-white">{t('community.challenge.recurringChallenge')}</label>
+              </div>
+
+              {challengeData.is_recurring && (
+                <div className="grid grid-cols-2 gap-4 ml-6">
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-1">Frequency</label>
+                    <select
+                      value={challengeData.recurrence_frequency}
+                      onChange={(e) => setChallengeData({ ...challengeData, recurrence_frequency: e.target.value })}
+                      className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white text-sm"
+                    >
+                      <option value="daily">Daily</option>
+                      <option value="weekly">Weekly</option>
+                      <option value="monthly">Monthly</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-1">Repeat Count</label>
+                    <input
+                      type="number"
+                      value={challengeData.recurrence_count}
+                      onChange={(e) => setChallengeData({ ...challengeData, recurrence_count: parseInt(e.target.value) })}
+                      className="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white text-sm"
+                      min="1"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.coverPhoto')}</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#00C2A8] file:text-white hover:file:bg-[#00a890]"
+                />
+                {challengeData.cover_photo && (
+                  <img src={challengeData.cover_photo} alt="Cover preview" className="mt-2 w-full h-32 object-cover rounded-lg" />
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.trophyBadge')}</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={async (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      try {
+                        const compressed = await compressBannerImage(file);
+                        setChallengeData({ ...challengeData, trophy_image: compressed });
+                      } catch (error) {
+                        logger.error(null, 'Error compressing trophy image:', error);
+                        alert('Failed to process trophy image');
+                      }
+                    }
+                  }}
+                  className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-500 file:text-white hover:file:bg-yellow-600"
+                />
+                {challengeData.trophy_image && (
+                  <img src={challengeData.trophy_image} alt="Trophy preview" className="mt-2 w-32 h-32 object-cover rounded-lg mx-auto" />
+                )}
+                <p className="text-xs text-gray-400 mt-1">{t('community.challenge.trophyHelp')}</p>
+              </div>
+            </div>
+
+            <div className="flex justify-end space-x-3 pt-4">
+              <button
+                onClick={onClose}
+                className="px-6 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors"
+              >
+                {t('common.cancel')}
+              </button>
+              <button
+                onClick={onCreate}
+                className="px-6 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors"
+              >
+                <Trophy className="w-4 h-4 inline mr-2" />
+                Create Challenge
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ChallengeDetailModal Component
+const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJoin, onLeave, onDelete, onAddComment }) => {
+  const { t } = useTranslation();
+  const [commentText, setCommentText] = useState('');
+
+  if (loading || !challengeData) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg p-8">
+          <RefreshCw className="w-8 h-8 text-[#00C2A8] animate-spin mx-auto" />
+          <p className="text-white mt-4">{t('community.challenge.loadingChallenge')}</p>
+        </div>
+      </div>
+    );
+  }
+
+  const progress = challengeData.user_progress || 0;
+  const goalValue = challengeData.goal_value;
+  const percentage = Math.min((progress / goalValue) * 100, 100);
+  const isCreator = challengeData.creator_id === athleteId;
+  const hasJoined = challengeData.has_joined;
+
+  const now = new Date();
+  const endDate = new Date(challengeData.end_date);
+  const isActive = endDate > now;
+
+  const handleAddComment = () => {
+    if (commentText.trim()) {
+      onAddComment(challengeData.id, commentText);
+      setCommentText('');
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex justify-between items-start mb-4">
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center">
+                <Trophy className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-white">{challengeData.title}</h2>
+                <p className="text-gray-400 text-sm">
+                  {t('community.challenge.createdBy')} {challengeData.creator_name}
+                  {challengeData.is_recurring && <RefreshCw className="w-4 h-4 inline ml-2 text-blue-400" title={t('community.actions.recurringChallenge')} />}
+                </p>
+              </div>
+            </div>
+            <button onClick={onClose} className="text-gray-400 hover:text-white">
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Cover Photo */}
+          {challengeData.cover_photo && (
+            <img src={challengeData.cover_photo} alt={challengeData.title} className="w-full h-48 object-cover rounded-lg mb-4" />
+          )}
+
+          {/* Challenge Info */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
+                <div className="flex items-center text-white mb-2">
+                  <Target className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                  <span className="font-semibold">{t('community.challenge.goal')}</span>
+                </div>
+                <p className="text-gray-300 text-lg">
+                  {goalValue} {challengeData.goal_unit}
+                </p>
+                <p className="text-gray-400 text-sm capitalize">
+                  {t(`community.challenge.type${challengeData.challenge_type.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('')}`)}
+                </p>
+              </div>
+            </div>
+
+            <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
+                <div className="flex items-center text-white mb-2">
+                  <Calendar className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                  <span className="font-semibold">{t('community.challenge.duration')}</span>
+                </div>
+                <p className="text-gray-300 text-sm">
+                  {new Date(challengeData.start_date).toLocaleDateString()} - {new Date(challengeData.end_date).toLocaleDateString()}
+                </p>
+                <p className={`text-sm mt-1 ${isActive ? 'text-green-400' : 'text-gray-400'}`}>
+                  {isActive ? t('community.challenge.active') : t('community.challenge.completed')}
+                </p>
+              </div>
+            </div>
+
+            <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
+                <div className="flex items-center text-white mb-2">
+                  <UsersIcon className="w-5 h-5 mr-2 text-[#00C2A8]" />
+                  <span className="font-semibold">{t('community.challenge.participants')}</span>
+                </div>
+                <p className="text-gray-300 text-2xl">
+                  {challengeData.participants_count || 0}
+                </p>
+              </div>
+            </div>
+
+            <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
+                <div className="flex items-center text-white mb-2">
+                  {challengeData.visibility === 'public' ? <Globe className="w-5 h-5 mr-2 text-[#00C2A8]" /> : <Lock className="w-5 h-5 mr-2 text-[#00C2A8]" />}
+                  <span className="font-semibold">{t('community.challenge.visibility')}</span>
+                </div>
+                <p className="text-gray-300 capitalize">
+                  {t(`community.challenge.${challengeData.visibility}`)} / {t(`community.challenge.${challengeData.competition_type}`)}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Description */}
+          {challengeData.description && (
+            <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
+                <h3 className="text-white font-semibold mb-2">{t('community.challenge.description')}</h3>
+                <p className="text-gray-300">{challengeData.description}</p>
+              </div>
+            </div>
+          )}
+
+          {/* User Progress */}
+          {hasJoined && (
+            <div className="border-0 bg-gradient-to-r from-[#00C2A8]/20 to-green-500/20 mb-6" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-white font-semibold">{t('community.challenge.yourProgress')}</h3>
+                  <span className="text-[#00C2A8] font-bold text-lg">
+                    {progress.toFixed(1)} / {goalValue} {challengeData.goal_unit}
+                  </span>
+                </div>
+                <div className="w-full bg-gray-600 rounded-full h-3 mb-2">
+                  <div 
+                    className="bg-gradient-to-r from-[#00C2A8] to-green-500 h-3 rounded-full transition-all duration-300"
+                    style={{ width: `${percentage}%` }}
+                  />
+                </div>
+                <p className="text-right text-gray-300 text-sm">{percentage.toFixed(1)}% {t('community.challenge.complete')}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Leaderboard */}
+          {challengeData.leaderboard && challengeData.leaderboard.length > 0 && (
+            <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
+                <h3 className="text-white font-semibold mb-4 flex items-center">
+                  <Award className="w-5 h-5 mr-2 text-yellow-500" />
+                  {t('community.challenge.leaderboard')}
+                </h3>
+                <div className="space-y-2">
+                  {challengeData.leaderboard.slice(0, 10).map((participant, index) => (
+                    <div key={participant.id} className="flex items-center justify-between py-2 border-b border-gray-700">
+                      <div className="flex items-center space-x-3">
+                        <span className={`text-lg font-bold ${index === 0 ? 'text-yellow-500' : index === 1 ? 'text-gray-400' : index === 2 ? 'text-orange-600' : 'text-gray-500'}`}>
+                          #{index + 1}
+                        </span>
+                        <div className="relative">
+                          {participant.athlete_profile_picture ? (
+                            <>
+                              <img src={participant.athlete_profile_picture} alt={participant.athlete_name} className="w-8 h-8 rounded-full" />
+                              <FlagIcon nationality={participant.nationality} />
+                            </>
+                          ) : (
+                            <>
+                              <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                                <span className="text-white text-sm">{participant.athlete_name.charAt(0)}</span>
+                              </div>
+                              <FlagIcon nationality={participant.nationality} />
+                            </>
+                          )}
+                        </div>
+                        <span className="text-white flex items-center">
+                          {participant.athlete_name}
+                          <SubscriptionBadge subscriptionTier={participant.subscription_tier} />
+                        </span>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[#00C2A8] font-semibold">
+                          {participant.current_progress.toFixed(1)} {challengeData.goal_unit}
+                        </p>
+                        <p className="text-gray-400 text-xs">{participant.percentage_complete.toFixed(1)}%</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Comments */}
+          <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
+            <div className="p-4" className="p-4">
+              <h3 className="text-white font-semibold mb-4">{t('community.challenge.comments')}</h3>
+              
+              {/* Add Comment */}
+              <div className="flex space-x-2 mb-4">
+                <input
+                  type="text"
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleAddComment()}
+                  className="flex-1 px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+                  placeholder={t('community.challenge.addComment')}
+                />
+                <button
+                  onClick={handleAddComment}
+                  className="px-4 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Comments List */}
+              <div className="space-y-3 max-h-64 overflow-y-auto">
+                {challengeData.comments && challengeData.comments.length > 0 ? (
+                  challengeData.comments.map((comment) => (
+                    <div key={comment.id} className="flex space-x-3 py-2">
+                      {comment.athlete_profile_picture ? (
+                        <img src={comment.athlete_profile_picture} alt={comment.athlete_name} className="w-8 h-8 rounded-full" />
+                      ) : (
+                        <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center">
+                          <span className="text-white text-sm">{comment.athlete_name.charAt(0)}</span>
+                        </div>
+                      )}
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-white font-medium text-sm flex items-center">
+                            {comment.athlete_name}
+                            <SubscriptionBadge subscriptionTier={comment.subscription_tier} />
+                          </span>
+                          <span className="text-gray-500 text-xs">{new Date(comment.created_at).toLocaleString()}</span>
+                        </div>
+                        <p className="text-gray-300 text-sm mt-1">{comment.content}</p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-500 text-center py-4">{t('community.challenge.noCommentsYet')}</p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex justify-between">
+            <div className="flex space-x-2">
+              {!isCreator && (
+                hasJoined ? (
+                  <button
+                    onClick={onLeave}
+                    className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+                  >
+                    {t('community.challenge.leaveChallenge')}
+                  </button>
+                ) : (
+                  <button
+                    onClick={onJoin}
+                    className="px-6 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors"
+                  >
+                    <Trophy className="w-4 h-4 inline mr-2" />
+                    {t('community.challenge.joinChallenge')}
+                  </button>
+                )
+              )}
+            </div>
+            {isCreator && (
+              <button
+                onClick={onDelete}
+                className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+              >
+                <Trash2 className="w-4 h-4 inline mr-2" />
+                {t('community.challenge.deleteChallenge')}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// EditChallengeModal Component
+const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }) => {
+  const { t } = useTranslation();
+  
+  const handleImageUpload = async (e, type) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const compressed = await compressBannerImage(file);
+        setChallengeData({ ...challengeData, [type]: compressed });
+      } catch (error) {
+        logger.error(null, 'Error compressing image:', error);
+        alert(t('community.messages.failedToProcessImage'));
+      }
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold text-white flex items-center">
+              <Edit2 className="w-6 h-6 mr-2 text-[#00C2A8]" />
+              Edit Challenge
+            </h2>
+            <button onClick={onClose} className="text-gray-400 hover:text-white">
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">Title</label>
+              <input
+                type="text"
+                value={challengeData.title}
+                onChange={(e) => setChallengeData({ ...challengeData, title: e.target.value })}
+                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">{t('common.description')}</label>
+              <textarea
+                value={challengeData.description}
+                onChange={(e) => setChallengeData({ ...challengeData, description: e.target.value })}
+                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+                rows="3"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">Goal Value</label>
+                <input
+                  type="number"
+                  value={challengeData.goal_value}
+                  onChange={(e) => setChallengeData({ ...challengeData, goal_value: e.target.value })}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
+                  step="any"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">End Date</label>
+                <input
+                  type="date"
+                  value={challengeData.end_date}
+                  onChange={(e) => setChallengeData({ ...challengeData, end_date: e.target.value })}
+                  className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-white mb-2">Visibility</label>
+              <select
+                value={challengeData.visibility}
+                onChange={(e) => setChallengeData({ ...challengeData, visibility: e.target.value })}
+                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
+              >
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+              </select>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.coverPhoto')}</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, 'cover_photo')}
+                  className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#00C2A8] file:text-white hover:file:bg-[#00a890]"
+                />
+                {challengeData.cover_photo && (
+                  <img src={challengeData.cover_photo} alt="Cover preview" className="mt-2 w-full h-32 object-cover rounded-lg" />
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.trophyBadge')}</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleImageUpload(e, 'trophy_image')}
+                  className="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-500 file:text-white hover:file:bg-yellow-600"
+                />
+                {challengeData.trophy_image && (
+                  <img src={challengeData.trophy_image} alt="Trophy preview" className="mt-2 w-32 h-32 object-cover rounded-lg mx-auto" />
+                )}
+              </div>
+            </div>
+
+            <div className="flex justify-end space-x-3 pt-4">
+              <button
+                onClick={onClose}
+                className="px-6 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors"
+              >
+                {t('common.cancel')}
+              </button>
+              <button
+                onClick={onSave}
+                className="px-6 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors"
+              >
+                <Trophy className="w-4 h-4 inline mr-2" />
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// CreateEventModal Component
+const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups, onEmojiSelect }) => {
+  const { t } = useTranslation();
+  
+  const handleImageUpload = async (e, type) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        // Compress image based on type
+        const compressed = type === 'profile_image' 
+          ? await compressThumbnail(file)
+          : await compressBannerImage(file);
+        setEventData({ ...eventData, [type]: compressed });
+      } catch (error) {
+        logger.error(null, 'Error compressing image:', error);
+        alert(t('community.messages.failedToProcessImage'));
+      }
+    }
+  };
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div 
+        className="rounded-none md:rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto border-0 shadow-lg overflow-hidden"
+        style={{ background: 'var(--grad-surface)' }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+          <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('community.modals.createEvent')}</h2>
+        </div>
+        
+        <div className="p-6 space-y-4">
+          {/* Profile Image */}
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.eventIcon')}</label>
+            <div className="flex items-center space-x-4">
+              {eventData.profile_image ? (
+                <img src={eventData.profile_image} alt="Icon" className="w-20 h-20 rounded-full object-cover" />
+              ) : (
+                <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center">
+                  <Calendar className="w-10 h-10 text-gray-400" />
+                </div>
+              )}
+              <label className="cursor-pointer">
+                <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'profile_image')} className="hidden" />
+                <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
+                  {eventData.profile_image ? t('common.change') : t('common.upload')}
+                </div>
+              </label>
+              {eventData.profile_image && (
+                <button onClick={() => setEventData({ ...eventData, profile_image: null })} className="p-2 bg-red-500 hover:bg-red-600 rounded-lg">
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Banner */}
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.banner')}</label>
+            {eventData.cover_photo && (
+              <div className="relative mb-2">
+                <img src={eventData.cover_photo} alt="Banner" className="w-full h-32 object-cover rounded-lg" />
+                <button onClick={() => setEventData({ ...eventData, cover_photo: null })} className="absolute top-2 right-2 p-1 bg-red-500 rounded-full">
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            )}
+            <label className="cursor-pointer">
+              <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'cover_photo')} className="hidden" />
+              <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm inline-block">
+                {eventData.cover_photo ? t('common.change') : t('common.upload')}
+              </div>
+            </label>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.eventName')}</label>
+            <input
+              type="text"
+              value={eventData.name}
+              onChange={(e) => setEventData({ ...eventData, name: e.target.value })}
+              placeholder={t('community.event.enterEventName')}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            />
+          </div>
+          
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.description')}</label>
+            <div className="relative">
+              <textarea
+                value={eventData.description}
+                onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
+                placeholder={t('community.event.describeEvent')}
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+                rows="3"
+              />
+              <div className="absolute bottom-2 right-2">
+                <EmojiPickerButton onEmojiSelect={onEmojiSelect} />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.date')}</label>
+              <input
+                type="date"
+                value={eventData.event_date}
+                onChange={(e) => setEventData({ ...eventData, event_date: e.target.value })}
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              />
+            </div>
+            <div>
+              <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.time')}</label>
+              <input
+                type="time"
+                value={eventData.event_time}
+                onChange={(e) => setEventData({ ...eventData, event_time: e.target.value })}
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.location')}</label>
+            <input
+              type="text"
+              value={eventData.location}
+              onChange={(e) => setEventData({ ...eventData, location: e.target.value })}
+              placeholder={t('community.event.eventLocation')}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            />
+          </div>
+          
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.visibility')}</label>
+            <select
+              value={eventData.visibility}
+              onChange={(e) => setEventData({ ...eventData, visibility: e.target.value })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            >
+              <option value="open">{t('community.event.visibilityOpen')}</option>
+              <option value="private">{t('community.event.visibilityPrivate')}</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.connectToGroup')}</label>
+            <select
+              value={eventData.group_id || ''}
+              onChange={(e) => setEventData({ ...eventData, group_id: e.target.value || null })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            >
+              <option value="">{t('community.event.noGroup')}</option>
+              {myGroups.map(group => (
+                <option key={group.id} value={group.id}>{group.name}</option>
+              ))}
+            </select>
+            <p className="text-gray-400 text-xs mt-1">{t('community.event.groupNotificationHelp')}</p>
+          </div>
+        </div>
+        
+        <div className="p-6 pt-4 flex space-x-3">
+          <Button onClick={onCreate} className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white">
+            {t('common.createEvent')}
+          </Button>
+          <Button onClick={onClose} className="flex-1 bg-gray-700 hover:bg-gray-600 text-white">
+            {t('common.cancel')}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// EditEventModal Component (similar to Create but for editing)
+const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) => {
+  const { t } = useTranslation();
+  
+  const handleImageUpload = async (e, type) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        // Compress image based on type
+        const compressed = type === 'profile_image' 
+          ? await compressThumbnail(file)
+          : await compressBannerImage(file);
+        setEventData({ ...eventData, [type]: compressed });
+      } catch (error) {
+        logger.error(null, 'Error compressing image:', error);
+        alert(t('community.messages.failedToProcessImage'));
+      }
+    }
+  };
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div 
+        className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 className="text-2xl font-bold text-white mb-4">Edit Event</h2>
+        
+        <div className="space-y-4">
+          {/* Same fields as CreateEventModal */}
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Event Icon</label>
+            <div className="flex items-center space-x-4">
+              {eventData.profile_image ? (
+                <img src={eventData.profile_image} alt="Icon" className="w-20 h-20 rounded-full object-cover" />
+              ) : (
+                <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center">
+                  <Calendar className="w-10 h-10 text-gray-400" />
+                </div>
+              )}
+              <label className="cursor-pointer">
+                <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'profile_image')} className="hidden" />
+                <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
+                  {eventData.profile_image ? t('common.change') : t('common.upload')}
+                </div>
+              </label>
+              {eventData.profile_image && (
+                <button onClick={() => setEventData({ ...eventData, profile_image: null })} className="p-2 bg-red-500 hover:bg-red-600 rounded-lg">
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Banner</label>
+            {eventData.cover_photo && (
+              <div className="relative mb-2">
+                <img src={eventData.cover_photo} alt="Banner" className="w-full h-32 object-cover rounded-lg" />
+                <button onClick={() => setEventData({ ...eventData, cover_photo: null })} className="absolute top-2 right-2 p-1 bg-red-500 rounded-full">
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            )}
+            <label className="cursor-pointer">
+              <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'cover_photo')} className="hidden" />
+              <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm inline-block">
+                {eventData.cover_photo ? t('common.change') : t('common.upload')}
+              </div>
+            </label>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.eventName')}</label>
+            <input
+              type="text"
+              value={eventData.name}
+              onChange={(e) => setEventData({ ...eventData, name: e.target.value })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            />
+          </div>
+          
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.description')}</label>
+            <textarea
+              value={eventData.description}
+              onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
+              rows="3"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.date')}</label>
+              <input
+                type="date"
+                value={eventData.event_date}
+                onChange={(e) => setEventData({ ...eventData, event_date: e.target.value })}
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              />
+            </div>
+            <div>
+              <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.time')}</label>
+              <input
+                type="time"
+                value={eventData.event_time}
+                onChange={(e) => setEventData({ ...eventData, event_time: e.target.value })}
+                className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Location</label>
+            <input
+              type="text"
+              value={eventData.location}
+              onChange={(e) => setEventData({ ...eventData, location: e.target.value })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            />
+          </div>
+          
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Visibility</label>
+            <select
+              value={eventData.visibility}
+              onChange={(e) => setEventData({ ...eventData, visibility: e.target.value })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            >
+              <option value="open">Open</option>
+              <option value="private">Private</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="text-white text-sm font-semibold mb-2 block">Connected Group</label>
+            <select
+              value={eventData.group_id || ''}
+              onChange={(e) => setEventData({ ...eventData, group_id: e.target.value || null })}
+              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+            >
+              <option value="">No group</option>
+              {myGroups.map(group => (
+                <option key={group.id} value={group.id}>{group.name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+        
+        <div className="flex space-x-3 mt-6">
+          <Button onClick={onSave} className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white">
+            {t('common.saveChanges')}
+          </Button>
+          <Button onClick={onClose} className="flex-1 bg-gray-700 hover:bg-gray-600 text-white">
+            {t('common.cancel')}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// EventDetailModal Component
+const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin, loadAthleteProfile, onAddComment, commentText, setCommentText, onEmojiSelect, formatMentions, onDeleteComment }) => {
+  const { t, i18n } = useTranslation();
+  
+  if (loading || !eventData) {
+    return (
+      <div 
+        className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4"
+        onClick={onClose}
+      >
+        <div className="bg-gray-800 rounded-lg p-8 text-white">
+          <div className="flex items-center space-x-3">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#00C2A8]"></div>
+            <p>{t('community.event.loadingEventDetails')}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Cover Photo Banner */}
+        {eventData.cover_photo && (
+          <div className="relative h-48 sm:h-64">
+            <img src={eventData.cover_photo} alt={eventData.name} className="w-full h-full object-cover rounded-t-lg" />
+          </div>
+        )}
+
+        <div className="p-4 sm:p-6">
+          {/* Header with Title and Close Button */}
+          <div className="flex items-start justify-between mb-4 sm:mb-6">
+            <div className="flex items-center space-x-3 sm:space-x-4 flex-1">
+              {eventData.profile_image ? (
+                <img src={eventData.profile_image} alt={eventData.name} className="w-12 h-12 sm:w-16 sm:h-16 rounded-full object-cover flex-shrink-0" />
+              ) : (
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                  <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                </div>
+              )}
+              
+              <div className="flex-1">
+                <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">{eventData.name}</h2>
+                <div className="space-y-1">
+                  <div className="flex items-center text-gray-300 text-xs sm:text-sm">
+                    <Clock className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                    <span className="break-words">{new Date(eventData.event_date).toLocaleDateString(i18n.language === 'no' ? 'nb-NO' : 'en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} {t('community.event.at')} {eventData.event_time}</span>
+                  </div>
+                  {eventData.location && (
+                    <div className="flex items-center text-gray-300 text-xs sm:text-sm">
+                      <MapPin className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                      <span className="break-words">{eventData.location}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm mt-2">
+                    <span className="text-[#00C2A8] font-semibold">{eventData.going_count || 0} {t('community.event.going')}</span>
+                    <span className="text-yellow-400 font-semibold">{eventData.interested_count || 0} {t('community.event.interested')}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-gray-600 rounded-full transition-colors ml-2 sm:ml-4"
+            >
+              <X className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            </button>
+          </div>
+
+          {/* Description */}
+          <div className="mb-4 sm:mb-6">
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-2">{t('community.event.aboutThisEvent')}</h3>
+            <p className="text-gray-300 text-sm sm:text-base whitespace-pre-wrap">{eventData.description}</p>
+          </div>
+
+          {/* Participants Going */}
+          {eventData.going_users && eventData.going_users.length > 0 && (
+            <div className="mb-4 sm:mb-6">
+              <h3 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3">{t('community.event.going')} ({eventData.going_count || 0})</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {eventData.going_users.map((user) => (
+                  <div 
+                    key={user.athlete_id} 
+                    className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-gray-700/50 rounded-lg cursor-pointer hover:bg-gray-600/50 transition-colors"
+                    onClick={() => {
+                      onClose();
+                      loadAthleteProfile(user.athlete_id);
+                    }}
+                  >
+                    <div className="relative">
+                      {user.athlete_profile_picture ? (
+                        <>
+                          <img
+                            src={user.athlete_profile_picture}
+                            alt={user.athlete_name}
+                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover flex-shrink-0"
+                          />
+                          <FlagIcon nationality={user.nationality} />
+                        </>
+                      ) : (
+                        <>
+                          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                            <span className="text-white font-semibold text-xs sm:text-sm">
+                              {user.athlete_name?.split(' ').map(n => n[0]).join('').toUpperCase() || '?'}
+                            </span>
+                          </div>
+                          <FlagIcon nationality={user.nationality} />
+                        </>
+                      )}
+                    </div>
+                    <span className="text-white font-medium text-sm sm:text-base truncate flex items-center">
+                      {user.athlete_name || 'Unknown'}
+                      <SubscriptionBadge subscriptionTier={user.subscription_tier} />
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Participants Interested */}
+          {eventData.interested_users && eventData.interested_users.length > 0 && (
+            <div className="mb-4 sm:mb-6">
+              <h3 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3">{t('community.event.interested')} ({eventData.interested_count || 0})</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {eventData.interested_users.map((user) => (
+                  <div 
+                    key={user.athlete_id} 
+                    className="flex items-center space-x-2 sm:space-x-3 p-2 sm:p-3 bg-gray-700/50 rounded-lg cursor-pointer hover:bg-gray-600/50 transition-colors"
+                    onClick={() => {
+                      onClose();
+                      loadAthleteProfile(user.athlete_id);
+                    }}
+                  >
+                    {user.athlete_profile_picture ? (
+                      <img
+                        src={user.athlete_profile_picture}
+                        alt={user.athlete_name}
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover flex-shrink-0"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-white font-semibold text-xs sm:text-sm">
+                          {user.athlete_name?.split(' ').map(n => n[0]).join('').toUpperCase() || '?'}
+                        </span>
+                      </div>
+                    )}
+                    <span className="text-white font-medium text-sm sm:text-base truncate flex items-center">
+                      {user.athlete_name || 'Unknown'}
+                      <SubscriptionBadge subscriptionTier={user.subscription_tier} />
+                      <FlagIcon nationality={user.nationality} />
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Empty state if no participants */}
+          {(!eventData.going_users || eventData.going_users.length === 0) && 
+           (!eventData.interested_users || eventData.interested_users.length === 0) && (
+            <div className="text-center py-4 sm:py-6">
+              <p className="text-gray-400 text-sm sm:text-base">{t('community.event.noParticipantsYet')}</p>
+            </div>
+          )}
+
+
+          {/* Comments Section */}
+          <div className="border-t border-gray-600 pt-4 sm:pt-6">
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">{t('community.challenge.comments')} ({eventData.comments_count || 0})</h3>
+            
+            {/* Comments List */}
+            <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6 max-h-48 sm:max-h-60 overflow-y-auto">
+              {eventData.comments && eventData.comments.length > 0 ? (
+                eventData.comments.map(comment => (
+                  <div key={comment.id} className="flex items-start space-x-2 sm:space-x-3">
+                    <div
+                      className="cursor-pointer hover:opacity-80"
+                      onClick={() => {
+                        onClose();
+                        loadAthleteProfile(comment.athlete_id);
+                      }}
+                    >
+                      {comment.athlete_profile_picture ? (
+                        <img
+                          src={comment.athlete_profile_picture}
+                          alt={comment.athlete_name}
+                          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover flex-shrink-0"
+                        />
+                      ) : (
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
+                          <span className="text-white font-bold text-xs">
+                            {comment.athlete_name?.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 bg-gray-700 rounded-lg p-2 sm:p-3 relative group">
+                      {(comment.athlete_id === athleteId || isSuperAdmin) && (
+                        <button
+                          onClick={() => onDeleteComment(eventData.id, comment.id)}
+                          className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+                          title={t('community.actions.deleteComment')}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
+                      <p 
+                        className="text-white font-semibold text-xs sm:text-sm cursor-pointer hover:underline"
+                        onClick={() => {
+                          onClose();
+                          loadAthleteProfile(comment.athlete_id);
+                        }}
+                      >
+                        {comment.athlete_name}
+                      </p>
+                      <p className="text-gray-300 text-xs sm:text-sm mt-1">{formatMentions(comment.content)}</p>
+                      <p className="text-gray-400 text-xs mt-1">
+                        {new Date(comment.created_at).toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-400 text-center py-3 sm:py-4 text-sm sm:text-base">{t('community.event.noCommentsYet')}</p>
+              )}
+            </div>
+
+            {/* Add Comment Input */}
+            <div className="flex items-center space-x-2">
+              <EmojiPickerButton onEmojiSelect={(emoji) => onEmojiSelect(emoji)} />
+              <input
+                type="text"
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                placeholder={t('community.event.writeComment')}
+                className="flex-1 bg-gray-700 text-white rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
+                onKeyPress={(e) => e.key === 'Enter' && onAddComment()}
+              />
+              <Button
+                onClick={onAddComment}
+                className="bg-[#00C2A8] hover:bg-[#00a890] text-white p-2 sm:px-4 sm:py-2"
+              >
+                <Send className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+
+          {/* Close Button */}
+          <div className="mt-4 sm:mt-6">
+            <Button onClick={onClose} className="w-full bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base py-2 sm:py-3">
+              {t('common.close')}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// CommentsModal Component
+export default Community;
