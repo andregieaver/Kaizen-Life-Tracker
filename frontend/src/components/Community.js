@@ -6861,7 +6861,11 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
   );
 };
 
-};
+// Extracted Modals (now in /app/frontend/src/components/community/modals/):
+// - CreateEventModal.js
+// - EditEventModal.js  
+// - EventDetailModal.js
+// - CreateGroupModal.js
+// - CommentsModal.js
 
-// CommentsModal Component
 export default Community;
