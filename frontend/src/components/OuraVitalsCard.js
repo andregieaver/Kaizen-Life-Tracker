@@ -17,7 +17,7 @@ const OuraVitalsCard = ({ athleteId }) => {
     loadOuraData();
   }, [athleteId]);
 
-  const loadOuraData = async () => {
+  const loadOuraData = async (forceSync = false) => {
     try {
       setIsLoading(true);
       
@@ -30,14 +30,31 @@ const OuraVitalsCard = ({ athleteId }) => {
         return;
       }
 
-      // Get latest Oura data
-      const activitiesResponse = await axios.get(`${API}/integrations/oura/${athleteId}/activities?limit=10`);
+      // If force sync, trigger a sync first
+      if (forceSync) {
+        try {
+          await axios.post(`${API}/integrations/oura/${athleteId}/sync`, { full_sync: false });
+          // Wait a moment for sync to complete
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        } catch (syncError) {
+          console.error('Error syncing Oura data:', syncError);
+        }
+      }
+
+      // Get latest Oura data from database
+      const activitiesResponse = await axios.get(`${API}/integrations/oura/${athleteId}/activities?limit=30`);
       const activities = activitiesResponse.data.activities || [];
+      
+      console.log('[OURA] Fetched activities:', activities);
       
       // Find most recent of each type
       const latestSleep = activities.find(a => a.type === 'Sleep');
       const latestReadiness = activities.find(a => a.type === 'Readiness');
       const latestActivity = activities.find(a => a.type === 'Activity');
+      
+      console.log('[OURA] Latest Sleep:', latestSleep);
+      console.log('[OURA] Latest Readiness:', latestReadiness);
+      console.log('[OURA] Latest Activity:', latestActivity);
       
       setOuraData({
         sleep: latestSleep,
