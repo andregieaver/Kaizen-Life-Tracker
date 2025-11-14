@@ -124,6 +124,15 @@ const SystemSettings = ({ athleteId }) => {
   });
   const [loading, setLoading] = useState(true);
   
+  // Initialize all custom hooks
+  const moduleHook = useModuleSettings(athleteId);
+  const planHook = usePlanSettings(athleteId);
+  const couponHook = useCouponManagement(athleteId);
+  const waitingListHook = useWaitingList(athleteId);
+  const cookieHook = useCookieSettings(athleteId);
+  const statsHook = useSubscriptionStats(athleteId);
+  const advancedHook = useAdvancedSettings(athleteId);
+  
   // Drag state for feature reordering
   const [draggedFeature, setDraggedFeature] = useState({ plan: null, index: null });
   
