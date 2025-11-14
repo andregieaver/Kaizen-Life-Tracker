@@ -1786,14 +1786,19 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
   };
 
-  const handleOpenEditGroup = () => {
+  const handleOpenEditGroup = (group) => {
+    const groupToEdit = group || selectedGroup;
+    if (!groupToEdit) {
+      logger.error(null, 'No group provided to edit');
+      return;
+    }
     setEditGroupData({
-      name: selectedGroup.name,
-      description: selectedGroup.description,
-      privacy: selectedGroup.privacy,
-      profile_image: selectedGroup.profile_image,
-      cover_photo: selectedGroup.cover_photo,
-      rules: selectedGroup.rules || ''
+      name: groupToEdit.name,
+      description: groupToEdit.description,
+      privacy: groupToEdit.privacy,
+      profile_image: groupToEdit.profile_image,
+      cover_photo: groupToEdit.cover_photo,
+      rules: groupToEdit.rules || ''
     });
     setShowEditGroup(true);
   };
