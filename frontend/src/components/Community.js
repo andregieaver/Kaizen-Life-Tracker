@@ -29,6 +29,7 @@ import ChallengeCard from './community/cards/ChallengeCard';
 import EventCard from './community/cards/EventCard';
 import PostsList from './community/views/PostsList';
 import GroupDetailView from './community/views/GroupDetailView';
+import { CommunityEvents, CommunityChallenges } from './community/tabs';
 import { useMediaUpload, useMentions, usePostActions, useComments, useNotifications } from '../hooks/community';
 
 import { logger } from '../utils/logger';
