@@ -9095,7 +9095,7 @@ async def get_memory_categories(athlete_id: str):
         {"$sort": {"count": -1}}
     ]
     
-    results = await db.athlete_memories.aggregate(pipeline).limit(100).to_list(length=100)
+    results = await db.athlete_memories.aggregate(pipeline).to_list(length=100)
     
     categories = [{"category": r["_id"], "count": r["count"]} for r in results]
     
