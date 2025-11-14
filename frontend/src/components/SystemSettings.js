@@ -2706,7 +2706,19 @@ const SystemSettings = ({ athleteId }) => {
           {/* Cookies Tab */}
           <TabsContent value="cookies">
             <CookiesTab
-                              { value: '30d', label: '30 Days' },
+              cookieSettings={cookieHook.cookieSettings}
+              isLoading={cookieHook.isLoading}
+              isScanning={cookieHook.isScanning}
+              onUpdateSettings={cookieHook.updateSettings}
+              onScanCookies={cookieHook.scanCookies}
+              onSave={cookieHook.saveCookieSettings}
+              isSaving={cookieHook.isSaving}
+            />
+          </TabsContent>
+
+
+          {/* Plans Tab */}
+          <TabsContent value="plans">
                               { value: '90d', label: '90 Days' },
                               { value: '1y', label: '1 Year' },
                               { value: 'all', label: 'All Time' }
