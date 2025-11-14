@@ -62,9 +62,37 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   const [newPostContent, setNewPostContent] = useState('');
   const [newPostImage, setNewPostImage] = useState(null);
   const [newPostImagePreview, setNewPostImagePreview] = useState(null);
-  // Multi-media support (images + videos)
-  const [selectedMedia, setSelectedMedia] = useState([]); // Array of media objects: {type, file, preview, url, thumbnail}
-  const [isUploadingMedia, setIsUploadingMedia] = useState(false);
+  
+  // Custom hooks for media upload and mentions
+  const mediaUpload = useMediaUpload();
+  const {
+    selectedMedia,
+    setSelectedMedia,
+    isUploadingMedia,
+    setIsUploadingMedia,
+    draggedIndex,
+    handleMediaSelect,
+    handleRemoveMedia,
+    clearMedia: clearMediaUpload,
+    uploadMediaFiles,
+    dragHandlers
+  } = mediaUpload;
+
+  const mentions = useMentions();
+  const {
+    showMentionDropdown,
+    mentionResults,
+    mentionSearchText,
+    mentionPosition,
+    activeMentionContext,
+    searchAthletes,
+    handleTextChange: handleMentionTextChange,
+    selectMention,
+    closeMentionDropdown,
+    formatMentions,
+    MentionDropdown
+  } = mentions;
+  
   const [isLoading, setIsLoading] = useState(true);
   const [showComments, setShowComments] = useState({});
   const [commentText, setCommentText] = useState({});
@@ -80,11 +108,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   // Expanded posts state for "Show more/less"
   const [expandedPosts, setExpandedPosts] = useState({});
   
-  // Mention state
-  const [showMentionDropdown, setShowMentionDropdown] = useState(false);
-  const [mentionResults, setMentionResults] = useState([]);
-  const [mentionSearchText, setMentionSearchText] = useState('');
-  const [mentionPosition, setMentionPosition] = useState({ top: 0, left: 0 });
+  // Refs for text areas
   const newPostRef = useRef(null);
   const commentRefs = useRef({});
   const newEventDescRef = useRef(null);
