@@ -279,6 +279,46 @@ const OuraVitalsCard = ({ athleteId }) => {
             </div>
           )}
         </div>
+
+        {/* Additional Sleep Metrics - Display below if sleep data exists */}
+        {ouraData.sleep && (
+          <div className="mt-4 pt-4" style={{ borderTop: '1px solid var(--border)' }}>
+            <h4 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-hi)' }}>Last Night</h4>
+            <div className="grid grid-cols-3 gap-3">
+              {/* Lowest Resting Heart Rate */}
+              <div className="flex flex-col">
+                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Resting HR</span>
+                <span className="text-lg font-bold font-display" style={{ color: 'var(--text-hi)' }}>
+                  {ouraData.sleep.lowest_heart_rate || '--'}
+                </span>
+                {ouraData.sleep.lowest_heart_rate && (
+                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>bpm</span>
+                )}
+              </div>
+
+              {/* Total Sleep Time */}
+              <div className="flex flex-col">
+                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Sleep Time</span>
+                <span className="text-lg font-bold font-display" style={{ color: 'var(--text-hi)' }}>
+                  {ouraData.sleep.duration ? (
+                    `${Math.floor(ouraData.sleep.duration / 3600)}h ${Math.floor((ouraData.sleep.duration % 3600) / 60)}m`
+                  ) : '--'}
+                </span>
+              </div>
+
+              {/* Average HRV */}
+              <div className="flex flex-col">
+                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Avg HRV</span>
+                <span className="text-lg font-bold font-display" style={{ color: 'var(--text-hi)' }}>
+                  {ouraData.sleep.average_hrv || '--'}
+                </span>
+                {ouraData.sleep.average_hrv && (
+                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>ms</span>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
