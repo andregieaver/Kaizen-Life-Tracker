@@ -10047,7 +10047,7 @@ async def undo_habit_completion(habit_id: str, athlete_id: str, date: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/habits/{athlete_id}/completions")
-async def get_habit_completions(athlete_id: str, start_date: Optional[str] = None, end_date: Optional[str] = None):
+async def get_habit_completions(athlete_id: str, start_date: Optional[str] = None, end_date: Optional[str] = None, limit: Optional[int] = Query(None, description="Max completions to return")):
     """Get all habit completions for an athlete within a date range"""
     try:
         query = {"athlete_id": athlete_id}
@@ -10059,7 +10059,8 @@ async def get_habit_completions(athlete_id: str, start_date: Optional[str] = Non
         elif end_date:
             query["date"] = {"$lte": end_date}
         
-        completions = await db.habit_completions.find(query, {"_id": 0}).to_list(length=None)
+        query_limit = apply_query_limit(limit, max_limit=1000)  # Max 1000 completions (reasonable for date ranges)
+        completions = await db.habit_completions.find(query, {"_id": 0}).sort("date", -1).limit(query_limit).to_list(length=query_limit)
         return {"completions": completions}
     except Exception as e:
         logging.error(f"Error fetching habit completions: {e}")
