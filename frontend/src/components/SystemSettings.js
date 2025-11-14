@@ -2690,26 +2690,16 @@ const SystemSettings = ({ athleteId }) => {
 
           {/* Statistics Tab */}
           <TabsContent value="statistics">
-            <div className="space-y-6">
-              {/* Subscriber Statistics Card */}
-              <Card className="border-0 shadow-lg bg-gray-800 border-gray-700">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="text-white flex items-center">
-                        <Users className="w-6 h-6 mr-2 text-[#32D3FF]" />
-                        Subscribers
-                      </CardTitle>
-                      <CardDescription className="text-gray-400 mt-2">
-                        Overview of all platform subscribers
-                      </CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  {loadingStats ? (
-                    <div className="text-center text-gray-400 py-8">Loading statistics...</div>
-                  ) : (
+            <StatisticsTab
+              stats={statsHook.stats}
+              selectedPeriod={statsHook.selectedPeriod}
+              compareEnabled={statsHook.compareEnabled}
+              chartData={statsHook.chartData}
+              chartOptions={statsHook.chartOptions}
+              isLoading={statsHook.isLoading}
+              onChangePeriod={statsHook.changePeriod}
+              onToggleCompare={statsHook.toggleCompare}
+            />
                     <div className="space-y-6">
                       {/* Filter Controls */}
                       <div className="flex flex-col gap-4 pb-4 border-b border-gray-700">
