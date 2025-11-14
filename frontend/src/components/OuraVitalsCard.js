@@ -152,10 +152,11 @@ const OuraVitalsCard = ({ athleteId }) => {
               <CardTitle className="text-lg font-display" style={{ color: 'var(--text-hi)' }}>Oura Ring</CardTitle>
             </div>
             <button 
-              onClick={loadOuraData}
+              onClick={() => loadOuraData(true)}
               className="p-2 rounded-lg hover:bg-opacity-10 hover:bg-white transition-colors"
+              disabled={isLoading}
             >
-              <RefreshCw className="w-4 h-4" style={{ color: 'var(--text-med)' }} />
+              <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} style={{ color: 'var(--text-med)' }} />
             </button>
           </div>
         </CardHeader>
