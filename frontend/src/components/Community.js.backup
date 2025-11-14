@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { Button } from './ui/button';
 import { Heart, MessageCircle, Share2, Send, Edit2, Edit3, Trash2, Camera, X, Bell, UserPlus, UserMinus, Users as UsersIcon, Lock, Globe, Crown, Shield, Search, Home, UserCheck, ThumbsUp, ThumbsDown, Calendar, Clock, MapPin, Star, RefreshCw, Video, Image as ImageIcon, GripVertical, Trophy, Target, TrendingUp, Award, PlusCircle, Smile } from 'lucide-react';
 import { compressPostImage, compressThumbnail, compressBannerImage } from '../utils/imageCompression';
@@ -11,11 +12,18 @@ import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import SubscriptionBadge from './SubscriptionBadge';
 import FlagIcon from './FlagIcon';
+import CommentsModal from './community/modals/CommentsModal';
+import EventDetailModal from './community/modals/EventDetailModal';
+import CreateEventModal from './community/modals/CreateEventModal';
+import EditEventModal from './community/modals/EditEventModal';
+import CreateGroupModal from './community/modals/CreateGroupModal';
 
+import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Community = ({ athleteId, athlete, showNotifications: externalShowNotifications, setShowNotifications: externalSetShowNotifications, setCommunityUnreadCount: externalSetCommunityUnreadCount }) => {
+  const { t } = useTranslation();
   
   // Check if current user is super admin
   const isSuperAdmin = athlete?.is_super_admin || false;
@@ -371,7 +379,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       
       // If profile picture was updated and it's the current user, reload community data
       if (profilePictureUpdated && updatedAthleteId === athleteId) {
-        console.log('[Community] Profile picture updated, refreshing community data...');
+        logger.debug(null, '[Community] Profile picture updated, refreshing community data...');
         
         // Reload posts to show updated profile pictures
         if (activeTab === 'feed' && postsLoaded) {
@@ -442,22 +450,22 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setIsLoading(true);
       // Load 10 posts WITH compressed images
       const response = await axios.get(`${API}/community/feed/${athleteId}?limit=10`);
-      console.log('Posts loaded:', response.data);
-      console.log('First post full data:', JSON.stringify(response.data.posts?.[0], null, 2));
-      console.log('First post comments_count:', response.data.posts?.[0]?.comments_count);
+      logger.debug(null, 'Posts loaded:', response.data);
+      logger.debug(null, 'First post full data:', JSON.stringify(response.data.posts?.[0], null, 2));
+      logger.debug(null, 'First post comments_count:', response.data.posts?.[0]?.comments_count);
       
       if (response.data && response.data.posts) {
         setPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
       } else {
-        console.error('No posts in response:', response.data);
+        logger.error(null, 'No posts in response:', response.data);
         setPosts([]);
       }
       
       setPostsLoaded(true);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading posts:', error);
-      console.error('Error details:', error.response?.data);
+      logger.error(null, 'Error loading posts:', error);
+      logger.error(null, 'Error details:', error.response?.data);
       setPosts([]);
       setIsLoading(false);
     }
@@ -468,20 +476,20 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setIsLoading(true);
       // Load posts from people the user follows
       const response = await axios.get(`${API}/community/following-feed/${athleteId}?limit=10`);
-      console.log('Following posts loaded:', response.data);
+      logger.debug(null, 'Following posts loaded:', response.data);
       
       if (response.data && response.data.posts) {
         setFollowingPosts(response.data.posts.map(p => ({ ...p, type: 'post' })));
       } else {
-        console.error('No following posts in response:', response.data);
+        logger.error(null, 'No following posts in response:', response.data);
         setFollowingPosts([]);
       }
       
       setFollowingPostsLoaded(true);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading following posts:', error);
-      console.error('Error details:', error.response?.data);
+      logger.error(null, 'Error loading following posts:', error);
+      logger.error(null, 'Error details:', error.response?.data);
       setFollowingPosts([]);
       setIsLoading(false);
     }
@@ -520,7 +528,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setGroupsLoaded(true);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading groups:', error);
+      logger.error(null, 'Error loading groups:', error);
       setIsLoading(false);
     }
   };
@@ -533,7 +541,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setMyGroupsLoaded(true);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading my groups:', error);
+      logger.error(null, 'Error loading my groups:', error);
       setIsLoading(false);
     }
   };
@@ -549,7 +557,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       }
       setNotificationsLoaded(true);
     } catch (error) {
-      console.error('Error loading notifications:', error);
+      logger.error(null, 'Error loading notifications:', error);
     }
   };
 
@@ -583,8 +591,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setProfileData(response.data);
       setShowProfile(true);
     } catch (error) {
-      console.error('Error loading profile:', error);
-      alert('Failed to load profile');
+      logger.error(null, 'Error loading profile:', error);
+      alert(t('community.messages.failedToLoadProfile'));
     } finally {
       setProfileLoading(false);
     }
@@ -599,7 +607,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         followers_count: response.data.followers_count
       });
     } catch (error) {
-      console.error('Error toggling follow:', error);
+      logger.error(null, 'Error toggling follow:', error);
     }
   };
 
@@ -610,7 +618,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       const response = await axios.get(`${API}/community/athletes?viewer_athlete_id=${athleteId}&search=${searchQuery}`);
       setAthletes(response.data.athletes);
     } catch (error) {
-      console.error('Error loading athletes:', error);
+      logger.error(null, 'Error loading athletes:', error);
     } finally {
       setAthletesLoading(false);
     }
@@ -626,7 +634,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           : athlete
       ));
     } catch (error) {
-      console.error('Error toggling follow:', error);
+      logger.error(null, 'Error toggling follow:', error);
     }
   };
 
@@ -651,8 +659,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         setNewPostImage(compressed);
         setNewPostImagePreview(compressed);
       } catch (error) {
-        console.error('Error compressing image:', error);
-        alert('Failed to process image');
+        logger.error(null, 'Error compressing image:', error);
+        alert(t('community.messages.failedToProcessImage'));
       }
     }
   };
@@ -667,12 +675,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     const newVideos = files.filter(f => f.type.startsWith('video/'));
     
     if (currentVideoCount > 0 && newVideos.length > 0) {
-      alert('You can only upload 1 video per post');
+      alert(t('community.messages.oneVideoPerPost'));
       return;
     }
     
     if (newVideos.length > 1) {
-      alert('You can only upload 1 video per post');
+      alert(t('community.messages.oneVideoPerPost'));
       return;
     }
 
@@ -680,7 +688,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     const newCount = currentCount + files.length;
 
     if (newCount > 5) {
-      alert(`You can upload a maximum of 5 media items (images + video). You currently have ${currentCount} item(s).`);
+      alert(t('community.messages.maxMediaItems', { count: currentCount }));
       return;
     }
 
@@ -735,7 +743,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
       setSelectedMedia(prev => [...prev, ...newMedia]);
     } catch (error) {
-      console.error('Error uploading media:', error);
+      logger.error(null, 'Error uploading media:', error);
       alert(`Failed to upload media: ${error.response?.data?.detail || error.message}`);
     } finally {
       setIsUploadingMedia(false);
@@ -790,7 +798,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
     
     if (newVideos.length > 1) {
-      alert('You can only upload 1 video per post');
+      alert(t('community.messages.oneVideoPerPost'));
       return;
     }
 
@@ -845,7 +853,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
       setEditMedia(prev => [...prev, ...newMedia]);
     } catch (error) {
-      console.error('Error uploading edit media:', error);
+      logger.error(null, 'Error uploading edit media:', error);
       alert(`Failed to upload: ${error.response?.data?.detail || error.message}`);
     } finally {
       setIsUploadingEditMedia(false);
@@ -876,7 +884,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       const response = await axios.get(`${API}/community/athletes/search?q=${searchText}`);
       setMentionResults(response.data.athletes || []);
     } catch (error) {
-      console.error('Error searching athletes:', error);
+      logger.error(null, 'Error searching athletes:', error);
       setMentionResults([]);
     }
   };
@@ -1045,7 +1053,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setPostsLoaded(false); // Reset cache to reload posts
       loadPosts();
     } catch (error) {
-      console.error('Error creating post:', error);
+      logger.error(null, 'Error creating post:', error);
       alert('Failed to create post');
     }
   };
@@ -1075,7 +1083,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           setYoutubePreview(response.data);
           urlToRemove = youtubeMatch[0];
         } catch (error) {
-          console.error('Error fetching YouTube metadata:', error);
+          logger.error(null, 'Error fetching YouTube metadata:', error);
         }
       }
       
@@ -1090,7 +1098,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             setUrlPreview(response.data);
             urlToRemove = nonYoutubeUrl;
           } catch (error) {
-            console.error('Error fetching URL preview:', error);
+            logger.error(null, 'Error fetching URL preview:', error);
           }
         }
       }
@@ -1165,7 +1173,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         loadFollowingPosts();
       }
     } catch (error) {
-      console.error('Error creating post:', error);
+      logger.error(null, 'Error creating post:', error);
       alert(`Failed to create post: ${error.response?.data?.detail || error.message}`);
     }
   };
@@ -1179,7 +1187,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setWritePostImage(compressed);
       setWritePostImagePreview(URL.createObjectURL(file));
     } catch (error) {
-      console.error('Error processing image:', error);
+      logger.error(null, 'Error processing image:', error);
       alert('Failed to process image');
     }
   };
@@ -1213,7 +1221,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       loadPosts();
       loadFollowingPosts();
     } catch (error) {
-      console.error('Error editing post:', error);
+      logger.error(null, 'Error editing post:', error);
       alert('Failed to edit post');
     }
   };
@@ -1234,7 +1242,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           loadPosts();
           loadFollowingPosts();
         } catch (error) {
-          console.error('Error deleting post:', error);
+          logger.error(null, 'Error deleting post:', error);
           alert('Failed to delete post');
         }
       }
@@ -1260,7 +1268,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           : post
       ));
     } catch (error) {
-      console.error('Error toggling like:', error);
+      logger.error(null, 'Error toggling like:', error);
     }
   };
 
@@ -1277,8 +1285,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         content: content
       });
 
-      console.log('Comment added, backend response:', response.data);
-      console.log('Updated comments_count from backend:', response.data.comments_count);
+      logger.debug(null, 'Comment added, backend response:', response.data);
+      logger.debug(null, 'Updated comments_count from backend:', response.data.comments_count);
 
       // Reload comments
       const commentsResponse = await axios.get(`${API}/community/posts/${targetPostId}/comments`);
@@ -1286,7 +1294,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       // Update posts with new comments and count - USING FUNCTIONAL UPDATE
       setPosts(currentPosts => currentPosts.map(post => {
         if (post.id === targetPostId) {
-          console.log('Updating post in feed, old count:', post.comments_count, 'new count:', response.data.comments_count);
+          logger.debug(null, 'Updating post in feed, old count:', post.comments_count, 'new count:', response.data.comments_count);
           return { ...post, comments: commentsResponse.data.comments, comments_count: response.data.comments_count };
         }
         return post;
@@ -1312,7 +1320,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       // Clear comment text
       setCommentText({ ...commentText, [targetPostId]: '' });
     } catch (error) {
-      console.error('Error adding comment:', error);
+      logger.error(null, 'Error adding comment:', error);
       alert('Failed to add comment');
     }
   };
@@ -1348,7 +1356,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             });
           }
         } catch (error) {
-          console.error('Error deleting comment:', error);
+          logger.error(null, 'Error deleting comment:', error);
           alert('Failed to delete comment');
         }
       }
@@ -1395,7 +1403,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             });
           }
         } catch (error) {
-          console.error('Error deleting event comment:', error);
+          logger.error(null, 'Error deleting event comment:', error);
           alert('Failed to delete event comment');
         }
       }
@@ -1448,7 +1456,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       // Clear comment text
       setCommentText({ ...commentText, [targetEventId]: '' });
     } catch (error) {
-      console.error('Error adding event comment:', error);
+      logger.error(null, 'Error adding event comment:', error);
       alert('Failed to add comment');
     }
   };
@@ -1469,7 +1477,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         event.comments = response.data.comments;
         event.comments_count = response.data.comments.length;
       } catch (error) {
-        console.error('Error loading event comments:', error);
+        logger.error(null, 'Error loading event comments:', error);
       }
     }
     
@@ -1487,7 +1495,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           : post
       ));
     } catch (error) {
-      console.error('Error loading comments:', error);
+      logger.error(null, 'Error loading comments:', error);
     }
   };
 
@@ -1536,7 +1544,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       
       alert('Post shared successfully!');
     } catch (error) {
-      console.error('Error sharing post:', error);
+      logger.error(null, 'Error sharing post:', error);
       alert('Failed to share post');
     }
   };
@@ -1571,7 +1579,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         post.comments = response.data.comments;
         post.comments_count = response.data.comments.length;
       } catch (error) {
-        console.error('Error loading comments:', error);
+        logger.error(null, 'Error loading comments:', error);
       }
     }
     
@@ -1613,7 +1621,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         }));
       }
     } catch (error) {
-      console.error('Error toggling comment like:', error);
+      logger.error(null, 'Error toggling comment like:', error);
       alert('Failed to like/unlike comment. Please try again.');
     }
   };
@@ -1634,7 +1642,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       ));
       setUnreadCount(Math.max(0, unreadCount - 1));
     } catch (error) {
-      console.error('Error marking notification as read:', error);
+      logger.error(null, 'Error marking notification as read:', error);
     }
   };
 
@@ -1675,7 +1683,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           }
         }
       } catch (error) {
-        console.error('Error loading post from notification:', error);
+        logger.error(null, 'Error loading post from notification:', error);
         alert('Could not load the post');
       }
     } else if (notification.post_id) {
@@ -1694,7 +1702,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           setPosts([{ ...post, type: 'post' }, ...posts]);
         }
       } catch (error) {
-        console.error('Error loading post:', error);
+        logger.error(null, 'Error loading post:', error);
       }
     }
   };
@@ -1714,7 +1722,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setGroupsLoaded(false); // Reset cache
       loadMyGroups();
     } catch (error) {
-      console.error('Error creating group:', error);
+      logger.error(null, 'Error creating group:', error);
       alert('Failed to create group');
     }
   };
@@ -1731,7 +1739,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setShowEditGroup(false);
       loadGroupDetails(selectedGroup.id); // Reload group to show updates
     } catch (error) {
-      console.error('Error editing group:', error);
+      logger.error(null, 'Error editing group:', error);
       if (error.response?.status === 403) {
         alert('Only group admins can edit groups');
       } else {
@@ -1757,7 +1765,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       loadGroups();
       loadMyGroups();
     } catch (error) {
-      console.error('Error deleting group:', error);
+      logger.error(null, 'Error deleting group:', error);
       if (error.response?.status === 403) {
         alert('Only group admins and super admins can delete groups');
       } else {
@@ -1794,7 +1802,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       alert(response.data.message);
       loadAllGroups();
     } catch (error) {
-      console.error('Error joining group:', error);
+      logger.error(null, 'Error joining group:', error);
       alert(error.response?.data?.detail || 'Failed to join group');
     }
   };
@@ -1815,7 +1823,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setJoiningGroup(null);
       loadAllGroups();
     } catch (error) {
-      console.error('Error joining group:', error);
+      logger.error(null, 'Error joining group:', error);
       alert(error.response?.data?.detail || 'Failed to join group');
     }
   };
@@ -1828,7 +1836,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setSelectedGroup(null);
       loadMyGroups();
     } catch (error) {
-      console.error('Error leaving group:', error);
+      logger.error(null, 'Error leaving group:', error);
       alert(error.response?.data?.message || 'Failed to leave group');
     }
   };
@@ -1842,7 +1850,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setSelectedGroup(groupResponse.data);
       setGroupPosts(postsResponse.data.posts);
     } catch (error) {
-      console.error('Error loading group details:', error);
+      logger.error(null, 'Error loading group details:', error);
       alert('Failed to load group');
     }
   };
@@ -1860,7 +1868,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setNewPostImagePreview(null);
       loadGroupDetails(selectedGroup.id);
     } catch (error) {
-      console.error('Error creating group post:', error);
+      logger.error(null, 'Error creating group post:', error);
       alert('Failed to create post');
     }
   };
@@ -1875,7 +1883,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setEventsLoaded(true);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading events:', error);
+      logger.error(null, 'Error loading events:', error);
       setIsLoading(false);
     }
   };
@@ -1896,7 +1904,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setEventsLoaded(false); // Reset cache
       loadEvents();
     } catch (error) {
-      console.error('Error creating event:', error);
+      logger.error(null, 'Error creating event:', error);
       alert('Failed to create event');
     }
   };
@@ -1914,7 +1922,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       loadEvents();
       setSelectedEvent(null);
     } catch (error) {
-      console.error('Error editing event:', error);
+      logger.error(null, 'Error editing event:', error);
       alert(error.response?.data?.detail || 'Failed to edit event');
     }
   };
@@ -1927,7 +1935,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setEventsLoaded(false); // Reset cache
       loadEvents();
     } catch (error) {
-      console.error('Error deleting event:', error);
+      logger.error(null, 'Error deleting event:', error);
       alert('Failed to delete event');
     }
   };
@@ -1943,15 +1951,15 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setChallengesLoaded(true);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error loading challenges:', error);
+      logger.error(null, 'Error loading challenges:', error);
       setIsLoading(false);
     }
   };
 
   const handleCreateChallenge = async () => {
-    console.log('🔍 DEBUG: handleCreateChallenge called');
-    console.log('🔍 DEBUG: athleteId:', athleteId);
-    console.log('🔍 DEBUG: newChallengeData:', JSON.stringify(newChallengeData, null, 2));
+    logger.debug(null, '🔍 DEBUG: handleCreateChallenge called');
+    logger.debug(null, '🔍 DEBUG: athleteId:', athleteId);
+    logger.debug(null, '🔍 DEBUG: newChallengeData:', JSON.stringify(newChallengeData, null, 2));
     
     if (!newChallengeData.title.trim()) {
       alert('Challenge title is required');
@@ -1966,12 +1974,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       return;
     }
 
-    console.log('🔍 DEBUG: Validation passed, sending request to:', `${API}/community/challenges?athlete_id=${athleteId}`);
-    console.log('🔍 DEBUG: Request payload:', newChallengeData);
+    logger.debug(null, '🔍 DEBUG: Validation passed, sending request to:', `${API}/community/challenges?athlete_id=${athleteId}`);
+    logger.debug(null, '🔍 DEBUG: Request payload:', newChallengeData);
 
     try {
       const response = await axios.post(`${API}/community/challenges?athlete_id=${athleteId}`, newChallengeData);
-      console.log('✅ DEBUG: Challenge created successfully:', response.data);
+      logger.debug(null, '✅ DEBUG: Challenge created successfully:', response.data);
       setShowCreateChallenge(false);
       setNewChallengeData({
         title: '', description: '', challenge_type: 'distance', goal_value: '', goal_unit: 'km',
@@ -1981,10 +1989,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setChallengesLoaded(false);
       loadChallenges(challengeFilter);
     } catch (error) {
-      console.error('❌ DEBUG: Error creating challenge:', error);
-      console.error('❌ DEBUG: Error response:', error.response?.data);
-      console.error('❌ DEBUG: Error status:', error.response?.status);
-      console.error('❌ DEBUG: Error headers:', error.response?.headers);
+      logger.error(null, '❌ DEBUG: Error creating challenge:', error);
+      logger.error(null, '❌ DEBUG: Error response:', error.response?.data);
+      logger.error(null, '❌ DEBUG: Error status:', error.response?.status);
+      logger.error(null, '❌ DEBUG: Error headers:', error.response?.headers);
       alert(`Failed to create challenge: ${error.response?.data?.detail || error.message}`);
     }
   };
@@ -2013,17 +2021,17 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         handleOpenChallengeDetail(editChallengeData.id);
       }
     } catch (error) {
-      console.error('Error editing challenge:', error);
+      logger.error(null, 'Error editing challenge:', error);
       alert('Failed to edit challenge');
     }
   };
 
   const handleJoinChallenge = async (challengeId) => {
-    console.log('🔍 DEBUG: Joining challenge:', challengeId);
-    console.log('🔍 DEBUG: AthleteId:', athleteId);
+    logger.debug(null, '🔍 DEBUG: Joining challenge:', challengeId);
+    logger.debug(null, '🔍 DEBUG: AthleteId:', athleteId);
     try {
       const response = await axios.post(`${API}/community/challenges/${challengeId}/join?athlete_id=${athleteId}`);
-      console.log('✅ DEBUG: Successfully joined challenge:', response.data);
+      logger.debug(null, '✅ DEBUG: Successfully joined challenge:', response.data);
       alert('Successfully joined challenge!');
       setChallengesLoaded(false);
       loadChallenges(challengeFilter);
@@ -2031,8 +2039,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         handleOpenChallengeDetail(challengeId);
       }
     } catch (error) {
-      console.error('❌ DEBUG: Error joining challenge:', error);
-      console.error('❌ DEBUG: Error response:', error.response?.data);
+      logger.error(null, '❌ DEBUG: Error joining challenge:', error);
+      logger.error(null, '❌ DEBUG: Error response:', error.response?.data);
       alert(error.response?.data?.detail || 'Failed to join challenge');
     }
   };
@@ -2040,11 +2048,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   const handleLeaveChallenge = async (challengeId) => {
     if (!window.confirm('Are you sure you want to leave this challenge?')) return;
 
-    console.log('🔍 DEBUG: Leaving challenge:', challengeId);
-    console.log('🔍 DEBUG: AthleteId:', athleteId);
+    logger.debug(null, '🔍 DEBUG: Leaving challenge:', challengeId);
+    logger.debug(null, '🔍 DEBUG: AthleteId:', athleteId);
     try {
       const response = await axios.post(`${API}/community/challenges/${challengeId}/leave?athlete_id=${athleteId}`);
-      console.log('✅ DEBUG: Successfully left challenge:', response.data);
+      logger.debug(null, '✅ DEBUG: Successfully left challenge:', response.data);
       alert('Successfully left challenge!');
       setChallengesLoaded(false);
       loadChallenges(challengeFilter);
@@ -2052,8 +2060,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         handleOpenChallengeDetail(challengeId);
       }
     } catch (error) {
-      console.error('❌ DEBUG: Error leaving challenge:', error);
-      console.error('❌ DEBUG: Error response:', error.response?.data);
+      logger.error(null, '❌ DEBUG: Error leaving challenge:', error);
+      logger.error(null, '❌ DEBUG: Error response:', error.response?.data);
       alert('Failed to leave challenge');
     }
   };
@@ -2067,7 +2075,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       loadChallenges(challengeFilter);
       setShowChallengeDetail(false);
     } catch (error) {
-      console.error('Error deleting challenge:', error);
+      logger.error(null, 'Error deleting challenge:', error);
       alert('Failed to delete challenge');
     }
   };
@@ -2083,13 +2091,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         const commentsResponse = await axios.get(`${API}/community/challenges/${challengeId}/comments`);
         response.data.comments = commentsResponse.data.comments;
       } catch (commentError) {
-        console.error('Error loading challenge comments:', commentError);
+        logger.error(null, 'Error loading challenge comments:', commentError);
         response.data.comments = [];
       }
       
       setChallengeDetailData(response.data);
     } catch (error) {
-      console.error('Error loading challenge details:', error);
+      logger.error(null, 'Error loading challenge details:', error);
       alert('Failed to load challenge details');
       setShowChallengeDetail(false);
     } finally {
@@ -2107,7 +2115,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       // Reload challenge details to show new comment
       handleOpenChallengeDetail(challengeId);
     } catch (error) {
-      console.error('Error adding challenge comment:', error);
+      logger.error(null, 'Error adding challenge comment:', error);
       alert('Failed to add comment');
     }
   };
@@ -2124,13 +2132,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         const commentsResponse = await axios.get(`${API}/community/events/${eventId}/comments`);
         response.data.comments = commentsResponse.data.comments;
       } catch (commentError) {
-        console.error('Error loading event comments:', commentError);
+        logger.error(null, 'Error loading event comments:', commentError);
         response.data.comments = []; // Set empty array if comments fail to load
       }
       
       setEventDetailData(response.data);
     } catch (error) {
-      console.error('Error loading event details:', error);
+      logger.error(null, 'Error loading event details:', error);
       alert('Failed to load event details');
       setShowEventDetail(false);
     } finally {
@@ -2178,7 +2186,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         await handleOpenEventDetail(eventId);
       }
     } catch (error) {
-      console.error('Error RSVP:', error);
+      logger.error(null, 'Error RSVP:', error);
       alert('Failed to RSVP');
     }
   };
@@ -2211,7 +2219,6 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   return (
     <div 
       className="min-h-screen max-w-5xl mx-auto space-y-0 sm:space-y-6 p-2 md:p-6"
-      style={{ background: 'var(--grad-page)' }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
@@ -2221,19 +2228,20 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         scrollDirection === 'down' ? '-translate-y-[calc(100%+4rem)]' : 'translate-y-0'
       } md:translate-y-0`}>
         {/* Main Navigation Tabs - Full width with no gaps on mobile */}
-        <div className="flex justify-between w-full gap-0 sm:gap-2">
+        <div className="flex justify-between w-full gap-0 sm:gap-2 p-0 md:p-2">
           <button
             onClick={() => {
               setActiveTab('feed');
               setSelectedGroup(null);
             }}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
               activeTab === 'feed'
-                ? 'bg-[#00C2A8] text-white shadow-lg'
-                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
-            title="Feed"
+            {...(activeTab === 'feed' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
+            title={t('community.tabs.feed')}
           >
             <Home className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
@@ -2243,12 +2251,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setSelectedGroup(null);
             }}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
               activeTab === 'following'
-                ? 'bg-[#00C2A8] text-white shadow-lg'
-                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
-            title="Following"
+            {...(activeTab === 'following' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
+            title={t('community.tabs.following')}
           >
             <UserPlus className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
@@ -2258,12 +2267,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setSelectedGroup(null);
             }}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
               activeTab === 'groups'
-                ? 'bg-[#00C2A8] text-white shadow-lg'
-                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
-            title="All Groups"
+            {...(activeTab === 'groups' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
+            title={t('community.tabs.allGroups')}
           >
             <UsersIcon className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
@@ -2273,12 +2283,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setSelectedGroup(null);
             }}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
               activeTab === 'mygroups'
-                ? 'bg-[#00C2A8] text-white shadow-lg'
-                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
-            title="My Groups"
+            {...(activeTab === 'mygroups' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
+            title={t('community.tabs.myGroups')}
           >
             <UserCheck className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
@@ -2288,12 +2299,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setSelectedGroup(null);
             }}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
               activeTab === 'events'
-                ? 'bg-[#00C2A8] text-white shadow-lg'
-                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
-            title="Events"
+            {...(activeTab === 'events' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
+            title={t('community.tabs.events')}
           >
             <Calendar className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
@@ -2303,20 +2315,21 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               setSelectedGroup(null);
             }}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className={`flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all ${
+            className={`flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all ${
               activeTab === 'challenges'
-                ? 'bg-[#00C2A8] text-white shadow-lg'
-                : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
+                ? 'text-white shadow-lg'
+                : 'text-gray-400 hover:bg-gray-700/50 hover:text-white'
             }`}
-            title="Challenges"
+            {...(activeTab === 'challenges' && { style: { ...{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }, background: 'var(--grad-surface)' } })}
+            title={t('community.tabs.challenges')}
           >
             <Trophy className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
           <button
             onClick={handleOpenAthletes}
             style={{ paddingTop: '0.9rem', paddingBottom: '0.9rem' }}
-            className="flex-1 px-2 sm:px-3 rounded-none sm:rounded-lg transition-all bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white"
-            title="Find Athletes"
+            className="flex-1 px-2 sm:px-3 rounded-none md:rounded-2xl transition-all text-gray-400 hover:bg-gray-700/50 hover:text-white"
+            title={t('community.tabs.findAthletes')}
           >
             <Search className="w-5 h-5 sm:w-6 sm:h-6 mx-auto" />
           </button>
@@ -2329,13 +2342,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           {/* Nationality Filter */}
           <div className="mb-4 pt-12 md:pt-0">
             <div className="flex items-center space-x-3 bg-gray-800 p-3 rounded-none sm:rounded-lg">
-              <label className="text-white text-sm font-semibold whitespace-nowrap">Filter by Nationality:</label>
+              <label className="text-white text-sm font-semibold whitespace-nowrap">{t('community.post.filterByNationality')}:</label>
               <select
                 value={nationalityFilter}
                 onChange={(e) => handleNationalityFilterChange(e.target.value)}
                 className="flex-1 bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none text-sm"
               >
-                <option value="all">All Nationalities</option>
+                <option value="all">{t('community.post.allNationalities')}</option>
                 {getUniqueNationalities().map(nationality => (
                   <option key={nationality} value={nationality}>{nationality}</option>
                 ))}
@@ -2350,12 +2363,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
               </div>
             ) : posts.length === 0 ? (
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-                <CardContent className="p-12 text-center">
-                  <p className="text-gray-400 text-lg mb-2">No posts yet</p>
-                  <p className="text-gray-500 text-sm">Be the first to share something!</p>
-                </CardContent>
-              </Card>
+              <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+                <div className="p-4" className="p-12 text-center">
+                  <p className="text-gray-400 text-lg mb-2">{t('community.emptyStates.noPostsYet')}</p>
+                  <p className="text-gray-500 text-sm">{t('community.emptyStates.beFirstToShare')}</p>
+                </div>
+              </div>
             ) : (
               getFilteredPosts(posts).map(item => {
               if (item.type === 'event') {
@@ -2375,8 +2388,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 // Render post (original PostsList logic for single post)
                 const post = item;
                 return (
-                  <Card key={post.id} className="border-0 border-b border-b-gray-700 sm:border-b-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg mx-0 sm:mx-auto">
-                    <CardHeader className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
+                  <div key={post.id} className="border-0 border-b border-b-gray-700 sm:border-b-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl mx-0 sm:mx-auto" style={{ background: 'var(--grad-surface)' }}>
+                    <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
                           onClick={() => loadAthleteProfile(post.athlete_id)}
@@ -2451,9 +2464,9 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                           </div>
                         )}
                       </div>
-                    </CardHeader>
+                    </div>
 
-                    <CardContent className="px-3 pb-3 pt-0 sm:px-6 sm:pb-6">
+                    <div className="p-4" className="px-3 pb-3 pt-0 sm:px-6 sm:pb-6">
                       {editingPost === post.id ? (
                         <div className="space-y-3">
                           <textarea
@@ -2555,7 +2568,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                           
                           {/* Visibility Toggle in Edit Mode */}
                           <div className="flex items-center space-x-4 p-3 bg-gray-700 rounded-lg">
-                            <span className="text-white text-sm font-semibold">Visibility:</span>
+                            <span className="text-white text-sm font-semibold">{t('community.post.visibility')}:</span>
                             <div className="flex space-x-2">
                               <button
                                 onClick={() => setEditVisibility('public')}
@@ -2602,7 +2615,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                               }}
                               className="bg-gray-600 hover:bg-gray-500 text-white"
                             >
-                              Cancel
+                              {t('common.cancel')}
                             </Button>
                           </div>
                         </div>
@@ -2635,7 +2648,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                           
                           {/* Display media (images and videos) */}
                           {(() => {
-                            console.log('🔍 Post media check:', {
+                            logger.debug(null, '🔍 Post media check:', {
                               postId: post.id,
                               hasMedia: !!post.media,
                               mediaLength: post.media?.length,
@@ -2764,7 +2777,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                                 type="text"
                                 value={commentText[post.id] || ''}
                                 onChange={(e) => handleCommentContentChange(post.id, e)}
-                                placeholder="Write a comment... (Type @ to mention)"
+                                placeholder={t('community.post.writeCommentMention')}
                                 className="w-full bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
                                 onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
                               />
@@ -2801,8 +2814,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                           </div>
                         </div>
                       )}
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 );
               }
             }))}
@@ -2817,13 +2830,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           {/* Nationality Filter */}
           <div className="mb-4 pt-12 md:pt-0">
             <div className="flex items-center space-x-3 bg-gray-800 p-3 rounded-none sm:rounded-lg">
-              <label className="text-white text-sm font-semibold whitespace-nowrap">Filter by Nationality:</label>
+              <label className="text-white text-sm font-semibold whitespace-nowrap">{t('community.post.filterByNationality')}:</label>
               <select
                 value={nationalityFilter}
                 onChange={(e) => handleNationalityFilterChange(e.target.value)}
                 className="flex-1 bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none text-sm"
               >
-                <option value="all">All Nationalities</option>
+                <option value="all">{t('community.post.allNationalities')}</option>
                 {getUniqueNationalities().map(nationality => (
                   <option key={nationality} value={nationality}>{nationality}</option>
                 ))}
@@ -2834,23 +2847,23 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           {/* Posts from people you follow */}
           <div className="space-y-0 sm:space-y-6">
             {isLoading ? (
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg">
-                <CardContent className="p-12 text-center">
+              <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg" style={{ background: 'var(--grad-surface)' }}>
+                <div className="p-4" className="p-12 text-center">
                   <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin mx-auto"></div>
-                  <p className="text-gray-400 mt-4">Loading posts from people you follow...</p>
-                </CardContent>
-              </Card>
+                  <p className="text-gray-400 mt-4">{t('community.emptyStates.loadingPosts')}</p>
+                </div>
+              </div>
             ) : followingPosts.length === 0 ? (
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg">
-                <CardContent className="p-12 text-center">
-                  <p className="text-gray-400 text-lg mb-2">No posts from people you follow</p>
-                  <p className="text-gray-500 text-sm">Follow other athletes to see their posts here!</p>
-                </CardContent>
-              </Card>
+              <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg" style={{ background: 'var(--grad-surface)' }}>
+                <div className="p-4" className="p-12 text-center">
+                  <p className="text-gray-400 text-lg mb-2">{t('community.emptyStates.noFollowingPosts')}</p>
+                  <p className="text-gray-500 text-sm">{t('community.emptyStates.followOthers')}</p>
+                </div>
+              </div>
             ) : (
               getFilteredPosts(followingPosts).map(post => (
-                <Card key={post.id} className="border-0 border-b border-b-gray-700 sm:border-b-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 rounded-none sm:rounded-lg mx-0 sm:mx-auto">
-                  <CardHeader className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
+                <div key={post.id} className="border-0 border-b border-b-gray-700 sm:border-b-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl mx-0 sm:mx-auto" style={{ background: 'var(--grad-surface)' }}>
+                  <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} className="pb-3 px-3 pt-3 sm:px-6 sm:pt-6">
                     <div className="flex items-center justify-between">
                       <div 
                         className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
@@ -2906,8 +2919,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                         </div>
                       )}
                     </div>
-                  </CardHeader>
-                  <CardContent className="px-3 pb-3 pt-0 sm:px-6 sm:pb-6">
+                  </div>
+                  <div className="p-4" className="px-3 pb-3 pt-0 sm:px-6 sm:pb-6">
                     {/* Edit Mode */}
                     {editingPost === post.id ? (
                       <div className="space-y-3">
@@ -2965,7 +2978,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                             }}
                             className="bg-gray-600 hover:bg-gray-500 text-white"
                           >
-                            Cancel
+                            {t('common.cancel')}
                           </Button>
                         </div>
                       </div>
@@ -3246,7 +3259,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                               type="text"
                               value={commentText[post.id] || ''}
                               onChange={(e) => setCommentText({ ...commentText, [post.id]: e.target.value })}
-                              placeholder="Write a comment... (Type @ to mention)"
+                              placeholder={t('community.post.writeCommentMention')}
                               className="w-full bg-gray-600 text-white rounded-lg pl-4 pr-12 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
                               onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
                             />
@@ -3264,8 +3277,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                         </div>
                       </div>
                     )}
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               ))
             )}
           </div>
@@ -3332,11 +3345,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           </div>
 
           {events.length === 0 && (
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-              <CardContent className="p-12 text-center">
+            <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-12 text-center">
                 <p className="text-gray-400 text-lg">No events yet. Create the first event!</p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           )}
         </div>
       )}
@@ -3361,7 +3374,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                       : 'bg-gray-700 text-gray-400 hover:bg-gray-600 hover:text-white'
                   }`}
                 >
-                  {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                  {t(`community.challenge.${filter}`)}
                 </button>
               ))}
             </div>
@@ -3379,22 +3392,23 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 onEdit={handleOpenEditChallenge}
                 onClick={() => handleOpenChallengeDetail(challenge.id)}
                 isSuperAdmin={isSuperAdmin}
+                t={t}
               />
             ))}
           </div>
 
           {challenges.length === 0 && (
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-              <CardContent className="p-12 text-center">
+            <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-12 text-center">
                 <Trophy className="w-16 h-16 mx-auto mb-4 text-gray-600" />
                 <p className="text-gray-400 text-lg">
-                  {challengeFilter === 'all' && 'No challenges yet. Create the first challenge!'}
-                  {challengeFilter === 'active' && 'No active challenges'}
-                  {challengeFilter === 'completed' && 'No completed challenges'}
-                  {challengeFilter === 'joined' && "You haven't joined any challenges yet"}
+                  {challengeFilter === 'all' && t('community.challenge.noChallengesAll')}
+                  {challengeFilter === 'active' && t('community.challenge.noChallengesActive')}
+                  {challengeFilter === 'completed' && t('community.challenge.noChallengesCompleted')}
+                  {challengeFilter === 'joined' && t('community.challenge.noChallengesJoined')}
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           )}
         </div>
       )}
@@ -3551,6 +3565,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           onClose={() => setShowAthletes(false)}
           onFollowToggle={handleAthletesFollowToggle}
           onViewProfile={loadAthleteProfile}
+          t={t}
         />
       )}
 
@@ -3650,7 +3665,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '50ms' : '0ms'
         }}
-        title="Create Challenge"
+        title={t('community.actions.createChallenge')}
       >
         <Trophy className="w-5 h-5 text-white" />
       </button>
@@ -3672,7 +3687,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '100ms' : '0ms'
         }}
-        title="Create Post"
+        title={t('community.actions.createPost')}
       >
         <Edit3 className="w-5 h-5 text-white" />
       </button>
@@ -3694,7 +3709,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '150ms' : '0ms'
         }}
-        title="Create Event"
+        title={t('community.actions.createEvent')}
       >
         <Calendar className="w-5 h-5 text-white" />
       </button>
@@ -3716,7 +3731,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             : 'translate(0, 0) scale(0)',
           transitionDelay: showCreateMenu ? '200ms' : '0ms'
         }}
-        title="Create Group"
+        title={t('community.actions.createGroup')}
       >
         <UsersIcon className="w-5 h-5 text-white" />
       </button>
@@ -3725,33 +3740,36 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       {/* Write Post Modal */}
       {showWritePostModal && (
         <div 
-          className="fixed inset-0 bg-black/70 flex items-center justify-center z-[70] p-4"
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-[70] p-2 md:p-4"
           onClick={() => setShowWritePostModal(false)}
         >
           <div 
-            className="bg-gray-800 rounded-lg max-w-2xl w-full p-6 shadow-2xl border border-gray-700"
+            className="rounded-none md:rounded-3xl max-w-2xl w-full shadow-2xl border-0 overflow-hidden"
+            style={{ background: 'var(--grad-surface)' }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-2xl font-bold text-white">Create Post</h3>
-              <button
-                onClick={() => setShowWritePostModal(false)}
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <X className="w-6 h-6" />
-              </button>
+            <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+              <div className="flex items-center justify-between">
+                <h3 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('community.modals.createPost')}</h3>
+                <button
+                  onClick={() => setShowWritePostModal(false)}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
             </div>
 
             {/* Content */}
-            <div className="space-y-4">
+            <div className="p-6 space-y-4">
               {/* Textarea with Emoji Button */}
               <div className="relative">
                 <textarea
                   ref={writePostTextareaRef}
                   value={writePostContent}
                   onChange={handleWritePostContentChange}
-                  placeholder="What's on your mind?"
+                  placeholder={t('community.post.whatsOnMind')}
                   className="w-full bg-gray-700 text-white rounded-lg px-4 py-3 pr-12 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[120px] resize-vertical"
                 />
                 
@@ -3966,7 +3984,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   >
                     <div className="flex items-center justify-center space-x-2">
                       <Globe className="w-4 h-4" />
-                      <span className="text-sm">Public</span>
+                      <span className="text-sm">{t('community.post.public')}</span>
                     </div>
                   </button>
                   <button
@@ -3979,7 +3997,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   >
                     <div className="flex items-center justify-center space-x-2">
                       <Lock className="w-4 h-4" />
-                      <span className="text-sm">Private</span>
+                      <span className="text-sm">{t('community.post.private')}</span>
                     </div>
                   </button>
                 </div>
@@ -4034,7 +4052,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                     }}
                     className="flex-1 sm:flex-none bg-gray-700 hover:bg-gray-600 text-white"
                   >
-                    Cancel
+                    {t('common.cancel')}
                   </Button>
                   <Button
                     onClick={handleWritePost}
@@ -4062,7 +4080,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-2xl font-bold text-white">Share Post</h3>
+              <h3 className="text-2xl font-bold text-white">{t('community.modals.sharePost')}</h3>
               <button
                 onClick={() => setShowShareModal(false)}
                 className="text-gray-400 hover:text-white transition-colors"
@@ -4077,7 +4095,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                 ref={shareTextareaRef}
                 value={shareCommentary}
                 onChange={(e) => setShareCommentary(e.target.value)}
-                placeholder="Add your thoughts (optional)..."
+                placeholder={t('community.post.addThoughts')}
                 className="w-full bg-gray-700 text-white rounded-lg px-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none min-h-[100px] resize-vertical"
               />
 
@@ -4149,13 +4167,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                   onClick={() => setShowShareModal(false)}
                   className="px-6 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </Button>
                 <Button
                   onClick={submitSharePost}
-                  className="px-6 py-2 bg-[#00C2A8] hover:bg-[#00A896] text-white rounded-lg transition-colors"
+                  className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
                 >
-                  Share
+                  {t('common.share')}
                 </Button>
               </div>
             </div>
@@ -4210,10 +4228,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       {effectiveShowNotifications && (
         <>
           {/* Mobile: Fullscreen Modal */}
-          <div className="md:hidden fixed top-0 left-0 right-0 bottom-0 bg-gradient-to-br from-gray-900 to-gray-800 z-[9999] flex flex-col overflow-hidden">
+          <div className="md:hidden fixed top-0 left-0 right-0 bottom-0 z-[9999] flex flex-col overflow-hidden" style={{ background: 'var(--grad-page)' }}>
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-700 flex-shrink-0">
-              <h3 className="text-white font-semibold text-lg">Notifications</h3>
+            <div className="flex items-center justify-between p-4" style={{ borderBottom: '1px solid var(--border)' }}>
+              <h3 className="font-semibold text-lg" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Notifications</h3>
               <button
                 onClick={() => effectiveSetShowNotifications(false)}
                 className="text-gray-400 hover:text-white transition-colors"
@@ -4223,28 +4241,31 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
             </div>
             
             {/* Notifications List */}
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto p-2">
               {notifications.length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="text-center">
                     <Bell className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                    <p className="text-gray-400 text-lg">No notifications</p>
-                    <p className="text-gray-500 text-sm mt-2">You're all caught up!</p>
+                    <p className="text-lg" style={{ color: 'var(--text-med)' }}>No notifications</p>
+                    <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>You're all caught up!</p>
                   </div>
                 </div>
               ) : (
                 notifications.map(notification => (
                   <div
                     key={notification.id}
-                    className={`p-4 border-b border-gray-700 hover:bg-gray-700/50 active:bg-gray-700 cursor-pointer transition-colors ${
-                      !notification.read ? 'bg-gray-700/30' : ''
+                    className={`mb-2 rounded-none md:rounded-3xl hover:opacity-90 active:opacity-80 cursor-pointer transition-all overflow-hidden ${
+                      !notification.read ? 'ring-2 ring-[#00C2A8]/30' : ''
                     }`}
+                    style={{ background: 'var(--grad-surface)' }}
                     onClick={() => handleNotificationClick(notification)}
                   >
-                    <p className="text-white text-sm">{notification.message || notification.content}</p>
-                    <p className="text-gray-400 text-xs mt-1">
-                      {new Date(notification.created_at).toLocaleString()}
-                    </p>
+                    <div className="p-4">
+                      <p className="text-sm" style={{ color: 'var(--text-hi)' }}>{notification.message || notification.content}</p>
+                      <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                        {new Date(notification.created_at).toLocaleString()}
+                      </p>
+                    </div>
                   </div>
                 ))
               )}
@@ -4254,32 +4275,35 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           {/* Desktop: Dropdown */}
           <div className="hidden md:block fixed top-16 right-4 z-50 sm:absolute sm:right-0 sm:mt-2">
             <div className="relative">
-              <div className="absolute right-0 mt-2 w-80 bg-gray-800 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
-                <div className="p-4 border-b border-gray-700 flex items-center justify-between">
-                  <h3 className="text-white font-semibold">Notifications</h3>
-                  <button
-                    onClick={() => effectiveSetShowNotifications(false)}
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
+              <div className="absolute right-0 mt-2 w-80 rounded-3xl shadow-xl z-50 max-h-96 overflow-y-auto overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
+                <div className="p-4" style={{ borderBottom: '1px solid var(--border)' }}>
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-semibold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Notifications</h3>
+                    <button
+                      onClick={() => effectiveSetShowNotifications(false)}
+                      className="text-gray-400 hover:text-white transition-colors"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
                 </div>
                 {notifications.length === 0 ? (
-                  <div className="p-8 text-gray-400 text-center">
+                  <div className="p-8 text-center">
                     <Bell className="w-12 h-12 text-gray-600 mx-auto mb-2" />
-                    <p>No notifications</p>
+                    <p style={{ color: 'var(--text-med)' }}>No notifications</p>
                   </div>
                 ) : (
                   notifications.map(notification => (
                     <div
                       key={notification.id}
-                      className={`p-4 border-b border-gray-700 hover:bg-gray-700 cursor-pointer ${
-                        !notification.read ? 'bg-gray-700/50' : ''
+                      className={`p-4 hover:bg-gray-700/30 cursor-pointer transition-colors ${
+                        !notification.read ? 'bg-gray-700/20' : ''
                       }`}
+                      style={{ borderBottom: '1px solid var(--border)' }}
                       onClick={() => handleNotificationClick(notification)}
                     >
-                      <p className="text-white text-sm">{notification.message || notification.content}</p>
-                      <p className="text-gray-400 text-xs mt-1">
+                      <p className="text-sm" style={{ color: 'var(--text-hi)' }}>{notification.message || notification.content}</p>
+                      <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
                         {new Date(notification.created_at).toLocaleString()}
                       </p>
                     </div>
@@ -4300,8 +4324,8 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
   handleToggleLike, toggleComments, handleAddComment, handleSharePost, loadAthleteProfile }) => (
   <div className="space-y-6">
     {posts.map(post => (
-      <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-        <CardHeader className="pb-3">
+      <div key={post.id} className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} className="pb-3">
           <div className="flex items-center justify-between">
             <div 
               className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
@@ -4361,9 +4385,9 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
               </div>
             )}
           </div>
-        </CardHeader>
+        </div>
         
-        <CardContent>
+        <div className="p-4">
           {editingPost === post.id ? (
             <div className="space-y-3">
               <textarea
@@ -4421,7 +4445,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                   }}
                   className="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded-lg"
                 >
-                  Cancel
+                  {t('common.cancel')}
                 </Button>
               </div>
             </div>
@@ -4628,7 +4652,7 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
                       value={commentText[post.id] || ''}
                       onChange={(e) => setCommentText({ ...commentText, [post.id]: e.target.value })}
                       onKeyPress={(e) => e.key === 'Enter' && handleAddComment(post.id)}
-                      placeholder="Write a comment..."
+                      placeholder={t('community.post.writeComment')}
                       className="flex-1 bg-gray-600 text-white rounded-lg px-4 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
                     />
                     <Button
@@ -4643,31 +4667,33 @@ const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility,
               )}
             </>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     ))}
 
     {posts.length === 0 && (
-      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-        <CardContent className="p-12 text-center">
-          <p className="text-gray-400 text-lg">No posts yet. Be the first to share something!</p>
-        </CardContent>
-      </Card>
+      <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4" className="p-12 text-center">
+          <p className="text-gray-400 text-lg">{t('community.group.noPostsYet')}</p>
+        </div>
+      </div>
     )}
   </div>
 );
 
 // GroupCard Component
 const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onClick, isSuperAdmin = false }) => {
+  const { t } = useTranslation();
   const isAdmin = group.member_role === 'admin';
   const canEditDelete = isAdmin || isSuperAdmin;
   
   return (
-    <Card 
-      className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-all rounded-none sm:rounded-lg" 
+    <div 
+      className="border-0 shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-all rounded-none md:rounded-3xl" 
+      style={{ background: 'var(--grad-surface)' }}
       onClick={onClick}
     >
-      <CardContent className="p-0 sm:p-6">
+      <div className="p-0 sm:p-6">
         {group.cover_photo && (
           <div className="mb-4 sm:mb-4">
             <img src={group.cover_photo} alt={group.name} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
@@ -4722,7 +4748,7 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
             </div>
           </div>
           <div className="flex items-center justify-between pb-3 sm:pb-0">
-            <span className="text-gray-400 text-sm">{group.members_count} members</span>
+            <span className="text-gray-400 text-sm">{group.members_count} {t('community.group.members')}</span>
             {!isMember && !group.is_member && (
               <Button
                 onClick={(e) => {
@@ -4744,174 +4770,17 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
             )}
           </div>
         </div>
-      </CardContent>
-    </Card>
-  );
-};
-
-// CreateGroupModal Component
-const CreateGroupModal = ({ groupData, setGroupData, onClose, onCreate }) => {
-  const handleImageUpload = async (e, type) => {
-    const file = e.target.files[0];
-    if (file) {
-      try {
-        // Compress image based on type
-        const compressed = type === 'profile_image' 
-          ? await compressThumbnail(file)
-          : await compressBannerImage(file);
-        setGroupData({ ...groupData, [type]: compressed });
-      } catch (error) {
-        console.error('Error compressing image:', error);
-        alert('Failed to process image');
-      }
-    }
-  };
-
-  return (
-    <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
-      onClick={(e) => {
-        // Prevent closing when clicking on backdrop (only close with Cancel button)
-        e.stopPropagation();
-      }}
-    >
-      <div 
-        className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
-        onClick={(e) => {
-          // Prevent backdrop click from propagating
-          e.stopPropagation();
-        }}
-      >
-        <h2 className="text-2xl font-bold text-white mb-4">Create Group</h2>
-        
-        <div className="space-y-4">
-          {/* Profile Image */}
-          <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Group Profile Image</label>
-            <div className="flex items-center space-x-4">
-              {groupData.profile_image ? (
-                <img src={groupData.profile_image} alt="Profile" className="w-20 h-20 rounded-full object-cover" />
-              ) : (
-                <div className="w-20 h-20 bg-gray-600 rounded-full flex items-center justify-center">
-                  <UsersIcon className="w-10 h-10 text-gray-400" />
-                </div>
-              )}
-              <label className="cursor-pointer">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImageUpload(e, 'profile_image')}
-                  className="hidden"
-                />
-                <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
-                  {groupData.profile_image ? 'Change Image' : 'Upload Image'}
-                </div>
-              </label>
-              {groupData.profile_image && (
-                <button
-                  onClick={() => setGroupData({ ...groupData, profile_image: null })}
-                  className="p-2 bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
-                >
-                  <X className="w-4 h-4 text-white" />
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Banner Image */}
-          <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Banner Image</label>
-            {groupData.cover_photo && (
-              <div className="relative mb-2">
-                <img src={groupData.cover_photo} alt="Banner" className="w-full h-32 object-cover rounded-lg" />
-                <button
-                  onClick={() => setGroupData({ ...groupData, cover_photo: null })}
-                  className="absolute top-2 right-2 p-1 bg-red-500 hover:bg-red-600 rounded-full transition-colors"
-                >
-                  <X className="w-4 h-4 text-white" />
-                </button>
-              </div>
-            )}
-            <label className="cursor-pointer">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleImageUpload(e, 'cover_photo')}
-                className="hidden"
-              />
-              <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm inline-block">
-                {groupData.cover_photo ? 'Change Banner' : 'Upload Banner'}
-              </div>
-            </label>
-          </div>
-
-          <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Group Name</label>
-            <input
-              type="text"
-              value={groupData.name}
-              onChange={(e) => setGroupData({ ...groupData, name: e.target.value })}
-              placeholder="Enter group name"
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
-            />
-          </div>
-          
-          <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Description</label>
-            <textarea
-              value={groupData.description}
-              onChange={(e) => setGroupData({ ...groupData, description: e.target.value })}
-              placeholder="Describe your group"
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
-              rows="3"
-            />
-          </div>
-          
-          <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Privacy</label>
-            <select
-              value={groupData.privacy}
-              onChange={(e) => setGroupData({ ...groupData, privacy: e.target.value })}
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
-            >
-              <option value="public">Public - Anyone can join</option>
-              <option value="private">Private - Requires approval</option>
-            </select>
-          </div>
-          <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Group Rules (Optional)</label>
-            <textarea
-              value={groupData.rules}
-              onChange={(e) => setGroupData({ ...groupData, rules: e.target.value })}
-              placeholder="Enter group rules that members must accept to join (optional)"
-              className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
-              rows="4"
-            />
-            <p className="text-gray-400 text-xs mt-1">If set, users must accept these rules before joining</p>
-          </div>
-        </div>
-        
-        <div className="flex space-x-3 mt-6">
-          <Button
-            onClick={onCreate}
-            className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
-          >
-            Create Group
-          </Button>
-          <Button
-            onClick={onClose}
-            className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
-          >
-            Cancel
-          </Button>
-        </div>
       </div>
     </div>
   );
 };
 
+// CreateGroupModal - Extracted to /app/frontend/src/components/community/modals/CreateGroupModal.js
+
 // EditGroupModal Component (same as CreateGroupModal but for editing)
 const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
+  const { t } = useTranslation();
+  
   const handleImageUpload = async (e, type) => {
     const file = e.target.files[0];
     if (file) {
@@ -4922,15 +4791,15 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
           : await compressBannerImage(file);
         setGroupData({ ...groupData, [type]: compressed });
       } catch (error) {
-        console.error('Error compressing image:', error);
-        alert('Failed to process image');
+        logger.error(null, 'Error compressing image:', error);
+        alert(t('community.messages.failedToProcessImage'));
       }
     }
   };
 
   return (
     <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4"
       onClick={(e) => {
         // Prevent closing when clicking on backdrop (only close with Cancel button)
         e.stopPropagation();
@@ -4943,12 +4812,12 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
           e.stopPropagation();
         }}
       >
-        <h2 className="text-2xl font-bold text-white mb-4">Edit Group</h2>
+        <h2 className="text-2xl font-bold text-white mb-4">{t('community.modals.editGroup')}</h2>
         
         <div className="space-y-4">
           {/* Profile Image */}
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Group Profile Image</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.groupProfileImage')}</label>
             <div className="flex items-center space-x-4">
               {groupData.profile_image ? (
                 <img src={groupData.profile_image} alt="Profile" className="w-20 h-20 rounded-full object-cover" />
@@ -4965,7 +4834,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
                   className="hidden"
                 />
                 <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
-                  {groupData.profile_image ? 'Change Image' : 'Upload Image'}
+                  {groupData.profile_image ? t('common.changeImage') : t('common.uploadImage')}
                 </div>
               </label>
               {groupData.profile_image && (
@@ -4981,7 +4850,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
 
           {/* Banner Image */}
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Banner Image</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.bannerImage')}</label>
             {groupData.cover_photo && (
               <div className="relative mb-2">
                 <img src={groupData.cover_photo} alt="Banner" className="w-full h-32 object-cover rounded-lg" />
@@ -5001,54 +4870,54 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
                 className="hidden"
               />
               <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm inline-block">
-                {groupData.cover_photo ? 'Change Banner' : 'Upload Banner'}
+                {groupData.cover_photo ? t('common.changeBanner') : t('common.uploadBanner')}
               </div>
             </label>
           </div>
 
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Group Name</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.groupName')}</label>
             <input
               type="text"
               value={groupData.name}
               onChange={(e) => setGroupData({ ...groupData, name: e.target.value })}
-              placeholder="Enter group name"
+              placeholder={t('community.group.enterGroupName')}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             />
           </div>
           
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Description</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.description')}</label>
             <textarea
               value={groupData.description}
               onChange={(e) => setGroupData({ ...groupData, description: e.target.value })}
-              placeholder="Describe your group"
+              placeholder={t('community.group.describeGroup')}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
               rows="3"
             />
           </div>
           
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Privacy</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.privacy')}</label>
             <select
               value={groupData.privacy}
               onChange={(e) => setGroupData({ ...groupData, privacy: e.target.value })}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             >
-              <option value="public">Public - Anyone can join</option>
-              <option value="private">Private - Requires approval</option>
+              <option value="public">{t('community.group.privacyPublic')}</option>
+              <option value="private">{t('community.group.privacyPrivate')}</option>
             </select>
           </div>
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Group Rules (Optional)</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.group.groupRules')}</label>
             <textarea
               value={groupData.rules}
               onChange={(e) => setGroupData({ ...groupData, rules: e.target.value })}
-              placeholder="Enter group rules that members must accept to join (optional)"
+              placeholder={t('community.group.enterGroupRules')}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
               rows="4"
             />
-            <p className="text-gray-400 text-xs mt-1">If set, users must accept these rules before joining</p>
+            <p className="text-gray-400 text-xs mt-1">{t('community.group.rulesHelpText')}</p>
           </div>
         </div>
         
@@ -5063,7 +4932,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
             onClick={onClose}
             className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
           >
-            Cancel
+            {t('common.cancel')}
           </Button>
         </div>
       </div>
@@ -5073,6 +4942,7 @@ const EditGroupModal = ({ groupData, setGroupData, onClose, onSave }) => {
 
 // AthleteProfileModal Component
 const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athleteId, loadAthleteProfile, handleLike, handleShare, setFullSizeImageUrl, setShowFullSizeImage }) => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('about'); // 'about' or 'posts'
   const [userPosts, setUserPosts] = useState([]);
   const [postsLoading, setPostsLoading] = useState(false);
@@ -5092,6 +4962,32 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
 
   const age = profile?.date_of_birth ? calculateAge(profile.date_of_birth) : null;
 
+  // Translate interest names using account settings translations
+  const translateInterest = (interest) => {
+    // Map interest names to translation keys
+    const interestKeyMap = {
+      'Running': 'account.interestRunning',
+      'Cycling': 'account.interestCycling',
+      'Swimming': 'account.interestSwimming',
+      'Triathlon': 'account.interestTriathlon',
+      'Marathon': 'account.interestMarathon',
+      'Ultramarathon': 'account.interestUltramarathon',
+      'Trail Running': 'account.interestTrailRunning',
+      'Strength Training': 'account.interestStrengthTraining',
+      'Yoga': 'account.interestYoga',
+      'CrossFit': 'account.interestCrossFit',
+      'Hiking': 'account.interestHiking',
+      'Basketball': 'account.interestBasketball',
+      'Tennis': 'account.interestTennis',
+      'Rock Climbing': 'account.interestRockClimbing',
+      'Fitness': 'account.interestFitness',
+      'Nutrition': 'account.interestNutrition'
+    };
+
+    const key = interestKeyMap[interest];
+    return key ? t(key) : interest; // Fallback to original if no translation found
+  };
+
   // Load user posts when Posts tab is clicked
   useEffect(() => {
     if (activeTab === 'posts' && profile?.id) {
@@ -5107,15 +5003,15 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
       const response = await axios.get(`${API}/community/user/${profile.id}/posts?viewer_athlete_id=${athleteId}&limit=20`);
       setUserPosts(response.data.posts || []);
     } catch (error) {
-      console.error('Error loading user posts:', error);
+      logger.error(null, 'Error loading user posts:', error);
     } finally {
       setPostsLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4" onClick={onClose}>
-      <div className="bg-gray-800 rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4" onClick={onClose}>
+      <div className="rounded-none md:rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }} onClick={(e) => e.stopPropagation()}>
         {/* Close button - X icon in top-right */}
         <button
           onClick={onClose}
@@ -5131,6 +5027,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
           </div>
         ) : (
           <>
+            <div className="p-6">
             <div className="flex items-center space-x-4 mb-6">
               <div 
                 className="relative cursor-pointer hover:opacity-80 transition-opacity"
@@ -5167,7 +5064,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                   {profile.name}
                   <SubscriptionBadge subscriptionTier={profile.subscription_tier} />
                 </h2>
-                {age && <p className="text-gray-400 text-sm">{age} years old</p>}
+                {age && <p className="text-gray-400 text-sm">{t('community.yearsOld', { age })}</p>}
               </div>
             </div>
             
@@ -5181,7 +5078,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                About
+                {t('community.about')}
               </button>
               <button
                 onClick={() => setActiveTab('posts')}
@@ -5191,7 +5088,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                Posts ({profile.posts_count || 0})
+                {t('community.posts')} ({profile.posts_count || 0})
               </button>
             </div>
 
@@ -5201,7 +5098,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                 {/* Bio Section */}
                 {profile.bio && profile.share_bio && (
                   <div className="mb-6 p-4 bg-gray-700/50 rounded-lg">
-                    <h3 className="text-white font-semibold mb-2">About</h3>
+                    <h3 className="text-white font-semibold mb-2">{t('community.about')}</h3>
                     <p className="text-gray-300 text-sm">{profile.bio}</p>
                   </div>
                 )}
@@ -5209,7 +5106,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                 {/* Health/Training Goals Section */}
                 {profile.running_goals && profile.share_goals && (
                   <div className="mb-6 p-4 bg-gray-700/50 rounded-lg">
-                    <h3 className="text-white font-semibold mb-2">Health & Training Goals</h3>
+                    <h3 className="text-white font-semibold mb-2">{t('community.healthTrainingGoals')}</h3>
                     <p className="text-gray-300 text-sm">{profile.running_goals}</p>
                     {profile.health_goals && profile.health_goals.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-2">
@@ -5229,14 +5126,14 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                 {/* Interests Section */}
                 {profile.interests && profile.interests.length > 0 && profile.share_interests && (
                   <div className="mb-6">
-                    <h3 className="text-white font-semibold mb-2">Interests</h3>
+                    <h3 className="text-white font-semibold mb-2">{t('community.interests')}</h3>
                     <div className="flex flex-wrap gap-2">
                       {profile.interests.map((interest, idx) => (
                         <span
                           key={idx}
                           className="px-3 py-1 bg-[#00C2A8]/20 text-[#00C2A8] rounded-full text-sm"
                         >
-                          {interest}
+                          {translateInterest(interest)}
                         </span>
                       ))}
                     </div>
@@ -5246,15 +5143,15 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   <div className="text-center">
                     <p className="text-2xl font-bold text-[#00C2A8]">{profile.posts_count || 0}</p>
-                    <p className="text-gray-400 text-sm">Posts</p>
+                    <p className="text-gray-400 text-sm">{t('community.posts')}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-2xl font-bold text-[#00C2A8]">{profile.followers_count || 0}</p>
-                    <p className="text-gray-400 text-sm">Followers</p>
+                    <p className="text-gray-400 text-sm">{t('community.followers')}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-2xl font-bold text-[#00C2A8]">{profile.following_count || 0}</p>
-                    <p className="text-gray-400 text-sm">Following</p>
+                    <p className="text-gray-400 text-sm">{t('community.following')}</p>
                   </div>
                 </div>
               </>
@@ -5359,16 +5256,17 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                   {profile.is_following ? (
                     <>
                       <UserMinus className="w-4 h-4 mr-2" />
-                      Unfollow
+                      {t('athlete.unfollow')}
                     </>
                   ) : (
                     <>
                       <UserPlus className="w-4 h-4 mr-2" />
-                      Follow
+                      {t('athlete.follow')}
                     </>
                   )}
                 </Button>
               )}
+            </div>
             </div>
           </>
         )}
@@ -5381,16 +5279,19 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
 const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage, newPostImagePreview,
   editingPost, editContent, showComments, commentText, setNewPostContent, setNewPostImage, 
   setNewPostImagePreview, setEditingPost, setEditContent, setCommentText,
-  handleCreateGroupPost, handleImageSelect, onBack, onLeave, onEditGroup, loadAthleteProfile }) => (
-  <div className="space-y-6 pt-12 md:pt-0">
+  handleCreateGroupPost, handleImageSelect, onBack, onLeave, onEditGroup, loadAthleteProfile }) => {
+  const { t } = useTranslation();
+  
+  return (
+    <div className="space-y-6 pt-12 md:pt-0">
     {/* Group Header */}
-    <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-      <CardContent className="p-6">
+    <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+      <div className="p-4" className="p-6">
         <button
           onClick={onBack}
           className="text-[#00C2A8] hover:underline mb-4 flex items-center"
         >
-          ← Back to Groups
+          ← {t('community.group.backToGroups')}
         </button>
         
         {group.cover_photo && (
@@ -5418,12 +5319,12 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             </div>
             <p className="text-gray-300 mb-4">{group.description}</p>
             <div className="flex items-center space-x-4 text-sm">
-              <span className="text-gray-400">{group.members_count} members</span>
+              <span className="text-gray-400">{group.members_count} {t('community.group.members')}</span>
               {group.member_role && (
                 <span className="text-[#00C2A8] font-semibold flex items-center">
                   {group.member_role === 'admin' && <Crown className="w-4 h-4 mr-1" />}
                   {group.member_role === 'moderator' && <Shield className="w-4 h-4 mr-1" />}
-                  {group.member_role}
+                  {t(`community.group.${group.member_role}`)}
                 </span>
               )}
             </div>
@@ -5434,7 +5335,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               <button
                 onClick={onEditGroup}
                 className="p-2 bg-[#00C2A8] hover:bg-[#00a890] rounded-lg transition-colors"
-                title="Edit Group"
+                title={t('community.actions.editGroup')}
               >
                 <Edit2 className="w-5 h-5 text-white" />
               </button>
@@ -5449,13 +5350,13 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
             )}
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
 
     {/* Pending Requests (admin/moderator only) */}
     {group.pending_members && group.pending_members.length > 0 && (
-      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-        <CardContent className="p-6">
+      <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4" className="p-6">
           <h3 className="text-xl font-bold text-white mb-4">Pending Join Requests</h3>
           <div className="space-y-3">
             {group.pending_members.map(member => (
@@ -5505,7 +5406,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                         });
                         window.location.reload(); // Reload to show updated member list
                       } catch (error) {
-                        console.error('Error approving member:', error);
+                        logger.error(null, 'Error approving member:', error);
                         alert('Failed to approve member');
                       }
                     }}
@@ -5522,7 +5423,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                         });
                         window.location.reload(); // Reload to show updated list
                       } catch (error) {
-                        console.error('Error rejecting member:', error);
+                        logger.error(null, 'Error rejecting member:', error);
                         alert('Failed to reject member');
                       }
                     }}
@@ -5535,15 +5436,15 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     )}
 
     {/* Members List (admin/manager only) */}
     {group.members && group.member_role && ['admin', 'manager'].includes(group.member_role) && (
-      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-        <CardContent className="p-6">
-          <h3 className="text-xl font-bold text-white mb-4">Group Members</h3>
+      <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4" className="p-6">
+          <h3 className="text-xl font-bold text-white mb-4">{t('community.group.groupMembers')}</h3>
           <div className="space-y-3">
             {group.members.map(member => (
               <div key={member.id} className="flex items-center justify-between bg-gray-600 rounded-lg p-4">
@@ -5605,7 +5506,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                           });
                           window.location.reload();
                         } catch (error) {
-                          console.error('Error changing role:', error);
+                          logger.error(null, 'Error changing role:', error);
                           alert(error.response?.data?.detail || 'Failed to change role');
                         }
                       }}
@@ -5621,18 +5522,18 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     )}
 
     {/* Create Post (if member) */}
     {group.is_member && (
-      <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-        <CardContent className="p-6">
+      <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4" className="p-6">
           <textarea
             value={newPostContent}
             onChange={(e) => setNewPostContent(e.target.value)}
-            placeholder="Share something with the group..."
+            placeholder={t('community.post.shareWithGroup')}
             className="w-full bg-gray-600 text-white rounded-lg p-4 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
             rows="3"
           />
@@ -5662,7 +5563,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               />
               <div className="flex items-center space-x-2 px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg transition-colors">
                 <Camera className="w-5 h-5 text-[#00C2A8]" />
-                <span className="text-white text-sm">Add Photo</span>
+                <span className="text-white text-sm">{t('community.actions.addPhoto')}</span>
               </div>
             </label>
             
@@ -5675,15 +5576,15 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               Post
             </Button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     )}
 
     {/* Group Posts - Reuse PostsList but without edit/delete for non-members */}
     <div className="space-y-6">
       {posts.map(post => (
-        <Card key={post.id} className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-          <CardHeader className="pb-3">
+        <div key={post.id} className="border-0 shadow-lg overflow-hidden rounded-none md:rounded-3xl" style={{ background: 'var(--grad-surface)' }}>
+          <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }} className="pb-3">
             <div className="flex items-center justify-between">
               <div 
                 className="flex items-center space-x-3 cursor-pointer hover:opacity-80"
@@ -5713,9 +5614,9 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                 </div>
               </div>
             </div>
-          </CardHeader>
+          </div>
           
-          <CardContent>
+          <div className="p-4">
             <p className="text-white mb-4">{post.content}</p>
             {post.image_data && (
               <img src={post.image_data} alt="Post" className="w-full rounded-lg mb-4" />
@@ -5729,7 +5630,7 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
               <div className="flex items-center space-x-2 text-gray-400">
                 <MessageCircle className="w-5 h-5" />
                 <span key={`comment-count-${post.id}-${post.comments_count}`}>
-                  {console.log(`[Group Posts] Rendering comment count for post ${post.id}:`, post.comments_count) || (post.comments_count || 0)}
+                  {logger.debug(null, `[Group Posts] Rendering comment count for post ${post.id}:`, post.comments_count) || (post.comments_count || 0)}
                 </span>
               </div>
               <div className="flex items-center space-x-2 text-gray-400">
@@ -5737,23 +5638,24 @@ const GroupDetailView = ({ group, posts, athleteId, newPostContent, newPostImage
                 <span>{post.shares_count || 0}</span>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       ))}
 
       {posts.length === 0 && (
-        <Card className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800">
-          <CardContent className="p-12 text-center">
+        <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
+          <div className="p-4" className="p-12 text-center">
             <p className="text-gray-400 text-lg">No posts in this group yet.</p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
     </div>
   </div>
-);
+  );
+};
 
 // AthletesModal Component
-const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose, onFollowToggle, onViewProfile }) => {
+const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose, onFollowToggle, onViewProfile, t }) => {
   const [nationalityFilter, setNationalityFilter] = React.useState('all');
   
   // Get unique nationalities
@@ -5768,18 +5670,21 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
   }, [athletes, nationalityFilter]);
   
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
-      <div className="bg-gray-800 rounded-lg p-6 max-w-2xl w-full max-h-[80vh] flex flex-col">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold text-white">Find Athletes</h2>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-700 rounded-full transition-colors"
-          >
-            <X className="w-6 h-6 text-white" />
-          </button>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4">
+      <div className="rounded-none md:rounded-3xl max-w-2xl w-full max-h-[80vh] flex flex-col border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>Find Athletes</h2>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-gray-700 rounded-full transition-colors"
+            >
+              <X className="w-6 h-6 text-white" />
+            </button>
+          </div>
         </div>
         
+        <div className="p-6 flex-1 flex flex-col overflow-hidden">
         {/* Search Input */}
         <div className="mb-4">
           <div className="relative">
@@ -5788,7 +5693,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
               type="text"
               value={searchQuery}
               onChange={onSearchChange}
-              placeholder="Search by name..."
+              placeholder={t('community.group.searchByName')}
               className="w-full bg-gray-700 text-white rounded-lg pl-10 pr-4 py-3 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             />
           </div>
@@ -5801,7 +5706,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
             onChange={(e) => setNationalityFilter(e.target.value)}
             className="w-full bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none text-sm"
           >
-            <option value="all">All Nationalities</option>
+            <option value="all">{t('community.post.allNationalities')}</option>
             {uniqueNationalities.map(nationality => (
               <option key={nationality} value={nationality}>{nationality}</option>
             ))}
@@ -5868,8 +5773,8 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
                       <p className="text-gray-400 text-sm line-clamp-1">{athlete.bio}</p>
                     )}
                     <div className="flex items-center space-x-4 mt-1">
-                      <span className="text-gray-400 text-xs">{athlete.posts_count} posts</span>
-                      <span className="text-gray-400 text-xs">{athlete.followers_count} followers</span>
+                      <span className="text-gray-400 text-xs">{athlete.posts_count} {t('community.posts').toLowerCase()}</span>
+                      <span className="text-gray-400 text-xs">{athlete.followers_count} {t('community.followers').toLowerCase()}</span>
                     </div>
                   </div>
 
@@ -5880,7 +5785,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
                         ? 'bg-gray-600 hover:bg-gray-500'
                         : 'bg-[#00C2A8] hover:bg-[#00a890]'
                     } text-white text-sm p-2`}
-                    title={athlete.is_following ? 'Unfollow' : 'Follow'}
+                    title={athlete.is_following ? t('athlete.unfollow') : t('athlete.follow')}
                   >
                     {athlete.is_following ? (
                       <UserMinus className="w-5 h-5" />
@@ -5892,6 +5797,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
               </div>
             ))
           )}
+        </div>
         </div>
       </div>
     </div>
@@ -5909,7 +5815,7 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
         const response = await axios.get(`${API}/community/groups/${groupId}`);
         setGroup(response.data);
       } catch (error) {
-        console.error('Error loading group rules:', error);
+        logger.error(null, 'Error loading group rules:', error);
       } finally {
         setLoading(false);
       }
@@ -5920,7 +5826,7 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
 
   if (loading) {
     return (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4">
         <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
           <div className="flex justify-center py-12">
             <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
@@ -5931,7 +5837,7 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4">
       <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
         <h2 className="text-2xl font-bold text-white mb-4">Group Rules</h2>
         
@@ -5975,7 +5881,7 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
                 onClick={onCancel}
                 className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
               >
-                Cancel
+                {t('common.cancel')}
               </Button>
             </div>
           </>
@@ -5988,7 +5894,8 @@ const GroupRulesModal = ({ groupId, onAccept, onCancel, rulesAccepted, setRulesA
 
 // EventCard Component
 // ChallengeCard Component
-const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit, onClick, isSuperAdmin = false }) => {
+const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit, onClick, isSuperAdmin = false, t }) => {
+  const { t: translate } = useTranslation();
   const progress = challenge.user_progress || 0;
   const goalValue = challenge.goal_value;
   const percentage = Math.min((progress / goalValue) * 100, 100);
@@ -5996,7 +5903,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
   const hasJoined = challenge.has_joined;
   
   // Debug logging
-  console.log('🔍 ChallengeCard DEBUG:', {
+  logger.debug(null, '🔍 ChallengeCard DEBUG:', {
     challengeTitle: challenge.title,
     athleteId,
     creatorId: challenge.creator_id,
@@ -6021,11 +5928,12 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
   };
 
   return (
-    <Card 
-      className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-shadow rounded-none sm:rounded-lg"
+    <div 
+      className="border-0 shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow rounded-none md:rounded-3xl"
+      style={{ background: 'var(--grad-surface)' }}
       onClick={() => onClick(challenge.id)}
     >
-      <CardContent className="p-0 sm:p-6">
+      <div className="p-0 sm:p-6">
         {challenge.cover_photo && (
           <div className="mb-4 sm:mb-4 relative">
             <img src={challenge.cover_photo} alt={challenge.title} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
@@ -6049,7 +5957,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
               <div className="flex items-center gap-2">
                 <h3 className="text-xl font-bold text-white truncate">{challenge.title}</h3>
                 {isCreator && (
-                  <Crown className="w-5 h-5 text-yellow-400 flex-shrink-0" title="Challenge Creator" />
+                  <Crown className="w-5 h-5 text-yellow-400 flex-shrink-0" title={t('community.actions.challengeCreator')} />
                 )}
               </div>
               {(isCreator || isSuperAdmin) && (
@@ -6083,10 +5991,10 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
             <div className="flex items-center text-gray-400 text-sm">
               {getChallengeIcon()}
               <span className="ml-2">
-                Goal: {goalValue} {challenge.goal_unit}
+                {translate('community.challenge.goal')}: {goalValue} {challenge.goal_unit}
               </span>
               {challenge.is_recurring && (
-                <RefreshCw className="w-4 h-4 ml-2 text-blue-400" title="Recurring Challenge" />
+                <RefreshCw className="w-4 h-4 ml-2 text-blue-400" title={translate('community.actions.recurringChallenge')} />
               )}
             </div>
             <div className="flex items-center text-gray-400 text-sm">
@@ -6094,9 +6002,9 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
               {new Date(challenge.start_date).toLocaleDateString()} - {new Date(challenge.end_date).toLocaleDateString()}
             </div>
             <div className="flex items-center space-x-3 text-sm">
-              <span className="text-gray-400">{challenge.participants_count || 0} participants</span>
+              <span className="text-gray-400">{challenge.participants_count || 0} {translate('community.challenge.participants')}</span>
               <span className={`px-2 py-1 rounded text-xs ${isActive ? 'bg-green-500/20 text-green-400' : 'bg-gray-600 text-gray-400'}`}>
-                {isActive ? 'Active' : 'Completed'}
+                {isActive ? translate('community.challenge.active') : translate('community.challenge.completed')}
               </span>
               {challenge.visibility === 'private' && (
                 <Lock className="w-4 h-4 text-gray-400" />
@@ -6108,7 +6016,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
           {hasJoined && (
             <div className="mb-4">
               <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-400">Your Progress</span>
+                <span className="text-gray-400">{translate('community.challenge.yourProgress')}</span>
                 <span className="text-[#00C2A8] font-semibold">
                   {progress.toFixed(1)} / {goalValue} {challenge.goal_unit}
                 </span>
@@ -6120,7 +6028,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
                 />
               </div>
               <div className="text-right text-xs text-gray-400 mt-1">
-                {percentage.toFixed(1)}% complete
+                {percentage.toFixed(1)}% {translate('community.challenge.complete')}
               </div>
             </div>
           )}
@@ -6135,7 +6043,7 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
                 }}
                 className="flex-1 px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-colors"
               >
-                Leave Challenge
+                {translate('community.challenge.leaveChallenge')}
               </button>
             ) : (
               <button
@@ -6146,22 +6054,25 @@ const ChallengeCard = ({ challenge, athleteId, onJoin, onLeave, onDelete, onEdit
                 className="flex-1 px-4 py-2 rounded-lg bg-[#00C2A8] hover:bg-[#00a890] text-white transition-colors"
               >
                 <Trophy className="w-4 h-4 inline mr-2" />
-                Join Challenge
+                {translate('community.challenge.joinChallenge')}
               </button>
             )}
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 
-const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSuperAdmin = false }) => (
-  <Card 
-    className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800 cursor-pointer hover:shadow-xl transition-shadow rounded-none sm:rounded-lg"
+const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSuperAdmin = false }) => {
+  const { t } = useTranslation();
+  return (
+  <div 
+    className="border-0 shadow-lg overflow-hidden cursor-pointer hover:shadow-xl transition-shadow rounded-none md:rounded-3xl"
+    style={{ background: 'var(--grad-surface)' }}
     onClick={() => onClick(event.id)}
   >
-    <CardContent className="p-0 sm:p-6">
+    <div className="p-0 sm:p-6">
       {event.cover_photo && (
         <div className="mb-4 sm:mb-4 relative">
           <img src={event.cover_photo} alt={event.name} className="w-full h-48 object-cover rounded-none sm:rounded-lg" />
@@ -6211,7 +6122,7 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
           <div className="space-y-1">
             <div className="flex items-center text-gray-400 text-sm">
               <Clock className="w-4 h-4 mr-2" />
-              {new Date(event.event_date).toLocaleDateString()} at {event.event_time}
+              {new Date(event.event_date).toLocaleDateString()} {t('community.event.at')} {event.event_time}
             </div>
             {event.location && (
               <div className="flex items-center text-gray-400 text-sm">
@@ -6220,9 +6131,9 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
               </div>
             )}
             <div className="flex items-center space-x-3 text-sm">
-              <span className="text-gray-400">{event.interested_count || 0} interested</span>
-              <span className="text-gray-400">{event.going_count || 0} going</span>
-              <span className="text-gray-400">{event.comments_count || 0} comments</span>
+              <span className="text-gray-400">{event.interested_count || 0} {t('community.event.interested')}</span>
+              <span className="text-gray-400">{event.going_count || 0} {t('community.event.going')}</span>
+              <span className="text-gray-400">{event.comments_count || 0} {t('community.challenge.comments')}</span>
             </div>
           </div>
         </div>
@@ -6240,7 +6151,7 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
             }`}
           >
             <Star className={`w-4 h-4 inline mr-2 ${event.user_status === 'interested' ? 'fill-current' : ''}`} />
-            Interested
+            {t('community.event.interested')}
           </button>
           <button
             onClick={(e) => {
@@ -6253,16 +6164,19 @@ const EventCard = ({ event, athleteId, onRSVP, onEdit, onDelete, onClick, isSupe
                 : 'bg-gray-600 hover:bg-gray-500 text-white'
             }`}
           >
-            I'm Going!
+            {t('community.event.going')}!
           </button>
         </div>
       </div>
-    </CardContent>
-  </Card>
-);
+    </div>
+  </div>
+  );
+};
 
 // CreateChallengeModal Component
 const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCreate }) => {
+  const { t } = useTranslation();
+  
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -6270,8 +6184,8 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
         const compressed = await compressBannerImage(file);
         setChallengeData({ ...challengeData, cover_photo: compressed });
       } catch (error) {
-        console.error('Error compressing image:', error);
-        alert('Failed to process image');
+        logger.error(null, 'Error compressing image:', error);
+        alert(t('community.messages.failedToProcessImage'));
       }
     }
   };
@@ -6285,65 +6199,67 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-white flex items-center">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 md:p-4">
+      <div className="rounded-none md:rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }}>
+        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-bold flex items-center" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>
               <Trophy className="w-6 h-6 mr-2 text-[#00C2A8]" />
-              Create Challenge
+              {t('common.createChallenge')}
             </h2>
             <button onClick={onClose} className="text-gray-400 hover:text-white">
               <X className="w-6 h-6" />
             </button>
           </div>
+        </div>
 
+        <div className="p-6">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-white mb-2">Title *</label>
+              <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.title')}</label>
               <input
                 type="text"
                 value={challengeData.title}
                 onChange={(e) => setChallengeData({ ...challengeData, title: e.target.value })}
                 className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
-                placeholder="e.g., Run 100km in January"
+                placeholder={t('community.challenge.enterChallengeName')}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white mb-2">Description</label>
+              <label className="block text-sm font-medium text-white mb-2">{t('common.description')}</label>
               <textarea
                 value={challengeData.description}
                 onChange={(e) => setChallengeData({ ...challengeData, description: e.target.value })}
                 className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
                 rows="3"
-                placeholder="Describe your challenge..."
+                placeholder={t('community.challenge.describeChallenge')}
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Challenge Type *</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.challengeType')}</label>
                 <select
                   value={challengeData.challenge_type}
                   onChange={(e) => handleChallengeTypeChange(e.target.value)}
                   className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
                 >
-                  <option value="distance">Distance</option>
-                  <option value="activity_count">Activity Count</option>
-                  <option value="duration">Duration</option>
+                  <option value="distance">{t('community.challenge.typeDistance')}</option>
+                  <option value="activity_count">{t('community.challenge.typeActivityCount')}</option>
+                  <option value="duration">{t('community.challenge.typeDuration')}</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Goal Value *</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.goalValue')}</label>
                 <div className="flex space-x-2">
                   <input
                     type="number"
                     value={challengeData.goal_value}
                     onChange={(e) => setChallengeData({ ...challengeData, goal_value: e.target.value })}
                     className="flex-1 px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
-                    placeholder="100"
+                    placeholder={t('community.challenge.targetValue')}
                     step="any"
                   />
                   <span className="px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-gray-400">
@@ -6353,26 +6269,26 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Time Period *</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.timePeriod')}</label>
                 <select
                   value={challengeData.time_period}
                   onChange={(e) => setChallengeData({ ...challengeData, time_period: e.target.value })}
                   className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
                 >
-                  <option value="total">Total (entire challenge duration)</option>
-                  <option value="daily">Per Day</option>
-                  <option value="weekly">Per Week</option>
-                  <option value="monthly">Per Month</option>
+                  <option value="total">{t('community.challenge.periodTotal')}</option>
+                  <option value="daily">{t('community.challenge.periodDaily')}</option>
+                  <option value="weekly">{t('community.challenge.periodWeekly')}</option>
+                  <option value="monthly">{t('community.challenge.periodMonthly')}</option>
                 </select>
                 <p className="text-xs text-gray-400 mt-1">
-                  How often participants need to reach the goal
+                  {t('community.challenge.timePeriodHelp')}
                 </p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Start Date *</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.startDate')}</label>
                 <input
                   type="date"
                   value={challengeData.start_date}
@@ -6382,7 +6298,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">End Date *</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.endDate')}</label>
                 <input
                   type="date"
                   value={challengeData.end_date}
@@ -6394,26 +6310,26 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Visibility</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.visibility')}</label>
                 <select
                   value={challengeData.visibility}
                   onChange={(e) => setChallengeData({ ...challengeData, visibility: e.target.value })}
                   className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
                 >
-                  <option value="public">Public</option>
-                  <option value="private">Private</option>
+                  <option value="public">{t('community.challenge.visibilityPublic')}</option>
+                  <option value="private">{t('community.challenge.visibilityPrivate')}</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Competition Type</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.competitionType')}</label>
                 <select
                   value={challengeData.competition_type}
                   onChange={(e) => setChallengeData({ ...challengeData, competition_type: e.target.value })}
                   className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white"
                 >
-                  <option value="individual">Individual</option>
-                  <option value="team">Team</option>
+                  <option value="individual">{t('community.challenge.typeIndividual')}</option>
+                  <option value="team">{t('community.challenge.typeTeam')}</option>
                 </select>
               </div>
             </div>
@@ -6426,7 +6342,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                   onChange={(e) => setChallengeData({ ...challengeData, is_recurring: e.target.checked })}
                   className="mr-2"
                 />
-                <label className="text-sm font-medium text-white">Recurring Challenge</label>
+                <label className="text-sm font-medium text-white">{t('community.challenge.recurringChallenge')}</label>
               </div>
 
               {challengeData.is_recurring && (
@@ -6459,7 +6375,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Cover Photo</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.coverPhoto')}</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -6472,7 +6388,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Trophy Badge (Square)</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.trophyBadge')}</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -6483,7 +6399,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                         const compressed = await compressBannerImage(file);
                         setChallengeData({ ...challengeData, trophy_image: compressed });
                       } catch (error) {
-                        console.error('Error compressing trophy image:', error);
+                        logger.error(null, 'Error compressing trophy image:', error);
                         alert('Failed to process trophy image');
                       }
                     }
@@ -6493,7 +6409,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                 {challengeData.trophy_image && (
                   <img src={challengeData.trophy_image} alt="Trophy preview" className="mt-2 w-32 h-32 object-cover rounded-lg mx-auto" />
                 )}
-                <p className="text-xs text-gray-400 mt-1">Awarded to users who complete this challenge</p>
+                <p className="text-xs text-gray-400 mt-1">{t('community.challenge.trophyHelp')}</p>
               </div>
             </div>
 
@@ -6502,7 +6418,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
                 onClick={onClose}
                 className="px-6 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors"
               >
-                Cancel
+                {t('common.cancel')}
               </button>
               <button
                 onClick={onCreate}
@@ -6521,6 +6437,7 @@ const CreateChallengeModal = ({ challengeData, setChallengeData, onClose, onCrea
 
 // ChallengeDetailModal Component
 const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJoin, onLeave, onDelete, onAddComment }) => {
+  const { t } = useTranslation();
   const [commentText, setCommentText] = useState('');
 
   if (loading || !challengeData) {
@@ -6528,7 +6445,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg p-8">
           <RefreshCw className="w-8 h-8 text-[#00C2A8] animate-spin mx-auto" />
-          <p className="text-white mt-4">Loading challenge...</p>
+          <p className="text-white mt-4">{t('community.challenge.loadingChallenge')}</p>
         </div>
       </div>
     );
@@ -6564,8 +6481,8 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
               <div>
                 <h2 className="text-2xl font-bold text-white">{challengeData.title}</h2>
                 <p className="text-gray-400 text-sm">
-                  Created by {challengeData.creator_name}
-                  {challengeData.is_recurring && <RefreshCw className="w-4 h-4 inline ml-2 text-blue-400" title="Recurring" />}
+                  {t('community.challenge.createdBy')} {challengeData.creator_name}
+                  {challengeData.is_recurring && <RefreshCw className="w-4 h-4 inline ml-2 text-blue-400" title={t('community.actions.recurringChallenge')} />}
                 </p>
               </div>
             </div>
@@ -6581,77 +6498,77 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
 
           {/* Challenge Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <Card className="border-0 bg-gray-800">
-              <CardContent className="p-4">
+            <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
                   <Target className="w-5 h-5 mr-2 text-[#00C2A8]" />
-                  <span className="font-semibold">Goal</span>
+                  <span className="font-semibold">{t('community.challenge.goal')}</span>
                 </div>
                 <p className="text-gray-300 text-lg">
                   {goalValue} {challengeData.goal_unit}
                 </p>
                 <p className="text-gray-400 text-sm capitalize">
-                  {challengeData.challenge_type.replace('_', ' ')}
+                  {t(`community.challenge.type${challengeData.challenge_type.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('')}`)}
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
-            <Card className="border-0 bg-gray-800">
-              <CardContent className="p-4">
+            <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
                   <Calendar className="w-5 h-5 mr-2 text-[#00C2A8]" />
-                  <span className="font-semibold">Duration</span>
+                  <span className="font-semibold">{t('community.challenge.duration')}</span>
                 </div>
                 <p className="text-gray-300 text-sm">
                   {new Date(challengeData.start_date).toLocaleDateString()} - {new Date(challengeData.end_date).toLocaleDateString()}
                 </p>
                 <p className={`text-sm mt-1 ${isActive ? 'text-green-400' : 'text-gray-400'}`}>
-                  {isActive ? 'Active' : 'Completed'}
+                  {isActive ? t('community.challenge.active') : t('community.challenge.completed')}
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
-            <Card className="border-0 bg-gray-800">
-              <CardContent className="p-4">
+            <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
                   <UsersIcon className="w-5 h-5 mr-2 text-[#00C2A8]" />
-                  <span className="font-semibold">Participants</span>
+                  <span className="font-semibold">{t('community.challenge.participants')}</span>
                 </div>
                 <p className="text-gray-300 text-2xl">
                   {challengeData.participants_count || 0}
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
-            <Card className="border-0 bg-gray-800">
-              <CardContent className="p-4">
+            <div className="border-0 bg-gray-800" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
                 <div className="flex items-center text-white mb-2">
                   {challengeData.visibility === 'public' ? <Globe className="w-5 h-5 mr-2 text-[#00C2A8]" /> : <Lock className="w-5 h-5 mr-2 text-[#00C2A8]" />}
-                  <span className="font-semibold">Visibility</span>
+                  <span className="font-semibold">{t('community.challenge.visibility')}</span>
                 </div>
                 <p className="text-gray-300 capitalize">
-                  {challengeData.visibility} / {challengeData.competition_type}
+                  {t(`community.challenge.${challengeData.visibility}`)} / {t(`community.challenge.${challengeData.competition_type}`)}
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
 
           {/* Description */}
           {challengeData.description && (
-            <Card className="border-0 bg-gray-800 mb-6">
-              <CardContent className="p-4">
-                <h3 className="text-white font-semibold mb-2">Description</h3>
+            <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
+                <h3 className="text-white font-semibold mb-2">{t('community.challenge.description')}</h3>
                 <p className="text-gray-300">{challengeData.description}</p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           )}
 
           {/* User Progress */}
           {hasJoined && (
-            <Card className="border-0 bg-gradient-to-r from-[#00C2A8]/20 to-green-500/20 mb-6">
-              <CardContent className="p-4">
+            <div className="border-0 bg-gradient-to-r from-[#00C2A8]/20 to-green-500/20 mb-6" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
                 <div className="flex justify-between items-center mb-2">
-                  <h3 className="text-white font-semibold">Your Progress</h3>
+                  <h3 className="text-white font-semibold">{t('community.challenge.yourProgress')}</h3>
                   <span className="text-[#00C2A8] font-bold text-lg">
                     {progress.toFixed(1)} / {goalValue} {challengeData.goal_unit}
                   </span>
@@ -6662,18 +6579,18 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                     style={{ width: `${percentage}%` }}
                   />
                 </div>
-                <p className="text-right text-gray-300 text-sm">{percentage.toFixed(1)}% complete</p>
-              </CardContent>
-            </Card>
+                <p className="text-right text-gray-300 text-sm">{percentage.toFixed(1)}% {t('community.challenge.complete')}</p>
+              </div>
+            </div>
           )}
 
           {/* Leaderboard */}
           {challengeData.leaderboard && challengeData.leaderboard.length > 0 && (
-            <Card className="border-0 bg-gray-800 mb-6">
-              <CardContent className="p-4">
+            <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
+              <div className="p-4" className="p-4">
                 <h3 className="text-white font-semibold mb-4 flex items-center">
                   <Award className="w-5 h-5 mr-2 text-yellow-500" />
-                  Leaderboard
+                  {t('community.challenge.leaderboard')}
                 </h3>
                 <div className="space-y-2">
                   {challengeData.leaderboard.slice(0, 10).map((participant, index) => (
@@ -6711,14 +6628,14 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                     </div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           )}
 
           {/* Comments */}
-          <Card className="border-0 bg-gray-800 mb-6">
-            <CardContent className="p-4">
-              <h3 className="text-white font-semibold mb-4">Comments</h3>
+          <div className="border-0 bg-gray-800 mb-6" style={{ background: 'var(--grad-surface)' }}>
+            <div className="p-4" className="p-4">
+              <h3 className="text-white font-semibold mb-4">{t('community.challenge.comments')}</h3>
               
               {/* Add Comment */}
               <div className="flex space-x-2 mb-4">
@@ -6728,7 +6645,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                   onChange={(e) => setCommentText(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleAddComment()}
                   className="flex-1 px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500"
-                  placeholder="Add a comment..."
+                  placeholder={t('community.challenge.addComment')}
                 />
                 <button
                   onClick={handleAddComment}
@@ -6763,11 +6680,11 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500 text-center py-4">No comments yet. Be the first to comment!</p>
+                  <p className="text-gray-500 text-center py-4">{t('community.challenge.noCommentsYet')}</p>
                 )}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           {/* Action Buttons */}
           <div className="flex justify-between">
@@ -6778,7 +6695,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                     onClick={onLeave}
                     className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
                   >
-                    Leave Challenge
+                    {t('community.challenge.leaveChallenge')}
                   </button>
                 ) : (
                   <button
@@ -6786,7 +6703,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                     className="px-6 py-2 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg transition-colors"
                   >
                     <Trophy className="w-4 h-4 inline mr-2" />
-                    Join Challenge
+                    {t('community.challenge.joinChallenge')}
                   </button>
                 )
               )}
@@ -6797,7 +6714,7 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
                 className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
               >
                 <Trash2 className="w-4 h-4 inline mr-2" />
-                Delete Challenge
+                {t('community.challenge.deleteChallenge')}
               </button>
             )}
           </div>
@@ -6809,6 +6726,8 @@ const ChallengeDetailModal = ({ challengeData, loading, athleteId, onClose, onJo
 
 // EditChallengeModal Component
 const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }) => {
+  const { t } = useTranslation();
+  
   const handleImageUpload = async (e, type) => {
     const file = e.target.files[0];
     if (file) {
@@ -6816,8 +6735,8 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
         const compressed = await compressBannerImage(file);
         setChallengeData({ ...challengeData, [type]: compressed });
       } catch (error) {
-        console.error('Error compressing image:', error);
-        alert('Failed to process image');
+        logger.error(null, 'Error compressing image:', error);
+        alert(t('community.messages.failedToProcessImage'));
       }
     }
   };
@@ -6848,7 +6767,7 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white mb-2">Description</label>
+              <label className="block text-sm font-medium text-white mb-2">{t('common.description')}</label>
               <textarea
                 value={challengeData.description}
                 onChange={(e) => setChallengeData({ ...challengeData, description: e.target.value })}
@@ -6894,7 +6813,7 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Cover Photo</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.coverPhoto')}</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -6907,7 +6826,7 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">Trophy Badge</label>
+                <label className="block text-sm font-medium text-white mb-2">{t('community.challenge.trophyBadge')}</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -6925,7 +6844,7 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
                 onClick={onClose}
                 className="px-6 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition-colors"
               >
-                Cancel
+                {t('common.cancel')}
               </button>
               <button
                 onClick={onSave}
@@ -6944,6 +6863,8 @@ const EditChallengeModal = ({ challengeData, setChallengeData, onClose, onSave }
 
 // CreateEventModal Component
 const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups, onEmojiSelect }) => {
+  const { t } = useTranslation();
+  
   const handleImageUpload = async (e, type) => {
     const file = e.target.files[0];
     if (file) {
@@ -6954,27 +6875,30 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
           : await compressBannerImage(file);
         setEventData({ ...eventData, [type]: compressed });
       } catch (error) {
-        console.error('Error compressing image:', error);
-        alert('Failed to process image');
+        logger.error(null, 'Error compressing image:', error);
+        alert(t('community.messages.failedToProcessImage'));
       }
     }
   };
 
   return (
     <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4"
       onClick={(e) => e.stopPropagation()}
     >
       <div 
-        className="bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
+        className="rounded-none md:rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto border-0 shadow-lg overflow-hidden"
+        style={{ background: 'var(--grad-surface)' }}
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-2xl font-bold text-white mb-4">Create Event</h2>
+        <div className="p-4 pb-3" style={{ borderBottom: '1px solid var(--border)' }}>
+          <h2 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--text-hi)' }}>{t('community.modals.createEvent')}</h2>
+        </div>
         
-        <div className="space-y-4">
+        <div className="p-6 space-y-4">
           {/* Profile Image */}
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Event Icon</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.eventIcon')}</label>
             <div className="flex items-center space-x-4">
               {eventData.profile_image ? (
                 <img src={eventData.profile_image} alt="Icon" className="w-20 h-20 rounded-full object-cover" />
@@ -6986,7 +6910,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
               <label className="cursor-pointer">
                 <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'profile_image')} className="hidden" />
                 <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
-                  {eventData.profile_image ? 'Change' : 'Upload'}
+                  {eventData.profile_image ? t('common.change') : t('common.upload')}
                 </div>
               </label>
               {eventData.profile_image && (
@@ -6999,7 +6923,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
 
           {/* Banner */}
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Banner</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.banner')}</label>
             {eventData.cover_photo && (
               <div className="relative mb-2">
                 <img src={eventData.cover_photo} alt="Banner" className="w-full h-32 object-cover rounded-lg" />
@@ -7011,29 +6935,29 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
             <label className="cursor-pointer">
               <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'cover_photo')} className="hidden" />
               <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm inline-block">
-                {eventData.cover_photo ? 'Change' : 'Upload'}
+                {eventData.cover_photo ? t('common.change') : t('common.upload')}
               </div>
             </label>
           </div>
 
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Event Name</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.eventName')}</label>
             <input
               type="text"
               value={eventData.name}
               onChange={(e) => setEventData({ ...eventData, name: e.target.value })}
-              placeholder="Enter event name"
+              placeholder={t('community.event.enterEventName')}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             />
           </div>
           
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Description</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.description')}</label>
             <div className="relative">
               <textarea
                 value={eventData.description}
                 onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
-                placeholder="Describe the event"
+                placeholder={t('community.event.describeEvent')}
                 className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none resize-none"
                 rows="3"
               />
@@ -7045,7 +6969,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-white text-sm font-semibold mb-2 block">Date</label>
+              <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.date')}</label>
               <input
                 type="date"
                 value={eventData.event_date}
@@ -7054,7 +6978,7 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
               />
             </div>
             <div>
-              <label className="text-white text-sm font-semibold mb-2 block">Time</label>
+              <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.time')}</label>
               <input
                 type="time"
                 value={eventData.event_time}
@@ -7065,50 +6989,50 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
           </div>
 
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Location (Optional)</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.location')}</label>
             <input
               type="text"
               value={eventData.location}
               onChange={(e) => setEventData({ ...eventData, location: e.target.value })}
-              placeholder="Event location"
+              placeholder={t('community.event.eventLocation')}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             />
           </div>
           
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Visibility</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.visibility')}</label>
             <select
               value={eventData.visibility}
               onChange={(e) => setEventData({ ...eventData, visibility: e.target.value })}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             >
-              <option value="open">Open - Appears in main feed</option>
-              <option value="private">Private - Only in connected group</option>
+              <option value="open">{t('community.event.visibilityOpen')}</option>
+              <option value="private">{t('community.event.visibilityPrivate')}</option>
             </select>
           </div>
 
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Connect to Group (Optional)</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.connectToGroup')}</label>
             <select
               value={eventData.group_id || ''}
               onChange={(e) => setEventData({ ...eventData, group_id: e.target.value || null })}
               className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
             >
-              <option value="">No group</option>
+              <option value="">{t('community.event.noGroup')}</option>
               {myGroups.map(group => (
                 <option key={group.id} value={group.id}>{group.name}</option>
               ))}
             </select>
-            <p className="text-gray-400 text-xs mt-1">If connected, all group members will be notified</p>
+            <p className="text-gray-400 text-xs mt-1">{t('community.event.groupNotificationHelp')}</p>
           </div>
         </div>
         
-        <div className="flex space-x-3 mt-6">
+        <div className="p-6 pt-4 flex space-x-3">
           <Button onClick={onCreate} className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white">
-            Create Event
+            {t('common.createEvent')}
           </Button>
           <Button onClick={onClose} className="flex-1 bg-gray-700 hover:bg-gray-600 text-white">
-            Cancel
+            {t('common.cancel')}
           </Button>
         </div>
       </div>
@@ -7118,6 +7042,8 @@ const CreateEventModal = ({ eventData, setEventData, onClose, onCreate, myGroups
 
 // EditEventModal Component (similar to Create but for editing)
 const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) => {
+  const { t } = useTranslation();
+  
   const handleImageUpload = async (e, type) => {
     const file = e.target.files[0];
     if (file) {
@@ -7128,15 +7054,15 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
           : await compressBannerImage(file);
         setEventData({ ...eventData, [type]: compressed });
       } catch (error) {
-        console.error('Error compressing image:', error);
-        alert('Failed to process image');
+        logger.error(null, 'Error compressing image:', error);
+        alert(t('community.messages.failedToProcessImage'));
       }
     }
   };
 
   return (
     <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4"
       onClick={(e) => e.stopPropagation()}
     >
       <div 
@@ -7160,7 +7086,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
               <label className="cursor-pointer">
                 <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'profile_image')} className="hidden" />
                 <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm">
-                  {eventData.profile_image ? 'Change' : 'Upload'}
+                  {eventData.profile_image ? t('common.change') : t('common.upload')}
                 </div>
               </label>
               {eventData.profile_image && (
@@ -7184,13 +7110,13 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
             <label className="cursor-pointer">
               <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'cover_photo')} className="hidden" />
               <div className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-white text-sm inline-block">
-                {eventData.cover_photo ? 'Change' : 'Upload'}
+                {eventData.cover_photo ? t('common.change') : t('common.upload')}
               </div>
             </label>
           </div>
 
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Event Name</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.eventName')}</label>
             <input
               type="text"
               value={eventData.name}
@@ -7200,7 +7126,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
           </div>
           
           <div>
-            <label className="text-white text-sm font-semibold mb-2 block">Description</label>
+            <label className="text-white text-sm font-semibold mb-2 block">{t('common.description')}</label>
             <textarea
               value={eventData.description}
               onChange={(e) => setEventData({ ...eventData, description: e.target.value })}
@@ -7211,7 +7137,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-white text-sm font-semibold mb-2 block">Date</label>
+              <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.date')}</label>
               <input
                 type="date"
                 value={eventData.event_date}
@@ -7220,7 +7146,7 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
               />
             </div>
             <div>
-              <label className="text-white text-sm font-semibold mb-2 block">Time</label>
+              <label className="text-white text-sm font-semibold mb-2 block">{t('community.event.time')}</label>
               <input
                 type="time"
                 value={eventData.event_time}
@@ -7269,10 +7195,10 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
         
         <div className="flex space-x-3 mt-6">
           <Button onClick={onSave} className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white">
-            Save Changes
+            {t('common.saveChanges')}
           </Button>
           <Button onClick={onClose} className="flex-1 bg-gray-700 hover:bg-gray-600 text-white">
-            Cancel
+            {t('common.cancel')}
           </Button>
         </div>
       </div>
@@ -7282,16 +7208,18 @@ const EditEventModal = ({ eventData, setEventData, onClose, onSave, myGroups }) 
 
 // EventDetailModal Component
 const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin, loadAthleteProfile, onAddComment, commentText, setCommentText, onEmojiSelect, formatMentions, onDeleteComment }) => {
+  const { t, i18n } = useTranslation();
+  
   if (loading || !eventData) {
     return (
       <div 
-        className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
+        className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4"
         onClick={onClose}
       >
         <div className="bg-gray-800 rounded-lg p-8 text-white">
           <div className="flex items-center space-x-3">
             <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#00C2A8]"></div>
-            <p>Loading event details...</p>
+            <p>{t('community.event.loadingEventDetails')}</p>
           </div>
         </div>
       </div>
@@ -7300,7 +7228,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
 
   return (
     <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4"
       onClick={onClose}
     >
       <div 
@@ -7331,7 +7259,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                 <div className="space-y-1">
                   <div className="flex items-center text-gray-300 text-xs sm:text-sm">
                     <Clock className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                    <span className="break-words">{new Date(eventData.event_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {eventData.event_time}</span>
+                    <span className="break-words">{new Date(eventData.event_date).toLocaleDateString(i18n.language === 'no' ? 'nb-NO' : 'en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} {t('community.event.at')} {eventData.event_time}</span>
                   </div>
                   {eventData.location && (
                     <div className="flex items-center text-gray-300 text-xs sm:text-sm">
@@ -7340,8 +7268,8 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                     </div>
                   )}
                   <div className="flex items-center space-x-2 sm:space-x-4 text-xs sm:text-sm mt-2">
-                    <span className="text-[#00C2A8] font-semibold">{eventData.going_count || 0} Going</span>
-                    <span className="text-yellow-400 font-semibold">{eventData.interested_count || 0} Interested</span>
+                    <span className="text-[#00C2A8] font-semibold">{eventData.going_count || 0} {t('community.event.going')}</span>
+                    <span className="text-yellow-400 font-semibold">{eventData.interested_count || 0} {t('community.event.interested')}</span>
                   </div>
                 </div>
               </div>
@@ -7357,14 +7285,14 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
 
           {/* Description */}
           <div className="mb-4 sm:mb-6">
-            <h3 className="text-base sm:text-lg font-semibold text-white mb-2">About This Event</h3>
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-2">{t('community.event.aboutThisEvent')}</h3>
             <p className="text-gray-300 text-sm sm:text-base whitespace-pre-wrap">{eventData.description}</p>
           </div>
 
           {/* Participants Going */}
           {eventData.going_users && eventData.going_users.length > 0 && (
             <div className="mb-4 sm:mb-6">
-              <h3 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3">Going ({eventData.going_count || 0})</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3">{t('community.event.going')} ({eventData.going_count || 0})</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {eventData.going_users.map((user) => (
                   <div 
@@ -7409,7 +7337,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
           {/* Participants Interested */}
           {eventData.interested_users && eventData.interested_users.length > 0 && (
             <div className="mb-4 sm:mb-6">
-              <h3 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3">Interested ({eventData.interested_count || 0})</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3">{t('community.event.interested')} ({eventData.interested_count || 0})</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {eventData.interested_users.map((user) => (
                   <div 
@@ -7448,14 +7376,14 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
           {(!eventData.going_users || eventData.going_users.length === 0) && 
            (!eventData.interested_users || eventData.interested_users.length === 0) && (
             <div className="text-center py-4 sm:py-6">
-              <p className="text-gray-400 text-sm sm:text-base">No participants yet. Be the first to RSVP!</p>
+              <p className="text-gray-400 text-sm sm:text-base">{t('community.event.noParticipantsYet')}</p>
             </div>
           )}
 
 
           {/* Comments Section */}
           <div className="border-t border-gray-600 pt-4 sm:pt-6">
-            <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Comments ({eventData.comments_count || 0})</h3>
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">{t('community.challenge.comments')} ({eventData.comments_count || 0})</h3>
             
             {/* Comments List */}
             <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6 max-h-48 sm:max-h-60 overflow-y-auto">
@@ -7488,7 +7416,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                         <button
                           onClick={() => onDeleteComment(eventData.id, comment.id)}
                           className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                          title="Delete comment"
+                          title={t('community.actions.deleteComment')}
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -7510,7 +7438,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                   </div>
                 ))
               ) : (
-                <p className="text-gray-400 text-center py-3 sm:py-4 text-sm sm:text-base">No comments yet. Be the first to comment!</p>
+                <p className="text-gray-400 text-center py-3 sm:py-4 text-sm sm:text-base">{t('community.event.noCommentsYet')}</p>
               )}
             </div>
 
@@ -7521,7 +7449,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
                 type="text"
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
-                placeholder="Write a comment..."
+                placeholder={t('community.event.writeComment')}
                 className="flex-1 bg-gray-700 text-white rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
                 onKeyPress={(e) => e.key === 'Enter' && onAddComment()}
               />
@@ -7538,7 +7466,7 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
           {/* Close Button */}
           <div className="mt-4 sm:mt-6">
             <Button onClick={onClose} className="w-full bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base py-2 sm:py-3">
-              Close
+              {t('common.close')}
             </Button>
           </div>
         </div>
@@ -7548,257 +7476,4 @@ const EventDetailModal = ({ eventData, loading, onClose, athleteId, isSuperAdmin
 };
 
 // CommentsModal Component
-const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentText, commentRef, athleteId, isSuperAdmin, formatMentions, loadAthleteProfile, onEmojiSelect, onDeleteComment, onToggleCommentLike }) => {
-  if (!post) return null;
-
-  return (
-    <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4"
-      onClick={onClose}
-    >
-      <div 
-        className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="p-6">
-          {/* Header */}
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-white">Comments</h2>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-gray-600 rounded-full transition-colors"
-            >
-              <X className="w-6 h-6 text-white" />
-            </button>
-          </div>
-
-          {/* Post Preview */}
-          <div className="mb-6 p-4 bg-gray-800/50 rounded-lg">
-            <div className="flex items-center space-x-3 mb-3">
-              <div 
-                className="cursor-pointer hover:opacity-80 relative"
-                onClick={() => {
-                  onClose();
-                  loadAthleteProfile(post.athlete_id);
-                }}
-              >
-                {post.athlete_profile_picture ? (
-                  <>
-                    <img
-                      src={post.athlete_profile_picture}
-                      alt={post.athlete_name}
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
-                    <FlagIcon nationality={post.nationality} />
-                  </>
-                ) : (
-                  <>
-                    <div className="w-10 h-10 bg-[#00C2A8] rounded-full flex items-center justify-center">
-                      <span className="text-white font-bold">
-                        {post.athlete_name?.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                    <FlagIcon nationality={post.nationality} />
-                  </>
-                )}
-              </div>
-              <div>
-                <p 
-                  className="text-white font-semibold cursor-pointer hover:underline flex items-center"
-                  onClick={() => {
-                    onClose();
-                    loadAthleteProfile(post.athlete_id);
-                  }}
-                >
-                  {post.athlete_name}
-                  <SubscriptionBadge subscriptionTier={post.subscription_tier} />
-                </p>
-                <p className="text-gray-400 text-xs">
-                  {new Date(post.created_at).toLocaleString()}
-                </p>
-              </div>
-            </div>
-            
-            {/* Check if this is a shared post */}
-            {post.shared_post_id && post.shared_post_data ? (
-              <>
-                {/* User's Commentary */}
-                {post.content && (
-                  <p className="text-white whitespace-pre-wrap mb-4">{formatMentions(post.content)}</p>
-                )}
-
-                {/* Embedded Original Post */}
-                <div className="border border-gray-600 rounded-lg p-3 bg-gray-900/50">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <div className="relative">
-                      {post.shared_post_data.athlete_profile_picture ? (
-                        <>
-                          <img
-                            src={post.shared_post_data.athlete_profile_picture}
-                            alt={post.shared_post_data.athlete_name}
-                            className="w-8 h-8 rounded-full object-cover"
-                          />
-                          <FlagIcon nationality={post.shared_post_data.nationality} />
-                        </>
-                      ) : (
-                        <>
-                          <div className="w-8 h-8 rounded-full bg-[#00C2A8] flex items-center justify-center text-white font-semibold text-sm">
-                            {post.shared_post_data.athlete_name?.charAt(0)?.toUpperCase() || 'A'}
-                          </div>
-                          <FlagIcon nationality={post.shared_post_data.nationality} />
-                        </>
-                      )}
-                    </div>
-                    <div>
-                      <p className="text-white font-semibold text-sm flex items-center">
-                        {post.shared_post_data.athlete_name}
-                        <SubscriptionBadge subscriptionTier={post.shared_post_data.subscription_tier} />
-                      </p>
-                      <p className="text-gray-400 text-xs">
-                        {post.shared_post_data.created_at ? new Date(post.shared_post_data.created_at).toLocaleDateString() : ''}
-                      </p>
-                    </div>
-                  </div>
-
-                  <p className="text-gray-300 text-sm mb-2 whitespace-pre-wrap">
-                    {post.shared_post_data.content}
-                  </p>
-
-                  {/* Original Post Media */}
-                  {post.shared_post_data.media && post.shared_post_data.media.length > 0 && (
-                    <div className="rounded-lg overflow-hidden mt-2">
-                      <ImageCarousel media={post.shared_post_data.media} alt="Shared post media" />
-                    </div>
-                  )}
-                </div>
-              </>
-            ) : (
-              <>
-                {/* Regular Post Content */}
-                <p className="text-white whitespace-pre-wrap mb-3">{formatMentions(post.content)}</p>
-                
-                {/* Post Media - Support all formats */}
-                {post.media && post.media.length > 0 ? (
-                  <div className="rounded-lg overflow-hidden">
-                    <ImageCarousel media={post.media} alt="Post media" />
-                  </div>
-                ) : post.image_urls && post.image_urls.length > 0 ? (
-                  <div className="rounded-lg overflow-hidden">
-                    <ImageCarousel images={post.image_urls} alt="Post images" />
-                  </div>
-                ) : post.image_data ? (
-                  <img src={post.image_data} alt="Post" className="w-full rounded-lg max-h-64 object-cover" />
-                ) : null}
-              </>
-            )}
-          </div>
-
-          {/* Comments List */}
-          <div className="space-y-4 mb-6 max-h-96 overflow-y-auto">
-            {post.comments && post.comments.length > 0 ? (
-              post.comments.map(comment => (
-                <div key={comment.id} className="flex items-start space-x-3">
-                  <div
-                    className="cursor-pointer hover:opacity-80 relative"
-                    onClick={() => {
-                      onClose();
-                      loadAthleteProfile(comment.athlete_id);
-                    }}
-                  >
-                    {comment.athlete_profile_picture ? (
-                      <>
-                        <img
-                          src={comment.athlete_profile_picture}
-                          alt={comment.athlete_name}
-                          className="w-8 h-8 rounded-full object-cover flex-shrink-0"
-                        />
-                        <FlagIcon nationality={comment.nationality} />
-                      </>
-                    ) : (
-                      <>
-                        <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center flex-shrink-0">
-                          <span className="text-white font-bold text-xs">
-                            {comment.athlete_name?.charAt(0).toUpperCase()}
-                          </span>
-                        </div>
-                        <FlagIcon nationality={comment.nationality} />
-                      </>
-                    )}
-                  </div>
-                  <div className="flex-1 bg-gray-600 rounded-lg p-3 relative group">
-                    {(comment.athlete_id === athleteId || isSuperAdmin) && (
-                      <button
-                        onClick={() => onDeleteComment(post.id, comment.id)}
-                        className="absolute top-2 right-2 text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
-                        title="Delete comment"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    )}
-                    <p 
-                      className="text-white font-semibold text-sm cursor-pointer hover:underline flex items-center"
-                      onClick={() => {
-                        onClose();
-                        loadAthleteProfile(comment.athlete_id);
-                      }}
-                    >
-                      {comment.athlete_name}
-                      <SubscriptionBadge subscriptionTier={comment.subscription_tier} />
-                    </p>
-                    <p className="text-gray-300 text-sm mt-1">{formatMentions(comment.content)}</p>
-                    <div className="flex items-center justify-between mt-2">
-                      <p className="text-gray-400 text-xs">
-                        {new Date(comment.created_at).toLocaleString()}
-                      </p>
-                      <button
-                        onClick={() => onToggleCommentLike(comment.id, post.id)}
-                        className={`flex items-center space-x-1 text-xs transition-colors ${
-                          comment.liked_by_user ? 'text-red-400' : 'text-gray-400 hover:text-red-400'
-                        }`}
-                      >
-                        <Heart className={`w-4 h-4 ${comment.liked_by_user ? 'fill-current' : ''}`} />
-                        <span>{comment.likes_count || 0}</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-400 text-center py-4">No comments yet. Be the first to comment!</p>
-            )}
-          </div>
-
-          {/* Add Comment Input */}
-          <div className="border-t border-gray-600 pt-4">
-            <div className="flex items-center space-x-2">
-              <div className="relative flex-1">
-                <input
-                  ref={commentRef}
-                  type="text"
-                  value={commentText}
-                  onChange={(e) => setCommentText(e.target.value)}
-                  placeholder="Write a comment... (Type @ to mention)"
-                  className="w-full bg-gray-600 text-white rounded-lg pl-4 pr-12 py-2 border border-gray-500 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none"
-                  onKeyPress={(e) => e.key === 'Enter' && onAddComment()}
-                />
-                {/* Emoji Button - Inside Input on Right */}
-                <div className="absolute right-2 top-1/2 -translate-y-1/2">
-                  <EmojiPickerButton onEmojiSelect={(emoji) => onEmojiSelect(emoji)} />
-                </div>
-              </div>
-              <Button
-                onClick={onAddComment}
-                className="bg-[#00C2A8] hover:bg-[#00a890] text-white p-2"
-              >
-                <Send className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-
 export default Community;
