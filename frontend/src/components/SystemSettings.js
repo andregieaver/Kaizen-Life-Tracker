@@ -185,9 +185,6 @@ const SystemSettings = ({ athleteId }) => {
   };
 
   if (loading) {
-    try {
-      setLoading(true);
-      const response = await axios.get(`${API}/system/settings?athlete_id=${athleteId}`);
       
       // Load module settings
       if (response.data.modules) {
