@@ -48,6 +48,25 @@ from strava_service import StravaService
 from oura_service import OuraService
 from polar_service import PolarService
 from fitbit_service import FitbitService
+
+# Query pagination constants
+DEFAULT_QUERY_LIMIT = 100
+MAX_QUERY_LIMIT = 1000
+
+def apply_query_limit(limit: Optional[int] = None, max_limit: int = MAX_QUERY_LIMIT) -> int:
+    """
+    Apply safe query limits to prevent unbounded queries.
+    
+    Args:
+        limit: Requested limit (None means use default)
+        max_limit: Maximum allowed limit
+    
+    Returns:
+        Safe limit value between DEFAULT_QUERY_LIMIT and max_limit
+    """
+    if limit is None:
+        return DEFAULT_QUERY_LIMIT
+    return min(max(1, limit), max_limit)
 from garmin_service import GarminService
 from coros_service import CorosService
 from whoop_service import WhoopService
