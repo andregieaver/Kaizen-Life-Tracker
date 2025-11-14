@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '../../ui/button';
 
 const PostsList = ({ posts, athleteId, editingPost, editContent, editVisibility, showComments, commentText,
   setEditingPost, setEditContent, setEditVisibility, setCommentText, handleEditPost, handleDeletePost,
