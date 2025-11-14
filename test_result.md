@@ -105,17 +105,30 @@
 user_problem_statement: "Ensure Oura Ring data (sleep score, readiness score, activity score) fetches properly on dashboard. Add three additional metrics below activity score: lowest resting heart rate, total sleep time, and average HRV from last night. Make refresh button actively sync latest data from Oura API."
 
 frontend:
-  - task: "Light/Dark Theme Infrastructure"
+  - task: "Oura Card Data Display and Refresh Enhancement"
     implemented: true
     working: "NA"
-    file: "/app/frontend/src/contexts/ThemeContext.js, /app/frontend/src/components/ThemeToggle.js, /app/frontend/src/App.js, /app/frontend/src/index.css"
+    file: "/app/frontend/src/components/OuraVitalsCard.js"
     stuck_count: 0
     priority: "high"
     needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "THEME SYSTEM IMPLEMENTATION - Created comprehensive light/dark theme infrastructure. COMPONENTS CREATED: 1) ThemeContext (/frontend/src/contexts/ThemeContext.js) - React context for theme state management with localStorage persistence and system preference detection, 2) ThemeToggle component (/frontend/src/components/ThemeToggle.js) - Sun/Moon icon button for theme switching, 3) Wrapped App.js with ThemeProvider. CSS VARIABLES UPDATED (index.css): Dark theme (default) uses deep blue-grays (#0B1220, #0E1824) with teal accents (#32D3FF). Light theme uses: 1) BACKGROUNDS - Whiter gradients: --bg-950: #FFFFFF (pure white), --bg-900: #FAFBFC (almost white), --bg-800: #F5F7FA (very light), --grad-page: linear-gradient(180deg, #FEFEFF 0%, #FAFBFC 50%, #F5F7FA 100%), 2) TEXT - Dark for contrast: --text-hi: #0A0F14, --text-med: #485568, --text-muted: #6B7A8C, 3) ACCENT COLORS - Dark blue instead of teal: --c-brand-500: #1E40AF (rich dark blue), --c-brand-600: #1E3A8A (darker blue), --c-sky-500: #3B82F6 (medium blue), --c-focus: #3B82F6, --grad-cta-soft: rgba(30,64,175,.06) (subtle dark blue accent). DASHBOARD INTEGRATION: ThemeToggle button added to Dashboard.js header (top-right, before menu button). Dashboard home page already theme-aware as it uses CSS variables throughout (Quick Action cards, Readiness cards, Progress sections). FEATURES: Theme persists across sessions via localStorage, respects system preference on first visit, smooth transitions between themes, accessible and mobile-responsive. TESTING NEEDED: 1) Log in to /dashboard, 2) Click Sun/Moon toggle button in header, 3) Verify page transforms between light and dark themes, 4) Check light theme uses dark blue accents (not teal), 5) Verify backgrounds are crisp white with subtle gradients, 6) Refresh page to confirm theme persists, 7) Test readability and contrast in both themes."
+        comment: "OURA CARD ENHANCEMENTS - Enhanced Oura Vitals Card to properly fetch and display all health metrics. FRONTEND CHANGES (OuraVitalsCard.js): 1) IMPROVED DATA FETCHING - Updated loadOuraData() to accept forceSync parameter, increased activity query limit from 10 to 30 for better data availability, added console logging for debugging, 2) REFRESH BUTTON FIX - Refresh button now triggers actual Oura API sync via POST /api/integrations/oura/{athleteId}/sync, waits 2 seconds for sync completion, fetches latest data from database, shows spinning animation during sync, button disabled during loading, 3) NEW METRICS DISPLAY - Added 'Last Night' section below activity score showing: Lowest Resting HR (bpm), Total Sleep Time (hours and minutes), Average HRV (ms). Displayed in clean 3-column grid layout. Only shows when sleep data exists. Missing values show '--' placeholder. BACKEND CHANGES (oura_service.py): Added capture of three new fields from Oura API sleep endpoint: lowest_heart_rate, average_heart_rate, average_hrv. These are now stored in database for each sleep activity. FEATURES: Active refresh syncs latest Oura data, comprehensive sleep insights with HR and HRV, clean responsive layout, proper error handling for missing data. TESTING NEEDED: 1) Navigate to /dashboard, 2) Verify Sleep score, Readiness score, and Activity score display correctly, 3) Check 'Last Night' section shows Resting HR, Sleep Time, and Avg HRV below activity score, 4) Click refresh button and verify: spinning animation appears, sync completes after 2 seconds, latest data updates on card, 5) Verify missing data shows '--' placeholders, 6) Test with and without Oura connection."
+
+backend:
+  - task: "Oura Sleep Metrics Capture"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/oura_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "OURA BACKEND ENHANCEMENT - Updated Oura service to capture additional sleep metrics from API. CHANGES: Modified fetch_activities() method in oura_service.py to capture three additional fields from Oura API v2 sleep endpoint: 1) lowest_heart_rate - Lowest resting heart rate during sleep (bpm), 2) average_heart_rate - Average heart rate during sleep (bpm), 3) average_hrv - Average heart rate variability during sleep (ms). These fields are extracted from the Oura API sleep data response and stored in the oura_activities collection. DATA STRUCTURE: Each sleep activity document now includes: activity_id, type, start_date, duration, score, deep_sleep, rem_sleep, light_sleep, efficiency, lowest_heart_rate (NEW), average_heart_rate (NEW), average_hrv (NEW), raw_data. Backend restarted successfully. RESULT: All sleep data including HR and HRV metrics now available for frontend display via /api/integrations/oura/{user_id}/activities endpoint."
 
 frontend:
   - task: "Video Preview Live Stream Display Fix"
