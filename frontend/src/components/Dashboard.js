@@ -1761,6 +1761,7 @@ const Dashboard = ({ athleteId }) => {
             setShowNotifications={setShowNotifications}
             setCommunityUnreadCount={setCommunityUnreadCount}
             headerProgress={headerProgress}
+            footerProgress={footerProgress}
           />
         )}
 
