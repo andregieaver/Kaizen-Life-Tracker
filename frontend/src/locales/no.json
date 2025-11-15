@@ -315,6 +315,7 @@
     "posts": "Innlegg",
     "interests": "Interesser",
     "healthTrainingGoals": "Helse- og treningsmål",
+    "yearsOld": "{{age}} år gammel",
     "actions": {
       "createPost": "Opprett innlegg",
       "createChallenge": "Opprett utfordring",
