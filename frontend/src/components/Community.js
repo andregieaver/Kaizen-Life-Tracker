@@ -2738,17 +2738,34 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           setShowCreateEvent(true);
           setShowCreateMenu(false);
         }}
-        className="md:hidden fixed z-40 w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
+        className={`fixed z-40 w-12 h-12 rounded-full flex items-center justify-center ${
+          showCreateMenu 
+            ? 'opacity-100 translate-x-0 translate-y-0' 
+            : 'opacity-0 scale-0 pointer-events-none'
+        }`}
         style={{
-          bottom: `calc(80px + ${footerProgress * 16}px)`,
+          bottom: `calc(90px - ${(1 - footerProgress) * 100}px)`,
           right: '16px',
           transform: showCreateMenu 
-            ? `translate3d(${Math.cos(2 * Math.PI / 3) * 110}px, calc(${-Math.sin(2 * Math.PI / 3) * 110}px + ${(1 - footerProgress) * 100}px), 0)` // 120° + footer scroll
-            : `translate3d(0, ${(1 - footerProgress) * 100}px, 0) scale(0)`,
-          opacity: showCreateMenu ? (0.08 + footerProgress * 0.92) : 0,
-          pointerEvents: showCreateMenu ? 'auto' : 'none',
+            ? `translate(${Math.cos(2 * Math.PI / 3) * 110}px, ${-Math.sin(2 * Math.PI / 3) * 110}px)` 
+            : 'translate(0, 0) scale(0)',
+          transition: 'transform 300ms, opacity 300ms',
           transitionDelay: showCreateMenu ? '150ms' : '0ms',
-          willChange: 'transform, opacity'
+          backgroundColor: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
+          backdropFilter: 'blur(8px) saturate(150%)',
+          WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+          boxShadow: `
+            inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+            inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent),
+            inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 35%), transparent),
+            inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 25%), transparent),
+            inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent),
+            inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+            inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+            inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+            0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+            0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent)
+          `
         }}
         title={t('community.actions.createEvent')}
       >
@@ -2761,17 +2778,34 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           setShowCreateGroup(true);
           setShowCreateMenu(false);
         }}
-        className="md:hidden fixed z-40 w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
+        className={`fixed z-40 w-12 h-12 rounded-full flex items-center justify-center ${
+          showCreateMenu 
+            ? 'opacity-100 translate-x-0 translate-y-0' 
+            : 'opacity-0 scale-0 pointer-events-none'
+        }`}
         style={{
-          bottom: `calc(80px + ${footerProgress * 16}px)`,
+          bottom: `calc(90px - ${(1 - footerProgress) * 100}px)`,
           right: '16px',
           transform: showCreateMenu 
-            ? `translate3d(0, calc(${-110}px + ${(1 - footerProgress) * 100}px), 0)` // 90° straight up + footer scroll
-            : `translate3d(0, ${(1 - footerProgress) * 100}px, 0) scale(0)`,
-          opacity: showCreateMenu ? (0.08 + footerProgress * 0.92) : 0,
-          pointerEvents: showCreateMenu ? 'auto' : 'none',
+            ? `translate(0px, ${-110}px)` 
+            : 'translate(0, 0) scale(0)',
+          transition: 'transform 300ms, opacity 300ms',
           transitionDelay: showCreateMenu ? '200ms' : '0ms',
-          willChange: 'transform, opacity'
+          backgroundColor: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
+          backdropFilter: 'blur(8px) saturate(150%)',
+          WebkitBackdropFilter: 'blur(8px) saturate(150%)',
+          boxShadow: `
+            inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+            inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent),
+            inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 35%), transparent),
+            inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 25%), transparent),
+            inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent),
+            inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+            inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+            inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+            0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+            0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent)
+          `
         }}
         title={t('community.actions.createGroup')}
       >
