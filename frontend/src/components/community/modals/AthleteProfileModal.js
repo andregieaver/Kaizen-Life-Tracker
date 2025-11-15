@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../ui/button';
-import { X, UserPlus, UserMinus, Heart, Share2, MapPin, Calendar } from 'lucide-react';
+import { X, UserPlus, UserMinus, Heart, Share2, MapPin, Calendar, MessageCircle } from 'lucide-react';
 import SubscriptionBadge from '../../SubscriptionBadge';
 import FlagIcon from '../../FlagIcon';
 import ImageCarousel from '../../ImageCarousel';
