@@ -21,7 +21,7 @@ const GroupCard = ({ group, athleteId, isMember, onJoin, onEdit, onDelete, onCli
           </div>
         )}
         
-        <div className="px-3 sm:px-0">
+        <div className="px-3 sm:px-0 pt-4">
           <div className="flex items-start space-x-3 mb-3">
             {group.profile_image ? (
               <img src={group.profile_image} alt={group.name} className="w-16 h-16 rounded-full object-cover flex-shrink-0" />
