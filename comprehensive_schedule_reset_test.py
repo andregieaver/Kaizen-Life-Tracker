@@ -12,7 +12,7 @@ import uuid
 from datetime import datetime, timezone, timedelta
 
 # Backend URL from environment
-BACKEND_URL = "https://clean-architect-1.preview.emergentagent.com/api"
+BACKEND_URL = "https://react-refactor-10.preview.emergentagent.com/api"
 
 # Test athlete from review request
 TEST_ATHLETE_EMAIL = "andre@example.com"
