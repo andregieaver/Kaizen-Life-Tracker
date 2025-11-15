@@ -674,7 +674,11 @@ const Dashboard = ({ athleteId }) => {
     try {
       const response = await axios.get(`${API}/system/settings?athlete_id=${athleteId}`);
       if (response.data.modules) {
-        setModuleSettings(response.data.modules);
+        // Ensure modules has the expected structure with defaults
+        setModuleSettings({
+          affiliateProgram: response.data.modules.affiliateProgram || { enabled: true },
+          community: response.data.modules.community || { enabled: true }
+        });
       }
     } catch (error) {
       // If error (e.g., not super admin or endpoint not accessible), use defaults
