@@ -315,6 +315,7 @@
     "posts": "Post",
     "interests": "Interessi",
     "healthTrainingGoals": "Obiettivi di Salute e Allenamento",
+    "yearsOld": "{{age}} anni",
     "actions": {
       "createPost": "Crea Post",
       "createChallenge": "Crea Sfida",
