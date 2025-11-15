@@ -384,8 +384,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Oura Card Data Display and Refresh Enhancement"
-    - "Oura Sleep Score Fix - API Endpoint Update"
+    - "SystemSettings Component Refactoring - All 7 Tabs"
+    - "Community Component Refactoring - All 6 Tabs"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
