@@ -366,6 +366,78 @@ const PostCard = ({
                 </div>
               </a>
             )}
+
+            {/* Embedded Shared Post */}
+            {post.shared_post_data && (
+              <div className="mb-4 border-2 border-gray-600 rounded-lg overflow-hidden bg-gray-800/50">
+                {/* Shared Post Header */}
+                <div className="p-3 border-b border-gray-600">
+                  <div className="flex items-center space-x-2">
+                    <div className="relative" style={{ width: '32px', height: '32px' }}>
+                      {post.shared_post_data.athlete_profile_picture ? (
+                        <img
+                          src={post.shared_post_data.athlete_profile_picture}
+                          alt={post.shared_post_data.athlete_name}
+                          className="w-8 h-8 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 bg-[#00C2A8] rounded-full flex items-center justify-center">
+                          <span className="text-white font-bold text-sm">
+                            {post.shared_post_data.athlete_name?.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
+                      <FlagIcon nationality={post.shared_post_data.nationality} />
+                    </div>
+                    <div>
+                      <p className="text-white font-semibold text-sm flex items-center">
+                        {post.shared_post_data.athlete_name}
+                        <SubscriptionBadge subscriptionTier={post.shared_post_data.subscription_tier} />
+                      </p>
+                      <p className="text-gray-400 text-xs">
+                        {new Date(post.shared_post_data.created_at).toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Shared Post Content */}
+                <div className="p-3">
+                  <p className="text-white text-sm whitespace-pre-wrap mb-2">
+                    {formatMentions(post.shared_post_data.content)}
+                  </p>
+                  
+                  {/* Shared Post Media */}
+                  {post.shared_post_data.media && post.shared_post_data.media.length > 0 ? (
+                    <div className="rounded-lg overflow-hidden">
+                      <ImageCarousel media={post.shared_post_data.media} alt="Shared post media" />
+                    </div>
+                  ) : post.shared_post_data.image_urls && post.shared_post_data.image_urls.length > 0 ? (
+                    <div className="rounded-lg overflow-hidden">
+                      <ImageCarousel images={post.shared_post_data.image_urls} alt="Shared post images" />
+                    </div>
+                  ) : post.shared_post_data.image_data ? (
+                    <img 
+                      src={post.shared_post_data.image_data} 
+                      alt="Shared post" 
+                      className="w-full rounded-lg max-h-64 object-cover"
+                    />
+                  ) : null}
+
+                  {/* Shared Post Stats */}
+                  <div className="flex items-center space-x-4 mt-2 text-gray-400 text-xs">
+                    <span className="flex items-center space-x-1">
+                      <Heart className="w-3 h-3" />
+                      <span>{post.shared_post_data.likes_count || 0}</span>
+                    </span>
+                    <span className="flex items-center space-x-1">
+                      <MessageCircle className="w-3 h-3" />
+                      <span>{post.shared_post_data.comments_count || 0}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
           </>
         )}
 
