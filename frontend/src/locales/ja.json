@@ -315,6 +315,7 @@
     "posts": "投稿",
     "interests": "興味",
     "healthTrainingGoals": "健康とトレーニングの目標",
+    "yearsOld": "{{age}}歳",
     "actions": {
       "createPost": "投稿を作成",
       "createChallenge": "チャレンジを作成",
