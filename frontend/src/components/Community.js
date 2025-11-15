@@ -2249,7 +2249,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       </div>
 
       {/* Content Area - Clears tab bar on mobile */}
-      <div className="pt-16 md:pt-0">
+      <div className="pt-12 md:pt-0">
 
       {/* Feed Tab */}
       {activeTab === 'feed' && !selectedGroup && (
