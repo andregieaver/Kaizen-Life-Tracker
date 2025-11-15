@@ -1074,7 +1074,7 @@ const Dashboard = ({ athleteId }) => {
                 BETA
               </span>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 bg-gray-900/80 backdrop-blur-sm rounded-lg px-2 py-1">
               {moduleSettings?.affiliateProgram?.enabled && (
                 <button 
                   onClick={() => navigate('/dashboard/referrals')}
