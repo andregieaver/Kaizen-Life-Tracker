@@ -437,9 +437,15 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       if (scrollY > lastScrollY && scrollY > 80) {
         // Scrolling down - hide FAB
         setScrollDirection('down');
+        
+        // Hide tabs after scrolling past 200px (longer runway)
+        if (scrollY > 200) {
+          setHideTabsOnScroll(true);
+        }
       } else if (scrollY < lastScrollY) {
-        // Scrolling up - show FAB
+        // Scrolling up - show FAB and tabs
         setScrollDirection('up');
+        setHideTabsOnScroll(false);
       }
 
       setLastScrollY(scrollY > 0 ? scrollY : 0);
