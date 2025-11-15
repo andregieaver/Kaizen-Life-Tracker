@@ -2131,11 +2131,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     >
       {/* Header with Tabs and Notifications */}
       <div 
-        className="fixed top-16 left-0 right-0 z-30 md:relative md:top-auto space-y-0 sm:space-y-3 mb-0 sm:mb-6"
+        className="fixed top-16 left-0 right-0 z-30 md:relative md:top-auto space-y-0 sm:space-y-3 mb-0 sm:mb-6 md:translate-y-0 md:opacity-100"
         style={{
-          transform: `translate3d(0, ${(1 - tabsProgress) * -100}%, 0)`,
-          opacity: 0.1 + tabsProgress * 0.9,
-          pointerEvents: tabsProgress > 0.05 ? 'auto' : 'none',
+          transform: `translate3d(0, ${(1 - headerProgress) * -100}%, 0)`,
+          opacity: 0.08 + headerProgress * 0.92,
+          pointerEvents: headerProgress > 0.05 ? 'auto' : 'none',
           willChange: 'transform, opacity'
         }}
       >
