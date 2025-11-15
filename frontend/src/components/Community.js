@@ -2657,16 +2657,17 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           setShowCreateChallenge(true);
           setShowCreateMenu(false);
         }}
-        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
-          showCreateMenu 
-            ? 'opacity-100 translate-x-0 translate-y-0' 
-            : 'opacity-0 scale-0 pointer-events-none'
-        }`}
+        className="md:hidden fixed z-40 w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
         style={{
+          bottom: `calc(80px + ${footerProgress * 16}px)`,
+          right: '16px',
           transform: showCreateMenu 
-            ? `translate(${-110}px, 0px)` // 180° (9 o'clock - straight left)
-            : 'translate(0, 0) scale(0)',
-          transitionDelay: showCreateMenu ? '50ms' : '0ms'
+            ? `translate3d(${-110}px, ${(1 - footerProgress) * 100}px, 0)` // Fan position + footer scroll
+            : `translate3d(0, ${(1 - footerProgress) * 100}px, 0) scale(0)`,
+          opacity: showCreateMenu ? (0.08 + footerProgress * 0.92) : 0,
+          pointerEvents: showCreateMenu ? 'auto' : 'none',
+          transitionDelay: showCreateMenu ? '50ms' : '0ms',
+          willChange: 'transform, opacity'
         }}
         title={t('community.actions.createChallenge')}
       >
