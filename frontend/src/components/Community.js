@@ -422,49 +422,36 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   }, [showProfile, profileData, showEventDetail, eventDetailData, selectedGroup, showNotifications]);
 
   // Scroll animation effect for FAB
-  // Smooth scroll reveal/hide for tab navigation (synchronized with Dashboard header)
+  // Simple scroll detection for FAB visibility
   useEffect(() => {
-    const TABS_REVEAL_DISTANCE = 240; // Same as header - move together as one unit
-    lastTabsScrollYRef.current = window.scrollY || 0;
-    tabsAccRef.current = TABS_REVEAL_DISTANCE; // Start fully visible
+    let ticking = false;
+
+    const updateScrollDirection = () => {
+      const scrollY = window.pageYOffset;
+
+      if (Math.abs(scrollY - lastScrollY) < 10) {
+        ticking = false;
+        return;
+      }
+
+      if (scrollY > lastScrollY && scrollY > 80) {
+        setScrollDirection('down');
+      } else if (scrollY < lastScrollY) {
+        setScrollDirection('up');
+      }
+
+      setLastScrollY(scrollY > 0 ? scrollY : 0);
+      ticking = false;
+    };
 
     const onScroll = () => {
-      const y = window.scrollY || 0;
-      const dy = y - lastTabsScrollYRef.current;
-      lastTabsScrollYRef.current = y;
-
-      // Update scroll direction for FAB
-      if (Math.abs(dy) > 10) {
-        if (y > lastScrollY && y > 80) {
-          setScrollDirection('down');
-        } else if (y < lastScrollY) {
-          setScrollDirection('up');
-        }
-        setLastScrollY(y > 0 ? y : 0);
-      }
-
-      // Scroll DOWN => hide tabs gradually
-      if (dy > 0) {
-        tabsAccRef.current -= dy; // move toward hidden
-      }
-      // Scroll UP => reveal tabs gradually
-      else if (dy < 0) {
-        tabsAccRef.current += -dy; // move toward visible
-      }
-
-      // Clamp to [0, TABS_REVEAL_DISTANCE]
-      tabsAccRef.current = Math.max(0, Math.min(TABS_REVEAL_DISTANCE, tabsAccRef.current));
-
-      if (!tabsScrollTickingRef.current) {
-        tabsScrollTickingRef.current = true;
-        requestAnimationFrame(() => {
-          setTabsProgress(tabsAccRef.current / TABS_REVEAL_DISTANCE);
-          tabsScrollTickingRef.current = false;
-        });
+      if (!ticking) {
+        window.requestAnimationFrame(updateScrollDirection);
+        ticking = true;
       }
     };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, [lastScrollY]);
 
