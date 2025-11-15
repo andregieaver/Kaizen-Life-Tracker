@@ -13113,6 +13113,562 @@ def test_strava_sync_endpoint_force_full_sync_fix():
         traceback.print_exc()
         return False
 
+def test_system_settings_apis():
+    """
+    COMPREHENSIVE SYSTEM SETTINGS API TESTING
+    
+    Test all System Settings APIs as requested in the review:
+    - GET /api/system/settings - Load all system settings
+    - PUT /api/system/settings - Save system settings (modules, plans, advanced)
+    - GET /api/system/subscriber-stats - Load subscriber statistics with period parameter
+    - GET /api/coupons - List all coupons
+    - POST /api/coupons - Create new coupon
+    - PUT /api/coupons/{id} - Update coupon
+    - DELETE /api/coupons/{id} - Delete coupon
+    - GET /api/waiting-list - List waiting list entries
+    - PUT /api/waiting-list/{id} - Approve/reject waiting list entry
+    - GET /api/cookie-settings - Load cookie settings
+    - PUT /api/cookie-settings - Save cookie settings
+    """
+    print("🔍 COMPREHENSIVE SYSTEM SETTINGS API TESTING")
+    print("=" * 70)
+    
+    try:
+        # Use existing athlete_id from test_result.md
+        athlete_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"  # andre@humanweb.no (super admin)
+        
+        print(f"   Test user: andre@humanweb.no (ID: {athlete_id})")
+        
+        # Step 1: GET /api/system/settings - Load all system settings
+        print("\n   Step 1: GET /api/system/settings - Load all system settings")
+        
+        settings_url = f"{BACKEND_URL}/system/settings?athlete_id={athlete_id}"
+        print(f"   URL: {settings_url}")
+        
+        settings_response = requests.get(settings_url)
+        print(f"   Response Status: {settings_response.status_code}")
+        
+        if settings_response.status_code == 200:
+            settings_data = settings_response.json()
+            
+            # Verify expected structure
+            expected_keys = ["modules", "plans", "advanced"]
+            has_all_keys = all(key in settings_data for key in expected_keys)
+            
+            if has_all_keys:
+                print_test_result("GET /api/system/settings", True, 
+                                f"Retrieved settings with all sections: {list(settings_data.keys())}")
+            else:
+                print_test_result("GET /api/system/settings", False, 
+                                f"Missing sections. Got: {list(settings_data.keys())}, Expected: {expected_keys}")
+        else:
+            print_test_result("GET /api/system/settings", False, 
+                            f"Failed to load settings: {settings_response.status_code} - {settings_response.text}")
+            return False
+        
+        # Step 2: PUT /api/system/settings - Save system settings
+        print("\n   Step 2: PUT /api/system/settings - Save system settings")
+        
+        # Prepare test settings update
+        test_settings = {
+            "modules": {
+                "community": {"enabled": True},
+                "training_calendar": {"enabled": True},
+                "ai_coach": {"enabled": True}
+            },
+            "plans": {
+                "free": {"name": "Free Plan", "price": 0},
+                "pro": {"name": "Pro Plan", "price": 29.99}
+            },
+            "advanced": {
+                "strava": {
+                    "clientId": "test_client_id",
+                    "clientSecret": "test_client_secret",
+                    "callbackDomain": "test.example.com"
+                }
+            }
+        }
+        
+        save_settings_response = requests.put(
+            f"{BACKEND_URL}/system/settings?athlete_id={athlete_id}",
+            json=test_settings,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if save_settings_response.status_code == 200:
+            print_test_result("PUT /api/system/settings", True, "Settings saved successfully")
+            
+            # Verify settings were saved by retrieving them again
+            verify_response = requests.get(settings_url)
+            if verify_response.status_code == 200:
+                verify_data = verify_response.json()
+                if verify_data.get("advanced", {}).get("strava", {}).get("clientId") == "test_client_id":
+                    print_test_result("Settings Persistence", True, "Settings changes persisted correctly")
+                else:
+                    print_test_result("Settings Persistence", False, "Settings changes not persisted")
+            else:
+                print_test_result("Settings Verification", False, "Could not verify settings save")
+        else:
+            print_test_result("PUT /api/system/settings", False, 
+                            f"Failed to save settings: {save_settings_response.status_code} - {save_settings_response.text}")
+        
+        # Step 3: GET /api/system/subscriber-stats - Load subscriber statistics
+        print("\n   Step 3: GET /api/system/subscriber-stats - Load subscriber statistics")
+        
+        # Test with different period parameters
+        periods = ["7d", "30d", "90d", "1y"]
+        
+        for period in periods:
+            stats_url = f"{BACKEND_URL}/system/subscriber-stats?athlete_id={athlete_id}&period={period}"
+            stats_response = requests.get(stats_url)
+            
+            if stats_response.status_code == 200:
+                stats_data = stats_response.json()
+                print_test_result(f"Subscriber Stats ({period})", True, 
+                                f"Retrieved stats: {list(stats_data.keys())}")
+            else:
+                print_test_result(f"Subscriber Stats ({period})", False, 
+                                f"Failed: {stats_response.status_code}")
+        
+        # Step 4: GET /api/coupons - List all coupons
+        print("\n   Step 4: GET /api/coupons - List all coupons")
+        
+        coupons_url = f"{BACKEND_URL}/coupons?athlete_id={athlete_id}"
+        coupons_response = requests.get(coupons_url)
+        
+        if coupons_response.status_code == 200:
+            coupons_data = coupons_response.json()
+            coupons_list = coupons_data.get("coupons", [])
+            print_test_result("GET /api/coupons", True, 
+                            f"Retrieved {len(coupons_list)} coupons")
+        else:
+            print_test_result("GET /api/coupons", False, 
+                            f"Failed: {coupons_response.status_code} - {coupons_response.text}")
+        
+        # Step 5: POST /api/coupons - Create new coupon
+        print("\n   Step 5: POST /api/coupons - Create new coupon")
+        
+        test_coupon = {
+            "code": "TEST2024",
+            "name": "Test Coupon 2024",
+            "type": "percentage",
+            "value": 20.0,
+            "max_uses": 100,
+            "enabled": True,
+            "applies_to": "subscriptions"
+        }
+        
+        create_coupon_response = requests.post(
+            f"{BACKEND_URL}/coupons?athlete_id={athlete_id}",
+            json=test_coupon,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        coupon_id = None
+        if create_coupon_response.status_code == 200:
+            coupon_result = create_coupon_response.json()
+            coupon_id = coupon_result.get("id")
+            print_test_result("POST /api/coupons", True, 
+                            f"Created coupon with ID: {coupon_id}")
+        else:
+            print_test_result("POST /api/coupons", False, 
+                            f"Failed: {create_coupon_response.status_code} - {create_coupon_response.text}")
+        
+        # Step 6: PUT /api/coupons/{id} - Update coupon
+        if coupon_id:
+            print("\n   Step 6: PUT /api/coupons/{id} - Update coupon")
+            
+            update_coupon = {
+                "code": "TEST2024UPDATED",
+                "name": "Updated Test Coupon 2024",
+                "type": "percentage",
+                "value": 25.0,
+                "max_uses": 150,
+                "enabled": True,
+                "applies_to": "subscriptions"
+            }
+            
+            update_coupon_response = requests.put(
+                f"{BACKEND_URL}/coupons/{coupon_id}?athlete_id={athlete_id}",
+                json=update_coupon,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if update_coupon_response.status_code == 200:
+                print_test_result("PUT /api/coupons/{id}", True, "Coupon updated successfully")
+            else:
+                print_test_result("PUT /api/coupons/{id}", False, 
+                                f"Failed: {update_coupon_response.status_code} - {update_coupon_response.text}")
+        
+        # Step 7: DELETE /api/coupons/{id} - Delete coupon
+        if coupon_id:
+            print("\n   Step 7: DELETE /api/coupons/{id} - Delete coupon")
+            
+            delete_coupon_response = requests.delete(
+                f"{BACKEND_URL}/coupons/{coupon_id}?athlete_id={athlete_id}"
+            )
+            
+            if delete_coupon_response.status_code == 200:
+                print_test_result("DELETE /api/coupons/{id}", True, "Coupon deleted successfully")
+            else:
+                print_test_result("DELETE /api/coupons/{id}", False, 
+                                f"Failed: {delete_coupon_response.status_code} - {delete_coupon_response.text}")
+        
+        # Step 8: GET /api/waiting-list - List waiting list entries
+        print("\n   Step 8: GET /api/waiting-list - List waiting list entries")
+        
+        waiting_list_url = f"{BACKEND_URL}/waiting-list?athlete_id={athlete_id}"
+        waiting_list_response = requests.get(waiting_list_url)
+        
+        if waiting_list_response.status_code == 200:
+            waiting_list_data = waiting_list_response.json()
+            entries = waiting_list_data.get("entries", [])
+            print_test_result("GET /api/waiting-list", True, 
+                            f"Retrieved {len(entries)} waiting list entries")
+        else:
+            print_test_result("GET /api/waiting-list", False, 
+                            f"Failed: {waiting_list_response.status_code} - {waiting_list_response.text}")
+        
+        # Step 9: PUT /api/waiting-list/{id} - Approve/reject waiting list entry
+        print("\n   Step 9: PUT /api/waiting-list/{id} - Approve/reject waiting list entry")
+        
+        # First create a test waiting list entry
+        test_entry = {
+            "name": "Test User",
+            "email": "test.waiting@example.com",
+            "nationality": "Norway",
+            "source": "testing"
+        }
+        
+        create_entry_response = requests.post(
+            f"{BACKEND_URL}/waiting-list",
+            json=test_entry,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if create_entry_response.status_code == 200:
+            entry_result = create_entry_response.json()
+            entry_id = entry_result.get("id")
+            
+            # Now test updating the entry
+            update_entry = {
+                "status": "contacted",
+                "notes": "Test approval process"
+            }
+            
+            update_entry_response = requests.put(
+                f"{BACKEND_URL}/waiting-list/{entry_id}?athlete_id={athlete_id}",
+                json=update_entry,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if update_entry_response.status_code == 200:
+                print_test_result("PUT /api/waiting-list/{id}", True, "Waiting list entry updated successfully")
+            else:
+                print_test_result("PUT /api/waiting-list/{id}", False, 
+                                f"Failed: {update_entry_response.status_code} - {update_entry_response.text}")
+        else:
+            print_test_result("PUT /api/waiting-list/{id}", False, 
+                            "Could not create test entry for update test")
+        
+        # Step 10: GET /api/cookie-settings - Load cookie settings
+        print("\n   Step 10: GET /api/cookie-settings - Load cookie settings")
+        
+        cookie_settings_url = f"{BACKEND_URL}/cookie-settings?athlete_id={athlete_id}"
+        cookie_settings_response = requests.get(cookie_settings_url)
+        
+        if cookie_settings_response.status_code == 200:
+            cookie_data = cookie_settings_response.json()
+            print_test_result("GET /api/cookie-settings", True, 
+                            f"Retrieved cookie settings: {list(cookie_data.keys())}")
+        else:
+            print_test_result("GET /api/cookie-settings", False, 
+                            f"Failed: {cookie_settings_response.status_code} - {cookie_settings_response.text}")
+        
+        # Step 11: PUT /api/cookie-settings - Save cookie settings
+        print("\n   Step 11: PUT /api/cookie-settings - Save cookie settings")
+        
+        test_cookie_settings = {
+            "necessary": True,
+            "analytics": True,
+            "marketing": False,
+            "preferences": True
+        }
+        
+        save_cookie_response = requests.put(
+            f"{BACKEND_URL}/cookie-settings?athlete_id={athlete_id}",
+            json=test_cookie_settings,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        if save_cookie_response.status_code == 200:
+            print_test_result("PUT /api/cookie-settings", True, "Cookie settings saved successfully")
+        else:
+            print_test_result("PUT /api/cookie-settings", False, 
+                            f"Failed: {save_cookie_response.status_code} - {save_cookie_response.text}")
+        
+        print("\n✅ SYSTEM SETTINGS API TESTING COMPLETED")
+        return True
+        
+    except Exception as e:
+        print_test_result("System Settings API Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+def test_community_apis():
+    """
+    COMPREHENSIVE COMMUNITY API TESTING
+    
+    Test all Community APIs as requested in the review:
+    - GET /api/community/posts - List all posts
+    - POST /api/community/posts - Create new post
+    - PUT /api/community/posts/{id} - Edit post
+    - DELETE /api/community/posts/{id} - Delete post
+    - POST /api/community/posts/{id}/like - Toggle like
+    - GET /api/community/posts/{id}/comments - Get comments
+    - POST /api/community/posts/{id}/comments - Add comment
+    - GET /api/community/events - List events
+    - POST /api/community/events - Create event
+    - GET /api/community/groups - List groups
+    - POST /api/community/groups/{id}/join - Join group
+    """
+    print("🔍 COMPREHENSIVE COMMUNITY API TESTING")
+    print("=" * 70)
+    
+    try:
+        # Use existing athlete_id from test_result.md
+        athlete_id = "46ba60d6-a06c-4a9b-b7a2-999efaa18229"  # test.files@example.com
+        
+        print(f"   Test user: test.files@example.com (ID: {athlete_id})")
+        
+        # Step 1: GET /api/community/posts - List all posts
+        print("\n   Step 1: GET /api/community/posts - List all posts")
+        
+        posts_url = f"{BACKEND_URL}/community/posts?athlete_id={athlete_id}&limit=10"
+        print(f"   URL: {posts_url}")
+        
+        posts_response = requests.get(posts_url)
+        print(f"   Response Status: {posts_response.status_code}")
+        
+        if posts_response.status_code == 200:
+            posts_data = posts_response.json()
+            posts_list = posts_data.get("posts", [])
+            print_test_result("GET /api/community/posts", True, 
+                            f"Retrieved {len(posts_list)} posts")
+        else:
+            print_test_result("GET /api/community/posts", False, 
+                            f"Failed: {posts_response.status_code} - {posts_response.text}")
+            return False
+        
+        # Step 2: POST /api/community/posts - Create new post
+        print("\n   Step 2: POST /api/community/posts - Create new post")
+        
+        test_post = {
+            "content": "This is a test post for API testing! 🚀 #testing",
+            "visibility": "public"
+        }
+        
+        create_post_response = requests.post(
+            f"{BACKEND_URL}/community/posts?athlete_id={athlete_id}",
+            json=test_post,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        post_id = None
+        if create_post_response.status_code == 200:
+            post_result = create_post_response.json()
+            post_id = post_result.get("id")
+            print_test_result("POST /api/community/posts", True, 
+                            f"Created post with ID: {post_id}")
+        else:
+            print_test_result("POST /api/community/posts", False, 
+                            f"Failed: {create_post_response.status_code} - {create_post_response.text}")
+        
+        # Step 3: PUT /api/community/posts/{id} - Edit post
+        if post_id:
+            print("\n   Step 3: PUT /api/community/posts/{id} - Edit post")
+            
+            updated_post = {
+                "content": "This is an UPDATED test post for API testing! ✅ #testing #updated",
+                "visibility": "public"
+            }
+            
+            edit_post_response = requests.put(
+                f"{BACKEND_URL}/community/posts/{post_id}?athlete_id={athlete_id}",
+                json=updated_post,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if edit_post_response.status_code == 200:
+                print_test_result("PUT /api/community/posts/{id}", True, "Post updated successfully")
+            else:
+                print_test_result("PUT /api/community/posts/{id}", False, 
+                                f"Failed: {edit_post_response.status_code} - {edit_post_response.text}")
+        
+        # Step 4: POST /api/community/posts/{id}/like - Toggle like
+        if post_id:
+            print("\n   Step 4: POST /api/community/posts/{id}/like - Toggle like")
+            
+            like_response = requests.post(
+                f"{BACKEND_URL}/community/posts/{post_id}/like?athlete_id={athlete_id}",
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if like_response.status_code == 200:
+                like_result = like_response.json()
+                print_test_result("POST /api/community/posts/{id}/like", True, 
+                                f"Like toggled: {like_result}")
+            else:
+                print_test_result("POST /api/community/posts/{id}/like", False, 
+                                f"Failed: {like_response.status_code} - {like_response.text}")
+        
+        # Step 5: GET /api/community/posts/{id}/comments - Get comments
+        if post_id:
+            print("\n   Step 5: GET /api/community/posts/{id}/comments - Get comments")
+            
+            comments_response = requests.get(
+                f"{BACKEND_URL}/community/posts/{post_id}/comments?athlete_id={athlete_id}"
+            )
+            
+            if comments_response.status_code == 200:
+                comments_data = comments_response.json()
+                comments_list = comments_data.get("comments", [])
+                print_test_result("GET /api/community/posts/{id}/comments", True, 
+                                f"Retrieved {len(comments_list)} comments")
+            else:
+                print_test_result("GET /api/community/posts/{id}/comments", False, 
+                                f"Failed: {comments_response.status_code} - {comments_response.text}")
+        
+        # Step 6: POST /api/community/posts/{id}/comments - Add comment
+        if post_id:
+            print("\n   Step 6: POST /api/community/posts/{id}/comments - Add comment")
+            
+            test_comment = {
+                "content": "This is a test comment! 💬"
+            }
+            
+            add_comment_response = requests.post(
+                f"{BACKEND_URL}/community/posts/{post_id}/comments?athlete_id={athlete_id}",
+                json=test_comment,
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if add_comment_response.status_code == 200:
+                comment_result = add_comment_response.json()
+                print_test_result("POST /api/community/posts/{id}/comments", True, 
+                                f"Added comment: {comment_result.get('id')}")
+            else:
+                print_test_result("POST /api/community/posts/{id}/comments", False, 
+                                f"Failed: {add_comment_response.status_code} - {add_comment_response.text}")
+        
+        # Step 7: GET /api/community/events - List events
+        print("\n   Step 7: GET /api/community/events - List events")
+        
+        events_response = requests.get(
+            f"{BACKEND_URL}/community/events?athlete_id={athlete_id}&limit=10"
+        )
+        
+        if events_response.status_code == 200:
+            events_data = events_response.json()
+            events_list = events_data.get("events", [])
+            print_test_result("GET /api/community/events", True, 
+                            f"Retrieved {len(events_list)} events")
+        else:
+            print_test_result("GET /api/community/events", False, 
+                            f"Failed: {events_response.status_code} - {events_response.text}")
+        
+        # Step 8: POST /api/community/events - Create event
+        print("\n   Step 8: POST /api/community/events - Create event")
+        
+        test_event = {
+            "title": "Test Running Event",
+            "description": "A test event for API testing",
+            "event_date": "2024-02-15",
+            "event_time": "09:00",
+            "location": "Test Location",
+            "event_type": "run",
+            "privacy": "public"
+        }
+        
+        create_event_response = requests.post(
+            f"{BACKEND_URL}/community/events?athlete_id={athlete_id}",
+            json=test_event,
+            headers={"Content-Type": "application/json"}
+        )
+        
+        event_id = None
+        if create_event_response.status_code == 200:
+            event_result = create_event_response.json()
+            event_id = event_result.get("id")
+            print_test_result("POST /api/community/events", True, 
+                            f"Created event with ID: {event_id}")
+        else:
+            print_test_result("POST /api/community/events", False, 
+                            f"Failed: {create_event_response.status_code} - {create_event_response.text}")
+        
+        # Step 9: GET /api/community/groups - List groups
+        print("\n   Step 9: GET /api/community/groups - List groups")
+        
+        groups_response = requests.get(
+            f"{BACKEND_URL}/community/groups?athlete_id={athlete_id}"
+        )
+        
+        if groups_response.status_code == 200:
+            groups_data = groups_response.json()
+            groups_list = groups_data.get("groups", [])
+            print_test_result("GET /api/community/groups", True, 
+                            f"Retrieved {len(groups_list)} groups")
+        else:
+            print_test_result("GET /api/community/groups", False, 
+                            f"Failed: {groups_response.status_code} - {groups_response.text}")
+        
+        # Step 10: POST /api/community/groups/{id}/join - Join group
+        if groups_list and len(groups_list) > 0:
+            print("\n   Step 10: POST /api/community/groups/{id}/join - Join group")
+            
+            # Try to join the first available group
+            first_group_id = groups_list[0].get("id")
+            
+            join_group_response = requests.post(
+                f"{BACKEND_URL}/community/groups/{first_group_id}/join?athlete_id={athlete_id}",
+                headers={"Content-Type": "application/json"}
+            )
+            
+            if join_group_response.status_code == 200:
+                join_result = join_group_response.json()
+                print_test_result("POST /api/community/groups/{id}/join", True, 
+                                f"Join request processed: {join_result}")
+            else:
+                print_test_result("POST /api/community/groups/{id}/join", False, 
+                                f"Failed: {join_group_response.status_code} - {join_group_response.text}")
+        else:
+            print_test_result("POST /api/community/groups/{id}/join", True, 
+                            "No groups available for join test (skipped)")
+        
+        # Step 11: DELETE /api/community/posts/{id} - Delete post (cleanup)
+        if post_id:
+            print("\n   Step 11: DELETE /api/community/posts/{id} - Delete post")
+            
+            delete_post_response = requests.delete(
+                f"{BACKEND_URL}/community/posts/{post_id}?athlete_id={athlete_id}"
+            )
+            
+            if delete_post_response.status_code == 200:
+                print_test_result("DELETE /api/community/posts/{id}", True, "Post deleted successfully")
+            else:
+                print_test_result("DELETE /api/community/posts/{id}", False, 
+                                f"Failed: {delete_post_response.status_code} - {delete_post_response.text}")
+        
+        print("\n✅ COMMUNITY API TESTING COMPLETED")
+        return True
+        
+    except Exception as e:
+        print_test_result("Community API Testing - Exception", False, f"Exception: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return False
+
 def main():
     """Run Polar OAuth Routing Fix Verification as requested in review"""
     print("🚀 STARTING POLAR OAUTH ROUTING FIX VERIFICATION AS REQUESTED")
