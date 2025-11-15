@@ -2293,12 +2293,6 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           onSelectCommentMention={handleSelectCommentMention}
         />
       )}
-
-      {/* OLD INLINE FEED CODE TO BE REMOVED */}
-      {false && activeTab === 'feed' && !selectedGroup && (
-        <>
-          {/* Nationality Filter */}
-          <div className="mb-4 pt-12 md:pt-0">
             <div className="flex items-center space-x-3 bg-gray-800 p-3 rounded-none sm:rounded-lg">
               <label className="text-white text-sm font-semibold whitespace-nowrap">{t('community.post.filterByNationality')}:</label>
               <select
