@@ -2300,7 +2300,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       {activeTab === 'following' && !selectedGroup && (
         <FollowingTab
           followingPosts={followingPosts}
-          isLoading={isLoadingFollowing}
+          isLoading={isLoading}
           onRSVP={handleRSVP}
           onEditEvent={handleOpenEditEvent}
           onDeleteEvent={handleDeleteEvent}
