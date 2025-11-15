@@ -352,6 +352,30 @@ frontend:
         agent: "main"
         comment: "ENHANCED COMMENTS MODAL for media display. USER REQUEST: Ensure post images/videos display in comment modal, including for shared posts. CHANGES IN CommentsModal component (line 6987): 1) SHARED POST DETECTION: Added check for post.shared_post_id and post.shared_post_data to detect shared posts. 2) SHARED POST LAYOUT: For shared posts, displays user's commentary followed by embedded original post (bordered container with author info, content, media). 3) MEDIA SUPPORT ENHANCED: Regular posts now display media using ImageCarousel component for post.media array, post.image_urls array, or fallback to post.image_data. 4) ORIGINAL POST MEDIA: Shared posts render original post's media using ImageCarousel within embedded container. 5) CONSISTENT RENDERING: Comment modal now matches feed rendering for both regular and shared posts. Frontend compiled successfully. TESTING NEEDED: 1) Open comment modal on regular post with images/video, 2) Open comment modal on shared post, 3) Verify both user commentary and embedded original post media display correctly."
 
+  - task: "SystemSettings Component Refactoring - All 7 Tabs"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/SystemSettings.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "MAJOR REFACTORING COMPLETED - SystemSettings.js reduced from 5,515 to 2,788 lines by extracting all 7 tabs into separate components. EXTRACTED COMPONENTS: 1) ModulesTab.js - Toggle affiliate/community modules, save settings, 2) PlansTab.js - Edit Free/Pro/Premium plan features, drag-and-drop functionality, 3) CouponsTab.js - List coupons, create/edit/delete functionality, 4) WaitingListTab.js - View entries, filter by status, 5) StatisticsTab.js - View subscriber stats, period selection, comparison toggle, 6) CookiesTab.js - Cookie management settings, 7) AdvancedTab.js - SEO, API keys, integrations (Stripe, SendGrid, etc.). All tabs imported from './systemSettings/tabs' directory. Custom hooks extracted to '../hooks/systemSettings' for state management. Tab switching and activeTab state management preserved. TESTING NEEDED: Navigate to each tab, verify loading, test interactive elements (buttons, forms, filters), check modals/popups, ensure data displays properly, test edit/create/delete operations, verify no console errors."
+
+  - task: "Community Component Refactoring - All 6 Tabs"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/Community.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "MAJOR REFACTORING COMPLETED - Community.js reduced from 4,168 to 3,345 lines by extracting all 6 tabs into separate components. EXTRACTED COMPONENTS: 1) FeedTab.js - View posts, nationality filter, like/comment/share, post editing, 2) FollowingTab.js - View following feed, same interactions as Feed, 3) CommunityEvents.js - List events, RSVP functionality, 4) CommunityChallenges.js - View challenges, 5) CommunityGroups.js - List groups, join/leave functionality, 6) CommunityMyGroups.js - View user's groups. All tabs imported from './community/tabs' directory. PostCard component and other shared components moved to './community/cards' and './community/modals'. Custom hooks extracted to '../hooks/community' for state management. Tab switching and activeTab state management preserved. TESTING NEEDED: Navigate to each tab, verify tab switching works, test all interactive elements (like/comment/share, filters), check PostCard rendering, ensure modals open correctly, test RSVP and join/leave functionality, verify no React warnings."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
