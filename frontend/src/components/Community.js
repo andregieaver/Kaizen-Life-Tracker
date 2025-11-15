@@ -426,9 +426,9 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   }, [showProfile, profileData, showEventDetail, eventDetailData, selectedGroup, showNotifications]);
 
   // Scroll animation effect for FAB
-  // Smooth scroll reveal/hide for tab navigation (similar to Dashboard header)
+  // Smooth scroll reveal/hide for tab navigation (synchronized with Dashboard header)
   useEffect(() => {
-    const TABS_REVEAL_DISTANCE = 300; // px scrolled to fully hide tabs (longer runway than header)
+    const TABS_REVEAL_DISTANCE = 240; // Same as header - move together as one unit
     lastTabsScrollYRef.current = window.scrollY || 0;
     tabsAccRef.current = TABS_REVEAL_DISTANCE; // Start fully visible
 
