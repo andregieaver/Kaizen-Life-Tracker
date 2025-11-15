@@ -2298,15 +2298,6 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       {/* Following Feed Tab */}
       {activeTab === 'following' && !selectedGroup && (
         <FollowingTab
-                value={nationalityFilter}
-                onChange={(e) => handleNationalityFilterChange(e.target.value)}
-                className="flex-1 bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none text-sm"
-              >
-                <option value="all">{t('community.post.allNationalities')}</option>
-                {getUniqueNationalities().map(nationality => (
-                  <option key={nationality} value={nationality}>{nationality}</option>
-                ))}
-              </select>
             </div>
           </div>
 
