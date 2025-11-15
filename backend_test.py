@@ -13442,10 +13442,10 @@ def test_community_apis():
         
         print(f"   Test user: test.files@example.com (ID: {athlete_id})")
         
-        # Step 1: GET /api/community/posts - List all posts
-        print("\n   Step 1: GET /api/community/posts - List all posts")
+        # Step 1: GET /api/community/feed/{athlete_id} - List all posts
+        print("\n   Step 1: GET /api/community/feed/{athlete_id} - List all posts")
         
-        posts_url = f"{BACKEND_URL}/community/posts?athlete_id={athlete_id}&limit=10"
+        posts_url = f"{BACKEND_URL}/community/feed/{athlete_id}?limit=10"
         print(f"   URL: {posts_url}")
         
         posts_response = requests.get(posts_url)
@@ -13454,10 +13454,10 @@ def test_community_apis():
         if posts_response.status_code == 200:
             posts_data = posts_response.json()
             posts_list = posts_data.get("posts", [])
-            print_test_result("GET /api/community/posts", True, 
+            print_test_result("GET /api/community/feed/{athlete_id}", True, 
                             f"Retrieved {len(posts_list)} posts")
         else:
-            print_test_result("GET /api/community/posts", False, 
+            print_test_result("GET /api/community/feed/{athlete_id}", False, 
                             f"Failed: {posts_response.status_code} - {posts_response.text}")
             return False
         
