@@ -315,6 +315,7 @@
     "posts": "帖子",
     "interests": "兴趣",
     "healthTrainingGoals": "健康及训练目标",
+    "yearsOld": "{{age}}岁",
     "actions": {
       "createPost": "创建帖子",
       "createChallenge": "创建挑战",
