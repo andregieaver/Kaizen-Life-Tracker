@@ -13851,18 +13851,38 @@ def test_strava_callback_domain_update():
         return False
 
 def main():
-    """Main function to run Community Events API endpoint testing"""
-    print("🚀 STARTING COMMUNITY EVENTS API ENDPOINT TESTING")
+    """Main function to run comprehensive backend API testing as requested in review"""
+    print("🚀 STARTING COMPREHENSIVE BACKEND API TESTING - POST-REFACTORING VERIFICATION")
     print("=" * 70)
     
-    success = test_community_events_api_endpoint()
+    all_tests_passed = True
     
-    if success:
-        print("\n🎉 COMMUNITY EVENTS API ENDPOINT TEST PASSED!")
+    # Test 1: System Settings APIs
+    print("\n" + "="*70)
+    if not test_system_settings_apis():
+        all_tests_passed = False
+    
+    # Test 2: Community APIs
+    print("\n" + "="*70)
+    if not test_community_apis():
+        all_tests_passed = False
+    
+    # Final Results
+    print("\n" + "="*70)
+    print("🏁 FINAL TEST RESULTS")
+    print("=" * 70)
+    
+    if all_tests_passed:
+        print("✅ ALL BACKEND API TESTS PASSED!")
+        print("🎉 POST-REFACTORING VERIFICATION COMPLETED SUCCESSFULLY")
+        print("💡 All System Settings and Community APIs are working correctly")
+        print("💡 No breaking changes detected from frontend refactoring")
     else:
-        print("\n❌ COMMUNITY EVENTS API ENDPOINT TEST FAILED!")
+        print("❌ SOME BACKEND API TESTS FAILED!")
+        print("⚠️ Check individual test results above for details")
+        print("🚨 CRITICAL: Some APIs may have been affected by refactoring")
         sys.exit(1)
 
 if __name__ == "__main__":
-    # Run the Community Events API endpoint test as requested in review
+    # Run comprehensive backend API testing as requested in review
     main()
