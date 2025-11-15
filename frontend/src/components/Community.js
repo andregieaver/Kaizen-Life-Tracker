@@ -2628,11 +2628,15 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         style={{
           bottom: `calc(96px - ${(1 - footerProgress) * 100}px)`,
           right: '16px',
+          transform: `translateY(${(1 - footerProgress) * 100}px)`,
+          opacity: 0.08 + footerProgress * 0.92,
           transition: 'background 300ms',
           background: showCreateMenu ? 'var(--grad-danger)' : 'var(--grad-brand)',
           boxShadow: showCreateMenu 
             ? 'none' 
-            : '0 10px 40px rgba(50,211,255,.3)'
+            : '0 10px 40px rgba(50,211,255,.3)',
+          pointerEvents: footerProgress > 0.1 ? 'auto' : 'none',
+          willChange: 'transform, opacity'
         }}
         aria-label={showCreateMenu ? "Close menu" : "Create"}
       >
