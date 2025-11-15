@@ -223,6 +223,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   // Scroll animation state for FAB
   const [scrollDirection, setScrollDirection] = useState('none');
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [hideTabsOnScroll, setHideTabsOnScroll] = useState(false);
   
   // Groups state
   const [groups, setGroups] = useState([]);
