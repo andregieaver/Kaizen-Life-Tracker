@@ -3289,6 +3289,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           </div>
         </>
       )}
+      {/* END OLD INLINE FOLLOWING CODE */}
 
       {/* Groups Tab */}
       {activeTab === 'groups' && !selectedGroup && (
