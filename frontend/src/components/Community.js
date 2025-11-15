@@ -2298,11 +2298,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       {/* Following Feed Tab */}
       {activeTab === 'following' && !selectedGroup && (
         <FollowingTab
-            </div>
-          </div>
-
-          {/* Posts and Events Feed */}
-          <div className="space-y-0 sm:space-y-6">
+          followingPosts={followingPosts}
             {isLoading ? (
               <div className="flex justify-center py-12">
                 <div className="w-12 h-12 border-4 border-[#00C2A8] border-t-transparent rounded-full animate-spin"></div>
