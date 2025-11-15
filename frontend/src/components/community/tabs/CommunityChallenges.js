@@ -57,7 +57,7 @@ const CommunityChallenges = ({
 
       {challenges.length === 0 && (
         <div className="border-0 shadow-lg bg-gradient-to-br from-gray-700 to-gray-800" style={{ background: 'var(--grad-surface)' }}>
-          <div className="p-4" className="p-12 text-center">
+          <div className="p-12 text-center">
             <Trophy className="w-16 h-16 mx-auto mb-4 text-gray-600" />
             <p className="text-gray-400 text-lg">
               {challengeFilter === 'all' && t('community.challenge.noChallengesAll')}
