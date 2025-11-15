@@ -13166,8 +13166,8 @@ def test_system_settings_apis():
                             f"Failed to load settings: {settings_response.status_code} - {settings_response.text}")
             return False
         
-        # Step 2: PUT /api/system/settings - Save system settings
-        print("\n   Step 2: PUT /api/system/settings - Save system settings")
+        # Step 2: POST /api/system/settings - Save system settings
+        print("\n   Step 2: POST /api/system/settings - Save system settings")
         
         # Prepare test settings update
         test_settings = {
@@ -13189,14 +13189,14 @@ def test_system_settings_apis():
             }
         }
         
-        save_settings_response = requests.put(
+        save_settings_response = requests.post(
             f"{BACKEND_URL}/system/settings?athlete_id={athlete_id}",
             json=test_settings,
             headers={"Content-Type": "application/json"}
         )
         
         if save_settings_response.status_code == 200:
-            print_test_result("PUT /api/system/settings", True, "Settings saved successfully")
+            print_test_result("POST /api/system/settings", True, "Settings saved successfully")
             
             # Verify settings were saved by retrieving them again
             verify_response = requests.get(settings_url)
@@ -13209,7 +13209,7 @@ def test_system_settings_apis():
             else:
                 print_test_result("Settings Verification", False, "Could not verify settings save")
         else:
-            print_test_result("PUT /api/system/settings", False, 
+            print_test_result("POST /api/system/settings", False, 
                             f"Failed to save settings: {save_settings_response.status_code} - {save_settings_response.text}")
         
         # Step 3: GET /api/system/subscriber-stats - Load subscriber statistics
