@@ -956,7 +956,7 @@ const Dashboard = ({ athleteId }) => {
                   <Gift className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                 </button>
               )}
-              {moduleSettings.community.enabled && (
+              {moduleSettings?.community?.enabled && (
                 <button 
                   onClick={() => activeTab === 'community' ? navigate('/dashboard') : navigate('/dashboard/community')}
                   className="p-2 transition-all duration-200 hover:scale-110 relative"
@@ -978,7 +978,7 @@ const Dashboard = ({ athleteId }) => {
                   )}
                 </button>
               )}
-              {moduleSettings.community.enabled && (
+              {moduleSettings?.community?.enabled && (
                 <button 
                   onClick={() => setShowNotifications(!showNotifications)}
                   className="p-2 transition-all duration-200 hover:scale-110 relative"
@@ -1092,7 +1092,7 @@ const Dashboard = ({ athleteId }) => {
                   <Gift className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
                 </button>
               )}
-              {moduleSettings.community.enabled && (
+              {moduleSettings?.community?.enabled && (
                 <button 
                   onClick={() => activeTab === 'community' ? navigate('/dashboard') : navigate('/dashboard/community')}
                   className="p-2 transition-all duration-200 active:scale-95 relative"
@@ -1114,7 +1114,7 @@ const Dashboard = ({ athleteId }) => {
                   )}
                 </button>
               )}
-              {moduleSettings.community.enabled && (
+              {moduleSettings?.community?.enabled && (
                 <button 
                   onClick={() => setShowNotifications(!showNotifications)}
                   className="p-2 transition-all duration-200 active:scale-95 relative"
