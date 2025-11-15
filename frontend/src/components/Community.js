@@ -2703,16 +2703,17 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           setShowCreateEvent(true);
           setShowCreateMenu(false);
         }}
-        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
-          showCreateMenu 
-            ? 'opacity-100 translate-x-0 translate-y-0' 
-            : 'opacity-0 scale-0 pointer-events-none'
-        }`}
+        className="md:hidden fixed z-40 w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
         style={{
+          bottom: `calc(80px + ${footerProgress * 16}px)`,
+          right: '16px',
           transform: showCreateMenu 
-            ? `translate(${Math.cos(2 * Math.PI / 3) * 110}px, ${-Math.sin(2 * Math.PI / 3) * 110}px)` // 120° (11 o'clock)
-            : 'translate(0, 0) scale(0)',
-          transitionDelay: showCreateMenu ? '150ms' : '0ms'
+            ? `translate3d(${Math.cos(2 * Math.PI / 3) * 110}px, calc(${-Math.sin(2 * Math.PI / 3) * 110}px + ${(1 - footerProgress) * 100}px), 0)` // 120° + footer scroll
+            : `translate3d(0, ${(1 - footerProgress) * 100}px, 0) scale(0)`,
+          opacity: showCreateMenu ? (0.08 + footerProgress * 0.92) : 0,
+          pointerEvents: showCreateMenu ? 'auto' : 'none',
+          transitionDelay: showCreateMenu ? '150ms' : '0ms',
+          willChange: 'transform, opacity'
         }}
         title={t('community.actions.createEvent')}
       >
@@ -2725,16 +2726,17 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           setShowCreateGroup(true);
           setShowCreateMenu(false);
         }}
-        className={`fixed bottom-20 right-4 z-40 w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
-          showCreateMenu 
-            ? 'opacity-100 translate-x-0 translate-y-0' 
-            : 'opacity-0 scale-0 pointer-events-none'
-        }`}
+        className="md:hidden fixed z-40 w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
         style={{
+          bottom: `calc(80px + ${footerProgress * 16}px)`,
+          right: '16px',
           transform: showCreateMenu 
-            ? `translate(0px, ${-110}px)` // 90° (12 o'clock - straight up)
-            : 'translate(0, 0) scale(0)',
-          transitionDelay: showCreateMenu ? '200ms' : '0ms'
+            ? `translate3d(0, calc(${-110}px + ${(1 - footerProgress) * 100}px), 0)` // 90° straight up + footer scroll
+            : `translate3d(0, ${(1 - footerProgress) * 100}px, 0) scale(0)`,
+          opacity: showCreateMenu ? (0.08 + footerProgress * 0.92) : 0,
+          pointerEvents: showCreateMenu ? 'auto' : 'none',
+          transitionDelay: showCreateMenu ? '200ms' : '0ms',
+          willChange: 'transform, opacity'
         }}
         title={t('community.actions.createGroup')}
       >
