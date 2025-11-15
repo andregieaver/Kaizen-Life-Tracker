@@ -2624,6 +2624,9 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         />
       )}
 
+      </div>
+      {/* End Content Area */}
+
       {/* Floating Action Button - Bottom Right */}
       <button
         onClick={() => setShowCreateMenu(!showCreateMenu)}
