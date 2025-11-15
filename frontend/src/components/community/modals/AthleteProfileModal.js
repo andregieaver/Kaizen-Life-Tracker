@@ -286,21 +286,28 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                       ) : null}
 
                       {/* Post Actions */}
-                      <div className="flex items-center space-x-6 text-gray-400">
+                      <div className="flex items-center justify-between pt-4 border-t border-gray-600">
                         <button
                           onClick={() => handleLike(post.id)}
-                          className="flex items-center space-x-2 hover:text-red-500 transition-colors"
+                          className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                            post.liked_by_user ? 'text-red-400' : 'text-gray-400 hover:text-red-400'
+                          }`}
                         >
-                          <Heart className={`w-5 h-5 ${post.liked_by_user ? 'fill-red-500 text-red-500' : ''}`} />
+                          <Heart className={`w-5 h-5 ${post.liked_by_user ? 'fill-current' : ''}`} />
                           <span className="text-sm">{post.likes_count || 0}</span>
                         </button>
-                        <div className="flex items-center space-x-2">
+
+                        <button
+                          onClick={() => handleToggleComments && handleToggleComments(post.id)}
+                          className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
+                        >
                           <MessageCircle className="w-5 h-5" />
                           <span className="text-sm">{post.comments_count || 0}</span>
-                        </div>
+                        </button>
+
                         <button
                           onClick={() => handleShare(post.id)}
-                          className="flex items-center space-x-2 hover:text-[#00C2A8] transition-colors"
+                          className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 hover:text-[#00C2A8] transition-colors"
                         >
                           <Share2 className="w-5 h-5" />
                           <span className="text-sm">{post.shares_count || 0}</span>
