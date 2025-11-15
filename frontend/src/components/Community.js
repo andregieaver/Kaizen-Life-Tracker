@@ -2624,22 +2624,23 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       {/* Floating Action Button - Bottom Right */}
       <button
         onClick={() => setShowCreateMenu(!showCreateMenu)}
-        className={`md:hidden fixed z-50 w-14 h-14 rounded-full flex items-center justify-center ${
-          showCreateMenu ? 'rotate-45 scale-110' : 'rotate-0'
-        }`}
+        className="md:hidden fixed z-50 w-14 h-14 rounded-full flex items-center justify-center"
         style={{
-          bottom: `calc(80px + ${footerProgress * 16}px)`,
+          bottom: `calc(96px - ${(1 - footerProgress) * 100}px)`,
           right: '16px',
-          transform: `translate3d(0, ${(1 - footerProgress) * 100}px, 0)`,
-          opacity: 0.08 + footerProgress * 0.92,
-          transition: showCreateMenu ? 'transform 300ms, background 300ms' : 'background 300ms',
-          background: 'linear-gradient(to bottom right, #00C2A8, #00a890)',
-          boxShadow: '0 10px 40px rgba(0,194,168,.3)',
-          willChange: 'transform, opacity'
+          transition: 'background 300ms',
+          background: showCreateMenu ? 'var(--grad-danger)' : 'var(--grad-brand)',
+          boxShadow: showCreateMenu 
+            ? 'none' 
+            : '0 10px 40px rgba(50,211,255,.3)'
         }}
-        aria-label="Create"
+        aria-label={showCreateMenu ? "Close menu" : "Create"}
       >
-        <PlusCircle className="w-7 h-7 text-white" />
+        {showCreateMenu ? (
+          <X className="w-7 h-7 text-white" />
+        ) : (
+          <Plus className="w-7 h-7 text-white" />
+        )}
       </button>
 
       {/* Backdrop when menu is open */}
