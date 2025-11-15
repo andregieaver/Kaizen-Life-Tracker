@@ -274,7 +274,7 @@ const PostCard = ({
             {/* Post Content with Show More/Less */}
             <div className="mb-4">
               <p 
-                className={`text-white whitespace-pre-wrap ${
+                className={`text-white whitespace-pre-wrap pt-3 ${
                   !expandedPosts[post.id] ? 'line-clamp-2' : ''
                 }`}
                 style={!expandedPosts[post.id] ? {
