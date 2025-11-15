@@ -369,7 +369,10 @@ const PostCard = ({
 
             {/* Embedded Shared Post */}
             {post.shared_post_data && (
-              <div className="mb-4 border-2 border-gray-600 rounded-lg overflow-hidden bg-gray-800/50">
+              <div 
+                className="mb-4 border-2 border-gray-600 rounded-lg overflow-hidden bg-gray-800/50 cursor-pointer hover:border-[#00C2A8] transition-colors"
+                onClick={() => onToggleComments(post.shared_post_data.id)}
+              >
                 {/* Shared Post Header */}
                 <div className="p-3 border-b border-gray-600">
                   <div className="flex items-center space-x-2">
