@@ -315,6 +315,7 @@
     "posts": "Posts",
     "interests": "Interests",
     "healthTrainingGoals": "Health & Training Goals",
+    "yearsOld": "{{age}} years old",
     "actions": {
       "createPost": "Create Post",
       "createChallenge": "Create Challenge",
