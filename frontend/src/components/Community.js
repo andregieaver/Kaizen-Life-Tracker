@@ -2146,9 +2146,15 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       onTouchEnd={onTouchEnd}
     >
       {/* Header with Tabs and Notifications */}
-      <div className={`fixed top-16 left-0 right-0 z-30 md:relative md:top-auto space-y-0 sm:space-y-3 mb-0 sm:mb-6 transition-all duration-500 ease-in-out ${
-        hideTabsOnScroll ? '-translate-y-[calc(100%+4rem)] opacity-0' : 'translate-y-0 opacity-100'
-      } md:translate-y-0 md:opacity-100`}>
+      <div 
+        className="fixed top-16 left-0 right-0 z-30 md:relative md:top-auto space-y-0 sm:space-y-3 mb-0 sm:mb-6"
+        style={{
+          transform: `translate3d(0, ${(1 - tabsProgress) * -100}%, 0)`,
+          opacity: 0.1 + tabsProgress * 0.9,
+          pointerEvents: tabsProgress > 0.05 ? 'auto' : 'none',
+          willChange: 'transform, opacity'
+        }}
+      >
         {/* Main Navigation Tabs - Full width with no gaps on mobile */}
         <div className="flex justify-between w-full gap-0 sm:gap-2 p-0 md:p-2 bg-gray-900/95 md:bg-transparent">
           <button
