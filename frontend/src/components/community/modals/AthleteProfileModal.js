@@ -82,7 +82,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4" onClick={onClose}>
-      <div className="rounded-none md:rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative border-0 shadow-lg overflow-hidden" style={{ background: 'var(--grad-surface)' }} onClick={(e) => e.stopPropagation()}>
+      <div className="rounded-none md:rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative border-0 shadow-lg overflow-hidden custom-scrollbar" style={{ background: 'var(--grad-surface)' }} onClick={(e) => e.stopPropagation()}>
         {/* Close button - X icon in top-right */}
         <button
           onClick={onClose}
