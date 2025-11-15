@@ -18,7 +18,7 @@ const CommunityChallenges = ({
   const { t } = useTranslation();
 
   return (
-    <div className="space-y-0 md:space-y-6 pt-12 md:pt-0">
+    <div>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-0 sm:gap-4">
         {/* Filter buttons */}
         <div className="flex gap-0 md:gap-2 w-full sm:w-auto">
