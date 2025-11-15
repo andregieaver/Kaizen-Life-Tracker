@@ -1456,7 +1456,17 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     if (!post) {
       post = followingPosts.find(p => p.id === postId);
     }
-    if (!post) return;
+    
+    // If post not found (e.g., it's a shared post), fetch it from API
+    if (!post) {
+      try {
+        const response = await axios.get(`${API}/community/posts/${postId}?athlete_id=${athleteId}`);
+        post = response.data;
+      } catch (error) {
+        logger.error(null, 'Error loading shared post:', error);
+        return;
+      }
+    }
     
     // Load comments for this post
     if (!post.comments) {
