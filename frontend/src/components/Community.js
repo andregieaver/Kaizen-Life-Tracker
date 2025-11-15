@@ -2293,9 +2293,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           onSelectCommentMention={handleSelectCommentMention}
         />
       )}
-            <div className="flex items-center space-x-3 bg-gray-800 p-3 rounded-none sm:rounded-lg">
-              <label className="text-white text-sm font-semibold whitespace-nowrap">{t('community.post.filterByNationality')}:</label>
-              <select
+
+
+      {/* Following Feed Tab */}
+      {activeTab === 'following' && !selectedGroup && (
+        <FollowingTab
                 value={nationalityFilter}
                 onChange={(e) => handleNationalityFilterChange(e.target.value)}
                 className="flex-1 bg-gray-700 text-white rounded-lg px-3 py-2 border border-gray-600 focus:border-[#00C2A8] focus:ring-2 focus:ring-[#00C2A8]/20 outline-none text-sm"
