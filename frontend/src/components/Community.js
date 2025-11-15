@@ -426,44 +426,48 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   }, [showProfile, profileData, showEventDetail, eventDetailData, selectedGroup, showNotifications]);
 
   // Scroll animation effect for FAB
+  // Smooth scroll reveal/hide for tab navigation (similar to Dashboard header)
   useEffect(() => {
-    let ticking = false;
-
-    const updateScrollDirection = () => {
-      const scrollY = window.pageYOffset;
-
-      if (Math.abs(scrollY - lastScrollY) < 10) {
-        ticking = false;
-        return;
-      }
-
-      if (scrollY > lastScrollY && scrollY > 80) {
-        // Scrolling down - hide FAB
-        setScrollDirection('down');
-        
-        // Hide tabs after scrolling past 200px (longer runway)
-        if (scrollY > 200) {
-          setHideTabsOnScroll(true);
-        }
-      } else if (scrollY < lastScrollY) {
-        // Scrolling up - show FAB and tabs
-        setScrollDirection('up');
-        setHideTabsOnScroll(false);
-      }
-
-      setLastScrollY(scrollY > 0 ? scrollY : 0);
-      ticking = false;
-    };
+    const TABS_REVEAL_DISTANCE = 300; // px scrolled to fully hide tabs (longer runway than header)
+    lastTabsScrollYRef.current = window.scrollY || 0;
 
     const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateScrollDirection);
-        ticking = true;
+      const y = window.scrollY || 0;
+      const dy = y - lastTabsScrollYRef.current;
+      lastTabsScrollYRef.current = y;
+
+      // Update scroll direction for FAB
+      if (Math.abs(dy) > 10) {
+        if (y > lastScrollY && y > 80) {
+          setScrollDirection('down');
+        } else if (y < lastScrollY) {
+          setScrollDirection('up');
+        }
+        setLastScrollY(y > 0 ? y : 0);
+      }
+
+      // Scroll DOWN => hide tabs gradually
+      if (dy > 0) {
+        tabsAccRef.current -= dy; // move toward hidden
+      }
+      // Scroll UP => reveal tabs gradually
+      else if (dy < 0) {
+        tabsAccRef.current += -dy; // move toward visible
+      }
+
+      // Clamp to [0, TABS_REVEAL_DISTANCE]
+      tabsAccRef.current = Math.max(0, Math.min(TABS_REVEAL_DISTANCE, tabsAccRef.current));
+
+      if (!tabsScrollTickingRef.current) {
+        tabsScrollTickingRef.current = true;
+        requestAnimationFrame(() => {
+          setTabsProgress(tabsAccRef.current / TABS_REVEAL_DISTANCE);
+          tabsScrollTickingRef.current = false;
+        });
       }
     };
 
-    window.addEventListener('scroll', onScroll);
-
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, [lastScrollY]);
 
