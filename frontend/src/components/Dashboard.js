@@ -1075,7 +1075,7 @@ const Dashboard = ({ athleteId }) => {
               </span>
             </div>
             <div className="flex items-center space-x-2">
-              {moduleSettings.affiliateProgram.enabled && (
+              {moduleSettings?.affiliateProgram?.enabled && (
                 <button 
                   onClick={() => navigate('/dashboard/referrals')}
                   className="p-2 transition-all duration-200 active:scale-95"
