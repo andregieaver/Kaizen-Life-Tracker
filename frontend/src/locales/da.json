@@ -390,6 +390,7 @@
     "posts": "Opslag",
     "interests": "Interesser",
     "healthTrainingGoals": "Sundheds- og træningsmål",
+    "yearsOld": "{{age}} år gammel",
     "actions": {
       "createPost": "Opret indlæg",
       "createChallenge": "Opret udfordring",
