@@ -266,7 +266,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                       </div>
 
                       {/* Post Content */}
-                      <p className="text-white whitespace-pre-wrap mb-3">{formatMentions(post.content)}</p>
+                      <p className="text-white whitespace-pre-wrap mb-3 pt-3">{formatMentions(post.content)}</p>
                       
                       {/* Display media (images and videos) */}
                       {post.media && post.media.length > 0 ? (
