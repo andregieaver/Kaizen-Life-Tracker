@@ -2133,7 +2133,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       <div 
         className="fixed top-16 left-0 right-0 z-30 md:relative md:top-auto space-y-0 sm:space-y-3 mb-0 sm:mb-6 md:translate-y-0 md:opacity-100"
         style={{
-          transform: `translate3d(0, ${(1 - headerProgress) * -100}%, 0)`,
+          transform: `translate3d(0, calc(${(1 - headerProgress) * -100}% - ${(1 - headerProgress) * 4}rem), 0)`,
           opacity: 0.08 + headerProgress * 0.92,
           pointerEvents: headerProgress > 0.05 ? 'auto' : 'none',
           willChange: 'transform, opacity'
