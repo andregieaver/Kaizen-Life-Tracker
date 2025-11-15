@@ -7,6 +7,7 @@ import FlagIcon from '../../FlagIcon';
 import ImageCarousel from '../../ImageCarousel';
 import axios from 'axios';
 import { logger } from '../../../utils/logger';
+import { formatMentions } from '../../../utils/mentionUtils';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
