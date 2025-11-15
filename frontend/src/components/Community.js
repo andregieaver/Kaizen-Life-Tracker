@@ -2136,7 +2136,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         scrollDirection === 'down' ? '-translate-y-[calc(100%+4rem)]' : 'translate-y-0'
       } md:translate-y-0`}>
         {/* Main Navigation Tabs - Full width with no gaps on mobile */}
-        <div className="flex justify-between w-full gap-0 sm:gap-2 p-0 md:p-2">
+        <div className="flex justify-between w-full gap-0 sm:gap-2 p-0 md:p-2 bg-gray-900/95 md:bg-transparent">
           <button
             onClick={() => {
               setActiveTab('feed');
