@@ -430,6 +430,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   useEffect(() => {
     const TABS_REVEAL_DISTANCE = 300; // px scrolled to fully hide tabs (longer runway than header)
     lastTabsScrollYRef.current = window.scrollY || 0;
+    tabsAccRef.current = TABS_REVEAL_DISTANCE; // Start fully visible
 
     const onScroll = () => {
       const y = window.scrollY || 0;
