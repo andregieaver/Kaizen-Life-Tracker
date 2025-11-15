@@ -1069,6 +1069,33 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   };
 
 
+  const handleStartEditPost = (post) => {
+    setEditingPost(post.id);
+    setEditContent(post.content);
+    setEditVisibility(post.visibility || 'public');
+    // Load existing media for editing
+    if (post.media && post.media.length > 0) {
+      setEditMedia(post.media.map((m, i) => ({
+        id: `existing-${i}`,
+        type: m.type,
+        url: m.url,
+        thumbnail: m.thumbnail,
+        preview: m.type === 'video' ? m.thumbnail : m.url,
+        uploading: false
+      })));
+    } else if (post.image_urls && post.image_urls.length > 0) {
+      setEditMedia(post.image_urls.map((url, i) => ({
+        id: `existing-img-${i}`,
+        type: 'image',
+        url: url,
+        preview: url,
+        uploading: false
+      })));
+    } else {
+      setEditMedia([]);
+    }
+  };
+
   const handleEditPost = async (postId) => {
     try {
       // Build media array from editMedia
