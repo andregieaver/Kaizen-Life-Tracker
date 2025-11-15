@@ -390,6 +390,7 @@
     "posts": "Beiträge",
     "interests": "Interessen",
     "healthTrainingGoals": "Gesundheits- & Trainingsziele",
+    "yearsOld": "{{age}} Jahre alt",
     "actions": {
       "createPost": "Beitrag erstellen",
       "createChallenge": "Herausforderung erstellen",
