@@ -2624,9 +2624,19 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       {/* Floating Action Button - Bottom Right */}
       <button
         onClick={() => setShowCreateMenu(!showCreateMenu)}
-        className={`fixed bottom-20 right-4 z-50 w-14 h-14 bg-gradient-to-br from-[#00C2A8] to-[#00a890] hover:from-[#00a890] hover:to-[#00C2A8] rounded-full shadow-lg flex items-center justify-center transition-all duration-300 ${
+        className={`md:hidden fixed z-50 w-14 h-14 rounded-full flex items-center justify-center ${
           showCreateMenu ? 'rotate-45 scale-110' : 'rotate-0'
-        } ${scrollDirection === 'down' ? 'translate-y-32' : 'translate-y-0'}`}
+        }`}
+        style={{
+          bottom: `calc(80px + ${footerProgress * 16}px)`,
+          right: '16px',
+          transform: `translate3d(0, ${(1 - footerProgress) * 100}px, 0)`,
+          opacity: 0.08 + footerProgress * 0.92,
+          transition: showCreateMenu ? 'transform 300ms, background 300ms' : 'background 300ms',
+          background: 'linear-gradient(to bottom right, #00C2A8, #00a890)',
+          boxShadow: '0 10px 40px rgba(0,194,168,.3)',
+          willChange: 'transform, opacity'
+        }}
         aria-label="Create"
       >
         <PlusCircle className="w-7 h-7 text-white" />
