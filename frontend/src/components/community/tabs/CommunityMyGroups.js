@@ -10,8 +10,8 @@ const CommunityMyGroups = ({
   onClick
 }) => {
   return (
-    <div className="space-y-6 pt-12 md:pt-0">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-4">
         {myGroups.map(group => (
           <GroupCard
             key={group.id}
