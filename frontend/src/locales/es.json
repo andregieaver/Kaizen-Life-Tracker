@@ -390,6 +390,7 @@
     "posts": "Publicaciones",
     "interests": "Intereses",
     "healthTrainingGoals": "Objetivos de Salud y Entrenamiento",
+    "yearsOld": "{{age}} años",
     "actions": {
       "createPost": "Crear Publicación",
       "createChallenge": "Crear Reto",
