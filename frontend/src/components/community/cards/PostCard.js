@@ -406,7 +406,7 @@ const PostCard = ({
 
                 {/* Shared Post Content */}
                 <div className="p-3">
-                  <p className="text-white text-sm whitespace-pre-wrap mb-2">
+                  <p className="text-white text-sm whitespace-pre-wrap mb-2 pt-2">
                     {formatMentions(post.shared_post_data.content)}
                   </p>
                   
