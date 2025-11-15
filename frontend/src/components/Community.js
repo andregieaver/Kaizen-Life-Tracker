@@ -2700,17 +2700,15 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           setShowWritePostModal(true);
           setShowCreateMenu(false);
         }}
-        className={`fixed z-40 w-12 h-12 rounded-full flex items-center justify-center ${
-          showCreateMenu 
-            ? 'opacity-100 translate-x-0 translate-y-0' 
-            : 'opacity-0 scale-0 pointer-events-none'
-        }`}
+        className="fixed z-40 w-12 h-12 rounded-full flex items-center justify-center"
         style={{
           bottom: `calc(90px - ${(1 - footerProgress) * 100}px)`,
           right: '16px',
           transform: showCreateMenu 
-            ? `translate(${Math.cos(5 * Math.PI / 6) * 110}px, ${-Math.sin(5 * Math.PI / 6) * 110}px)` 
-            : 'translate(0, 0) scale(0)',
+            ? `translate(${Math.cos(5 * Math.PI / 6) * 110}px, calc(${-Math.sin(5 * Math.PI / 6) * 110}px + ${(1 - footerProgress) * 100}px))` 
+            : `translate(0, ${(1 - footerProgress) * 100}px) scale(0)`,
+          opacity: showCreateMenu ? (0.08 + footerProgress * 0.92) : 0,
+          pointerEvents: (showCreateMenu && footerProgress > 0.1) ? 'auto' : 'none',
           transition: 'transform 300ms, opacity 300ms',
           transitionDelay: showCreateMenu ? '100ms' : '0ms',
           backgroundColor: 'color-mix(in srgb, var(--c-glass) 12%, transparent)',
