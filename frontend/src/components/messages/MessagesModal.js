@@ -341,7 +341,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                 </div>
                 
                 {/* Message Input */}
-                <div className="p-3 md:p-4 border-t border-gray-700 bg-gray-800/50">
+                <div className="p-3 md:p-4 border-t border-gray-700 bg-gray-800/50 flex-shrink-0">
                   <div className="flex items-end space-x-2">
                     <textarea
                       ref={textareaRef}
