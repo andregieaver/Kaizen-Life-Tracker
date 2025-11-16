@@ -347,6 +347,15 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                     </>
                   )}
                 </Button>
+                
+                <Button
+                  onClick={() => onMessageUser && onMessageUser(profile.id)}
+                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white"
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Message
+                </Button>
+              </>
               )}
             </div>
             </div>
