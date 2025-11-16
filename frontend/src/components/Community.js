@@ -2648,6 +2648,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
 
       {/* Athlete Profile Modal */}
+      {(() => {
+        console.log('%cCHECKING PROFILE MODAL RENDER', 'background: red; color: white; padding: 2px');
+        console.log('showProfile:', showProfile);
+        console.log('profileData:', profileData);
+        console.log('Should render:', showProfile && profileData);
+        return null;
+      })()}
       {showProfile && profileData && (
         <AthleteProfileModal
           profile={profileData}
