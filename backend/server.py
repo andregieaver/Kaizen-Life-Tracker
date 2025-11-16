@@ -10459,7 +10459,8 @@ async def get_community_feed(athlete_id: str, limit: int = Query(50), skip: int 
                     "liked_by_user": {"$gt": [{"$size": "$user_like"}, 0]},
                     "has_image": {"$cond": [{"$ifNull": ["$image_data", False]}, True, False]},
                     "subscription_tier": {"$arrayElemAt": ["$author_info.subscription_tier", 0]},
-                    "nationality": {"$arrayElemAt": ["$author_info.nationality", 0]}
+                    "nationality": {"$arrayElemAt": ["$author_info.nationality", 0]},
+                    "athlete_last_active_at": {"$arrayElemAt": ["$author_info.last_active_at", 0]}
                 }
             },
             projection_stage
@@ -10538,7 +10539,8 @@ async def get_following_feed(athlete_id: str, limit: int = Query(50), skip: int 
                     "liked_by_user": {"$gt": [{"$size": "$user_like"}, 0]},
                     "has_image": {"$cond": [{"$ifNull": ["$image_data", False]}, True, False]},
                     "subscription_tier": {"$arrayElemAt": ["$author_info.subscription_tier", 0]},
-                    "nationality": {"$arrayElemAt": ["$author_info.nationality", 0]}
+                    "nationality": {"$arrayElemAt": ["$author_info.nationality", 0]},
+                    "athlete_last_active_at": {"$arrayElemAt": ["$author_info.last_active_at", 0]}
                 }
             },
             projection_stage
@@ -10608,7 +10610,8 @@ async def get_user_posts(target_athlete_id: str, viewer_athlete_id: str = Query(
                     "liked_by_user": {"$gt": [{"$size": "$user_like"}, 0]},
                     "has_image": {"$cond": [{"$ifNull": ["$image_data", False]}, True, False]},
                     "subscription_tier": {"$arrayElemAt": ["$author_info.subscription_tier", 0]},
-                    "nationality": {"$arrayElemAt": ["$author_info.nationality", 0]}
+                    "nationality": {"$arrayElemAt": ["$author_info.nationality", 0]},
+                    "athlete_last_active_at": {"$arrayElemAt": ["$author_info.last_active_at", 0]}
                 }
             },
             projection_stage
