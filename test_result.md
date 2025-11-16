@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Ensure Oura Ring data (sleep score, readiness score, activity score) fetches properly on dashboard. Add three additional metrics below activity score: lowest resting heart rate, total sleep time, and average HRV from last night. Make refresh button actively sync latest data from Oura API."
+user_problem_statement: "Fix the Direct Messaging feature layout bug where the message input field and send button are not fixed to the bottom of the chat window, causing them to scroll away with the message history."
 
 frontend:
   - task: "Oura Card Data Display and Refresh Enhancement"
