@@ -12028,7 +12028,8 @@ async def get_athlete_profile(target_athlete_id: str, viewer_athlete_id: str = Q
             "followers_count": followers_count,
             "following_count": following_count,
             "is_following": is_following,
-            "is_own_profile": target_athlete_id == viewer_athlete_id
+            "is_own_profile": target_athlete_id == viewer_athlete_id,
+            "last_active_at": athlete.get("last_active_at")
         }
     except Exception as e:
         logging.error(f"Error fetching athlete profile: {e}")
