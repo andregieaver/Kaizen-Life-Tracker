@@ -229,7 +229,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                 filteredConversations.map(conv => (
                   <div
                     key={conv.id}
-                    className={`p-4 border-b border-gray-700 cursor-pointer hover:bg-gray-700/30 transition-colors ${
+                    className={`p-4 border-b border-gray-700 cursor-pointer hover:bg-gray-700/30 active:bg-gray-700/50 transition-colors min-h-[72px] ${
                       selectedConversation?.id === conv.id ? 'bg-gray-700/50' : ''
                     }`}
                     onClick={() => handleSelectConversation(conv)}
