@@ -2563,7 +2563,11 @@ const Dashboard = ({ athleteId }) => {
       {showMessages && moduleSettings?.community?.enabled && (
         <MessagesModal
           athleteId={athlete_id}
-          onClose={() => setShowMessages(false)}
+          initialUserId={initialMessageUserId}
+          onClose={() => {
+            setShowMessages(false);
+            setInitialMessageUserId(null);
+          }}
         />
       )}
     </div>
