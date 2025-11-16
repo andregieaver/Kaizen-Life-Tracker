@@ -185,12 +185,12 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10000] md:p-4" onClick={onClose}>
       <div 
-        className="w-full h-full md:rounded-3xl md:max-w-5xl md:h-[85vh] flex flex-col overflow-hidden"
+        className="w-full h-full md:rounded-3xl md:max-w-5xl md:h-[85vh] flex flex-col"
         style={{ background: 'var(--grad-surface)' }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
+        <div className="flex items-center justify-between p-4 border-b border-gray-700 flex-shrink-0">
           <h2 className="text-2xl font-bold text-white">Messages</h2>
           <button
             onClick={onClose}
@@ -200,9 +200,9 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
           </button>
         </div>
         
-        <div className="flex flex-1 min-h-0">
+        <div className="flex flex-1 overflow-hidden">
           {/* Conversation List - Hide on mobile when conversation selected */}
-          <div className={`w-full md:w-1/3 border-r border-gray-700 flex flex-col ${selectedConversation ? 'hidden md:flex' : 'flex'}`}>
+          <div className={`w-full md:w-1/3 border-r border-gray-700 flex flex-col overflow-hidden ${selectedConversation ? 'hidden md:flex' : 'flex'}`}>
             {/* Search */}
             <div className="p-3 border-b border-gray-700 flex-shrink-0">
               <div className="relative">
