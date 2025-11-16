@@ -18665,13 +18665,20 @@ async def get_conversation_messages(conversation_id: str, athlete_id: str = Quer
             raise HTTPException(status_code=403, detail="Not authorized")
         
         # Get messages
-        messages = await db.messages.find({
+        messages_raw = await db.messages.find({
             "conversation_id": conversation_id,
             "$or": [
                 {"sender_id": athlete_id, "deleted_by_sender": False},
                 {"receiver_id": athlete_id, "deleted_by_receiver": False}
             ]
         }).sort("created_at", 1).limit(limit).to_list(length=limit)
+        
+        # Remove _id field from messages to avoid ObjectId serialization issues
+        messages = []
+        for msg in messages_raw:
+            if '_id' in msg:
+                del msg['_id']
+            messages.append(msg)
         
         # Mark messages as read
         await db.messages.update_many(
