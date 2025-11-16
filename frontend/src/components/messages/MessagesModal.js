@@ -314,25 +314,29 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                       No messages yet. Start the conversation!
                     </div>
                   ) : (
-                    messages.map(msg => (
-                      <div
-                        key={msg.id}
-                        className={`flex ${msg.sender_id === athleteId ? 'justify-end' : 'justify-start'}`}
-                      >
+                    <>
+                      {messages.map(msg => (
                         <div
-                          className={`max-w-[70%] p-3 rounded-2xl ${
-                            msg.sender_id === athleteId
-                              ? 'bg-[#00C2A8] text-white'
-                              : 'bg-gray-700 text-white'
-                          }`}
+                          key={msg.id}
+                          className={`flex ${msg.sender_id === athleteId ? 'justify-end' : 'justify-start'}`}
                         >
-                          <p className="whitespace-pre-wrap break-words">{msg.content}</p>
-                          <span className="text-xs opacity-70 mt-1 block">
-                            {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </span>
+                          <div
+                            className={`max-w-[70%] md:max-w-[60%] p-3 rounded-2xl ${
+                              msg.sender_id === athleteId
+                                ? 'bg-[#00C2A8] text-white'
+                                : 'bg-gray-700 text-white'
+                            }`}
+                          >
+                            <p className="whitespace-pre-wrap break-words text-sm md:text-base">{msg.content}</p>
+                            <span className="text-xs opacity-70 mt-1 block">
+                              {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    ))
+                      ))}
+                      {/* Scroll anchor */}
+                      <div ref={messagesEndRef} />
+                    </>
                   )}
                 </div>
                 
