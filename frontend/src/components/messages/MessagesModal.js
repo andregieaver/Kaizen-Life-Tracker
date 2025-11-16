@@ -183,9 +183,9 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
   };
   
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10000] p-2 md:p-4" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10000] md:p-4" onClick={onClose}>
       <div 
-        className="rounded-none md:rounded-3xl w-full h-full md:max-w-5xl md:h-[80vh] flex flex-col overflow-hidden"
+        className="w-full h-full md:rounded-3xl md:max-w-5xl md:h-[85vh] flex flex-col overflow-hidden"
         style={{ background: 'var(--grad-surface)' }}
         onClick={(e) => e.stopPropagation()}
       >
