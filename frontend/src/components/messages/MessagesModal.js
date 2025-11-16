@@ -273,11 +273,11 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
           </div>
           
           {/* Chat Thread - Show when conversation selected */}
-          <div className={`flex-1 flex flex-col ${selectedConversation ? 'flex' : 'hidden md:flex'}`}>
+          <div className={`flex-1 flex flex-col min-h-0 ${selectedConversation ? 'flex' : 'hidden md:flex'}`}>
             {selectedConversation ? (
               <>
                 {/* Chat Header */}
-                <div className="p-4 border-b border-gray-700 flex items-center space-x-3">
+                <div className="p-4 border-b border-gray-700 flex items-center space-x-3 flex-shrink-0">
                   <button
                     onClick={handleBack}
                     className="md:hidden p-2 hover:bg-gray-700 rounded-full transition-colors"
