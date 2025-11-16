@@ -64,6 +64,8 @@ const Dashboard = ({ athleteId }) => {
   const [notifications, setNotifications] = useState([]);
   const [notificationsUnreadCount, setNotificationsUnreadCount] = useState(0);
   const [notificationTab, setNotificationTab] = useState('all'); // all, follows, posts, groups, events, challenges
+  const [showMessages, setShowMessages] = useState(false);
+  const [messagesUnreadCount, setMessagesUnreadCount] = useState(0);
   const [backgroundImage, setBackgroundImage] = useState(null);
   
   // SEO settings state
