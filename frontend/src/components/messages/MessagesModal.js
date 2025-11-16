@@ -218,7 +218,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
             </div>
             
             {/* Conversations */}
-            <div className="flex-1 overflow-y-auto custom-scrollbar min-h-0">
+            <div className="flex-1 overflow-y-auto custom-scrollbar">
               {loading && conversations.length === 0 ? (
                 <div className="p-8 text-center text-gray-400">Loading...</div>
               ) : filteredConversations.length === 0 ? (
