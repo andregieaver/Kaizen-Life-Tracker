@@ -2562,7 +2562,7 @@ const Dashboard = ({ athleteId }) => {
       {/* Messages Modal */}
       {showMessages && moduleSettings?.community?.enabled && (
         <MessagesModal
-          athleteId={athlete_id}
+          athleteId={athleteId}
           initialUserId={initialMessageUserId}
           onClose={() => {
             setShowMessages(false);
