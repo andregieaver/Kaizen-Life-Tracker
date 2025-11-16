@@ -204,7 +204,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
           {/* Conversation List - Hide on mobile when conversation selected */}
           <div className={`w-full md:w-1/3 border-r border-gray-700 flex flex-col min-h-0 ${selectedConversation ? 'hidden md:flex' : 'flex'}`}>
             {/* Search */}
-            <div className="p-3 border-b border-gray-700">
+            <div className="p-3 border-b border-gray-700 flex-shrink-0">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
