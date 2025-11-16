@@ -1558,7 +1558,6 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   };
 
   const handleNotificationClick = async (notification) => {
-    alert('Notification clicked! Check console');
     console.log('=== NOTIFICATION CLICKED ===');
     console.log('Full notification object:', JSON.stringify(notification, null, 2));
     console.log('Type:', notification.type);
