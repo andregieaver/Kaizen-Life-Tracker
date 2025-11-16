@@ -3444,14 +3444,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                       className={`p-4 hover:bg-gray-700/30 cursor-pointer transition-colors ${
                         !notification.read ? 'bg-gray-700/20' : ''
                       }`}
-                      style={{ borderBottom: '1px solid var(--border)', border: '3px solid blue' }}
-                      onClick={(e) => {
-                        alert('DESKTOP NOTIFICATION CLICKED! Type: ' + notification.type);
-                        console.log('DESKTOP INLINE CLICK FIRED!', notification);
-                        handleNotificationClick(notification);
-                      }}
+                      style={{ borderBottom: '1px solid var(--border)' }}
+                      onClick={() => handleNotificationClick(notification)}
                     >
-                      <p className="text-sm" style={{ color: 'var(--text-hi)', pointerEvents: 'none' }}>{notification.message || notification.content}</p>
+                      <p className="text-sm" style={{ color: 'var(--text-hi)' }}>{notification.message || notification.content}</p>
                       <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
                         {new Date(notification.created_at).toLocaleString()}
                       </p>
