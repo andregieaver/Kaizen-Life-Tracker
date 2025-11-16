@@ -37,6 +37,8 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const Community = ({ athleteId, athlete, showNotifications: externalShowNotifications, setShowNotifications: externalSetShowNotifications, setCommunityUnreadCount: externalSetCommunityUnreadCount, headerProgress = 1, footerProgress = 1 }) => {
+  console.log('%c🚀 COMMUNITY COMPONENT LOADED - NEW CODE VERSION 2024-11-16-15:15', 'background: purple; color: yellow; font-size: 16px; padding: 10px;');
+  
   const { t } = useTranslation();
   
   // Check if current user is super admin
