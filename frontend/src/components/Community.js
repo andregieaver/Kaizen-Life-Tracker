@@ -1558,6 +1558,8 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   };
 
   const handleNotificationClick = async (notification) => {
+    logger.debug(null, 'Notification clicked:', notification);
+    
     // Mark as read
     await markNotificationRead(notification.id);
     
@@ -1567,21 +1569,25 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     // Handle different notification types
     if (notification.type === 'follow' && notification.from_athlete_id) {
       // Open the follower's profile modal
-      loadAthleteProfile(notification.from_athlete_id);
+      logger.debug(null, 'Opening profile for follower:', notification.from_athlete_id);
+      await loadAthleteProfile(notification.from_athlete_id);
     } else if (notification.type === 'mention' && notification.post_id) {
       // Navigate to feed tab
       setActiveTab('feed');
       
       // Load the specific post
       try {
+        logger.debug(null, 'Loading post for mention:', notification.post_id);
         const response = await axios.get(`${API}/community/posts/${notification.post_id}?athlete_id=${athleteId}`);
         const post = response.data;
         
         // Load comments for the post
-        const commentsResponse = await axios.get(`${API}/community/posts/${notification.post_id}/comments`);
+        const commentsResponse = await axios.get(`${API}/community/posts/${notification.post_id}/comments?athlete_id=${athleteId}`);
         post.comments = commentsResponse.data.comments;
+        post.comments_count = commentsResponse.data.comments.length;
         
         // Open comments modal for mentions
+        logger.debug(null, 'Opening comments modal for mention');
         setSelectedPostForComments(post);
         setShowCommentsModal(true);
       } catch (error) {
@@ -1593,36 +1599,48 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setActiveTab('feed');
       
       try {
+        logger.debug(null, 'Loading post for notification type:', notification.type, notification.post_id);
         const response = await axios.get(`${API}/community/posts/${notification.post_id}?athlete_id=${athleteId}`);
         const post = response.data;
-        const commentsResponse = await axios.get(`${API}/community/posts/${notification.post_id}/comments`);
+        const commentsResponse = await axios.get(`${API}/community/posts/${notification.post_id}/comments?athlete_id=${athleteId}`);
         post.comments = commentsResponse.data.comments;
+        post.comments_count = commentsResponse.data.comments.length;
         
         // Open comments modal directly
+        logger.debug(null, 'Opening comments modal');
         setSelectedPostForComments(post);
         setShowCommentsModal(true);
       } catch (error) {
         logger.error(null, 'Error loading post:', error);
-        alert('Could not load the post');
+        alert('Could not load the post: ' + error.message);
       }
     } else if (notification.post_id) {
       // Fallback for other notifications with post_id
       setActiveTab('feed');
       
       try {
+        logger.debug(null, 'Fallback: Loading post:', notification.post_id);
         const response = await axios.get(`${API}/community/posts/${notification.post_id}?athlete_id=${athleteId}`);
         const post = response.data;
-        const commentsResponse = await axios.get(`${API}/community/posts/${notification.post_id}/comments`);
+        const commentsResponse = await axios.get(`${API}/community/posts/${notification.post_id}/comments?athlete_id=${athleteId}`);
         post.comments = commentsResponse.data.comments;
+        post.comments_count = commentsResponse.data.comments.length;
         
         // Ensure post is visible
         const postExists = posts.find(p => p.id === notification.post_id);
         if (!postExists) {
           setPosts([{ ...post, type: 'post' }, ...posts]);
         }
+        
+        // Also open comments modal
+        setSelectedPostForComments(post);
+        setShowCommentsModal(true);
       } catch (error) {
         logger.error(null, 'Error loading post:', error);
+        alert('Could not load the post: ' + error.message);
       }
+    } else {
+      logger.warn(null, 'Unknown notification type or missing data:', notification);
     }
   };
 
