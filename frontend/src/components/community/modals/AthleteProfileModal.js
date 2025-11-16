@@ -13,7 +13,7 @@ import { formatMentions } from '../../../utils/mentionUtils';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athleteId, loadAthleteProfile, handleLike, handleShare, handleToggleComments, setFullSizeImageUrl, setShowFullSizeImage }) => {
+const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athleteId, loadAthleteProfile, handleLike, handleShare, handleToggleComments, setFullSizeImageUrl, setShowFullSizeImage, onMessageUser }) => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('about'); // 'about' or 'posts'
   const [userPosts, setUserPosts] = useState([]);
