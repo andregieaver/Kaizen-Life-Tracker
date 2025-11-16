@@ -2601,6 +2601,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           handleToggleComments={toggleComments}
           setFullSizeImageUrl={setFullSizeImageUrl}
           setShowFullSizeImage={setShowFullSizeImage}
+          onMessageUser={(userId) => {
+            setShowProfile(false);
+            onOpenMessages && onOpenMessages(userId);
+          }}
         />
       )}
 
