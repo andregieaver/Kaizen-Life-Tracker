@@ -341,21 +341,23 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                 </div>
                 
                 {/* Message Input */}
-                <div className="p-4 border-t border-gray-700">
-                  <div className="flex items-center space-x-2">
+                <div className="p-3 md:p-4 border-t border-gray-700 bg-gray-800/50">
+                  <div className="flex items-end space-x-2">
                     <textarea
+                      ref={textareaRef}
                       value={messageText}
                       onChange={(e) => setMessageText(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder="Type a message..."
-                      className="flex-1 p-3 bg-gray-800 text-white rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#00C2A8]"
+                      className="flex-1 p-3 bg-gray-800 text-white rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#00C2A8] min-h-[44px] max-h-32"
                       rows="1"
                       disabled={sending}
+                      style={{ fontSize: '16px' }} // Prevents zoom on iOS
                     />
                     <Button
                       onClick={handleSendMessage}
                       disabled={!messageText.trim() || sending}
-                      className="p-3 bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg disabled:opacity-50"
+                      className="p-3 min-w-[44px] min-h-[44px] bg-[#00C2A8] hover:bg-[#00a890] text-white rounded-lg disabled:opacity-50 flex items-center justify-center"
                     >
                       <Send className="w-5 h-5" />
                     </Button>
