@@ -5,6 +5,7 @@ import { X, UserPlus, UserMinus, Heart, Share2, MapPin, Calendar, MessageCircle 
 import SubscriptionBadge from '../../SubscriptionBadge';
 import FlagIcon from '../../FlagIcon';
 import ImageCarousel from '../../ImageCarousel';
+import OnlineStatusIndicator from '../../OnlineStatusIndicator';
 import axios from 'axios';
 import { logger } from '../../../utils/logger';
 import { formatMentions } from '../../../utils/mentionUtils';
