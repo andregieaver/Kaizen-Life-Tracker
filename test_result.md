@@ -105,17 +105,17 @@
 user_problem_statement: "Fix the Direct Messaging feature layout bug where the message input field and send button are not fixed to the bottom of the chat window, causing them to scroll away with the message history."
 
 frontend:
-  - task: "Oura Card Data Display and Refresh Enhancement"
+  - task: "Direct Messaging Chat Input Layout Fix"
     implemented: true
     working: "NA"
-    file: "/app/frontend/src/components/OuraVitalsCard.js"
+    file: "/app/frontend/src/components/messages/MessagesModal.js"
     stuck_count: 0
-    priority: "high"
+    priority: "critical"
     needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "OURA CARD ENHANCEMENTS - Enhanced Oura Vitals Card to properly fetch and display all health metrics. FRONTEND CHANGES (OuraVitalsCard.js): 1) IMPROVED DATA FETCHING - Updated loadOuraData() to accept forceSync parameter, increased activity query limit from 10 to 30 for better data availability, added console logging for debugging, 2) REFRESH BUTTON FIX - Refresh button now triggers actual Oura API sync via POST /api/integrations/oura/{athleteId}/sync, waits 2 seconds for sync completion, fetches latest data from database, shows spinning animation during sync, button disabled during loading, 3) NEW METRICS DISPLAY - Added 'Last Night' section below activity score showing: Lowest Resting HR (bpm), Total Sleep Time (hours and minutes), Average HRV (ms). Displayed in clean 3-column grid layout. Only shows when sleep data exists. Missing values show '--' placeholder. BACKEND CHANGES (oura_service.py): Added capture of three new fields from Oura API sleep endpoint: lowest_heart_rate, average_heart_rate, average_hrv. These are now stored in database for each sleep activity. FEATURES: Active refresh syncs latest Oura data, comprehensive sleep insights with HR and HRV, clean responsive layout, proper error handling for missing data. TESTING NEEDED: 1) Navigate to /dashboard, 2) Verify Sleep score, Readiness score, and Activity score display correctly, 3) Check 'Last Night' section shows Resting HR, Sleep Time, and Avg HRV below activity score, 4) Click refresh button and verify: spinning animation appears, sync completes after 2 seconds, latest data updates on card, 5) Verify missing data shows '--' placeholders, 6) Test with and without Oura connection."
+        comment: "DM CHAT INPUT LAYOUT FIX IMPLEMENTED - Fixed critical CSS layout bug where message input field and send button were scrolling away with message history instead of staying fixed at the bottom of the chat window. ROOT CAUSE: The chat thread container was using flexbox but missing critical height constraints. Without proper min-h-0 constraint, flex children couldn't properly calculate heights, causing the input area to be pushed off-screen or scroll with content. FIX IMPLEMENTED in /app/frontend/src/components/messages/MessagesModal.js: 1) LINE 276: Added min-h-0 to chat thread container div className. Changed from 'flex-1 flex flex-col' to 'flex-1 flex flex-col min-h-0'. This enables proper flex height calculation in nested flexbox layouts. 2) LINE 311: Removed redundant min-h-0 from messages scrollable area. Changed from 'flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar min-h-0' to 'flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar'. The parent container's min-h-0 is sufficient. 3) Updated comments for clarity. LAYOUT STRUCTURE NOW: Outer modal container (flex flex-col) → Header (flex-shrink-0) → Main content (flex flex-1 min-h-0) → [Conversation list + Chat thread (flex-1 flex flex-col min-h-0)] → [Chat header (flex-shrink-0) + Messages area (flex-1 overflow-y-auto) + Input area (flex-shrink-0)]. RESULT: Message input and send button now stay fixed at the bottom of the chat window. Only the messages area scrolls. Proper space partitioning between scrollable content and fixed input. Frontend will hot-reload changes. TESTING NEEDED: 1) Open Messages modal, 2) Select a conversation with many messages, 3) Verify message input field stays at bottom, 4) Scroll through messages and confirm input doesn't move, 5) Test on both mobile and desktop viewports, 6) Send a message and verify input remains fixed."
 
 backend:
   - task: "Community Events API MongoDB Cursor Fix"
