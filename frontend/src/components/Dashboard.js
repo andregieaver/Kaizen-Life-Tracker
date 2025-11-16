@@ -361,11 +361,11 @@ const Dashboard = ({ athleteId }) => {
   
   // Load unread messages count
   useEffect(() => {
-    if (!athlete_id || !moduleSettings?.community?.enabled) return;
+    if (!athleteId || !moduleSettings?.community?.enabled) return;
     
     const loadUnreadMessagesCount = async () => {
       try {
-        const response = await axios.get(`${API}/messages/unread-count?athlete_id=${athlete_id}`);
+        const response = await axios.get(`${API}/messages/unread-count?athlete_id=${athleteId}`);
         setMessagesUnreadCount(response.data.unread_count || 0);
       } catch (error) {
         logger.error(null, 'Error loading unread messages count:', error);
@@ -377,7 +377,7 @@ const Dashboard = ({ athleteId }) => {
     // Poll every 10 seconds
     const interval = setInterval(loadUnreadMessagesCount, 10000);
     return () => clearInterval(interval);
-  }, [athlete_id, moduleSettings?.community?.enabled]);
+  }, [athleteId, moduleSettings?.community?.enabled]);
 
   useEffect(() => {
     loadMenus();
