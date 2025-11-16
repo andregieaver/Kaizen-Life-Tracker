@@ -1809,6 +1809,10 @@ const Dashboard = ({ athleteId }) => {
             setCommunityUnreadCount={setCommunityUnreadCount}
             headerProgress={headerProgress}
             footerProgress={footerProgress}
+            onOpenMessages={(userId) => {
+              setInitialMessageUserId(userId);
+              setShowMessages(true);
+            }}
           />
         )}
 
