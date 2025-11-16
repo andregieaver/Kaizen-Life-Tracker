@@ -2694,6 +2694,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       )}
 
       {/* Comments Modal */}
+      {(() => {
+        console.log('%cCHECKING COMMENTS MODAL RENDER', 'background: orange; color: white; padding: 2px');
+        console.log('showCommentsModal:', showCommentsModal);
+        console.log('selectedPostForComments:', selectedPostForComments);
+        console.log('Should render:', showCommentsModal && selectedPostForComments);
+        return null;
+      })()}
       {showCommentsModal && selectedPostForComments && (
         <CommentsModal
           post={selectedPostForComments}
