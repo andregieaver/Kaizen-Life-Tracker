@@ -308,7 +308,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                 </div>
                 
                 {/* Messages */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
+                <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar min-h-0">
                   {messages.length === 0 ? (
                     <div className="text-center text-gray-400 mt-8">
                       No messages yet. Start the conversation!
