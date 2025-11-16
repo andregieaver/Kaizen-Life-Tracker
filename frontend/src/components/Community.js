@@ -1560,26 +1560,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   };
 
   const handleNotificationClick = async (notification) => {
-    console.log('%c=== NOTIFICATION CLICKED ===', 'background: #00C2A8; color: white; padding: 4px; font-weight: bold');
-    console.log('Full notification object:', notification);
-    console.log('Type:', notification.type);
-    console.log('Post ID:', notification.post_id);
-    console.log('From Athlete ID:', notification.from_athlete_id);
-    
-    // Log current modal states BEFORE any changes
-    console.log('%cCURRENT STATE BEFORE:', 'background: yellow; color: black; padding: 2px');
-    console.log('showCommentsModal:', showCommentsModal);
-    console.log('selectedPostForComments:', selectedPostForComments);
-    console.log('showProfile:', showProfile);
-    console.log('profileData:', profileData);
-    console.log('effectiveShowNotifications:', effectiveShowNotifications);
-    
     try {
-      // Mark as read
       await markNotificationRead(notification.id);
-      console.log('✓ Notification marked as read');
     } catch (err) {
-      console.error('❌ Error marking notification as read:', err);
+      logger.error(null, 'Error marking notification as read:', err);
     }
     
     // Handle different notification types
