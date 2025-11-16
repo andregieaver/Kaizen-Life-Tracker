@@ -273,7 +273,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
           </div>
           
           {/* Chat Thread - Show when conversation selected */}
-          <div className={`flex-1 flex flex-col min-h-0 ${selectedConversation ? 'flex' : 'hidden md:flex'}`}>
+          <div className={`flex-1 flex flex-col ${selectedConversation ? 'flex' : 'hidden md:flex'}`}>
             {selectedConversation ? (
               <>
                 {/* Chat Header */}
