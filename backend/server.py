@@ -12094,7 +12094,8 @@ async def get_all_athletes(viewer_athlete_id: str = Query(...), search: str = Qu
                 "bio": athlete.get("bio", ""),
                 "posts_count": posts_count,
                 "followers_count": followers_count,
-                "is_following": is_following
+                "is_following": is_following,
+                "last_active_at": athlete.get("last_active_at")
             })
         
         return {"athletes": result}
