@@ -94,6 +94,30 @@ scheduler = AsyncIOScheduler()
 # Create the main app without a prefix
 app = FastAPI()
 
+# Middleware to update last_active_at for authenticated requests
+@app.middleware("http")
+async def update_last_active(request: Request, call_next):
+    response = await call_next(request)
+    
+    # Update last_active_at for authenticated API calls
+    if request.url.path.startswith("/api/") and response.status_code < 400:
+        # Try to get athlete_id from query params
+        athlete_id = request.query_params.get("athlete_id") or request.query_params.get("viewer_athlete_id")
+        
+        if athlete_id:
+            try:
+                from datetime import datetime, timezone
+                await db.athlete_profiles.update_one(
+                    {"id": athlete_id},
+                    {"$set": {"last_active_at": datetime.now(timezone.utc).isoformat()}},
+                    upsert=False
+                )
+            except Exception as e:
+                # Silently fail - don't break the request
+                pass
+    
+    return response
+
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
