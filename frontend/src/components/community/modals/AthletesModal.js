@@ -9,7 +9,10 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
   
   // Get online status based on last_active_at
   const getOnlineStatus = (athlete) => {
+    console.log('Checking status for:', athlete.name, 'last_active_at:', athlete.last_active_at);
+    
     if (!athlete.last_active_at) {
+      console.log('  → offline (no last_active_at)');
       return 'offline'; // Dark gray - logged out or never logged in
     }
     
@@ -17,9 +20,13 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
     const now = new Date();
     const diffMinutes = (now - lastActive) / (1000 * 60);
     
+    console.log('  → Minutes since active:', diffMinutes);
+    
     if (diffMinutes <= 30) {
+      console.log('  → ONLINE (green)');
       return 'online'; // Green - active in last 30 minutes
     } else {
+      console.log('  → AWAY (yellow)');
       return 'away'; // Yellow - logged in but not active in last 30 minutes
     }
   };
