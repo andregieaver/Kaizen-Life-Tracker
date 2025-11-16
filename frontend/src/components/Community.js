@@ -1571,8 +1571,14 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     // Handle different notification types
     if (notification.type === 'follow' && notification.from_athlete_id) {
       // Open the follower's profile modal
+      console.log('>>> FOLLOW notification - opening profile');
       logger.debug(null, 'Opening profile for follower:', notification.from_athlete_id);
+      
+      // Close notifications AFTER starting the action
+      effectiveSetShowNotifications(false);
+      
       await loadAthleteProfile(notification.from_athlete_id);
+      console.log('>>> Profile load initiated');
     } else if (notification.type === 'mention' && notification.post_id) {
       // Navigate to feed tab
       setActiveTab('feed');
