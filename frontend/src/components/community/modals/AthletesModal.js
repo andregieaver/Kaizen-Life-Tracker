@@ -3,6 +3,7 @@ import { X, UserPlus, UserMinus, Search } from 'lucide-react';
 import { Button } from '../../ui/button';
 import SubscriptionBadge from '../../SubscriptionBadge';
 import FlagIcon from '../../FlagIcon';
+import OnlineStatusIndicator from '../../OnlineStatusIndicator';
 
 const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose, onFollowToggle, onViewProfile, t }) => {
   const [nationalityFilter, setNationalityFilter] = useState('all');
