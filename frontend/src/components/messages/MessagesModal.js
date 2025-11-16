@@ -100,12 +100,24 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
       setConversations(prev => prev.map(c => 
         c.id === conversationId ? { ...c, unread_count: 0 } : c
       ));
+      
+      // Scroll to bottom after messages load
+      setTimeout(() => scrollToBottom(), 100);
     } catch (error) {
       logger.error(null, 'Error loading messages:', error);
     } finally {
       if (!silent) setLoading(false);
     }
   };
+  
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+  
+  // Scroll to bottom when messages change
+  React.useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
   
   const handleSelectConversation = (conversation) => {
     setSelectedConversation(conversation);
