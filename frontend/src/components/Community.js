@@ -1728,19 +1728,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     const athleteIdParam = searchParams.get('athleteId');
     const postIdParam = searchParams.get('postId');
     
-    console.log('%cURL PARAMS DETECTED', 'background: magenta; color: white; padding: 4px;');
-    console.log('view:', view);
-    console.log('athleteId:', athleteIdParam);
-    console.log('postId:', postIdParam);
-    
     if (view === 'profile' && athleteIdParam) {
-      console.log('Opening profile for athlete:', athleteIdParam);
       loadAthleteProfile(athleteIdParam);
-      // Clear URL params after handling
       setSearchParams({});
     } else if (view === 'post' && postIdParam) {
-      console.log('Opening post:', postIdParam);
-      // Load and open post in comments modal
       axios.get(`${API}/community/posts/${postIdParam}?athlete_id=${athleteId}`)
         .then(response => {
           const post = response.data;
@@ -1750,12 +1741,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
               post.comments_count = commentsResponse.data.comments.length;
               setSelectedPostForComments(post);
               setShowCommentsModal(true);
-              // Clear URL params after handling
               setSearchParams({});
             });
         })
         .catch(error => {
-          console.error('Error loading post from URL:', error);
+          logger.error(null, 'Error loading post from URL:', error);
           setSearchParams({});
         });
     }
