@@ -2553,6 +2553,14 @@ const Dashboard = ({ athleteId }) => {
           </button>
         </>
       )}
+      
+      {/* Messages Modal */}
+      {showMessages && moduleSettings?.community?.enabled && (
+        <MessagesModal
+          athleteId={athlete_id}
+          onClose={() => setShowMessages(false)}
+        />
+      )}
     </div>
   );
 };
