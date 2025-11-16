@@ -8,6 +8,7 @@ import { Button } from '../../ui/button';
 import ImageCarousel from '../../ImageCarousel';
 import SubscriptionBadge from '../../SubscriptionBadge';
 import FlagIcon from '../../FlagIcon';
+import OnlineStatusIndicator from '../../OnlineStatusIndicator';
 import { formatMentions } from '../../../utils/mentionUtils';
 import { logger } from '../../../utils/logger';
 
