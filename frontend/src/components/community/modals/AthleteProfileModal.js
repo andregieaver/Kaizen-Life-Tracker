@@ -119,6 +119,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                       className="w-20 h-20 rounded-full object-cover"
                     />
                     <FlagIcon nationality={profile.nationality} size="large" />
+                    <OnlineStatusIndicator last_active_at={profile.last_active_at} size="large" />
                   </>
                 ) : (
                   <>
@@ -128,6 +129,7 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
                       </span>
                     </div>
                     <FlagIcon nationality={profile.nationality} size="large" />
+                    <OnlineStatusIndicator last_active_at={profile.last_active_at} size="large" />
                   </>
                 )}
               </div>
