@@ -1558,13 +1558,15 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   };
 
   const handleNotificationClick = async (notification) => {
+    console.log('=== NOTIFICATION CLICKED ===');
+    console.log('Full notification object:', JSON.stringify(notification, null, 2));
+    console.log('Type:', notification.type);
+    console.log('Post ID:', notification.post_id);
+    console.log('From Athlete ID:', notification.from_athlete_id);
     logger.debug(null, 'Notification clicked:', notification);
     
     // Mark as read
     await markNotificationRead(notification.id);
-    
-    // Close notifications dropdown
-    effectiveSetShowNotifications(false);
     
     // Handle different notification types
     if (notification.type === 'follow' && notification.from_athlete_id) {
