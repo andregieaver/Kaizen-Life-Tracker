@@ -43,6 +43,39 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
     }
   }, [initialConversationId, conversations]);
   
+  // Start conversation with specific user if provided
+  useEffect(() => {
+    if (initialUserId && athleteId) {
+      startConversationWithUser(initialUserId);
+    }
+  }, [initialUserId, athleteId]);
+  
+  const startConversationWithUser = async (userId) => {
+    try {
+      // Check if conversation already exists
+      const existingConv = conversations.find(c => c.other_user.id === userId);
+      if (existingConv) {
+        handleSelectConversation(existingConv);
+        return;
+      }
+      
+      // Start new conversation
+      const response = await axios.post(`${API}/messages/conversation/start?sender_id=${athleteId}&receiver_id=${userId}`);
+      
+      // Reload conversations to get the new one
+      await loadConversations();
+      
+      // Select the conversation
+      const newConvs = await axios.get(`${API}/messages/conversations?athlete_id=${athleteId}`);
+      const newConv = newConvs.data.conversations.find(c => c.other_user.id === userId);
+      if (newConv) {
+        handleSelectConversation(newConv);
+      }
+    } catch (error) {
+      logger.error(null, 'Error starting conversation:', error);
+    }
+  };
+  
   const loadConversations = async (silent = false) => {
     try {
       if (!silent) setLoading(true);
