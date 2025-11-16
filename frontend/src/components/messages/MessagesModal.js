@@ -139,6 +139,9 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
       // Reload messages
       await loadMessages(selectedConversation.id);
       await loadConversations(true); // Update conversation list
+      
+      // Focus back on textarea (important for mobile)
+      textareaRef.current?.focus();
     } catch (error) {
       logger.error(null, 'Error sending message:', error);
       alert('Failed to send message');
