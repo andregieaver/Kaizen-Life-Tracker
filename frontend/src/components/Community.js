@@ -1641,15 +1641,22 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       }
     } else if (notification.post_id) {
       // Fallback for other notifications with post_id
+      console.log('>>> FALLBACK notification with post_id - loading post');
       setActiveTab('feed');
+      
+      // Close notifications AFTER starting the action
+      effectiveSetShowNotifications(false);
       
       try {
         logger.debug(null, 'Fallback: Loading post:', notification.post_id);
         const response = await axios.get(`${API}/community/posts/${notification.post_id}?athlete_id=${athleteId}`);
         const post = response.data;
+        console.log('>>> Post loaded:', post.id);
+        
         const commentsResponse = await axios.get(`${API}/community/posts/${notification.post_id}/comments?athlete_id=${athleteId}`);
         post.comments = commentsResponse.data.comments;
         post.comments_count = commentsResponse.data.comments.length;
+        console.log('>>> Comments loaded:', post.comments_count);
         
         // Ensure post is visible
         const postExists = posts.find(p => p.id === notification.post_id);
@@ -1660,11 +1667,16 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         // Also open comments modal
         setSelectedPostForComments(post);
         setShowCommentsModal(true);
+        console.log('>>> Comments modal state set to true');
       } catch (error) {
         logger.error(null, 'Error loading post:', error);
+        console.error('>>> ERROR:', error);
         alert('Could not load the post: ' + error.message);
       }
     } else {
+      console.log('>>> NO MATCHING CONDITION');
+      console.log('>>> Notification has no post_id or from_athlete_id, or type does not match');
+      effectiveSetShowNotifications(false);
       logger.warn(null, 'Unknown notification type or missing data:', notification);
     }
   };
