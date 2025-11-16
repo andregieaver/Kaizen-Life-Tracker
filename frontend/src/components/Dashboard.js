@@ -28,6 +28,7 @@ import TestsAnalytics from './TestsAnalytics';
 import RecipesPage from './RecipesPage';
 import CalculatorsConverters from './CalculatorsConverters';
 import Community from './Community';
+import MessagesModal from './messages/MessagesModal';
 import Referrals from './Referrals';
 import SystemSettings from './SystemSettings';
 import CRM from './CRM';
