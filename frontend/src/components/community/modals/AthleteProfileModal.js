@@ -326,23 +326,24 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
             
             <div className="flex space-x-3 mt-6">
               {!profile.is_own_profile && (
-                <Button
-                  onClick={onFollowToggle}
-                  className={`flex-1 ${
-                    profile.is_following
-                      ? 'bg-gray-700 hover:bg-gray-600'
-                      : 'bg-[#00C2A8] hover:bg-[#00a890]'
-                  } text-white`}
-                >
-                  {profile.is_following ? (
-                    <>
-                      <UserMinus className="w-4 h-4 mr-2" />
-                      {t('athlete.unfollow')}
-                    </>
-                  ) : (
-                    <>
-                      <UserPlus className="w-4 h-4 mr-2" />
-                      {t('athlete.follow')}
+                <>
+                  <Button
+                    onClick={onFollowToggle}
+                    className={`flex-1 ${
+                      profile.is_following
+                        ? 'bg-gray-700 hover:bg-gray-600'
+                        : 'bg-[#00C2A8] hover:bg-[#00a890]'
+                    } text-white`}
+                  >
+                    {profile.is_following ? (
+                      <>
+                        <UserMinus className="w-4 h-4 mr-2" />
+                        {t('athlete.unfollow')}
+                      </>
+                    ) : (
+                      <>
+                        <UserPlus className="w-4 h-4 mr-2" />
+                        {t('athlete.follow')}
                     </>
                   )}
                 </Button>
