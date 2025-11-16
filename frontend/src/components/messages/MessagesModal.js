@@ -273,7 +273,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
           </div>
           
           {/* Chat Thread - Show when conversation selected */}
-          <div className={`flex-1 flex flex-col ${selectedConversation ? 'flex' : 'hidden md:flex'}`}>
+          <div className={`flex-1 flex flex-col min-h-0 ${selectedConversation ? 'flex' : 'hidden md:flex'}`}>
             {selectedConversation ? (
               <>
                 {/* Chat Header */}
@@ -307,8 +307,8 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                   </div>
                 </div>
                 
-                {/* Messages */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar min-h-0">
+                {/* Messages - Scrollable area that takes remaining space */}
+                <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
                   {messages.length === 0 ? (
                     <div className="text-center text-gray-400 mt-8">
                       No messages yet. Start the conversation!
@@ -340,7 +340,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                   )}
                 </div>
                 
-                {/* Message Input */}
+                {/* Message Input - Fixed at bottom */}
                 <div className="p-3 md:p-4 border-t border-gray-700 bg-gray-800/50 flex-shrink-0">
                   <div className="flex items-end space-x-2">
                     <textarea
