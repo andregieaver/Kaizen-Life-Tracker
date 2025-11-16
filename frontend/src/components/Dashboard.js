@@ -1002,27 +1002,51 @@ const Dashboard = ({ athleteId }) => {
                 </button>
               )}
               {moduleSettings?.community?.enabled && (
-                <button 
-                  onClick={() => setShowNotifications(!showNotifications)}
-                  className="p-2 transition-all duration-200 hover:scale-110 relative"
-                  style={{ 
-                    background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
-                    backdropFilter: 'blur(12px) saturate(140%)',
-                    WebkitBackdropFilter: 'blur(12px) saturate(140%)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.2)',
-                    borderRadius: '8px'
-                  }}
-                  aria-label="Notifications"
-                  title={t('dashboard.modals.notifications')}
-                >
-                  <Bell className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
-                  {notificationsUnreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold" style={{ background: 'var(--c-danger)' }}>
-                      {notificationsUnreadCount > 9 ? '9+' : notificationsUnreadCount}
-                    </span>
-                  )}
-                </button>
+                <>
+                  <button 
+                    onClick={() => setShowNotifications(!showNotifications)}
+                    className="p-2 transition-all duration-200 hover:scale-110 relative"
+                    style={{ 
+                      background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+                      backdropFilter: 'blur(12px) saturate(140%)',
+                      WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.2)',
+                      borderRadius: '8px'
+                    }}
+                    aria-label="Notifications"
+                    title={t('dashboard.modals.notifications')}
+                  >
+                    <Bell className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
+                    {notificationsUnreadCount > 0 && (
+                      <span className="absolute -top-1 -right-1 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold" style={{ background: 'var(--c-danger)' }}>
+                        {notificationsUnreadCount > 9 ? '9+' : notificationsUnreadCount}
+                      </span>
+                    )}
+                  </button>
+                  
+                  <button 
+                    onClick={() => setShowMessages(!showMessages)}
+                    className="p-2 transition-all duration-200 hover:scale-110 relative"
+                    style={{ 
+                      background: 'color-mix(in srgb, var(--c-glass) 10%, transparent)',
+                      backdropFilter: 'blur(12px) saturate(140%)',
+                      WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      boxShadow: 'inset 0 1px 3px rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.2)',
+                      borderRadius: '8px'
+                    }}
+                    aria-label="Messages"
+                    title="Messages"
+                  >
+                    <MessageSquare className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
+                    {messagesUnreadCount > 0 && (
+                      <span className="absolute -top-1 -right-1 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold" style={{ background: 'var(--c-danger)' }}>
+                        {messagesUnreadCount > 9 ? '9+' : messagesUnreadCount}
+                      </span>
+                    )}
+                  </button>
+                </>
               )}
               <div 
                 className="transition-all duration-200"
