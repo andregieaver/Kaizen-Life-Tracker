@@ -588,12 +588,12 @@ code {
 
 /* Mobile full-page modals */
 @media (max-width: 768px) {
-  /* Target all modal/dialog containers */
-  [role="dialog"],
-  .modal,
-  [class*="modal"],
-  [class*="Modal"],
-  .fixed.inset-0 > div:not([class*="backdrop"]):not([class*="bg-black"]) {
+  /* Target all modal/dialog containers - EXCEPT MessagesModal */
+  [role="dialog"]:not([class*="messages"]):not([class*="Messages"]),
+  .modal:not([class*="messages"]):not([class*="Messages"]),
+  [class*="modal"]:not([class*="messages"]):not([class*="Messages"]),
+  [class*="Modal"]:not([class*="messages"]):not([class*="Messages"]),
+  .fixed.inset-0 > div:not([class*="backdrop"]):not([class*="bg-black"]):not([class*="messages"]):not([class*="Messages"]) {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -608,11 +608,11 @@ code {
     transform: none !important;
   }
 
-  /* Ensure modal content fills the space */
-  [role="dialog"] > div,
-  .modal > div,
-  [class*="modal"] > div,
-  [class*="Modal"] > div {
+  /* Ensure modal content fills the space - EXCEPT MessagesModal */
+  [role="dialog"]:not([class*="messages"]):not([class*="Messages"]) > div,
+  .modal:not([class*="messages"]):not([class*="Messages"]) > div,
+  [class*="modal"]:not([class*="messages"]):not([class*="Messages"]) > div,
+  [class*="Modal"]:not([class*="messages"]):not([class*="Messages"]) > div {
     max-height: 100vh !important;
     border-radius: 0 !important;
   }
