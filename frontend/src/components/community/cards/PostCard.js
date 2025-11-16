@@ -83,6 +83,7 @@ const PostCard = ({
                 </div>
               )}
               <FlagIcon nationality={post.nationality} />
+              <OnlineStatusIndicator last_active_at={post.athlete_last_active_at} size="small" />
             </div>
             <div>
               <p className="text-white font-semibold hover:underline flex items-center">
