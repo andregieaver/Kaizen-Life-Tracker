@@ -3764,6 +3764,13 @@ async def login_athlete(login_data: LoginRequest):
     # Use id if it exists, otherwise use email as identifier
     athlete_identifier = athlete.get("id") or athlete.get("email")
     
+    # Update last_active_at
+    from datetime import datetime, timezone
+    await db.athlete_profiles.update_one(
+        {"id": athlete_identifier},
+        {"$set": {"last_active_at": datetime.now(timezone.utc).isoformat()}}
+    )
+    
     return {
         "athlete_id": athlete_identifier,
         "name": athlete["name"],
