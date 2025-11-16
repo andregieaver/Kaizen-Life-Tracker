@@ -105,19 +105,7 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
                           </span>
                         </div>
                         <FlagIcon nationality={athlete.nationality} size="medium" />
-                        {/* Online Status Indicator */}
-                        <div 
-                          className={`absolute top-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-gray-800 ${
-                            getOnlineStatus(athlete) === 'online' ? 'bg-green-500' :
-                            getOnlineStatus(athlete) === 'away' ? 'bg-yellow-500' :
-                            'bg-gray-600'
-                          }`}
-                          title={
-                            getOnlineStatus(athlete) === 'online' ? 'Active now' :
-                            getOnlineStatus(athlete) === 'away' ? 'Away' :
-                            'Offline'
-                          }
-                        />
+                        <OnlineStatusIndicator last_active_at={athlete.last_active_at} size="medium" />
                       </>
                     )}
                   </div>
