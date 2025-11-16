@@ -12,13 +12,18 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
   
   if (!post) return null;
 
+  console.log('%cCOMMENTS MODAL RENDERING', 'background: lime; color: black; padding: 4px; font-weight: bold');
+  console.log('Post:', post);
+  
   return (
     <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10000] p-2 md:p-4"
+      className="fixed inset-0 flex items-center justify-center z-[10000] p-2 md:p-4"
+      style={{ backgroundColor: 'rgba(255, 0, 0, 0.9)' }}
       onClick={onClose}
     >
       <div 
         className="bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        style={{ border: '5px solid yellow' }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-6">
