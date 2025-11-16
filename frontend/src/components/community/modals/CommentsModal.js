@@ -14,7 +14,7 @@ const CommentsModal = ({ post, onClose, onAddComment, commentText, setCommentTex
 
   return (
     <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-2 md:p-4"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-[10000] p-2 md:p-4"
       onClick={onClose}
     >
       <div 
