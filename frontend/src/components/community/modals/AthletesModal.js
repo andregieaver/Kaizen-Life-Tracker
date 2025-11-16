@@ -8,23 +8,6 @@ import OnlineStatusIndicator from '../../OnlineStatusIndicator';
 const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose, onFollowToggle, onViewProfile, t }) => {
   const [nationalityFilter, setNationalityFilter] = useState('all');
   
-  // Get online status based on last_active_at
-  const getOnlineStatus = (athlete) => {
-    if (!athlete.last_active_at) {
-      return 'offline'; // Dark gray - logged out or never logged in
-    }
-    
-    const lastActive = new Date(athlete.last_active_at);
-    const now = new Date();
-    const diffMinutes = (now - lastActive) / (1000 * 60);
-    
-    if (diffMinutes <= 30) {
-      return 'online'; // Green - active in last 30 minutes
-    } else {
-      return 'away'; // Yellow - logged in but not active in last 30 minutes
-    }
-  };
-  
   // Get unique nationalities
   const uniqueNationalities = useMemo(() => {
     return [...new Set(athletes.map(a => a.nationality).filter(n => n))].sort();
