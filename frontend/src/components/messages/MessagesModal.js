@@ -8,7 +8,7 @@ import { logger } from '../../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-const MessagesModal = ({ athleteId, onClose, initialConversationId = null }) => {
+const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initialUserId = null }) => {
   const [conversations, setConversations] = useState([]);
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [messages, setMessages] = useState([]);
