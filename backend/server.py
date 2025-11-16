@@ -18520,6 +18520,284 @@ async def get_integration_stats(provider: str, user_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ==================== DIRECT MESSAGING ROUTES ====================
+
+class SendMessageRequest(BaseModel):
+    sender_id: str
+    receiver_id: str
+    content: str
+
+@api_router.post("/messages/send")
+async def send_message(message_data: SendMessageRequest):
+    """Send a direct message to another user"""
+    try:
+        # Find or create conversation
+        conversation = await db.conversations.find_one({
+            "$or": [
+                {"participant_1_id": message_data.sender_id, "participant_2_id": message_data.receiver_id},
+                {"participant_1_id": message_data.receiver_id, "participant_2_id": message_data.sender_id}
+            ]
+        })
+        
+        if not conversation:
+            # Create new conversation
+            conversation_id = str(uuid.uuid4())
+            conversation = {
+                "id": conversation_id,
+                "participant_1_id": message_data.sender_id,
+                "participant_2_id": message_data.receiver_id,
+                "participant_1_deleted": False,
+                "participant_2_deleted": False,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "last_message_at": datetime.now(timezone.utc).isoformat(),
+                "last_message_preview": message_data.content[:50],
+                "unread_count_1": 0,
+                "unread_count_2": 1
+            }
+            await db.conversations.insert_one(conversation)
+        else:
+            conversation_id = conversation["id"]
+            # Update conversation
+            is_participant_1 = conversation["participant_1_id"] == message_data.sender_id
+            update_fields = {
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+                "last_message_at": datetime.now(timezone.utc).isoformat(),
+                "last_message_preview": message_data.content[:50]
+            }
+            
+            # Increment unread count for receiver
+            if is_participant_1:
+                update_fields["unread_count_2"] = conversation.get("unread_count_2", 0) + 1
+                # Restore conversation for both if deleted
+                if conversation.get("participant_1_deleted") or conversation.get("participant_2_deleted"):
+                    update_fields["participant_1_deleted"] = False
+                    update_fields["participant_2_deleted"] = False
+            else:
+                update_fields["unread_count_1"] = conversation.get("unread_count_1", 0) + 1
+                if conversation.get("participant_1_deleted") or conversation.get("participant_2_deleted"):
+                    update_fields["participant_1_deleted"] = False
+                    update_fields["participant_2_deleted"] = False
+            
+            await db.conversations.update_one(
+                {"id": conversation_id},
+                {"$set": update_fields}
+            )
+        
+        # Create message
+        message_id = str(uuid.uuid4())
+        message = {
+            "id": message_id,
+            "conversation_id": conversation_id,
+            "sender_id": message_data.sender_id,
+            "receiver_id": message_data.receiver_id,
+            "content": message_data.content,
+            "read": False,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "deleted_by_sender": False,
+            "deleted_by_receiver": False
+        }
+        await db.messages.insert_one(message)
+        
+        return {
+            "success": True,
+            "message_id": message_id,
+            "conversation_id": conversation_id
+        }
+        
+    except Exception as e:
+        logging.error(f"Error sending message: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/messages/conversations")
+async def get_conversations(athlete_id: str = Query(...)):
+    """Get all conversations for a user"""
+    try:
+        conversations = await db.conversations.find({
+            "$or": [
+                {"participant_1_id": athlete_id, "participant_1_deleted": False},
+                {"participant_2_id": athlete_id, "participant_2_deleted": False}
+            ]
+        }).sort("last_message_at", -1).to_list(length=100)
+        
+        # Enrich with participant info
+        result = []
+        for conv in conversations:
+            # Determine other participant
+            other_id = conv["participant_2_id"] if conv["participant_1_id"] == athlete_id else conv["participant_1_id"]
+            
+            # Get other participant info
+            other_user = await db.athlete_profiles.find_one(
+                {"id": other_id},
+                {"_id": 0, "id": 1, "name": 1, "profile_picture": 1, "last_active_at": 1}
+            )
+            
+            if other_user:
+                # Get unread count for current user
+                is_participant_1 = conv["participant_1_id"] == athlete_id
+                unread_count = conv.get("unread_count_1" if is_participant_1 else "unread_count_2", 0)
+                
+                result.append({
+                    "id": conv["id"],
+                    "other_user": other_user,
+                    "last_message_preview": conv.get("last_message_preview", ""),
+                    "last_message_at": conv.get("last_message_at"),
+                    "unread_count": unread_count,
+                    "created_at": conv.get("created_at")
+                })
+        
+        return {"conversations": result}
+        
+    except Exception as e:
+        logging.error(f"Error fetching conversations: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/messages/conversation/{conversation_id}")
+async def get_conversation_messages(conversation_id: str, athlete_id: str = Query(...), limit: int = Query(50)):
+    """Get messages in a conversation"""
+    try:
+        # Verify user is participant
+        conversation = await db.conversations.find_one({"id": conversation_id})
+        if not conversation:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        
+        if athlete_id not in [conversation["participant_1_id"], conversation["participant_2_id"]]:
+            raise HTTPException(status_code=403, detail="Not authorized")
+        
+        # Get messages
+        messages = await db.messages.find({
+            "conversation_id": conversation_id,
+            "$or": [
+                {"sender_id": athlete_id, "deleted_by_sender": False},
+                {"receiver_id": athlete_id, "deleted_by_receiver": False}
+            ]
+        }).sort("created_at", 1).limit(limit).to_list(length=limit)
+        
+        # Mark messages as read
+        await db.messages.update_many(
+            {
+                "conversation_id": conversation_id,
+                "receiver_id": athlete_id,
+                "read": False
+            },
+            {"$set": {"read": True}}
+        )
+        
+        # Reset unread count for this user
+        is_participant_1 = conversation["participant_1_id"] == athlete_id
+        await db.conversations.update_one(
+            {"id": conversation_id},
+            {"$set": {"unread_count_1" if is_participant_1 else "unread_count_2": 0}}
+        )
+        
+        return {
+            "messages": messages,
+            "conversation_id": conversation_id
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fetching conversation messages: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/messages/conversation/start")
+async def start_conversation(sender_id: str = Query(...), receiver_id: str = Query(...)):
+    """Start a new conversation or get existing one"""
+    try:
+        # Check if conversation exists
+        conversation = await db.conversations.find_one({
+            "$or": [
+                {"participant_1_id": sender_id, "participant_2_id": receiver_id},
+                {"participant_1_id": receiver_id, "participant_2_id": sender_id}
+            ]
+        })
+        
+        if conversation:
+            # Restore if deleted
+            is_participant_1 = conversation["participant_1_id"] == sender_id
+            if conversation.get("participant_1_deleted" if is_participant_1 else "participant_2_deleted"):
+                await db.conversations.update_one(
+                    {"id": conversation["id"]},
+                    {"$set": {
+                        "participant_1_deleted" if is_participant_1 else "participant_2_deleted": False
+                    }}
+                )
+            
+            return {"conversation_id": conversation["id"], "existing": True}
+        
+        # Create new conversation
+        conversation_id = str(uuid.uuid4())
+        conversation = {
+            "id": conversation_id,
+            "participant_1_id": sender_id,
+            "participant_2_id": receiver_id,
+            "participant_1_deleted": False,
+            "participant_2_deleted": False,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "last_message_at": datetime.now(timezone.utc).isoformat(),
+            "last_message_preview": "",
+            "unread_count_1": 0,
+            "unread_count_2": 0
+        }
+        await db.conversations.insert_one(conversation)
+        
+        return {"conversation_id": conversation_id, "existing": False}
+        
+    except Exception as e:
+        logging.error(f"Error starting conversation: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.delete("/messages/conversation/{conversation_id}")
+async def delete_conversation(conversation_id: str, athlete_id: str = Query(...)):
+    """Soft delete a conversation for the current user"""
+    try:
+        conversation = await db.conversations.find_one({"id": conversation_id})
+        if not conversation:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        
+        if athlete_id not in [conversation["participant_1_id"], conversation["participant_2_id"]]:
+            raise HTTPException(status_code=403, detail="Not authorized")
+        
+        # Soft delete
+        is_participant_1 = conversation["participant_1_id"] == athlete_id
+        await db.conversations.update_one(
+            {"id": conversation_id},
+            {"$set": {"participant_1_deleted" if is_participant_1 else "participant_2_deleted": True}}
+        )
+        
+        return {"success": True}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error deleting conversation: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/messages/unread-count")
+async def get_unread_count(athlete_id: str = Query(...)):
+    """Get total unread message count for a user"""
+    try:
+        conversations = await db.conversations.find({
+            "$or": [
+                {"participant_1_id": athlete_id, "participant_1_deleted": False},
+                {"participant_2_id": athlete_id, "participant_2_deleted": False}
+            ]
+        }).to_list(length=100)
+        
+        total_unread = 0
+        for conv in conversations:
+            is_participant_1 = conv["participant_1_id"] == athlete_id
+            total_unread += conv.get("unread_count_1" if is_participant_1 else "unread_count_2", 0)
+        
+        return {"unread_count": total_unread}
+        
+    except Exception as e:
+        logging.error(f"Error fetching unread count: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
