@@ -1571,35 +1571,21 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       effectiveSetShowNotifications(false);
       await loadAthleteProfile(notification.from_athlete_id);
     } else if (notification.type === 'mention' && notification.post_id) {
-      // Navigate to feed tab
-      console.log('>>> MENTION notification - loading post');
       setActiveTab('feed');
-      
-      // Close notifications AFTER starting the action
       effectiveSetShowNotifications(false);
       
-      // Load the specific post
       try {
-        logger.debug(null, 'Loading post for mention:', notification.post_id);
         const response = await axios.get(`${API}/community/posts/${notification.post_id}?athlete_id=${athleteId}`);
         const post = response.data;
-        console.log('>>> Post loaded:', post.id);
         
-        // Load comments for the post
         const commentsResponse = await axios.get(`${API}/community/posts/${notification.post_id}/comments?athlete_id=${athleteId}`);
         post.comments = commentsResponse.data.comments;
         post.comments_count = commentsResponse.data.comments.length;
-        console.log('>>> Comments loaded:', post.comments_count);
         
-        // Open comments modal for mentions
-        logger.debug(null, 'Opening comments modal for mention');
         setSelectedPostForComments(post);
         setShowCommentsModal(true);
-        console.log('>>> Comments modal state set to true');
       } catch (error) {
         logger.error(null, 'Error loading post from notification:', error);
-        console.error('>>> ERROR:', error);
-        alert('Could not load the post: ' + error.message);
       }
     } else if (notification.post_id && ['like', 'comment', 'share'].includes(notification.type)) {
       console.log('%c>>> LIKE/COMMENT/SHARE NOTIFICATION HANDLER', 'background: green; color: white; padding: 2px');
