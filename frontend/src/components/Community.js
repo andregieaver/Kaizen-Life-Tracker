@@ -1558,6 +1558,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   };
 
   const handleNotificationClick = async (notification) => {
+    alert('Notification clicked! Check console');
     console.log('=== NOTIFICATION CLICKED ===');
     console.log('Full notification object:', JSON.stringify(notification, null, 2));
     console.log('Type:', notification.type);
@@ -1565,8 +1566,12 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     console.log('From Athlete ID:', notification.from_athlete_id);
     logger.debug(null, 'Notification clicked:', notification);
     
-    // Mark as read
-    await markNotificationRead(notification.id);
+    try {
+      // Mark as read
+      await markNotificationRead(notification.id);
+    } catch (err) {
+      console.error('Error marking notification as read:', err);
+    }
     
     // Handle different notification types
     if (notification.type === 'follow' && notification.from_athlete_id) {
