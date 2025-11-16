@@ -16,6 +16,8 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const messagesEndRef = React.useRef(null);
+  const textareaRef = React.useRef(null);
   
   // Load conversations on mount
   useEffect(() => {
