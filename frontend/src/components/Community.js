@@ -1631,32 +1631,51 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         alert('Could not load the post: ' + error.message);
       }
     } else if (notification.post_id && ['like', 'comment', 'share'].includes(notification.type)) {
-      // For like, comment, and share notifications - open comments modal
-      console.log('>>> LIKE/COMMENT/SHARE notification - loading post');
-      setActiveTab('feed');
+      console.log('%c>>> LIKE/COMMENT/SHARE NOTIFICATION HANDLER', 'background: green; color: white; padding: 2px');
+      console.log('Notification type:', notification.type);
+      console.log('Post ID:', notification.post_id);
       
-      // Close notifications AFTER starting the action
+      setActiveTab('feed');
+      console.log('✓ Active tab set to feed');
+      
+      // Close notifications
       effectiveSetShowNotifications(false);
+      console.log('✓ Notifications closed');
       
       try {
-        logger.debug(null, 'Loading post for notification type:', notification.type, notification.post_id);
+        console.log('Fetching post...');
         const response = await axios.get(`${API}/community/posts/${notification.post_id}?athlete_id=${athleteId}`);
         const post = response.data;
-        console.log('>>> Post loaded:', post.id);
+        console.log('✓ Post loaded:', post.id, post);
         
+        console.log('Fetching comments...');
         const commentsResponse = await axios.get(`${API}/community/posts/${notification.post_id}/comments?athlete_id=${athleteId}`);
         post.comments = commentsResponse.data.comments;
         post.comments_count = commentsResponse.data.comments.length;
-        console.log('>>> Comments loaded:', post.comments_count);
+        console.log('✓ Comments loaded. Count:', post.comments_count);
         
-        // Open comments modal directly
-        logger.debug(null, 'Opening comments modal');
+        // Set state
+        console.log('Setting selectedPostForComments...');
         setSelectedPostForComments(post);
+        console.log('Setting showCommentsModal to true...');
         setShowCommentsModal(true);
-        console.log('>>> Comments modal state set to true');
+        console.log('✓ State setters called');
+        
+        // Check state after with delay
+        setTimeout(() => {
+          console.log('%cSTATE AFTER LIKE/COMMENT/SHARE (1s delay):', 'background: purple; color: white; padding: 2px');
+          console.log('showCommentsModal should be true:', showCommentsModal);
+          console.log('selectedPostForComments:', selectedPostForComments);
+          
+          // Check if modal is in DOM
+          const modalElement = document.querySelector('[class*="z-[10000]"]');
+          console.log('Modal element in DOM:', modalElement);
+          if (modalElement) {
+            console.log('Modal computed styles:', window.getComputedStyle(modalElement));
+          }
+        }, 1000);
       } catch (error) {
-        logger.error(null, 'Error loading post:', error);
-        console.error('>>> ERROR:', error);
+        console.error('❌ ERROR loading post:', error);
         alert('Could not load the post: ' + error.message);
       }
     } else if (notification.post_id) {
