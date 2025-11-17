@@ -1395,77 +1395,30 @@ def test_notification_click_handler_functionality():
     print("=" * 70)
     
     try:
-        # Step 1: Login as andre@humanweb.no
-        print("   Step 1: Login as andre@humanweb.no")
+        # Step 1: Login as test user (using existing test.files@example.com)
+        print("   Step 1: Login as test user")
         
-        target_athlete_id = "77e6ef02-0c9e-4ede-a428-213b83eed1fe"
-        from_athlete_id = "6f16cea9-4666-42fe-963d-1278f6339643"
+        # Use existing test user
+        login_data = {"email": "test.files@example.com", "password": "password123"}
         
-        # Try different password combinations for andre@humanweb.no
-        login_attempts = [
-            {"email": "andre@humanweb.no", "password": "password123"},
-            {"email": "andre@humanweb.no", "password": "password"},
-            {"email": "andre@humanweb.no", "password": "123456"},
-            {"email": "andre@humanweb.no", "password": "admin123"}
-        ]
+        login_response = requests.post(
+            f"{BACKEND_URL}/auth/login",
+            json=login_data,
+            headers={"Content-Type": "application/json"}
+        )
         
-        authenticated = False
-        for login_data in login_attempts:
-            login_response = requests.post(
-                f"{BACKEND_URL}/auth/login",
-                json=login_data,
-                headers={"Content-Type": "application/json"}
-            )
-            
-            if login_response.status_code == 200:
-                athlete_data = login_response.json()
-                logged_in_athlete_id = athlete_data.get("athlete_id")
-                
-                if logged_in_athlete_id == target_athlete_id:
-                    authenticated = True
-                    print_test_result("Login as andre@humanweb.no", True, 
-                                    f"Successfully authenticated, athlete_id: {logged_in_athlete_id}")
-                    break
-        
-        if not authenticated:
-            # Try to create the user if login fails
-            print("   Creating andre@humanweb.no user for testing...")
-            
-            create_user_data = {
-                "name": "André Giæver",
-                "email": "andre@humanweb.no", 
-                "password": "password123",
-                "weekly_mileage": 50.0,
-                "running_goals": "Privacy feature testing",
-                "privacy_level": "guarded"  # Set to guarded for testing
-            }
-            
-            create_response = requests.post(
-                f"{BACKEND_URL}/athlete",
-                json=create_user_data,
-                headers={"Content-Type": "application/json"}
-            )
-            
-            if create_response.status_code == 200:
-                # Try to login with new user
-                login_response = requests.post(
-                    f"{BACKEND_URL}/auth/login",
-                    json={"email": "andre@humanweb.no", "password": "password123"},
-                    headers={"Content-Type": "application/json"}
-                )
-                
-                if login_response.status_code == 200:
-                    athlete_data = login_response.json()
-                    logged_in_athlete_id = athlete_data.get("athlete_id")
-                    authenticated = True
-                    print_test_result("Create and Login andre@humanweb.no", True, 
-                                    f"Created user, athlete_id: {logged_in_athlete_id}")
-                    # Update target_athlete_id to the newly created user
-                    target_athlete_id = logged_in_athlete_id
-        
-        if not authenticated:
-            print_test_result("Authentication", False, "Could not authenticate as andre@humanweb.no")
+        if login_response.status_code != 200:
+            print_test_result("Authentication", False, f"Could not authenticate: {login_response.status_code}")
             return False
+        
+        athlete_data = login_response.json()
+        target_athlete_id = athlete_data.get("athlete_id")
+        
+        print_test_result("Login as test user", True, 
+                        f"Successfully authenticated, athlete_id: {target_athlete_id}")
+        
+        # Set up test scenario - we'll create another user to send requests from
+        from_athlete_id = None
         
         # Step 2: Get notifications for the user
         print("   Step 2: Get notifications for the user")
