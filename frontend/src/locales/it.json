@@ -2216,7 +2216,14 @@
     "newFollower": "{{name}} ha iniziato a seguirti",
     "commentedOnPost": "{{name}} ha commentato il tuo post",
     "likedPost": "{{name}} ha messo mi piace al tuo post",
-    "mentionedYou": "{{name}} ti ha menzionato"
+    "likedComment": "{{name}} ha messo mi piace al tuo commento",
+    "sharedPost": "{{name}} ha condiviso il tuo post",
+    "commentedOnEvent": "{{name}} ha commentato il tuo evento",
+    "mentionedYou": "{{name}} ti ha menzionato",
+    "acceptedFollowRequest": "{{name}} ha accettato la tua richiesta di follow",
+    "acceptedMessageRequest": "{{name}} ha accettato la tua richiesta di messaggio",
+    "groupJoinRequest": "{{name}} ha chiesto di unirsi al tuo gruppo",
+    "eventInvite": "{{name}} ti ha invitato a un evento"
   },
   "today": {
     "bpm": "BPM",
