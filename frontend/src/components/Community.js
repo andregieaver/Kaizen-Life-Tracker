@@ -2710,10 +2710,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           handleToggleComments={toggleComments}
           setFullSizeImageUrl={setFullSizeImageUrl}
           setShowFullSizeImage={setShowFullSizeImage}
-          onMessageUser={(userId) => {
-            setShowProfile(false);
-            onOpenMessages && onOpenMessages(userId);
-          }}
+          onMessageUser={(userId) => handleMessageUser(userId, profileData.privacy_level, profileData.message_request_sent)}
           onAcceptFollowRequest={handleAcceptFollowRequest}
           onDeclineFollowRequest={handleDeclineFollowRequest}
           onAcceptMessageRequest={handleAcceptMessageRequest}
