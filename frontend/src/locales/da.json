@@ -1918,6 +1918,7 @@
     "startConversation": "Start samtalen!",
     "sendMessage": "Send besked",
     "messageButton": "Besked",
-    "back": "Tilbage"
+    "back": "Tilbage",
+    "searchEmoji": "Søg emoji..."
   }
 }
