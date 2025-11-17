@@ -457,10 +457,10 @@ code {
   width: 56px;
   height: 54px;
   border-radius: 99em;
-  background-color: #0B1220;
+  background-color: #0B1220 !important;
   opacity: var(--navbar-bubble-opacity, 1);
   z-index: -1;
-  box-shadow: none;
+  box-shadow: none !important;
   transition: 
     background-color 400ms cubic-bezier(1, 0, 0.4, 1),
     box-shadow 400ms cubic-bezier(1, 0, 0.4, 1),
