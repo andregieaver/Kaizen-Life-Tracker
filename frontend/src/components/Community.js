@@ -746,11 +746,22 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
   const handleAcceptMessageRequest = async (requestId) => {
     try {
-      await axios.post(`${API}/messages/request/${requestId}/accept?athlete_id=${athleteId}`);
+      const response = await axios.post(`${API}/messages/request/${requestId}/accept?athlete_id=${athleteId}`);
+      
+      // Check if already accepted
+      if (response.data.already_accepted) {
+        alert('This message request has already been accepted');
+        setShowProfile(false);
+        await loadNotifications();
+        return;
+      }
+      
       // Reload the profile to get updated data
       await loadAthleteProfile(profileData.id);
       // Reload notifications
       await loadNotifications();
+      // Close the modal on success
+      setShowProfile(false);
     } catch (error) {
       logger.error(null, 'Error accepting message request:', error);
       alert('Failed to accept message request');
