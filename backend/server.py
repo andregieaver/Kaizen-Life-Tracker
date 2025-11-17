@@ -783,6 +783,7 @@ class AthleteProfile(BaseModel):
     share_bio: bool = Field(default=True)  # Show bio on community profile
     share_goals: bool = Field(default=True)  # Show health/training goals on community profile
     share_interests: bool = Field(default=True)  # Show interests on community profile
+    privacy_level: str = Field(default="public")  # 'public', 'guarded', 'private' - Controls follow and DM permissions
     
     # Health & Nutrition Goals
     estimated_calorie_need: Optional[int] = None  # Daily calorie need (calculated or manual)
