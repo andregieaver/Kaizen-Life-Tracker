@@ -361,6 +361,12 @@
       "writeComment": "Write a comment...",
       "writeCommentMention": "Write a comment, mention with @..."
     },
+    "searchNationality": "Search nationality...",
+    "noNationalitiesFound": "No nationalities found",
+    "findUser": "Find User",
+    "athletes": {
+      "title": "Athletes"
+    },
     "challenge": {
       "title": "Challenge",
       "active": "Active",
