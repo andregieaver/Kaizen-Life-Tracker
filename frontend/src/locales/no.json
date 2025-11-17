@@ -1679,7 +1679,9 @@
   },
   "athlete": {
     "follow": "Følg",
-    "unfollow": "Slutt å følge"
+    "unfollow": "Slutt å følge",
+    "acceptRequest": "Godta",
+    "declineRequest": "Avslå"
   },
   "habits": {
     "title": "Vaner",
