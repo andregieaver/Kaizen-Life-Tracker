@@ -855,7 +855,7 @@ const Dashboard = ({ athleteId }) => {
     >
       {/* Desktop Header */}
       <header 
-        className="hidden md:block shadow-lg fixed top-0 left-0 right-0 z-40"
+        className="hidden md:block fixed top-0 left-0 right-0 z-40"
         style={{ 
           background: 'var(--grad-surface)',
           transform: `translate3d(0, ${(1 - headerProgress) * -100}%, 0)`,
@@ -863,7 +863,7 @@ const Dashboard = ({ athleteId }) => {
           pointerEvents: headerProgress > 0.05 ? 'auto' : 'none',
           willChange: 'transform, opacity',
           transition: 'box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1)',
-          boxShadow: atTop ? 'none' : undefined
+          boxShadow: 'none'
         }}
       >
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
