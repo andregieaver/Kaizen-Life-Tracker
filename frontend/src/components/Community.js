@@ -778,7 +778,15 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
   const handleDeclineMessageRequest = async (requestId) => {
     try {
-      await axios.post(`${API}/messages/request/${requestId}/decline?athlete_id=${athleteId}`);
+      const response = await axios.post(`${API}/messages/request/${requestId}/decline?athlete_id=${athleteId}`);
+      
+      // Check if already handled
+      if (response.data.already_declined) {
+        alert('This message request has already been declined');
+      } else if (response.data.already_accepted) {
+        alert('Cannot decline an already accepted request');
+      }
+      
       // Close the profile modal
       setShowProfile(false);
       // Reload notifications
