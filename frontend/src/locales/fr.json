@@ -436,6 +436,9 @@
       "writeComment": "Écrire un commentaire...",
       "writeCommentMention": "Écrire un commentaire, mentionner avec @..."
     },
+    "searchNationality": "Rechercher une nationalité...",
+    "noNationalitiesFound": "Aucune nationalité trouvée",
+    "findUser": "Trouver un utilisateur",
     "challenge": {
       "title": "Défi",
       "active": "Actif",
