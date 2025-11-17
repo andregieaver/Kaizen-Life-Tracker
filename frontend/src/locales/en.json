@@ -2229,7 +2229,14 @@
     "newFollower": "{{name}} started following you",
     "commentedOnPost": "{{name}} commented on your post",
     "likedPost": "{{name}} liked your post",
-    "mentionedYou": "{{name}} mentioned you"
+    "likedComment": "{{name}} liked your comment",
+    "sharedPost": "{{name}} shared your post",
+    "commentedOnEvent": "{{name}} commented on your event",
+    "mentionedYou": "{{name}} mentioned you",
+    "acceptedFollowRequest": "{{name}} accepted your follow request",
+    "acceptedMessageRequest": "{{name}} accepted your message request",
+    "groupJoinRequest": "{{name}} requested to join your group",
+    "eventInvite": "{{name}} invited you to an event"
   },
   "today": {
     "bpm": "BPM",
