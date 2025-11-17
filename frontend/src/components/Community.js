@@ -3520,14 +3520,21 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                     className={`mb-2 rounded-none md:rounded-3xl hover:opacity-90 active:opacity-80 cursor-pointer transition-all overflow-hidden ${
                       !notification.read ? 'ring-2 ring-[#00C2A8]/30' : ''
                     }`}
-                    style={{ background: 'var(--grad-surface)', border: '2px solid red' }}
-                    onClick={() => {
+                    style={{ background: 'var(--grad-surface)', border: '5px solid red', boxShadow: '0 0 20px red' }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      const alertDiv = document.createElement('div');
+                      alertDiv.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:red;color:white;padding:40px;z-index:999999;font-size:24px;border:5px solid yellow;';
+                      alertDiv.textContent = 'MOBILE NOTIFICATION CLICKED! Type: ' + notification.type;
+                      document.body.appendChild(alertDiv);
+                      setTimeout(() => alertDiv.remove(), 3000);
                       window.alert('MOBILE NOTIFICATION CLICKED!');
                       handleNotificationClick(notification);
                     }}
                   >
-                    <div className="p-4">
-                      <p className="text-sm" style={{ color: 'var(--text-hi)' }}>{notification.message || notification.content}</p>
+                    <div className="p-4" style={{ border: '3px solid yellow' }}>
+                      <p className="text-sm" style={{ color: 'var(--text-hi)', background: 'red' }}>{notification.message || notification.content}</p>
                       <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
                         {new Date(notification.created_at).toLocaleString()}
                       </p>
