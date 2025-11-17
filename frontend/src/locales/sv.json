@@ -2210,7 +2210,13 @@
     "groups": "Grupper",
     "noNotifications": "Inga aviseringar",
     "notifications": "Aviseringar",
-    "posts": "Inlägg"
+    "posts": "Inlägg",
+    "followRequest": "{{name}} begärde att följa dig",
+    "messageRequest": "{{name}} begärde att skicka meddelande till dig",
+    "newFollower": "{{name}} började följa dig",
+    "commentedOnPost": "{{name}} kommenterade ditt inlägg",
+    "likedPost": "{{name}} gillade ditt inlägg",
+    "mentionedYou": "{{name}} nämnde dig"
   },
   "today": {
     "bpm": "BPM",
