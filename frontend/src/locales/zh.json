@@ -2236,6 +2236,7 @@
     "startConversation": "开始对话！",
     "sendMessage": "发送消息",
     "messageButton": "消息",
-    "back": "返回"
+    "back": "返回",
+    "searchEmoji": "搜索表情符号..."
   }
 }
