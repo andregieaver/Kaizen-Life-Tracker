@@ -18598,7 +18598,9 @@ async def send_message(message_data: SendMessageRequest):
             "read": False,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "deleted_by_sender": False,
-            "deleted_by_receiver": False
+            "deleted_by_receiver": False,
+            "youtube_data": message_data.youtube_data if hasattr(message_data, 'youtube_data') else None,
+            "url_preview": message_data.url_preview if hasattr(message_data, 'url_preview') else None
         }
         await db.messages.insert_one(message)
         
