@@ -169,6 +169,83 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
     setSelectedConversation(null);
     setMessages([]);
     setShowEmojiPicker(false);
+    setYoutubeData(null);
+    setUrlPreview(null);
+  };
+
+  // Detect and fetch link previews
+  const detectAndFetchPreviews = async (text) => {
+    if (fetchingPreview) return;
+    
+    // URL regex pattern
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const urls = text.match(urlRegex);
+    
+    if (!urls || urls.length === 0) {
+      setYoutubeData(null);
+      setUrlPreview(null);
+      return;
+    }
+    
+    try {
+      setFetchingPreview(true);
+      let urlToRemove = null;
+      
+      // Check for YouTube videos first
+      const youtubeRegex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/;
+      const youtubeMatch = text.match(youtubeRegex);
+      
+      if (youtubeMatch && !youtubeData) {
+        try {
+          const response = await axios.post(`${API}/community/fetch-youtube-metadata`, {
+            url: youtubeMatch[0]
+          });
+          setYoutubeData(response.data);
+          urlToRemove = youtubeMatch[0];
+        } catch (error) {
+          logger.error(null, 'Error fetching YouTube metadata:', error);
+        }
+      }
+      
+      // Fetch URL preview (first non-YouTube URL)
+      if (urls && !urlPreview && !urlToRemove) {
+        const nonYoutubeUrl = urls.find(url => !url.match(youtubeRegex));
+        if (nonYoutubeUrl) {
+          try {
+            const response = await axios.post(`${API}/community/fetch-url-preview`, {
+              url: nonYoutubeUrl
+            });
+            setUrlPreview(response.data);
+            urlToRemove = nonYoutubeUrl;
+          } catch (error) {
+            logger.error(null, 'Error fetching URL preview:', error);
+          }
+        }
+      }
+      
+      // Remove the URL from content after successful preview fetch
+      if (urlToRemove) {
+        const newContent = text.replace(urlToRemove, '').trim();
+        setMessageText(newContent);
+      }
+    } finally {
+      setFetchingPreview(false);
+    }
+  };
+
+  // Handle message text change with URL detection
+  const handleMessageTextChange = (e) => {
+    const newContent = e.target.value;
+    setMessageText(newContent);
+    
+    // Debounce URL detection
+    if (window.messageUrlDetectionTimeout) {
+      clearTimeout(window.messageUrlDetectionTimeout);
+    }
+    
+    window.messageUrlDetectionTimeout = setTimeout(() => {
+      detectAndFetchPreviews(newContent);
+    }, 1000);
   };
   
   const handleEmojiClick = (emojiData) => {
