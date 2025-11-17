@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react';
-import { X, UserPlus, UserMinus, Search } from 'lucide-react';
+import { X, UserPlus, UserMinus, Search, MessageCircle } from 'lucide-react';
 import { Button } from '../../ui/button';
 import SubscriptionBadge from '../../SubscriptionBadge';
 import FlagIcon from '../../FlagIcon';
 import OnlineStatusIndicator from '../../OnlineStatusIndicator';
 
-const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose, onFollowToggle, onViewProfile, t }) => {
+const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose, onFollowToggle, onViewProfile, onMessageUser, t }) => {
   const [nationalityFilter, setNationalityFilter] = useState('all');
   
   // Get unique nationalities
