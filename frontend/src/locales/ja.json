@@ -364,6 +364,7 @@
     "searchNationality": "国籍を検索...",
     "noNationalitiesFound": "国籍が見つかりません",
     "findUser": "ユーザーを探す",
+    "searchLanguage": "言語を検索...",
     "challenge": {
       "title": "チャレンジ",
       "active": "アクティブ",
