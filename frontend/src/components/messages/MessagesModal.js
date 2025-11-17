@@ -163,7 +163,50 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
   const handleBack = () => {
     setSelectedConversation(null);
     setMessages([]);
+    setShowEmojiPicker(false);
   };
+  
+  const handleEmojiClick = (emojiData) => {
+    const emoji = emojiData.emoji;
+    const textarea = textareaRef.current;
+    
+    if (textarea) {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = messageText;
+      const before = text.substring(0, start);
+      const after = text.substring(end, text.length);
+      
+      setMessageText(before + emoji + after);
+      
+      // Set cursor position after emoji
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + emoji.length;
+        textarea.focus();
+      }, 0);
+    } else {
+      setMessageText(messageText + emoji);
+    }
+    
+    setShowEmojiPicker(false);
+  };
+  
+  // Close emoji picker when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
+        setShowEmojiPicker(false);
+      }
+    };
+    
+    if (showEmojiPicker) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showEmojiPicker]);
   
   const filteredConversations = conversations.filter(c =>
     c.other_user.name.toLowerCase().includes(searchQuery.toLowerCase())
