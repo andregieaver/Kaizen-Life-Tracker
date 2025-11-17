@@ -322,28 +322,16 @@ const OnboardingForm = ({ onAthleteCreated }) => {
                 <Label htmlFor="nationality" className="text-sm font-medium text-gray-200">
                   {t('auth.nationality')}
                 </Label>
-                <Select
+                <SearchableSelect
                   value={formData.nationality}
-                  onValueChange={(value) => setFormData(prev => ({...prev, nationality: value}))}
+                  onChange={(value) => setFormData(prev => ({...prev, nationality: value}))}
+                  options={countries.map(country => ({
+                    value: country.value,
+                    label: country.label
+                  }))}
+                  placeholder={t('auth.selectNationality')}
                   disabled={isLoading}
-                >
-                  <SelectTrigger 
-                    className="text-white focus:border-[#32D3FF] focus:ring-[#32D3FF]"
-                    style={{
-                      background: 'rgba(17, 24, 39, 0.5)',
-                      border: '1px solid rgba(71, 85, 105, 0.3)'
-                    }}
-                  >
-                    <SelectValue placeholder={t('auth.selectNationality')} />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-[300px]">
-                    {countries.map(country => (
-                      <SelectItem key={country.value} value={country.value}>
-                        {country.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                />
               </div>
 
               <div className="space-y-2">
