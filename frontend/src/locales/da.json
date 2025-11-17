@@ -1892,7 +1892,13 @@
     "groups": "Grupper",
     "noNotifications": "Ingen notifikationer",
     "notifications": "Notifikationer",
-    "posts": "Opslag"
+    "posts": "Opslag",
+    "followRequest": "{{name}} anmodede om at følge dig",
+    "messageRequest": "{{name}} anmodede om at sende dig en besked",
+    "newFollower": "{{name}} begyndte at følge dig",
+    "commentedOnPost": "{{name}} kommenterede dit opslag",
+    "likedPost": "{{name}} kunne lide dit opslag",
+    "mentionedYou": "{{name}} nævnte dig"
   },
   "today": {
     "bpm": "BPM",
