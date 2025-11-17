@@ -1679,7 +1679,9 @@
   },
   "athlete": {
     "follow": "Följ",
-    "unfollow": "Sluta följa"
+    "unfollow": "Sluta följa",
+    "acceptRequest": "Acceptera",
+    "declineRequest": "Avböj"
   },
   "habits": {
     "title": "Vanor",
