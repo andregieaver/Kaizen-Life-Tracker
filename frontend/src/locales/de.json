@@ -1892,7 +1892,13 @@
     "groups": "Gruppen",
     "noNotifications": "Keine Benachrichtigungen",
     "notifications": "Benachrichtigungen",
-    "posts": "Beiträge"
+    "posts": "Beiträge",
+    "followRequest": "{{name}} möchte dir folgen",
+    "messageRequest": "{{name}} möchte dir eine Nachricht senden",
+    "newFollower": "{{name}} folgt dir jetzt",
+    "commentedOnPost": "{{name}} hat deinen Beitrag kommentiert",
+    "likedPost": "{{name}} hat deinen Beitrag geliked",
+    "mentionedYou": "{{name}} hat dich erwähnt"
   },
   "today": {
     "bpm": "BPM",
