@@ -1530,6 +1530,7 @@ const Account = ({ athleteId }) => {
         share_bio: Boolean(personalForm.share_bio),
         share_goals: Boolean(personalForm.share_goals),
         share_interests: Boolean(personalForm.share_interests),
+        privacy_level: personalForm.privacy_level || 'public',
         estimated_calorie_need: personalForm.estimated_calorie_need ? parseInt(personalForm.estimated_calorie_need) : null,
         weight_goal: personalForm.weight_goal || null,
         health_goals: personalForm.health_goals || [],
