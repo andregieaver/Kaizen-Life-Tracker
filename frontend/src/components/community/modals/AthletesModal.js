@@ -130,21 +130,59 @@ const AthletesModal = ({ athletes, loading, searchQuery, onSearchChange, onClose
                     </div>
                   </div>
 
-                  <Button
-                    onClick={() => onFollowToggle(athlete.id)}
-                    className={`${
-                      athlete.is_following
-                        ? 'bg-gray-600 hover:bg-gray-500'
-                        : 'bg-[#00C2A8] hover:bg-[#00a890]'
-                    } text-white text-sm p-2`}
-                    title={athlete.is_following ? t('athlete.unfollow') : t('athlete.follow')}
-                  >
-                    {athlete.is_following ? (
-                      <UserMinus className="w-5 h-5" />
-                    ) : (
-                      <UserPlus className="w-5 h-5" />
+                  <div className="flex space-x-2">
+                    {/* Follow Button - Hidden for Private users */}
+                    {athlete.privacy_level !== 'private' && (
+                      <Button
+                        onClick={() => onFollowToggle(athlete.id)}
+                        className={`${
+                          athlete.is_following
+                            ? 'bg-gray-600 hover:bg-gray-500'
+                            : athlete.follow_request_sent
+                            ? 'bg-gray-600 cursor-default'
+                            : 'bg-[#00C2A8] hover:bg-[#00a890]'
+                        } text-white text-sm p-2`}
+                        title={
+                          athlete.is_following 
+                            ? t('athlete.unfollow') 
+                            : athlete.follow_request_sent
+                            ? t('athlete.followRequestSent')
+                            : athlete.privacy_level === 'guarded'
+                            ? t('athlete.requestToFollow')
+                            : t('athlete.follow')
+                        }
+                        disabled={athlete.follow_request_sent}
+                      >
+                        {athlete.is_following ? (
+                          <UserMinus className="w-5 h-5" />
+                        ) : (
+                          <UserPlus className="w-5 h-5" />
+                        )}
+                      </Button>
                     )}
-                  </Button>
+                    
+                    {/* DM Button - Hidden for Private users */}
+                    {athlete.privacy_level !== 'private' && (
+                      <Button
+                        onClick={() => onMessageUser && onMessageUser(athlete.id)}
+                        className={`${
+                          athlete.message_request_sent
+                            ? 'bg-gray-600 cursor-default'
+                            : 'bg-gray-700 hover:bg-gray-600'
+                        } text-white text-sm p-2`}
+                        title={
+                          athlete.message_request_sent
+                            ? t('athlete.messageRequestSent')
+                            : athlete.privacy_level === 'guarded'
+                            ? t('athlete.requestToMessage')
+                            : t('athlete.message')
+                        }
+                        disabled={athlete.message_request_sent}
+                      >
+                        <MessageCircle className="w-5 h-5" />
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
             ))
