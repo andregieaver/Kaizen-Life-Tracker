@@ -3576,7 +3576,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                     onClick={() => handleNotificationClick(notification)}
                   >
                     <div className="p-4">
-                      <p className="text-sm" style={{ color: 'var(--text-hi)' }}>{notification.message || notification.content}</p>
+                      <p className="text-sm" style={{ color: 'var(--text-hi)' }}>{translateNotificationContent(notification, t)}</p>
                       <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
                         {new Date(notification.created_at).toLocaleString()}
                       </p>
