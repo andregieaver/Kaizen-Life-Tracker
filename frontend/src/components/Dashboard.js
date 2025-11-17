@@ -443,7 +443,14 @@ const Dashboard = ({ athleteId }) => {
       // Navigate based on notification type
       setShowNotifications(false);
       
-      if (notification.type === 'follow') {
+      // Handle privacy feature requests - follow_request and message_request
+      if (notification.type === 'follow_request' && notification.from_athlete_id && notification.action_id) {
+        // Navigate to Community with special params to open profile with accept/decline for follow request
+        navigate(`/dashboard/community?view=profile&athleteId=${notification.from_athlete_id}&requestType=follow&requestId=${notification.action_id}`);
+      } else if (notification.type === 'message_request' && notification.from_athlete_id && notification.action_id) {
+        // Navigate to Community with special params to open profile with accept/decline for message request
+        navigate(`/dashboard/community?view=profile&athleteId=${notification.from_athlete_id}&requestType=message&requestId=${notification.action_id}`);
+      } else if (notification.type === 'follow') {
         // Navigate to follower's profile
         navigate(`/dashboard/community?view=profile&athleteId=${notification.from_athlete_id}`);
       } else if (notification.type === 'like' || notification.type === 'comment') {
