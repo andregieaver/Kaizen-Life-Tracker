@@ -140,10 +140,14 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
       await axios.post(`${API}/messages/send`, {
         sender_id: athleteId,
         receiver_id: selectedConversation.other_user.id,
-        content: messageText
+        content: messageText,
+        youtube_data: youtubeData,
+        url_preview: urlPreview
       });
       
       setMessageText('');
+      setYoutubeData(null);
+      setUrlPreview(null);
       // Reload messages
       await loadMessages(selectedConversation.id);
       await loadConversations(true); // Update conversation list
