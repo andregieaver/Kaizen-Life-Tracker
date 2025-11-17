@@ -1757,9 +1757,13 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     const view = searchParams.get('view');
     const athleteIdParam = searchParams.get('athleteId');
     const postIdParam = searchParams.get('postId');
+    const requestType = searchParams.get('requestType'); // follow or message
+    const requestId = searchParams.get('requestId'); // action_id for the request
     
     if (view === 'profile' && athleteIdParam) {
-      loadAthleteProfile(athleteIdParam);
+      // If requestType and requestId are present, pass them as context for accept/decline UI
+      const requestContext = (requestType && requestId) ? { requestType, requestId } : null;
+      loadAthleteProfile(athleteIdParam, requestContext);
       setSearchParams({});
     } else if (view === 'post' && postIdParam) {
       axios.get(`${API}/community/posts/${postIdParam}?athlete_id=${athleteId}`)
