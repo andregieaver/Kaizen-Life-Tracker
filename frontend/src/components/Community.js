@@ -753,6 +753,44 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
     }
   };
 
+  const handleMessageUser = async (targetUserId, targetPrivacyLevel, messageRequestSent) => {
+    // If user is private, do nothing (button should be hidden)
+    if (targetPrivacyLevel === 'private') {
+      return;
+    }
+    
+    // If user is guarded and no request sent yet, send message request
+    if (targetPrivacyLevel === 'guarded' && !messageRequestSent) {
+      try {
+        await axios.post(`${API}/messages/request?requester_id=${athleteId}&target_id=${targetUserId}`);
+        // Update the profile data to show request sent
+        if (profileData && profileData.id === targetUserId) {
+          setProfileData({
+            ...profileData,
+            message_request_sent: true
+          });
+        }
+        // Reload athletes list if in find user modal
+        if (showAthletes) {
+          await loadAthletes(athletesSearch);
+        }
+      } catch (error) {
+        logger.error(null, 'Error sending message request:', error);
+        alert('Failed to send message request');
+      }
+      return;
+    }
+    
+    // If public or guarded with approved request, open messages modal
+    if (profileData) {
+      setShowProfile(false);
+    }
+    if (showAthletes) {
+      setShowAthletes(false);
+    }
+    onOpenMessages && onOpenMessages(targetUserId);
+  };
+
 
   const loadAthletes = async (searchQuery = '') => {
     setAthletesLoading(true);
