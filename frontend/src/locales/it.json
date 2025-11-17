@@ -1679,7 +1679,9 @@
   },
   "athlete": {
     "follow": "Segui",
-    "unfollow": "Smetti di seguire"
+    "unfollow": "Smetti di seguire",
+    "acceptRequest": "Accetta",
+    "declineRequest": "Rifiuta"
   },
   "habits": {
     "title": "Abitudini",
