@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
  * SearchableSelect - Custom searchable dropdown component with theme-coherent styling
  * Used for filtering by nationality in the community feed
  */
-const SearchableSelect = ({ value, onChange, options, placeholder, label }) => {
+const SearchableSelect = ({ value, onChange, options, placeholder, label, disabled = false }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
