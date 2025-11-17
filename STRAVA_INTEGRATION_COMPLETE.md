@@ -445,8 +445,8 @@ profile:read_all      - Read detailed profile
 ### Development
 ```
 Callback Domain: multilingual-app-27.preview.emergentagent.com
-OAuth Redirect: https://fitness-connect-21.preview.emergentagent.com/api/auth/strava/callback
-Webhook URL: https://fitness-connect-21.preview.emergentagent.com/api/webhook/strava
+OAuth Redirect: https://follow-manage.preview.emergentagent.com/api/auth/strava/callback
+Webhook URL: https://follow-manage.preview.emergentagent.com/api/webhook/strava
 ```
 
 ### Production

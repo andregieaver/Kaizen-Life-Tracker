@@ -11,7 +11,7 @@ import uuid
 from datetime import datetime
 
 # Backend URL from environment
-BACKEND_URL = "https://fitness-connect-21.preview.emergentagent.com/api"
+BACKEND_URL = "https://follow-manage.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""
@@ -87,7 +87,7 @@ def test_complete_referral_discount_scenarios():
         # Create checkout session with referral code (simulating new user signup)
         checkout_request = {
             "plan_id": "pro_monthly",
-            "origin_url": "https://fitness-connect-21.preview.emergentagent.com",
+            "origin_url": "https://follow-manage.preview.emergentagent.com",
             "athlete_id": new_user_id,
             "referral_code": referral_code
         }
@@ -145,7 +145,7 @@ def test_complete_referral_discount_scenarios():
         # Create checkout session for referrer (without referral code - simulating renewal)
         renewal_request = {
             "plan_id": "pro_monthly", 
-            "origin_url": "https://fitness-connect-21.preview.emergentagent.com",
+            "origin_url": "https://follow-manage.preview.emergentagent.com",
             "athlete_id": referrer_athlete_id
             # No referral_code - this is a renewal
         }

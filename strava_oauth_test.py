@@ -23,7 +23,7 @@ import sys
 from urllib.parse import urlparse, parse_qs
 
 # Backend URL from environment
-BACKEND_URL = "https://fitness-connect-21.preview.emergentagent.com/api"
+BACKEND_URL = "https://follow-manage.preview.emergentagent.com/api"
 
 def print_test_result(test_name, success, details=""):
     """Print formatted test result"""
