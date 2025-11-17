@@ -361,6 +361,9 @@
       "writeComment": "コメントを書いてください...",
       "writeCommentMention": "コメントを書いて、@で言及してください..."
     },
+    "searchNationality": "国籍を検索...",
+    "noNationalitiesFound": "国籍が見つかりません",
+    "findUser": "ユーザーを探す",
     "challenge": {
       "title": "チャレンジ",
       "active": "アクティブ",
