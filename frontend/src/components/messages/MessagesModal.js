@@ -387,7 +387,27 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                 </div>
                 
                 {/* Message Input - Fixed at bottom */}
-                <div className="p-3 md:p-4 border-t border-gray-700 bg-gray-800/50 flex-shrink-0">
+                <div className="p-3 md:p-4 border-t border-gray-700 bg-gray-800/50 flex-shrink-0 relative">
+                  {/* Emoji Picker */}
+                  {showEmojiPicker && (
+                    <div 
+                      ref={emojiPickerRef}
+                      className="absolute bottom-full mb-2 right-3 z-50"
+                      style={{ maxWidth: 'calc(100vw - 2rem)' }}
+                    >
+                      <EmojiPicker
+                        onEmojiClick={handleEmojiClick}
+                        theme="dark"
+                        width={window.innerWidth < 768 ? window.innerWidth - 32 : 350}
+                        height={350}
+                        previewConfig={{ showPreview: false }}
+                        searchDisabled={false}
+                        skinTonesDisabled={false}
+                        lazyLoadEmojis={true}
+                      />
+                    </div>
+                  )}
+                  
                   <div className="flex items-end space-x-2">
                     <textarea
                       ref={textareaRef}
@@ -400,6 +420,13 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                       disabled={sending}
                       style={{ fontSize: '16px' }} // Prevents zoom on iOS
                     />
+                    <button
+                      onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                      className="p-3 min-w-[44px] min-h-[44px] bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors flex items-center justify-center"
+                      type="button"
+                    >
+                      <Smile className="w-5 h-5" />
+                    </button>
                     <Button
                       onClick={handleSendMessage}
                       disabled={!messageText.trim() || sending}
