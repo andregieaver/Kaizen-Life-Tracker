@@ -670,6 +670,7 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
   };
 
   const loadAthleteProfile = async (targetAthleteId, requestContext = null) => {
+    console.log('Loading athlete profile:', targetAthleteId, 'requestContext:', requestContext);
     setProfileLoading(true);
     try {
       const response = await axios.get(`${API}/community/profile/${targetAthleteId}?viewer_athlete_id=${athleteId}`);
@@ -677,9 +678,11 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
         ...response.data,
         requestContext // Add request context if present (follow_request or message_request)
       };
+      console.log('Profile loaded with context:', profileWithContext);
       setProfileData(profileWithContext);
       setShowProfile(true);
     } catch (error) {
+      console.error('Error loading profile:', error);
       logger.error(null, 'Error loading profile:', error);
       alert(t('community.messages.failedToLoadProfile'));
     } finally {
