@@ -110,7 +110,7 @@ const SearchableSelect = ({ value, onChange, options, placeholder, label }) => {
                     onClick={() => handleSelect(option.value)}
                     className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
                       value === option.value
-                        ? 'bg-[#00C2A8]/20 text-[#00C2A8] font-semibold'
+                        ? 'bg-[#00FFFF]/20 text-[#00FFFF] font-semibold'
                         : 'text-white hover:bg-gray-800'
                     }`}
                   >
