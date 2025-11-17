@@ -327,61 +327,101 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
             <div className="flex space-x-3 mt-6">
               {!profile.is_own_profile && (
                 <>
-                  {/* Follow Button - Hidden for Private users */}
-                  {profile.privacy_level !== 'private' && (
-                    <Button
-                      onClick={onFollowToggle}
-                      className={`flex-1 ${
-                        profile.is_following
-                          ? 'bg-gray-700 hover:bg-gray-600'
-                          : profile.follow_request_sent
-                          ? 'bg-gray-600 cursor-default'
-                          : 'bg-[#00C2A8] hover:bg-[#00a890]'
-                      } text-white`}
-                      disabled={profile.follow_request_sent}
-                    >
-                      {profile.is_following ? (
-                        <>
-                          <UserMinus className="w-4 h-4 mr-2" />
-                          {t('athlete.unfollow')}
-                        </>
-                      ) : profile.follow_request_sent ? (
-                        <>
-                          <UserPlus className="w-4 h-4 mr-2" />
-                          {t('athlete.followRequestSent')}
-                        </>
-                      ) : profile.privacy_level === 'guarded' ? (
-                        <>
-                          <UserPlus className="w-4 h-4 mr-2" />
-                          {t('athlete.requestToFollow')}
-                        </>
-                      ) : (
-                        <>
-                          <UserPlus className="w-4 h-4 mr-2" />
-                          {t('athlete.follow')}
-                        </>
-                      )}
-                    </Button>
+                  {/* Show Accept/Decline buttons if viewing from a request notification */}
+                  {profile.requestContext && profile.requestContext.requestType === 'follow' && (
+                    <>
+                      <Button
+                        onClick={() => onAcceptFollowRequest && onAcceptFollowRequest(profile.requestContext.requestId)}
+                        className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                      >
+                        {t('athlete.acceptRequest')}
+                      </Button>
+                      <Button
+                        onClick={() => onDeclineFollowRequest && onDeclineFollowRequest(profile.requestContext.requestId)}
+                        className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                      >
+                        {t('athlete.declineRequest')}
+                      </Button>
+                    </>
                   )}
                   
-                  {/* Message Button - Hidden for Private users */}
-                  {profile.privacy_level !== 'private' && (
-                    <Button
-                      onClick={() => onMessageUser && onMessageUser(profile.id)}
-                      className={`flex-1 ${
-                        profile.message_request_sent
-                          ? 'bg-gray-600 cursor-default'
-                          : 'bg-gray-700 hover:bg-gray-600'
-                      } text-white`}
-                      disabled={profile.message_request_sent}
-                    >
-                      <MessageCircle className="w-4 h-4 mr-2" />
-                      {profile.message_request_sent
-                        ? t('athlete.messageRequestSent')
-                        : profile.privacy_level === 'guarded'
-                        ? t('athlete.requestToMessage')
-                        : t('athlete.message')}
-                    </Button>
+                  {profile.requestContext && profile.requestContext.requestType === 'message' && (
+                    <>
+                      <Button
+                        onClick={() => onAcceptMessageRequest && onAcceptMessageRequest(profile.requestContext.requestId)}
+                        className="flex-1 bg-[#00C2A8] hover:bg-[#00a890] text-white"
+                      >
+                        {t('athlete.acceptRequest')}
+                      </Button>
+                      <Button
+                        onClick={() => onDeclineMessageRequest && onDeclineMessageRequest(profile.requestContext.requestId)}
+                        className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                      >
+                        {t('athlete.declineRequest')}
+                      </Button>
+                    </>
+                  )}
+                  
+                  {/* Regular Follow/Message buttons when not viewing from request */}
+                  {!profile.requestContext && (
+                    <>
+                      {/* Follow Button - Hidden for Private users */}
+                      {profile.privacy_level !== 'private' && (
+                        <Button
+                          onClick={onFollowToggle}
+                          className={`flex-1 ${
+                            profile.is_following
+                              ? 'bg-gray-700 hover:bg-gray-600'
+                              : profile.follow_request_sent
+                              ? 'bg-gray-600 cursor-default'
+                              : 'bg-[#00C2A8] hover:bg-[#00a890]'
+                          } text-white`}
+                          disabled={profile.follow_request_sent}
+                        >
+                          {profile.is_following ? (
+                            <>
+                              <UserMinus className="w-4 h-4 mr-2" />
+                              {t('athlete.unfollow')}
+                            </>
+                          ) : profile.follow_request_sent ? (
+                            <>
+                              <UserPlus className="w-4 h-4 mr-2" />
+                              {t('athlete.followRequestSent')}
+                            </>
+                          ) : profile.privacy_level === 'guarded' ? (
+                            <>
+                              <UserPlus className="w-4 h-4 mr-2" />
+                              {t('athlete.requestToFollow')}
+                            </>
+                          ) : (
+                            <>
+                              <UserPlus className="w-4 h-4 mr-2" />
+                              {t('athlete.follow')}
+                            </>
+                          )}
+                        </Button>
+                      )}
+                      
+                      {/* Message Button - Hidden for Private users */}
+                      {profile.privacy_level !== 'private' && (
+                        <Button
+                          onClick={() => onMessageUser && onMessageUser(profile.id)}
+                          className={`flex-1 ${
+                            profile.message_request_sent
+                              ? 'bg-gray-600 cursor-default'
+                              : 'bg-gray-700 hover:bg-gray-600'
+                          } text-white`}
+                          disabled={profile.message_request_sent}
+                        >
+                          <MessageCircle className="w-4 h-4 mr-2" />
+                          {profile.message_request_sent
+                            ? t('athlete.messageRequestSent')
+                            : profile.privacy_level === 'guarded'
+                            ? t('athlete.requestToMessage')
+                            : t('athlete.message')}
+                        </Button>
+                      )}
+                    </>
                   )}
                 </>
               )}
