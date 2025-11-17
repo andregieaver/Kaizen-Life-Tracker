@@ -693,10 +693,63 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
       setProfileData({
         ...profileData,
         is_following: response.data.following,
-        followers_count: response.data.followers_count
+        followers_count: response.data.followers_count,
+        follow_request_sent: response.data.request_sent || false
       });
     } catch (error) {
       logger.error(null, 'Error toggling follow:', error);
+    }
+  };
+
+  const handleAcceptFollowRequest = async (requestId) => {
+    try {
+      await axios.post(`${API}/community/follow-request/${requestId}/accept?athlete_id=${athleteId}`);
+      // Reload the profile to get updated data
+      await loadAthleteProfile(profileData.id);
+      // Reload notifications
+      await loadNotifications();
+    } catch (error) {
+      logger.error(null, 'Error accepting follow request:', error);
+      alert('Failed to accept follow request');
+    }
+  };
+
+  const handleDeclineFollowRequest = async (requestId) => {
+    try {
+      await axios.post(`${API}/community/follow-request/${requestId}/decline?athlete_id=${athleteId}`);
+      // Close the profile modal
+      setShowProfile(false);
+      // Reload notifications
+      await loadNotifications();
+    } catch (error) {
+      logger.error(null, 'Error declining follow request:', error);
+      alert('Failed to decline follow request');
+    }
+  };
+
+  const handleAcceptMessageRequest = async (requestId) => {
+    try {
+      await axios.post(`${API}/messages/request/${requestId}/accept?athlete_id=${athleteId}`);
+      // Reload the profile to get updated data
+      await loadAthleteProfile(profileData.id);
+      // Reload notifications
+      await loadNotifications();
+    } catch (error) {
+      logger.error(null, 'Error accepting message request:', error);
+      alert('Failed to accept message request');
+    }
+  };
+
+  const handleDeclineMessageRequest = async (requestId) => {
+    try {
+      await axios.post(`${API}/messages/request/${requestId}/decline?athlete_id=${athleteId}`);
+      // Close the profile modal
+      setShowProfile(false);
+      // Reload notifications
+      await loadNotifications();
+    } catch (error) {
+      logger.error(null, 'Error declining message request:', error);
+      alert('Failed to decline message request');
     }
   };
 
