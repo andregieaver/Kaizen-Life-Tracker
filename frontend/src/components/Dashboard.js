@@ -48,6 +48,30 @@ import { logger } from '../utils/logger';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
+// Helper function to translate notification content
+const translateNotificationContent = (notification, t) => {
+  const content = notification.message || notification.content;
+  const fromName = notification.from_athlete_name || 'Someone';
+  
+  // Check notification type and translate accordingly
+  if (notification.type === 'follow_request') {
+    return t('notifications.followRequest', { name: fromName });
+  } else if (notification.type === 'message_request') {
+    return t('notifications.messageRequest', { name: fromName });
+  } else if (notification.type === 'follow') {
+    return t('notifications.newFollower', { name: fromName });
+  } else if (content.includes('commented on your post')) {
+    return t('notifications.commentedOnPost', { name: fromName });
+  } else if (content.includes('liked your post')) {
+    return t('notifications.likedPost', { name: fromName });
+  } else if (content.includes('mentioned you')) {
+    return t('notifications.mentionedYou', { name: fromName });
+  }
+  
+  // Fallback to original content if no match
+  return content;
+};
+
 const Dashboard = ({ athleteId }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
