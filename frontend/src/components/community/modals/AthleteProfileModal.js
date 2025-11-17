@@ -445,6 +445,21 @@ const AthleteProfileModal = ({ profile, onClose, onFollowToggle, loading, athlet
           </>
         )}
       </div>
+      
+      {/* Followers/Following Modal */}
+      {showFollowersModal && (
+        <FollowersFollowingModal
+          athleteId={profile.id}
+          athleteName={profile.name}
+          initialTab={followersModalTab}
+          onClose={() => setShowFollowersModal(false)}
+          onViewProfile={(id) => {
+            setShowFollowersModal(false);
+            loadAthleteProfile(id);
+          }}
+          t={t}
+        />
+      )}
     </div>
   );
 };
