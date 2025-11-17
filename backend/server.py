@@ -12055,6 +12055,10 @@ async def accept_follow_request(request_id: str, athlete_id: str = Query(...)):
         # Get the request
         request = await db.follow_requests.find_one({"id": request_id, "target_id": athlete_id, "status": "pending"})
         if not request:
+            # Check if already accepted
+            existing_request = await db.follow_requests.find_one({"id": request_id, "target_id": athlete_id})
+            if existing_request and existing_request.get("status") == "accepted":
+                return {"success": True, "message": "Follow request already accepted", "already_accepted": True}
             raise HTTPException(status_code=404, detail="Request not found")
         
         # Update request status
