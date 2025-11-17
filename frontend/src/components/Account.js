@@ -1544,7 +1544,8 @@ const Account = ({ athleteId }) => {
       logger.debug(null, '🔍 Boolean values:', {
         share_bio: updatedData.share_bio,
         share_goals: updatedData.share_goals,
-        share_interests: updatedData.share_interests
+        share_interests: updatedData.share_interests,
+        privacy_level: updatedData.privacy_level
       });
       
       // Include profile picture if uploaded
