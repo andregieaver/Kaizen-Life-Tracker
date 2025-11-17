@@ -257,7 +257,7 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search conversations..."
+                  placeholder={t('messages.searchConversations')}
                   className="w-full pl-10 pr-3 py-2 bg-gray-800 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00C2A8]"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
