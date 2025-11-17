@@ -1046,6 +1046,7 @@ const Account = ({ athleteId }) => {
         share_bio: athleteRes.data.share_bio || false,
         share_goals: athleteRes.data.share_goals || false,
         share_interests: athleteRes.data.share_interests || false,
+        privacy_level: athleteRes.data.privacy_level || 'public',
         estimated_calorie_need: athleteRes.data.estimated_calorie_need || '',
         weight_goal: athleteRes.data.weight_goal || '',
         health_goals: athleteRes.data.health_goals || [],
