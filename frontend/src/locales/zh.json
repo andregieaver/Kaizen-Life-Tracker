@@ -315,6 +315,10 @@
     "followers": "粉丝",
     "posts": "帖子",
     "interests": "兴趣",
+    "searchUsers": "搜索用户...",
+    "noFollowers": "还没有粉丝",
+    "noFollowing": "还没有关注任何人",
+    "noUsersFound": "未找到用户",
     "healthTrainingGoals": "健康及训练目标",
     "yearsOld": "{{age}}岁",
     "actions": {
