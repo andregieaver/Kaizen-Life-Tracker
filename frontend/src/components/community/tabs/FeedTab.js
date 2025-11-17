@@ -62,7 +62,7 @@ const FeedTab = ({
     <>
       {/* Nationality Filter */}
       <div>
-        <div className="flex items-center space-x-3 bg-gray-800 p-3 rounded-none sm:rounded-lg">
+        <div className="flex items-center space-x-3 p-3 rounded-none sm:rounded-lg" style={{ background: '#0B1220' }}>
           <label className="text-white text-sm font-semibold whitespace-nowrap">
             {t('community.post.filterByNationality')}:
           </label>
