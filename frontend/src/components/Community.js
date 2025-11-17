@@ -733,7 +733,15 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
 
   const handleDeclineFollowRequest = async (requestId) => {
     try {
-      await axios.post(`${API}/community/follow-request/${requestId}/decline?athlete_id=${athleteId}`);
+      const response = await axios.post(`${API}/community/follow-request/${requestId}/decline?athlete_id=${athleteId}`);
+      
+      // Check if already handled
+      if (response.data.already_declined) {
+        alert('This follow request has already been declined');
+      } else if (response.data.already_accepted) {
+        alert('Cannot decline an already accepted request');
+      }
+      
       // Close the profile modal
       setShowProfile(false);
       // Reload notifications
