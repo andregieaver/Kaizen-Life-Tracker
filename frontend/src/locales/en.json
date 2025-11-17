@@ -2223,7 +2223,13 @@
     "groups": "Groups",
     "noNotifications": "No notifications",
     "notifications": "Notifications",
-    "posts": "Posts"
+    "posts": "Posts",
+    "followRequest": "{{name}} requested to follow you",
+    "messageRequest": "{{name}} requested to message you",
+    "newFollower": "{{name}} started following you",
+    "commentedOnPost": "{{name}} commented on your post",
+    "likedPost": "{{name}} liked your post",
+    "mentionedYou": "{{name}} mentioned you"
   },
   "today": {
     "bpm": "BPM",
