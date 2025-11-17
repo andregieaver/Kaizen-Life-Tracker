@@ -2216,7 +2216,14 @@
     "newFollower": "{{name}} 开始关注你了",
     "commentedOnPost": "{{name}} 评论了你的帖子",
     "likedPost": "{{name}} 点赞了你的帖子",
-    "mentionedYou": "{{name}} 提到了你"
+    "likedComment": "{{name}} 点赞了你的评论",
+    "sharedPost": "{{name}} 分享了你的帖子",
+    "commentedOnEvent": "{{name}} 评论了你的活动",
+    "mentionedYou": "{{name}} 提到了你",
+    "acceptedFollowRequest": "{{name}} 接受了你的关注请求",
+    "acceptedMessageRequest": "{{name}} 接受了你的消息请求",
+    "groupJoinRequest": "{{name}} 请求加入你的群组",
+    "eventInvite": "{{name}} 邀请你参加活动"
   },
   "today": {
     "bpm": "BPM",
