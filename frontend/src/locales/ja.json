@@ -2236,6 +2236,7 @@
     "startConversation": "会話を開始しましょう！",
     "sendMessage": "メッセージを送信",
     "messageButton": "メッセージ",
-    "back": "戻る"
+    "back": "戻る",
+    "searchEmoji": "絵文字を検索..."
   }
 }
