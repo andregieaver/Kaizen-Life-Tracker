@@ -11932,8 +11932,15 @@ async def get_unread_count(athlete_id: str):
 
 @api_router.post("/community/follow/{target_athlete_id}")
 async def toggle_follow(target_athlete_id: str, athlete_id: str = Query(...)):
-    """Follow or unfollow a user"""
+    """Follow or unfollow a user (respects privacy settings)"""
     try:
+        # Check target user's privacy level
+        target_athlete = await db.athlete_profiles.find_one({"id": target_athlete_id}, {"_id": 0})
+        if not target_athlete:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        privacy_level = target_athlete.get("privacy_level", "public")
+        
         # Check if already following
         existing_follow = await db.community_follows.find_one({
             "follower_id": athlete_id,
@@ -11944,31 +11951,86 @@ async def toggle_follow(target_athlete_id: str, athlete_id: str = Query(...)):
             # Unfollow
             await db.community_follows.delete_one({"id": existing_follow["id"]})
             following = False
+            request_sent = False
         else:
-            # Follow
-            follow = {
-                "id": str(uuid.uuid4()),
-                "follower_id": athlete_id,
-                "following_id": target_athlete_id,
-                "created_at": datetime.now(timezone.utc).isoformat()
-            }
-            await db.community_follows.insert_one(prepare_for_mongo(follow.copy()))
-            following = True
+            # Check privacy level
+            if privacy_level == "private":
+                raise HTTPException(status_code=403, detail="This user does not accept follow requests")
             
-            # Create notification
-            if target_athlete_id != athlete_id:
-                athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+            elif privacy_level == "guarded":
+                # Check if request already exists
+                existing_request = await db.follow_requests.find_one({
+                    "requester_id": athlete_id,
+                    "target_id": target_athlete_id,
+                    "status": "pending"
+                })
+                
+                if existing_request:
+                    return {
+                        "success": True,
+                        "following": False,
+                        "request_sent": True,
+                        "requires_approval": True
+                    }
+                
+                # Create follow request
+                requester = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+                request = {
+                    "id": str(uuid.uuid4()),
+                    "requester_id": athlete_id,
+                    "target_id": target_athlete_id,
+                    "status": "pending",
+                    "created_at": datetime.now(timezone.utc).isoformat()
+                }
+                await db.follow_requests.insert_one(prepare_for_mongo(request.copy()))
+                
+                # Create notification
                 notification = {
                     "id": str(uuid.uuid4()),
                     "athlete_id": target_athlete_id,
-                    "type": "follow",
-                    "content": f"{athlete.get('name', 'Someone')} started following you",
+                    "type": "follow_request",
+                    "content": f"{requester.get('name', 'Someone')} requested to follow you",
                     "from_athlete_id": athlete_id,
-                    "from_athlete_name": athlete.get("name", "Unknown"),
+                    "from_athlete_name": requester.get("name", "Unknown"),
+                    "from_athlete_profile_picture": requester.get("profile_picture"),
+                    "action_id": request["id"],  # Link to request
                     "read": False,
                     "created_at": datetime.now(timezone.utc).isoformat()
                 }
                 await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
+                
+                return {
+                    "success": True,
+                    "following": False,
+                    "request_sent": True,
+                    "requires_approval": True
+                }
+            else:
+                # Public - Follow directly
+                follow = {
+                    "id": str(uuid.uuid4()),
+                    "follower_id": athlete_id,
+                    "following_id": target_athlete_id,
+                    "created_at": datetime.now(timezone.utc).isoformat()
+                }
+                await db.community_follows.insert_one(prepare_for_mongo(follow.copy()))
+                following = True
+                request_sent = False
+                
+                # Create notification
+                if target_athlete_id != athlete_id:
+                    athlete = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+                    notification = {
+                        "id": str(uuid.uuid4()),
+                        "athlete_id": target_athlete_id,
+                        "type": "follow",
+                        "content": f"{athlete.get('name', 'Someone')} started following you",
+                        "from_athlete_id": athlete_id,
+                        "from_athlete_name": athlete.get("name", "Unknown"),
+                        "read": False,
+                        "created_at": datetime.now(timezone.utc).isoformat()
+                    }
+                    await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
         
         # Get updated counts
         followers_count = await db.community_follows.count_documents({"following_id": target_athlete_id})
@@ -11976,7 +12038,8 @@ async def toggle_follow(target_athlete_id: str, athlete_id: str = Query(...)):
         
         return {
             "success": True,
-            "following": following,
+            "following": following if 'following' in locals() else False,
+            "request_sent": request_sent if 'request_sent' in locals() else False,
             "followers_count": followers_count,
             "following_count": following_count
         }
