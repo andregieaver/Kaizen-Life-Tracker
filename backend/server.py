@@ -18535,6 +18535,23 @@ class SendMessageRequest(BaseModel):
     youtube_data: Optional[dict] = None
     url_preview: Optional[dict] = None
 
+# Privacy Request Models
+class FollowRequest(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    requester_id: str  # ID of user requesting to follow
+    target_id: str  # ID of user being followed
+    status: str = "pending"  # 'pending', 'accepted', 'declined'
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
+class MessageRequest(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    requester_id: str  # ID of user requesting to message
+    target_id: str  # ID of user being messaged
+    status: str = "pending"  # 'pending', 'accepted', 'declined'
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: Optional[datetime] = None
+
 @api_router.post("/messages/send")
 async def send_message(message_data: SendMessageRequest):
     """Send a direct message to another user"""
