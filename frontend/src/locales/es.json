@@ -1906,5 +1906,17 @@
     "totalLoad": "Carga Total",
     "trainingLoad": "Carga de Entrenamiento",
     "workout": "Entrenamiento"
+  },
+  "messages": {
+    "title": "Mensajes",
+    "searchConversations": "Buscar conversaciones...",
+    "noConversationsFound": "No se encontraron conversaciones",
+    "noMessagesYet": "Aún no hay mensajes",
+    "typeMessage": "Escribe un mensaje...",
+    "selectConversation": "Selecciona una conversación para empezar a chatear",
+    "startConversation": "¡Inicia la conversación!",
+    "sendMessage": "Enviar mensaje",
+    "messageButton": "Mensaje",
+    "back": "Atrás"
   }
 }
