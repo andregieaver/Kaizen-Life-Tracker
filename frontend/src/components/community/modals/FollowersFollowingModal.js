@@ -38,6 +38,71 @@ const FollowersFollowingModal = ({ athleteId, athleteName, initialTab = 'followe
     }
   };
 
+  const handleRemoveFollower = async (followerId) => {
+    if (!window.confirm(t('community.confirmRemoveFollower'))) return;
+    
+    setActionLoading(followerId);
+    try {
+      await axios.delete(`${API}/community/follow`, {
+        params: {
+          follower_id: followerId,
+          following_id: athleteId
+        }
+      });
+      
+      // Remove from local state
+      setFollowers(prev => prev.filter(f => f.id !== followerId));
+    } catch (error) {
+      console.error('Error removing follower:', error);
+      alert(t('community.errorRemovingFollower'));
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleUnfollow = async (followingId) => {
+    if (!window.confirm(t('community.confirmUnfollow'))) return;
+    
+    setActionLoading(followingId);
+    try {
+      await axios.delete(`${API}/community/follow`, {
+        params: {
+          follower_id: athleteId,
+          following_id: followingId
+        }
+      });
+      
+      // Remove from local state
+      setFollowing(prev => prev.filter(f => f.id !== followingId));
+    } catch (error) {
+      console.error('Error unfollowing:', error);
+      alert(t('community.errorUnfollowing'));
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleBlockUser = async (userId) => {
+    if (!window.confirm(t('community.confirmBlockUser'))) return;
+    
+    setActionLoading(userId);
+    try {
+      await axios.post(`${API}/community/block`, {
+        blocker_id: athleteId,
+        blocked_id: userId
+      });
+      
+      // Remove from followers list
+      setFollowers(prev => prev.filter(f => f.id !== userId));
+      alert(t('community.userBlocked'));
+    } catch (error) {
+      console.error('Error blocking user:', error);
+      alert(t('community.errorBlockingUser'));
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
   const currentList = activeTab === 'followers' ? followers : following;
   
   const filteredList = currentList.filter(athlete => {
