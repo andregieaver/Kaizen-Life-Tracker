@@ -12047,6 +12047,81 @@ async def toggle_follow(target_athlete_id: str, athlete_id: str = Query(...)):
         logging.error(f"Error toggling follow: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@api_router.post("/community/follow-request/{request_id}/accept")
+async def accept_follow_request(request_id: str, athlete_id: str = Query(...)):
+    """Accept a follow request"""
+    try:
+        # Get the request
+        request = await db.follow_requests.find_one({"id": request_id, "target_id": athlete_id, "status": "pending"})
+        if not request:
+            raise HTTPException(status_code=404, detail="Request not found")
+        
+        # Update request status
+        await db.follow_requests.update_one(
+            {"id": request_id},
+            {"$set": {"status": "accepted", "updated_at": datetime.now(timezone.utc).isoformat()}}
+        )
+        
+        # Create the follow relationship
+        follow = {
+            "id": str(uuid.uuid4()),
+            "follower_id": request["requester_id"],
+            "following_id": athlete_id,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.community_follows.insert_one(prepare_for_mongo(follow.copy()))
+        
+        # Update the original notification to mark it as handled
+        await db.community_notifications.update_one(
+            {"action_id": request_id},
+            {"$set": {"read": True}}
+        )
+        
+        # Create notification for requester
+        target = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        notification = {
+            "id": str(uuid.uuid4()),
+            "athlete_id": request["requester_id"],
+            "type": "follow_request_accepted",
+            "content": f"{target.get('name', 'Someone')} accepted your follow request",
+            "from_athlete_id": athlete_id,
+            "from_athlete_name": target.get("name", "Unknown"),
+            "read": False,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
+        
+        return {"success": True, "message": "Follow request accepted"}
+    except Exception as e:
+        logging.error(f"Error accepting follow request: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/community/follow-request/{request_id}/decline")
+async def decline_follow_request(request_id: str, athlete_id: str = Query(...)):
+    """Decline a follow request"""
+    try:
+        # Get the request
+        request = await db.follow_requests.find_one({"id": request_id, "target_id": athlete_id, "status": "pending"})
+        if not request:
+            raise HTTPException(status_code=404, detail="Request not found")
+        
+        # Update request status
+        await db.follow_requests.update_one(
+            {"id": request_id},
+            {"$set": {"status": "declined", "updated_at": datetime.now(timezone.utc).isoformat()}}
+        )
+        
+        # Update the original notification to mark it as handled
+        await db.community_notifications.update_one(
+            {"action_id": request_id},
+            {"$set": {"read": True}}
+        )
+        
+        return {"success": True, "message": "Follow request declined"}
+    except Exception as e:
+        logging.error(f"Error declining follow request: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.get("/community/profile/{target_athlete_id}")
 async def get_athlete_profile(target_athlete_id: str, viewer_athlete_id: str = Query(...)):
     """Get athlete profile with stats"""
