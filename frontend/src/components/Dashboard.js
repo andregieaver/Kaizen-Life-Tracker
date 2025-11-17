@@ -1052,11 +1052,11 @@ const Dashboard = ({ athleteId }) => {
                 <>
                   <button 
                     onClick={() => setShowNotifications(!showNotifications)}
-                    className="p-2 transition-all duration-200 hover:scale-110 relative"
+                    className="p-2 transition-all duration-200 hover:scale-110 relative group"
                     aria-label="Notifications"
                     title={t('dashboard.modals.notifications')}
                   >
-                    <Bell className="w-6 h-6" style={{ color: 'var(--c-brand-500)' }} />
+                    <Bell className="w-6 h-6 text-white group-hover:text-[#32D3FF] group-active:text-[#32D3FF] transition-colors duration-200" />
                     {notificationsUnreadCount > 0 && (
                       <span className="absolute -top-1 -right-1 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold" style={{ background: 'var(--c-danger)' }}>
                         {notificationsUnreadCount > 9 ? '9+' : notificationsUnreadCount}
