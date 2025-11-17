@@ -453,14 +453,70 @@ const MessagesModal = ({ athleteId, onClose, initialConversationId = null, initi
                           className={`flex ${msg.sender_id === athleteId ? 'justify-end' : 'justify-start'}`}
                         >
                           <div
-                            className={`max-w-[70%] md:max-w-[60%] p-3 rounded-2xl ${
+                            className={`max-w-[70%] md:max-w-[60%] ${
                               msg.sender_id === athleteId
                                 ? 'bg-[#00C2A8] text-white'
                                 : 'bg-gray-700 text-white'
-                            }`}
+                            } rounded-2xl overflow-hidden`}
                           >
-                            <p className="whitespace-pre-wrap break-words text-sm md:text-base">{msg.content}</p>
-                            <span className="text-xs opacity-70 mt-1 block">
+                            {/* Message Text */}
+                            {msg.content && (
+                              <p className="whitespace-pre-wrap break-words text-sm md:text-base p-3">{msg.content}</p>
+                            )}
+                            
+                            {/* YouTube Preview */}
+                            {msg.youtube_data && (
+                              <div className="mt-2">
+                                <a
+                                  href={msg.youtube_data.embed_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="block"
+                                >
+                                  <img
+                                    src={msg.youtube_data.thumbnail}
+                                    alt={msg.youtube_data.title}
+                                    className="w-full object-cover"
+                                  />
+                                  <div className="p-2 bg-black/20">
+                                    <p className="text-xs md:text-sm font-semibold line-clamp-2">{msg.youtube_data.title}</p>
+                                    <p className="text-xs opacity-70 mt-1">YouTube</p>
+                                  </div>
+                                </a>
+                              </div>
+                            )}
+                            
+                            {/* URL Preview */}
+                            {msg.url_preview && !msg.youtube_data && (
+                              <div className="mt-2">
+                                <a
+                                  href={msg.url_preview.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="block"
+                                >
+                                  {msg.url_preview.image && (
+                                    <img
+                                      src={msg.url_preview.image}
+                                      alt={msg.url_preview.title}
+                                      className="w-full h-32 object-cover"
+                                    />
+                                  )}
+                                  <div className="p-2 bg-black/20">
+                                    <p className="text-xs md:text-sm font-semibold line-clamp-2">{msg.url_preview.title}</p>
+                                    {msg.url_preview.description && (
+                                      <p className="text-xs opacity-70 mt-1 line-clamp-2">{msg.url_preview.description}</p>
+                                    )}
+                                    {msg.url_preview.site_name && (
+                                      <p className="text-xs opacity-60 mt-1">{msg.url_preview.site_name}</p>
+                                    )}
+                                  </div>
+                                </a>
+                              </div>
+                            )}
+                            
+                            {/* Timestamp */}
+                            <span className="text-xs opacity-70 px-3 pb-2 block">
                               {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
                           </div>
