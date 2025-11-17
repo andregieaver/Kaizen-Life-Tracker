@@ -2012,7 +2012,7 @@ const Dashboard = ({ athleteId }) => {
             borderRadius: '99em',
             opacity: 1,
             transition: 'all 160ms',
-            color: location.pathname === '/dashboard/today' ? 'var(--c-brand-500)' : 'var(--text-med)',
+            color: location.pathname === '/dashboard/today' ? '#32D3FF' : 'white',
             cursor: 'pointer',
             border: 'none',
             background: 'transparent'
