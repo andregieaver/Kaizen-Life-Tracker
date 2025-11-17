@@ -3563,6 +3563,9 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
                     </button>
                   </div>
                 </div>
+                <div style={{ background: 'yellow', color: 'black', padding: '20px', fontSize: '20px', fontWeight: 'bold', textAlign: 'center', border: '5px solid red' }}>
+                  🔴 DEBUG MODE ACTIVE - {notifications.length} notifications loaded 🔴
+                </div>
                 {notifications.length === 0 ? (
                   <div className="p-8 text-center">
                     <Bell className="w-12 h-12 text-gray-600 mx-auto mb-2" />
