@@ -1918,6 +1918,7 @@
     "startConversation": "Starten Sie die Konversation!",
     "sendMessage": "Nachricht senden",
     "messageButton": "Nachricht",
-    "back": "Zurück"
+    "back": "Zurück",
+    "searchEmoji": "Emoji suchen..."
   }
 }
