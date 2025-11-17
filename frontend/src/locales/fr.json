@@ -1400,7 +1400,9 @@
   },
   "athlete": {
     "follow": "Suivre",
-    "unfollow": "Ne plus suivre"
+    "unfollow": "Ne plus suivre",
+    "acceptRequest": "Accepter",
+    "declineRequest": "Refuser"
   },
   "habits": {
     "title": "Habitudes",
