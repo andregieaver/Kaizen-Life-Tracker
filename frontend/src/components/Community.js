@@ -2693,7 +2693,10 @@ const Community = ({ athleteId, athlete, showNotifications: externalShowNotifica
           onClose={() => setShowAthletes(false)}
           onFollowToggle={handleAthletesFollowToggle}
           onViewProfile={loadAthleteProfile}
-          onMessageUser={handleOpenMessages}
+          onMessageUser={(userId) => {
+            setShowAthletes(false);
+            onOpenMessages && onOpenMessages(userId);
+          }}
           t={t}
         />
       )}
