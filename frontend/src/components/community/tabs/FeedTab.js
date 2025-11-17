@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import EventCard from '../cards/EventCard';
 import PostCard from '../cards/PostCard';
+import SearchableSelect from '../SearchableSelect';
 
 /**
  * FeedTab - Displays the main community feed with posts and events
