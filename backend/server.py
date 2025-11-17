@@ -18707,10 +18707,153 @@ class MessageRequest(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     updated_at: Optional[datetime] = None
 
+@api_router.post("/messages/request")
+async def request_message_permission(requester_id: str = Query(...), target_id: str = Query(...)):
+    """Request permission to message a guarded user"""
+    try:
+        # Check target user's privacy level
+        target = await db.athlete_profiles.find_one({"id": target_id}, {"_id": 0})
+        if not target:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        privacy_level = target.get("privacy_level", "public")
+        if privacy_level != "guarded":
+            return {"success": True, "message": "No request needed"}
+        
+        # Check if request already exists
+        existing_request = await db.message_requests.find_one({
+            "requester_id": requester_id,
+            "target_id": target_id,
+            "status": "pending"
+        })
+        
+        if existing_request:
+            return {"success": True, "request_sent": True, "message": "Request already sent"}
+        
+        # Create message request
+        requester = await db.athlete_profiles.find_one({"id": requester_id}, {"_id": 0})
+        request = {
+            "id": str(uuid.uuid4()),
+            "requester_id": requester_id,
+            "target_id": target_id,
+            "status": "pending",
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.message_requests.insert_one(prepare_for_mongo(request.copy()))
+        
+        # Create notification
+        notification = {
+            "id": str(uuid.uuid4()),
+            "athlete_id": target_id,
+            "type": "message_request",
+            "content": f"{requester.get('name', 'Someone')} requested to message you",
+            "from_athlete_id": requester_id,
+            "from_athlete_name": requester.get("name", "Unknown"),
+            "from_athlete_profile_picture": requester.get("profile_picture"),
+            "action_id": request["id"],
+            "read": False,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
+        
+        return {"success": True, "request_sent": True}
+    except Exception as e:
+        logging.error(f"Error requesting message permission: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/messages/request/{request_id}/accept")
+async def accept_message_request(request_id: str, athlete_id: str = Query(...)):
+    """Accept a message request"""
+    try:
+        # Get the request
+        request = await db.message_requests.find_one({"id": request_id, "target_id": athlete_id, "status": "pending"})
+        if not request:
+            raise HTTPException(status_code=404, detail="Request not found")
+        
+        # Update request status
+        await db.message_requests.update_one(
+            {"id": request_id},
+            {"$set": {"status": "accepted", "updated_at": datetime.now(timezone.utc).isoformat()}}
+        )
+        
+        # Update the original notification
+        await db.community_notifications.update_one(
+            {"action_id": request_id},
+            {"$set": {"read": True}}
+        )
+        
+        # Create notification for requester
+        target = await db.athlete_profiles.find_one({"id": athlete_id}, {"_id": 0})
+        notification = {
+            "id": str(uuid.uuid4()),
+            "athlete_id": request["requester_id"],
+            "type": "message_request_accepted",
+            "content": f"{target.get('name', 'Someone')} accepted your message request",
+            "from_athlete_id": athlete_id,
+            "from_athlete_name": target.get("name", "Unknown"),
+            "read": False,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.community_notifications.insert_one(prepare_for_mongo(notification.copy()))
+        
+        return {"success": True, "message": "Message request accepted"}
+    except Exception as e:
+        logging.error(f"Error accepting message request: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/messages/request/{request_id}/decline")
+async def decline_message_request(request_id: str, athlete_id: str = Query(...)):
+    """Decline a message request"""
+    try:
+        # Get the request
+        request = await db.message_requests.find_one({"id": request_id, "target_id": athlete_id, "status": "pending"})
+        if not request:
+            raise HTTPException(status_code=404, detail="Request not found")
+        
+        # Update request status
+        await db.message_requests.update_one(
+            {"id": request_id},
+            {"$set": {"status": "declined", "updated_at": datetime.now(timezone.utc).isoformat()}}
+        )
+        
+        # Update the original notification
+        await db.community_notifications.update_one(
+            {"action_id": request_id},
+            {"$set": {"read": True}}
+        )
+        
+        return {"success": True, "message": "Message request declined"}
+    except Exception as e:
+        logging.error(f"Error declining message request: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @api_router.post("/messages/send")
 async def send_message(message_data: SendMessageRequest):
-    """Send a direct message to another user"""
+    """Send a direct message to another user (respects privacy settings)"""
     try:
+        # Check receiver's privacy level
+        receiver = await db.athlete_profiles.find_one({"id": message_data.receiver_id}, {"_id": 0})
+        if not receiver:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        privacy_level = receiver.get("privacy_level", "public")
+        
+        # Check if messaging is allowed
+        if privacy_level == "private":
+            raise HTTPException(status_code=403, detail="This user does not accept messages")
+        
+        elif privacy_level == "guarded":
+            # Check if there's an accepted message request
+            approved_request = await db.message_requests.find_one({
+                "requester_id": message_data.sender_id,
+                "target_id": message_data.receiver_id,
+                "status": "accepted"
+            })
+            
+            if not approved_request:
+                raise HTTPException(status_code=403, detail="Message request required and not yet approved")
+        
+        # Proceed with sending message
         # Find or create conversation
         conversation = await db.conversations.find_one({
             "$or": [
